@@ -1663,7 +1663,7 @@ void game::process_activity()
         return;
     }
 
-    while( u.moves > 0 && u.activity ) {
+    while( u.moves > 0 && *u.activity ) {
         u.activity->do_turn( u );
     }
 }
@@ -10383,7 +10383,7 @@ void game::start_hauling( const tripoint &pos )
     // Destination relative to the player
     const tripoint relative_destination{};
 
-    u.assign_activity( std::make_unique<player_activity>( move_items_activity_actor(
+    u.assign_activity( std::make_unique<player_activity>( std::make_unique<move_items_activity_actor>(
                            target_items,
                            quantities,
                            to_vehicle,

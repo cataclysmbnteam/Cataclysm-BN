@@ -202,7 +202,7 @@ class avatar : public player
         void toggle_crouch_mode();
 
         bool wield( item &target ) override;
-        void wield( detached_ptr<item> &&target ) override;
+        detached_ptr<item> wield( detached_ptr<item> &&target ) override;
 
         /**
          * Add warning from faction.

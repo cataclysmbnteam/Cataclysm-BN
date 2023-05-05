@@ -24,6 +24,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "locations.h"
 #include "output.h"
 #include "player.h"
 #include "point.h"
@@ -1110,7 +1111,7 @@ requirement_data requirement_data::disassembly_requirements() const
         cov.erase( std::remove_if( cov.begin(), cov.end(),
         []( const item_comp & comp ) {
             //TODO!: Why are we constructing a fresh item exactly?
-            return !comp.recoverable || item_spawn_temporary( comp.type )->has_flag( "UNRECOVERABLE" );
+            return !comp.recoverable || item::spawn_temporary( comp.type )->has_flag( "UNRECOVERABLE" );
         } ), cov.end() );
         return cov.empty();
     } ), ret.components.end() );
@@ -1129,8 +1130,12 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
         ret.components.emplace_back( std::vector<item_comp>( {it} ) );
     }
 
-    inventory craft_components;
-    craft_components += remaining_comps;
+    //TODO!: oof, not sure about this tbh
+    location_inventory craft_components( new fake_item_location() );
+    std::vector<detached_ptr<item>> comps_copy;
+    for( item * const &it : remaining_comps ) {
+        craft_components.add_item( item::spawn( *it ) );
+    }
 
     // Remove requirements that are completely fulfilled by current craft components
     // For each requirement that isn't completely fulfilled, reduce the requirement by the amount
@@ -1142,22 +1147,10 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
         if( item::count_by_charges( comp.type ) && comp.count > 0 ) {
             int qty = craft_components.charges_of( comp.type, comp.count );
             comp.count -= qty;
-            // This is terrible but inventory doesn't have a use_charges() function so...
-            std::vector<item *> del;
-            craft_components.visit_items( [&comp, &qty, &del]( item * e ) {
-                ItemList used;
-                if( e->use_charges( comp.type, qty, used, tripoint_zero ) ) {
-                    del.push_back( e );
-                }
+            craft_components.remove_items_with( [&comp, &qty]( detached_ptr<item> &&e ) {
+                std::vector<detached_ptr<item>> used;
+                e = item::use_charges( std::move( e ), comp.type, qty, used, tripoint_zero );
                 return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
-            } );
-            craft_components.remove_items_with( [&del]( const item & e ) {
-                for( const item *it : del ) {
-                    if( it == &e ) {
-                        return true;
-                    }
-                }
-                return false;
             } );
         } else {
             int amount = craft_components.amount_of( comp.type, comp.count );

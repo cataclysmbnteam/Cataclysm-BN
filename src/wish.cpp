@@ -328,7 +328,7 @@ class wish_monster_callback: public uilist_callback
         // Number of monsters to spawn.
         int group;
         // scrap critter for monster::print_info
-        monster tmp;
+        std::unique_ptr<monster> tmp;
         const std::vector<const mtype *> &mtypes;
 
         wish_monster_callback( const std::vector<const mtype *> &mtypes )
@@ -370,20 +370,20 @@ class wish_monster_callback: public uilist_callback
             if( entnum != lastent ) {
                 lastent = entnum;
                 if( valid_entnum ) {
-                    tmp = monster( mtypes[ entnum ]->id );
+                    tmp = std::make_unique<monster>( mtypes[ entnum ]->id );
                     if( friendly ) {
-                        tmp.friendly = -1;
+                        tmp->friendly = -1;
                     }
                 } else {
-                    tmp = monster();
+                    tmp = std::make_unique<monster>();
                 }
             }
 
             werase( w_info );
             if( valid_entnum ) {
-                tmp.print_info( w_info, 2, 5, 1 );
+                tmp->print_info( w_info, 2, 5, 1 );
 
-                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
+                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp->type->nname(),
                                                     group, hallucination ? _( " (hallucination)" ) : "" );
                 mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
             }
@@ -510,7 +510,7 @@ class wish_item_callback: public uilist_callback
             mvwhline( menu->window, point( startx, 1 ), ' ', menu->pad_right - 1 );
             const int entnum = menu->selected;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
-                item &tmp = *item_spawn_temporary( standard_itype_ids[entnum], calendar::turn );
+                item &tmp = *item::spawn_temporary( standard_itype_ids[entnum], calendar::turn );
                 const std::string header = string_format( "#%d: %s%s%s", entnum,
                                            standard_itype_ids[entnum]->get_id().c_str(),
                                            incontainer ? _( " (contained)" ) : "",
@@ -552,7 +552,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     std::vector<std::pair<std::string, const itype *>> opts;
     for( const itype *i : item_controller->all() ) {
         //TODO!: push up
-        opts.emplace_back( item_spawn_temporary( i, calendar::start_of_cataclysm )->tname( 1, false ), i );
+        opts.emplace_back( item::spawn_temporary( i, calendar::start_of_cataclysm )->tname( 1, false ), i );
     }
     std::sort( opts.begin(), opts.end(), localized_compare );
     std::vector<const itype *> itypes;
@@ -577,7 +577,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
 
     for( size_t i = 0; i < opts.size(); i++ ) {
         //TODO!: push up
-        item &ity = *item_spawn_temporary( opts[i].second, calendar::start_of_cataclysm );
+        item &ity = *item::spawn_temporary( opts[i].second, calendar::start_of_cataclysm );
         wmenu.addentry( i, true, 0, opts[i].first );
         mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
         entry_extra_text.txt = ity.symbol();
@@ -591,9 +591,9 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         }
         bool did_amount_prompt = false;
         while( wmenu.ret >= 0 ) {
-            item *granted = item_spawn_temporary( opts[wmenu.ret].second );
+            detached_ptr<item> granted = item::spawn( opts[wmenu.ret].second );
             if( cb.incontainer ) {
-                granted = &granted->in_its_container();
+                granted = item::in_its_container( std::move( granted ) );
             }
             if( cb.has_flag ) {
                 granted->item_tags.insert( cb.flag );
@@ -630,16 +630,16 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                     if( granted->count_by_charges() ) {
                         if( amount > 0 ) {
                             granted->charges = amount;
-                            p->i_add_or_drop( *item::spawn( *granted ) );
+                            p->i_add_or_drop( item::spawn( *granted ) );
                         }
                     } else {
                         for( int i = 0; i < amount; i++ ) {
-                            p->i_add_or_drop( *item::spawn( *granted ) );
+                            p->i_add_or_drop( item::spawn( *granted ) );
                         }
                     }
                     p->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {
-                    g->m.add_item_or_charges( pos, *item::spawn( *granted ) );
+                    g->m.add_item_or_charges( pos, item::spawn( *granted ) );
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {

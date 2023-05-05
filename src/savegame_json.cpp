@@ -534,7 +534,6 @@ void Character::load( const JsonObject &data )
     worn.clear();
     data.read( "worn", worn );
     for( auto &w : worn ) {
-        w->set_location( new worn_item_location( this ) );
         on_item_wear( *w );
     }
 
@@ -569,17 +568,9 @@ void Character::load( const JsonObject &data )
     if( data.has_member( "inv" ) ) {
         JsonIn *invin = data.get_raw( "inv" );
         inv.json_load_items( *invin );
-        for( auto &is : inv.slice() ) {
-            for( item *&it : *is ) {
-                it->set_location( new character_item_location( this ) );
-            }
-        }
     }
 
-    //TODO!: CHHHECK
-    weapon = &null_item_reference();//item( "null", calendar::start_of_cataclysm );
     data.read( "weapon", weapon );
-    weapon->set_location( new wield_item_location( this ) );
 
     data.read( "move_mode", move_mode );
 
@@ -1616,7 +1607,6 @@ void npc::load( const JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
-    real_weapon = &null_item_reference();//item( "null", calendar::start_of_cataclysm );
     data.read( "real_weapon", real_weapon );
     cbm_weapon_index = -1;
     data.read( "cbm_weapon_index", cbm_weapon_index );
@@ -1901,9 +1891,6 @@ void monster::load( const JsonObject &data )
 
     data.read( "inv", inv );
     data.read( "corpse_components", corpse_components );
-    for( item *&it : corpse_components ) {
-        it->set_location( new monster_component_item_location( this ) );
-    }
     data.read( "dragged_foe_id", dragged_foe_id );
 
     if( data.has_int( "ammo" ) && !type->starting_ammo.empty() ) {
@@ -2131,7 +2118,7 @@ static bool migration_required( const item &i )
 /**
  * Merge old individual items into new count-by-charges items with same id.
  */
-static void migrate( std::vector<item *> &stack )
+static void migrate( std::vector<detached_ptr<item>> &stack )
 {
     //TODO!: Another stack merge, check
     for( auto it_src = stack.begin(); it_src != stack.end(); ) {
@@ -2143,8 +2130,8 @@ static void migrate( std::vector<item *> &stack )
         it_dst++;
         bool merged = false;
         for( ; it_dst != stack.end(); it_dst++ ) {
-            item &src = **it_src;
-            if( ( *it_dst )->merge_charges( src ) ) {
+            detached_ptr<item> &src = *it_src;
+            if( src->stacks_with( **it_dst ) && ( *it_dst )->merge_charges( std::move( src ) ) ) {
                 it_src = stack.erase( it_src );
                 merged = true;
                 break;
@@ -2348,23 +2335,15 @@ void item::deserialize( JsonIn &jsin )
         legacy_fast_forward_time();
     }
     if( data.has_array( "contents" ) ) {
-        std::vector<item *> items;
+        std::vector<detached_ptr<item>> items;
         data.read( "contents", items );
-        contents = item_contents( items );
-        for( item *&obj : items ) {
-            obj->set_location( new contents_item_location( this ) );
+        for( detached_ptr<item> &obj : items ) {
+            contents.insert_item( std::move( obj ) );
         }
     } else {
         data.read( "contents", contents );
-
-        for( item *&obj : contents.all_items_top() ) {
-            obj->set_location( new contents_item_location( this ) );
-        }
     }
 
-    for( item *&it : components ) {
-        it->set_location( new component_item_location( this ) );
-    }
     if( data.has_member( "id" ) ) {
         safe_reference<item>::id_type id;
         data.read( "id", id );
@@ -2470,7 +2449,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         data.read( "base", base );
     } else {
         // handle legacy format which didn't include the base item
-        base = item::spawn( id.obj().item );
+        set_base( item::spawn( id.obj().item ) );
     }
 
     data.read( "mount_dx", mount.x );
@@ -2539,9 +2518,6 @@ void vehicle_part::deserialize( JsonIn &jsin )
             return lhs + rhs->charges;
         } );
         ammo_set( ( *items.begin() )->ammo_current(), qty );
-        for( item *&it : items ) {
-            it->destroy();
-        }
         items.clear();
     }
 }
@@ -2671,12 +2647,6 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "theft_time", theft_time );
 
     data.read( "parts", parts );
-    for( auto &part : parts ) {
-        part.base->set_location( new vehicle_base_item_location( this ) );
-        for( item *&it : part.items ) {
-            it->set_location( new vehicle_item_location( this ) );
-        }
-    }
 
     // we persist the pivot anchor so that if the rules for finding
     // the pivot change, existing vehicles do not shift around.
@@ -2694,7 +2664,13 @@ void vehicle::deserialize( JsonIn &jsin )
 
     // Loose items -> count-by-charges migration
     for( vehicle_part &part : parts ) {
-        to_cbc_migration::migrate( part.items );
+        //TODO!: this is awful
+        std::vector<detached_ptr<item>> clears = part.clear_items();
+
+        to_cbc_migration::migrate( clears );
+        for( detached_ptr<item> &it :  clears ) {
+            part.add_item( std::move( it ) );
+        }
     }
 
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
@@ -3938,7 +3914,7 @@ void submap::store( JsonOut &jsout ) const
         jsout.write( elem.first.x );
         jsout.write( elem.first.y );
         jsout.write( elem.first.z );
-        jsout.write( elem.second.counter );
+        jsout.write( elem.second->counter );
         jsout.write( elem.second->id.id() );
         jsout.start_array();
         for( auto &it : elem.second->components ) {
@@ -4043,7 +4019,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
             const point p( i, j );
             jsin.start_array();
             while( !jsin.end_array() ) {
-                item *tmp;
+                detached_ptr<item> tmp;
                 jsin.read( tmp );
 
                 if( tmp->is_emissive() ) {
@@ -4053,17 +4029,20 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
                 if( savegame_loading_version >= 27 && version < 27 ) {
                     tmp->legacy_fast_forward_time();
                 }
-                //TODO!: location
-                tmp->set_location( new tile_item_location( offset + p ) );
-                itm[p.x][p.y].push_back( tmp );
-                if( tmp->needs_processing() ) {
-                    active_items.add( *tmp );
+                item &obj = *tmp;
+                itm[p.x][p.y].push_back( std::move( tmp ) );
+                if( obj.needs_processing() ) {
+                    active_items.add( obj );
                 }
             }
         }
         for( auto &it1 : itm ) {
             for( auto &it2 : it1 ) {
-                to_cbc_migration::migrate( it2 );
+                std::vector<detached_ptr<item>> cleared = it2.clear();
+                to_cbc_migration::migrate( cleared );
+                for( detached_ptr<item> &item : cleared ) {
+                    it2.push_back( std::move( item ) );
+                }
             }
         }
     } else if( member_name == "traps" ) {
@@ -4171,25 +4150,25 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version,
     } else if( member_name == "partial_constructions" ) {
         jsin.start_array();
         while( !jsin.end_array() ) {
-            partial_con pc;
             int i = jsin.get_int();
             int j = jsin.get_int();
             int k = jsin.get_int();
             tripoint pt = tripoint( i, j, k );
-            pc.counter = jsin.get_int();
+            std::unique_ptr<partial_con> pc = std::make_unique<partial_con>( offset + pt );
+            pc->counter = jsin.get_int();
             if( jsin.test_int() ) {
                 // Oops, int id incorrectly saved by legacy code, just load it and hope for the best
-                pc.id = construction_id( jsin.get_int() );
+                pc->id = construction_id( jsin.get_int() );
             } else {
-                pc.id = construction_str_id( jsin.get_string() ).id();
+                pc->id = construction_str_id( jsin.get_string() ).id();
             }
             jsin.start_array();
             while( !jsin.end_array() ) {
-                item *tmp;
+                detached_ptr<item> tmp;
                 jsin.read( tmp );
-                pc.components.push_back( tmp );
+                pc->components.push_back( std::move( tmp ) );
             }
-            partial_constructions[pt] = pc;
+            partial_constructions[pt] = std::move( pc );
         }
     } else if( member_name == "computers" ) {
         if( jsin.test_array() ) {

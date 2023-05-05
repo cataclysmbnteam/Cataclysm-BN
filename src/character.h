@@ -219,12 +219,13 @@ class Character : public Creature, public location_visitable<Character>
 {
     public:
 
+        friend visitable;
         friend location_visitable;
 
         Character( const Character & ) = delete;
         Character &operator=( const Character & ) = delete;
-        Character( Character && ) = delete;
-        Character &operator=( Character && ) = delete;
+        Character( Character && );
+        Character &operator=( Character && );
         ~Character() override;
 
         Character *as_character() override {
@@ -1360,6 +1361,11 @@ class Character : public Creature, public location_visitable<Character>
                                       bool interactive = true, cata::optional<std::vector<item *>::iterator> position = cata::nullopt );
 
         /**
+         * Wears an item in its default location with no checks.
+         */
+        void add_worn( detached_ptr<item> &&to_wear );
+
+        /**
          * Check if character is capable of taking off given item.
          * @param it Item to be taken off
          * @param res If set, will expect to move item into the list.
@@ -1393,7 +1399,7 @@ class Character : public Creature, public location_visitable<Character>
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
          * If the item was wielded target will be moved from, otherwise it will be left as is.
          */
-        virtual void wield( detached_ptr<item> &&target ) = 0;
+        virtual detached_ptr<item> wield( detached_ptr<item> &&target ) = 0;
 
         /** Check whether character is capable of unwielding given item. */
         ret_val<bool> can_unwield( const item &it ) const;
@@ -1689,6 +1695,7 @@ class Character : public Creature, public location_visitable<Character>
         bool has_activity( const activity_id &type ) const;
         /** Check if player currently has any of the given activities */
         bool has_activity( const std::vector<activity_id> &types ) const;
+        std::unique_ptr<player_activity> remove_activity();
         void resume_backlog_activity();
         void cancel_activity();
         void cancel_stashed_activity();

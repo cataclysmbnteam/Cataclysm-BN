@@ -1112,19 +1112,18 @@ int throwing_dispersion( const Character &c, const item &to_throw, Creature *cri
     return std::max( 0, dispersion );
 }
 
-dealt_projectile_attack throw_item( Character &who, const tripoint &target, item &to_throw,
+dealt_projectile_attack throw_item( Character &who, const tripoint &target,
+                                    detached_ptr<item> &&to_throw,
                                     cata::optional<tripoint> blind_throw_from_pos )
 {
-    // Copy the item, we may alter it before throwing
-    //TODO!: noooope
-    item &thrown = to_throw;
+    item &thrown = *to_throw;
 
-    const int move_cost = ranged::throw_cost( who, to_throw );
+    const int move_cost = ranged::throw_cost( who, thrown );
     who.mod_moves( -move_cost );
 
     const int throwing_skill = who.get_skill_level( skill_throw );
-    units::volume volume = to_throw.volume();
-    units::mass weight = to_throw.weight();
+    units::volume volume = thrown.volume();
+    units::mass weight = thrown.weight();
 
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
@@ -1241,7 +1240,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, item
     const itype *thrown_type = thrown.type;
 
     // Put the item into the projectile
-    proj.set_drop( thrown );
+    proj.set_drop( std::move( to_throw ) );
     if( thrown_type->has_flag( "CUSTOM_EXPLOSION" ) ) {
         proj.set_custom_explosion( thrown_type->explosion );
     }
@@ -1695,17 +1694,17 @@ static projectile make_gun_projectile( const item &gun )
         bool recover = !one_in( ammo.dont_recover_one_in );
 
         if( recover && !fx.has_effect( ammo_effect_IGNITE ) && !fx.has_effect( ammo_effect_EXPLOSIVE ) ) {
-            item &drop = *item::spawn( gun.ammo_current(), calendar::turn, 1 );
-            drop.active = fx.has_effect( ammo_effect_ACT_ON_RANGED_HIT );
-            proj.set_drop( drop );
+            detached_ptr<item> drop = item::spawn( gun.ammo_current(), calendar::turn, 1 );
+            drop->active = fx.has_effect( ammo_effect_ACT_ON_RANGED_HIT );
+            proj.set_drop( std::move( drop ) );
         }
 
         if( ammo.drop ) {
-            item &drop = *item::spawn( ammo.drop );
+            detached_ptr<item> drop = item::spawn( ammo.drop );
             if( ammo.drop_active ) {
-                drop.activate();
+                drop->activate();
             }
-            proj.set_drop( drop );
+            proj.set_drop( std::move( drop ) );
         }
 
         if( fx.has_effect( ammo_effect_CUSTOM_EXPLOSION ) ) {
@@ -1745,12 +1744,14 @@ static void cycle_action( item &weap, const tripoint &pos )
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( itype_brass_catcher ) ) {
-            weap.put_in( item::spawn( casing )->set_flag( "CASING" ) );
+            detached_ptr<item> det = item::spawn( casing );
+            det->set_flag( "CASING" );
+            weap.put_in( std::move( det ) );
         } else {
             if( cargo.empty() ) {
-                here.add_item_or_charges( eject, *item::spawn( casing ) );
+                here.add_item_or_charges( eject, item::spawn( casing ) );
             } else {
-                vp->vehicle().add_item( *cargo.front(), *item::spawn( casing ) );
+                vp->vehicle().add_item( *cargo.front(), item::spawn( casing ) );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
@@ -1761,14 +1762,14 @@ static void cycle_action( item &weap, const tripoint &pos )
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage ) {
-        item &linkage = *item::spawn( *mag->type->magazine->linkage, calendar::turn, 1 );
+        detached_ptr<item> linkage = item::spawn( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( itype_brass_catcher ) ) {
-            linkage.set_flag( "CASING" );
-            weap.put_in( linkage );
+            linkage->set_flag( "CASING" );
+            weap.put_in( std::move( linkage ) );
         } else if( cargo.empty() ) {
-            here.add_item_or_charges( eject, linkage );
+            here.add_item_or_charges( eject, std::move( linkage ) );
         } else {
-            vp->vehicle().add_item( *cargo.front(), linkage );
+            vp->vehicle().add_item( *cargo.front(), std::move( linkage ) );
         }
     }
 }
@@ -1962,7 +1963,7 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
     const itype *def_ammo_i = ammo_type.is_null() ? nullptr : &*ammo_type;
 
     damage_instance gun_damage = weap.gun_damage();
-    item &tmp = *item_spawn_temporary( weap );
+    item &tmp = *item::spawn_temporary( weap );
     tmp.ammo_set( ammo_type );
     int total_dispersion = ranged::get_weapon_dispersion( who, tmp ).max() +
                            ranged::effective_dispersion( who, tmp.sight_dispersion() );

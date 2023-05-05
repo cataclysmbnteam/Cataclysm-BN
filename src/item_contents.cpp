@@ -21,6 +21,8 @@ item_contents::item_contents( item *container,
                               std::vector<detached_ptr<item>> &items ) : items( new contents_item_location( container ),
                                           items ) {}
 
+item_contents::~item_contents() {}
+
 bool item_contents::empty() const
 {
     return items.empty();
@@ -243,3 +245,30 @@ int item_contents::best_quality( const quality_id &id ) const
     }
     return ret;
 }
+
+void item_contents::remove_items_with( const std::function < detached_ptr<item>
+                                       ( detached_ptr<item> && ) >
+                                       &filter )
+{
+    remove_items_with( [&filter]( detached_ptr<item> &&e ) {
+        e = filter( std::move( e ) );
+        return VisitResponse::SKIP;
+    } );
+}
+/*
+void item_contents::remove_items_with( const std::function < VisitResponse(
+        detached_ptr<item> && ) >
+                                       &filter )
+{
+    VisitResponse last = VisitResponse::NEXT;
+    items.remove_with( [&filter, &last]( detached_ptr<item> &&e ) {
+        if( last == VisitResponse::ABORT ) {
+            return e;
+        }
+        last = filter( std::move( e ) );
+        if( last == VisitResponse::NEXT && e ) {
+            e->remove_items_with( filter );
+        }
+        return e;
+    } );
+}*/

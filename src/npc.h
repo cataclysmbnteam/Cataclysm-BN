@@ -904,7 +904,7 @@ class npc : public player
         void do_npc_read();
         void stow_weapon( );
         bool wield( item &it ) override;
-        void wield( detached_ptr<item> &&it ) override;
+        detached_ptr<item> wield( detached_ptr<item> &&it ) override;
         void drop( const drop_locations &what, const tripoint &target,
                    bool stash ) override;
         bool adjust_worn();
@@ -1330,7 +1330,7 @@ class npc : public player
 
         detached_ptr<item> remove_real_weapon();
         item &get_real_weapon();
-        void set_real_weapon( detached_ptr<item> &&weapon );
+        detached_ptr<item> set_real_weapon( detached_ptr<item> &&weapon );
 
     protected:
         void store( JsonOut &json ) const;

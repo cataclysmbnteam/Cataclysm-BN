@@ -140,7 +140,7 @@ deserialize_functions;
 
 } // namespace activity_actors
 
-void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout );
-void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin );
+void serialize( const std::unique_ptr<activity_actor> &actor, JsonOut &jsout );
+void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin );
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_H

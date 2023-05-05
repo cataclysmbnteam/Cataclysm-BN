@@ -15,6 +15,7 @@ class location_ptr
 {
     private:
         friend detached_ptr<T>;
+        friend location_ptr < T, !error_if_null >;
         T *ptr = nullptr;
         std::unique_ptr<location<T>> loc;
 

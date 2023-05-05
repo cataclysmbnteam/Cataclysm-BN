@@ -91,12 +91,13 @@ enum monster_horde_attraction {
 class monster : public Creature, public location_visitable<monster>
 {
         friend class editmap;
+        friend location_visitable<monster>;
     public:
         monster();
         monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
         monster( const monster & );
-        monster( monster && ) = delete;
+        monster( monster && );
         ~monster() override;
         monster &operator=( const monster & ) = delete;
         monster &operator=( monster && ) = delete;

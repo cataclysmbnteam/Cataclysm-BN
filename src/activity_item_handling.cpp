@@ -2087,7 +2087,7 @@ static bool chop_plank_activity( player &p, const tripoint &src_loc )
     return false;
 }
 
-void activity_on_turn_move_loot( std::unique_ptr<player_activity> &&act, player &p )
+void activity_on_turn_move_loot( player_activity &act, player &p )
 {
     enum activity_stage : int {
         //Initial stage
@@ -2098,14 +2098,14 @@ void activity_on_turn_move_loot( std::unique_ptr<player_activity> &&act, player 
         DO,
     };
 
-    int &stage = act->index;
+    int &stage = act.index;
     //Prepare activity stage
     if( stage < 0 ) {
         stage = INIT;
         //num_processed
-        act->values.push_back( 0 );
+        act.values.push_back( 0 );
     }
-    int &num_processed = act->values[ 0 ];
+    int &num_processed = act.values[ 0 ];
 
     map &here = get_map();
     const auto abspos = here.getabs( p.pos() );
@@ -2115,20 +2115,20 @@ void activity_on_turn_move_loot( std::unique_ptr<player_activity> &&act, player 
     }
 
     if( stage == INIT ) {
-        act->coord_set = mgr.get_near( zone_type_LOOT_UNSORTED, abspos, ACTIVITY_SEARCH_DISTANCE );
+        act.coord_set = mgr.get_near( zone_type_LOOT_UNSORTED, abspos, ACTIVITY_SEARCH_DISTANCE );
         stage = THINK;
     }
 
     if( stage == THINK ) {
         //initialize num_processed
         num_processed = 0;
-        const auto &src_set = act->coord_set;
+        const auto &src_set = act.coord_set;
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
 
         for( auto &src : src_sorted ) {
-            act->placement = src;
-            act->coord_set.erase( src );
+            act.placement = src;
+            act.coord_set.erase( src );
 
             const auto &src_loc = here.getlocal( src );
             if( !here.inbounds( src_loc ) ) {
@@ -2149,8 +2149,7 @@ void activity_on_turn_move_loot( std::unique_ptr<player_activity> &&act, player 
                     continue;
                 }
                 stage = DO;
-                p.set_destination( route, std::move( act ) );
-                p.activity->set_to_null();
+                p.set_destination( route, p.remove_activity() );
                 return;
             }
 
@@ -2207,8 +2206,7 @@ void activity_on_turn_move_loot( std::unique_ptr<player_activity> &&act, player 
                 // activity will be restarted only if
                 // player arrives on destination tile
                 stage = DO;
-                p.set_destination( route, std::move( act ) );
-                p.activity->set_to_null();
+                p.set_destination( route, p.remove_activity() );
                 return;
             }
             stage = DO;
@@ -2216,7 +2214,7 @@ void activity_on_turn_move_loot( std::unique_ptr<player_activity> &&act, player 
         }
     }
     if( stage == DO ) {
-        const tripoint &src = act->placement;
+        const tripoint &src = act.placement;
         const tripoint &src_loc = here.getlocal( src );
 
         bool is_adjacent_or_closer = square_dist( p.pos(), src_loc ) <= 1;

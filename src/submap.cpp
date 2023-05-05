@@ -18,13 +18,8 @@ void maptile_soa<sx, sy>::swap_soa_tile( point p1, point p2 )
 {
     tripoint offset = tripoint( p2 - p1, 0 );
 
-    for( item *&it : itm[p1.x][p1.y] ) {
-        it->move_by( offset );
-    }
-
-    for( item *&it : itm[p2.x][p2.y] ) {
-        it->move_by( -offset );
-    }
+    itm[p1.x][p1.y].move_by( offset );
+    itm[p2.x][p2.y].move_by( -offset );
 
     std::swap( ter[p1.x][p1.y], ter[p2.x][p2.y] );
     std::swap( frn[p1.x][p1.y], frn[p2.x][p2.y] );
@@ -35,7 +30,200 @@ void maptile_soa<sx, sy>::swap_soa_tile( point p1, point p2 )
     std::swap( rad[p1.x][p1.y], rad[p2.x][p2.y] );
 }
 
-submap::submap()
+void submap::swap( submap &first, submap &second, tripoint offset )
+{
+    std::swap( first.ter, second.ter );
+    std::swap( first.frn, second.frn );
+    std::swap( first.lum, second.lum );
+    std::swap( first.fld, second.fld );
+    std::swap( first.trp, second.trp );
+    std::swap( first.rad, second.rad );
+    std::swap( first.ter, second.ter );
+
+    for( auto &row : first.itm ) {
+        for( auto &tile : row ) {
+            tile.move_by( offset );
+        }
+    }
+    for( auto &row : second.itm ) {
+        for( auto &tile : row ) {
+            tile.move_by( -offset );
+        }
+    }
+
+    std::swap( first.itm, second.itm );
+
+}
+
+//There's not a briefer way to write this I don't think
+template<int sx, int sy>
+maptile_soa<sx, sy>::maptile_soa( tripoint offset ) : itm{{
+        location_vector{ new tile_item_location( offset + point( 0, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 0, 11 ) )},
+    },
+    {
+        location_vector{ new tile_item_location( offset + point( 1, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 1, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 2, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 2, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 3, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 3, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 4, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 4, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 5, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 5, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 6, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 6, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 7, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 7, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 8, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 8, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 9, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 9, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 10, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 10, 11 ) )},
+    }, {
+        location_vector{ new tile_item_location( offset + point( 11, 0 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 1 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 2 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 3 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 4 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 5 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 6 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 7 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 8 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 9 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 10 ) )},
+        location_vector{ new tile_item_location( offset + point( 11, 11 ) )},
+    }}
+{
+    for( int x = 0; x < sx; x++ ) {
+        for( int y = 0; y < sy; y++ ) {
+            //itm[x][y]( offset + point( x, y ) );
+        }
+    }
+}
+
+submap::submap( tripoint offset ) : maptile_soa<SEEX, SEEY>( offset )
 {
     std::uninitialized_fill_n( &ter[0][0], elements, t_null );
     std::uninitialized_fill_n( &frn[0][0], elements, f_null );
@@ -43,23 +231,20 @@ submap::submap()
     std::uninitialized_fill_n( &trp[0][0], elements, tr_null );
     std::uninitialized_fill_n( &rad[0][0], elements, 0 );
 
+    /*for( int x = 0; x < sx; x++ ) {
+        for( int y = 0; x < sy; y++ ) {
+            itm[x][y].set_location( new tile_item_location( offset + point( x, y ) ) );
+        }
+    }*/
+
     is_uniform = false;
 }
 
-submap::submap( submap && ) = default;
 submap::~submap()
 {
-    for( auto &row : itm ) {
-        for( auto &tile : row ) {
-            for( item *&it : tile ) {
-                it->remove_location();
-                it->destroy();
-            }
-        }
-    }
+
 }
 
-submap &submap::operator=( submap && ) = default;
 
 void submap::update_lum_rem( point p, const item &i )
 {

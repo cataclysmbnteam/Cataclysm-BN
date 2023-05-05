@@ -49,25 +49,28 @@ struct spawn_point {
 
 template<int sx, int sy>
 struct maptile_soa {
-    ter_id             ter[sx][sy];  // Terrain on each square
-    furn_id            frn[sx][sy];  // Furniture on each square
-    std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
-    location_vector<item> itm[sx][sy]; // Items on each square
-    field              fld[sx][sy];  // Field on each square
-    trap_id            trp[sx][sy];  // Trap on each square
-    int                rad[sx][sy];  // Irradiation of each square
+    protected:
+        maptile_soa( tripoint offset );
+    public:
+        ter_id             ter[sx][sy];  // Terrain on each square
+        furn_id            frn[sx][sy];  // Furniture on each square
+        std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
+        location_vector<item> itm[sx][sy]; // Items on each square
+        field              fld[sx][sy];  // Field on each square
+        trap_id            trp[sx][sy];  // Trap on each square
+        int                rad[sx][sy];  // Irradiation of each square
 
-    void swap_soa_tile( point p1, point p2 );
+        void swap_soa_tile( point p1, point p2 );
 };
 
 class submap : maptile_soa<SEEX, SEEY>
 {
     public:
-        submap();
-        submap( submap && );
+        submap( tripoint offset );
+        // submap( submap && );
         ~submap();
 
-        submap &operator=( submap && );
+        // submap &operator=( submap && );
 
         trap_id get_trap( point p ) const {
             return trp[p.x][p.y];
@@ -218,6 +221,8 @@ class submap : maptile_soa<SEEX, SEEY>
         std::map<tripoint, std::unique_ptr<partial_con>> partial_constructions;
         std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
         std::map<point_sm_ms, cata::poly_serialized<active_tile_data>> active_furniture;
+
+        static void swap( submap &s1, submap &s2, tripoint offset );
 
     private:
         std::map<point, computer> computers;

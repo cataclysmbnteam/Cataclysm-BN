@@ -213,16 +213,16 @@ void item::add_rain_to_container( bool acid, int charges )
     if( charges <= 0 ) {
         return;
     }
-    item ret( acid ? itype_water_acid : itype_water, calendar::turn );
-    const int capa = get_remaining_capacity_for_liquid( ret, true );
+    detached_ptr<item> ret = item::spawn( acid ? itype_water_acid : itype_water, calendar::turn );
+    const int capa = get_remaining_capacity_for_liquid( *ret, true );
     if( contents.empty() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if( !acid ) {
             // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
-            ret.poison = one_in( 10 ) ? 1 : 0;
+            ret->poison = one_in( 10 ) ? 1 : 0;
         }
-        ret.charges = std::min( charges, capa );
-        put_in( ret );
+        ret->charges = std::min( charges, capa );
+        put_in( std::move( ret ) );
     } else {
         // The container already has a liquid.
         item &liq = contents.front();
@@ -232,7 +232,7 @@ void item::add_rain_to_container( bool acid, int charges )
             liq.charges += added;
         }
 
-        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water_acid_weak ) {
+        if( liq.typeId() == ret->typeId() || liq.typeId() == itype_water_acid_weak ) {
             // The container already contains this liquid or weakly acidic water.
             // Don't do anything special -- we already added liquid.
         } else {
@@ -278,7 +278,7 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
     // Calculate once, because that part is expensive
     // FIXME: make non-static
     //TODO!: yeah... push up
-    item &water = *item_spawn_temporary( itype_water, calendar::start_of_cataclysm );
+    item &water = *item::spawn_temporary( itype_water, calendar::start_of_cataclysm );
     // 250ml
     static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
                                     water.charges;

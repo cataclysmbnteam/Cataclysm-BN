@@ -295,6 +295,66 @@ monster::monster( const monster &source ) : corpse_components( new monster_compo
     set_battery_item( item::spawn( *source.battery_item ) );
 
 };
+
+monster::monster( monster &&source ) : corpse_components( new monster_component_item_location(
+                this ) ), tied_item( new monster_tied_item_location( this ) ),
+    tack_item( new monster_tack_item_location( this ) ),
+    armor_item( new monster_armor_item_location( this ) ),
+    storage_item( new monster_storage_item_location( this ) ),
+    battery_item( new monster_battery_item_location( this ) ),
+    inv( new monster_item_location( this ) )
+{
+    wander_pos = source.wander_pos;
+    wandf = source.wandf;
+    mounted_player = source.mounted_player;
+    mounted_player_id = source.mounted_player_id;
+    dragged_foe_id = source.dragged_foe_id;
+    friendly = source.friendly;
+    anger = source.anger;
+    morale = source.morale;
+    faction = source.faction;
+    mission_id = source.mission_id;
+    type = source.type;
+    no_extra_death_drops = source.no_extra_death_drops;
+    no_corpse_quiet = source.no_corpse_quiet;
+    death_drops = source.death_drops;
+    made_footstep = source.made_footstep;
+    unique_name = source.unique_name;
+    hallucination = source.hallucination;
+    fish_population = source.fish_population;
+    ignoring = source.ignoring;
+    lastseen_turn = source.lastseen_turn;
+    staircount = source.staircount;
+    ammo = source.ammo;
+
+    for( const item * const &it : source.corpse_components ) {
+        corpse_components.push_back( item::spawn( *it ) );
+    }
+
+    hp = source.hp;
+    special_attacks = source.special_attacks;
+    goal = source.goal;
+    position = source.position;
+    dead = source.dead;
+    upgrades = source.upgrades;
+    upgrade_time = source.upgrade_time;
+    reproduces = source.reproduces;
+    baby_timer = source.baby_timer;
+    udder_timer = source.udder_timer;
+    horde_attraction = source.horde_attraction;
+    path = source.path;
+    effect_cache = source.effect_cache;
+    summon_time_limit = source.summon_time_limit;
+
+    set_tied_item( item::spawn( *source.tied_item ) );
+    set_tack_item( item::spawn( *source.tack_item ) );
+    set_armor_item( item::spawn( *source.armor_item ) );
+    set_storage_item( item::spawn( *source.storage_item ) );
+    set_battery_item( item::spawn( *source.battery_item ) );
+
+};
+
+
 monster::~monster() = default;
 
 void monster::setpos( const tripoint &p )
@@ -1083,6 +1143,11 @@ detached_ptr<item> monster::set_tack_item( detached_ptr<item> &&it )
     return ret;
 }
 
+detached_ptr<item> monster::remove_tack_item()
+{
+    return set_tack_item( detached_ptr<item>() );
+}
+
 item *monster::get_tack_item() const
 {
     return &*tack_item;
@@ -1093,6 +1158,11 @@ detached_ptr<item> monster::set_tied_item( detached_ptr<item> &&it )
     detached_ptr<item> ret = tied_item.release();
     tied_item = std::move( it );
     return ret;
+}
+
+detached_ptr<item> monster::remove_tied_item()
+{
+    return set_tied_item( detached_ptr<item>() );
 }
 
 item *monster::get_tied_item() const
@@ -1107,6 +1177,11 @@ detached_ptr<item> monster::set_armor_item( detached_ptr<item> &&it )
     return ret;
 }
 
+detached_ptr<item> monster::remove_armor_item()
+{
+    return set_armor_item( detached_ptr<item>() );
+}
+
 item *monster::get_armor_item() const
 {
     return &*armor_item;
@@ -1119,6 +1194,11 @@ detached_ptr<item> monster::set_storage_item( detached_ptr<item> &&it )
     return ret;
 }
 
+detached_ptr<item> monster::remove_storage_item()
+{
+    return set_storage_item( detached_ptr<item>() );
+}
+
 item *monster::get_storage_item() const
 {
     return &*storage_item;
@@ -1129,6 +1209,11 @@ detached_ptr<item> monster::set_battery_item( detached_ptr<item> &&it )
     detached_ptr<item> ret = battery_item.release();
     battery_item = std::move( it );
     return ret;
+}
+
+detached_ptr<item> monster::remove_battery_item()
+{
+    return set_battery_item( detached_ptr<item>() );
 }
 
 item *monster::get_battery_item() const

@@ -2050,7 +2050,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 }
                 if( query_yn( confirm_msg ) ) {
                     if( driving ) {
-                        player_character.assign_activity( std::make_unique<player_activity>( autodrive_activity_actor() ) );
+                        player_character.assign_activity( std::make_unique<player_activity>
+                                                          ( std::make_unique<autodrive_activity_actor>() ) );
                     } else {
                         player_character.reset_move_mode();
                         player_character.assign_activity( ACT_TRAVELLING );

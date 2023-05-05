@@ -71,9 +71,9 @@ aim_activity_actor::aim_activity_actor() : fake_weapon( new fake_item_location()
     initial_view_offset = get_avatar().view_offset;
 }
 
-aim_activity_actor aim_activity_actor::use_wielded()
+std::unique_ptr<aim_activity_actor> aim_activity_actor::use_wielded()
 {
-    return aim_activity_actor();
+    return std::make_unique<aim_activity_actor>();
 }
 
 std::unique_ptr<aim_activity_actor> aim_activity_actor::use_bionic( detached_ptr<item> &&fake_gun,
@@ -1222,13 +1222,8 @@ void throw_activity_actor::do_turn( player_activity &act, Character &who )
         who.mod_moves( -extra_cost );
     }
     //TODO!:check
-    if( target->count_by_charges() && target->charges > 1 ) {
-        target->mod_charges( -1 );
-        target->charges = 1;
-    } else {
-        target->detach();
-    }
-    ranged::throw_item( who, trajectory.back(), *target, blind_throw_pos );
+    detached_ptr<item> det = target->count_by_charges() ? target->split( 1 ) : target->detach();
+    ranged::throw_item( who, trajectory.back(), std::move( det ), blind_throw_pos );
 }
 
 void throw_activity_actor::serialize( JsonOut &jsout ) const
@@ -1297,7 +1292,7 @@ deserialize_functions = {
 };
 } // namespace activity_actors
 
-void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout )
+void serialize( const std::unique_ptr<activity_actor> &actor, JsonOut &jsout )
 {
     if( !actor ) {
         jsout.write_null();
@@ -1311,7 +1306,7 @@ void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout )
     }
 }
 
-void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin )
+void deserialize( std::unique_ptr<activity_actor> &actor, JsonIn &jsin )
 {
     if( jsin.test_null() ) {
         actor = nullptr;

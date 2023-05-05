@@ -23,6 +23,9 @@ class JsonObject;
 class avatar;
 class player;
 
+template<typename T>
+class detached_ptr;
+
 class profession
 {
     public:

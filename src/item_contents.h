@@ -34,9 +34,6 @@ class item_contents
         /** returns a list of pointers to all top-level items */
         const std::vector<item *> &all_items_top() const;
 
-        /** Removes all of the top-level items */
-        std::vector<detached_ptr<item>> remove_all();
-
         /** removes a top-level item */
         detached_ptr<item> remove_top( item *it );
         std::vector<item *>::iterator remove_top( std::vector<item *>::iterator &it,
@@ -106,6 +103,9 @@ class item_contents
         VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
                                       item *parent = nullptr );
         void remove_items_with( const std::function < detached_ptr<item>( detached_ptr<item> && ) >
+                                &filter );
+
+        void remove_items_with( const std::function < VisitResponse( detached_ptr<item> && ) >
                                 &filter );
 
         void serialize( JsonOut &json ) const;

@@ -222,7 +222,6 @@ class inventory : public temp_visitable<inventory>
         const itype_bin &get_binned_items() const;
 
         void update_cache_with_item( item &newit );
-
         // gets a singular enchantment that is an amalgamation of all items that have active enchantments
         enchantment get_active_enchantment_cache( const Character &owner ) const;
 
@@ -235,6 +234,9 @@ class inventory : public temp_visitable<inventory>
 
     private:
         friend location_inventory;
+        friend visitable<inventory>;
+        friend temp_visitable<inventory>;
+        friend location_visitable<location_inventory>;
         invlet_favorites invlet_cache;
         char find_usable_cached_invlet( const itype_id &item_type );
 
@@ -257,6 +259,9 @@ class location_inventory : public location_visitable<location_inventory>
     private:
         std::unique_ptr<item_location> loc;
         inventory inv;
+
+        friend location_visitable<location_inventory>;
+        friend visitable<location_inventory>;
     public:
 
         const_invslice const_slice() const;
@@ -402,6 +407,8 @@ class location_inventory : public location_visitable<location_inventory>
         const std::map<quality_id, std::map<int, int>> &get_quality_cache() const;
 
         void build_items_type_cache();
+
+        const inventory &as_inventory();
 };
 
 #endif // CATA_SRC_INVENTORY_H

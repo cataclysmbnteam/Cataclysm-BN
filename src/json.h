@@ -359,7 +359,7 @@ class JsonIn
 #if !defined(RELEASE)
                 void **buf = static_cast<void **>( malloc( sizeof( void * ) * 40 ) );
                 backtrace( buf, 40 );
-                cata_arena<T>::add_debug_entry( out, __FILE__, __LINE__, buf );
+                cata_arena<T>::add_debug_entry( &*out, __FILE__, __LINE__, buf );
 #endif
                 return true;
             } catch( const JsonError & ) {
@@ -455,6 +455,32 @@ class JsonIn
                 v.clear();
                 while( !end_array() ) {
                     typename T::value_type element;
+                    if( read( element, throw_on_error ) ) {
+                        v.push_back( std::move( element ) );
+                    } else {
+                        skip_value();
+                    }
+                }
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
+
+            return true;
+        }
+
+        template<typename T>
+        auto read( location_vector<T> &v, bool throw_on_error = false ) -> bool {
+            if( !test_array() ) {
+                return error_or_false( throw_on_error, "Expected json array" );
+            }
+            try {
+                start_array();
+                v.clear();
+                while( !end_array() ) {
+                    detached_ptr<T> element;
                     if( read( element, throw_on_error ) ) {
                         v.push_back( std::move( element ) );
                     } else {
@@ -593,6 +619,12 @@ class JsonIn
             return true;
         }
 
+        template<typename T>
+        auto read( std::unique_ptr<T> &v,
+                   bool throw_on_error = false ) -> decltype( v->deserialize( *this ), true ) {
+            return read( *v, throw_on_error );
+        }
+
         // error messages
         std::string line_number( int offset_modifier = 0 ); // for occasional use only
         [[noreturn]] void error( const std::string &message, int offset = 0 ); // ditto
@@ -701,6 +733,11 @@ class JsonOut
             write( *v );
         }
 
+        template<typename T>
+        void write( const shared_ptr_fast<T> &v ) {
+            write( *v );
+        }
+
         /// Overload that calls a global function `serialize(const T&,JsonOut&)`, if available.
         template<typename T>
         auto write( const T &v ) -> decltype( serialize( v, *this ), void() ) {
@@ -735,6 +772,15 @@ class JsonOut
         template <typename T>
         void write( const safe_reference<T> &val ) {
             write( val.serialize() );
+        }
+
+        template <typename T>
+        void write( const std::unique_ptr<T> &val ) {
+            if( !val ) {
+                debugmsg( "Null unique_ptr during save" );
+                return;
+            }
+            write( *val );
         }
 
         // strings need escaping and quoting
@@ -816,7 +862,7 @@ class JsonOut
 
         // special case for colony, since it doesn't fit in other categories
         template <typename T>
-        void write( const cata::colony<T> &container ) {
+        void write( const location_vector<T> &container ) {
             write_as_array( container );
         }
 

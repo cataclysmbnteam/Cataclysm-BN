@@ -587,8 +587,8 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         }
         if( who.can_wear( *it ).success() ) {
             it->on_wear( who );
-            who.worn.push_back( std::move( it ) );
             it->set_owner( who );
+            who.worn.push_back( std::move( it ) );
         }
     }
 }
@@ -1199,6 +1199,35 @@ bool npc::wield( item &it )
     }
     invalidate_range_cache();
     return true;
+}
+
+
+
+detached_ptr<item> npc::wield( detached_ptr<item> &&target )
+{
+    if( !can_wield( *target ).success() ) {
+        return target;
+    }
+
+    if( !unwield() ) {
+        return target;
+    }
+    clear_npc_ai_info_cache( "weapon_value" );
+    if( !target || target->is_null() ) {
+        return target;
+    }
+    item &obj = *target;
+    set_weapon( std::move( target ) );
+
+    last_item = obj.typeId();
+    recoil = MAX_RECOIL;
+    int mv = item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
+    obj.on_wield( *this, mv );
+
+
+    inv.update_invlet( obj );
+    inv.update_cache_with_item( obj );
+    return detached_ptr<item>();
 }
 
 void npc::drop( const drop_locations &what, const tripoint &target,
@@ -3395,4 +3424,20 @@ bool job_data::has_job() const
         }
     }
     return false;
+}
+
+detached_ptr<item> npc::remove_real_weapon()
+{
+    return real_weapon.release();
+}
+
+item &npc::get_real_weapon()
+{
+    return *real_weapon;
+}
+detached_ptr<item> npc::set_real_weapon( detached_ptr<item> &&weapon )
+{
+    detached_ptr<item> ret = real_weapon.release();
+    real_weapon = std::move( weapon );
+    return ret;
 }

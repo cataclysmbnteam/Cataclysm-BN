@@ -884,18 +884,15 @@ bool vehicle::fold_up()
     }
 
     // create a folding [non]bicycle item
-    item &bicycle = *item::spawn( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle",
-                                  calendar::turn );
+    detached_ptr<item> bicycle = item::spawn( can_be_folded ? "generic_folded_vehicle" :
+                                 "folding_bicycle",
+                                 calendar::turn );
 
     // Drop stuff in containers on ground
     for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
         const size_t p = vp.part_index();
-        for( auto &elem : get_items( p ) ) {
-            //TODO!: check ooowners
-            g->m.add_item_or_charges( g->u.pos(), *elem );
-        }
-        while( !get_items( p ).empty() ) {
-            get_items( p ).erase( get_items( p ).begin() );
+        for( auto &elem : get_items( p ).clear() ) {
+            g->m.add_item_or_charges( g->u.pos(), std::move( elem ) );
         }
     }
 
@@ -910,21 +907,21 @@ bool vehicle::fold_up()
         std::ostringstream veh_data;
         JsonOut json( veh_data );
         json.write( parts );
-        bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
+        bicycle->set_var( "folding_bicycle_parts", veh_data.str() );
     } catch( const JsonError &e ) {
         debugmsg( "Error storing vehicle: %s", e.c_str() );
     }
 
     if( can_be_folded ) {
-        bicycle.set_var( "weight", to_milligram( total_mass() ) );
-        bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
-        bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
-        bicycle.set_var( "vehicle_name", name );
+        bicycle->set_var( "weight", to_milligram( total_mass() ) );
+        bicycle->set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
+        bicycle->set_var( "name", string_format( _( "folded %s" ), name ) );
+        bicycle->set_var( "vehicle_name", name );
         // TODO: a better description?
-        bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
+        bicycle->set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
 
-    g->m.add_item_or_charges( global_part_pos3( 0 ), bicycle );
+    g->m.add_item_or_charges( global_part_pos3( 0 ), std::move( bicycle ) );
     g->m.destroy_vehicle( this );
 
     // TODO: take longer to fold bigger vehicles
@@ -1232,7 +1229,7 @@ void vehicle::reload_seeds( const tripoint &pos )
         if( amount > 0 ) {
             int actual_amount = std::min( amount, count );
             itype_id seed_id = std::get<0>( seed_entries[seed_index] );
-            ItemList used_seed;
+            std::vector<detached_ptr<item>> used_seed;
             if( item::count_by_charges( seed_id ) ) {
                 used_seed = p.use_charges( seed_id, actual_amount );
             } else {
@@ -1380,20 +1377,17 @@ void vehicle::operate_reaper()
         g->m.i_clear( reaper_pos );
         for( auto &i : iexamine::get_harvest_items(
                  seed_type, plant_produced, seed_produced, false ) ) {
-            g->m.add_item_or_charges( reaper_pos, *i );
+            g->m.add_item_or_charges( reaper_pos, std::move( i ) );
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
                        "reaper" );
         if( vp.has_feature( "CARGO" ) ) {
-            for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
-                //TODO!: check as shit
-                if( ( ( *iter )->volume() <= max_pickup_volume ) &&
-                    add_item( reaper_id, **iter ) ) {
-                    iter = items.erase( iter );
-                } else {
-                    ++iter;
+            items.remove_items_with( [&max_pickup_volume, this, reaper_id]( detached_ptr<item> &&it ) {
+                if( it->volume() <= max_pickup_volume ) {
+                    return add_item( reaper_id, std::move( it ) );
                 }
-            }
+                return it;
+            } );
         }
     }
 }
@@ -1422,13 +1416,14 @@ void vehicle::operate_planter()
                 }
                 if( !i->count_by_charges() || i->charges == 1 ) {
                     i->set_age( 0_turns );
-                    g->m.add_item( loc, *i );
-                    v.erase( it );
+                    detached_ptr<item> det;
+                    v.erase( it, &det );
+                    g->m.add_item( loc, std::move( det ) );
                 } else {
-                    item *tmp = item::spawn( *i );
+                    detached_ptr<item> tmp = item::spawn( *i );
                     tmp->charges = 1;
                     tmp->set_age( 0_turns );
-                    g->m.add_item( loc, *tmp );
+                    g->m.add_item( loc, std::move( tmp ) );
                     i->charges--;
                 }
                 break;
@@ -1483,9 +1478,9 @@ void vehicle::operate_scoop()
                                sounds::sound_t::combat, _( "BEEEThump" ), false, "vehicle", "scoop_thump" );
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
-            if( add_item( scoop, *that_item_there ) ) {
-                g->m.i_rem( position, that_item_there );
-            } else {
+            if( !that_item_there->attempt_detach( [this, &scoop]( detached_ptr<item> &&it ) {
+            return add_item( scoop, std::move( it ) ) ;
+            } ) ) {
                 break;
             }
         }
@@ -1822,11 +1817,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
     if( m.has_effect( effect_tied ) ) {
         add_msg( m_info, _( "You untie your %s." ), m.get_name() );
         m.remove_effect( effect_tied );
-        item *tied = m.get_tied_item();
-        if( tied ) {
-            tied->detach();
-            g->u.i_add( *tied );
-        }
+        g->u.i_add( m.remove_tied_item() );
     }
 }
 
@@ -2074,7 +2065,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
     }
     auto veh_tool = [&]( const itype_id & obj ) {
-        item &pseudo = *item_spawn_temporary( obj );
+        item &pseudo = *item::spawn_temporary( obj );
         if( fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
             return false;
         }
@@ -2133,7 +2124,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case DRINK: {
-            item &water = *item_spawn_temporary( itype_water_clean, calendar::start_of_cataclysm );
+            item &water = *item::spawn_temporary( itype_water_clean, calendar::start_of_cataclysm );
             if( you.eat( water ) ) {
                 drain( itype_water_clean, 1 );
                 you.moves -= 250;
@@ -2144,7 +2135,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             if( veh_tool( itype_welder ) ) {
                 // HACK: Evil hack incoming
                 activity_handlers::repair_activity_hack::patch_activity_for_vehicle_welder(
-                    you.activity,
+                    *you.activity,
                     pos, *this, interact_part
                 );
             }

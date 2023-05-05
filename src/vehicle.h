@@ -26,6 +26,7 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "location_ptr.h"
 #include "optional.h"
 #include "point.h"
 #include "tileray.h"
@@ -190,6 +191,7 @@ struct vehicle_part {
         friend vehicle;
         friend class veh_interact;
         friend visitable<vehicle_cursor>;
+        friend location_visitable<vehicle_cursor>;
         friend class turret_data;
         friend class vehicle_base_item_location;
 
@@ -201,15 +203,16 @@ struct vehicle_part {
                      targets_grid = 32, // Jumper cable is to grid, not vehicle
                    };
 
-        vehicle_part(); /** DefaultConstructible */
+        vehicle_part();
+        vehicle_part( vehicle * );
 
-        vehicle_part( const vpart_id &vp, point dp, detached_ptr<item> &&obj );
+        vehicle_part( const vpart_id &vp, point dp, detached_ptr<item> &&obj, vehicle * );
 
         vehicle_part( const vehicle_part & );
         vehicle_part &operator=( const vehicle_part & );
 
-        vehicle_part( vehicle_part && ) noexcept;
-        vehicle_part &operator=( vehicle_part && ) noexcept;
+        //vehicle_part( vehicle_part && ) noexcept;
+        //vehicle_part &operator=( vehicle_part && ) noexcept;
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
@@ -224,12 +227,6 @@ struct vehicle_part {
         int  remove_flag( const int flag )    noexcept {
             return flags &= ~flag;
         }
-
-        /** Temporary hack until this is made into go's */
-        void destruct_hack();
-        void remove_location_hack();
-        void clone_hack( const vehicle_part &source );
-        void set_location_hack( vehicle *on );
 
         /**
          * Translated name of a part inclusive of any current status effects
@@ -457,8 +454,8 @@ struct vehicle_part {
         /** As a performance optimization we cache the part information here on first lookup */
         mutable const vpart_info *info_cache = nullptr;
 
-        item *base = nullptr;
-        std::vector<item *> items; // inventory
+        location_ptr<item, true> base;
+        location_vector<item> items; // inventory
 
         /** Preferred ammo type when multiple are available */
         itype_id ammo_pref = itype_id::NULL_ID();
@@ -477,11 +474,17 @@ struct vehicle_part {
         void deserialize( JsonIn &jsin );
 
         item &get_base() const;
-        void set_base( item &new_base );
+        detached_ptr<item> set_base( detached_ptr<item> &&new_base );
 
         const std::vector<item *> &get_items() const {
-            return items;
+            return items.as_vector();
         }
+
+        std::vector<detached_ptr<item>> clear_items() {
+            return items.clear();
+        }
+
+        void add_item( detached_ptr<item> &&item );
 
         /**
          * Generate the corresponding item from this vehicle part. It includes
@@ -781,9 +784,6 @@ class vehicle
         vehicle &operator=( vehicle && ) = default;
         vehicle &operator=( const vehicle & ) = default;
 
-        /** Temporary hack until vehicles are gos */
-        void clone_hack( const vehicle & );
-
     public:
         /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
         void suspend_refresh();
@@ -934,7 +934,7 @@ class vehicle
         int install_part( point dp, vehicle_part &&part );
 
         /** install item specified item to vehicle as a vehicle part */
-        int install_part( point dp, const vpart_id &id, item &obj, bool force = false );
+        int install_part( point dp, const vpart_id &id, detached_ptr<item> &&obj, bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
         bool try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks );
@@ -1571,9 +1571,10 @@ class vehicle
 
         // remove item from part's cargo
         detached_ptr<item> remove_item( int part, item *it );
-        vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it );
+        vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it,
+                                             detached_ptr<item>  *ret = nullptr );
         vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator first,
-                                             vehicle_stack::const_iterator last );
+                                             vehicle_stack::const_iterator last, std::vector<detached_ptr<item>> *ret = nullptr );
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );
@@ -1678,7 +1679,7 @@ class vehicle
          * @param pt the vehicle part containing the turret we're trying to target.
          * @return npc object with suitable attributes for targeting a vehicle turret.
          */
-        npc get_targeting_npc( const vehicle_part &pt );
+        std::unique_ptr<npc> get_targeting_npc( const vehicle_part &pt );
         /*@}*/
 
     public:

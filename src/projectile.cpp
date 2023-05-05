@@ -16,12 +16,13 @@
 #include "string_id.h"
 
 projectile::projectile() :
-    drop( nullptr ), custom_explosion( nullptr )
+    drop(), custom_explosion( nullptr )
 { }
 
 projectile::~projectile() = default;
 
 projectile::projectile( projectile && ) = default;
+
 
 projectile::projectile( const projectile &other )
 {
@@ -34,33 +35,30 @@ projectile &projectile::operator=( const projectile &other )
     speed = other.speed;
     range = other.range;
     proj_effects = other.proj_effects;
-    //TODO!: ownermaship here
-    set_drop( other.get_drop() );
+    set_drop( item::spawn( *other.get_drop() ) );
     set_custom_explosion( other.get_custom_explosion() );
 
     return *this;
 }
 
-item &projectile::get_drop() const
+detached_ptr<item> projectile::unset_drop()
 {
-    if( drop != nullptr ) {
-        return *drop;
-    }
-    return null_item_reference();
+    detached_ptr<item> ret;
+    ret = std::move( drop );
+    return ret;
 }
 
-void projectile::set_drop( item &it )
+void projectile::set_drop( detached_ptr<item> &&it )
 {
-    if( it.is_null() ) {
-        unset_drop();
-    } else {
-        drop = &it;
-    }
+    drop = std::move( it );
 }
 
-void projectile::unset_drop()
+item *projectile::get_drop() const
 {
-    drop = nullptr;
+    if( !drop ) {
+        return &null_item_reference();
+    }
+    return &*drop;
 }
 
 const explosion_data &projectile::get_custom_explosion() const

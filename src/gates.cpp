@@ -245,7 +245,7 @@ void gates::toggle_gate( const tripoint &pos, player &p )
     const gate_data &gate = gates_data.obj( gid );
 
     p.add_msg_if_player( gate.pull_message );
-    p.assign_activity( std::make_unique<player_activity>( toggle_gate_activity_actor(
+    p.assign_activity( std::make_unique<player_activity>( std::make_unique<toggle_gate_activity_actor>(
                            gate.moves,
                            pos
                        ) ) );

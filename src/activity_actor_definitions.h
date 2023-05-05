@@ -53,7 +53,7 @@ class aim_activity_actor : public activity_actor
         aim_activity_actor();
 
         /** Aiming wielded gun */
-        static aim_activity_actor use_wielded();
+        static std::unique_ptr<aim_activity_actor> use_wielded();
 
         /** Aiming fake gun provided by a bionic */
         static std::unique_ptr<aim_activity_actor> use_bionic( detached_ptr<item> &&fake_gun,

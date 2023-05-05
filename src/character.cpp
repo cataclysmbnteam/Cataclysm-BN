@@ -395,15 +395,18 @@ Character &get_player_character()
     return g->u;
 }
 
-
 // *INDENT-OFF*
 Character::Character() :
     location_visitable<Character>(),
     worn(new worn_item_location(this)),
     damage_bandaged( {{ 0 }} ),
     damage_disinfected( {{ 0 }} ),
+    stashed_outbounds_activity(std::make_unique<player_activity>()),
+    stashed_outbounds_backlog(std::make_unique<player_activity>()),
+    activity(std::make_unique<player_activity>()),
     cached_time( calendar::before_time_starts ),
     inv(new character_item_location(this)),
+    destination_activity(std::make_unique<player_activity>()),
     id( -1 ),
     weapon(new wield_item_location( this )),
     next_climate_control_check( calendar::before_time_starts ),
@@ -468,18 +471,179 @@ Character::Character() :
 }
 // *INDENT-ON*
 
-Character::~Character()
+Character::Character( Character &&source ) : Character()
 {
-    destruct_hack();
+    str_max = source.str_max;
+    dex_max = source.dex_max;
+    per_max = source.per_max;
+    int_max = source.int_max;
+    str_cur = source.str_cur;
+    dex_cur = source.dex_cur;
+    per_cur = source.per_cur;
+    int_cur = source.int_cur;
+    str_bonus = source.str_bonus;
+    dex_bonus = source.dex_bonus;
+    per_bonus = source.per_bonus;
+    int_bonus = source.int_bonus;
+    healthy = source.healthy;
+    healthy_mod = source.healthy_mod;
+    thirst = source.thirst;
+    fatigue = source.fatigue;
+    sleep_deprivation = source.sleep_deprivation;
+    radiation = source.radiation;
+    tank_plut = source.tank_plut;
+    reactor_plut = source.reactor_plut;
+    slow_rad = source.slow_rad;
+    set_stim( source.get_stim() );
+    set_stamina( source.get_stamina() );
+    set_anatomy( source.get_anatomy() );
+    pkill = source.pkill;
+    stored_calories = source.stored_calories;
+    initialize_stomach_contents();
+    healed_total = source.healed_total;
+
+    name = source.name;
+    custom_profession = source.custom_profession;
+    prof = source.prof;
+
+    path_settings = source.path_settings;
+
+    move_mode = source.move_mode;
+    next_expected_position = source.next_expected_position;
+    temp_cur = source.temp_cur;
+    frostbite_timer = source.frostbite_timer;
+    temp_conv = source.temp_conv;
+
+    body_wetness = source.body_wetness;
+
+    drench_capacity[bp_eyes] = source.drench_capacity[bp_eyes];
+    drench_capacity[bp_mouth] = source.drench_capacity[bp_mouth];
+    drench_capacity[bp_head] = source.drench_capacity[bp_head];
+    drench_capacity[bp_leg_l] = source.drench_capacity[bp_leg_l];
+    drench_capacity[bp_leg_r] = source.drench_capacity[bp_leg_r];
+    drench_capacity[bp_foot_l] = source.drench_capacity[bp_foot_l];
+    drench_capacity[bp_foot_r] = source.drench_capacity[bp_foot_r];
+    drench_capacity[bp_arm_l] = source.drench_capacity[bp_arm_l];
+    drench_capacity[bp_arm_r] = source.drench_capacity[bp_arm_r];
+    drench_capacity[bp_hand_l] = source.drench_capacity[bp_hand_l];
+    drench_capacity[bp_hand_r] = source.drench_capacity[bp_hand_r];
+    drench_capacity[bp_torso] = source.drench_capacity[bp_torso];
+
+    damage_bandaged = source.damage_bandaged;
+    damage_disinfected = source.damage_disinfected;
+    cached_time = source.cached_time;
+    id = source.id;
+    next_climate_control_check = source.next_climate_control_check;
+    last_climate_control_ret = source.last_climate_control_ret;
+
+    activity = std::move( source.activity );
+    stashed_outbounds_backlog = std::move( source.stashed_outbounds_backlog );
+    stashed_outbounds_activity = std::move( source.stashed_outbounds_activity );
+
+    for( detached_ptr<item> &it : source.worn.clear() ) {
+        worn.push_back( std::move( it ) );
+    }
+
+    set_weapon( source.remove_weapon() );
+
+    for( detached_ptr<item> &it : source.inv.dump_remove() ) {
+        inv.push_back( std::move( it ) );
+    }
+
 }
 
-//TODO!: REMOVE and do proper destruction
+Character &Character::operator=( Character &&source )
+{
+    str_max = source.str_max;
+    dex_max = source.dex_max;
+    per_max = source.per_max;
+    int_max = source.int_max;
+    str_cur = source.str_cur;
+    dex_cur = source.dex_cur;
+    per_cur = source.per_cur;
+    int_cur = source.int_cur;
+    str_bonus = source.str_bonus;
+    dex_bonus = source.dex_bonus;
+    per_bonus = source.per_bonus;
+    int_bonus = source.int_bonus;
+    healthy = source.healthy;
+    healthy_mod = source.healthy_mod;
+    thirst = source.thirst;
+    fatigue = source.fatigue;
+    sleep_deprivation = source.sleep_deprivation;
+    radiation = source.radiation;
+    tank_plut = source.tank_plut;
+    reactor_plut = source.reactor_plut;
+    slow_rad = source.slow_rad;
+    set_stim( source.get_stim() );
+    set_stamina( source.get_stamina() );
+    set_anatomy( source.get_anatomy() );
+    pkill = source.pkill;
+    stored_calories = source.stored_calories;
+    initialize_stomach_contents();
+    healed_total = source.healed_total;
+
+    name = source.name;
+    custom_profession = source.custom_profession;
+    prof = source.prof;
+
+    path_settings = source.path_settings;
+
+    move_mode = source.move_mode;
+    next_expected_position = source.next_expected_position;
+    temp_cur = source.temp_cur;
+    frostbite_timer = source.frostbite_timer;
+    temp_conv = source.temp_conv;
+
+    body_wetness = source.body_wetness;
+
+    drench_capacity[bp_eyes] = source.drench_capacity[bp_eyes];
+    drench_capacity[bp_mouth] = source.drench_capacity[bp_mouth];
+    drench_capacity[bp_head] = source.drench_capacity[bp_head];
+    drench_capacity[bp_leg_l] = source.drench_capacity[bp_leg_l];
+    drench_capacity[bp_leg_r] = source.drench_capacity[bp_leg_r];
+    drench_capacity[bp_foot_l] = source.drench_capacity[bp_foot_l];
+    drench_capacity[bp_foot_r] = source.drench_capacity[bp_foot_r];
+    drench_capacity[bp_arm_l] = source.drench_capacity[bp_arm_l];
+    drench_capacity[bp_arm_r] = source.drench_capacity[bp_arm_r];
+    drench_capacity[bp_hand_l] = source.drench_capacity[bp_hand_l];
+    drench_capacity[bp_hand_r] = source.drench_capacity[bp_hand_r];
+    drench_capacity[bp_torso] = source.drench_capacity[bp_torso];
+
+    damage_bandaged = source.damage_bandaged;
+    damage_disinfected = source.damage_disinfected;
+    cached_time = source.cached_time;
+    id = source.id;
+    next_climate_control_check = source.next_climate_control_check;
+    last_climate_control_ret = source.last_climate_control_ret;
+
+    activity = std::move( source.activity );
+    stashed_outbounds_backlog = std::move( source.stashed_outbounds_backlog );
+    stashed_outbounds_activity = std::move( source.stashed_outbounds_activity );
+
+    worn.clear();
+    for( detached_ptr<item> &it : source.worn.clear() ) {
+        worn.push_back( std::move( it ) );
+    }
+
+    set_weapon( source.remove_weapon() );
+    inv.dump_remove();
+    for( detached_ptr<item> &it : source.inv.dump_remove() ) {
+        inv.push_back( std::move( it ) );
+    }
+    return *this;
+}
+
+Character::~Character()
+{
+}
+
+//TODO!: do proper destruction
 void Character::destruct_hack()
 {
-    visit_items( []( item * ) {
-        //it->remove_location();
-        //it->destroy();
-        return VisitResponse::SKIP;
+    remove_items_with( []( detached_ptr<item> &&e ) {
+        detached_ptr<item> del = std::move( e );
+        return VisitResponse::NEXT;
     } );
 }
 
@@ -2125,9 +2289,13 @@ int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
     }
     return ret;
 }
+
 detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
         bool interactive, cata::optional<std::vector<item *>::iterator> position )
 {
+    if( !wear ) {
+        return wear;
+    }
     item &to_wear = *wear;
     const auto ret = can_wear( to_wear );
     if( !ret.success() ) {
@@ -2185,6 +2353,21 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
     reset_encumbrance();
 
     return detached_ptr<item>();
+}
+
+void Character::add_worn( detached_ptr<item> &&wear )
+{
+    if( !wear ) {
+        return;
+    }
+    item &to_wear = *wear;
+    std::vector<item *>::iterator pos = position_to_wear_new_item( to_wear );
+    worn.insert( pos, std::move( wear ) );
+    to_wear.on_wear( *this );
+    inv.update_invlet( to_wear );
+    inv.update_cache_with_item( to_wear );
+    recalc_sight_limits();
+    reset_encumbrance();
 }
 
 std::vector<item *> Character::nearby( const
@@ -2482,7 +2665,7 @@ detached_ptr<item> Character::i_rem( const item *it )
             return VisitResponse::ABORT;
         }
         return VisitResponse::SKIP;
-    }, 1 );
+    } );
     if( !ret ) {
         debugmsg( "did not found item %s to remove it!", it->tname() );
         return detached_ptr<item>();
@@ -2571,10 +2754,12 @@ void Character::drop( const drop_locations &what, const tripoint &target,
     }
 
     if( stash ) {
-        assign_activity( std::make_unique<player_activity>( stash_activity_actor( *this, what,
+        assign_activity( std::make_unique<player_activity>( std::make_unique<stash_activity_actor>( *this,
+                         what,
                          target - pos() ) ) );
     } else {
-        assign_activity( std::make_unique<player_activity>( drop_activity_actor( *this, what, false,
+        assign_activity( std::make_unique<player_activity>( std::make_unique<drop_activity_actor>( *this,
+                         what, false,
                          target - pos() ) ) );
     }
 }
@@ -2603,7 +2788,9 @@ bool Character::has_active_item( const itype_id &id ) const
 detached_ptr<item> Character::remove_weapon()
 {
     detached_ptr<item> ret( std::move( weapon ) );
-    ret->remove_owner();
+    if( ret ) {
+        ret->remove_owner();
+    }
     clear_npc_ai_info_cache( "weapon_value" );
     return ret;
 }
@@ -9285,6 +9472,13 @@ void Character::stop_hauling()
 bool Character::is_hauling() const
 {
     return hauling;
+}
+
+std::unique_ptr<player_activity> Character::remove_activity()
+{
+    std::unique_ptr<player_activity> ret;
+    ret = std::move( activity );
+    return ret;
 }
 
 void Character::assign_activity( const activity_id &type, int moves, int index, int pos,

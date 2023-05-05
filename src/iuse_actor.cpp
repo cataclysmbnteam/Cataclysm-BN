@@ -47,6 +47,7 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "locations.h"
 #include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -3407,7 +3408,7 @@ static bool damage_item( player &pl, item *fix )
         if( fix->where() == item_location_type::character ) {
             pl.i_rem_keep_contents( pl.get_item_position( fix ) );
         } else {
-            for( detached_ptr<item> &it : fix->contents.remove_all() ) {
+            for( detached_ptr<item> &it : fix->contents.clear_items() ) {
                 put_into_vehicle_or_drop( pl, item_drop_reason::deliberate, std::move( it ),
                                           fix->position() );
             }

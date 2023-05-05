@@ -955,14 +955,15 @@ detached_ptr<item> item::in_container( const itype_id &cont, detached_ptr<item> 
 {
     if( !cont.is_null() ) {
         detached_ptr<item> ret = item::spawn( cont, self->birthday() );
-        if( self->made_of( LIQUID ) && ret->is_container() ) {
+        ret->invlet = self->invlet;
+        item &obj = *self;
+        ret->put_in( std::move( self ) );
+
+        if( obj.made_of( LIQUID ) && obj.is_container() ) {
             // Note: we can't use any of the normal container functions as they check the
             // container being suitable (seals, watertight etc.)
             ret->contents.back().charges = self->charges_per_volume( ret->get_container_capacity() );
         }
-        ret->invlet = self->invlet;
-        ret->put_in( std::move( self ) );
-
         return ret;
     } else {
         return self;
@@ -9709,11 +9710,11 @@ detached_ptr<item> item::process( detached_ptr<item> &&self, player *carrier, co
 {
     const bool preserves = self->type->container && self->type->container->preserves;
     const bool seals = self->type->container && self->type->container->seals;
-
+    item &obj = *self;
     detached_ptr<item> res = process_internal( std::move( self ), carrier, pos, activate, seals, flag,
                              weather_generator );
 
-    self->remove_items_with( [&]( detached_ptr<item> &&it ) {
+    obj.remove_items_with( [&]( detached_ptr<item> &&it ) {
         if( preserves ) {
             it->last_rot_check = calendar::turn;
         }

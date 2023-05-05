@@ -262,7 +262,7 @@ void map::set_transparency_cache_dirty( const tripoint &p )
     }
 }
 
-static submap null_submap;
+static submap null_submap( tripoint_zero );
 
 maptile map::maptile_at( const tripoint &p ) const
 {
@@ -3635,7 +3635,7 @@ bash_results map::bash_items( const tripoint &p, const bash_params &params )
             one_in( 2 ) ) {
             result.did_bash = true;
             smashed_glass = true;
-            for( detached_ptr<item> &bashed_content : ( *bashed_item )->contents.remove_all() ) {
+            for( detached_ptr<item> &bashed_content : ( *bashed_item )->contents.clear_items() ) {
                 smashed_contents.push_back( std::move( bashed_content ) );
             }
             bashed_item = bashed_items.erase( bashed_item );
@@ -7100,11 +7100,12 @@ static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
 
     for( int xd = 0; xd <= 1; xd++ ) {
         for( int yd = 0; yd <= 1; yd++ ) {
-            submap *sm = new submap();
+            tripoint pos = p + point( xd, yd );
+            submap *sm = new submap( pos );
             sm->is_uniform = true;
             sm->set_all_ter( terrain_type );
             sm->last_touched = calendar::turn;
-            MAPBUFFER.add_submap( p + point( xd, yd ), sm );
+            MAPBUFFER.add_submap( pos, sm );
         }
     }
 }
@@ -7910,7 +7911,7 @@ fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_
     set_abs_sub( tripoint_below_zero );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            std::unique_ptr<submap> sm = std::make_unique<submap>();
+            std::unique_ptr<submap> sm = std::make_unique<submap>( tripoint_zero );
 
             sm->set_all_ter( ter_type );
             sm->set_all_furn( fur_type );

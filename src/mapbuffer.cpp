@@ -281,7 +281,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
     while( !jsin.end_array() ) {
-        std::unique_ptr<submap> sm = std::make_unique<submap>();
+        std::unique_ptr<submap> sm;
         tripoint submap_coordinates;
         jsin.start_object();
         int version = 0;
@@ -297,8 +297,11 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 tripoint loc{ i, j, k };
                 jsin.end_array();
                 submap_coordinates = loc;
+                sm = std::make_unique<submap>( submap_coordinates );
             } else {
-                //TODO!: use a proper translation here
+                if( !sm ) { //This whole thing is a nasty hack that relys on coordinates coming first...
+                    debugmsg( "coordinates was not at the top of submap json" );
+                }
                 sm->load( jsin, submap_member_name, version, multiply_xy( submap_coordinates, 12 ) );
             }
         }

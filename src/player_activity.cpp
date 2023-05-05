@@ -53,8 +53,9 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
 {
 }
 
-player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
-    actor( actor.clone() ), moves_total( 0 ), moves_left( 0 )
+player_activity::player_activity( std::unique_ptr<activity_actor> &&actor ) : type(
+        actor->get_type() ),
+    actor( std::move( actor ) ), moves_total( 0 ), moves_left( 0 )
 {
 }
 
@@ -310,7 +311,7 @@ void player_activity::do_turn( player &p )
         }
     }
     int previous_stamina = p.get_stamina();
-    if( p.is_npc() && p.restore_outbounds_activity( *this ) ) {
+    if( p.is_npc() && p.restore_outbounds_activity( p.remove_activity() ) ) {
         // npc might be operating at the edge of the reality bubble.
         // or just now reloaded back into it, and their activity target might
         // be still unloaded, can cause infinite loops.
@@ -339,9 +340,10 @@ void player_activity::do_turn( player &p )
             p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }
         auto_resume = true;
-        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
-        new_act.values.push_back( 200 + p.get_stamina_max() / 3 );
-        p.assign_activity( new_act );
+        std::unique_ptr<player_activity> new_act = std::make_unique<player_activity>
+                ( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
+        new_act->values.push_back( 200 + p.get_stamina_max() / 3 );
+        p.assign_activity( std::move( new_act ) );
         return;
     }
     if( *this && type->rooted() ) {
@@ -363,7 +365,7 @@ void player_activity::do_turn( player &p )
     }
     if( !*this ) {
         // Make sure data of previous activity is cleared
-        p.activity = player_activity();
+        p.activity = std::make_unique<player_activity>();
         p.resume_backlog_activity();
 
         // If whatever activity we were doing forced us to pick something up to

@@ -1007,11 +1007,12 @@ static bool try_start_hacking( player &p, const tripoint &examp )
     }
     if( use_bionic ) {
         p.mod_power_level( -25_kJ );
-        p.assign_activity( std::make_unique<player_activity>( hacking_activity_actor(
+        p.assign_activity( std::make_unique<player_activity>( std::make_unique<hacking_activity_actor>(
                                hacking_activity_actor::use_bionic {} ) ) );
     } else {
         p.use_charges( itype_electrohack, 25 );
-        p.assign_activity( std::make_unique<player_activity>( hacking_activity_actor() ) );
+        p.assign_activity( std::make_unique<player_activity>
+                           ( std::make_unique<hacking_activity_actor>() ) );
     }
     p.activity->placement = examp;
     return true;
@@ -3663,8 +3664,8 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         }
 
         case REMOVE_CONTAINER: {
-            g->u.assign_activity( std::make_unique<player_activity>( pickup_activity_actor(
-            { { container, cata::nullopt, {} } }, g->u.pos() ) ) );
+            g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+            std::vector<pickup::pick_drop_selection> { { container, cata::nullopt, {} } }, g->u.pos() ) ) );
             return;
         }
 
@@ -3992,8 +3993,8 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             auto items = here.i_at( examp );
             for( auto &itm : items ) {
                 if( itm->type == cur_ammo ) {
-                    g->u.assign_activity( std::make_unique<player_activity>( pickup_activity_actor(
-                    { { itm, cata::nullopt, {} } }, g->u.pos() ) ) );
+                    g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+                    std::vector<pickup::pick_drop_selection> { { itm, cata::nullopt, {} } }, g->u.pos() ) ) );
                     return;
                 }
             }
@@ -5629,7 +5630,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
     }
     // filter SMOKABLE food
     inventory inv = p.crafting_inventory();
-    inv.remove_items_with( []( item & it ) {
+    inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
     std::vector<item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
@@ -5708,7 +5709,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
 
     // select from where to get the items from and place them
     inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
-    inv.remove_items_with( []( item & it ) {
+    inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
 
@@ -5738,7 +5739,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     }
     // filter millable food
     inventory inv = p.crafting_inventory();
-    inv.remove_items_with( []( item & it ) {
+    inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
     std::vector<item *> filtered = p.crafting_inventory().items_with( []( const item & it ) {
@@ -5817,7 +5818,7 @@ static void mill_load_food( player &p, const tripoint &examp,
 
     // select from where to get the items from and place them
     inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
-    inv.remove_items_with( []( item & it ) {
+    inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
 

@@ -1,5 +1,6 @@
 #include "location_vector.h"
 #include "item.h"
+#include "locations.h"
 
 template<typename T>
 location_vector<T>::location_vector( location<T> *loc ) : loc( loc ) {};
@@ -15,6 +16,15 @@ location_vector<T>::location_vector( location<T> *loc,
     }
     from.clear();
 };
+
+template<typename T>
+location_vector<T>::~location_vector()
+{
+    for( item *&it : contents ) {
+        it->remove_location();
+        it->destroy();
+    }
+}
 
 template<typename T>
 void location_vector<T>::push_back( detached_ptr<T> &&obj )
@@ -63,7 +73,7 @@ typename std::vector<T *>::iterator location_vector<T>::erase( typename
     detached_ptr<T> *used = out ? out : &local;
 
     *used = detached_ptr<T>( subject );
-
+    return ret;
 }
 
 template<typename T>
@@ -72,9 +82,9 @@ typename std::vector<T *>::iterator location_vector<T>::insert( typename std::ve
         detached_ptr<T> &&obj )
 {
     if( !obj ) {
-        return;
+        return it;
     }
-    T *raw = obj->release();
+    T *raw = obj.release();
     raw->set_location( &*loc );
     return contents.insert( it, raw );
 }
@@ -87,7 +97,7 @@ typename std::vector<T *>::iterator location_vector<T>::insert( typename std::ve
 {
 
     for( auto iter = start; iter != end; iter++ ) {
-        T *raw = ( *iter )->release();
+        T *raw = iter->release();
         raw->set_location( &*loc );
         it = contents.insert( it, raw );
     }
@@ -155,10 +165,34 @@ typename std::vector<T *>::const_iterator location_vector<T>::cend() const
 }
 
 template<typename T>
-typename std::vector<detached_ptr<T>> location_vector<T>::clear() const
+typename std::vector<T *>::const_reverse_iterator location_vector<T>::crbegin() const
+{
+    return contents.crbegin();
+}
+
+template<typename T>
+typename std::vector<T *>::const_reverse_iterator location_vector<T>::crend() const
+{
+    return contents.crend();
+}
+
+template<typename T>
+T *location_vector<T>::front() const
+{
+    return contents.front();
+}
+
+template<typename T>
+location<T> *location_vector<T>::get_location() const
+{
+    return &*loc;
+}
+
+template<typename T>
+typename std::vector<detached_ptr<T>> location_vector<T>::clear()
 {
     std::vector<detached_ptr<T>> ret;
-    for( item *&i : contents ) {
+    for( item * const &i : contents ) {
         i->remove_location();
         ret.push_back( detached_ptr( i ) );
     }
@@ -177,11 +211,27 @@ void location_vector<T>::remove_with( std::function < detached_ptr<T>( detached_
         if( n ) {
             if( &*n == *it ) {
                 ( *it )->loc = saved_loc;
-                return;
+                n.release();
             } else {
                 debugmsg( "Returning a different item in remove_with is not currently supported" );
-                return;
             }
+            it++;
+        } else {
+            it = contents.erase( it );
         }
     }
 }
+
+template<typename T>
+void location_vector<T>::move_by( tripoint offset )
+{
+    auto tile_loc = dynamic_cast<tile_item_location *>( &*loc );
+    if( !tile_loc ) {
+        debugmsg( "Tried to move_by a non-tile location" );
+        return;
+    }
+    tile_loc->move_by( offset );
+}
+
+template
+class location_vector<item>;

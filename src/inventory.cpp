@@ -177,6 +177,22 @@ inventory &inventory::operator+= ( const inventory &rhs )
     }
     return *this;
 }
+
+inventory &inventory::operator+= ( const location_inventory &rhs )
+{
+    for( size_t i = 0; i < rhs.size(); i++ ) {
+        push_back( rhs.const_stack( i ) );
+    }
+    return *this;
+}
+
+inventory &inventory::operator+= ( const location_vector<item> &rhs )
+{
+    for( item * const &it : rhs ) {
+        add_item( *it, true );
+    }
+    return *this;
+}
 /*
 inventory &inventory::operator+= ( const ItemList &rhs )
 {
@@ -901,15 +917,12 @@ std::vector<detached_ptr<item>> location_inventory::use_amount( itype_id it, int
     std::vector<detached_ptr<item>> ret;
 
     remove_items_with( [&]( detached_ptr<item> &&a ) {
-        if( quantity > 0  && a->typeId() == it && filter( *a ) ) {
-            ret.push_back( std::move( a ) );
-            inv.binned = false;
-            inv.items_type_cached = false;
-            return VisitResponse::SKIP;
-        }
-        return VisitResponse::NEXT;
+        a = item::use_amount( std::move( a ), it, quantity, ret, filter );
+        return quantity > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
     } );
 
+    inv.binned = false;
+    inv.items_type_cached = false;
     return ret;
 }
 
@@ -1571,4 +1584,9 @@ const std::map<quality_id, std::map<int, int>> &location_inventory::get_quality_
 void location_inventory::build_items_type_cache()
 {
     return inv.build_items_type_cache();
+}
+
+const inventory &location_inventory::as_inventory()
+{
+    return inv;
 }

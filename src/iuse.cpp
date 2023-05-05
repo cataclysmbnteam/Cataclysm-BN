@@ -66,6 +66,7 @@
 #include "iuse_actor.h" // For firestarter
 #include "json.h"
 #include "line.h"
+#include "locations.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -2806,7 +2807,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
     moves_and_byproducts.moves = moves_and_byproducts.moves * ( 10 - helpers.size() ) / 10;
 
-    p->assign_activity( std::make_unique<player_activity>( dig_activity_actor(
+    p->assign_activity( std::make_unique<player_activity>( std::make_unique<dig_activity_actor>(
                             moves_and_byproducts.moves,
                             dig_point,
                             moves_and_byproducts.result_terrain.id().str(),
@@ -2873,7 +2874,7 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     }
     moves_and_byproducts.moves = moves_and_byproducts.moves * ( 10 - helpers.size() ) / 10;
 
-    p->assign_activity( std::make_unique<player_activity>( dig_channel_activity_actor(
+    p->assign_activity( std::make_unique<player_activity>( std::make_unique<dig_channel_activity_actor>(
                             moves_and_byproducts.moves,
                             dig_point,
                             moves_and_byproducts.result_terrain.id().str(),
@@ -8848,10 +8849,10 @@ int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
             }
             const vpart_id vpid( it->typeId().str() );
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, vcoords, item::spawn( *it ) );
+            vehicle_part source_part( vpid, vcoords, item::spawn( *it ), source_veh );
             source_veh->install_part( vcoords, std::move( source_part ) );
             vcoords = target_vp->mount();
-            vehicle_part target_part( vpid, vcoords, item::spawn( *it ) );
+            vehicle_part target_part( vpid, vcoords, item::spawn( *it ), source_veh );
             target_veh->install_part( vcoords, std::move( target_part ) );
 
             if( p->has_item( *it ) ) {
@@ -9078,7 +9079,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             const vpart_id vpid( it->typeId().str() );
 
             point vcoords = source_vp->mount();
-            vehicle_part source_part( vpid, vcoords, item::spawn( *it ) );
+            vehicle_part source_part( vpid, vcoords, item::spawn( *it ), source_veh );
             if( grid_connection != nullptr ) {
                 source_part.target.first = target_global.raw();
                 source_part.target.second = target_global.raw();
@@ -9105,7 +9106,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 
                 if( target_vp ) {
                     vcoords = target_vp->mount();
-                    vehicle_part target_part( vpid, vcoords, item::spawn( *it ) );
+                    vehicle_part target_part( vpid, vcoords, item::spawn( *it ), target_veh );
                     target_part.target.first = source_global;
                     target_part.target.second = source_veh->global_square_location().raw();
                     target_veh->install_part( vcoords, std::move( target_part ) );
@@ -9560,8 +9561,9 @@ int wash_items( player *p, bool soft_items, bool hard_items )
     required.time = required.time * ( 10 - helpers.size() ) / 10;
 
     // Assign the activity values.
-    p->assign_activity( std::make_unique<player_activity>( wash_activity_actor( to_clean,
-                        required.time ) ) );
+    p->assign_activity( std::make_unique<player_activity>( std::make_unique<wash_activity_actor>
+                        ( to_clean,
+                          required.time ) ) );
 
     return 0;
 }

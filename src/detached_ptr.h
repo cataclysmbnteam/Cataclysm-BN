@@ -6,13 +6,12 @@
 
 template <typename T>
 class game_object;
-
 template <typename T, bool error_if_null>
 class location_ptr;
-
 template <typename T>
 class location_vector;
-
+template <typename T>
+class location_visitable;
 class location_inventory;
 
 template<typename T>
@@ -25,104 +24,42 @@ class detached_ptr
         friend location_ptr<T, false>;
         friend location_vector<T>;
         friend location_inventory;
+        friend location_visitable<location_inventory>;
         T *ptr = nullptr;
     public:
-        detached_ptr() {
-            ptr = nullptr;
-        }
+        detached_ptr();
 
-        detached_ptr( detached_ptr &&source ) {
-            ptr = source.ptr;
-            source.ptr = nullptr;
-        }
+        detached_ptr( detached_ptr &&source );
 
-        detached_ptr<T> &operator=( detached_ptr &&source ) {
-            if( &source == this ) {
-                return *this;
-            }
-            if( ptr ) {
-                ptr->destroy();
-            }
-            ptr = source.ptr;
-            source.ptr = nullptr;
-            return *this;
-        }
+        detached_ptr<T> &operator=( detached_ptr &&source );
+        explicit detached_ptr( location_ptr<T, true> &&loc );
+        explicit detached_ptr( location_ptr<T, false> &&loc );
+        ~detached_ptr();
 
-        explicit detached_ptr( location_ptr<T, true> &&loc ) {
-            loc.unset_location();
-            ptr = loc.ptr;
-            loc.ptr = nullptr;
-        }
+        T *get() const;
 
-        explicit detached_ptr( location_ptr<T, false> &&loc ) {
-            loc.unset_location();
-            ptr = loc.ptr;
-            loc.ptr = nullptr;
-        }
-
-        ~detached_ptr() {
-            if( ptr ) {
-                ptr->destroy();
-            }
-        }
-
-        inline T *get() const {
-            if( !*this ) {
-                debugmsg( "Attempted to resolve invalid detached_ptr" );
-                return nullptr;//TODO!: error pointer
-            }
-            return ptr;
-        }
-
-        explicit inline operator bool() const {
-            return !!*this;
-        }
-
-        inline bool operator!() const {
-            return !ptr;
-        }
-
-        inline T &operator*() const {
-            return *get();
-        }
-
-        inline T *operator->() const {
-            return get();
-        }
-
-        inline bool operator==( const T &against ) const {
-            return ptr == &against;
-        }
-
-        inline bool operator==( const T *against ) const {
-            return ptr == against;
-        }
-
+        explicit operator bool() const;
+        bool operator!() const;
+        T &operator*() const;
+        T *operator->() const;
+        bool operator==( const T &against ) const;
+        bool operator==( const T *against ) const;
         template <typename U>
-        inline bool operator!=( const U against ) const {
-            return !( *this == against );
-        }
+        bool operator!=( const U against ) const;
     private:
         detached_ptr( const detached_ptr & ) = delete;
         detached_ptr<T> &operator=( const detached_ptr & ) = delete;
 
-        explicit detached_ptr( T *obj ) {
-            assert( obj != nullptr );
-            ptr = obj;
-        }
-
-        T *release() {
-            T *ret = ptr;
-            ptr = nullptr;
-            return ret;
-        }
+        explicit detached_ptr( T *obj );
+        T *release();
 };
-
-template<typename T>
-class location_container
+namespace std
 {
-
-};
-
+template<typename T>
+void swap( detached_ptr<T> &lhs, detached_ptr<T> &rhs )
+{
+    std::swap( lhs.ptr, rhs.ptr );
+}
+}
 
 #endif

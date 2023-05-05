@@ -124,7 +124,7 @@ void map::generate( const tripoint &p, const time_point &when )
                 debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p.z );
                 continue;
             }
-            setsubmap( grid_pos, new submap() );
+            setsubmap( grid_pos, new submap( {gridx, gridy, p.z} ) );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
@@ -5774,13 +5774,11 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             for( const vpart_reference &vpr : veh->get_all_parts() ) {
                 const tripoint part_pos = veh->global_part_pos3( vpr.part() ) - global_pos;
                 // TODO: change mount points to be tripoint
-                vpr.part().remove_location_hack();
                 wreckage->install_part( part_pos.xy(), std::move( vpr.part() ) );
             }
 
             for( const vpart_reference &vpr : old_veh->get_all_parts() ) {
                 const tripoint part_pos = old_veh->global_part_pos3( vpr.part() ) - global_pos;
-                vpr.part().remove_location_hack();
                 wreckage->install_part( part_pos.xy(), std::move( vpr.part() ) );
             }
 
@@ -5909,24 +5907,11 @@ void map::rotate( int turns, const bool setpos_safe )
     // 1,1
     //
     auto swap_submaps = [&]( const point & p1, const point & p2 ) {
-        tripoint offset( p2 - p1, 0 );
-        offset.x *= 12;
-        offset.y *= 12;
 
         submap *sm1 = get_submap_at_grid( p1 );
         submap *sm2 = get_submap_at_grid( p2 );
+        submap::swap( *sm1, *sm2, tripoint( ( p1 - p2 )*SEEX, 0 ) );
 
-        point c;
-        for( c.x = 0; c.x < SEEX; c.x++ ) {
-            for( c.y = 0; c.y < SEEY; c.y++ ) {
-                location_vector<item> &items = sm1->get_items( c );
-                items.move_by( offset );
-                location_vector<item> &items2 = sm2->get_items( c );
-                items2.move_by( -offset );
-            }
-        }
-
-        std::swap( *sm1, *sm2 );
     };
 
     if( turns == 2 ) {

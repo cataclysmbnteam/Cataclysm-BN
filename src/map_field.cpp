@@ -568,7 +568,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             if( destroyed ) {
                                 // If we decided the item was destroyed by fire, remove it.
                                 // But remember its contents, except for irremovable mods, if any
-                                for( detached_ptr<item> &it : fuel->contents.remove_all() ) {
+                                for( detached_ptr<item> &it : fuel->contents.clear_items() ) {
                                     if( !it->is_irremovable() ) {
                                         new_content.push_back( std::move( it ) );
                                     }

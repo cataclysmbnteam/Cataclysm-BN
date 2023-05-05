@@ -148,3 +148,9 @@ bool location_ptr<T, error_if_null>::operator!=( const U against ) const
     return !( *this == against );
 }
 
+
+template
+class location_ptr<item, true>;
+
+template
+class location_ptr<item, false>;

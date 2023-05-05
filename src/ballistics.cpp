@@ -56,10 +56,10 @@ static const efftype_id effect_bounced( "bounced" );
 
 static const std::string flag_LIQUID( "LIQUID" );
 
-static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
+static void drop_or_embed_projectile( dealt_projectile_attack &attack )
 {
-    const auto &proj = attack.proj;
-    detached_ptr<item> drop = proj.get_drop();
+    auto &proj = attack.proj;
+    detached_ptr<item> drop = proj.unset_drop();
     if( !drop ) {
         return;
     }

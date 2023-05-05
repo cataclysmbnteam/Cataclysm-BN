@@ -250,26 +250,14 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
         }
     }
 
-    if( newloc->invlet != '\0' &&
-        u.invlet_to_item( newloc->invlet ) != nullptr ) {
+    if( loc->invlet != '\0' &&
+        u.invlet_to_item( loc->invlet ) != nullptr ) {
         // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp
         // add a new invlet, otherwise keep the (usable) invlet.
-        newloc->invlet = '\0';
-    }
-
-    detached_ptr<item> newloc;
-    if( quantity && loc->count_by_charges() ) {
-        newloc = loc->split( *quantity );
-    } else {
-        newloc = loc->detach();
+        loc->invlet = '\0';
     }
 
     std::vector<safe_reference<item>> &children = selection.children;
-
-    // Ammo can sometimes be picked up into containers
-    newloc = u.i_add_to_container( std::move( newloc ), false );
-    bool did_prompt = false;
-
     units::volume children_volume = std::accumulate( children.begin(), children.end(), 0_ml,
     []( units::volume acc, const safe_reference<item> &c ) {
         return acc + c->volume();
@@ -279,106 +267,122 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
         return acc + c->weight();
     } );
 
-    if( !newloc || ( newloc->count_by_charges() && newloc->charges == 0 ) ) {
-        // We've picked up everything into containers, skip the options part
-        picked_up = true;
-        option = NUM_ANSWERS;
-    } else if( newloc->made_of( LIQUID ) ) {
-        got_water = true;
-    } else if( !u.can_pick_weight( newloc->weight() + children_weight, false ) ) {
-        if( !autopickup ) {
-            const std::string &explain = string_format( _( "The %s is too heavy!" ),
-                                         newloc->display_name() );
-            option = handle_problematic_pickup( *newloc, offered_swap, !children.empty(), explain );
-            did_prompt = true;
-        } else {
-            option = CANCEL;
-        }
-    } else if( newloc->is_bucket() && !newloc->is_container_empty() ) {
-        if( !autopickup ) {
-            const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
-                                         newloc->display_name() );
-            option = handle_problematic_pickup( *newloc, offered_swap, !children.empty(), explain );
-            did_prompt = true;
-        } else {
-            option = CANCEL;
-        }
-    } else if( !u.can_pick_volume( newloc->volume() + children_volume ) ) {
-        if( !autopickup ) {
-            const std::string &explain = string_format( _( "Not enough capacity to stash %s" ),
-                                         newloc->display_name() );
-            option = handle_problematic_pickup( *newloc, offered_swap, !children.empty(), explain );
-            did_prompt = true;
-        } else {
-            option = CANCEL;
-        }
-    } else {
-        option = STASH;
-    }
+    bool did_prompt = false;
 
-    switch( option ) {
-        case NUM_ANSWERS:
-            // Some other option
-            break;
-        case CANCEL:
-            picked_up = false;
-            break;
-        case WEAR:
-            picked_up = !!u.wear_item( newit );
-            break;
-        case WIELD: {
-            const ret_val<bool> wield_check = u.can_wield( *newloc );
-            if( wield_check.success() ) {
-                //using original item, possibly modifying it
-                picked_up = u.wield( it );
-                if( picked_up ) {
-                    u.get_weapon().charges = newit.charges;
-                }
-                if( u.get_weapon().invlet ) {
-                    add_msg( m_info, _( "Wielding %c - %s" ), u.get_weapon().invlet,
-                             u.get_weapon().display_name() );
-                } else {
-                    add_msg( m_info, _( "Wielding - %s" ), u.get_weapon().display_name() );
-                }
-            } else {
-                add_msg( m_neutral, "%s", wield_check.c_str() );
-            }
-            break;
-        }
-        case SPILL:
-            if( newit.is_container_empty() ) {
-                debugmsg( "Tried to spill contents from an empty container" );
-                break;
-            }
-            //using original item, possibly modifying it
-            picked_up = it.spill_contents( u );
-            if( !picked_up ) {
-                break;
-            }
-        // Intentional fallthrough
-        case EMPTY:
-        // Handled later
-        case STASH:
-            auto &entry = map_pickup[newit.tname()];
-            entry.second += newit.count();
-            newit.detach();
-            entry.first = &u.i_add( newit );
+    auto with_det = [&]( detached_ptr<item> &&newloc ) {
+
+        // Ammo can sometimes be picked up into containers
+        newloc = u.i_add_to_container( std::move( newloc ), false );
+
+        if( !newloc || ( newloc->count_by_charges() && newloc->charges == 0 ) ) {
+            // We've picked up everything into containers, skip the options part
             picked_up = true;
-            break;
+            option = NUM_ANSWERS;
+        } else if( newloc->made_of( LIQUID ) ) {
+            got_water = true;
+        } else if( !u.can_pick_weight( newloc->weight() + children_weight, false ) ) {
+            if( !autopickup ) {
+                const std::string &explain = string_format( _( "The %s is too heavy!" ),
+                                             newloc->display_name() );
+                option = handle_problematic_pickup( *newloc, offered_swap, !children.empty(), explain );
+                did_prompt = true;
+            } else {
+                option = CANCEL;
+            }
+        } else if( newloc->is_bucket() && !newloc->is_container_empty() ) {
+            if( !autopickup ) {
+                const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
+                                             newloc->display_name() );
+                option = handle_problematic_pickup( *newloc, offered_swap, !children.empty(), explain );
+                did_prompt = true;
+            } else {
+                option = CANCEL;
+            }
+        } else if( !u.can_pick_volume( newloc->volume() + children_volume ) ) {
+            if( !autopickup ) {
+                const std::string &explain = string_format( _( "Not enough capacity to stash %s" ),
+                                             newloc->display_name() );
+                option = handle_problematic_pickup( *newloc, offered_swap, !children.empty(), explain );
+                did_prompt = true;
+            } else {
+                option = CANCEL;
+            }
+        } else {
+            option = STASH;
+        }
+
+
+        switch( option ) {
+            case NUM_ANSWERS:
+                // Some other option
+                break;
+            case CANCEL:
+                picked_up = false;
+                break;
+            case WEAR:
+                newloc = u.wear_item( std::move( newloc ) );
+                picked_up = !newloc;
+                break;
+            case WIELD: {
+                const ret_val<bool> wield_check = u.can_wield( *newloc );
+                if( wield_check.success() ) {
+
+                    newloc = u.wield( std::move( newloc ) );
+
+                    picked_up = !newloc;
+                    if( u.get_weapon().invlet ) {
+                        add_msg( m_info, _( "Wielding %c - %s" ), u.get_weapon().invlet,
+                                 u.get_weapon().display_name() );
+                    } else {
+                        add_msg( m_info, _( "Wielding - %s" ), u.get_weapon().display_name() );
+                    }
+                } else {
+                    add_msg( m_neutral, "%s", wield_check.c_str() );
+                }
+                break;
+            }
+            case SPILL:
+                if( newloc->is_container_empty() ) {
+                    debugmsg( "Tried to spill contents from an empty container" );
+                    break;
+                }
+                //using original item, possibly modifying it
+                picked_up = newloc->spill_contents( u );
+                if( !picked_up ) {
+                    break;
+                }
+            // Intentional fallthrough
+            case EMPTY:
+            // Handled later
+            case STASH:
+                auto &entry = map_pickup[newloc->tname()];
+                entry.second += newloc->count();
+                entry.first = &*newloc;
+                u.i_add( std::move( newloc ) );
+                picked_up = true;
+                break;
+        }
+        return newloc;
+    };
+
+    if( quantity && loc->count_by_charges() ) {
+        loc->attempt_split( *quantity, with_det );
+    } else {
+        loc->attempt_detach( with_det );
     }
 
-    if( picked_up || charges_picked_to_cont > 0 ) {
+
+    if( picked_up ) {
         // Children have to be picked up first, since removing parent would re-index the stack
         if( option != EMPTY ) {
             for( safe_reference<item> &child_loc : children ) {
-                child_loc->detach();
-                item &added = u.i_add( *child_loc );
+                item &added = *child_loc;
                 auto &pickup_entry = map_pickup[added.tname()];
                 pickup_entry.first = &added;
                 pickup_entry.second += added.count();
+                u.i_add( added.detach() );
             }
         }
-
         u.moves -= moves_taken;
     }
 
@@ -649,15 +653,15 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     // Not many items, just grab them
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
         if( from_vehicle ) {
-            g->u.assign_activity( player_activity( pickup_activity_actor(
-            { { *here.front(), cata::nullopt, {} } },
+            g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+            std::vector<pickup::pick_drop_selection> { { *here.front(), cata::nullopt, {} } },
             cata::nullopt
-                                                   ) ) );
+                                  ) ) );
         } else {
-            g->u.assign_activity( player_activity( pickup_activity_actor(
-            { { *here.front(), cata::nullopt, {} } },
+            g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
+            std::vector<pickup::pick_drop_selection> { { *here.front(), cata::nullopt, {} } },
             g->u.pos()
-                                                   ) ) );
+                                  ) ) );
         }
         return;
     }
@@ -1196,7 +1200,9 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     }
 
     std::vector<pickup::pick_drop_selection> targets = pickup::optimize_pickup( locations, quantities );
-    g->u.assign_activity( player_activity( pickup_activity_actor( targets, g->u.pos() ) ) );
+    g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>
+                          ( targets,
+                            g->u.pos() ) ) );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.
         g->u.activity->auto_resume = true;
@@ -1219,12 +1225,13 @@ void show_pickup_message( const pickup_map &mapPickup )
     }
 }
 
-bool pickup::handle_spillable_contents( Character &c, item &it, map &m )
+detached_ptr<item> pickup::handle_spillable_contents( Character &c, detached_ptr<item> &&it,
+        map &m )
 {
-    if( it.is_bucket_nonempty() ) {
-        const item &it_cont = it.contents.front();
+    if( it->is_bucket_nonempty() ) {
+        const item &it_cont = it->contents.front();
         int num_charges = it_cont.charges;
-        while( !it.spill_contents( c ) ) {
+        while( !it->spill_contents( c ) ) {
             if( num_charges > it_cont.charges ) {
                 num_charges = it_cont.charges;
             } else {
@@ -1234,18 +1241,18 @@ bool pickup::handle_spillable_contents( Character &c, item &it, map &m )
 
         // If bucket is still not empty then player opted not to handle the
         // rest of the contents
-        if( it.is_bucket_nonempty() ) {
+        if( it->is_bucket_nonempty() ) {
             c.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name(), m.name( c.pos() )
+                it->display_name(), m.name( c.pos() )
             );
-            m.add_item_or_charges( c.pos(), it );
-            return true;
+            m.add_item_or_charges( c.pos(), std::move( it ) );
+            return detached_ptr<item>();
         }
     }
 
-    return false;
+    return it;
 }
 
 int pickup::cost_to_move_item( const Character &who, const item &it )

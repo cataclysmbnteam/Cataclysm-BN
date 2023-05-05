@@ -105,7 +105,7 @@ static const skill_id skill_dodge( "dodge" );
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
-player::player()
+player::player() : Character()
 {
     str_cur = 8;
     str_max = 8;
@@ -327,7 +327,7 @@ recipe_subset player::get_available_recipes( const inventory &crafting_inv,
     if( helpers != nullptr ) {
         for( npc *np : *helpers ) {
             // Directly form the helper's inventory
-            res.include( get_recipes_from_books( np->inv, filter ) );
+            res.include( get_recipes_from_books( np->inv.as_inventory(), filter ) );
             // Being told what to do
             res.include_if( np->get_learned_recipes(), [ this, &filter ]( const recipe & r ) {
                 if( filter && !filter( r ) ) {

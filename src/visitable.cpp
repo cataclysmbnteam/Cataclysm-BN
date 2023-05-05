@@ -44,6 +44,7 @@ static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
 
 static const flag_str_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
+
 /** @relates visitable */
 template <typename T>
 item *visitable<T>::find_parent( const item &it )
@@ -216,6 +217,14 @@ bool visitable<inventory>::has_quality( const quality_id &qual, int level, int q
     return false;
 }
 
+template <>
+bool visitable<location_inventory>::has_quality( const quality_id &qual, int level, int qty ) const
+{
+
+    auto inv = static_cast<const location_inventory *>( this );
+    return inv->inv.has_quality( qual, level, qty );
+}
+
 /** @relates visitable */
 template <>
 bool visitable<vehicle_selector>::has_quality( const quality_id &qual, int level, int qty ) const
@@ -382,6 +391,30 @@ VisitResponse visitable<T>::visit_items( const std::function<VisitResponse( item
 }
 
 
+
+static VisitResponse visit_internal( std::function < VisitResponse( detached_ptr<item> &&e ) >
+                                     filter, location_vector<item> &items )
+{
+    VisitResponse last = VisitResponse::NEXT;
+    items.remove_with( [&last, &filter]( detached_ptr<item> &&e ) {
+        if( last == VisitResponse::ABORT ) {
+            return e;
+        }
+        last = filter( std::move( e ) );
+        if( last == VisitResponse::NEXT && e ) {
+            e->contents.remove_items_with( [&last, &filter]( detached_ptr<item> &&e ) {
+                if( last == VisitResponse::ABORT ) {
+                    return last;
+                }
+                last = filter( std::move( e ) );
+                return last;
+            } );
+        }
+        return e;
+    } );
+    return last == VisitResponse::ABORT ? VisitResponse::ABORT : VisitResponse::NEXT;
+}
+
 // Specialize visitable<T>::visit_items() for each class that will implement the visitable interface
 
 static VisitResponse visit_internal( const std::function<VisitResponse( item *, item * )> &func,
@@ -455,6 +488,14 @@ VisitResponse visitable<inventory>::visit_items(
         }
     }
     return VisitResponse::NEXT;
+}
+
+template <>
+VisitResponse visitable<location_inventory>::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func )
+{
+    auto inv = static_cast<location_inventory *>( this );
+    return inv->inv.visit_items( func );
 }
 
 /** @relates visitable */
@@ -577,63 +618,44 @@ VisitResponse visitable<monster>::visit_items(
 
 // Specialize visitable<T>::remove_items_with() for each class that will implement the visitable interface
 
-//TODO!: locations on all the removals, also have it pass the vector rather than compose it
-
 /** @relates visitable */
 template <typename T>
-item &visitable<T>::remove_item( item &it )
+void temp_visitable<T>::remove_item( item &it )
 {
     auto obj = remove_items_with( [&it]( const item & e ) {
         return &e == &it;
-    }, 1 );
-    if( !obj.empty() ) {
-        return *obj.front();
-
-    } else {
+    } );
+    if( obj.empty() ) {
         debugmsg( "Tried removing item from object which did not contain it" );
-        return null_item_reference();
     }
 }
 
-bool item_contents::remove_internal( const std::function<bool( item & )> &filter,
-                                     int &count, ItemList &res )
+template <typename T>
+detached_ptr<item> location_visitable<T>::remove_item( item &it )
 {
-    for( auto it = items.begin(); it != items.end(); ) {
-        if( filter( **it ) ) {
-            res.push_back( *it );
-            ( *it )->remove_location();
-            it = items.erase( it );
-            if( --count == 0 ) {
-                return true;
-            }
-        } else {
-            ( *it )->contents.remove_internal( filter, count, res );
-            ++it;
+    detached_ptr<item> ret;
+    remove_items_with( [&it, &ret]( detached_ptr<item> &&e ) {
+        if( &*e == &it ) {
+            ret = std::move( e );
+            return VisitResponse::ABORT;
         }
+        return VisitResponse::NEXT;
+    } );
+    if( !ret ) {
+        debugmsg( "Tried removing item from object which did not contain it" );
     }
-    return false;
+    return ret;
 }
 
-/** @relates visitable */
-template <>
-ItemList visitable<item>::remove_items_with( const std::function<bool( const item &e )>
-        &filter, int count )
+void item_contents::remove_items_with( const std::function < VisitResponse(
+        detached_ptr<item> && ) > &filter )
 {
-    item *it = static_cast<item *>( this );
-    ItemList res;
-
-    if( count <= 0 ) {
-        // nothing to do
-        return res;
-    }
-
-    it->contents.remove_internal( filter, count, res );
-    return res;
+    visit_internal( filter, items );
 }
 
 /** @relates visitable */
 template <>
-ItemList visitable<inventory>::remove_items_with( const
+ItemList temp_visitable<inventory>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
     auto inv = static_cast<inventory *>( this );
@@ -646,24 +668,12 @@ ItemList visitable<inventory>::remove_items_with( const
 
     for( auto stack = inv->items.begin(); stack != inv->items.end() && count > 0; ) {
         ItemList &istack = *stack;
-        const auto original_invlet = istack.front()->invlet;
-
         for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
             if( filter( **istack_iter ) ) {
                 count--;
                 res.push_back( *istack_iter );
-                ( *istack_iter )->remove_location();
                 istack_iter = istack.erase( istack_iter );
-                // The non-first items of a stack may have different invlets, the code
-                // in inventory only ever checks the invlet of the first item. This
-                // ensures that the first item of a stack always has the same invlet, even
-                // after the original first item was removed.
-                if( istack_iter == istack.begin() && istack_iter != istack.end() ) {
-                    ( *istack_iter )->invlet = original_invlet;
-                }
-
             } else {
-                ( *istack_iter )->contents.remove_internal( filter, count, res );
                 ++istack_iter;
             }
         }
@@ -682,236 +692,242 @@ ItemList visitable<inventory>::remove_items_with( const
     return res;
 }
 
-/** @relates visitable */
 template <>
-ItemList visitable<Character>::remove_items_with( const
-        std::function<bool( const item &e )> &filter, int count )
+void location_visitable<item>::remove_items_with( const
+        std::function < VisitResponse( detached_ptr<item> &&e ) > &filter )
 {
-    auto ch = static_cast<Character *>( this );
-    ItemList res;
+    auto it = static_cast<item *>( this );
+    it->contents.remove_items_with( filter );
+}
 
-    if( count <= 0 ) {
-        // nothing to do
-        return res;
-    }
+template <>
+void location_visitable<location_inventory>::remove_items_with( const
+        std::function < VisitResponse( detached_ptr<item> &&e ) > &filter )
+{
+    auto inv = static_cast<location_inventory *>( this );
 
-    // first try and remove items from the inventory
-    res = ch->inv.remove_items_with( filter, count );
-    count -= res.size();
-    if( count == 0 ) {
-        return res;
-    }
+    VisitResponse last = VisitResponse::NEXT;
+    for( auto stack = inv->inv.items.begin(); stack != inv->inv.items.end() &&
+         last != VisitResponse::ABORT; ) {
+        ItemList &istack = *stack;
+        const auto original_invlet = istack.front()->invlet;
 
-    // then try any worn items
-    for( auto iter = ch->worn.begin(); iter != ch->worn.end(); ) {
-        if( filter( **iter ) ) {
-            ( *iter )->on_takeoff( *ch );
-            res.push_back( *iter );
-            ( *iter )->remove_location();
-            iter = ch->worn.erase( iter );
-            if( --count == 0 ) {
-                return res;
+        for( auto istack_iter = istack.begin(); istack_iter != istack.end() &&
+             last != VisitResponse::ABORT; ) {
+
+            ( *istack_iter )->remove_location();
+            detached_ptr<item> t( *istack_iter );
+
+            last = filter( std::move( t ) );
+
+            if( !t ) {
+                istack_iter = istack.erase( istack_iter );
+                if( istack_iter == istack.begin() && istack_iter != istack.end() ) {
+                    ( *istack_iter )->invlet = original_invlet;
+                }
+            } else if( last == VisitResponse::NEXT ) {
+                t->contents.remove_items_with( [&filter, &last]( detached_ptr<item> &&e ) {
+                    last = filter( std::move( e ) );
+                    return last;
+                } );
             }
+
+            if( t ) {
+                t.release();
+                ( *istack_iter )->set_location( &*inv->loc );
+                istack_iter++;
+            }
+        }
+
+        if( istack.empty() ) {
+            stack = inv->inv.items.erase( stack );
         } else {
-            ( *iter )->contents.remove_internal( filter, count, res );
-            if( count == 0 ) {
-                return res;
-            }
-            ++iter;
+            ++stack;
         }
     }
 
-    // finally try the currently wielded item (if any)
-    if( filter( ch->get_weapon() ) ) {
-        res.push_back( &ch->remove_weapon() );
-        count--;
-    } else {
-        ch->get_weapon().contents.remove_internal( filter, count, res );
-    }
+    // Invalidate binning cache
+    inv->inv.binned = false;
+    inv->inv.items_type_cached = false;
 
-    return res;
 }
 
 /** @relates visitable */
 template <>
-ItemList visitable<map_cursor>::remove_items_with( const
-        std::function<bool( const item &e )> &filter, int count )
+void location_visitable<Character>::remove_items_with( const
+        std::function < VisitResponse( detached_ptr<item> &&e ) > &filter )
+{
+    auto ch = static_cast<Character *>( this );
+
+    VisitResponse last = VisitResponse::NEXT;
+
+    auto filter_and_collect = [&last, &filter]( detached_ptr<item> &&e ) {
+        if( last == VisitResponse::ABORT ) {
+            return last;
+        }
+        last = filter( std::move( e ) );
+        return last;
+    };
+
+    // first try and remove items from the inventory
+    ch->inv.remove_items_with( filter_and_collect );
+
+    if( last == VisitResponse::ABORT ) {
+        return;
+    }
+
+    visit_internal( filter_and_collect, ch->worn );
+
+    if( last == VisitResponse::ABORT ) {
+        return;
+    }
+
+    if( !ch->get_weapon().attempt_detach( [&last, &filter]( detached_ptr<item> &&e ) {
+    last = filter( std::move( e ) );
+        return e;
+    } ) ) {
+        if( last == VisitResponse::NEXT ) {
+            ch->get_weapon().contents.remove_items_with( filter );
+        }
+    }
+}
+
+/** @relates visitable */
+template <>
+void location_visitable<map_cursor>::remove_items_with( const
+        std::function < VisitResponse( detached_ptr<item> &&e ) > &filter )
 {
     auto cur = static_cast<map_cursor *>( this );
-    ItemList res;
-
-    if( count <= 0 ) {
-        // nothing to do
-        return res;
-    }
 
     map &here = get_map();
     if( !here.inbounds( *cur ) ) {
         debugmsg( "cannot remove items from map: cursor out-of-bounds" );
-        return res;
+        return;
     }
 
     // fetch the appropriate item stack
     point offset;
     submap *sub = here.get_submap_at( *cur, offset );
-    std::vector<item *> &stack = sub->get_items( offset );
 
-    for( auto iter = stack.begin(); iter != stack.end(); ) {
-        if( filter( **iter ) ) {
+    visit_internal( [&filter, sub, offset]( detached_ptr<item> &&e ) {
+        item &obj = *e;
+        VisitResponse res = filter( std::move( e ) );
+        if( !e ) {
             // remove from the active items cache (if it isn't there does nothing)
-            sub->active_items.remove( *iter );
+            sub->active_items.remove( &obj );
 
             // if necessary remove item from the luminosity map
-            sub->update_lum_rem( offset, **iter );
+            sub->update_lum_rem( offset, obj );
+        }
+        return res;
+    }, sub->get_items( offset ) );
 
-            // finally remove the item
-            res.push_back( *iter );
-            ( *iter )->remove_location();
-            iter = stack.erase( iter );
+    here.update_submap_active_item_status( *cur );
+}
 
-            if( --count == 0 ) {
-                return res;
+/** @relates visitable */
+template <>
+void location_visitable<map_selector>::remove_items_with( const
+        std::function < VisitResponse( detached_ptr<item> &&e ) > &filter )
+{
+    VisitResponse last = VisitResponse::NEXT;
+    for( auto &cursor : static_cast<map_selector &>( *this ) ) {
+        cursor.remove_items_with( [&last, &filter]( detached_ptr<item> &&e ) {
+            if( last == VisitResponse::ABORT ) {
+                return last;
             }
-        } else {
-            ( *iter )->contents.remove_internal( filter, count, res );
-            if( count == 0 ) {
-                return res;
-            }
-            ++iter;
+            last = filter( std::move( e ) );
+            return last;
+        } );
+        if( last == VisitResponse::ABORT ) {
+            return;
         }
     }
-    here.update_submap_active_item_status( *cur );
-    return res;
 }
 
 /** @relates visitable */
 template <>
-ItemList visitable<map_selector>::remove_items_with( const
-        std::function<bool( const item &e )> &filter, int count )
-{
-    ItemList res;
-
-    for( auto &cursor : static_cast<map_selector &>( *this ) ) {
-        std::vector<item *> out = cursor.remove_items_with( filter, count );
-        count -= out.size();
-        res.insert( res.end(), out.begin(), out.end() );
-    }
-
-    return res;
-}
-
-/** @relates visitable */
-template <>
-ItemList visitable<vehicle_cursor>::remove_items_with( const
-        std::function<bool( const item &e )> &filter, int count )
+void location_visitable<vehicle_cursor>::remove_items_with( const
+        std::function < VisitResponse( detached_ptr<item> &&e ) > &filter )
 {
     auto cur = static_cast<vehicle_cursor *>( this );
-    ItemList res;
-
-    if( count <= 0 ) {
-        // nothing to do
-        return res;
-    }
 
     int idx = cur->veh.part_with_feature( cur->part, "CARGO", false );
     if( idx < 0 ) {
-        return res;
+        return;
     }
 
     vehicle_part &part = cur->veh.part( idx );
-    for( auto iter = part.items.begin(); iter != part.items.end(); ) {
-        if( filter( **iter ) ) {
-            // remove from the active items cache (if it isn't there does nothing)
-            cur->veh.active_items.remove( *iter );
+    bool removed = false;
 
-            res.push_back( *iter );
-            ( *iter )->remove_location();
-            iter = part.items.erase( iter );
-
-            if( --count == 0 ) {
-                return res;
-            }
-        } else {
-            ( *iter )->contents.remove_internal( filter, count, res );
-            if( count == 0 ) {
-                return res;
-            }
-            ++iter;
+    visit_internal( [&filter, &removed]( detached_ptr<item> &&e ) {
+        VisitResponse ret = filter( std::move( e ) );
+        if( !e ) {
+            removed = true;
         }
-    }
+        return ret;
+    }, part.items );
 
-    if( !res.empty() ) {
+    if( removed ) {
         // if we removed any items then invalidate the cached mass
         cur->veh.invalidate_mass();
     }
 
-    return res;
 }
 
 /** @relates visitable */
 template <>
-ItemList visitable<vehicle_selector>::remove_items_with( const
-        std::function<bool( const item &e )> &filter, int count )
+void location_visitable<vehicle_selector>::remove_items_with( const
+        std::function < VisitResponse( detached_ptr<item> &&e ) > &filter )
 {
-    ItemList res;
 
+    VisitResponse last = VisitResponse::NEXT;
     for( auto &cursor : static_cast<vehicle_selector &>( *this ) ) {
-        std::vector<item *> out = cursor.remove_items_with( filter, count );
-        count -= out.size();
-        res.insert( res.end(), out.begin(), out.end() );
-    }
-
-    return res;
-}
-
-/** @relates visitable */
-template <>
-ItemList visitable<monster>::remove_items_with( const
-        std::function<bool( const item &e )> &filter, int count )
-{
-    ItemList res;
-
-    monster *mon = static_cast<monster *>( this );
-
-    for( auto iter = mon->get_items().begin(); iter != mon->get_items().end(); ) {
-        if( filter( **iter ) ) {
-            res.push_back( *iter );
-            iter = mon->remove_item( iter );
-
-            count -= 1;
-            if( count == 0 ) {
-                return res;
+        cursor.remove_items_with( [&last, &filter]( detached_ptr<item> &&e ) {
+            if( last == VisitResponse::ABORT ) {
+                return last;
             }
-        } else {
-            ( *iter )->contents.remove_internal( filter, count, res );
-
-            if( count == 0 ) {
-                return res;
-            }
-            iter++;
-        }
-    }
-    //TODO!: clean these up, they don't remove location correctly I don't think
-
-    auto check_item = [&]( item * it ) {
-        if( count == 0 ) {
+            last = filter( std::move( e ) );
+            return last;
+        } );
+        if( last == VisitResponse::ABORT ) {
             return;
         }
-        if( filter( *it ) ) {
-            res.push_back( it );
-            it->detach();
-            count--;
-        } else {
-            it->contents.remove_internal( filter, count, res );
+    }
+}
+
+/** @relates visitable */
+template <>
+void location_visitable<monster>::remove_items_with( const
+        std::function < VisitResponse( detached_ptr<item> &&e ) > &filter )
+{
+    monster *mon = static_cast<monster *>( this );
+
+    VisitResponse last = VisitResponse::NEXT;
+    auto filter_and_collect = [&last, &filter]( detached_ptr<item> &&e ) {
+        if( last == VisitResponse::ABORT ) {
+            return last;
         }
+        last = filter( std::move( e ) );
+        return last;
     };
 
-    check_item( mon->get_storage_item() );
-    check_item( mon->get_armor_item() );
-    check_item( mon->get_tack_item() );
-    check_item( mon->get_tied_item() );
 
-    return res;
+    visit_internal( filter_and_collect, mon->inv );
+
+    //TODO!: clean these up, they don't remove location correctly I don't think
+
+
+    auto check_item = [&filter_and_collect]( detached_ptr<item> &&it ) {
+        filter_and_collect( std::move( it ) );
+        return it;
+    };
+
+    mon->get_storage_item()->attempt_detach( check_item );
+    mon->get_armor_item()->attempt_detach( check_item );
+    mon->get_tack_item()->attempt_detach( check_item );
+    mon->get_tied_item()->attempt_detach( check_item );
+
 }
 
 template <typename T, typename M>
@@ -991,6 +1007,16 @@ int visitable<inventory>::charges_of( const itype_id &what, int limit,
         }
     }
     return std::min( limit, res );
+}
+
+template <>
+int visitable<location_inventory>::charges_of( const itype_id &what, int limit,
+        const std::function<bool( const item & )> &filter,
+        std::function<void( int )> visitor ) const
+{
+
+    auto inv = static_cast<const location_inventory *>( this );
+    return inv->inv.charges_of( what, limit, filter, visitor );
 }
 
 /** @relates visitable */
@@ -1096,6 +1122,16 @@ int visitable<inventory>::amount_of( const itype_id &what, bool pseudo, int limi
     return std::min( limit, res );
 }
 
+template <>
+int visitable<location_inventory>::amount_of( const itype_id &what, bool pseudo, int limit,
+        const std::function<bool( const item & )> &filter ) const
+{
+
+    auto inv = static_cast<const location_inventory *>( this );
+    return inv->inv.amount_of( what, pseudo, limit, filter );
+}
+
+
 /** @relates visitable */
 template <>
 int visitable<Character>::amount_of( const itype_id &what, bool pseudo, int limit,
@@ -1132,9 +1168,20 @@ bool visitable<T>::has_amount( const itype_id &what, int qty, bool pseudo,
 // explicit template initialization for all classes implementing the visitable interface
 template class visitable<item>;
 template class visitable<inventory>;
+template class visitable<location_inventory>;
 template class visitable<Character>;
 template class visitable<map_selector>;
 template class visitable<map_cursor>;
 template class visitable<vehicle_selector>;
 template class visitable<vehicle_cursor>;
 template class visitable<monster>;
+
+template class temp_visitable<inventory>;
+template class location_visitable<item>;
+template class location_visitable<location_inventory>;
+template class location_visitable<Character>;
+template class location_visitable<map_selector>;
+template class location_visitable<map_cursor>;
+template class location_visitable<vehicle_selector>;
+template class location_visitable<vehicle_cursor>;
+template class location_visitable<monster>;

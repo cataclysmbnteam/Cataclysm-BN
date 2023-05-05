@@ -29,6 +29,8 @@ struct vehicle_part;
 struct dealt_damage_instance;
 struct dealt_projectile_attack;
 struct damage_instance;
+template<typename T>
+class detached_ptr;
 
 namespace target_handler
 {
@@ -189,7 +191,8 @@ int fire_gun( Character &who, const tripoint &target, int shots, item &gun );
  * @param to_throw Item being thrown
  * @param blind_throw_from_pos Position of blind throw (if blind throwing)
  */
-dealt_projectile_attack throw_item( Character &who, const tripoint &target, item &to_throw,
+dealt_projectile_attack throw_item( Character &who, const tripoint &target,
+                                    detached_ptr<item> &&to_throw,
                                     cata::optional<tripoint> blind_throw_from_pos );
 
 } // namespace ranged

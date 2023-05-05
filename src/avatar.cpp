@@ -106,7 +106,7 @@ avatar &get_avatar()
     return g->u;
 }
 
-avatar::avatar()
+avatar::avatar() : player()
 {
     player_map_memory = std::make_unique<map_memory>();
     show_map_memory = true;
@@ -1254,18 +1254,18 @@ bool avatar::wield( item &target )
 }
 
 
-void avatar::wield( detached_ptr<item> &&target )
+detached_ptr<item> avatar::wield( detached_ptr<item> &&target )
 {
     if( !can_wield( *target ).success() ) {
-        return;
+        return target;
     }
 
     if( !unwield() ) {
-        return;
+        return target;
     }
     clear_npc_ai_info_cache( "weapon_value" );
     if( !target || target->is_null() ) {
-        return;
+        return target;
     }
     item &obj = *target;
     set_weapon( std::move( target ) );
@@ -1278,6 +1278,7 @@ void avatar::wield( detached_ptr<item> &&target )
 
     inv.update_invlet( obj );
     inv.update_cache_with_item( obj );
+    return detached_ptr<item>();
 }
 
 bool avatar::invoke_item( item *used, const tripoint &pt )

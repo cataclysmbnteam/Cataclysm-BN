@@ -13,6 +13,8 @@ class location_inventory;
 
 template<typename T>
 class location;
+template<typename T>
+class location_visitable;
 
 template<typename T>
 class game_object
@@ -34,6 +36,7 @@ class game_object
         friend location_ptr<T, false>;
         friend location_inventory;
         friend location_vector<T>;
+        friend location_visitable<location_inventory>;
 
     public:
 

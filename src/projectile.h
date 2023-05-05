@@ -30,10 +30,10 @@ struct projectile {
          * Returns an item that should be dropped or an item for which is_null() is true
          *  when item to drop is unset.
          */
-        detached_ptr<item> get_drop() const;
+        item *get_drop() const;
         /** Copies item `it` as a drop for this projectile. */
         void set_drop( detached_ptr<item> &&it );
-        void unset_drop();
+        detached_ptr<item> unset_drop();
 
         const explosion_data &get_custom_explosion() const;
         void set_custom_explosion( const explosion_data &ex );

@@ -2,6 +2,11 @@
 
 #include <memory>
 #include <execinfo.h>
+
+#include "cata_arena.h"
+#include "item.h"
+#include "locations.h"
+
 #define GO_BACKTRACE (40)
 
 template<typename T>
@@ -26,12 +31,13 @@ void game_object<T>::remove_location()
 {
     if( is_null() ) {
         return;
-    }
+    }/*
 #if !defined(RELEASE)
     void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
     backtrace( buf, GO_BACKTRACE );
     cata_arena<T>::add_removed_trace( static_cast<T *>( this ), buf );
 #endif
+*/
     loc = nullptr;
 }
 
@@ -43,7 +49,7 @@ void game_object<T>::set_location( location<T> *own )
     }
     if( loc != nullptr ) {
         debugmsg( "Attempted to set the location of [%s] that already has one.", debug_name() );
-        detach();
+        detach().release();
     }
     loc = own;
 }
@@ -64,7 +70,7 @@ detached_ptr<T> game_object<T>::detach()
     backtrace( buf, GO_BACKTRACE );
     cata_arena<T>::add_removed_trace( static_cast<T *>( this ), buf );
 #endif
-    loc = nullptr;
+    remove_location();
     return std::move( res );
 }
 
@@ -72,24 +78,14 @@ template<typename T>
 bool game_object<T>::attempt_detach( std::function < detached_ptr<T>
                                      ( detached_ptr<T> && ) > cb )
 {
-    if( loc == nullptr ) {
-        debugmsg( "Attempted to detach (with attempt_detach) [%s] not in a location.", debug_name() );
-        return false;
-    }
     location<T> *saved_loc = loc;
-    remove_location();
-    detached_ptr<T> original( static_cast<T *>( this ) );
-    detached_ptr<T> n = cb( std::move( original ) );
+    detached_ptr<T> n = cb( detach() );
     if( n ) {
-        if( &*n == this ) {
-            loc = saved_loc;
-            return false;
-        } else {
-            debugmsg( "Returning a different item in attempt detach is not currently supported" );
-            return false;
-        }
+        saved_loc->attach( std::move( n ) );
+        return false;
+    } else {
+        return true;
     }
-    return true;
 }
 
 template<typename T>
@@ -178,3 +174,6 @@ tripoint game_object<T>::position( ) const
     return loc->position( static_cast<const T *>( this ) );
 };
 
+
+template
+class game_object<item>;

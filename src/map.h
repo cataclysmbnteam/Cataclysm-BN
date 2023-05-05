@@ -385,6 +385,7 @@ class map
 {
         friend class editmap;
         friend class visitable<map_cursor>;
+        friend class location_visitable<map_cursor>;
 
     public:
         // Constructors & Initialization

@@ -1508,7 +1508,7 @@ static void empty_buckets( player &p )
             buckets.push_back( std::move( it ) );
         }
         return VisitResponse::SKIP;
-    }, INT_MAX );
+    } );
     for( auto &it : buckets ) {
         for( detached_ptr<item> &in : it->contents.clear_items() ) {
             drop_or_handle( std::move( in ), p );
@@ -2082,8 +2082,9 @@ static bool prompt_disassemble_single( avatar &you, item *target, bool interacti
 
     tripoint_abs_ms pos_abs( get_map().getabs( you.pos() ) );
 
-    you.assign_activity( std::make_unique < player_activity>( disassemble_activity_actor( {{ loc }},
-    pos_abs, false ) ) );
+    you.assign_activity( std::make_unique<player_activity>
+    ( std::make_unique<disassemble_activity_actor>( std::vector<iuse_location> {{ loc }}, pos_abs,
+    false ) ) );
 
     return true;
 }
@@ -2118,8 +2119,9 @@ bool crafting::disassemble_all( avatar &you, bool recursively )
     if( !targets.empty() ) {
         tripoint_abs_ms pos_abs( get_map().getabs( you.pos() ) );
 
-        you.assign_activity( std::make_unique<player_activity>( disassemble_activity_actor( std::move(
-                                 targets ), pos_abs, recursively ) ) );
+        you.assign_activity( std::make_unique<player_activity>
+                             ( std::make_unique<disassemble_activity_actor>( std::move(
+                                         targets ), pos_abs, recursively ) ) );
         return true;
     } else {
         return false;

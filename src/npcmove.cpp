@@ -3477,25 +3477,16 @@ bool npc::scan_new_items()
     // TODO: Armor?
 }
 
-static void npc_throw( npc &np, item &it, int index, const tripoint &pos )
+static void npc_throw( npc &np, item &it, const tripoint &pos )
 {
     if( get_player_character().sees( np ) ) {
         add_msg( _( "%1$s throws a %2$s." ), np.name, it.tname() );
     }
 
-    int stack_size = -1;
-    if( it.count_by_charges() ) {
-        stack_size = it.charges;
-        it.charges = 1;
-    }
+    detached_ptr<item> det = it.count_by_charges() ? it.split( 1 ) : it.detach();
+
     if( !np.is_hallucination() ) { // hallucinations only pretend to throw
-        ranged::throw_item( np, pos, it, cata::nullopt );
-    }
-    // Throw a single charge of a stacking object.
-    if( stack_size == -1 || stack_size == 1 ) {
-        np.i_rem( index );
-    } else {
-        it.charges = stack_size - 1;
+        ranged::throw_item( np, pos, std::move( det ), cata::nullopt );
     }
 }
 
@@ -3576,7 +3567,7 @@ bool npc::alt_attack()
     int conf = confident_throw_range( *used, critter );
     const bool wont_hit = wont_hit_friend( tar, *used, true );
     if( dist <= conf && wont_hit ) {
-        npc_throw( *this, *used, weapon_index, tar );
+        npc_throw( *this, *used, tar );
         return true;
     }
 
@@ -3633,7 +3624,7 @@ bool npc::alt_attack()
      * should be equal to the original location of our target, and risking friendly
      * fire is better than holding on to a live grenade / whatever.
      */
-    npc_throw( *this, *used, weapon_index, tar );
+    npc_throw( *this, *used, tar );
     return true;
 }
 

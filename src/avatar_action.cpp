@@ -929,8 +929,8 @@ void avatar_action::plthrow( avatar &you, item *loc,
         }
     }
 
-    throw_activity_actor actor( *loc, blind_throw_from_pos );
-    you.assign_activity( std::make_unique<player_activity>( actor ), false );
+    you.assign_activity( std::make_unique<player_activity>( std::make_unique<throw_activity_actor>
+                         ( *loc, blind_throw_from_pos ) ), false );
 }
 
 static void make_active( item &loc )
