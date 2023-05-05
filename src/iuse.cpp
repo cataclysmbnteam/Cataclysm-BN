@@ -3115,7 +3115,7 @@ int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           it->ammo_remaining() > 1 && !p->is_underwater(),
+                           !p->is_underwater(),
                            40, _( "With a buzz, the chainsaws leap to life!" ),
                            _( "You pull the trigger, but nothing happens." ) );
 }
