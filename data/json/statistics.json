@@ -646,7 +646,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_fabrication",
-    "description": { "str_sp": " skill level up." }
+    "description": { "str_sp": "fabrication skill level up." }
   },
   {
     "id": "avatar_gains_fabrication",
