@@ -245,7 +245,6 @@ float get_normalized_angle( point start, point end );
 std::vector<tripoint> continue_line( const std::vector<tripoint> &line, int distance );
 std::vector<point> squares_in_direction( point p1, point p2 );
 // Returns a vector of squares adjacent to @from that are closer to @to than @from is.
-// Currently limited to the same z-level as @from.
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
 void calc_ray_end( units::angle, int range, const tripoint &p, tripoint &out );
 /**

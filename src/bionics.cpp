@@ -454,74 +454,165 @@ void npc::discharge_cbm_weapon()
     if( cbm_weapon_index < 0 ) {
         return;
     }
-    const bionic &bio = ( *my_bionics )[cbm_weapon_index];
-    mod_power_level( -bio.info().power_activate );
-    primary_weapon() = real_weapon;
-    cbm_weapon_index = -1;
+    mod_power_level( -cbm_active->power_activate );
+    cbm_fake_active = null_item_reference();
+    cbm_active = bionic_id::NULL_ID();
 }
 
-void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
+void deactivate_weapon_cbm( npc &who )
 {
-    // if we're already using a bio_weapon, keep using it
-    if( cbm_weapon_index >= 0 ) {
+    for( bionic &i : *who.my_bionics ) {
+        if( i.powered && i.info().has_flag( flag_BIONIC_WEAPON ) ) {
+            who.deactivate_bionic( i );
+        }
+    }
+    who.clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    who.clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
+}
+
+std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
+{
+    std::vector<std::pair<bionic_id, item>> cbm_list;
+    // Runs down full list of CBMs that qualify as weapons.
+    // Need a way to make this less costly.
+    for( bionic bio : *who.my_bionics ) {
+        if( !bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
+            continue;
+        }
+        item cbm_fake = item( bio.info().fake_item );
+        // I'd hope it's not possible to be greater than but...
+        if( static_cast<int>( bio.ammo_count ) >= cbm_fake.ammo_capacity() ) {
+            continue;
+        }
+        if( bio.ammo_count > 0 ) {
+            cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
+        }
+        cbm_list.emplace_back( std::make_pair( bio.id, cbm_fake ) );
+    }
+    return cbm_list;
+}
+
+void npc::check_or_use_weapon_cbm()
+{
+    // if both toggle and active bionics have been chosen, keep using them.
+    if( !cbm_toggled.is_null() && !cbm_active.is_null() ) {
         return;
     }
+
+    std::vector<int> avail_toggle_cbms;
+    std::vector<int> avail_active_cbms;
+
     const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
     const units::energy free_power = get_power_level() - get_max_power_level() * allowed_ratio;
     if( free_power <= 0_J ) {
         return;
     }
 
-    int index = 0;
-    bool found = false;
-    for( bionic &i : *my_bionics ) {
-        if( i.id == cbm_id && !i.powered ) {
-            found = true;
-            break;
+    int cbm_index = 0;
+    for( bionic &bio : *my_bionics ) {
+        // I'm not checking if NPC_USABLE because if it isn't it shouldn't be in them.
+        if( cbm_toggled.is_null() && bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
+            avail_toggle_cbms.push_back( cbm_index );
         }
-        index += 1;
+        if( cbm_active.is_null() && bio.info().has_flag( flag_BIONIC_GUN ) ) {
+            avail_active_cbms.push_back( cbm_index );
+        }
+        cbm_index++;
     }
     if( !found ) {
         return;
     }
     bionic &bio = ( *my_bionics )[index];
 
-    if( bio.info().has_flag( flag_BIONIC_GUN ) ) {
-        const item cbm_weapon = item( bio.info().fake_item );
-        bool not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
-                           ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon.is_silent() );
-        if( is_player_ally() && not_allowed ) {
-            return;
+    // There's no point in checking the bionics if they can't unwield what they have.
+    if( !weapon.has_flag( flag_NO_UNWIELD ) && cbm_toggled.is_null() && !avail_toggle_cbms.empty() ) {
+        int toggle_index = -1;
+        item best_cbm_weap = null_item_reference();
+        for( int i : avail_toggle_cbms ) {
+            bionic &bio = ( *my_bionics )[ i ];
+            if( free_power < bio.info().power_activate ) {
+                continue;
+            }
+            item cbm_fake = item( bio.info().fake_item );
+            if( bio.ammo_count > 0 ) {
+                cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
+            }
+            const int fake_shots = item_funcs::shots_remaining( *this, cbm_fake );
+
+            bool not_allowed = ( !rules.has_flag( ally_rule::use_guns ) && cbm_fake.is_gun() ) ||
+                               ( rules.has_flag( ally_rule::use_silent ) && !cbm_fake.is_silent() );
+            if( not_allowed ) {
+                continue;
+            }
+
+            double to_compare_value = 0.0;
+            if( toggle_index >= 0 ) {
+                // Previous iteration chose a CBM, compare them.
+                const int to_compare_shots = item_funcs::shots_remaining( *this, best_cbm_weap );
+                to_compare_value = npc_ai::weapon_value( *this, best_cbm_weap, to_compare_shots );
+            } else {
+                // Compare against weapon.
+                to_compare_value = npc_ai::wielded_value( *this, false );
+            }
+
+            if( to_compare_value < npc_ai::weapon_value( *this, cbm_fake, fake_shots ) ) {
+                toggle_index = i;
+                best_cbm_weap = cbm_fake;
+            }
         }
 
-        const int ups_charges = charges_of( itype_UPS );
-        int ammo_count = primary_weapon().ammo_remaining();
-        const int ups_drain = primary_weapon().get_gun_ups_drain();
-        if( ups_drain > 0 ) {
-            ammo_count = std::min( ammo_count, ups_charges / ups_drain );
+        if( toggle_index >= 0 ) {
+            cbm_toggled = ( *my_bionics )[toggle_index].id;
+            cbm_fake_toggled = best_cbm_weap;
         }
         const int cbm_ammo = free_power /  bio.info().power_activate;
 
-        if( npc_ai::weapon_value( *this, primary_weapon(), ammo_count ) <
-            npc_ai::weapon_value( *this, cbm_weapon, cbm_ammo ) ) {
-            real_weapon = primary_weapon();
-            primary_weapon() = cbm_weapon;
-            cbm_weapon_index = index;
-        }
-    } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) &&
-               !primary_weapon().has_flag( flag_NO_UNWIELD ) &&
-               free_power > bio.info().power_activate ) {
-        if( is_armed() ) {
-            stow_item( primary_weapon() );
-        }
-        if( get_player_character().sees( pos() ) ) {
-            add_msg( m_info, _( "%s activates their %s." ), disp_name(), bio.info().name );
+    if( cbm_active.is_null() && !avail_active_cbms.empty() ) {
+        int active_index = -1;
+        bool wield_gun = weapon.is_gun();
+        item best_cbm_active = null_item_reference();
+        for( int i : avail_active_cbms ) {
+            bionic &bio = ( *my_bionics )[ i ];
+            const item cbm_weapon = item( bio.info().fake_item );
+
+            bool not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
+                               ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon.is_silent() );
+            if( is_player_ally() && not_allowed ) {
+                continue;
+            }
+
+            // Simpler than weapons because they're not real items and cannot be reloaded.
+            // Have fun changing this in the future.
+            int cbm_ammo = free_power / bio.info().power_activate;
+
+            double to_compare_value = 0.0;
+            if( !wield_gun && active_index < 0 ) {
+                // If it's not a gun, then we only need to compare the CBMs as
+                // You can fire an activated CBM without the need to equip/unequip anything.
+                active_index = i;
+                best_cbm_active = cbm_weapon;
+                continue;
+            }
+            if( active_index >= 0 ) {
+                // Previous iteration chose a CBM, compare them.
+                int b_cbm_ammo = free_power / ( *my_bionics )[active_index].info().power_activate;
+                to_compare_value = npc_ai::weapon_value( *this, best_cbm_active, b_cbm_ammo );
+            } else if( wield_gun ) {
+                // For melee we keep it in reserve anyway, but ranged we're using either it or this one.
+                // Right now no BIONIC_GUNS are melee weapons, unlike BIONIC_WEAPONS and the bionic shotgun.
+                to_compare_value = npc_ai::wielded_value( *this, false );
+            }
+
+            if( to_compare_value < npc_ai::weapon_value( *this, cbm_weapon, cbm_ammo ) ) {
+                active_index = i;
+                best_cbm_active = cbm_weapon;
+            }
         }
 
-        primary_weapon() = item( bio.info().fake_item );
-        mod_power_level( -bio.info().power_activate );
-        bio.powered = true;
-        cbm_weapon_index = index;
+        if( active_index > 0 ) {
+            cbm_active = ( *my_bionics )[active_index].id;
+            cbm_fake_active = best_cbm_active;
+        }
     }
 }
 
@@ -575,6 +666,9 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
     auto add_msg_activate = [&]() {
         if( !eff_only && !bio.is_auto_start_keep_full() ) {
             add_msg_if_player( m_info, _( "You activate your %s." ), bio.info().name );
+        } else if( get_player_character().sees( pos() ) ) {
+            add_msg( m_info, _( "%s activates their %s." ), disp_name(),
+                     bio.info().name );
         }
     };
     auto refund_power = [&]() {
@@ -754,13 +848,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
     } else if( bio.id == bio_geiger ) {
         add_msg_activate();
         add_msg_if_player( m_info, _( "Your radiation level: %d" ), get_rad() );
-    } else if( bio.id == bio_radscrubber ) {
-        add_msg_activate();
-        if( get_rad() > 4 ) {
-            mod_rad( -5 );
-        } else {
-            set_rad( 0 );
-        }
     } else if( bio.id == bio_adrenaline ) {
         add_msg_activate();
         if( has_effect( effect_adrenaline ) ) {
@@ -962,17 +1049,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
             bio.powered = ctr.active;
         } else {
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
-        }
-    } else if( bio.id == bio_plutdump ) {
-        if( query_yn(
-                _( "WARNING: Purging all fuel is likely to result in radiation!  Purge anyway?" ) ) ) {
-            add_msg_activate();
-            slow_rad += ( tank_plut + reactor_plut );
-            tank_plut = 0;
-            reactor_plut = 0;
-        } else {
-            refund_power();
-            return false;
         }
     } else if( bio.info().is_remote_fueled ) {
         std::vector<item *> cables = items_with( []( const item & it ) {
@@ -1598,50 +1674,75 @@ void Character::process_bionic( bionic &bio )
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
-        // Total hack, prevents charge_timer reaching 0 thus preventing power draw.
-        // Ideally there would be a value that directly impacts whether a bionic draws power when idle.
-        bio.charge_timer = 2;
-        // The above hack means there's no check for whether the bionic actually has power to run.
-        if( get_power_level() < bio.info().power_over_time ) {
-            bio.powered = false;
-            add_msg_if_player( m_warning, _( "Your %s shut down due to lack of power." ), bio.info().name );
-            deactivate_bionic( bio );
-            return;
-        } else if( get_stored_kcal() < 0.85f * max_stored_kcal() ) {
+        int threshold_kcal = bio.info().kcal_trigger > 0 ? 0.85f * max_stored_kcal() +
+                             bio.info().kcal_trigger : 0;
+        const auto can_use_bionic = [this, &bio, threshold_kcal]() -> bool {
+            const bool is_kcal_sufficient = get_stored_kcal() >= threshold_kcal;
+            const bool is_power_sufficient = get_power_level() >= bio.info().power_trigger;
+            return is_kcal_sufficient && is_power_sufficient;
+        };
+        if( get_stored_kcal() < threshold_kcal ) {
             bio.powered = false;
             add_msg_if_player( m_warning, _( "Your %s shut down to conserve calories." ), bio.info().name );
             deactivate_bionic( bio );
             return;
         }
-        if( calendar::once_every( 15_turns ) ) {
-            std::vector<bodypart_id> bleeding_bp_parts;
-            for( const bodypart_id &bp : get_all_body_parts() ) {
-                if( has_effect( effect_bleed, bp.id() ) ) {
-                    bleeding_bp_parts.push_back( bp );
-                }
-            }
-            if( !bleeding_bp_parts.empty() ) {
-                const bodypart_id part_to_staunch = bleeding_bp_parts[ rng( 0, bleeding_bp_parts.size() - 1 ) ];
-                effect &e = get_effect( effect_bleed, part_to_staunch->token );
-                if( e.get_intensity() > 1 ) {
-                    e.mod_intensity( -1, false );
+        if( calendar::once_every( 30_turns ) ) {
+            std::vector<effect *> bleeding_list = get_all_effects_of_type( effect_bleed );
+            // Essential parts (Head/Torso) first.
+            std::sort( bleeding_list.begin(), bleeding_list.end(),
+            []( effect * a, effect * b ) {
+                return a->get_bp()->essential > b->get_bp()->essential;
+            } );
+            if( !bleeding_list.empty() ) {
+                effect *e = bleeding_list[0];
+                if( e->get_intensity() > 1 ) {
+                    add_msg_if_player( "Your %s slow the bleeding on your %s", bio.info().name, e->get_bp()->name );
+                    e->mod_intensity( -1, false );
                 } else {
-                    remove_effect( effect_bleed, part_to_staunch->token );
+                    add_msg_if_player( "Your %s staunch the bleeding on your %s", bio.info().name, e->get_bp()->name );
+                    e->set_removed();
                 }
             }
-            if( rng( 0, 2 ) == 2 ) {
+            if( calendar::once_every( 2_minutes ) ) {
                 std::vector<bodypart_id> damaged_hp_parts;
-                for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
-                    const int hp_cur = part.second.get_hp_cur();
-                    if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
-                        damaged_hp_parts.push_back( part.first.id() );
+                std::vector<effect *> mending_list;
+
+                for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+                    const int hp_cur = get_part_hp_cur( bp );
+                    if( !is_limb_broken( bp ) && hp_cur < get_part_hp_max( bp ) ) {
+                        damaged_hp_parts.push_back( bp );
+                    } else if( has_effect( effect_mending, bp.id() ) &&
+                               ( has_trait( trait_REGEN_LIZ ) || worn_with_flag( flag_SPLINT, bp ) ) ) {
+                        effect *e = &get_effect( effect_mending, bp->token );
+                        mending_list.push_back( e );
                     }
                 }
-                if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
-                    const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
-                    heal( part_to_heal, 1 );
-                    mod_power_level( - bio.info().power_over_time );
-                    mod_stored_kcal( -5 );
+                if( !damaged_hp_parts.empty() ) {
+                    // Essential parts are considered 10 HP lower than non-essential parts for the purpose of determining priority.
+                    // I'd use the essential_value, but it's tied up in the heal_actor class of iuse_actor.
+                    std::sort( damaged_hp_parts.begin(), damaged_hp_parts.end(),
+                    [this]( const bodypart_id & a, const bodypart_id & b ) {
+                        return ( get_part_hp_cur( a ) - a->essential * 10 ) < ( get_part_hp_cur( b ) - b->essential * 10 );
+                    } );
+                    for( bodypart_id &bpid : damaged_hp_parts ) {
+                        if( !can_use_bionic() ) {
+                            return;
+                        }
+                        heal( bpid, 1 );
+                        mod_power_level( -bio.info().power_trigger );
+                        mod_stored_kcal( -bio.info().kcal_trigger );
+                    }
+                }
+                if( !mending_list.empty() ) {
+                    for( effect *e : mending_list ) {
+                        if( !can_use_bionic() ) {
+                            return;
+                        }
+                        e->mod_duration( e->get_max_duration() / 100 );
+                        mod_power_level( -bio.info().power_trigger );
+                        mod_stored_kcal( -bio.info().kcal_trigger );
+                    }
                 }
             }
         }
@@ -1726,6 +1827,17 @@ void Character::process_bionic( bionic &bio )
         }
     } else if( bio.id == afs_bio_dopamine_stimulators ) {
         add_morale( MORALE_FEELING_GOOD, 20, 20, 30_minutes, 20_minutes, true );
+    } else if( bio.id == bio_radscrubber ) {
+        if( calendar::once_every( 10_minutes ) ) {
+            const units::energy trigger_cost = bio.info().power_trigger;
+
+            if( get_rad() > 0 && bio.energy_stored >= trigger_cost ) {
+                add_msg_if_player( m_good, _( "Your %s completed a scrubbing cycle." ), bio.info().name );
+
+                mod_rad( std::max( -10, -get_rad() ) );
+                mod_power_level( -trigger_cost );
+            }
+        }
     }
 }
 

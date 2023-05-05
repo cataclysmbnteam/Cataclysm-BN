@@ -60,12 +60,15 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_got_checked( "got_checked" );
+
+static const std::string flag_SPLINT( "SPLINT" );
 
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
@@ -774,7 +777,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
 
-        if( u.worn_with_flag( "SPLINT",  bp ) ) {
+        if( u.worn_with_flag( flag_SPLINT,  bp ) || u.has_trait( trait_REGEN_LIZ ) ) {
             static const efftype_id effect_mending( "mending" );
             const auto &eff = u.get_effect( effect_mending, bp->token );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();

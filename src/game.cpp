@@ -747,8 +747,13 @@ bool game::start_game()
         const auto mission = mission::reserve_new( m, character_id() );
         mission->assign( u );
     }
-
     g->events().send<event_type::game_start>( u.getID() );
+    for( Skill &elem : Skill::skills ) {
+        int level = u.get_skill_level_object( elem.ident() ).level();
+        if( level > 0 ) {
+            g->events().send<event_type::gains_skill_level>( u.getID(), elem.ident(), level );
+        }
+    }
     return true;
 }
 
@@ -1636,7 +1641,7 @@ void game::process_voluntary_act_interrupt()
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings.
     // Distraction Manager can change this.
-    if( has_activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
+    if( ( has_activity || is_travelling ) && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
         !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
         Creature *hostile_critter = is_hostile_very_close();
         if( hostile_critter != nullptr ) {
@@ -1700,6 +1705,9 @@ static bool cancel_auto_move( player &p, const std::string &text )
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
 {
     invalidate_main_ui_adaptor();
+    if( ( !u.activity && !u.has_distant_destination() ) || u.activity.is_distraction_ignored( type ) ) {
+        return false;
+    }
     if( u.has_distant_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
@@ -1707,9 +1715,6 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
             u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
             return false;
         }
-    }
-    if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
-        return false;
     }
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
@@ -4260,6 +4265,8 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
     }
     std::size_t force_remaining = traj.size();
     if( monster *const targ = critter_at<monster>( tp, true ) ) {
+        tripoint start_pos = targ->pos();
+
         if( stun > 0 ) {
             targ->add_effect( effect_stunned, 1_turns * stun );
             add_msg( _( "%s was stunned!" ), targ->name() );
@@ -4317,8 +4324,14 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
                 }
             }
             tp = traj[i];
+            if( start_pos != targ->pos() ) {
+                map &here = get_map();
+                here.creature_on_trap( *targ );
+            }
         }
     } else if( npc *const targ = critter_at<npc>( tp ) ) {
+        tripoint start_pos = targ->pos();
+
         if( stun > 0 ) {
             targ->add_effect( effect_stunned, 1_turns * stun );
             add_msg( _( "%s was stunned!" ), targ->name );
@@ -4383,8 +4396,15 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
             }
             targ->setpos( traj[i] );
             tp = traj[i];
+
+            if( start_pos != targ->pos() ) {
+                map &here = get_map();
+                here.creature_on_trap( *targ );
+            }
         }
     } else if( u.pos() == tp ) {
+        tripoint start_pos = u.pos();
+
         if( stun > 0 ) {
             u.add_effect( effect_stunned, 1_turns * stun );
             add_msg( m_bad, vgettext( "You were stunned for %d turn!",
@@ -4462,8 +4482,12 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
             } else {
                 u.setpos( traj[i] );
             }
-
             tp = traj[i];
+
+            if( start_pos != u.pos() ) {
+                map &here = get_map();
+                here.creature_on_trap( u );
+            }
         }
     }
 }
@@ -5264,7 +5288,7 @@ bool game::npc_menu( npc &who )
     amenu.addentry( push, obeys && !who.is_mounted(), 'p', _( "Push away" ) );
     amenu.addentry( examine_wounds, true, 'w', _( "Examine wounds" ) );
     amenu.addentry( use_item, true, 'i', _( "Use item on" ) );
-    amenu.addentry( sort_armor, true, 'r', _( "Sort armor" ) );
+    amenu.addentry( sort_armor, obeys, 'r', _( "Sort armor" ) );
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
     if( !who.is_player_ally() ) {
         amenu.addentry( disarm, who.is_armed(), 'd', _( "Disarm" ) );
@@ -9724,8 +9748,7 @@ void game::on_options_changed()
     grid_tracker_ptr->on_options_changed();
 }
 
-void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled,
-                           bool suppress_map_update )
+void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
 {
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
@@ -9829,7 +9852,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
                     m.unboard_vehicle( p->pos() );
                 }
                 // If we're flinging the player around, make sure the map stays centered on them.
-                if( is_u && !suppress_map_update ) {
+                if( is_u ) {
                     update_map( pt.x, pt.y );
                 } else {
                     p->setpos( pt );

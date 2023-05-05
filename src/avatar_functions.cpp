@@ -463,7 +463,9 @@ bool gunmod_remove( avatar &you, item &gun, item &mod )
 
     const itype *modtype = mod.type;
 
-    you.i_add_or_drop( mod );
+    if( !mod.is_irremovable() ) {
+        you.i_add_or_drop( mod );
+    }
     gun.remove_item( mod );
 
     //If the removed gunmod added mod locations, check to see if any mods are in invalid locations

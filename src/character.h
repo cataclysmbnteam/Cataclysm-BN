@@ -97,6 +97,14 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
+enum npc_ai_info : size_t {
+    weapon_value = 0,
+    ideal_weapon_value,
+    reloadables,
+    reloadable_cbms,
+    num_npc_ai_info,
+};
+
 enum character_movemode : int {
     CMM_WALK = 0,
     CMM_RUN,
@@ -967,6 +975,8 @@ class Character : public Creature, public visitable<Character>
         bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
         /**Return list of available fuel for this bionic*/
         std::vector<itype_id> get_fuel_available( const bionic_id &bio ) const;
+        /**Return available space to store specified fuel*/
+        int get_fuel_type_available( const itype_id &fuel ) const;
         /**Return available space to store specified fuel*/
         int get_fuel_capacity( const itype_id &fuel ) const;
         /**Return total space to store specified fuel*/
@@ -1899,7 +1909,6 @@ class Character : public Creature, public visitable<Character>
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
         /** Determine character's capability of recharging their CBMs. */
-        bool can_feed_reactor_with( const item &it ) const;
         bool can_feed_furnace_with( const item &it ) const;
         rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
         int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
@@ -1909,7 +1918,6 @@ class Character : public Creature, public visitable<Character>
         * Recharge CBMs whenever possible.
         * @return true when recharging was successful.
         */
-        bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
         bool fuel_bionic_with( item &it );
         /** Used to apply stimulation modifications from food and medication **/
@@ -2252,7 +2260,7 @@ class Character : public Creature, public visitable<Character>
         tripoint cached_position;
         inventory cached_crafting_inventory;
 
-        mutable std::map<std::string, double> npc_ai_info_cache;
+        mutable std::array<double, npc_ai_info::num_npc_ai_info> npc_ai_info_cache;
 
         safe_reference_anchor anchor;
 
@@ -2275,9 +2283,9 @@ class Character : public Creature, public visitable<Character>
 
         void set_underwater( bool x ) override;
 
-        void clear_npc_ai_info_cache( const std::string &key ) const;
-        void set_npc_ai_info_cache( const std::string &key, double val ) const;
-        std::optional<double> get_npc_ai_info_cache( const std::string &key ) const;
+        void clear_npc_ai_info_cache( npc_ai_info key ) const;
+        void set_npc_ai_info_cache( npc_ai_info key, double val ) const;
+        std::optional<double> get_npc_ai_info_cache( npc_ai_info key ) const;
 
         safe_reference<Character> get_safe_reference();
 };

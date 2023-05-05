@@ -1740,7 +1740,9 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
             return e.is_toolmod() && !e.is_irremovable();
         } );
         add_msg( m_info, _( "You remove the %s from the tool." ), mod->tname() );
-        p->i_add_or_drop( *mod );
+        if( !mod->is_irremovable() ) {
+            p->i_add_or_drop( *mod );
+        }
         loc->remove_item( *mod );
 
         remove_radio_mod( *loc, *p );
