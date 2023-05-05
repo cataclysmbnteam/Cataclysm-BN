@@ -1604,10 +1604,10 @@ class Character : public Creature, public location_visitable<Character>
         bool in_vehicle = false;
         bool hauling = false;
 
-        std::unique_ptr<player_activity> stashed_outbounds_activity;
-        std::unique_ptr<player_activity> stashed_outbounds_backlog;
-        std::unique_ptr<player_activity> activity;
-        std::list<std::unique_ptr<player_activity>> backlog;
+        activity_ptr stashed_outbounds_activity;
+        activity_ptr stashed_outbounds_backlog;
+        activity_ptr activity;
+        std::list<activity_ptr> backlog;
         cata::optional<tripoint> destination_point;
         itype_id last_item;
 
@@ -2278,7 +2278,7 @@ class Character : public Creature, public location_visitable<Character>
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
-        std::unique_ptr<player_activity> destination_activity;
+        activity_ptr destination_activity;
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
 

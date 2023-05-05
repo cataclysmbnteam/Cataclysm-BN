@@ -401,12 +401,8 @@ Character::Character() :
     worn(new worn_item_location(this)),
     damage_bandaged( {{ 0 }} ),
     damage_disinfected( {{ 0 }} ),
-    stashed_outbounds_activity(std::make_unique<player_activity>()),
-    stashed_outbounds_backlog(std::make_unique<player_activity>()),
-    activity(std::make_unique<player_activity>()),
     cached_time( calendar::before_time_starts ),
     inv(new character_item_location(this)),
-    destination_activity(std::make_unique<player_activity>()),
     id( -1 ),
     weapon(new wield_item_location( this )),
     next_climate_control_check( calendar::before_time_starts ),
@@ -1088,7 +1084,7 @@ bool Character::has_stashed_activity() const
 
 std::unique_ptr<player_activity> Character::remove_stashed_activity()
 {
-    std::unique_ptr<player_activity> ret = std::move( stashed_outbounds_activity );
+    std::unique_ptr<player_activity> ret = stashed_outbounds_activity.release();
     return ret;
 }
 
@@ -1138,8 +1134,7 @@ void Character::set_destination_activity( std::unique_ptr<player_activity>
 
 std::unique_ptr<player_activity> Character::clear_destination_activity()
 {
-    std::unique_ptr<player_activity> r = std::move( destination_activity );
-    destination_activity = std::make_unique<player_activity>();
+    std::unique_ptr<player_activity> r = destination_activity.release();
     return r;
 }
 
@@ -9476,8 +9471,7 @@ bool Character::is_hauling() const
 
 std::unique_ptr<player_activity> Character::remove_activity()
 {
-    std::unique_ptr<player_activity> ret;
-    ret = std::move( activity );
+    std::unique_ptr<player_activity> ret = activity.release();
     return ret;
 }
 

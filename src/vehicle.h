@@ -228,6 +228,9 @@ struct vehicle_part {
             return flags &= ~flag;
         }
 
+        /** this can be removed when vehicles are made into GOs */
+        void set_vehicle_hack( vehicle * );
+
         /**
          * Translated name of a part inclusive of any current status effects
          * with_prefix as true indicates the durability symbol should be prepended

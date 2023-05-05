@@ -460,3 +460,20 @@ void player_activity::inherit_distractions( const player_activity &other )
         ignore_distraction( type );
     }
 }
+
+
+activity_ptr::activity_ptr() : act( std::make_unique<player_activity>() ) {}
+
+activity_ptr::activity_ptr( activity_ptr && ) = default;
+activity_ptr::activity_ptr( std::unique_ptr<player_activity> &&source )
+{
+    act = std::move( source );
+}
+activity_ptr &activity_ptr::operator=( activity_ptr && ) = default;
+activity_ptr &activity_ptr::operator=( std::unique_ptr<player_activity> &&source )
+{
+    act = std::move( source );
+    return *this;
+}
+
+activity_ptr::~activity_ptr() = default;

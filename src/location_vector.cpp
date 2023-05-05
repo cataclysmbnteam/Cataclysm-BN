@@ -11,8 +11,7 @@ location_vector<T>::location_vector( location<T> *loc,
 {
     for( detached_ptr<T> &obj : from ) {
         obj->set_location( &*loc );
-        contents.push_back( &*obj );
-        obj.ptr = nullptr;
+        contents.push_back( obj.release() );
     }
     from.clear();
 };
@@ -29,8 +28,7 @@ location_vector<T>::~location_vector()
 template<typename T>
 void location_vector<T>::push_back( detached_ptr<T> &&obj )
 {
-    T *raw = obj.ptr;
-    obj.ptr = nullptr;
+    T *raw = obj.release();
     raw->set_location( &*loc );
     contents.push_back( raw );
 }
@@ -231,6 +229,16 @@ void location_vector<T>::move_by( tripoint offset )
         return;
     }
     tile_loc->move_by( offset );
+}
+
+template<typename T>
+void location_vector<T>::set_loc_hack( location<T> *new_loc )
+{
+    loc = std::unique_ptr<location<T>>( new_loc );
+    for( item *&it : contents ) {
+        it->remove_location();
+        it->set_location( &*loc );
+    }
 }
 
 template

@@ -4443,6 +4443,9 @@ void map::add_item( const tripoint &p, detached_ptr<item> &&new_item )
     // to avoid double processing food and corpses during active item processing.
     if( new_item->is_food() ) {
         new_item = item::process( std::move( new_item ), nullptr, p, false );
+        if( !new_item ) {
+            return;
+        }
     }
 
     if( new_item->made_of( LIQUID ) && has_flag( "SWIMMABLE", p ) ) {

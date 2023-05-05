@@ -9834,9 +9834,10 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
     // All foods that go bad have temperature
     if( ( self->is_food() || self->is_corpse() ) ) {
         bool comestible = self->is_comestible();
+        item &obj = *self;
         self = process_rot( std::move( self ), seals, pos, carrier, flag, weather_generator );
         if( comestible && !self ) {
-            here.rotten_item_spawn( *self, pos );
+            here.rotten_item_spawn( obj, pos );
         }
     }
     return self;

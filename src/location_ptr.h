@@ -37,8 +37,6 @@ class location_ptr
 
         detached_ptr<T> release();
 
-        void set_location( location<T> *l );
-
         T *get() const;
 
         explicit operator bool() const;
@@ -55,6 +53,9 @@ class location_ptr
 
         template <typename U>
         bool operator!=( const U against ) const;
+
+        /** this is needed until vehicles are GOs */
+        void set_loc_hack( location<T> *loc );
 };
 
 #endif

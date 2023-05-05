@@ -1628,6 +1628,7 @@ int vehicle::install_part( point dp, vehicle_part &&new_part )
 
     parts.push_back( std::move( new_part ) );
     auto &pt = parts.back();
+    pt.set_vehicle_hack( this );
 
     pt.enabled = enable;
 

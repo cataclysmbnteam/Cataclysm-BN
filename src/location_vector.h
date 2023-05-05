@@ -62,6 +62,9 @@ class location_vector
         void remove_with( std::function < detached_ptr<T>( detached_ptr<T> && ) > cb );
 
         void move_by( tripoint offset );
+
+        /** this is needed until vehicles are GOs */
+        void set_loc_hack( location<T> *loc );
 };
 
 

@@ -85,15 +85,6 @@ detached_ptr<T> location_ptr<T, error_if_null>::release()
 }
 
 template<typename T, bool error_if_null>
-void location_ptr<T, error_if_null>::set_location( location<T> *l )
-{
-    if( loc ) {
-        debugmsg( "Attempted to set the location of a location_ptr that already has one" );
-    }
-    loc = std::unique_ptr<location<T>>( l );
-}
-
-template<typename T, bool error_if_null>
 T *location_ptr<T, error_if_null>::get() const
 {
     if( !*this ) {
@@ -148,6 +139,15 @@ bool location_ptr<T, error_if_null>::operator!=( const U against ) const
     return !( *this == against );
 }
 
+template <typename T, bool error_if_null>
+void location_ptr<T, error_if_null>::set_loc_hack( location<T> *new_loc )
+{
+    loc = std::unique_ptr<location<T>>( new_loc );
+    if( ptr ) {
+        ptr->remove_location();
+        ptr->set_location( &*loc );
+    }
+}
 
 template
 class location_ptr<item, true>;

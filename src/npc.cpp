@@ -582,6 +582,9 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     }
     who.worn.clear();
     for( detached_ptr<item> &it : ret ) {
+        if( !it ) {
+            continue;
+        }
         if( it->has_flag( "VARSIZE" ) ) {
             it->set_flag( "FIT" );
         }

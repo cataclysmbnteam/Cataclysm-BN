@@ -59,6 +59,12 @@ vehicle_part::vehicle_part( const vpart_id &vp, point dp, detached_ptr<item> &&o
     }
 }
 
+void vehicle_part::set_vehicle_hack( vehicle *veh )
+{
+    base.set_loc_hack( new vehicle_base_item_location( veh ) );
+    items.set_loc_hack( new vehicle_item_location( veh ) );
+}
+
 void vehicle_part::copy_static_from( const vehicle_part &source )
 {
     mount = source.mount;

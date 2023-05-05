@@ -23,6 +23,7 @@
 #include "detached_ptr.h"
 #include "safe_reference.h"
 #include "cata_arena.h"
+#include "player_activity.h"
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -625,6 +626,10 @@ class JsonIn
             return read( *v, throw_on_error );
         }
 
+        auto read( const activity_ptr &val, bool throw_on_error = false ) -> bool {
+            return read( *val, throw_on_error );
+        }
+
         // error messages
         std::string line_number( int offset_modifier = 0 ); // for occasional use only
         [[noreturn]] void error( const std::string &message, int offset = 0 ); // ditto
@@ -780,6 +785,10 @@ class JsonOut
                 debugmsg( "Null unique_ptr during save" );
                 return;
             }
+            write( *val );
+        }
+
+        void write( const activity_ptr &val ) {
             write( *val );
         }
 

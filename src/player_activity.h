@@ -158,4 +158,42 @@ class player_activity
         void inherit_distractions( const player_activity & );
 };
 
+class activity_ptr
+{
+    private:
+        std::unique_ptr<player_activity> act;
+    public:
+        activity_ptr();
+        activity_ptr( const activity_ptr & ) = delete;
+        activity_ptr( activity_ptr && );
+        activity_ptr( std::unique_ptr<player_activity> && );
+        activity_ptr &operator=( const activity_ptr & ) = delete;
+        activity_ptr &operator=( activity_ptr && );
+        activity_ptr &operator=( std::unique_ptr<player_activity> && );
+
+        ~activity_ptr();
+
+        player_activity *get() const {
+            return act.get();
+        }
+
+        explicit operator bool() const {
+            return !!*act;
+        }
+
+        player_activity &operator*() const {
+            return *get();
+        }
+
+        player_activity *operator->() const {
+            return get();
+        }
+
+        std::unique_ptr<player_activity> release() {
+            std::unique_ptr<player_activity> ret = std::move( act );
+            act = std::make_unique < player_activity>();
+            return ret;
+        }
+};
+
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

@@ -216,26 +216,16 @@ maptile_soa<sx, sy>::maptile_soa( tripoint offset ) : itm{{
         location_vector{ new tile_item_location( offset + point( 11, 11 ) )},
     }}
 {
-    for( int x = 0; x < sx; x++ ) {
-        for( int y = 0; y < sy; y++ ) {
-            //itm[x][y]( offset + point( x, y ) );
-        }
-    }
 }
 
-submap::submap( tripoint offset ) : maptile_soa<SEEX, SEEY>( offset )
+submap::submap( tripoint offset ) : maptile_soa<SEEX, SEEY>( tripoint( offset.xy() * SEEX,
+            offset.z ) )
 {
     std::uninitialized_fill_n( &ter[0][0], elements, t_null );
     std::uninitialized_fill_n( &frn[0][0], elements, f_null );
     std::uninitialized_fill_n( &lum[0][0], elements, 0 );
     std::uninitialized_fill_n( &trp[0][0], elements, tr_null );
     std::uninitialized_fill_n( &rad[0][0], elements, 0 );
-
-    /*for( int x = 0; x < sx; x++ ) {
-        for( int y = 0; x < sy; y++ ) {
-            itm[x][y].set_location( new tile_item_location( offset + point( x, y ) ) );
-        }
-    }*/
 
     is_uniform = false;
 }

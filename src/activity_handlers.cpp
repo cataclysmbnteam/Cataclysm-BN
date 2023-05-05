@@ -418,7 +418,7 @@ activity_handlers::finish_functions = {
 bool activity_handlers::resume_for_multi_activities( player &p )
 {
     if( !p.backlog.empty() ) {
-        std::unique_ptr<player_activity> &back_act = p.backlog.front();
+        activity_ptr &back_act = p.backlog.front();
         if( back_act->is_multi_type() ) {
             p.assign_activity( p.backlog.front()->id() );
             p.backlog.clear();
@@ -4389,7 +4389,7 @@ static void perform_zone_activity_turn( player *p,
         if( route.size() > 1 ) {
             route.pop_back();
 
-            p->set_destination( route, std::move( p->activity ) );
+            p->set_destination( route, p->remove_activity() );
             p->activity = std::make_unique<player_activity>( );
             return;
         } else {
