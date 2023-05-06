@@ -5520,8 +5520,8 @@ void game::examine( const tripoint &examp )
     } else if( m.has_flag( "CONSOLE", examp ) && u.is_mounted() ) {
         add_msg( m_warning, _( "You cannot use a console while mounted." ) );
     }
-    const furn_t &xfurn_t = m.furn( examp ).obj();
-    const ter_t &xter_t = m.ter( examp ).obj();
+    const furn_t xfurn_t = m.furn( examp ).obj();
+    const ter_t xter_t = m.ter( examp ).obj();
 
     const tripoint player_pos = u.pos();
 
