@@ -85,7 +85,7 @@ See the [JSON style guide](JSON_STYLE.md).
 
 ![demo using ctag in json](img/ctag.mp4)
 
-Finding relations between JSON ids are hard. To make navigating easier, `tools/json_tools/ctags.ts` generates special lookup file called [ctags][ctags]. They can be used by [ctags-companion][ctags-companion] VSCode extension to find relations between JSON `id`, `abstract`, `ident`, and `nested_mapgen_id`, as seen in the demo above. To use the tool, install [`deno`][deno] and run `tools/json_tools/ctags.ts` in the root directory of the project. Alternatively, there is a rule in the `Makefile` to do this for you; just run `make ctags` or `make etags`. Note that makefile rules also generate tags for source files as well.
+Finding relations between JSON ids are hard. To make navigating easier, `tools/json_tools/ctags.ts` generates special lookup file called [ctags][ctags]. They can be used by [ctags-companion][ctags-companion] VSCode extension to find relations between JSON `id`, `abstract`, `ident`, and `nested_mapgen_id`, as seen in the demo above. To use the tool, install [`deno`][deno] and run `tools/json_tools/ctags.ts` in the root directory of the project. Alternatively, there is a rule in the `Makefile` to do this for you; just run `make tags`. Note that you'll need to run `make ctags` or `make etags` to also generate tags for source files as well.
 
 [deno]: https://deno.land/
 [ctags]: https://github.com/universal-ctags/ctags

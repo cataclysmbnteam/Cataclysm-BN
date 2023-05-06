@@ -1125,11 +1125,13 @@ endif
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH PCHFLAGS
 
-ctags: $(ASTYLE_SOURCES)
-	ctags $^
-	./tools/json_tools/cddatags.py
+tags:
+	./tools/json_tools/ctags.ts
 
-etags: $(ASTYLE_SOURCES)
+ctags: $(ASTYLE_SOURCES) tags
+	ctags $^
+
+etags: $(ASTYLE_SOURCES) tags
 	etags $^
 	./tools/json_tools/cddatags.py
 
@@ -1184,7 +1186,7 @@ check: version $(BUILD_PREFIX)cataclysm.a
 clean-tests:
 	$(MAKE) -C tests clean
 
-.PHONY: tests check ctags etags clean-tests install lint
+.PHONY: tests check tags ctags etags clean-tests install lint
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}
