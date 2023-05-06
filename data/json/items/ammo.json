@@ -360,8 +360,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 50,
-    "drop": "bearing",
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_1000" ]
   },
   {
     "type": "AMMO",
@@ -1077,8 +1076,7 @@
     "dispersion": 10,
     "loudness": 0,
     "to_hit": -1,
-    "drop": "sling_bullet",
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_1000" ]
   },
   {
     "type": "AMMO",
@@ -1097,7 +1095,6 @@
     "dispersion": 10,
     "loudness": 0,
     "count": 30,
-    "drop": "sling_bullet_small",
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_1000" ]
   }
 ]
