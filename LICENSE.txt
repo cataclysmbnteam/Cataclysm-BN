@@ -1,4 +1,4 @@
-Cataclysm is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
+Cataclysm is licensed under the GNU General Public License v3.0 license. To view a copy of this license, see LICENSE-GPL or https://www.gnu.org/licenses/gpl-3.0.en.html.
 
 GNU Unifont (data/font/unifont.ttf) is licensed under GNU General Public License v2+ with the GNU font embedding exception. Visit http://unifoundry.com/LICENSE.txt for details.
 
@@ -51,13 +51,13 @@ libbacktrace is licensed under a BSD license (https://github.com/ianlancetaylor/
 # met:
 
 #     (1) Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer. 
+#     notice, this list of conditions and the following disclaimer.
 
 #     (2) Redistributions in binary form must reproduce the above copyright
 #     notice, this list of conditions and the following disclaimer in
 #     the documentation and/or other materials provided with the
-#     distribution.  
-    
+#     distribution.
+
 #     (3) The name of the author may not be used to
 #     endorse or promote products derived from this software without
 #     specific prior written permission.
