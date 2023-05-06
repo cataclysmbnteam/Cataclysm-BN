@@ -7104,7 +7104,7 @@ static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
     for( int xd = 0; xd <= 1; xd++ ) {
         for( int yd = 0; yd <= 1; yd++ ) {
             tripoint pos = p + point( xd, yd );
-            submap *sm = new submap( pos );
+            submap *sm = new submap( sm_to_ms_copy( pos ) );
             sm->is_uniform = true;
             sm->set_all_ter( terrain_type );
             sm->last_touched = calendar::turn;
@@ -7914,7 +7914,7 @@ fake_map::fake_map( const furn_id &fur_type, const ter_id &ter_type, const trap_
     set_abs_sub( tripoint_below_zero );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            std::unique_ptr<submap> sm = std::make_unique<submap>( tripoint_zero );
+            std::unique_ptr<submap> sm = std::make_unique<submap>( getabs( sm_to_ms_copy( { gridx, gridy, fake_map_z } ) ) );
 
             sm->set_all_ter( ter_type );
             sm->set_all_furn( fur_type );

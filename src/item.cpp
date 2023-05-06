@@ -9076,6 +9076,9 @@ detached_ptr<item>  item::process_rot( detached_ptr<item> &&self, const bool sea
                                        player *carrier, const temperature_flag flag,
                                        const weather_manager &weather )
 {
+    if( !self ) {
+        return self;
+    }
     const time_point now = calendar::turn;
 
     // if player debug menu'd the time backward it breaks stuff, just reset the
@@ -9218,6 +9221,9 @@ void item::process_relic( Character &carrier )
 detached_ptr<item> item::process_corpse( detached_ptr<item> &&self, player *carrier,
         const tripoint &pos )
 {
+    if( !self ) {
+        return self;
+    }
     // some corpses rez over time
     if( self->corpse == nullptr || self->damage() >= self->max_damage() ) {
         return self;
@@ -9259,6 +9265,9 @@ detached_ptr<item> item::process_corpse( detached_ptr<item> &&self, player *carr
 detached_ptr<item> item::process_fake_mill( detached_ptr<item> &&self, player * /*carrier*/,
         const tripoint &pos )
 {
+    if( !self ) {
+        return self;
+    }
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
         here.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
@@ -9277,6 +9286,9 @@ detached_ptr<item> item::process_fake_mill( detached_ptr<item> &&self, player * 
 detached_ptr<item> item::process_fake_smoke( detached_ptr<item> &&self, player * /*carrier*/,
         const tripoint &pos )
 {
+    if( !self ) {
+        return self;
+    }
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
         here.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
@@ -9295,6 +9307,9 @@ detached_ptr<item> item::process_fake_smoke( detached_ptr<item> &&self, player *
 detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carrier,
         const tripoint &pos )
 {
+    if( !self ) {
+        return self;
+    }
     if( !one_in( 10 ) ) {
         return self;
     }
@@ -9370,6 +9385,9 @@ detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carr
 detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *carrier,
         const tripoint &pos )
 {
+    if( !self ) {
+        return self;
+    }
     // checks for water
     bool extinguish = false;
     bool in_inv = carrier != nullptr && carrier->has_item( *self );
@@ -9466,6 +9484,9 @@ cata::optional<tripoint> item::get_cable_target( Character *p, const tripoint &p
 detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carrier,
                                         const tripoint &pos )
 {
+    if( !self ) {
+        return self;
+    }
     if( carrier == nullptr ) {
         //reset_cable( carrier );
         return self;
@@ -9541,6 +9562,9 @@ void item::reset_cable( player *p )
 detached_ptr<item> item::process_UPS( detached_ptr<item> &&self, player *carrier,
                                       const tripoint & /*pos*/ )
 {
+    if( !self ) {
+        return self;
+    }
     if( carrier == nullptr ) {
         self->erase_var( "cable" );
         self->active = false;
@@ -9573,6 +9597,9 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrier,
                                        const tripoint &pos )
 {
+    if( !self ) {
+        return self;
+    }
     avatar &you = get_avatar();
     // items with iuse set_transformed which are restricted turn off if not attached to their dependency.
     if( self->type->can_use( "set_transformed" ) ) {
@@ -9687,6 +9714,9 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
 
 detached_ptr<item> item::process_blackpowder_fouling( detached_ptr<item> &&self, player *carrier )
 {
+    if( !self ) {
+        return self;
+    }
     if( self->damage() < self->max_damage() && one_in( 2000 ) ) {
         self->inc_damage( DT_ACID );
         if( carrier ) {
@@ -9708,6 +9738,9 @@ detached_ptr<item> item::process( detached_ptr<item> &&self, player *carrier, co
                                   bool activate,
                                   temperature_flag flag, const weather_manager &weather_generator )
 {
+    if( !self ) {
+        return self;
+    }
     const bool preserves = self->type->container && self->type->container->preserves;
     const bool seals = self->type->container && self->type->container->seals;
     item &obj = *self;
@@ -9730,6 +9763,9 @@ detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *ca
         const bool seals, const temperature_flag flag,
         const weather_manager &weather_generator )
 {
+    if( !self ) {
+        return self;
+    }
     if( self->has_flag( flag_ETHEREAL_ITEM ) ) {
         if( !self->has_var( "ethereal" ) ) {
             return detached_ptr<item>();

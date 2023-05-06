@@ -124,7 +124,7 @@ void map::generate( const tripoint &p, const time_point &when )
                 debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p.z );
                 continue;
             }
-            setsubmap( grid_pos, new submap( {gridx, gridy, p.z} ) );
+            setsubmap( grid_pos, new submap( getabs( sm_to_ms_copy( {gridx, gridy, p.z} ) ) ) );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }

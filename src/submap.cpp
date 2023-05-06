@@ -218,8 +218,7 @@ maptile_soa<sx, sy>::maptile_soa( tripoint offset ) : itm{{
 {
 }
 
-submap::submap( tripoint offset ) : maptile_soa<SEEX, SEEY>( tripoint( offset.xy() * SEEX,
-            offset.z ) )
+submap::submap( tripoint offset ) : maptile_soa<SEEX, SEEY>( offset )
 {
     std::uninitialized_fill_n( &ter[0][0], elements, t_null );
     std::uninitialized_fill_n( &frn[0][0], elements, f_null );

@@ -297,7 +297,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 tripoint loc{ i, j, k };
                 jsin.end_array();
                 submap_coordinates = loc;
-                sm = std::make_unique<submap>( submap_coordinates );
+                sm = std::make_unique<submap>( sm_to_ms_copy( submap_coordinates ) );
             } else {
                 if( !sm ) { //This whole thing is a nasty hack that relys on coordinates coming first...
                     debugmsg( "coordinates was not at the top of submap json" );
