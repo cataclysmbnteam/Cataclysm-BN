@@ -3,6 +3,7 @@
 #define CATA_SRC_OM_DIRECTION_H
 
 #include <climits>
+#include <cstdint>
 #include <array>
 #include <string>
 
