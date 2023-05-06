@@ -7,13 +7,13 @@ import {
   brightYellow,
 } from "https://deno.land/std@0.182.0/fmt/colors.ts"
 import { c, p } from "https://deno.land/x/copb@v1.0.1/mod.ts"
-import { match, P } from "npm:ts-pattern"
+import { match } from "npm:ts-pattern"
 
 const color = (ms: number) =>
-  match({ ms })
-    .with({ ms: P.when((x) => x < 100) }, () => brightGreen)
-    .with({ ms: P.when((x) => x < 500) }, () => brightYellow)
-    .with({ ms: P.when((x) => x < 1000) }, () => brightRed)
+  match(ms)
+    .when((x) => x < 100, () => brightGreen)
+    .when((x) => x < 500, () => brightYellow)
+    .when((x) => x < 1000, () => brightRed)
     .otherwise(() => c(p(bgBrightRed)(brightWhite)(bold)))
 
 /** wait for a promise and returns its value, time it took, and color. */
