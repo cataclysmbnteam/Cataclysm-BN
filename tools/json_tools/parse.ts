@@ -37,12 +37,13 @@ export const parseCataJson = (text: string): unknown[] => {
     .otherwise(() => [rawJson])
 }
 
-type ObjectSchema = z.ZodObject<z.ZodRawShape>
+export type ObjectSchema = z.ZodObject<z.ZodRawShape>
 
 /**
  * wraps a schema to return data in same order as passed.
  *
  * @link https://github.com/colinhacks/zod/discussions/1852#discussioncomment-4658084
+ * @deprecated
  */
 export const orderPreservingSchema = <Schema extends ObjectSchema>(
   schema: Schema,
@@ -61,6 +62,7 @@ export type CataJsonEntryFn<Schema extends ObjectSchema> = (obj: z.infer<Schema>
  *
  * @param fn function that will transform entry satisfying schema.
  * @param text raw json string to parse.
+ * @deprecated
  */
 export const genericCataTransformer =
   <Schema extends ObjectSchema>(schema: Schema) =>

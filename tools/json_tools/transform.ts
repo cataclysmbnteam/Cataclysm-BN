@@ -1,5 +1,9 @@
 import { asynciter } from "https://deno.land/x/asynciter@0.0.15/asynciter.ts"
-import { Entry } from "./parse.ts"
+
+import { Entry, id, ObjectSchema, parseCataJson } from "./parse.ts"
+
+import { match, P } from "npm:ts-pattern"
+import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 
 /** clone an object with single key replaced.
  *  not very efficient, but at least it's purely functional (when looked at from the outside)
@@ -34,6 +38,17 @@ export const applyRecursively = (transformer: Transformer) => async (entries: En
     .collect()
 }
 
-export const lintRecursively = () =>
-  Deno.run({ cmd: ["make", "style-all-json-parallel"], stdout: "null", stderr: "null" })
-    .status()
+export type MigrationSchema = z.ZodEffects<ObjectSchema>
+
+/**
+ * applies mapping schema to all entries.
+ * mapping schemas are zod schema with .transform() method, which will transform an entry satisfying schema.
+ */
+export const schemaMigrationTransformer =
+  <Schema extends MigrationSchema>(mappingSchema: Schema): Transformer => (text) =>
+    parseCataJson(text)
+      .map((x) =>
+        match(mappingSchema.safeParse(x))
+          .with({ success: true, data: P.select() }, id)
+          .otherwise(() => x)
+      )
