@@ -1,7 +1,7 @@
 import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 
-import { testSchema } from "../test_schema.ts"
+import { testSchema } from "../utils/test_schema.ts"
 
 import { match, P } from "npm:ts-pattern"
 import { id } from "../parse.ts"

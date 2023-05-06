@@ -1,6 +1,6 @@
 import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
 
-import { testSchema } from "../test_schema.ts"
+import { testSchema } from "../utils/test_schema.ts"
 import {
   mapMaterialSchema,
   mapNameSchema,

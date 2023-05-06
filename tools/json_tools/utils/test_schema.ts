@@ -8,18 +8,13 @@ import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 
 import { match, P } from "npm:ts-pattern"
+import { concurrently, Step } from "./test_concurrently.ts"
 
-type Step = Deno.TestContext["step"]
 type Schema = z.ZodEffects<z.ZodTypeAny>
 
 type TestCase =
   | { input: unknown; expected: unknown }
   | { id: unknown }
-
-/** wrapper to easily run concurrent Deno test step. */
-const concurrently = (step: Step) => ({ name, fn }: Deno.TestStepDefinition) =>
-  step({ name, fn, sanitizeOps: false, sanitizeResources: false, sanitizeExit: false })
-
 /** get test metadata */
 const unpack = (testCase: TestCase) =>
   match(testCase)

@@ -2,7 +2,7 @@ import { z } from "https://deno.land/x/zod@v3.20.5/index.ts"
 
 import { match, P } from "npm:ts-pattern"
 
-import { testSchema } from "../test_schema.ts"
+import { testSchema } from "../utils/test_schema.ts"
 
 const overmapSchema = z.object({
   type: z.literal("overmap_special"),
