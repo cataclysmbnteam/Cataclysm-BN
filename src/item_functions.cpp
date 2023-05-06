@@ -42,6 +42,10 @@ bool can_be_unloaded( const item &itm )
 // TODO: Add consideration for BIONIC_GUNS when their fake_items get USES_BIONIC_POWER
 int shots_remaining( const Character &who, const item &it )
 {
+    if( !it.is_gun() ) {
+        return 0;
+    }
+
     int ammo_drain = it.ammo_required();
     int energy_drain = it.get_gun_ups_drain();
     units::energy power = units::from_kilojoule( who.charges_of( itype_UPS ) );

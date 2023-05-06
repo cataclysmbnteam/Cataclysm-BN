@@ -2501,7 +2501,6 @@ item Character::remove_weapon()
 {
     item tmp = weapon;
     weapon = item();
-    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
     clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     return tmp;
 }
