@@ -37,6 +37,7 @@
 #include "gun_mode.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_functions.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -72,23 +73,16 @@
 
 static const activity_id ACT_PULP( "ACT_PULP" );
 
-static const ammotype ammo_reactor_slurry( "reactor_slurry" );
-static const ammotype ammo_plutonium( "plutonium" );
-
 static const skill_id skill_firstaid( "firstaid" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
-static const bionic_id bio_blade( "bio_blade" );
-static const bionic_id bio_claws( "bio_claws" );
 static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_furnace( "bio_furnace" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
-static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
-static const bionic_id bio_lightning( "bio_chain_lightning" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -117,6 +111,8 @@ static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const flag_str_id flag_NO_UNWIELD( "NO_UNWIELD" );
+
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_chem_ethanol( "chem_ethanol" );
 static const itype_id itype_chem_methanol( "chem_methanol" );
@@ -127,6 +123,8 @@ static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_UPS( "UPS" );
+
+static const std::string flag_SPLINT( "SPLINT" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -141,6 +139,7 @@ enum npc_action : int {
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
     npc_talk_to_player, npc_mug_player,
+    npc_goto_to_this_pos,
     npc_goto_destination,
     npc_avoid_friendly_fire,
     npc_escape_explosion,
@@ -175,15 +174,6 @@ const std::vector<bionic_id> defense_cbms = { {
 const std::vector<bionic_id> health_cbms = { {
         bio_leukocyte,
         bio_plutfilter
-    }
-};
-
-// lightning, laser, blade, claws in order of use priority
-const std::vector<bionic_id> weapon_cbms = { {
-        bio_lightning,
-        bio_laser,
-        bio_blade,
-        bio_claws
     }
 };
 
@@ -641,7 +631,7 @@ float npc::character_danger( const Character &u ) const
     float ret = 0.0;
     bool u_gun = u.primary_weapon().is_gun();
     bool my_gun = primary_weapon().is_gun();
-    double u_weap_val = npc_ai::weapon_value( u, true );
+    double u_weap_val = npc_ai::wielded_value( u, true );
     const double &my_weap_val = ai_cache.my_weapon_value;
     if( u_gun && !my_gun ) {
         u_weap_val *= 1.5f;
@@ -1109,11 +1099,13 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_shoot: {
-            auto mode = cbm_active.is_null() ? weapon.gun_current_mode() : cbm_fake_active.gun_current_mode();
+            auto mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
+                        cbm_fake_active.gun_current_mode();
 
             if( !mode ) {
-                debugmsg( "NPC tried to shoot without valid mode" );
-                break;
+                std::string error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
+                                           cbm_fake_active.tname();
+                debugmsg( "NPC tried to shoot %s without valid mode.", error_weapon );
             }
 
             aim();
@@ -1377,7 +1369,8 @@ npc_action npc::method_of_attack()
 
     if( rules.has_flag( ally_rule::use_guns ) || !is_player_ally() ) {
 
-        const std::map<gun_mode_id, gun_mode> &to_add = cbm_active.is_null() ? weapon.gun_all_modes() :
+        const std::map<gun_mode_id, gun_mode> &to_add = cbm_active.is_null() ?
+                primary_weapon().gun_all_modes() :
                 cbm_fake_active.gun_all_modes();
         std::copy( to_add.begin(), to_add.end(), std::back_inserter( modes ) );
 
@@ -2185,7 +2178,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
 void npc::aim()
 {
-    item r_weapon = cbm_active.is_null() ? weapon : cbm_fake_active;
+    item r_weapon = cbm_active.is_null() ? primary_weapon() : cbm_fake_active;
     double aim_amount = ranged::aim_per_move( *this, r_weapon, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
@@ -3432,8 +3425,9 @@ bool npc::do_player_activity()
 bool npc::wield_better_weapon()
 {
     // Check against typeId() because the NPC doesn't actually wield the fake item.
-    if( weapon.has_flag( flag_NO_UNWIELD ) && weapon.typeId() != cbm_fake_toggled.typeId() ) {
-        add_msg( m_debug, "Cannot unwield %s, not switching.", weapon.type->get_id().str() );
+    if( primary_weapon().has_flag( flag_NO_UNWIELD ) &&
+        primary_weapon().typeId() != cbm_fake_toggled.typeId() ) {
+        add_msg( m_debug, "Cannot unwield %s, not switching.", primary_weapon().type->get_id().str() );
         return false;
     }
 
@@ -3474,7 +3468,7 @@ bool npc::wield_better_weapon()
 
     // Compare Toggled CBM selected earlier in check_or_use_weapon_cbm()
     // But only if it's not already wielded
-    if( weapon.typeId() != cbm_fake_toggled.typeId() ) {
+    if( primary_weapon().typeId() != cbm_fake_toggled.typeId() ) {
         compare_weapon( cbm_fake_toggled );
     }
 
@@ -3507,7 +3501,7 @@ bool npc::wield_better_weapon()
 
     if( best == &cbm_fake_toggled ) {
         if( is_armed() ) {
-            stow_item( weapon );
+            stow_item( primary_weapon() );
         }
         activate_bionic_by_id( cbm_toggled );
         if( get_player_character().sees( pos() ) ) {
@@ -3523,7 +3517,7 @@ bool npc::wield_better_weapon()
             cbm_active = bionic_id::NULL_ID();
         }
         return true;
-    } else if( weapon.typeId() == cbm_fake_toggled.typeId() ) {
+    } else if( primary_weapon().typeId() == cbm_fake_toggled.typeId() ) {
         deactivate_bionic_by_id( cbm_toggled );
         cbm_toggled = bionic_id::NULL_ID();
         cbm_fake_toggled = null_item_reference();

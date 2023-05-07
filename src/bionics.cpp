@@ -42,6 +42,7 @@
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
+#include "item_functions.h"
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
@@ -99,6 +100,7 @@ static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_heating_bionic( "heating_bionic" );
 static const efftype_id effect_iodine( "iodine" );
+static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
@@ -132,7 +134,6 @@ static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water_clean( "water_clean" );
 
@@ -165,7 +166,6 @@ static const bionic_id bio_magnet( "bio_magnet" );
 static const bionic_id bio_meteorologist( "bio_meteorologist" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_plutdump( "bio_plutdump" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const bionic_id bio_probability_travel( "bio_probability_travel" );
@@ -189,6 +189,7 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
@@ -200,6 +201,7 @@ static const std::string flag_PERSONAL( "PERSONAL" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
+static const std::string flag_SPLINT( "SPLINT" );
 
 static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
 static const flag_str_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
@@ -290,6 +292,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string src )
     assign( jsobj, "deact_cost", power_deactivate, strict, 0_kJ );
     assign( jsobj, "react_cost", power_over_time, strict, 0_kJ );
     assign( jsobj, "trigger_cost", power_trigger, strict, 0_kJ );
+    assign( jsobj, "kcal_trigger_cost", kcal_trigger, strict, 0 );
     assign( jsobj, "time", charge_time, strict, 0 );
     assign( jsobj, "capacity", capacity, strict, 0_kJ );
     assign( jsobj, "included", included, strict );
@@ -300,6 +303,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string src )
     assign( jsobj, "fuel_options", fuel_opts, strict );
     assign( jsobj, "fuel_capacity", fuel_capacity, strict, 0 );
     assign( jsobj, "fuel_efficiency", fuel_efficiency, strict, 0.0f );
+    assign( jsobj, "fuel_multiplier", fuel_multiplier, strict, 0 );
     assign( jsobj, "passive_fuel_efficiency", passive_fuel_efficiency, strict, 0.0f );
     assign( jsobj, "coverage_power_gen_penalty", coverage_power_gen_penalty, strict );
     assign( jsobj, "exothermic_power_gen", exothermic_power_gen, strict );
@@ -451,7 +455,7 @@ static void force_comedown( effect &eff )
 
 void npc::discharge_cbm_weapon()
 {
-    if( cbm_weapon_index < 0 ) {
+    if( cbm_active.is_null() ) {
         return;
     }
     mod_power_level( -cbm_active->power_activate );
@@ -519,13 +523,10 @@ void npc::check_or_use_weapon_cbm()
         }
         cbm_index++;
     }
-    if( !found ) {
-        return;
-    }
-    bionic &bio = ( *my_bionics )[index];
 
     // There's no point in checking the bionics if they can't unwield what they have.
-    if( !weapon.has_flag( flag_NO_UNWIELD ) && cbm_toggled.is_null() && !avail_toggle_cbms.empty() ) {
+    if( !primary_weapon().has_flag( flag_NO_UNWIELD ) && cbm_toggled.is_null() &&
+        !avail_toggle_cbms.empty() ) {
         int toggle_index = -1;
         item best_cbm_weap = null_item_reference();
         for( int i : avail_toggle_cbms ) {
@@ -565,11 +566,11 @@ void npc::check_or_use_weapon_cbm()
             cbm_toggled = ( *my_bionics )[toggle_index].id;
             cbm_fake_toggled = best_cbm_weap;
         }
-        const int cbm_ammo = free_power /  bio.info().power_activate;
+    }
 
     if( cbm_active.is_null() && !avail_active_cbms.empty() ) {
         int active_index = -1;
-        bool wield_gun = weapon.is_gun();
+        bool wield_gun = primary_weapon().is_gun();
         item best_cbm_active = null_item_reference();
         for( int i : avail_active_cbms ) {
             bionic &bio = ( *my_bionics )[ i ];
@@ -688,16 +689,16 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         avatar_action::fire_ranged_bionic( *this->as_avatar(), item( bio.info().fake_item ),
                                            bio.info().power_activate );
     } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
-        if( weapon.has_flag( flag_NO_UNWIELD ) ) {
-            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
+        if( primary_weapon().has_flag( flag_NO_UNWIELD ) ) {
+            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), primary_weapon().tname() );
             refund_power();
             bio.powered = false;
             return false;
         }
 
-        if( !weapon.is_null() ) {
-            const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
-            if( !dispose_item( item_location( *this, &weapon ), query ) ) {
+        if( !primary_weapon().is_null() ) {
+            const std::string query = string_format( _( "Stop wielding %s?" ), primary_weapon().tname() );
+            if( !dispose_item( item_location( *this, &primary_weapon() ), query ) ) {
                 refund_power();
                 bio.powered = false;
                 return false;
@@ -705,10 +706,10 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         }
 
         add_msg_activate();
-        weapon = item( bio.info().fake_item );
-        weapon.invlet = '#';
+        primary_weapon() = item( bio.info().fake_item );
+        primary_weapon().invlet = '#';
         if( bio.ammo_count > 0 ) {
-            weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
+            primary_weapon().ammo_set( bio.ammo_loaded, bio.ammo_count );
             avatar_action::fire_wielded_weapon( g->u );
         }
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
@@ -1178,16 +1179,17 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
 
     // Deactivation effects go here
     if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
-        if( weapon.typeId() == bio.info().fake_item ) {
-            add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
+        if( primary_weapon().typeId() == bio.info().fake_item ) {
+            add_msg_if_player( _( "You withdraw your %s." ), primary_weapon().tname() );
             if( g->u.sees( pos() ) ) {
                 add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ),
-                                weapon.tname() );
+                                primary_weapon().tname() );
             }
             bio.ammo_loaded =
-                weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : itype_id::NULL_ID();
-            bio.ammo_count = static_cast<unsigned int>( weapon.ammo_remaining() );
-            weapon = item();
+                primary_weapon().ammo_data() != nullptr ? primary_weapon().ammo_data()->get_id() :
+                itype_id::NULL_ID();
+            bio.ammo_count = static_cast<unsigned int>( primary_weapon().ammo_remaining() );
+            primary_weapon() = item();
             invalidate_crafting_inventory();
         }
     } else if( bio.id == bio_cqb ) {

@@ -1199,6 +1199,16 @@ class Character : public Creature, public visitable<Character>
 
         /**
          * Legacy code hack, don't use.
+         * Returns the null item if martial art forces unarmed, otherwise @ref primary_weapon.
+         * Use @ref wielded_items instead.
+         */
+        /*@{*/
+        item &used_weapon();
+        const item &used_weapon() const;
+        /*@}*/
+
+        /**
+         * Legacy code hack, don't use.
          * Returns the first wielded weapon or a null item.
          * Use @ref wielded_items instead.
          */
