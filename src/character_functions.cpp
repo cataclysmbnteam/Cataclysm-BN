@@ -215,8 +215,8 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
-            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
-            const cata::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
+            const std::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+            const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
                 for( const item *items_it : items ) {
@@ -585,7 +585,7 @@ bool try_uncanny_dodge( Character &who )
     who.mod_power_level( -trigger_cost );
     bool is_u = who.is_avatar();
     bool seen = is_u || get_player_character().sees( who );
-    cata::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
+    std::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
     if( adjacent ) {
         if( is_u ) {
             add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
@@ -603,7 +603,7 @@ bool try_uncanny_dodge( Character &who )
     }
 }
 
-cata::optional<tripoint> pick_safe_adjacent_tile( const Character &who )
+std::optional<tripoint> pick_safe_adjacent_tile( const Character &who )
 {
     std::vector<tripoint> ret;
     int dangerous_fields = 0;
@@ -1180,43 +1180,40 @@ std::vector<item *> find_reloadables( Character &who )
 
 int ammo_count_for( const Character &who, const item &gun )
 {
-    int ret = item::INFINITE_CHARGES;
     if( !gun.is_gun() ) {
-        return ret;
+        return item::INFINITE_CHARGES;
     }
+    int ammo_drain = gun.ammo_required();
+    int energy_drain = gun.get_gun_ups_drain();
 
-    int required = gun.ammo_required();
+    units::energy power = units::from_kilojoule( who.charges_of( itype_UPS ) );
+    int total_ammo = gun.ammo_remaining();
+    const std::vector<item *> inv_ammo = find_ammo_items_or_mags( who, gun, true, -1 );
 
-    if( required > 0 ) {
-        int total_ammo = 0;
-        total_ammo += gun.ammo_remaining();
+    bool has_mag = gun.magazine_integral();
 
-        bool has_mag = gun.magazine_integral();
-
-        const auto found_ammo = find_ammo_items_or_mags( who, gun, true, -1 );
-        int loose_ammo = 0;
-        for( const auto &ammo : found_ammo ) {
-            if( ammo->is_magazine() ) {
-                has_mag = true;
-                total_ammo += ammo->ammo_remaining();
-            } else if( ammo->is_ammo() ) {
-                loose_ammo += ammo->charges;
-            }
+    for( const item * const &it : inv_ammo ) {
+        if( it->is_magazine() ) {
+            total_ammo += it->ammo_remaining();
+        } else if( has_mag && it->is_ammo() ) {
+            // In combat, NPCs will only consider ammo "available" if it's in an applicable magazine
+            // or if the gun has an integral magazine (whereupon the "mags" are usually speedloaders)
+            total_ammo += it->count();
         }
-
-        if( has_mag ) {
-            total_ammo += loose_ammo;
-        }
-
-        ret = std::min( ret, total_ammo / required );
     }
 
-    int ups_drain = gun.get_gun_ups_drain();
-    if( ups_drain > 0 ) {
-        ret = std::min( ret, who.charges_of( itype_UPS ) / ups_drain );
+    if( ammo_drain > 0 && energy_drain > 0 ) {
+        // Both UPS and ammo, lower is limiting.
+        return std::min( total_ammo / ammo_drain, power / units::from_kilojoule( energy_drain ) );
+    } else if( energy_drain > 0 ) {
+        //Only one of the two, it is limiting.
+        return power / units::from_kilojoule( energy_drain );
+    } else if( ammo_drain > 0 ) {
+        return total_ammo / ammo_drain;
+    } else {
+        // Effectively infinite ammo.
+        return item::INFINITE_CHARGES;
     }
-
-    return ret;
 }
 
 void show_skill_capped_notice( const Character &who, const skill_id &id )

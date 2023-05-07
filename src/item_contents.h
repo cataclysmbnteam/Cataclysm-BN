@@ -102,8 +102,8 @@ class item_contents
          */
         VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
                                       item *parent = nullptr );
-        void remove_items_with( const std::function < detached_ptr<item>( detached_ptr<item> && ) >
-                                &filter );
+        void remove_top_items_with( const std::function < detached_ptr<item>( detached_ptr<item> && ) >
+                                    &filter );
 
         void remove_items_with( const std::function < VisitResponse( detached_ptr<item> && ) >
                                 &filter );

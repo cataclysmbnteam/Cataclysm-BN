@@ -1166,19 +1166,23 @@ bool visitable<T>::has_amount( const itype_id &what, int qty, bool pseudo,
 }
 
 template <typename T>
-void location_visitable<T>::remove_top_items_with(const std::function < detached_ptr<item>( detached_ptr<item> && ) > &filter){
-	remove_items_with([&filter](detached_ptr<item> &&e){
-		e=filter(std::move(e));
-		return VisitResponse::SKIP;
-	}
+void location_visitable<T>::remove_top_items_with( const std::function < detached_ptr<item>
+        ( detached_ptr<item> && ) > &filter )
+{
+    remove_items_with( [&filter]( detached_ptr<item> &&e ) {
+        e = filter( std::move( e ) );
+        return VisitResponse::SKIP;
+    } );
 }
 
 template <typename T>
-void location_visitable<T>::remove_all_items_with(const std::function < detached_ptr<item>( detached_ptr<item> && ) > &filter){
-	remove_items_with([&filter](detached_ptr<item> &&e){
-		e=filter(std::move(e));
-		return VisitResponse::NEXT;
-	}
+void location_visitable<T>::remove_all_items_with( const std::function < detached_ptr<item>
+        ( detached_ptr<item> && ) > &filter )
+{
+    remove_items_with( [&filter]( detached_ptr<item> &&e ) {
+        e = filter( std::move( e ) );
+        return VisitResponse::NEXT;
+    } );
 }
 
 // explicit template initialization for all classes implementing the visitable interface

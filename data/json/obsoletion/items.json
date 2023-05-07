@@ -195,8 +195,8 @@
   {
     "id": "retool_223",
     "type": "GUNMOD",
-    "name": { "str": ".223 caliber conversion kit" },
-    "description": "This kit is used to convert a shotgun, 5.45x39mm, 7.62x39mm, .30-06, or .308 rifle to the popular, accurate, and lighter .223 caliber.  The conversion results in slight reductions to both accuracy and ammo capacity.",
+    "name": { "str": "5.56x45mm caliber conversion kit" },
+    "description": "This kit is used to convert a shotgun, 5.45x39mm, 7.62x39mm, .30-06, or 7.62x51mm rifle to the popular, accurate, and lighter 5.56x45mm caliber.  The conversion results in slight reductions to both accuracy and ammo capacity.",
     "weight": "114 g",
     "volume": "500 ml",
     "integral_volume": 0,
@@ -215,8 +215,8 @@
   {
     "id": "retool_308",
     "type": "GUNMOD",
-    "name": { "str": ".308 caliber conversion kit" },
-    "description": "This kit is used to convert a shotgun or 7.62x39mm, .223 or .30-06 rifle to the popular and powerful .308 caliber.  The conversion results in reduced ammo capacity and a slight reduction to accuracy.",
+    "name": { "str": "7.62x51mm caliber conversion kit" },
+    "description": "This kit is used to convert a shotgun or 7.62x39mm, .223 or .30-06 rifle to the popular and powerful 7.62x51mm caliber.  The conversion results in reduced ammo capacity and a slight reduction to accuracy.",
     "weight": "114 g",
     "volume": "500 ml",
     "integral_volume": 0,
@@ -420,45 +420,6 @@
     "durability": 6,
     "relative": { "reload": 2 },
     "magazines": [ [ "flammable", [ "aux_pressurized_tank", "pressurized_tank" ] ] ]
-  },
-  {
-    "id": "bio_advreactor",
-    "copy-from": "bionic_general_npc_usable",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Advanced Microreactor CBM" },
-    "description": "This module upgrades a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.",
-    "price": 900000,
-    "difficulty": 13
-  },
-  {
-    "id": "bio_plut_filter",
-    "copy-from": "bionic_general_npc_usable",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Plutonium Filter CBM" },
-    "description": "A system of tanks and filters that are connected to a microreactor to extract plutonium from radioactive slurry.",
-    "price": 60000,
-    "weight": "1000 g",
-    "difficulty": 6
-  },
-  {
-    "id": "bio_reactor",
-    "copy-from": "bionic_general_npc_usable",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Internal Microreactor CBM" },
-    "description": "This stripped down mini-reactor will generate impressive amounts of bionic power, but may not be the safest thing to install.  Once active, it cannot be shut down and will slowly contaminate the user's body with radiation.",
-    "price": 900000,
-    "difficulty": 11
-  },
-  {
-    "id": "bio_reactor_upgrade",
-    "bionic_id": "bio_advreactor",
-    "copy-from": "bionic_general_npc_usable",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Microreactor Upgrade CBM" },
-    "description": "A kit for upgrading a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.",
-    "price": 250000,
-    "difficulty": 11,
-    "is_upgrade": true
   },
   {
     "id": "v29_cheap",
@@ -1662,7 +1623,7 @@
     "looks_like": "sw_619",
     "type": "GUN",
     "name": { "str": "L2037 Backup" },
-    "description": "The logical extension of Leadworks' autorevolver series, this massive 'sidearm' fires 5.56 NATO to share ammo with a soldier's rifle.  The muzzle flash and report of this 5-shot revolver are incredible, producing ballistics similar to .357 Magnum.  Similar to other Leadworks products it doesn't accept third-party modifications.",
+    "description": "The logical extension of Leadworks' autorevolver series, this massive 'sidearm' fires 5.56x45mm NATO to share ammo with a soldier's rifle.  The muzzle flash and report of this 5-shot revolver are incredible, producing ballistics similar to .357 Magnum.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "weight": "2370 g",
     "volume": "750 ml",
     "price": 267000,
@@ -3368,7 +3329,6 @@
     "fun": -6,
     "color": "white",
     "container": "bottle_glass",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 50,
     "description": "This highly carcinogenic white powder can be readily polymerized into a whole bunch of useful water-soluble gels.",
     "material": "powder",
@@ -3972,7 +3932,7 @@
     "id": "reloaded_223",
     "copy-from": "223",
     "type": "AMMO",
-    "name": { "str": ".223 Remington, reloaded" },
+    "name": { "str": "5.56x45mm '.223 Remington', reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -3981,7 +3941,7 @@
     "id": "reloaded_556",
     "copy-from": "556",
     "type": "AMMO",
-    "name": { "str": "5.56 NATO, reloaded" },
+    "name": { "str": "5.56x45mm NATO, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -3990,7 +3950,7 @@
     "id": "reloaded_556_incendiary",
     "copy-from": "556_incendiary",
     "type": "AMMO",
-    "name": { "str": "5.56 NATO tracer, reloaded" },
+    "name": { "str": "5.56x45mm NATO tracer, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -4028,7 +3988,7 @@
     "id": "reloaded_308",
     "copy-from": "308",
     "type": "AMMO",
-    "name": { "str": ".308 Winchester, reloaded" },
+    "name": { "str": "7.62x51mm '.308 Winchester', reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -4480,5 +4440,57 @@
     "material": [ "steel", "plastic" ],
     "bashing": 3,
     "to_hit": 1
+  },
+  {
+    "id": "lycra_patch",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "Lycra patch", "str_pl": "Lycra patches" },
+    "description": "This is a small bolt of a synthetic fabric blended with stretchy Lycra fibers.  It could be used to make flexible yet strong clothing.  Stylish, but bad for the environment; at least you're recycling it.",
+    "weight": "87 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": "lycra",
+    "symbol": ",",
+    "color": "light_blue",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "scrap_lycra",
+    "copy-from": "scrap_cotton",
+    "type": "AMMO",
+    "name": { "str_sp": "Lycra scraps" },
+    "description": "Oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
+    "price": 0,
+    "material": "lycra"
+  },
+  {
+    "id": "sheet_lycra",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": { "str": "Lycra sheet" },
+    "description": "A sheet of synthetic fabric blended with stretchy Lycra fibers, suitable for making flexible yet strong clothing.",
+    "weight": "3 g",
+    "volume": "300 ml",
+    "price": 5000,
+    "price_postapoc": 100,
+    "material": "lycra",
+    "symbol": "=",
+    "color": "dark_gray",
+    "count": 100,
+    "ammo_type": "components"
+  },
+  {
+    "id": "sheet_lycra_patchwork",
+    "copy-from": "sheet_lycra",
+    "type": "AMMO",
+    "name": { "str_sp": "patchwork Lycra clothing parts" },
+    "description": "A selection of various clothing parts, sewn together from Lycra patches in a patchwork fashion.  Suitable for making most clothing, though it's much less time-efficient than if using proper material sheets.",
+    "weight": "60 g",
+    "volume": "60 ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "count": 1
   }
 ]

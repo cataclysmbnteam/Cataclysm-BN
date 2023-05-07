@@ -16,7 +16,6 @@
 #include "line.h"
 #include "map.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"
@@ -42,6 +41,7 @@
 #include <limits>
 #include <map>
 #include <numeric>
+#include <optional>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -663,7 +663,7 @@ void inventory_column::set_stack_favorite( const item *location, bool favorite )
             item->set_favorite( favorite );
         }
     } else if( location->where() == item_location_type::vehicle ) {
-        const cata::optional<vpart_reference> vp = g->m.veh_at(
+        const std::optional<vpart_reference> vp = g->m.veh_at(
                     location->position() ).part_with_feature( "CARGO", true );
         assert( vp );
 
@@ -1200,7 +1200,7 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
+    const std::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
     if( !vp ) {
         return;
     }

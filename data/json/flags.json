@@ -1320,11 +1320,6 @@
     "context": [  ]
   },
   {
-    "id": "EDIBLE_FROZEN",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "EFFECT_IMPEDING",
     "type": "json_flag",
     "context": [  ]
@@ -1341,6 +1336,11 @@
   },
   {
     "id": "E_COMBUSTION",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "E_NO_POWER_DECAY",
     "type": "json_flag",
     "context": [  ]
   },

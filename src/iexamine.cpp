@@ -1591,7 +1591,7 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
     map &here = get_map();
     // TODO: fix point types
     point_abs_omt omt( ms_to_omt_copy( here.getabs( examp.xy() ) ) );
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_bb_pos( here.getabs( examp ) );
@@ -3665,7 +3665,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
         case REMOVE_CONTAINER: {
             g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
-            std::vector<pickup::pick_drop_selection> { { container, cata::nullopt, {} } }, g->u.pos() ) ) );
+            std::vector<pickup::pick_drop_selection> { { container, std::nullopt, {} } }, g->u.pos() ) ) );
             return;
         }
 
@@ -3994,7 +3994,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             for( auto &itm : items ) {
                 if( itm->type == cur_ammo ) {
                     g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
-                    std::vector<pickup::pick_drop_selection> { { itm, cata::nullopt, {} } }, g->u.pos() ) ) );
+                    std::vector<pickup::pick_drop_selection> { { itm, std::nullopt, {} } }, g->u.pos() ) ) );
                     return;
                 }
             }
@@ -4269,10 +4269,10 @@ static int getNearPumpCount( const tripoint &p )
     return result;
 }
 
-cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &gas_units )
+std::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &gas_units )
 {
     map &here = get_map();
-    cata::optional<tripoint> tank_loc;
+    std::optional<tripoint> tank_loc;
     int distance = INT_MAX;
     gas_units = 0;
 
@@ -4378,7 +4378,7 @@ static int getGasPricePerLiter( int discount )
     }
 }
 
-cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int number )
+std::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int number )
 {
     map &here = get_map();
     int k = 0;
@@ -4388,7 +4388,7 @@ cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int nu
             return tmp;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
@@ -4480,7 +4480,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     int tankGasUnits;
-    const cata::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankGasUnits );
+    const std::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankGasUnits );
     if( !pTank_ ) {
         popup( str_to_illiterate_str( _( "Failure!  No gas tank found!" ) ) );
         return;
@@ -4580,7 +4580,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             liters = maximum_liters;
         }
 
-        const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
+        const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
         if( !pGasPump || !toPumpFuel( pTank, *pGasPump, liters * 1000 ) ) {
             return;
@@ -4612,7 +4612,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         item *cashcard = &( p.i_at( pos ) );
         // Okay, we have a cash card. Now we need to know what's left in the pump.
-        const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
+        const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
         int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0;
         if( amount >= 0 ) {
@@ -4813,7 +4813,7 @@ static item *cyborg_on_couch( const tripoint &couch_pos )
         }
     }
     // if we're in a autodoc couch on a vehicle, go through the items in it, and return the item if's a cyborg
-    if( const cata::optional<vpart_reference> vp = get_map().veh_at( couch_pos ).part_with_feature(
+    if( const std::optional<vpart_reference> vp = get_map().veh_at( couch_pos ).part_with_feature(
                 flag_AUTODOC_COUCH, false ) ) {
         auto dest_veh = &vp->vehicle();
         int dest_part = vp->part_index();
@@ -4992,7 +4992,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
     }
     // find splints in vehicle
-    if( const cata::optional<vpart_reference> vp = get_map().veh_at( examp ).part_with_feature(
+    if( const std::optional<vpart_reference> vp = get_map().veh_at( examp ).part_with_feature(
                 flag_AUTODOC, false ) ) {
         auto dest_veh = &vp->vehicle();
         int dest_part = vp->part_index();

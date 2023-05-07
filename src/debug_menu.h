@@ -2,13 +2,9 @@
 #ifndef CATA_SRC_DEBUG_MENU_H
 #define CATA_SRC_DEBUG_MENU_H
 
-struct tripoint;
+#include <optional>
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
+struct tripoint;
 
 class Character;
 class Creature;
@@ -30,8 +26,9 @@ void character_edit_menu( Character &c );
 void effect_edit_menu( Creature &c );
 void wishitem( player *p = nullptr );
 void wishitem( player *p, const tripoint & );
-void wishmonster( const cata::optional<tripoint> &p );
+void wishmonster( const std::optional<tripoint> &p );
 void wishmutate( player *p );
+void wishbionics( Character &c );
 void wishskill( player *p );
 void mutation_wish();
 void benchmark( int max_difference, bench_kind kind );

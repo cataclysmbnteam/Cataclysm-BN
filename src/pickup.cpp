@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -38,7 +39,6 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
@@ -69,8 +69,8 @@ static void show_pickup_message( const pickup_map &mapPickup );
 struct pickup_count {
     bool pick = false;
     // nullopt if the whole stack is being picked up, nonzero otherwise.
-    cata::optional<int> count;
-    cata::optional<size_t> parent;
+    std::optional<int> count;
+    std::optional<size_t> parent;
     std::vector<size_t> children;
     bool all_children_picked = false;
 };
@@ -239,7 +239,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
     // We already checked in do_pickup if this was a nullptr
     item *loc = &*selection.target;
 
-    const cata::optional<int> &quantity = selection.quantity;
+    const std::optional<int> &quantity = selection.quantity;
     if( !loc->is_owned_by( g->u, true ) ) {
         // Has the player given input on if stealing is ok?
         if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
@@ -436,10 +436,10 @@ bool do_pickup( std::vector<pick_drop_selection> &targets, bool autopickup )
     return !problem;
 }
 
-static std::vector<cata::optional<size_t>> calculate_parents(
+static std::vector<std::optional<size_t>> calculate_parents(
         const std::vector<std::list<item_stack::iterator>> &stacked_here )
 {
-    std::vector<cata::optional<size_t>> parents( stacked_here.size() );
+    std::vector<std::optional<size_t>> parents( stacked_here.size() );
     if( !stacked_here.empty() ) {
         size_t last_parent_index = 0;
         item_drop_token last_parent_token = *( *stacked_here.front().front() )->drop_token;
@@ -464,7 +464,7 @@ struct parent_child_check_t {
 };
 
 struct unstacked_items {
-    cata::optional<item_stack::iterator> parent;
+    std::optional<item_stack::iterator> parent;
     std::list<item_stack::iterator> unstacked_children;
 };
 
@@ -569,7 +569,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     if( min != -1 ) {
         if( veh != nullptr && get_items_from == prompt ) {
-            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+            const std::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
             const bool veh_has_items = carg && !veh->get_items( carg->part_index() ).empty();
             const bool map_has_items = g->m.has_items( p );
             if( veh_has_items && map_has_items ) {
@@ -583,7 +583,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             }
         }
         if( get_items_from == from_cargo ) {
-            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+            const std::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
             cargo_part = carg ? carg->part_index() : -1;
             from_vehicle = cargo_part >= 0;
         } else {
@@ -654,14 +654,12 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     if( static_cast<int>( here.size() ) <= min && min != -1 ) {
         if( from_vehicle ) {
             g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
-            std::vector<pickup::pick_drop_selection> { { *here.front(), cata::nullopt, {} } },
-            cata::nullopt
-                                  ) ) );
+            std::vector<pickup::pick_drop_selection> { { *here.front(), std::nullopt, {} } },
+            std::nullopt ) ) );
         } else {
             g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
-            std::vector<pickup::pick_drop_selection> { { *here.front(), cata::nullopt, {} } },
-            g->u.pos()
-                                  ) ) );
+            std::vector<pickup::pick_drop_selection> { { *here.front(), std::nullopt, {} } },
+            g->u.pos() ) ) );
         }
         return;
     }
@@ -671,7 +669,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     // TODO: Remove flattening
     const std::vector<std::list<item_stack::iterator>> &stacked_here = flatten( stacked_here_new );
     std::vector<pickup_count> getitem( stacked_here.size() );
-    std::vector<cata::optional<size_t>> parents = calculate_parents( stacked_here );
+    std::vector<std::optional<size_t>> parents = calculate_parents( stacked_here );
     for( size_t i = 0; i < getitem.size(); i++ ) {
         getitem[i].parent = parents[i];
         if( parents[i] ) {
@@ -741,7 +739,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         } );
         ui.mark_resize();
 
-        cata::optional<int> itemcount;
+        std::optional<int> itemcount;
 
         std::string action;
         int raw_input_char = ' ';
@@ -1311,7 +1309,7 @@ std::vector<pick_drop_selection> optimize_pickup( const std::vector<item *> &tar
             optimized.back().children.emplace_back( loc );
         } else {
             last_token = *loc->drop_token;
-            cata::optional<int> q = quantities[i] != 0 ? quantities[i] : cata::optional<int>();
+            std::optional<int> q = quantities[i] != 0 ? quantities[i] : std::optional<int>();
             optimized.push_back( {loc, q, {}} );
         }
     }

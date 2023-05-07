@@ -3,12 +3,12 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "cached_options.h"
 #include "cursesdef.h"
 #include "game_ui.h"
-#include "optional.h"
 #include "point.h"
 #include "sdltiles.h"
 
@@ -18,7 +18,7 @@ static bool redraw_in_progress = false;
 static bool showing_debug_message = false;
 static bool restart_redrawing = false;
 #if defined( TILES )
-static cata::optional<SDL_Rect> prev_clip_rect;
+static std::optional<SDL_Rect> prev_clip_rect;
 #endif
 static ui_stack_t ui_stack;
 
@@ -56,7 +56,7 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : disabling_uis_below( tr
         SDL_RenderGetClipRect( renderer.get(), &prev_clip_rect.value() );
         SDL_RenderSetClipRect( renderer.get(), nullptr );
     } else {
-        prev_clip_rect = cata::nullopt;
+        prev_clip_rect = std::nullopt;
     }
 #endif
     // The debug message might be shown during a normal UI's redraw callback,

@@ -45,7 +45,7 @@
   },
   {
     "id": "20x66_exp",
-    "copy-from": "20x66_shot",
+    "copy-from": "20x66_shot_abstract",
     "type": "AMMO",
     "name": { "str": "20x66mm explosive" },
     "description": "20x66mm caseless shotgun rounds, explosive projectile type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
@@ -59,7 +59,7 @@
   },
   {
     "id": "20x66_flare",
-    "copy-from": "20x66_shot",
+    "copy-from": "20x66_shot_abstract",
     "type": "AMMO",
     "name": { "str": "20x66mm flare" },
     "description": "20x66mm caseless shotgun rounds, signal flare type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
@@ -68,7 +68,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "range": 20,
-    "damage": { "damage_type": "bullet", "amount": 16 },
+    "damage": { "damage_type": "heat", "amount": 16 },
     "dispersion": 200,
     "recoil": 100,
     "drop": "handflare_lit",
@@ -113,7 +113,7 @@
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {
-    "id": "20x66_shot",
+    "abstract": "20x66_shot_abstract",
     "type": "AMMO",
     "name": { "str": "20x66mm buckshot" },
     "//": "2.5x the Generic Rate of $1/shot",
@@ -135,8 +135,18 @@
     "effects": [ "COOKOFF", "SHOT", "NEVER_MISFIRES" ]
   },
   {
+    "id": "20x66_shot",
+    "copy-from": "20x66_shot_abstract",
+    "type": "AMMO",
+    "name": { "str": "20x66mm buckshot" },
+    "//": "2.5x the Generic Rate of $1/shot",
+    "description": "20x66mm caseless shotgun rounds, buckshot type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",
+    "range": 0,
+    "shape": [ "cone", { "half_angle": 15, "length": 12 } ]
+  },
+  {
     "id": "20x66_slug",
-    "copy-from": "20x66_shot",
+    "copy-from": "20x66_shot_abstract",
     "type": "AMMO",
     "name": { "str": "20x66mm slug" },
     "description": "20x66mm caseless shotgun rounds, solid projectile type.  Proprietary ammunition for Rivtech shotguns.  Being caseless rounds, these cannot be disassembled or reloaded.",

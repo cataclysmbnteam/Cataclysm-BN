@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -36,7 +37,6 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -477,7 +477,7 @@ void computer_session::action_research()
     // TODO: seed should probably be a member of the computer, or better: of the computer action.
     // It is here to ensure one computer reporting the same text on each invocation.
     const int seed = g->get_levx() + g->get_levy() + g->get_levz() + comp.alerts;
-    cata::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
+    std::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
     if( !log.has_value() ) {
         log = to_translation( "No data found." );
     } else {
@@ -933,17 +933,17 @@ void computer_session::action_srcf_seal()
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
         if( here.ter( p ) == t_elevator || here.ter( p ) == t_vat ) {
-            here.make_rubble( p, f_rubble_rock, true );
+            here.make_rubble( p, f_rubble_rock );
             explosion_handler::explosion( p, &g->u, 40, 0.7, true );
         }
         if( here.ter( p ) == t_wall_glass ) {
-            here.make_rubble( p, f_rubble_rock, true );
+            here.make_rubble( p, f_rubble_rock );
         }
         if( here.ter( p ) == t_sewage_pipe || here.ter( p ) == t_sewage || here.ter( p ) == t_grate ) {
-            here.make_rubble( p, f_rubble_rock, true );
+            here.make_rubble( p, f_rubble_rock );
         }
         if( here.ter( p ) == t_sewage_pump ) {
-            here.make_rubble( p, f_rubble_rock, true );
+            here.make_rubble( p, f_rubble_rock );
             explosion_handler::explosion( p, &g->u, 50, 0.7, true );
         }
     }

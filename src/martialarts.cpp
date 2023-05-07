@@ -21,6 +21,7 @@
 #include "generic_factory.h"
 #include "input.h"
 #include "item.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
@@ -47,10 +48,44 @@ static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
 namespace
 {
+generic_factory<weapon_category> weapon_category_factory( "weapon category" );
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
 } // namespace
+
+template<>
+const weapon_category &weapon_category_id::obj() const
+{
+    return weapon_category_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool weapon_category_id::is_valid() const
+{
+    return weapon_category_factory.is_valid( *this );
+}
+
+void weapon_category::load_weapon_categories( const JsonObject &jo, const std::string &src )
+{
+    weapon_category_factory.load( jo, src );
+}
+
+void weapon_category::reset()
+{
+    weapon_category_factory.reset();
+}
+
+void weapon_category::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "name", name_ );
+}
+
+const std::vector<weapon_category> &weapon_category::get_all()
+{
+    return weapon_category_factory.get_all();
+}
 
 matype_id martial_art_learned_from( const itype &type )
 {
@@ -287,6 +322,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
+    optional( jo, was_loaded, "weapon_category", weapon_category, auto_flags_reader<weapon_category_id> {} );
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
@@ -360,6 +396,11 @@ void check_martialarts()
         for( const itype_id &weapon : ma.weapons ) {
             if( !weapon.is_valid() ) {
                 debugmsg( "Weapon %s in style %s doesn't exist.", weapon, ma.name );
+            }
+        }
+        for( const weapon_category_id &weap_cat : ma.weapon_category ) {
+            if( !weap_cat.is_valid() ) {
+                debugmsg( "Weapon category %s in style %s is invalid.", weap_cat.c_str(), ma.name );
             }
         }
     }
@@ -833,7 +874,11 @@ bool martialart::has_technique( const Character &u, const matec_id &tec_id ) con
 
 bool martialart::has_weapon( const itype_id &itt ) const
 {
-    return weapons.count( itt ) > 0;
+    return weapons.count( itt ) > 0 ||
+           std::any_of( itt->weapon_category.begin(), itt->weapon_category.end(),
+    [&]( const weapon_category_id & weap ) {
+        return weapon_category.count( weap ) > 0;
+    } );
 }
 
 bool martialart::weapon_valid( const item &it ) const
@@ -1398,6 +1443,12 @@ std::string ma_technique::get_description() const
     return dump;
 }
 
+struct cat_order {
+    bool operator()( const weapon_category_id &lhs, const weapon_category_id &rhs ) const {
+        return localized_compare( lhs->name().translated(), rhs->name().translated() );
+    }
+};
+
 bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
                              uilist * )
 {
@@ -1484,26 +1535,68 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             buffer += tech.obj().get_description() + "--\n";
         }
 
-        if( !ma.weapons.empty() ) {
-            std::vector<std::string> weapons;
-            std::transform( ma.weapons.begin(), ma.weapons.end(),
-            std::back_inserter( weapons ), []( const itype_id & wid )-> std::string {
-                if( item::nname( wid ) == get_player_character().get_weapon().display_name() )
-                {
-                    return colorize( item::nname( wid ) + _( " (wielded)" ), c_light_cyan );
-                } else
-                {
-                    return item::nname( wid );
-                } } );
-            // Sorting alphabetically makes it easier to find a specific weapon
-            std::sort( weapons.begin(), weapons.end(), localized_compare );
-            // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
-            auto last = std::unique( weapons.begin(), weapons.end() );
-            weapons.erase( last, weapons.end() );
+        if( !( ma.weapons.empty() && ma.weapon_category.empty() ) ) {
+            Character &player = get_player_character();
+            std::map< weapon_category_id, std::vector<std::string>, cat_order > weapons_by_category;
+            // Iterate over every item in the game.
+            for( const itype *itp : item_controller->all() ) {
+                const itype_id &weap_id = itp->get_id();
+                bool wielded = player.get_weapon().typeId() == weap_id;
+                bool carried = player.has_item_with( [weap_id]( const item & it ) {
+                    return it.typeId() == weap_id;
+                } );
+                // Check if the item has any one of the weapon categories listed in the MA.
+                for( const weapon_category_id &cat : ma.weapon_category ) {
+                    auto cat_check = [cat]( const weapon_category_id & category ) {
+                        return category == cat;
+                    };
+                    if( std::any_of( itp->weapon_category.begin(),
+                                     itp->weapon_category.end(), cat_check ) ) {
+                        // If so, add it to the categories it applies to.
+                        std::string weaponname = wielded ? colorize( item::nname( weap_id ) + _( " [wielded]" ),
+                                                 c_light_cyan ) :
+                                                 carried ? colorize( item::nname( weap_id ), c_yellow ) : item::nname( weap_id );
+                        weapons_by_category[cat].push_back( weaponname );
+                    }
+                }
+            }
 
-            buffer += vgettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>",
-                                weapons.size() ) + std::string( " " );
-            buffer += enumerate_as_string( weapons );
+            buffer += _( "<bold>Weapons:</bold>" ) + std::string( "\n" );
+
+            for( std::pair< const weapon_category_id, std::vector<std::string> > &list : weapons_by_category ) {
+                // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
+                list.second.erase( std::unique( list.second.begin(), list.second.end() ), list.second.end() );
+                // then sort weapons within alphabetically.
+                std::sort( list.second.begin(), list.second.end(), localized_compare );
+                // If item factory somehow manages to crap out and it has no translation/name, use the ID.
+                std::string cat_name = list.first.is_valid() ? list.first->name().translated()
+                                       : colorize( "ID: " + std::string( list.first ), c_red );
+                buffer += std::string( "<header>" ) + cat_name + ": " +
+                          std::string( "</header>" );
+                buffer += enumerate_as_string( list.second ) + std::string( "\n" );
+            }
+
+            if( !ma.weapons.empty() ) {
+                std::vector<std::string> weapons;
+                for( const itype_id &wid : ma.weapons ) {
+                    const itype_id &weap_id = wid->get_id();
+                    bool wielded = player.get_weapon().typeId() == weap_id;
+                    bool carried = player.has_item_with( [weap_id]( const item & it ) {
+                        return it.typeId() == weap_id;
+                    } );
+                    std::string weaponname = wielded ? colorize( item::nname( wid ) + _( " [wielded]" ),
+                                             c_light_cyan ) :
+                                             carried ? colorize( item::nname( wid ), c_yellow ) : item::nname( wid );
+                    weapons.push_back( weaponname );
+                }
+                // Sorting alphabetically makes it easier to find a specific weapon
+                std::sort( weapons.begin(), weapons.end(), localized_compare );
+                // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
+                auto last = std::unique( weapons.begin(), weapons.end() );
+                weapons.erase( last, weapons.end() );
+                buffer += _( "<header>Special: </header>" );
+                buffer += enumerate_as_string( weapons );
+            }
         }
 
         catacurses::window w;

@@ -278,6 +278,7 @@ static const trait_id trait_INFRARED( "INFRARED" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_LIZ_IR( "LIZ_IR" );
+static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
@@ -445,7 +446,7 @@ Character::Character() :
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
 
     move_mode = CMM_WALK;
-    next_expected_position = cata::nullopt;
+    next_expected_position = std::nullopt;
     temp_cur.fill( BODYTEMP_NORM );
     frostbite_timer.fill( 0 );
     temp_conv.fill( BODYTEMP_NORM );
@@ -464,6 +465,7 @@ Character::Character() :
     drench_capacity[bp_hand_l] = 3;
     drench_capacity[bp_hand_r] = 3;
     drench_capacity[bp_torso] = 40;
+    npc_ai_info_cache.fill(-1.0);
 }
 // *INDENT-ON*
 
@@ -661,8 +663,11 @@ character_id Character::getID() const
 
 bool Character::is_dead_state() const
 {
-    return get_part_hp_cur( bodypart_id( "head" ) ) <= 0 ||
-           get_part_hp_cur( bodypart_id( "torso" ) ) <= 0;
+    const auto all_bps = get_all_body_parts( true );
+
+    return std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
+        return bp->essential && get_part_hp_cur( bp ) <= 0;
+    } );
 }
 
 field_type_id Character::bloodType() const
@@ -1361,7 +1366,7 @@ void Character::dismount()
         add_msg( m_debug, "dismount called when not riding" );
         return;
     }
-    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
+    if( const std::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
         if( !g->is_empty( *pnt ) ) {
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
@@ -1434,7 +1439,7 @@ bool Character::is_limb_disabled( const bodypart_id &limb ) const
 // if a limb is broken should point here to make any future changes to breaking easier
 bool Character::is_limb_broken( const bodypart_id &limb ) const
 {
-    return get_part_hp_cur( limb ) == 0;
+    return get_part_hp_cur( limb ) <= 0;
 }
 
 bool Character::can_run()
@@ -1734,7 +1739,7 @@ bool Character::movement_mode_is( const character_movemode mode ) const
 
 void Character::expose_to_disease( const diseasetype_id dis_type )
 {
-    const cata::optional<int> &healt_thresh = dis_type->health_threshold;
+    const std::optional<int> &healt_thresh = dis_type->health_threshold;
     if( healt_thresh && healt_thresh.value() < get_healthy() ) {
         return;
     }
@@ -1753,7 +1758,7 @@ void Character::expose_to_disease( const diseasetype_id dis_type )
 void Character::recalc_hp()
 {
     int str_boost_val = 0;
-    cata::optional<skill_boost> str_boost = skill_boost::get( "str" );
+    std::optional<skill_boost> str_boost = skill_boost::get( "str" );
     if( str_boost ) {
         int skill_total = 0;
         for( const std::string &skill_str : str_boost->skills() ) {
@@ -2192,6 +2197,15 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
     return stored_fuels;
 }
 
+int Character::get_fuel_type_available( const itype_id &fuel ) const
+{
+    int amount_stored = 0;
+    if( !get_value( fuel.str() ).empty() ) {
+        amount_stored = std::stoi( get_value( fuel.str() ) );
+    }
+    return amount_stored;
+}
+
 int Character::get_fuel_capacity( const itype_id &fuel ) const
 {
     int amount_stored = 0;
@@ -2286,7 +2300,7 @@ int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
 }
 
 detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
-        bool interactive, cata::optional<std::vector<item *>::iterator> position )
+        bool interactive, std::optional<std::vector<item *>::iterator> position )
 {
     if( !wear ) {
         return wear;
@@ -2466,7 +2480,9 @@ void Character::i_add( detached_ptr<item> &&it, bool should_stack )
     item &item_in_inv = *it;
     inv.add_item( std::move( it ), keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
-    clear_npc_ai_info_cache( "reloadables" );
+
+    clear_npc_ai_info_cache( npc_ai_info::reloadables );
+    clear_npc_ai_info_cache( npc_ai_info::reloadable_cbms );
 }
 
 void Character::remove_worn_items_with( std::function < detached_ptr<item>
@@ -2783,10 +2799,8 @@ bool Character::has_active_item( const itype_id &id ) const
 detached_ptr<item> Character::remove_weapon()
 {
     detached_ptr<item> ret( std::move( weapon ) );
-    if( ret ) {
-        ret->remove_owner();
-    }
-    clear_npc_ai_info_cache( "weapon_value" );
+    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     return ret;
 }
 
@@ -3241,7 +3255,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 }
 
 bool Character::wear_possessed( item &to_wear, bool interactive,
-                                cata::optional<std::vector<item *>::iterator> position )
+                                std::optional<std::vector<item *>::iterator> position )
 {
     if( is_worn( to_wear ) ) {
         if( interactive ) {
@@ -3744,6 +3758,9 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         int oldLevel = get_skill_level( id );
         get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
+        if( newLevel > oldLevel ) {
+            g->events().send<event_type::gains_skill_level>( getID(), id, newLevel );
+        }
         if( is_player() && newLevel > oldLevel ) {
             add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
         }
@@ -4405,7 +4422,7 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
-static int get_speedydex_bonus( const int dex )
+int get_speedydex_bonus( const int dex )
 {
     static const std::string speedydex_min_dex( "SPEEDYDEX_MIN_DEX" );
     static const std::string speedydex_dex_speed( "SPEEDYDEX_DEX_SPEED" );
@@ -4416,7 +4433,7 @@ static int get_speedydex_bonus( const int dex )
 
 int Character::get_speed() const
 {
-    return Creature::get_speed() + get_speedydex_bonus( get_dex() );
+    return Creature::get_speed();
 }
 
 int Character::ranged_dex_mod() const
@@ -5512,7 +5529,6 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
                               has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
-    const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // In bodytemp units
     const int ambient_norm = 1900 - BODYTEMP_NORM;
 
@@ -6068,7 +6084,8 @@ hp_part Character::body_window( const std::string &menu_header,
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( bp );
-        const bool limb_is_mending = limb_is_broken && worn_with_flag( flag_SPLINT, bp );
+        const bool limb_is_mending = limb_is_broken &&
+                                     ( worn_with_flag( flag_SPLINT, bp ) || has_trait( trait_REGEN_LIZ ) );
 
         if( show_all ) {
             e.allowed = true;
@@ -6775,7 +6792,7 @@ std::string Character::extended_description() const
         // <bad>This is me, <player_name>.</bad>
         ss += string_format( _( "This is you - %s." ), name );
     } else {
-        ss += string_format( _( "This is %s, %s" ), name, male ? _( "male" ) : _( "female" ) );
+        ss += string_format( _( "This is %s, %s" ), name, male ? _( "Male" ) : _( "Female" ) );
     }
 
     ss += "\n--\n";
@@ -9009,7 +9026,7 @@ void Character::update_type_of_scent( bool init )
 
 void Character::update_type_of_scent( const trait_id &mut, bool gain )
 {
-    const cata::optional<scenttype_id> &mut_scent = mut->scent_typeid;
+    const std::optional<scenttype_id> &mut_scent = mut->scent_typeid;
     if( mut_scent ) {
         if( gain && mut_scent.value() != get_type_of_scent() ) {
             set_type_of_scent( mut_scent.value() );
@@ -9618,7 +9635,7 @@ std::string Character::is_snuggling() const
     auto end = here.i_at( pos() ).end();
 
     if( in_vehicle ) {
-        if( const cata::optional<vpart_reference> vp = here.veh_at( pos() ).part_with_feature( VPFLAG_CARGO,
+        if( const std::optional<vpart_reference> vp = here.veh_at( pos() ).part_with_feature( VPFLAG_CARGO,
                 false ) ) {
             vehicle *const veh = &vp->vehicle();
             const int cargo = vp->part_index();
@@ -9728,27 +9745,30 @@ std::map<bodypart_id, int> from_effects( const Character &c )
 
 bool Character::can_use_floor_warmth() const
 {
-    return in_sleep_state() ||
-           has_activity( activity_id( "ACT_WAIT" ) ) ||
-           has_activity( activity_id( "ACT_WAIT_NPC" ) ) ||
-           has_activity( activity_id( "ACT_WAIT_STAMINA" ) ) ||
-           has_activity( activity_id( "ACT_AUTODRIVE" ) ) ||
-           has_activity( activity_id( "ACT_READ" ) ) ||
-           has_activity( activity_id( "ACT_SOCIALIZE" ) ) ||
-           has_activity( activity_id( "ACT_MEDITATE" ) ) ||
-           has_activity( activity_id( "ACT_FISH" ) ) ||
-           has_activity( activity_id( "ACT_GAME" ) ) ||
-           has_activity( activity_id( "ACT_HAND_CRANK" ) ) ||
-           has_activity( activity_id( "ACT_HEATING" ) ) ||
-           has_activity( activity_id( "ACT_VIBE" ) ) ||
-           has_activity( activity_id( "ACT_TRY_SLEEP" ) ) ||
-           has_activity( activity_id( "ACT_OPERATION" ) ) ||
-           has_activity( activity_id( "ACT_TREE_COMMUNION" ) ) ||
-           has_activity( activity_id( "ACT_EAT_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ||
-           has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ||
-           has_activity( activity_id( "ACT_STUDY_SPELL" ) );
+    static const auto allowed_activities = std::vector<activity_id> {
+        activity_id( "ACT_WAIT" ),
+        activity_id( "ACT_WAIT_NPC" ),
+        activity_id( "ACT_WAIT_STAMINA" ),
+        activity_id( "ACT_AUTODRIVE" ),
+        activity_id( "ACT_READ" ),
+        activity_id( "ACT_SOCIALIZE" ),
+        activity_id( "ACT_MEDITATE" ),
+        activity_id( "ACT_FISH" ),
+        activity_id( "ACT_GAME" ),
+        activity_id( "ACT_HAND_CRANK" ),
+        activity_id( "ACT_HEATING" ),
+        activity_id( "ACT_VIBE" ),
+        activity_id( "ACT_TRY_SLEEP" ),
+        activity_id( "ACT_OPERATION" ),
+        activity_id( "ACT_TREE_COMMUNION" ),
+        activity_id( "ACT_EAT_MENU" ),
+        activity_id( "ACT_CONSUME_FOOD_MENU" ),
+        activity_id( "ACT_CONSUME_DRINK_MENU" ),
+        activity_id( "ACT_CONSUME_MEDS_MENU" ),
+        activity_id( "ACT_STUDY_SPELL" ),
+    };
+
+    return in_sleep_state() || has_activity( allowed_activities );
 }
 
 int Character::floor_bedding_warmth( const tripoint &pos )
@@ -9760,7 +9780,7 @@ int Character::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = here.veh_at( pos );
-    const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
+    const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Search the floor for bedding
     if( furn_at_pos != f_null ) {
         floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
@@ -9798,7 +9818,7 @@ int Character::floor_item_warmth( const tripoint &pos )
 
     map &here = get_map();
     if( !!here.veh_at( pos ) ) {
-        if( const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( VPFLAG_CARGO,
+        if( const std::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( VPFLAG_CARGO,
                 false ) ) {
             vehicle *const veh = &vp->vehicle();
             const int cargo = vp->part_index();
@@ -10382,13 +10402,9 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost *= .9f;
         }
         if( has_active_bionic( bio_jointservo ) ) {
-            if( move_mode == CMM_RUN ) {
-                movecost *= 0.85f;
-            } else {
-                movecost *= 0.95f;
-            }
+            movecost *= ( move_mode == CMM_RUN ? 0.75f : 0.9f );
         } else if( has_bionic( bio_jointservo ) ) {
-            movecost *= 1.1f;
+            movecost *= 0.95f;
         }
 
         if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
@@ -10650,7 +10666,7 @@ std::vector<std::string> Character::short_description_parts() const
 {
     std::vector<std::string> result;
 
-    std::string gender = male ? _( "male" ) : _( "female" );
+    std::string gender = male ? _( "Male" ) : _( "Female" );
     result.push_back( name +  ", "  + gender );
     if( is_armed() ) {
         result.push_back( _( "Wielding: " ) + weapon->tname() );
@@ -10818,8 +10834,8 @@ std::unique_ptr<player_activity> Character::clear_destination()
 {
     auto_move_route.clear();
     std::unique_ptr<player_activity> ret = clear_destination_activity();
-    destination_point = cata::nullopt;
-    next_expected_position = cata::nullopt;
+    destination_point = std::nullopt;
+    next_expected_position = std::nullopt;
     return ret;
 }
 
@@ -10950,24 +10966,19 @@ void Character::set_underwater( bool x )
     }
 }
 
-void Character::clear_npc_ai_info_cache( const std::string &key ) const
+void Character::clear_npc_ai_info_cache( npc_ai_info key ) const
 {
-    npc_ai_info_cache.erase( key );
+    npc_ai_info_cache[key] = -1.0;
 }
 
-void Character::set_npc_ai_info_cache( const std::string &key, double val ) const
+void Character::set_npc_ai_info_cache( npc_ai_info key, double val ) const
 {
     npc_ai_info_cache[key] = val;
 }
 
-cata::optional<double> Character::get_npc_ai_info_cache( const std::string &key ) const
+std::optional<double> Character::get_npc_ai_info_cache( npc_ai_info key ) const
 {
-    auto it = npc_ai_info_cache.find( key );
-    if( it == npc_ai_info_cache.end() ) {
-        return cata::nullopt;
-    } else {
-        return it->second;
-    }
+    return npc_ai_info_cache[key];
 }
 
 float Character::stability_roll() const
@@ -11222,6 +11233,9 @@ void Character::knock_back_to( const tripoint &to )
 
     } else { // It's no wall
         setpos( to );
+
+        map &here = get_map();
+        here.creature_on_trap( *this );
     }
 }
 

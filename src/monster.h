@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -24,7 +25,6 @@
 #include "item.h"
 #include "location_ptr.h"
 #include "location_vector.h"
-#include "optional.h"
 #include "pldata.h"
 #include "point.h"
 #include "type_id.h"
@@ -512,7 +512,7 @@ class monster : public Creature, public location_visitable<monster>
         }
 
         short ignoring;
-        cata::optional<time_point> lastseen_turn;
+        std::optional<time_point> lastseen_turn;
 
         // Stair data.
         int staircount;
@@ -596,13 +596,13 @@ class monster : public Creature, public location_visitable<monster>
         bool upgrades;
         int upgrade_time;
         bool reproduces;
-        cata::optional<time_point> baby_timer;
+        std::optional<time_point> baby_timer;
         time_point udder_timer;
         monster_horde_attraction horde_attraction;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
-        cata::optional<time_duration> summon_time_limit = cata::nullopt;
+        std::optional<time_duration> summon_time_limit = std::nullopt;
 
         player *find_dragged_foe();
         void nursebot_operate( player *dragged_foe );

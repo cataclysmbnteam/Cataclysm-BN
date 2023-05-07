@@ -10,6 +10,7 @@
 #include <list>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -42,7 +43,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -419,7 +419,7 @@ void veh_interact::do_main_loop()
         ui_manager::redraw();
         const std::string action = main_context.handle_input();
         msg.reset();
-        if( const cata::optional<tripoint> vec = main_context.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = main_context.get_direction( action ) ) {
             move_cursor( vec->xy() );
         } else if( action == "QUIT" ) {
             finish = true;
@@ -930,7 +930,7 @@ void veh_interact::do_install()
         return;
     }
 
-    restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
     title = _( "Choose new part to install here:" );
 
     restore_on_out_of_scope<std::unique_ptr<install_info_t>> prev_install_info( std::move(
@@ -1214,7 +1214,7 @@ void veh_interact::do_repair()
         return;
     }
 
-    restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
     title = _( "Choose a part here to repair:" );
 
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
@@ -1296,7 +1296,7 @@ void veh_interact::do_mend()
             break;
     }
 
-    restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
     title = _( "Choose a part here to mend:" );
 
     avatar &you = get_avatar();
@@ -1332,7 +1332,7 @@ void veh_interact::do_refill()
             break;
     }
 
-    restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
     title = _( "Select part to refill:" );
 
     auto act = [&]( const vehicle_part & pt ) {
@@ -1862,7 +1862,7 @@ void veh_interact::do_remove()
         return;
     }
 
-    restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
     title = _( "Choose a part here to remove:" );
 
     player &you = *get_player_character().as_player();
@@ -1948,7 +1948,7 @@ void veh_interact::do_siphon()
             break;
     }
 
-    restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
     title = _( "Select part to siphon:" );
 
     auto sel = [&]( const vehicle_part & pt ) {
@@ -2039,7 +2039,7 @@ void veh_interact::do_assign_crew()
         return;
     }
 
-    restore_on_out_of_scope<cata::optional<std::string>> prev_title( title );
+    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
     title = _( "Assign crew positions:" );
 
     auto sel = []( const vehicle_part & pt ) {
@@ -3101,7 +3101,7 @@ void veh_interact::complete_vehicle( player &p )
                 do {
                     popup( _( "Press space, choose a facing direction for the new %s and confirm with enter." ),
                            vpinfo.name() );
-                    const cata::optional<tripoint> chosen = g->look_around();
+                    const std::optional<tripoint> chosen = g->look_around();
                     if( !chosen ) {
                         continue;
                     }

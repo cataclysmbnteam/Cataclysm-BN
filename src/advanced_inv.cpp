@@ -6,6 +6,7 @@
 #include <initializer_list>
 #include <list>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -36,7 +37,6 @@
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
@@ -950,7 +950,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                         quantities );
                 g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
                                           targets,
-                                          panes[src].in_vehicle() ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
+                                          panes[src].in_vehicle() ? std::nullopt : std::optional<tripoint>( g->u.pos() )
                                       ) ) );
             } else {
                 g->u.assign_activity( std::make_unique<player_activity>
@@ -1163,7 +1163,7 @@ void advanced_inventory::start_activity( const aim_location destarea,
                     quantities );
             g->u.assign_activity( std::make_unique<player_activity>( std::make_unique<pickup_activity_actor>(
                                       targets,
-                                      from_vehicle ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
+                                      from_vehicle ? std::nullopt : std::optional<tripoint>( g->u.pos() )
                                   ) ) );
         } else {
             // Stash the destination

@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "avatar.h"
@@ -21,7 +22,6 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "popup.h"
@@ -620,7 +620,7 @@ void mission_start::reveal_refugee_center( mission *miss )
     t.search_range = 0;
     t.reveal_radius = 3;
 
-    const cata::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
+    const std::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
 
     if( !target_pos ) {
         add_msg( _( "You don't know where the address could be…" ) );
@@ -730,7 +730,7 @@ void mission_start::reveal_lab_train_depot( mission *miss )
 
     tinymap compmap;
     compmap.load( project_to<coords::sm>( place ), false );
-    cata::optional<tripoint> comppoint;
+    std::optional<tripoint> comppoint;
 
     for( const tripoint &point : compmap.points_on_zlevel() ) {
         if( compmap.ter( point ) == t_console ) {

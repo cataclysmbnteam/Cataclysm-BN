@@ -123,6 +123,7 @@ static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 static const std::string flag_NPC_SAFE( "NPC_SAFE" );
+static const std::string flag_SPLINT( "SPLINT" );
 
 class monfaction;
 
@@ -135,13 +136,14 @@ npc::npc()
     , companion_mission_time_ret( calendar::before_time_starts )
     , companion_mission_inv( new npc_mission_item_location( this ) )
     , last_updated( calendar::turn )
-    , real_weapon( new real_weapon_item_location( this ) )
+    , cbm_fake_active( new fake_item_location( ) )
+    , cbm_fake_toggled( new fake_item_location( ) )
 {
     submap_coords = point_zero;
     position.x = -1;
     position.y = -1;
     position.z = 500;
-    last_player_seen_pos = cata::nullopt;
+    last_player_seen_pos = std::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
     guard_pos = tripoint_min;
@@ -1069,7 +1071,8 @@ detached_ptr<item> npc::wear_if_wanted( detached_ptr<item> &&it, std::string &re
 
     // Splints ignore limits, but only when being equipped on a broken part
     // TODO: Drop splints when healed
-    if( it->has_flag( "SPLINT" ) ) {
+
+    if( it->has_flag( flag_SPLINT ) ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
@@ -1105,7 +1108,7 @@ detached_ptr<item> npc::wear_if_wanted( detached_ptr<item> &&it, std::string &re
             auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item * const & armor ) {
                 return armor->covers( bp );
             } );
-            if( iter != worn.end() && !( is_limb_broken( bp ) && ( *iter )->has_flag( "SPLINT" ) ) ) {
+            if( iter != worn.end() && !( is_limb_broken( bp ) && ( *iter )->has_flag( flag_SPLINT ) ) ) {
                 took_off = takeoff( **iter );
                 break;
             }
@@ -1169,8 +1172,11 @@ void npc::stow_weapon( )
 
 bool npc::wield( item &it )
 {
-    clear_npc_ai_info_cache( "weapon_value" );
-    stow_weapon();
+    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
+    if( is_armed() ) {
+        stow_weapon( );
+    }
 
     if( it.is_null() ) {
         return true;
@@ -1211,11 +1217,12 @@ detached_ptr<item> npc::wield( detached_ptr<item> &&target )
     if( !can_wield( *target ).success() ) {
         return target;
     }
+    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
 
     if( !unwield() ) {
         return target;
     }
-    clear_npc_ai_info_cache( "weapon_value" );
     if( !target || target->is_null() ) {
         return target;
     }
@@ -1262,7 +1269,7 @@ void npc::form_opinion( const player &u )
         } else {
             op_of_u.fear += 6;
         }
-    } else if( npc_ai::weapon_value( u, u.get_weapon() ) > 20 ) {
+    } else if( npc_ai::wielded_value( u, true ) > 20 ) {
         op_of_u.fear += 2;
     } else if( !u.is_armed() ) {
         // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
@@ -1402,7 +1409,7 @@ void npc::mutiny()
     set_fac( faction_id( "amf" ) );
     job.clear_all_priorities();
     if( assigned_camp ) {
-        assigned_camp = cata::nullopt;
+        assigned_camp = std::nullopt;
     }
     chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
     set_attitude( NPCATT_NULL );
@@ -1548,7 +1555,7 @@ void npc::decide_needs()
         needrank[need_safety] = 1;
     }
 
-    needrank[need_weapon] = npc_ai::weapon_value( *this, get_weapon() );
+    needrank[need_weapon] = npc_ai::wielded_value( *this, true );
     needrank[need_food] = 15.0f - ( max_stored_kcal() - get_stored_kcal() ) / 10.0f;
     needrank[need_drink] = 15 - get_thirst();
     const_invslice slice = inv.const_slice();
@@ -1798,8 +1805,8 @@ int npc::value( const item &it, int market_price ) const
     }
 
     int ret = 0;
-    // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
-    double weapon_val = npc_ai::weapon_value( *this, it ) - npc_ai::weapon_value( *this, get_weapon() );
+    double weapon_val = npc_ai::weapon_value( *this, it,
+                        it.ammo_capacity() ) - npc_ai::wielded_value( *this, true );
     if( weapon_val > 0 ) {
         ret += weapon_val;
     }
@@ -2081,7 +2088,7 @@ bool npc::within_boundaries_of_camp() const
     for( int x2 = -3; x2 < 3; x2++ ) {
         for( int y2 = -3; y2 < 3; y2++ ) {
             const point_abs_omt nearby = p + point( x2, y2 );
-            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
+            std::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
             if( bcp ) {
                 return true;
             }
@@ -2181,7 +2188,7 @@ void npc::npc_dismount()
                  disp_name() );
         return;
     }
-    cata::optional<tripoint> pnt;
+    std::optional<tripoint> pnt;
     for( const auto &elem : g->m.points_in_radius( pos(), 1 ) ) {
         if( g->is_empty( elem ) ) {
             pnt = elem;
@@ -2426,7 +2433,7 @@ std::string npc::opinion_text() const
     return ret;
 }
 
-static void maybe_shift( cata::optional<tripoint> &pos, point d )
+static void maybe_shift( std::optional<tripoint> &pos, point d )
 {
     if( pos ) {
         *pos += d;
@@ -2466,7 +2473,7 @@ void npc::reboot()
     // if not, they will faint again, and the NPC can be kept asleep until the bug is fixed.
     cancel_activity();
     path.clear();
-    last_player_seen_pos = cata::nullopt;
+    last_player_seen_pos = std::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
     guard_pos = tripoint_min;
@@ -2485,7 +2492,7 @@ void npc::reboot()
     ai_cache.sound_alerts.clear();
     ai_cache.s_abs_pos = tripoint_zero;
     ai_cache.stuck = 0;
-    ai_cache.guard_pos = cata::nullopt;
+    ai_cache.guard_pos = std::nullopt;
     ai_cache.my_weapon_value = 0;
     ai_cache.friends.clear();
     ai_cache.dangerous_explosives.clear();
@@ -2504,12 +2511,12 @@ void npc::die( Creature *nkiller )
         return;
     }
     if( assigned_camp ) {
-        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
         if( bcp ) {
             ( *bcp )->remove_assignee( getID() );
         }
     }
-    assigned_camp = cata::nullopt;
+    assigned_camp = std::nullopt;
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
@@ -3139,16 +3146,16 @@ void npc::reset_companion_mission()
     comp_mission.mission_id.clear();
     comp_mission.role_id.clear();
     if( comp_mission.destination ) {
-        comp_mission.destination = cata::nullopt;
+        comp_mission.destination = std::nullopt;
     }
 }
 
-cata::optional<tripoint_abs_omt> npc::get_mission_destination() const
+std::optional<tripoint_abs_omt> npc::get_mission_destination() const
 {
     if( comp_mission.destination ) {
         return comp_mission.destination;
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 
@@ -3429,16 +3436,3 @@ bool job_data::has_job() const
     return false;
 }
 
-detached_ptr<item> npc::remove_real_weapon()
-{
-    return real_weapon.release();
-}
-
-item &npc::get_real_weapon()
-{
-    return *real_weapon;
-}
-detached_ptr<item> npc::set_real_weapon( detached_ptr<item> &&weapon )
-{
-    return real_weapon.swap( std::move( weapon ) );
-}

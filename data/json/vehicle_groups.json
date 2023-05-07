@@ -156,6 +156,7 @@
       [ "armored_car", 300 ],
       [ "superbike", 50 ],
       [ "surv_car", 2 ],
+      [ "car_roadwarrior", 2 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 300 ],
       [ "4x4_car", 400 ]
@@ -353,7 +354,7 @@
     "id": "bandit_vehicles",
     "type": "vehicle_group",
     "//": "Vehicles used by Hell's Raiders for scouting and assaults",
-    "vehicles": [ [ "pickup_technical", 150 ], [ "quad_bike", 150 ], [ "motorcycle", 300 ] ]
+    "vehicles": [ [ "pickup_technical", 150 ], [ "quad_bike", 150 ], [ "motorcycle", 300 ], [ "motorcycle_methcart", 50 ] ]
   },
   {
     "type": "vehicle_group",

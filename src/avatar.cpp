@@ -8,6 +8,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -53,7 +54,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -195,7 +195,7 @@ mission *avatar::get_active_mission() const
     return active_mission;
 }
 
-void avatar::reset_all_misions()
+void avatar::reset_all_missions()
 {
     active_mission = nullptr;
     active_missions.clear();
@@ -1057,11 +1057,11 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-cata::optional<int> avatar::kill_xp_for_next_point() const
+std::optional<int> avatar::kill_xp_for_next_point() const
 {
     auto it = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
     if( it == xp_cutoffs.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return *it - kill_xp();
     }
@@ -1209,7 +1209,8 @@ bool avatar::wield( item &target )
     if( !unwield() ) {
         return false;
     }
-    clear_npc_ai_info_cache( "weapon_value" );
+    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     if( target.is_null() ) {
         return true;
     }
@@ -1263,7 +1264,8 @@ detached_ptr<item> avatar::wield( detached_ptr<item> &&target )
     if( !unwield() ) {
         return target;
     }
-    clear_npc_ai_info_cache( "weapon_value" );
+    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     if( !target || target->is_null() ) {
         return target;
     }

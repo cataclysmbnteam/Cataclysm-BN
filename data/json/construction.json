@@ -2476,24 +2476,13 @@
   },
   {
     "type": "construction",
-    "id": "constr_revert_carpet",
-    "group": "remove_carpet",
-    "category": "DECORATE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "10 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "pre_flags": "RUG",
-    "post_terrain": "t_floor"
-  },
-  {
-    "type": "construction",
     "id": "constr_carpet_red",
     "group": "carpet_floor_red",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "r_carpet", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "r_carpet", 1 ] ] ],
     "pre_terrain": "t_floor",
     "post_terrain": "t_carpet_red"
   },
@@ -2505,7 +2494,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "p_carpet", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "p_carpet", 1 ] ] ],
     "pre_terrain": "t_floor",
     "post_terrain": "t_carpet_purple"
   },
@@ -2517,7 +2506,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "y_carpet", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "y_carpet", 1 ] ] ],
     "pre_terrain": "t_floor",
     "post_terrain": "t_carpet_yellow"
   },
@@ -2529,7 +2518,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "nail", 5 ] ], [ [ "g_carpet", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "g_carpet", 1 ] ] ],
     "pre_terrain": "t_floor",
     "post_terrain": "t_carpet_green"
   },
@@ -3146,7 +3135,7 @@
       [ [ "wire", 8 ], [ "spike", 8 ], [ "nail", 16 ] ],
       [ [ "scrap", 40 ], [ "sheet_metal", 1 ], [ "sheet_metal_small", 20 ] ]
     ],
-    "pre_terrain": "t_pit",
+    "pre_special": "check_empty",
     "post_terrain": "t_junk_palisade"
   },
   {

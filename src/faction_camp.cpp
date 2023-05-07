@@ -5,6 +5,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -49,7 +50,6 @@
 #include "mission_companion.h"
 #include "npc.h"
 #include "npctalk.h"
-#include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
@@ -506,18 +506,18 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     return avail;
 }
 
-static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_type = "default" )
+static std::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_type = "default" )
 {
 
     tripoint_abs_omt omt_pos = p.global_omt_location();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( bcp ) {
         return bcp;
     }
     get_map().add_camp( omt_pos, "faction_camp" );
     bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( !bcp ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     basecamp *temp_camp = *bcp;
     temp_camp->define_camp( omt_pos, camp_type );
@@ -642,7 +642,7 @@ void talk_function::basecamp_mission( npc &p )
     const tripoint_abs_omt omt_pos = p.global_omt_location();
     mission_data mission_key;
 
-    cata::optional<basecamp *> temp_camp = get_basecamp( p );
+    std::optional<basecamp *> temp_camp = get_basecamp( p );
     if( !temp_camp ) {
         return;
     }
@@ -766,13 +766,13 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, point d
                                   "Risk: Very Low\n"
                                   "Time: 3 Hours, Repeated\n"
                                   "Positions: %d/3\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), std::nullopt,
                                entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_fixed( entry, npc_list, 3_hours );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
+                                    std::nullopt, entry, avail );
         }
     }
     if( has_provides( "sorting", dir ) ) {
@@ -789,13 +789,13 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, point d
                                   "\n\nRisk: None\n"
                                   "Time: 3 Hours\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), std::nullopt,
                                entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
+                                    std::nullopt, entry, avail );
         }
     }
 
@@ -815,13 +815,13 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, point d
                                   "Risk: None\n"
                                   "Time: 6 Hour Base + Travel Time + Cutting Time\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), std::nullopt,
                                entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
+                                    std::nullopt, entry, avail );
         }
     }
 
@@ -841,13 +841,13 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, point d
                                   "Risk: None\n"
                                   "Time: 6 Hour Base + Travel Time + Cutting Time\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), std::nullopt,
                                entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
+                                    std::nullopt, entry, avail );
         }
     }
 
@@ -866,13 +866,13 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, point d
                                   "Risk: Medium\n"
                                   "Time: 6 Hour Construction + Travel\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), std::nullopt,
                                entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
+                                    std::nullopt, entry, avail );
         }
     }
 
@@ -892,13 +892,13 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, point d
                                   "Risk: Medium\n"
                                   "Time: 1 Hour Base + Travel\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), std::nullopt, entry,
                                npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
+                                    std::nullopt, entry, avail );
         }
     }
 
@@ -986,7 +986,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, point d
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
+                                    std::nullopt, entry, avail );
         }
     }
 
@@ -1000,7 +1000,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, point d
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
+                                    std::nullopt, entry, avail );
         }
     }
 
@@ -1026,7 +1026,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, point d
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id,  miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
+                                    std::nullopt, entry, avail );
         }
     }
 
@@ -1048,13 +1048,13 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, point d
                                   "Risk: Very High\n"
                                   "Time: Travel\n"
                                   "Positions: %d/3\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), std::nullopt,
                                entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
+                                    std::nullopt, entry, avail );
         }
     }
 
@@ -1349,7 +1349,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
 }
 
 bool basecamp::handle_mission( const std::string &miss_id,
-                               const cata::optional<point> &opt_miss_dir )
+                               const std::optional<point> &opt_miss_dir )
 {
     point miss_dir = opt_miss_dir ? *opt_miss_dir : base_camps::base_dir;
 
@@ -3021,7 +3021,7 @@ std::string talk_function::name_mission_tabs(
     if( role_id != base_camps::id ) {
         return cur_title;
     }
-    cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( omt_pos.xy() );
+    std::optional<basecamp *> temp_camp = overmap_buffer.find_camp( omt_pos.xy() );
     if( !temp_camp ) {
         return cur_title;
     }

@@ -8,6 +8,10 @@ on:
     branches: [upload]
   workflow_dispatch:
 
+concurrency:
+  group: documentation
+  cancel-in-progress: true
+
 jobs:
   documentation:
     runs-on: ubuntu-22.04

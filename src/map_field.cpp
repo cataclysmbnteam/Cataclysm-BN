@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <list>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <set>
 #include <string>
@@ -44,7 +45,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "pldata.h"
@@ -539,7 +539,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                         map_stack items_here = i_at( p );
                         std::vector<detached_ptr<item>> new_content;
 
-                        items_here.remove_items_with( [&p, &new_content]( detached_ptr<item> &&it ) {
+                        items_here.remove_top_items_with( [&p, &new_content]( detached_ptr<item> &&it ) {
                             if( it->will_explode_in_fire() ) {
                                 it = item::detonate( std::move( it ), p, new_content );
                             }
@@ -633,7 +633,6 @@ void map::process_fields_in_submap( submap *const current_submap,
                             if( cur.get_field_intensity() > 1 &&
                                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
                                 furn_set( p, f_ash );
-                                add_item_or_charges( p, item::spawn( "ash" ) );
                             }
 
                         }
@@ -969,7 +968,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                         if( !spawn_details.name ) {
                             continue;
                         }
-                        if( const cata::optional<tripoint> spawn_point = random_point(
+                        if( const std::optional<tripoint> spawn_point = random_point(
                                     points_in_radius( p, cur.monster_spawn_radius() ),
                         [this]( const tripoint & n ) {
                         return passable( n );

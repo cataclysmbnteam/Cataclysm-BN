@@ -87,22 +87,6 @@
 #include "weather.h"
 #include "weather_gen.h"
 
-static const efftype_id effect_blind( "blind" );
-static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_stunned( "stunned" );
-
-static const trait_id trait_CF_HAIR( "CF_HAIR" );
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_DEFT( "DEFT" );
-static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_QUILLS( "QUILLS" );
-static const trait_id trait_SPINES( "SPINES" );
-static const trait_id trait_THORNS( "THORNS" );
-
-static const std::string flag_SPLINT( "SPLINT" );
-
-static const skill_id skill_dodge( "dodge" );
-
 static const bionic_id bio_cqb( "bio_cqb" );
 
 player::player() : Character()

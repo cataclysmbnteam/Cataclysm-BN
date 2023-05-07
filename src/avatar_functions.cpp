@@ -463,7 +463,10 @@ bool gunmod_remove( avatar &you, item &gun, item &mod )
 
     const itype *modtype = mod.type;
 
-    you.i_add_or_drop( gun.remove_item( mod ) );
+    detached_ptr<item> removed = gun.remove_item( mod );
+    if( !mod.is_irremovable() ) {
+        you.i_add_or_drop( std::move( removed ) );
+    }
 
     //If the removed gunmod added mod locations, check to see if any mods are in invalid locations
     if( !modtype->gunmod->add_mod.empty() ) {
@@ -636,7 +639,7 @@ bool unload_item( avatar &you, item &loc )
         }
 
         bool changed = false;
-        it.contents.remove_items_with( [&changed, &you]( detached_ptr<item> &&contained ) {
+        it.contents.remove_top_items_with( [&changed, &you]( detached_ptr<item> &&contained ) {
             int old_charges = contained->charges;
             item &obj = *contained;
             contained = add_or_drop_with_msg( you, std::move( contained ), true );
@@ -712,7 +715,7 @@ bool unload_item( avatar &you, item &loc )
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
         int qty = 0;
-        it.contents.remove_items_with( [&]( detached_ptr<item> &&contained ) {
+        it.contents.remove_top_items_with( [&]( detached_ptr<item> &&contained ) {
             mv += you.item_reload_cost( it, *contained, contained->charges ) / 2;
             qty += contained->charges;
             return add_or_drop_with_msg( you, std::move( contained ), true );
@@ -736,7 +739,7 @@ bool unload_item( avatar &you, item &loc )
         return true;
     } else if( item *mag = target->magazine_current() ) {
         bool unloaded = false;
-        target->contents.remove_items_with( [&]( detached_ptr<item> &&it ) {
+        target->contents.remove_top_items_with( [&]( detached_ptr<item> &&it ) {
             if( &*it == mag ) {
                 it = add_or_drop_with_msg( you, std::move( it ), true );
                 if( !it ) {

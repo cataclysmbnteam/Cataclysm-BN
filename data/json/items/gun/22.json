@@ -93,7 +93,7 @@
   },
   {
     "id": "ruger_1022",
-    "copy-from": "rifle_manual",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": { "str_sp": "Ruger 10/22" },
     "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing.",

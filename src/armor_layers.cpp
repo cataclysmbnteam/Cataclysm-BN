@@ -873,7 +873,6 @@ void show_armor_layers_ui( Character &who )
             if( loc ) {
                 // wear the item
                 loc->obtain( who );
-
                 ItemList::iterator cursor_it = tmp_worn[leftListIndex];
                 if( !who.as_player()->wear_possessed( *loc, true, cursor_it ) && who.is_npc() ) {
                     // TODO: Pass the reason here

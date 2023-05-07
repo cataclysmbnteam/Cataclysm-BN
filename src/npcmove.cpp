@@ -37,6 +37,7 @@
 #include "gun_mode.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_functions.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -72,23 +73,16 @@
 
 static const activity_id ACT_PULP( "ACT_PULP" );
 
-static const ammotype ammo_reactor_slurry( "reactor_slurry" );
-static const ammotype ammo_plutonium( "plutonium" );
-
 static const skill_id skill_firstaid( "firstaid" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
-static const bionic_id bio_blade( "bio_blade" );
-static const bionic_id bio_claws( "bio_claws" );
 static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_furnace( "bio_furnace" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
-static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
-static const bionic_id bio_lightning( "bio_chain_lightning" );
 static const bionic_id bio_nanobots( "bio_nanobots" );
 static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -117,6 +111,8 @@ static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const flag_str_id flag_NO_UNWIELD( "NO_UNWIELD" );
+
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_chem_ethanol( "chem_ethanol" );
 static const itype_id itype_chem_methanol( "chem_methanol" );
@@ -127,6 +123,8 @@ static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_UPS( "UPS" );
+
+static const std::string flag_SPLINT( "SPLINT" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -141,6 +139,7 @@ enum npc_action : int {
     npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
     npc_talk_to_player, npc_mug_player,
+    npc_goto_to_this_pos,
     npc_goto_destination,
     npc_avoid_friendly_fire,
     npc_escape_explosion,
@@ -175,15 +174,6 @@ const std::vector<bionic_id> defense_cbms = { {
 const std::vector<bionic_id> health_cbms = { {
         bio_leukocyte,
         bio_plutfilter
-    }
-};
-
-// lightning, laser, blade, claws in order of use priority
-const std::vector<bionic_id> weapon_cbms = { {
-        bio_lightning,
-        bio_laser,
-        bio_blade,
-        bio_claws
     }
 };
 
@@ -238,7 +228,7 @@ tripoint npc::good_escape_direction( bool include_pos )
         zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
         const tripoint &abs_pos = global_square_location();
         const zone_manager &mgr = zone_manager::get_manager();
-        cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
+        std::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
         if( retreat_target && *retreat_target != abs_pos ) {
             update_path( here.getlocal( *retreat_target ) );
@@ -641,7 +631,7 @@ float npc::character_danger( const Character &u ) const
     float ret = 0.0;
     bool u_gun = u.get_weapon().is_gun();
     bool my_gun = get_weapon().is_gun();
-    double u_weap_val = npc_ai::weapon_value( u, u.get_weapon() );
+    double u_weap_val = npc_ai::wielded_value( u, true );
     const double &my_weap_val = ai_cache.my_weapon_value;
     if( u_gun && !my_gun ) {
         u_weap_val *= 1.5f;
@@ -679,7 +669,7 @@ void npc::regen_ai_cache()
     ai_cache.can_heal.clear_all();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
-    ai_cache.my_weapon_value = npc_ai::weapon_value( *this, get_weapon() );
+    ai_cache.my_weapon_value = npc_ai::wielded_value( *this, true );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
 
     assess_danger();
@@ -821,11 +811,6 @@ void npc::move()
             add_msg( m_debug, "NPC %s: investigating sound at x(%d) y(%d)", name,
                      ai_cache.s_abs_pos.x, ai_cache.s_abs_pos.y );
         }
-    } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
-        tripoint return_guard_pos = *ai_cache.guard_pos;
-        add_msg( m_debug, "NPC %s: returning to guard spot at x(%d) y(%d)", name,
-                 return_guard_pos.x, return_guard_pos.y );
-        action = npc_return_to_guard_pos;
     } else {
         // No present danger
         deactivate_combat_cbms();
@@ -837,6 +822,16 @@ void npc::move()
             action = address_player();
             print_action( "address_player %s", action );
         }
+        if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
+            tripoint return_guard_pos = *ai_cache.guard_pos;
+            add_msg( m_debug, "NPC %s: returning to guard spot at x(%d) y(%d)", name,
+                     return_guard_pos.x, return_guard_pos.y );
+            action = npc_return_to_guard_pos;
+        }
+    }
+
+    if( action == npc_undecided && is_walking_with() && goto_to_this_pos ) {
+        action = npc_goto_to_this_pos;
     }
 
     // check if in vehicle before doing any other follow activities
@@ -1001,7 +996,7 @@ void npc::execute_action( npc_action action )
             update_path( local_guard_pos );
             if( pos() == local_guard_pos || path.empty() ) {
                 move_pause();
-                ai_cache.guard_pos = cata::nullopt;
+                ai_cache.guard_pos = std::nullopt;
                 path.clear();
             } else {
                 move_to_next();
@@ -1103,22 +1098,28 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_shoot: {
-            auto mode = get_weapon().gun_current_mode();
+            auto mode = cbm_active.is_null() ? get_weapon().gun_current_mode() :
+                        cbm_fake_active->gun_current_mode();
             if( !mode ) {
-                debugmsg( "NPC tried to shoot without valid mode" );
-                break;
+                std::string error_weapon = cbm_active.is_null() ? get_weapon().tname() :
+                                           cbm_fake_active->tname();
+                debugmsg( "NPC tried to shoot %s without valid mode.", error_weapon );
             }
+
             aim();
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {
                 add_msg( m_debug, "%s recoil on firing: %s", name, recoil );
-                ranged::fire_gun( *this, tar, mode.qty, *mode );
-                // "discard" the fake bio weapon after shooting it
-                if( cbm_weapon_index >= 0 ) {
+                ranged::fire_gun( *this, tar, mode.qty, *mode, nullptr );
+                // Clear the ranged cbm entry and item so next turn a new comparison is made.
+                if( !cbm_active.is_null() ) {
                     discharge_cbm_weapon();
                 }
             }
+            // Important, if firing the gun drops ammo below ammo_required(), value must be recalculated
+            // or NPCs will think the gun is better than their sword.
+            clear_npc_ai_info_cache( npc_ai_info::weapon_value );
             break;
         }
 
@@ -1274,6 +1275,21 @@ void npc::execute_action( npc_action action )
             mug_player( player_character );
             break;
 
+        case npc_goto_to_this_pos: {
+            if( !goto_to_this_pos.has_value() ) {
+                debugmsg( "npc_goto_to_this_pos set to true, but no target set" );
+                break;
+            }
+            update_path( get_map().getlocal( goto_to_this_pos.value() ) );
+            move_to_next();
+
+            if( get_map().getglobal( pos() ) == goto_to_this_pos.value() ) {
+                add_msg( m_debug, "%s reached target", disp_name() );
+                goto_to_this_pos = std::nullopt;
+            }
+            break;
+        }
+
         case npc_goto_destination:
             go_to_omt_destination();
             break;
@@ -1348,10 +1364,12 @@ npc_action npc::method_of_attack()
     // if we require a silent weapon inappropriate modes are also removed
     // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
     std::vector<std::pair<gun_mode_id, gun_mode>> modes;
+
     if( rules.has_flag( ally_rule::use_guns ) || !is_player_ally() ) {
-        for( const auto &e : get_weapon().gun_all_modes() ) {
-            modes.push_back( e );
-        }
+        const std::map<gun_mode_id, gun_mode> &to_add = cbm_active.is_null() ? get_weapon().gun_all_modes()
+                :
+                cbm_fake_active->gun_all_modes();
+        std::copy( to_add.begin(), to_add.end(), std::back_inserter( modes ) );
 
         modes.erase( std::remove_if( modes.begin(), modes.end(),
         [&]( const std::pair<gun_mode_id, gun_mode> &e ) {
@@ -1384,6 +1402,10 @@ npc_action npc::method_of_attack()
                ( confident_gun_mode_range( rhs.second, cur_recoil ) >= dist );
     } );
 
+    // This will either return the weapon wielded or the fake_weapon from cbm_active_index.
+    // If modes empty, means no ranged weapon, so null reference.
+    item &r_weapon = modes.empty() ? null_item_reference() : *modes[0].second;
+
     if( emergency() && alt_attack() ) {
         add_msg( m_debug, "%s is trying an alternate attack", disp_name() );
         return npc_noop;
@@ -1407,13 +1429,9 @@ npc_action npc::method_of_attack()
     // if the best mode is within the confident range try for a shot
     if( !modes.empty() && sees( *critter ) && has_los &&
         confident_gun_mode_range( modes[ 0 ].second, cur_recoil ) >= dist ) {
-        if( cbm_weapon_index > 0 && !get_weapon().ammo_sufficient() && can_reload_current() ) {
-            add_msg( m_debug, "%s is reloading", disp_name() );
-            return npc_reload;
-        }
 
-        if( wont_hit_friend( tar, get_weapon(), false ) ) {
-            get_weapon().gun_set_mode( modes[ 0 ].first );
+        if( wont_hit_friend( tar, r_weapon, false ) ) {
+            r_weapon.gun_set_mode( modes[0].first );
             add_msg( m_debug, "%s is trying to shoot someone", disp_name() );
             return npc_shoot;
 
@@ -1430,25 +1448,22 @@ npc_action npc::method_of_attack()
         return npc_melee;
     }
 
-    // don't mess with CBM weapons
-    if( cbm_weapon_index < 0 ) {
-        // TODO: Add a time check now that wielding takes a lot of time
-        if( wield_better_weapon() ) {
-            add_msg( m_debug, "%s is changing weapons", disp_name() );
-            return npc_noop;
-        }
+    if( !get_weapon().ammo_sufficient() && can_reload_current() ) {
+        add_msg( m_debug, "%s is reloading", disp_name() );
+        return npc_reload;
+    }
 
-        if( !get_weapon().ammo_sufficient() && can_reload_current() ) {
-            add_msg( m_debug, "%s is reloading", disp_name() );
-            return npc_reload;
-        }
+    // TODO: Add a time check now that wielding takes a lot of time
+    if( wield_better_weapon() ) {
+        add_msg( m_debug, "%s is changing weapons", disp_name() );
+        return npc_noop;
     }
 
     // TODO: Needs a check for transparent but non-passable tiles on the way
-    if( !modes.empty() && sees( *critter ) &&
-        ranged::aim_per_move( *this, get_weapon(), recoil ) > 0 &&
-        confident_shoot_range( get_weapon(), ranged::get_most_accurate_sight( *this,
-                               get_weapon() ) ) >= dist ) {
+    int effective_range = modes.empty() ? 0 :
+                          confident_gun_mode_range( modes[0].second, ranged::get_most_accurate_sight( *this, r_weapon ) );
+    if( !modes.empty() && sees( *critter ) && ranged::aim_per_move( *this, r_weapon, recoil ) > 0 &&
+        effective_range >= dist ) {
         add_msg( m_debug, "%s is aiming", disp_name() );
         if( critter->is_player() && player_character.sees( *this ) ) {
             add_msg( m_bad, _( "%s takes aim at you!" ), disp_name() );
@@ -1485,9 +1500,37 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
     return !ammo.is_magazine() || ammo.ammo_remaining() > weap.ammo_remaining();
 }
 
+void npc::check_or_reload_cbm()
+{
+    if( get_npc_ai_info_cache( npc_ai_info::reloadable_cbms ) >= 0.0 ) {
+        add_msg( m_debug, "Cancelling cbm reload check as cache is not negative." );
+        return;
+    }
+
+    std::vector<std::pair<bionic_id, item *>> checklist = find_reloadable_cbms( *this );
+
+    if( !checklist.empty() ) {
+        for( auto& [bid, itm] : checklist ) {
+            bionic &bio = get_bionic_state( bid );
+            const item *it_loc = character_funcs::select_ammo( *this, *itm ).ammo;
+            if( it_loc && wants_to_reload_with( *itm, *it_loc ) ) {
+                do_reload( *itm );
+                bio.ammo_loaded =
+                    itm->ammo_data() != nullptr ? itm->ammo_data()->get_id() : itype_id::NULL_ID();
+                bio.ammo_count = static_cast<unsigned int>( itm->ammo_remaining() );
+                return;
+            }
+        }
+    }
+
+    set_npc_ai_info_cache( npc_ai_info::reloadable_cbms, 5.0 );
+    return;
+}
+
 item &npc::find_reloadable()
 {
-    if( get_npc_ai_info_cache( "reloadables" ) ) {
+    if( get_npc_ai_info_cache( npc_ai_info::reloadables ) >= 0.0 ) {
+        add_msg( m_debug, "Cancelling reload check as cache is not negative." );
         return null_item_reference();
     }
     // Check wielded gun, non-wielded guns, mags and tools
@@ -1514,7 +1557,7 @@ item &npc::find_reloadable()
         return *reloadable;
     }
 
-    set_npc_ai_info_cache( "reloadables", 0.0 );
+    set_npc_ai_info_cache( npc_ai_info::reloadables, 5.0 );
     return null_item_reference();
 }
 
@@ -1567,9 +1610,7 @@ void npc::activate_combat_cbms()
         activate_bionic_by_id( cbm_id );
     }
     if( can_use_offensive_cbm() ) {
-        for( const bionic_id &cbm_id : weapon_cbms ) {
-            check_or_use_weapon_cbm( cbm_id );
-        }
+        check_or_use_weapon_cbm();
     }
 }
 
@@ -1579,10 +1620,11 @@ void npc::deactivate_combat_cbms()
         deactivate_bionic_by_id( cbm_id );
     }
     deactivate_bionic_by_id( bio_hydraulics );
-    for( const bionic_id &cbm_id : weapon_cbms ) {
-        deactivate_bionic_by_id( cbm_id );
-    }
-    cbm_weapon_index = -1;
+    deactivate_weapon_cbm( *this );
+    cbm_active = bionic_id::NULL_ID();
+    cbm_fake_active.release();
+    cbm_toggled = bionic_id::NULL_ID();
+    cbm_fake_toggled.release();
 }
 
 bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
@@ -1724,18 +1766,6 @@ bool npc::recharge_cbm()
         }
     }
 
-    if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
-        const std::function<bool( const item & )> reactor_filter = []( const item & it ) {
-            return it.is_ammo() && ( it.ammo_type() == ammo_plutonium ||
-                                     it.ammo_type() == ammo_reactor_slurry );
-        };
-        if( consume_cbm_items( reactor_filter ) ) {
-            return true;
-        } else {
-            complain_about( "need_radioactives", 3_hours, "<need_radioactives>", false );
-        }
-    }
-
     return false;
 }
 
@@ -1837,6 +1867,8 @@ npc_action npc::address_needs( float danger )
     if( one_in( 3 ) && can_reload_current() ) {
         return npc_reload;
     }
+
+    check_or_reload_cbm();
 
     item &reloadable = find_reloadable();
     if( !reloadable.is_null() ) {
@@ -2032,9 +2064,6 @@ int npc::confident_shoot_range( const item &it, int recoil ) const
     if( !it.is_gun() ) {
         return res;
     }
-    if( confident_range_cache ) {
-        return *confident_range_cache;
-    }
     for( const auto &m : it.gun_all_modes() ) {
         res = std::max( res, confident_gun_mode_range( m.second, recoil ) );
     }
@@ -2147,12 +2176,13 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
 void npc::aim()
 {
-    double aim_amount = ranged::aim_per_move( *this, get_weapon(), recoil );
+    item &r_weapon = cbm_active.is_null() ? get_weapon() : *cbm_fake_active;
+    double aim_amount = ranged::aim_per_move( *this, r_weapon, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
-        aim_amount = ranged::aim_per_move( *this, get_weapon(), recoil );
+        aim_amount = ranged::aim_per_move( *this, r_weapon, recoil );
     }
 }
 
@@ -2632,9 +2662,9 @@ void npc::worker_downtime()
         return;
     }
     if( assigned_camp ) {
-        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
         if( !bcp ) {
-            assigned_camp = cata::nullopt;
+            assigned_camp = std::nullopt;
             move_pause();
             return;
         }
@@ -2671,8 +2701,7 @@ void npc::move_pause()
     }
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
-
-    if( !get_weapon().is_gun() ) {
+    if( !get_weapon().is_gun()  && cbm_active.is_null() ) {
         character_funcs::do_pause( *this );
         return;
     }
@@ -2686,7 +2715,7 @@ void npc::move_pause()
     }
 }
 
-static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripoint &closest_to )
+static std::optional<tripoint> nearest_passable( const tripoint &p, const tripoint &closest_to )
 {
     map &here = get_map();
     if( here.passable( p ) ) {
@@ -2707,7 +2736,7 @@ static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripo
         return *iter;
     }
 
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
@@ -2884,7 +2913,7 @@ void npc::find_item()
         int num_items = m_stack.size();
         const optional_vpart_position vp = here.veh_at( p );
         if( vp ) {
-            const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
+            const std::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
             if( cargo ) {
                 vehicle_stack v_stack = cargo->vehicle().get_items( cargo->part_index() );
                 num_items += v_stack.size();
@@ -2916,7 +2945,7 @@ void npc::find_item()
             cache_tile();
             continue;
         }
-        const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
+        const std::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
         // TODO: Let player know what parts are safe from NPC thieves
         if( !cargo || cargo->has_feature( locked_string ) ) {
@@ -2949,7 +2978,7 @@ void npc::find_item()
     // TODO: Move that check above, make it multi-target pathing and use it
     // to limit tiles available for choice of items
     const int dist_to_item = rl_dist( wanted_item_pos, pos() );
-    if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
+    if( const std::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
         update_path( *dest );
     }
 
@@ -2977,7 +3006,7 @@ void npc::pick_up_item()
     }
 
     map &here = get_map();
-    const cata::optional<vpart_reference> vp = here.veh_at( wanted_item_pos ).part_with_feature(
+    const std::optional<vpart_reference> vp = here.veh_at( wanted_item_pos ).part_with_feature(
                 VPFLAG_CARGO, false );
     const bool has_cargo = vp && !vp->has_feature( "LOCKED" );
 
@@ -2994,7 +3023,7 @@ void npc::pick_up_item()
 
     add_msg( m_debug, "%s::pick_up_item(); [%d, %d, %d] => [%d, %d, %d]", name,
              posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
-    if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
+    if( const std::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
         update_path( *dest );
     }
 
@@ -3393,6 +3422,13 @@ bool npc::do_player_activity()
 
 bool npc::wield_better_weapon()
 {
+    // Check against typeId() because the NPC doesn't actually wield the fake item.
+    if( get_weapon().has_flag( flag_NO_UNWIELD ) &&
+        get_weapon().typeId() != cbm_fake_toggled->typeId() ) {
+        add_msg( m_debug, "Cannot unwield %s, not switching.", get_weapon().type->get_id().str() );
+        return false;
+    }
+
     // TODO: Allow wielding weaker weapons against weaker targets
     bool can_use_gun = ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) );
     bool use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
@@ -3402,22 +3438,20 @@ bool npc::wield_better_weapon()
     item *best = &get_weapon();
     double best_value = -100.0;
 
-    const int ups_charges = charges_of( itype_UPS );
-
     const auto compare_weapon =
-    [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
+    [this, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
         double val;
         if( !allowed ) {
             val = npc_ai::weapon_value( *this, it, 0 );
         } else {
-            int ammo_count = it.ammo_remaining();
-            int ups_drain = it.get_gun_ups_drain();
-            if( ups_drain > 0 ) {
-                ammo_count = std::min( ammo_count, ups_charges / ups_drain );
+            if( this->is_wielding( it ) ) {
+                // Accounts for ammo in inventory.
+                val = npc_ai::wielded_value( *this, false );
+            } else {
+                // Saves on processing by only checking loaded ammo instead of npc inventory.
+                val = npc_ai::weapon_value( *this, it, item_funcs::shots_remaining( *this, it ) );
             }
-
-            val = npc_ai::weapon_value( *this, it, ammo_count );
         }
 
         if( val > best_value ) {
@@ -3429,6 +3463,12 @@ bool npc::wield_better_weapon()
     compare_weapon( get_weapon() );
     // To prevent changing to barely better stuff
     best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
+
+    // Compare Toggled CBM selected earlier in check_or_use_weapon_cbm()
+    // But only if it's not already wielded
+    if( get_weapon().typeId() != cbm_fake_toggled->typeId() ) {
+        compare_weapon( *cbm_fake_toggled );
+    }
 
     // Fists aren't checked below
     compare_weapon( null_item_reference() );
@@ -3455,6 +3495,30 @@ bool npc::wield_better_weapon()
         add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->type->get_id().str(),
                  best_value );
         return false;
+    }
+
+    if( best == &*cbm_fake_toggled ) {
+        if( is_armed() ) {
+            stow_weapon( );
+        }
+        activate_bionic_by_id( cbm_toggled );
+        if( get_player_character().sees( pos() ) ) {
+            add_msg( m_info, _( "%s activates their %s." ), disp_name(),
+                     cbm_toggled->name );
+        }
+        clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+        clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
+
+        if( !cbm_fake_active->is_null() && best->is_gun() ) {
+            // They'll need time to swap weapons anyway, consolidates the comparisons into check_or_use_bionics.
+            cbm_fake_active.release();
+            cbm_active = bionic_id::NULL_ID();
+        }
+        return true;
+    } else if( get_weapon().typeId() == cbm_fake_toggled->typeId() ) {
+        deactivate_bionic_by_id( cbm_toggled );
+        cbm_toggled = bionic_id::NULL_ID();
+        cbm_fake_toggled.release();
     }
 
     add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id().str(), best_value );
@@ -3486,7 +3550,7 @@ static void npc_throw( npc &np, item &it, const tripoint &pos )
     detached_ptr<item> det = it.count_by_charges() ? it.split( 1 ) : it.detach();
 
     if( !np.is_hallucination() ) { // hallucinations only pretend to throw
-        ranged::throw_item( np, pos, std::move( det ), cata::nullopt );
+        ranged::throw_item( np, pos, std::move( det ), std::nullopt );
     }
 }
 
@@ -3832,7 +3896,7 @@ bool npc::consume_food_from_camp()
         return false;
     }
     Character &player_character = get_player_character();
-    cata::optional<basecamp *> potential_bc;
+    std::optional<basecamp *> potential_bc;
     for( const tripoint_abs_omt &camp_pos : player_character.camps ) {
         if( rl_dist( camp_pos, global_omt_location() ) < 3 ) {
             potential_bc = overmap_buffer.find_camp( camp_pos.xy() );
@@ -4186,7 +4250,7 @@ void npc::go_to_omt_destination()
     if( ai_cache.guard_pos ) {
         if( here.getabs( pos() ) == *ai_cache.guard_pos ) {
             path.clear();
-            ai_cache.guard_pos = cata::nullopt;
+            ai_cache.guard_pos = std::nullopt;
             move_pause();
             return;
         }
@@ -4302,6 +4366,8 @@ std::string npc_action_name( npc_action action )
             return "Talk to player";
         case npc_mug_player:
             return "Mug player";
+        case npc_goto_to_this_pos:
+            return "Go to position";
         case npc_goto_destination:
             return "Go to destination";
         case npc_avoid_friendly_fire:
@@ -4560,8 +4626,11 @@ void npc::do_reload( item &it )
     item &target = const_cast<item &>( *reload_opt.target );
     item *usable_ammo = reload_opt.ammo;
 
-    int qty = std::max( 1, std::min( usable_ammo->charges,
-                                     it.ammo_capacity() - it.ammo_remaining() ) );
+    // If in danger, don't spend multiple turns reloading a weapon to full one by one.
+    // Get enough to shoot the enemy once, then unload it on them.
+    int qty = ai_cache.danger > 0 ? std::max( 1, std::min( usable_ammo->charges,
+              it.ammo_required() - it.ammo_remaining() ) ) :
+              std::max( 1, std::min( usable_ammo->charges, it.ammo_capacity() - it.ammo_remaining() ) );
     int reload_time = item_reload_cost( it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();
@@ -4578,6 +4647,10 @@ void npc::do_reload( item &it )
         add_msg( _( "%1$s reloads their %2$s." ), name, it.tname() );
         sfx::play_variant_sound( "reload", it.typeId().str(), sfx::get_heard_volume( pos() ),
                                  sfx::get_heard_angle( pos() ) );
+    }
+
+    if( is_wielding( it ) ) {
+        clear_npc_ai_info_cache( npc_ai_info::weapon_value );
     }
 
     // Otherwise the NPC may not equip the weapon until they see danger
@@ -4608,7 +4681,7 @@ bool npc::adjust_worn()
     };
 
     for( auto &elem : worn ) {
-        if( !elem->has_flag( "SPLINT" ) ) {
+        if( !elem->has_flag( flag_SPLINT ) ) {
             continue;
         }
 

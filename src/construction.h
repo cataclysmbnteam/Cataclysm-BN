@@ -5,13 +5,13 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -123,7 +123,7 @@ const std::vector<construction_id> &get_all_sorted();
 void override_build_times( time_duration time );
 } // namespace constructions
 
-cata::optional<construction_id> construction_menu( bool blueprint );
+std::optional<construction_id> construction_menu( bool blueprint );
 void complete_construction( Character &ch );
 bool can_construct( const construction &con, const tripoint &p );
 bool player_can_build( Character &ch, const inventory &inv, const construction &con );

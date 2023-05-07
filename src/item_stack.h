@@ -38,7 +38,7 @@ class item_stack
                                 std::vector<detached_ptr<item>> *out = nullptr ) = 0;
         virtual std::vector<detached_ptr<item>> clear();
 
-        void remove_items_with( std::function < detached_ptr<item>( detached_ptr<item> && ) > cb );
+        void remove_top_items_with( std::function < detached_ptr<item>( detached_ptr<item> && ) > cb );
         // Will cause a debugmsg if there is not exactly one item at the location
         item &only_item();
 

@@ -517,9 +517,9 @@ inline static void pldrive( point d )
 static void open()
 {
     player &u = g->u;
-    const cata::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
-                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
-                                            ACTION_OPEN, false );
+    const std::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
+                                           pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                                           ACTION_OPEN, false );
 
     if( !openp_ ) {
         return;
@@ -563,7 +563,7 @@ static void open()
             }
         } else {
             // If there are any OPENABLE parts here, they must be already open
-            if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
+            if( const std::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
                     true ) ) {
                 const std::string name = already_open->info().name();
                 add_msg( m_info, _( "That %s is already open." ), name );
@@ -594,9 +594,9 @@ static void open()
 
 static void close()
 {
-    if( const cata::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
-            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
-            ACTION_CLOSE, false ) ) {
+    if( const std::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
+                                            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+                                            ACTION_CLOSE, false ) ) {
         doors::close_door( get_map(), g->u, *pnt );
     }
 }
@@ -618,7 +618,7 @@ static void grab()
         return;
     }
 
-    const cata::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
+    const std::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
     if( !grabp_ ) {
         add_msg( _( "Never mind." ) );
         return;
@@ -704,7 +704,7 @@ static void smash()
     }
 
     const bool allow_floor_bash = here.has_zlevels();
-    const cata::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
+    const std::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
     if( !smashp_ ) {
         return;
     }
@@ -817,7 +817,7 @@ static void smash()
         }
 
         if( !here.has_floor_or_support( u.pos() ) && !here.has_flag_ter( "GOES_DOWN", u.pos() ) ) {
-            cata::optional<tripoint> to_safety;
+            std::optional<tripoint> to_safety;
             while( true ) {
                 to_safety = choose_direction( _( "Floor below destroyed!  Move where?" ) );
                 if( to_safety && *to_safety == tripoint_zero ) {
@@ -1441,6 +1441,7 @@ static void cast_spell()
     if( !can_cast_spells ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't cast any of the spells you know!" ) );
+        return;
     }
 
     const int spell_index = u.magic->select_spell( u );
@@ -1554,7 +1555,7 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    cata::optional<tripoint> mouse_target;
+    std::optional<tripoint> mouse_target;
 
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
         uquit = QUIT_DIED;
@@ -1625,7 +1626,7 @@ bool game::handle_action()
                 return false;
             }
 
-            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            const std::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
             if( !mouse_pos ) {
                 return false;
             } else if( !u.sees( *mouse_pos ) ) {
@@ -1665,7 +1666,7 @@ bool game::handle_action()
             const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
                 add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
-                if( const cata::optional<std::string> hint =
+                if( const std::optional<std::string> hint =
                         press_x_if_bound( ACTION_KEYBINDINGS ) ) {
                     add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
                                         "the current context." ),
@@ -1989,7 +1990,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_COMPARE:
-                game_menus::inv::compare( u, cata::nullopt );
+                game_menus::inv::compare( u, std::nullopt );
                 break;
 
             case ACTION_ORGANIZE:

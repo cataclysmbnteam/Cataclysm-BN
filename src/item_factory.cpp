@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <type_traits>
 #include <unordered_set>
@@ -37,7 +38,6 @@
 #include "iuse_actor.h"
 #include "json.h"
 #include "material.h"
-#include "optional.h"
 #include "options.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -1191,6 +1191,12 @@ void Item_factory::check_definitions() const
             }
         }
 
+        for( const weapon_category_id &cat_id : type->weapon_category ) {
+            if( !cat_id.is_valid() ) {
+                msg += string_format( "invalid weapon category: %s\n", cat_id.c_str() );
+            }
+        }
+
         if( type->has_flag( "FIRESTARTER" ) &&
             !type->can_have_charges() &&
             !type->get_use( "firestarter" ) ) {
@@ -1674,7 +1680,7 @@ void Item_factory::load( islot_milling &slot, const JsonObject &jo, const std::s
 void islot_ammo::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "ammo_type", type );
-    optional( jo, was_loaded, "casing", casing, cata::nullopt );
+    optional( jo, was_loaded, "casing", casing, std::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "dont_recover_one_in", dont_recover_one_in, 1 );
@@ -1686,8 +1692,8 @@ void islot_ammo::load( const JsonObject &jo )
     optional( jo, was_loaded, "count", def_charges, 1 );
     optional( jo, was_loaded, "loudness", loudness, -1 );
     assign( jo, "effects", ammo_effects );
-    optional( jo, was_loaded, "show_stats", force_stat_display, cata::nullopt );
-    optional( jo, was_loaded, "shape", shape, cata::nullopt );
+    optional( jo, was_loaded, "show_stats", force_stat_display, std::nullopt );
+    optional( jo, was_loaded, "shape", shape, std::nullopt );
 }
 
 void islot_ammo::deserialize( JsonIn &jsin )
@@ -2438,6 +2444,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "repairs_like", def.repairs_like );
     }
 
+    if( jo.has_member( "weapon_category" ) ) {
+        optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<weapon_category_id> {} );
+    }
+
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
         def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
@@ -2554,9 +2564,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_properties_from_json( jo, "properties", def );
     }
 
-    for( auto &s : jo.get_tags( "techniques" ) ) {
-        def.techniques.insert( matec_id( s ) );
-    }
+    assign( jo, "techniques", def.techniques );
 
     set_use_methods_from_json( jo, "use_action", def.use_methods );
 

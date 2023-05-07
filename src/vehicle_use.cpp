@@ -359,6 +359,22 @@ void vehicle::control_electronics()
 
         set_electronics_menu_options( options, actions );
 
+        if( has_part( "ENGINE" ) ) {
+            options.emplace_back( engine_on ? _( "Turn off the engine" ) : _( "Turn on the engine" ),
+                                  keybind( "TOGGLE_ENGINE" ) );
+            actions.push_back( [&] {
+                if( engine_on )
+                {
+                    engine_on = false;
+                    stop_engines();
+                } else
+                {
+                    start_engines();
+                    valid_option = false;
+                }
+                refresh();
+            } );
+        }
         uilist menu;
         menu.text = _( "Electronics controls" );
         menu.entries = options;
@@ -1382,7 +1398,7 @@ void vehicle::operate_reaper()
         sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
                        "reaper" );
         if( vp.has_feature( "CARGO" ) ) {
-            items.remove_items_with( [&max_pickup_volume, this, reaper_id]( detached_ptr<item> &&it ) {
+            items.remove_top_items_with( [&max_pickup_volume, this, reaper_id]( detached_ptr<item> &&it ) {
                 if( it->volume() <= max_pickup_volume ) {
                     return add_item( reaper_id, std::move( it ) );
                 }
@@ -1784,7 +1800,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
                                       f.has_flag( MF_PET_HARNESSABLE ) ) );
     };
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight(
             _( "Where is the creature to harness?" ), _( "There is no creature to harness nearby." ), f,
             false );
     if( !pnt_ ) {

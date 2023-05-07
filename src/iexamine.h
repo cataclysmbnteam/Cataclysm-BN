@@ -3,13 +3,13 @@
 #define CATA_SRC_IEXAMINE_H
 
 #include <list>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <vector>
 
 #include "calendar.h"
 #include "itype.h"
-#include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "colony.h"
@@ -117,9 +117,9 @@ void check_power( player &p, const tripoint &examp );
 void migo_nerve_cluster( player &p, const tripoint &examp );
 
 detached_ptr<item> pour_into_keg( const tripoint &pos, detached_ptr<item> &&liquid );
-cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
+std::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
 bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
-cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &gas_units );
+std::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &gas_units );
 
 bool has_keg( const tripoint &pos );
 

@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -22,6 +23,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_functions.h"
 #include "character_martial_arts.h"
 #include "creature.h"
 #include "damage.h"
@@ -46,7 +48,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "pldata.h"
@@ -231,7 +232,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
 
     // Dump its contents on the ground
     // Destroy irremovable mods, if any
-    shield.contents.remove_items_with( []( detached_ptr<item> &&mod ) {
+    shield.contents.remove_top_items_with( []( detached_ptr<item> &&mod ) {
         if( mod->is_gunmod() && !mod->is_irremovable() ) {
             return detached_ptr<item>();
         }
@@ -627,7 +628,7 @@ void Character::reach_attack( const tripoint &p )
     // Original target size, used when there are monsters in front of our target
     int target_size = critter != nullptr ? ( critter->get_size() + 1 ) : 2;
     // Reset last target pos
-    last_target_pos = cata::nullopt;
+    last_target_pos = std::nullopt;
     // Max out recoil
     recoil = MAX_RECOIL;
 
@@ -1639,32 +1640,33 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
         handle_melee_wear( shield, wear_modifier );
     } else {
-        // Choose which body part to block with, assume left side first
-        if( martial_arts_data->can_leg_block( *this ) && martial_arts_data->can_arm_block( *this ) ) {
-            bp_hit = one_in( 2 ) ? bodypart_id( "leg_l" ) : bodypart_id( "arm_l" );
-        } else if( martial_arts_data->can_leg_block( *this ) ) {
-            bp_hit = bodypart_id( "leg_l" );
-        } else {
-            bp_hit = bodypart_id( "arm_l" );
+        std::vector<bodypart_id> block_parts;
+        if( martial_arts_data->can_leg_block( *this ) ) {
+            block_parts.emplace_back( bodypart_id( "leg_l" ) );
+            block_parts.emplace_back( bodypart_id( "leg_r" ) );
         }
-
-        // Check if we should actually use the right side to block
-        if( bp_hit == bodypart_id( "leg_l" ) ) {
-            if( get_part_hp_cur( bodypart_id( "leg_r" ) ) > get_part_hp_cur( bodypart_id( "leg_l" ) ) ) {
-                bp_hit = bodypart_id( "leg_r" );
-            }
-        } else {
-            if( get_part_hp_cur( bodypart_id( "arm_r" ) ) > get_part_hp_cur( bodypart_id( "arm_l" ) ) ) {
-                bp_hit = bodypart_id( "arm_r" );
-            }
+        // If you have no martial arts you can still try to block with your arms.
+        // But martial arts with leg blocks only don't magically get arm blocks.
+        // Edge case: Leg block only martial arts gain arm blocks if both legs broken.
+        if( martial_arts_data->can_arm_block( *this ) || block_parts.empty() ) {
+            block_parts.emplace_back( bodypart_id( "arm_l" ) );
+            block_parts.emplace_back( bodypart_id( "arm_r" ) );
         }
+        block_parts.erase( std::remove_if( block_parts.begin(),
+        block_parts.end(), [this]( bodypart_id & bpid ) {
+            return get_part_hp_cur( bpid ) <= 0;
+        } ), block_parts.end() );
 
-        // At this point, we know we won't try blocking with items, only with limbs.
-        // But there are no limbs left, so we can disable further attempts at blocking.
-        if( get_part_hp_cur( bp_hit ) <= 0 ) {
+        const auto part_hp_cmp = [this]( const bodypart_id & lhs, const bodypart_id & rhs ) {
+            return get_part_hp_cur( lhs ) < get_part_hp_cur( rhs );
+        };
+        auto healthiest = std::max_element( block_parts.begin(), block_parts.end(), part_hp_cmp );
+        if( healthiest == block_parts.end() ) {
+            // We have no parts with HP to block with.
             blocks_left = 0;
             return false;
         }
+        bp_hit = *healthiest;
 
         thing_blocked_with = body_part_name( bp_hit->token );
     }
@@ -2255,14 +2257,35 @@ int Character::attack_cost( const item &weap ) const
     return move_cost;
 }
 
+double npc_ai::wielded_value( const Character &who, bool ideal )
+{
+    const double cached = ideal ? *who.get_npc_ai_info_cache( npc_ai_info::ideal_weapon_value ) :
+                          *who.get_npc_ai_info_cache( npc_ai_info::weapon_value );
+    if( cached >= 0.0 ) {
+        if( ideal ) {
+            add_msg( m_debug, "%s ideal sum value: %.1f", who.get_weapon().type->get_id().str(), cached );
+        } else {
+            add_msg( m_debug, "%s cached sum value: %.1f", who.get_weapon().type->get_id().str(), cached );
+        }
+        return cached;
+    }
+    int ammo_count = ideal ? who.get_weapon().ammo_capacity() :
+                     character_funcs::ammo_count_for( who, who.get_weapon() );
+    item &ideal_weapon = *item::spawn_temporary( who.get_weapon() );
+    if( !ideal_weapon.ammo_default().is_null() ) {
+        ideal_weapon.ammo_set( ideal_weapon.ammo_default(), -1 );
+    }
+    double weap_val = weapon_value( who, ideal ? ideal_weapon : who.get_weapon(), ammo_count );
+    if( ideal ) {
+        who.set_npc_ai_info_cache( npc_ai_info::ideal_weapon_value, weap_val );
+    } else {
+        who.set_npc_ai_info_cache( npc_ai_info::weapon_value, weap_val );
+    }
+    return weap_val;
+}
+
 double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
 {
-    if( who.is_wielding( weap ) ) {
-        auto cached = who.get_npc_ai_info_cache( "weapon_value" );
-        if( cached ) {
-            return *cached;
-        }
-    }
     const double val_gun = gun_value( who, weap, ammo );
     const double val_melee = melee_value( who, weap );
     const double more = std::max( val_gun, val_melee );
@@ -2277,9 +2300,6 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = ( more + ( less / 2.0 ) ) * armor_penalty;
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
-    if( who.is_wielding( weap ) ) {
-        who.set_npc_ai_info_cache( "weapon_value", my_val );
-    }
     return my_val;
 }
 

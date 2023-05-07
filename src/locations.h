@@ -72,14 +72,6 @@ class wield_item_location :  public character_item_location
         bool check_for_corruption( const item *it ) const override;
 };
 
-class real_weapon_item_location :  public wield_item_location
-{
-    public:
-        real_weapon_item_location( Character *h ): wield_item_location( h ) {};
-        detached_ptr<item> detach( item *it ) override;
-        void attach( detached_ptr<item> &&obj ) override;
-        bool check_for_corruption( const item *it ) const override;
-};
 
 class worn_item_location :  public character_item_location
 {

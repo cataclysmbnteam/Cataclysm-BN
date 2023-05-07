@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -12,7 +13,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "flat_set.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -41,6 +41,8 @@ struct bionic_data {
     units::energy power_over_time = 0_kJ;
     /** Power cost when the bionic's special effect is triggered */
     units::energy power_trigger = 0_kJ;
+    /** Kcal cost when the bionic's special effect is triggered */
+    int kcal_trigger = 0;
     /** How often a bionic draws or produces power while active in turns */
     int charge_time = 0;
     /** Power bank size **/
@@ -67,10 +69,12 @@ struct bionic_data {
     int fuel_capacity = 0;
     /**Fraction of fuel energy converted to bionic power*/
     float fuel_efficiency = 0.0f;
+    /**Multiplies the amount of fuel when loading into the bionic storage*/
+    int fuel_multiplier = 1;
     /**Fraction of fuel energy passively converted to bionic power*/
     float passive_fuel_efficiency = 0.0f;
     /**Fraction of coverage diminishing fuel_efficiency*/
-    cata::optional<float> coverage_power_gen_penalty;
+    std::optional<float> coverage_power_gen_penalty;
     /**If true this bionic emits heat when producing power*/
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/

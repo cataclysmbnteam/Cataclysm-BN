@@ -144,8 +144,8 @@ void item_stack::move_all_to( item_stack *destination )
     }
 }
 
-void item_stack::remove_items_with( std::function < detached_ptr<item>
-                                    ( detached_ptr<item> && ) > cb )
+void item_stack::remove_top_items_with( std::function < detached_ptr<item>
+                                        ( detached_ptr<item> && ) > cb )
 {
     items->remove_with( cb );
 }

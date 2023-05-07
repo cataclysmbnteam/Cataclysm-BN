@@ -4,12 +4,13 @@
 
 #include <list>
 #include <map>
+#include <set>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "enums.h"
-#include "optional.h"
 #include "om_direction.h"
 #include "type_id.h"
 
@@ -149,6 +150,10 @@ class uistatedata
         std::map<std::string, std::vector<std::string>> input_history;
 
         std::map<ammotype, itype_id> lastreload; // id of ammo last used when reloading ammotype
+
+        // Wide and tall display for messages window
+        bool msg_window_wide_display = false;
+        bool msg_window_full_height_display = false;
 
         // internal stuff
         bool _testing_save = true; // internal: whine on json errors. set false if no complaints in 2 weeks.

@@ -1,6 +1,7 @@
 #include "iuse_software_lightson.h"
 
 #include <algorithm>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -9,7 +10,6 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"
@@ -191,7 +191,7 @@ int lightson_game::start_game()
         }
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             position.y = clamp( position.y + vec->y, 0, level_size.y - 1 );
             position.x = clamp( position.x + vec->x, 0, level_size.x - 1 );
         } else if( action == "TOGGLE_SPACE" || action == "TOGGLE_5" ) {

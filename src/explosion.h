@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_EXPLOSION_H
 #define CATA_SRC_EXPLOSION_H
 
+#include <optional>
 #include <string>
 
-#include "optional.h"
 #include "projectile.h"
 
 struct tripoint;
@@ -15,7 +15,7 @@ struct explosion_data {
     int damage              = 0;
     float radius            = 0;
     bool fire               = false;
-    cata::optional<projectile> fragment;
+    std::optional<projectile> fragment;
 
     /** Returns the range at which blast damage is 0 and shrapnel is out of range. */
     int safe_range() const;

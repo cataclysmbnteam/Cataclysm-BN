@@ -155,27 +155,6 @@ void wield_item_location::attach( detached_ptr<item> &&it )
     holder->set_weapon( std::move( it ) );
 }
 
-detached_ptr<item> real_weapon_item_location::detach( item * )
-{
-    npc *as_npc = static_cast<npc *>( holder );
-    return as_npc->remove_real_weapon();
-}
-
-void real_weapon_item_location::attach( detached_ptr<item> &&it )
-{
-    npc *as_npc = static_cast<npc *>( holder );
-    as_npc->set_real_weapon( std::move( it ) );
-}
-
-bool real_weapon_item_location::check_for_corruption( const item *it ) const
-{
-    npc *as_npc = dynamic_cast<npc *>( holder );
-    if( !as_npc ) {
-        debugmsg( "Tried to check the real_weapon of a non-npc" );
-        return false;
-    }
-    return &( as_npc->get_real_weapon() ) == it;
-}
 int wield_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const
 {
     const item *split_stack = cost_split_helper( it, qty );

@@ -1,5 +1,26 @@
 [
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "crit_mags_scarh",
+    "entries": [
+      { "item": "scarhmag", "ammo-item": "762_51", "charges": 20 },
+      { "item": "scarhmag", "ammo-item": "762_51", "charges": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "crit_mags_m9",
+    "entries": [ { "item": "m9mag", "ammo-item": "9mm", "charges": 15 }, { "item": "m9mag", "ammo-item": "9mm", "charges": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "crit_gun_specops",
+    "entries": [ { "item": "crt_laser_pistol", "contents-item": [ "flare_gmod", "bthk_stock", "beam_difractor" ] } ]
+  },
+  {
     "type": "profession",
     "id": "crt_rotc",
     "name": "C.R.I.T. ROTC Member",
@@ -17,11 +38,12 @@
     ],
     "items": {
       "both": {
-        "items": [ "bandana", "crt_chestrig", "crt_iduster", "army_top", "crt_canteen", "crt_pants", "socks", "crt_la_boots" ],
+        "ammo": 100,
+        "items": [ "bandana", "crt_iduster", "army_top", "crt_canteen", "crt_pants", "socks", "crt_la_boots" ],
         "entries": [
           { "item": "knife_crt", "container-item": "crt_belt" },
-          { "item": "scar_h", "ammo-item": "308", "contents-item": "shoulder_strap" },
-          { "item": "scarhmag", "ammo-item": "308", "count": 2 }
+          { "item": "scar_h", "ammo-item": "762_51", "contents-item": "shoulder_strap" },
+          { "item": "crt_chestrig", "contents-group": "crit_mags_scarh" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -48,18 +70,16 @@
           "crt_rec_hat",
           "crt_rec_duster",
           "crt_jacket",
-          "polo_shirt",
           "crt_rec_gloves",
           "crt_dress_pants",
+          "crt_belt",
           "socks",
           "crt_dress_shoes",
           "id_military",
+          "knife_swissarmy",
           "cell_phone"
         ],
-        "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "thermos" },
-          { "item": "knife_swissarmy", "container-item": "crt_belt" }
-        ]
+        "entries": [ { "item": "water_clean", "container-item": "thermos" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -86,7 +106,6 @@
         "ammo": 100,
         "items": [
           "beret",
-          "modularvestkevlar",
           "jacket_army",
           "army_top",
           "legguard_hard",
@@ -104,8 +123,8 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_crt", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "223", "contents-item": [ "grip", "holo_sight" ] },
-          { "item": "stanag30", "ammo-item": "223", "count": 1 }
+          { "item": "m4a1", "ammo-item": "556", "contents-item": [ "shoulder_strap", "grip", "holo_sight" ] },
+          { "item": "modularvestsuper", "contents-group": "army_mags_m4" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -124,7 +143,7 @@
       "both": {
         "ammo": 100,
         "items": [
-          "modularvestkevlar",
+          "modularvest",
           "crt_chestrig",
           "crt_pants",
           "legguard_hard",
@@ -144,8 +163,8 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_rm42", "container-item": "sheath" },
-          { "item": "scar_h", "ammo-item": "308", "contents-item": "shoulder_strap" },
-          { "item": "scarhmag", "ammo-item": "308", "count": 2 }
+          { "item": "scar_h", "ammo-item": "762_51", "contents-item": "shoulder_strap" },
+          { "item": "modularvestsuper", "contents-group": "crit_mags_scarh" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -173,8 +192,6 @@
           "helmet_army",
           "crt_helmet_liner",
           "crt_aarmor",
-          "armguard_hard",
-          "legguard_hard",
           "gloves_tactical",
           "crt_gloves_liner",
           "crt_canteen",
@@ -185,13 +202,13 @@
           "two_way_radio",
           "1st_aid",
           "bandages",
+          "knife_swissarmy",
           "crt_backpack",
           "UPS_off"
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_swissarmy", "container-item": "sheath" },
+          { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] },
           { "item": "crt_laser_pistol", "container-item": "holster" }
         ]
       },
@@ -214,8 +231,6 @@
           "crt_helmet",
           "crt_helmet_liner",
           "glasses_bal",
-          "balclava",
-          "modularvestkevlar",
           "jacket_army",
           "army_top",
           "crt_armguard",
@@ -229,12 +244,11 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "l_lmg_223", "ammo-item": "223" },
-          { "item": "lw223bigmag", "count": 1 },
+          { "item": "m249", "ammo-item": "556", "contents-item": "shoulder_strap" },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
-          { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
+          { "item": "modularvestsuper", "contents-group": "crit_mags_m9" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -262,7 +276,6 @@
           "beret",
           "crt_helmet_liner",
           "fancy_sunglasses",
-          "crt_chestrig",
           "crt_iduster",
           "army_top",
           "crt_pants",
@@ -278,7 +291,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_rm42", "container-item": "sheath" },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
-          { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
+          { "item": "crt_chestrig", "contents-group": "crit_mags_m9" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -312,18 +325,19 @@
           "army_top",
           "crt_gloves_liner",
           "crt_gloves",
-          "crt_canteen",
+          "crt_belt",
           "crt_legrig",
           "socks",
-          "crt_boots",
+          "crt_la_boots",
+          "crt_earmor_boots",
           "two_way_radio",
           "crt_nstick",
           "badge_marshal",
-          "lighter"
+          "lighter",
+          "knife_swissarmy"
         ],
         "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
-          { "item": "knife_swissarmy", "container-item": "crt_belt" },
+          { "item": "water_clean", "container-item": "crt_canteen" },
           { "item": "knife_crt", "container-item": "sheath" },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
           { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
@@ -383,7 +397,7 @@
           "army_top",
           "crt_gloves_liner",
           "crt_gloves",
-          "crt_canteen",
+          "crt_belt",
           "crt_legrig",
           "socks",
           "crt_boots",
@@ -391,11 +405,11 @@
           "crt_laser_gatling",
           "crt_nstick",
           "badge_marshal",
-          "lighter"
+          "lighter",
+          "knife_swissarmy"
         ],
         "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
-          { "item": "knife_swissarmy", "container-item": "crt_belt" },
+          { "item": "water_clean", "container-item": "crt_canteen" },
           { "item": "crt_mask", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_crt", "container-item": "sheath" },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
@@ -447,7 +461,6 @@
           "crt_gloves_liner",
           "crt_gloves",
           "crt_legguard",
-          "crt_canteen",
           "crt_legrig",
           "socks",
           "crt_boots",
@@ -458,21 +471,16 @@
           "mre_veggy_box",
           "crt_mess_kit",
           "lighter",
+          "knife_swissarmy",
           "badge_marshal",
           "crt_etool"
         ],
         "entries": [
-          { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
+          { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "water_clean", "container-item": "crt_canteen" },
           { "item": "knife_crt", "container-item": "crt_belt" },
-          { "item": "knife_swissarmy", "container-item": "sheath" },
-          {
-            "item": "crt_laser_pistol",
-            "contents-item": [ "flare_gmod", "bthk_stock", "beam_difractor" ],
-            "container-item": "holster"
-          },
-          { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
-          { "item": "battery", "ammo-item": "battery", "count": 25 }
+          { "item": "holster", "contents-group": "crit_gun_specops" },
+          { "item": "signal_flare", "charges": 5 }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -514,7 +522,6 @@
           "crt_gloves",
           "crt_legguard",
           "crt_legrig",
-          "crt_canteen",
           "crt_pants",
           "socks",
           "crt_boots",
@@ -522,13 +529,13 @@
           "crt_hatchet",
           "mre_veggy_box",
           "lighter",
-          "pellet",
-          "pelletgun",
-          "crt_etool"
+          "knife_swissarmy",
+          "pellet"
         ],
         "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
-          { "item": "knife_swissarmy", "container-item": "crt_belt" },
+          { "item": "pelletgun", "ammo-item": "pellet", "contents-item": "shoulder_strap" },
+          { "item": "water_clean", "container-item": "crt_canteen" },
+          { "item": "crt_etool", "container-item": "crt_belt" },
           { "item": "knife_crt", "container-item": "sheath" }
         ]
       },
@@ -566,17 +573,17 @@
           "crt_pants",
           "socks",
           "crt_la_boots",
-          "crt_hatchet",
           "mre_veggy_box",
           "lighter",
           "crt_mess_kit",
           "id_military",
-          "pelletgun",
+          "knife_swissarmy",
           "pellet"
         ],
         "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
-          { "item": "knife_swissarmy", "container-item": "crt_belt" }
+          { "item": "pelletgun", "ammo-item": "pellet", "contents-item": "shoulder_strap" },
+          { "item": "crt_hatchet", "container-item": "crt_belt" },
+          { "item": "water_clean", "container-item": "canteen" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -610,16 +617,15 @@
           "dress_shirt",
           "crt_rec_gloves",
           "crt_dress_pants",
+          "crt_belt",
           "socks",
           "crt_dress_shoes",
           "lighter",
+          "knife_swissarmy",
           "thorazine",
           "id_military"
         ],
-        "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "thermos" },
-          { "item": "knife_swissarmy", "container-item": "crt_belt" }
-        ]
+        "entries": [ { "item": "water_clean", "container-item": "thermos" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -646,18 +652,13 @@
           "rucksack",
           "ds_armor",
           "ds_monitor",
-          "crt_jacket",
           "army_top",
           "crt_rec_gloves",
           "crt_canteen",
           "crt_belt",
-          "crt_pants",
           "socks",
           "ds_plasma_cutter",
-          "ds_line_gun",
-          "ds_pulse_rifle",
           "ds_rivet_gun",
-          "ds_ripper",
           "toolbox",
           "mre_veggy_box",
           "lighter",
@@ -665,7 +666,11 @@
           "id_military",
           "id_science"
         ],
-        "entries": [ { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" } ]
+        "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
+          { "item": "plasma", "charges": 13 },
+          { "item": "nail", "charges": 75 }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -730,7 +735,6 @@
           "ds_monitor",
           "crt_gloves",
           "crt_gloves_liner",
-          "crt_canteen",
           "crt_pants",
           "socks",
           "crt_la_boots",
@@ -738,15 +742,13 @@
           "mre_veggy_box",
           "crt_mess_kit",
           "lighter",
-          "knife_swissarmy",
-          "sword_crt",
-          "battery",
           "crt_etool",
           "id_military",
           "id_science"
         ],
         "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "item": "water_clean", "container-item": "crt_canteen" },
+          { "item": "sword_crt", "container-item": "scabbard" },
           { "item": "knife_crt", "container-item": "crt_belt" }
         ]
       },

@@ -79,6 +79,33 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "crossbow_hardened_survivor",
+    "entries": [ { "item": "crossbow", "ammo-item": "bolt_wood", "charges": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "shotgun_d_roadwarrior",
+    "entries": [ { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": [ "barrel_small", "stock_small" ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mags_waste_ranger",
+    "entries": [ { "item": "blrmag", "ammo-item": "3006", "charges": 4 }, { "item": "blrmag", "ammo-item": "3006", "charges": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "speedloaders_waste_ranger",
+    "entries": [
+      { "item": "38_speedloader", "ammo-item": "357mag_jhp", "charges": 7 },
+      { "item": "38_speedloader", "ammo-item": "357mag_jhp", "charges": 7 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "quiver_bow_hunter",
     "entries": [ { "item": "arrow_cf", "charges": 8 } ]
   },
@@ -135,6 +162,24 @@
     "subtype": "collection",
     "id": "bandolier_ww_gunslinger",
     "entries": [ { "item": "45colt_jhp", "charges": 34 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_hardened_survivor",
+    "entries": [ { "item": "bolt_wood", "charges": 29 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_player_bandit",
+    "entries": [ { "item": "bolt_wood", "charges": 19 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "bandolier_roadwarrior",
+    "entries": [ { "item": "shot_00", "charges": 18 } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -1140,6 +1185,16 @@
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "heli_pilot_scenario",
+    "name": "Helicopter Pilot",
+    "description": "You earned a living ferrying businesspeople and tourists from helipad to helipad, now your flying skills are all you have to rely on.",
+    "vehicle": "2seater2",
+    "points": 4,
+    "copy-from": "heli_pilot",
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -3125,6 +3180,45 @@
   },
   {
     "type": "profession",
+    "id": "hardened_survivor",
+    "name": "Hardened Survivor",
+    "description": "One of the lucky few who escaped the cataclysm, you made a life for yourself living off nature's bounties and what you could get outside the death traps of the large cities.",
+    "points": 6,
+    "skills": [
+      { "level": 6, "name": "survival" },
+      { "level": 6, "name": "fabrication" },
+      { "level": 6, "name": "tailor" },
+      { "level": 5, "name": "melee" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "rifle" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "survivor_suit",
+          "socks",
+          "boots_survivor",
+          "hood_survivor",
+          "gloves_survivor",
+          "wristwatch",
+          "ref_lighter",
+          "hand_crank_charger"
+        ],
+        "entries": [
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" },
+          { "item": "kukri", "container-item": "sheath" },
+          { "item": "survivor_vest", "contents-group": "crossbow_hardened_survivor" },
+          { "item": "quiver_large", "contents-group": "quiver_hardened_survivor" },
+          { "item": "light_battery_cell", "charges": 100, "container-item": "wearable_light" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "id": "winter_scavenger",
     "name": "Hardened Scavenger",
     "description": "One of the lucky few who escaped the Cataclysm, you made a life for yourself on the ruins of others.  Whether by force, guile, or luck, you've obtained the best gear you could find.",
@@ -3156,6 +3250,159 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "road_warrior",
+    "name": "Road Warrior",
+    "description": "You lived by your wheels during the first few months of the apocalypse, now you're running low on ammo and fuel, and your situation is dire.  You've been reduced to a scavenger, living off the corpse of the old world.",
+    "points": 6,
+    "vehicle": "car_roadwarrior",
+    "skills": [
+      { "level": 3, "name": "driving" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 3, "name": "tailor" },
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "gun" },
+      { "level": 1, "name": "shotgun" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "firstaid" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "tank_top",
+          "pants_leather",
+          "jacket_leather_mod",
+          "boots_steel",
+          "gloves_fingerless_mod",
+          "hat_cotton",
+          "long_patchwork_scarf",
+          "legrig",
+          "canteen",
+          "binoculars",
+          "ref_lighter",
+          "press_dowel",
+          "makeshift_hose"
+        ],
+        "entries": [
+          { "item": "tool_belt", "contents-item": [ "knife_combat", "pliers", "wrench", "hacksaw" ] },
+          { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
+          { "item": "bandolier_shotgun", "contents-group": "bandolier_roadwarrior" },
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boy_shorts" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "ident": "waste_ranger",
+    "name": "Wasteland Ranger",
+    "description": "If the human race is to survive, the threats facing its existence must be eliminated, no matter the cost.  If it's hostile, you kill it.",
+    "points": 6,
+    "skills": [
+      { "level": 6, "name": "tailor" },
+      { "level": 5, "name": "fabrication" },
+      { "level": 3, "name": "survival" },
+      { "level": 3, "name": "gun" },
+      { "level": 2, "name": "cooking" },
+      { "level": 2, "name": "rifle" },
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "pistol" },
+      { "level": 1, "name": "stabbing" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "sheriffshirt",
+          "duster_survivor",
+          "pants_survivor",
+          "boots_lsurvivor",
+          "gloves_lsurvivor",
+          "mask_gas",
+          "helmet_survivor",
+          "badge_deputy",
+          "canteen",
+          "wristwatch",
+          "puller",
+          "press",
+          "ref_lighter"
+        ],
+        "entries": [
+          { "item": "knife_trench", "container-item": "sheath" },
+          { "item": "browning_blr", "ammo-item": "3006", "charges": 4, "contents-item": "shoulder_strap" },
+          { "item": "legpouch_large", "contents-group": "mags_waste_ranger" },
+          { "item": "3006", "charges": 8 },
+          { "item": "sw_619", "ammo-item": "357mag_jhp", "charges": 7, "container-item": "holster" },
+          { "item": "legpouch_large", "contents-group": "speedloaders_waste_ranger" },
+          { "item": "357mag_jhp", "charges": 29 },
+          { "item": "light_battery_cell", "charges": 100, "container-item": "wearable_light" },
+          { "item": "survivor_mess_kit", "charges": [ 20, 30 ] }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boy_shorts" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "player_bandit",
+    "name": "Veteran Bandit",
+    "description": "After the cities exploded there was a whirlwind of looting; a firestorm of fear.  Men began to feed on men.  On the roads it was a white line nightmare.  Looting, killing, drug-running, one way or another you'll live and die on your bike.",
+    "points": 6,
+    "vehicle": "motorcycle_methcart",
+    "skills": [
+      { "level": 5, "name": "cooking" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 2, "name": "driving" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "bashing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 2, "name": "tailor" },
+      { "level": 1, "name": "fabrication" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 1, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "gold_ear",
+          "motorbike_armor",
+          "pants_leather",
+          "chaps_leather",
+          "motorbike_boots",
+          "vambrace_larmor",
+          "gauntlets_larmor",
+          "pickelhaube",
+          "mask_hockey",
+          "camelbak",
+          "dump_pouch",
+          "survivor_scope",
+          "ref_lighter",
+          "wristwatch"
+        ],
+        "entries": [
+          { "item": "hand_crossbow", "ammo-item": "bolt_wood", "charges": 1, "container-item": "holster" },
+          { "item": "quiver", "contents-group": "quiver_player_bandit" },
+          { "item": "makeshift_knife", "container-item": "bootsheath" },
+          { "item": "bwirebat", "custom-flags": [ "auto_wield" ] },
+          { "item": "light_battery_cell", "charges": 100, "container-item": "heavy_flashlight" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boy_shorts" ]
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -4226,7 +4473,7 @@
     "type": "profession",
     "id": "mili_pilot_blackhawk",
     "name": "UH-60 Blackhawk pilot",
-    "description": "You managed to get to your UH-60.  Your co-pilot didn't.",
+    "description": "You managed to get to your UH-60.  Your co-pilot didn't.  You got to see things fall apart from the sky, transporting soldiers and survivors from one holdout to the next, but now it's just you and your bird.",
     "vehicle": "helicopter_blackhawk_3a",
     "points": 7,
     "copy-from": "mili_pilot"

@@ -89,7 +89,7 @@ class relic_recharge
         /** Specifies amount of charges gained per charge operation.  Can be 0 or even negative. */
         int rate = 0;
         /** Recharge activation message. */
-        cata::optional<std::string> message;
+        std::optional<std::string> message;
 
         bool operator==( const relic_recharge &rhs ) const;
 

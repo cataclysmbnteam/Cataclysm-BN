@@ -3,12 +3,12 @@
 #define CATA_SRC_ACTIVITY_ACTOR_H
 
 #include <memory>
+#include <optional>
 #include <unordered_map>
 #include <vector>
 
 #include "activity_type.h"
 #include "clone_ptr.h"
-#include "optional.h"
 
 class Character;
 class JsonIn;
@@ -22,8 +22,8 @@ struct act_progress_message {
      */
     bool implemented = true;
 
-    cata::optional<std::string> msg_extra_info;
-    cata::optional<std::string> msg_full;
+    std::optional<std::string> msg_extra_info;
+    std::optional<std::string> msg_full;
 
     /**
      * The text will completely overwrite default message.

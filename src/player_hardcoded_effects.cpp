@@ -731,7 +731,7 @@ void Character::hardcoded_effects( effect &it )
                 } while( g->critter_at( dest ) );
                 if( tries < 10 ) {
                     if( g->m.impassable( dest ) ) {
-                        g->m.make_rubble( dest, f_rubble_rock, true );
+                        g->m.make_rubble( dest, f_rubble_rock );
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                            GROUP_NETHER );

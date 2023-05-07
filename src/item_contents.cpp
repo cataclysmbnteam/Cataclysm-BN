@@ -246,29 +246,12 @@ int item_contents::best_quality( const quality_id &id ) const
     return ret;
 }
 
-void item_contents::remove_items_with( const std::function < detached_ptr<item>
-                                       ( detached_ptr<item> && ) >
-                                       &filter )
+void item_contents::remove_top_items_with( const std::function < detached_ptr<item>
+        ( detached_ptr<item> && ) >
+        &filter )
 {
     remove_items_with( [&filter]( detached_ptr<item> &&e ) {
         e = filter( std::move( e ) );
         return VisitResponse::SKIP;
     } );
 }
-/*
-void item_contents::remove_items_with( const std::function < VisitResponse(
-        detached_ptr<item> && ) >
-                                       &filter )
-{
-    VisitResponse last = VisitResponse::NEXT;
-    items.remove_with( [&filter, &last]( detached_ptr<item> &&e ) {
-        if( last == VisitResponse::ABORT ) {
-            return e;
-        }
-        last = filter( std::move( e ) );
-        if( last == VisitResponse::NEXT && e ) {
-            e->remove_items_with( filter );
-        }
-        return e;
-    } );
-}*/

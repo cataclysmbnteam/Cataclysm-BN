@@ -11,6 +11,7 @@
 #include <limits>
 #include <locale>
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <tuple>
@@ -71,7 +72,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -951,7 +951,8 @@ bool item::is_worn_only_with( const item &it ) const
 
 detached_ptr<item> item::in_its_container( detached_ptr<item> &&self )
 {
-    return item::in_container( self->type->default_container.value_or( "null" ), std::move( self ) );
+    return item::in_container( self->type->default_container.value_or( itype_id::NULL_ID() ),
+                               std::move( self ) );
 }
 
 detached_ptr<item> item::in_container( const itype_id &cont, detached_ptr<item> &&self )
@@ -1628,12 +1629,20 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.push_back( iteminfo( "BASE", _( "Category: " ),
                                   "<header>" + get_category().name() + "</header>" ) );
     }
+    if( !type->weapon_category.empty() && parts->test( iteminfo_parts::WEAPON_CATEGORY ) ) {
+        const std::string weapon_categories = enumerate_as_string( type->weapon_category.begin(),
+        type->weapon_category.end(), [&]( const weapon_category_id & elem ) {
+            return elem->name().translated();
+        }, enumeration_conjunction::none );
+        info.push_back( iteminfo( "BASE", _( "Weapon Category: " ),
+                                  "<header>" + weapon_categories + "</header>" ) );
+    }
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
         insert_separation_line( info );
         const std::map<std::string, std::string>::const_iterator idescription =
             item_vars.find( "description" );
-        const cata::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
+        const std::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
         if( snippet.has_value() ) {
             // Just use the dynamic description
             info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
@@ -4572,7 +4581,7 @@ void item::on_wield( player &p, int mv )
         msg = _( "You wield your %s." );
     }
     // if game is loaded - don't want ownership assigned during char creation
-    if( get_avatar().getID().is_valid() ) {
+    if( p.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
@@ -4909,7 +4918,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 }
 
 std::string item::display_money( unsigned int quantity, unsigned int total,
-                                 const cata::optional<unsigned int> &selected ) const
+                                 const std::optional<unsigned int> &selected ) const
 {
     if( selected ) {
         //~ This is a string to display the selected and total amount of money in a stack of cash cards.
@@ -6901,7 +6910,7 @@ int item::wind_resist() const
 
     int best = -1;
     for( const material_type *mat : materials ) {
-        cata::optional<int> resistance = mat->wind_resist();
+        std::optional<int> resistance = mat->wind_resist();
         if( resistance && *resistance > best ) {
             best = *resistance;
         }
@@ -8878,7 +8887,7 @@ detached_ptr<item> item::detonate( detached_ptr<item> &&self, const tripoint &p,
     } else if( !self->contents.empty() && ( !self->type->magazine ||
                                             !self->type->magazine->protects_contents ) ) {
         bool detonated = false;
-        self->contents.remove_items_with( [&p, &drops, &detonated]( detached_ptr<item> &&it ) {
+        self->contents.remove_top_items_with( [&p, &drops, &detonated]( detached_ptr<item> &&it ) {
             it = detonate( std::move( it ), p, drops );
             if( !it ) {
                 detonated = true;
@@ -8914,7 +8923,7 @@ detached_ptr<item> item::actualize_rot( detached_ptr<item> &&self, const tripoin
         return self;
     } else if( self->type->container && self->type->container->seals ) {
         // Items inside rot but do not vanish as the container seals them in.
-        self->contents.remove_items_with( [&pnt, &temperature, &weather]( detached_ptr<item> &&it ) {
+        self->contents.remove_top_items_with( [&pnt, &temperature, &weather]( detached_ptr<item> &&it ) {
             if( it->goes_bad() ) {
                 process_rot( std::move( it ), true, pnt, nullptr, temperature, weather );
             }
@@ -8923,7 +8932,7 @@ detached_ptr<item> item::actualize_rot( detached_ptr<item> &&self, const tripoin
         return self;
     } else {
         // Check and remove rotten contents, but always keep the container.
-        self->contents.remove_items_with( [&pnt, &temperature, &weather]( detached_ptr<item> &&it ) {
+        self->contents.remove_top_items_with( [&pnt, &temperature, &weather]( detached_ptr<item> &&it ) {
             return actualize_rot( std::move( it ), pnt, temperature, weather );
         } );
         return self;
@@ -9464,16 +9473,16 @@ detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *
     return self;
 }
 
-cata::optional<tripoint> item::get_cable_target( Character *p, const tripoint &pos ) const
+std::optional<tripoint> item::get_cable_target( Character *p, const tripoint &pos ) const
 {
     const std::string &state = get_var( "state" );
     if( state != "pay_out_cable" && state != "cable_charger_link" ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     map &here = get_map();
     const optional_vpart_position vp_pos = here.veh_at( pos );
     if( vp_pos ) {
-        const cata::optional<vpart_reference> seat = vp_pos.part_with_feature( "BOARDABLE", true );
+        const std::optional<vpart_reference> seat = vp_pos.part_with_feature( "BOARDABLE", true );
         if( seat && p == seat->vehicle().get_passenger( seat->part_index() ) ) {
             return pos;
         }
@@ -9517,7 +9526,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
             return self;
         }
     }
-    const cata::optional<tripoint> source = self->get_cable_target( carrier, pos );
+    const std::optional<tripoint> source = self->get_cable_target( carrier, pos );
     if( !source ) {
         return self;
     }

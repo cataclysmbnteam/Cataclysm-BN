@@ -5,6 +5,7 @@
 #include <climits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -17,7 +18,6 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h"
-#include "optional.h"
 #include "ret_val.h"
 #include "string_id.h"
 #include "translations.h"
@@ -580,7 +580,6 @@ class salvage_actor : public iuse_actor
             material_id( "kevlar" ),
             material_id( "kevlar_rigid" ),
             material_id( "leather" ),
-            material_id( "lycra" ),
             material_id( "neoprene" ),
             material_id( "nomex" ),
             material_id( "nylon" ),
@@ -1006,6 +1005,8 @@ class repair_item_actor : public iuse_actor
 class heal_actor : public iuse_actor
 {
     public:
+        /** "Value" of an essential part, ie, how much priority it gets for healing.*/
+        const int essential_value = 10;
         /** How much hp to restore when healing limbs? */
         float limb_power = 0;
         /** How much hp to restore when healing head? */
@@ -1210,11 +1211,11 @@ class deploy_tent_actor : public iuse_actor
     public:
         string_id<furn_t> wall;
         string_id<furn_t> floor;
-        cata::optional<string_id<furn_t>> floor_center;
+        std::optional<string_id<furn_t>> floor_center;
         string_id<furn_t> door_opened;
         string_id<furn_t> door_closed;
         int radius = 1;
-        cata::optional<itype_id> broken_type;
+        std::optional<itype_id> broken_type;
 
         deploy_tent_actor() : iuse_actor( "deploy_tent" ) {}
 

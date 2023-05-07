@@ -278,6 +278,18 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
+    },
+    "deconstruct": {
+      "ter_set": "t_pavement",
+      "items": [
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 5, 7 ] },
+        { "item": "motor_small", "count": [ 0, 1 ] },
+        { "item": "jerrycan", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "frame", "count": [ 0, 1 ] }
+      ]
     }
   },
   {

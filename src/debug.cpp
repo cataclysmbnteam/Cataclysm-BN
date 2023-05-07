@@ -16,6 +16,8 @@
 #include <locale>
 #include <map>
 #include <memory>
+#include <optional>
+#include <ostream>
 #include <set>
 #include <sstream>
 #include <sys/stat.h>
@@ -34,7 +36,6 @@
 #include "input.h"
 #include "language.h"
 #include "mod_manager.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
@@ -739,7 +740,7 @@ static std::string debug_resolve_binary( const std::string &binary, std::ostream
     return binary;
 }
 
-static cata::optional<uintptr_t> debug_compute_load_offset(
+static std::optional<uintptr_t> debug_compute_load_offset(
     const std::string &binary, const std::string &symbol,
     const std::string &offset_within_symbol_s, void *address, std::ostream &out )
 {
@@ -766,7 +767,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
             out << "    backtrace: popen(nm) failed: " << strerror( errno ) << "\n";
-            return cata::nullopt;
+            return std::nullopt;
         }
 
         char buf[1024];
@@ -790,7 +791,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         pclose( nm );
     }
 
-    return cata::nullopt;
+    return std::nullopt;
 }
 #endif
 
@@ -1097,7 +1098,7 @@ void debug_write_backtrace( std::ostream &out )
                 std::string symbol_name( symbolNameStart, symbolNameEnd );
                 std::string offset_within_symbol( offsetStart, offsetEnd );
 
-                cata::optional<uintptr_t> offset =
+                std::optional<uintptr_t> offset =
                     debug_compute_load_offset( binary_name, symbol_name, offset_within_symbol,
                                                bt[i], out );
                 if( offset ) {
@@ -1200,6 +1201,7 @@ detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
             // Cool down for 60s between backtrace emissions.
             next_backtrace = after + 60;
             out << "Backtrace emission took " << after - now << " seconds." << std::endl;
+            out << "(continued from above) " << io::enum_to_string( lev ) << ": ";
         }
 #endif
 
@@ -1522,7 +1524,7 @@ std::string game_info::mods_loaded()
     std::transform( mod_ids.begin(), mod_ids.end(),
     std::back_inserter( mod_names ), []( const mod_id mod ) -> std::string {
         // e.g. "Dark Days Ahead [dda]".
-        return string_format( "%s [%s]", mod->name(), mod->ident.str() );
+        return string_format( "%s [%s]", remove_color_tags( mod->name() ), mod->ident.str() );
     } );
 
     return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.

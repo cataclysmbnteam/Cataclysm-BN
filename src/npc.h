@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -30,7 +31,6 @@
 #include "item.h"
 #include "line.h"
 #include "lru_cache.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
@@ -157,7 +157,7 @@ struct npc_companion_mission {
     std::string mission_id;
     tripoint_abs_omt position;
     std::string role_id;
-    cata::optional<tripoint_abs_omt> destination;
+    std::optional<tripoint_abs_omt> destination;
 };
 
 std::string npc_class_name( const npc_class_id & );
@@ -514,7 +514,7 @@ struct npc_short_term_cache {
     // number of times we haven't moved when investigating a sound
     int stuck = 0;
     // Position to return to guarding
-    cata::optional<tripoint> guard_pos;
+    std::optional<tripoint> guard_pos;
     double my_weapon_value = 0;
 
     // Use weak_ptr to avoid circular references between Creatures
@@ -986,7 +986,7 @@ class npc : public player
         // can't use bionics::activate because it calls plfire directly
         void discharge_cbm_weapon();
         // check if an NPC has a bionic weapon and activate it if possible
-        void check_or_use_weapon_cbm( const bionic_id &cbm_id );
+        void check_or_use_weapon_cbm();
 
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
@@ -1061,6 +1061,8 @@ class npc : public player
         /** Has a gun or magazine that can be reloaded */
         const item &find_reloadable() const;
         item &find_reloadable();
+        /* Checks and reloads any possible CBM toggled weapons.*/
+        void check_or_reload_cbm();
         /** Finds ammo the NPC could use to reload a given object */
         item *find_usable_ammo( item &weap );
         item *find_usable_ammo( item &weap ) const;
@@ -1211,7 +1213,7 @@ class npc : public player
         std::string idz;
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
-        cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
+        std::optional<tripoint_abs_omt> assigned_camp = std::nullopt;
 
     private:
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player
@@ -1249,12 +1251,14 @@ class npc : public player
          * This does not change the global position of the NPC.
          */
         tripoint global_square_location() const override;
-        cata::optional<tripoint> last_player_seen_pos; // Where we last saw the player
+        std::optional<tripoint> last_player_seen_pos; // Where we last saw the player
+        // Player orders a friendly NPC to move to this position
+        std::optional<tripoint_abs_ms> goto_to_this_pos;
         int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
         tripoint chair_pos = tripoint_min; // This is the spot the NPC wants to move to to sit and relax.
-        cata::optional<tripoint_abs_omt> base_location; // our faction base location in OMT coords.
+        std::optional<tripoint_abs_omt> base_location; // our faction base location in OMT coords.
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.
@@ -1265,7 +1269,7 @@ class npc : public player
         /**
          * Location and index of the corpse we'd like to pulp (if any).
          */
-        cata::optional<tripoint> pulp_location;
+        std::optional<tripoint> pulp_location;
         time_point restock;
         bool fetching_item = false;
         bool has_new_items = false; // If true, we have something new and should re-equip
@@ -1292,7 +1296,7 @@ class npc : public player
         bool hit_by_player = false;
         bool hallucination = false; // If true, NPC is an hallucination
         std::vector<npc_need> needs;
-        cata::optional<int> confident_range_cache;
+        std::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint_abs_omt no_goal_point{ tripoint_min };
         job_data job;
@@ -1323,24 +1327,24 @@ class npc : public player
             const std::string &mission_id, const tripoint_abs_omt &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
-        cata::optional<tripoint_abs_omt> get_mission_destination() const;
+        std::optional<tripoint_abs_omt> get_mission_destination() const;
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att ) const;
-
-        detached_ptr<item> remove_real_weapon();
-        item &get_real_weapon();
-        detached_ptr<item> set_real_weapon( detached_ptr<item> &&weapon );
 
     protected:
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
 
     private:
-        // the weapon we're actually holding when using bionic fake guns
-        location_ptr<item> real_weapon;
-        // the index of the bionics for the fake gun;
-        int cbm_weapon_index = -1;
+        // index for chosen activated cbm weapon;
+        bionic_id cbm_active = bionic_id::NULL_ID();
+        // REALLY fake item temporarily created to prevent segfaults;
+        location_ptr<item, false> cbm_fake_active;
+        // index for chosen toggled cbm weapon;
+        bionic_id cbm_toggled = bionic_id::NULL_ID();
+        // Copy of toggled CBM weapon for comparisons;
+        location_ptr<item, false> cbm_fake_toggled;
 
         bool dead = false;  // If true, we need to be cleaned up
 
@@ -1390,15 +1394,22 @@ npc *pick_follower();
 
 namespace npc_ai
 {
+/** Evaluate wielded weapon */
+double wielded_value( const Character &who, bool ideal );
 /** Evaluate item as weapon (melee or gun) */
-double weapon_value( const Character &who, const item &weap, int ammo = 10 );
+double weapon_value( const Character &who, const item &weap, int ammo );
 /** Evaluates item as a gun */
-double gun_value( const Character &who, const item &weap, int ammo = 10 );
+double gun_value( const Character &who, const item &weap, int ammo );
 /** Evaluate item as a melee weapon */
 double melee_value( const Character &who, const item &weap );
 /** Evaluate unarmed melee value */
 double unarmed_value( const Character &who );
 
 } // namespace npc_ai
+
+// disable toggled weapon cbms
+void deactivate_weapon_cbm( npc &who );
+// returns list of reloadable cbms.
+std::vector<std::pair<bionic_id, item *>> find_reloadable_cbms( npc &who );
 
 #endif // CATA_SRC_NPC_H

@@ -12,6 +12,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -38,7 +39,6 @@
 #include "item_location.h"
 #include "location_ptr.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pldata.h"
@@ -96,6 +96,14 @@ enum vision_modes {
     VISION_CLAIRVOYANCE_PLUS,
     VISION_CLAIRVOYANCE_SUPER,
     NUM_VISION_MODES
+};
+
+enum npc_ai_info : size_t {
+    weapon_value = 0,
+    ideal_weapon_value,
+    reloadables,
+    reloadable_cbms,
+    num_npc_ai_info,
 };
 
 enum character_movemode : int {
@@ -975,6 +983,8 @@ class Character : public Creature, public location_visitable<Character>
         /**Return list of available fuel for this bionic*/
         std::vector<itype_id> get_fuel_available( const bionic_id &bio ) const;
         /**Return available space to store specified fuel*/
+        int get_fuel_type_available( const itype_id &fuel ) const;
+        /**Return available space to store specified fuel*/
         int get_fuel_capacity( const itype_id &fuel ) const;
         /**Return total space to store specified fuel*/
         int get_total_fuel_capacity( const itype_id &fuel ) const;
@@ -1350,7 +1360,7 @@ class Character : public Creature, public location_visitable<Character>
          * @return nullopt on fail, pointer to newly worn item on success
          */
         bool wear_possessed( item &to_wear, bool interactive = true,
-                             cata::optional<std::vector<item *>::iterator> position = cata::nullopt );
+                             std::optional<std::vector<item *>::iterator> position = std::nullopt );
         /**
          * Wear a copy of specified item.
          * @param to_wear Item to wear. Will be moved from if actually worn.
@@ -1358,7 +1368,7 @@ class Character : public Creature, public location_visitable<Character>
          * @return the item if it was not worn
          */
         detached_ptr<item> wear_item( detached_ptr<item> &&to_wear,
-                                      bool interactive = true, cata::optional<std::vector<item *>::iterator> position = cata::nullopt );
+                                      bool interactive = true, std::optional<std::vector<item *>::iterator> position = std::nullopt );
 
         /**
          * Wears an item in its default location with no checks.
@@ -1594,7 +1604,7 @@ class Character : public Creature, public location_visitable<Character>
         bool crossed_threshold() const;
 
         // --------------- Values ---------------
-        std::string name;
+        std::string name; // Pre-cataclysm name, invariable
         bool male = true;
 
         location_vector<item> worn;
@@ -1608,7 +1618,7 @@ class Character : public Creature, public location_visitable<Character>
         activity_ptr stashed_outbounds_backlog;
         activity_ptr activity;
         std::list<activity_ptr> backlog;
-        cata::optional<tripoint> destination_point;
+        std::optional<tripoint> destination_point;
         itype_id last_item;
 
         int scent = 0;
@@ -1627,7 +1637,7 @@ class Character : public Creature, public location_visitable<Character>
         int cash = 0;
         std::set<character_id> follower_ids;
         weak_ptr_fast<Creature> last_target;
-        cata::optional<tripoint> last_target_pos;
+        std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         //TODO!: ERRRM WUT?
         safe_reference<item> ammo_location;
@@ -1960,7 +1970,6 @@ class Character : public Creature, public location_visitable<Character>
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
         /** Determine character's capability of recharging their CBMs. */
-        bool can_feed_reactor_with( const item &it ) const;
         bool can_feed_furnace_with( const item &it ) const;
         rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
         int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
@@ -1970,7 +1979,6 @@ class Character : public Creature, public location_visitable<Character>
         * Recharge CBMs whenever possible.
         * @return true when recharging was successful.
         */
-        bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
         bool fuel_bionic_with( item &it );
         /** Used to apply stimulation modifications from food and medication **/
@@ -2304,7 +2312,7 @@ class Character : public Creature, public location_visitable<Character>
 
         std::vector<tripoint> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course
-        cata::optional<tripoint> next_expected_position;
+        std::optional<tripoint> next_expected_position;
         scenttype_id type_of_scent;
 
         struct weighted_int_list<std::string> melee_miss_reasons;
@@ -2313,7 +2321,7 @@ class Character : public Creature, public location_visitable<Character>
         tripoint cached_position;
         inventory cached_crafting_inventory;
 
-        mutable std::map<std::string, double> npc_ai_info_cache;
+        mutable std::array<double, npc_ai_info::num_npc_ai_info> npc_ai_info_cache;
 
         //safe_reference_anchor anchor;
 
@@ -2336,9 +2344,10 @@ class Character : public Creature, public location_visitable<Character>
 
         void set_underwater( bool x ) override;
 
-        void clear_npc_ai_info_cache( const std::string &key ) const;
-        void set_npc_ai_info_cache( const std::string &key, double val ) const;
-        cata::optional<double> get_npc_ai_info_cache( const std::string &key ) const;
+        void clear_npc_ai_info_cache( npc_ai_info key ) const;
+        void set_npc_ai_info_cache( npc_ai_info key, double val ) const;
+        std::optional<double> get_npc_ai_info_cache( npc_ai_info key ) const;
+
 };
 
 Character &get_player_character();
@@ -2372,5 +2381,8 @@ std::map<bodypart_id, int> wind_resistance_from_clothing(
 
 /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
 bool has_psy_protection( const Character &c, int partial_chance );
+
+/** Returns value of speedydex bonus if enabled */
+int get_speedydex_bonus( const int dex );
 
 #endif // CATA_SRC_CHARACTER_H

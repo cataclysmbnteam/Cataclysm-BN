@@ -60,7 +60,7 @@ directed_path<point> greedy_path( point source, point dest, point max,
     }
     const Node first_node( source, om_direction::type::invalid, 1000 );
     if( scorer( directed_node<point>( first_node.pos, first_node.dir ),
-                cata::nullopt ).node_cost < 0 ) {
+                std::nullopt ).node_cost < 0 ) {
         return res;
     }
     const size_t map_size = static_cast<size_t>( max.x * max.y );
@@ -242,7 +242,7 @@ omt_score::omt_score( int node_cost, bool allow_z_change ) : node_cost( node_cos
 
 simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
         const tripoint_abs_omt &dest, const int radius, omt_scoring_fn scorer,
-        cata::optional<int> max_cost )
+        std::optional<int> max_cost )
 {
     constexpr size_t max_search_count = 100000;
     simple_path<tripoint_abs_omt> ret;

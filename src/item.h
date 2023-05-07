@@ -7,6 +7,7 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -22,7 +23,6 @@
 #include "gun_mode.h"
 #include "io_tags.h"
 #include "item_contents.h"
-#include "optional.h"
 #include "location_vector.h"
 #include "pimpl.h"
 #include "safe_reference.h"
@@ -459,7 +459,7 @@ class item : public location_visitable<item>, public game_object<item>
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
                            unsigned int truncate = 0 ) const;
         std::string display_money( unsigned int quantity, unsigned int total,
-                                   const cata::optional<unsigned int> &selected = cata::nullopt ) const;
+                                   const std::optional<unsigned int> &selected = std::nullopt ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
@@ -1186,7 +1186,7 @@ class item : public location_visitable<item>, public game_object<item>
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
          */
-        cata::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
+        std::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */

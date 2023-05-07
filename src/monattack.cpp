@@ -5002,6 +5002,7 @@ bool mattack::evolve_kill_strike( monster *z )
 
 bool mattack::leech_spawner( monster *z )
 {
+    Creature *target = z->attack_target();
     const bool u_see = g->u.sees( *z );
     std::list<monster *> allies;
     for( monster &candidate : g->all_monsters() ) {
@@ -5009,8 +5010,12 @@ bool mattack::leech_spawner( monster *z )
             allies.push_back( &candidate );
         }
     }
-    if( allies.size() > 45 ) {
-        return true;
+    // Only propagate if you see a target or are the current queen
+    if( !z->has_flag( MF_QUEEN ) && target == nullptr ) {
+        return false;
+    }
+    if( allies.size() > 30 ) {
+        return false;
     }
     const int monsters_spawned = rng( 1, 4 );
     const mtype_id monster_type = one_in( 3 ) ? mon_leech_root_runner : mon_leech_root_drone;
@@ -5020,14 +5025,19 @@ bool mattack::leech_spawner( monster *z )
                 add_msg( m_warning,
                          _( "An egg pod ruptures and a %s crawls out from the remains!" ), new_mon->name() );
             }
-            if( one_in( 25 ) ) {
+            if( one_in( 10 ) && z->has_flag( MF_QUEEN ) ) {
                 z->poly( mon_leech_stalk );
                 if( u_see ) {
                     add_msg( m_warning,
                              _( "Resplendent fronds emerge from the still intact pods!" ) );
                 }
+                return true;
             }
         }
+    }
+    // If egg pod or other non-queen source of this attack, die off from doing this
+    if( !z->has_flag( MF_QUEEN ) ) {
+        z->set_hp( 0 );
     }
     return true;
 }
@@ -5039,7 +5049,7 @@ bool mattack::mon_leech_evolution( monster *z )
     std::list<monster *> queens;
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.in_species( LEECH_PLANT ) && candidate.has_flag( MF_QUEEN ) &&
-            rl_dist( z->pos(), candidate.pos() ) < 35 ) {
+            rl_dist( z->pos(), candidate.pos() ) < 45 ) {
             queens.push_back( &candidate );
         }
     }
