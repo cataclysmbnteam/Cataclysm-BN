@@ -28,43 +28,10 @@ export const parseCataJson = (text: string): unknown[] => {
 export type ObjectSchema = z.ZodObject<z.ZodRawShape>
 export type MigrationSchema = z.ZodEffects<ObjectSchema>
 
-/**
- * wraps a schema to return data in same order as passed.
- *
- * @link https://github.com/colinhacks/zod/discussions/1852#discussioncomment-4658084
- * @deprecated
- */
-export const orderPreservingSchema = <Schema extends ObjectSchema>(
-  schema: Schema,
-) => z.custom<z.infer<Schema>>((value) => schema.safeParse(value).success)
-
 /** function that will transform given entry into output.
  * its output should not be used as input to other functions.
  */
 export type CataJsonEntryFn<Schema extends ObjectSchema> = (obj: z.infer<Schema>) => unknown
-
-/**
- * applies a function to all json entries that match a given schema.
- * order of unmatched entries is preserved.
- *
- * probably handles 90% of use cases.
- *
- * @param fn function that will transform entry satisfying schema.
- * @param text raw json string to parse.
- * @deprecated
- */
-export const genericCataTransformer =
-  <Schema extends ObjectSchema>(schema: Schema) =>
-  (fn: CataJsonEntryFn<Schema>) =>
-  (text: string): unknown[] => {
-    const preservingSchema = orderPreservingSchema(schema.passthrough())
-    return parseCataJson(text)
-      .map((x) =>
-        match(preservingSchema.safeParse(x))
-          .with({ success: true, data: P.select() }, fn)
-          .otherwise(() => x)
-      )
-  }
 
 const isValidJson = (name: string) => !["default.json", "replacements.json"].includes(name)
 
@@ -74,7 +41,10 @@ const toEntry: ToEntry = async (path) => ({ path, text: await Deno.readTextFile(
 /** lightweight file system entry with file path and text content. */
 export type Entry = { path: string; text: string }
 
-/** recursively reads all JSON files from given directory. */
+/**
+ * @internal
+ * recursively reads all JSON files from given directory.
+ */
 type ReadDirRecursively = (root: string) => () => Promise<Entry[]>
 const readDirRecursively: ReadDirRecursively = (root) => () =>
   asynciter(walk(root, { exts: [".json"] }))

@@ -12,11 +12,10 @@ import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts"
 import { match, P } from "npm:ts-pattern"
 import { promiseAllProperties } from "npm:promise-all-properties"
 
-import { id as identity } from "./utils/id.ts"
-
-import { Entry, genericCataTransformer, readRecursively } from "./parse.ts"
+import { Entry, readRecursively } from "./parse.ts"
 import { timeit } from "./timeit.ts"
 import { fmtJsonRecursively } from "./json_fmt.ts"
+import { schemaTransformer } from "./transform.ts"
 
 type CataWithId = z.infer<typeof cataWithId>
 const cataWithId = z.object({ id: z.string() }).passthrough()
@@ -24,7 +23,7 @@ const cataWithId = z.object({ id: z.string() }).passthrough()
 type ParsedEntry = { path: string; parsed: CataWithId[] }
 
 export const parseIds = (entries: Entry[]): ParsedEntry[] => {
-  const idExtractor = genericCataTransformer(cataWithId)(identity)
+  const idExtractor = schemaTransformer(cataWithId)
 
   return entries.map(({ path, text }) => ({ path, parsed: idExtractor(text) as CataWithId[] }))
 }
