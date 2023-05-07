@@ -360,7 +360,8 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 50,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_1000" ]
+    "dont_recover_one_in": 1000,
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
   },
   {
     "type": "AMMO",
