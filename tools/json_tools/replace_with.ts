@@ -52,13 +52,6 @@ export const replaceWith: ReplaceWith = (replace) => (using) => (idToReplace) =>
 }
 
 const nonNull = () => P.not(P.nullish)
-const ex = {
-  id: r("foo"),
-  replace: y('{ "id": "foo", "desc": "to be replaced" }'),
-  replacePath: y("replace/(any path)/path.json"),
-  using: g('{ "id": "foo", "desc": "using" }'),
-  usingPath: g("using/(any path)/.json"),
-}
 
 const writeReplaceWith =
   (replaceEntries: ParsedEntry[]) =>
@@ -85,6 +78,14 @@ const writeReplaceWith =
       )
       .otherwise(warn(`${replaceEntry?.path ?? "no entry"} <- ${usingEntry?.path ?? "no entry"}`))
   }
+
+const ex = {
+  id: r("foo"),
+  replace: y('{ "id": "foo", "desc": "to be replaced" }'),
+  replacePath: y("replace/(any path)/path.json"),
+  using: g('{ "id": "foo", "desc": "using" }'),
+  usingPath: g("using/(any path)/.json"),
+}
 
 const main = () =>
   new Command()

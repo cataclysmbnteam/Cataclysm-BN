@@ -20,9 +20,9 @@ const unpack = (xs: string[] | Entry[]) =>
 
 export const baseCliFlags = () =>
   new Command()
-    .option("-p, --path <type:string>", "path to recursively apply to jsons.", { required: true })
-    .option("-q --quiet", "silence all output.", { required: false })
-    .option("-l, --lint", "lint all json files after migration.", { required: false })
+    .option("-p, --path <type:string>", "path to recursively find jsons.", { required: true })
+    .option("-q, --quiet", "silence all output.", { required: false })
+    .option("-l, --lint", "lint json files after migration.", { required: false })
 
 /**
  * Cli boilerplate to recursively apply a transformation
