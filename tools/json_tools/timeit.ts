@@ -5,7 +5,7 @@ import {
   brightRed,
   brightWhite,
   brightYellow,
-} from "https://deno.land/std@0.182.0/fmt/colors.ts"
+} from "https://deno.land/std@0.186.0/fmt/colors.ts"
 import { c, p } from "https://deno.land/x/copb@v1.0.1/mod.ts"
 import { match } from "npm:ts-pattern"
 

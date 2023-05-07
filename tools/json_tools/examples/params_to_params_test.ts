@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
+import { assertEquals } from "https://deno.land/std@0.186.0/testing/asserts.ts"
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 
 import { testSchema } from "../utils/test_schema.ts"

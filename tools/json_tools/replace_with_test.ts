@@ -1,5 +1,5 @@
 import { replaceWith } from "./replace_with.ts"
-import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
+import { assertEquals } from "https://deno.land/std@0.186.0/testing/asserts.ts"
 
 const toReplace = {
   "id": "stockings_tent_legs",

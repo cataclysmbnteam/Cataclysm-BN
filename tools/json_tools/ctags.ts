@@ -1,7 +1,7 @@
 #!/usr/bin/env -S deno run --unstable --allow-read --allow-write
 
-import { relative } from "https://deno.land/std@0.182.0/path/mod.ts"
-import { join } from "https://deno.land/std@0.182.0/path/mod.ts"
+import { relative } from "https://deno.land/std@0.186.0/path/mod.ts"
+import { join } from "https://deno.land/std@0.186.0/path/mod.ts"
 import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts"
 
 import { PROJECT } from "./cata_paths.ts"

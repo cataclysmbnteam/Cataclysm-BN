@@ -4,8 +4,8 @@
  * Parses cataclysm JSON files.
  */
 
-import { walk } from "https://deno.land/std@0.182.0/fs/walk.ts"
-import { basename } from "https://deno.land/std@0.182.0/path/mod.ts"
+import { walk } from "https://deno.land/std@0.186.0/fs/walk.ts"
+import { basename } from "https://deno.land/std@0.186.0/path/mod.ts"
 
 import { asynciter } from "https://deno.land/x/asynciter@0.0.15/asynciter.ts"
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"

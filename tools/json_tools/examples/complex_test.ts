@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
+import { assertEquals } from "https://deno.land/std@0.186.0/testing/asserts.ts"
 
 import { z } from "https://deno.land/x/zod@v3.20.5/index.ts"
 
@@ -32,7 +32,12 @@ export const mergeComplexParamsSchema = z.object({
 })
   .passthrough()
   .transform(({
-    parameter1, parameter2, parameter3, parameter4, ...args }) => ({
+    parameter1,
+    parameter2,
+    parameter3,
+    parameter4,
+    ...args
+  }) => ({
     parameter: [
       `parameter1_${parameter1}`,
       `parameter2_${parameter2}`,

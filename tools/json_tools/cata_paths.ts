@@ -1,4 +1,4 @@
-import { fromFileUrl, join } from "https://deno.land/std@0.182.0/path/mod.ts"
+import { fromFileUrl, join } from "https://deno.land/std@0.186.0/path/mod.ts"
 
 export const FILE_PATH = fromFileUrl(import.meta.url)
 export const ROOT = fromFileUrl(new URL("../../", import.meta.url))

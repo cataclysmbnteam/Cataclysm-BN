@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
+import { assertEquals } from "https://deno.land/std@0.186.0/testing/asserts.ts"
 
 import { testSchema } from "../utils/test_schema.ts"
 import {
@@ -84,6 +84,6 @@ Deno.test("migrate JSON entry parameters by parameters", async (t) => {
         foo: 3,
       } as unknown,
     ))
-    //   await t.step("parsing preserves unused fields", () =>
-    // assertEquals(
+  //   await t.step("parsing preserves unused fields", () =>
+  // assertEquals(
 })

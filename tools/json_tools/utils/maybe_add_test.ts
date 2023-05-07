@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
+import { assertEquals } from "https://deno.land/std@0.186.0/testing/asserts.ts"
 import { maybeAdd } from "./maybe_add.ts"
 import { concurrently } from "./test_concurrently.ts"
 

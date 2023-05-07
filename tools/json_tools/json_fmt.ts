@@ -1,4 +1,4 @@
-import { join } from "https://deno.land/std@0.182.0/path/mod.ts"
+import { join } from "https://deno.land/std@0.186.0/path/mod.ts"
 import { asynciter } from "https://deno.land/x/asynciter@0.0.15/asynciter.ts"
 
 const getExecPath = async () => {

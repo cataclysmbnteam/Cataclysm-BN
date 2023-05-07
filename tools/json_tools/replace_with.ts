@@ -4,7 +4,7 @@ import {
   brightGreen as g,
   brightRed as r,
   brightYellow as y,
-} from "https://deno.land/std@0.182.0/fmt/colors.ts"
+} from "https://deno.land/std@0.186.0/fmt/colors.ts"
 
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts"

@@ -2,8 +2,8 @@ import {
   brightCyan as bc,
   brightYellow as by,
   gray,
-} from "https://deno.land/std@0.182.0/fmt/colors.ts"
-import { assertEquals } from "https://deno.land/std@0.182.0/testing/asserts.ts"
+} from "https://deno.land/std@0.186.0/fmt/colors.ts"
+import { assertEquals } from "https://deno.land/std@0.186.0/testing/asserts.ts"
 
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 
