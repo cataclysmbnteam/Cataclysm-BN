@@ -11,10 +11,22 @@ const getExecPath = async () => {
   return join(cwd, JSON_FORMATTER_BIN)
 }
 
-export const fmtJsonRecursively = async (paths: string[]): Promise<void> => {
+type Fmt = (e: string) => (p: string) => Promise<Deno.CommandOutput>
+const fmtSilent: Fmt = (execPath) => (path) => new Deno.Command(execPath, { args: [path] }).output()
+const fmtVerbose: Fmt = (execPath) => async (path) => {
+  const output = await fmtSilent(execPath)(path)
+  const { code, stdout, stderr } = output
+  const out = new TextDecoder().decode(stdout)
+  const err = new TextDecoder().decode(stderr)
+  console.log({ code, out, err })
+  return output
+}
+
+export const fmtJsonRecursively = (quiet: boolean) => async (paths: string[]): Promise<void> => {
   const execPath = await getExecPath()
+  const fmt = quiet ? fmtSilent : fmtVerbose
 
   await asynciter(paths)
-    .concurrentUnorderedMap((path) => new Deno.Command(execPath, { args: [path] }).output())
+    .concurrentUnorderedMap(fmt(execPath))
     .collect()
 }

@@ -4,7 +4,7 @@ import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 import { testSchema } from "../utils/test_schema.ts"
 
 import { match, P } from "npm:ts-pattern"
-import { id } from "../parse.ts"
+import { id } from "../utils/id.ts"
 
 export const mergeDamageSchema = z.record(z.string(), z.unknown())
   .transform((obj) =>

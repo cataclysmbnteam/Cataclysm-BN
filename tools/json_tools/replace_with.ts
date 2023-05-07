@@ -12,9 +12,11 @@ import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts"
 import { match, P } from "npm:ts-pattern"
 import { promiseAllProperties } from "npm:promise-all-properties"
 
-import { Entry, genericCataTransformer, id as identity, readRecursively } from "./parse.ts"
-import { lintRecursively } from "./transform.ts"
+import { id as identity } from "./utils/id.ts"
+
+import { Entry, genericCataTransformer, readRecursively } from "./parse.ts"
 import { timeit } from "./timeit.ts"
+import { fmtJsonRecursively } from "./json_fmt.ts"
 
 type CataWithId = z.infer<typeof cataWithId>
 const cataWithId = z.object({ id: z.string() }).passthrough()
@@ -62,7 +64,7 @@ const ex = {
 const writeReplaceWith =
   (replaceEntries: ParsedEntry[]) =>
   (usingEntries: ParsedEntry[]) =>
-  (idToReplace: string): Promise<void> => {
+  (idToReplace: string): Promise<string | void> => {
     const withId = (msg: string) => `${r(idToReplace.padEnd(20))} : ${msg}`
     const warn = (msg: string) => () => Promise.resolve(console.log(withId(r(msg))))
 
@@ -72,13 +74,14 @@ const writeReplaceWith =
     return match({ replaceEntry, usingEntry })
       .with(
         { replaceEntry: nonNull(), usingEntry: nonNull() },
-        (
+        async (
           { replaceEntry: { path, parsed: replace }, usingEntry: { path: from, parsed: using } },
         ) => {
           const newlyReplaced = replaceWith(replace)(using)(idToReplace)
           const write = Deno.writeTextFile(path, JSON.stringify(newlyReplaced, null, 2))
 
-          return timeit(withId(`${y(path)} <- ${g(from)}`))(write)
+          await timeit(withId(`${y(path)} <- ${g(from)}`))(write)
+          return path
         },
       )
       .otherwise(warn(`${replaceEntry?.path ?? "no entry"} <- ${usingEntry?.path ?? "no entry"}`))
@@ -97,11 +100,12 @@ const main = () =>
       if you want to replace ${ex.replace} with ${ex.using}, you can run:
       tools/json_tools/replace_with.ts ${y("--replace replace/")} ${g("--using using/")} ${ex.id}
     `)
+    .option("-q --quiet", "silence all output.", { required: false })
     .option("-l, --lint", "lint all json files after migration.", { required: false })
     .option("-r, --replace <type:string>", "path to recursively search jsons.", { required: true })
     .option("-u, --using <type:string>", "path to recursively search jsons.", { required: true })
     .arguments("<id...>")
-    .action(async ({ replace, using, lint }, ...idsToReplace) => {
+    .action(async ({ replace, using, lint, quiet = false }, ...idsToReplace) => {
       const readResult = promiseAllProperties({
         replaceEntries: readRecursively(replace).then(parseIds),
         usingEntries: readRecursively(using).then(parseIds),
@@ -109,10 +113,11 @@ const main = () =>
       const { replaceEntries, usingEntries } = await timeit("reading entries")(readResult)
       const replaceFn = writeReplaceWith(replaceEntries)(usingEntries)
 
-      await Promise.all(idsToReplace.map(replaceFn))
+      const result = await Promise.all(idsToReplace.map(replaceFn))
 
       if (!lint) return
-      await timeit("linting")(lintRecursively())
+      const paths = result.filter((x): x is string => x !== undefined)
+      await timeit("linting")(fmtJsonRecursively(true)(paths))
     })
     .parse(Deno.args)
 

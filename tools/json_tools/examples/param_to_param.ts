@@ -1,7 +1,7 @@
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 import { match, P } from "npm:ts-pattern"
-import { id } from "../parse.ts"
 import { fromLegacyVolume, fromLegacyWeight } from "../units.ts"
+import { id } from "../utils/id.ts"
 
 /** converts 123 -> "123 g"  */
 export const mapWeightSchema = z.unknown().transform((x) =>

@@ -46,7 +46,7 @@ export const baseCli: BaseCli = ({ desc, task = "migration", schema }) => () =>
       await timeIt(task)(recursiveTransformer(entries))
 
       if (!lint) return
-      await timeIt("linting")(fmtJsonRecursively(unpack(entries)))
+      await timeIt("linting")(fmtJsonRecursively(false)(unpack(entries)))
     })
     .parse(Deno.args)
 
