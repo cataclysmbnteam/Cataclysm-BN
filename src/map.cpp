@@ -5034,7 +5034,7 @@ std::vector<detached_ptr<item>> map::use_charges( const tripoint &origin, const 
     for( const tripoint &p : reachable_pts ) {
         // Handle infinite map sources.
         detached_ptr<item> water = water_from( p );
-        if( water->typeId() == type ) {
+        if( water && water->typeId() == type ) {
             water->charges = quantity;
             ret.push_back( std::move( water ) );
             quantity = 0;

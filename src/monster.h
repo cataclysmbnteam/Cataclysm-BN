@@ -608,11 +608,11 @@ class monster : public Creature, public location_visitable<monster>
         void nursebot_operate( player *dragged_foe );
 
     protected:
-        location_ptr<item, false> tied_item = nullptr; // item used to tie the monster
-        location_ptr<item, false> tack_item = nullptr; // item representing saddle and reins and such
-        location_ptr<item, false> armor_item = nullptr; // item of armor the monster may be wearing
-        location_ptr<item, false> storage_item = nullptr; // storage item for monster carrying items
-        location_ptr<item, false> battery_item = nullptr; // item to power mechs
+        location_ptr<item, false> tied_item; // item used to tie the monster
+        location_ptr<item, false> tack_item; // item representing saddle and reins and such
+        location_ptr<item, false> armor_item; // item of armor the monster may be wearing
+        location_ptr<item, false> storage_item; // storage item for monster carrying items
+        location_ptr<item, false> battery_item; // item to power mechs
         location_vector<item> inv; // Inventory
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );

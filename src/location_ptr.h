@@ -35,6 +35,8 @@ class location_ptr
 
         ~location_ptr();
 
+        detached_ptr<T> swap( detached_ptr<T> &&with );
+
         detached_ptr<T> release();
 
         T *get() const;

@@ -276,12 +276,15 @@ class item : public location_visitable<item>, public game_object<item>
         inline static detached_ptr<item> spawn( JsonIn &jsin ) {
             detached_ptr<item> p = spawn();
             p->deserialize( jsin );
-            return p ;
+            if( p->is_null() ) {
+                return detached_ptr<item>();
+            }
+            return p;
         }
 
         inline static detached_ptr<item>spawn( const item &source ) {
             if( source.is_null() ) {
-                return detached_ptr<item>( &null_item_reference() );
+                return detached_ptr<item>();
             }
             return detached_ptr<item>( new item( source ) );
         }

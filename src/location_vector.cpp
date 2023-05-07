@@ -10,6 +10,9 @@ location_vector<T>::location_vector( location<T> *loc,
                                      std::vector<detached_ptr<T>> &from ) : loc( loc )
 {
     for( detached_ptr<T> &obj : from ) {
+        if( !obj ) {
+            continue;
+        }
         obj->set_location( &*loc );
         contents.push_back( obj.release() );
     }
@@ -28,9 +31,17 @@ location_vector<T>::~location_vector()
 template<typename T>
 void location_vector<T>::push_back( detached_ptr<T> &&obj )
 {
+    if( !obj ) {
+        return;
+    }
+
     T *raw = obj.release();
     raw->set_location( &*loc );
-    contents.push_back( raw );
+
+    //Skip adding it if it's already here
+    if( &*loc != raw->saved_loc ) {
+        contents.push_back( raw );
+    }
 }
 
 template<typename T>
@@ -83,8 +94,16 @@ typename std::vector<T *>::iterator location_vector<T>::insert( typename std::ve
         return it;
     }
     T *raw = obj.release();
-    raw->set_location( &*loc );
-    return contents.insert( it, raw );
+    //Insert it if it's not already here, find it otherwise
+    if( &*loc != raw->saved_loc ) {
+        raw->resolve_saved_loc();
+        raw->set_location( &*loc );
+        return contents.insert( it, raw );
+    } else {
+        raw->saved_loc = nullptr;
+        raw->set_location( &*loc );
+        return std::find( contents.begin(), contents.end(), raw );
+    }
 }
 
 template<typename T>
@@ -95,9 +114,19 @@ typename std::vector<T *>::iterator location_vector<T>::insert( typename std::ve
 {
 
     for( auto iter = start; iter != end; iter++ ) {
+        if( !*iter ) {
+            continue;
+        }
         T *raw = iter->release();
-        raw->set_location( &*loc );
-        it = contents.insert( it, raw );
+        //Only insert it if it's not already here
+        if( &*loc != raw->saved_loc ) {
+            raw->saved_loc = nullptr;
+            raw->set_location( &*loc );
+            it = contents.insert( it, raw );
+        } else {
+            raw->resolve_saved_loc();
+            raw->set_location( &*loc );
+        }
     }
     return it;
 }

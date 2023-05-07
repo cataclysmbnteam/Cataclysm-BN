@@ -1127,7 +1127,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
                         // Make a copy for calculating weight/volume
-                        item &temp = **stacked_here[i].front();
+                        item &temp = *item::spawn_temporary( **stacked_here[i].front() );
                         if( temp.count_by_charges() && getitem[i].count && *getitem[i].count < temp.charges ) {
                             temp.charges = *getitem[i].count;
                         }

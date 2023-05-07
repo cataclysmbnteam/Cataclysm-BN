@@ -442,7 +442,10 @@ class cache_reference
         using ref_map_it = typename ref_map::iterator;
 
         inline static ref_map reference_map;
-    public:
+
+        inline void invalidate() {
+            p = nullptr;
+        }
 
         inline void add_to_map() {
             if( !p ) {
@@ -469,6 +472,18 @@ class cache_reference
                 }
             } else {
                 debugmsg( "Could not find cache reference in reference map" );
+            }
+        }
+
+    public:
+
+        inline static void mark_destroyed( T *obj ) {
+            ref_map_it search = reference_map.find( obj );
+            if( search == reference_map.end() ) {
+                return;
+            }
+            for( cache_reference<T> *&ref : search->second ) {
+                ref->invalidate();
             }
         }
 

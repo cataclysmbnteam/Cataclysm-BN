@@ -197,12 +197,6 @@ class inventory : public temp_visitable<inventory>
         // returns all items that need processing
         std::vector<item *> active_items();
 
-        void json_load_invcache( JsonIn &jsin );
-        void json_load_items( JsonIn &jsin );
-
-        void json_save_invcache( JsonOut &json ) const;
-        void json_save_items( JsonOut &json ) const;
-
         // Assigns an invlet if any remain.  If none do, will assign ` if force is
         // true, empty (invlet = 0) otherwise.
         void assign_empty_invlet( item &it, const Character &p, bool force = false );

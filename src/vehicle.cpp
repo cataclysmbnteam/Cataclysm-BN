@@ -271,6 +271,9 @@ vehicle::vehicle( const vproto_id &type_id, int init_veh_fuel,
         // Copy the already made vehicle. The blueprint is created when the json data is loaded
         // and is guaranteed to be valid (has valid parts etc.).
         *this = *proto.blueprint;
+        for( vehicle_part &part : parts ) {
+            part.set_vehicle_hack( this );
+        }
         init_state( init_veh_fuel, init_veh_status );
     }
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );

@@ -809,6 +809,9 @@ void item::unsafe_rejoin( item &old )
 
 bool item::attempt_detach( std::function < detached_ptr<item>( detached_ptr<item> && ) > cb )
 {
+    if( is_null() ) {
+        return false;
+    }
     if( count_by_charges() ) {
         return attempt_split( 0, cb );
     }

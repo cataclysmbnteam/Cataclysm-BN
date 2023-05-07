@@ -1697,10 +1697,10 @@ void npc::store( JsonOut &json ) const
 /*
  * Save invlet cache
  */
-void inventory::json_save_invcache( JsonOut &json ) const
+void location_inventory::json_save_invcache( JsonOut &json ) const
 {
     json.start_array();
-    for( const auto &elem : invlet_cache.get_invlets_by_id() ) {
+    for( const auto &elem : inv.invlet_cache.get_invlets_by_id() ) {
         json.start_object();
         json.member( elem.first.str() );
         json.start_array();
@@ -1716,7 +1716,7 @@ void inventory::json_save_invcache( JsonOut &json ) const
 /*
  * Invlet cache: player specific, thus not wrapped in inventory::json_load/save
  */
-void inventory::json_load_invcache( JsonIn &jsin )
+void location_inventory::json_load_invcache( JsonIn &jsin )
 {
     try {
         std::unordered_map<itype_id, std::string> map;
@@ -1730,7 +1730,7 @@ void inventory::json_load_invcache( JsonIn &jsin )
                 map[itype_id( member.name() )] = invlets;
             }
         }
-        invlet_cache = { map };
+        inv.invlet_cache = { map };
     } catch( const JsonError &jsonerr ) {
         debugmsg( "bad invcache json:\n%s", jsonerr.c_str() );
     }
@@ -1739,10 +1739,10 @@ void inventory::json_load_invcache( JsonIn &jsin )
 /*
  * save all items. Just this->items, invlet cache saved separately
  */
-void inventory::json_save_items( JsonOut &json ) const
+void location_inventory::json_save_items( JsonOut &json ) const
 {
     json.start_array();
-    for( const auto &elem : items ) {
+    for( const auto &elem : inv.items ) {
         for( const auto &elem_stack_iter : elem ) {
             elem_stack_iter->serialize( json );
         }
@@ -1750,11 +1750,11 @@ void inventory::json_save_items( JsonOut &json ) const
     json.end_array();
 }
 
-void inventory::json_load_items( JsonIn &jsin )
+void location_inventory::json_load_items( JsonIn &jsin )
 {
     jsin.start_array();
     while( !jsin.end_array() ) {
-        add_item( *item::spawn( jsin ), true, false );
+        add_item( item::spawn( jsin ), true, false );
     }
 }
 
@@ -2668,6 +2668,7 @@ void vehicle::deserialize( JsonIn &jsin )
         std::vector<detached_ptr<item>> clears = part.clear_items();
 
         to_cbc_migration::migrate( clears );
+        part.set_vehicle_hack( this );
         for( detached_ptr<item> &it :  clears ) {
             part.add_item( std::move( it ) );
         }

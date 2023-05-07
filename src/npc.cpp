@@ -3440,7 +3440,5 @@ item &npc::get_real_weapon()
 }
 detached_ptr<item> npc::set_real_weapon( detached_ptr<item> &&weapon )
 {
-    detached_ptr<item> ret = real_weapon.release();
-    real_weapon = std::move( weapon );
-    return ret;
+    return real_weapon.swap( std::move( weapon ) );
 }

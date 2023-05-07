@@ -18,9 +18,6 @@ void location_ptr<T, error_if_null>::unset_location()
     }
 }
 
-
-
-
 template<typename T, bool error_if_null>
 location_ptr<T, error_if_null>::location_ptr( location<T> *loc ) : loc( loc ) {};
 
@@ -28,13 +25,26 @@ template<typename T, bool error_if_null>
 location_ptr<T, error_if_null> &location_ptr<T, error_if_null>::operator=
 ( detached_ptr<T> &&source )
 {
+    if( !source ) {
+        release();
+        return *this;
+    }
+
+    if( &*loc == source->saved_loc ) {
+        update_location();
+        source->saved_loc = nullptr;
+        source.release();
+        return *this;
+    }
+
     if( ptr ) {
         ptr->remove_location();
         ptr->destroy();
     }
     ptr = source.ptr;
+    source->resolve_saved_loc();
     update_location();
-    source.ptr = nullptr;
+    source.release();
     return  *this;
 }
 
@@ -46,6 +56,7 @@ location_ptr<T, error_if_null> &location_ptr<T, error_if_null>::operator=
         ptr->remove_location();
         ptr->destroy();
     }
+    loc = std::move( source.loc );
     ptr = source.ptr;
     update_location();
     source.ptr = nullptr;
@@ -60,6 +71,7 @@ location_ptr<T, error_if_null> &location_ptr<T, error_if_null>::operator=
         ptr->remove_location();
         ptr->destroy();
     }
+    loc = std::move( source.loc );
     ptr = source.ptr;
     update_location();
     source.ptr = nullptr;
@@ -69,7 +81,29 @@ location_ptr<T, error_if_null> &location_ptr<T, error_if_null>::operator=
 template<typename T, bool error_if_null>
 location_ptr<T, error_if_null>::~location_ptr()
 {
-    unset_location();
+    if( ptr ) {
+        ptr->remove_location();
+        ptr->destroy();
+    }
+}
+
+template<typename T, bool error_if_null>
+detached_ptr<T> location_ptr<T, error_if_null>::swap( detached_ptr<T> &&with )
+{
+    if( !with ) {
+        return release();
+    }
+
+    if( &*loc == with->saved_loc ) {
+        with->set_location( &*loc );
+        with->saved_loc = nullptr;
+        with.release();
+        return detached_ptr<T>();
+    }
+
+    detached_ptr<T> ret = release();
+    *this = std::move( with );
+    return ret;
 }
 
 template<typename T, bool error_if_null>

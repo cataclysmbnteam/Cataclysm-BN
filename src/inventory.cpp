@@ -1374,37 +1374,86 @@ void location_inventory::clear()
 void location_inventory::push_back( std::vector<detached_ptr<item>> &newits )
 {
     for( detached_ptr<item> &it : newits ) {
+        if( !it ) {
+            continue;
+        }
         item *as_p = it.release();
-        as_p->set_location( &*loc );
-        inv.push_back( *as_p );
+        if( &*loc == as_p->saved_loc ) {
+            as_p->saved_loc = nullptr;
+            as_p->set_location( &*loc );
+        } else {
+            as_p->resolve_saved_loc();
+            as_p->set_location( &*loc );
+            inv.push_back( *as_p );
+        }
     }
 }
 
 item &location_inventory::add_item( detached_ptr<item> &&newit, bool keep_invlet,
                                     bool assign_invlet, bool should_stack )
 {
+    if( !newit ) {
+        return null_item_reference();
+    }
     item *as_p = newit.release();
+    if( &*loc == as_p->saved_loc ) {
+        as_p->saved_loc = nullptr;
+        as_p->set_location( &*loc );
+        return *as_p;
+    }
+
+    as_p->resolve_saved_loc();
     as_p->set_location( &*loc );
     return inv.add_item( *as_p, keep_invlet, assign_invlet, should_stack );
 }
 item &location_inventory::add_item_by_items_type_cache( detached_ptr<item> &&newit,
         bool keep_invlet, bool assign_invlet, bool should_stack )
 {
+    if( !newit ) {
+        return null_item_reference();
+    }
     item *as_p = newit.release();
+    if( &*loc == as_p->saved_loc ) {
+        as_p->saved_loc = nullptr;
+        as_p->set_location( &*loc );
+        return *as_p;
+    }
+
+    as_p->resolve_saved_loc();
     as_p->set_location( &*loc );
     return inv.add_item_by_items_type_cache( *as_p, keep_invlet, assign_invlet, should_stack );
 }
 void location_inventory::add_item_keep_invlet( detached_ptr<item> &&newit )
 {
+    if( !newit ) {
+        return;
+    }
     item *as_p = newit.release();
+    if( &*loc == as_p->saved_loc ) {
+        as_p->saved_loc = nullptr;
+        as_p->set_location( &*loc );
+        return;
+    }
+
+    as_p->resolve_saved_loc();
     as_p->set_location( &*loc );
     return inv.add_item_keep_invlet( *as_p );
 }
 
 void location_inventory::push_back( detached_ptr<item> &&newit )
 {
+    if( !newit ) {
+        return;
+    }
 
     item *as_p = newit.release();
+    if( &*loc == as_p->saved_loc ) {
+        as_p->saved_loc = nullptr;
+        as_p->set_location( &*loc );
+        return;
+    }
+
+    as_p->resolve_saved_loc();
     as_p->set_location( &*loc );
     return inv.push_back( *as_p );
 }
@@ -1488,14 +1537,17 @@ units::mass location_inventory::weight() const
 {
     return inv.weight();
 }
+
 units::mass location_inventory::weight_without( const excluded_stacks &without ) const
 {
     return inv.weight_without( without );
 }
+
 units::volume location_inventory::volume() const
 {
     return inv.volume();
 }
+
 units::volume location_inventory::volume_without( const excluded_stacks &without ) const
 {
     return inv.volume_without( without );
@@ -1511,32 +1563,16 @@ std::vector<item *> location_inventory::active_items()
     return inv.active_items();
 }
 
-void location_inventory::json_load_invcache( JsonIn &jsin )
-{
-    return inv.json_load_invcache( jsin );
-}
-void location_inventory::json_load_items( JsonIn &jsin )
-{
-    return inv.json_load_items( jsin );
-}
-
-void location_inventory::json_save_invcache( JsonOut &json ) const
-{
-    return inv.json_save_invcache( json );
-}
-void location_inventory::json_save_items( JsonOut &json ) const
-{
-    return inv.json_save_items( json );
-}
-
 void location_inventory::assign_empty_invlet( item &it, const Character &p, bool force )
 {
     return inv.assign_empty_invlet( it, p, force );
 }
+
 void location_inventory::reassign_item( item &it, char invlet, bool remove_old )
 {
     return inv.reassign_item( it, invlet, remove_old );
 }
+
 void location_inventory::update_invlet( item &it, bool assign_invlet )
 {
     return inv.update_invlet( it, assign_invlet );
@@ -1551,6 +1587,7 @@ invlets_bitset location_inventory::allocated_invlets() const
 {
     return inv.allocated_invlets();
 }
+
 const itype_bin &location_inventory::get_binned_items() const
 {
     return inv.get_binned_items();

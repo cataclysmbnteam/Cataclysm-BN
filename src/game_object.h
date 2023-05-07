@@ -19,6 +19,15 @@ class location_visitable;
 template<typename T>
 class game_object
 {
+    private:
+        friend detached_ptr<T>;
+        friend location_ptr<T, true>;
+        friend location_ptr<T, false>;
+        friend location_inventory;
+        friend location_vector<T>;
+        friend location_visitable<location_inventory>;
+
+        location<T> *saved_loc = nullptr;
     protected:
         location<T> *loc = nullptr;
 
@@ -31,12 +40,8 @@ class game_object
         void remove_location();
         void set_location( location<T> *own );
 
-        friend detached_ptr<T>;
-        friend location_ptr<T, true>;
-        friend location_ptr<T, false>;
-        friend location_inventory;
-        friend location_vector<T>;
-        friend location_visitable<location_inventory>;
+        void resolve_saved_loc();
+
 
     public:
 

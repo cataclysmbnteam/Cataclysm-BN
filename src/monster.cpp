@@ -1138,9 +1138,7 @@ void monster::shift( point sm_shift )
 
 detached_ptr<item> monster::set_tack_item( detached_ptr<item> &&it )
 {
-    detached_ptr<item> ret = tack_item.release();
-    tack_item = std::move( it );
-    return ret;
+    return tack_item.swap( std::move( it ) );
 }
 
 detached_ptr<item> monster::remove_tack_item()
@@ -1155,9 +1153,7 @@ item *monster::get_tack_item() const
 
 detached_ptr<item> monster::set_tied_item( detached_ptr<item> &&it )
 {
-    detached_ptr<item> ret = tied_item.release();
-    tied_item = std::move( it );
-    return ret;
+    return tied_item.swap( std::move( it ) );
 }
 
 detached_ptr<item> monster::remove_tied_item()
@@ -1172,9 +1168,7 @@ item *monster::get_tied_item() const
 
 detached_ptr<item> monster::set_armor_item( detached_ptr<item> &&it )
 {
-    detached_ptr<item> ret = armor_item.release();
-    armor_item = std::move( it );
-    return ret;
+    return armor_item.swap( std::move( it ) );
 }
 
 detached_ptr<item> monster::remove_armor_item()
@@ -1189,9 +1183,7 @@ item *monster::get_armor_item() const
 
 detached_ptr<item> monster::set_storage_item( detached_ptr<item> &&it )
 {
-    detached_ptr<item> ret = storage_item.release();
-    storage_item = std::move( it );
-    return ret;
+    return storage_item.swap( std::move( it ) );
 }
 
 detached_ptr<item> monster::remove_storage_item()
@@ -1206,9 +1198,7 @@ item *monster::get_storage_item() const
 
 detached_ptr<item> monster::set_battery_item( detached_ptr<item> &&it )
 {
-    detached_ptr<item> ret = battery_item.release();
-    battery_item = std::move( it );
-    return ret;
+    return battery_item.swap( std::move( it ) );
 }
 
 detached_ptr<item> monster::remove_battery_item()
@@ -3258,6 +3248,13 @@ const std::vector<item *> &monster::get_items() const
 
 void monster::add_item( detached_ptr<item> &&it )
 {
+    if( !it ) {
+        return;
+    }
+    if( it->is_null() ) {
+        debugmsg( "Tried to add a null item to a monster" );
+        return;
+    }
     inv.push_back( std::move( it ) );
 }
 

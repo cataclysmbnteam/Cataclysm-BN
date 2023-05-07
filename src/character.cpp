@@ -639,7 +639,7 @@ void Character::destruct_hack()
 {
     remove_items_with( []( detached_ptr<item> &&e ) {
         detached_ptr<item> del = std::move( e );
-        return VisitResponse::NEXT;
+        return VisitResponse::SKIP;
     } );
 }
 
@@ -9547,7 +9547,7 @@ void Character::cancel_activity()
         backlog.push_front( std::move( activity ) );
     }
     sfx::end_activity_sounds(); // kill activity sounds when canceled
-    activity = std::make_unique<player_activity>();
+    activity->set_to_null();
 }
 
 void Character::resume_backlog_activity()
@@ -9891,9 +9891,7 @@ item &Character::get_weapon() const
 
 detached_ptr<item> Character::set_weapon( detached_ptr<item> &&weap )
 {
-    detached_ptr<item> ret = weapon.release();
-    weapon = std::move( weap );
-    return ret;
+    return weapon.swap( std::move( weap ) );
 }
 
 bool Character::has_charges( const itype_id &it, int quantity,

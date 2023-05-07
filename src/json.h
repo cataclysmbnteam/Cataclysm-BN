@@ -778,15 +778,15 @@ class JsonOut
         void write( const safe_reference<T> &val ) {
             write( val.serialize() );
         }
-
-        template <typename T>
-        void write( const std::unique_ptr<T> &val ) {
-            if( !val ) {
-                debugmsg( "Null unique_ptr during save" );
-                return;
-            }
-            write( *val );
-        }
+        /*
+                template <typename T>
+                void write( const std::unique_ptr<T> &val ) {
+                    if( !val ) {
+                        debugmsg( "Null unique_ptr during save" );
+                        return;
+                    }
+                    write( *val );
+                }*/
 
         void write( const activity_ptr &val ) {
             write( *val );

@@ -118,9 +118,7 @@ item &vehicle_part::get_base() const
 
 detached_ptr<item> vehicle_part::set_base( detached_ptr<item> &&new_base )
 {
-    detached_ptr<item> ret = base.release();
-    base = std::move( new_base );
-    return ret;
+    return base.swap( std::move( new_base ) );
 }
 
 detached_ptr<item> vehicle_part::properties_to_item() const
@@ -443,8 +441,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
         if( e_heater ) {
             flag = temperature_flag::TEMP_HEATER;
         }
-        detached_ptr<item> det = base.release();
-        base = item::process( std::move( det ), nullptr, pos, false, flag );
+        base = item::process( base.release(), nullptr, pos, false, flag );
     }
 }
 

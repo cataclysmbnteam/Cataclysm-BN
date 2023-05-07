@@ -30,6 +30,7 @@ class cata_arena
         static void mark_for_destruction( T *alloc ) {
             pending_deletion.insert( alloc );
             safe_reference<T>::mark_destroyed( alloc );
+            cache_reference<T>::mark_destroyed( alloc );
         }
 
         static bool cleanup() {

@@ -42,12 +42,12 @@ void submap::swap( submap &first, submap &second, tripoint offset )
 
     for( auto &row : first.itm ) {
         for( auto &tile : row ) {
-            tile.move_by( offset );
+            tile.move_by( -offset );
         }
     }
     for( auto &row : second.itm ) {
         for( auto &tile : row ) {
-            tile.move_by( -offset );
+            tile.move_by( offset );
         }
     }
 

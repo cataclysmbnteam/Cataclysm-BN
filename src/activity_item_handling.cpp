@@ -173,6 +173,10 @@ static void put_into_vehicle( Character &c, item_drop_reason reason,
     int fallen_count = 0;
     bool into_vehicle = false;
 
+    items.erase( std::remove_if( items.begin(), items.end(), []( detached_ptr<item> &it ) {
+        return !it;
+    } ), items.end() );
+
     // can't use constant reference here because of the spill_contents()
     for( detached_ptr<item> &it : items ) {
         item &obj = *it;
@@ -332,6 +336,10 @@ void drop_on_map( Character &c, item_drop_reason reason,
     map &here = get_map();
     const std::string ter_name = here.name( where );
     const bool can_move_there = here.passable( where );
+
+    items.erase( std::remove_if( items.begin(), items.end(), []( detached_ptr<item> &it ) {
+        return !it;
+    } ), items.end() );
 
     if( same_type( items ) ) {
         detached_ptr<item> &it = items.front();
