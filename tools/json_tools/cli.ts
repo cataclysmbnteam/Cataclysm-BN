@@ -2,7 +2,7 @@
 import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts"
 
 import { Entry, MigrationSchema, ObjectSchema, readRecursively } from "./parse.ts"
-import { applyRecursively, schemaMigrationTransformer } from "./transform.ts"
+import { applyRecursively, schemaTransformer } from "./transform.ts"
 import { timeit } from "./timeit.ts"
 import { fmtJsonRecursively } from "./json_fmt.ts"
 type BaseCliOption = {
@@ -38,7 +38,7 @@ export const baseCli: BaseCli = ({ desc, task = "migration", schema }) => () =>
     .description(desc)
     .action(async ({ path, lint, quiet = false }) => {
       const timeIt = quiet ? <T>(_: string) => (x: T) => x : timeit
-      const transformer = schemaMigrationTransformer(schema)
+      const transformer = schemaTransformer(schema)
       const recursiveTransformer = applyRecursively(transformer)
 
       const entries = await readRecursively(path)

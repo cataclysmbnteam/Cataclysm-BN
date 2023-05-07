@@ -24,11 +24,10 @@ export const applyRecursively = (transformer: Transformer) => async (entries: En
  *
  * entries that do not satisfy schema are left unchanged.
  */
-export const schemaMigrationTransformer =
-  (schema: ObjectSchema | MigrationSchema): Transformer => (text) =>
-    parseCataJson(text)
-      .map((x) =>
-        match(schema.safeParse(x))
-          .with({ success: true, data: P.select() }, id)
-          .otherwise(() => x)
-      )
+export const schemaTransformer = (schema: ObjectSchema | MigrationSchema): Transformer => (text) =>
+  parseCataJson(text)
+    .map((x) =>
+      match(schema.safeParse(x))
+        .with({ success: true, data: P.select() }, id)
+        .otherwise(() => x)
+    )
