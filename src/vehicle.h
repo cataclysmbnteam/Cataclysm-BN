@@ -457,6 +457,7 @@ struct vehicle_part {
         /** As a performance optimization we cache the part information here on first lookup */
         mutable const vpart_info *info_cache = nullptr;
 
+        int hack_id = 0; //Hack until they're made into game objects
         location_ptr<item, true> base;
         location_vector<item> items; // inventory
 
@@ -468,7 +469,6 @@ struct vehicle_part {
          *  @see vehicle_part::crew() accessor which excludes dead and non-allied NPC's
          */
         character_id crew_id;
-
     public:
         /** Get part definition common to all parts of this type */
         const vpart_info &info() const;
@@ -488,6 +488,10 @@ struct vehicle_part {
         }
 
         void add_item( detached_ptr<item> &&item );
+
+        detached_ptr<item> remove_item( item &it ) {
+            return items.remove( &it );
+        }
 
         /**
          * Generate the corresponding item from this vehicle part. It includes
@@ -766,7 +770,17 @@ class vehicle
         /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt );
 
+        int next_hack_id = 0;
+
     public:
+
+        vehicle_part &get_part_hack( int );
+        int get_part_id_hack( int );
+
+        int get_next_hack_id() {
+            return next_hack_id++;
+        }
+
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only

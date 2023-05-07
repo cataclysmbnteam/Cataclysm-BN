@@ -68,14 +68,14 @@ detached_ptr<T> game_object<T>::detach()
         debugmsg( "Tried to detach [%s] that's already in an attempted detach.", debug_name() );
         return detached_ptr<T>();
     }
-    detached_ptr<T> res = std::move( loc->detach( static_cast<T *>( this ) ) );
+    detached_ptr<T> res = loc->detach( static_cast<T *>( this ) );
 #if !defined(RELEASE)
     void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
     backtrace( buf, GO_BACKTRACE );
     cata_arena<T>::add_removed_trace( static_cast<T *>( this ), buf );
 #endif
     remove_location();
-    return std::move( res );
+    return  res;
 }
 
 template<typename T>

@@ -2643,7 +2643,7 @@ void monster::process_items()
         if( it->needs_processing() ) {
             return item::process( std::move( it ), nullptr, pos(), false );
         }
-        return it;
+        return std::move( it );
     } );
 
     process_item_valptr( &*storage_item, *this );

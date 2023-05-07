@@ -398,7 +398,7 @@ static VisitResponse visit_internal( std::function < VisitResponse( detached_ptr
     VisitResponse last = VisitResponse::NEXT;
     items.remove_with( [&last, &filter]( detached_ptr<item> &&e ) {
         if( last == VisitResponse::ABORT ) {
-            return e;
+            return std::move( e );
         }
         last = filter( std::move( e ) );
         if( last == VisitResponse::NEXT && e ) {
@@ -410,7 +410,7 @@ static VisitResponse visit_internal( std::function < VisitResponse( detached_ptr
                 return last;
             } );
         }
-        return e;
+        return std::move( e );
     } );
     return last == VisitResponse::ABORT ? VisitResponse::ABORT : VisitResponse::NEXT;
 }
@@ -784,7 +784,7 @@ void location_visitable<Character>::remove_items_with( const
 
     if( !ch->get_weapon().attempt_detach( [&last, &filter]( detached_ptr<item> &&e ) {
     last = filter( std::move( e ) );
-        return e;
+        return std::move( e );
     } ) ) {
         if( last == VisitResponse::NEXT ) {
             ch->get_weapon().contents.remove_items_with( filter );
@@ -920,7 +920,7 @@ void location_visitable<monster>::remove_items_with( const
 
     auto check_item = [&filter_and_collect]( detached_ptr<item> &&it ) {
         filter_and_collect( std::move( it ) );
-        return it;
+        return std::move( it );
     };
 
     mon->get_storage_item()->attempt_detach( check_item );

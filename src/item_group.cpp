@@ -241,7 +241,7 @@ Item_modifier::Item_modifier()
 detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
 {
     if( new_item->is_null() ) {
-        return new_item;
+        return std::move( new_item );
     }
 
     new_item->set_damage( rng( damage.first, damage.second ) * itype::damage_scale );
@@ -381,7 +381,7 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
     for( auto &flag : custom_flags ) {
         new_item->set_flag( flag );
     }
-    return new_item;
+    return std::move( new_item );
 }
 
 void Item_modifier::check_consistency( const std::string &context ) const

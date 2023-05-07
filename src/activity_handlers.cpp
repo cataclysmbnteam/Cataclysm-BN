@@ -1530,6 +1530,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     source_it.attempt_split( charges, cb );
                     return source_it.charges == orig;
             }
+            return false;
         };
         bool finished = true;
         // 2. Transfer charges.

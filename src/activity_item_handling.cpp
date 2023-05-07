@@ -152,6 +152,13 @@ void cancel_aim_processing();
 //Generic activity: maximum search distance for zones, constructions, etc.
 const int ACTIVITY_SEARCH_DISTANCE = 60;
 
+static bool same_type( const std::vector<item *> &items )
+{
+    return std::all_of( items.begin(), items.end(), [&items]( const item * const & it ) {
+        return it->type == ( *items.begin() )->type;
+    } );
+}
+
 static bool same_type( const std::vector<detached_ptr<item>> &items )
 {
     return std::all_of( items.begin(), items.end(), [&items]( const detached_ptr<item> &it ) {
@@ -173,9 +180,10 @@ static void put_into_vehicle( Character &c, item_drop_reason reason,
     int fallen_count = 0;
     bool into_vehicle = false;
 
-    items.erase( std::remove_if( items.begin(), items.end(), []( detached_ptr<item> &it ) {
-        return !it;
-    } ), items.end() );
+    std::vector<item *> items_copy;
+    for( detached_ptr<item> &it : items ) {
+        items_copy.push_back( &*it );
+    }
 
     // can't use constant reference here because of the spill_contents()
     for( detached_ptr<item> &it : items ) {
@@ -202,8 +210,8 @@ static void put_into_vehicle( Character &c, item_drop_reason reason,
 
     const std::string part_name = veh.part_info( part ).name();
 
-    if( same_type( items ) ) {
-        const detached_ptr<item> it = std::move( items.front() );
+    if( same_type( items_copy ) ) {
+        const item *it = items_copy.front();
         const int dropcount = items.size() * it->count();
         const std::string it_name = it->tname( dropcount );
 
@@ -336,10 +344,6 @@ void drop_on_map( Character &c, item_drop_reason reason,
     map &here = get_map();
     const std::string ter_name = here.name( where );
     const bool can_move_there = here.passable( where );
-
-    items.erase( std::remove_if( items.begin(), items.end(), []( detached_ptr<item> &it ) {
-        return !it;
-    } ), items.end() );
 
     if( same_type( items ) ) {
         detached_ptr<item> &it = items.front();

@@ -2677,32 +2677,32 @@ detached_ptr<item> holster_actor::store( player &p, item &holster, detached_ptr<
 {
     if( obj->is_null() || holster.is_null() ) {
         debugmsg( "Null item was passed to holster_actor" );
-        return obj;
+        return std::move( obj );
     }
 
     // if selected item is unsuitable inform the player why not
     if( obj->volume() > max_volume ) {
         p.add_msg_if_player( m_info, _( "Your %1$s is too big to fit in your %2$s" ),
                              obj->tname(), holster.tname() );
-        return obj;
+        return std::move( obj );
     }
 
     if( obj->volume() < min_volume ) {
         p.add_msg_if_player( m_info, _( "Your %1$s is too small to fit in your %2$s" ),
                              obj->tname(), holster.tname() );
-        return obj;
+        return std::move( obj );
     }
 
     if( max_weight > 0_gram && obj->weight() > max_weight ) {
         p.add_msg_if_player( m_info, _( "Your %1$s is too heavy to fit in your %2$s" ),
                              obj->tname(), holster.tname() );
-        return obj;
+        return std::move( obj );
     }
 
     if( obj->active ) {
         p.add_msg_if_player( m_info, _( "You don't think putting your %1$s in your %2$s is a good idea" ),
                              obj->tname(), holster.tname() );
-        return obj;
+        return std::move( obj );
     }
 
     if( std::none_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
@@ -2711,7 +2711,7 @@ detached_ptr<item> holster_actor::store( player &p, item &holster, detached_ptr<
     std::find( skills.begin(), skills.end(), obj->gun_skill() ) == skills.end() ) {
         p.add_msg_if_player( m_info, _( "You can't put your %1$s in your %2$s" ),
                              obj->tname(), holster.tname() );
-        return obj;
+        return std::move( obj );
     }
 
     p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg ),
@@ -2949,7 +2949,7 @@ int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
             if( it ) {
                 p.add_msg_if_player( _( "Never mind." ) );
             }
-            return it;
+            return std::move( it );
         } );
     } );
 

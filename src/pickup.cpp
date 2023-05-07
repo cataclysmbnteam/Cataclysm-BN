@@ -362,7 +362,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
                 picked_up = true;
                 break;
         }
-        return newloc;
+        return std::move( newloc );
     };
 
     if( quantity && loc->count_by_charges() ) {
@@ -1250,7 +1250,7 @@ detached_ptr<item> pickup::handle_spillable_contents( Character &c, detached_ptr
         }
     }
 
-    return it;
+    return std::move( it );
 }
 
 int pickup::cost_to_move_item( const Character &who, const item &it )

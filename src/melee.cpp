@@ -236,7 +236,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
         if( mod->is_gunmod() && !mod->is_irremovable() ) {
             return detached_ptr<item>();
         }
-        return mod;
+        return std::move( mod );
     } );
 
     shield.contents.spill_contents( pos() );

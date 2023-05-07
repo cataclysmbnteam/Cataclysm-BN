@@ -36,16 +36,18 @@ static const itype_id itype_muscle( "muscle" );
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part( vehicle *veh )
-    : id( vpart_id::NULL_ID() ), base( new vehicle_base_item_location( veh ) ),
-      items( new vehicle_item_location( veh ) ) {}
+    : id( vpart_id::NULL_ID() ), hack_id( veh->get_next_hack_id() ),
+      base( new vehicle_base_item_location( veh, hack_id ) ),
+      items( new vehicle_item_location( veh, hack_id ) ) {}
 
 //This is a bit of a hack until vehicles are GOs
 vehicle_part::vehicle_part()
     : id( vpart_id::NULL_ID() ), base( new fake_item_location() ), items( new fake_item_location() ) {}
 
 vehicle_part::vehicle_part( const vpart_id &vp, point dp, detached_ptr<item> &&obj, vehicle *veh )
-    : mount( dp ), id( vp ), base( new vehicle_base_item_location( veh ) ),
-      items( new vehicle_item_location( veh ) )
+    : mount( dp ), id( vp ),
+      base( new vehicle_base_item_location( veh, hack_id ) ),
+      items( new vehicle_item_location( veh, hack_id ) )
 {
 
     base = std::move( obj );
@@ -61,8 +63,9 @@ vehicle_part::vehicle_part( const vpart_id &vp, point dp, detached_ptr<item> &&o
 
 void vehicle_part::set_vehicle_hack( vehicle *veh )
 {
-    base.set_loc_hack( new vehicle_base_item_location( veh ) );
-    items.set_loc_hack( new vehicle_item_location( veh ) );
+    hack_id = veh->get_next_hack_id();
+    base.set_loc_hack( new vehicle_base_item_location( veh, hack_id ) );
+    items.set_loc_hack( new vehicle_item_location( veh, hack_id ) );
 }
 
 void vehicle_part::copy_static_from( const vehicle_part &source )
@@ -448,7 +451,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
 detached_ptr<item> vehicle_part::fill_with( detached_ptr<item> &&liquid, int qty )
 {
     if( !is_tank() || !can_reload( &*liquid ) ) {
-        return liquid;
+        return std::move( liquid );
     }
 
     return base->fill_with( std::move( liquid ), qty );

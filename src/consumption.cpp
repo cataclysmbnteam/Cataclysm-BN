@@ -1490,7 +1490,7 @@ detached_ptr<item> Character::consume_item( detached_ptr<item> &&target )
 {
 
     if( is_avatar() && !query_consume_ownership( *target, *as_avatar() ) ) {
-        return target;
+        return std::move( target );
     }
 
     if( consume_med( *target ) ||
@@ -1499,7 +1499,7 @@ detached_ptr<item> Character::consume_item( detached_ptr<item> &&target )
         fuel_bionic_with( *target ) ) {
         return target->charges > 0 ? std::move( target ) : detached_ptr<item>();
     }
-    return target;
+    return std::move( target );
 }
 
 void Character::consume( item &target )

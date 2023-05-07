@@ -21,7 +21,7 @@ item_contents::item_contents( item *container,
                               std::vector<detached_ptr<item>> &items ) : items( new contents_item_location( container ),
                                           items ) {}
 
-item_contents::~item_contents() {}
+item_contents::~item_contents() = default;
 
 bool item_contents::empty() const
 {
@@ -73,7 +73,7 @@ void item_contents::casings_handle( const std::function < detached_ptr<item>
                 it->set_flag( "CASING" );
             }
         }
-        return it;
+        return std::move( it );
     } );
 }
 

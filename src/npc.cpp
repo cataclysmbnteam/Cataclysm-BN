@@ -1066,7 +1066,7 @@ detached_ptr<item> npc::wear_if_wanted( detached_ptr<item> &&it, std::string &re
     // Restrict it to player's orders for now
     if( !it->is_armor() ) {
         reason = _( "This can't be worn." );
-        return it;
+        return std::move( it );
     }
 
     // Splints ignore limits, but only when being equipped on a broken part
@@ -1117,7 +1117,7 @@ detached_ptr<item> npc::wear_if_wanted( detached_ptr<item> &&it, std::string &re
         if( !took_off || worn.size() >= size_before ) {
             // Shouldn't happen, but does
             reason = _( "I tried but couldn't wear it." );
-            return it;
+            return std::move( it );
         }
     }
     reason = _( "Thanks, I'll wear that now." );
@@ -1215,16 +1215,16 @@ bool npc::wield( item &it )
 detached_ptr<item> npc::wield( detached_ptr<item> &&target )
 {
     if( !can_wield( *target ).success() ) {
-        return target;
+        return std::move( target );
     }
     clear_npc_ai_info_cache( npc_ai_info::weapon_value );
     clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
 
     if( !unwield() ) {
-        return target;
+        return std::move( target );
     }
     if( !target || target->is_null() ) {
-        return target;
+        return std::move( target );
     }
     item &obj = *target;
     set_weapon( std::move( target ) );

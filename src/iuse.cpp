@@ -1741,7 +1741,7 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
                 add_msg( m_info, _( "You remove the %s from the tool." ), e->tname() );
                 return p->i_add_or_drop( std::move( e ) );
             }
-            return e;
+            return std::move( e );
         } );
 
         remove_radio_mod( *loc, *p );

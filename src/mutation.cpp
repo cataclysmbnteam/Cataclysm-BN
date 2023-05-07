@@ -297,10 +297,10 @@ void Character::mutation_effect( const trait_id &mut )
     remove_worn_items_with( [&]( detached_ptr<item> &&armor ) {
         static const std::string mutation_safe = "OVERSIZE";
         if( armor->has_flag( mutation_safe ) ) {
-            return armor;
+            return std::move( armor );
         }
         if( !branch.conflicts_with_item( *armor ) ) {
-            return armor;
+            return std::move( armor );
         }
 
         add_msg_player_or_npc( m_bad,

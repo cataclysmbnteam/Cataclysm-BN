@@ -5387,11 +5387,11 @@ detached_ptr<item> vehicle::add_charges( int part, detached_ptr<item> &&itm )
 {
     if( !itm->count_by_charges() ) {
         debugmsg( "Add charges was called for an item not counted by charges!" );
-        return itm;
+        return std::move( itm );
     }
     const int amount = get_items( part ).amount_can_fit( *itm );
     if( amount == 0 ) {
-        return itm;
+        return std::move( itm );
     }
 
     detached_ptr<item> itm_copy = item::spawn( *itm );
@@ -5407,7 +5407,7 @@ detached_ptr<item> vehicle::add_item( vehicle_part &pt, detached_ptr<item> &&obj
     int idx = index_of_part( &pt );
     if( idx < 0 ) {
         debugmsg( "Tried to add item to invalid part" );
-        return obj;
+        return std::move( obj );
     }
     return add_item( idx, std::move( obj ) );
 }
@@ -5416,32 +5416,32 @@ detached_ptr<item> vehicle::add_item( int part, detached_ptr<item> &&itm )
 {
     if( part < 0 || part >= static_cast<int>( parts.size() ) ) {
         debugmsg( "int part (%d) is out of range", part );
-        return itm;
+        return std::move( itm );
     }
     // const int max_weight = ?! // TODO: weight limit, calculation per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
     vehicle_part &p = parts[ part ];
     if( p.is_broken() ) {
-        return itm;
+        return std::move( itm );
     }
 
     if( p.base->is_gun() ) {
         if( !itm->is_ammo() || !p.base->ammo_types().count( itm->ammo_type() ) ) {
-            return itm;
+            return std::move( itm );
         }
     }
     bool charge = itm->count_by_charges();
     vehicle_stack istack = get_items( part );
     const int to_move = istack.amount_can_fit( *itm );
     if( to_move == 0 || ( charge && to_move < itm->charges ) ) {
-        return itm; // @add_charges should be used in the latter case
+        return std::move( itm ); // @add_charges should be used in the latter case
     }
     if( charge ) {
         item *here = istack.stacks_with( *itm );
         if( here ) {
             invalidate_mass();
             if( !here->merge_charges( std::move( itm ) ) ) {
-                return itm;
+                return std::move( itm );
             } else {
                 return detached_ptr<item>();
             }
@@ -7219,4 +7219,28 @@ bool vehicle_part_with_feature_range<vpart_bitflags>::matches( const size_t part
 bool vehicle::is_loaded() const
 {
     return attached && get_map().inbounds( global_pos3() );
+}
+
+vehicle_part &vehicle::get_part_hack( int id )
+{
+    for( vehicle_part &part : parts ) {
+        if( part.hack_id == id ) {
+            return part;
+        }
+    }
+    debugmsg( "Could not find part via hack id" );
+    return parts[0];
+}
+
+int vehicle::get_part_id_hack( int id )
+{
+    int i = 0;
+    for( vehicle_part &part : parts ) {
+        if( part.hack_id == id ) {
+            return i;
+        }
+        i++;
+    }
+    debugmsg( "Could not find part id via hack id" );
+    return -1;
 }

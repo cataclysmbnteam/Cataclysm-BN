@@ -1402,7 +1402,7 @@ void vehicle::operate_reaper()
                 if( it->volume() <= max_pickup_volume ) {
                     return add_item( reaper_id, std::move( it ) );
                 }
-                return it;
+                return std::move( it );
             } );
         }
     }

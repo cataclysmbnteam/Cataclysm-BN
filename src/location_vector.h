@@ -34,6 +34,7 @@ class location_vector
         bool empty() const;
         T *back() const;
         T *front() const;
+        detached_ptr<T> remove( T * );
         const std::vector<T *> &as_vector() const;
 
         typename std::vector<T *>::iterator erase( typename std::vector<T *>::const_iterator it,

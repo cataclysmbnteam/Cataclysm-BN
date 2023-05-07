@@ -2162,7 +2162,7 @@ drop_locations inventory_drop_selector::execute()
         return true;
     };
 
-    for( const std::pair<const item *const, int> &drop_pair : dropping ) {
+    for( const std::pair<const item *const, int> drop_pair : dropping ) {
         for( auto &col : get_all_columns() ) {
             for( const auto &entry : col->get_entries( always_yes ) ) {
                 if( entry->any_item() == drop_pair.first ) {
@@ -2265,7 +2265,7 @@ drop_locations inventory_drop_selector::execute()
 
     drop_locations dropped_pos_and_qty;
 
-    for( const std::pair<item *, int>  &drop_pair : dropping ) {
+    for( const std::pair<item *, int> drop_pair : dropping ) {
         // Note: drop_location here contains location of first item in stack,
         // and amount of items to be dropped from the stack.
         dropped_pos_and_qty.emplace_back( *drop_pair.first, drop_pair.second );

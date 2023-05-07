@@ -647,7 +647,7 @@ bool unload_item( avatar &you, item &loc )
                 you.mod_moves( -you.item_handling_cost( obj ) );
                 changed = true;
             }
-            return contained;
+            return std::move( contained );
         } );
 
         if( changed ) {
@@ -746,7 +746,7 @@ bool unload_item( avatar &you, item &loc )
                     unloaded = true;
                 }
             }
-            return it;
+            return std::move( it );
         } );
         if( unloaded ) {
             // Eject magazine consuming half as much time as required to insert it

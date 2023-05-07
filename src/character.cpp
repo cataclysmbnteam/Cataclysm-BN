@@ -2303,7 +2303,7 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
         bool interactive, std::optional<std::vector<item *>::iterator> position )
 {
     if( !wear ) {
-        return wear;
+        return std::move( wear );
     }
     item &to_wear = *wear;
     const auto ret = can_wear( to_wear );
@@ -2311,7 +2311,7 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
         if( interactive ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
         }
-        return wear;
+        return std::move( wear );
     }
 
     const bool was_deaf = is_deaf();
@@ -2425,7 +2425,7 @@ int Character::amount_worn( const itype_id &id ) const
 detached_ptr<item> Character::i_add_to_container( detached_ptr<item> &&it, const bool unloading )
 {
     if( !it->is_ammo() || unloading ) {
-        return it;
+        return std::move( it );
     }
 
     const itype_id item_type = it->typeId();
@@ -2453,7 +2453,7 @@ detached_ptr<item> Character::i_add_to_container( detached_ptr<item> &&it, const
         return VisitResponse::NEXT;
     } );
 
-    return it;
+    return std::move( it );
 }
 
 void Character::i_add( detached_ptr<item> &&it, bool should_stack )
@@ -2494,7 +2494,7 @@ void Character::remove_worn_items_with( std::function < detached_ptr<item>
         if( !it ) {
             obj.on_takeoff( *this );
         }
-        return it;
+        return std::move( it );
     } );
 }
 
@@ -6679,7 +6679,7 @@ detached_ptr<item> Character::pour_into( item &container, detached_ptr<item> &&l
         add_msg_if_player( _( "There's some left over!" ) );
     }
 
-    return liquid;
+    return std::move( liquid );
 }
 
 detached_ptr<item> Character::pour_into( vehicle &veh, detached_ptr<item> &&liquid, int limit )
@@ -6709,7 +6709,7 @@ detached_ptr<item> Character::pour_into( vehicle &veh, detached_ptr<item> &&liqu
     if( liquid ) {
         add_msg_if_player( _( "There's some left over!" ) );
     }
-    return liquid;
+    return std::move( liquid );
 }
 
 resistances Character::mutation_armor( bodypart_id bp ) const
@@ -7635,7 +7635,7 @@ detached_ptr<item> Character::dispose_item( detached_ptr<item> &&obj, const std:
     if( menu.ret >= 0 ) {
         return opts[menu.ret].action();
     }
-    return obj;
+    return std::move( obj );
 }
 
 bool Character::dispose_item( item &obj, const std::string &prompt )

@@ -543,7 +543,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             if( it->will_explode_in_fire() ) {
                                 it = item::detonate( std::move( it ), p, new_content );
                             }
-                            return it;
+                            return std::move( it );
                         } );
 
                         fire_data frd( cur.get_field_intensity(), !can_spread );

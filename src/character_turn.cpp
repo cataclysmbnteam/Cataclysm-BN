@@ -813,7 +813,7 @@ void Character::process_items()
         if( itm->needs_processing() ) {
             return process_item( std::move( itm ) );
         }
-        return itm;
+        return std::move( itm );
     } );
 
     // Active item processing done, now we're recharging.

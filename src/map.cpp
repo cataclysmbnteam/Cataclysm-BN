@@ -3093,17 +3093,17 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
 
     items.remove_top_items_with( [&]( detached_ptr<item> &&it ) {
         if( it->has_flag( "EXPLOSION_SMASHED" ) ) {
-            return it;
+            return std::move( it );
         }
         if( will_explode_on_impact( power ) && it->will_explode_in_fire() ) {
             return item::detonate( std::move( it ), p, contents );
         }
         if( ( power < min_destroy_threshold || !do_destroy ) && !it->can_revive() ) {
-            return it;
+            return std::move( it );
         }
         bool is_active_explosive = it->active && it->type->get_use( "explosion" ) != nullptr;
         if( is_active_explosive && it->charges == 0 ) {
-            return it;
+            return std::move( it );
         }
 
         const float material_factor = it->chip_resistance( true );
@@ -3116,7 +3116,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         const float pulp_threshold = it->can_revive() ? material_factor : destroy_threshold;
         // Active explosives that will explode this turn are indestructible (they are exploding "now")
         if( power < pulp_threshold ) {
-            return it;
+            return std::move( it );
         }
 
         bool item_was_destroyed = false;
@@ -3151,7 +3151,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
                 if( !it->is_irremovable() ) {
                     contents.push_back( std::move( it ) );
                 }
-                return it;
+                return std::move( it );
             } );
             if( items_damaged == 0 ) {
                 damaged_item_name = it->tname();
@@ -3161,7 +3161,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
             items_destroyed++;
             return detached_ptr<item>();
         } else {
-            return it;
+            return std::move( it );
         }
     } );
 
@@ -4350,11 +4350,11 @@ detached_ptr<item> map::add_item_or_charges( const tripoint &pos, detached_ptr<i
         bool overflow )
 {
     if( !obj ) {
-        return obj;
+        return std::move( obj );
     }
     if( obj->is_null() ) {
         debugmsg( "Tried to add a null item to the map" );
-        return obj;
+        return std::move( obj );
     }
 
     // Checks if item would not be destroyed if added to this tile
@@ -4400,12 +4400,12 @@ detached_ptr<item> map::add_item_or_charges( const tripoint &pos, detached_ptr<i
 
     // Some items never exist on map as a discrete item (must be contained by another item)
     if( obj->has_flag( "NO_DROP" ) ) {
-        return obj;
+        return std::move( obj );
     }
 
     // If intended drop tile destroys the item then we don't attempt to overflow
     if( !valid_tile( pos ) ) {
-        return obj;
+        return std::move( obj );
     }
 
     if( ( !has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) && obj->made_of( LIQUID ) ) )
@@ -4413,7 +4413,7 @@ detached_ptr<item> map::add_item_or_charges( const tripoint &pos, detached_ptr<i
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
         if( obj->made_of( LIQUID ) || !obj->has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
             if( obj->on_drop( pos, *this ) ) {
-                return obj;
+                return std::move( obj );
             }
 
         }
@@ -4439,7 +4439,7 @@ detached_ptr<item> map::add_item_or_charges( const tripoint &pos, detached_ptr<i
             }
             if( obj->made_of( LIQUID ) || !obj->has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
                 if( obj->on_drop( e, *this ) ) {
-                    return obj;
+                    return std::move( obj );
                 }
             }
 
@@ -4453,7 +4453,7 @@ detached_ptr<item> map::add_item_or_charges( const tripoint &pos, detached_ptr<i
     }
 
     // failed due to lack of space at target tile (+/- overflow tiles)
-    return obj;
+    return std::move( obj );
 }
 
 void map::add_item( const tripoint &p, detached_ptr<item> &&new_item )
@@ -4907,7 +4907,7 @@ std::vector<detached_ptr<item>> use_amount_stack( Stack stack, const itype_id &t
 
     stack.remove_top_items_with( [&quantity, &filter, &type, &ret]( detached_ptr<item> &&it ) {
         if( quantity <= 0 ) {
-            return it;
+            return std::move( it );
         }
         detached_ptr<item> new_it = item::use_amount( std::move( it ), type, quantity, ret, filter );
         if( it && !new_it ) {
@@ -4970,7 +4970,7 @@ std::vector<detached_ptr<item>> use_charges_from_stack( Stack stack, const itype
 
     stack.remove_top_items_with( [&quantity, &filter, &type, &pos, &ret]( detached_ptr<item> &&it ) {
         if( quantity <= 0 || it->made_of( LIQUID ) ) {
-            return it;
+            return std::move( it );
         }
         detached_ptr<item> new_it = item::use_charges( std::move( it ), type, quantity, ret, pos, filter );
         if( it && !new_it ) {
@@ -5037,7 +5037,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
                     if( filter( *it ) ) {
                         return item::use_charges( std::move( it ), type, quantity, ret, p );
                     }
-                    return it;
+                    return std::move( it );
                 } );
             }
         }
@@ -7243,7 +7243,7 @@ void map::remove_rotten_items( Container &items, const tripoint &pnt, temperatur
         if( !it && obj.is_comestible() ) {
             rotten_item_spawn( obj, pnt );
         }
-        return it;
+        return std::move( it );
     } );
 }
 

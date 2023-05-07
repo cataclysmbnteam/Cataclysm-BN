@@ -3444,7 +3444,7 @@ detached_ptr<item> iexamine::pour_into_keg( const tripoint &pos, detached_ptr<it
 {
     const units::volume keg_cap = get_keg_capacity( pos );
     if( keg_cap <= 0_ml ) {
-        return liquid;
+        return std::move( liquid );
     }
     map &here = get_map();
     const auto keg_name = here.name( pos );
@@ -3469,12 +3469,12 @@ detached_ptr<item> iexamine::pour_into_keg( const tripoint &pos, detached_ptr<it
     } else if( stack.only_item().typeId() != liquid->typeId() ) {
         add_msg( _( "The %s already contains some %s, you can't add a different liquid to it." ),
                  keg_name, item::nname( stack.only_item().typeId() ) );
-        return liquid;
+        return std::move( liquid );
     } else {
         item &drink = stack.only_item();
         if( drink.volume() >= keg_cap ) {
             add_msg( _( "The %s is full." ), keg_name );
-            return liquid;
+            return std::move( liquid );
         }
         while( liquid->charges > 0 && drink.volume() < keg_cap ) {
             drink.charges++;
@@ -3483,7 +3483,7 @@ detached_ptr<item> iexamine::pour_into_keg( const tripoint &pos, detached_ptr<it
         add_msg( _( "You pour %1$s into the %2$s." ), obj.tname(), keg_name );
     }
 
-    return liquid;
+    return std::move( liquid );
 }
 
 static void pick_plant( player &p, const tripoint &examp,

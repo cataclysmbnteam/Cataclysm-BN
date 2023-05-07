@@ -63,6 +63,21 @@ T *location_vector<T>::back() const
 }
 
 template<typename T>
+detached_ptr<T> location_vector<T>::remove( T *obj )
+{
+
+    for( auto iter = contents.begin(); iter != contents.end(); iter++ ) {
+        if( *iter == obj ) {
+            detached_ptr<T> ret;
+            erase( iter, &ret );
+            return ret;
+        }
+    }
+    debugmsg( "Attempted to remove something froma  location that wasn't there." );
+    return detached_ptr<T>();
+}
+
+template<typename T>
 const std::vector<T *> &location_vector<T>::as_vector() const
 {
     return contents;

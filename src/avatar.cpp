@@ -1258,16 +1258,16 @@ bool avatar::wield( item &target )
 detached_ptr<item> avatar::wield( detached_ptr<item> &&target )
 {
     if( !can_wield( *target ).success() ) {
-        return target;
+        return std::move( target );
     }
 
     if( !unwield() ) {
-        return target;
+        return std::move( target );
     }
     clear_npc_ai_info_cache( npc_ai_info::weapon_value );
     clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     if( !target || target->is_null() ) {
-        return target;
+        return std::move( target );
     }
     item &obj = *target;
     set_weapon( std::move( target ) );
