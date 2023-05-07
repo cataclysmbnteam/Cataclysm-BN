@@ -687,8 +687,8 @@ void mdeath::broken( monster &z )
                                         ammo_entry.first )->ammo_type() )->second );
                                 mag->ammo_set( ammo_entry.first,
                                                std::min( ammo_count, mag->type->magazine->capacity ) );
-                                mags.push_back( std::move( mag ) );
                                 ammo_count -= mag->type->magazine->capacity;
+                                mags.push_back( std::move( mag ) );
                             }
                             g->m.spawn_items( z.pos(), std::move( mags ) );
                             spawned = true;
