@@ -1,21 +1,15 @@
-import { match } from "npm:ts-pattern"
-
 import { z } from "https://deno.land/x/zod@v3.20.5/index.ts"
 
 import { baseCli } from "../cli.ts"
+import { maybeAdd } from "../utils/maybe_add.ts"
 
 const isRecoverN = (x: string) => x.startsWith("RECOVER_")
 const findRecoverN = (xs: string[]) => xs.find(isRecoverN)
 
-const maybePop = (field: string) => <T>(xs: T[]) =>
-  match(xs)
-    .with([], () => ({}))
-    .otherwise(() => ({ [field]: xs }))
-
 export const recoverNMigrationSchema = z.object({
-  effects: z.string().array().refine(findRecoverN),
+  effects: z.string().array().refine(findRecoverN), // find only entry with effects that contain RECOVER_[N] element
 })
-  .passthrough()
+  .passthrough() // keep all other fields
   .transform(({ effects, ...rest }) => {
     // rome-ignore lint/style/noNonNullAssertion: already checked by refine
     const recover = findRecoverN(effects)!
@@ -23,7 +17,7 @@ export const recoverNMigrationSchema = z.object({
     const dont_recover_one_in = parseInt(n, 10)
 
     const filteredEffects = effects.filter((x) => !isRecoverN(x))
-    return { ...rest, dont_recover_one_in, ...maybePop("effects")(filteredEffects) }
+    return { ...rest, dont_recover_one_in, ...maybeAdd("effects")(filteredEffects) }
   })
 
 const main = baseCli({
