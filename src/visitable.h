@@ -136,9 +136,22 @@ class location_visitable : public visitable<T>
         /**
          * Removes items contained by this instance which match the filter
          * @note if this instance itself is an item it will not be considered by the filter
-         * @param filter a UnaryPredicate which can optionally std::move the detached pointer. If it does the item will be removed
+         * @param filter a function which can optionally std::move the detached pointer. If it does the item will be removed and the visit response respected
          */
         void remove_items_with( const std::function < VisitResponse( detached_ptr<item> && ) > &filter );
+        /**
+         * Removes items contained in the top level of this instance which match the filter
+         * @note if this instance itself is an item it will not be considered by the filter
+         * @param filter a detached_ptr -> detached_ptr filter
+         */
+        void remove_top_items_with( const std::function < detached_ptr<item>( detached_ptr<item> && ) > &filter );
+        
+        /**
+         * Removes items contained recursively within this instance which match the filter
+         * @note if this instance itself is an item it will not be considered by the filter
+         * @param filter a detached_ptr -> detached_ptr filter
+         */
+        void remove_all_items_with( const std::function < detached_ptr<item>( detached_ptr<item> && ) > &filter );
 
         /** Removes and returns the item which must be contained by this instance */
         detached_ptr<item> remove_item( item &it );
