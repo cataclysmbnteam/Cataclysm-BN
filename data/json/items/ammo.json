@@ -276,8 +276,9 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_80" ],
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "dont_recover_one_in": 80,
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
   },
   {
     "type": "AMMO",

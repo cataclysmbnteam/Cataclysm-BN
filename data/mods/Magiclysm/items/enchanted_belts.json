@@ -45,7 +45,7 @@
     "environmental_protection": 20,
     "weight_capacity_bonus": "50 kg",
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "multiply": 1.0 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "multiply": 1 } ] } ]
     }
   },
   {
