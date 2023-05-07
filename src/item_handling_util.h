@@ -20,9 +20,9 @@ struct iuse_location {
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
 };
-using iuse_locations = std::list<iuse_location>;
+using iuse_locations = std::vector<iuse_location>;
 
 using drop_location = iuse_location;
-using drop_locations = std::list<drop_location>;
+using drop_locations = std::vector<drop_location>;
 
 #endif // CATA_SRC_ITEM_HANDLING_UTIL_H

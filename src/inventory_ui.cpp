@@ -2013,7 +2013,7 @@ inventory_iuse_selector::inventory_iuse_selector(
     get_stats( get_st )
 {}
 
-std::list<iuse_location> inventory_iuse_selector::execute()
+std::vector<iuse_location> inventory_iuse_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
@@ -2060,7 +2060,7 @@ std::list<iuse_location> inventory_iuse_selector::execute()
             }
             break;
         } else if( input.action == "QUIT" ) {
-            return std::list<iuse_location>();
+            return std::vector<iuse_location>();
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else {
@@ -2069,7 +2069,7 @@ std::list<iuse_location> inventory_iuse_selector::execute()
         }
     }
 
-    std::list<iuse_location> ret;
+    std::vector<iuse_location> ret;
     for( const auto &entry : to_use ) {
         for( const iuse_location &loc : entry.second ) {
             ret.push_back( loc );

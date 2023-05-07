@@ -695,7 +695,7 @@ class inventory_iuse_selector : public inventory_multiselector
                                  const std::string &selector_title,
                                  const inventory_selector_preset &preset = default_preset,
                                  const GetStats & = {} );
-        std::list<iuse_location> execute();
+        std::vector<iuse_location> execute();
 
     protected:
         stats get_raw_stats() const override;
