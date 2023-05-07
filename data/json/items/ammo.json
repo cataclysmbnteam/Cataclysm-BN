@@ -1077,7 +1077,8 @@
     "dispersion": 10,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_1000" ]
+    "dont_recover_one_in": 1000,
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
   },
   {
     "type": "AMMO",
