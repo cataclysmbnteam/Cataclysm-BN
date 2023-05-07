@@ -352,11 +352,6 @@ class JsonIn
                 true ) {
             try {
                 out = T::spawn( *this );
-#if !defined(RELEASE)
-                void **buf = static_cast<void **>( malloc( sizeof( void * ) * 40 ) );
-                backtrace( buf, 40 );
-                cata_arena<T>::add_debug_entry( &*out, __FILE__, __LINE__, buf );
-#endif
                 return true;
             } catch( const JsonError & ) {
                 if( throw_on_error ) {
@@ -382,11 +377,6 @@ class JsonIn
         bool read( location_ptr<U, false> &out, bool throw_on_error = false ) {
             try {
                 out = U::spawn( *this );
-#if !defined(RELEASE)
-                void **buf = static_cast<void **>( malloc( sizeof( void * ) * 40 ) );
-                backtrace( buf, 40 );
-                cata_arena<U>::add_debug_entry( &*out, __FILE__, __LINE__, buf );
-#endif
                 return true;
             } catch( const JsonError & ) {
                 if( throw_on_error ) {
@@ -399,11 +389,6 @@ class JsonIn
         bool read( location_ptr<U, true> &out, bool throw_on_error = false ) {
             try {
                 out = U::spawn( *this );
-#if !defined(RELEASE)
-                void **buf = static_cast<void **>( malloc( sizeof( void * ) * 40 ) );
-                backtrace( buf, 40 );
-                cata_arena<U>::add_debug_entry( &*out, __FILE__, __LINE__, buf );
-#endif
                 return true;
             } catch( const JsonError & ) {
                 if( throw_on_error ) {

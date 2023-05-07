@@ -14,16 +14,6 @@ class cata_arena
     private:
         inline static std::set<T *> pending_deletion;
 
-#if !defined(RELEASE)
-        struct alloc_entry {
-            const char *file;
-            int line;
-            void **backtrace;
-            void **destroy_trace;
-            void **remove_trace;
-        };
-        inline static std::unordered_map<T *, alloc_entry> full_list;
-#endif
     public:
         using value_type = T;
 
@@ -40,61 +30,14 @@ class cata_arena
             std::set<T *> dcopy = std::set<T *>( pending_deletion );
             pending_deletion.clear();
             for( T * const &p : dcopy ) {
-#if !defined(RELEASE)
-                auto it = full_list.find( p );
-                if( it != full_list.end() ) {
-                    free( it->second.backtrace );
-                    free( it->second.destroy_trace );
-                    free( it->second.remove_trace );
-                    full_list.erase( it );
-                }
-#endif
                 safe_reference<T>::mark_deallocated( p );
                 delete p;
             }
             return true;
         }
-#if !defined(RELEASE)
-        static void add_debug_entry( T *obj, const char *file, int line, void **backtrace = nullptr ) {
-            full_list.insert( { obj, {file, line, backtrace, nullptr, nullptr}} );
-        }
-
-        static void add_removed_trace( T *obj, void **backtrace = nullptr ) {
-            auto it = full_list.find( obj );
-            if( it == full_list.end() ) {
-                return;
-            }
-            it->second.remove_trace = backtrace;
-        }
-
-        static void add_destroy_trace( T *obj, void **backtrace = nullptr ) {
-            auto it = full_list.find( obj );
-            if( it == full_list.end() ) {
-                return;
-            }
-            it->second.destroy_trace = backtrace;
-        }
-
-        static void check_for_leaks() {
-            for( auto &it : full_list ) {
-                it.first->check_location( it.second.file, it.second.line, it.second.backtrace,
-                                          it.second.destroy_trace, it.second.remove_trace );
-            }
-        }
-
-        static void check_clear() {
-            if( !full_list.empty() ) {
-                debugmsg( "Some objects were not destroyed before quitting" );
-            }
-        }
-#endif
 };
 
 
 void cleanup_arenas();
-
-#if !defined(RELEASE)
-void check_arenas_clear();
-#endif
 
 #endif

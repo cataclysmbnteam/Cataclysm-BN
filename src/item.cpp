@@ -552,15 +552,13 @@ item::item( const item &source ) : game_object<item>(), contents( this ),
     }
 }
 
-
-
-item::~item() //TODO!: this is wrong now, it should be done on destruct not deallocate
+void item::on_destroy()
 {
-    for( item *comp : components ) {
-        comp->remove_location();
-        comp->destroy();
-    }
+    components.clear();
 }
+
+
+item::~item() = default;
 
 detached_ptr<item> item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
                                       const int upgrade_time )

@@ -264,7 +264,6 @@ class item : public location_visitable<item>, public game_object<item>
             item( itype_id( itype ), std::forward<Args>( args )... )
         {}
 
-
     public:
 
         using FlagsSetType = cata::flat_set<std::string>;
@@ -272,6 +271,7 @@ class item : public location_visitable<item>, public game_object<item>
         friend item &null_item_reference();
 
         ~item();
+        void on_destroy();
 
         inline static detached_ptr<item> spawn( JsonIn &jsin ) {
             detached_ptr<item> p = spawn();

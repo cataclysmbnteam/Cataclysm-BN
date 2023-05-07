@@ -1224,9 +1224,6 @@ bool game::cleanup_at_end()
     cleanup_arenas();
     DynamicDataLoader::get_instance().unload_data();
 
-#if !defined(RELEASE)
-    check_arenas_clear();
-#endif
 
 #if defined(__ANDROID__)
     quick_shortcuts_map.clear();
@@ -12073,17 +12070,7 @@ void cleanup_arenas()
         cont = false;
         cont |= cata_arena<item>::cleanup();
     }
-#if !defined(RELEASE)
-    cata_arena<item>::check_for_leaks();
-#endif
 }
-
-#if !defined(RELEASE)
-void check_arenas_clear()
-{
-    cata_arena<item>::check_clear();
-}
-#endif
 
 const scenario *get_scenario()
 {

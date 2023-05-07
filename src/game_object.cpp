@@ -18,12 +18,9 @@ void game_object<T>::destroy()
     if( loc != nullptr ) {
         debugmsg( "Attempted to destroy an item with a location." );
     }
-#if !defined(RELEASE)
-    void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
-    backtrace( buf, GO_BACKTRACE );
-    cata_arena<T>::add_destroy_trace( static_cast<T *>( this ), buf );
-#endif
-    cata_arena<T>::mark_for_destruction( static_cast<T *>( this ) );
+    T *self = static_cast<T *>( this );
+    self->on_destroy();
+    cata_arena<T>::mark_for_destruction( self );
 }
 
 template<typename T>
@@ -31,13 +28,7 @@ void game_object<T>::remove_location()
 {
     if( is_null() ) {
         return;
-    }/*
-#if !defined(RELEASE)
-    void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
-    backtrace( buf, GO_BACKTRACE );
-    cata_arena<T>::add_removed_trace( static_cast<T *>( this ), buf );
-#endif
-*/
+    }
     loc = nullptr;
 }
 
@@ -69,11 +60,6 @@ detached_ptr<T> game_object<T>::detach()
         return detached_ptr<T>();
     }
     detached_ptr<T> res = loc->detach( static_cast<T *>( this ) );
-#if !defined(RELEASE)
-    void **buf = static_cast<void **>( malloc( sizeof( void * ) * GO_BACKTRACE ) );
-    backtrace( buf, GO_BACKTRACE );
-    cata_arena<T>::add_removed_trace( static_cast<T *>( this ), buf );
-#endif
     remove_location();
     return  res;
 }
