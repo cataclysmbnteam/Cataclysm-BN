@@ -26,6 +26,7 @@ export const parseCataJson = (text: string): unknown[] => {
 }
 
 export type ObjectSchema = z.ZodObject<z.ZodRawShape>
+export type MigrationSchema = z.ZodEffects<ObjectSchema>
 
 /**
  * wraps a schema to return data in same order as passed.

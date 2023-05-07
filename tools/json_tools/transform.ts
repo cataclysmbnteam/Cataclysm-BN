@@ -1,31 +1,10 @@
 import { asynciter } from "https://deno.land/x/asynciter@0.0.15/asynciter.ts"
 
-import { Entry, id, ObjectSchema, parseCataJson } from "./parse.ts"
-
 import { match, P } from "npm:ts-pattern"
-import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 
-/** clone an object with single key replaced.
- *  not very efficient, but at least it's purely functional (when looked at from the outside)
- */
-export const structuredReplace = <T extends Record<string, unknown>, K extends keyof T, V>(
-  obj: T,
-  key: K,
-  value: V,
-) => {
-  const copy = structuredClone(obj)
-  copy[key] = value
-  return copy
-}
+import { Entry, MigrationSchema, ObjectSchema, parseCataJson } from "./parse.ts"
 
-/** clone an object with single key removed. */
-export const removeObjectKey = <T extends Record<string, unknown>, K extends keyof T>(
-  obj: T,
-  key: K,
-): Omit<T, K> => {
-  const { [key]: _, ...rest } = obj
-  return rest
-}
+import { id } from "./utils/id.ts"
 
 export type Transformer = (text: string) => unknown[]
 
@@ -33,22 +12,23 @@ export type Transformer = (text: string) => unknown[]
 export const applyRecursively = (transformer: Transformer) => async (entries: Entry[]) => {
   await asynciter(entries)
     .concurrentUnorderedMap(({ path, text }) =>
-      Deno.writeTextFile(path, JSON.stringify(transformer(text), null, 2))
+      Deno.writeTextFile(path, JSON.stringify(transformer(text)))
     )
     .collect()
 }
 
-export type MigrationSchema = z.ZodEffects<ObjectSchema>
-
 /**
- * applies mapping schema to all entries.
- * mapping schemas are zod schema with .transform() method, which will transform an entry satisfying schema.
+ * creates a transformer that searches (and migrates) entries satisfying given schema.
+ * mapping schemas are zod schema with .transform() method either on object level or property,
+ * which will transform an entry satisfying schema.
+ *
+ * entries that do not satisfy schema are left unchanged.
  */
 export const schemaMigrationTransformer =
-  <Schema extends MigrationSchema>(mappingSchema: Schema): Transformer => (text) =>
+  (schema: ObjectSchema | MigrationSchema): Transformer => (text) =>
     parseCataJson(text)
       .map((x) =>
-        match(mappingSchema.safeParse(x))
+        match(schema.safeParse(x))
           .with({ success: true, data: P.select() }, id)
           .otherwise(() => x)
       )

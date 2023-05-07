@@ -1,16 +1,22 @@
 /** Boilerplate to  */
 import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts"
 
-import { readRecursively } from "./parse.ts"
-import { applyRecursively, MigrationSchema, schemaMigrationTransformer } from "./transform.ts"
+import { Entry, MigrationSchema, ObjectSchema, readRecursively } from "./parse.ts"
+import { applyRecursively, schemaMigrationTransformer } from "./transform.ts"
 import { timeit } from "./timeit.ts"
 import { fmtJsonRecursively } from "./json_fmt.ts"
-
 type BaseCliOption = {
   desc: string
   task?: string
-  schema: MigrationSchema
+  schema: ObjectSchema | MigrationSchema
 }
+import { match, P } from "npm:ts-pattern"
+import { id } from "./utils/id.ts"
+
+const unpack = (xs: string[] | Entry[]) =>
+  match(xs)
+    .with(P.array(P.string), id)
+    .otherwise((xs) => xs.map(({ path }) => path))
 
 export const baseCliFlags = () =>
   new Command()
@@ -19,8 +25,12 @@ export const baseCliFlags = () =>
     .option("-l, --lint", "lint all json files after migration.", { required: false })
 
 /**
- * Cli boilerplate to recursively apply a transformation to all json files in a given path.
- * DOES NOT resolves inheritance.
+ * Cli boilerplate to recursively apply a transformation
+ * to all json files concurrently in a given path.
+ *
+ * Limitations:
+ * - does not resolve inheritance.
+ * - cannot reference other entries.
  */
 type BaseCli = (d: BaseCliOption) => () => Promise<unknown>
 export const baseCli: BaseCli = ({ desc, task = "migration", schema }) => () =>
@@ -30,20 +40,21 @@ export const baseCli: BaseCli = ({ desc, task = "migration", schema }) => () =>
       const timeIt = quiet ? <T>(_: string) => (x: T) => x : timeit
       const transformer = schemaMigrationTransformer(schema)
       const recursiveTransformer = applyRecursively(transformer)
+
       const entries = await readRecursively(path)
 
       await timeIt(task)(recursiveTransformer(entries))
 
       if (!lint) return
-      await timeIt("linting")(fmtJsonRecursively())
+      await timeIt("linting")(fmtJsonRecursively(unpack(entries)))
     })
     .parse(Deno.args)
 
 if (import.meta.main) {
   const { z } = await import("https://deno.land/x/zod@v3.20.5/index.ts")
-  const { id } = await import("./parse.ts")
+  const { id } = await import("./utils/id.ts")
 
-  const noop = z.object({}).transform(id)
+  const noop = z.object({}).passthrough().transform(id)
   const main = baseCli({ desc: "Do nothing", schema: noop })
   await main()
 }

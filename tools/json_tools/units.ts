@@ -1,12 +1,12 @@
 import { z } from "https://deno.land/x/zod@v3.20.5/mod.ts"
 import { match } from "npm:ts-pattern"
 
-export const weight = z.custom<`${number} ${"mg" | "g" | "kg"}`>((x) =>
-  /^\d+ (m|k)?g$/.test(x as string)
-)
-export const volume = z.custom<`${number} ${"ml" | "L"}`>((x) => /^\d+ (ml|L)$/.test(x as string))
+export const weight = z.custom<`${number} ${WeightUnits}`>((x) => /^\d+ (m|k)?g$/.test(x as string))
+export const volume = z.custom<`${number} ${VolumeUnits}`>((x) => /^\d+ (ml|L)$/.test(x as string))
 
+export type WeightUnits = "mg" | "g" | "kg"
 export type Weight = z.infer<typeof weight>
+export type VolumeUnits = "ml" | "L"
 export type Volume = z.infer<typeof volume>
 
 /**
