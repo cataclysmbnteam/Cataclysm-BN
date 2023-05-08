@@ -6064,9 +6064,9 @@ int item::get_avg_coverage() const
 
             const auto setToCheck = entry.covers.value();
             auto toCheck = all_body_parts.begin();
-            
-            while(toCheck != all_body_parts.end()) {
-                if(setToCheck.test(*toCheck)) {
+
+            while( toCheck != all_body_parts.end() ) {
+                if( setToCheck.test( *toCheck ) ) {
                     int coverage = get_coverage( convert_bp( *toCheck ) );
                     if( coverage ) {
                         avg_coverage += coverage;
