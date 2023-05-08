@@ -2682,8 +2682,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
                     bool operator==( const armor_portion_type &other ) {
                         return encumber == other.encumber
-                                && max_encumber == other.max_encumber
-                                && coverage == other.coverage;
+                               && max_encumber == other.max_encumber
+                               && coverage == other.coverage;
                     };
                 };
                 struct body_part_display_info {
