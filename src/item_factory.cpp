@@ -1913,7 +1913,7 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
     assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus, strict, 0_gram );
     assign( jo, "valid_mods", slot.valid_mods, strict );
 
-   if( jo.has_array( "armor_portion_data" ) ) {
+    if( jo.has_array( "armor_portion_data" ) ) {
         bool dont_add_first = false;
         if( !slot.data.empty() ) { // Uses copy-from
             dont_add_first = true;
