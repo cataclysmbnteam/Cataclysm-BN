@@ -6314,7 +6314,7 @@ float Character::active_light() const
                     if( i.covers( elem.first ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                         !i.has_flag( flag_SEMITANGIBLE ) &&
                         !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                        coverage += i.get_coverage( convert_bp(elem.first) );
+                        coverage += i.get_coverage( convert_bp( elem.first ) );
                     }
                 }
                 curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
