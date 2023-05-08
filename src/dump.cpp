@@ -108,7 +108,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( obj.get_warmth() ) );
             r.push_back( std::to_string( to_gram( obj.weight() ) ) );
             r.push_back( std::to_string( obj.get_storage() / units::legacy_volume_factor ) );
-            r.push_back( std::to_string( obj.get_coverage( convert_bp( bp ).id()) ) );
+            r.push_back( std::to_string( obj.get_coverage( convert_bp( bp ).id() ) ) );
             r.push_back( std::to_string( obj.bash_resist() ) );
             r.push_back( std::to_string( obj.cut_resist() ) );
             r.push_back( std::to_string( obj.bullet_resist() ) );
