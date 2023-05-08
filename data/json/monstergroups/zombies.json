@@ -115,10 +115,10 @@
       { "monster": "mon_zombie_brainless", "freq": 65, "cost_multiplier": 1 },
       { "monster": "mon_feral_human_pipe", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_feral_human_crowbar", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_feral_human_axe", "freq": 10, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },	  
+      { "monster": "mon_feral_human_axe", "freq": 10, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_feral_prepper", "freq": 4, "cost_multiplier": 2 },
-      { "monster": "mon_feral_survivalist", "freq": 4, "cost_multiplier": 2 },      
-	  { "monster": "mon_feral_jackboot", "freq": 2, "cost_multiplier": 5 },
+      { "monster": "mon_feral_survivalist", "freq": 4, "cost_multiplier": 2 },
+      { "monster": "mon_feral_jackboot", "freq": 2, "cost_multiplier": 5 },
       { "monster": "mon_feral_soldier", "freq": 5, "cost_multiplier": 5 }
     ]
   },
