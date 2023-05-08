@@ -278,6 +278,7 @@ static const trait_id trait_INFRARED( "INFRARED" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_LIZ_IR( "LIZ_IR" );
+static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
@@ -462,6 +463,7 @@ Character::Character() :
     drench_capacity[bp_hand_l] = 3;
     drench_capacity[bp_hand_r] = 3;
     drench_capacity[bp_torso] = 40;
+    npc_ai_info_cache.fill(-1.0);
 }
 // *INDENT-ON*
 
@@ -487,8 +489,11 @@ character_id Character::getID() const
 
 bool Character::is_dead_state() const
 {
-    return get_part_hp_cur( bodypart_id( "head" ) ) <= 0 ||
-           get_part_hp_cur( bodypart_id( "torso" ) ) <= 0;
+    const auto all_bps = get_all_body_parts( true );
+
+    return std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
+        return bp->essential && get_part_hp_cur( bp ) <= 0;
+    } );
 }
 
 field_type_id Character::bloodType() const
@@ -2003,6 +2008,15 @@ std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) cons
     return stored_fuels;
 }
 
+int Character::get_fuel_type_available( const itype_id &fuel ) const
+{
+    int amount_stored = 0;
+    if( !get_value( fuel.str() ).empty() ) {
+        amount_stored = std::stoi( get_value( fuel.str() ) );
+    }
+    return amount_stored;
+}
+
 int Character::get_fuel_capacity( const itype_id &fuel ) const
 {
     int amount_stored = 0;
@@ -2258,7 +2272,8 @@ item &Character::i_add( item it, bool should_stack )
     }
     auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
-    clear_npc_ai_info_cache( "reloadables" );
+    clear_npc_ai_info_cache( npc_ai_info::reloadables );
+    clear_npc_ai_info_cache( npc_ai_info::reloadable_cbms );
     return item_in_inv;
 }
 
@@ -2378,14 +2393,13 @@ bool Character::i_add_or_drop( item &it, int qty )
 {
     bool retval = true;
     bool drop = it.made_of( LIQUID );
-    bool add = it.is_gun() || !it.is_irremovable();
     inv.assign_empty_invlet( it, *this );
     map &here = get_map();
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pick_weight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pick_volume( it );
         if( drop ) {
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
-        } else if( add ) {
+        } else {
             i_add( it );
         }
     }
@@ -2487,7 +2501,8 @@ item Character::remove_weapon()
 {
     item tmp = weapon;
     weapon = item();
-    clear_npc_ai_info_cache( "weapon_value" );
+    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     return tmp;
 }
 
@@ -3440,6 +3455,9 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         int oldLevel = get_skill_level( id );
         get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
+        if( newLevel > oldLevel ) {
+            g->events().send<event_type::gains_skill_level>( getID(), id, newLevel );
+        }
         if( is_player() && newLevel > oldLevel ) {
             add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
         }
@@ -5763,7 +5781,8 @@ hp_part Character::body_window( const std::string &menu_header,
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( bp );
-        const bool limb_is_mending = limb_is_broken && worn_with_flag( flag_SPLINT, bp );
+        const bool limb_is_mending = limb_is_broken &&
+                                     ( worn_with_flag( flag_SPLINT, bp ) || has_trait( trait_REGEN_LIZ ) );
 
         if( show_all ) {
             e.allowed = true;
@@ -6467,7 +6486,7 @@ std::string Character::extended_description() const
         // <bad>This is me, <player_name>.</bad>
         ss += string_format( _( "This is you - %s." ), name );
     } else {
-        ss += string_format( _( "This is %s, %s" ), name, male ? _( "male" ) : _( "female" ) );
+        ss += string_format( _( "This is %s, %s" ), name, male ? _( "Male" ) : _( "Female" ) );
     }
 
     ss += "\n--\n";
@@ -10015,13 +10034,9 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost *= .9f;
         }
         if( has_active_bionic( bio_jointservo ) ) {
-            if( move_mode == CMM_RUN ) {
-                movecost *= 0.85f;
-            } else {
-                movecost *= 0.95f;
-            }
+            movecost *= ( move_mode == CMM_RUN ? 0.75f : 0.9f );
         } else if( has_bionic( bio_jointservo ) ) {
-            movecost *= 1.1f;
+            movecost *= 0.95f;
         }
 
         if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
@@ -10283,7 +10298,7 @@ std::vector<std::string> Character::short_description_parts() const
 {
     std::vector<std::string> result;
 
-    std::string gender = male ? _( "male" ) : _( "female" );
+    std::string gender = male ? _( "Male" ) : _( "Female" );
     result.push_back( name +  ", "  + gender );
     if( is_armed() ) {
         result.push_back( _( "Wielding: " ) + weapon.tname() );
@@ -10583,24 +10598,19 @@ void Character::set_underwater( bool x )
     }
 }
 
-void Character::clear_npc_ai_info_cache( const std::string &key ) const
+void Character::clear_npc_ai_info_cache( npc_ai_info key ) const
 {
-    npc_ai_info_cache.erase( key );
+    npc_ai_info_cache[key] = -1.0;
 }
 
-void Character::set_npc_ai_info_cache( const std::string &key, double val ) const
+void Character::set_npc_ai_info_cache( npc_ai_info key, double val ) const
 {
     npc_ai_info_cache[key] = val;
 }
 
-std::optional<double> Character::get_npc_ai_info_cache( const std::string &key ) const
+std::optional<double> Character::get_npc_ai_info_cache( npc_ai_info key ) const
 {
-    auto it = npc_ai_info_cache.find( key );
-    if( it == npc_ai_info_cache.end() ) {
-        return std::nullopt;
-    } else {
-        return it->second;
-    }
+    return npc_ai_info_cache[key];
 }
 
 float Character::stability_roll() const
@@ -10855,6 +10865,9 @@ void Character::knock_back_to( const tripoint &to )
 
     } else { // It's no wall
         setpos( to );
+
+        map &here = get_map();
+        here.creature_on_trap( *this );
     }
 }
 

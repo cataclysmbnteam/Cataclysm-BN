@@ -1234,6 +1234,19 @@ const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) con
     }
     return effect::null_effect;
 }
+std::vector<effect *> Creature::get_all_effects_of_type( const efftype_id &eff_id )
+{
+    std::vector< effect *> ret;
+    auto got_outer = effects->find( eff_id );
+    if( got_outer == effects->end() ) {
+        return {};
+    }
+    std::unordered_map<bodypart_str_id, effect> &effect_map = got_outer->second;
+    for( auto&[ _, effect ] : effect_map ) {
+        ret.push_back( &effect );
+    }
+    return ret;
+}
 std::vector<const effect *> Creature::get_all_effects_of_type( const efftype_id &eff_id ) const
 {
     std::vector<const effect *> ret;

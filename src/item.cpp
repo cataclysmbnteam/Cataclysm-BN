@@ -4556,7 +4556,7 @@ void item::on_wield( player &p, int mv )
         msg = _( "You wield your %s." );
     }
     // if game is loaded - don't want ownership assigned during char creation
-    if( get_avatar().getID().is_valid() ) {
+    if( p.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
     p.add_msg_if_player( m_neutral, msg, tname() );

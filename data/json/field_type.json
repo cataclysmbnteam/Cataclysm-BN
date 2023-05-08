@@ -236,7 +236,7 @@
     "description_affix": "on",
     "decay_amount_factor": 3,
     "has_fire": true,
-    "priority": 4,
+    "priority": 9,
     "half_life": "30 minutes",
     "phase": "plasma",
     "stacking_type": "duration",

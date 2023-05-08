@@ -71,26 +71,6 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     CHECK( !dummy.has_power() );
     REQUIRE( dummy.has_max_power() );
 
-    SECTION( "bio_advreactor" ) {
-        give_and_activate_bionic( dummy, bionic_id( "bio_advreactor" ) );
-
-        static const std::list<std::string> always = {
-            "plut_cell",  // solid
-            "plut_slurry" // uncontained liquid! not shown in game menu
-        };
-        for( auto it : always ) {
-            test_consumable_charges( dummy, it, true, true );
-        }
-
-        static const std::list<std::string> never = {
-            "light_atomic_battery_cell", // TOOLMOD, no ammo actually
-            "rm13_armor"      // TOOL_ARMOR
-        };
-        for( auto it : never ) {
-            test_consumable_ammo( dummy, it, false, false );
-        }
-    }
-
     SECTION( "bio_batteries" ) {
         give_and_activate_bionic( dummy, bionic_id( "bio_batteries" ) );
 

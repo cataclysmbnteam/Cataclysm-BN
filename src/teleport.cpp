@@ -110,5 +110,6 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         g->update_map( *p );
     }
     critter.remove_effect( effect_grabbed );
+    here.creature_on_trap( critter );
     return true;
 }

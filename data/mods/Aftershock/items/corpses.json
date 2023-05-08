@@ -142,7 +142,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
     "name": "broken military robot",
-    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 7.62mm firearm.  Could be stripped for parts."
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 7.62x51mm firearm.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",

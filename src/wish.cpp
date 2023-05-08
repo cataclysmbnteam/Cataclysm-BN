@@ -745,9 +745,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                             p->i_add_or_drop( granted );
                         }
                     } else {
-                        for( int i = 0; i < amount; i++ ) {
-                            p->i_add_or_drop( granted );
-                        }
+                        p->i_add_or_drop( granted, amount );
                     }
                     p->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {

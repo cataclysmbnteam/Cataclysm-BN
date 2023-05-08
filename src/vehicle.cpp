@@ -3524,7 +3524,7 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
                 m2c *= 0.6;
             }
             pwr += part_vpower_w( p ) * m2c / 100;
-            cnt++;
+            cnt += static_cast<int>( !part_info( p ).has_flag( "E_NO_POWER_DECAY" ) );
         }
     }
 
@@ -4626,7 +4626,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         }
         // decreased stamina burn scalable with load
         if( g->u.has_active_bionic( bio_jointservo ) ) {
-            g->u.mod_power_level( units::from_kilojoule( -std::max( eff_load / 20, 1 ) ) );
+            g->u.mod_power_level( -bio_jointservo->power_trigger * std::max( eff_load / 20, 1 ) );
             mod -= std::max( eff_load / 5, 5 );
         }
         if( one_in( 1000 / load ) && one_in( 10 ) ) {

@@ -381,6 +381,8 @@
       [ "wheel_bicycle_or", 5 ],
       [ "wheel_motorbike_or", 5 ],
       [ "wheel_slick", 5 ],
+      { "item": "seatbelt", "prob": 10, "count": [ 3, 10 ] },
+      { "item": "five-point_harness", "prob": 3, "count": [ 2, 4 ] },
       [ "1cyl_combustion", 10 ],
       [ "v2_combustion", 10 ],
       [ "i4_combustion", 10 ],
