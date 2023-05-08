@@ -3871,7 +3871,8 @@ bool Character::in_climate_control()
     return regulated_area;
 }
 
-static int wind_resistance_from_item_list( const std::vector<const item *> &items, const bodypart_id &bp )
+static int wind_resistance_from_item_list( const std::vector<const item *> &items,
+        const bodypart_id &bp )
 {
     int total_exposed = 100;
 
