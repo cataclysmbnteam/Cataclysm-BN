@@ -149,7 +149,19 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
         test_info_equals(
             item( "test_briefcase" ), q,
             "--\n"
-            "<color_c_white>Encumbrance</color>: <color_c_yellow>30</color>\n" );
+            "<color_c_white>Encumbrance</color>:\n"
+            "L. Arm:  <color_c_yellow>30</color>  "
+            "When Full:  <color_c_yellow>30</color>  "
+            "Coverage:  <color_c_yellow>10</color>\n"
+            "R. Arm:  <color_c_yellow>30</color>  "
+            "When Full:  <color_c_yellow>30</color>  "
+            "Coverage:  <color_c_yellow>10</color>\n"
+            "L. Hand:  <color_c_yellow>30</color>  "
+            "When Full:  <color_c_yellow>30</color>  "
+            "Coverage:  <color_c_yellow>10</color>\n"
+            "R. Hand:  <color_c_yellow>30</color>  "
+            "When Full:  <color_c_yellow>30</color>  "
+            "Coverage:  <color_c_yellow>10</color>\n" );
 
         test_info_equals( item( "test_jug_plastic" ), q, "" );
         test_info_equals( item( "test_pipe" ), q, "" );

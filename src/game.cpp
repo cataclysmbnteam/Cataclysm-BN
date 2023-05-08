@@ -11517,7 +11517,7 @@ bool check_art_charge_req( item &it )
                 if( it.covers( bp ) || ( heldweapon && ( bp == bp_hand_r || bp == bp_hand_l ) ) ) {
                     reqsmet = true;
                     for( auto &i : p.worn ) {
-                        if( i.covers( bp ) && ( &it != &i ) && i.get_coverage() > 50 ) {
+                        if( i.covers( bp ) && ( &it != &i ) && i.get_coverage( convert_bp( bp ) ) > 50 ) {
                             reqsmet = false;
                             break; //This one's no good, check the next body part
                         }

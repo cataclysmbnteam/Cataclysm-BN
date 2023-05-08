@@ -230,16 +230,7 @@ struct islot_container {
     itype_id unseals_into = itype_id::NULL_ID();
 };
 
-struct islot_armor {
-    /**
-     * Bitfield of enum body_part
-     * TODO: document me.
-     */
-    body_part_set covers;
-    /**
-     * Whether this item can be worn on either side of the body
-     */
-    bool sided = false;
+struct armor_portion_data {
     /**
      * How much this item encumbers the player.
      */
@@ -253,6 +244,20 @@ struct islot_armor {
      * This determines how likely it is to hit the item instead of the player.
      */
     int coverage = 0;
+
+    // Where does this cover if any
+    std::optional<body_part_set> covers;
+
+    // What layer does it cover if any
+    // TODO: Not currently supported, we still use flags for this
+    //std::optional<layer_level> layer;
+};
+
+struct islot_armor {
+    /**
+    * Whether this item can be worn on either side of the body
+    */
+    bool sided = false;
     /**
      * TODO: document me.
      */
@@ -281,11 +286,17 @@ struct islot_armor {
     * Bonus to weight capacity
     */
     units::mass weight_capacity_bonus = 0_gram;
+
+    bool was_loaded;
+    
     /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
+    
+    // Layer, encumbrance and coverage information.
+    std::vector<armor_portion_data> data;
 };
 
 struct islot_pet_armor {

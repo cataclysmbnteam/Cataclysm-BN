@@ -643,7 +643,7 @@ bool is_bp_immune_to( const Character &who, body_part bp, damage_unit dam )
     who.passive_absorb_hit( convert_bp( bp ).id(), dam );
 
     for( const item &cloth : who.worn ) {
-        if( cloth.get_coverage() == 100 && cloth.covers( bp ) ) {
+        if( cloth.get_coverage( convert_bp(bp).id() ) == 100 && cloth.covers( bp ) ) {
             cloth.mitigate_damage( dam );
         }
     }

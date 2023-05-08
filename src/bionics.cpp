@@ -1481,7 +1481,7 @@ float Character::get_effective_efficiency( bionic &bio, float fuel_efficiency )
                 if( i.covers( elem.first->token ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                     !i.has_flag( flag_SEMITANGIBLE ) &&
                     !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                    coverage += i.get_coverage();
+                    coverage += i.get_coverage( elem.first.id() );
                 }
             }
         }

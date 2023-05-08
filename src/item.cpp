@@ -770,7 +770,11 @@ body_part_set item::get_covered_body_parts( const side s ) const
         return res;
     }
 
-    res |= armor->covers;
+    for( const armor_portion_data &data : armor->data ) {
+        if( data.covers.has_value() ) {
+            res |= data.covers.value();
+        }
+    }
 
     if( !armor->sided ) {
         return res; // Just ignore the side.
@@ -1174,9 +1178,21 @@ static std::string get_freshness_description( const item &food_item )
     }
 }
 
-item::sizing item::get_sizing( const Character &p, bool wearable ) const
+item::sizing item::get_sizing( const Character &p ) const
 {
-    if( wearable ) {
+    const islot_armor *armor_data = find_armor_data();
+    if( !armor_data ) {
+        return sizing::ignore;
+    }
+    bool to_ignore = true;
+    for( const armor_portion_data &piece : armor_data->data ) {
+        if( piece.encumber != 0 ) {
+            to_ignore = false;
+        }
+    }
+    if( to_ignore ) {
+        return sizing::ignore;
+    } else {
         const bool small = p.get_size() == MS_TINY;
         const bool big = p.get_size() == MS_HUGE;
 
@@ -1213,8 +1229,6 @@ item::sizing item::get_sizing( const Character &p, bool wearable ) const
             }
         }
     }
-    return sizing::not_wearable;
-
 }
 
 static int get_base_env_resist( const item &it )
@@ -2537,8 +2551,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     avatar &you = get_avatar();
-    int encumbrance = get_encumber( you );
-    const sizing sizing_level = get_sizing( you, encumbrance != 0 );
     const std::string space = "  ";
     body_part_set covered_parts = get_covered_body_parts();
     bool covers_anything = covered_parts.any();
@@ -2628,8 +2640,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && covers_anything ) {
-        info.push_back( iteminfo( "ARMOR", _( "Coverage: " ), "<num>%",
-                                  iteminfo::no_newline, get_coverage() ) );
+        info.push_back( iteminfo( "ARMOR", _( "Average Coverage: " ), "<num>%",
+                                  iteminfo::no_newline, get_avg_coverage() ) );
     }
     if( parts->test( iteminfo_parts::ARMOR_WARMTH ) && covers_anything ) {
         info.push_back( iteminfo( "ARMOR", space + _( "Warmth: " ), get_warmth() ) );
@@ -2639,33 +2651,106 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
         std::string format;
+        const bool sizing_matters = get_sizing( you ) != sizing::ignore;
         if( has_flag( flag_FIT ) ) {
-            format = _( "<num> <info>(fits)</info>" );
-        } else if( has_flag( flag_VARSIZE ) && encumbrance ) {
-            format = _( "<num> <bad>(poor fit)</bad>" );
+            format = _( " <info>(fits)</info>" );
+        } else if( has_flag( flag_VARSIZE ) && sizing_matters ) {
+            format = _( " <bad>(poor fit)</bad>" );
         }
 
-        //If we have the wrong size, we do not fit so alert the player
-        if( sizing_level == sizing::human_sized_small_char )  {
-            format = _( "<num> <bad>(too big)</bad>" );
-        } else if( sizing_level == sizing::big_sized_small_char ) {
-            format = _( "<num> <bad>(huge!)</bad>" );
-        } else if( sizing_level == sizing::small_sized_human_char ||
-                   sizing_level == sizing::human_sized_big_char )  {
-            format = _( "<num> <bad>(too small)</bad>" );
-        } else if( sizing_level == sizing::small_sized_big_char )  {
-            format = _( "<num> <bad>(tiny!)</bad>" );
+        if( sizing_matters ) {
+            const sizing sizing_level = get_sizing( you );
+            //If we have the wrong size, we do not fit so alert the player
+            if( sizing_level == sizing::human_sized_small_char ) {
+                format = _( " <bad>(too big)</bad>" );
+            } else if( sizing_level == sizing::big_sized_small_char ) {
+                format = _( " <bad>(huge!)</bad>" );
+            } else if( sizing_level == sizing::small_sized_human_char ||
+                       sizing_level == sizing::human_sized_big_char ) {
+                format = _( " <bad>(too small)</bad>" );
+            } else if( sizing_level == sizing::small_sized_big_char ) {
+                format = _( " <bad>(tiny!)</bad>" );
+            }
         }
 
-        info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), format,
-                                  iteminfo::no_newline | iteminfo::lower_is_better,
-                                  encumbrance ) );
-        if( !type->rigid ) {
-            const int encumbrance_when_full =
-                get_encumber_when_containing( you, get_total_capacity() );
-            info.push_back( iteminfo( "ARMOR", space + _( "Encumbrance when full: " ), "",
-                                      iteminfo::no_newline | iteminfo::lower_is_better,
-                                      encumbrance_when_full ) );
+        if( const islot_armor *t = find_armor_data() ) {
+            if( !t->data.empty() ) {
+                struct armor_portion_type {
+                    int encumber;
+                    int max_encumber;
+                    int coverage;
+
+                    bool operator==( const armor_portion_type &other ) {
+                        return encumber == other.encumber
+                                && max_encumber == other.max_encumber
+                                && coverage == other.coverage;
+                    };
+                };
+                struct body_part_display_info {
+                    translation to_display;
+                    armor_portion_type portion;
+                    bool active;
+                };
+
+                std::map<bodypart_str_id, body_part_display_info> to_display_data;
+
+                for( const armor_portion_data &piece : t->data ) {
+                    if( piece.covers.has_value() ) {
+
+                        const auto setToCheck = piece.covers.value();
+                        auto toCheck = all_body_parts.begin();
+                        
+                        while(toCheck != all_body_parts.end()) {
+                            if(setToCheck.test(*toCheck)) {
+                                to_display_data[convert_bp(*toCheck)] = { convert_bp(*toCheck).obj().name_as_heading, {
+                                        get_encumber( g->u, convert_bp(*toCheck) ),
+                                        get_encumber( g->u, convert_bp(*toCheck) ),
+                                        piece.coverage
+                                    }, true
+                                };
+                            }
+                            ++toCheck;
+                        }
+                    }
+                }
+                // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
+                if( !t->sided ) {
+                    for( const body_part &legacy_part : all_body_parts ) {
+                        bodypart_str_id bp( convert_bp( legacy_part ) );
+                        bodypart_str_id opposite = bp->opposite_part;
+                        if( opposite != bp && covers( bp ) && covers( opposite )
+                            && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
+                            && to_display_data.at( opposite ).active ) {
+                            to_display_data.at( opposite ).to_display = bp->name_as_heading_multiple;
+                            to_display_data.at( bp ).active = false;
+                        }
+                    }
+                }
+                info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>:" ), format, iteminfo::lower_is_better ) );
+                for( auto &piece : to_display_data ) {
+                    if( t->sided ) {
+                        const bodypart_str_id &covering_id = piece.first;
+                        if( !covers( covering_id.id() ) ) {
+                            continue;
+                        }
+                    }
+                    if( piece.second.active ) {
+                        info.push_back( iteminfo( "ARMOR",
+                                                    string_format( _( "%s:" ), piece.second.to_display.translated() ) + space, "",
+                                                    iteminfo::no_newline | iteminfo::lower_is_better,
+                                                    piece.second.portion.encumber ) );
+
+                        if( !type->rigid ) {
+                            info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
+                                                        iteminfo::no_newline | iteminfo::lower_is_better,
+                                                        piece.second.portion.max_encumber ) );
+                        }
+                        info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
+                                                    iteminfo::lower_is_better,
+                                                    piece.second.portion.coverage ) );
+                    }
+                }
+            }
         }
     }
 
@@ -2745,8 +2830,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     }
 
     avatar &you = get_avatar();
-    int encumbrance = get_encumber( you );
-    const sizing sizing_level = get_sizing( you, encumbrance != 0 );
+    const sizing sizing_level = get_sizing( you );
 
     if( has_flag( flag_HELMET_COMPAT ) &&
         parts->test( iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT ) ) {
@@ -3638,10 +3722,22 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
-        if( !type->rigid ) {
-            info.emplace_back( "BASE",
-                               _( "* This item is <info>not rigid</info>.  Its"
-                                  " volume and encumbrance increase with contents." ) );
+        if( const islot_armor *t = find_armor_data() ) {
+            if( !type->rigid ) {
+                info.emplace_back( "BASE",
+                                _( "* This item is <info>not rigid</info>.  Its"
+                                    " volume and encumbrance increase with contents." ) );
+            } else {
+                bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
+                            []( armor_portion_data data ) {
+                                return data.encumber != data.max_encumber;
+                            } );
+                if( any_encumb_increase ) {
+                    info.emplace_back( "BASE",
+                                    _( "* This item is <info>not rigid</info>.  Its"
+                                        " volume and encumbrance increase with contents." ) );
+                }
+            }
         }
     }
 
@@ -4701,7 +4797,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
 
-    const sizing sizing_level = get_sizing( you, get_encumber( you ) != 0 );
+    const sizing sizing_level = get_sizing( you );
 
     if( sizing_level == sizing::human_sized_small_char ) {
         tagtext += _( " (too big)" );
@@ -5789,7 +5885,44 @@ bool item::is_power_armor() const
              has_flag( flag_POWERARMOR_MOD ) );
 }
 
-int item::get_encumber( const Character &p ) const
+int item::get_avg_encumber( const Character &p ) const
+{
+    const islot_armor *t = find_armor_data();
+    if( !t ) {
+        // handle wearable guns (e.g. shoulder strap) as special case
+        return is_gun() ? volume() / 750_ml : 0;
+    }
+
+    int avg_encumber = 0;
+    int avg_ctr = 0;
+
+    for( const armor_portion_data &entry : t->data ) {
+        if( entry.covers.has_value() ) {
+
+            const auto setToCheck = entry.covers.value();
+            auto toCheck = all_body_parts.begin();
+            
+            while(toCheck != all_body_parts.end()) {
+                if(setToCheck.test(*toCheck)) {
+                    int encumber = get_encumber( p, bodypart_id( *toCheck ) );
+                    if( encumber ) {
+                        avg_encumber += encumber;
+                        ++avg_ctr;
+                    }
+                }
+                ++toCheck;
+            }
+        }
+    }
+    if( avg_encumber == 0 ) {
+        return 0;
+    } else {
+        avg_encumber /= avg_ctr;
+        return avg_encumber;
+    }
+}
+
+int item::get_encumber( const Character &p, const bodypart_id &bodypart ) const
 {
 
     units::volume contents_volume( 0_ml );
@@ -5799,49 +5932,70 @@ int item::get_encumber( const Character &p ) const
     if( p.is_worn( *this ) ) {
         const islot_armor *t = find_armor_data();
 
-        if( t != nullptr && t->max_encumber != 0 ) {
-            units::volume char_storage( 0_ml );
+        if( t != nullptr ) {
+            for( const armor_portion_data &entry : t->data ) {
+                if( entry.covers.has_value() ) {
+                    const auto setToCheck = entry.covers.value();
 
-            for( const item &e : p.worn ) {
-                char_storage += e.get_storage();
-            }
+                    if(setToCheck.test(bodypart->token)) {
+                        if( entry.max_encumber != 0 ) {
+                            units::volume char_storage( 0_ml );
 
-            if( char_storage != 0_ml ) {
-                // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
-                contents_volume += units::from_milliliter( static_cast<int64_t>( t->storage.value() ) *
-                                   p.inv.volume().value() / char_storage.value() );
+                            for( const item &e : p.worn ) {
+                                char_storage += e.get_storage();
+                            }
+
+                            if( char_storage != 0_ml ) {
+                                // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
+                                contents_volume += units::from_milliliter( static_cast<int64_t>( t->storage.value() ) *
+                                                p.inv.volume().value() / char_storage.value() );
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
-    return get_encumber_when_containing( p, contents_volume );
+    return get_encumber_when_containing( p, contents_volume, bodypart );
 }
 
 int item::get_encumber_when_containing(
-    const Character &p, const units::volume &contents_volume ) const
+    const Character &p, const units::volume &contents_volume, const bodypart_id &bodypart ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
         // handle wearable guns (e.g. shoulder strap) as special case
         return is_gun() ? volume() / 750_ml : 0;
     }
-    int encumber = t->encumber;
 
-    // Non-rigid items add additional encumbrance proportional to their volume
-    if( !type->rigid ) {
-        const int capacity = get_total_capacity().value();
+    int encumber = 0;
 
-        if( t->max_encumber != 0 ) {
+    for( const armor_portion_data &entry : t->data ) {
+        if( entry.covers.has_value() ) {
+        const auto setToCheck = entry.covers.value();
 
-            if( capacity > 0 ) {
-                // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
-                encumber += static_cast<int64_t>( t->max_encumber - t->encumber ) * contents_volume.value() /
-                            capacity;
-            } else {
-                debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
+            if(setToCheck.test(bodypart->token)) {
+                encumber = entry.encumber;
+
+                // Non-rigid items add additional encumbrance proportional to their volume
+                if( !type->rigid ) {
+                    const int capacity = get_total_capacity().value();
+
+                    if( entry.max_encumber != 0 ) {
+
+                        if( capacity > 0 ) {
+                            // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
+                            encumber += static_cast<int64_t>( entry.max_encumber - entry.encumber ) * contents_volume.value() /
+                                        capacity;
+                        } else {
+                            debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
+                        }
+                    } else {
+                        encumber += contents_volume / 500_ml;
+                    }
+                }
             }
-        } else {
-            encumber += contents_volume / 500_ml;
         }
     }
 
@@ -5851,7 +6005,7 @@ int item::get_encumber_when_containing(
     }
 
     // TODO: Should probably have sizing affect coverage
-    const sizing sizing_level = get_sizing( p, encumber != 0 );
+    const sizing sizing_level = get_sizing( p );
     switch( sizing_level ) {
         case sizing::small_sized_human_char:
         case sizing::small_sized_big_char:
@@ -5897,13 +6051,61 @@ layer_level item::get_layer() const
     }
 }
 
-int item::get_coverage() const
+int item::get_avg_coverage() const
 {
     const islot_armor *t = find_armor_data();
-    if( t == nullptr ) {
+    if( !t ) {
         return 0;
     }
-    return t->coverage;
+    int avg_coverage = 0;
+    int avg_ctr = 0;
+    for( const armor_portion_data &entry : t->data ) {
+        if( entry.covers.has_value() ) {
+
+            const auto setToCheck = entry.covers.value();
+            auto toCheck = all_body_parts.begin();
+            
+            while(toCheck != all_body_parts.end()) {
+                if(setToCheck.test(*toCheck)) {
+                    int coverage = get_coverage( convert_bp( *toCheck ) );
+                    if( coverage ) {
+                        avg_coverage += coverage;
+                        ++avg_ctr;
+                    }
+                }
+                ++toCheck;
+            }
+        }
+    }
+    if( avg_coverage == 0 ) {
+        return 0;
+    } else {
+        avg_coverage /= avg_ctr;
+        return avg_coverage;
+    }
+}
+
+int item::get_coverage( const bodypart_id &bodypart ) const
+{
+    if( std::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {
+        return portion_data->coverage;
+    }
+    return 0;
+}
+
+std::optional<armor_portion_data> item::portion_for_bodypart( const bodypart_id &bodypart ) const
+{
+    const islot_armor *t = find_armor_data();
+    if( !t ) {
+        return std::optional<armor_portion_data>();
+    }
+    for( const armor_portion_data &entry : t->data ) {
+        if( entry.covers.has_value() && entry.covers->test( bodypart->token ) ) {
+            return entry;
+        }
+    }
+    
+    return std::optional<armor_portion_data>();
 }
 
 int item::get_thickness() const
