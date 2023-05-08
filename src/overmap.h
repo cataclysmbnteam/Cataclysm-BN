@@ -178,12 +178,9 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
 class overmap
 {
     public:
-        overmap( const overmap & );
         overmap( overmap && );
         overmap( const point_abs_om &p );
         ~overmap();
-
-        overmap &operator=( const overmap & );
 
         /**
          * Create content in the overmap.
