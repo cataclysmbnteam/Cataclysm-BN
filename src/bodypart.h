@@ -11,7 +11,6 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
-#include "flat_set.h"
 
 class JsonObject;
 class JsonIn;
@@ -255,14 +254,6 @@ class body_part_set
         size_t count() const {
             return parts.count();
         }
-
-        // cata::flat_set<bodypart_str_id>::iterator begin() const {
-        //     return parts.begin();
-        // }
-
-        // cata::flat_set<bodypart_str_id>::iterator end() const {
-        //    return parts.end();
-        // }
 
         template<typename Stream>
         void serialize( Stream &s ) const {
