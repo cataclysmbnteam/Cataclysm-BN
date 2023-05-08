@@ -4951,7 +4951,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         desc += format_desc_string( _( "Fire" ), mod.fire_resist(), temp_item.fire_resist(), true );
         desc += format_desc_string( _( "Warmth" ), mod.get_warmth(), temp_item.get_warmth(), true );
         desc += format_desc_string( _( "Encumbrance" ), mod.get_avg_encumber( p ),
-                                            temp_item.get_avg_encumber( p ), false );
+                                    temp_item.get_avg_encumber( p ), false );
         auto before = mod.get_storage();
         auto after = temp_item.get_storage();
         desc += colorize( string_format( "%s: %s %s->%s %s\n", _( "Storage" ),
