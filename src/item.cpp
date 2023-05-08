@@ -3730,9 +3730,9 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
                                       " volume and encumbrance increase with contents." ) );
             } else {
                 bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
-                            []( armor_portion_data data ) {
-                                return data.encumber != data.max_encumber;
-                            } );
+                []( armor_portion_data data ) {
+                    return data.encumber != data.max_encumber;
+                } );
                 if( any_encumb_increase ) {
                     info.emplace_back( "BASE",
                                     _( "* This item is <info>not rigid</info>.  Its"
