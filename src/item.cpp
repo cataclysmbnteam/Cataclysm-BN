@@ -2736,9 +2736,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     }
                     if( piece.second.active ) {
                         info.push_back( iteminfo( "ARMOR",
-                                                    string_format( _( "%s:" ), piece.second.to_display.translated() ) + space, "",
-                                                    iteminfo::no_newline | iteminfo::lower_is_better,
-                                                    piece.second.portion.encumber ) );
+                                                  string_format( _( "%s:" ), piece.second.to_display.translated() ) + space, "",
+                                                  iteminfo::no_newline | iteminfo::lower_is_better,
+                                                  piece.second.portion.encumber ) );
 
                         if( !type->rigid ) {
                             info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
