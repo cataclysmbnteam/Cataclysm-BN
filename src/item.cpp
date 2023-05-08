@@ -5976,7 +5976,7 @@ int item::get_encumber_when_containing(
         if( entry.covers.has_value() ) {
         const auto setToCheck = entry.covers.value();
 
-            if(setToCheck.test(bodypart->token)) {
+            if( setToCheck.test( bodypart->token ) ) {
                 encumber = entry.encumber;
 
                 // Non-rigid items add additional encumbrance proportional to their volume
