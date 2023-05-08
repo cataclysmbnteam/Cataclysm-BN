@@ -3726,8 +3726,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
         if( const islot_armor *t = find_armor_data() ) {
             if( !type->rigid ) {
                 info.emplace_back( "BASE",
-                                _( "* This item is <info>not rigid</info>.  Its"
-                                    " volume and encumbrance increase with contents." ) );
+                                   _( "* This item is <info>not rigid</info>.  Its"
+                                      " volume and encumbrance increase with contents." ) );
             } else {
                 bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
                             []( armor_portion_data data ) {
