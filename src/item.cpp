@@ -2743,8 +2743,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
                         if( !type->rigid ) {
                             info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
-                                                        iteminfo::no_newline | iteminfo::lower_is_better,
-                                                        piece.second.portion.max_encumber ) );
+                                                      iteminfo::no_newline | iteminfo::lower_is_better,
+                                                      piece.second.portion.max_encumber ) );
                         }
                         info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
                                                     iteminfo::lower_is_better,
