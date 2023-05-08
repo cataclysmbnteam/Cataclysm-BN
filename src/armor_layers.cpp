@@ -299,8 +299,10 @@ std::vector<std::string> clothing_properties(
     props.reserve( 5 );
 
     const std::string space = "  ";
-    const int coverage = bp == bodypart_id( "num_bp" ) ? worn_item.get_avg_coverage() : worn_item.get_coverage( bp );
-    const int encumbrance = bp == bodypart_id( "num_bp" ) ? worn_item.get_avg_encumber( c ) : worn_item.get_encumber( c, bp );
+    const int coverage = bp == bodypart_id( "num_bp" ) ? worn_item.get_avg_coverage() :
+                         worn_item.get_coverage( bp );
+    const int encumbrance = bp == bodypart_id( "num_bp" ) ? worn_item.get_avg_encumber(
+                                c ) : worn_item.get_encumber( c, bp );
     props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
     props.push_back( name_and_value( space + _( "Coverage:" ),
                                      string_format( "%3d", coverage ), width ) );
