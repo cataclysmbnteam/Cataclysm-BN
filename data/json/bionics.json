@@ -124,7 +124,7 @@
     "encumbrance": [ [ "arm_l", 5 ] ],
     "act_cost": "50 J",
     "fake_item": "bio_shotgun_gun",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_blindfold",
@@ -607,7 +607,7 @@
     "occupied_bodyparts": [ [ "hand_r", 1 ] ],
     "act_cost": "30 kJ",
     "fake_item": "bio_laser_gun",
-    "flags": [ "BIONIC_GUN" ]
+    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_leaky",
@@ -696,7 +696,7 @@
     "id": "bio_nanobots",
     "type": "bionic",
     "name": { "str": "Repair Nanobots" },
-    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will reduce the intensity of one bleed effect every 30 seconds, and heal all injured body parts by 1 HP (or broken limbs by 1%) every minute if you have 3 kJ bionic power and 5 kcal per body part.  Broken limbs must still be splinted (unless you have specific mutations) to benefit.  If you don't have enough, they will prioritize based on the resources you have.",
+    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will reduce the intensity of one bleed effect every 30 seconds, and heal all injured body parts by 1 HP (or broken limbs by 1%) every 2 minutes if you have 3 kJ bionic power and 5 kcal per body part.  Broken limbs must still be splinted (unless you have specific mutations) to benefit.  If you don't have enough, they will prioritize based on the resources you have.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "300 J",
@@ -849,7 +849,7 @@
     "id": "bio_radscrubber",
     "type": "bionic",
     "name": { "str": "Radiation Scrubber System" },
-    "description": "A system of advanced piezomechanical blood filters have been surgically implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.",
+    "description": "A system of advanced piezomechanical blood filters have been surgically implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.  While activated if irradiated stacks are present will remove 1 stack of irradiated every 10 minutes costing 10kJ.",
     "occupied_bodyparts": [ [ "torso", 5 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "10 kJ",
@@ -1181,7 +1181,7 @@
     "id": "bio_reactor",
     "type": "bionic",
     "name": { "str": "Micro Reactor" },
-    "description": "This stripped down mini-reactor generates impressive amounts of bionic power but slowly irradiates the user.",
+    "description": "This stripped down mini-reactor generates impressive amounts of bionic power but slowly irradiates the user.  1 plutonium fuel cell provides 2500 charges producing 10kJ of power a turn, while not active & fueled provides a constant 50J of power.",
     "occupied_bodyparts": [ [ "torso", 55 ] ],
     "encumbrance": [ [ "torso", 5 ] ],
     "fuel_options": [ "plut_cell" ],
@@ -1197,7 +1197,7 @@
     "id": "bio_advreactor",
     "type": "bionic",
     "name": { "str": "Advanced Micro Reactor" },
-    "description": "This stripped down mini-reactor has been heavily modified and is more efficient and safer than the base model.",
+    "description": "This stripped down mini-reactor has been heavily modified and is more efficient and safer than the base model.  1 plutonium fuel cell provides 3000 charges producing 12kJ of power a turn, while not active & fueled provides a constant 100J of power.",
     "occupied_bodyparts": [ [ "torso", 55 ] ],
     "encumbrance": [ [ "torso", 5 ] ],
     "fuel_options": [ "plut_cell" ],
@@ -1213,7 +1213,7 @@
     "id": "bio_reactoroverride",
     "type": "bionic",
     "name": { "str": "Micro Reactor Safety Override" },
-    "description": "Disables the radiation safety protocols allowing for much higher energy production.",
+    "description": "Disables the radiation safety protocols allowing for much higher energy production.  While active produces 40kJ of power a turn and 1 irradiated stack every 20 turns.",
     "time": 1,
     "act_cost": "10 J",
     "react_cost": "10 J",
@@ -1278,7 +1278,7 @@
     "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances with great accuracy due built in ballistic calculator.",
     "occupied_bodyparts": [ [ "hand_r", 3 ] ],
     "fake_item": "afs_bionic_rocket",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ],
     "act_cost": 5
   },
   {
@@ -1307,7 +1307,7 @@
     "occupied_bodyparts": [ [ "arm_l", 20 ], [ "hand_l", 5 ] ],
     "act_cost": 50,
     "fake_item": "bio_blaster_gun",
-    "flags": [ "BIONIC_GUN" ]
+    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_perpetual_test",

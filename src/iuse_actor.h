@@ -581,7 +581,6 @@ class salvage_actor : public iuse_actor
             material_id( "kevlar" ),
             material_id( "kevlar_rigid" ),
             material_id( "leather" ),
-            material_id( "lycra" ),
             material_id( "neoprene" ),
             material_id( "nomex" ),
             material_id( "nylon" ),

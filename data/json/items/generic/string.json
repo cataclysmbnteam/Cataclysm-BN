@@ -96,6 +96,16 @@
     "proportional": { "price": 0.5 }
   },
   {
+    "id": "seatbelt",
+    "copy-from": "rope_6",
+    "type": "GENERIC",
+    "name": { "str": "seat belt" },
+    "description": "A length of synthetic fiber weaved into a flat band, usually used to securely fasten a passenger inside a vehicle.",
+    "material": "nylon",
+    "weight": "800 g",
+    "volume": "500 ml"
+  },
+  {
     "id": "stick_fiber",
     "type": "COMESTIBLE",
     "category": "spare_parts",

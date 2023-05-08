@@ -1209,7 +1209,8 @@ bool avatar::wield( item &target )
     if( !unwield() ) {
         return false;
     }
-    clear_npc_ai_info_cache( "weapon_value" );
+    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     if( target.is_null() ) {
         return true;
     }

@@ -1765,5 +1765,25 @@
     "id": "betavoltaic",
     "type": "MIGRATION",
     "replace": "plut_cell"
+  },
+  {
+    "id": "lycra_patch",
+    "type": "MIGRATION",
+    "replace": "nylon"
+  },
+  {
+    "id": "scrap_lycra",
+    "type": "MIGRATION",
+    "replace": "scrap_nylon"
+  },
+  {
+    "id": "sheet_lycra",
+    "type": "MIGRATION",
+    "replace": "sheet_nylon"
+  },
+  {
+    "id": "sheet_lycra_patchwork",
+    "type": "MIGRATION",
+    "replace": "sheet_nylon_patchwork"
   }
 ]
