@@ -5974,7 +5974,7 @@ int item::get_encumber_when_containing(
 
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
-        const auto setToCheck = entry.covers.value();
+            const auto setToCheck = entry.covers.value();
 
             if( setToCheck.test( bodypart->token ) ) {
                 encumber = entry.encumber;
