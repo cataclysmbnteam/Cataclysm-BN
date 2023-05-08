@@ -1,8 +1,8 @@
 [
   {
     "type": "MOD_INFO",
-    "id": "No_Acid_Zombies",
-    "name": "No Acid Zombies",
+    "id": "No_Ferals",
+    "name": "No Feral Humans",
     "description": "Removes all feral humans from the game.",
     "category": "monster_exclude",
     "dependencies": [ "bn" ]
