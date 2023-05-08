@@ -3735,8 +3735,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
                 } );
                 if( any_encumb_increase ) {
                     info.emplace_back( "BASE",
-                                    _( "* This item is <info>not rigid</info>.  Its"
-                                        " volume and encumbrance increase with contents." ) );
+                                       _( "* This item is <info>not rigid</info>.  Its"
+                                          " volume and encumbrance increase with contents." ) );
                 }
             }
         }
