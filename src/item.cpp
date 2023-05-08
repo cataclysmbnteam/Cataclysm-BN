@@ -5902,9 +5902,9 @@ int item::get_avg_encumber( const Character &p ) const
 
             const auto setToCheck = entry.covers.value();
             auto toCheck = all_body_parts.begin();
-            
-            while(toCheck != all_body_parts.end()) {
-                if(setToCheck.test(*toCheck)) {
+
+            while( toCheck != all_body_parts.end() ) {
+                if( setToCheck.test( *toCheck ) ) {
                     int encumber = get_encumber( p, bodypart_id( *toCheck ) );
                     if( encumber ) {
                         avg_encumber += encumber;
