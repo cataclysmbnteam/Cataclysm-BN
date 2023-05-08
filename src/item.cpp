@@ -5949,7 +5949,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart ) const
                             if( char_storage != 0_ml ) {
                                 // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
                                 contents_volume += units::from_milliliter( static_cast<int64_t>( t->storage.value() ) *
-                                                p.inv.volume().value() / char_storage.value() );
+                                                   p.inv.volume().value() / char_storage.value() );
                             }
                         }
                     }
