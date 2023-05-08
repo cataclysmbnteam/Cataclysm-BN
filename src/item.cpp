@@ -2699,12 +2699,12 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
                         const auto setToCheck = piece.covers.value();
                         auto toCheck = all_body_parts.begin();
-                        
-                        while(toCheck != all_body_parts.end()) {
-                            if(setToCheck.test(*toCheck)) {
-                                to_display_data[convert_bp(*toCheck)] = { convert_bp(*toCheck).obj().name_as_heading, {
-                                        get_encumber( g->u, convert_bp(*toCheck) ),
-                                        get_encumber( g->u, convert_bp(*toCheck) ),
+
+                        while( toCheck != all_body_parts.end() ) {
+                            if( setToCheck.test( *toCheck ) ) {
+                                to_display_data[convert_bp( *toCheck )] = { convert_bp( *toCheck ).obj().name_as_heading, {
+                                        get_encumber( g->u, convert_bp( *toCheck ) ),
+                                        get_encumber( g->u, convert_bp( *toCheck ) ),
                                         piece.coverage
                                     }, true
                                 };
