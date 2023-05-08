@@ -293,7 +293,6 @@ struct islot_armor {
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
-    
     // Layer, encumbrance and coverage information.
     std::vector<armor_portion_data> data;
 };
