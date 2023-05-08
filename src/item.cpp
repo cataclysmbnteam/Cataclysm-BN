@@ -5938,7 +5938,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart ) const
                 if( entry.covers.has_value() ) {
                     const auto setToCheck = entry.covers.value();
 
-                    if(setToCheck.test(bodypart->token)) {
+                    if( setToCheck.test( bodypart->token ) ) {
                         if( entry.max_encumber != 0 ) {
                             units::volume char_storage( 0_ml );
 
