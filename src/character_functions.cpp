@@ -412,7 +412,7 @@ std::string fmt_wielded_weapon( const Character &who )
     if( !who.is_armed() ) {
         return _( "fists" );
     }
-    const item &weapon = who.weapon;
+    const item &weapon = who.primary_weapon();
     if( weapon.is_gun() ) {
         std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
                                          weapon.gun_current_mode().tname(), weapon.type_name() );
@@ -486,7 +486,7 @@ void add_pain_msg( const Character &who, int val, body_part bp )
 void normalize( Character &who )
 {
     who.martial_arts_data->reset_style();
-    who.weapon = item();
+    who.primary_weapon() = item();
 
     who.set_body();
     who.recalc_hp();
@@ -545,11 +545,11 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
         who.inv.unsort();
     }
 
-    who.weapon = std::move( *internal_item );
+    who.primary_weapon() = std::move( *internal_item );
     container.remove_item( *internal_item );
     container.on_contents_changed();
 
-    item &weapon = who.weapon;
+    item &weapon = who.primary_weapon();
 
     who.inv.update_invlet( weapon );
     who.inv.update_cache_with_item( weapon );
