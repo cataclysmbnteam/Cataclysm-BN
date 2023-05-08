@@ -565,7 +565,6 @@
     "price": 7500,
     "price_postapoc": 300
   },
-  },
   {
     "id": "test_swat_armor",
     "repairs_like": "survivor_suit",
