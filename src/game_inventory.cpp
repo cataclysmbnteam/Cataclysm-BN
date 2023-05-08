@@ -1226,7 +1226,7 @@ class steal_inventory_preset : public pickup_inventory_preset
             pickup_inventory_preset( p ), victim( victim ) {}
 
         bool is_shown( const item *loc ) const override {
-            return !victim.is_worn( *loc ) && &victim.get_weapon() != &( *loc );
+            return !victim.is_worn( *loc ) && &victim.primary_weapon() != &( *loc );
         }
 
     private:

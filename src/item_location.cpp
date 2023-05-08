@@ -358,7 +358,7 @@ class item_location::impl::item_on_person : public item_location::impl
                 obj = *target();
             }
 
-            if( who->is_armed() && who->weapon == target() ) {
+            if( who->is_armed() && who->is_wielding( *target() ) ) {
                 // no penalties because we already have this item in our hands
                 mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, 0 );
             } else {

@@ -71,7 +71,7 @@ bool run(
     const bool is_wielded = you.is_wielding( itm );
     const bool cant_unwield_if_weapon = is_wielded && !you.can_unwield( itm ).success();
     const bool cant_unwield_existing_weapon = you.is_armed() &&
-            !you.can_unwield( you.get_weapon() ).success();
+            !you.can_unwield( you.primary_weapon() ).success();
     const bool cant_takeoff_if_worn = you.is_wearing( itm ) &&
                                       !you.can_takeoff( itm ).success();
     const bool cant_dispose_of = cant_unwield_if_weapon || cant_takeoff_if_worn;

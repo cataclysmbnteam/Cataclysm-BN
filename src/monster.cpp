@@ -939,7 +939,7 @@ std::string monster::extended_description() const
     ss += "--\n";
     ss += std::string( _( "In melee, you can expect to:" ) ) + "\n";
     ss += string_format( _( "Deal average damage per second: <stat>%.1f</stat>" ),
-                         g->u.get_weapon().effective_dps( g->u, *this ) );
+                         g->u.primary_weapon().effective_dps( g->u, *this ) );
     ss += "\n";
 
     if( debug_mode ) {

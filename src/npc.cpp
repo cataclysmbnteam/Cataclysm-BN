@@ -611,8 +611,9 @@ void starting_inv( npc &who, const npc_class_id &type )
 
     res.emplace_back( item::spawn( "lighter" ) );
     // If wielding a gun, get some additional ammo for it
-    if( who.get_weapon().is_gun() ) {
-        detached_ptr<item> ammo = item::in_its_container( item::spawn( who.get_weapon().ammo_default() ) );
+    if( who.primary_weapon().is_gun() ) {
+        detached_ptr<item> ammo = item::in_its_container( item::spawn(
+                                      who.primary_weapon().ammo_default() ) );
         if( ammo->made_of( LIQUID ) ) {
             detached_ptr<item> container = item::spawn( "bottle_plastic" );
             container->put_in( std::move( ammo ) );
@@ -1179,6 +1180,7 @@ bool npc::wield( item &it )
     }
 
     if( it.is_null() ) {
+        remove_weapon();
         return true;
     }
 
@@ -1251,20 +1253,21 @@ void npc::drop( const drop_locations &what, const tripoint &target,
 
 void npc::invalidate_range_cache()
 {
-    if( get_weapon().is_gun() ) {
+    if( primary_weapon().is_gun() ) {
         confident_range_cache =
-            confident_shoot_range( get_weapon(), ranged::get_most_accurate_sight( *this, get_weapon() ) );
+            confident_shoot_range( primary_weapon(), ranged::get_most_accurate_sight( *this,
+                                   primary_weapon() ) );
     } else {
-        confident_range_cache = get_weapon().reach_range( *this );
+        confident_range_cache = primary_weapon().reach_range( *this );
     }
 }
 
 void npc::form_opinion( const player &u )
 {
     // FEAR
-    if( u.get_weapon().is_gun() ) {
+    if( u.primary_weapon().is_gun() ) {
         // TODO: Make bows not guns
-        if( get_weapon().is_gun() ) {
+        if( primary_weapon().is_gun() ) {
             op_of_u.fear += 2;
         } else {
             op_of_u.fear += 6;
@@ -1334,7 +1337,7 @@ void npc::form_opinion( const player &u )
         op_of_u.trust += 1;
     }
 
-    if( u.get_weapon().is_gun() ) {
+    if( u.primary_weapon().is_gun() ) {
         op_of_u.trust -= 2;
     } else if( !u.is_armed() ) {
         op_of_u.trust += 2;
@@ -1538,15 +1541,15 @@ void npc::decide_needs()
     for( auto &elem : needrank ) {
         elem = 20;
     }
-    if( get_weapon().is_gun() ) {
-        int ups_drain = get_weapon().get_gun_ups_drain();
+    if( primary_weapon().is_gun() ) {
+        int ups_drain = primary_weapon().get_gun_ups_drain();
         if( ups_drain > 0 ) {
             int ups_charges = charges_of( itype_UPS_off, ups_drain ) +
                               charges_of( itype_UPS_off, ups_drain );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
             needrank[need_ammo] = character_funcs::get_ammo_items(
-                                      *this, ammotype( *get_weapon().type->gun->ammo.begin() )
+                                      *this, ammotype( *primary_weapon().type->gun->ammo.begin() )
                                   ).size();
         }
         needrank[need_ammo] *= 5;
@@ -1830,7 +1833,7 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_ammo() ) {
         const ammotype &at = it.ammo_type();
-        if( get_weapon().is_gun() && get_weapon().ammo_types().count( at ) ) {
+        if( primary_weapon().is_gun() && primary_weapon().ammo_types().count( at ) ) {
             // TODO: magazines - don't count ammo as usable if the weapon isn't.
             ret += 14;
         }
@@ -2215,7 +2218,7 @@ int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
-        return str_cur + get_weapon().damage_melee( DT_BASH );
+        return str_cur + primary_weapon().damage_melee( DT_BASH );
     }
 
     // Not allowed to bash
@@ -2229,7 +2232,7 @@ float npc::danger_assessment()
 
 float npc::average_damage_dealt()
 {
-    return static_cast<float>( npc_ai::melee_value( *this, get_weapon() ) );
+    return static_cast<float>( npc_ai::melee_value( *this, primary_weapon() ) );
 }
 
 bool npc::bravery_check( int diff )
@@ -2311,7 +2314,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
 
     if( is_armed() ) {
         trim_and_print( w, point( column, line++ ), iWidth, c_red, _( "Wielding a %s" ),
-                        get_weapon().tname() );
+                        primary_weapon().tname() );
     }
 
     const auto enumerate_print = [ w, last_line, column, iWidth, &line ]( const std::string & str_in,

@@ -153,9 +153,10 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
 
     offered_swap = true;
     // TODO: Gray out if not enough hands
+    // TODO: Calculate required hands vs freed hands
     if( u.is_armed() ) {
-        amenu.addentry( WIELD, !u.get_weapon().has_flag( "NO_UNWIELD" ), 'w',
-                        _( "Dispose of %s and wield %s" ), u.get_weapon().display_name(),
+        amenu.addentry( WIELD, !u.primary_weapon().has_flag( "NO_UNWIELD" ), 'w',
+                        _( "Dispose of %s and wield %s" ), u.primary_weapon().display_name(),
                         it.display_name() );
     } else {
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name() );

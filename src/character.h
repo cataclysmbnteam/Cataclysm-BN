@@ -1248,12 +1248,28 @@ class Character : public Creature, public location_visitable<Character>
         detached_ptr<item> set_weapon( detached_ptr<item> &&it );
 
         /**
-         * Returns a reference to the item which will be used to make attacks.
-         * At the moment it's always @ref weapon or a reference to a null item.
+         * Returns all equipped items that require a limb to be held.
          */
         /*@{*/
-        const item &used_weapon() const;
-        item &used_weapon();
+        std::vector<item *> wielded_items() const;
+        /*@}*/
+
+        /**
+         * Legacy code hack, don't use.
+         * Returns the null item if martial art forces unarmed, otherwise @ref primary_weapon.
+         * Use @ref wielded_items instead.
+         */
+        /*@{*/
+        item &used_weapon() const;
+        /*@}*/
+
+        /**
+         * Legacy code hack, don't use.
+         * Returns the first wielded weapon or a null item.
+         * Use @ref wielded_items instead.
+         */
+        /*@{*/
+        item &primary_weapon() const;
         /*@}*/
 
         /**

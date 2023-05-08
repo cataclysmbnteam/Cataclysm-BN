@@ -236,7 +236,7 @@ void tutorial_game::post_action( action_id act )
 {
     switch( act ) {
         case ACTION_RELOAD_WEAPON:
-            if( g->u.get_weapon().is_gun() && !tutorials_seen[tut_lesson::LESSON_GUN_FIRE] ) {
+            if( g->u.primary_weapon().is_gun() && !tutorials_seen[tut_lesson::LESSON_GUN_FIRE] ) {
                 g->place_critter_at( mon_zombie, tripoint( g->u.posx(), g->u.posy() - 6, g->u.posz() ) );
                 g->place_critter_at( mon_zombie, tripoint( g->u.posx() + 2, g->u.posy() - 5, g->u.posz() ) );
                 g->place_critter_at( mon_zombie, tripoint( g->u.posx() - 2, g->u.posy() - 5, g->u.posz() ) );
@@ -292,7 +292,7 @@ void tutorial_game::post_action( action_id act )
         break;
 
         case ACTION_WIELD:
-            if( g->u.get_weapon().is_gun() ) {
+            if( g->u.primary_weapon().is_gun() ) {
                 add_message( tut_lesson::LESSON_GUN_LOAD );
             }
             break;

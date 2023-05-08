@@ -810,12 +810,14 @@ bool mattack::pull_metal_weapon( monster *z )
     }
     player *foe = dynamic_cast< player * >( target );
     if( foe != nullptr ) {
+        const item &weapon = foe->primary_weapon();
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
-        if( !foe->get_weapon().has_flag( "NO_UNWIELD" ) &&
-            ( foe->get_weapon().made_of( material_id( "iron" ) ) ||
-              foe->get_weapon().made_of( material_id( "hardsteel" ) ) ||
-              foe->get_weapon().made_of( material_id( "steel" ) ) ||
-              foe->get_weapon().made_of( material_id( "budget_steel" ) ) ) ) {
+
+        if( !weapon.has_flag( "NO_UNWIELD" ) &&
+            ( weapon.made_of( material_id( "iron" ) ) ||
+              weapon.made_of( material_id( "hardsteel" ) ) ||
+              weapon.made_of( material_id( "steel" ) ) ||
+              weapon.made_of( material_id( "budget_steel" ) ) ) ) {
             int wp_skill = foe->get_skill_level( skill_melee );
             // It takes a while
             z->moves -= att_cost_pull;
@@ -828,7 +830,7 @@ bool mattack::pull_metal_weapon( monster *z )
             auto m_type = foe == &g->u ? m_bad : m_neutral;
             if( rng( 1, 100 ) <= success ) {
                 target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
-                                               _( "%s is pulled away from <npcname>'s hands!" ), foe->get_weapon().tname() );
+                                               _( "%s is pulled away from <npcname>'s hands!" ), weapon.tname() );
                 z->add_item( foe->remove_weapon() );
                 if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
@@ -2715,7 +2717,7 @@ bool mattack::grab( monster *z )
         return true;
     }
 
-    item &cur_weapon = pl->get_weapon();
+    item &cur_weapon = pl->primary_weapon();
     ///\EFFECT_DEX increases chance to avoid being grabbed
     if( pl->can_use_grab_break_tec( cur_weapon ) &&
         rng( 0, pl->get_dex() ) > rng( 0, z->type->melee_sides + z->type->melee_dice ) ) {
@@ -2723,7 +2725,7 @@ bool mattack::grab( monster *z )
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
         } else if( pl->is_throw_immune() && ( !pl->is_armed() ||
-                                              pl->martial_arts_data->selected_has_weapon( pl->get_weapon().typeId() ) ) ) {
+                                              pl->martial_arts_data->selected_has_weapon( pl->primary_weapon().typeId() ) ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you…" ), z->name() );
             thrown_by_judo( z );
         } else if( pl->has_grab_break_tec() ) {
@@ -3240,7 +3242,7 @@ bool mattack::photograph( monster *z )
         }
     }
 
-    if( z->friendly || g->u.get_weapon().typeId() == itype_e_handcuffs ) {
+    if( z->friendly || g->u.primary_weapon().typeId() == itype_e_handcuffs ) {
         // Friendly (hacked?) bot ignore the player. Arrested suspect ignored too.
         // TODO: might need to be revisited when it can target npcs.
         return false;
@@ -3258,7 +3260,7 @@ bool mattack::photograph( monster *z )
                    string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), cname ), false, "speech",
                    z->type->id.str() );
 
-    if( g->u.get_weapon().is_gun() ) {
+    if( g->u.primary_weapon().is_gun() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your gun!  Now!\"" ) );
     } else if( g->u.is_armed() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your weapon!  Now!\"" ) );
@@ -3791,7 +3793,7 @@ bool mattack::copbot( monster *z )
     // TODO: Make it recognize zeds as human, but ignore animals
     player *foe = dynamic_cast<player *>( target );
     bool sees_u = foe != nullptr && z->sees( *foe );
-    bool cuffed = foe != nullptr && foe->get_weapon().typeId() == itype_e_handcuffs;
+    bool cuffed = foe != nullptr && foe->primary_weapon().typeId() == itype_e_handcuffs;
     // Taze first, then ask questions (simplifies later checks for non-humans)
     if( !cuffed && is_adjacent( z, target, true ) ) {
         taze( z, target );
@@ -4751,7 +4753,7 @@ bool mattack::riotbot( monster *z )
     //already arrested?
     //and yes, if the player has no hands, we are not going to arrest him.
     if( foe != nullptr &&
-        ( foe->get_weapon().typeId() == itype_e_handcuffs || !foe->has_two_arms() ) ) {
+        ( foe->primary_weapon().typeId() == itype_e_handcuffs || !foe->has_two_arms() ) ) {
         z->anger = 0;
 
         if( calendar::once_every( 25_turns ) ) {
@@ -5290,7 +5292,7 @@ bool mattack::bio_op_takedown( monster *z )
             foe->add_effect( effect_downed, 3_turns );
         }
     } else if( ( !foe->is_armed() ||
-                 foe->martial_arts_data->selected_has_weapon( foe->get_weapon().typeId() ) ) &&
+                 foe->martial_arts_data->selected_has_weapon( foe->primary_weapon().typeId() ) ) &&
                !thrown_by_judo( z ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bodypart_id( "torso" );
@@ -5436,7 +5438,7 @@ bool mattack::bio_op_disarm( monster *z )
     their_roll += dice( 3, foe->get_per() );
     their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
 
-    item &it = foe->get_weapon();
+    item &it = foe->primary_weapon();
 
     target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
 

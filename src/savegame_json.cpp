@@ -723,6 +723,10 @@ void Character::store( JsonOut &json ) const
         json.member( "fetch_data", things_to_fetch );
     }
 
+    if( !get_weapon().is_null() ) {
+        json.member( "weapon", get_weapon() ); // also saves contents
+    }
+
     json.member( "stim", stim );
     json.member( "type_of_scent", type_of_scent );
 
@@ -826,6 +830,7 @@ void player::store( JsonOut &json ) const
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
     inv.json_save_items( json );
+
 
     if( !get_weapon().is_null() ) {
         json.member( "weapon", &get_weapon() ); // also saves contents

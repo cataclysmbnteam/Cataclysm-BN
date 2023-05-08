@@ -1634,18 +1634,18 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
 
         // Special, dynamic tags go here
         if( tag == "<yrwp>" ) {
-            phrase.replace( fa, l, remove_color_tags( u.get_weapon().tname() ) );
+            phrase.replace( fa, l, remove_color_tags( u.primary_weapon().tname() ) );
         } else if( tag == "<mywp>" ) {
             if( !me.is_armed() ) {
                 phrase.replace( fa, l, _( "fists" ) );
             } else {
-                phrase.replace( fa, l, remove_color_tags( me.get_weapon().tname() ) );
+                phrase.replace( fa, l, remove_color_tags( me.primary_weapon().tname() ) );
             }
         } else if( tag == "<ammo>" ) {
-            if( !me.get_weapon().is_gun() ) {
+            if( !me.primary_weapon().is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
             } else {
-                phrase.replace( fa, l, me.get_weapon().ammo_current()->nname( 1 ) );
+                phrase.replace( fa, l, me.primary_weapon().ammo_current()->nname( 1 ) );
             }
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;
@@ -3392,8 +3392,9 @@ std::string give_item_to( npc &p, bool allow_use )
     }
     item &given = *loc;
 
-    if( ( &given == &you.get_weapon() && given.has_flag( "NO_UNWIELD" ) ) || ( you.is_worn( given ) &&
-            given.has_flag( "NO_TAKEOFF" ) ) ) {
+    if( ( &given == &you.primary_weapon() && given.has_flag( "NO_UNWIELD" ) ) ||
+        ( you.is_worn( given ) &&
+          given.has_flag( "NO_TAKEOFF" ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }
@@ -3404,12 +3405,12 @@ std::string give_item_to( npc &p, bool allow_use )
 
     bool taken = false;
     std::string reason = _( "Nope." );
-    int our_ammo = character_funcs::ammo_count_for( p, p.get_weapon() );
+    int our_ammo = character_funcs::ammo_count_for( p, p.primary_weapon() );
     int new_ammo = character_funcs::ammo_count_for( p, given );
     const double new_weapon_value = npc_ai::weapon_value( p, given, new_ammo );
-    const double cur_weapon_value = npc_ai::weapon_value( p, p.get_weapon(), our_ammo );
+    const double cur_weapon_value = npc_ai::weapon_value( p, p.primary_weapon(), our_ammo );
     add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
-             p.get_weapon().typeId().str(), our_ammo, cur_weapon_value );
+             p.primary_weapon().typeId().str(), our_ammo, cur_weapon_value );
     add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
              given.typeId().str(), new_ammo, new_weapon_value );
     if( allow_use ) {

@@ -482,8 +482,10 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
 
-    if( is_container_eligible_for_crafting( get_weapon(), true ) ) {
-        conts.push_back( &get_weapon() );
+    for( const item *it : wielded_items() ) {
+        if( is_container_eligible_for_crafting( *it, true ) ) {
+            conts.push_back( it );
+        }
     }
     for( const auto &it : worn ) {
         if( is_container_eligible_for_crafting( *it, false ) ) {
@@ -1507,7 +1509,7 @@ static void empty_buckets( player &p )
     // First grab (remove) all items that are non-empty buckets and not wielded
     std::vector<detached_ptr<item>> buckets;
     p.remove_items_with( [&p, &buckets]( detached_ptr<item> &&it ) {
-        if( it->is_bucket_nonempty() && &*it != &p.get_weapon() ) {
+        if( it->is_bucket_nonempty() && !p.is_wielding( *it ) ) {
             buckets.push_back( std::move( it ) );
         }
         return VisitResponse::SKIP;

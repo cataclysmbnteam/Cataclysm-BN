@@ -415,7 +415,7 @@ std::string fmt_wielded_weapon( const Character &who )
     if( !who.is_armed() ) {
         return _( "fists" );
     }
-    const item &weapon = who.get_weapon();
+    const item &weapon = who.primary_weapon();
     if( weapon.is_gun() ) {
         std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
                                          weapon.gun_current_mode().tname(), weapon.type_name() );

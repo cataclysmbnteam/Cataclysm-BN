@@ -816,7 +816,7 @@ dispersion_sources calculate_dispersion( const map &m, const Character &who, con
 
 int ranged::fire_gun( Character &who, const tripoint &target, int shots )
 {
-    return fire_gun( who, target, shots, who.get_weapon(), nullptr );
+    return fire_gun( who, target, shots, who.primary_weapon(), nullptr );
 }
 
 int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, item &gun,
@@ -1579,7 +1579,7 @@ static int print_aim( const Character &p, const catacurses::window &w, int line_
 
     const double min_recoil = calculate_aim_cap( p, pos );
     const double effective_recoil = ranged::effective_dispersion( p,
-                                    p.get_weapon().sight_dispersion() );
+                                    p.primary_weapon().sight_dispersion() );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,

@@ -688,7 +688,9 @@ static void smash()
             }
         }
     }
-    const int move_cost = !u.is_armed() ? 80 : u.get_weapon().attack_cost() * 0.8;
+    item &weapon = u.primary_weapon();
+    const int move_cost = !u.is_armed() ? 80 : weapon.attack_cost() * 0.8;
+
     bool didit = false;
     bool mech_smash = false;
     int smashskill;
@@ -699,8 +701,7 @@ static void smash()
                      mon->type->melee_sides;
         mech_smash = true;
     } else {
-        //TODO!: nullptr check
-        smashskill = u.str_cur + u.get_weapon().damage_melee( DT_BASH );
+        smashskill = u.str_cur + weapon.damage_melee( DT_BASH );
     }
 
     const bool allow_floor_bash = here.has_zlevels();
@@ -780,7 +781,6 @@ static void smash()
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         if( !mech_smash ) {
-            item &weapon = u.get_weapon();
             u.handle_melee_wear( weapon );
             const int mod_sta = ( ( weapon.weight() / 10_gram ) + 200 + static_cast<int>
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
@@ -1319,7 +1319,7 @@ static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory traj = target_handler::mode_reach( you, you.get_weapon() );
+    target_handler::trajectory traj = target_handler::mode_reach( you, you.primary_weapon() );
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
@@ -1378,9 +1378,10 @@ static void fire()
         }
     }
 
-    if( u.get_weapon().is_gun() && !u.get_weapon().gun_current_mode().melee() ) {
+    item &weapon = u.primary_weapon();
+    if( weapon.is_gun() && !weapon.gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( u );
-    } else if( u.get_weapon().reach_range( u ) > 1 ) {
+    } else if( weapon.reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
@@ -1452,7 +1453,7 @@ static void cast_spell()
     spell &sp = *u.magic->get_spells()[spell_index];
 
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !u.get_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
+        !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
         return;
@@ -2004,7 +2005,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_USE_WIELDED:
-                avatar_funcs::use_item( u, u.get_weapon() );
+                avatar_funcs::use_item( u, u.primary_weapon() );
                 break;
 
             case ACTION_WEAR:
@@ -2074,25 +2075,25 @@ bool game::handle_action()
                 break;
 
             case ACTION_FIRE_BURST: {
-                if( u.get_weapon().gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
+                if( u.primary_weapon().gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
                     avatar_action::fire_wielded_weapon( u );
                 }
                 break;
             }
 
             case ACTION_SELECT_FIRE_MODE:
-                if( u.is_armed() && u.get_weapon().is_gun() && !u.get_weapon().is_gunmod() ) {
-                    if( u.get_weapon().gun_all_modes().size() > 1 ) {
-                        u.get_weapon().gun_cycle_mode();
+                if( u.is_armed() && u.primary_weapon().is_gun() && !u.primary_weapon().is_gunmod() ) {
+                    if( u.primary_weapon().gun_all_modes().size() > 1 ) {
+                        u.primary_weapon().gun_cycle_mode();
                     } else {
-                        add_msg( m_info, _( "Your %s has only one firing mode." ), u.get_weapon().display_name() );
+                        add_msg( m_info, _( "Your %s has only one firing mode." ), u.primary_weapon().display_name() );
                     }
                 }
                 break;
 
             case ACTION_SELECT_DEFAULT_AMMO:
-                if( u.is_armed() && u.get_weapon().is_gun() && !u.get_weapon().is_gunmod() ) {
-                    ranged::prompt_select_default_ammo_for( u, u.get_weapon() );
+                if( u.is_armed() && u.primary_weapon().is_gun() && !u.primary_weapon().is_gunmod() ) {
+                    ranged::prompt_select_default_ammo_for( u, u.primary_weapon() );
                 }
                 break;
 

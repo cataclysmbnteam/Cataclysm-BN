@@ -77,12 +77,12 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
         }
     }
 
-    if(
-        np.will_exchange_items_freely() &&
-        !np.get_weapon().is_null() &&
-        !np.get_weapon().has_flag( "NO_UNWIELD" )
-    ) {
-        result.emplace_back( std::vector<item *> {&np.get_weapon()}, np.value( np.get_weapon() ), 1 );
+    if( np.will_exchange_items_freely() ) {
+        for( item *weapon : np.wielded_items() ) {
+            if( !weapon->has_flag( "NO_UNWIELD" ) ) {
+                result.emplace_back( std::vector<item *> {weapon}, np.value( *weapon ), 0 );
+            }
+        }
     }
 
     return result;
@@ -155,8 +155,8 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         check_item( *i, i->size() );
     }
 
-    if( !seller.get_weapon().has_flag( "NO_UNWIELD" ) ) {
-        check_item( {&seller.get_weapon()}, 1 );
+    if( !seller.primary_weapon().has_flag( "NO_UNWIELD" ) ) {
+        check_item( {&seller.primary_weapon()}, 1 );
     }
 
     //nearby items owned by the NPC will only show up in
@@ -329,7 +329,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
         for( size_t i = offset; i < list.size() && i < entries_per_page + offset; i++ ) {
             const item_pricing &ip = list[i];
             const item *it = ip.locs.front();
-            auto color = it == &person.get_weapon() ? c_yellow : c_light_gray;
+            auto color = it == &person.primary_weapon() ? c_yellow : c_light_gray;
             const int &owner_sells = they ? ip.u_has : ip.npc_has;
             const int &owner_sells_charge = they ? ip.u_charges : ip.npc_charges;
             std::string itname = it->display_name();
