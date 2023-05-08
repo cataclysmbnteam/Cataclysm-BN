@@ -361,17 +361,6 @@ class JsonIn
             }
         }
 
-        /// Overload for safe references
-        template<typename U>
-        bool read( safe_reference<U> &out, bool throw_on_error = false ) {
-            uint64_t id = 0;
-            if( !read( id, throw_on_error ) ) {
-                return false;
-            }
-            out = std::move( safe_reference<U>( id ) );
-            return true;
-        }
-
         /// Overload for location pointers
         template<typename U>
         bool read( location_ptr<U, false> &out, bool throw_on_error = false ) {
@@ -754,10 +743,6 @@ class JsonOut
             write( static_cast<typename std::underlying_type<T>::type>( val ) );
         }
 
-        template <typename T>
-        void write( const safe_reference<T> &val ) {
-            write( val.serialize() );
-        }
         /*
                 template <typename T>
                 void write( const std::unique_ptr<T> &val ) {

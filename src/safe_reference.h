@@ -595,4 +595,10 @@ class cache_reference
         }
 };
 
+template<typename T>
+void deserialize( safe_reference<T> &, JsonIn & );
+
+template<typename T>
+void serialize( const safe_reference<T> &, JsonOut & );
+
 #endif // CATA_SRC_SAFE_REFERENCE_H
