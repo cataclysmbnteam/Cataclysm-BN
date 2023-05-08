@@ -288,7 +288,6 @@ struct islot_armor {
     units::mass weight_capacity_bonus = 0_gram;
 
     bool was_loaded;
-    
     /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
