@@ -6104,7 +6104,6 @@ std::optional<armor_portion_data> item::portion_for_bodypart( const bodypart_id 
             return entry;
         }
     }
-    
     return std::optional<armor_portion_data>();
 }
 
