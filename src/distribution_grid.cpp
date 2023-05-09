@@ -303,8 +303,8 @@ void grid_furn_transform_queue::apply( mapbuffer &mb, distribution_grid_tracker 
             return;
         }
 
-        const furn_t &old_t = sm->get_furn( p_within_sm.raw() ).obj();
-        const furn_t &new_t = qt.id.obj();
+        const furn_t old_t = sm->get_furn( p_within_sm.raw() ).obj();
+        const furn_t new_t = qt.id.obj();
         const tripoint pos_local = m.getlocal( qt.p.raw() );
 
         if( m.inbounds( pos_local ) ) {
