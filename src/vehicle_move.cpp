@@ -1615,7 +1615,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
         const tripoint &pp = veh.global_part_pos3( p );
         const int wheel_area = veh.cpart( p ).wheel_area();
 
-        const auto &tr = ter( pp ).obj();
+        const auto tr = ter( pp ).obj();
         // Deep water and air
         if( tr.has_flag( TFLAG_DEEP_WATER ) || tr.has_flag( TFLAG_NO_FLOOR ) ) {
             // No traction from wheel in water or air
