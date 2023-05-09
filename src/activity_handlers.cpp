@@ -2685,7 +2685,7 @@ item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
                 // Return nullitem in that case
                 return fake_item;
             }
-            const furn_t &furniture = m.furn( position ).obj();
+            const furn_t furniture = m.furn( position ).obj();
             const std::vector<itype> item_type_list = furniture.crafting_pseudo_item_types();
 
             if( item_type_list.empty() ) {
