@@ -11110,6 +11110,7 @@ void game::perhaps_add_random_npc()
     tmp->long_term_goal_action();
     tmp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
+    dbg( DL::Debug ) << "Spawning a random NPC at " << spawn_point;
     // This will make the new NPC active- if its nearby to the player
     load_npcs();
 }
