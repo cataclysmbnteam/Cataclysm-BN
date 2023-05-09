@@ -577,7 +577,7 @@ bool game::start_game()
     load_master();
     u.setID( assign_npc_id() ); // should be as soon as possible, but *after* load_master
 
-    const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
+    const start_location start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     tripoint_abs_omt omtstart = overmap::invalid_tripoint;
     do {
@@ -1507,7 +1507,7 @@ bool game::do_turn()
     }
     if( calendar::once_every( 10_seconds ) ) {
         for( const tripoint &elem : m.get_furn_field_locations() ) {
-            const auto &furn = m.furn( elem ).obj();
+            const auto furn = m.furn( elem ).obj();
             for( const emit_id &e : furn.emissions ) {
                 m.emit_field( elem, e );
             }
@@ -5520,8 +5520,8 @@ void game::examine( const tripoint &examp )
     } else if( m.has_flag( "CONSOLE", examp ) && u.is_mounted() ) {
         add_msg( m_warning, _( "You cannot use a console while mounted." ) );
     }
-    const furn_t &xfurn_t = m.furn( examp ).obj();
-    const ter_t &xter_t = m.ter( examp ).obj();
+    const furn_t xfurn_t = m.furn( examp ).obj();
+    const ter_t xter_t = m.ter( examp ).obj();
 
     const tripoint player_pos = u.pos();
 
