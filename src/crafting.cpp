@@ -212,7 +212,7 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
     map &here = get_map();
     switch( bench.type ) {
         case bench_type::hands: {
-            const furn_t &f = string_id<furn_t>( "f_fake_bench_hands" ).obj();
+            const furn_t f = string_id<furn_t>( "f_fake_bench_hands" ).obj();
             multiplier = f.workbench->multiplier;
             allowed_mass = f.workbench->allowed_mass;
             allowed_volume = f.workbench->allowed_volume;
@@ -220,7 +220,7 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
         break;
         case bench_type::ground: {
             // Ground - we can always use this, but it's bad
-            const furn_t &f = string_id<furn_t>( "f_ground_crafting_spot" ).obj();
+            const furn_t f = string_id<furn_t>( "f_ground_crafting_spot" ).obj();
             multiplier = f.workbench->multiplier;
             allowed_mass = f.workbench->allowed_mass;
             allowed_volume = f.workbench->allowed_volume;
@@ -229,7 +229,7 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
         case bench_type::furniture:
             if( here.furn( bench.position ).obj().workbench ) {
                 // Furniture workbench
-                const furn_t &f = here.furn( bench.position ).obj();
+                const furn_t f = here.furn( bench.position ).obj();
                 multiplier = f.workbench->multiplier;
                 allowed_mass = f.workbench->allowed_mass;
                 allowed_volume = f.workbench->allowed_volume;
@@ -697,7 +697,7 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
 
     } else {
         if( here.has_furn( loc ) ) {
-            const furn_t &workbench = here.furn( loc ).obj();
+            const furn_t workbench = here.furn( loc ).obj();
             p.add_msg_player_or_npc(
                 pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
                 pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
