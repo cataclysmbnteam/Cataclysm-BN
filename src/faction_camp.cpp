@@ -1590,7 +1590,7 @@ npc_ptr basecamp::start_mission( const std::string &miss_id, time_duration durat
 void basecamp::start_upgrade( const std::string &bldg, point dir,
                               const std::string &key )
 {
-    const recipe &making = recipe_id( bldg ).obj();
+    const recipe making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
     if( making.deduped_requirements().can_make_with_inventory(
             _inv, making.get_component_filter() ) ) {
@@ -2107,7 +2107,7 @@ void basecamp::start_fortifications( std::string &bldg_exp )
     tripoint_abs_omt stop = om_target_tile( omt_pos, 2, 90, allowed_locations, true, false, start );
     if( start != tripoint_abs_omt( -999, -999, -999 ) &&
         stop != tripoint_abs_omt( -999, -999, -999 ) ) {
-        const recipe &making = recipe_id( bldg_exp ).obj();
+        const recipe making = recipe_id( bldg_exp ).obj();
         bool change_x = ( start.x() != stop.x() );
         bool change_y = ( start.y() != stop.y() );
         if( change_x && change_y ) {
@@ -2611,7 +2611,7 @@ bool basecamp::upgrade_return( point dir, const std::string &miss,
         return false;
     }
     const tripoint_abs_omt upos = e->second.pos;
-    const recipe &making = recipe_id( bldg ).obj();
+    const recipe making = recipe_id( bldg ).obj();
 
     time_duration work_days = base_camps::to_workdays( making.batch_duration() );
     npc_ptr comp = companion_choose_return( miss, work_days );
