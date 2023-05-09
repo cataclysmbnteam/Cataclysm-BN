@@ -207,7 +207,7 @@ void basecamp::define_camp( const tripoint_abs_omt &p, const std::string &camp_t
 /// Returns the description for the recipe of the next building @ref bldg
 std::string basecamp::om_upgrade_description( const std::string &bldg, bool trunc ) const
 {
-    const recipe &making = recipe_id( bldg ).obj();
+    const recipe making = recipe_id( bldg ).obj();
 
     std::vector<std::string> component_print_buffer;
     const int pane = FULL_SCREEN_WIDTH;
@@ -407,7 +407,7 @@ void basecamp::update_resources( const std::string &bldg )
         return;
     }
 
-    const recipe &making = recipe_id( bldg ).obj();
+    const recipe making = recipe_id( bldg ).obj();
     for( const itype_id &bp_resource : making.blueprint_resources() ) {
         add_resource( bp_resource );
     }
@@ -419,7 +419,7 @@ void basecamp::update_provides( const std::string &bldg, expansion_data &e_data 
         return;
     }
 
-    const recipe &making = recipe_id( bldg ).obj();
+    const recipe making = recipe_id( bldg ).obj();
     for( const auto &bp_provides : making.blueprint_provides() ) {
         if( e_data.provides.find( bp_provides.first ) == e_data.provides.end() ) {
             e_data.provides[bp_provides.first] = 0;
@@ -439,7 +439,7 @@ void basecamp::update_in_progress( const std::string &bldg, point dir )
     }
     expansion_data &e_data = e->second;
 
-    const recipe &making = recipe_id( bldg ).obj();
+    const recipe making = recipe_id( bldg ).obj();
     for( const auto &bp_provides : making.blueprint_provides() ) {
         if( e_data.in_progress.find( bp_provides.first ) == e_data.in_progress.end() ) {
             e_data.in_progress[bp_provides.first] = 0;
