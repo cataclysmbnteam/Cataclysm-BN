@@ -1150,7 +1150,7 @@ void Character::suffer_from_radiation()
     }
 
     // Microreactor CBM
-    const itype_id &plut_cell = item( "plut_cell" ).typeId();
+    const itype_id plut_cell = item( "plut_cell" ).typeId();
     if( get_fuel_type_available( plut_cell ) > 0 ) {
         if( calendar::once_every( 60_minutes ) ) {
             int rad_mod = 0;
