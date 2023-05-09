@@ -242,7 +242,7 @@ std::string to_upper_case( const std::string &s )
 
 std::string to_lower_case( const std::string &s )
 {
-    auto temp_locale=std::locale();
+    auto temp_locale = std::locale();
     if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
         const auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
         std::wstring wstr = utf8_to_wstr( s );
