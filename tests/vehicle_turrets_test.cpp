@@ -41,7 +41,7 @@ static const vpart_info *biggest_tank( const ammotype &ammo )
 
     for( const auto &e : vpart_info::all() ) {
         const auto &vp = e.second;
-        if( !item( vp.item ).is_watertight_container() ) {
+        if( !item::spawn_temporary( vp.item )->is_watertight_container() ) {
             continue;
         }
 
@@ -78,7 +78,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
             veh->charge_battery( 10000 );
 
             auto ammo =
-                ammotype( veh->turret_query( veh->part( idx ) ).base()->ammo_default().str() );
+                ammotype( veh->turret_query( veh->part( idx ) ).base().ammo_default().str() );
 
             if( veh->part_flag( idx, "USE_TANKS" ) ) {
                 auto *tank = biggest_tank( ammo );

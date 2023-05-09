@@ -170,9 +170,9 @@ TEST_CASE( "player_morale", "[morale]" )
         // legs, torso | 8 + 2 | 10
         // eyes, mouth | 4 + 2 | 6
         // feet        | 1 + 2 | 3
-        const item dress_wedding( "dress_wedding", calendar::start_of_cataclysm );
-        const item veil_wedding( "veil_wedding", calendar::start_of_cataclysm );
-        const item heels( "heels", calendar::start_of_cataclysm );
+        const item &dress_wedding = *item::spawn_temporary( "dress_wedding", calendar::start_of_cataclysm );
+        const item &veil_wedding = *item::spawn_temporary( "veil_wedding", calendar::start_of_cataclysm );
+        const item &heels = *item::spawn_temporary( "heels", calendar::start_of_cataclysm );
 
         m.on_item_wear( dress_wedding );
         m.on_item_wear( veil_wedding );
@@ -210,7 +210,7 @@ TEST_CASE( "player_morale", "[morale]" )
                 }
             }
             AND_WHEN( "tries to be even fancier" ) {
-                const item watch( "sf_watch", calendar::start_of_cataclysm );
+                const item &watch = *item::spawn_temporary( "sf_watch", calendar::start_of_cataclysm );
                 m.on_item_wear( watch );
                 THEN( "there's a limit" ) {
                     CHECK( m.get_level() == 20 );
@@ -270,7 +270,7 @@ TEST_CASE( "player_morale", "[morale]" )
         CHECK( m.get( MORALE_PERM_CONSTRAINED ) == 0 );
 
         WHEN( "wearing a hat" ) {
-            const item hat( "tinfoil_hat", calendar::start_of_cataclysm );
+            const item &hat = *item::spawn_temporary( "tinfoil_hat", calendar::start_of_cataclysm );
 
             m.on_item_wear( hat );
             THEN( "the flowers need sunlight" ) {
@@ -284,7 +284,7 @@ TEST_CASE( "player_morale", "[morale]" )
         }
 
         WHEN( "wearing a legpouch" ) {
-            item legpouch( "legpouch", calendar::start_of_cataclysm );
+            item &legpouch = *item::spawn_temporary( "legpouch", calendar::start_of_cataclysm );
             legpouch.set_side( side::LEFT );
 
             m.on_item_wear( legpouch );
@@ -294,7 +294,7 @@ TEST_CASE( "player_morale", "[morale]" )
         }
 
         WHEN( "wearing a pair of boots" ) {
-            const item boots( "boots", calendar::start_of_cataclysm );
+            const item &boots = *item::spawn_temporary( "boots", calendar::start_of_cataclysm );
 
             m.on_item_wear( boots );
             THEN( "all of the roots are suffering" ) {
@@ -302,7 +302,7 @@ TEST_CASE( "player_morale", "[morale]" )
             }
 
             AND_WHEN( "even more constrains" ) {
-                const item hat( "tinfoil_hat", calendar::start_of_cataclysm );
+                const item &hat = *item::spawn_temporary( "tinfoil_hat", calendar::start_of_cataclysm );
 
                 m.on_item_wear( hat );
                 THEN( "it can't be worse" ) {

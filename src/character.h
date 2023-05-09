@@ -1226,6 +1226,8 @@ class Character : public Creature, public location_visitable<Character>
 
         void inv_update_invlet( item &it );
 
+        int inv_position_by_item( item *it ) const;
+
         void inv_update_cache_with_item( item &it );
 
         void rust_iron_items();

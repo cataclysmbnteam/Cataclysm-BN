@@ -90,7 +90,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     REQUIRE( g->num_creatures() == 1 ); // the player
     player &test_player = get_avatar();
     // Strip off any potentially encumbering clothing.
-    std::list<item> temp;
+    std::vector<detached_ptr<item>> temp;
     while( test_player.takeoff( test_player.i_at( -2 ), &temp ) );
 
     const tripoint center{ 65, 65, 0 };

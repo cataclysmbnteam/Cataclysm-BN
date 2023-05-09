@@ -2606,6 +2606,11 @@ void Character::inv_clear()
     inv.clear();
 }
 
+int Character::inv_position_by_item( item *it ) const
+{
+    return inv.position_by_item( it );
+}
+
 void Character::inv_update_invlet( item &it )
 {
     inv.update_invlet( it );
@@ -9562,6 +9567,7 @@ void Character::cancel_activity()
     }
     if( activity && activity->is_suspendable() ) {
         backlog.push_front( std::move( activity ) );
+        activity = std::make_unique<player_activity>();
     }
     sfx::end_activity_sounds(); // kill activity sounds when canceled
     activity->set_to_null();

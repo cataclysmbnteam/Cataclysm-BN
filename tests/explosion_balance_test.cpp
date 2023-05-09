@@ -66,7 +66,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
             monster &new_monster = spawn_test_monster( "mon_zombie", monster_position );
             new_monster.no_extra_death_drops = true;
         }
-        item explosive( explosive_id );
+        item &explosive = *item::spawn_temporary( explosive_id );
         set_off_explosion( explosive, origin );
         // see how many monsters survive
         std::vector<Creature *> survivors = g->get_creatures_if( []( const Creature & critter ) {
@@ -127,7 +127,7 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     }
     origin.x += range;
 
-    item explosive( explosive_id );
+    item &explosive = *item::spawn_temporary( explosive_id );
     set_off_explosion( explosive, origin );
 
     std::vector<int> after_hp = get_part_hp( target_vehicle );
@@ -166,7 +166,7 @@ TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
     put_player_underground();
     tripoint origin( 30, 30, 0 );
 
-    item grenade( "can_bomb_act" );
+    item &grenade = *item::spawn_temporary( "can_bomb_act" );
     REQUIRE( grenade.get_use( "explosion" ) != nullptr );
     const auto *actor = dynamic_cast<const explosion_iuse *>
                         ( grenade.get_use( "explosion" )->get_actor_ptr() );
@@ -197,7 +197,7 @@ TEST_CASE( "shrapnel at huge range", "[grenade],[explosion]" )
     put_player_underground();
     tripoint origin;
 
-    item grenade( "debug_shrapnel_blast" );
+    item &grenade = *item::spawn_temporary( "debug_shrapnel_blast" );
     REQUIRE( grenade.get_use( "explosion" ) != nullptr );
     const auto *actor = dynamic_cast<const explosion_iuse *>
                         ( grenade.get_use( "explosion" )->get_actor_ptr() );
@@ -219,7 +219,7 @@ TEST_CASE( "shrapnel at max grenade range", "[grenade],[explosion]" )
     put_player_underground();
     tripoint origin( 60, 60, 0 );
 
-    item grenade( "can_bomb_act" );
+    item &grenade = *item::spawn_temporary( "can_bomb_act" );
     REQUIRE( grenade.get_use( "explosion" ) != nullptr );
     const auto *actor = dynamic_cast<const explosion_iuse *>
                         ( grenade.get_use( "explosion" )->get_actor_ptr() );
@@ -254,7 +254,7 @@ TEST_CASE( "rotated_vehicle_walls_block_explosions" )
     put_player_underground();
     tripoint origin( 60, 60, 0 );
 
-    item grenade( "can_bomb_act" );
+    item &grenade = *item::spawn_temporary( "can_bomb_act" );
 
     map &here = get_map();
 

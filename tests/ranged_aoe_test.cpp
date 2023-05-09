@@ -114,18 +114,18 @@ TEST_CASE( "character using birdshot against another character", "[shape][ranged
     overmap_buffer.insert_npc( target );
     g->load_npcs();
 
-    item gun( itype_id( "m1014" ) );
-    gun.ammo_set( itype_id( "shot_bird" ) );
+    detached_ptr<item> gun = item::spawn( itype_id( "m1014" ) );
+    gun->ammo_set( itype_id( "shot_bird" ) );
 
-    REQUIRE( gun.gun_range() >= rl_dist( shooter_pos, target_pos ) );
+    REQUIRE( gun->gun_range() >= rl_dist( shooter_pos, target_pos ) );
     REQUIRE( g->all_npcs().items.size() == 1 );
     REQUIRE( target->pos() == target_pos );
     REQUIRE( g->critter_at( target_pos ) == &*target );
     const int target_hp_total_before = target->get_hp();
     REQUIRE( target->get_hp() >= 100 );
-    shooter.wield( gun );
+    shooter.wield( std::move( gun ) );
     int shots_fired = ranged::fire_gun( shooter, target_pos, 1, shooter.primary_weapon(),
-                                        item_location() );
+                                        nullptr );
 
     REQUIRE( shots_fired > 0 );
     CHECK( target->get_hp() < target_hp_total_before );

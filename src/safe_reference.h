@@ -428,7 +428,6 @@ class safe_reference
 
 };
 
-//TODO!: update these on object unload/delete
 template<typename T>
 class cache_reference
 {
@@ -485,6 +484,7 @@ class cache_reference
             for( cache_reference<T> *&ref : search->second ) {
                 ref->invalidate();
             }
+            reference_map.erase( search );
         }
 
         cache_reference(): p( nullptr ) {}

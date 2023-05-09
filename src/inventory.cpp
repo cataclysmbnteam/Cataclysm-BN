@@ -839,6 +839,7 @@ void location_inventory::dump_remove( std::vector<detached_ptr<item>> &dest )
 
     for( auto &elem : inv.items ) {
         for( auto &elem_stack_iter : elem ) {
+            elem_stack_iter->remove_location();
             dest.push_back( detached_ptr<item>( elem_stack_iter ) );
         }
     }
@@ -849,6 +850,7 @@ std::vector<detached_ptr<item>> location_inventory::dump_remove( )
     std::vector<detached_ptr<item>> dest;
     for( auto &elem : inv.items ) {
         for( auto &elem_stack_iter : elem ) {
+            elem_stack_iter->remove_location();
             dest.push_back( detached_ptr<item>( elem_stack_iter ) );
         }
     }

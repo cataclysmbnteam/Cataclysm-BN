@@ -107,9 +107,9 @@ TEST_CASE( "effective damage per second", "[effective][dps]" )
     avatar &dummy = g->u;
     clear_character( dummy );
 
-    item clumsy_sword( "test_clumsy_sword" );
-    item normal_sword( "test_normal_sword" );
-    item good_sword( "test_balanced_sword" );
+    item &clumsy_sword = *item::spawn_temporary( "test_clumsy_sword" );
+    item &normal_sword = *item::spawn_temporary( "test_normal_sword" );
+    item &good_sword = *item::spawn_temporary( "test_balanced_sword" );
 
     SECTION( "against a debug monster with no armor or dodge" ) {
         monster mummy( mtype_id( "debug_mon" ) );
@@ -175,9 +175,9 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
     monster smoker( mtype_id( "mon_zombie_smoker" ) );
     monster survivor( mtype_id( "mon_zombie_survivor" ) );
 
-    item clumsy_sword( "test_clumsy_sword" );
-    item normal_sword( "test_normal_sword" );
-    item good_sword( "test_balanced_sword" );
+    item &clumsy_sword = *item::spawn_temporary( "test_clumsy_sword" );
+    item &normal_sword = *item::spawn_temporary( "test_normal_sword" );
+    item &good_sword = *item::spawn_temporary( "test_balanced_sword" );
 
     SECTION( "soldier zombie" ) {
         check_actual_dps( dummy, soldier, clumsy_sword );
@@ -208,9 +208,9 @@ TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
     monster smoker( mtype_id( "mon_zombie_smoker" ) );
     monster survivor( mtype_id( "mon_zombie_survivor" ) );
 
-    item clumsy_sword( "test_clumsy_sword" );
-    item normal_sword( "test_normal_sword" );
-    item good_sword( "test_balanced_sword" );
+    item &clumsy_sword = *item::spawn_temporary( "test_clumsy_sword" );
+    item &normal_sword = *item::spawn_temporary( "test_normal_sword" );
+    item &good_sword = *item::spawn_temporary( "test_balanced_sword" );
 
     SECTION( "soldier zombie" ) {
         check_accuracy_dps( dummy, soldier, clumsy_sword, normal_sword, good_sword );

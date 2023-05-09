@@ -554,7 +554,9 @@ item::item( const item &source ) : game_object<item>(), contents( this ),
 
 void item::on_destroy()
 {
-    components.clear();
+    for( item *&it : components ) {
+        it->destroy_in_place();
+    }
 }
 
 

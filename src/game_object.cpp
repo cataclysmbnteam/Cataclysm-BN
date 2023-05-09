@@ -17,6 +17,16 @@ void game_object<T>::destroy()
     }
     if( loc != nullptr ) {
         debugmsg( "Attempted to destroy an item with a location." );
+        remove_location();
+    }
+    destroy_in_place();
+}
+
+template<typename T>
+void game_object<T>::destroy_in_place()
+{
+    if( is_null() ) {
+        return;
     }
     T *self = static_cast<T *>( this );
     self->on_destroy();

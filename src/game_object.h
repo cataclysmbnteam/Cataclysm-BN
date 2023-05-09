@@ -36,6 +36,7 @@ class game_object
         game_object( const game_object & ) {}
 
         void destroy();
+        void destroy_in_place();
 
         void remove_location();
         void set_location( location<T> *own );
