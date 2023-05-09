@@ -1377,7 +1377,7 @@ void construct::done_deconstruct( const tripoint &p )
     map &here = get_map();
     // TODO: Make this the argument
     if( here.has_furn( p ) ) {
-        const furn_t &f = here.furn( p ).obj();
+        const furn_t f = here.furn( p ).obj();
         if( !f.deconstruct.can_do ) {
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
@@ -1396,7 +1396,7 @@ void construct::done_deconstruct( const tripoint &p )
         // writing from the submap.
         here.delete_signage( p );
     } else {
-        const ter_t &t = here.ter( p ).obj();
+        const ter_t t = here.ter( p ).obj();
         if( !t.deconstruct.can_do ) {
             add_msg( _( "That %s can not be disassembled!" ), t.name() );
             return;
