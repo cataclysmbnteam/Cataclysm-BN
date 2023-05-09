@@ -522,5 +522,5 @@
       { "item": "meth", "prob": 20, "charges": [ 1, 6 ] },
       { "group": "meth_ingredients", "prob": 5 }
     ]
-  }  
+  }
 ]
