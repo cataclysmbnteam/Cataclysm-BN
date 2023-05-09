@@ -11,7 +11,7 @@
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
-    std::locale temp_locale=std::locale();
+    std::locale temp_locale = std::locale();
     if( temp_locale.name() != "en_US.UTF-8" && temp_locale.name() != "C" ) {
         auto &f = std::use_facet<std::ctype<wchar_t>>( temp_locale );
         std::wstring wneedle = utf8_to_wstr( qry );
