@@ -1300,7 +1300,7 @@ void defense_game::spawn_wave()
             add_msg( m_info, "********" );
             return;
         }
-        const mtype &type = random_entry( valid ).obj();
+        const mtype type = random_entry( valid ).obj();
         if( themed_wave ) {
             int num = diff / type.difficulty;
             if( num >= SPECIAL_WAVE_MIN ) {
