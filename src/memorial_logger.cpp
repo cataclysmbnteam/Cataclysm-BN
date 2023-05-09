@@ -315,7 +315,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Equipment
     file << _( "Weapon:" ) << eol;
-    file << indent << u.weapon.invlet << " - " << u.weapon.tname( 1, false ) << eol;
+    file << indent << u.primary_weapon().invlet << " - " << u.primary_weapon().tname( 1, false ) << eol;
     file << eol;
 
     file << _( "Equipment:" ) << eol;
