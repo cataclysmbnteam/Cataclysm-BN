@@ -884,7 +884,7 @@ void conditional_t<T>::set_u_know_recipe( const JsonObject &jo, const std::strin
     const std::string &known_recipe_id = jo.get_string( member );
     condition = [known_recipe_id]( const T & d ) {
         player *actor = d.alpha;
-        const recipe &r = recipe_id( known_recipe_id ).obj();
+        const recipe r = recipe_id( known_recipe_id ).obj();
         return actor->knows_recipe( &r );
     };
 }
