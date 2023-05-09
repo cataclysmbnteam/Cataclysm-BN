@@ -220,12 +220,12 @@ void editmap_hilight::draw( editmap &em, bool update )
             const tripoint &p = elem.first;
             // but only if there's no vehicles/mobs/npcs on a point
             if( !here.veh_at( p ) && !g->critter_at( p ) ) {
-                const ter_t &terrain = here.ter( p ).obj();
+                const ter_t terrain = here.ter( p ).obj();
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
 
                 if( here.furn( p ).to_i() > 0 ) {
-                    const furn_t &furniture_type = here.furn( p ).obj();
+                    const furn_t furniture_type = here.furn( p ).obj();
                     t_sym = furniture_type.symbol();
                     t_col = furniture_type.color();
                 }
@@ -562,12 +562,12 @@ void editmap::draw_main_ui_overlay()
 #endif
                 // but only if there's no vehicles/mobs/npcs on a point
                 if( !here.veh_at( p ) && !g->critter_at( p ) ) {
-                    const ter_t &terrain = here.ter( p ).obj();
+                    const ter_t terrain = here.ter( p ).obj();
                     char t_sym = terrain.symbol();
                     nc_color t_col = terrain.color();
 
                     if( here.has_furn( p ) ) {
-                        const furn_t &furniture_type = here.furn( p ).obj();
+                        const furn_t furniture_type = here.furn( p ).obj();
                         t_sym = furniture_type.symbol();
                         t_col = furniture_type.color();
                     }
@@ -710,8 +710,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         veh_msg = pgettext( "vehicle", "out" );
     }
 
-    const ter_t &terrain_type = here.ter( target ).obj();
-    const furn_t &furniture_type = here.furn( target ).obj();
+    const ter_t terrain_type = here.ter( target ).obj();
+    const furn_t furniture_type = here.furn( target ).obj();
 
     int off = 1;
     draw_border( w_info );
@@ -1100,7 +1100,7 @@ void editmap::edit_feature()
     emenu.allow_additional = true;
 
     for( int i = 0; i < static_cast<int>( T_t::count() ); ++i ) {
-        const T_t &type = T_id( i ).obj();
+        const T_t type = T_id( i ).obj();
         std::string name;
         if( type.name().empty() ) {
             name = string_format( pgettext( "map feature id", "(%s)" ), type.id.str() );
