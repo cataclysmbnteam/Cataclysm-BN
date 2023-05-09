@@ -729,7 +729,7 @@ void vehicle::use_controls( const tripoint &pos )
                 {
                     if( is_engine_on( e ) ) {
                         const vpart_info &einfo = part_info( e );
-                        const std::string &engine_id = einfo.get_id().str();
+                        const std::string engine_id = einfo.get_id().str();
                         const int noise = einfo.engine_noise_factor();
 
                         if( sfx::has_variant_sound( "engine_stop", engine_id ) ) {
@@ -1108,7 +1108,7 @@ void vehicle::stop_engines()
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( is_engine_on( e ) ) {
             const vpart_info &einfo = part_info( e );
-            const std::string &engine_id = einfo.get_id().str();
+            const std::string engine_id = einfo.get_id().str();
             const int noise = einfo.engine_noise_factor();
 
             if( sfx::has_variant_sound( "engine_stop", engine_id ) ) {
