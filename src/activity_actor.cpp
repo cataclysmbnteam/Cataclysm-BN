@@ -793,8 +793,8 @@ static hack_type get_hack_type( tripoint examp )
 {
     hack_type type = HACK_NULL;
     const map &here = get_map();
-    const furn_t &xfurn_t = here.furn( examp ).obj();
-    const ter_t &xter_t = here.ter( examp ).obj();
+    const furn_t xfurn_t = here.furn( examp ).obj();
+    const ter_t xter_t = here.ter( examp ).obj();
     if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
         type = HACK_GAS;
     } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
