@@ -2552,7 +2552,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
             }
             for( const item &stack_elem : here.i_at( elem ) ) {
                 if( stack_elem.has_var( "activity_var" ) && stack_elem.get_var( "activity_var", "" ) == p.name ) {
-                    const furn_t &f = here.furn( elem ).obj();
+                    const furn_t f = here.furn( elem ).obj();
                     if( !f.has_flag( flag_PLANT ) ) {
                         src_set.insert( here.getabs( elem ) );
                         found_one_point = true;
