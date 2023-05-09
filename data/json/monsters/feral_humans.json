@@ -3,7 +3,7 @@
     "id": "mon_feral_human_pipe",
     "type": "MONSTER",
     "name": { "str": "feral human" },
-    "description": "Their pupils are dilated and what remains to be seen of the iris and sclera are bloodshot. This pipe-wielding maniac still breathes, but the zombies treat them like one of their own.",
+    "description": "Their pupils are dilated and what remains to be seen of the iris and sclera are bloodshot.  This pipe-wielding maniac still breathes, but the zombies treat them like one of their own.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
@@ -64,7 +64,7 @@
     "id": "mon_feral_human_crowbar",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
-    "description": "Their pupils are dilated and what remains to be seen of the iris and sclera are bloodshot. This crowbar-wielding maniac still breathes, but the zombies treat them like one of their own.",
+    "description": "Their pupils are dilated and what remains to be seen of the iris and sclera are bloodshot.  This crowbar-wielding maniac still breathes, but the zombies treat them like one of their own.",
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "death_drops": "feral_humans_death_drops_crowbar"
