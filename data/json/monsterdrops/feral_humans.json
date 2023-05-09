@@ -485,8 +485,8 @@
       { "item": "remington_870_express", "prob": 18, "charges": [ 0, 6 ] },
       { "item": "mossberg_930", "prob": 15, "charges": [ 0, 6 ] }
     ]
-  },  
- {
+  },
+  {
     "id": "mon_feral_jackboot_death_drops",
     "type": "item_group",
     "subtype": "collection",
