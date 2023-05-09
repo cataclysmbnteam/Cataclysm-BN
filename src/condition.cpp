@@ -35,6 +35,7 @@
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
+#include "recipe.h"
 #include "recipe_groups.h"
 #include "string_id.h"
 #include "type_id.h"
