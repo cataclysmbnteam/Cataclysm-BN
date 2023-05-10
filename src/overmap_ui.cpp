@@ -814,7 +814,7 @@ static void draw_ascii( const catacurses::window &w,
     const auto &zones = zone_manager::get_manager();
 
     if( data.iZoneIndex != -1 ) {
-        const auto &zone = zones.get_zones()[data.iZoneIndex].get();
+        const auto zone = zones.get_zones()[data.iZoneIndex].get();
         sZoneName = zone.get_name();
         // TODO: fix point types
         tripointZone = project_to<coords::omt>(
