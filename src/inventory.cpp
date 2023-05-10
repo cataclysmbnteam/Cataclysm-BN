@@ -514,7 +514,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
     build_items_type_cache();
     for( const tripoint &p : pts ) {
         if( m.has_furn( p ) ) {
-            const furn_t &f = m.furn( p ).obj();
+            const furn_t f = m.furn( p ).obj();
             const std::vector<itype> tool_list = f.crafting_pseudo_item_types();
             if( !tool_list.empty() ) {
                 for( const itype &type : tool_list ) {
