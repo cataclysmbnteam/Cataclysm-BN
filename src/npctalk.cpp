@@ -2466,7 +2466,7 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
 void talk_effect_fun_t::set_u_learn_recipe( const std::string &learned_recipe_id )
 {
     function = [learned_recipe_id]( const dialogue & d ) {
-        const recipe &r = recipe_id( learned_recipe_id ).obj();
+        const recipe r = recipe_id( learned_recipe_id ).obj();
         d.alpha->learn_recipe( &r );
         popup( _( "You learn how to craft %s." ), r.result_name() );
     };
