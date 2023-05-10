@@ -3124,7 +3124,7 @@ bool mattack::check_money_left( monster *z )
                          z->get_name() );
             }
 
-            const SpeechBubble &speech_no_time = get_speech( "mon_grocerybot_friendship_done" );
+            const SpeechBubble speech_no_time = get_speech( "mon_grocerybot_friendship_done" );
             sounds::sound( z->pos(), speech_no_time.volume,
                            sounds::sound_t::electronic_speech, speech_no_time.text );
             z->remove_effect( effect_paid );
@@ -3142,7 +3142,7 @@ bool mattack::check_money_left( monster *z )
     }
     if( z->friendly == -1 && !z->has_effect( effect_paid ) ) {
         if( calendar::once_every( 3_hours ) ) {
-            const SpeechBubble &speech_override_start = get_speech( "mon_grocerybot_hacked" );
+            const SpeechBubble speech_override_start = get_speech( "mon_grocerybot_hacked" );
             sounds::sound( z->pos(), speech_override_start.volume,
                            sounds::sound_t::electronic_speech, speech_override_start.text );
         }
