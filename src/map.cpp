@@ -7544,7 +7544,7 @@ void map::actualize( const tripoint &grid )
             if( trap_here != tr_null ) {
                 traplocs[trap_here.to_i()].push_back( pnt );
             }
-            const ter_t &ter = tmpsub->get_ter( p ).obj();
+            const ter_t ter = tmpsub->get_ter( p ).obj();
             if( ter.trap != tr_null && ter.trap != tr_ledge ) {
                 traplocs[ter.trap.to_i()].push_back( pnt );
             }
