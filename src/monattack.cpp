@@ -3134,7 +3134,7 @@ bool mattack::check_money_left( monster *z )
         const time_duration time_left = z->get_effect_dur( effect_pet );
         if( time_left < 1_minutes ) {
             if( calendar::once_every( 20_seconds ) ) {
-                const SpeechBubble &speech_time_low = get_speech( "mon_grocerybot_running_out_of_friendship" );
+                const SpeechBubble speech_time_low = get_speech( "mon_grocerybot_running_out_of_friendship" );
                 sounds::sound( z->pos(), speech_time_low.volume,
                                sounds::sound_t::electronic_speech, speech_time_low.text );
             }
