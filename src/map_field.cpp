@@ -1175,7 +1175,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 cur.set_field_age( cur.get_field_age() + 1_turns );
-                auto &fdata = cur.get_field_type().obj();
+                auto fdata = cur.get_field_type().obj();
                 if( fdata.half_life > 0_turns && cur.get_field_age() > 0_turns &&
                     dice( 2, to_turns<int>( cur.get_field_age() ) ) > to_turns<int>( fdata.half_life ) ) {
                     cur.set_field_age( 0_turns );
