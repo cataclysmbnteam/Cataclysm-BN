@@ -449,7 +449,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::buries_corpse: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                const mtype &corpse_type = e.get<mtype_id>( "corpse_type" ).obj();
+                const mtype corpse_type = e.get<mtype_id>( "corpse_type" ).obj();
                 std::string corpse_name = e.get<cata_variant_type::string>( "corpse_name" );
                 if( corpse_name.empty() ) {
                     if( corpse_type.has_flag( MF_HUMAN ) ) {
@@ -474,7 +474,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_gains_effect: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                const effect_type &type = e.get<efftype_id>( "effect" ).obj();
+                const effect_type type = e.get<efftype_id>( "effect" ).obj();
                 const std::string message = type.get_apply_memorial_log();
                 if( !message.empty() ) {
                     add( pgettext( "memorial_male", message.c_str() ),
@@ -537,7 +537,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_loses_effect: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
-                const effect_type &type = e.get<efftype_id>( "effect" ).obj();
+                const effect_type type = e.get<efftype_id>( "effect" ).obj();
                 const std::string message = type.get_remove_memorial_log();
                 if( !message.empty() ) {
                     add( pgettext( "memorial_male", message.c_str() ),
