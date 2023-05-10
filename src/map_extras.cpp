@@ -210,7 +210,7 @@ static bool mx_null( map &, const tripoint & )
 static void dead_vegetation_parser( map &m, const tripoint &loc )
 {
     // furniture plants die to withered plants
-    const furn_t &fid = m.furn( loc ).obj();
+    const furn_t fid = m.furn( loc ).obj();
     if( fid.has_flag( flag_PLANT ) || fid.has_flag( flag_FLOWER ) || fid.has_flag( flag_ORGANIC ) ) {
         m.i_clear( loc );
         m.furn_set( loc, f_null );
@@ -2060,7 +2060,7 @@ static bool mx_point_dead_vegetation( map &m, const tripoint &abs_sub )
 
 static void burned_ground_parser( map &m, const tripoint &loc )
 {
-    const furn_t &fid = m.furn( loc ).obj();
+    const furn_t fid = m.furn( loc ).obj();
     const ter_id tid = m.ter( loc );
     const ter_t &tr = tid.obj();
 
