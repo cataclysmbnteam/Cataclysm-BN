@@ -3212,7 +3212,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 
 static units::volume get_keg_capacity( const tripoint &pos )
 {
-    const furn_t &furn = get_map().furn( pos ).obj();
+    const furn_t furn = get_map().furn( pos ).obj();
     return furn.keg_capacity;
 }
 
@@ -3919,7 +3919,7 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
 void iexamine::reload_furniture( player &p, const tripoint &examp )
 {
     map &here = get_map();
-    const furn_t &f = here.furn( examp ).obj();
+    const furn_t f = here.furn( examp ).obj();
     const std::vector<itype> ammo_types = f.crafting_ammo_item_types();
 
     // No fake item, no ammo, something is wrong here.
@@ -4033,7 +4033,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
         debugmsg( "lost furniture at %s", examp.to_string() );
         return;
     }
-    const furn_t &furniture = m.furn( examp ).obj();
+    const furn_t furniture = m.furn( examp ).obj();
     const std::vector<itype> item_type_list = furniture.crafting_pseudo_item_types();
     std::vector<itype> usable_item_types;
     std::vector<std::string> usable_item_names;
