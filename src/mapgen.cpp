@@ -5570,7 +5570,7 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
         // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
         auto is_valid_terrain = [this, ongrass]( point  p ) {
-            auto &terrain = ter( p ).obj();
+            auto terrain = ter( p ).obj();
             return terrain.movecost == 0           &&
                    !terrain.has_flag( "PLACE_ITEM" ) &&
                    !ongrass                                   &&
