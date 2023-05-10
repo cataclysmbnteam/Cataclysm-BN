@@ -1511,7 +1511,7 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
     if( !p ) {
         return false;
     }
-    const furn_t &furniture_type = furn( pos ).obj();
+    const furn_t furniture_type = furn( pos ).obj();
     int required_str = furniture_type.move_str_req;
 
     // Object can not be moved (or nothing there)
@@ -1532,7 +1532,7 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
 
 std::string map::furnname( const tripoint &p )
 {
-    const furn_t &f = furn( p ).obj();
+    const furn_t f = furn( p ).obj();
     if( f.has_flag( "PLANT" ) ) {
         // Can't use item_stack::only_item() since there might be fertilizer
         map_stack items = i_at( p );
@@ -1611,7 +1611,7 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group,
                                  // or if an actual center tile is transparent or next to a memorized tile
                                  ( !overridden && ( is_transparent || is_memorized( neighbour ) ) );
         if( may_connect ) {
-            const ter_t &neighbour_terrain = neighbour_overridden ?
+            const ter_t neighbour_terrain = neighbour_overridden ?
                                              neighbour_override->second.obj() : ter( neighbour ).obj();
             if( neighbour_terrain.connects_to( connect_group ) ) {
                 val += 1 << i;
@@ -1847,8 +1847,8 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
         return 0;
     }
 
-    const furn_t &furniture = furn( p ).obj();
-    const ter_t &terrain = ter( p ).obj();
+    const furn_t furniture = furn( p ).obj();
+    const ter_t terrain = ter( p ).obj();
     const optional_vpart_position vp = veh_at( p );
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
@@ -2577,8 +2577,8 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
         return -1;
     }
 
-    const furn_t &furniture = furn( p ).obj();
-    const ter_t &terrain = ter( p ).obj();
+    const furn_t furniture = furn( p ).obj();
+    const ter_t terrain = ter( p ).obj();
     const optional_vpart_position vp = veh_at( p );
     vehicle *const veh = vp ? &vp->vehicle() : nullptr;
     const int part = vp ? vp->part_index() : -1;
@@ -3208,7 +3208,7 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air ) const
         return t_rock_floor;
     }
 
-    const auto &ter_there = ter( p ).obj();
+    const auto ter_there = ter( p ).obj();
     const auto &roof = ter_there.roof;
     if( !roof ) {
         // No roof
@@ -3269,7 +3269,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
 {
     bash_results result;
     result.success = true;
-    const ter_t &ter_before = ter( p ).obj();
+    const ter_t ter_before = ter( p ).obj();
     const map_bash_info &bash = ter_before.bash;
     if( has_flag_ter( "FUNGUS", p ) ) {
         fungal_effects( *g, *this ).create_spores( p );
@@ -3295,7 +3295,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
         propagate_suspension_check( p );
     } else {
         tripoint below( p.xy(), p.z - 1 );
-        const ter_t &ter_below = ter( below ).obj();
+        const ter_t ter_below = ter( below ).obj();
         // Only setting the flag here because we want drops and sounds in correct order
         follow_below |= zlevels && bash.bash_below && ter_below.roof;
 
@@ -3398,7 +3398,7 @@ bash_results map::bash_ter_success( const tripoint &p, const bash_params &params
 bash_results map::bash_furn_success( const tripoint &p, const bash_params &params )
 {
     bash_results result;
-    const auto &furnid = furn( p ).obj();
+    const auto furnid = furn( p ).obj();
     const map_bash_info &bash = furnid.bash;
 
 
@@ -3499,8 +3499,8 @@ bash_results map::bash_ter_furn( const tripoint &p, const bash_params &params )
 {
     bash_results result;
     std::string soundfxvariant;
-    const auto &ter_obj = ter( p ).obj();
-    const auto &furn_obj = furn( p ).obj();
+    const auto ter_obj = ter( p ).obj();
+    const auto furn_obj = furn( p ).obj();
     bool smash_ter = false;
     const map_bash_info *bash = nullptr;
 
@@ -3976,8 +3976,8 @@ bool map::hit_with_fire( const tripoint &p )
 bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
 {
     avatar &you = get_avatar();
-    const auto &ter = this->ter( p ).obj();
-    const auto &furn = this->furn( p ).obj();
+    const auto ter = this->ter( p ).obj();
+    const auto furn = this->furn( p ).obj();
     if( ter.open ) {
         if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
             return false;
@@ -4074,8 +4074,8 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
         return false;
     }
 
-    const auto &ter = this->ter( p ).obj();
-    const auto &furn = this->furn( p ).obj();
+    const auto ter = this->ter( p ).obj();
+    const auto furn = this->furn( p ).obj();
     if( ter.close && !furn.id ) {
         if( !check_only ) {
             sounds::sound( p, 10, sounds::sound_t::movement, _( "swish" ), true,
@@ -5292,7 +5292,7 @@ void map::trap_set( const tripoint &p, const trap_id &type )
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    const ter_t &ter = current_submap->get_ter( l ).obj();
+    const ter_t ter = current_submap->get_ter( l ).obj();
     if( ter.trap != tr_null ) {
         debugmsg( "set trap %s on top of terrain %s which already has a builit-in trap",
                   type.obj().name(), ter.name() );
@@ -5979,7 +5979,7 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
     nc_color tercol;
     const ter_t &curr_ter = curr_maptile.get_ter_t();
     const furn_t &curr_furn = curr_maptile.get_furn_t();
-    const trap &curr_trap = curr_maptile.get_trap().obj();
+    const trap curr_trap = curr_maptile.get_trap().obj();
     const field &curr_field = curr_maptile.get_field();
     int sym;
     bool hi = false;
@@ -7261,7 +7261,7 @@ void map::fill_funnels( const tripoint &p, const time_point &since )
 
 void map::grow_plant( const tripoint &p )
 {
-    const auto &furn = this->furn( p ).obj();
+    const auto furn = this->furn( p ).obj();
     if( !furn.has_flag( "PLANT" ) ) {
         return;
     }
@@ -7339,7 +7339,7 @@ void map::grow_plant( const tripoint &p )
 
 void map::restock_fruits( const tripoint &p, const time_duration &time_since_last_actualize )
 {
-    const auto &ter = this->ter( p ).obj();
+    const auto ter = this->ter( p ).obj();
     if( !ter.has_flag( TFLAG_HARVESTED ) ) {
         return; // Already harvestable. Do nothing.
     }
@@ -7462,7 +7462,7 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
 
     // First destroy the farmable plants (those are furniture)
     // TODO: Rad-resistant mutant plants (that produce radioactive fruit)
-    const furn_t &fid = furn( p ).obj();
+    const furn_t fid = furn( p ).obj();
     if( fid.has_flag( "PLANT" ) ) {
         i_clear( p );
         furn_set( p, f_null );
@@ -7530,7 +7530,7 @@ void map::actualize( const tripoint &grid )
         for( int y = 0; y < SEEY; y++ ) {
             const tripoint pnt = sm_to_ms_copy( grid ) + point( x, y );
             const point p( x, y );
-            const auto &furn = this->furn( pnt ).obj();
+            const auto furn = this->furn( pnt ).obj();
             if( furn.has_flag( "EMITTER" ) ) {
                 field_furn_locs.push_back( pnt );
             }
@@ -7607,7 +7607,7 @@ void map::add_roofs( const tripoint &grid )
                 continue;
             }
 
-            const ter_t &ter_below = sub_below->get_ter( { x, y } ).obj();
+            const ter_t ter_below = sub_below->get_ter( { x, y } ).obj();
             if( ter_below.roof ) {
                 // TODO: Make roof variable a ter_id to speed this up
                 sub_here->set_ter( { x, y }, ter_below.roof.id() );
@@ -8145,7 +8145,7 @@ bool map::build_floor_cache( const int zlev )
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     point sp( sx, sy );
-                    const ter_t &terrain = cur_submap->get_ter( sp ).obj();
+                    const ter_t terrain = cur_submap->get_ter( sp ).obj();
                     if( terrain.has_flag( TFLAG_NO_FLOOR ) ) {
                         if( below_submap && ( below_submap->get_furn( sp ).obj().has_flag( TFLAG_SUN_ROOF_ABOVE ) ) ) {
                             continue;
@@ -8193,7 +8193,7 @@ void map::update_suspension_cache( const int &z )
                 for( int sx = 0; sx < SEEX; ++sx ) {
                     for( int sy = 0; sy < SEEY; ++sy ) {
                         point sp( sx, sy );
-                        const ter_t &terrain = cur_submap->get_ter( sp ).obj();
+                        const ter_t terrain = cur_submap->get_ter( sp ).obj();
                         if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
                             tripoint loc( coords::project_combine( point_om_sm( point( smx, smy ) ), point_sm_ms( sp ) ).raw(),
                                           z );
@@ -8221,7 +8221,7 @@ void map::update_suspension_cache( const int &z )
             ++iter;
             continue;
         }
-        const ter_t &terrain = ter( locp ).obj();
+        const ter_t terrain = ter( locp ).obj();
         if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
             if( !is_suspension_valid( loctp ) ) {
                 support_dirty( loctp );
