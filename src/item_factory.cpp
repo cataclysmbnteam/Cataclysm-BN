@@ -259,7 +259,7 @@ void Item_factory::finalize_pre( itype &obj )
 
         const auto &mats = obj.materials;
         if( std::find( mats.begin(), mats.end(), material_id( "hydrocarbons" ) ) == mats.end() &&
-            std::find( mats.begin(), mats.end(), material_id( "oil" ) ) == mats.end() ) {
+                std::find( mats.begin(), mats.end(), material_id( "oil" ) ) == mats.end() ) {
             const auto &ammo_effects = obj.ammo->ammo_effects;
             obj.ammo->cookoff = ammo_effects.count( ammo_effect_INCENDIARY ) > 0 ||
                                 ammo_effects.count( ammo_effect_COOKOFF ) > 0;
@@ -557,7 +557,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
-        string_starts_with( obj.get_id().str(), "manual_" ) ) {
+            string_starts_with( obj.get_id().str(), "manual_" ) ) {
         // HACK: Legacy martial arts books rely on a hack whereby the name of the
         // martial art is derived from the item id
         obj.book->martial_art = matype_id( "style_" + obj.get_id().str().substr( 7 ) );
@@ -777,38 +777,38 @@ Item_factory::Item_factory()
 
 class iuse_function_wrapper : public iuse_actor
 {
-    private:
-        use_function_pointer cpp_function;
-    public:
-        iuse_function_wrapper( const std::string &type, const use_function_pointer f )
-            : iuse_actor( type ), cpp_function( f ) { }
+private:
+    use_function_pointer cpp_function;
+public:
+    iuse_function_wrapper( const std::string &type, const use_function_pointer f )
+        : iuse_actor( type ), cpp_function( f ) { }
 
-        ~iuse_function_wrapper() override = default;
-        int use( player &p, item &it, bool a, const tripoint &pos ) const override {
-            return ( *cpp_function )( &p, &it, a, pos );
-        }
-        std::unique_ptr<iuse_actor> clone() const override {
-            return std::make_unique<iuse_function_wrapper>( *this );
-        }
+    ~iuse_function_wrapper() override = default;
+    int use( player &p, item &it, bool a, const tripoint &pos ) const override {
+        return ( *cpp_function )( &p, &it, a, pos );
+    }
+    std::unique_ptr<iuse_actor> clone() const override {
+        return std::make_unique<iuse_function_wrapper>( *this );
+    }
 
-        void load( const JsonObject & ) override {}
+    void load( const JsonObject & ) override {}
 };
 
 class iuse_function_wrapper_with_info : public iuse_function_wrapper
 {
-    private:
-        std::string info_string; // Untranslated
-    public:
-        iuse_function_wrapper_with_info(
-            const std::string &type, const use_function_pointer f, const std::string &info )
-            : iuse_function_wrapper( type, f ), info_string( info ) { }
+private:
+    std::string info_string; // Untranslated
+public:
+    iuse_function_wrapper_with_info(
+        const std::string &type, const use_function_pointer f, const std::string &info )
+        : iuse_function_wrapper( type, f ), info_string( info ) { }
 
-        void info( const item &, std::vector<iteminfo> &info ) const override {
-            info.emplace_back( "DESCRIPTION", _( info_string ) );
-        }
-        std::unique_ptr<iuse_actor> clone() const override {
-            return std::make_unique<iuse_function_wrapper_with_info>( *this );
-        }
+    void info( const item &, std::vector<iteminfo> &info ) const override {
+        info.emplace_back( "DESCRIPTION", _( info_string ) );
+    }
+    std::unique_ptr<iuse_actor> clone() const override {
+        return std::make_unique<iuse_function_wrapper_with_info>( *this );
+    }
 };
 
 use_function::use_function( const std::string &type, const use_function_pointer f )
@@ -1214,8 +1214,8 @@ void Item_factory::check_definitions() const
         }
 
         if( type->has_flag( "FIRESTARTER" ) &&
-            !type->can_have_charges() &&
-            !type->get_use( "firestarter" ) ) {
+                !type->can_have_charges() &&
+                !type->get_use( "firestarter" ) ) {
             msg += string_format( "has 'FIRESTARTER' flag, but neither can have charges nor defines 'firestarter' use func" );
         }
 
@@ -1444,7 +1444,7 @@ void Item_factory::check_definitions() const
         }
 
         for( const std::pair<const string_id<ammunition_type>, std::set<itype_id>> &ammo_variety :
-             type->magazines ) {
+                type->magazines ) {
             if( ammo_variety.second.empty() ) {
                 msg += string_format( "no magazine specified for %s\n", ammo_variety.first.str() );
             }
@@ -1562,7 +1562,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
     //If we didn't find the item maybe it is a building instead!
     const recipe_id &making_id = recipe_id( id.c_str() );
     if( oter_str_id( id.c_str() ).is_valid() ||
-        ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
+            ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
         itype *def = new itype();
         def->id = id;
         def->name = no_translation( string_format( "DEBUG: %s", id.c_str() ) );
@@ -1925,7 +1925,7 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
                 tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
             } else if( obj.has_int( "encumbrance" ) ) {
                 tempData.encumber = obj.get_int( "encumbrance" );
-                tempData.max_encumber = -1;
+                tempData.max_encumber = tempData.encumber;
             }
             if( obj.has_int( "coverage" ) ) {
                 tempData.coverage = obj.get_int( "coverage" );
@@ -1963,7 +1963,7 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
                 tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
             } else if( obj.has_int( "encumbrance" ) ) {
                 tempData.encumber = obj.get_int( "encumbrance" );
-                tempData.max_encumber = -1;
+                tempData.max_encumber = tempData.encumber;
             }
             if( obj.has_int( "coverage" ) ) {
                 tempData.coverage = obj.get_int( "coverage" );
@@ -1986,8 +1986,7 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
         if( slot.data.empty() ) { // Loading item does not have copy-from
             slot.data.emplace_back();
             optional( jo, slot.was_loaded, "encumbrance", slot.data[0].encumber, 0 );
-            // Default max_encumbrance will be set to a reasonable value in finalize_post
-            optional( jo, slot.was_loaded, "max_encumbrance", slot.data[0].max_encumber, -1 );
+            optional( jo, slot.was_loaded, "max_encumbrance", slot.data[0].max_encumber, slot.data[0].encumber );
             optional( jo, slot.was_loaded, "coverage", slot.data[0].coverage, 0 );
             body_part_set temp_cover_data;
             assign_coverage_from_json( jo, "covers", temp_cover_data, slot.sided );
@@ -1996,12 +1995,12 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
             armor_portion_data child_data;
             if( jo.has_int( "encumbrance" ) ) {
                 child_data.encumber = jo.get_int( "encumbrance" );
-                child_data.max_encumber = -1;
+                child_data.max_encumber = child_data.encumber;
             }
             if( jo.has_int( "max_encumbrance" ) ) {
                 child_data.max_encumber = jo.get_int( "max_encumbrance" );
             } else {
-                child_data.max_encumber = -1;
+                child_data.max_encumber = child_data.encumber;
             }
             if( jo.has_int( "coverage" ) ) {
                 child_data.coverage = jo.get_int( "coverage" );
@@ -2010,7 +2009,7 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
             if( child_data.encumber != slot.data[0].encumber && child_data.encumber != 0 ) {
                 slot.data[0].encumber = child_data.encumber;
             }
-            if( child_data.max_encumber != slot.data[0].max_encumber && child_data.max_encumber != -1 ) {
+            if( child_data.max_encumber != slot.data[0].max_encumber && child_data.max_encumber != 0 ) {
                 slot.data[0].max_encumber = child_data.max_encumber;
             }
             if( child_data.coverage != slot.data[0].coverage && child_data.coverage != 0 ) {
@@ -2522,7 +2521,7 @@ void hflesh_to_flesh( itype &item_template )
     mats.erase( std::remove( mats.begin(), mats.end(), material_id( "hflesh" ) ), mats.end() );
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
-        std::find( mats.begin(), mats.end(), material_id( "flesh" ) ) == mats.end() ) {
+            std::find( mats.begin(), mats.end(), material_id( "flesh" ) ) == mats.end() ) {
         mats.push_back( material_id( "flesh" ) );
     }
 }
@@ -2546,12 +2545,12 @@ void Item_factory::npc_implied_flags( itype &item_template )
     }
 
     if( item_template.has_flag( "NPC_ACTIVATE" ) ||
-        item_template.has_flag( "NPC_THROWN" ) ) {
+            item_template.has_flag( "NPC_THROWN" ) ) {
         item_template.item_tags.insert( "NPC_ALT_ATTACK" );
     }
 
     if( item_template.has_flag( "DANGEROUS" ) ||
-        item_template.has_flag( "PSEUDO" ) ) {
+            item_template.has_flag( "PSEUDO" ) ) {
         item_template.item_tags.insert( "TRADER_AVOID" );
     }
 }
@@ -2946,10 +2945,10 @@ void Item_factory::clear()
 static std::string to_string( Item_group::Type t )
 {
     switch( t ) {
-        case Item_group::Type::G_COLLECTION:
-            return "collection";
-        case Item_group::Type::G_DISTRIBUTION:
-            return "distribution";
+    case Item_group::Type::G_COLLECTION:
+        return "collection";
+    case Item_group::Type::G_DISTRIBUTION:
+        return "distribution";
     }
 
     return "BUGGED";
@@ -3295,8 +3294,8 @@ std::string enum_to_string<phase_id>( phase_id data )
         case GAS: return "gas";
         case PLASMA: return "plasma";
         // *INDENT-ON*
-        case num_phases:
-            break;
+    case num_phases:
+        break;
     }
     debugmsg( "Invalid phase" );
     abort();
