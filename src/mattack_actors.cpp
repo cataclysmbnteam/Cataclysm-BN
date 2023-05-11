@@ -669,11 +669,11 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         tmp.set_skill_level( pr.first, pr.second );
     }
 
-    tmp.weapon = gun;
+    tmp.primary_weapon() = gun;
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
     if( g->u.sees( z ) ) {
-        add_msg( m_warning, _( description ), z.name(), tmp.weapon.tname() );
+        add_msg( m_warning, _( description ), z.name(), tmp.primary_weapon().tname() );
     }
 
     z.ammo[ammo] -= ranged::fire_gun( tmp, target, gun.gun_current_mode().qty );
