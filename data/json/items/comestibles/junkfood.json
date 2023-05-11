@@ -101,6 +101,7 @@
     "material": "junk",
     "volume": "250 ml",
     "charges": 8,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": -6
   },
   {
@@ -187,6 +188,7 @@
     "material": [ "wheat", "junk" ],
     "volume": "500 ml",
     "charges": 3,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 6
   },
   {
@@ -409,6 +411,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 16,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 5,
     "vitamins": [ [ "calcium", 2 ] ],
     "freezing_point": -70
@@ -493,6 +496,7 @@
     "volume": "250 ml",
     "charges": 5,
     "stack_size": 30,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 2
   },
   {
@@ -605,6 +609,7 @@
     "volume": "250 ml",
     "charges": 5,
     "vitamins": [ [ "calcium", 9 ], [ "vitB", 8 ] ],
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 2
   },
   {
