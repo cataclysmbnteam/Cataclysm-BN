@@ -548,6 +548,7 @@
     "charges": 2,
     "stack_size": 4,
     "vitamins": [  ],
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": -18
   },
   {
