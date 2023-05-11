@@ -1834,19 +1834,19 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                 case temperature_flag::TEMP_NORMAL:
                 case temperature_flag::TEMP_HEATER: {
                     temperature_description = _( "* Current storage conditions <bad>do not</bad> "
-                                                "protect this item from rot." );
+                                                 "protect this item from rot." );
                 }
                 break;
                 case temperature_flag::TEMP_FRIDGE:
                 case temperature_flag::TEMP_ROOT_CELLAR: {
                     temperature_description = _( "* Current storage conditions <neutral>partially</neutral> "
-                                                "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
+                                                 "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
                     print_freshness_duration = true;
                 }
                 break;
                 case temperature_flag::TEMP_FREEZER: {
                     temperature_description = _( "* Current storage conditions <good>fully</good> "
-                                                "protect this item from rot.  It will stay fresh indefinitely." );
+                                                 "protect this item from rot.  It will stay fresh indefinitely." );
                 }
                 break;
                 default: {
@@ -2748,8 +2748,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                             info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
                                                       iteminfo::no_newline | iteminfo::lower_is_better,
                                                       get_encumber_when_containing( you, get_total_capacity(), piece.first ) ) );
-                        }
-                        else if( any_encumb_increase ) {
+                        } else if( any_encumb_increase ) {
                             info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
                                                       iteminfo::no_newline | iteminfo::lower_is_better,
                                                       piece.second.portion.max_encumber ) );
@@ -2853,52 +2852,52 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
             case sizing::human_sized_human_char:
                 if( has_flag( flag_FIT ) ) {
                     info.emplace_back( "DESCRIPTION",
-                                    _( "* This clothing <info>fits</info> you perfectly." ) );
+                                       _( "* This clothing <info>fits</info> you perfectly." ) );
                 }
                 break;
             case sizing::big_sized_big_char:
                 if( has_flag( flag_FIT ) ) {
                     info.emplace_back( "DESCRIPTION", _( "* This clothing <info>fits</info> "
-                                                        "your large frame perfectly." ) );
+                                                         "your large frame perfectly." ) );
                 }
                 break;
             case sizing::small_sized_small_char:
                 if( has_flag( flag_FIT ) ) {
                     info.emplace_back( "DESCRIPTION", _( "* This clothing <info>fits</info> "
-                                                        "your small frame perfectly." ) );
+                                                         "your small frame perfectly." ) );
                 }
                 break;
             case sizing::big_sized_human_char:
                 info.emplace_back( "DESCRIPTION", _( "* This clothing is <bad>oversized</bad> "
-                                                    "and does <bad>not fit</bad> you." ) );
+                                                     "and does <bad>not fit</bad> you." ) );
                 break;
             case sizing::big_sized_small_char:
                 info.emplace_back( "DESCRIPTION",
-                                _( "* This clothing is hilariously <bad>oversized</bad> "
-                                    "and does <bad>not fit</bad> your <info>abnormally "
-                                    "small mutated anatomy</info>." ) );
+                                   _( "* This clothing is hilariously <bad>oversized</bad> "
+                                      "and does <bad>not fit</bad> your <info>abnormally "
+                                      "small mutated anatomy</info>." ) );
                 break;
             case sizing::human_sized_big_char:
                 info.emplace_back( "DESCRIPTION",
-                                _( "* This clothing is <bad>normal sized</bad> and does "
-                                    "<bad>not fit</info> your <info>abnormally large "
-                                    "mutated anatomy</info>." ) );
+                                   _( "* This clothing is <bad>normal sized</bad> and does "
+                                      "<bad>not fit</info> your <info>abnormally large "
+                                      "mutated anatomy</info>." ) );
                 break;
             case sizing::human_sized_small_char:
                 info.emplace_back( "DESCRIPTION",
-                                _( "* This clothing is <bad>normal sized</bad> and does "
-                                    "<bad>not fit</bad> your <info>abnormally small "
-                                    "mutated anatomy</info>." ) );
+                                   _( "* This clothing is <bad>normal sized</bad> and does "
+                                      "<bad>not fit</bad> your <info>abnormally small "
+                                      "mutated anatomy</info>." ) );
                 break;
             case sizing::small_sized_big_char:
                 info.emplace_back( "DESCRIPTION",
-                                _( "* This clothing is hilariously <bad>undersized</bad> "
-                                    "and does <bad>not fit</bad> your <info>abnormally "
-                                    "large mutated anatomy</info>." ) );
+                                   _( "* This clothing is hilariously <bad>undersized</bad> "
+                                      "and does <bad>not fit</bad> your <info>abnormally "
+                                      "large mutated anatomy</info>." ) );
                 break;
             case sizing::small_sized_human_char:
                 info.emplace_back( "DESCRIPTION", _( "* This clothing is <bad>undersized</bad> "
-                                                    "and does <bad>not fit</bad> you." ) );
+                                                     "and does <bad>not fit</bad> you." ) );
                 break;
             default:
                 break;
@@ -4405,9 +4404,9 @@ void item::on_wear( Character &p )
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
             if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( bodypart_id( "leg_r" ) ) &&
-                !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
+                  !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
                 ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( bodypart_id( "arm_r" ) ) &&
-                !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
+                  !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
         } else if( has_flag( flag_POWERARMOR_MOD ) ) {
@@ -4929,15 +4928,15 @@ std::string item::display_name( unsigned int quantity ) const
     std::string amt;
 
     switch( get_side() ) {
-    case side::BOTH:
-    case side::num_sides:
-        break;
-    case side::LEFT:
-        sidetxt = string_format( " (%s)", _( "left" ) );
-        break;
-    case side::RIGHT:
-        sidetxt = string_format( " (%s)", _( "right" ) );
-        break;
+        case side::BOTH:
+        case side::num_sides:
+            break;
+        case side::LEFT:
+            sidetxt = string_format( " (%s)", _( "left" ) );
+            break;
+        case side::RIGHT:
+            sidetxt = string_format( " (%s)", _( "right" ) );
+            break;
     }
     avatar &you = get_avatar();
     int amount = 0;
@@ -5303,21 +5302,21 @@ int item::damage_melee( damage_type dt ) const
 
     // apply type specific flags
     switch( dt ) {
-    case DT_BASH:
-        if( has_flag( flag_REDUCED_BASHING ) ) {
-            res *= 0.5;
-        }
-        break;
+        case DT_BASH:
+            if( has_flag( flag_REDUCED_BASHING ) ) {
+                res *= 0.5;
+            }
+            break;
 
-    case DT_CUT:
-    case DT_STAB:
-        if( has_flag( flag_DIAMOND ) ) {
-            res *= 1.3;
-        }
-        break;
+        case DT_CUT:
+        case DT_STAB:
+            if( has_flag( flag_DIAMOND ) ) {
+                res *= 1.3;
+            }
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     // consider any melee gunmods
@@ -5330,17 +5329,17 @@ int item::damage_melee( damage_type dt ) const
     }
 
     switch( dt ) {
-    case DT_BASH:
-        res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_BASH, true );
-        break;
-    case DT_CUT:
-        res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_CUT, true );
-        break;
-    case DT_STAB:
-        res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_STAB, true );
-        break;
-    default:
-        break;
+        case DT_BASH:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_BASH, true );
+            break;
+        case DT_CUT:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_CUT, true );
+            break;
+        case DT_STAB:
+            res += bonus_from_enchantments_wielded( res, enchant_vals::mod::ITEM_DAMAGE_STAB, true );
+            break;
+        default:
+            break;
     }
 
     return std::max( res, 0 );
@@ -5518,7 +5517,7 @@ int item::get_quality( const quality_id &id ) const
     // if it's has boil quality and it's empty, it's good to boil. If it's not empty and it's not a tool (it's probably a container), it's not good to boil. If it's a tool, it gets an extra chance: if it's only contents are mods or batteries, it's still good.
     // Also  we are using inverted filter, since we don't care about items that the filter likes, we only care if it find something it doesn't like.
     if( id == quality_id( "BOIL" ) && !contents.empty() &&
-            ( !is_tool() || has_item_with( block_boil_filter ) ) ) {
+        ( !is_tool() || has_item_with( block_boil_filter ) ) ) {
         return INT_MIN;
     }
 
@@ -5787,16 +5786,16 @@ time_duration item::calc_rot( time_point time, int temp ) const
 static int temperature_flag_to_highest_temperature( temperature_flag temperature )
 {
     switch( temperature ) {
-    case temperature_flag::TEMP_NORMAL:
-        return INT_MAX;
-    case temperature_flag::TEMP_HEATER:
-        return INT_MAX;
-    case temperature_flag::TEMP_FRIDGE:
-        return to_fahrenheit( temperatures::fridge );
-    case temperature_flag::TEMP_FREEZER:
-        return to_fahrenheit( temperatures::freezer );
-    case temperature_flag::TEMP_ROOT_CELLAR:
-        return to_fahrenheit( temperatures::root_cellar );
+        case temperature_flag::TEMP_NORMAL:
+            return INT_MAX;
+        case temperature_flag::TEMP_HEATER:
+            return INT_MAX;
+        case temperature_flag::TEMP_FRIDGE:
+            return to_fahrenheit( temperatures::fridge );
+        case temperature_flag::TEMP_FREEZER:
+            return to_fahrenheit( temperatures::freezer );
+        case temperature_flag::TEMP_ROOT_CELLAR:
+            return to_fahrenheit( temperatures::root_cellar );
     }
 
     return INT_MAX;
@@ -6014,18 +6013,18 @@ int item::get_encumber_when_containing(
     // TODO: Should probably have sizing affect coverage
     const sizing sizing_level = get_sizing( p );
     switch( sizing_level ) {
-    case sizing::small_sized_human_char:
-    case sizing::small_sized_big_char:
-        // non small characters have a HARD time wearing undersized clothing
-        encumber *= 3;
-        break;
-    case sizing::human_sized_small_char:
-    case sizing::big_sized_small_char:
-        // clothes bag up around smol characters and encumber them more
-        encumber *= 2;
-        break;
-    default:
-        break;
+        case sizing::small_sized_human_char:
+        case sizing::small_sized_big_char:
+            // non small characters have a HARD time wearing undersized clothing
+            encumber *= 3;
+            break;
+        case sizing::human_sized_small_char:
+        case sizing::big_sized_small_char:
+            // clothes bag up around smol characters and encumber them more
+            encumber *= 2;
+            break;
+        default:
+            break;
     }
 
     encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
@@ -6472,51 +6471,51 @@ nc_color item::damage_color() const
 {
     // TODO: unify with veh_interact::countDurability
     switch( damage_level( 4 ) ) {
-    default:
-        // reinforced
-        if( damage() <= min_damage() ) {
-            // fully reinforced
-            return c_green;
-        } else {
+        default:
+            // reinforced
+            if( damage() <= min_damage() ) {
+                // fully reinforced
+                return c_green;
+            } else {
+                return c_light_green;
+            }
+        case 0:
             return c_light_green;
-        }
-    case 0:
-        return c_light_green;
-    case 1:
-        return c_yellow;
-    case 2:
-        return c_magenta;
-    case 3:
-        return c_light_red;
-    case 4:
-        if( damage() >= max_damage() ) {
-            return c_dark_gray;
-        } else {
-            return c_red;
-        }
+        case 1:
+            return c_yellow;
+        case 2:
+            return c_magenta;
+        case 3:
+            return c_light_red;
+        case 4:
+            if( damage() >= max_damage() ) {
+                return c_dark_gray;
+            } else {
+                return c_red;
+            }
     }
 }
 
 std::string item::damage_symbol() const
 {
     switch( damage_level( 4 ) ) {
-    default:
-        // reinforced
-        return _( R"(++)" );
-    case 0:
-        return _( R"(||)" );
-    case 1:
-        return _( R"(|\)" );
-    case 2:
-        return _( R"(|.)" );
-    case 3:
-        return _( R"(\.)" );
-    case 4:
-        if( damage() >= max_damage() ) {
-            return _( R"(XX)" );
-        } else {
-            return _( R"(..)" );
-        }
+        default:
+            // reinforced
+            return _( R"(++)" );
+        case 0:
+            return _( R"(||)" );
+        case 1:
+            return _( R"(|\)" );
+        case 2:
+            return _( R"(|.)" );
+        case 3:
+            return _( R"(\.)" );
+        case 4:
+            if( damage() >= max_damage() ) {
+                return _( R"(XX)" );
+            } else {
+                return _( R"(..)" );
+            }
 
     }
 }
@@ -6536,18 +6535,18 @@ std::string item::durability_indicator( bool include_intact ) const
     } else if( has_flag( flag_CORPSE ) ) {
         if( damage() > 0 ) {
             switch( damage_level( 4 ) ) {
-            case 1:
-                outputstring = pgettext( "damage adjective", "bruised " );
-                break;
-            case 2:
-                outputstring = pgettext( "damage adjective", "damaged " );
-                break;
-            case 3:
-                outputstring = pgettext( "damage adjective", "mangled " );
-                break;
-            default:
-                outputstring = pgettext( "damage adjective", "pulped " );
-                break;
+                case 1:
+                    outputstring = pgettext( "damage adjective", "bruised " );
+                    break;
+                case 2:
+                    outputstring = pgettext( "damage adjective", "damaged " );
+                    break;
+                case 3:
+                    outputstring = pgettext( "damage adjective", "mangled " );
+                    break;
+                default:
+                    outputstring = pgettext( "damage adjective", "pulped " );
+                    break;
             }
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
@@ -6579,31 +6578,31 @@ void item::mitigate_damage( damage_unit &du ) const
 int item::damage_resist( damage_type dt, bool to_self ) const
 {
     switch( dt ) {
-    case DT_NULL:
-    case NUM_DT:
-        return 0;
-    case DT_TRUE:
-    case DT_BIOLOGICAL:
-    case DT_ELECTRIC:
-    case DT_COLD:
-        // Currently hardcoded:
-        // Items can never be damaged by those types
-        // But they provide 0 protection from them
-        return to_self ? INT_MAX : 0;
-    case DT_BASH:
-        return bash_resist( to_self );
-    case DT_CUT:
-        return cut_resist( to_self );
-    case DT_ACID:
-        return acid_resist( to_self );
-    case DT_STAB:
-        return stab_resist( to_self );
-    case DT_HEAT:
-        return fire_resist( to_self );
-    case DT_BULLET:
-        return bullet_resist( to_self );
-    default:
-        debugmsg( "Invalid damage type: %d", dt );
+        case DT_NULL:
+        case NUM_DT:
+            return 0;
+        case DT_TRUE:
+        case DT_BIOLOGICAL:
+        case DT_ELECTRIC:
+        case DT_COLD:
+            // Currently hardcoded:
+            // Items can never be damaged by those types
+            // But they provide 0 protection from them
+            return to_self ? INT_MAX : 0;
+        case DT_BASH:
+            return bash_resist( to_self );
+        case DT_CUT:
+            return cut_resist( to_self );
+        case DT_ACID:
+            return acid_resist( to_self );
+        case DT_STAB:
+            return stab_resist( to_self );
+        case DT_HEAT:
+            return fire_resist( to_self );
+        case DT_BULLET:
+            return bullet_resist( to_self );
+        default:
+            debugmsg( "Invalid damage type: %d", dt );
     }
 
     return 0;
@@ -7098,7 +7097,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
             } else {
                 const itype *at = &*ammo;
                 if( ( !at->ammo || !ammo_types().count( at->ammo->type ) ) &&
-                        !magazine_compatible().count( ammo ) ) {
+                    !magazine_compatible().count( ammo ) ) {
                     return false;
                 }
             }
@@ -7756,7 +7755,7 @@ const itype *item::ammo_data() const
     auto mods = is_gun() ? gunmods() : toolmods();
     for( const item *e : mods ) {
         if( !e->type->mod->ammo_modifier.empty() && e->ammo_current() &&
-                e->ammo_current().is_valid() ) {
+            e->ammo_current().is_valid() ) {
             return &*e->ammo_current();
         }
     }
