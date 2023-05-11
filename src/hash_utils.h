@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_HASH_UTILS_H
 #define CATA_SRC_HASH_UTILS_H
 
+#include <cstdint>
 #include <functional>
 
 // Support for hashing standard types.
