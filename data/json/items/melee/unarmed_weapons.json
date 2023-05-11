@@ -153,7 +153,7 @@
     "flags": [ "DURABLE_MELEE", "UNARMED_WEAPON", "BELT_CLIP", "NONCONDUCTIVE", "STAB" ]
   },
   {
-    "id": "sai",
+    "id": "sai_weapon",
     "type": "GENERIC",
     "name": "sai",
     "description": "A pointed metal baton with two curved prongs projecting from the handle.  It's primarily used for disarming opponents, but can also make your punches puncture your foes.",
