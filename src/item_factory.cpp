@@ -259,7 +259,7 @@ void Item_factory::finalize_pre( itype &obj )
 
         const auto &mats = obj.materials;
         if( std::find( mats.begin(), mats.end(), material_id( "hydrocarbons" ) ) == mats.end() &&
-                std::find( mats.begin(), mats.end(), material_id( "oil" ) ) == mats.end() ) {
+            std::find( mats.begin(), mats.end(), material_id( "oil" ) ) == mats.end() ) {
             const auto &ammo_effects = obj.ammo->ammo_effects;
             obj.ammo->cookoff = ammo_effects.count( ammo_effect_INCENDIARY ) > 0 ||
                                 ammo_effects.count( ammo_effect_COOKOFF ) > 0;
@@ -557,7 +557,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     if( obj.can_use( "MA_MANUAL" ) && obj.book && obj.book->martial_art.is_null() &&
-            string_starts_with( obj.get_id().str(), "manual_" ) ) {
+        string_starts_with( obj.get_id().str(), "manual_" ) ) {
         // HACK: Legacy martial arts books rely on a hack whereby the name of the
         // martial art is derived from the item id
         obj.book->martial_art = matype_id( "style_" + obj.get_id().str().substr( 7 ) );
