@@ -134,14 +134,7 @@
     "id": "clothing_soldier_shirt",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      {
-        "distribution": [
-          { "item": "tshirt", "prob": 4 },
-          { "item": "crt_jacket", "prob": 1 }
-        ]
-      }
-    ]
+    "entries": [ { "distribution": [ { "item": "tshirt", "prob": 4 }, { "item": "crt_jacket", "prob": 1 } ] } ]
   },
   {
     "type": "item_group",
