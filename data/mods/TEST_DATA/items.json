@@ -583,7 +583,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "armor_portion_data": [ { "covers": [ "torso", "LEGS", "ARMS" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
+    "armor_portion_data": [ { "covers": [ "torso", "legs", "arms" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
     "storage": "5 L",
     "warmth": 35,
     "material_thickness": 11,
