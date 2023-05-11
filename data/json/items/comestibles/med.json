@@ -435,7 +435,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "freezing_point": -49,
     "fun": 30
   },
