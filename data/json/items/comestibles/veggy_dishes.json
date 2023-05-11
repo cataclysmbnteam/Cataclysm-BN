@@ -362,7 +362,7 @@
     "price_postapoc": 150,
     "material": [ "veggy", "bean" ],
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
     "vitamins": [ [ "vitC", 14 ], [ "calcium", 4 ], [ "iron", 16 ] ]
   },
