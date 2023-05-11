@@ -589,7 +589,7 @@ class atm_menu
             int pos = u.inv.position_by_type( itype_cash_card );
             item *dst;
             if( pos == INT_MIN ) {
-                dst = &u.weapon;
+                dst = &u.primary_weapon();
             } else {
                 dst = &u.i_at( pos );
             }

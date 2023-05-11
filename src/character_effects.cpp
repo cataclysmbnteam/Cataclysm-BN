@@ -155,12 +155,12 @@ int intimidation( const Character &ch )
 {
     /** @EFFECT_STR increases intimidation factor */
     int ret = ch.get_str() * 2;
-    if( ch.weapon.is_gun() ) {
+    if( ch.primary_weapon().is_gun() ) {
         ret += 10;
     }
-    if( ch.weapon.damage_melee( DT_BASH ) >= 12 ||
-        ch.weapon.damage_melee( DT_CUT ) >= 12 ||
-        ch.weapon.damage_melee( DT_STAB ) >= 12 ) {
+    if( ch.primary_weapon().damage_melee( DT_BASH ) >= 12 ||
+        ch.primary_weapon().damage_melee( DT_CUT ) >= 12 ||
+        ch.primary_weapon().damage_melee( DT_STAB ) >= 12 ) {
         ret += 5;
     }
 

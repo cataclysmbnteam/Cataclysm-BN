@@ -547,7 +547,7 @@ void npc::check_or_use_weapon_cbm()
         int dist = rl_dist( pos(), critter->pos() );
         int active_index = -1;
         int best_dps = -1;
-        bool wield_gun = weapon.is_gun();
+        bool wield_gun = primary_weapon().is_gun();
         item best_cbm_active = null_item_reference();
         for( int i : avail_active_cbms ) {
             bionic &bio = ( *my_bionics )[ i ];
@@ -562,8 +562,8 @@ void npc::check_or_use_weapon_cbm()
             auto [mode_id, mode_] = npc_ai::best_mode_for_range( *this, cbm_weapon, dist );
             double dps = cbm_weapon.ideal_ranged_dps( *this, mode_ );
             if( wield_gun && active_index < 0 ) {
-                gun_mode weap_mode = npc_ai::best_mode_for_range( *this, this->weapon, dist ).second;
-                dps = this->weapon.ideal_ranged_dps( *this, weap_mode );
+                gun_mode weap_mode = npc_ai::best_mode_for_range( *this, this->primary_weapon(), dist ).second;
+                dps = this->primary_weapon().ideal_ranged_dps( *this, weap_mode );
             }
 
             if( ( !wield_gun && active_index < 0 ) || dps > best_dps ) {
@@ -652,16 +652,16 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         avatar_action::fire_ranged_bionic( *this->as_avatar(), item( bio.info().fake_item ),
                                            bio.info().power_activate );
     } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
-        if( weapon.has_flag( flag_NO_UNWIELD ) ) {
-            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
+        if( primary_weapon().has_flag( flag_NO_UNWIELD ) ) {
+            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), primary_weapon().tname() );
             refund_power();
             bio.powered = false;
             return false;
         }
 
-        if( !weapon.is_null() ) {
-            const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
-            if( !dispose_item( item_location( *this, &weapon ), query ) ) {
+        if( !primary_weapon().is_null() ) {
+            const std::string query = string_format( _( "Stop wielding %s?" ), primary_weapon().tname() );
+            if( !dispose_item( item_location( *this, &primary_weapon() ), query ) ) {
                 refund_power();
                 bio.powered = false;
                 return false;
@@ -669,10 +669,10 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         }
 
         add_msg_activate();
-        weapon = item( bio.info().fake_item );
-        weapon.invlet = '#';
+        primary_weapon() = item( bio.info().fake_item );
+        primary_weapon().invlet = '#';
         if( bio.ammo_count > 0 ) {
-            weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
+            primary_weapon().ammo_set( bio.ammo_loaded, bio.ammo_count );
             avatar_action::fire_wielded_weapon( g->u );
         }
         clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
@@ -1143,15 +1143,16 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
 
     // Deactivation effects go here
     if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
-        if( weapon.typeId() == bio.info().fake_item ) {
-            add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
+        if( primary_weapon().typeId() == bio.info().fake_item ) {
+            add_msg_if_player( _( "You withdraw your %s." ), primary_weapon().tname() );
             if( g->u.sees( pos() ) ) {
-                add_msg_if_npc( m_info, _( "<npcname> withdraws their %s." ), weapon.tname() );
+                add_msg_if_npc( m_info, _( "<npcname> withdraws their %s." ), primary_weapon().tname() );
             }
             bio.ammo_loaded =
-                weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : itype_id::NULL_ID();
-            bio.ammo_count = static_cast<unsigned int>( weapon.ammo_remaining() );
-            weapon = item();
+                primary_weapon().ammo_data() != nullptr ? primary_weapon().ammo_data()->get_id() :
+                itype_id::NULL_ID();
+            bio.ammo_count = static_cast<unsigned int>( primary_weapon().ammo_remaining() );
+            primary_weapon() = item();
             invalidate_crafting_inventory();
         }
     } else if( bio.id == bio_cqb ) {
