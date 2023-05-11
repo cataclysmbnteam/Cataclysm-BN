@@ -256,6 +256,7 @@
     "calories": 30,
     "charges": 48,
     "healthy": 1,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": -20,
     "phase": "liquid"
   },
