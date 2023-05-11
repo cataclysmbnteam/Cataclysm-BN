@@ -84,6 +84,7 @@
     "volume": "500 ml",
     "charges": 32,
     "vitamins": [ [ "vitA", 7 ], [ "vitB", 3 ] ],
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": -1
   },
   {
