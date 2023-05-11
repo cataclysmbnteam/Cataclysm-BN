@@ -1362,7 +1362,7 @@ npc_action npc::method_of_attack()
 
     gun_mode g_mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
                       cbm_fake_active.gun_current_mode();
-    if( g_mode && item_funcs::shots_remaining( *this, *g_mode ) < g_mode.qty ) {
+    if( g_mode && ( item_funcs::shots_remaining( *this, *g_mode ) < g_mode.qty || dist <= 1 ) ) {
         g_mode = gun_mode();
     }
 
@@ -2023,7 +2023,7 @@ int npc::confident_shoot_range( const item &it, int recoil ) const
     if( !it.is_gun() ) {
         return res;
     }
-    const auto gun_mode_cmp = [this]( const std::pair<gun_mode_id, gun_mode> lhs,
+    const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> lhs,
     const std::pair<gun_mode_id, gun_mode> &rhs ) {
         return lhs.second.qty < rhs.second.qty;
     };
