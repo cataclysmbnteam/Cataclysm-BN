@@ -8258,7 +8258,7 @@ void item_reload_option::qty( int val )
                      ammo->contents.front() : *ammo;
 
     if( ( ammo_in_container && !ammo_obj.is_ammo() ) ||
-            ( ammo_in_liquid_container && !ammo_obj.made_of( LIQUID ) ) ) {
+        ( ammo_in_liquid_container && !ammo_obj.made_of( LIQUID ) ) ) {
         debugmsg( "Invalid reload option: %s", ammo_obj.tname() );
         return;
     }
@@ -8505,7 +8505,7 @@ bool item::burn( fire_data &frd )
     if( is_corpse() ) {
         const mtype *mt = get_mtype();
         if( active && mt != nullptr && burnt + burn_added > mt->hp &&
-                !mt->burn_into.is_null() && mt->burn_into.is_valid() ) {
+            !mt->burn_into.is_null() && mt->burn_into.is_valid() ) {
             corpse = &get_mtype()->burn_into.obj();
             // Delay rezing
             set_age( 0_turns );
@@ -9159,21 +9159,21 @@ static units::temperature clip_by_temperature_flag( units::temperature temperatu
         temperature_flag flag )
 {
     switch( flag ) {
-    case temperature_flag::TEMP_NORMAL:
-        // Just use the temperature normally
-        return temperature;
-    case temperature_flag::TEMP_FRIDGE:
-        return std::min( temperature, temperatures::fridge );
-    case temperature_flag::TEMP_FREEZER:
-        return std::min( temperature, temperatures::freezer );
-    case temperature_flag::TEMP_HEATER:
-        return std::max( temperature, temperatures::normal );
-    case temperature_flag::TEMP_ROOT_CELLAR:
-        return temperatures::root_cellar;
-    default:
-        debugmsg( "Temperature flag enum not valid: %d.  Using current temperature.",
-                  static_cast<int>( flag ) );
-        break;
+        case temperature_flag::TEMP_NORMAL:
+            // Just use the temperature normally
+            return temperature;
+        case temperature_flag::TEMP_FRIDGE:
+            return std::min( temperature, temperatures::fridge );
+        case temperature_flag::TEMP_FREEZER:
+            return std::min( temperature, temperatures::freezer );
+        case temperature_flag::TEMP_HEATER:
+            return std::max( temperature, temperatures::normal );
+        case temperature_flag::TEMP_ROOT_CELLAR:
+            return temperatures::root_cellar;
+        default:
+            debugmsg( "Temperature flag enum not valid: %d.  Using current temperature.",
+                      static_cast<int>( flag ) );
+            break;
     }
     return temperature;
 }
@@ -9361,7 +9361,7 @@ bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
 {
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
-            here.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
+        here.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
         item_counter = 0;
         return true; //destroy fake mill
     }
@@ -9378,7 +9378,7 @@ bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
 {
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
-            here.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
+        here.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
         item_counter = 0;
         return true; //destroy fake smoke
     }
@@ -9436,8 +9436,8 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         if( item_counter % 5 == 0 ) {
             // lit cigarette can start fires
             if( here.flammable_items_at( pos ) ||
-                    here.has_flag( flag_FLAMMABLE, pos ) ||
-                    here.has_flag( flag_FLAMMABLE_ASH, pos ) ) {
+                here.has_flag( flag_FLAMMABLE, pos ) ||
+                here.has_flag( flag_FLAMMABLE_ASH, pos ) ) {
                 here.add_field( pos, fd_fire, 1 );
             }
         }
@@ -9477,17 +9477,17 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool in_veh = carrier != nullptr && carrier->in_vehicle;
     int windpower = get_weather().windspeed;
     switch( get_weather().weather_id->precip ) {
-    case precip_class::very_light:
-        precipitation = one_in( 100 );
-        break;
-    case precip_class::light:
-        precipitation = one_in( 50 );
-        break;
-    case precip_class::heavy:
-        precipitation = one_in( 10 );
-        break;
-    default:
-        break;
+        case precip_class::very_light:
+            precipitation = one_in( 100 );
+            break;
+        case precip_class::light:
+            precipitation = one_in( 50 );
+            break;
+        case precip_class::heavy:
+            precipitation = one_in( 10 );
+            break;
+        default:
+            break;
     }
     map &here = get_map();
     if( in_inv && !in_veh && here.has_flag( flag_DEEP_WATER, pos ) ) {
@@ -9495,11 +9495,11 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
         submerged = true;
     }
     if( ( !in_inv && here.has_flag( flag_LIQUID, pos ) && !here.veh_at( pos ) ) ||
-            ( precipitation && !g->is_sheltered( pos ) ) ) {
+        ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }
     if( in_inv && windpower > 5 && !g->is_sheltered( pos ) &&
-            this->has_flag( flag_WIND_EXTINGUISH ) ) {
+        this->has_flag( flag_WIND_EXTINGUISH ) ) {
         windtoostrong = true;
         extinguish = true;
     }
@@ -9699,7 +9699,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
-            to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
+        to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
         energy = std::max( ammo_required(), 1 );
 
     } else if( type->tool->power_draw > 0 ) {
@@ -9894,7 +9894,7 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
         return true;
     }
     if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
-            process_extinguish( carrier, pos ) ) {
+        process_extinguish( carrier, pos ) ) {
         return false;
     }
     if( has_flag( flag_CABLE_SPOOL ) ) {
@@ -9910,7 +9910,7 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
     }
     // All foods that go bad have temperature
     if( ( is_food() || is_corpse() ) &&
-            process_rot( seals, pos, carrier, flag, weather_generator ) ) {
+        process_rot( seals, pos, carrier, flag, weather_generator ) ) {
         if( is_comestible() ) {
             here.rotten_item_spawn( *this, pos );
         }
@@ -10075,25 +10075,25 @@ std::string item::type_name( unsigned int quantity ) const
         [&]( std::list<item> components ) {
             for( const item &component : components ) {
                 if( component.typeId().str().find( cname.condition ) != std::string::npos ||
-                        component_id_contains( component.components ) ) {
+                    component_id_contains( component.components ) ) {
                     return true;
                 }
             }
             return false;
         };
         switch( cname.type ) {
-        case condition_type::FLAG:
-            if( has_flag( cname.condition ) ) {
-                ret_name = string_format( cname.name.translated( quantity ), ret_name );
-            }
-            break;
-        case condition_type::COMPONENT_ID:
-            if( component_id_contains( components ) ) {
-                ret_name = string_format( cname.name.translated( quantity ), ret_name );
-            }
-            break;
-        case condition_type::num_condition_types:
-            break;
+            case condition_type::FLAG:
+                if( has_flag( cname.condition ) ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+                break;
+            case condition_type::COMPONENT_ID:
+                if( component_id_contains( components ) ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+                break;
+            case condition_type::num_condition_types:
+                break;
         }
     }
 
@@ -10196,7 +10196,7 @@ bool item::on_drop( const tripoint &pos, map &m )
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty
     if( made_of( LIQUID ) && !m.has_flag( flag_LIQUIDCONT, pos ) &&
-            !has_own_flag( "DIRTY" ) ) {
+        !has_own_flag( "DIRTY" ) ) {
         set_flag( "DIRTY" );
     }
     avatar &you = get_avatar();

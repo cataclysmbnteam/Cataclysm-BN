@@ -1444,7 +1444,7 @@ void Item_factory::check_definitions() const
         }
 
         for( const std::pair<const string_id<ammunition_type>, std::set<itype_id>> &ammo_variety :
-            type->magazines ) {
+             type->magazines ) {
             if( ammo_variety.second.empty() ) {
                 msg += string_format( "no magazine specified for %s\n", ammo_variety.first.str() );
             }
@@ -1986,7 +1986,8 @@ void Item_factory::load( islot_armor &slot, const JsonObject &jo, const std::str
         if( slot.data.empty() ) { // Loading item does not have copy-from
             slot.data.emplace_back();
             optional( jo, slot.was_loaded, "encumbrance", slot.data[0].encumber, 0 );
-            optional( jo, slot.was_loaded, "max_encumbrance", slot.data[0].max_encumber, slot.data[0].encumber );
+            optional( jo, slot.was_loaded, "max_encumbrance", slot.data[0].max_encumber,
+                      slot.data[0].encumber );
             optional( jo, slot.was_loaded, "coverage", slot.data[0].coverage, 0 );
             body_part_set temp_cover_data;
             assign_coverage_from_json( jo, "covers", temp_cover_data, slot.sided );
