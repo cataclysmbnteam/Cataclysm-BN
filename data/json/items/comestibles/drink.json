@@ -19,7 +19,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ] ],
     "fun": 2
   },
@@ -44,7 +44,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "vitamins": [ [ "vitA", 2 ], [ "calcium", 11 ] ],
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "fun": 1
   },
   {
@@ -68,7 +68,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "vitamins": [ [ "vitA", 2 ], [ "iron", 1 ], [ "calcium", 7 ] ],
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "fun": 1
   },
   {
@@ -149,6 +149,7 @@
     "phase": "liquid",
     "charges": 2,
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 43 ] ],
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 1
   },
   {
@@ -350,7 +351,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ] ],
     "fun": 3
   },
@@ -372,7 +373,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "vitamins": [ [ "vitC", 60 ] ],
     "fun": 6
   },
@@ -779,7 +780,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "//": "most store-bought oj is fortified with calcium.",
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 146 ], [ "calcium", 28 ], [ "iron", 2 ] ],
     "fun": 3
@@ -894,7 +895,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "fun": 6
   },
   {
@@ -951,6 +952,7 @@
     "volume": "250 ml",
     "looks_like": "sports_drink",
     "phase": "liquid",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": -2
   },
   {
