@@ -40,7 +40,8 @@
         "fake_per": 6,
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
-        "description": "The feral human throws a rock!"
+        "description": "The feral human throws a rock!",
+        "no_crits": true
       }
     ],
     "death_drops": "feral_humans_death_drops_pipe",
@@ -168,7 +169,8 @@
         "fake_per": 10,
         "ranges": [ [ 0, 14, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "The feral security guard fires their Beretta M9A1!"
+        "description": "The feral security guard fires their Beretta M9A1!",
+        "no_crits": true
       }
     ],
     "death_drops": "feral_security_death_drops_9mm",
@@ -291,7 +293,8 @@
         "//": "(ferals don't care about max-effective range.)",
         "ranges": [ [ 0, 25, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "The feral biker fires their shotgun!"
+        "description": "The feral biker fires their shotgun!",
+        "no_crits": true
       }
     ],
     "death_drops": "mon_feral_jackboot_death_drops",
@@ -403,7 +406,8 @@
         "fake_per": 6,
         "require_targeting_player": false,
         "ranges": [ [ 0, 7, "DEFAULT" ] ],
-        "description": "The feral human shoots its crossbow!"
+        "description": "The feral human shoots its crossbow!",
+        "no_crits": true
       }
     ],
     "death_drops": "feral_fancy_death_drops_crossbow"
@@ -476,7 +480,8 @@
         "fake_per": 9,
         "ranges": [ [ 0, 14, "DEFAULT" ], [ 10, 35, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "description": "The feral prepper haphazardly fires their firearm!"
+        "description": "The feral prepper haphazardly fires their firearm!",
+        "no_crits": true
       }
     ],
     "death_drops": "mon_feral_prepper_death_drops",
@@ -587,7 +592,8 @@
         "fake_per": 10,
         "ranges": [ [ 0, 30, "BURST" ], [ 0, 30, "AUTO" ] ],
         "require_targeting_player": false,
-        "description": "The mad militiaman fires their machine gun!"
+        "description": "The mad militiaman fires their machine gun!",
+        "no_crits": true
       }
     ],
     "death_drops": "mon_feral_militia_death_drops",
