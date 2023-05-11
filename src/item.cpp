@@ -781,23 +781,23 @@ body_part_set item::get_covered_body_parts( const side s ) const
     }
 
     switch( s ) {
-    case side::BOTH:
-    case side::num_sides:
-        break;
+        case side::BOTH:
+        case side::num_sides:
+            break;
 
-    case side::LEFT:
-        res.reset( bp_arm_r );
-        res.reset( bp_hand_r );
-        res.reset( bp_leg_r );
-        res.reset( bp_foot_r );
-        break;
+        case side::LEFT:
+            res.reset( bp_arm_r );
+            res.reset( bp_hand_r );
+            res.reset( bp_leg_r );
+            res.reset( bp_foot_r );
+            break;
 
-    case side::RIGHT:
-        res.reset( bp_arm_l );
-        res.reset( bp_hand_l );
-        res.reset( bp_leg_l );
-        res.reset( bp_foot_l );
-        break;
+        case side::RIGHT:
+            res.reset( bp_arm_l );
+            res.reset( bp_hand_l );
+            res.reset( bp_leg_l );
+            res.reset( bp_foot_l );
+            break;
     }
 
     return res;
@@ -947,7 +947,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
         }
     }
     if( ( corpse == nullptr && rhs.corpse != nullptr ) ||
-            ( corpse != nullptr && rhs.corpse == nullptr ) ) {
+        ( corpse != nullptr && rhs.corpse == nullptr ) ) {
         return false;
     }
     if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
@@ -1445,7 +1445,7 @@ std::map<std::string, double> item::dps( const bool for_display, const bool for_
     std::map<std::string, double> results;
     for( const std::pair<translation, dps_comp_data> &comp_mon : dps_comp_monsters ) {
         if( ( comp_mon.second.display != for_display ) &&
-                ( comp_mon.second.evaluate != for_calc ) ) {
+            ( comp_mon.second.evaluate != for_calc ) ) {
             continue;
         }
         monster test_mon = monster( comp_mon.second.mon_id );
@@ -1607,7 +1607,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   get_var( "contained_name" ) ) ) );
     }
     if( count_by_charges() && !is_food() && !is_medication() &&
-            parts->test( iteminfo_parts::BASE_AMOUNT ) ) {
+        parts->test( iteminfo_parts::BASE_AMOUNT ) ) {
         info.push_back( iteminfo( "BASE", _( "Amount: " ), "<num>", iteminfo::no_flags,
                                   charges * batch ) );
     }
@@ -1735,8 +1735,8 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                   std::abs( static_cast<int>( food_item->charges ) * batch ) ) );
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
-            ( debug || ( g != nullptr && ( you.has_trait( trait_CARNIVORE ) ||
-                                           you.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
+        ( debug || ( g != nullptr && ( you.has_trait( trait_CARNIVORE ) ||
+                                       you.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
     }
 
@@ -1744,7 +1744,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         const bool is_vitamin = v.first->type() == vitamin_type::VITAMIN;
         // only display vitamins that we actually require
         if( you.vitamin_rate( v.first ) == 0_turns || v.second == 0 ||
-                display_vitamins != is_vitamin || v.first->has_flag( flag_NO_DISPLAY ) ) {
+            display_vitamins != is_vitamin || v.first->has_flag( flag_NO_DISPLAY ) ) {
             return std::string();
         }
         const double multiplier = you.vitamin_rate( v.first ) / 1_days * 100;
@@ -1787,7 +1787,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     }
 
     if( food_item->has_flag( flag_CANNIBALISM ) &&
-            parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
+        parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
         if( !you.has_trait_flag( trait_flag_CANNIBAL ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This food contains <bad>human flesh</bad>." ) );
@@ -1804,7 +1804,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
     if( food_item->has_flag( flag_HIDDEN_POISON ) && you.get_skill_level( skill_survival ) >= 3 &&
-            parts->test( iteminfo_parts::FOOD_POISON ) ) {
+        parts->test( iteminfo_parts::FOOD_POISON ) ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* On closer inspection, this appears to be "
                               "<bad>poisonous</bad>." ) );
@@ -1812,7 +1812,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
     if( food_item->has_flag( flag_HIDDEN_HALLU ) && you.get_skill_level( skill_survival ) >= 5 &&
-            parts->test( iteminfo_parts::FOOD_HALLUCINOGENIC ) ) {
+        parts->test( iteminfo_parts::FOOD_HALLUCINOGENIC ) ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* On closer inspection, this appears to be "
                               "<neutral>hallucinogenic</neutral>." ) );
@@ -1831,27 +1831,27 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
             bool print_freshness_duration = false;
             // There should be a better way to do this...
             switch( temperature ) {
-            case temperature_flag::TEMP_NORMAL:
-            case temperature_flag::TEMP_HEATER: {
-                temperature_description = _( "* Current storage conditions <bad>do not</bad> "
-                                             "protect this item from rot." );
-            }
-            break;
-            case temperature_flag::TEMP_FRIDGE:
-            case temperature_flag::TEMP_ROOT_CELLAR: {
-                temperature_description = _( "* Current storage conditions <neutral>partially</neutral> "
-                                             "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
-                print_freshness_duration = true;
-            }
-            break;
-            case temperature_flag::TEMP_FREEZER: {
-                temperature_description = _( "* Current storage conditions <good>fully</good> "
-                                             "protect this item from rot.  It will stay fresh indefinitely." );
-            }
-            break;
-            default: {
-                temperature_description = "BUGGED TEMPERATURE INFO";
-            }
+                case temperature_flag::TEMP_NORMAL:
+                case temperature_flag::TEMP_HEATER: {
+                    temperature_description = _( "* Current storage conditions <bad>do not</bad> "
+                                                "protect this item from rot." );
+                }
+                break;
+                case temperature_flag::TEMP_FRIDGE:
+                case temperature_flag::TEMP_ROOT_CELLAR: {
+                    temperature_description = _( "* Current storage conditions <neutral>partially</neutral> "
+                                                "protect this item from rot.  It will stay fresh at least <info>%s</info>." );
+                    print_freshness_duration = true;
+                }
+                break;
+                case temperature_flag::TEMP_FREEZER: {
+                    temperature_description = _( "* Current storage conditions <good>fully</good> "
+                                                "protect this item from rot.  It will stay fresh indefinitely." );
+                }
+                break;
+                default: {
+                    temperature_description = "BUGGED TEMPERATURE INFO";
+                }
             }
 
             if( print_freshness_duration ) {
@@ -1939,7 +1939,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         bool display_dmg_multiplier = parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL );
         bool didnt_print_dmg = false;
         if( has_flat_dmg && has_dmg_multiplier
-                && has_dmg_multiplier && display_dmg_multiplier ) {
+            && has_dmg_multiplier && display_dmg_multiplier ) {
             info.emplace_back( "AMMO", _( "Damage: " ), "",
                                iteminfo::no_newline, ammo.damage.total_damage() );
             info.emplace_back( "AMMO", "/", "",
@@ -1967,7 +1967,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         bool has_armor_mult = get_ranged_armor_mult( ammo ) != 1.0;
         bool display_armor_mult = parts->test( iteminfo_parts::AMMO_DAMAGE_AP_PROPORTIONAL );
         if( has_flat_arpen && display_flat_arpen
-                && has_armor_mult && display_armor_mult ) {
+            && has_armor_mult && display_armor_mult ) {
             info.emplace_back( "AMMO", maybe_space + _( "Armor-pierce: " ), "",
                                iteminfo::no_newline, get_ranged_pierce( ammo ) );
             info.emplace_back( "AMMO", "/", "",
@@ -1997,27 +1997,27 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     // TODO: De-hardcode. Have it imply a flag? Just include description_on_item in ammo_effect struct?
     std::vector<std::string> fx;
     if( ammo.shape &&
-            parts->test( iteminfo_parts::AMMO_SHAPE ) ) {
+        parts->test( iteminfo_parts::AMMO_SHAPE ) ) {
         fx.emplace_back( string_format(
                              _( "This ammo will produce effects with the following shape:\n<bold>%s</bold>" ),
                              ammo.shape->get_description() ) );
     }
     if( ammo.ammo_effects.count( ammo_effect_RECYCLED ) &&
-            parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
+        parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
         fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
     }
     if( ammo.ammo_effects.count( ammo_effect_BLACKPOWDER ) &&
-            parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
+        parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
         fx.emplace_back(
             _( "This ammo has been loaded with <bad>blackpowder</bad>, and will quickly "
                "clog up most guns, and cause rust if the gun is not cleaned." ) );
     }
     if( ammo.ammo_effects.count( ammo_effect_NEVER_MISFIRES ) &&
-            parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
+        parts->test( iteminfo_parts::AMMO_FX_CANTMISSFIRE ) ) {
         fx.emplace_back( _( "This ammo <good>never misfires</good>." ) );
     }
     if( ammo.ammo_effects.count( ammo_effect_INCENDIARY ) &&
-            parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
+        parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
         fx.emplace_back( _( "This ammo <neutral>starts fires</neutral>." ) );
     }
     if( !fx.empty() ) {
@@ -2719,8 +2719,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         bodypart_str_id bp( convert_bp( legacy_part ) );
                         bodypart_str_id opposite = bp->opposite_part;
                         if( opposite != bp && covers( bp ) && covers( opposite )
-                                && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
-                                && to_display_data.at( opposite ).active ) {
+                            && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
+                            && to_display_data.at( opposite ).active ) {
                             to_display_data.at( opposite ).to_display = bp->name_as_heading_multiple;
                             to_display_data.at( bp ).active = false;
                         }
@@ -2773,7 +2773,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   f, converted_storage ) );
     }
 
-// Whatever the last entry was, we want a newline at this point
+    // Whatever the last entry was, we want a newline at this point
     info.back().bNewLine = true;
 
     if( covers_anything ) {
@@ -2842,7 +2842,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     const sizing sizing_level = get_sizing( you );
 
     if( has_flag( flag_HELMET_COMPAT ) &&
-            parts->test( iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT ) ) {
+        parts->test( iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This item can be <info>worn with a "
                                      "helmet</info>." ) ) );
@@ -2850,58 +2850,58 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
 
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_FITS ) ) {
         switch( sizing_level ) {
-        case sizing::human_sized_human_char:
-            if( has_flag( flag_FIT ) ) {
+            case sizing::human_sized_human_char:
+                if( has_flag( flag_FIT ) ) {
+                    info.emplace_back( "DESCRIPTION",
+                                    _( "* This clothing <info>fits</info> you perfectly." ) );
+                }
+                break;
+            case sizing::big_sized_big_char:
+                if( has_flag( flag_FIT ) ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This clothing <info>fits</info> "
+                                                        "your large frame perfectly." ) );
+                }
+                break;
+            case sizing::small_sized_small_char:
+                if( has_flag( flag_FIT ) ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This clothing <info>fits</info> "
+                                                        "your small frame perfectly." ) );
+                }
+                break;
+            case sizing::big_sized_human_char:
+                info.emplace_back( "DESCRIPTION", _( "* This clothing is <bad>oversized</bad> "
+                                                    "and does <bad>not fit</bad> you." ) );
+                break;
+            case sizing::big_sized_small_char:
                 info.emplace_back( "DESCRIPTION",
-                                   _( "* This clothing <info>fits</info> you perfectly." ) );
-            }
-            break;
-        case sizing::big_sized_big_char:
-            if( has_flag( flag_FIT ) ) {
-                info.emplace_back( "DESCRIPTION", _( "* This clothing <info>fits</info> "
-                                                     "your large frame perfectly." ) );
-            }
-            break;
-        case sizing::small_sized_small_char:
-            if( has_flag( flag_FIT ) ) {
-                info.emplace_back( "DESCRIPTION", _( "* This clothing <info>fits</info> "
-                                                     "your small frame perfectly." ) );
-            }
-            break;
-        case sizing::big_sized_human_char:
-            info.emplace_back( "DESCRIPTION", _( "* This clothing is <bad>oversized</bad> "
-                                                 "and does <bad>not fit</bad> you." ) );
-            break;
-        case sizing::big_sized_small_char:
-            info.emplace_back( "DESCRIPTION",
-                               _( "* This clothing is hilariously <bad>oversized</bad> "
-                                  "and does <bad>not fit</bad> your <info>abnormally "
-                                  "small mutated anatomy</info>." ) );
-            break;
-        case sizing::human_sized_big_char:
-            info.emplace_back( "DESCRIPTION",
-                               _( "* This clothing is <bad>normal sized</bad> and does "
-                                  "<bad>not fit</info> your <info>abnormally large "
-                                  "mutated anatomy</info>." ) );
-            break;
-        case sizing::human_sized_small_char:
-            info.emplace_back( "DESCRIPTION",
-                               _( "* This clothing is <bad>normal sized</bad> and does "
-                                  "<bad>not fit</bad> your <info>abnormally small "
-                                  "mutated anatomy</info>." ) );
-            break;
-        case sizing::small_sized_big_char:
-            info.emplace_back( "DESCRIPTION",
-                               _( "* This clothing is hilariously <bad>undersized</bad> "
-                                  "and does <bad>not fit</bad> your <info>abnormally "
-                                  "large mutated anatomy</info>." ) );
-            break;
-        case sizing::small_sized_human_char:
-            info.emplace_back( "DESCRIPTION", _( "* This clothing is <bad>undersized</bad> "
-                                                 "and does <bad>not fit</bad> you." ) );
-            break;
-        default:
-            break;
+                                _( "* This clothing is hilariously <bad>oversized</bad> "
+                                    "and does <bad>not fit</bad> your <info>abnormally "
+                                    "small mutated anatomy</info>." ) );
+                break;
+            case sizing::human_sized_big_char:
+                info.emplace_back( "DESCRIPTION",
+                                _( "* This clothing is <bad>normal sized</bad> and does "
+                                    "<bad>not fit</info> your <info>abnormally large "
+                                    "mutated anatomy</info>." ) );
+                break;
+            case sizing::human_sized_small_char:
+                info.emplace_back( "DESCRIPTION",
+                                _( "* This clothing is <bad>normal sized</bad> and does "
+                                    "<bad>not fit</bad> your <info>abnormally small "
+                                    "mutated anatomy</info>." ) );
+                break;
+            case sizing::small_sized_big_char:
+                info.emplace_back( "DESCRIPTION",
+                                _( "* This clothing is hilariously <bad>undersized</bad> "
+                                    "and does <bad>not fit</bad> your <info>abnormally "
+                                    "large mutated anatomy</info>." ) );
+                break;
+            case sizing::small_sized_human_char:
+                info.emplace_back( "DESCRIPTION", _( "* This clothing is <bad>undersized</bad> "
+                                                    "and does <bad>not fit</bad> you." ) );
+                break;
+            default:
+                break;
         }
     }
 
@@ -2910,22 +2910,22 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
             std::string resize_str;
             if( has_flag( flag_FIT ) ) {
                 switch( sizing_level ) {
-                case sizing::small_sized_human_char:
-                    resize_str = _( "<info>can be upsized</info>" );
-                    break;
-                case sizing::human_sized_small_char:
-                    resize_str = _( "<info>can be downsized</info>" );
-                    break;
-                case sizing::big_sized_human_char:
-                case sizing::big_sized_small_char:
-                    resize_str = _( "<bad>can not be downsized</bad>" );
-                    break;
-                case sizing::small_sized_big_char:
-                case sizing::human_sized_big_char:
-                    resize_str = _( "<bad>can not be upsized</bad>" );
-                    break;
-                default:
-                    break;
+                    case sizing::small_sized_human_char:
+                        resize_str = _( "<info>can be upsized</info>" );
+                        break;
+                    case sizing::human_sized_small_char:
+                        resize_str = _( "<info>can be downsized</info>" );
+                        break;
+                    case sizing::big_sized_human_char:
+                    case sizing::big_sized_small_char:
+                        resize_str = _( "<bad>can not be downsized</bad>" );
+                        break;
+                    case sizing::small_sized_big_char:
+                    case sizing::human_sized_big_char:
+                        resize_str = _( "<bad>can not be upsized</bad>" );
+                        break;
+                    default:
+                        break;
                 }
                 if( !resize_str.empty() ) {
                     std::string info_str = string_format( _( "* This clothing %s." ), resize_str );
@@ -2933,22 +2933,22 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                 }
             } else {
                 switch( sizing_level ) {
-                case sizing::small_sized_human_char:
-                    resize_str = _( " and <info>upsized</info>" );
-                    break;
-                case sizing::human_sized_small_char:
-                    resize_str = _( " and <info>downsized</info>" );
-                    break;
-                case sizing::big_sized_human_char:
-                case sizing::big_sized_small_char:
-                    resize_str = _( " but <bad>not downsized</bad>" );
-                    break;
-                case sizing::small_sized_big_char:
-                case sizing::human_sized_big_char:
-                    resize_str = _( " but <bad>not upsized</bad>" );
-                    break;
-                default:
-                    break;
+                    case sizing::small_sized_human_char:
+                        resize_str = _( " and <info>upsized</info>" );
+                        break;
+                    case sizing::human_sized_small_char:
+                        resize_str = _( " and <info>downsized</info>" );
+                        break;
+                    case sizing::big_sized_human_char:
+                    case sizing::big_sized_small_char:
+                        resize_str = _( " but <bad>not downsized</bad>" );
+                        break;
+                    case sizing::small_sized_big_char:
+                    case sizing::human_sized_big_char:
+                        resize_str = _( " but <bad>not upsized</bad>" );
+                        break;
+                    default:
+                        break;
                 }
                 std::string info_str = string_format( _( "* This clothing <info>can be "
                                                       "refitted</info>%s." ), resize_str );
@@ -2966,7 +2966,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                                      "the body." ) ) );
     }
     if( ( is_power_armor() ) &&
-            parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
+        parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT ) ) {
             if( covers( bp_head ) && has_flag( flag_POWERARMOR_EXTERNAL ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -3055,7 +3055,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                      "read." ), iteminfo::lower_is_better, book.intel ) );
     }
     if( character_funcs::get_book_fun_for( character, *this ) != 0 &&
-            parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
+        parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
         info.push_back( iteminfo( "BOOK", "",
                                   _( "Reading this book affects your morale by <num>" ),
                                   iteminfo::show_plus, character_funcs::get_book_fun_for( character, *this ) ) );
@@ -3117,7 +3117,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     if( recipe_list.size() != book.recipes.size() &&
-            parts->test( iteminfo_parts::DESCRIPTION_BOOK_ADDITIONAL_RECIPES ) ) {
+        parts->test( iteminfo_parts::DESCRIPTION_BOOK_ADDITIONAL_RECIPES ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "It might help you figuring out some <good>more "
                                      "recipes</good>." ) ) );
@@ -3354,7 +3354,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
             for( const std::pair<const quality_id, int> &q : e->type->qualities ) {
                 auto emplace_result = most_quality.emplace( q );
                 if( !emplace_result.second &&
-                        most_quality.at( emplace_result.first->first ) < q.second ) {
+                    most_quality.at( emplace_result.first->first ) < q.second ) {
                     most_quality[ q.first ] = q.second;
                 }
             }
@@ -3374,7 +3374,7 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" )
-            && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
+        && parts->test( iteminfo_parts::DESCRIPTION_CBM_SLOTS ) ) {
         info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
                                   _( "This bionic is installed in the following body "
                                      "part(s):" ) ) ) );
@@ -3565,7 +3565,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 
     if( !is_gunmod() && has_flag( flag_REACH_ATTACK ) &&
-            parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_ADDREACHATTACK ) ) {
+        parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_ADDREACHATTACK ) ) {
         insert_separation_line( info );
         if( has_flag( flag_REACH3 ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
@@ -3608,7 +3608,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         // Cut damage
         if( ( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f )
-                && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
+            && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_CUT ) ) {
 
             info.push_back( iteminfo( "BASE", _( "Cutting: " ), "<num>", iteminfo::no_newline,
                                       non_crit.type_damage( DT_CUT ) ) );
@@ -3617,7 +3617,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
         // Pierce/stab damage
         if( ( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f )
-                && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
+            && parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_PIERCE ) ) {
 
             info.push_back( iteminfo( "BASE", _( "Piercing: " ), "<num>", iteminfo::no_newline,
                                       non_crit.type_damage( DT_STAB ) ) );
@@ -3765,7 +3765,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
 
     avatar &you = get_avatar();
     if( is_armor() && you.has_trait( trait_WOOLALLERGY ) &&
-            ( made_of( material_id( "wool" ) ) || has_own_flag( "wooled" ) ) ) {
+        ( made_of( material_id( "wool" ) ) || has_own_flag( "wooled" ) ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This clothing will give you an <bad>allergic "
                                      "reaction</bad>." ) ) );
@@ -3820,7 +3820,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
     }
 
     if( has_flag( flag_RADIO_ACTIVATION ) &&
-            parts->test( iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION ) ) {
+        parts->test( iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION ) ) {
         if( has_flag( flag_RADIO_MOD ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This item has been modified to listen to <info>radio "
@@ -3846,7 +3846,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
         }
 
         if( has_flag( flag_RADIO_INVOKE_PROC ) &&
-                parts->test( iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION_PROC ) ) {
+            parts->test( iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION_PROC ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* Activating this item with a <info>radio signal</info> will "
                                   "<neutral>detonate</neutral> it immediately." ) );
@@ -3856,35 +3856,35 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
     bionic_info( info, parts, batch, debug );
 
     if( is_gun() && has_flag( flag_FIRE_TWOHAND ) &&
-            parts->test( iteminfo_parts::DESCRIPTION_TWOHANDED ) ) {
+        parts->test( iteminfo_parts::DESCRIPTION_TWOHANDED ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This weapon needs <info>two free hands</info> "
                                      "to fire." ) ) );
     }
 
     if( is_gunmod() && has_flag( flag_DISABLE_SIGHTS ) &&
-            parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_DISABLESSIGHTS ) ) {
+        parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_DISABLESSIGHTS ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This mod <bad>obscures sights</bad> of the "
                                      "base weapon." ) ) );
     }
 
     if( is_gunmod() && has_flag( flag_CONSUMABLE ) &&
-            parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_CONSUMABLE ) ) {
+        parts->test( iteminfo_parts::DESCRIPTION_GUNMOD_CONSUMABLE ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This mod might <bad>suffer wear</bad> when firing "
                                      "the base weapon." ) ) );
     }
 
     if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0
-            && parts->test( iteminfo_parts::DESCRIPTION_RADIOACTIVITY_DAMAGED ) ) {
+        && parts->test( iteminfo_parts::DESCRIPTION_RADIOACTIVITY_DAMAGED ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* The casing of this item has <neutral>cracked</neutral>, "
                                      "revealing an <info>ominous green glow</info>." ) ) );
     }
 
     if( has_flag( flag_LEAK_ALWAYS ) && has_flag( flag_RADIOACTIVE ) &&
-            parts->test( iteminfo_parts::DESCRIPTION_RADIOACTIVITY_ALWAYS ) ) {
+        parts->test( iteminfo_parts::DESCRIPTION_RADIOACTIVITY_ALWAYS ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This object is <neutral>surrounded</neutral> by a "
                                      "<info>sickly green glow</info>." ) ) );
@@ -4128,7 +4128,7 @@ std::vector<iteminfo> item::info( const iteminfo_query &parts_ref, int batch,
         const gun_mode aux = gun_current_mode();
         // if we have an active auxiliary gunmod display stats for this instead
         if( aux && aux->is_gunmod() && aux->is_gun() &&
-                parts->test( iteminfo_parts::DESCRIPTION_AUX_GUNMOD_HEADER ) ) {
+            parts->test( iteminfo_parts::DESCRIPTION_AUX_GUNMOD_HEADER ) ) {
             gun = &*aux;
             info.emplace_back( "DESCRIPTION",
                                string_format( _( "Stats of the active <info>gunmod (%s)</info> "
@@ -4292,34 +4292,34 @@ nc_color item::color_in_inventory( const player &p ) const
         const ret_val<edible_rating> rating = p.will_eat( *food );
         // TODO: More colors
         switch( rating.value() ) {
-        case edible_rating::edible:
-        case edible_rating::too_full:
-            if( preserves ) {
-                // Nothing, canned food won't rot
-            } else if( food->is_going_bad() ) {
-                ret = c_yellow;
-            } else if( food->goes_bad() ) {
-                ret = c_cyan;
-            }
-            break;
-        case edible_rating::inedible:
-        case edible_rating::inedible_mutation:
-            ret = c_dark_gray;
-            break;
-        case edible_rating::allergy:
-        case edible_rating::allergy_weak:
-        case edible_rating::cannibalism:
-            ret = c_red;
-            break;
-        case edible_rating::rotten:
-            ret = c_brown;
-            break;
-        case edible_rating::nausea:
-        case edible_rating::bloated:
-            ret = c_pink;
-            break;
-        case edible_rating::no_tool:
-            break;
+            case edible_rating::edible:
+            case edible_rating::too_full:
+                if( preserves ) {
+                    // Nothing, canned food won't rot
+                } else if( food->is_going_bad() ) {
+                    ret = c_yellow;
+                } else if( food->goes_bad() ) {
+                    ret = c_cyan;
+                }
+                break;
+            case edible_rating::inedible:
+            case edible_rating::inedible_mutation:
+                ret = c_dark_gray;
+                break;
+            case edible_rating::allergy:
+            case edible_rating::allergy_weak:
+            case edible_rating::cannibalism:
+                ret = c_red;
+                break;
+            case edible_rating::rotten:
+                ret = c_brown;
+                break;
+            case edible_rating::nausea:
+            case edible_rating::bloated:
+                ret = c_pink;
+                break;
+            case edible_rating::no_tool:
+                break;
         }
     } else if( is_gun() ) {
         // Guns are green if you are carrying ammo for them
@@ -4373,9 +4373,9 @@ nc_color item::color_in_inventory( const player &p ) const
         // So we check identification for human avatar.
         if( get_avatar().has_identified( typeId() ) ) {
             if( tmp.skill && // Book can improve skill: blue
-                    p.get_skill_level_object( tmp.skill ).can_train() &&
-                    p.get_skill_level( tmp.skill ) >= tmp.req &&
-                    p.get_skill_level( tmp.skill ) < tmp.level ) {
+                p.get_skill_level_object( tmp.skill ).can_train() &&
+                p.get_skill_level( tmp.skill ) >= tmp.req &&
+                p.get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_light_blue;
             } else if( type->can_use( "MA_MANUAL" ) &&
                        !p.martial_arts_data->has_martialart( martial_art_learned_from( *type ) ) ) {
@@ -4405,9 +4405,9 @@ void item::on_wear( Character &p )
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
             if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( bodypart_id( "leg_r" ) ) &&
-                    !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
-                    ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( bodypart_id( "arm_r" ) ) &&
-                      !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
+                !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
+                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( bodypart_id( "arm_r" ) ) &&
+                !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
         } else if( has_flag( flag_POWERARMOR_MOD ) ) {
@@ -4427,7 +4427,7 @@ void item::on_wear( Character &p )
                 for( std::pair< body_part, int > &mod_part : mod_parts ) {
                     bpid = convert_bp( mod_part.first );
                     if( elem.get_covered_body_parts().test( mod_part.first ) &&
-                            elem.has_flag( flag_POWERARMOR_MOD ) ) {
+                        elem.has_flag( flag_POWERARMOR_MOD ) ) {
                         if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
                             mod_part.second++;
                             continue;
@@ -4592,7 +4592,7 @@ void item::handle_pickup_ownership( Character &c )
             std::vector<npc *> witnesses;
             for( npc &elem : g->all_npcs() ) {
                 if( rl_dist( elem.pos(), you.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
-                        is_owned_by( elem ) && elem.sees( you.pos() ) ) {
+                    is_owned_by( elem ) && elem.sees( you.pos() ) ) {
                     elem.say( "<witnessed_thievery>", 7 );
                     npc *npc_to_add = &elem;
                     witnesses.push_back( npc_to_add );
@@ -4666,26 +4666,26 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     // estimation of fouling in a gun. This appears instead of "faulty"
     // since most guns will have some level of fouling in them, and usually it is not a big deal.
     switch( dirt_level ) {
-    case 0:
-        dirt_symbol = "";
-        break;
-    case 1:
-        dirt_symbol = "<color_white>\u2581</color>";
-        break;
-    case 2:
-        dirt_symbol = "<color_light_gray>\u2583</color>";
-        break;
-    case 3:
-        dirt_symbol = "<color_light_gray>\u2585</color>";
-        break;
-    case 4:
-        dirt_symbol = "<color_dark_gray>\u2587</color>";
-        break;
-    case 5:
-        dirt_symbol = "<color_brown>\u2588</color>";
-        break;
-    default:
-        dirt_symbol = "";
+        case 0:
+            dirt_symbol = "";
+            break;
+        case 1:
+            dirt_symbol = "<color_white>\u2581</color>";
+            break;
+        case 2:
+            dirt_symbol = "<color_light_gray>\u2583</color>";
+            break;
+        case 3:
+            dirt_symbol = "<color_light_gray>\u2585</color>";
+            break;
+        case 4:
+            dirt_symbol = "<color_dark_gray>\u2587</color>";
+            break;
+        case 5:
+            dirt_symbol = "<color_brown>\u2588</color>";
+            break;
+        default:
+            dirt_symbol = "";
     }
     std::string damtext;
 
@@ -4693,7 +4693,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     unsigned int truncate_override = 0;
 
     if( ( damage() != 0 || ( get_option<bool>( "ITEM_HEALTH_BAR" ) && is_armor() ) ) && !is_null() &&
-            with_prefix ) {
+        with_prefix ) {
         damtext = durability_indicator();
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
             // get the utf8 width of the tags
