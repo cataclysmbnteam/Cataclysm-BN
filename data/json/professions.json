@@ -1202,7 +1202,7 @@
     "name": "Gyrocopter Pilot",
     "description": "You always loved tinkering with flying machines as a hobby.  With your gyrocopter and what little flight gear you could scrounge up while the world was ending, the sky's the limit.",
     "vehicle": "helicopter_gyro",
-    "points": 5,
+    "points": 4,
     "skills": [ { "level": 4, "name": "driving" }, { "level": 3, "name": "fabrication" }, { "level": 3, "name": "mechanics" } ],
     "items": {
       "both": {
