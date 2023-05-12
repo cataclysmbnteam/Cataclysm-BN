@@ -3543,7 +3543,7 @@
     "id": "helicopter_gyro",
     "type": "vehicle",
     "name": "Gyrocopter",
-    "blueprint": [ [ "X#" ] ],
+    "blueprint": [ [ "-X#" ] ],
     "parts": [
       {
         "x": 0,
@@ -3572,7 +3572,8 @@
           "wheel_mount_light",
           "wheel_motorbike_rear"
         ]
-      }
+      },
+      { "x": -2, "y": 0, "parts": [ "xlframe_vertical" ] }
     ]
   }
 ]
