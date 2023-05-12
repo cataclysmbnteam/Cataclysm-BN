@@ -3543,25 +3543,36 @@
     "id": "helicopter_gyro",
     "type": "vehicle",
     "name": "Gyrocopter",
-    "blueprint": [
-      [ "-  " ],
-      [ "X#-" ],
-      [ "-  " ]
-    ],
+    "blueprint": [ [ "X#" ] ],
     "parts": [
       {
         "x": 0,
         "y": 0,
-        "parts": [ "xlframe_cross", "seat", "seatbelt", { "part": "tank", "fuel": "gasoline" }, "controls", "dashboard" ]
+        "parts": [
+          "xlframe_cross",
+          "seat",
+          "seatbelt",
+          { "part": "tank", "fuel": "gasoline" },
+          "controls",
+          "dashboard",
+          "wheel_mount_light_steerable",
+          "wheel_motorbike"
+        ]
       },
-      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_small" ] },
       {
         "x": -1,
         "y": 0,
-        "parts": [ "xlframe_vertical", "stowboard_vertical", "engine_inline4", "alternator_car", "battery_car", "gyrocopter_rotors" ]
-      },
-      { "x": -1, "y": -1, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small" ] },
-      { "x": -1, "y": 1, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small" ] }
+        "parts": [
+          "xlframe_vertical",
+          "stowboard_vertical",
+          "engine_inline4",
+          "alternator_car",
+          "battery_car",
+          "gyrocopter_rotors",
+          "wheel_mount_light",
+          "wheel_motorbike_rear"
+        ]
+      }
     ]
   }
 ]
