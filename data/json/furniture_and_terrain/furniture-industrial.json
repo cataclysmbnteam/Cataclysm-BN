@@ -119,5 +119,37 @@
         { "item": "motor", "prob": 30 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_steam_turbine",
+    "name": "steam turbine",
+    "looks_like": "large_turbine_engine",
+    "description": "Coal, natural gas, nuclear power, it all boiled down (pun intended) to generating power with steam in the end.  Could be salvaged, if you have any steamboats in need of a lightly-used engine.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "steam_turbine" },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "hdframe" }
+      ]
+    },
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "steel_lump", "count": [ 120, 240 ] },
+        { "item": "steel_chunk", "count": [ 120, 240 ] },
+        { "item": "scrap", "count": [ 120, 240 ] }
+      ]
+    }
   }
 ]
