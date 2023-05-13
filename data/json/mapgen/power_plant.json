@@ -10,7 +10,7 @@
         "|||_,,,,,,,pp,,,,,,,_|||||||||||||||||||||||||||",
         "|  _,,,,,,,,,,,,,,,,_                          |",
         "|  _,ppppp,pp,,,,,,,_    ####WWW#######WWW#### |",
-        "| ?_,,,,,,,,,,,,,,,,_?   #vv.ccc..f#.d..h..d.#9|",
+        "| ?_,,,,,,,,,,,,,,,,_?   #vV.ccc..f#.d..h..d.#9|",
         "|___,,,,,,,,,,,,,,,,____ W........s#h6.666.6hW |",
         "|,,,,,,,,,,,,,,,,,,,,,,_ W..ee....t#.........W |",
         "|,,,,,,,,,,,,,,,,,,,,,,_ #.heeh....#....t*FFF# |",
@@ -33,8 +33,22 @@
         "| ?_,,,,,,,,,,,,,,,,_?             |      __   |"
       ],
       "palettes": [ "power_plant_palette" ],
-      "place_signs": [ { "signage": "<city> power station", "x": 24, "y": 19 } ],
+      "terrain": { "V": "t_floor" },
+      "mapping": {
+        "l": { "items": { "item": "clothing_work_set", "chance": 50, "repeat": 2 } },
+        "r": { "items": { "item": "hardware", "chance": 25, "repeat": 3 } }
+      },
       "toilets": { "T": {  } },
+      "vendingmachines": { "v": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } },
+      "place_signs": [ { "signage": "<city> power station", "x": 24, "y": 19 } ],
+      "place_vehicles": [
+        { "vehicle": "parkinglotbasic", "x": 3, "y": 8, "chance": 25, "rotation": 180 },
+        { "vehicle": "parkinglotbasic", "x": 3, "y": 14, "chance": 25, "rotation": 180 },
+        { "vehicle": "parkinglotbasic", "x": 3, "y": 20, "chance": 25, "rotation": 180 },
+        { "vehicle": "parkinglotbasic", "x": 20, "y": 6, "chance": 25 },
+        { "vehicle": "parkinglotbasic", "x": 20, "y": 12, "chance": 25 },
+        { "vehicle": "parkinglotbasic", "x": 20, "y": 18, "chance": 25 }
+      ],
       "place_monster": [
         { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 15 ] },
         { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 26, 44 ], "y": [ 3, 21 ], "repeat": [ 10, 15 ] }
@@ -77,7 +91,9 @@
       ],
       "palettes": [ "power_plant_palette" ],
       "terrain": { "h": "t_thconc_floor" },
-      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
+      "mapping": { "r": { "items": { "item": "fireman_gear", "chance": 25, "repeat": 3 } } },
+      "place_loot": [ { "item": "coal_lump", "x": [ 5, 7 ], "y": [ 11, 14 ], "chance": 25, "repeat": 10 } ],
+      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 19 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
   },
   {
@@ -116,8 +132,9 @@
       ],
       "palettes": [ "power_plant_palette" ],
       "terrain": { "H": "t_sewage_pump", "h": "t_thconc_floor" },
+      "mapping": { "r": { "items": { "item": "fireman_gear", "chance": 25, "repeat": 3 } } },
       "place_nested": [ { "chunks": [ "null", "power_plant_7x7_incident_fire" ], "x": [ 1, 9 ], "y": [ 7, 15 ] } ],
-      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
+      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 19 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
   },
   {
@@ -156,7 +173,9 @@
       ],
       "palettes": [ "power_plant_palette" ],
       "terrain": { "'": "t_metal_floor_no_roof", "!": "t_metal_floor", "H": "t_gas_tank", "h": "t_thconc_floor" },
-      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
+      "mapping": { "r": { "items": { "item": "fireman_gear", "chance": 25, "repeat": 3 } } },
+      "place_loot": [ { "group": "fuel_barrel", "x": [ 2, 7 ], "y": [ 5, 7 ], "chance": 25, "repeat": 5 } ],
+      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 19 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
   },
   {
@@ -164,7 +183,7 @@
     "method": "json",
     "om_terrain": [ "power_plant_small_3" ],
     "weight": 125,
-    "//": "Geothermal with a chance of seimic-activity-induced Fun.",
+    "//": "Geothermal with a chance of seismic-activity-induced Fun.",
     "//2": "Speculative, as of this comment (2023) geothermal power generation isn't utilized in New England, Enhanced Geothermal Systems using injection drilling are being considered though.",
     "object": {
       "fill_ter": "t_floor",
@@ -180,13 +199,13 @@
         "| ::-!!!!-::__#;;;;;;;;;",
         "| ::-H!!!-::__+;;;;;;;;;",
         "| ::-I!!!-::__+;;;;;----",
-        "| ::-I22!-::::#;;h;;&-!-",
-        "| ::-II2!-::::#;666;&---",
-        "| ::------::::#;IIII&--;",
-        "| ::::::::::::#;;;;;---;",
-        "| ::::::::%%::#;IIII&--;",
-        "| ::I:HI::%%::#;;;;;&---",
-        "| ::I:::::::::#;;;;;&-!-",
+        "| ::-I22!-::::#;;h;;I-~-",
+        "| ::-II2!-::::#;666;I---",
+        "| ::------::::#;IIIII--;",
+        "| ::::::::::::#;H;;;---;",
+        "| ::::::::%%::#;IIIII--;",
+        "| ::I:HI::%%::#;;;;;I---",
+        "| ::I:::::::::#;;;;;I-~-",
         "| :~I~~~~~~~~:#;;;;;----",
         "| :~I~~~~~~~~:#;;;;;;;;;",
         "| :~~~~~~~~~~:#rrr;;;;;;",
@@ -196,8 +215,9 @@
       ],
       "palettes": [ "power_plant_palette" ],
       "terrain": { "~": "t_water_dp", "%": "t_water_pump", "H": "t_sewage_pump", "h": "t_thconc_floor" },
+      "mapping": { "r": { "items": { "item": "fireman_gear", "chance": 25, "repeat": 3 } } },
       "place_nested": [ { "chunks": [ "null", "power_plant_7x7_incident_lava" ], "x": [ 1, 9 ], "y": [ 5, 10 ] } ],
-      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
+      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 19 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
   },
   {
@@ -220,11 +240,11 @@
         ";;;;;;;;+............# |",
         ";00;;;;;+............# |",
         "5003Z;;;W............# |",
-        ";00;;;;;W....ddd66..6# |",
+        "T00;;;;;W....ddd66..6# |",
         ";;;;;;;;W....dh.h...6# |",
         ";;;;Z;;;##++##.....h6# |",
         ";;;;;;;;# __ #FF*t..6#9|",
-        ";00;;;XX# __ ##WWWWW## |",
+        "T00;;;XX# __ ##WWWWW## |",
         "5003Z;XX#::::::::::::  |",
         ";00;;;XX#:V::::::::::  |",
         ";;;;;;;Z#ZXC:Z::BVZ::P |",
@@ -234,8 +254,11 @@
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "power_plant_palette" ],
-      "place_nested": [ { "chunks": [ "null", "sub_fd_shock_vent" ], "x": [ 6, 7 ], "y": [ 16, 18 ] } ],
-      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 10, 15 ] } ]
+      "terrain": { "T": "t_thconc_floor" },
+      "furniture": { "T": "f_standing_tank" },
+      "mapping": { "r": { "items": { "item": "supplies_electronics", "chance": 50, "repeat": 3 } } },
+      "liquids": { "T": { "liquid": "water", "amount": [ 0, 100 ] } },
+      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 0, 22 ], "y": [ 0, 22 ], "repeat": [ 10, 15 ] } ]
     }
   },
   {
