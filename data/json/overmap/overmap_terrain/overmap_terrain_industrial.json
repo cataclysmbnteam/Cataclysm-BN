@@ -98,6 +98,12 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "power_plant_small_2_roof", "power_plant_small_3_roof", "power_plant_small_4_roof" ],
+    "copy-from": "power_plant_small_2",
+    "name": "local power plant roof"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pwr_sub_s",
     "name": "small power substation",
     "sym": "H",
