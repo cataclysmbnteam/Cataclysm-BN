@@ -60,22 +60,23 @@
         "| ::::::::::__##########",
         "| ::::::::::__#;;;;;;;;;",
         "| ::::::::::__+;;;;;;;;;",
-        "| :-::::-:::__+;;;;;----",
-        "| :-!!!!-:::::#;;h;;&-!-",
-        "| :-!!!!-:::::#;666;&---",
-        "| :-!!!!-:1111=11113&---",
-        "| :-!!!!-:1:::#;;;;;----",
-        "| :--==--:1:11=11113&---",
-        "| :::11:::1:1:#;;;;;&---",
-        "| :::11:::222:#;;;;;&-!-",
-        "| :::11111222:#;;;;;----",
-        "| :::11111222:#;;;;;;;;;",
-        "| ::::::::222:#rrr;;;;;;",
+        "| ::--!--:::__+;;;;;----",
+        "| ::-!!!-:::::#;;h;;&-!-",
+        "| ::-!!!-:::::#;666;&---",
+        "| ::-!!!-:1111=11113&---",
+        "| ::-!!!-:1:::#;;;;;----",
+        "| ::-=-=-:1:11=11113&---",
+        "| :::1:1::1:1:#;;;;;&---",
+        "| :::1:1::1:1:#;;;;;&-!-",
+        "| :::1:111222:#;;;;;----",
+        "| :::1::::222:#;;;;;;;;;",
+        "| :::11111222:#rrr;;;;;;",
         "| ::::::::::::##########",
         "|                       ",
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "power_plant_palette" ],
+      "terrain": { "h": "t_thconc_floor" },
       "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
   },
@@ -114,7 +115,7 @@
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "power_plant_palette" ],
-      "terrain": { "H": "t_sewage_pump" },
+      "terrain": { "H": "t_sewage_pump", "h": "t_thconc_floor" },
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "power_plant_7x7_incident_fire", 50 ] ], "x": [ 1, 9 ], "y": [ 7, 15 ] } ],
       "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
@@ -154,7 +155,7 @@
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "power_plant_palette" ],
-      "terrain": { "'": "t_metal_floor_no_roof", "!": "t_metal_floor", "H": "t_gas_tank" },
+      "terrain": { "'": "t_metal_floor_no_roof", "!": "t_metal_floor", "H": "t_gas_tank", "h": "t_thconc_floor" },
       "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
   },
@@ -194,7 +195,7 @@
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "power_plant_palette" ],
-      "terrain": { "~": "t_water_dp", "%": "t_water_pump", "H": "t_sewage_pump" },
+      "terrain": { "~": "t_water_dp", "%": "t_water_pump", "H": "t_sewage_pump", "h": "t_thconc_floor" },
       "place_nested": [ { "chunks": [ [ "null", 50 ], [ "power_plant_7x7_incident_lava", 50 ] ], "x": [ 1, 9 ], "y": [ 5, 10 ] } ],
       "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
@@ -224,12 +225,12 @@
         ";;;;Z;;;##++##.....h6# |",
         ";;;;;;;;# __ #FF*t..6#9|",
         ";00;;;XX# __ ##WWWWW## |",
-        "5003Z;XX#::::::::::::: |",
-        ";00;;;XX#:V::::::::::: |",
-        ";;;;;;;Z#ZXC:Z::BVZ:::P|",
-        "rrrMM;;;#::N:::::::::: |",
-        "#########::::::::::::: |",
-        "                 P     |",
+        "5003Z;XX#::::::::::::  |",
+        ";00;;;XX#:V::::::::::  |",
+        ";;;;;;;Z#ZXC:Z::BVZ::P |",
+        "rrrMM;;;#::N:::::::::  |",
+        "#########        P     |",
+        "                       |",
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "power_plant_palette" ],
@@ -369,17 +370,17 @@
       "mapgensize": [ 7, 7 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        " .....^",
+        " ....^ ",
         "....^^^",
         "..##^^.",
         ".^###^.",
         ".^^##..",
         "^^^....",
-        "^..... "
+        " ^.... "
       ],
       "terrain": { ".": "t_rock_floor_no_roof", "#": "t_rock", "^": "t_lava" },
       "furniture": { ".": [ [ "f_null", 2 ], "f_rubble_rock" ] },
-      "mapping": { ".": { "item": { "item": "chunk_sulfur", "chance": 50 } } }
+      "mapping": { ".": { "item": { "item": "chunk_sulfur", "chance": 25 } } }
     }
   }
 ]
