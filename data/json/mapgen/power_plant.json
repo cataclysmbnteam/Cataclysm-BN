@@ -84,7 +84,7 @@
     "method": "json",
     "om_terrain": [ "power_plant_small_3" ],
     "weight": 250,
-    "//": "Natural gas variant.",
+    "//": "Natural gas variant, with a chance of a gas explosion and fire.",
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -115,6 +115,7 @@
       ],
       "palettes": [ "power_plant_palette" ],
       "terrain": { "H": "t_sewage_pump" },
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "power_plant_7x7_incident_fire", 50 ] ], "x": [ 1, 9 ], "y": [ 7, 15 ] } ],
       "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
   },
@@ -154,6 +155,47 @@
       ],
       "palettes": [ "power_plant_palette" ],
       "terrain": { "'": "t_metal_floor_no_roof", "!": "t_metal_floor", "H": "t_gas_tank" },
+      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "power_plant_small_3" ],
+    "weight": 125,
+    "//": "Geothermal with a chance of seimic-activity-induced Fun.",
+    "//2": "Speculative, as of this comment (2023) geothermal power generation isn't utilized in New England, Enhanced Geothermal Systems using injection drilling are being considered though.",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "||||GGGGGGGGGGGGGGGG||||",
+        "|   ,,,,,,,,,,,,,,,,    ",
+        "|   p,,,,,,p,,,,,,,,    ",
+        "|   p,,,,,,p,,,,,,,,    ",
+        "|   p,,,,,,p,,,,,,,,    ",
+        "| ::::::::::____________",
+        "| ::::::::::____________",
+        "| ::--==--::__##########",
+        "| ::-::::-::__#;;;;;;;;;",
+        "| ::-H:::-::__+;;;;;;;;;",
+        "| ::-I:::-::__+;;;;;----",
+        "| ::-I22:-::::#;;h;;&-'-",
+        "| ::-II2:-::::#;666;&---",
+        "| ::------::::#;IIII&---",
+        "| ::::::::::::#;;;;;----",
+        "| ::::::::%%::#;IIII&---",
+        "| ::I:HI::%%::#;;;;;&---",
+        "| ::I:::::::::#;;;;;&-'-",
+        "| :~I~~~~~~~~:#;;;;;----",
+        "| :~I~~~~~~~~:#;;;;;;;;;",
+        "| :~~~~~~~~~~:#rrr;;;;;;",
+        "| ::::::::::::##########",
+        "|                       ",
+        "||||||||||||||||||||||||"
+      ],
+      "palettes": [ "power_plant_palette" ],
+      "terrain": { "~": "t_water_dp", "H": "t_sewage_pump" },
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "power_plant_7x7_incident_lava", 50 ] ], "x": [ 1, 9 ], "y": [ 5, 10 ] } ],
       "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
   },
@@ -296,6 +338,48 @@
           "y": [ 8, 10 ]
         }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "power_plant_7x7_incident_fire",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " %%%%% ",
+        "%%...%%",
+        "%.....%",
+        "%..^..%",
+        "%.....%",
+        "%%...%%",
+        " %%%%% "
+      ],
+      "terrain": { ".": "t_pit_shallow", "%": "t_dirtmound", "^": "t_pit" },
+      "furniture": { "%": "f_ash" },
+      "fields": { "^": { "field": "fd_fire_vent", "intensity": 1, "age": 10 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "power_plant_7x7_incident_lava",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " .....^",
+        "....^^^",
+        "..##^^.",
+        ".^###^.",
+        ".^^##..",
+        "^^^....",
+        "^..... "
+      ],
+      "terrain": { ".": "t_rock_floor_no_roof", "#": "t_rock", "^": "t_lava" },
+      "furniture": { ".": [ [ "f_null", 2 ], "f_rubble_rock" ] },
+      "mapping": { ".": { "item": { "item": "chunk_sulfur", "chance": 50 } } }
     }
   }
 ]
