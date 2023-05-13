@@ -1,6 +1,3 @@
-# Cataclysm data files
-cmake_minimum_required(VERSION 3.16)
-
 set(CATACLYSM_DATA_DIRS
         font
         json
