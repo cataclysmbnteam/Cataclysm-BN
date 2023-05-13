@@ -156,44 +156,7 @@ else ()
     endif ()
 endif ()
 
-# System specific actions
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
-    if (NOT DATA_PREFIX)
-        set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-bn)
-    endif ()
-    if (NOT README_DIR)
-        set(README_DIR ${DATA_PREFIX})
-    endif ()
-    if (NOT BIN_PREFIX)
-        set(BIN_PREFIX ${CMAKE_INSTALL_PREFIX}/bin)
-    endif ()
-    if (NOT DESKTOP_ENTRY_PATH)
-        set(DESKTOP_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/applications)
-    endif ()
-    if (NOT PIXMAPS_ENTRY_PATH)
-        set(PIXMAPS_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor)
-    endif ()
-    if (NOT PIXMAPS_UNITY_ENTRY_PATH)
-        set(PIXMAPS_UNITY_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/icons/ubuntu-mono-dark)
-    endif ()
-    if (NOT MANPAGE_ENTRY_PATH)
-        set(MANPAGE_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/man)
-    endif ()
-endif ()
-
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Windows|MSYS)")
-    if (NOT DATA_PREFIX)
-        set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/data)
-    endif ()
-    if (NOT README_DIR)
-        set(README_DIR ${CMAKE_INSTALL_PREFIX})
-    endif ()
-    if (NOT BIN_PREFIX)
-        set(BIN_PREFIX ${CMAKE_INSTALL_PREFIX})
-    endif ()
-endif ()
-
-message(STATUS "${PROJECT_NAME} build options --\n")
+message(STATUS "${PROJECT_NAME} build options --")
 
 # Preset variables
 if (NOT LANGUAGES)
@@ -229,15 +192,21 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     # Since CataclysmBN does not respect PREFIX for development builds
     # and has funny path handlers, we should create resulting Binaries
     # in the source directory
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
-        ${CMAKE_SOURCE_DIR}
-        CACHE PATH "Single Directory for all Executables.")
-    set(BIN_PREFIX ${CMAKE_SOURCE_DIR})
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR} CACHE PATH
+            "Single Directory for all Executables.")
+    set(CMAKE_INSTALL_BINDIR .)
 else ()
     set(RELEASE 1)
+    add_definitions(-DRELEASE)
+    if(USE_PREFIX_DATA_DIR)
+    else()
+        set(CMAKE_INSTALL_DATADIR   data)
+        set(CMAKE_INSTALL_DOCDIR    .   )
+        set(CMAKE_INSTALL_LOCALEDIR lang)
+        set(CMAKE_INSTALL_BINDIR    .   )
+    endif ()
     message(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
-    message(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
-    message(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
+    message(STATUS "CMAKE_INSTALL_BINDIR          : ${CMAKE_INSTALL_BINDIR}")
     message(STATUS "DESKTOP_ENTRY_PATH            : ${DESKTOP_ENTRY_PATH}")
     message(STATUS "PIXMAPS_ENTRY_PATH            : ${PIXMAPS_ENTRY_PATH}")
     message(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
@@ -482,9 +451,7 @@ if (CATA_CLANG_TIDY_PLUGIN)
     add_subdirectory(tools/clang-tidy-plugin)
 endif ()
 
-install(DIRECTORY doc gfx
-    DESTINATION ${DATA_PREFIX}
-)
+install(DIRECTORY doc TYPE DOC)
 
 if (RELEASE)
     install(FILES
@@ -492,11 +459,17 @@ if (RELEASE)
         ${CMAKE_SOURCE_DIR}/LICENSE.txt
         ${CMAKE_SOURCE_DIR}/LICENSE-OFL-Terminus-Font.txt
         ${CMAKE_SOURCE_DIR}/VERSION.txt
-        DESTINATION ${README_DIR})
+        TYPE DOC)
     if (TILES)
-        install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx DESTINATION ${DATA_PREFIX})
-    endif()
-endif()
+        if (USE_PREFIX_DATA_DIR)
+            install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx
+                TYPE DATA)
+        else()
+            install(DIRECTORY ${CMAKE_SOURCE_DIR}/gfx
+                DESTINATION .)
+        endif()
+    endif ()
+endif ()
 
 configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"

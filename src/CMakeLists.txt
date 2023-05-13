@@ -135,7 +135,7 @@ if (TILES)
     endif ()
 
     if (RELEASE)
-        install(TARGETS cataclysm-tiles DESTINATION ${BIN_PREFIX})
+        install(TARGETS cataclysm-tiles RUNTIME)
     endif ()
 endif ()
 
@@ -192,7 +192,7 @@ if (CURSES)
     endif ()
 
     if (RELEASE)
-        install(TARGETS cataclysm DESTINATION ${BIN_PREFIX})
+        install(TARGETS cataclysm RUNTIME)
     endif ()
 endif ()
 
@@ -266,9 +266,10 @@ if (MINGW AND NOT RELEASE)
                 ${RuntimeLib_mpeg})
         endif ()
     endif ()
-
-    install(FILES ${RuntimeLib_GCC_ALL} ${RuntimeLib_SDL} ${RuntimeLib_SDL_SOUND}
-            DESTINATION ${BIN_PREFIX})
+    install(FILES ${RuntimeLib_GCC_ALL}
+            ${RuntimeLib_SDL}
+            ${RuntimeLib_SDL_SOUND}
+            TYPE BIN)
 endif ()
 
 # vim:noet
