@@ -14,6 +14,7 @@ include(AstyleFormatSource)
 set(CMAKE_TLS_VERIFY ON)
 
 # Build options
+include(CMakeDependentOption)
 option(TILES "Build graphical tileset version." "OFF")
 option(CURSES "Build curses version." "ON")
 option(SOUND "Support for in-game sounds & music." "OFF")
@@ -22,7 +23,9 @@ option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
 option(USE_XDG_DIR "Use XDG directories for save and config files." "OFF")
 option(USE_HOME_DIR "Use user's home directory for save and config files." "ON")
-option(USE_PREFIX_DATA_DIR "Use UNIX system directories for game data in release build." "ON")
+cmake_dependent_option(USE_PREFIX_DATA_DIR "Use UNIX system directories for game data in release build." ON
+    "UNIX" OFF
+)
 set(LANGUAGES
     ""
     CACHE STRING "Compile localization files for specified languages. \
