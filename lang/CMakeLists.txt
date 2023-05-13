@@ -24,7 +24,7 @@ if (LANGUAGES STREQUAL all)
 endif ()
 
 foreach (LANG ${LANGUAGES})
-    message(STATUS "Add translation for ${LANG}: ${LANG}.po")
+    message(VERBOSE "Add translation for ${LANG}: ${LANG}.po")
 endforeach ()
 message("\n")
 
