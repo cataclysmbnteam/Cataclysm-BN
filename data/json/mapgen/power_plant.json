@@ -51,10 +51,10 @@
       "fill_ter": "t_floor",
       "rows": [
         "||||GGGGGGGGGGGGGGGG||||",
-        "| ,,,,,,,,,,,,,,,,,,    ",
-        "| p,,,,,,,,,,,,,,,,,    ",
-        "| p,,,,,,,,,,,,,,,,,    ",
-        "| p,,,,,,,,,,,,,,,,,    ",
+        "|   ,,,,,,,,,,,,,,,,    ",
+        "|   p,,,,,,p,,,,,,,,    ",
+        "|   p,,,,,,p,,,,,,,,    ",
+        "|   p,,,,,,p,,,,,,,,    ",
         "| ::::::::::____________",
         "| ::::::::::____________",
         "| ::::::::::__##########",
@@ -116,7 +116,7 @@
       ],
       "palettes": [ "power_plant_palette" ],
       "terrain": { "H": "t_sewage_pump", "h": "t_thconc_floor" },
-      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "power_plant_7x7_incident_fire", 50 ] ], "x": [ 1, 9 ], "y": [ 7, 15 ] } ],
+      "place_nested": [ { "chunks": [ "null", "power_plant_7x7_incident_fire" ], "x": [ 1, 9 ], "y": [ 7, 15 ] } ],
       "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
   },
@@ -196,7 +196,7 @@
       ],
       "palettes": [ "power_plant_palette" ],
       "terrain": { "~": "t_water_dp", "%": "t_water_pump", "H": "t_sewage_pump", "h": "t_thconc_floor" },
-      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "power_plant_7x7_incident_lava", 50 ] ], "x": [ 1, 9 ], "y": [ 5, 10 ] } ],
+      "place_nested": [ { "chunks": [ "null", "power_plant_7x7_incident_lava" ], "x": [ 1, 9 ], "y": [ 5, 10 ] } ],
       "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 23 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
   },
@@ -234,6 +234,7 @@
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "power_plant_palette" ],
+      "place_nested": [ { "chunks": [ "null", "sub_fd_shock_vent" ], "x": [ 6, 7 ], "y": [ 16, 18 ] } ],
       "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 10, 15 ] } ]
     }
   },
