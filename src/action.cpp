@@ -657,7 +657,9 @@ bool can_interact_at( action_id action, const tripoint &p )
     }
 }
 
-static auto make_register_actions( std::vector<uilist_entry> &entries, const input_context &ctxt )
+namespace
+{
+auto make_register_actions( std::vector<uilist_entry> &entries, const input_context &ctxt )
 {
     return [&]( std::vector<action_id> &&names ) -> void {
         const auto fn = [&]( action_id name ) -> uilist_entry {
@@ -667,9 +669,9 @@ static auto make_register_actions( std::vector<uilist_entry> &entries, const inp
     };
 }
 
-static auto make_register_categories( std::vector<uilist_entry> &entries,
-                                      std::map<int, std::string> &categories_by_int,
-                                      int &last_category )
+auto make_register_categories( std::vector<uilist_entry> &entries,
+                               std::map<int, std::string> &categories_by_int,
+                               int &last_category )
 {
     return [&]( std::vector<std::string> &&names ) -> void {
         const auto fn = [&]( const std::string & name ) -> uilist_entry {
@@ -679,6 +681,8 @@ static auto make_register_categories( std::vector<uilist_entry> &entries,
         std::transform( names.begin(), names.end(), std::back_inserter( entries ),  fn );
     };
 }
+
+} // namespace
 
 action_id handle_action_menu()
 {
