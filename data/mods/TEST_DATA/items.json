@@ -579,7 +579,7 @@
     "price_postapoc": 2000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar_layered", "cotton" ],
+    "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
