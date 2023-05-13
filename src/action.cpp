@@ -659,7 +659,7 @@ bool can_interact_at( action_id action, const tripoint &p )
 
 static auto make_register_actions( std::vector<uilist_entry> &entries, const input_context &ctxt )
 {
-    return [&]( std::set<action_id> &&names ) -> void {
+    return [&]( std::vector<action_id> &&names ) -> void {
         const auto fn = [&]( action_id name ) -> uilist_entry {
             return { name, true, hotkey_for_action( name ), ctxt.get_action_name( action_ident( name ) ) };
         };
@@ -671,7 +671,7 @@ static auto make_register_categories( std::vector<uilist_entry> &entries,
                                       std::map<int, std::string> &categories_by_int,
                                       int &last_category )
 {
-    return [&]( std::set<std::string> &&names ) -> void {
+    return [&]( std::vector<std::string> &&names ) -> void {
         const auto fn = [&]( const std::string & name ) -> uilist_entry {
             categories_by_int[last_category] = name;
             return { last_category++, true, -1, name + "…" };
