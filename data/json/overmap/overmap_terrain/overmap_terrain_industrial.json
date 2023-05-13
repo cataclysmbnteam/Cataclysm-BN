@@ -85,6 +85,19 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "power_plant_small_1",
+    "copy-from": "parking_2x1_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "power_plant_small_2", "power_plant_small_3", "power_plant_small_4" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "local power plant",
+    "sym": "P",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pwr_sub_s",
     "name": "small power substation",
     "sym": "H",
