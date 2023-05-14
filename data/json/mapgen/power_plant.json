@@ -176,7 +176,7 @@
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "power_plant_palette" ],
-      "terrain": { "'": "t_metal_floor", "3": "t_gas_tank", "T": "t_thconc_floor", "h": "t_thconc_floor" },
+      "terrain": { "'": "t_metal_floor", "3": "t_gas_tank", "H": "t_sewage_pump", "T": "t_thconc_floor", "h": "t_thconc_floor" },
       "furniture": { "T": "f_standing_tank" },
       "mapping": { "r": { "items": { "item": "fireman_gear", "chance": 25, "repeat": 3 } } },
       "liquids": { "T": { "liquid": "water", "amount": [ 0, 100 ] } },
