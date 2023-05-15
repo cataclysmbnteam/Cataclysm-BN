@@ -211,9 +211,6 @@ class item_reload_option
 
 inline bool is_crafting_component( const item &component );
 
-template<>
-std::set<item *> cata_arena<item>::pending_deletion;
-
 /**
  * Returns a reference to a null item (see @ref item::is_null). The reference is always valid
  * and stays valid until the program ends.
@@ -282,7 +279,7 @@ class item : public location_visitable<item>, public game_object<item>
             return p;
         }
 
-        inline static detached_ptr<item>spawn( const item &source ) {
+        inline static detached_ptr<item> spawn( const item &source ) {
             if( source.is_null() ) {
                 return detached_ptr<item>();
             }
@@ -290,7 +287,7 @@ class item : public location_visitable<item>, public game_object<item>
         }
 
         template<typename... T>
-        inline static detached_ptr<item>spawn( T... args ) {
+        inline static detached_ptr<item> spawn( T... args ) {
             return detached_ptr<item>( new item( std::forward<T>( args )... ) ) ;
         }
 
@@ -1211,7 +1208,7 @@ class item : public location_visitable<item>, public game_object<item>
 
         bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
-        bool is_null() const override; // True if type is NULL, or points to the null item (id == 0)
+        bool is_null() const; // True if type is NULL, or points to the null item (id == 0)
         bool is_comestible() const;
         bool is_food() const;                // Ignoring the ability to eat batteries, etc.
         bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
@@ -2362,13 +2359,11 @@ class item : public location_visitable<item>, public game_object<item>
         int damage_ = 0;
         light_emission light = nolight;
 
-        inline static cata_arena<item> arena;
-
     public:
         char invlet = 0;      // Inventory letter
         bool active = false; // If true, it has active effects to be processed
         //TODO! old safe reference type here
-        player *activated_by;
+        player *activated_by = nullptr;
         bool is_favorite = false;
 
         void set_favorite( bool favorite );

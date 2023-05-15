@@ -455,7 +455,6 @@ std::string recipe::get_consistency_error() const
 
 detached_ptr<item> recipe::create_result() const
 {
-    //TODO!: check
     detached_ptr<item> newit = item::spawn( result_, calendar::turn, item::default_charges_tag{} );
     if( charges ) {
         newit->charges = *charges;

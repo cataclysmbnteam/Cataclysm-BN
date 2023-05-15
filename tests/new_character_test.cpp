@@ -163,7 +163,7 @@ TEST_CASE( "starting_items", "[slow]" )
                         item *it = &*det_it;
                         const bool is_food =  !it->is_seed() && it->is_food() &&
                                               !ch.can_eat( *it ).success() && control.can_eat( *it ).success();
-                        const bool is_armor = it->is_armor() && !ch.wear_item( std::move( det_it ), false );
+                        const bool is_armor = it->is_armor() && ch.wear_item( std::move( det_it ), false );
                         // Seeds don't count- they're for growing things, not eating
                         if( is_food || is_armor ) {
                             failures.insert( failure{ prof->ident(), ch.get_mutations(), it->typeId(), is_food ? "Couldn't eat it" : "Couldn't wear it." } );

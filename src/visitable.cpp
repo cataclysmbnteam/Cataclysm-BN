@@ -660,12 +660,16 @@ ItemList temp_visitable<inventory>::remove_items_with( const
 {
     auto inv = static_cast<inventory *>( this );
     ItemList res;
+    if( inv->locked ) {
+        debugmsg( "Attempted recursive item removal" );
+        return res;
+    }
 
     if( count <= 0 ) {
         // nothing to do
         return res;
     }
-
+    inv->locked = true;
     for( auto stack = inv->items.begin(); stack != inv->items.end() && count > 0; ) {
         ItemList &istack = *stack;
         for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
@@ -688,7 +692,7 @@ ItemList temp_visitable<inventory>::remove_items_with( const
     // Invalidate binning cache
     inv->binned = false;
     inv->items_type_cached = false;
-
+    inv->locked = false;
     return res;
 }
 
@@ -705,6 +709,12 @@ void location_visitable<location_inventory>::remove_items_with( const
         std::function < VisitResponse( detached_ptr<item> &&e ) > &filter )
 {
     auto inv = static_cast<location_inventory *>( this );
+    if( inv->inv.locked ) {
+        debugmsg( "Attempted recursive item removal" );
+        return;
+    }
+    inv->inv.locked = true;
+
 
     VisitResponse last = VisitResponse::NEXT;
     for( auto stack = inv->inv.items.begin(); stack != inv->inv.items.end() &&
@@ -749,7 +759,7 @@ void location_visitable<location_inventory>::remove_items_with( const
     // Invalidate binning cache
     inv->inv.binned = false;
     inv->inv.items_type_cached = false;
-
+    inv->inv.locked = false;
 }
 
 /** @relates visitable */

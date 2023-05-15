@@ -536,7 +536,6 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
 
             if( iter == worn.end() ) {
                 // TODO: Use a calculated cost
-                act_item act( *dit, dit->count(), dit->obtain_cost( p, dit->count() ) );
                 worn.emplace_front( *dit, dit->count(), dit->obtain_cost( p ) );
             }
         }

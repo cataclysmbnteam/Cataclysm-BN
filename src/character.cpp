@@ -2606,6 +2606,11 @@ void Character::inv_clear()
     inv.clear();
 }
 
+void Character::dump_inv( std::vector<item *> &to )
+{
+    inv.dump( to );
+}
+
 int Character::inv_position_by_item( item *it ) const
 {
     return inv.position_by_item( it );

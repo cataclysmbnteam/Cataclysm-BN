@@ -53,6 +53,7 @@ TEST_CASE( "vehicle_split_section" )
                 std::set<tripoint> &veh_points = all_points[ i ];
                 // every point in the new vehicle was in the old vehicle
                 for( const tripoint &vpos : veh_points ) {
+                    INFO( "new point: " << vpos.x << ", " << vpos.y << ", " << vpos.z );
                     CHECK( original_points.find( vpos ) != original_points.end() );
                 }
                 // no point in any new vehicle is in any other new vehicle

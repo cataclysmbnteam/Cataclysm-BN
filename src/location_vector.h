@@ -18,6 +18,8 @@ class location_vector
     private:
         std::unique_ptr<location<T>> loc;
         std::vector<T *> contents;
+        bool locked = false;
+        bool destroyed = false;
     public:
 
         location_vector( location<T> *loc );
@@ -66,6 +68,8 @@ class location_vector
 
         /** this is needed until vehicles are GOs */
         void set_loc_hack( location<T> *loc );
+
+        void on_destroy();
 };
 
 

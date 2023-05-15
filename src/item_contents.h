@@ -110,6 +110,8 @@ class item_contents
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+
+        void on_destroy();
     private:
         location_vector<item> items;
 };

@@ -82,8 +82,7 @@ template<typename T, bool error_if_null>
 location_ptr<T, error_if_null>::~location_ptr()
 {
     if( ptr ) {
-        ptr->remove_location();
-        ptr->destroy();
+        ptr->destroy_in_place();
     }
 }
 

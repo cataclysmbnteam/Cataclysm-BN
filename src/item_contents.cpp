@@ -82,6 +82,11 @@ std::vector<detached_ptr<item>> item_contents::clear_items()
     return items.clear();
 }
 
+void item_contents::on_destroy()
+{
+    items.on_destroy();
+}
+
 void item_contents::set_item_defaults()
 {
     /* For Items with a magazine or battery in its contents */

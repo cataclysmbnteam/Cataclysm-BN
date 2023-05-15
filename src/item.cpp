@@ -283,10 +283,6 @@ static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 
 static const matec_id rapid_strike( "RAPID" );
 
-template<>
-std::set<item *> cata_arena<item>::pending_deletion = {};
-
-
 class npc_class;
 
 using npc_class_id = string_id<npc_class>;
@@ -554,9 +550,8 @@ item::item( const item &source ) : game_object<item>(), contents( this ),
 
 void item::on_destroy()
 {
-    for( item *&it : components ) {
-        it->destroy_in_place();
-    }
+    components.on_destroy();
+    contents.on_destroy();
 }
 
 
@@ -1115,6 +1110,13 @@ bool item::merge_charges( detached_ptr<item> &&rhs )
 
 void item::put_in( detached_ptr<item> &&payload )
 {
+    if( !payload ) {
+        return;
+    }
+    if( &*payload == this ) {
+        debugmsg( "Tried to put %s inside itself", debug_name().c_str() );
+        return;
+    }
     contents.insert_item( std::move( payload ) );
 }
 

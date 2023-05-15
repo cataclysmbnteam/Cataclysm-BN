@@ -72,7 +72,7 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
     REQUIRE( duffel_bag.get_storage() / an_item.volume() > 1 );
 
     GIVEN( "a character with a backpack full of items and no other containers" ) {
-        REQUIRE( dummy.wear_item( item::spawn( backpack ), false ) );
+        REQUIRE( !dummy.wear_item( item::spawn( backpack ), false ) );
         while( dummy.can_pick_weight( an_item, true ) && dummy.can_pick_volume( an_item ) ) {
             dummy.i_add( item::spawn( an_item ) );
         }
@@ -119,10 +119,10 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
     }
 
     GIVEN( "a character with two duffel bags and two backpacks full of items and no other containers" ) {
-        REQUIRE( dummy.wear_item( item::spawn( duffel_bag ), false ) );
-        REQUIRE( dummy.wear_item( item::spawn( duffel_bag ), false ) );
-        REQUIRE( dummy.wear_item( item::spawn( backpack ), false ) );
-        REQUIRE( dummy.wear_item( item::spawn( backpack ), false ) );
+        REQUIRE( !dummy.wear_item( item::spawn( duffel_bag ), false ) );
+        REQUIRE( !dummy.wear_item( item::spawn( duffel_bag ), false ) );
+        REQUIRE( !dummy.wear_item( item::spawn( backpack ), false ) );
+        REQUIRE( !dummy.wear_item( item::spawn( backpack ), false ) );
         while( dummy.can_pick_weight( an_item, true ) && dummy.can_pick_volume( an_item ) ) {
             dummy.i_add( item::spawn( an_item ) );
         }
@@ -242,8 +242,8 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
     }
 
     GIVEN( "a character with two duffel bags full of items" ) {
-        REQUIRE( dummy.wear_item( item::spawn( duffel_bag ), false ) );
-        REQUIRE( dummy.wear_item( item::spawn( duffel_bag ), false ) );
+        REQUIRE( !dummy.wear_item( item::spawn( duffel_bag ), false ) );
+        REQUIRE( !dummy.wear_item( item::spawn( duffel_bag ), false ) );
         while( dummy.can_pick_weight( an_item, true ) && dummy.can_pick_volume( an_item ) ) {
             dummy.i_add( item::spawn( an_item ) );
         }
@@ -251,11 +251,11 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
         WHEN( "he considers dropping only one of the bags, but all of the items" ) {
             drop_locations drop;
             drop.push_back( drop_location( *dummy.worn.front(), 1 ) );
-            std::vector<item *> dump = dummy.inv_dump();
+            std::vector<item *> dump;
+            dummy.dump_inv( dump );
             for( item *it : dump ) {
                 drop.push_back( drop_location( *it, 1 ) );
             }
-
             std::list<pickup::act_item> drop_list = pickup::reorder_for_dropping( dummy, drop );
             THEN( "at most half of the non-bag items will have zero drop cost" ) {
                 const size_t actual_zero_cost = std::count_if( drop_list.begin(), drop_list.end(),

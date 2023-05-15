@@ -180,7 +180,7 @@ class monster_battery_item_location :  public monster_item_location
 class vehicle_item_location : public item_location
 {
     protected:
-        vehicle *veh;// This is woefully inefficient and inprecise, but it's necessary until vehicles are made into game objects
+        vehicle *veh;
         int hack_id;
     public:
         vehicle_item_location( vehicle *veh, int hack_id ) : veh( veh ), hack_id( hack_id ) {}
@@ -223,7 +223,7 @@ class contents_item_location :  public item_location
         item *parent() const;
 };
 
-class component_item_location : public contents_item_location //updated
+class component_item_location : public contents_item_location
 {
     public:
         component_item_location( item *cont ) : contents_item_location( cont ) {}

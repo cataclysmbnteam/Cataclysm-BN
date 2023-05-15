@@ -22,10 +22,7 @@ location_vector<T>::location_vector( location<T> *loc,
 template<typename T>
 location_vector<T>::~location_vector()
 {
-    for( item *&it : contents ) {
-        it->remove_location();
-        it->destroy();
-    }
+    on_destroy();
 }
 
 template<typename T>
@@ -41,6 +38,9 @@ void location_vector<T>::push_back( detached_ptr<T> &&obj )
     //Skip adding it if it's already here
     if( &*loc != raw->saved_loc ) {
         contents.push_back( raw );
+        if( destroyed ) {
+            raw->destroy_in_place();
+        }
     }
 }
 
@@ -113,6 +113,9 @@ typename std::vector<T *>::iterator location_vector<T>::insert( typename std::ve
     if( &*loc != raw->saved_loc ) {
         raw->resolve_saved_loc();
         raw->set_location( &*loc );
+        if( destroyed ) {
+            raw->destroy_in_place();
+        }
         return contents.insert( it, raw );
     } else {
         raw->saved_loc = nullptr;
@@ -137,6 +140,9 @@ typename std::vector<T *>::iterator location_vector<T>::insert( typename std::ve
         if( &*loc != raw->saved_loc ) {
             raw->saved_loc = nullptr;
             raw->set_location( &*loc );
+            if( destroyed ) {
+                raw->destroy_in_place();
+            }
             it = contents.insert( it, raw );
         } else {
             raw->resolve_saved_loc();
@@ -245,6 +251,11 @@ typename std::vector<detached_ptr<T>> location_vector<T>::clear()
 template<typename T>
 void location_vector<T>::remove_with( std::function < detached_ptr<T>( detached_ptr<T> && ) > cb )
 {
+    if( locked ) {
+        debugmsg( "Recursive removal in location_vector" );
+        return;
+    }
+    locked = true;
     for( auto it = contents.begin(); it != contents.end(); ) {
         location<T> *saved_loc = ( *it )->loc;
         ( *it )->remove_location();
@@ -262,6 +273,7 @@ void location_vector<T>::remove_with( std::function < detached_ptr<T>( detached_
             it = contents.erase( it );
         }
     }
+    locked = false;
 }
 
 template<typename T>
@@ -284,6 +296,19 @@ void location_vector<T>::set_loc_hack( location<T> *new_loc )
         it->set_location( &*loc );
     }
 }
+
+template<typename T>
+void location_vector<T>::on_destroy()
+{
+    if( destroyed ) {
+        return;
+    }
+    for( item *&it : contents ) {
+        it->destroy_in_place();
+    }
+    destroyed = true;
+}
+
 
 template
 class location_vector<item>;

@@ -14,9 +14,6 @@ detached_ptr<T>::detached_ptr( detached_ptr &&source )
 template<typename T>
 detached_ptr<T> &detached_ptr<T>::operator=( detached_ptr &&source )
 {
-    if( &source == this ) {
-        return *this;
-    }
     if( ptr ) {
         ptr->destroy();
     }
@@ -54,7 +51,7 @@ T *detached_ptr<T>::get() const
 {
     if( !*this ) {
         debugmsg( "Attempted to resolve invalid detached_ptr" );
-        return &null_item_reference();//TODO!: error pointer
+        return &null_item_reference();
     }
     return ptr;
 }
@@ -105,7 +102,6 @@ bool detached_ptr<T>::operator!=( const U against ) const
 template<typename T>
 detached_ptr<T>::detached_ptr( T *obj )
 {
-    assert( obj != nullptr );
     ptr = obj;
 }
 template<typename T>

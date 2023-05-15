@@ -26,7 +26,6 @@ class game_object
         friend location_inventory;
         friend location_vector<T>;
         friend location_visitable<location_inventory>;
-
         location<T> *saved_loc = nullptr;
     protected:
         location<T> *loc = nullptr;
@@ -47,11 +46,6 @@ class game_object
     public:
 
         virtual ~game_object() = default;
-
-        //TODO Get rid of null items so this can be removed
-        virtual bool is_null() const = 0;
-
-
 
         detached_ptr<T> detach();
 

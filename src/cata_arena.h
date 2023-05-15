@@ -12,18 +12,20 @@ template <typename T>
 class cata_arena
 {
     private:
-        inline static std::set<T *> pending_deletion;
+        std::set<T *> pending_deletion;
 
-    public:
-        using value_type = T;
+        static cata_arena<T> &get_instance() {
+            static cata_arena<T> instance;
+            return instance;
+        }
 
-        static void mark_for_destruction( T *alloc ) {
+        void mark_for_destruction_internal( T *alloc ) {
             pending_deletion.insert( alloc );
             safe_reference<T>::mark_destroyed( alloc );
             cache_reference<T>::mark_destroyed( alloc );
         }
 
-        static bool cleanup() {
+        bool cleanup_internal() {
             if( pending_deletion.empty() ) {
                 return false;
             }
@@ -34,6 +36,26 @@ class cata_arena
                 delete p;
             }
             return true;
+        }
+
+        cata_arena<T>() = default;
+        cata_arena<T>( const cata_arena<T> & ) = delete;
+        cata_arena<T>( cata_arena<T> && ) = delete;
+
+
+    public:
+        using value_type = T;
+
+        static void mark_for_destruction( T *alloc ) {
+            get_instance().mark_for_destruction_internal( alloc );
+        }
+
+        static bool cleanup() {
+            return get_instance().cleanup_internal();
+        }
+
+        ~cata_arena() {
+            while( cleanup_internal() ) {}
         }
 };
 

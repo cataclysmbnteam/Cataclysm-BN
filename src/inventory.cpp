@@ -1355,6 +1355,15 @@ size_t location_inventory::size() const
     return inv.size();
 }
 
+location_inventory::~location_inventory()
+{
+    for( auto stack : inv.items ) {
+        for( auto it : stack ) {
+            it->destroy_in_place();
+        }
+    }
+}
+
 location_inventory::location_inventory( item_location *location ) : loc( location ) {}
 
 void location_inventory::unsort()
@@ -1464,14 +1473,20 @@ void location_inventory::restack( player &p )
 {
     return inv.restack( p );
 }
-detached_ptr<item> location_inventory::remove_item( const item *it )
+detached_ptr<item> location_inventory::remove_item( item *it )
 {
-
+    if( it ) {
+        it->remove_location();
+    }
     return detached_ptr<item>( &inv.remove_item( it ) );
 }
 detached_ptr<item> location_inventory::remove_item( int position )
 {
-    return detached_ptr<item>( &inv.remove_item( position ) );
+    item *obj = &inv.remove_item( position );
+    if( obj ) {
+        obj->remove_location();
+    }
+    return detached_ptr<item>( obj );
 }
 
 const item &location_inventory::find_item( int position ) const
@@ -1625,7 +1640,7 @@ void location_inventory::build_items_type_cache()
     return inv.build_items_type_cache();
 }
 
-const inventory &location_inventory::as_inventory()
+const inventory &location_inventory::as_inventory() const
 {
     return inv;
 }

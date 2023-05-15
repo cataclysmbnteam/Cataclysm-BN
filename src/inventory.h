@@ -95,6 +95,7 @@ class inventory : public temp_visitable<inventory>
         const_invslice const_slice() const;
         const ItemList &const_stack( int i ) const;
         size_t size() const;
+        bool locked = false;
 
         std::map<char, itype_id> assigned_invlet;
 
@@ -268,6 +269,8 @@ class location_inventory : public location_visitable<location_inventory>
         location_inventory &operator=( location_inventory && ) = delete;
         location_inventory &operator=( const location_inventory & ) = delete;
 
+        ~location_inventory();
+
         //location_inventory &operator+= ( const location_inventory &rhs );
         //location_inventory &operator+= ( detached_ptr<item &rhs );
         // location_inventory &operator+= ( const ItemList &rhs );
@@ -304,7 +307,7 @@ class location_inventory : public location_visitable<location_inventory>
          * in this inventory.
          * @return A copy of the removed item.
          */
-        detached_ptr<item> remove_item( const item *it );
+        detached_ptr<item> remove_item( item *it );
         detached_ptr<item> remove_item( int position );
         /**
          * Randomly select items until the volume quota is filled.
@@ -402,7 +405,7 @@ class location_inventory : public location_visitable<location_inventory>
 
         void build_items_type_cache();
 
-        const inventory &as_inventory();
+        const inventory &as_inventory() const;
 };
 
 #endif // CATA_SRC_INVENTORY_H

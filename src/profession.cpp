@@ -423,9 +423,12 @@ std::vector<detached_ptr<item>> profession::items( bool male,
     for( auto iter = result.begin(); iter != result.end(); ) {
         auto sub = item_substitutions.get_substitution( **iter, traits );
         if( !sub.empty() ) {
+            iter = result.erase( iter );
+            int offset = std::distance( result.begin(), iter );
             result.insert( result.end(), std::make_move_iterator( sub.begin() ),
                            std::make_move_iterator( sub.end() ) );
-            iter = result.erase( iter );
+            iter = result.begin();
+            std::advance( iter, offset );
         } else {
             ++iter;
         }

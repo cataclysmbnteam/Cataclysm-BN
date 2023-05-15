@@ -72,7 +72,7 @@ TEST_CASE( "distribute_food" )
               origin_abs - thirty_steps_rd,
               origin_abs + thirty_steps_rd );
 
-    calendar::turn = calendar::turn_zero + 365_days * 5;
+    calendar::turn = calendar::turn_zero + 10_days;
 
     constexpr int kcal_in_meat = 402;
 

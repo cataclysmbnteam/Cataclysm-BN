@@ -556,9 +556,9 @@ void contents_item_location::attach( detached_ptr<item> &&it )
     container->contents.insert_item( std::move( it ) );
 }
 
-bool contents_item_location::is_loaded( const item *it ) const
+bool contents_item_location::is_loaded( const item * ) const
 {
-    return it->is_loaded();
+    return container->is_loaded();
 }
 
 item_location_type contents_item_location::where() const
