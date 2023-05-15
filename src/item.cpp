@@ -747,7 +747,7 @@ bool item::covers( const body_part bp ) const
 
 bool item::covers( const bodypart_id &bp ) const
 {
-    return get_covered_body_parts().test( bp->token );
+    return get_covered_body_parts().test( bp.id() );
 }
 
 body_part_set item::get_covered_body_parts() const
@@ -762,7 +762,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
     if( is_gun() ) {
         // Currently only used for guns with the should strap mod, other guns might
         // go on another bodypart.
-        res.set( bp_torso );
+        res.set( bodypart_str_id( "torso" ) );
     }
 
     const islot_armor *armor = find_armor_data();
@@ -772,7 +772,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
 
     for( const armor_portion_data &data : armor->data ) {
         if( data.covers.has_value() ) {
-            res |= data.covers.value();
+            res.unify_set( data.covers.value() );
         }
     }
 
@@ -786,17 +786,17 @@ body_part_set item::get_covered_body_parts( const side s ) const
             break;
 
         case side::LEFT:
-            res.reset( bp_arm_r );
-            res.reset( bp_hand_r );
-            res.reset( bp_leg_r );
-            res.reset( bp_foot_r );
+            res.reset( bodypart_str_id( "arm_r" ) );
+            res.reset( bodypart_str_id( "hand_r" ) );
+            res.reset( bodypart_str_id( "leg_r" ) );
+            res.reset( bodypart_str_id( "foot_r" ) );
             break;
 
         case side::RIGHT:
-            res.reset( bp_arm_l );
-            res.reset( bp_hand_l );
-            res.reset( bp_leg_l );
-            res.reset( bp_foot_l );
+            res.reset( bodypart_str_id( "arm_l" ) );
+            res.reset( bodypart_str_id( "hand_l" ) );
+            res.reset( bodypart_str_id( "leg_l" ) );
+            res.reset( bodypart_str_id( "foot_l" ) );
             break;
     }
 
@@ -2558,56 +2558,56 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
         insert_separation_line( info );
         std::string coverage = _( "<bold>Covers</bold>: " );
-        if( covers( bp_head ) ) {
+        if( covers( bodypart_id( "head" ) ) ) {
             coverage += _( "The <info>head</info>. " );
         }
-        if( covers( bp_eyes ) ) {
+        if( covers( bodypart_id( "eyes" ) ) ) {
             coverage += _( "The <info>eyes</info>. " );
         }
-        if( covers( bp_mouth ) ) {
+        if( covers( bodypart_id( "mouth" ) ) ) {
             coverage += _( "The <info>mouth</info>. " );
         }
-        if( covers( bp_torso ) ) {
+        if( covers( bodypart_id( "torso" ) ) ) {
             coverage += _( "The <info>torso</info>. " );
         }
 
-        if( is_sided() && ( covers( bp_arm_l ) || covers( bp_arm_r ) ) ) {
+        if( is_sided() && ( covers( bodypart_id( "arm_l" ) ) || covers( bodypart_id( "arm_r" ) ) ) ) {
             coverage += _( "Either <info>arm</info>. " );
-        } else if( covers( bp_arm_l ) && covers( bp_arm_r ) ) {
+        } else if( covers( bodypart_id( "arm_l" ) ) && covers( bodypart_id( "arm_r" ) ) ) {
             coverage += _( "The <info>arms</info>. " );
-        } else if( covers( bp_arm_l ) ) {
+        } else if( covers( bodypart_id( "arm_l" ) ) ) {
             coverage += _( "The <info>left arm</info>. " );
-        } else if( covers( bp_arm_r ) ) {
+        } else if( covers( bodypart_id( "arm_r" ) ) ) {
             coverage += _( "The <info>right arm</info>. " );
         }
 
-        if( is_sided() && ( covers( bp_hand_l ) || covers( bp_hand_r ) ) ) {
+        if( is_sided() && ( covers( bodypart_id( "hand_l" ) ) || covers( bodypart_id( "hand_r" ) ) ) ) {
             coverage += _( "Either <info>hand</info>. " );
-        } else if( covers( bp_hand_l ) && covers( bp_hand_r ) ) {
+        } else if( covers( bodypart_id( "hand_l" ) ) && covers( bodypart_id( "hand_r" ) ) ) {
             coverage += _( "The <info>hands</info>. " );
-        } else if( covers( bp_hand_l ) ) {
+        } else if( covers( bodypart_id( "hand_l" ) ) ) {
             coverage += _( "The <info>left hand</info>. " );
-        } else if( covers( bp_hand_r ) ) {
+        } else if( covers( bodypart_id( "hand_r" ) ) ) {
             coverage += _( "The <info>right hand</info>. " );
         }
 
-        if( is_sided() && ( covers( bp_leg_l ) || covers( bp_leg_r ) ) ) {
+        if( is_sided() && ( covers( bodypart_id( "leg_l" ) ) || covers( bodypart_id( "leg_r" ) ) ) ) {
             coverage += _( "Either <info>leg</info>. " );
-        } else if( covers( bp_leg_l ) && covers( bp_leg_r ) ) {
+        } else if( covers( bodypart_id( "leg_l" ) ) && covers( bodypart_id( "leg_r" ) ) ) {
             coverage += _( "The <info>legs</info>. " );
-        } else if( covers( bp_leg_l ) ) {
+        } else if( covers( bodypart_id( "leg_l" ) ) ) {
             coverage += _( "The <info>left leg</info>. " );
-        } else if( covers( bp_leg_r ) ) {
+        } else if( covers( bodypart_id( "leg_r" ) ) ) {
             coverage += _( "The <info>right leg</info>. " );
         }
 
-        if( is_sided() && ( covers( bp_foot_l ) || covers( bp_foot_r ) ) ) {
+        if( is_sided() && ( covers( bodypart_id( "foot_l" ) ) || covers( bodypart_id( "foot_r" ) ) ) ) {
             coverage += _( "Either <info>foot</info>. " );
-        } else if( covers( bp_foot_l ) && covers( bp_foot_r ) ) {
+        } else if( covers( bodypart_id( "foot_l" ) ) && covers( bodypart_id( "foot_r" ) ) ) {
             coverage += _( "The <info>feet</info>. " );
-        } else if( covers( bp_foot_l ) ) {
+        } else if( covers( bodypart_id( "foot_l" ) ) ) {
             coverage += _( "The <info>left foot</info>. " );
-        } else if( covers( bp_foot_r ) ) {
+        } else if( covers( bodypart_id( "foot_r" ) ) ) {
             coverage += _( "The <info>right foot</info>. " );
         }
 
@@ -2696,20 +2696,17 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
-
-                        const auto setToCheck = piece.covers.value();
-                        auto toCheck = all_body_parts.begin();
-
-                        while( toCheck != all_body_parts.end() ) {
-                            if( setToCheck.test( *toCheck ) ) {
-                                to_display_data[convert_bp( *toCheck )] = { convert_bp( *toCheck ).obj().name_as_heading, {
-                                        get_encumber( g->u, convert_bp( *toCheck ) ),
-                                        get_encumber( g->u, convert_bp( *toCheck ) ),
+                        for( const bodypart_str_id &covering_id : piece.covers.value() ) {
+                            if( covering_id != bodypart_str_id( "num_bp" ) ) {
+                            const int encumbrance_when_full =
+                                            get_encumber_when_containing( you, get_total_capacity(), covering_id.id() );
+                                to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
+                                        get_encumber( g->u, covering_id ),
+                                        encumbrance_when_full,
                                         piece.coverage
                                     }, true
                                 };
                             }
-                            ++toCheck;
                         }
                     }
                 }
@@ -2967,7 +2964,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     if( ( is_power_armor() ) &&
         parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR ) ) {
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT ) ) {
-            if( covers( bp_head ) && has_flag( flag_POWERARMOR_EXTERNAL ) ) {
+            if( covers( bodypart_id( "head" ) ) && has_flag( flag_POWERARMOR_EXTERNAL ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* When worn with a power armor suit, it will "
                                              "<good>fully protect</good> you from "
@@ -4418,14 +4415,14 @@ void item::on_wear( Character &p )
             int rhs = 0;
             for( std::size_t i = 0; i < static_cast< body_part >( num_bp ) ; ++i ) {
                 bp = static_cast< body_part >( i );
-                if( get_covered_body_parts().test( bp ) ) {
+                if( get_covered_body_parts().test( convert_bp( bp ) ) ) {
                     mod_parts.emplace_back( bp, 0 );
                 }
             }
             for( auto &elem : p.worn ) {
                 for( std::pair< body_part, int > &mod_part : mod_parts ) {
                     bpid = convert_bp( mod_part.first );
-                    if( elem.get_covered_body_parts().test( mod_part.first ) &&
+                    if( elem.get_covered_body_parts().test( convert_bp( mod_part.first ) ) &&
                         elem.has_flag( flag_POWERARMOR_MOD ) ) {
                         if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
                             mod_part.second++;
@@ -5906,19 +5903,12 @@ int item::get_avg_encumber( const Character &p ) const
 
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
-
-            const auto setToCheck = entry.covers.value();
-            auto toCheck = all_body_parts.begin();
-
-            while( toCheck != all_body_parts.end() ) {
-                if( setToCheck.test( *toCheck ) ) {
-                    int encumber = get_encumber( p, bodypart_id( *toCheck ) );
-                    if( encumber ) {
-                        avg_encumber += encumber;
-                        ++avg_ctr;
-                    }
+            for( const bodypart_str_id &limb : entry.covers.value() ) {
+                int encumber = get_encumber( p, bodypart_id( limb ));
+                if( encumber ) {
+                    avg_encumber += encumber;
+                    ++avg_ctr;
                 }
-                ++toCheck;
             }
         }
     }
@@ -5943,9 +5933,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart ) const
         if( t != nullptr ) {
             for( const armor_portion_data &entry : t->data ) {
                 if( entry.covers.has_value() ) {
-                    const auto setToCheck = entry.covers.value();
-
-                    if( setToCheck.test( bodypart->token ) ) {
+                    if( entry.covers.value().test( bodypart.id() ) ) {
                         if( entry.max_encumber != 0 ) {
                             units::volume char_storage( 0_ml );
 
@@ -5981,26 +5969,34 @@ int item::get_encumber_when_containing(
 
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
-            const auto setToCheck = entry.covers.value();
-
-            if( setToCheck.test( bodypart->token ) ) {
-                encumber = entry.encumber;
-
-                // Non-rigid items add additional encumbrance proportional to their volume
-                if( !type->rigid ) {
-                    const int capacity = get_total_capacity().value();
-                    if( entry.max_encumber != 0 ) {
-                        if( capacity > 0 ) {
-                            // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
-                            encumber += static_cast<int64_t>( entry.max_encumber - entry.encumber ) * contents_volume.value() /
-                                        capacity;
+            try
+            {
+                if( entry.covers.value().test( bodypart.id() ) ) {
+                    encumber = entry.encumber;
+                    // Non-rigid items add additional encumbrance proportional to their volume
+                    bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
+                    []( armor_portion_data data ) {
+                        return data.encumber != data.max_encumber;
+                    } );
+                    if( !type->rigid || any_encumb_increase ) {
+                        const int capacity = get_total_capacity().value();
+                        if( entry.max_encumber == 0 ) {
+                            encumber += contents_volume / 500_ml;
                         } else {
-                            debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
-                        }
-                    } else {
-                        encumber += contents_volume / 500_ml;
+                            if( capacity < 0 ) {
+                                debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
+                            } else {
+                                // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
+                                encumber += static_cast<int64_t>( entry.max_encumber - entry.encumber ) * contents_volume.value() /
+                                            capacity;
+                            } 
+                        } 
                     }
                 }
+            }
+            catch(std::exception e)
+            {
+                debugmsg( "exception yo" );
             }
         }
     }
@@ -6067,19 +6063,12 @@ int item::get_avg_coverage() const
     int avg_ctr = 0;
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
-
-            const auto setToCheck = entry.covers.value();
-            auto toCheck = all_body_parts.begin();
-
-            while( toCheck != all_body_parts.end() ) {
-                if( setToCheck.test( *toCheck ) ) {
-                    int coverage = get_coverage( convert_bp( *toCheck ) );
-                    if( coverage ) {
-                        avg_coverage += coverage;
-                        ++avg_ctr;
-                    }
+            for( const bodypart_str_id &limb : entry.covers.value() ) {
+                int coverage = get_coverage( limb );
+                if( coverage ) {
+                    avg_coverage += coverage;
+                    ++avg_ctr;
                 }
-                ++toCheck;
             }
         }
     }
@@ -6106,7 +6095,7 @@ std::optional<armor_portion_data> item::portion_for_bodypart( const bodypart_id 
         return std::optional<armor_portion_data>();
     }
     for( const armor_portion_data &entry : t->data ) {
-        if( entry.covers.has_value() && entry.covers->test( bodypart->token ) ) {
+        if( entry.covers.has_value() && entry.covers->test( bodypart.id() ) ) {
             return entry;
         }
     }

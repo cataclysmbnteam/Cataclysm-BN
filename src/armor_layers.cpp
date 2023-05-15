@@ -57,8 +57,8 @@ std::vector<std::string> clothing_protection( const item &worn_item, int width )
 std::vector<std::string> clothing_flags_description( const item &worn_item );
 
 struct item_penalties {
-    std::vector<body_part> body_parts_with_stacking_penalty;
-    std::vector<body_part> body_parts_with_out_of_order_penalty;
+    std::vector<bodypart_id> body_parts_with_stacking_penalty;
+    std::vector<bodypart_id> body_parts_with_out_of_order_penalty;
     std::set<std::string> bad_items_within;
 
     int badness() const {
@@ -86,12 +86,12 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
 {
     layer_level layer = worn_item_it->get_layer();
 
-    std::vector<body_part> body_parts_with_stacking_penalty;
-    std::vector<body_part> body_parts_with_out_of_order_penalty;
+    std::vector<bodypart_id> body_parts_with_stacking_penalty;
+    std::vector<bodypart_id> body_parts_with_out_of_order_penalty;
     std::vector<std::set<std::string>> lists_of_bad_items_within;
 
-    for( body_part bp : all_body_parts ) {
-        if( _bp && _bp != bodypart_id( "num_bp" ) ) {
+    for( const bodypart_id &bp : c.get_all_body_parts() ) {
+        if( _bp->token && _bp != bodypart_id( "num_bp" ) ) {
             continue;
         }
         if( !worn_item_it->covers( bp ) ) {
@@ -141,7 +141,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
              std::move( lists_of_bad_items_within[0] ) };
 }
 
-std::string body_part_names( const std::vector<body_part> &parts )
+std::string body_part_names( const std::vector<bodypart_id> &parts )
 {
     if( parts.empty() ) {
         debugmsg( "Asked for names of empty list" );
@@ -151,8 +151,9 @@ std::string body_part_names( const std::vector<body_part> &parts )
     std::vector<std::string> names;
     names.reserve( parts.size() );
     for( size_t i = 0; i < parts.size(); ++i ) {
-        const body_part part = parts[i];
-        if( i + 1 < parts.size() && parts[i + 1] == static_cast<body_part>( bp_aiOther[part] ) ) {
+        const bodypart_id &part = parts[i];
+        if( i + 1 < parts.size() &&
+            parts[i + 1] == convert_bp( static_cast<body_part>( bp_aiOther[part->token] ) ).id() ) {
             // Can combine two body parts (e.g. arms)
             names.push_back( body_part_name_accusative( part, 2 ) );
             ++i;

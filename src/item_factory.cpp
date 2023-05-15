@@ -129,19 +129,24 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
                                  ? val_in
                                  : to_lower_case( val_in );
         if( val == "arms" || val == "arm_either" ) {
-            parts.set( bp_arm_l );
-            parts.set( bp_arm_r );
-        } else if( val == "hands" || val == "hand_either" ) {
-            parts.set( bp_hand_l );
-            parts.set( bp_hand_r );
-        } else if( val == "legs" || val == "leg_either" ) {
-            parts.set( bp_leg_l );
-            parts.set( bp_leg_r );
-        } else if( val == "feet" || val == "foot_either" ) {
-            parts.set( bp_foot_l );
-            parts.set( bp_foot_r );
+            parts.set( bodypart_str_id( "arm_l" ) );
+            parts.set( bodypart_str_id( "arm_r" ) );
+        } else if( val == "HANDS" || val == "HAND_EITHER" ) {
+            parts.set( bodypart_str_id( "hand_l" ) );
+            parts.set( bodypart_str_id( "hand_r" ) );
+        } else if( val == "LEGS" || val == "LEG_EITHER" ) {
+            parts.set( bodypart_str_id( "leg_l" ) );
+            parts.set( bodypart_str_id( "leg_r" ) );
+        } else if( val == "FEET" || val == "FOOT_EITHER" ) {
+            parts.set( bodypart_str_id( "foot_l" ) );
+            parts.set( bodypart_str_id( "foot_r" ) );
         } else {
-            parts.set( get_body_part_token( val ) );
+            // Convert from legacy enum to new and apply coverage
+            if( !is_legacy_bodypart_id( val ) ) {
+                parts.set( bodypart_str_id( val ) );
+            } else {
+                parts.set( convert_bp( get_body_part_token( val ) ) );
+            }
         }
         sided |= val == "arm_either" || val == "hand_either" ||
                  val == "leg_either" || val == "foot_either";
@@ -1129,7 +1134,7 @@ void Item_factory::check_definitions() const
             for( const armor_portion_data &portion : type->armor->data ) {
                 if( portion.covers.has_value() ) {
                     for( const body_part &bp : all_body_parts ) {
-                        if( portion.covers->test( bp ) ) {
+                        if( portion.covers->test( convert_bp( bp ) ) ) {
                             if( observed_bps.count( convert_bp( bp ) ) ) {
                                 msg += "multiple portions with same body_part defined\n";
                             }

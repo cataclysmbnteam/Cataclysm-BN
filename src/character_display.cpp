@@ -68,7 +68,9 @@ static bool should_combine_bps( const Character &ch, body_part l, body_part r,
            enc_data.elems[l] == enc_data.elems[r] &&
            temperature_print_rescaling( ch.temp_conv[l] ) == temperature_print_rescaling( ch.temp_conv[r] ) &&
            // selected_clothing covers both or neither parts
-           ( !selected_clothing || ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) );
+                      ( !selected_clothing ||
+             ( selected_clothing->covers( convert_bp( l ).id() ) == selected_clothing->covers( convert_bp(
+                         r ).id() ) ) );
 }
 
 static std::vector<std::pair<body_part, bool>> list_and_combine_bps( const Character &ch,
@@ -123,7 +125,8 @@ void character_display::print_encumbrance( const catacurses::window &win, const 
         const body_part bp = bps[thisline].first;
         const bool combine = bps[thisline].second;
         const encumbrance_data &e = enc_data.elems[bp];
-        const bool highlighted = selected_clothing ? selected_clothing->covers( bp ) : false;
+        const bool highlighted = selected_clothing ? selected_clothing->covers( convert_bp(
+                                     bp ).id() ) : false;
         std::string out = body_part_name_as_heading( bp, combine ? 2 : 1 );
         if( utf8_width( out ) > 7 ) {
             out = utf8_truncate( out, 7 );
