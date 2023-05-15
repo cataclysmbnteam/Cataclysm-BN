@@ -3978,11 +3978,18 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
     avatar &you = get_avatar();
     const auto &ter = this->ter( p ).obj();
     const auto &furn = this->furn( p ).obj();
+
     if( ter.open ) {
         if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
             return false;
         }
-
+        if( you.is_mounted() ) {
+            auto mon = you.mounted_creature.get();
+            if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                add_msg( m_info, _( "You can't open things while you're riding." ) );
+                return false;
+            }
+        }
         if( !check_only ) {
             sounds::sound( p, 6, sounds::sound_t::movement, _( "swish" ), true,
                            "open_door", ter.id.str() );
@@ -4000,6 +4007,13 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
             return false;
         }
+        if( you.is_mounted() ) {
+            auto mon = you.mounted_creature.get();
+            if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                add_msg( m_info, _( "You can't open things while you're riding." ) );
+                return false;
+            }
+        }
 
         if( !check_only ) {
             sounds::sound( p, 6, sounds::sound_t::movement, _( "swish" ), true,
@@ -4009,6 +4023,13 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
 
         return true;
     } else if( const optional_vpart_position vp = veh_at( p ) ) {
+        if( you.is_mounted() ) {
+            auto mon = you.mounted_creature.get();
+            if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                add_msg( m_info, _( "You can't open things while you're riding." ) );
+                return false;
+            }
+        }
         int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
         if( openable >= 0 ) {
             if( !check_only ) {

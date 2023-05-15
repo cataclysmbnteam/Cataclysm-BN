@@ -92,7 +92,7 @@
     "copy-from": "recon_mech_laser",
     "type": "GUN",
     "name": { "str": "rebuilt RMES marksman laser" },
-    "description": "Along-range weapon system stripped from a recon mech, modified for handheld use.  While less efficient and too bulky to fire without proper support, it's still a quiet and relatively accurate marksman laser rifle.",
+    "description": "A long-range weapon system stripped from a recon mech, modified for handheld use.  While less efficient and too bulky to fire without proper support, it's still a quiet and relatively accurate marksman laser rifle.",
     "weight": "13 kg",
     "dispersion": 30,
     "ups_charges": 160,
