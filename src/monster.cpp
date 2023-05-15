@@ -817,7 +817,7 @@ std::string monster::extended_description() const
     ss += "--\n";
     ss += std::string( _( "In melee, you can expect to:" ) ) + "\n";
     ss += string_format( _( "Deal average damage per second: <stat>%.1f</stat>" ),
-                         g->u.weapon.effective_dps( g->u, *this ) );
+                         g->u.primary_weapon().effective_dps( g->u, *this ) );
     ss += "\n";
 
     if( debug_mode ) {
@@ -2549,12 +2549,6 @@ void monster::process_effects_internal()
                 process_one_effect( _effect_it.second, false );
             }
         }
-    }
-
-    // Like with player/NPCs - keep the speed above 0
-    const int min_speed_bonus = -0.75 * get_speed_base();
-    if( get_speed_bonus() < min_speed_bonus ) {
-        set_speed_bonus( min_speed_bonus );
     }
 
     //If this monster has the ability to heal in combat, do it now.

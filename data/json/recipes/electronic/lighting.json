@@ -163,11 +163,11 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 1 ] ],
-      [ [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 1 ] ],
-      [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ],
-      [ [ "betavoltaic", 1 ] ]
+      [ [ "lightstrip_inactive", 1 ], [ "e_scrap", 1 ] ],
+      [ [ "plut_cell", 1 ] ]
     ]
   },
   {
@@ -183,10 +183,11 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "superglue", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 2 ] ],
-      [ [ "betavoltaic", 4 ] ]
+      [ [ "lightstrip_inactive", 1 ], [ "e_scrap", 1 ] ],
+      [ [ "plut_cell", 4 ] ]
     ]
   }
 ]

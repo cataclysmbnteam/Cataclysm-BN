@@ -55,25 +55,13 @@
       "d": { "item": "office", "chance": 70, "repeat": [ 1, 3 ] },
       "B": [ { "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 } ],
       "F": [
-        { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
-        { "item": "supplies_samples_lab", "chance": 40, "repeat": [ 1, 3 ] }
+        { "item": "supplies_reagents_lab", "chance": 75, "repeat": 4 },
+        { "item": "supplies_samples_lab", "chance": 50, "repeat": 2 }
       ],
-      "U": [
-        { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] },
-        { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 1, 3 ] },
-        { "item": "supplies_samples_lab", "chance": 10, "repeat": [ 1, 2 ] }
-      ],
-      "c": [
-        { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] },
-        { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 1, 3 ] },
-        { "item": "supplies_samples_lab", "chance": 10, "repeat": [ 1, 2 ] }
-      ],
-      "R": [
-        { "item": "tools_robotics", "chance": 20, "repeat": [ 1, 3 ] },
-        { "item": "robots", "chance": 40, "repeat": [ 1, 3 ] },
-        { "item": "supplies_electronics", "chance": 40, "repeat": [ 1, 3 ] }
-      ],
-      "O": [ { "item": "tools_robotics", "chance": 40, "repeat": [ 1, 3 ] }, { "item": "schematics", "chance": 2 } ],
+      "U": [ { "item": "softdrugs", "chance": 50, "repeat": 2 }, { "item": "surgery", "chance": 25, "repeat": 3 } ],
+      "c": [ { "item": "tools_science", "chance": 50, "repeat": 3 }, { "item": "supplies_reagents_lab", "chance": 10 } ],
+      "R": [ { "item": "robots", "chance": 50, "repeat": 2 }, { "item": "supplies_electronics", "chance": 50, "repeat": 3 } ],
+      "O": [ { "item": "tools_robotics", "chance": 50, "repeat": 3 }, { "item": "schematics", "chance": 5 } ],
       "i": { "item": "cleaning", "chance": 20 }
     },
     "vendingmachines": { "V": {  } }

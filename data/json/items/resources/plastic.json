@@ -30,21 +30,6 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "id": "lycra_patch",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "Lycra patch", "str_pl": "Lycra patches" },
-    "description": "This is a small bolt of a synthetic fabric blended with stretchy Lycra fibers.  It could be used to make flexible yet strong clothing.  Stylish, but bad for the environment; at least you're recycling it.",
-    "weight": "87 g",
-    "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 10,
-    "material": "lycra",
-    "symbol": ",",
-    "color": "light_blue",
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
     "id": "plastic_sheet",
     "type": "GENERIC",
     "category": "spare_parts",

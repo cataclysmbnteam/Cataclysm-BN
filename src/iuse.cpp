@@ -1740,7 +1740,9 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
             return e.is_toolmod() && !e.is_irremovable();
         } );
         add_msg( m_info, _( "You remove the %s from the tool." ), mod->tname() );
-        p->i_add_or_drop( *mod );
+        if( !mod->is_irremovable() ) {
+            p->i_add_or_drop( *mod );
+        }
         loc->remove_item( *mod );
 
         remove_radio_mod( *loc, *p );
@@ -3113,7 +3115,7 @@ int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           it->ammo_remaining() > 1 && !p->is_underwater(),
+                           !p->is_underwater(),
                            40, _( "With a buzz, the chainsaws leap to life!" ),
                            _( "You pull the trigger, but nothing happens." ) );
 }
@@ -7799,7 +7801,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
             it->unset_flag( "NO_UNWIELD" );
             it->active = false;
 
-            if( p->has_item( *it ) && p->weapon.typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->primary_weapon().typeId() == itype_e_handcuffs ) {
                 add_msg( m_good, _( "%s on your hands opened!" ), it->tname() );
             }
 
@@ -7831,7 +7833,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
                 p2.y != pos.y ) ) {
 
-            if( p->has_item( *it ) && p->weapon.typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->primary_weapon().typeId() == itype_e_handcuffs ) {
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {

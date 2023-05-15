@@ -816,7 +816,7 @@ dispersion_sources calculate_dispersion( const map &m, const Character &who, con
 
 int ranged::fire_gun( Character &who, const tripoint &target, int shots )
 {
-    return fire_gun( who, target, shots, who.weapon, item_location() );
+    return fire_gun( who, target, shots, who.primary_weapon(), item_location() );
 }
 
 int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, item &gun,
@@ -1291,7 +1291,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, cons
         who.as_player()->practice( skill_used, 5, 2 );
     }
     // Reset last target pos
-    who.last_target_pos = std::nullopt;
+    who.as_player()->last_target_pos = std::nullopt;
     who.recoil = MAX_RECOIL;
 
     return dealt_attack;
@@ -1578,7 +1578,8 @@ static int print_aim( const Character &p, const catacurses::window &w, int line_
     dispersion.add_range( ranged::recoil_vehicle( p ) );
 
     const double min_recoil = calculate_aim_cap( p, pos );
-    const double effective_recoil = ranged::effective_dispersion( p, p.weapon.sight_dispersion() );
+    const double effective_recoil = ranged::effective_dispersion( p,
+                                    p.primary_weapon().sight_dispersion() );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
@@ -1978,7 +1979,6 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
         return 0.0;
     }
 
-    const islot_gun &gun = *weap.type->gun;
     itype_id ammo_type;
     if( !weap.ammo_current().is_null() ) {
         ammo_type = weap.ammo_current();
@@ -1990,6 +1990,8 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
     const itype *def_ammo_i = ammo_type.is_null() ? nullptr : &*ammo_type;
 
     damage_instance gun_damage = weap.gun_damage();
+    const int ammo_cap = weap.ammo_capacity();
+    bool empty = weap.ammo_remaining() == 0;
     item tmp = weap;
     tmp.ammo_set( ammo_type );
     int total_dispersion = ranged::get_weapon_dispersion( who, tmp ).max() +
@@ -2008,16 +2010,18 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
     }
 
     int move_cost = time_to_attack( who, weap, item_location() );
-    if( gun.clip != 0 && gun.clip < 10 ) {
-        // TODO: RELOAD_ONE should get a penalty here
-        int reload_cost = gun.reload_time + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
-        reload_cost /= gun.clip;
+    if( empty && ammo >= 1 ) {
+        int reload_cost = weap.get_reload_time() + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
         move_cost += reload_cost;
     }
 
+    // Gives an approximation of DPS disregarding modes.
+    float move_cost_factor = move_cost / 100.0f;
+
     // "Medium range" below means 9 tiles, "short range" means 4
     // Those are guarantees (assuming maximum time spent aiming)
-    static const std::vector<std::pair<float, float>> dispersion_thresholds = {{
+    static const std::vector<std::pair<float, float>> dispersion_thresholds = {
+        {
             // Headshots all the time
             { 0.0f, 5.0f },
             // Critical at medium range
@@ -2037,30 +2041,13 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
         }
     };
 
-    static const std::vector<std::pair<float, float>> move_cost_thresholds = {{
-            { 10.0f, 4.0f },
-            { 25.0f, 3.0f },
-            { 100.0f, 1.0f },
-            { 500.0f, 5.0f },
-        }
-    };
-
-    float move_cost_factor = multi_lerp( move_cost_thresholds, move_cost );
-
-    // Penalty for dodging in melee makes the gun unusable in melee
-    // Until NPCs get proper kiting, at least
-    int melee_penalty = who.weapon.volume() / 250_ml - who.get_skill_level( skill_dodge );
-    if( melee_penalty <= 0 ) {
-        // Dispersion matters less if you can just use the gun in melee
-        total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );
-    }
-
     float dispersion_factor = multi_lerp( dispersion_thresholds, total_dispersion );
 
     float damage_and_accuracy = damage_factor * dispersion_factor;
 
     // TODO: Some better approximation of the ability to keep on shooting
-    static const std::vector<std::pair<float, float>> capacity_thresholds = {{
+    static const std::vector<std::pair<float, float>> capacity_thresholds = {
+        {
             { 1.0f, 0.5f },
             { 5.0f, 1.0f },
             { 10.0f, 1.5f },
@@ -2069,17 +2056,16 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
         }
     };
 
-    // How much until reload
-    float capacity = gun.clip > 0 ? std::min<float>( gun.clip, ammo ) : ammo;
-    // How much until dry and a new weapon is needed
-    capacity += std::min<float>( 1.0, ammo / 20.0 );
+    // Ammo capacity. Reduced to ammo available if that's lower.
+    float capacity = ammo_cap > 0 ? std::min( ammo_cap, ammo ) : ammo;
+
     double capacity_factor = multi_lerp( capacity_thresholds, capacity );
 
-    double gun_value = damage_and_accuracy * capacity_factor;
+    double gun_value = damage_and_accuracy * capacity_factor * move_cost_factor;
 
-    add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity",
+    add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity, %.1f move",
              weap.type->get_id().str(), gun_value, dispersion_factor, damage_factor,
-             capacity_factor );
+             capacity_factor, move_cost_factor );
     return std::max( 0.0, gun_value );
 }
 
@@ -2114,6 +2100,13 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
     const vehicle *veh_from_turret = turret ? turret.get_veh() : nullptr;
     return g->get_creatures_if( [&c, range, veh_from_turret]( const Creature & critter ) -> bool {
         if( std::round( rl_dist_exact( c.pos(), critter.pos() ) ) > range )
+        {
+            return false;
+        }
+
+        // Special case: if range is 1, it's a melee attack.
+        // Melee attacks can only target on same z-level or directly up/down, not "z-diagonally".
+        if( range <= 1 && c.posz() != critter.posz() && c.pos().xy() != critter.pos().xy() )
         {
             return false;
         }

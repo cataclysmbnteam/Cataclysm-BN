@@ -67,13 +67,13 @@
     "type": "uncraft",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "lycra_patch", 1 ] ] ]
+    "components": [ [ [ "nylon", 1 ] ] ]
   },
   {
     "result": "under_armor_shorts",
     "type": "uncraft",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "lycra_patch", 1 ] ] ]
+    "components": [ [ [ "nylon", 1 ] ] ]
   }
 ]

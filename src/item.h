@@ -1211,6 +1211,11 @@ class item : public visitable<item>
          * Returns true if this item can be reloaded with specified ammo type,
          * ignoring currently loaded ammo.
          */
+        bool can_reload_with( const ammotype &ammo ) const;
+        /**
+         * Returns true if this item can be reloaded with specified ammo item,
+         * ignoring currently loaded ammo.
+         */
         bool can_reload_with( const itype_id &ammo ) const;
         /** Returns true if this item can be reloaded with specified ammo type at this moment. */
         bool is_reloadable_with( const itype_id &ammo ) const;

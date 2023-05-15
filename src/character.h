@@ -81,7 +81,7 @@ template <typename E> struct enum_traits;
 
 enum class character_stat : char;
 
-#define MAX_CLAIRVOYANCE 40
+constexpr int MAX_CLAIRVOYANCE = 40;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -95,6 +95,14 @@ enum vision_modes {
     VISION_CLAIRVOYANCE_PLUS,
     VISION_CLAIRVOYANCE_SUPER,
     NUM_VISION_MODES
+};
+
+enum npc_ai_info : size_t {
+    weapon_value = 0,
+    ideal_weapon_value,
+    reloadables,
+    reloadable_cbms,
+    num_npc_ai_info,
 };
 
 enum character_movemode : int {
@@ -968,6 +976,8 @@ class Character : public Creature, public visitable<Character>
         /**Return list of available fuel for this bionic*/
         std::vector<itype_id> get_fuel_available( const bionic_id &bio ) const;
         /**Return available space to store specified fuel*/
+        int get_fuel_type_available( const itype_id &fuel ) const;
+        /**Return available space to store specified fuel*/
         int get_fuel_capacity( const itype_id &fuel ) const;
         /**Return total space to store specified fuel*/
         int get_total_fuel_capacity( const itype_id &fuel ) const;
@@ -1180,12 +1190,31 @@ class Character : public Creature, public visitable<Character>
         int get_item_position( const item *it ) const;
 
         /**
-         * Returns a reference to the item which will be used to make attacks.
-         * At the moment it's always @ref weapon or a reference to a null item.
+         * Returns all equipped items that require a limb to be held.
          */
         /*@{*/
-        const item &used_weapon() const;
+        std::vector<item *> wielded_items();
+        std::vector<const item *> wielded_items() const;
+        /*@}*/
+
+        /**
+         * Legacy code hack, don't use.
+         * Returns the null item if martial art forces unarmed, otherwise @ref primary_weapon.
+         * Use @ref wielded_items instead.
+         */
+        /*@{*/
         item &used_weapon();
+        const item &used_weapon() const;
+        /*@}*/
+
+        /**
+         * Legacy code hack, don't use.
+         * Returns the first wielded weapon or a null item.
+         * Use @ref wielded_items instead.
+         */
+        /*@{*/
+        item &primary_weapon();
+        const item &primary_weapon() const;
         /*@}*/
 
         /**
@@ -1543,7 +1572,9 @@ class Character : public Creature, public visitable<Character>
         std::optional<tripoint> destination_point;
         inventory inv;
         itype_id last_item;
+    private:
         item weapon;
+    public:
 
         int scent = 0;
         pimpl<bionic_collection> my_bionics;
@@ -1560,8 +1591,6 @@ class Character : public Creature, public visitable<Character>
         int focus_pool = 0;
         int cash = 0;
         std::set<character_id> follower_ids;
-        weak_ptr_fast<Creature> last_target;
-        std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
         std::set<tripoint_abs_omt> camps;
@@ -1888,7 +1917,6 @@ class Character : public Creature, public visitable<Character>
          */
         ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
         /** Determine character's capability of recharging their CBMs. */
-        bool can_feed_reactor_with( const item &it ) const;
         bool can_feed_furnace_with( const item &it ) const;
         rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
         int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
@@ -1898,7 +1926,6 @@ class Character : public Creature, public visitable<Character>
         * Recharge CBMs whenever possible.
         * @return true when recharging was successful.
         */
-        bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
         bool fuel_bionic_with( item &it );
         /** Used to apply stimulation modifications from food and medication **/
@@ -2241,7 +2268,7 @@ class Character : public Creature, public visitable<Character>
         tripoint cached_position;
         inventory cached_crafting_inventory;
 
-        mutable std::map<std::string, double> npc_ai_info_cache;
+        mutable std::array<double, npc_ai_info::num_npc_ai_info> npc_ai_info_cache;
 
         safe_reference_anchor anchor;
 
@@ -2264,9 +2291,9 @@ class Character : public Creature, public visitable<Character>
 
         void set_underwater( bool x ) override;
 
-        void clear_npc_ai_info_cache( const std::string &key ) const;
-        void set_npc_ai_info_cache( const std::string &key, double val ) const;
-        std::optional<double> get_npc_ai_info_cache( const std::string &key ) const;
+        void clear_npc_ai_info_cache( npc_ai_info key ) const;
+        void set_npc_ai_info_cache( npc_ai_info key, double val ) const;
+        std::optional<double> get_npc_ai_info_cache( npc_ai_info key ) const;
 
         safe_reference<Character> get_safe_reference();
 };
@@ -2302,5 +2329,8 @@ std::map<bodypart_id, int> wind_resistance_from_clothing(
 
 /** Returns true if the player has a psyshield artifact, or sometimes if wearing tinfoil */
 bool has_psy_protection( const Character &c, int partial_chance );
+
+/** Returns value of speedydex bonus if enabled */
+int get_speedydex_bonus( const int dex );
 
 #endif // CATA_SRC_CHARACTER_H

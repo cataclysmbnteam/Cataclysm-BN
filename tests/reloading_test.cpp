@@ -164,12 +164,12 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         item &ammo = dummy.i_add( item( "40sw", bday, item::default_charges_tag{} ) );
         REQUIRE( ammo.is_ammo() );
 
-        dummy.weapon = item( "sw_610", bday, 0 );
-        REQUIRE( dummy.weapon.ammo_remaining() == 0 );
-        REQUIRE( dummy.weapon.can_reload_with( ammo.type->get_id() ) );
+        dummy.primary_weapon() = item( "sw_610", bday, 0 );
+        REQUIRE( dummy.primary_weapon().ammo_remaining() == 0 );
+        REQUIRE( dummy.primary_weapon().can_reload_with( ammo.type->get_id() ) );
 
         WHEN( "the player triggers auto reload until the revolver is full" ) {
-            reload_a_revolver( dummy, dummy.weapon, ammo );
+            reload_a_revolver( dummy, dummy.primary_weapon(), ammo );
             WHEN( "the player triggers auto reload again" ) {
                 avatar_action::reload_weapon( false );
                 THEN( "no activity is generated" ) {
@@ -182,7 +182,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
             REQUIRE( gun2.ammo_remaining() == 0 );
             REQUIRE( gun2.can_reload_with( ammo.type->get_id() ) );
             WHEN( "the player triggers auto reload until the first revolver is full" ) {
-                reload_a_revolver( dummy, dummy.weapon, ammo );
+                reload_a_revolver( dummy, dummy.primary_weapon(), ammo );
                 WHEN( "the player triggers auto reload until the second revolver is full" ) {
                     reload_a_revolver( dummy, gun2, ammo );
                     WHEN( "the player triggers auto reload again" ) {
@@ -207,8 +207,8 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
         REQUIRE( mag.ammo_remaining() == 0 );
 
-        dummy.weapon = item( "glock_19", bday, 0 );
-        REQUIRE( dummy.weapon.ammo_remaining() == 0 );
+        dummy.primary_weapon() = item( "glock_19", bday, 0 );
+        REQUIRE( dummy.primary_weapon().ammo_remaining() == 0 );
 
         WHEN( "the player triggers auto reload" ) {
             avatar_action::reload_weapon( false );
@@ -225,7 +225,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                 process_activity( dummy );
 
                 THEN( "The magazine is loaded into the gun" ) {
-                    CHECK( dummy.weapon.ammo_remaining() > 0 );
+                    CHECK( dummy.primary_weapon().ammo_remaining() > 0 );
                 }
                 WHEN( "the player triggers auto reload again" ) {
                     avatar_action::reload_weapon( false );
@@ -257,7 +257,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
                     process_activity( dummy );
 
                     THEN( "The magazine is loaded into the gun" ) {
-                        CHECK( dummy.weapon.ammo_remaining() > 0 );
+                        CHECK( dummy.primary_weapon().ammo_remaining() > 0 );
                     }
                     WHEN( "the player triggers auto reload again" ) {
                         avatar_action::reload_weapon( false );

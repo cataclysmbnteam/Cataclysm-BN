@@ -144,6 +144,7 @@ void Creature::reset_bonuses()
     armor_bullet_bonus = 0;
 
     speed_bonus = 0;
+    speed_mult = 0;
     dodge_bonus = 0;
     block_bonus = 0;
     hit_bonus = 0;
@@ -1233,6 +1234,19 @@ const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) con
     }
     return effect::null_effect;
 }
+std::vector<effect *> Creature::get_all_effects_of_type( const efftype_id &eff_id )
+{
+    std::vector< effect *> ret;
+    auto got_outer = effects->find( eff_id );
+    if( got_outer == effects->end() ) {
+        return {};
+    }
+    std::unordered_map<bodypart_str_id, effect> &effect_map = got_outer->second;
+    for( auto&[ _, effect ] : effect_map ) {
+        ret.push_back( &effect );
+    }
+    return ret;
+}
 std::vector<const effect *> Creature::get_all_effects_of_type( const efftype_id &eff_id ) const
 {
     std::vector<const effect *> ret;
@@ -1509,7 +1523,8 @@ int Creature::get_armor_bullet_bonus() const
 
 int Creature::get_speed() const
 {
-    return get_speed_base() + get_speed_bonus();
+    int speed = round( ( get_speed_base() + get_speed_bonus() ) * ( 1 + get_speed_mult() ) );
+    return std::max( static_cast<int>( round( 0.25 * get_speed_base() ) ), speed );
 }
 float Creature::get_dodge() const
 {
@@ -1685,6 +1700,10 @@ int Creature::get_speed_bonus() const
 {
     return speed_bonus;
 }
+float Creature::get_speed_mult() const
+{
+    return speed_mult;
+}
 float Creature::get_dodge_bonus() const
 {
     return dodge_bonus;
@@ -1747,6 +1766,10 @@ void Creature::set_speed_bonus( int nspeed )
 {
     speed_bonus = nspeed;
 }
+void Creature::set_speed_mult( float nspeed )
+{
+    speed_mult = nspeed;
+}
 void Creature::set_dodge_bonus( float ndodge )
 {
     dodge_bonus = ndodge;
@@ -1763,6 +1786,10 @@ void Creature::set_hit_bonus( float nhit )
 void Creature::mod_speed_bonus( int nspeed )
 {
     speed_bonus += nspeed;
+}
+void Creature::mod_speed_mult( float nspeed )
+{
+    speed_mult += nspeed;
 }
 void Creature::mod_dodge_bonus( float ndodge )
 {

@@ -3135,7 +3135,7 @@
       [ [ "wire", 8 ], [ "spike", 8 ], [ "nail", 16 ] ],
       [ [ "scrap", 40 ], [ "sheet_metal", 1 ], [ "sheet_metal_small", 20 ] ]
     ],
-    "pre_terrain": "t_pit",
+    "pre_special": "check_empty",
     "post_terrain": "t_junk_palisade"
   },
   {

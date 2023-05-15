@@ -6,6 +6,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <numeric>
 #include <optional>
 #include <set>
 #include <string>
@@ -78,6 +79,7 @@ static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
 
 static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 static const std::string flag_FILTHY( "FILTHY" );
@@ -1233,7 +1235,7 @@ class steal_inventory_preset : public pickup_inventory_preset
             pickup_inventory_preset( p ), victim( victim ) {}
 
         bool is_shown( const item_location &loc ) const override {
-            return !victim.is_worn( *loc ) && &victim.weapon != &( *loc );
+            return !victim.is_worn( *loc ) && &victim.primary_weapon() != &( *loc );
         }
 
     private:
@@ -1791,7 +1793,6 @@ static item_location autodoc_internal( player &u, player &patient,
 {
     inventory_pick_selector inv_s( u, preset );
     std::string hint;
-    int drug_count = 0;
 
     if( !surgeon ) {//surgeon use their own anesthetic, player just need money
         if( patient.has_trait( trait_NOPAIN ) ) {
@@ -1803,11 +1804,10 @@ static item_location autodoc_internal( player &u, player &patient,
             std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
                 return it.has_quality( qual_ANESTHESIA );
             } );
-            for( const item *anesthesia_item : a_filter ) {
-                if( anesthesia_item->ammo_remaining() >= 1 ) {
-                    drug_count += anesthesia_item->ammo_remaining();
-                }
-            }
+            const int drug_count = std::accumulate( a_filter.begin(), a_filter.end(), 0,
+            []( int sum, const item * it ) {
+                return sum + it->ammo_remaining();
+            } );
             hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
         }
     }
@@ -1820,11 +1820,9 @@ static item_location autodoc_internal( player &u, player &patient,
                     _( "\n<color_light_green>Found bionic installation data.  Affected CBMs are marked with an asterisk.</color>" ) );
     }
 
-    if( uninstall ) {
-        inv_s.set_title( string_format( _( "Bionic removal patient: %s" ), patient.get_name() ) );
-    } else {
-        inv_s.set_title( string_format( _( "Bionic installation patient: %s" ), patient.get_name() ) );
-    }
+    const auto title = uninstall
+                       ? _( "Bionic removal patient: %s" ) : _( "Bionic installation patient: %s" );
+    inv_s.set_title( string_format( title, patient.get_name() ) );
 
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
@@ -1881,7 +1879,7 @@ class bionic_install_preset: public inventory_selector_preset
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            if( it->has_fault( fault_bionic_nonsterile ) ) {
+            if( it->has_fault( fault_bionic_nonsterile ) && !p.has_trait( trait_INFRESIST ) ) {
                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave or other methods to sterilize." );
             } else if( pa.has_bionic( bid ) ) {

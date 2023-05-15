@@ -881,7 +881,7 @@
         { "item": "motor_small", "count": 1 },
         { "item": "spectrophotometer", "count": 1 },
         { "item": "storage_battery", "count": 1 },
-        { "item": "betavoltaic", "count": [ 1, 4 ] },
+        { "item": "plut_cell", "charges": [ 1, 4 ] },
         { "item": "steel_chunk", "count": 3 },
         { "item": "sheet_metal", "count": 3 },
         { "item": "cable", "charges": 5 }

@@ -15,10 +15,11 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v3
       - name: "Get current date"
-        uses: 1466587594/get-current-time@v2
-        id: current-date
+        uses: nanzm/get-time-action@v1.1
+        id: get-timestamp
         with:
-          format: "DD MMMM YYYY"
+          timeZone: 0
+          format: "YYYY-MM-DD"
       - name: "Pull translations"
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
@@ -26,13 +27,13 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3.10.0
         with:
-          commit-message: Routine i18n updates on ${{ steps.current-date.outputs.formattedTime }}
+          commit-message: Routine i18n updates on ${{ steps.get-timestamp.outputs.time }}
           committer: Coolthulhu (BOT) <Coolthulhu@gmail.com>
           author: Coolthulhu (BOT) <Coolthulhu@gmail.com>
           token: ${{ secrets.TX_PR_CREATOR }}
           branch: i18n
           delete-branch: true
           base: upload
-          title: Routine i18n updates on ${{ steps.current-date.outputs.formattedTime }}
+          title: Routine i18n updates on ${{ steps.get-timestamp.outputs.time }}
           body: "#### Summary\nNone"
           labels: Translation
