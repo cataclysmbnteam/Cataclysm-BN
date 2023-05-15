@@ -395,7 +395,7 @@
     "difficulty": 6,
     "time": "1h 30 m",
     "reversible": true,
-    "book_learn": [ [ "recipe_caseless", 8 ] ],
+    "book_learn": [ [ "recipe_caseless", 8 ], [ "textbook_atomic_lab", 9 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 5 ] ],
