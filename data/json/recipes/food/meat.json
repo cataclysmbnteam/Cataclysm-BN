@@ -424,7 +424,7 @@
   {
     "type": "recipe",
     "result": "human_lard",
-    "byproducts": [ [ "cracklins" ] ],
+    "byproducts": [ [ "human_cracklins" ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",

@@ -252,6 +252,7 @@
         [ "can_clams", 1 ],
         [ "fish_pickled", 1 ],
         [ "cracklins", 1 ],
+		[ "human_cracklins", 1 ],
         [ "meat_aspic", 1 ],
         [ "sausage", 1 ],
         [ "sausage_cooked", 1 ],
