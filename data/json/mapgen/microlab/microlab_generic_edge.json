@@ -560,7 +560,7 @@
       },
       "furniture": { "S": "f_utility_shelf" },
       "mapping": {
-        "S": { "items": { "item": "microlab_storage_electric" }, "items": { "item": "gas_charging_rack", "chance": 50 } },
+        "S": { "items": [ { "item": "microlab_storage_electric" }, { "item": "gas_charging_rack", "chance": 50 } ] },
         "t": {
           "items": [
             { "item": "tools_lighting_industrial", "chance": 25, "repeat": 2 },
