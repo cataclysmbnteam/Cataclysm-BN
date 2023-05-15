@@ -237,7 +237,9 @@
     "type": "COMESTIBLE",
     "id": "human_cracklins",
     "name": { "str_sp": "cracklins" },
-    "material": "hflesh"
+    "material": "hflesh",
+    "symbol": "%",
+    "description": "Also known as pork rinds or chicharrones, these are bits of edible fat and skin that have been fried until they are crispy and delicious."
   },
   {
     "type": "COMESTIBLE",
