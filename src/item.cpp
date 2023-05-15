@@ -5988,13 +5988,11 @@ int item::get_encumber_when_containing(
                                 // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
                                 encumber += static_cast<int64_t>( entry.max_encumber - entry.encumber ) * contents_volume.value() /
                                             capacity;
-                            } 
-                        } 
+                            }
+                        }
                     }
                 }
-            }
-            catch(std::exception e)
-            {
+            } catch( std::exception e ) {
                 debugmsg( "exception yo" );
             }
         }
