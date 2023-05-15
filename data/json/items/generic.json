@@ -2674,7 +2674,7 @@
     "name": { "str": "salvaged CMES gatling laser" },
     "description": "A rapid-fire weapon system stripped from a wrecked combat exoskeleton.  No longer usable as a weapon in its current condition.",
     "material": [ "superalloy", "plastic" ],
-    "weight": "40 kg",
+    "weight": "39 kg",
     "volume": "11 L"
   },
   {
@@ -2686,7 +2686,7 @@
     "name": { "str": "salvaged RMES marksman laser" },
     "description": "A long-range weapon system stripped from a wrecked recon exoskeleton.  No longer usable as a weapon in its current condition.",
     "material": [ "superalloy", "plastic" ],
-    "weight": "12500 g",
+    "weight": "12 kg",
     "volume": "5500 ml"
   },
   {
