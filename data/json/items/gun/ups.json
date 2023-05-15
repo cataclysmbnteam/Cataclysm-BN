@@ -53,6 +53,18 @@
     "extend": { "flags": [ "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ] }
   },
   {
+    "id": "gatling_mech_laser_rebuilt",
+    "copy-from": "gatling_mech_laser",
+    "type": "GUN",
+    "name": { "str": "rebuilt CMES gatling laser" },
+    "description": "A rapid-fire weapon system stripped from a combat mech, modified for handheld use.  While less efficient and too bulky to fire without proper support, its rotating-barrel laser system can still spray death downrange with ease.",
+    "weight": "40 kg",
+    "dispersion": 200,
+    "ups_charges": 80,
+    "extend": { "flags": [ "MOUNTED_GUN" ] },
+    "delete": { "flags": [ "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ] }
+  },
+  {
     "id": "recon_mech_laser",
     "copy-from": "rifle_energy",
     "type": "GUN",
@@ -74,6 +86,18 @@
     "ups_charges": 100,
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "extend": { "flags": [ "NO_UNWIELD", "NO_REPAIR", "NO_SALVAGE", "UNBREAKABLE_MELEE" ] }
+  },
+  {
+    "id": "recon_mech_laser_rebuilt",
+    "copy-from": "recon_mech_laser",
+    "type": "GUN",
+    "name": { "str": "rebuilt RMES marksman laser" },
+    "description": "Along-range weapon system stripped from a recon mech, modified for handheld use.  While less efficient and too bulky to fire without proper support, it's still a quiet and relatively accurate marksman laser rifle.",
+    "weight": "13 kg",
+    "dispersion": 30,
+    "ups_charges": 160,
+    "extend": { "flags": [ "MOUNTED_GUN" ] },
+    "delete": { "flags": [ "NO_UNWIELD", "NO_REPAIR", "NO_SALVAGE", "UNBREAKABLE_MELEE" ] }
   },
   {
     "id": "laser_cannon",
