@@ -181,7 +181,7 @@
       "mapping": { "r": { "items": { "item": "fireman_gear", "chance": 25, "repeat": 3 } } },
       "liquids": { "T": { "liquid": "water", "amount": [ 0, 100 ] } },
       "place_loot": [ { "group": "fuel_barrel", "x": [ 2, 9 ], "y": [ 5, 7 ], "chance": 50, "repeat": 5 } ],
-      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 1, 19 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
+      "place_monster": [ { "group": "GROUP_INDUSTRIAL_CENTER", "x": [ 11, 19 ], "y": [ 1, 22 ], "repeat": [ 10, 15 ] } ]
     }
   },
   {
