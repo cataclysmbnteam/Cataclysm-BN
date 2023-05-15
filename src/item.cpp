@@ -2698,8 +2698,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     if( piece.covers.has_value() ) {
                         for( const bodypart_str_id &covering_id : piece.covers.value() ) {
                             if( covering_id != bodypart_str_id( "num_bp" ) ) {
-                            const int encumbrance_when_full =
-                                            get_encumber_when_containing( you, get_total_capacity(), covering_id.id() );
+                                const int encumbrance_when_full =
+                                    get_encumber_when_containing( you, get_total_capacity(), covering_id.id() );
                                 to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
                                         get_encumber( g->u, covering_id ),
                                         encumbrance_when_full,
@@ -5904,7 +5904,7 @@ int item::get_avg_encumber( const Character &p ) const
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
             for( const bodypart_str_id &limb : entry.covers.value() ) {
-                int encumber = get_encumber( p, bodypart_id( limb ));
+                int encumber = get_encumber( p, bodypart_id( limb ) );
                 if( encumber ) {
                     avg_encumber += encumber;
                     ++avg_ctr;
@@ -5969,8 +5969,7 @@ int item::get_encumber_when_containing(
 
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
-            try
-            {
+            try {
                 if( entry.covers.value().test( bodypart.id() ) ) {
                     encumber = entry.encumber;
                     // Non-rigid items add additional encumbrance proportional to their volume

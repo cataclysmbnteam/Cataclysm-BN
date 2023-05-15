@@ -68,7 +68,7 @@ static bool should_combine_bps( const Character &ch, body_part l, body_part r,
            enc_data.elems[l] == enc_data.elems[r] &&
            temperature_print_rescaling( ch.temp_conv[l] ) == temperature_print_rescaling( ch.temp_conv[r] ) &&
            // selected_clothing covers both or neither parts
-                      ( !selected_clothing ||
+           ( !selected_clothing ||
              ( selected_clothing->covers( convert_bp( l ).id() ) == selected_clothing->covers( convert_bp(
                          r ).id() ) ) );
 }

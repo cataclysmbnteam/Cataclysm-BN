@@ -982,7 +982,8 @@ void do_pause( Character &who )
                 }
             }, true );
         } else if( here.has_flag( "SWIMMABLE", who.pos() ) ) {
-            who.drench( 40, { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } }, false );
+            who.drench( 40, { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } },
+            false );
         }
     }
 
