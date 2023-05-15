@@ -561,8 +561,8 @@
       "furniture": { "S": "f_utility_shelf" },
       "mapping": {
         "S": {
-          "item": { "item": "recharge_station", "chance": 75 },
-          "items": { "item": "gas_charging_rack", "chance": 50, "repeat": 2 }
+          "items": { "item": "microlab_storage_electric" },
+          "items": { "item": "gas_charging_rack", "chance": 50 }
         },
         "t": {
           "items": [
@@ -620,7 +620,7 @@
         "G": "t_chaingate_l",
         "P": "t_generator_broken"
       },
-      "furniture": { "C": "f_crate_c", "S": "f_utility_shelf" },
+      "furniture": { "C": "f_crate_c", "S": "f_utility_shelf", "W": "f_workbench" },
       "mapping": {
         "C": { "items": [ { "item": "supplies_plumbing", "chance": 50, "repeat": 2 }, { "item": "supplies_metal", "chance": 50 } ] },
         "S": { "items": { "item": "tools_construction", "chance": 50, "repeat": 2 } },
