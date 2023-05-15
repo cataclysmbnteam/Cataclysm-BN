@@ -4023,15 +4023,15 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
 
         return true;
     } else if( const optional_vpart_position vp = veh_at( p ) ) {
-        if( you.is_mounted() ) {
-            auto mon = you.mounted_creature.get();
-            if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
-                add_msg( m_info, _( "You can't open things while you're riding." ) );
-                return false;
-            }
-        }
         int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
         if( openable >= 0 ) {
+            if( you.is_mounted() ) {
+                auto mon = you.mounted_creature.get();
+                if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                    add_msg( m_info, _( "You can't open things while you're riding." ) );
+                    return false;
+                }
+            }
             if( !check_only ) {
                 if( !vp->vehicle().handle_potential_theft( you ) ) {
                     return false;
