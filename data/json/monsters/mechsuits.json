@@ -43,6 +43,7 @@
       "NOHEAD",
       "NO_BREATHE",
       "RIDEABLE_MECH",
+      "MECH_DEFENSIVE",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2"
     ]
@@ -91,6 +92,7 @@
       "NOHEAD",
       "NO_BREATHE",
       "RIDEABLE_MECH",
+      "MECH_DEFENSIVE",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2",
       "LOUDMOVES"
