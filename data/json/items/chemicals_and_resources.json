@@ -975,7 +975,7 @@
     "container": "bottle_plastic_small",
     "comestible_type": "MED",
     "symbol": "!",
-    "description": "Intended for the clarification and disinfection of unsafe drinking water, these halazone-based purification tablets remove dangerous contaminants using powerful chemicals.  The label says to use one tablet per unit of water.",
+    "description": "Intended for the clarification and disinfection of unsafe drinking water, these halazone-based purification tablets remove dangerous contaminants using powerful chemicals.  The label says one tablet purifies up to 2L of water.",
     "price": 900,
     "price_postapoc": 2000,
     "volume": "250 ml",
