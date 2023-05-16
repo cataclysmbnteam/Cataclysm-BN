@@ -11539,10 +11539,10 @@ bool check_art_charge_req( item &it )
                 break;
             }
             for( const body_part bp : all_body_parts ) {
-                if( it.covers( convert_bp ( bp ) ) || ( heldweapon && ( bp == bp_hand_r || bp == bp_hand_l ) ) ) {
+                if( it.covers( convert_bp( bp ) ) || ( heldweapon && ( bp == bp_hand_r || bp == bp_hand_l ) ) ) {
                     reqsmet = true;
                     for( auto &i : p.worn ) {
-                        if( i.covers( convert_bp ( bp ) ) && ( &it != &i ) && i.get_coverage( convert_bp( bp ) ) > 50 ) {
+                        if( i.covers( convert_bp( bp ) ) && ( &it != &i ) && i.get_coverage( convert_bp( bp ) ) > 50 ) {
                             reqsmet = false;
                             break; //This one's no good, check the next body part
                         }
