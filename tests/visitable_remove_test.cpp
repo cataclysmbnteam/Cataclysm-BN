@@ -300,7 +300,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
                 AND_WHEN( "the final water is removed" ) {
                     std::vector<detached_ptr<item>> del;
-                    p.remove_top_items_with( [&liquid_id, &del]( detached_ptr<item> &&e ) {
+                    p.remove_all_items_with( [&liquid_id, &del]( detached_ptr<item> &&e ) {
                         if( e->typeId() == liquid_id ) {
                             del.push_back( std::move( e ) );
                             return detached_ptr<item>();

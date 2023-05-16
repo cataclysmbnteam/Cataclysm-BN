@@ -2333,6 +2333,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             new_vehicle->parts.emplace_back( std::move( parts[ mov_part ] ) );
             vehicle_part &np = parts.back();
             np.mount = new_mount;
+            np.set_vehicle_hack( new_vehicle );
 
             // remove labels associated with the mov_part
             const auto iter = labels.find( label( cur_mount ) );

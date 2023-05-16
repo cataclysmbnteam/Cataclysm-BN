@@ -580,7 +580,7 @@ void basecamp::set_name( const std::string &new_name )
 /*
  * we could put this logic in map::use_charges() the way the vehicle code does, but I think
  * that's sloppy
- */ //TODO!: temporarily removed because I think it's unused. If you see this it means I forgot to delete it please just do it.
+ */
 std::vector<detached_ptr<item>> basecamp::use_charges( const itype_id &fake_id, int &quantity )
 {
     std::vector<detached_ptr<item>> ret;
