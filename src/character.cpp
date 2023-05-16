@@ -2140,7 +2140,7 @@ Character::wear_item( const item &to_wear, bool interactive )
         moves -= item_wear_cost( to_wear );
 
         for( const body_part bp : all_body_parts ) {
-            if( to_wear.covers( bp ) && encumb( bp ) >= 40 ) {
+            if( to_wear.covers( convert_bp( bp ) ) && encumb( bp ) >= 40 ) {
                 add_msg_if_player( m_warning,
                                    bp == bp_eyes ?
                                    _( "Your %s are very encumbered!  %s" ) : _( "Your %s is very encumbered!  %s" ),

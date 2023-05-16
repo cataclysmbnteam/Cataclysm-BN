@@ -740,11 +740,6 @@ bool item::is_unarmed_weapon() const
     return has_flag( flag_UNARMED_WEAPON ) || is_null();
 }
 
-bool item::covers( const body_part bp ) const
-{
-    return covers( convert_bp( bp ) );
-}
-
 bool item::covers( const bodypart_id &bp ) const
 {
     return get_covered_body_parts().test( bp.id() );
@@ -5904,7 +5899,7 @@ int item::get_avg_encumber( const Character &p ) const
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
             for( const bodypart_str_id &limb : entry.covers.value() ) {
-                int encumber = get_encumber( p, bodypart_id( limb ) );
+                int encumber = get_encumber( p, limb.id() );
                 if( encumber ) {
                     avg_encumber += encumber;
                     ++avg_ctr;

@@ -131,13 +131,13 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
         if( val == "arms" || val == "arm_either" ) {
             parts.set( bodypart_str_id( "arm_l" ) );
             parts.set( bodypart_str_id( "arm_r" ) );
-        } else if( val == "HANDS" || val == "HAND_EITHER" ) {
+        } else if( val == "hands" || val == "hand_either" ) {
             parts.set( bodypart_str_id( "hand_l" ) );
             parts.set( bodypart_str_id( "hand_r" ) );
-        } else if( val == "LEGS" || val == "LEG_EITHER" ) {
+        } else if( val == "legs" || val == "leg_either" ) {
             parts.set( bodypart_str_id( "leg_l" ) );
             parts.set( bodypart_str_id( "leg_r" ) );
-        } else if( val == "FEET" || val == "FOOT_EITHER" ) {
+        } else if( val == "feet" || val == "foot_either" ) {
             parts.set( bodypart_str_id( "foot_l" ) );
             parts.set( bodypart_str_id( "foot_r" ) );
         } else {
