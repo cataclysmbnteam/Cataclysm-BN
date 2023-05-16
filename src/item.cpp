@@ -5964,31 +5964,27 @@ int item::get_encumber_when_containing(
 
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
-            try {
-                if( entry.covers.value().test( bodypart.id() ) ) {
-                    encumber = entry.encumber;
-                    // Non-rigid items add additional encumbrance proportional to their volume
-                    bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
-                    []( armor_portion_data data ) {
-                        return data.encumber != data.max_encumber;
-                    } );
-                    if( !type->rigid || any_encumb_increase ) {
-                        const int capacity = get_total_capacity().value();
-                        if( entry.max_encumber == 0 ) {
-                            encumber += contents_volume / 500_ml;
+            if( entry.covers.value().test( bodypart.id() ) ) {
+                encumber = entry.encumber;
+                // Non-rigid items add additional encumbrance proportional to their volume
+                bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
+                []( armor_portion_data data ) {
+                    return data.encumber != data.max_encumber;
+                } );
+                if( !type->rigid || any_encumb_increase ) {
+                    const int capacity = get_total_capacity().value();
+                    if( entry.max_encumber == 0 ) {
+                        encumber += contents_volume / 500_ml;
+                    } else {
+                        if( capacity < 0 ) {
+                            debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
                         } else {
-                            if( capacity < 0 ) {
-                                debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
-                            } else {
-                                // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
-                                encumber += static_cast<int64_t>( entry.max_encumber - entry.encumber ) * contents_volume.value() /
-                                            capacity;
-                            }
+                            // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
+                            encumber += static_cast<int64_t>( entry.max_encumber - entry.encumber ) * contents_volume.value() /
+                                        capacity;
                         }
                     }
                 }
-            } catch( std::exception e ) {
-                debugmsg( "exception yo" );
             }
         }
     }
