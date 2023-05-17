@@ -135,7 +135,7 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
             "Coverage:  <color_c_yellow>5</color>\n"
             "R. Leg:  <color_c_yellow>0</color>  "
             "When Full:  <color_c_yellow>3</color>  "
-            "Coverage:  <color_c_yellow>5</color>\n" 
+            "Coverage:  <color_c_yellow>5</color>\n"
             "--\n"
             "* This item is <color_c_cyan>not rigid</color>."
             "  Its volume and encumbrance increase with contents.\n" );
@@ -282,21 +282,21 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         REQUIRE( longshirt.get_coverage( bodypart_id( "foot_l" ) ) == 0 );
         REQUIRE( longshirt.get_coverage( bodypart_id( "foot_r" ) ) == 0 );
 
-        test_info_equals( item( longshirt ), q_vec({ iteminfo_parts::ARMOR_BODYPARTS }),
-        "--\n"
-        "<color_c_white>Covers</color>:"
-        " The <color_c_cyan>torso</color>."
-        " The <color_c_cyan>arms</color>. \n" ); // NOLINT(cata-text-style)
-        test_info_equals( item( longshirt ), q_vec({ iteminfo_parts::ARMOR_LAYER }),
-               "--\n"
-               "Layer: <color_c_light_blue>Normal</color>. \n" ); // NOLINT(cata-text-style)
+        test_info_equals( item( longshirt ), q_vec( { iteminfo_parts::ARMOR_BODYPARTS } ),
+                          "--\n"
+                          "<color_c_white>Covers</color>:"
+                          " The <color_c_cyan>torso</color>."
+                          " The <color_c_cyan>arms</color>. \n" ); // NOLINT(cata-text-style)
+        test_info_equals( item( longshirt ), q_vec( { iteminfo_parts::ARMOR_LAYER } ),
+                          "--\n"
+                          "Layer: <color_c_light_blue>Normal</color>. \n" ); // NOLINT(cata-text-style)
 
         // Coverage and warmth are displayed together on a single line
         REQUIRE( longshirt.get_avg_coverage() == 90 );
         REQUIRE( longshirt.get_warmth() == 5 );
-        test_info_equals( item( longshirt ), q_vec({ iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH }),
-               "--\n"
-               "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n" );
+        test_info_equals( item( longshirt ), q_vec( { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH } ),
+                          "--\n"
+                          "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n" );
 
         REQUIRE( longshirt.get_avg_encumber( get_player_character() ) == 3 );
         REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "torso" ) ) == 3 );
@@ -312,58 +312,58 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "foot_r" ) ) == 0 );
 
         REQUIRE( longshirt.get_encumber_when_containing( get_player_character(), longshirt.get_storage(),
-                                        bodypart_id( "torso" ) ) == 3 );
+                 bodypart_id( "torso" ) ) == 3 );
         REQUIRE( longshirt.get_encumber_when_containing( get_player_character(), longshirt.get_storage(),
-                                        bodypart_id( "arm_l" ) ) == 3 );
+                 bodypart_id( "arm_l" ) ) == 3 );
         REQUIRE( longshirt.get_encumber_when_containing( get_player_character(), longshirt.get_storage(),
-                                        bodypart_id( "arm_r" ) ) == 3 );
+                 bodypart_id( "arm_r" ) ) == 3 );
         REQUIRE( longshirt.get_encumber_when_containing( get_player_character(), longshirt.get_storage(),
-                                        bodypart_id( "leg_l" ) ) == 0 );
+                 bodypart_id( "leg_l" ) ) == 0 );
         REQUIRE( longshirt.get_encumber_when_containing( get_player_character(), longshirt.get_storage(),
-                                        bodypart_id( "leg_r" ) ) == 0 );
+                 bodypart_id( "leg_r" ) ) == 0 );
         REQUIRE( longshirt.get_encumber_when_containing( get_player_character(), longshirt.get_storage(),
-                                        bodypart_id( "hand_l" ) ) == 0 );
+                 bodypart_id( "hand_l" ) ) == 0 );
         REQUIRE( longshirt.get_encumber_when_containing( get_player_character(), longshirt.get_storage(),
-                                        bodypart_id( "hand_r" ) ) == 0 );
+                 bodypart_id( "hand_r" ) ) == 0 );
         REQUIRE( longshirt.get_encumber_when_containing( get_player_character(), longshirt.get_storage(),
-                                        bodypart_id( "head" ) ) == 0 );
+                 bodypart_id( "head" ) ) == 0 );
         REQUIRE( longshirt.get_encumber_when_containing( get_player_character(), longshirt.get_storage(),
-                                        bodypart_id( "mouth" ) ) == 0 );
+                 bodypart_id( "mouth" ) ) == 0 );
         REQUIRE( longshirt.get_encumber_when_containing( get_player_character(), longshirt.get_storage(),
-                                        bodypart_id( "foot_l" ) ) == 0 );
+                 bodypart_id( "foot_l" ) ) == 0 );
         REQUIRE( longshirt.get_encumber_when_containing( get_player_character(), longshirt.get_storage(),
-                                        bodypart_id( "foot_r" ) ) == 0 );
+                 bodypart_id( "foot_r" ) ) == 0 );
 
 
-        test_info_equals( item( longshirt ), q_vec({ iteminfo_parts::ARMOR_ENCUMBRANCE }),
-               "--\n"
-               "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
-               "Torso:  <color_c_yellow>3</color>  "
-               "When Full:  <color_c_yellow>3</color>  "
-               "Coverage:  <color_c_yellow>90</color>\n"
-               "Arms:  <color_c_yellow>3</color>  "
-               "When Full:  <color_c_yellow>3</color>  "
-               "Coverage:  <color_c_yellow>90</color>\n" );
+        test_info_equals( item( longshirt ), q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
+                          "--\n"
+                          "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
+                          "Torso:  <color_c_yellow>3</color>  "
+                          "When Full:  <color_c_yellow>3</color>  "
+                          "Coverage:  <color_c_yellow>90</color>\n"
+                          "Arms:  <color_c_yellow>3</color>  "
+                          "When Full:  <color_c_yellow>3</color>  "
+                          "Coverage:  <color_c_yellow>90</color>\n" );
 
         item swat_armor( "test_swat_armor" );
         REQUIRE( swat_armor.get_covered_body_parts().any() );
 
-        test_info_equals( item( swat_armor ), q_vec({ iteminfo_parts::ARMOR_BODYPARTS }),
-               "--\n"
-               "<color_c_white>Covers</color>:"
-               " The <color_c_cyan>torso</color>."
-               " The <color_c_cyan>arms</color>."
-               " The <color_c_cyan>legs</color>. \n" );
+        test_info_equals( item( swat_armor ), q_vec( { iteminfo_parts::ARMOR_BODYPARTS } ),
+                          "--\n"
+                          "<color_c_white>Covers</color>:"
+                          " The <color_c_cyan>torso</color>."
+                          " The <color_c_cyan>arms</color>."
+                          " The <color_c_cyan>legs</color>. \n" );
 
-        test_info_equals( item( swat_armor ), q_vec({ iteminfo_parts::ARMOR_LAYER }),
-               "--\n"
-               "Layer: <color_c_light_blue>Normal</color>. \n" );
+        test_info_equals( item( swat_armor ), q_vec( { iteminfo_parts::ARMOR_LAYER } ),
+                          "--\n"
+                          "Layer: <color_c_light_blue>Normal</color>. \n" );
 
         REQUIRE( swat_armor.get_avg_coverage() == 95 );
         REQUIRE( swat_armor.get_warmth() == 35 );
-        test_info_equals( item( swat_armor ), q_vec({ iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH }),
-               "--\n"
-               "Average Coverage: <color_c_yellow>95</color>%  Warmth: <color_c_yellow>35</color>\n" );
+        test_info_equals( item( swat_armor ), q_vec( { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH } ),
+                          "--\n"
+                          "Average Coverage: <color_c_yellow>95</color>%  Warmth: <color_c_yellow>35</color>\n" );
 
         REQUIRE( swat_armor.get_coverage( bodypart_id( "torso" ) ) == 95 );
         REQUIRE( swat_armor.get_coverage( bodypart_id( "leg_l" ) ) == 95 );
@@ -393,49 +393,49 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "hand_r" ) ) == 0 );
 
         REQUIRE( swat_armor.get_encumber_when_containing( get_player_character(), swat_armor.get_storage(),
-                                        bodypart_id( "torso" ) ) == 25 );
+                 bodypart_id( "torso" ) ) == 25 );
         REQUIRE( swat_armor.get_encumber_when_containing( get_player_character(), swat_armor.get_storage(),
-                                        bodypart_id( "arm_l" ) ) == 25 );
+                 bodypart_id( "arm_l" ) ) == 25 );
         REQUIRE( swat_armor.get_encumber_when_containing( get_player_character(), swat_armor.get_storage(),
-                                        bodypart_id( "arm_r" ) ) == 25 );
+                 bodypart_id( "arm_r" ) ) == 25 );
         REQUIRE( swat_armor.get_encumber_when_containing( get_player_character(), swat_armor.get_storage(),
-                                        bodypart_id( "leg_l" ) ) == 25 );
+                 bodypart_id( "leg_l" ) ) == 25 );
         REQUIRE( swat_armor.get_encumber_when_containing( get_player_character(), swat_armor.get_storage(),
-                                        bodypart_id( "leg_r" ) ) == 25 );
+                 bodypart_id( "leg_r" ) ) == 25 );
         REQUIRE( swat_armor.get_encumber_when_containing( get_player_character(), swat_armor.get_storage(),
-                                        bodypart_id( "hand_l" ) ) == 0 );
+                 bodypart_id( "hand_l" ) ) == 0 );
         REQUIRE( swat_armor.get_encumber_when_containing( get_player_character(), swat_armor.get_storage(),
-                                        bodypart_id( "hand_r" ) ) == 0 );
+                 bodypart_id( "hand_r" ) ) == 0 );
         REQUIRE( swat_armor.get_encumber_when_containing( get_player_character(), swat_armor.get_storage(),
-                                        bodypart_id( "head" ) ) == 0 );
+                 bodypart_id( "head" ) ) == 0 );
         REQUIRE( swat_armor.get_encumber_when_containing( get_player_character(), swat_armor.get_storage(),
-                                        bodypart_id( "mouth" ) ) == 0 );
+                 bodypart_id( "mouth" ) ) == 0 );
         REQUIRE( swat_armor.get_encumber_when_containing( get_player_character(), swat_armor.get_storage(),
-                                        bodypart_id( "foot_l" ) ) == 0 );
+                 bodypart_id( "foot_l" ) ) == 0 );
         REQUIRE( swat_armor.get_encumber_when_containing( get_player_character(), swat_armor.get_storage(),
-                                        bodypart_id( "foot_r" ) ) == 0 );
+                 bodypart_id( "foot_r" ) ) == 0 );
 
-        test_info_equals( item( swat_armor ), q_vec({ iteminfo_parts::ARMOR_ENCUMBRANCE }),
-               "--\n"
-               "<color_c_white>Encumbrance</color>:\n"
-               "Torso:  <color_c_yellow>12</color>  "
-               "When Full:  <color_c_yellow>25</color>  "
-               "Coverage:  <color_c_yellow>95</color>\n"
-               "Arms:  <color_c_yellow>12</color>  "
-               "When Full:  <color_c_yellow>25</color>  "
-               "Coverage:  <color_c_yellow>95</color>\n"
-               "Legs:  <color_c_yellow>12</color>  "
-               "When Full:  <color_c_yellow>25</color>  "
-               "Coverage:  <color_c_yellow>95</color>\n" );
+        test_info_equals( item( swat_armor ), q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
+                          "--\n"
+                          "<color_c_white>Encumbrance</color>:\n"
+                          "Torso:  <color_c_yellow>12</color>  "
+                          "When Full:  <color_c_yellow>25</color>  "
+                          "Coverage:  <color_c_yellow>95</color>\n"
+                          "Arms:  <color_c_yellow>12</color>  "
+                          "When Full:  <color_c_yellow>25</color>  "
+                          "Coverage:  <color_c_yellow>95</color>\n"
+                          "Legs:  <color_c_yellow>12</color>  "
+                          "When Full:  <color_c_yellow>25</color>  "
+                          "Coverage:  <color_c_yellow>95</color>\n" );
 
         // Test copy-from
         item faux_fur_pants( "test_pants_faux_fur" );
         REQUIRE( faux_fur_pants.get_covered_body_parts().any() );
 
-        test_info_equals( item( faux_fur_pants ), q_vec({ iteminfo_parts::ARMOR_BODYPARTS }),
-               "--\n"
-               "<color_c_white>Covers</color>:"
-               " The <color_c_cyan>legs</color>. \n" );
+        test_info_equals( item( faux_fur_pants ), q_vec( { iteminfo_parts::ARMOR_BODYPARTS } ),
+                          "--\n"
+                          "<color_c_white>Covers</color>:"
+                          " The <color_c_cyan>legs</color>. \n" );
 
         test_info_equals( item( faux_fur_pants ), q_vec({ iteminfo_parts::ARMOR_LAYER }),
                "--\n"
