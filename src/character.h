@@ -101,8 +101,8 @@ enum npc_ai_info : size_t {
     ideal_weapon_value = 0,
     reloadables,
     reloadable_cbms,
-    num_npc_ai_info,
     range,
+    num_npc_ai_info,
 };
 
 enum character_movemode : int {
