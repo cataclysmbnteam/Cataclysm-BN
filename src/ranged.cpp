@@ -1996,7 +1996,7 @@ std::pair<gun_mode_id, gun_mode> npc_ai::best_mode_for_range( const npc &who, co
     erase_if( modes, [&]( const std::pair<gun_mode_id, gun_mode> &e ) {
         const auto &m = e.second;
         return m.melee() || !who.can_use( *m.target ) || m.flags.count( "NPC_AVOID" ) || shots < m.qty ||
-               dist > 0 && who.confident_gun_mode_range( m, min_recoil ) < dist;
+               ( dist > 0 && who.confident_gun_mode_range( m, min_recoil ) < dist );
     } );
 
     if( modes.empty() ) {
@@ -2029,7 +2029,6 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
 
     // Doesn't use calculate_dispersion because that requires a map
     // TODO: Turn this into a common function.
-    int gun_recoil = ideal_weapon.gun_recoil();
     dispersion_sources mode_disp = ranged::get_weapon_dispersion( who, ideal_weapon );
     double total_dispersion = mode_disp.max();
     if( ideal_weapon.ammo_current() ) {
