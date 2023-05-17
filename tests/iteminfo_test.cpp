@@ -437,15 +437,15 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                           "<color_c_white>Covers</color>:"
                           " The <color_c_cyan>legs</color>. \n" );
 
-        test_info_equals( item( faux_fur_pants ), q_vec({ iteminfo_parts::ARMOR_LAYER }),
-               "--\n"
-               "Layer: <color_c_light_blue>Normal</color>. \n" );
+        test_info_equals( item( faux_fur_pants ), q_vec( { iteminfo_parts::ARMOR_LAYER } ),
+                          "--\n"
+                          "Layer: <color_c_light_blue>Normal</color>. \n" );
 
         REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
         REQUIRE( faux_fur_pants.get_warmth() == 70 );
-        test_info_equals( item( faux_fur_pants ), q_vec({ iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH }),
-               "--\n"
-               "Average Coverage: <color_c_yellow>95</color>%  Warmth: <color_c_yellow>70</color>\n" );
+        test_info_equals( item( faux_fur_pants ), q_vec( { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH } ),
+                          "--\n"
+                          "Average Coverage: <color_c_yellow>95</color>%  Warmth: <color_c_yellow>70</color>\n" );
 
         REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
         REQUIRE( faux_fur_pants.get_coverage( bodypart_id( "leg_l" ) ) == 95 );
@@ -473,49 +473,60 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "hand_l" ) ) == 0 );
         REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "hand_r" ) ) == 0 );
 
-        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(), faux_fur_pants.get_storage(),
-                                        bodypart_id( "torso" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(), faux_fur_pants.get_storage(),
-                                        bodypart_id( "arm_l" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(), faux_fur_pants.get_storage(),
-                                        bodypart_id( "arm_r" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(), faux_fur_pants.get_storage(),
-                                        bodypart_id( "leg_l" ) ) == 20 );
-        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(), faux_fur_pants.get_storage(),
-                                        bodypart_id( "leg_r" ) ) == 20 );
-        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(), faux_fur_pants.get_storage(),
-                                        bodypart_id( "hand_l" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(), faux_fur_pants.get_storage(),
-                                        bodypart_id( "hand_r" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(), faux_fur_pants.get_storage(),
-                                        bodypart_id( "head" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(), faux_fur_pants.get_storage(),
-                                        bodypart_id( "mouth" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(), faux_fur_pants.get_storage(),
-                                        bodypart_id( "foot_l" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(), faux_fur_pants.get_storage(),
-                                        bodypart_id( "foot_r" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(),
+                 faux_fur_pants.get_storage(),
+                 bodypart_id( "torso" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(),
+                 faux_fur_pants.get_storage(),
+                 bodypart_id( "arm_l" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(),
+                 faux_fur_pants.get_storage(),
+                 bodypart_id( "arm_r" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(),
+                 faux_fur_pants.get_storage(),
+                 bodypart_id( "leg_l" ) ) == 20 );
+        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(),
+                 faux_fur_pants.get_storage(),
+                 bodypart_id( "leg_r" ) ) == 20 );
+        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(),
+                 faux_fur_pants.get_storage(),
+                 bodypart_id( "hand_l" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(),
+                 faux_fur_pants.get_storage(),
+                 bodypart_id( "hand_r" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(),
+                 faux_fur_pants.get_storage(),
+                 bodypart_id( "head" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(),
+                 faux_fur_pants.get_storage(),
+                 bodypart_id( "mouth" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(),
+                 faux_fur_pants.get_storage(),
+                 bodypart_id( "foot_l" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber_when_containing( get_player_character(),
+                 faux_fur_pants.get_storage(),
+                 bodypart_id( "foot_r" ) ) == 0 );
 
         item faux_fur_suit( "test_portion_faux_fur_pants_suit" );
         REQUIRE( faux_fur_suit.get_covered_body_parts().any() );
 
-        test_info_equals( item( faux_fur_suit ), q_vec({ iteminfo_parts::ARMOR_BODYPARTS }),
-               "--\n"
-               "<color_c_white>Covers</color>:"
-               " The <color_c_cyan>head</color>."
-               " The <color_c_cyan>torso</color>."
-               " The <color_c_cyan>arms</color>."
-               " The <color_c_cyan>legs</color>. \n" );
+        test_info_equals( item( faux_fur_suit ), q_vec( { iteminfo_parts::ARMOR_BODYPARTS } ),
+                          "--\n"
+                          "<color_c_white>Covers</color>:"
+                          " The <color_c_cyan>head</color>."
+                          " The <color_c_cyan>torso</color>."
+                          " The <color_c_cyan>arms</color>."
+                          " The <color_c_cyan>legs</color>. \n" );
 
-        test_info_equals( item( faux_fur_suit ), q_vec({ iteminfo_parts::ARMOR_LAYER }),
-               "--\n"
-               "Layer: <color_c_light_blue>Normal</color>. \n" );
+        test_info_equals( item( faux_fur_suit ), q_vec( { iteminfo_parts::ARMOR_LAYER } ),
+                          "--\n"
+                          "Layer: <color_c_light_blue>Normal</color>. \n" );
 
         REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
         REQUIRE( faux_fur_suit.get_warmth() == 5 );
-        test_info_equals( item( faux_fur_suit ), q_vec({ iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH }),
-               "--\n"
-               "Average Coverage: <color_c_yellow>75</color>%  Warmth: <color_c_yellow>5</color>\n" );
+        test_info_equals( item( faux_fur_suit ), q_vec( { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH } ),
+                          "--\n"
+                          "Average Coverage: <color_c_yellow>75</color>%  Warmth: <color_c_yellow>5</color>\n" );
 
         REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
         REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "torso" ) ) == 100 );
@@ -545,50 +556,61 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "hand_r" ) ) == 0 );
         REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "hand_r" ) ) == 0 );
 
-        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(), faux_fur_suit.get_storage(),
-                                        bodypart_id( "torso" ) ) == 25 );
-        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(), faux_fur_suit.get_storage(),
-                                        bodypart_id( "arm_l" ) ) == 9 );
-        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(), faux_fur_suit.get_storage(),
-                                        bodypart_id( "arm_r" ) ) == 25 );
-        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(), faux_fur_suit.get_storage(),
-                                        bodypart_id( "leg_l" ) ) == 9 );
-        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(), faux_fur_suit.get_storage(),
-                                        bodypart_id( "leg_r" ) ) == 25 );
-        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(), faux_fur_suit.get_storage(),
-                                        bodypart_id( "hand_l" ) ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(), faux_fur_suit.get_storage(),
-                                        bodypart_id( "hand_r" ) ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(), faux_fur_suit.get_storage(),
-                                        bodypart_id( "head" ) ) == 9 );
-        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(), faux_fur_suit.get_storage(),
-                                        bodypart_id( "mouth" ) ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(), faux_fur_suit.get_storage(),
-                                        bodypart_id( "foot_l" ) ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(), faux_fur_suit.get_storage(),
-                                        bodypart_id( "foot_r" ) ) == 0 );
+        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(),
+                 faux_fur_suit.get_storage(),
+                 bodypart_id( "torso" ) ) == 25 );
+        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(),
+                 faux_fur_suit.get_storage(),
+                 bodypart_id( "arm_l" ) ) == 9 );
+        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(),
+                 faux_fur_suit.get_storage(),
+                 bodypart_id( "arm_r" ) ) == 25 );
+        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(),
+                 faux_fur_suit.get_storage(),
+                 bodypart_id( "leg_l" ) ) == 9 );
+        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(),
+                 faux_fur_suit.get_storage(),
+                 bodypart_id( "leg_r" ) ) == 25 );
+        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(),
+                 faux_fur_suit.get_storage(),
+                 bodypart_id( "hand_l" ) ) == 0 );
+        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(),
+                 faux_fur_suit.get_storage(),
+                 bodypart_id( "hand_r" ) ) == 0 );
+        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(),
+                 faux_fur_suit.get_storage(),
+                 bodypart_id( "head" ) ) == 9 );
+        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(),
+                 faux_fur_suit.get_storage(),
+                 bodypart_id( "mouth" ) ) == 0 );
+        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(),
+                 faux_fur_suit.get_storage(),
+                 bodypart_id( "foot_l" ) ) == 0 );
+        REQUIRE( faux_fur_suit.get_encumber_when_containing( get_player_character(),
+                 faux_fur_suit.get_storage(),
+                 bodypart_id( "foot_r" ) ) == 0 );
 
-        test_info_equals( item( faux_fur_suit ), q_vec({ iteminfo_parts::ARMOR_ENCUMBRANCE }),
-               "--\n"
-               "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
-               "L. Arm:  <color_c_yellow>5</color>  "
-               "When Full:  <color_c_yellow>9</color>  "
-               "Coverage:  <color_c_yellow>50</color>\n"
-               "R. Arm:  <color_c_yellow>10</color>  "
-               "When Full:  <color_c_yellow>25</color>  "
-               "Coverage:  <color_c_yellow>100</color>\n"
-               "Head:  <color_c_yellow>5</color>  "
-               "When Full:  <color_c_yellow>9</color>  "
-               "Coverage:  <color_c_yellow>50</color>\n"
-               "L. Leg:  <color_c_yellow>5</color>  "
-               "When Full:  <color_c_yellow>9</color>  "
-               "Coverage:  <color_c_yellow>50</color>\n"
-               "R. Leg:  <color_c_yellow>10</color>  "
-               "When Full:  <color_c_yellow>25</color>  "
-               "Coverage:  <color_c_yellow>100</color>\n"
-               "Torso:  <color_c_yellow>10</color>  "
-               "When Full:  <color_c_yellow>25</color>  "
-               "Coverage:  <color_c_yellow>100</color>\n" );
+        test_info_equals( item( faux_fur_suit ), q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
+                          "--\n"
+                          "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
+                          "L. Arm:  <color_c_yellow>5</color>  "
+                          "When Full:  <color_c_yellow>9</color>  "
+                          "Coverage:  <color_c_yellow>50</color>\n"
+                          "R. Arm:  <color_c_yellow>10</color>  "
+                          "When Full:  <color_c_yellow>25</color>  "
+                          "Coverage:  <color_c_yellow>100</color>\n"
+                          "Head:  <color_c_yellow>5</color>  "
+                          "When Full:  <color_c_yellow>9</color>  "
+                          "Coverage:  <color_c_yellow>50</color>\n"
+                          "L. Leg:  <color_c_yellow>5</color>  "
+                          "When Full:  <color_c_yellow>9</color>  "
+                          "Coverage:  <color_c_yellow>50</color>\n"
+                          "R. Leg:  <color_c_yellow>10</color>  "
+                          "When Full:  <color_c_yellow>25</color>  "
+                          "Coverage:  <color_c_yellow>100</color>\n"
+                          "Torso:  <color_c_yellow>10</color>  "
+                          "When Full:  <color_c_yellow>25</color>  "
+                          "Coverage:  <color_c_yellow>100</color>\n" );
     }
 
     SECTION( "omits irrelevant info if it covers nothing" ) {
