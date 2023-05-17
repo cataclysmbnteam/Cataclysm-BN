@@ -994,13 +994,16 @@ void Character::mount_creature( monster &z )
         guy.setpos( pnt );
     }
     z.facing = facing;
-    add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
-    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( !z.type->mech_weapon.is_empty() ) {
-            item mechwep = item( z.type->mech_weapon );
-            wield( mechwep );
+    // Make sure something didn't interrupt this process and knock the player off partway through!
+    if( has_effect( effect_riding ) ) {
+        add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
+        if( z.has_flag( MF_RIDEABLE_MECH ) ) {
+            if( !z.type->mech_weapon.is_empty() ) {
+                auto mechwep = item{ z.type->mech_weapon };
+                wield( mechwep );
+            }
+            add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
         }
-        add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
     }
     // some rideable mechs have night-vision
     recalc_sight_limits();
@@ -8250,7 +8253,7 @@ void Character::on_dodge( Creature *source, int difficulty )
 
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
-        matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
+        matec_id tec = pick_technique( *source, primary_weapon(), false, true, false );
 
         if( tec != tec_none && !is_dead_state() ) {
             if( get_stamina() < get_stamina_max() / 3 ) {
