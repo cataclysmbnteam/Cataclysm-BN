@@ -7,6 +7,7 @@
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "sounds.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -91,6 +92,13 @@ bool game::grabbed_veh_move( const tripoint &dp )
         return true; // No shoving around an RV.
     }
 
+    int adjusted_str = u.get_str();
+    if( u.is_mounted() ) {
+        auto mons = u.mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
+            adjusted_str = mons->mech_str_addition();
+        }
+    }
     const auto &wheel_indices = grabbed_vehicle->wheelcache;
     if( grabbed_vehicle->valid_wheel_config() ) {
         //determine movecost for terrain touching wheels
@@ -110,7 +118,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     } else {
         str_req++;
         //if vehicle has no wheels str_req make a noise.
-        if( str_req <= u.get_str() ) {
+        if( str_req <= adjusted_str ) {
             sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2, sounds::sound_t::movement,
                            _( "a scraping noise." ), true, "misc", "scraping" );
         }
@@ -118,17 +126,17 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     //final strength check and outcomes
     ///\EFFECT_STR determines ability to drag vehicles
-    if( str_req <= u.get_str() ) {
+    if( str_req <= adjusted_str ) {
         //calculate exertion factor and movement penalty
         ///\EFFECT_STR increases speed of dragging vehicles
-        u.moves -= 100 * str_req / std::max( 1, u.get_str() );
+        u.moves -= 100 * str_req / std::max( 1, adjusted_str );
         const int ex = dice( 1, 3 ) - 1 + str_req;
-        if( ex > u.get_str() + 1 ) {
+        if( ex > adjusted_str + 1 ) {
             // Pain and movement penalty if exertion exceeds character strength
             add_msg( m_bad, _( "You strain yourself to move the %s!" ), grabbed_vehicle->name );
             u.moves -= 200;
             u.mod_pain( 1 );
-        } else if( ex >= u.get_str() ) {
+        } else if( ex >= adjusted_str ) {
             // Movement is slow if exertion nearly equals character strength
             add_msg( _( "It takes some time to move the %s." ), grabbed_vehicle->name );
             u.moves -= 200;

@@ -3774,10 +3774,16 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
     }
 
     if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
+
+    bool mech_mount = false;
+    if( you.is_mounted() && you.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+        mech_mount = true;
+    }
+
         const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
                                  true ) );
         bool t_mountable = m.has_flag_ter_or_furn( flag_MOUNTABLE, you.pos() );
-        if( !t_mountable && !v_mountable && !( you.get_size() > MS_MEDIUM ) ) {
+        if( !mech_mount && !t_mountable && !v_mountable && !( you.get_size() > MS_MEDIUM ) ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),
                                     gmode->tname() ) );
