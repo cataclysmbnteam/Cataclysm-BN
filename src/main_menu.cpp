@@ -635,7 +635,9 @@ bool main_menu::opening_screen()
     bool start_new = false;
     while( !start ) {
         ui_manager::redraw();
-        size_t last_world_pos = world_generator->get_world_index( world_generator->last_world_name );
+        // Refresh in case player created new world or deleted old world
+        // Since this is an index for a mutable array, it should always be regenerated instead of modified.
+        const size_t last_world_pos = world_generator->get_world_index( world_generator->last_world_name );
         std::string action = ctxt.handle_input();
         input_event sInput = ctxt.get_raw_input();
 
