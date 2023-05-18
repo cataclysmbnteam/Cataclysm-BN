@@ -53,13 +53,4 @@ class detached_ptr
         explicit detached_ptr( T *obj );
         T *release();
 };
-namespace std
-{
-template<typename T>
-void swap( detached_ptr<T> &lhs, detached_ptr<T> &rhs )
-{
-    std::swap( lhs.ptr, rhs.ptr );
-}
-}
-
 #endif

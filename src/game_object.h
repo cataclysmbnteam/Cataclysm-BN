@@ -51,9 +51,6 @@ class game_object
 
         virtual bool attempt_detach( std::function < detached_ptr<T>( detached_ptr<T> && ) > cb );
 
-        void check_location( std::string file, int line, void **backtrace, void **destroy_trace,
-                             void **remove_trace ) const;
-
         bool is_loaded() const;
 
         tripoint position( ) const;
