@@ -3538,5 +3538,42 @@
       { "x": 0, "y": 2, "chance": 7, "items": [ "pockknife" ] },
       { "x": 0, "y": 2, "chance": 5, "items": [ "box_cigarette" ] }
     ]
+  },
+  {
+    "id": "helicopter_gyro",
+    "type": "vehicle",
+    "name": "Gyrocopter",
+    "blueprint": [ [ "-X#" ] ],
+    "parts": [
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "xlframe_cross",
+          "seat",
+          "seatbelt",
+          { "part": "tank", "fuel": "gasoline" },
+          "controls",
+          "dashboard",
+          "wheel_mount_light_steerable",
+          "wheel_motorbike"
+        ]
+      },
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [
+          "xlframe_vertical",
+          "stowboard_vertical",
+          "engine_inline4",
+          "alternator_car",
+          "battery_car",
+          "gyrocopter_rotors",
+          "wheel_mount_light",
+          "wheel_motorbike_rear"
+        ]
+      },
+      { "x": -2, "y": 0, "parts": [ "xlframe_vertical" ] }
+    ]
   }
 ]

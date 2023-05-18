@@ -363,8 +363,24 @@ void gunmod_add( avatar &you, item &gun, item &mod )
     int qty = 0;
     bool requery = false;
 
-    item &modded = gun;
-    bool no_magazines = modded.common_ammo_default().is_null();
+    item &modded = *item::spawn_temporary( gun );
+    modded.put_in( item::spawn( mod ) );
+    bool no_magazines = false;
+    if( !modded.magazine_integral() && !mod.type->mod->ammo_modifier.empty() ) {
+        no_magazines = true;
+        for( itype_id mags : modded.magazine_compatible() ) {
+            item &mag = *item::spawn_temporary( mags );
+            if( !no_magazines ) {
+                break;
+            }
+            for( ammotype at : modded.ammo_types() ) {
+                if( mag.can_reload_with( at ) ) {
+                    no_magazines = false;
+                    break;
+                }
+            }
+        }
+    }
 
     std::string query_msg = mod.is_irremovable()
                             ? _( "<color_yellow>Permanently</color> install your %1$s in your %2$s?" )
@@ -372,7 +388,7 @@ void gunmod_add( avatar &you, item &gun, item &mod )
     if( no_magazines ) {
         query_msg += "\n";
         query_msg += colorize(
-                         _( "Warning: after installing this mod, a magazine adapter mod will be required to load it!" ),
+                         _( "Warning: A magazine adapter is required to load this gun after modification." ),
                          c_red );
     }
 

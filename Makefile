@@ -117,6 +117,7 @@ WARNINGS = \
   -Wunused-macros \
   -Wzero-as-null-pointer-constant \
   -Wno-unknown-warning-option \
+  -Wno-dangling-reference \
   -Wno-range-loop-analysis # TODO: Fix warnings instead of disabling
 # Uncomment below to disable warnings
 #WARNINGS = -w
