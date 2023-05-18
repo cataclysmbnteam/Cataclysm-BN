@@ -159,8 +159,9 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
 {
     while( !data.empty() ) {
         const size_t n = data.size();
-        auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
+            auto it = data.begin();
+            std::advance(it, idx);
             if( !it->first.path ) {
                 debugmsg( "JSON source location has null path, data may load incorrectly" );
             } else {
@@ -176,6 +177,8 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
             ++it;
             inp_mngr.pump_events();
         }
+        auto it = data.begin();
+        std::advance(it, n);
         data.erase( data.begin(), it );
         if( data.size() == n ) {
             for( const auto &elem : data ) {
