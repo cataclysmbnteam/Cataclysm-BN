@@ -122,7 +122,7 @@ void deserialize<item>( safe_reference<item> &out, JsonIn &js )
     if( !js.read( id, false ) ) {
         return;
     }
-    out = std::move( safe_reference<item>( id ) );
+    out = safe_reference<item>( id );
 }
 
 template<typename T>
@@ -132,7 +132,7 @@ void deserialize( safe_reference<T> &out, JsonIn &js )
     if( !js.read( id, false ) ) {
         return;
     }
-    out = std::move( safe_reference<T>( id ) );
+    out = safe_reference<T>( id );
 }
 
 template<typename T>
