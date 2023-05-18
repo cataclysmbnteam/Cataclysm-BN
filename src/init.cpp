@@ -174,7 +174,6 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                     debugmsg( "(json-error)\n%s", err.what() );
                 }
             }
-            ++it;
             inp_mngr.pump_events();
         }
         auto it = data.begin();
