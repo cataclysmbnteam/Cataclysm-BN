@@ -16,6 +16,7 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <stack>
 #include <stdexcept>
@@ -53,7 +54,6 @@
 #include "mapbuffer.h"
 #include "mission.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_location.h"
@@ -575,7 +575,7 @@ void set_displaybuffer_rendertarget()
     SetRenderTarget( renderer, display_buffer );
 }
 
-static void invalidate_framebuffer( std::vector<curseline> &framebuffer, const point &p, int width,
+static void invalidate_framebuffer( std::vector<curseline> &framebuffer, point p, int width,
                                     int height )
 {
     for( int j = 0, fby = p.y; j < height; j++, fby++ ) {
@@ -681,14 +681,14 @@ void clear_window_area( const catacurses::window &win_ )
                     win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
 }
 
-static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
+static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
             const inclusive_cuboid<tripoint> &overmap_area, const tripoint_abs_omt &center )
 {
     if( get_avatar().get_active_mission() == nullptr ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( !get_avatar().get_active_mission()->has_target() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
 
@@ -715,7 +715,7 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
     if( traj.empty() ) {
         debugmsg( "Failed to gen overmap mission trajectory %s %s",
                   center.to_string(), mission_target.to_string() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     tripoint arr_pos = traj[0];
@@ -827,7 +827,7 @@ static point draw_string( Font &font,
     return p;
 }
 
-void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink )
+void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bool blink )
 {
     if( !g ) {
         return;
@@ -1062,7 +1062,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         // reduce the area where the map cursor is drawn so it doesn't get cut off
         inclusive_cuboid<tripoint> map_cursor_area = overmap_area;
         map_cursor_area.p_max.y--;
-        const cata::optional<std::pair<tripoint_abs_omt, std::string>> mission_arrow =
+        const std::optional<std::pair<tripoint_abs_omt, std::string>> mission_arrow =
                     get_mission_arrow( map_cursor_area, center_abs_omt );
         if( mission_arrow ) {
             draw_from_id_string( mission_arrow->second, global_omt_to_draw_position( mission_arrow->first ), 0,
@@ -1148,7 +1148,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( !notes_window_text.empty() ) {
         constexpr int padding = 2;
 
-        const auto draw_note_text = [&]( const point & draw_pos, const std::string & name,
+        const auto draw_note_text = [&]( point  draw_pos, const std::string & name,
         nc_color & color ) {
             char note_fg_color = color == c_yellow ? 11 :
                                  cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
@@ -1230,7 +1230,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                   "SDL_RenderSetClipRect failed" );
 }
 
-static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
+static bool draw_window( Font_Ptr &font, const catacurses::window &w, point offset )
 {
     if( scaling_factor > 1 ) {
         SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor,
@@ -2250,7 +2250,7 @@ void remove_stale_inventory_quick_shortcuts()
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
-                    if( g->u.weapon.invlet == key ) {
+                    if( g->u.primary_weapon().invlet == key ) {
                         in_inventory = true;
                     }
                 }
@@ -2383,8 +2383,8 @@ void draw_quick_shortcuts()
                 }
                 if( hint_text == "none" ) {
                     // We couldn't find it in worn items either, must be weapon held
-                    if( g->u.weapon.invlet == key ) {
-                        hint_text = g->u.weapon.display_name();
+                    if( g->u.primary_weapon().invlet == key ) {
+                        hint_text = g->u.primary_weapon().display_name();
                     }
                 }
             } else {
@@ -2764,7 +2764,7 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+                    if( g->u.primary_weapon().is_gun() || g->u.primary_weapon().has_flag( "REACH_ATTACK" ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }
@@ -2988,7 +2988,7 @@ static void CheckMessages()
 
     last_input = input_event();
 
-    cata::optional<point> resize_dims;
+    std::optional<point> resize_dims;
     bool render_target_reset = false;
 
     while( SDL_PollEvent( &ev ) ) {
@@ -3713,7 +3713,7 @@ void rescale_tileset( int size )
 }
 
 static window_dimensions get_window_dimensions( const catacurses::window &win,
-        const point &pos, const point &size )
+        point pos, point size )
 {
     window_dimensions dim;
     if( use_tiles && g && win == g->w_terrain ) {
@@ -3766,15 +3766,15 @@ window_dimensions get_window_dimensions( const catacurses::window &win )
     return get_window_dimensions( win, point_zero, point_zero );
 }
 
-window_dimensions get_window_dimensions( const point &pos, const point &size )
+window_dimensions get_window_dimensions( point pos, point size )
 {
     return get_window_dimensions( {}, pos, size );
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
+std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
 {
     if( !coordinate_input_received ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     const catacurses::window &capture_win = capture_win_ ? capture_win_ : g->w_terrain;
@@ -3782,15 +3782,15 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     const int &fw = dim.scaled_font_size.x;
     const int &fh = dim.scaled_font_size.y;
-    const point &win_min = dim.window_pos_pixel;
-    const point &win_size = dim.window_size_pixel;
+    point win_min = dim.window_pos_pixel;
+    point win_size = dim.window_size_pixel;
     const point win_max = win_min + win_size;
 
     // Translate mouse coordinates to map coordinates based on tile size
     // Check if click is within bounds of the window we care about
     const inclusive_rectangle<point> win_bounds( win_min, win_max );
     if( !win_bounds.contains( coordinate ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     point view_offset;

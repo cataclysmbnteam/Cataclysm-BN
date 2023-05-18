@@ -11,6 +11,7 @@
 #include <functional>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <utility>
 #include <vector>
 
@@ -29,7 +30,6 @@
 #include "mapdata.h"
 #include "math_defines.h"
 #include "monster.h"
-#include "optional.h"
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
 #include "vehicle.h"
@@ -42,7 +42,7 @@ namespace
 
 const point total_tiles_count = { ( MAPSIZE - 2 ) *SEEX, ( MAPSIZE - 2 ) *SEEY };
 
-point get_pixel_size( const point &tile_size, pixel_minimap_mode mode )
+point get_pixel_size( point tile_size, pixel_minimap_mode mode )
 {
     switch( mode ) {
         case pixel_minimap_mode::solid:
@@ -197,7 +197,7 @@ struct pixel_minimap::submap_cache {
 
     submap_cache( submap_cache && ) = default;
 
-    SDL_Color &color_at( const point &p ) {
+    SDL_Color &color_at( point p ) {
         assert( p.x < SEEX );
         assert( p.y < SEEY );
 
@@ -285,7 +285,7 @@ void pixel_minimap::flush_cache_updates()
             }
         }
 
-        for( const point &p : mcp.second.update_list ) {
+        for( point p : mcp.second.update_list ) {
             const point tile_pos = projector->get_tile_pos( p, { SEEX, SEEY } );
             const SDL_Color tile_color = mcp.second.color_at( p );
 

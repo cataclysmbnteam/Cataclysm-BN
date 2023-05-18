@@ -49,6 +49,7 @@
       "#": "t_shrub",
       "$": "t_bars",
       "%": "t_rock",
+      "~": "t_sewage",
       "&": "t_gates_control_brick",
       "'": "t_strconc_floor",
       "(": "t_linoleum_white",

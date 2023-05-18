@@ -8,6 +8,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -53,7 +54,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -106,7 +106,7 @@ avatar &get_avatar()
     return g->u;
 }
 
-avatar::avatar()
+avatar::avatar() : player()
 {
     player_map_memory = std::make_unique<map_memory>();
     show_map_memory = true;
@@ -195,7 +195,7 @@ mission *avatar::get_active_mission() const
     return active_mission;
 }
 
-void avatar::reset_all_misions()
+void avatar::reset_all_missions()
 {
     active_mission = nullptr;
     active_missions.clear();
@@ -384,7 +384,7 @@ diary *avatar::get_avatar_diary()
  * str_values: Parallel to values, these contain the learning penalties (as doubles in string form) as follows:
  *             Experience gained = Experience normally gained * penalty
  */
-bool avatar::read( item_location loc, const bool continuous )
+bool avatar::read( item *loc, const bool continuous )
 {
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -408,7 +408,7 @@ bool avatar::read( item_location loc, const bool continuous )
     const int time_taken = time_to_read( it, *reader );
 
     add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
-    player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0,
+    player_activity act( ACT_READ, time_taken, continuous ? activity->index : 0,
                          reader->getID().get_value() );
     act.targets.emplace_back( loc );
 
@@ -544,7 +544,7 @@ bool avatar::read( item_location loc, const bool continuous )
 
             if( martial_arts_data->has_martialart( martial_art_learned_from( *it.type ) ) ) {
                 add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
-                activity.set_to_null();
+                activity->set_to_null();
                 return false;
             }
 
@@ -566,7 +566,7 @@ bool avatar::read( item_location loc, const bool continuous )
 
     // Print some informational messages, but only the first time or if the information changes
 
-    if( !continuous || activity.position != act.position ) {
+    if( !continuous || activity->position != act.position ) {
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
             add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
@@ -577,10 +577,10 @@ bool avatar::read( item_location loc, const bool continuous )
 
     if( !continuous ||
     !std::all_of( learners.begin(), learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
-    return std::count( activity.values.begin(), activity.values.end(),
+    return std::count( activity->values.begin(), activity->values.end(),
                        elem.first->getID().get_value() ) != 0;
     } ) ||
-    !std::all_of( activity.values.begin(), activity.values.end(), [&]( int elem ) {
+    !std::all_of( activity->values.begin(), activity->values.end(), [&]( int elem ) {
         return learners.find( g->find_npc( character_id( elem ) ) ) != learners.end();
     } ) ) {
 
@@ -640,7 +640,7 @@ bool avatar::read( item_location loc, const bool continuous )
         act.str_values.emplace_back( "martial_art" );
     }
 
-    assign_activity( act );
+    assign_activity( std::make_unique<player_activity>( std::move( act ) ) ) ;
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
     // away while you read more.
@@ -739,17 +739,17 @@ static void skim_book_msg( const item &book, avatar &u )
     add_msg( _( "You note that you have a copy of %s in your possession." ), book.type_name() );
 }
 
-void avatar::do_read( item_location loc )
+void avatar::do_read( item *loc )
 {
     if( !loc ) {
-        activity.set_to_null();
+        activity->set_to_null();
         return;
     }
 
     item &book = *loc;
     const auto &reading = book.type->book;
     if( !reading ) {
-        activity.set_to_null();
+        activity->set_to_null();
         return;
     }
     const skill_id &skill = reading->skill;
@@ -758,7 +758,7 @@ void avatar::do_read( item_location loc )
         // Note that we've read the book.
         items_identified.insert( book.typeId() );
         skim_book_msg( book, *this );
-        activity.set_to_null();
+        activity->set_to_null();
         return;
     }
 
@@ -766,10 +766,10 @@ void avatar::do_read( item_location loc )
 
     //learners and their penalties
     std::vector<std::pair<player *, double>> learners;
-    for( size_t i = 0; i < activity.values.size(); i++ ) {
-        player *n = g->find_npc( character_id( activity.values[i] ) );
+    for( size_t i = 0; i < activity->values.size(); i++ ) {
+        player *n = g->find_npc( character_id( activity->values[i] ) );
         if( n != nullptr ) {
-            const std::string &s = activity.get_str_value( i, "1" );
+            const std::string &s = activity->get_str_value( i, "1" );
             learners.push_back( { n, strtod( s.c_str(), nullptr ) } );
         }
         // Otherwise they must have died/teleported or something
@@ -852,7 +852,7 @@ void avatar::do_read( item_location loc )
                 }
             } else {
                 //skill_level == originalSkillLevel
-                if( activity.index == learner->getID().get_value() ) {
+                if( activity->index == learner->getID().get_value() ) {
                     continuous = true;
                 }
                 if( learner->is_player() ) {
@@ -913,7 +913,7 @@ void avatar::do_read( item_location loc )
             m->second.call( *this, book, false, pos() );
             continuous = false;
         } else {
-            if( activity.index == getID().get_value() ) {
+            if( activity->index == getID().get_value() ) {
                 continuous = true;
                 switch( rng( 1, 5 ) ) {
                     case 1:
@@ -940,14 +940,14 @@ void avatar::do_read( item_location loc )
     }
 
     if( continuous ) {
-        activity.set_to_null();
+        activity->set_to_null();
         read( loc, true );
         if( activity ) {
             return;
         }
     }
 
-    activity.set_to_null();
+    activity->set_to_null();
 }
 
 bool avatar::has_identified( const itype_id &item_id ) const
@@ -1057,11 +1057,11 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-cata::optional<int> avatar::kill_xp_for_next_point() const
+std::optional<int> avatar::kill_xp_for_next_point() const
 {
     auto it = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
     if( it == xp_cutoffs.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return *it - kill_xp();
     }
@@ -1209,7 +1209,8 @@ bool avatar::wield( item &target )
     if( !unwield() ) {
         return false;
     }
-    clear_npc_ai_info_cache( "weapon_value" );
+    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     if( target.is_null() ) {
         return true;
     }
@@ -1237,20 +1238,49 @@ bool avatar::wield( item &target )
     moves -= mv;
 
     if( has_item( target ) ) {
-        weapon = i_rem( &target );
+        set_weapon( i_rem( &target ) );
     } else {
-        weapon = target;
+        set_weapon( target.detach() );
     }
 
-    last_item = weapon.typeId();
+    last_item = target.typeId();
     recoil = MAX_RECOIL;
 
-    weapon.on_wield( *this, mv );
+    target.on_wield( *this, mv );
 
-    inv.update_invlet( weapon );
-    inv.update_cache_with_item( weapon );
+    inv.update_invlet( target );
+    inv.update_cache_with_item( target );
 
     return true;
+}
+
+
+detached_ptr<item> avatar::wield( detached_ptr<item> &&target )
+{
+    if( !can_wield( *target ).success() ) {
+        return std::move( target );
+    }
+
+    if( !unwield() ) {
+        return std::move( target );
+    }
+    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
+    if( !target || target->is_null() ) {
+        return std::move( target );
+    }
+    item &obj = *target;
+    set_weapon( std::move( target ) );
+
+    last_item = obj.typeId();
+    recoil = MAX_RECOIL;
+    int mv = item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
+    obj.on_wield( *this, mv );
+
+
+    inv.update_invlet( obj );
+    inv.update_cache_with_item( obj );
+    return detached_ptr<item>();
 }
 
 bool avatar::invoke_item( item *used, const tripoint &pt )

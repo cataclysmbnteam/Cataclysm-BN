@@ -11,6 +11,7 @@
 #include <limits>
 #include <locale>
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <tuple>
@@ -61,6 +62,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "locations.h"
 #include "magic.h"
 #include "map.h"
 #include "martialarts.h"
@@ -70,7 +72,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -148,7 +149,6 @@ static const itype_id itype_water( "water" );
 static const itype_id itype_water_acid( "water_acid" );
 static const itype_id itype_water_acid_weak( "water_acid_weak" );
 
-static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_weapon( "weapon" );
@@ -363,13 +363,17 @@ struct scoped_goes_bad_cache {
 
 const int item::INFINITE_CHARGES = INT_MAX;
 
-item::item() : bday( calendar::start_of_cataclysm )
+item::item() : contents( this ),
+    components( new component_item_location( this ) ),
+    bday( calendar::start_of_cataclysm )
 {
     type = nullitem();
     charges = 0;
 }
 
-item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
+item::item( const itype *type, time_point turn, int qty ) : type( type ),
+    contents( this ),
+    components( new component_item_location( this ) ), bday( turn )
 {
     corpse = has_flag( flag_CORPSE ) ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
@@ -386,23 +390,23 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
-        itype_id nanofab_recipe = item_group::item_from( item_group_id( "nanofab_recipes" ) ).typeId();
+        itype_id nanofab_recipe = item_group::item_from( item_group_id( "nanofab_recipes" ) )->typeId();
         set_var( "NANOFAB_ITEM_ID", nanofab_recipe.str() );
     }
 
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
-            item it( mod, turn, qty );
-            it.set_flag( "IRREMOVABLE" );
-            put_in( it );
+            detached_ptr<item> it = item::spawn( mod, turn, qty );
+            it->set_flag( "IRREMOVABLE" );
+            put_in( std::move( it ) );
         }
         for( const itype_id &mod : type->gun->default_mods ) {
-            put_in( item( mod, turn, qty ) );
+            put_in( item::spawn( mod, turn, qty ) );
         }
 
     } else if( type->magazine ) {
         if( type->magazine->count > 0 ) {
-            put_in( item( type->magazine->default_ammo, calendar::turn, type->magazine->count ) );
+            put_in( item::spawn( type->magazine->default_ammo, calendar::turn, type->magazine->count ) );
         }
 
     } else if( goes_bad() ) {
@@ -444,31 +448,29 @@ item::item( const itype *type, time_point turn, solitary_tag )
 item::item( const itype_id &id, time_point turn, solitary_tag tag )
     : item( & * id, turn, tag ) {}
 
-safe_reference<item> item::get_safe_reference()
-{
-    return anchor.reference_to( this );
-}
-
 static const item *get_most_rotten_component( const item &craft )
 {
     const item *most_rotten = nullptr;
-    for( const item &it : craft.components ) {
-        if( it.goes_bad() ) {
-            if( !most_rotten || it.get_relative_rot() > most_rotten->get_relative_rot() ) {
-                most_rotten = &it;
+    for( const item * const &it : craft.get_components() ) {
+        if( it->goes_bad() ) {
+            if( !most_rotten || it->get_relative_rot() > most_rotten->get_relative_rot() ) {
+                most_rotten = it;
             }
         }
     }
     return most_rotten;
 }
 
-item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections )
+item::item( const recipe *rec, int qty, std::vector<detached_ptr<item>> &&items,
+            std::vector<item_comp> &&selections )
     : item( "craft", calendar::turn, qty )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
-    components = items;
-    craft_data_->comps_used = selections;
+    for( detached_ptr<item> &it : items ) {
+        components.push_back( std::move( it ) );
+    }
+    craft_data_->comps_used = std::move( selections );
 
     if( is_food() ) {
         active = true;
@@ -481,13 +483,13 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
         }
     }
 
-    for( item &component : components ) {
-        for( const std::string &f : component.item_tags ) {
+    for( item * const &component : components ) {
+        for( const std::string &f : component->item_tags ) {
             if( json_flag::get( f ).craft_inherit() ) {
                 set_flag( f );
             }
         }
-        for( const std::string &f : component.type->get_flags() ) {
+        for( const std::string &f : component->type->get_flags() ) {
             if( json_flag::get( f ).craft_inherit() ) {
                 set_flag( f );
             }
@@ -499,14 +501,113 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
     }
 }
 
-item::item( const item & ) = default;
-item::item( item && ) = default;
-item::~item() = default;
-item &item::operator=( const item & ) = default;
-item &item::operator=( item && ) = default;
+item::item( const item &source ) : game_object<item>(), contents( this ),
+    components( new component_item_location( this ) )
+{
+    //TODO!: back to defaults
+    //Awful copy block, this can be avoided with equally awful inheritance shenanigans but...
+    type = source.type;
+    faults = source.faults;
+    item_tags = source.item_tags;
+    curammo = source.curammo;
+    item_vars = source.item_vars;
+    corpse = source.corpse;
+    corpse_name = source.corpse_name;
+    techniques = source.techniques;
+    craft_data_ = source.craft_data_;
+    relic_data = source.relic_data;
+    charges = source.charges;
+    energy = source.energy;
+    recipe_charges = source.recipe_charges;
+    burnt = source.burnt;
+    poison = source.poison;
+    frequency = source.frequency;
+    snip_id = source.snip_id;
+    irradiation = source.irradiation;
+    item_counter = source.item_counter;
+    mission_id = source.mission_id;
+    player_id = source.player_id;
+    encumbrance_update_ = source.encumbrance_update_;
+    rot = source.rot;
+    last_rot_check = source.last_rot_check;
+    bday = source.bday;
+    owner = source.owner;
+    old_owner = source.old_owner;
+    damage_ = source.damage_;
+    light = source.light;
+    invlet = source.invlet;
+    active = source.active;
+    activated_by = source.activated_by;
 
-item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
-                        const int upgrade_time )
+    for( item * const &it : source.contents.all_items_top() ) {
+        contents.insert_item( item::spawn( *it ) );
+    }
+
+    for( item * const &it : source.components ) {
+        components.push_back( item::spawn( *it ) );
+    }
+}
+
+item &item::operator=( const item &source )
+{
+    type = source.type;
+    faults = source.faults;
+    item_tags = source.item_tags;
+    curammo = source.curammo;
+    item_vars = source.item_vars;
+    corpse = source.corpse;
+    corpse_name = source.corpse_name;
+    techniques = source.techniques;
+    craft_data_ = source.craft_data_;
+    relic_data = source.relic_data;
+    charges = source.charges;
+    energy = source.energy;
+    recipe_charges = source.recipe_charges;
+    burnt = source.burnt;
+    poison = source.poison;
+    frequency = source.frequency;
+    snip_id = source.snip_id;
+    irradiation = source.irradiation;
+    item_counter = source.item_counter;
+    mission_id = source.mission_id;
+    player_id = source.player_id;
+    encumbrance_update_ = source.encumbrance_update_;
+    rot = source.rot;
+    last_rot_check = source.last_rot_check;
+    bday = source.bday;
+    owner = source.owner;
+    old_owner = source.old_owner;
+    damage_ = source.damage_;
+    light = source.light;
+    invlet = source.invlet;
+    active = source.active;
+    activated_by = source.activated_by;
+
+    contents.clear_items();
+
+    for( item * const &it : source.contents.all_items_top() ) {
+        contents.insert_item( item::spawn( *it ) );
+    }
+
+    components.clear();
+
+    for( item * const &it : source.components ) {
+        components.push_back( item::spawn( *it ) );
+    }
+    return *this;
+}
+
+void item::on_destroy()
+{
+    components.on_destroy();
+    contents.on_destroy();
+}
+
+
+item::~item() = default;
+
+detached_ptr<item> item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
+                                      const int upgrade_time )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
@@ -514,34 +615,34 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 
     std::string corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
 
-    item result( corpse_type, turn );
-    result.corpse = &mt.obj();
+    detached_ptr<item> result = item::spawn( corpse_type, turn );
 
-    if( result.corpse->has_flag( MF_REVIVES ) ) {
+    result->corpse = &mt.obj();
+
+    if( result->corpse->has_flag( MF_REVIVES ) ) {
         if( one_in( 20 ) ) {
-            result.set_flag( "REVIVE_SPECIAL" );
+            result->set_flag( "REVIVE_SPECIAL" );
         }
-        result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
+        result->set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
 
     // This is unconditional because the const itemructor above sets result.name to
     // "human corpse".
-    result.corpse_name = name;
+    result->corpse_name = name;
 
-    return result;
+    return  result;
 }
 
-item &item::convert( const itype_id &new_type )
+void item::convert( const itype_id &new_type )
 {
     type = &*new_type;
     relic_data = type->relic_data;
-    return *this;
 }
 
-item &item::deactivate( const Character *ch, bool alert )
+void item::deactivate( const Character *ch, bool alert )
 {
     if( !active ) {
-        return *this; // no-op
+        return; // no-op
     }
 
     if( is_tool() && type->tool->revert_to ) {
@@ -552,13 +653,12 @@ item &item::deactivate( const Character *ch, bool alert )
         active = false;
 
     }
-    return *this;
 }
 
-item &item::activate()
+void item::activate()
 {
     if( active ) {
-        return *this; // no-op
+        return; // no-op
     }
 
     if( type->countdown_interval > 0 ) {
@@ -567,7 +667,6 @@ item &item::activate()
 
     active = true;
 
-    return *this;
 }
 
 units::energy item::mod_energy( const units::energy &qty )
@@ -588,7 +687,7 @@ units::energy item::mod_energy( const units::energy &qty )
     return 0_J;
 }
 
-item &item::ammo_set( const itype_id &ammo, int qty )
+void item::ammo_set( const itype_id &ammo, int qty )
 {
     if( qty < 0 ) {
         // completely fill an integral or existing magazine
@@ -601,14 +700,14 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             if( mag.type->magazine->count > 0 ) {
                 qty = mag.type->magazine->count;
             } else {
-                qty = item( magazine_default() ).ammo_capacity();
+                qty = mag.ammo_capacity();
             }
         }
     }
 
     if( qty <= 0 ) {
         ammo_unset();
-        return *this;
+        return;
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
@@ -617,24 +716,25 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             curammo = nullptr;
             charges = std::min( qty, ammo_capacity() );
         }
-        return *this;
+        return;
     }
 
     // check ammo is valid for the item
     const itype *atype = &*ammo;
     if( !atype->ammo || !ammo_types().count( atype->ammo->type ) ) {
         debugmsg( "Tried to set invalid ammo %s[%d] for %s", atype->get_id(), qty, typeId() );
-        return *this;
+        return;
     }
 
     if( is_magazine() ) {
         ammo_unset();
-        item set_ammo( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
+        detached_ptr<item> set_ammo = item::spawn( ammo, calendar::turn, std::min( qty,
+                                      ammo_capacity() ) );
         if( has_flag( flag_NO_UNLOAD ) ) {
-            set_ammo.set_flag( "NO_DROP" );
-            set_ammo.set_flag( "IRREMOVABLE" );
+            set_ammo->set_flag( "NO_DROP" );
+            set_ammo->set_flag( "IRREMOVABLE" );
         }
-        put_in( set_ammo );
+        put_in( std::move( set_ammo ) );
 
     } else if( magazine_integral() ) {
         curammo = atype;
@@ -646,7 +746,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             if( !mag->magazine ) {
                 debugmsg( "Tried to set ammo %s[%d] without suitable magazine for %s",
                           atype->get_id(), qty, typeId() );
-                return *this;
+                return;
             }
 
             // if default magazine too small fetch instead closest available match
@@ -656,7 +756,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                 if( iter == type->magazines.end() ) {
                     debugmsg( "%s doesn't have a magazine for %s",
                               typeId(), ammo );
-                    return *this;
+                    return;
                 }
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
                 std::sort( opts.begin(), opts.end(), []( const itype_id & lhs, const itype_id & rhs ) {
@@ -670,15 +770,14 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                     }
                 }
             }
-            put_in( item( mag ) );
+            put_in( item::spawn( mag ) );
         }
         magazine_current()->ammo_set( ammo, qty );
     }
 
-    return *this;
 }
 
-item &item::ammo_unset()
+void item::ammo_unset()
 {
     if( !is_tool() && !is_gun() && !is_magazine() ) {
         // do nothing
@@ -691,7 +790,6 @@ item &item::ammo_unset()
         magazine_current()->ammo_unset();
     }
 
-    return *this;
 }
 
 int item::damage() const
@@ -712,22 +810,78 @@ int item::damage_level( int max ) const
     }
 }
 
-item &item::set_damage( int qty )
+void item::set_damage( int qty )
 {
     on_damage( qty - damage_, DT_TRUE );
     damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
-    return *this;
 }
 
-item item::split( int qty )
+detached_ptr<item> item::split( int qty )
 {
-    if( !count_by_charges() || qty <= 0 || qty >= charges ) {
-        return item();
+    if( qty == 0 || !count_by_charges() || qty >= charges ) {
+        return detach();
     }
-    item res = *this;
-    res.charges = qty;
+    detached_ptr<item> res = item::spawn( *this );
+    res->charges = qty;
     charges -= qty;
     return res;
+}
+
+detached_ptr<item> item::unsafe_split( int qty )
+{
+    if( !count_by_charges() ) {
+        debugmsg( "Attempted to unsafe_split a non-count by charges item." );
+        return detached_ptr<item>();
+    }
+    if( qty == 0 || qty >= charges ) {
+        qty = charges;
+    }
+    detached_ptr<item> res = item::spawn( *this );
+    res->charges = qty;
+    charges -= qty;
+    return res;
+}
+
+void item::unsafe_rejoin( item &old )
+{
+    if( old.charges != 0 ) {
+        return;
+    }
+
+    merge_charges( old.detach() );
+}
+
+bool item::attempt_detach( std::function < detached_ptr<item>( detached_ptr<item> && ) > cb )
+{
+    if( is_null() ) {
+        return false;
+    }
+    if( count_by_charges() ) {
+        return attempt_split( 0, cb );
+    }
+    return game_object<item>::attempt_detach( cb );
+}
+
+bool item::attempt_split( int qty,
+                          std::function < detached_ptr<item>( detached_ptr<item> && ) > cb )
+{
+    detached_ptr<item> det = unsafe_split( qty );
+    if( !det ) {
+        return false;
+    }
+    item &after_split = *det;
+    det = cb( std::move( det ) );
+    bool ret = true;
+    if( det ) {
+        if( det->type->get_id() != type->get_id() ) {
+            debugmsg( "attempt_split returned the wrong item type" );
+        } else {
+            merge_charges( std::move( det ) );
+        }
+        ret = false;
+    }
+    after_split.unsafe_rejoin( *this );
+    return ret;
 }
 
 bool item::is_null() const
@@ -839,26 +993,28 @@ bool item::is_worn_only_with( const item &it ) const
             it.has_flag( flag_POWERARMOR_EXO ) );
 }
 
-item item::in_its_container() const
+detached_ptr<item> item::in_its_container( detached_ptr<item> &&self )
 {
-    return in_container( type->default_container.value_or( "null" ) );
+    return item::in_container( self->type->default_container.value_or( itype_id::NULL_ID() ),
+                               std::move( self ) );
 }
 
-item item::in_container( const itype_id &cont ) const
+detached_ptr<item> item::in_container( const itype_id &cont, detached_ptr<item> &&self )
 {
     if( !cont.is_null() ) {
-        item ret( cont, birthday() );
-        ret.put_in( *this );
-        if( made_of( LIQUID ) && ret.is_container() ) {
+        detached_ptr<item> ret = item::spawn( cont, self->birthday() );
+        ret->invlet = self->invlet;
+        item &obj = *self;
+        ret->put_in( std::move( self ) );
+
+        if( obj.made_of( LIQUID ) && ret->is_container() ) {
             // Note: we can't use any of the normal container functions as they check the
             // container being suitable (seals, watertight etc.)
-            ret.contents.back().charges = charges_per_volume( ret.get_container_capacity() );
+            ret->contents.back().charges = obj.charges_per_volume( ret->get_container_capacity() );
         }
-
-        ret.invlet = invlet;
         return ret;
     } else {
-        return *this;
+        return std::move( self );
     }
 }
 
@@ -974,28 +1130,43 @@ bool item::stacks_with( const item &rhs, bool check_components, bool skip_type_c
     return contents.stacks_with( rhs.contents );
 }
 
-bool item::merge_charges( const item &rhs )
+bool item::merge_charges( detached_ptr<item> &&rhs )
 {
-    if( !count_by_charges() || !stacks_with( rhs ) ) {
+    if( this == &*rhs ) {
+        debugmsg( "Attempted to merge %s with itself.", debug_name() );
         return false;
     }
+    if( !count_by_charges() || !stacks_with( *rhs ) ) {
+        return false;
+    }
+    item &obj = *rhs;
+    safe_reference<item>::merge( this, &*rhs );
+    detached_ptr<item> del = std::move( rhs );
+
     // Prevent overflow when either item has "near infinite" charges.
-    if( charges >= INFINITE_CHARGES / 2 || rhs.charges >= INFINITE_CHARGES / 2 ) {
+    if( charges >= INFINITE_CHARGES / 2 || obj.charges >= INFINITE_CHARGES / 2 ) {
         charges = INFINITE_CHARGES;
         return true;
     }
     // We'll just hope that the item counter represents the same thing for both items
-    if( item_counter > 0 || rhs.item_counter > 0 ) {
+    if( item_counter > 0 || obj.item_counter > 0 ) {
         item_counter = ( static_cast<double>( item_counter ) * charges + static_cast<double>
-                         ( rhs.item_counter ) * rhs.charges ) / ( charges + rhs.charges );
+                         ( obj.item_counter ) * obj.charges ) / ( charges + obj.charges );
     }
-    charges += rhs.charges;
+    charges += obj.charges;
     return true;
 }
 
-void item::put_in( const item &payload )
+void item::put_in( detached_ptr<item> &&payload )
 {
-    contents.insert_item( payload );
+    if( !payload ) {
+        return;
+    }
+    if( &*payload == this ) {
+        debugmsg( "Tried to put %s inside itself", debug_name().c_str() );
+        return;
+    }
+    contents.insert_item( std::move( payload ) );
 }
 
 void item::set_var( const std::string &name, const int value )
@@ -1359,7 +1530,7 @@ double item::effective_dps( const player &guy, const monster &mon ) const
     // that damage
     const auto calc_effective_damage = [ &, moves_per_attack]( const double num_strikes,
     const bool crit, const player & guy, const monster & mon ) {
-        monster temp_mon = mon;
+        monster temp_mon( mon );
         double subtotal_damage = 0;
         damage_instance base_damage;
         guy.roll_all_damage( crit, base_damage, true, *this );
@@ -1379,7 +1550,7 @@ double item::effective_dps( const player &guy, const monster &mon ) const
         double subtotal_moves = moves_per_attack * num_strikes;
 
         if( has_technique( rapid_strike ) ) {
-            monster temp_rs_mon = mon;
+            monster temp_rs_mon( mon );
             damage_instance rs_base_damage;
             guy.roll_all_damage( crit, rs_base_damage, true, *this );
             damage_instance dealt_rs_damage = rs_base_damage;
@@ -1509,12 +1680,20 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.push_back( iteminfo( "BASE", _( "Category: " ),
                                   "<header>" + get_category().name() + "</header>" ) );
     }
+    if( !type->weapon_category.empty() && parts->test( iteminfo_parts::WEAPON_CATEGORY ) ) {
+        const std::string weapon_categories = enumerate_as_string( type->weapon_category.begin(),
+        type->weapon_category.end(), [&]( const weapon_category_id & elem ) {
+            return elem->name().translated();
+        }, enumeration_conjunction::none );
+        info.push_back( iteminfo( "BASE", _( "Weapon Category: " ),
+                                  "<header>" + weapon_categories + "</header>" ) );
+    }
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
         insert_separation_line( info );
         const std::map<std::string, std::string>::const_iterator idescription =
             item_vars.find( "description" );
-        const cata::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
+        const std::optional<translation> snippet = SNIPPET.get_snippet_by_id( snip_id );
         if( snippet.has_value() ) {
             // Just use the dynamic description
             info.push_back( iteminfo( "DESCRIPTION", snippet.value().translated() ) );
@@ -2018,9 +2197,9 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     // many statistics are dependent upon loaded ammo
     // if item is unloaded (or is RELOAD_AND_SHOOT) shows approximate stats using default ammo
     const item *loaded_mod = mod;
-    item tmp;
     if( mod->ammo_required() && !mod->ammo_remaining() ) {
-        tmp = *mod;
+        //TODO!: get rid of this one, I think it could be bad
+        item &tmp = *item::spawn_temporary( *mod );
         tmp.ammo_set( mod->magazine_current() ? tmp.common_ammo_default() : tmp.ammo_default() );
         if( tmp.ammo_data() == nullptr ) {
             insert_separation_line( info );
@@ -3135,8 +3314,8 @@ void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     } else if( get_var( "bionics_scanned_by", -1 ) == get_avatar().getID().get_value() ) {
         // TODO: Extract into a more proper place (function in namespace)
         std::string bionics_string = enumerate_as_string( components.begin(), components.end(),
-        []( const item & entry ) -> std::string {
-            return entry.is_bionic() ? entry.display_name() : "";
+        []( const item * const & entry ) -> std::string {
+            return entry->is_bionic() ? entry->display_name() : "";
         }, enumeration_conjunction::none );
         info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Contains: %s" ),
                                   bionics_string ) ) );
@@ -4314,9 +4493,9 @@ void item::on_wear( Character &p )
             for( auto &elem : p.worn ) {
                 for( std::pair< body_part, int > &mod_part : mod_parts ) {
                     bpid = convert_bp( mod_part.first );
-                    if( elem.get_covered_body_parts().test( mod_part.first ) &&
-                        elem.has_flag( flag_POWERARMOR_MOD ) ) {
-                        if( elem.is_sided() && elem.get_side() == bpid->part_side ) {
+                    if( elem->get_covered_body_parts().test( mod_part.first ) &&
+                        elem->has_flag( flag_POWERARMOR_MOD ) ) {
+                        if( elem->is_sided() && elem->get_side() == bpid->part_side ) {
                             mod_part.second++;
                             continue;
                         }
@@ -4365,7 +4544,7 @@ void item::on_wear( Character &p )
         }
         std::string transform_flag = actor->dependencies;
         for( const auto &elem : p.worn ) {
-            if( elem.has_flag( transform_flag ) && elem.active != active ) {
+            if( elem->has_flag( transform_flag ) && elem->active != active ) {
                 transform = true;
             }
         }
@@ -4453,7 +4632,7 @@ void item::on_wield( player &p, int mv )
         msg = _( "You wield your %s." );
     }
     // if game is loaded - don't want ownership assigned during char creation
-    if( get_avatar().getID().is_valid() ) {
+    if( p.getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
@@ -4496,9 +4675,9 @@ void item::handle_pickup_ownership( Character &c )
                 }
                 random_entry( witnesses )->set_attitude( NPCATT_RECOVER_GOODS );
                 // Notify the activity that we got a witness
-                if( c.activity && !c.activity.is_null() && c.activity.id() == ACT_PICKUP ) {
-                    c.activity.str_values.clear();
-                    c.activity.str_values.emplace_back( has_thievery_witness );
+                if( c.activity && !c.activity->is_null() && c.activity->id() == ACT_PICKUP ) {
+                    c.activity->str_values.clear();
+                    c.activity->str_values.emplace_back( has_thievery_witness );
                 }
             }
             set_owner( c );
@@ -4790,7 +4969,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 }
 
 std::string item::display_money( unsigned int quantity, unsigned int total,
-                                 const cata::optional<unsigned int> &selected ) const
+                                 const std::optional<unsigned int> &selected ) const
 {
     if( selected ) {
         //~ This is a string to display the selected and total amount of money in a stack of cash cards.
@@ -4900,6 +5079,11 @@ std::string item::display_name( unsigned int quantity ) const
     return string_format( "%s%s%s", name, sidetxt, amt );
 }
 
+std::string item::debug_name() const
+{
+    return type->nname( charges );
+}
+
 nc_color item::color() const
 {
     if( is_null() ) {
@@ -4961,8 +5145,8 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     if( is_craft() ) {
         units::mass ret = 0_gram;
-        for( const item &it : components ) {
-            ret += it.weight();
+        for( const item * const &it : components ) {
+            ret += it->weight();
         }
         return ret;
     }
@@ -5077,8 +5261,8 @@ units::volume item::base_volume() const
 
     if( is_craft() ) {
         units::volume ret = 0_ml;
-        for( const item &it : components ) {
-            ret += it.base_volume();
+        for( const item * const &it : components ) {
+            ret += it->base_volume();
         }
         return ret;
     }
@@ -5106,8 +5290,8 @@ units::volume item::volume( bool integral ) const
 
     if( is_craft() ) {
         units::volume ret = 0_ml;
-        for( const item &it : components ) {
-            ret += it.volume();
+        for( const item * const &it : components ) {
+            ret += it->volume();
         }
         return ret;
     }
@@ -5322,25 +5506,22 @@ bool item::has_flag( const flag_str_id &flag ) const
     return has_flag( flag.str() );
 }
 
-item &item::set_flag( const std::string &flag )
+void item::set_flag( const std::string &flag )
 {
     item_tags.insert( flag );
-    return *this;
 }
 
-item &item::unset_flag( const std::string &flag )
+void item::unset_flag( const std::string &flag )
 {
     item_tags.erase( flag );
-    return *this;
 }
 
-item &item::set_flag_recursive( const std::string &flag )
+void item::set_flag_recursive( const std::string &flag )
 {
     set_flag( flag );
-    for( item &comp : components ) {
-        comp.set_flag_recursive( flag );
+    for( item * const &comp : components ) {
+        comp->set_flag_recursive( flag );
     }
-    return *this;
 }
 
 const item::FlagsSetType &item::get_flags() const
@@ -5795,14 +5976,14 @@ int item::get_encumber( const Character &p ) const
         if( t != nullptr && t->max_encumber != 0 ) {
             units::volume char_storage( 0_ml );
 
-            for( const item &e : p.worn ) {
-                char_storage += e.get_storage();
+            for( const item * const &e : p.worn ) {
+                char_storage += e->get_storage();
             }
 
             if( char_storage != 0_ml ) {
                 // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
                 contents_volume += units::from_milliliter( static_cast<int64_t>( t->storage.value() ) *
-                                   p.inv.volume().value() / char_storage.value() );
+                                   p.inv_volume().value() / char_storage.value() );
             }
         }
     }
@@ -6602,7 +6783,7 @@ bool item::is_food_container() const
 {
     return ( !contents.empty() && contents.front().is_food() ) ||
            ( is_craft() &&
-             craft_data_->making->create_result().is_food_container() );
+             craft_data_->making->create_result()->is_food_container() );
 }
 
 bool item::is_med_container() const
@@ -6780,7 +6961,7 @@ int item::wind_resist() const
 
     int best = -1;
     for( const material_type *mat : materials ) {
-        cata::optional<int> resistance = mat->wind_resist();
+        std::optional<int> resistance = mat->wind_resist();
         if( resistance && *resistance > best ) {
             best = *resistance;
         }
@@ -6849,6 +7030,11 @@ bool item::can_unload_liquid() const
     const item &cts = contents.front();
     bool cts_is_frozen_liquid = cts.made_of( LIQUID ) && cts.made_of( SOLID );
     return is_bucket() || !cts_is_frozen_liquid;
+}
+
+bool item::can_reload_with( const ammotype &ammo ) const
+{
+    return is_reloadable_helper( ammo->default_ammotype(), false );
 }
 
 bool item::can_reload_with( const itype_id &ammo ) const
@@ -7066,11 +7252,10 @@ bool item::spill_contents( const tripoint &pos )
         return true;
     }
 
-    for( item *it : contents.all_items_top() ) {
-        get_map().add_item_or_charges( pos, *it );
+    for( detached_ptr<item> &it : contents.clear_items() ) {
+        get_map().add_item_or_charges( pos, std::move( it ) );
     }
 
-    contents.clear_items();
     return true;
 }
 
@@ -7484,8 +7669,7 @@ int item::ammo_consume( int qty, const tripoint &pos )
             if( mag->has_flag( flag_MAG_DESTROY ) ) {
                 remove_item( *mag );
             } else if( mag->has_flag( flag_MAG_EJECT ) ) {
-                get_map().add_item( pos, *mag );
-                remove_item( *mag );
+                get_map().add_item( pos, remove_item( *mag ) );
             }
         }
         return res;
@@ -7498,6 +7682,7 @@ int item::ammo_consume( int qty, const tripoint &pos )
             if( need >= e.charges ) {
                 need -= e.charges;
                 remove_item( contents.front() );
+                e.destroy();
             } else {
                 e.charges -= need;
                 need = 0;
@@ -7959,11 +8144,11 @@ const use_function *item::get_use_internal( const std::string &use_name ) const
     return nullptr;
 }
 
-item *item::get_usable_item( const std::string &use_name )
+const item *item::get_usable_item( const std::string &use_name ) const
 {
-    item *ret = nullptr;
+    const item *ret = nullptr;
     visit_items(
-    [&ret, &use_name]( item * it ) {
+    [&ret, &use_name]( const item * it ) {
         if( it == nullptr ) {
             return VisitResponse::SKIP;
         }
@@ -7975,6 +8160,11 @@ item *item::get_usable_item( const std::string &use_name )
     } );
 
     return ret;
+}
+
+item *item::get_usable_item( const std::string &use_name )
+{
+    return const_cast<item *>( const_cast<const item *>( this )->get_usable_item( use_name ) );
 }
 
 int item::units_remaining( const Character &ch, int limit ) const
@@ -8013,9 +8203,9 @@ item_reload_option::item_reload_option( const item_reload_option & ) = default;
 
 item_reload_option &item_reload_option::operator=( const item_reload_option & ) = default;
 
-item_reload_option::item_reload_option( const player *who, const item *target, const item *parent,
-                                        const item_location &ammo ) :
-    who( who ), target( target ), ammo( ammo ), parent( parent )
+item_reload_option::item_reload_option( const player *who, item *target, const item *parent,
+                                        item &ammo ) :
+    who( who ), target( target ), ammo( &ammo ), parent( parent )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage ) {
         max_qty = this->who->charges_of( * this->target->type->magazine->linkage );
@@ -8025,7 +8215,7 @@ item_reload_option::item_reload_option( const player *who, const item *target, c
 
 int item_reload_option::moves() const
 {
-    int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
+    int mv = ammo->obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
     if( parent != target ) {
         if( parent->is_gun() ) {
             mv += parent->get_reload_time();
@@ -8079,15 +8269,16 @@ int item::casings_count() const
 {
     int res = 0;
 
-    const_cast<item *>( this )->casings_handle( [&res]( item & ) {
+    const_cast<item *>( this )->casings_handle( [&res]( detached_ptr<item> &&it ) {
         ++res;
-        return false;
+        return std::move( it );
     } );
 
-    return res;
+    return std::move( res );
 }
 
-void item::casings_handle( const std::function<bool( item & )> &func )
+void item::casings_handle( const std::function < detached_ptr<item>( detached_ptr<item> && ) >
+                           &func )
 {
     if( !is_gun() ) {
         return;
@@ -8096,13 +8287,13 @@ void item::casings_handle( const std::function<bool( item & )> &func )
     contents.casings_handle( func );
 }
 
-bool item::reload( player &u, item_location loc, int qty )
+bool item::reload( player &u, item &loc, int qty )
 {
     if( qty <= 0 ) {
         debugmsg( "Tried to reload zero or less charges" );
         return false;
     }
-    item *ammo = loc.get_item();
+    item *ammo = &loc;
     if( ammo == nullptr || ammo->is_null() ) {
         debugmsg( "Tried to reload using non-existent ammo" );
         return false;
@@ -8129,8 +8320,8 @@ bool item::reload( player &u, item_location loc, int qty )
 
     qty = std::min( qty, limit );
 
-    casings_handle( [&u]( item & e ) {
-        return u.i_add_or_drop( e );
+    casings_handle( [&u]( detached_ptr<item> &&e ) {
+        return u.i_add_or_drop( std::move( e ) );
     } );
 
     if( is_magazine() ) {
@@ -8142,18 +8333,18 @@ bool item::reload( player &u, item_location loc, int qty )
             }
         }
 
-        item to_reload = *ammo;
-        to_reload.charges = qty;
+        detached_ptr<item> to_reload = item::spawn( *ammo );
+        to_reload->charges = qty;
         ammo->charges -= qty;
         bool merged = false;
         for( item *it : contents.all_items_top() ) {
-            if( it->merge_charges( to_reload ) ) {
+            if( it->merge_charges( std::move( to_reload ) ) ) {
                 merged = true;
                 break;
             }
         }
         if( !merged ) {
-            put_in( to_reload );
+            put_in( std::move( to_reload ) );
         }
     } else if( is_watertight_container() ) {
         if( !ammo->made_of( LIQUID ) ) {
@@ -8163,7 +8354,10 @@ bool item::reload( player &u, item_location loc, int qty )
         if( container ) {
             container->on_contents_changed();
         }
-        fill_with( *ammo, qty );
+        item &cur = *this;
+        ammo->attempt_split( 0, [&cur, qty]( detached_ptr<item> &&it ) {
+            return cur.fill_with( std::move( it ), qty );
+        } );
     } else if( !magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
@@ -8171,17 +8365,10 @@ bool item::reload( player &u, item_location loc, int qty )
             std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                                 magazine_current()->tname(), tname() );
 
-            // eject magazine to player inventory and try to dispose of it from there
-            item &mag = u.i_add( *magazine_current() );
-            if( !u.dispose_item( item_location( u, &mag ), prompt ) ) {
-                u.remove_item( mag ); // user canceled so delete the clone
-                return false;
-            }
-            remove_item( *magazine_current() );
+            u.dispose_item( *magazine_current(), prompt );
         }
 
-        put_in( *ammo );
-        loc.remove_item();
+        put_in( ammo->detach() );
         return true;
 
     } else {
@@ -8208,9 +8395,10 @@ bool item::reload( player &u, item_location loc, int qty )
     if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
         if( container != nullptr ) {
             container->remove_item( container->contents.front() );
-            u.inv.restack( u ); // emptied containers do not stack with non-empty ones
+            u.inv_restack( ); // emptied containers do not stack with non-empty ones
         } else {
-            loc.remove_item();
+            //TODO!: check
+            loc.detach();
         }
     }
     return true;
@@ -8464,10 +8652,10 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
 int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
         std::string *err ) const
 {
-    const bool allow_bucket = this == &p.weapon || !p.has_item( *this );
+    const bool allow_bucket = p.is_wielding( *this ) || !p.has_item( *this );
     int res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
-    if( res > 0 && !type->rigid && p.inv.has_item( *this ) ) {
+    if( res > 0 && !type->rigid && p.has_item( *this ) ) {
         const units::volume volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(),
                                                0_ml );
 
@@ -8481,47 +8669,31 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, const Character
     return res;
 }
 
-bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
-                       const std::function<bool( const item & )> &filter )
+detached_ptr<item> item::use_amount( detached_ptr<item> &&self, const itype_id &it, int &quantity,
+                                     std::vector<detached_ptr<item>> &used,
+                                     const std::function<bool( const item & )> &filter )
 {
     // Remember quantity so that we can unseal self
     int old_quantity = quantity;
-    std::vector<item *> removed_items;
-    // First, check contents
-    visit_items(
-    [&]( item * a ) {
-        // visit_items checks the item itself first. we want to do its contents first.
-        if( a == this ) {
-            return VisitResponse::NEXT;
-        }
-        if( a->use_amount_internal( it, quantity, used, filter ) ) {
-            removed_items.emplace_back( a );
+
+    self->remove_items_with( [&]( detached_ptr<item> &&a ) {
+        if( quantity > 0  && a->typeId() == it && filter( *a ) ) {
+            used.push_back( std::move( a ) );
             return VisitResponse::SKIP;
         }
         return VisitResponse::NEXT;
     } );
 
-    for( item *remove : removed_items ) {
-        remove_item( *remove );
-    }
-
     if( quantity != old_quantity ) {
-        on_contents_changed();
+        self->on_contents_changed();
     }
-    return use_amount_internal( it, quantity, used, filter );
+
+    if( quantity > 0 && self->typeId() == it && filter( *self ) ) {
+        used.push_back( std::move( self ) );
+    }
+    return std::move( self );
 }
 
-bool item::use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
-                                const std::function<bool( const item & )> &filter )
-{
-    if( typeId() == it && quantity > 0 && filter( *this ) ) {
-        used.push_back( *this );
-        quantity--;
-        return true;
-    } else {
-        return false;
-    }
-}
 
 bool item::allow_crafting_component() const
 {
@@ -8553,39 +8725,43 @@ bool item::allow_crafting_component() const
     return contents.empty();
 }
 
-void item::fill_with( item &liquid, int amount )
+detached_ptr<item> item::fill_with( detached_ptr<item> &&liquid, int amount )
 {
-    amount = std::min( get_remaining_capacity_for_liquid( liquid, true ),
-                       std::min( amount, liquid.charges ) );
+    amount = std::min( get_remaining_capacity_for_liquid( *liquid, true ),
+                       std::min( amount, liquid->charges ) );
     if( amount <= 0 ) {
-        return;
+        return std::move( liquid );
     }
 
     if( !is_container() ) {
-        if( !is_reloadable_with( liquid.typeId() ) ) {
+        if( !is_reloadable_with( liquid->typeId() ) ) {
             debugmsg( "Tried to fill %s which is not a container and can't be reloaded with %s.",
-                      tname(), liquid.tname() );
-            return;
+                      tname(), liquid->tname() );
+            return std::move( liquid );
         }
-        ammo_set( liquid.typeId(), ammo_remaining() + amount );
+        ammo_set( liquid->typeId(), ammo_remaining() + amount );
     } else if( is_food_container() ) {
         item &cts = contents.front();
         // Use maximum rot between the two
         cts.set_relative_rot( std::max( cts.get_relative_rot(),
-                                        liquid.get_relative_rot() ) );
+                                        liquid->get_relative_rot() ) );
         cts.mod_charges( amount );
     } else if( !is_container_empty() ) {
         // if container already has liquid we need to set the amount
         item &cts = contents.front();
         cts.mod_charges( amount );
     } else {
-        item liquid_copy( liquid );
-        liquid_copy.charges = amount;
-        put_in( liquid_copy );
+        detached_ptr<item> liquid_copy = item::spawn( *liquid );
+        liquid_copy->charges = amount;
+        put_in( std::move( liquid_copy ) );
     }
 
-    liquid.mod_charges( -amount );
+    liquid->mod_charges( -amount );
     on_contents_changed();
+    if( liquid->charges > 0 ) {
+        return std::move( liquid );
+    }
+    return detached_ptr<item>();
 }
 
 void item::set_countdown( int num_turns )
@@ -8601,67 +8777,66 @@ void item::set_countdown( int num_turns )
     charges = num_turns;
 }
 
-bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
-                        const tripoint &pos, const std::function<bool( const item & )> &filter )
+detached_ptr<item> item::use_charges( detached_ptr<item> &&self, const itype_id &what, int &qty,
+                                      std::vector<detached_ptr<item>> &used,
+                                      const tripoint &pos, const std::function<bool( const item & )> &filter )
 {
-    std::vector<item *> del;
 
-    visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e, item * parent ) {
-        if( qty == 0 ) {
-            // found sufficient charges
-            return VisitResponse::ABORT;
-        }
 
-        if( !filter( *e ) ) {
-            return VisitResponse::NEXT;
-        }
-
+    auto handle_item = [&qty, &used, &pos, &what]( detached_ptr<item> &&e ) {
         if( e->is_tool() ) {
             if( e->typeId() == what ) {
                 int n = std::min( e->ammo_remaining(), qty );
                 qty -= n;
 
-                used.push_back( item( *e ).ammo_set( e->ammo_current(), n ) );
-                e->ammo_consume( n, pos );
+                if( n == e->ammo_remaining() ) {
+                    used.push_back( std::move( e ) );
+                } else {
+                    e->ammo_consume( n, pos );
+                    detached_ptr<item> split = item::spawn( *e );
+                    split->charges = n;
+                    used.push_back( std::move( split ) );
+                }
             }
-            return VisitResponse::SKIP;
-
         } else if( e->count_by_charges() ) {
             if( e->typeId() == what ) {
-
-                // if can supply excess charges split required off leaving remainder in-situ
-                item obj = e->split( qty );
-                if( parent ) {
-                    parent->on_contents_changed();
-                }
-                if( !obj.is_null() ) {
-                    used.push_back( obj );
+                if( e->charges >= qty ) {
+                    e->charges -= qty;
+                    detached_ptr<item> split = item::spawn( *e );
+                    split->charges = qty;
+                    used.push_back( std::move( split ) );
                     qty = 0;
-                    return VisitResponse::ABORT;
+                } else {
+                    qty -= e->charges;
+                    used.push_back( std::move( e ) );
                 }
-
-                qty -= e->charges;
-                used.push_back( *e );
-                del.push_back( e );
             }
-            // items counted by charges are not themselves expected to be containers
-            return VisitResponse::SKIP;
         }
+        return std::move( e );
+    };
 
-        // recurse through any nested containers
-        return VisitResponse::NEXT;
-    } );
+    item &obj = *self;
 
-    bool destroy = false;
-    for( item *e : del ) {
-        if( e == this ) {
-            destroy = true; // cannot remove ourselves...
-        } else {
-            remove_item( *e );
-        }
+    if( qty > 0 && filter( *self ) && self->typeId() == what ) {
+        self = handle_item( std::move( self ) );
     }
 
-    return destroy;
+    obj.remove_items_with( [&qty, &filter, &handle_item]( detached_ptr<item> &&e ) {
+        if( qty == 0 ) {
+            // found sufficient charges
+            return VisitResponse::ABORT;
+        }
+        if( !filter( *e ) ) {
+            return VisitResponse::NEXT;
+        }
+        item &obj = *e;
+        handle_item( std::move( e ) );
+        if( obj.is_tool() || obj.count_by_charges() ) {
+            return VisitResponse::SKIP;
+        }
+        return VisitResponse::NEXT;
+    } );
+    return std::move( self );
 }
 
 void item::set_snippet( const snippet_id &id )
@@ -8739,46 +8914,50 @@ bool item::will_explode_in_fire() const
     return false;
 }
 
-bool item::detonate( const tripoint &p, std::vector<item> &drops )
+detached_ptr<item> item::detonate( detached_ptr<item> &&self, const tripoint &p,
+                                   std::vector<detached_ptr<item>> &drops )
 {
-    if( type->explosion ) {
-        explosion_handler::explosion( p, type->explosion, activated_by.get() );
-        return true;
-    } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
-        int charges_remaining = charges;
+    if( self->type->explosion ) {
+        explosion_handler::explosion( p, self->type->explosion, self->activated_by );
+        return detached_ptr<item>();
+    } else if( self->type->ammo && ( self->type->ammo->special_cookoff ||
+                                     self->type->ammo->cookoff ) ) {
+        int charges_remaining = self->charges;
         const int rounds_exploded = rng( 1, charges_remaining );
         // Yank the exploding item off the map for the duration of the explosion
         // so it doesn't blow itself up.
-        const islot_ammo &ammo_type = *type->ammo;
+        const islot_ammo &ammo_type = *self->type->ammo;
 
         if( ammo_type.special_cookoff ) {
             // If it has a special effect just trigger it.
-            apply_ammo_effects( p, ammo_type.ammo_effects, activated_by.get() );
+            apply_ammo_effects( p, ammo_type.ammo_effects, self->activated_by );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
-            item temp_item = *this;
-            temp_item.charges = charges_remaining;
-            drops.push_back( temp_item );
+            detached_ptr<item> temp_item = item::spawn( *self );
+            temp_item->charges = charges_remaining;
+            drops.push_back( std::move( temp_item ) );
         }
 
-        return true;
-    } else if( !contents.empty() && ( !type->magazine || !type->magazine->protects_contents ) ) {
-        std::vector<item *> removed_items;
+        return detached_ptr<item>();
+    } else if( !self->contents.empty() && ( !self->type->magazine ||
+                                            !self->type->magazine->protects_contents ) ) {
         bool detonated = false;
-        for( item *it : contents.all_items_top() ) {
-            if( it->detonate( p, drops ) ) {
-                removed_items.push_back( it );
+        self->contents.remove_top_items_with( [&p, &drops, &detonated]( detached_ptr<item> &&it ) {
+            it = detonate( std::move( it ), p, drops );
+            if( !it ) {
                 detonated = true;
             }
+            return std::move( it );
+        } );
+        if( detonated ) {
+            return detached_ptr<item>();
+        } else {
+            return std::move( self );
         }
-        for( item *it : removed_items ) {
-            remove_item( *it );
-        }
-        return detonated;
     }
 
-    return false;
+    return std::move( self );
 }
 bool item::has_rotten_away() const
 {
@@ -8789,35 +8968,30 @@ bool item::has_rotten_away() const
     }
 }
 
-bool item::actualize_rot( const tripoint &pnt, temperature_flag temperature,
-                          const weather_manager &weather )
+detached_ptr<item> item::actualize_rot( detached_ptr<item> &&self, const tripoint &pnt,
+                                        temperature_flag temperature,
+                                        const weather_manager &weather )
 {
-    if( goes_bad() ) {
-        return process_rot( false, pnt, nullptr, temperature, weather );
-    } else if( type->container && type->container->preserves ) {
+    if( self->goes_bad() ) {
+        return process_rot( std::move( self ), false, pnt, nullptr, temperature, weather );
+    } else if( self->type->container && self->type->container->preserves ) {
         // Containers like tin cans preserves all items inside, they do not rot at all.
-        return false;
-    } else if( type->container && type->container->seals ) {
+        return std::move( self );
+    } else if( self->type->container && self->type->container->seals ) {
         // Items inside rot but do not vanish as the container seals them in.
-        for( item *c : contents.all_items_top() ) {
-            if( c->goes_bad() ) {
-                c->process_rot( true, pnt, nullptr, temperature, weather );
+        self->contents.remove_top_items_with( [&pnt, &temperature, &weather]( detached_ptr<item> &&it ) {
+            if( it->goes_bad() ) {
+                process_rot( std::move( it ), true, pnt, nullptr, temperature, weather );
             }
-        }
-        return false;
+            return std::move( it );
+        } );
+        return std::move( self );
     } else {
-        std::vector<item *> removed_items;
         // Check and remove rotten contents, but always keep the container.
-        for( item *it : contents.all_items_top() ) {
-            if( it->actualize_rot( pnt, temperature, weather ) ) {
-                removed_items.push_back( it );
-            }
-        }
-        for( item *it : removed_items ) {
-            remove_item( *it );
-        }
-
-        return false;
+        self->contents.remove_top_items_with( [&pnt, &temperature, &weather]( detached_ptr<item> &&it ) {
+            return actualize_rot( std::move( it ), pnt, temperature, weather );
+        } );
+        return std::move( self );
     }
 }
 
@@ -8885,9 +9059,9 @@ std::string item::components_to_string() const
 {
     using t_count_map = std::map<std::string, int>;
     t_count_map counts;
-    for( const item &elem : components ) {
-        if( !elem.has_flag( flag_BYPRODUCT ) ) {
-            const std::string name = elem.display_name();
+    for( const item * const &elem : components ) {
+        if( !elem->has_flag( flag_BYPRODUCT ) ) {
+            const std::string name = elem->display_name();
             counts[name]++;
         }
     }
@@ -8907,8 +9081,8 @@ uint64_t item::make_component_hash() const
 {
     // First we need to sort the IDs so that identical ingredients give identical hashes.
     std::multiset<std::string> id_set;
-    for( const item &it : components ) {
-        id_set.insert( it.typeId().str() );
+    for( const item * const &it : components ) {
+        id_set.insert( it->typeId().str() );
     }
 
     std::string concatenated_ids;
@@ -8936,9 +9110,10 @@ int item::processing_speed() const
     return 1;
 }
 
-bool item::process_rot( const tripoint &pos )
+detached_ptr<item> item::process_rot( detached_ptr<item> &&self, const tripoint &pos )
 {
-    return process_rot( false, pos, nullptr, temperature_flag::TEMP_NORMAL, get_weather() );
+    return process_rot( std::move( self ), false, pos, nullptr, temperature_flag::TEMP_NORMAL,
+                        get_weather() );
 }
 
 static units::temperature clip_by_temperature_flag( units::temperature temperature,
@@ -8964,17 +9139,21 @@ static units::temperature clip_by_temperature_flag( units::temperature temperatu
     return temperature;
 }
 
-bool item::process_rot( const bool seals, const tripoint &pos,
-                        player *carrier, const temperature_flag flag,
-                        const weather_manager &weather )
+detached_ptr<item>  item::process_rot( detached_ptr<item> &&self, const bool seals,
+                                       const tripoint &pos,
+                                       player *carrier, const temperature_flag flag,
+                                       const weather_manager &weather )
 {
+    if( !self ) {
+        return std::move( self );
+    }
     const time_point now = calendar::turn;
 
     // if player debug menu'd the time backward it breaks stuff, just reset the
     // last_temp_check and last_rot_check in this case
-    if( now - last_rot_check < 0_turns ) {
-        last_rot_check = now;
-        return false;
+    if( now - self->last_rot_check < 0_turns ) {
+        self->last_rot_check = now;
+        return std::move( self );
     }
 
     // process rot at most once every 100_turns (10 min)
@@ -8984,8 +9163,8 @@ bool item::process_rot( const bool seals, const tripoint &pos,
     units::temperature temp = units::from_fahrenheit( weather.get_temperature( pos ) );
     temp = clip_by_temperature_flag( temp, flag );
 
-    time_point time = last_rot_check;
-    item_internal::scoped_goes_bad_cache _cache( this );
+    time_point time = self->last_rot_check;
+    item_internal::scoped_goes_bad_cache _cache( &*self );
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
@@ -9021,12 +9200,12 @@ bool item::process_rot( const bool seals, const tripoint &pos,
                                                   ( env_temperature_clipped ) ) );
 
             // Calculate item rot
-            rot += calc_rot( time, final_temperature_in_fahrenheit );
-            last_rot_check = time;
+            self->rot += self->calc_rot( time, final_temperature_in_fahrenheit );
+            self->last_rot_check = time;
 
-            if( has_rotten_away() && carrier == nullptr && !seals ) {
+            if( self->has_rotten_away() && carrier == nullptr && !seals ) {
                 // No need to track item that will be gone
-                return true;
+                return detached_ptr<item>();
             }
         }
     }
@@ -9037,13 +9216,17 @@ bool item::process_rot( const bool seals, const tripoint &pos,
         int final_temperature_in_fahrenheit = static_cast<int>( std::round( units::to_fahrenheit<float>
                                               ( temp ) ) );
 
-        rot += calc_rot( now, final_temperature_in_fahrenheit );
-        last_rot_check = now;
+        self->rot += self->calc_rot( now, final_temperature_in_fahrenheit );
+        self->last_rot_check = now;
 
-        return has_rotten_away() && carrier == nullptr && !seals;
+        if( self->has_rotten_away() && carrier == nullptr && !seals ) {
+            return detached_ptr<item>();
+        } else {
+            return std::move( self );
+        }
     }
 
-    return false;
+    return std::move( self );
 }
 
 void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
@@ -9059,7 +9242,6 @@ void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
         g->process_artifact( *this, *carrier );
     }
 }
-
 
 std::vector<trait_id> item::mutations_from_wearing( const Character &guy ) const
 {
@@ -9104,31 +9286,36 @@ void item::process_relic( Character &carrier )
     relic_funcs::process_recharge( *this, carrier );
 }
 
-bool item::process_corpse( player *carrier, const tripoint &pos )
+detached_ptr<item> item::process_corpse( detached_ptr<item> &&self, player *carrier,
+        const tripoint &pos )
 {
+    if( !self ) {
+        return std::move( self );
+    }
     // some corpses rez over time
-    if( corpse == nullptr || damage() >= max_damage() ) {
-        return false;
+    if( self->corpse == nullptr || self->damage() >= self->max_damage() ) {
+        return std::move( self );
     }
-    if( corpse->zombify_into && rotten() ) {
-        rot -= get_shelf_life();
-        corpse = &*corpse->zombify_into;
-        return false;
+    if( self->corpse->zombify_into && self->rotten() ) {
+        self->rot -= self->get_shelf_life();
+        self->corpse = &*self->corpse->zombify_into;
+        return std::move( self );
     }
-    if( !ready_to_revive( pos ) ) {
-        return false;
+    if( !self->ready_to_revive( pos ) ) {
+        return std::move( self );
     }
-    if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
+    if( rng( 0, self->volume() / units::legacy_volume_factor ) > self->burnt &&
+        g->revive_corpse( pos, *self ) ) {
         if( carrier == nullptr ) {
             if( get_avatar().sees( pos ) ) {
-                if( corpse->in_species( ROBOT ) ) {
+                if( self->corpse->in_species( ROBOT ) ) {
                     add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
                 } else {
                     add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
                 }
             }
         } else {
-            if( corpse->in_species( ROBOT ) ) {
+            if( self->corpse->in_species( ROBOT ) ) {
                 carrier->add_msg_if_player( m_warning,
                                             _( "Oh dear god, a robot you're carrying has started moving!" ) );
             } else {
@@ -9137,55 +9324,67 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
             }
         }
         // Destroy this corpse item
-        return true;
+        return detached_ptr<item>();
     }
 
-    return false;
+    return std::move( self );
 }
 
-bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
+detached_ptr<item> item::process_fake_mill( detached_ptr<item> &&self, player * /*carrier*/,
+        const tripoint &pos )
 {
+    if( !self ) {
+        return std::move( self );
+    }
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
         here.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
-        item_counter = 0;
-        return true; //destroy fake mill
+        self->item_counter = 0;
+        return detached_ptr<item>(); //destroy fake mill
     }
-    if( age() >= 6_hours || item_counter == 0 ) {
+    if( self->age() >= 6_hours || self->item_counter == 0 ) {
         iexamine::mill_finalize( get_avatar(), pos,
-                                 birthday() ); //activate effects when timers goes to zero
-        return true; //destroy fake mill item
+                                 self->birthday() ); //activate effects when timers goes to zero
+        return detached_ptr<item>(); //destroy fake mill item
     }
 
-    return false;
+    return std::move( self );
 }
 
-bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
+detached_ptr<item> item::process_fake_smoke( detached_ptr<item> &&self, player * /*carrier*/,
+        const tripoint &pos )
 {
+    if( !self ) {
+        return std::move( self );
+    }
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
         here.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
-        item_counter = 0;
-        return true; //destroy fake smoke
+        self->item_counter = 0;
+        return detached_ptr<item>(); //destroy fake smoke
     }
 
-    if( age() >= 6_hours || item_counter == 0 ) {
-        iexamine::on_smoke_out( pos, birthday() ); //activate effects when timers goes to zero
-        return true; //destroy fake smoke when it 'burns out'
+    if( self->age() >= 6_hours || self->item_counter == 0 ) {
+        iexamine::on_smoke_out( pos, self->birthday() ); //activate effects when timers goes to zero
+        return detached_ptr<item>(); //destroy fake smoke when it 'burns out'
     }
 
-    return false;
+    return std::move( self );
 }
 
-bool item::process_litcig( player *carrier, const tripoint &pos )
+detached_ptr<item> item::process_litcig( detached_ptr<item> &&self, player *carrier,
+        const tripoint &pos )
 {
-    if( !one_in( 10 ) ) {
-        return false;
+    if( !self ) {
+        return std::move( self );
     }
-    process_extinguish( carrier, pos );
+    if( !one_in( 10 ) ) {
+        return std::move( self );
+    }
+    self = self->process_extinguish( std::move( self ), carrier, pos );
     // process_extinguish might have extinguished the item already
-    if( !active ) {
-        return false;
+    if( !self->active ) {
+        return std::move( self );
     }
     map &here = get_map();
     // if carried by someone:
@@ -9196,8 +9395,8 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         } else if( carrier->has_trait( trait_LIGHTWEIGHT ) ) {
             duration = 30_seconds;
         }
-        carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname() );
-        if( has_flag( flag_TOBACCO ) ) {
+        carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), self->tname() );
+        if( self->has_flag( flag_TOBACCO ) ) {
             carrier->add_effect( effect_cig, duration );
         } else {
             carrier->add_effect( effect_weed_high, duration / 2 );
@@ -9206,20 +9405,19 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
 
         if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
-                                        tname() );
-            here.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), *this );
-            return true; // removes the item that has just been added to the map
+                                        self->tname() );
+            here.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), std::move( self ) );
+            return detached_ptr<item>(); // removes the item that has just been added to the map
         }
 
         if( carrier->has_effect( effect_sleep ) ) {
             carrier->add_msg_if_player( m_bad, _( "You fall asleep and drop your %s." ),
-                                        tname() );
-            here.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), *this );
-            return true; // removes the item that has just been added to the map
+                                        self->tname() );
+            here.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), std::move( self ) );
         }
     } else {
         // If not carried by someone, but laying on the ground:
-        if( item_counter % 5 == 0 ) {
+        if( self->item_counter % 5 == 0 ) {
             // lit cigarette can start fires
             if( here.flammable_items_at( pos ) ||
                 here.has_flag( flag_FLAMMABLE, pos ) ||
@@ -9230,33 +9428,37 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
     }
 
     // cig dies out
-    if( item_counter == 0 ) {
+    if( self->item_counter == 0 ) {
         if( carrier != nullptr ) {
-            carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname() );
+            carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), self->tname() );
         }
-        if( typeId() == itype_cig_lit ) {
-            convert( itype_cig_butt );
-        } else if( typeId() == itype_cigar_lit ) {
-            convert( itype_cigar_butt );
+        if( self->typeId() == itype_cig_lit ) {
+            self->convert( itype_cig_butt );
+        } else if( self->typeId() == itype_cigar_lit ) {
+            self->convert( itype_cigar_butt );
         } else { // joint
-            convert( itype_joint_roach );
+            self->convert( itype_joint_roach );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
                 here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), fd_weedsmoke, 2 );
                 weed_msg( *carrier );
             }
         }
-        active = false;
+        self->active = false;
     }
     // Item remains
-    return false;
+    return std::move( self );
 }
 
-bool item::process_extinguish( player *carrier, const tripoint &pos )
+detached_ptr<item> item::process_extinguish( detached_ptr<item> &&self, player *carrier,
+        const tripoint &pos )
 {
+    if( !self ) {
+        return std::move( self );
+    }
     // checks for water
     bool extinguish = false;
-    bool in_inv = carrier != nullptr && carrier->has_item( *this );
+    bool in_inv = carrier != nullptr && carrier->has_item( *self );
     bool submerged = false;
     bool precipitation = false;
     bool windtoostrong = false;
@@ -9285,58 +9487,58 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
         extinguish = true;
     }
     if( in_inv && windpower > 5 && !g->is_sheltered( pos ) &&
-        this->has_flag( flag_WIND_EXTINGUISH ) ) {
+        self->has_flag( flag_WIND_EXTINGUISH ) ) {
         windtoostrong = true;
         extinguish = true;
     }
     if( !extinguish ||
-        ( in_inv && precipitation && carrier->weapon.has_flag( flag_RAIN_PROTECT ) ) ) {
-        return false; //nothing happens
+        ( in_inv && precipitation && carrier->primary_weapon().has_flag( flag_RAIN_PROTECT ) ) ) {
+        return std::move( self ); //nothing happens
     }
     if( carrier != nullptr ) {
         if( submerged ) {
-            carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by water." ), tname() );
+            carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by water." ), self->tname() );
         } else if( precipitation ) {
             carrier->add_msg_if_player( m_neutral, _( "Your %s is quenched by precipitation." ),
-                                        tname() );
+                                        self->tname() );
         } else if( windtoostrong ) {
             carrier->add_msg_if_player( m_neutral, _( "Your %s is blown out by the wind." ),
-                                        tname() );
+                                        self->tname() );
         }
     }
 
     // cig dies out
-    if( has_flag( flag_LITCIG ) ) {
-        if( typeId() == itype_cig_lit ) {
-            convert( itype_cig_butt );
-        } else if( typeId() == itype_cigar_lit ) {
-            convert( itype_cigar_butt );
+    if( self->has_flag( flag_LITCIG ) ) {
+        if( self->typeId() == itype_cig_lit ) {
+            self->convert( itype_cig_butt );
+        } else if( self->typeId() == itype_cigar_lit ) {
+            self->convert( itype_cigar_butt );
         } else { // joint
-            convert( itype_joint_roach );
+            self->convert( itype_joint_roach );
         }
     } else { // transform (lit) items
-        if( type->tool->revert_to ) {
-            convert( *type->tool->revert_to );
+        if( self->type->tool->revert_to ) {
+            self->convert( *self->type->tool->revert_to );
         } else {
-            type->invoke( carrier != nullptr ? *carrier : get_avatar(), *this, pos, "transform" );
+            self->type->invoke( carrier != nullptr ? *carrier : get_avatar(), *self, pos, "transform" );
         }
 
     }
-    active = false;
+    self->active = false;
     // Item remains
-    return false;
+    return std::move( self );
 }
 
-cata::optional<tripoint> item::get_cable_target( Character *p, const tripoint &pos ) const
+std::optional<tripoint> item::get_cable_target( Character *p, const tripoint &pos ) const
 {
     const std::string &state = get_var( "state" );
     if( state != "pay_out_cable" && state != "cable_charger_link" ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     map &here = get_map();
     const optional_vpart_position vp_pos = here.veh_at( pos );
     if( vp_pos ) {
-        const cata::optional<vpart_reference> seat = vp_pos.part_with_feature( "BOARDABLE", true );
+        const std::optional<vpart_reference> seat = vp_pos.part_with_feature( "BOARDABLE", true );
         if( seat && p == seat->vehicle().get_passenger( seat->part_index() ) ) {
             return pos;
         }
@@ -9347,18 +9549,22 @@ cata::optional<tripoint> item::get_cable_target( Character *p, const tripoint &p
     return here.getlocal( source );
 }
 
-bool item::process_cable( player *carrier, const tripoint &pos )
+detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carrier,
+                                        const tripoint &pos )
 {
+    if( !self ) {
+        return std::move( self );
+    }
     if( carrier == nullptr ) {
         //reset_cable( carrier );
-        return false;
+        return std::move( self );
     }
-    std::string state = get_var( "state" );
+    std::string state = self->get_var( "state" );
     if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !carrier->has_item( *this ) || !carrier->worn_with_flag( "SOLARPACK_ON" ) ) {
+        if( !carrier->has_item( *self ) || !carrier->worn_with_flag( "SOLARPACK_ON" ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-            reset_cable( carrier );
-            return false;
+            self->reset_cable( carrier );
+            return std::move( self );
         }
     }
 
@@ -9367,40 +9573,41 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     };
 
     if( state == "UPS" ) {
-        if( !carrier->has_item( *this ) || !carrier->has_item_with( used_ups ) ) {
+        if( !carrier->has_item( *self ) || !carrier->has_item_with( used_ups ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
             for( item *used : carrier->items_with( used_ups ) ) {
                 used->erase_var( "cable" );
             }
-            reset_cable( carrier );
-            return false;
+            self->reset_cable( carrier );
+            return std::move( self );
         }
     }
-    const cata::optional<tripoint> source = get_cable_target( carrier, pos );
+    const std::optional<tripoint> source = self->get_cable_target( carrier, pos );
     if( !source ) {
-        return false;
+        return std::move( self );
     }
     map &here = get_map();
     if( !here.veh_at( *source ) || ( source->z != g->get_levz() && !here.has_zlevels() ) ) {
-        if( carrier->has_item( *this ) ) {
+        if( carrier->has_item( *self ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
         }
-        reset_cable( carrier );
-        return false;
+        self->reset_cable( carrier );
+        return std::move( self );
     }
 
     int distance = rl_dist( pos, *source );
-    int max_charges = type->maximum_charges();
-    charges = max_charges - distance;
+    int max_charges = self->type->maximum_charges();
+    self->charges = max_charges - distance;
 
-    if( charges < 1 ) {
-        if( carrier->has_item( *this ) ) {
+    if( self->charges < 1 ) {
+        if( carrier->has_item( *self ) ) {
             carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
         }
-        reset_cable( carrier );
+        self->reset_cable( carrier );
+        return std::move( self );
     }
 
-    return false;
+    return std::move( self );
 }
 
 void item::reset_cable( player *p )
@@ -9420,22 +9627,26 @@ void item::reset_cable( player *p )
     }
 }
 
-bool item::process_UPS( player *carrier, const tripoint & /*pos*/ )
+detached_ptr<item> item::process_UPS( detached_ptr<item> &&self, player *carrier,
+                                      const tripoint & /*pos*/ )
 {
+    if( !self ) {
+        return std::move( self );
+    }
     if( carrier == nullptr ) {
-        erase_var( "cable" );
-        active = false;
-        return false;
+        self->erase_var( "cable" );
+        self->active = false;
+        return std::move( self );
     }
     bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
         return it.active && it.has_flag( flag_CABLE_SPOOL ) && ( it.get_var( "state" ) == "UPS_link" ||
                 it.get_var( "state" ) == "UPS" );
     } );
     if( !has_connected_cable ) {
-        erase_var( "cable" );
-        active = false;
+        self->erase_var( "cable" );
+        self->active = false;
     }
-    return false;
+    return std::move( self );
 }
 
 bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
@@ -9451,60 +9662,64 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
     return true;
 }
 
-bool item::process_tool( player *carrier, const tripoint &pos )
+detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrier,
+                                       const tripoint &pos )
 {
+    if( !self ) {
+        return std::move( self );
+    }
     avatar &you = get_avatar();
     // items with iuse set_transformed which are restricted turn off if not attached to their dependency.
-    if( type->can_use( "set_transformed" ) ) {
+    if( self->type->can_use( "set_transformed" ) ) {
         const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
-                                            ( this->get_use( "set_transformed" )->get_actor_ptr() );
+                                            ( self->get_use( "set_transformed" )->get_actor_ptr() );
         if( actor == nullptr ) {
             debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-            return false;
+            return std::move( self );
         }
         if( actor->restricted ) {
             if( !carrier ) {
-                actor->bypass( carrier != nullptr ? *carrier : you, *this, false, pos );
-                return false;
+                actor->bypass( carrier != nullptr ? *carrier : you, *self, false, pos );
+                return std::move( self );
             } else {
                 bool active = false;
                 std::string transform_flag = actor->dependencies;
                 for( const auto &elem : carrier->worn ) {
-                    if( elem.active && elem.has_flag( transform_flag ) ) {
+                    if( elem->active && elem->has_flag( transform_flag ) ) {
                         active = true;
                         break;
                     }
                 }
                 if( !active ) {
-                    actor->bypass( carrier != nullptr ? *carrier : you, *this, false, pos );
-                    return false;
+                    actor->bypass( carrier != nullptr ? *carrier : you, *self, false, pos );
+                    return std::move( self );
                 }
             }
         }
     }
 
     int energy = 0;
-    if( type->tool->turns_per_charge > 0 &&
-        to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
-        energy = std::max( ammo_required(), 1 );
+    if( self->type->tool->turns_per_charge > 0 &&
+        to_turn<int>( calendar::turn ) % self->type->tool->turns_per_charge == 0 ) {
+        energy = std::max( self->ammo_required(), 1 );
 
-    } else if( type->tool->power_draw > 0 ) {
+    } else if( self->type->tool->power_draw > 0 ) {
         // power_draw in mW / 1000000 to give kJ (battery unit) per second
-        energy = type->tool->power_draw / 1000000;
+        energy = self->type->tool->power_draw / 1000000;
         // energy_bat remainder results in chance at additional charge/discharge
-        energy += x_in_y( type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
+        energy += x_in_y( self->type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
     }
-    energy -= ammo_consume( energy, pos );
+    energy -= self->ammo_consume( energy, pos );
 
     // for power armor pieces, try to use power armor interface first.
-    if( carrier && is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
+    if( carrier && self->is_power_armor() && character_funcs::can_interface_armor( *carrier ) ) {
         if( carrier->use_charges_if_avail( itype_bio_armor, energy ) ) {
             energy = 0;
         }
     }
 
     // for items in player possession if insufficient charges within tool try UPS
-    if( carrier && ( has_flag( flag_USE_UPS ) ) ) {
+    if( carrier && ( self->has_flag( flag_USE_UPS ) ) ) {
         if( carrier->use_charges_if_avail( itype_UPS, energy ) ) {
             energy = 0;
         }
@@ -9513,126 +9728,138 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     // if insufficient available charges shutdown the tool
     if( energy > 0 ) {
         if( carrier ) {
-            if( is_power_armor() ) {
-                if( has_flag( flag_USE_UPS ) ) {
+            if( self->is_power_armor() ) {
+                if( self->has_flag( flag_USE_UPS ) ) {
                     carrier->add_msg_if_player( m_info, _( "You need a UPS or Bionic Power Interface to run the %s!" ),
-                                                tname() );
+                                                self->tname() );
                 } else {
                     carrier->add_msg_if_player( m_info, _( "You need a Bionic Power Interface to run the %s!" ),
-                                                tname() );
+                                                self->tname() );
                 }
-            } else if( has_flag( flag_USE_UPS ) ) {
-                carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), tname() );
+            } else if( self->has_flag( flag_USE_UPS ) ) {
+                carrier->add_msg_if_player( m_info, _( "You need a UPS to run the %s!" ), self->tname() );
             }
         }
-        if( carrier && type->can_use( "set_transform" ) ) {
+        if( carrier && self->type->can_use( "set_transform" ) ) {
             const set_transform_iuse *actor = dynamic_cast<const set_transform_iuse *>
-                                              ( this->get_use( "set_transform" )->get_actor_ptr() );
+                                              ( self->get_use( "set_transform" )->get_actor_ptr() );
             if( actor == nullptr ) {
                 debugmsg( "iuse_actor type descriptor and actual type mismatch." );
-                return false;
+                return std::move( self );
             }
             std::string transformed_flag = actor->flag;
             for( auto &elem : carrier->worn ) {
-                if( elem.active && elem.has_flag( transformed_flag ) ) {
-                    if( !elem.type->can_use( "set_transformed" ) ) {
+                if( elem->active && elem->has_flag( transformed_flag ) ) {
+                    if( !elem->type->can_use( "set_transformed" ) ) {
                         debugmsg( "Expected set_transformed function" );
-                        return false;
+                        return std::move( self );
                     }
                     const set_transformed_iuse *actor = dynamic_cast<const set_transformed_iuse *>
-                                                        ( elem.get_use( "set_transformed" )->get_actor_ptr() );
+                                                        ( elem->get_use( "set_transformed" )->get_actor_ptr() );
                     if( actor == nullptr ) {
                         debugmsg( "iuse_actor type descriptor and actual type mismatch" );
-                        return false;
+                        return std::move( self );
                     }
-                    actor->bypass( *carrier, elem, false, pos );
+                    actor->bypass( *carrier, *elem, false, pos );
                 }
             }
         }
 
         // invoking the object can convert the item to another type
-        const bool had_revert_to = type->tool->revert_to.has_value();
-        type->invoke( carrier != nullptr ? *carrier : you, *this, pos );
+        const bool had_revert_to = self->type->tool->revert_to.has_value();
+        self->type->invoke( carrier != nullptr ? *carrier : you, *self, pos );
         if( had_revert_to ) {
-            deactivate( carrier );
-            return false;
+            self->deactivate( carrier );
+            return std::move( self );
         } else {
-            return true;
+            return detached_ptr<item>();
         }
     }
 
-    type->tick( carrier != nullptr ? *carrier : you, *this, pos );
-    return false;
+    self->type->tick( carrier != nullptr ? *carrier : you, *self, pos );
+    return std::move( self );
 }
 
-bool item::process_blackpowder_fouling( player *carrier )
+detached_ptr<item> item::process_blackpowder_fouling( detached_ptr<item> &&self, player *carrier )
 {
-    if( damage() < max_damage() && one_in( 2000 ) ) {
-        inc_damage( DT_ACID );
+    if( !self ) {
+        return std::move( self );
+    }
+    if( self->damage() < self->max_damage() && one_in( 2000 ) ) {
+        self->inc_damage( DT_ACID );
         if( carrier ) {
-            carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
+            carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ),
+                                        self->tname() );
         }
     }
-    return false;
+    return std::move( self );
 }
 
-bool item::process( player *carrier, const tripoint &pos, bool activate,
-                    temperature_flag flag )
+detached_ptr<item> item::process( detached_ptr<item> &&self, player *carrier, const tripoint &pos,
+                                  bool activate,
+                                  temperature_flag flag )
 {
-    return process( carrier, pos, activate, flag, get_weather() );
+    return process( std::move( self ), carrier, pos, activate, flag, get_weather() );
 }
 
-bool item::process( player *carrier, const tripoint &pos, bool activate,
-                    temperature_flag flag, const weather_manager &weather_generator )
+detached_ptr<item> item::process( detached_ptr<item> &&self, player *carrier, const tripoint &pos,
+                                  bool activate,
+                                  temperature_flag flag, const weather_manager &weather_generator )
 {
-    const bool preserves = type->container && type->container->preserves;
-    const bool seals = type->container && type->container->seals;
-    std::vector<item *> removed_items;
-    visit_items( [&]( item * it ) {
+    if( !self ) {
+        return std::move( self );
+    }
+    const bool preserves = self->type->container && self->type->container->preserves;
+    const bool seals = self->type->container && self->type->container->seals;
+    item &obj = *self;
+    detached_ptr<item> res = process_internal( std::move( self ), carrier, pos, activate, seals, flag,
+                             weather_generator );
+
+    obj.remove_items_with( [&]( detached_ptr<item> &&it ) {
         if( preserves ) {
-            // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
-            // is not changed, the item is still fresh.
             it->last_rot_check = calendar::turn;
         }
-        if( it->process_internal( carrier, pos, activate, seals, flag, weather_generator ) ) {
-            removed_items.push_back( it );
-        }
+        it = it->process_internal( std::move( it ), carrier, pos, activate, seals, flag,
+                                   weather_generator );
         return VisitResponse::NEXT;
     } );
-    for( item *it : removed_items ) {
-        if( it != this ) {
-            remove_item( *it );
-        }
-    }
-    return !removed_items.empty() && std::any_of( removed_items.begin(), removed_items.end(),
-    [this]( const item * r ) {
-        return r == this;
-    } );
+    return res;
 }
 
-bool item::process_internal( player *carrier, const tripoint &pos, bool activate,
-                             const bool seals, const temperature_flag flag,
-                             const weather_manager &weather_generator )
+detached_ptr<item> item::process_internal( detached_ptr<item> &&self, player *carrier,
+        const tripoint &pos, bool activate,
+        const bool seals, const temperature_flag flag,
+        const weather_manager &weather_generator )
 {
-    if( has_flag( flag_ETHEREAL_ITEM ) ) {
-        if( !has_var( "ethereal" ) ) {
-            return true;
+    if( !self ) {
+        return std::move( self );
+    }
+    if( self->has_flag( flag_ETHEREAL_ITEM ) ) {
+        if( !self->has_var( "ethereal" ) ) {
+            return detached_ptr<item>();
         }
-        set_var( "ethereal", std::stoi( get_var( "ethereal" ) ) - 1 );
-        const bool processed = std::stoi( get_var( "ethereal" ) ) <= 0;
+        self->set_var( "ethereal", std::stoi( self->get_var( "ethereal" ) ) - 1 );
+        const bool processed = std::stoi( self->get_var( "ethereal" ) ) <= 0;
         if( processed && carrier != nullptr ) {
-            carrier->add_msg_if_player( _( "Your %s disappears!" ), tname() );
+            carrier->add_msg_if_player( _( "Your %s disappears!" ), self->tname() );
         }
-        return processed;
+        if( processed ) {
+            return detached_ptr<item>();
+        } else {
+            return std::move( self );
+        }
     }
 
-    if( faults.count( fault_gun_blackpowder ) ) {
-        return process_blackpowder_fouling( carrier );
+    if( self->faults.count( fault_gun_blackpowder ) ) {
+        return process_blackpowder_fouling( std::move( self ), carrier );
     }
 
     avatar &you = get_avatar();
     if( activate ) {
-        return type->invoke( carrier != nullptr ? *carrier : you, *this, pos );
+        if( self->type->invoke( carrier != nullptr ? *carrier : you, *self, pos ) > 0 ) {
+            return detached_ptr<item>();
+        }
+        return std::move( self );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
@@ -9643,67 +9870,81 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
     // food and as litcig and as ...
 
     // Remaining stuff is only done for active items.
-    if( !active ) {
-        return false;
+    if( !self->active ) {
+        return std::move( self );
     }
 
-    if( !is_food() && item_counter > 0 ) {
-        item_counter--;
+    if( !self->is_food() && self->item_counter > 0 ) {
+        self->item_counter--;
     }
 
-    if( item_counter == 0 && type->countdown_action ) {
-        type->countdown_action.call( carrier ? *carrier : you, *this, false, pos );
-        if( type->countdown_destroy ) {
-            return true;
+    if( self->item_counter == 0 && self->type->countdown_action ) {
+        self->type->countdown_action.call( carrier ? *carrier : you, *self, false, pos );
+        if( self->type->countdown_destroy ) {
+            return detached_ptr<item>();
         }
     }
 
     map &here = get_map();
-    for( const emit_id &e : type->emits ) {
+    for( const emit_id &e : self->type->emits ) {
         here.emit_field( pos, e );
     }
 
-    if( has_flag( flag_FAKE_SMOKE ) && process_fake_smoke( carrier, pos ) ) {
-        return true;
+    if( self->has_flag( flag_FAKE_SMOKE ) ) {
+        self = process_fake_smoke( std::move( self ), carrier, pos );
+        if( !self ) {
+            return std::move( self );
+        }
     }
-    if( has_flag( flag_FAKE_MILL ) && process_fake_mill( carrier, pos ) ) {
-        return true;
+    if( self->has_flag( flag_FAKE_MILL ) ) {
+        self = process_fake_mill( std::move( self ), carrier, pos );
+        if( !self ) {
+            return std::move( self );
+        }
     }
-    if( is_corpse() && process_corpse( carrier, pos ) ) {
-        return true;
+    if( self->is_corpse() ) {
+        self = process_corpse( std::move( self ), carrier, pos );
+        if( !self ) {
+            return std::move( self );
+        }
     }
-    if( has_flag( flag_WET ) && process_wet( carrier, pos ) ) {
+    if( self->has_flag( flag_WET ) && self->process_wet( carrier, pos ) ) {
         // Drying items are never destroyed, but we want to exit so they don't get processed as tools.
-        return false;
+        return std::move( self );
     }
-    if( has_flag( flag_LITCIG ) && process_litcig( carrier, pos ) ) {
-        return true;
+    if( self->has_flag( flag_LITCIG ) ) {
+        self = process_litcig( std::move( self ), carrier, pos );
+        if( !self ) {
+            return std::move( self );
+        }
     }
-    if( ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_WIND_EXTINGUISH ) ) &&
-        process_extinguish( carrier, pos ) ) {
-        return false;
+    if( ( self->has_flag( flag_WATER_EXTINGUISH ) || self->has_flag( flag_WIND_EXTINGUISH ) ) ) {
+        self = process_extinguish( std::move( self ), carrier, pos );
+        if( !self ) {
+            return std::move( self );
+        }
     }
-    if( has_flag( flag_CABLE_SPOOL ) ) {
+    if( self->has_flag( flag_CABLE_SPOOL ) ) {
         // DO NOT process this as a tool! It really isn't!
-        return process_cable( carrier, pos );
+        return process_cable( std::move( self ), carrier, pos );
     }
-    if( has_flag( flag_IS_UPS ) ) {
+    if( self->has_flag( flag_IS_UPS ) ) {
         // DO NOT process this as a tool! It really isn't!
-        return process_UPS( carrier, pos );
+        return process_UPS( std::move( self ), carrier, pos );
     }
-    if( is_tool() ) {
-        return process_tool( carrier, pos );
+    if( self->is_tool() ) {
+        return process_tool( std::move( self ), carrier, pos );
     }
     // All foods that go bad have temperature
-    if( ( is_food() || is_corpse() ) &&
-        process_rot( seals, pos, carrier, flag, weather_generator ) ) {
-        if( is_comestible() ) {
-            here.rotten_item_spawn( *this, pos );
+    if( ( self->is_food() || self->is_corpse() ) ) {
+        bool comestible = self->is_comestible();
+        item &obj = *self;
+        self = process_rot( std::move( self ), seals, pos, carrier, flag, weather_generator );
+        if( comestible && !self ) {
+            here.rotten_item_spawn( obj, pos );
         }
-        return true;
     }
-
-    return false;
+    return std::move( self );
 }
 
 void item::mod_charges( int mod )
@@ -9761,7 +10002,7 @@ bool item::has_effect_when_carried( art_effect_passive effect ) const
 
 bool item::is_seed() const
 {
-    return !!type->seed;
+    return type->is_seed();
 }
 
 time_duration item::get_plant_epoch() const
@@ -9857,11 +10098,11 @@ std::string item::type_name( unsigned int quantity ) const
     // Apply conditional names, in order.
     for( const conditional_name &cname : type->conditional_names ) {
         // Lambda for recursively searching for a item ID among all components.
-        std::function<bool ( std::list<item> )> component_id_contains =
-        [&]( std::list<item> components ) {
-            for( const item &component : components ) {
-                if( component.typeId().str().find( cname.condition ) != std::string::npos ||
-                    component_id_contains( component.components ) ) {
+        std::function<bool ( std::vector<item *> )> component_id_contains =
+        [&]( std::vector<item *> components ) {
+            for( const item *component : components ) {
+                if( component->typeId().str().find( cname.condition ) != std::string::npos ||
+                    component_id_contains( component->components.as_vector() ) ) {
                     return true;
                 }
             }
@@ -9874,7 +10115,7 @@ std::string item::type_name( unsigned int quantity ) const
                 }
                 break;
             case condition_type::COMPONENT_ID:
-                if( component_id_contains( components ) ) {
+                if( component_id_contains( components.as_vector() ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
                 break;
@@ -10054,15 +10295,15 @@ std::vector<item_comp> item::get_uncraft_components() const
         }
     } else {
         //Make a new vector of components from the registered components
-        for( const item &component : components ) {
+        for( const item * const &component : components ) {
             auto iter = std::find_if( ret.begin(), ret.end(), [component]( item_comp & obj ) {
-                return obj.type == component.typeId();
+                return obj.type == component->typeId();
             } );
 
             if( iter != ret.end() ) {
-                iter->count += component.count();
+                iter->count += component->count();
             } else {
-                ret.push_back( item_comp( component.typeId(), component.count() ) );
+                ret.push_back( item_comp( component->typeId(), component->count() ) );
             }
         }
     }
@@ -10148,4 +10389,84 @@ void item::update_clothing_mod_val()
         }
         set_var( key, tmp );
     }
+}
+
+item_location_type item::where() const
+{
+    if( !loc ) {
+        debugmsg( "Tried to find where of an item without a location" );
+        return item_location_type::invalid;
+    }
+    return static_cast<item_location *>( &*loc )->where();
+}
+
+void item::obtain( Character &ch, int qty, bool costs_moves )
+{
+    if( costs_moves ) {
+        ch.moves -= obtain_cost( ch, qty );
+    }
+    if( ch.is_worn( *this ) || ch.is_wielding( *this ) ) {
+        return;
+    }
+    ch.i_add( split( qty ) );
+}
+
+int item::obtain_cost( const Character &ch, int qty ) const
+{
+    if( !loc ) {
+        debugmsg( "Tried to find obtain cost of an item without a location" );
+        return 0;
+    }
+    return static_cast<item_location *>( &*loc )->obtain_cost( ch, qty, this );
+}
+
+std::string item::describe_location( const Character *ch ) const
+{
+    if( !loc ) {
+        debugmsg( "Tried to describe the location of an item without a location" );
+        return "nowhere";
+    }
+    return loc->describe( ch, this );
+}
+
+item *item::parent_item() const
+{
+    contents_item_location *cont = dynamic_cast<contents_item_location *>( &*loc );
+    if( !cont ) {
+        return nullptr;
+    }
+    return cont->parent();
+}
+
+std::vector<detached_ptr<item>> item::remove_components()
+{
+    return components.clear();
+}
+
+detached_ptr<item> item::remove_component( item &it )
+{
+    for( auto iter = components.begin(); iter != components.end(); iter++ ) {
+        if( *iter == &it ) {
+            detached_ptr<item> ret;
+            components.erase( iter, &ret );
+            return ret;
+        }
+    }
+    debugmsg( "Could not find component for removal" );
+    return detached_ptr<item>();
+}
+
+void item::add_component( detached_ptr<item> &&comp )
+{
+    components.push_back( std::move( comp ) );
+}
+
+const location_vector<item> &item::get_components() const
+{
+    return components;
+}
+
+location_vector<item> &item::get_components()
+{
+    return components;
 }

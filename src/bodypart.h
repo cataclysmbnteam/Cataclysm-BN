@@ -115,6 +115,8 @@ struct body_part_type {
          * Formula is `chance *= pow(hit_roll, hit_difficulty)`
          */
         float hit_difficulty = 0.0f;
+        // Is this part important, as in, can you live without it?
+        bool essential = false;
         // "Parent" of this part - main parts are their own "parents"
         // TODO: Connect head and limbs to torso
         bodypart_str_id main_part;

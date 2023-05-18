@@ -119,9 +119,7 @@ void edit_json( SAVEOBJ &it )
         }
         if( tmret == 0 ) {
             try {
-                SAVEOBJ tmp;
-                deserialize( tmp, save1 );
-                it = std::move( tmp );
+                deserialize( it, save1 );
             } catch( const std::exception &err ) {
                 popup( "Error on deserialization: %s", err.what() );
             }
@@ -278,7 +276,7 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
     } else {
         input_context ctxt( "EGET_DIRECTION" );
         ctxt.set_iso( true );
-        const cata::optional<tripoint> vec = ctxt.get_direction( action );
+        const std::optional<tripoint> vec = ctxt.get_direction( action );
         if( !vec ) {
             return false;
         }
@@ -337,7 +335,7 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
     return current_ui;
 }
 
-cata::optional<tripoint> editmap::edit()
+std::optional<tripoint> editmap::edit()
 {
     restore_on_out_of_scope<tripoint> view_offset_prev( g->u.view_offset );
     target = g->u.pos() + g->u.view_offset;
@@ -438,7 +436,7 @@ cata::optional<tripoint> editmap::edit()
     if( action == "CONFIRM" ) {
         return target;
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 /*
@@ -642,7 +640,7 @@ void editmap::draw_main_ui_overlay()
                         const int veh_part = vp->part_index();
                         char part_mod = 0;
                         const vpart_id &vp_id = veh.part_id_string( veh_part, false, part_mod );
-                        const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
+                        const std::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
                         units::angle veh_dir = veh.face.dir();
                         g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );
@@ -806,7 +804,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     if( !here.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
         trim_and_print( w_info, point( 1, off ), getmaxx( w_info ), c_light_gray,
                         _( "There is a %s there." ),
-                        target_stack.begin()->tname() );
+                        ( *target_stack.begin() )->tname() );
         off++;
         if( target_stack_size > 1 ) {
             mvwprintw( w_info, point( 1, off ), vgettext( "There is %d other item there as well.",
@@ -1401,8 +1399,8 @@ void editmap::edit_itm()
     auto items = get_map().i_at( target );
     int i = 0;
     for( auto &an_item : items ) {
-        ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),
-                         an_item.is_emissive() ? " L" : "" );
+        ilmenu.addentry( i++, true, 0, "%s%s", an_item->tname(),
+                         an_item->is_emissive() ? " L" : "" );
     }
     ilmenu.addentry( items.size(), true, 'a', _( "Add item" ) );
     ilmenu.input_category = "EDIT_ITEMS";
@@ -1428,7 +1426,7 @@ void editmap::edit_itm()
 
         ilmenu.query();
         if( ilmenu.ret >= 0 && ilmenu.ret < static_cast<int>( items.size() ) ) {
-            item &it = *items.get_iterator_from_index( ilmenu.ret );
+            item &it = **items.get_iterator_from_index( ilmenu.ret );
             uilist imenu;
             imenu.w_x_setup = offsetX;
             imenu.w_y_setup = [this]( int ) -> int {
@@ -1502,8 +1500,8 @@ void editmap::edit_itm()
             ilmenu.entries.clear();
             i = 0;
             for( auto &an_item : items ) {
-                ilmenu.addentry( i++, true, 0, "%s%s", an_item.tname(),
-                                 an_item.is_emissive() ? " L" : "" );
+                ilmenu.addentry( i++, true, 0, "%s%s", an_item->tname(),
+                                 an_item->is_emissive() ? " L" : "" );
             }
             ilmenu.addentry( items.size(), true, 'a',
                              pgettext( "item manipulation debug menu entry for adding an item on a tile", "Add item" ) );
@@ -1897,8 +1895,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                     submap *destsm = here.get_submap_at_grid( dest_pos );
                     submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
 
-                    std::swap( *destsm, *srcsm );
+                    submap::swap( *destsm,  *srcsm, ( dest_pos - src_pos ) * 12 );
 
+                    //TODO!: move this into the submap swap
                     for( auto &veh : destsm->vehicles ) {
                         veh->sm_pos = dest_pos;
                     }
@@ -2036,7 +2035,7 @@ void editmap::mapgen_retarget()
 
         ui_manager::redraw();
         action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             point vec_ms = omt_to_ms_copy( vec->xy() );
             tripoint ptarget = target + vec_ms;
             if( editmap_boundaries.contains( ptarget ) &&

@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <tuple>
@@ -47,7 +48,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
@@ -161,7 +161,7 @@ static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
 static constexpr int AIF_DURATION_LIMIT = 10;
 
 static projectile make_gun_projectile( const item &gun );
-int time_to_attack( const Character &p, const itype &firing );
+int time_to_attack( const Character &p, const item &firing, const item *loc );
 static void cycle_action( item &weap, const tripoint &pos );
 bool can_use_bipod( const map &m, const tripoint &pos );
 dispersion_sources calculate_dispersion( const map &m, const Character &who, const item &gun,
@@ -206,7 +206,7 @@ class target_ui
         // Relevant activity
         aim_activity_actor *activity = nullptr;
         // Generator of AoE shapes
-        cata::optional<shape_factory> shape_gen;
+        std::optional<shape_factory> shape_gen;
 
         // Initialize UI and run the event loop
         target_handler::trajectory run();
@@ -442,6 +442,7 @@ target_handler::trajectory target_handler::mode_throw( avatar &you, item &releva
     ui.relevant = &relevant;
     ui.range = you.throw_range( relevant );
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -453,6 +454,7 @@ target_handler::trajectory target_handler::mode_reach( avatar &you, item &weapon
     ui.relevant = &weapon;
     ui.range = weapon.reach_range( you );
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -462,8 +464,9 @@ target_handler::trajectory target_handler::mode_turret_manual( avatar &you, turr
     ui.you = &you;
     ui.mode = target_ui::TargetMode::TurretManual;
     ui.turret = &turret;
-    ui.relevant = &*turret.base();
+    ui.relevant = &turret.base();
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -493,6 +496,7 @@ target_handler::trajectory target_handler::mode_turrets( avatar &you, vehicle &v
     ui.vturrets = &turrets;
     ui.range = range_total;
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -507,6 +511,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
 
+    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
     return ui.run();
 }
 
@@ -811,15 +816,24 @@ dispersion_sources calculate_dispersion( const map &m, const Character &who, con
 
 int ranged::fire_gun( Character &who, const tripoint &target, int shots )
 {
-    return fire_gun( who, target, shots, who.weapon );
+    return fire_gun( who, target, shots, who.primary_weapon(), nullptr );
 }
 
-int ranged::fire_gun( Character &who, const tripoint &target, const int max_shots, item &gun )
+int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, item &gun,
+                      item *ammo )
 {
+    int attack_moves = time_to_attack( who, gun, ammo );
+
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", who.name, gun.tname() );
         return 0;
     }
+
+    if( gun.ammo_required() > 0 && !gun.ammo_remaining() && !ammo ) {
+        debugmsg( "%s's gun %s is empty and has no ammo for reloading.", gun.tname() );
+        return 0;
+    }
+
     bool is_mech_weapon = false;
     if( who.is_mounted() && who.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
         is_mech_weapon = true;
@@ -828,7 +842,8 @@ int ranged::fire_gun( Character &who, const tripoint &target, const int max_shot
     int shots = max_shots;
     // Number of shots to fire is limited by the amount of remaining ammo
     if( gun.ammo_required() ) {
-        shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
+        const int ammo_left = ammo ? ammo->count() : gun.ammo_remaining();
+        shots = std::min( shots, ammo_left / gun.ammo_required() );
     }
 
     // cap our maximum burst size by the amount of UPS power left
@@ -841,7 +856,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, const int max_shot
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
     }
 
-    cata::optional<shape_factory> shape;
+    std::optional<shape_factory> shape;
     if( gun.ammo_current() && gun.ammo_current()->ammo ) {
         shape = gun.ammo_current()->ammo->shape;
     }
@@ -858,6 +873,9 @@ int ranged::fire_gun( Character &who, const tripoint &target, const int max_shot
     int curshot = 0;
     int hits = 0; // total shots on target
     while( curshot != shots ) {
+        if( ammo && !gun.ammo_remaining() ) {
+            gun.reload( get_avatar(), *ammo, 1 );
+        }
         if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
             who.moves -= 50;
             gun.faults.erase( fault_gun_chamber_spent );
@@ -958,7 +976,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, const int max_shot
     }
 
     // Use different amounts of time depending on the type of gun and our skill
-    who.moves -= time_to_attack( who, *gun.type );
+    who.moves -= attack_moves;
 
     // Practice the base gun skill proportionally to number of hits, but always by one.
     who.as_player()->practice( skill_gun, ( hits + 1 ) * 5 );
@@ -1112,18 +1130,18 @@ int throwing_dispersion( const Character &c, const item &to_throw, Creature *cri
     return std::max( 0, dispersion );
 }
 
-dealt_projectile_attack throw_item( Character &who, const tripoint &target, const item &to_throw,
-                                    cata::optional<tripoint> blind_throw_from_pos )
+dealt_projectile_attack throw_item( Character &who, const tripoint &target,
+                                    detached_ptr<item> &&to_throw,
+                                    std::optional<tripoint> blind_throw_from_pos )
 {
-    // Copy the item, we may alter it before throwing
-    item thrown = to_throw;
+    item &thrown = *to_throw;
 
-    const int move_cost = ranged::throw_cost( who, to_throw );
+    const int move_cost = ranged::throw_cost( who, thrown );
     who.mod_moves( -move_cost );
 
     const int throwing_skill = who.get_skill_level( skill_throw );
-    units::volume volume = to_throw.volume();
-    units::mass weight = to_throw.weight();
+    units::volume volume = thrown.volume();
+    units::mass weight = thrown.weight();
 
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
@@ -1240,7 +1258,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, cons
     const itype *thrown_type = thrown.type;
 
     // Put the item into the projectile
-    proj.set_drop( std::move( thrown ) );
+    proj.set_drop( std::move( to_throw ) );
     if( thrown_type->has_flag( "CUSTOM_EXPLOSION" ) ) {
         proj.set_custom_explosion( thrown_type->explosion );
     }
@@ -1273,7 +1291,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, cons
         who.as_player()->practice( skill_used, 5, 2 );
     }
     // Reset last target pos
-    who.last_target_pos = cata::nullopt;
+    who.as_player()->last_target_pos = std::nullopt;
     who.recoil = MAX_RECOIL;
 
     return dealt_attack;
@@ -1547,8 +1565,9 @@ static double calculate_aim_cap( const Character &p, const tripoint &target )
 }
 
 static int print_aim( const Character &p, const catacurses::window &w, int line_number,
-                      input_context &ctxt, const item &weapon,
-                      const double target_size, const tripoint &pos, double predicted_recoil )
+                      input_context &ctxt, item &weapon,
+                      const double target_size, const tripoint &pos, double predicted_recoil,
+                      item *load_loc )
 {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
@@ -1559,7 +1578,8 @@ static int print_aim( const Character &p, const catacurses::window &w, int line_
     dispersion.add_range( ranged::recoil_vehicle( p ) );
 
     const double min_recoil = calculate_aim_cap( p, pos );
-    const double effective_recoil = ranged::effective_dispersion( p, p.weapon.sight_dispersion() );
+    const double effective_recoil = ranged::effective_dispersion( p,
+                                    p.primary_weapon().sight_dispersion() );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
@@ -1584,7 +1604,7 @@ static int print_aim( const Character &p, const catacurses::window &w, int line_
     const auto cost_fun = [&]( const ranged::aim_type & at ) {
         int at_recoil = at.has_threshold ? at.threshold : static_cast<int>( predicted_recoil );
         return ranged::gun_engagement_moves( p, weapon, at_recoil, p.recoil ) +
-               time_to_attack( p, *weapon.type );
+               time_to_attack( p, weapon, load_loc );
     };
     const double range = rl_dist( p.pos(), pos );
     line_number = print_steadiness( w, line_number, steadiness );
@@ -1693,17 +1713,17 @@ static projectile make_gun_projectile( const item &gun )
         bool recover = !one_in( ammo.dont_recover_one_in );
 
         if( recover && !fx.has_effect( ammo_effect_IGNITE ) && !fx.has_effect( ammo_effect_EXPLOSIVE ) ) {
-            item drop( gun.ammo_current(), calendar::turn, 1 );
-            drop.active = fx.has_effect( ammo_effect_ACT_ON_RANGED_HIT );
-            proj.set_drop( drop );
+            detached_ptr<item> drop = item::spawn( gun.ammo_current(), calendar::turn, 1 );
+            drop->active = fx.has_effect( ammo_effect_ACT_ON_RANGED_HIT );
+            proj.set_drop( std::move( drop ) );
         }
 
         if( ammo.drop ) {
-            item drop( ammo.drop );
+            detached_ptr<item> drop = item::spawn( ammo.drop );
             if( ammo.drop_active ) {
-                drop.activate();
+                drop->activate();
             }
-            proj.set_drop( drop );
+            proj.set_drop( std::move( drop ) );
         }
 
         if( fx.has_effect( ammo_effect_CUSTOM_EXPLOSION ) ) {
@@ -1714,12 +1734,24 @@ static projectile make_gun_projectile( const item &gun )
     return proj;
 }
 
-int time_to_attack( const Character &p, const itype &firing )
+int time_to_attack( const Character &p, const item &firing, const item *loc )
 {
-    const skill_id &skill_used = firing.gun->skill_used;
+    const skill_id &skill_used = firing.type->gun->skill_used;
     const time_info_t &info = skill_used->time_to_attack();
+    int RAS_time = 0;
+    if( !loc ) {
+        RAS_time = 0;
+    } else {
+        // RAS Weapon, calculate move cost.
+        // At low stamina levels, firing starts getting slow.
+        const int sta_percent = ( 100 * p.get_stamina() ) / p.get_stamina_max();
+        const int reload_stamina_penalty = ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+        item_reload_option opt = item_reload_option( p.as_player(), const_cast<item *>( &firing ), &firing,
+                                 *const_cast<item *>( loc ) );
+        RAS_time = opt.moves() + reload_stamina_penalty;
+    }
     return std::max( info.min_time,
-                     info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) );
+                     info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) + RAS_time );
 }
 
 static void cycle_action( item &weap, const tripoint &pos )
@@ -1743,12 +1775,14 @@ static void cycle_action( item &weap, const tripoint &pos )
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( itype_brass_catcher ) ) {
-            weap.put_in( item( casing ).set_flag( "CASING" ) );
+            detached_ptr<item> det = item::spawn( casing );
+            det->set_flag( "CASING" );
+            weap.put_in( std::move( det ) );
         } else {
             if( cargo.empty() ) {
-                here.add_item_or_charges( eject, item( casing ) );
+                here.add_item_or_charges( eject, item::spawn( casing ) );
             } else {
-                vp->vehicle().add_item( *cargo.front(), item( casing ) );
+                vp->vehicle().add_item( *cargo.front(), item::spawn( casing ) );
             }
 
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( eject ),
@@ -1759,14 +1793,14 @@ static void cycle_action( item &weap, const tripoint &pos )
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage ) {
-        item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
+        detached_ptr<item> linkage = item::spawn( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( itype_brass_catcher ) ) {
-            linkage.set_flag( "CASING" );
-            weap.put_in( linkage );
+            linkage->set_flag( "CASING" );
+            weap.put_in( std::move( linkage ) );
         } else if( cargo.empty() ) {
-            here.add_item_or_charges( eject, linkage );
+            here.add_item_or_charges( eject, std::move( linkage ) );
         } else {
-            vp->vehicle().add_item( *cargo.front(), linkage );
+            vp->vehicle().add_item( *cargo.front(), std::move( linkage ) );
         }
     }
 }
@@ -1948,7 +1982,6 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
         return 0.0;
     }
 
-    const islot_gun &gun = *weap.type->gun;
     itype_id ammo_type;
     if( !weap.ammo_current().is_null() ) {
         ammo_type = weap.ammo_current();
@@ -1960,7 +1993,9 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
     const itype *def_ammo_i = ammo_type.is_null() ? nullptr : &*ammo_type;
 
     damage_instance gun_damage = weap.gun_damage();
-    item tmp = weap;
+    const int ammo_cap = weap.ammo_capacity();
+    bool empty = weap.ammo_remaining() == 0;
+    item &tmp = *item::spawn_temporary( weap );
     tmp.ammo_set( ammo_type );
     int total_dispersion = ranged::get_weapon_dispersion( who, tmp ).max() +
                            ranged::effective_dispersion( who, tmp.sight_dispersion() );
@@ -1977,17 +2012,19 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
         damage_factor += 0.5f * gun_damage.damage_units.front().res_pen;
     }
 
-    int move_cost = time_to_attack( who, *weap.type );
-    if( gun.clip != 0 && gun.clip < 10 ) {
-        // TODO: RELOAD_ONE should get a penalty here
-        int reload_cost = gun.reload_time + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
-        reload_cost /= gun.clip;
+    int move_cost = time_to_attack( who, weap, nullptr );
+    if( empty && ammo >= 1 ) {
+        int reload_cost = weap.get_reload_time() + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
         move_cost += reload_cost;
     }
 
+    // Gives an approximation of DPS disregarding modes.
+    float move_cost_factor = move_cost / 100.0f;
+
     // "Medium range" below means 9 tiles, "short range" means 4
     // Those are guarantees (assuming maximum time spent aiming)
-    static const std::vector<std::pair<float, float>> dispersion_thresholds = {{
+    static const std::vector<std::pair<float, float>> dispersion_thresholds = {
+        {
             // Headshots all the time
             { 0.0f, 5.0f },
             // Critical at medium range
@@ -2007,30 +2044,13 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
         }
     };
 
-    static const std::vector<std::pair<float, float>> move_cost_thresholds = {{
-            { 10.0f, 4.0f },
-            { 25.0f, 3.0f },
-            { 100.0f, 1.0f },
-            { 500.0f, 5.0f },
-        }
-    };
-
-    float move_cost_factor = multi_lerp( move_cost_thresholds, move_cost );
-
-    // Penalty for dodging in melee makes the gun unusable in melee
-    // Until NPCs get proper kiting, at least
-    int melee_penalty = who.weapon.volume() / 250_ml - who.get_skill_level( skill_dodge );
-    if( melee_penalty <= 0 ) {
-        // Dispersion matters less if you can just use the gun in melee
-        total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );
-    }
-
     float dispersion_factor = multi_lerp( dispersion_thresholds, total_dispersion );
 
     float damage_and_accuracy = damage_factor * dispersion_factor;
 
     // TODO: Some better approximation of the ability to keep on shooting
-    static const std::vector<std::pair<float, float>> capacity_thresholds = {{
+    static const std::vector<std::pair<float, float>> capacity_thresholds = {
+        {
             { 1.0f, 0.5f },
             { 5.0f, 1.0f },
             { 10.0f, 1.5f },
@@ -2039,17 +2059,16 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
         }
     };
 
-    // How much until reload
-    float capacity = gun.clip > 0 ? std::min<float>( gun.clip, ammo ) : ammo;
-    // How much until dry and a new weapon is needed
-    capacity += std::min<float>( 1.0, ammo / 20.0 );
+    // Ammo capacity. Reduced to ammo available if that's lower.
+    float capacity = ammo_cap > 0 ? std::min( ammo_cap, ammo ) : ammo;
+
     double capacity_factor = multi_lerp( capacity_thresholds, capacity );
 
-    double gun_value = damage_and_accuracy * capacity_factor;
+    double gun_value = damage_and_accuracy * capacity_factor * move_cost_factor;
 
-    add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity",
+    add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity, %.1f move",
              weap.type->get_id().str(), gun_value, dispersion_factor, damage_factor,
-             capacity_factor );
+             capacity_factor, move_cost_factor );
     return std::max( 0.0, gun_value );
 }
 
@@ -2084,6 +2103,13 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
     const vehicle *veh_from_turret = turret ? turret.get_veh() : nullptr;
     return g->get_creatures_if( [&c, range, veh_from_turret]( const Creature & critter ) -> bool {
         if( std::round( rl_dist_exact( c.pos(), critter.pos() ) ) > range )
+        {
+            return false;
+        }
+
+        // Special case: if range is 1, it's a melee attack.
+        // Melee attacks can only target on same z-level or directly up/down, not "z-diagonally".
+        if( range <= 1 && c.posz() != critter.posz() && c.pos().xy() != critter.pos().xy() )
         {
             return false;
         }
@@ -2182,7 +2208,6 @@ target_handler::trajectory target_ui::run()
     on_out_of_scope cleanup( [&here, &player_character]() {
         here.invalidate_map_cache( player_character.pos().z + player_character.view_offset.z );
     } );
-    restore_on_out_of_scope<tripoint> view_offset_prev( player_character.view_offset );
 
     shared_ptr_fast<game::draw_callback_t> target_ui_cb = make_shared_fast<game::draw_callback_t>(
     [&]() {
@@ -2206,7 +2231,7 @@ target_handler::trajectory target_ui::run()
     bool attack_was_confirmed = false;
     bool reentered = false;
     bool resume_critter = false;
-    if( mode == TargetMode::Fire && !activity->first_turn ) {
+    if( mode == TargetMode::Fire && !activity->action.empty() ) {
         // We were in this UI during previous turn...
         reentered = true;
         std::string act_data = activity->action;
@@ -2228,6 +2253,14 @@ target_handler::trajectory target_ui::run()
     src = you->pos();
     update_target_list();
 
+    if( activity && activity->abort_if_no_targets && targets.empty() ) {
+        // this branch is taken when already shot once and re-entered
+        // aiming, if no targets are available we want to abort so
+        // players don't arrive at aiming ui with nothing to shoot at.
+        activity->aborted = true;
+        traj.clear();
+        return traj;
+    }
     tripoint initial_dst = src;
     if( reentered ) {
         if( !try_reacquire_target( resume_critter, initial_dst ) ) {
@@ -2252,7 +2285,7 @@ target_handler::trajectory target_ui::run()
             action.clear();
             attack_was_confirmed = false;
         }
-        if( !activity->first_turn && !action.empty() && !prompt_friendlies_in_lof() ) {
+        if( !action.empty() && !prompt_friendlies_in_lof() ) {
             // A friendly creature moved into line of fire during aim-and-shoot,
             // and player decided to stop aiming
             action.clear();
@@ -2480,7 +2513,7 @@ void target_ui::init_window_and_input()
 
 bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_redraw )
 {
-    cata::optional<tripoint> mouse_pos;
+    std::optional<tripoint> mouse_pos;
     const auto shift_view_or_cursor = [this]( const tripoint & delta ) {
         if( this->shifting_view ) {
             this->set_view_offset( this->you->view_offset + delta );
@@ -2504,7 +2537,7 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
                 set_view_offset( you->view_offset + edge_scroll );
             }
         }
-    } else if( const cata::optional<tripoint> delta = ctxt.get_direction( action ) ) {
+    } else if( const std::optional<tripoint> delta = ctxt.get_direction( action ) ) {
         // Shift view/cursor with directional keys
         shift_view_or_cursor( *delta );
     } else if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
@@ -3064,7 +3097,8 @@ void target_ui::update_ammo_range_from_gun_mode()
             range = turret->range();
         }
     } else {
-        ammo = relevant->gun_current_mode().target->ammo_data();
+        ammo = activity->reload_loc ? activity->reload_loc->type :
+               relevant->gun_current_mode().target->ammo_data();
         range = relevant->gun_current_mode().target->gun_range( you );
     }
 }
@@ -3603,7 +3637,6 @@ void target_ui::panel_fire_mode_aim( int &text_y )
     // TODO: saving & restoring pc.recoil may actually be unnecessary
     double saved_pc_recoil = you->recoil;
     you->recoil = predicted_recoil;
-
     double predicted_recoil = you->recoil;
     int predicted_delay = 0;
     if( aim_mode->has_threshold && aim_mode->threshold < you->recoil ) {
@@ -3622,8 +3655,9 @@ void target_ui::panel_fire_mode_aim( int &text_y )
     const double target_size = dst_critter ? dst_critter->ranged_target_size() :
                                occupied_tile_fraction( m_size::MS_MEDIUM );
 
+    item *load_loc = activity->reload_loc ? &*activity->reload_loc : nullptr;
     text_y = print_aim( *you, w_target, text_y, ctxt, *relevant->gun_current_mode(),
-                        target_size, dst, predicted_recoil );
+                        target_size, dst, predicted_recoil, load_loc );
 
     if( aim_mode->has_threshold ) {
         mvwprintw( w_target, point( 1, text_y++ ), _( "%s Delay: %i" ), aim_mode->name,
@@ -3757,13 +3791,13 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
     return result;
 }
 
-void ranged::prompt_select_default_ammo_for( avatar &u, const item &w )
+void ranged::prompt_select_default_ammo_for( avatar &u, item &w )
 {
     item_reload_option opt = character_funcs::select_ammo( u, w, false, true, true );
     if( opt ) {
-        if( u.ammo_location && opt.ammo == u.ammo_location ) {
+        if( u.ammo_location && opt.ammo == &*u.ammo_location ) {
             u.add_msg_if_player( _( "Cleared ammo preferences for %s." ), w.tname() );
-            u.ammo_location = item_location();
+            u.ammo_location = nullptr;
         } else if( u.has_item( *opt.ammo ) ) {
             u.add_msg_if_player( _( "Selected %s as default ammo for %s." ), opt.ammo->tname(), w.tname() );
             u.ammo_location = opt.ammo;

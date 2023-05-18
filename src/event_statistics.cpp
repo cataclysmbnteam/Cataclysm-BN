@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -15,7 +16,6 @@
 #include "event_field_transformations.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "optional.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
 
@@ -165,9 +165,9 @@ class event_statistic::impl
 };
 
 struct value_constraint {
-    cata::optional<cata_variant> equals_;
-    cata::optional<std::string> equals_string_;
-    cata::optional<string_id<event_statistic>> equals_statistic_;
+    std::optional<cata_variant> equals_;
+    std::optional<std::string> equals_string_;
+    std::optional<string_id<event_statistic>> equals_statistic_;
 
     bool permits( const cata_variant &v, stats_tracker &stats ) const {
         if( equals_ && *equals_ != v ) {

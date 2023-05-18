@@ -3,12 +3,12 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "cached_options.h"
 #include "cursesdef.h"
 #include "game_ui.h"
-#include "optional.h"
 #include "point.h"
 #include "sdltiles.h"
 
@@ -18,7 +18,7 @@ static bool redraw_in_progress = false;
 static bool showing_debug_message = false;
 static bool restart_redrawing = false;
 #if defined( TILES )
-static cata::optional<SDL_Rect> prev_clip_rect;
+static std::optional<SDL_Rect> prev_clip_rect;
 #endif
 static ui_stack_t ui_stack;
 
@@ -56,7 +56,7 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : disabling_uis_below( tr
         SDL_RenderGetClipRect( renderer.get(), &prev_clip_rect.value() );
         SDL_RenderSetClipRect( renderer.get(), nullptr );
     } else {
-        prev_clip_rect = cata::nullopt;
+        prev_clip_rect = std::nullopt;
     }
 #endif
     // The debug message might be shown during a normal UI's redraw callback,
@@ -109,7 +109,7 @@ void ui_adaptor::position_from_window( const catacurses::window &win )
     }
 }
 
-void ui_adaptor::position( const point &topleft, const point &size )
+void ui_adaptor::position( point topleft, point size )
 {
     const rectangle<point> old_dimensions = dimensions;
     // ensure position is updated before calling invalidate
@@ -139,7 +139,7 @@ void ui_adaptor::mark_resize() const
     deferred_resize = true;
 }
 
-static bool contains( const rectangle<point> &lhs, const rectangle<point> &rhs )
+static bool rect_contains( const rectangle<point> &lhs, const rectangle<point> &rhs )
 {
     return rhs.p_min.x >= lhs.p_min.x && rhs.p_max.x <= lhs.p_max.x &&
            rhs.p_min.y >= lhs.p_min.y && rhs.p_max.y <= lhs.p_max.y;
@@ -182,7 +182,7 @@ void ui_adaptor::invalidation_consistency_and_optimization()
                 ui_upper.invalidated = true;
             }
             if( ui_upper.invalidated && ui_lower.invalidated &&
-                contains( ui_upper.dimensions, ui_lower.dimensions ) ) {
+                rect_contains( ui_upper.dimensions, ui_lower.dimensions ) ) {
                 // fully obscured lower UIs do not need to be redrawn.
                 ui_lower.invalidated = false;
                 // Note: we don't need to re-test ui_lower from earlier iterations
@@ -212,7 +212,7 @@ void ui_adaptor::invalidate_ui() const
     }
     // If an upper UI occludes this UI then nothing gets redrawn
     for( auto it_upper = std::next( it ); it_upper < ui_stack.cend(); ++it_upper ) {
-        if( contains( it_upper->get().dimensions, dimensions ) ) {
+        if( rect_contains( it_upper->get().dimensions, dimensions ) ) {
             return;
         }
     }

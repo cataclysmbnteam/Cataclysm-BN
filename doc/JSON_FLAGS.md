@@ -69,6 +69,7 @@
     - [Flags that apply to items](#flags-that-apply-to-items)
   - [Vehicle Parts](#vehicle-parts)
     - [Flags](#flags-13)
+    - [Vehicle parts requiring other vehicle parts](#vehicle-parts-requiring-other-vehicle-parts)
     - [Fuel types](#fuel-types)
 
 
@@ -474,7 +475,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it require a special mutation. See `can_heal_with` in mutation.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EATEN_HOT``` Morale bonus for eating hot.
-- ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
 - ```INEDIBLE``` Inedible by default, enabled to eat when in conjunction with (mutation threshold) flags: BIRD, CATTLE.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```FREEZERBURN``` First thaw is MUSHY, second is rotten
@@ -1374,6 +1374,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```E_COMBUSTION``` Is an engine that burns its fuel and can backfire or explode when damaged.
 - ```E_HEATER``` Is an engine and has a heater to warm internal vehicle items when on.
 - ```E_HIGHER_SKILL``` Is an engine that is more difficult to install as more engines are installed.
+- ```E_NO_POWER_DECAY``` Engines with this flag do not affect total vehicle power suffering diminishing returns.
 - ```E_STARTS_INSTANTLY``` Is an engine that starts instantly, like food pedals.
 - ```EMITTER``` Emits while enabled (emissions are defined by ```emissions``` entry).
 - ```ENABLED_DRAINS_EPOWER``` Produces `epower` watts while enabled (use negative numbers to drain power). This is independent from reactor power production.

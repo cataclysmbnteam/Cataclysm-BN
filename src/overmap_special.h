@@ -62,7 +62,7 @@ struct overmap_special_terrain {
 
 struct overmap_special_connection {
     tripoint p;
-    cata::optional<tripoint> from;
+    std::optional<tripoint> from;
     om_direction::type initial_dir = om_direction::type::invalid;
     overmap_connection_id connection;
     bool existing = false;

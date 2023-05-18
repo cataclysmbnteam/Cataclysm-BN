@@ -1,7 +1,8 @@
 [
   {
-    "type": "GENERIC",
     "id": "pipe",
+    "type": "GENERIC",
+    "weapon_category": [ "BATONS" ],
     "name": { "str": "pipe" },
     "description": "A steel pipe, makes a good melee weapon.  Useful in a few crafting recipes.",
     "category": "spare_parts",
@@ -36,8 +37,8 @@
     "ammo_type": "components"
   },
   {
-    "type": "GENERIC",
     "id": "spike",
+    "type": "GENERIC",
     "name": { "str": "spike" },
     "description": "A large and slightly misshapen spike, could do some damage mounted on a vehicle.",
     "category": "spare_parts",
@@ -54,8 +55,9 @@
     "price_postapoc": 10
   },
   {
-    "type": "GENERIC",
     "id": "cu_pipe",
+    "type": "GENERIC",
+    "weapon_category": [ "BATONS" ],
     "name": { "str": "copper tubing" },
     "description": "A copper tube, too thin to be much use as a melee weapon, but will do if nothing else is available.  Useful in a few crafting recipes.",
     "category": "spare_parts",
@@ -308,8 +310,8 @@
     "to_hit": -2
   },
   {
-    "type": "AMMO",
     "id": "tin",
+    "type": "AMMO",
     "category": "spare_parts",
     "price": 750,
     "price_postapoc": 10,
@@ -326,8 +328,8 @@
     "stack_size": 200
   },
   {
-    "type": "AMMO",
     "id": "solder_wire",
+    "type": "AMMO",
     "category": "spare_parts",
     "price": 5000,
     "price_postapoc": 50,

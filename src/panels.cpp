@@ -60,12 +60,15 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_got_checked( "got_checked" );
+
+static const std::string flag_SPLINT( "SPLINT" );
 
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
@@ -154,7 +157,7 @@ std::string window_panel::get_name() const
 }
 
 void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
-                                     const tripoint_abs_omt &global_omt, const point &start_input,
+                                     const tripoint_abs_omt &global_omt, point start_input,
                                      const int width, const int height )
 {
     const point_abs_omt curs = global_omt.xy();
@@ -575,10 +578,10 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
 
 static std::string get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 )
 {
-    for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
+    for( ItemList::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
         --it;
-        if( it->covers( bp ) ) {
-            return it->tname( 1, true, truncate );
+        if( ( *it )->covers( bp ) ) {
+            return ( *it )->tname( 1, true, truncate );
         }
     }
     return "-";
@@ -774,7 +777,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
 
-        if( u.worn_with_flag( "SPLINT",  bp ) ) {
+        if( u.worn_with_flag( flag_SPLINT,  bp ) || u.has_trait( trait_REGEN_LIZ ) ) {
             static const efftype_id effect_mending( "mending" );
             const auto &eff = u.get_effect( effect_mending, bp->token );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
@@ -2005,7 +2008,15 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
 
 static bool spell_panel()
 {
-    return get_avatar().magic->knows_spell();
+    std::vector<spell_id> spells = get_avatar().magic->spells();
+    bool has_manacasting = false;
+    for( spell_id sp : spells ) {
+        spell temp_spell = get_avatar().magic->get_spell( sp );
+        if( temp_spell.energy_source() == mana_energy ) {
+            has_manacasting = true;
+        }
+    }
+    return has_manacasting;
 }
 
 bool default_render()

@@ -211,7 +211,7 @@ static void eff_fun_bleed( player &u, effect &it )
     // on the wound or otherwise suppressing the flow. (Kits contain either
     // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
-    if( one_in( 36 / intense ) && u.activity.id() != ACT_FIRSTAID ) {
+    if( one_in( 36 / intense ) && u.activity->id() != ACT_FIRSTAID ) {
         u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
                                  _( "<npcname> loses some blood." ) );
         // Prolonged hemorrhage is a significant risk for developing anemia
@@ -563,10 +563,10 @@ void Character::hardcoded_effects( effect &it )
         }
     } else if( id == effect_evil ) {
         // Worn or wielded; diminished effects
-        bool lesserEvil = weapon.has_effect_when_wielded( AEP_EVIL ) ||
-                          weapon.has_effect_when_carried( AEP_EVIL );
+        bool lesserEvil = get_weapon().has_effect_when_wielded( AEP_EVIL ) ||
+                          get_weapon().has_effect_when_carried( AEP_EVIL );
         for( auto &w : worn ) {
-            if( w.has_effect_when_worn( AEP_EVIL ) ) {
+            if( w->has_effect_when_worn( AEP_EVIL ) ) {
                 lesserEvil = true;
                 break;
             }
@@ -731,7 +731,7 @@ void Character::hardcoded_effects( effect &it )
                 } while( g->critter_at( dest ) );
                 if( tries < 10 ) {
                     if( g->m.impassable( dest ) ) {
-                        g->m.make_rubble( dest, f_rubble_rock, true );
+                        g->m.make_rubble( dest, f_rubble_rock );
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                            GROUP_NETHER );
@@ -1256,7 +1256,7 @@ void Character::hardcoded_effects( effect &it )
                 if( dur == 1_turns ) {
                     if( !asleep ) {
                         add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
-                        activity.set_to_null();
+                        activity->set_to_null();
                     } else {
                         // Secure the flag before wake_up() clears the effect
                         bool slept_through = has_effect( effect_slept_through_alarm );

@@ -11,6 +11,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -24,7 +25,6 @@
 #include "memory_fast.h"
 #include "mongroup.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "pimpl.h"
 #include "point.h"
@@ -178,12 +178,9 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
 class overmap
 {
     public:
-        overmap( const overmap & );
         overmap( overmap && );
         overmap( const point_abs_om &p );
         ~overmap();
-
-        overmap &operator=( const overmap & );
 
         /**
          * Create content in the overmap.
@@ -223,7 +220,7 @@ class overmap
         bool is_explored( const tripoint_om_omt &p ) const;
 
         bool has_note( const tripoint_om_omt &p ) const;
-        cata::optional<int> has_note_with_danger_radius( const tripoint_om_omt &p ) const;
+        std::optional<int> has_note_with_danger_radius( const tripoint_om_omt &p ) const;
         bool is_marked_dangerous( const tripoint_om_omt &p ) const;
         const std::vector<om_note> &all_notes( int z ) const;
         const std::string &note( const tripoint_om_omt &p ) const;
@@ -317,7 +314,7 @@ class overmap
         std::vector<city> cities;
         std::vector<lab> labs;
         std::map<overmap_connection_id, std::vector<tripoint_om_omt>> connections_out;
-        cata::optional<basecamp *> find_camp( const point_abs_omt &p );
+        std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( shared_ptr_fast<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).

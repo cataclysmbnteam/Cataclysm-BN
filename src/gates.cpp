@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -24,7 +25,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "optional.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
@@ -180,14 +180,14 @@ void gates::toggle_gate( const tripoint &pos )
     bool fail = false;
 
     map &here = get_map();
-    for( const point &wall_offset : four_adjacent_offsets ) {
+    for( point wall_offset : four_adjacent_offsets ) {
         const tripoint wall_pos = pos + wall_offset;
 
         if( !gate.is_suitable_wall( wall_pos ) ) {
             continue;
         }
 
-        for( const point &gate_offset : four_adjacent_offsets ) {
+        for( point gate_offset : four_adjacent_offsets ) {
             const tripoint gate_pos = wall_pos + gate_offset;
 
             if( gate_pos == pos ) {
@@ -245,10 +245,10 @@ void gates::toggle_gate( const tripoint &pos, player &p )
     const gate_data &gate = gates_data.obj( gid );
 
     p.add_msg_if_player( gate.pull_message );
-    p.assign_activity( player_activity( toggle_gate_activity_actor(
-                                            gate.moves,
-                                            pos
-                                        ) ) );
+    p.assign_activity( std::make_unique<player_activity>( std::make_unique<toggle_gate_activity_actor>(
+                           gate.moves,
+                           pos
+                       ) ) );
 }
 
 // Doors namespace
@@ -315,12 +315,12 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
             const units::volume max_nudge = 25_liter;
 
             const auto toobig = std::find_if( items_in_way.begin(), items_in_way.end(),
-            [&max_nudge]( const item & it ) {
-                return it.volume() > max_nudge;
+            [&max_nudge]( const item * const & it ) {
+                return it->volume() > max_nudge;
             } );
             if( toobig != items_in_way.end() ) {
                 who.add_msg_if_player( m_info, _( "The %s is too big to just nudge out of the way." ),
-                                       toobig->tname() );
+                                       ( *toobig )->tname() );
             } else if( items_in_way.stored_volume() > max_nudge ) {
                 who.add_msg_if_player( m_info, _( "There is too much stuff in the way." ) );
             } else {
@@ -333,10 +333,10 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
                 if( m.has_flag( "NOITEM", closep ) ) {
                     // Just plopping items back on their origin square will displace them to adjacent squares
                     // since the door is closed now.
-                    for( auto &elem : items_in_way ) {
-                        m.add_item_or_charges( closep, elem );
+
+                    for( auto &elem : m.i_clear( closep ) ) {
+                        m.add_item_or_charges( closep, std::move( elem ) );
                     }
-                    m.i_clear( closep );
                 }
             }
         } else {

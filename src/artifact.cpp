@@ -7,6 +7,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <vector>
 
@@ -20,7 +21,6 @@
 #include "item_factory.h"
 #include "iuse.h"
 #include "json.h"
-#include "optional.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"

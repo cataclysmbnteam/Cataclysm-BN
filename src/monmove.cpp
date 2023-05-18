@@ -704,7 +704,7 @@ void monster::move()
         }
         static const auto volume_per_hp = 250_ml;
         for( auto &elem : g->m.i_at( pos() ) ) {
-            hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
+            hp += elem->volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
             if( has_flag( MF_ABSORBS_SPLITS ) ) {
                 while( hp / 2 > type->hp ) {
                     monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
@@ -854,6 +854,7 @@ void monster::move()
             }
         }
     }
+
     // If true, don't try to greedily avoid locally bad paths
     bool pathed = false;
     if( try_to_move ) {
@@ -944,23 +945,24 @@ void monster::move()
             }
             tripoint candidate_abs = g->m.getabs( candidate );
 
+            bool can_z_move = true;
             if( candidate.z != posz() ) {
-                bool can_z_move = true;
+                bool can_z_attack = true;
                 if( !here.valid_move( pos(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
                     can_z_move = false;
+                    can_z_attack = false;
                 }
 
                 // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
                 // This prevents non-climb/fly enemies running up walls
-                if( candidate.z > posz() && !( via_ramp || flies() ) ) {
-                    if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
-                        // Can't "jump" up a whole z-level
-                        can_z_move = false;
-                    }
+                if( can_z_move && candidate.z > posz() && !( via_ramp || flies() ) &&
+                    ( !can_climb() || !here.has_floor_or_support( candidate ) ) ) {
+                    // Can't "jump" up a whole z-level
+                    can_z_move = false;
                 }
 
-                // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
+                // We can still do the z-level stair teleport bullshit that isn't removed yet
                 // TODO: Remove z-level stair bullshit teleport after aligning all stairs
                 if( !can_z_move &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
@@ -972,7 +974,7 @@ void monster::move()
                     }
                 }
 
-                if( !can_z_move ) {
+                if( !can_z_attack ) {
                     continue;
                 }
             }
@@ -996,6 +998,10 @@ void monster::move()
                 }
                 // Friendly fire and pushing are always bad choices - they take a lot of time
                 bad_choice = true;
+            }
+
+            if( !can_z_move ) {
+                continue;
             }
 
             map &here = g->m;
@@ -1370,7 +1376,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
     tripoint previous = bashee;
     for( const tripoint &p : path ) {
         std::vector<point> swath = squares_in_direction( previous.xy(), p.xy() );
-        for( const point &q : swath ) {
+        for( point q : swath ) {
             zone.push_back( tripoint( q, bashee.z ) );
         }
 
@@ -1485,8 +1491,7 @@ bool monster::attack_at( const tripoint &p )
     if( has_flag( MF_PACIFIST ) ) {
         return false;
     }
-    if( p.z != posz() ) {
-        // TODO: Remove this
+    if( p.z != posz() && !get_map().valid_move( pos(), p, false, true, false ) ) {
         return false;
     }
 
@@ -1737,7 +1742,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         if( one_in( 10 ) ) {
             // if it has more napalm, drop some and reduce ammo in tank
             if( ammo[itype_pressurized_tank] > 0 ) {
-                g->m.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
+                g->m.add_item_or_charges( pos(), item::spawn( "napalm", calendar::turn, 50 ) );
                 ammo[itype_pressurized_tank] -= 50;
             } else {
                 // TODO: remove MF_DRIPS_NAPALM flag since no more napalm in tank
@@ -1748,7 +1753,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( has_flag( MF_DRIPS_GASOLINE ) ) {
         if( one_in( 5 ) ) {
             // TODO: use same idea that limits napalm dripping
-            g->m.add_item_or_charges( pos(), item( "gasoline" ) );
+            g->m.add_item_or_charges( pos(), item::spawn( "gasoline" ) );
         }
     }
     return true;
@@ -2005,6 +2010,9 @@ void monster::knock_back_to( const tripoint &to )
 
     } else { // It's no wall
         setpos( to );
+
+        map &here = get_map();
+        here.creature_on_trap( *this );
     }
     check_dead_state();
 }
@@ -2015,7 +2023,7 @@ void monster::knock_back_to( const tripoint &to )
          Make sure that non-smashing monsters won't "teleport" through windows
          Injure monsters if they're gonna be walking through pits or whatever
  */
-bool monster::will_reach( const point &p )
+bool monster::will_reach( point p )
 {
     monster_attitude att = attitude( &g->u );
     if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
@@ -2052,7 +2060,7 @@ bool monster::will_reach( const point &p )
     return false;
 }
 
-int monster::turns_to_reach( const point &p )
+int monster::turns_to_reach( point p )
 {
     // HACK: This function is a(n old) temporary hack that should soon be removed
     auto path = g->m.route( pos(), tripoint( p, posz() ), get_pathfinding_settings() );

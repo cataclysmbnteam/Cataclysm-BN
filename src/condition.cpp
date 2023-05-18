@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -28,7 +29,6 @@
 #include "mapdata.h"
 #include "mission.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -146,7 +146,7 @@ void conditional_t<T>::set_has_activity( bool is_npc )
         if( is_npc ) {
             return d.beta->has_activity();
         } else {
-            if( !actor->activity.is_null() ) {
+            if( !actor->activity->is_null() ) {
                 return true;
             }
         }
@@ -386,7 +386,7 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
         const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
         if( location == "FACTION_CAMP_ANY" ) {
-            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
+            std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
             if( bcp ) {
                 return true;
             }
@@ -760,7 +760,7 @@ void conditional_t<T>::set_can_stow_weapon( bool is_npc )
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        return !actor->unarmed_attack() && actor->can_pick_volume( actor->weapon );
+        return !actor->unarmed_attack() && actor->can_pick_volume( actor->primary_weapon() );
     };
 }
 

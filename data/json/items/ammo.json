@@ -21,20 +21,6 @@
   },
   {
     "type": "TOOL",
-    "id": "betavoltaic",
-    "category": "spare_parts",
-    "price": 10000,
-    "name": { "str": "betavoltaic cell" },
-    "symbol": "=",
-    "color": "green",
-    "description": "Harness the power of radiation in your own home!  This looks similar to a D-cell battery, but actually contains folded layers of radioactive material inside.  It can produce electricity for several years at a steady voltage… but it's barely enough to power a small LED, and these batteries were worth hundreds of dollars.  Mostly they're a good way to brag to your neighbors that you have a nuclear power source in your house.",
-    "material": [ "steel", "plastic", "lead" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
-    "volume": "250 ml",
-    "weight": "160 g"
-  },
-  {
-    "type": "TOOL",
     "id": "RTG_coffee",
     "category": "spare_parts",
     "price": 20000,
@@ -290,8 +276,9 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_80" ],
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "dont_recover_one_in": 80,
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
   },
   {
     "type": "AMMO",
@@ -374,6 +361,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 50,
+    "dont_recover_one_in": 1000,
     "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
   },
   {
@@ -1071,5 +1059,46 @@
     "symbol": ",",
     "color": "yellow",
     "ammo_type": "components"
+  },
+  {
+    "type": "AMMO",
+    "id": "sling_bullet",
+    "symbol": "*",
+    "color": "light_gray",
+    "looks_like": "rock",
+    "name": { "str": "sling bullet" },
+    "description": "A ball of lead roughly the size of a baseball.  Traditionally thrown from a sling, and hits a lot harder than any old rock.",
+    "material": "lead",
+    "ammo_type": "rock",
+    "weight": "150 g",
+    "volume": "50 ml",
+    "bashing": 14,
+    "damage": { "damage_type": "bash", "amount": 16 },
+    "range": 14,
+    "dispersion": 10,
+    "loudness": 0,
+    "to_hit": -1,
+    "dont_recover_one_in": 1000,
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "sling_bullet_small",
+    "symbol": "*",
+    "color": "light_gray",
+    "looks_like": "bearing",
+    "name": { "str": "small sling bullet" },
+    "description": "A small ball of lead traditionally thrown from a sling.  It hits a lot harder than any old pebble.",
+    "material": "lead",
+    "ammo_type": "pebble",
+    "weight": "25 g",
+    "volume": "250 ml",
+    "damage": { "damage_type": "bash", "amount": 8 },
+    "range": 20,
+    "dispersion": 10,
+    "loudness": 0,
+    "count": 30,
+    "dont_recover_one_in": 1000,
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
   }
 ]

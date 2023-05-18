@@ -6,9 +6,9 @@
 #include <functional>
 #include <cstddef>
 #include <iterator>
+#include <optional>
 #include <utility>
 
-#include "optional.h"
 #include "vpart_position.h"
 #include "vehicle.h"
 
@@ -26,7 +26,7 @@ class vehicle_part_iterator
 {
     private:
         std::reference_wrapper<const range_type> range_;
-        cata::optional<vpart_reference> vp_;
+        std::optional<vpart_reference> vp_;
 
         const range_type &range() const {
             return range_.get();

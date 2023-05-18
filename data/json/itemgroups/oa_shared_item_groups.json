@@ -54,7 +54,7 @@
       [ "eclipse_glasses", 5 ],
       { "group": "newspaper", "prob": 60 },
       [ "news_regional", 15 ],
-      [ "paper", 20 ],
+      { "item": "paper", "prob": 20, "charges": [ 1, 50 ] },
       [ "rag_bloody", 35 ],
       [ "mask_dust", 10 ],
       [ "gum", 6 ],

@@ -213,16 +213,16 @@ void item::add_rain_to_container( bool acid, int charges )
     if( charges <= 0 ) {
         return;
     }
-    item ret( acid ? itype_water_acid : itype_water, calendar::turn );
-    const int capa = get_remaining_capacity_for_liquid( ret, true );
+    detached_ptr<item> ret = item::spawn( acid ? itype_water_acid : itype_water, calendar::turn );
+    const int capa = get_remaining_capacity_for_liquid( *ret, true );
     if( contents.empty() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
         if( !acid ) {
             // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
-            ret.poison = one_in( 10 ) ? 1 : 0;
+            ret->poison = one_in( 10 ) ? 1 : 0;
         }
-        ret.charges = std::min( charges, capa );
-        put_in( ret );
+        ret->charges = std::min( charges, capa );
+        put_in( std::move( ret ) );
     } else {
         // The container already has a liquid.
         item &liq = contents.front();
@@ -232,7 +232,7 @@ void item::add_rain_to_container( bool acid, int charges )
             liq.charges += added;
         }
 
-        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water_acid_weak ) {
+        if( liq.typeId() == ret->typeId() || liq.typeId() == itype_water_acid_weak ) {
             // The container already contains this liquid or weakly acidic water.
             // Don't do anything special -- we already added liquid.
         } else {
@@ -248,7 +248,7 @@ void item::add_rain_to_container( bool acid, int charges )
             const bool transmute = x_in_y( 2 * added, liq.charges );
 
             if( transmute ) {
-                contents.front() = item( itype_water_acid_weak, calendar::turn, liq.charges );
+                contents.front().convert( itype_water_acid_weak );
             } else if( liq.typeId() == itype_water ) {
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
@@ -277,7 +277,8 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
 
     // Calculate once, because that part is expensive
     // FIXME: make non-static
-    static const item water( itype_water, calendar::start_of_cataclysm );
+    //TODO!: yeah... push up
+    item &water = *item::spawn_temporary( itype_water, calendar::start_of_cataclysm );
     // 250ml
     static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
                                     water.charges;
@@ -333,14 +334,14 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
             auto container = items.end();
             for( auto candidate_container = items.begin(); candidate_container != items.end();
                  ++candidate_container ) {
-                if( candidate_container->is_funnel_container( maxcontains ) ) {
+                if( ( *candidate_container )->is_funnel_container( maxcontains ) ) {
                     container = candidate_container;
                 }
             }
 
             if( container != items.end() ) {
-                container->add_rain_to_container( acid, 1 );
-                container->set_age( 0_turns );
+                ( *container )->add_rain_to_container( acid, 1 );
+                ( *container )->set_age( 0_turns );
             }
         }
     }
@@ -374,7 +375,7 @@ void weather_effect::wet_player( int amount )
     Character &target = get_avatar();
     if( !is_player_outside() ||
         target.has_trait( trait_FEATHERS ) ||
-        target.weapon.has_flag( "RAIN_PROTECT" ) ||
+        target.primary_weapon().has_flag( "RAIN_PROTECT" ) ||
         ( !one_in( 50 ) && target.worn_with_flag( "RAINPROOF" ) ) ) {
         return;
     }
@@ -386,13 +387,13 @@ void weather_effect::wet_player( int amount )
     for( const bodypart_id &bp : target.get_all_body_parts() ) {
         clothing_map.emplace( bp, std::vector<const item *>() );
     }
-    for( const item &it : target.worn ) {
+    for( const item * const &it : target.worn ) {
         // TODO: Port body part set id changes
-        const body_part_set &covered = it.get_covered_body_parts();
+        const body_part_set &covered = it->get_covered_body_parts();
         for( size_t i = 0; i < num_bp; i++ ) {
             body_part token = static_cast<body_part>( i );
             if( covered.test( token ) ) {
-                clothing_map[convert_bp( token )].emplace_back( &it );
+                clothing_map[convert_bp( token )].emplace_back( it );
             }
         }
     }
@@ -461,8 +462,8 @@ void weather_effect::lightning( int intensity )
 void weather_effect::light_acid( int intensity )
 {
     if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
-            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname() );
+        if( g->u.primary_weapon().has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
+            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.primary_weapon().tname() );
         } else {
             if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
                 add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
@@ -488,7 +489,7 @@ void weather_effect::light_acid( int intensity )
 void weather_effect::acid( int intensity )
 {
     if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
+        if( g->u.primary_weapon().has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
             add_msg( _( "Your umbrella protects you from the acid rain." ) );
         } else {
             if( g->u.worn_with_flag( "RAINPROOF" ) && one_in( 2 ) ) {

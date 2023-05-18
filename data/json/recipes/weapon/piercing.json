@@ -402,7 +402,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -792,5 +792,19 @@
       [ [ "stick_long", 1 ] ],
       [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
+  },
+  {
+    "result": "sai_weapon",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "1 h 8 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_weapeast", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 2 ] ],
+    "components": [ [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   }
 ]

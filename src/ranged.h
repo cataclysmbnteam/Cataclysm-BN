@@ -2,10 +2,10 @@
 #define CATA_SRC_RANGED_H
 
 #include <map>
+#include <optional>
 #include <vector>
 
 #include "game_constants.h"
-#include "optional.h"
 #include "type_id.h"
 
 class aim_activity_actor;
@@ -15,6 +15,7 @@ class Creature;
 class dispersion_sources;
 class gun_mode;
 class item;
+class item_location;
 class map;
 class player;
 class spell;
@@ -29,6 +30,8 @@ struct vehicle_part;
 struct dealt_damage_instance;
 struct dealt_projectile_attack;
 struct damage_instance;
+template<typename T>
+class detached_ptr;
 
 namespace target_handler
 {
@@ -121,7 +124,7 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
 /**
  * Prompts to select default ammo compatible with provided gun.
  */
-void prompt_select_default_ammo_for( avatar &u, const item &w );
+void prompt_select_default_ammo_for( avatar &u, item &w );
 
 /** Returns true if a gun misfires, jams, or has other problems, else returns false. */
 bool handle_gun_damage( Character &shooter, item &it );
@@ -181,7 +184,8 @@ int fire_gun( Character &who, const tripoint &target, int shots = 1 );
  * @param gun Item to fire (which does not necessary have to be in the characters possession)
  * @return Number of shots actually fired
  */
-int fire_gun( Character &who, const tripoint &target, int shots, item &gun );
+int fire_gun( Character &who, const tripoint &target, int shots, item &gun,
+              item *ammo );
 
 /**
  * Execute a throw.
@@ -189,8 +193,9 @@ int fire_gun( Character &who, const tripoint &target, int shots, item &gun );
  * @param to_throw Item being thrown
  * @param blind_throw_from_pos Position of blind throw (if blind throwing)
  */
-dealt_projectile_attack throw_item( Character &who, const tripoint &target, const item &to_throw,
-                                    cata::optional<tripoint> blind_throw_from_pos );
+dealt_projectile_attack throw_item( Character &who, const tripoint &target,
+                                    detached_ptr<item> &&to_throw,
+                                    std::optional<tripoint> blind_throw_from_pos );
 
 } // namespace ranged
 

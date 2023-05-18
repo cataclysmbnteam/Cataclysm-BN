@@ -10,7 +10,7 @@
 static constexpr tripoint shooter_pos( 60, 60, 0 );
 static const std::string flag_BIPOD( "BIPOD" );
 
-static void check_burst_penalty( const Character &shooter, item gun, int expected,
+static void check_burst_penalty( const Character &shooter, item &gun, int expected,
                                  bool bipod = false )
 {
     if( gun.ammo_required() && !gun.ammo_sufficient() && !gun.ammo_default().is_null() ) {
@@ -35,14 +35,14 @@ static void check_burst_penalty( const Character &shooter, const std::string &gu
                                  const std::vector<std::string> &mods, int expected, bool bipod = false )
 {
     itype_id gun_id( gun_type );
-    item gun( gun_id );
+    item &gun = *item::spawn_temporary( gun_id );
     for( const std::string &mod_type : mods ) {
         CAPTURE( gun_type );
         CAPTURE( mod_type );
         itype_id mod_id( mod_type );
-        item mod( mod_id );
-        REQUIRE( gun.is_gunmod_compatible( mod ).success() );
-        gun.put_in( mod );
+        detached_ptr<item> mod = item::spawn( mod_id );
+        REQUIRE( gun.is_gunmod_compatible( *mod ).success() );
+        gun.put_in( std::move( mod ) );
     }
     check_burst_penalty( shooter, gun, expected, bipod );
 }
@@ -61,13 +61,13 @@ TEST_CASE( "unskilled_burst_no_mods", "[ranged] [balance]" )
     check_burst_penalty( shooter, "american_180", 0 );
     // 9mm SMG - should be manageable
     check_burst_penalty( shooter, "calico", 60 );
-    // .223 machine gun - should have lower penalty than a rifle of the same caliber
+    // 5.56x45mm machine gun - should have lower penalty than a rifle of the same caliber
     check_burst_penalty( shooter, "m249", 250 );
-    // .223 rifle
+    // 5.56x45mm rifle
     check_burst_penalty( shooter, "m4a1", 600 );
-    // 7.62 rifle
+    // 7.62x39mm rifle
     check_burst_penalty( shooter, "ak47", 700 );
-    // .50 machine gun - heaviest expected burst fire
+    // 12.7mm '.50 BMG' machine gun - heaviest expected burst fire
     check_burst_penalty( shooter, "m2browning", 800 );
 }
 

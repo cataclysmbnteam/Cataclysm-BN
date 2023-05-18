@@ -115,6 +115,7 @@
     "type": "vehicle_part",
     "name": { "str": "enhanced electric motor" },
     "item": "motor_enhanced",
+    "description": "A more advanced electric motor, its power will not diminish even when multiple of them are installed.",
     "durability": 200,
     "power": 282000,
     "energy_consumption": 300000,
@@ -132,6 +133,7 @@
       { "item": "bearing", "count": [ 20, 50 ] },
       { "item": "cable", "charges": [ 10, 15 ] }
     ],
+    "extend": { "flags": [ "E_NO_POWER_DECAY" ] },
     "damage_reduction": { "all": 50 }
   },
   {
@@ -140,6 +142,7 @@
     "type": "vehicle_part",
     "name": { "str": "super electric motor" },
     "item": "motor_super",
+    "description": "A more advanced electric motor, its power will not diminish even when multiple of them are installed.",
     "durability": 400,
     "power": 475000,
     "energy_consumption": 500000,
@@ -157,6 +160,7 @@
       { "item": "bearing", "count": [ 25, 60 ] },
       { "item": "cable", "charges": [ 20, 30 ] }
     ],
+    "extend": { "flags": [ "E_NO_POWER_DECAY" ] },
     "damage_reduction": { "all": 60 }
   }
 ]

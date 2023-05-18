@@ -5,10 +5,12 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
 
+#include "bionics.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -25,7 +27,6 @@
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "point.h"
@@ -35,7 +36,10 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_manager.h"
 #include "uistate.h"
+#include "units.h"
+#include "units_energy.h"
 
 class wish_mutate_callback: public uilist_callback
 {
@@ -315,6 +319,116 @@ void debug_menu::wishmutate( player *p )
     } while( wmenu.ret >= 0 );
 }
 
+void debug_menu::wishbionics( Character &c )
+{
+    std::vector<const itype *> cbm_items = item_controller->find( []( const itype & itm ) -> bool {
+        return itm.can_use( "install_bionic" );
+    } );
+    std::sort( cbm_items.begin(), cbm_items.end(), []( const itype * a, const itype * b ) {
+        return localized_compare( a->nname( 1 ), b->nname( 1 ) );
+    } );
+
+    while( true ) {
+        units::energy power_level = c.get_power_level();
+        units::energy power_max = c.get_max_power_level();
+        size_t num_installed = c.get_bionics().size();
+
+        bool can_uninstall = num_installed > 0;
+        bool can_uninstall_all = can_uninstall || power_max > 0_J;
+
+        uilist smenu;
+        smenu.text += string_format(
+                          _( "Current power level: %s\nMax power: %s\nBionics installed: %d" ),
+                          units::display( power_level ),
+                          units::display( power_max ),
+                          num_installed
+                      );
+        smenu.addentry( 0, true, 'i', _( "Install from CBM…" ) );
+        smenu.addentry( 1, can_uninstall, 'u', _( "Uninstall…" ) );
+        smenu.addentry( 2, can_uninstall_all, 'U', _( "Uninstall all" ) );
+        smenu.addentry( 3, true, 'c', _( "Edit power capacity (kJ)" ) );
+        smenu.addentry( 4, true, 'C', _( "Edit power capacity (J)" ) );
+        smenu.addentry( 5, true, 'p', _( "Edit power level (kJ)" ) );
+        smenu.addentry( 6, true, 'P', _( "Edit power level (J)" ) );
+        smenu.query();
+        switch( smenu.ret ) {
+            case 0: {
+                uilist scbms;
+                for( size_t i = 0; i < cbm_items.size(); i++ ) {
+                    bool enabled = !c.has_bionic( cbm_items[i]->bionic->id );
+                    scbms.addentry( i, enabled, MENU_AUTOASSIGN, "%s", cbm_items[i]->nname( 1 ) );
+                }
+                scbms.query();
+                if( scbms.ret >= 0 ) {
+                    const itype &cbm = *cbm_items[scbms.ret];
+                    const bionic_id &bio = cbm.bionic->id;
+                    constexpr int difficulty = 0;
+                    constexpr int success = 1;
+                    constexpr int level = 99;
+                    c.perform_install( bio, bio->upgraded_bionic, difficulty, success, level, "DEBUG",
+                                       bio->canceled_mutations );
+                }
+                break;
+            }
+            case 1: {
+                std::vector<bionic_id> bionics = c.get_bionics();
+                uilist sbionics;
+                for( size_t i = 0; i < bionics.size(); i++ ) {
+                    sbionics.addentry( i, true, MENU_AUTOASSIGN, "%s", bionics[i]->name.translated() );
+                }
+                sbionics.query();
+                if( sbionics.ret >= 0 ) {
+                    c.remove_bionic( bionics[sbionics.ret] );
+                }
+                break;
+            }
+            case 2: {
+                c.clear_bionics();
+                c.set_power_level( units::from_kilojoule( 0 ) );
+                c.set_max_power_level( units::from_kilojoule( 0 ) );
+                break;
+            }
+            case 3: {
+                int new_value = 0;
+                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
+                               units::display( power_max ) ) ) {
+                    c.set_max_power_level( units::from_kilojoule( new_value ) );
+                    c.set_power_level( c.get_power_level() );
+                }
+                break;
+            }
+            case 4: {
+                int new_value = 0;
+                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
+                               units::display( power_max ) ) ) {
+                    c.set_max_power_level( units::from_joule( new_value ) );
+                    c.set_power_level( c.get_power_level() );
+                }
+                break;
+            }
+            case 5: {
+                int new_value = 0;
+                if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
+                               units::display( power_level ) ) ) {
+                    c.set_power_level( units::from_kilojoule( new_value ) );
+                }
+                break;
+            }
+            case 6: {
+                int new_value = 0;
+                if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
+                               units::display( power_level ) ) ) {
+                    c.set_power_level( units::from_joule( new_value ) );
+                }
+                break;
+            }
+            default: {
+                return;
+            }
+        }
+    }
+}
+
 class wish_monster_callback: public uilist_callback
 {
     public:
@@ -328,7 +442,7 @@ class wish_monster_callback: public uilist_callback
         // Number of monsters to spawn.
         int group;
         // scrap critter for monster::print_info
-        monster tmp;
+        std::unique_ptr<monster> tmp;
         const std::vector<const mtype *> &mtypes;
 
         wish_monster_callback( const std::vector<const mtype *> &mtypes )
@@ -370,20 +484,20 @@ class wish_monster_callback: public uilist_callback
             if( entnum != lastent ) {
                 lastent = entnum;
                 if( valid_entnum ) {
-                    tmp = monster( mtypes[ entnum ]->id );
+                    tmp = std::make_unique<monster>( mtypes[ entnum ]->id );
                     if( friendly ) {
-                        tmp.friendly = -1;
+                        tmp->friendly = -1;
                     }
                 } else {
-                    tmp = monster();
+                    tmp = std::make_unique<monster>();
                 }
             }
 
             werase( w_info );
             if( valid_entnum ) {
-                tmp.print_info( w_info, 2, 5, 1 );
+                tmp->print_info( w_info, 2, 5, 1 );
 
-                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
+                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp->type->nname(),
                                                     group, hallucination ? _( " (hallucination)" ) : "" );
                 mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
             }
@@ -401,7 +515,7 @@ class wish_monster_callback: public uilist_callback
         ~wish_monster_callback() override = default;
 };
 
-void debug_menu::wishmonster( const cata::optional<tripoint> &p )
+void debug_menu::wishmonster( const std::optional<tripoint> &p )
 {
     std::vector<const mtype *> mtypes;
 
@@ -431,7 +545,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
-            if( cata::optional<tripoint> spawn = p ? p : g->look_around( true ) ) {
+            if( std::optional<tripoint> spawn = p ? p : g->look_around( true ) ) {
                 int num_spawned = 0;
                 for( const tripoint &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );
@@ -510,7 +624,7 @@ class wish_item_callback: public uilist_callback
             mvwhline( menu->window, point( startx, 1 ), ' ', menu->pad_right - 1 );
             const int entnum = menu->selected;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
-                item tmp( standard_itype_ids[entnum], calendar::turn );
+                item &tmp = *item::spawn_temporary( standard_itype_ids[entnum], calendar::turn );
                 const std::string header = string_format( "#%d: %s%s%s", entnum,
                                            standard_itype_ids[entnum]->get_id().c_str(),
                                            incontainer ? _( " (contained)" ) : "",
@@ -551,7 +665,8 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     }
     std::vector<std::pair<std::string, const itype *>> opts;
     for( const itype *i : item_controller->all() ) {
-        opts.emplace_back( item( i, calendar::start_of_cataclysm ).tname( 1, false ), i );
+        //TODO!: push up
+        opts.emplace_back( item::spawn_temporary( i, calendar::start_of_cataclysm )->tname( 1, false ), i );
     }
     std::sort( opts.begin(), opts.end(), localized_compare );
     std::vector<const itype *> itypes;
@@ -575,7 +690,8 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     wmenu.callback = &cb;
 
     for( size_t i = 0; i < opts.size(); i++ ) {
-        item ity( opts[i].second, calendar::start_of_cataclysm );
+        //TODO!: push up
+        item &ity = *item::spawn_temporary( opts[i].second, calendar::start_of_cataclysm );
         wmenu.addentry( i, true, 0, opts[i].first );
         mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
         entry_extra_text.txt = ity.symbol();
@@ -589,19 +705,19 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
         }
         bool did_amount_prompt = false;
         while( wmenu.ret >= 0 ) {
-            item granted( opts[wmenu.ret].second );
+            detached_ptr<item> granted = item::spawn( opts[wmenu.ret].second );
             if( cb.incontainer ) {
-                granted = granted.in_its_container();
+                granted = item::in_its_container( std::move( granted ) );
             }
             if( cb.has_flag ) {
-                granted.item_tags.insert( cb.flag );
+                granted->item_tags.insert( cb.flag );
             }
             // If the item has an ammunition, this loads it to capacity, including magazines.
-            if( !granted.ammo_default().is_null() ) {
-                granted.ammo_set( granted.ammo_default(), -1 );
+            if( !granted->ammo_default().is_null() ) {
+                granted->ammo_set( granted->ammo_default(), -1 );
             }
 
-            granted.set_birthday( calendar::turn );
+            granted->set_birthday( calendar::turn );
             prev_amount = amount;
             bool canceled = false;
             if( p != nullptr && !did_amount_prompt ) {
@@ -616,7 +732,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                 } else {
                     popup
                     .title( _( "How many?" ) )
-                    .description( granted.tname() );
+                    .description( granted->tname() );
                 }
                 popup.width( 20 )
                 .edit( amount );
@@ -625,19 +741,19 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
             if( !canceled ) {
                 did_amount_prompt = true;
                 if( p != nullptr ) {
-                    if( granted.count_by_charges() ) {
+                    if( granted->count_by_charges() ) {
                         if( amount > 0 ) {
-                            granted.charges = amount;
-                            p->i_add_or_drop( granted );
+                            granted->charges = amount;
+                            p->i_add_or_drop( item::spawn( *granted ) );
                         }
                     } else {
                         for( int i = 0; i < amount; i++ ) {
-                            p->i_add_or_drop( granted );
+                            p->i_add_or_drop( item::spawn( *granted ) );
                         }
                     }
                     p->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {
-                    g->m.add_item_or_charges( pos, granted );
+                    g->m.add_item_or_charges( pos, item::spawn( *granted ) );
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {

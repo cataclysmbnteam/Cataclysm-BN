@@ -21,8 +21,8 @@ double iso_tangent( double distance, units::angle vertex )
     return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - cos( vertex ) ) );
 }
 
-void bresenham( const point &p1, const point &p2, int t,
-                const std::function<bool( const point & )> &interact )
+void bresenham( point p1, point p2, int t,
+                const std::function<bool( point )> &interact )
 {
     // The slope components.
     const point d = p2 - p1;
@@ -255,7 +255,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
 
 //Trying to pull points out of a tripoint vector is messy and
 //probably slow, so leaving two full functions for now
-std::vector<point> line_to( const point &p1, const point &p2, int t )
+std::vector<point> line_to( point p1, point p2, int t )
 {
     std::vector<point> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
@@ -264,7 +264,7 @@ std::vector<point> line_to( const point &p1, const point &p2, int t )
         line.push_back( p1 );
     } else {
         line.reserve( numCells );
-        bresenham( p1, p2, t, [&line]( const point & new_point ) {
+        bresenham( p1, p2, t, [&line]( point  new_point ) {
             line.push_back( new_point );
             return true;
         } );
@@ -297,13 +297,13 @@ float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 )
     return square_dist( loc1, loc2 );
 }
 
-int manhattan_dist( const point &loc1, const point &loc2 )
+int manhattan_dist( point loc1, point loc2 )
 {
     const point d = ( loc1 - loc2 ).abs();
     return d.x + d.y;
 }
 
-int octile_dist( const point &loc1, const point &loc2, int multiplier )
+int octile_dist( point loc1, point loc2, int multiplier )
 {
     const point d = ( loc1 - loc2 ).abs();
     const int mind = std::min( d.x, d.y );
@@ -311,14 +311,14 @@ int octile_dist( const point &loc1, const point &loc2, int multiplier )
     return ( d.x + d.y - 2 * mind ) * multiplier + mind * multiplier * 99 / 70;
 }
 
-float octile_dist_exact( const point &loc1, const point &loc2 )
+float octile_dist_exact( point loc1, point loc2 )
 {
     const point d = ( loc1 - loc2 ).abs();
     const int mind = std::min( d.x, d.y );
     return d.x + d.y - 2 * mind + mind * M_SQRT2;
 }
 
-units::angle atan2( const point &p )
+units::angle atan2( point p )
 {
     return units::atan2( p.y, p.x );
 }
@@ -379,7 +379,7 @@ static std::tuple<double, double, double> slope_of( const std::vector<tripoint> 
     return std::make_tuple( normDx, normDy, normDz );
 }
 
-float get_normalized_angle( const point &start, const point &end )
+float get_normalized_angle( point start, point end )
 {
     // Taking the abs value of the difference puts the values in the first quadrant.
     const float absx = std::abs( std::max( start.x, end.x ) - std::min( start.x, end.x ) );
@@ -410,7 +410,7 @@ std::vector<tripoint> continue_line( const std::vector<tripoint> &line, const in
     return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
-direction direction_from( const point &p ) noexcept
+direction direction_from( point p ) noexcept
 {
     return static_cast<direction>( make_xyz( tripoint( p, 0 ) ) );
 }
@@ -420,7 +420,7 @@ direction direction_from( const tripoint &p ) noexcept
     return static_cast<direction>( make_xyz( p ) );
 }
 
-direction direction_from( const point &p1, const point &p2 ) noexcept
+direction direction_from( point p1, point p2 ) noexcept
 {
     return direction_from( p2 - p1 );
 }
@@ -549,13 +549,14 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
 // Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
 // Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
 // e.g. if the direction is NNE, also include E.
+// Plus the z-level cardinal, if z != 0.
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
 {
     std::vector<tripoint> adjacent_closer_squares;
     const tripoint d( -from + to );
     const point a( std::abs( d.x ), std::abs( d.y ) );
     if( d.z != 0 ) {
-        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x ), sgn( d.y ), sgn( d.z ) ) );
+        adjacent_closer_squares.push_back( from + tripoint( 0, 0, sgn( d.z ) ) );
     }
     if( a.x > a.y ) {
         // X dominant.
@@ -585,7 +586,7 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
 
 // Returns a vector of the adjacent square in the direction of the target,
 // and the two squares flanking it.
-std::vector<point> squares_in_direction( const point &p1, const point &p2 )
+std::vector<point> squares_in_direction( point p1, point p2 )
 {
     int junk = 0;
     point center_square = line_to( p1, p2, junk )[0];

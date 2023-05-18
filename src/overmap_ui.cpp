@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <tuple>
@@ -49,7 +50,6 @@
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -102,11 +102,11 @@ namespace overmap_ui
 // persistent data for distribution grid debug drawing
 struct grids_draw_data {
     public:
-        cata::optional<char> get_active( const tripoint_abs_omt &omp ) {
+        std::optional<char> get_active( const tripoint_abs_omt &omp ) {
             // TODO: fix point types
             uintptr_t id = get_distribution_grid_tracker().debug_grid_id( omp );
             if( id == 0 ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
 
             auto it = list_active.find( id );
@@ -128,10 +128,10 @@ struct grids_draw_data {
             return c;
         }
 
-        cata::optional<char> get_inactive( const tripoint_abs_omt &omp ) {
+        std::optional<char> get_inactive( const tripoint_abs_omt &omp ) {
             std::set<tripoint_abs_omt> grid = overmap_buffer.electric_grid_at( omp );
             if( grid.size() <= 1 ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
             std::vector<tripoint_abs_omt> sorted( grid.begin(), grid.end() );
             std::sort( sorted.begin(), sorted.end() );
@@ -169,14 +169,14 @@ struct grids_draw_data {
     private:
         // Fn(char) -> bool
         template<typename Fn>
-        cata::optional<char> pick_char( Fn filter_func ) {
+        std::optional<char> pick_char( Fn filter_func ) {
             static std::string candidates( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" );
             for( char c : candidates ) {
                 if( filter_func( c ) ) {
                     return c;
                 }
             }
-            return cata::nullopt;
+            return std::nullopt;
         }
 
         std::unordered_map<std::uintptr_t, char> list_active;
@@ -694,7 +694,7 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
             //~ if you're having trouble making it look nice in your language.
             const char *danger_abbr = pgettext( "danger indicator", " D" );
             const bool is_dangerous = overmap_buffer.is_marked_dangerous( note.p );
-            cata::optional<int> this_dr = overmap_buffer.has_note_with_danger_radius( note.p );
+            std::optional<int> this_dr = overmap_buffer.has_note_with_danger_radius( note.p );
             std::string dr_short;
             if( this_dr ) {
                 if( *this_dr == 0 ) {
@@ -1098,7 +1098,7 @@ static void draw_ascii( const catacurses::window &w,
 
             // Are we debugging distribution grids?
             if( blink && data.debug_grids ) {
-                cata::optional<char> ch = grids_data.get_active( omp );
+                std::optional<char> ch = grids_data.get_active( omp );
                 if( ch.has_value() ) {
                     ter_sym = *ch;
                     ter_color = c_light_blue_yellow;
@@ -1797,7 +1797,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
             action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 
-            if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
                 curs += vec->xy();
             } else if( action == "CONFIRM" ) { // Actually modify the overmap
                 if( terrain ) {
@@ -1965,7 +1965,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     bool show_explored = true;
     bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
-    cata::optional<tripoint> mouse_pos;
+    std::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
     grids_draw_data grids_data;
 
@@ -1987,7 +1987,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
 #else
         action = ictxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 #endif
-        if( const cata::optional<tripoint> vec = ictxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ictxt.get_direction( action ) ) {
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
             curs += vec->xy() * scroll_d;
         } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
@@ -2050,7 +2050,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 }
                 if( query_yn( confirm_msg ) ) {
                     if( driving ) {
-                        player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
+                        player_character.assign_activity( std::make_unique<player_activity>
+                                                          ( std::make_unique<autodrive_activity_actor>() ) );
                     } else {
                         player_character.reset_move_mode();
                         player_character.assign_activity( ACT_TRAVELLING );

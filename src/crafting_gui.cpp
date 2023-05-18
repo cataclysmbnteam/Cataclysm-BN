@@ -6,6 +6,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -27,7 +28,6 @@
 #include "itype.h"
 #include "json.h"
 #include "mod_manager.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "recipe.h"
@@ -164,7 +164,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 {
     struct {
         const recipe *last_recipe = nullptr;
-        item dummy;
+        detached_ptr<item> dummy;
     } item_info_cache;
     int item_info_scroll = 0;
     int item_info_scroll_popup = 0;
@@ -174,13 +174,13 @@ const recipe *select_crafting_recipe( int &batch_size )
         if( item_info_cache.last_recipe != rec ) {
             item_info_cache.last_recipe = rec;
             item_info_cache.dummy = rec->create_result();
-            item_info_cache.dummy.set_var( "recipe_exemplar", rec->ident().str() );
+            item_info_cache.dummy->set_var( "recipe_exemplar", rec->ident().str() );
             item_info_scroll = 0;
             item_info_scroll_popup = 0;
         }
-        std::vector<iteminfo> info = item_info_cache.dummy.info( count );
-        item_info_data data( item_info_cache.dummy.tname( count ),
-                             item_info_cache.dummy.type_name( count ),
+        std::vector<iteminfo> info = item_info_cache.dummy->info( count );
+        item_info_data data( item_info_cache.dummy->tname( count ),
+                             item_info_cache.dummy->type_name( count ),
                              info, {}, scroll_pos );
         return data;
     };
@@ -387,7 +387,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         mvwputch( w_data, point( 0, dataHeight - 1 ), BORDER_COLOR, LINE_XXOO ); // |_
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
-        cata::optional<point> cursor_pos;
+        std::optional<point> cursor_pos;
         int recmax = current.size();
 
         // Draw recipes with scroll list
@@ -983,12 +983,12 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     std::sort( related_components.begin(), related_components.end(), compare_second );
     // current recipe result
     std::vector<std::pair<itype_id, std::string>> related_results;
-    item tmp = current->create_result();
+    detached_ptr<item> tmp = current->create_result();
     itype_id tid;
-    if( tmp.contents.empty() ) { // use this item
-        tid = tmp.typeId();
+    if( tmp->contents.empty() ) { // use this item
+        tid = tmp->typeId();
     } else { // use the contained item
-        tid = tmp.contents.front().typeId();
+        tid = tmp->contents.front().typeId();
     }
     const std::set<const recipe *> &known_recipes = u.get_learned_recipes().of_component( tid );
     for( const auto *b : known_recipes ) {

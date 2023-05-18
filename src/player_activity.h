@@ -5,6 +5,7 @@
 #include <climits>
 #include <cstddef>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -15,9 +16,9 @@
 #include "enums.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
+#include "safe_reference.h"
 
 class activity_actor;
 class Character;
@@ -32,7 +33,7 @@ class player_activity
 {
     private:
         activity_id type;
-        cata::clone_ptr<activity_actor> actor;
+        std::unique_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions;
 
@@ -53,7 +54,7 @@ class player_activity
         */
         int position = 0;
         std::string name;
-        std::vector<item_location> targets;
+        std::vector<safe_reference<item>> targets;
         std::vector<int> values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;
@@ -77,12 +78,11 @@ class player_activity
         /**
          * Create a new activity with the given actor
          */
-        player_activity( const activity_actor &actor );
+        // player_activity( const activity_actor &actor );
+        player_activity( std::unique_ptr<activity_actor> &&actor );
 
         player_activity( player_activity && ) = default;
-        player_activity( const player_activity & ) = default;
         player_activity &operator=( player_activity && ) = default;
-        player_activity &operator=( const player_activity & ) = default;
 
         explicit operator bool() const {
             return !type.is_null();
@@ -111,7 +111,7 @@ class player_activity
         /**
          * Helper that returns an activity specific progress message.
          */
-        cata::optional<std::string> get_progress_message( const avatar &u ) const;
+        std::optional<std::string> get_progress_message( const avatar &u ) const;
 
         /**
          * If this returns true, the action can be continued without
@@ -156,6 +156,44 @@ class player_activity
         void ignore_distraction( distraction_type type );
         void allow_distractions();
         void inherit_distractions( const player_activity & );
+};
+
+class activity_ptr
+{
+    private:
+        std::unique_ptr<player_activity> act;
+    public:
+        activity_ptr();
+        activity_ptr( const activity_ptr & ) = delete;
+        activity_ptr( activity_ptr && );
+        activity_ptr( std::unique_ptr<player_activity> && );
+        activity_ptr &operator=( const activity_ptr & ) = delete;
+        activity_ptr &operator=( activity_ptr && );
+        activity_ptr &operator=( std::unique_ptr<player_activity> && );
+
+        ~activity_ptr();
+
+        player_activity *get() const {
+            return act.get();
+        }
+
+        explicit operator bool() const {
+            return !!*act;
+        }
+
+        player_activity &operator*() const {
+            return *get();
+        }
+
+        player_activity *operator->() const {
+            return get();
+        }
+
+        std::unique_ptr<player_activity> release() {
+            std::unique_ptr<player_activity> ret = std::move( act );
+            act = std::make_unique < player_activity>();
+            return ret;
+        }
 };
 
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

@@ -235,20 +235,23 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "heading", name_as_heading );
     // Same as the above comment
-    mandatory( jo, was_loaded, "heading_multiple", name_as_heading_multiple );
+    optional( jo, was_loaded, "heading_multiple", name_as_heading_multiple, name_as_heading );
     optional( jo, was_loaded, "hp_bar_ui_text", hp_bar_ui_text );
-    mandatory( jo, was_loaded, "encumbrance_text", encumb_text );
-    mandatory( jo, was_loaded, "hit_size", hit_size );
-    mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
-    mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
+    optional( jo, was_loaded, "encumbrance_text", encumb_text );
 
-    mandatory( jo, was_loaded, "base_hp", base_hp );
+    assign( jo, "hit_size", hit_size, true );
+    assign( jo, "hit_difficulty", hit_difficulty, true );
+    assign( jo, "hit_size_relative", hit_size_relative, true );
 
-    mandatory( jo, was_loaded, "legacy_id", legacy_id );
+    assign( jo, "base_hp", base_hp, true );
+
+    assign( jo, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
 
-    mandatory( jo, was_loaded, "main_part", main_part );
-    mandatory( jo, was_loaded, "opposite_part", opposite_part );
+    optional( jo, was_loaded, "main_part", main_part, id );
+    optional( jo, was_loaded, "opposite_part", opposite_part, id );
+
+    optional( jo, was_loaded, "essential", essential, false );
 
     optional( jo, was_loaded, "hot_morale_mod", hot_morale_mod, 0.0 );
     optional( jo, was_loaded, "cold_morale_mod", cold_morale_mod, 0.0 );
@@ -256,11 +259,10 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "stylish_bonus", stylish_bonus, 0 );
     optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
 
-
-
     optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
 
-    part_side = jo.get_enum_value<side>( "side" );
+    const auto side_reader = enum_flags_reader<side> { "side" };
+    optional( jo, was_loaded, "side", part_side, side_reader, side::BOTH );
 }
 
 void body_part_type::reset()

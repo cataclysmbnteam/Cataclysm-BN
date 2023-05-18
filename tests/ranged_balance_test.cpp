@@ -80,9 +80,9 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
 {
     CHECK( !shooter.in_vehicle );
     shooter.worn.clear();
-    shooter.inv.clear();
+    shooter.inv_clear();
     for( const std::string &article : apparel ) {
-        shooter.wear_item( item( article ) );
+        shooter.wear_item( item::spawn( article ) );
     }
 }
 
@@ -126,7 +126,7 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
 
 static dispersion_sources get_dispersion( npc &shooter, const int aim_time )
 {
-    item &gun = shooter.weapon;
+    item &gun = shooter.primary_weapon();
     dispersion_sources dispersion = ranged::get_weapon_dispersion( shooter, gun );
 
     shooter.moves = aim_time;
@@ -152,8 +152,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         } );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
-        INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(),
+                shooter.recoil ) );
         CAPTURE( minimum_stats[0].n() );
         CAPTURE( minimum_stats[0].margin_of_error() );
         CAPTURE( minimum_stats[1].n() );
@@ -167,8 +168,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.5 ) );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
-        INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(),
+                shooter.recoil ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() > 0.5 );
@@ -179,8 +181,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
                                        0.1 ) );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
-        INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, MAX_RECOIL ) );
-        INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, shooter.recoil ) );
+        INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(), MAX_RECOIL ) );
+        INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(),
+                shooter.recoil ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() < 0.1 );
@@ -198,12 +201,13 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
                                          Threshold( accuracy_standard, hit_rate_cap ) );
     INFO( dispersion );
     INFO( "Range: " << fast_shooting_range );
-    INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, MAX_RECOIL ) );
-    INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.weapon, shooter.recoil ) );
-    CAPTURE( shooter.weapon.gun_skill().str() );
-    CAPTURE( shooter.get_skill_level( shooter.weapon.gun_skill() ) );
+    INFO( "Max aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(), MAX_RECOIL ) );
+    INFO( "Min aim speed: " << ranged::aim_per_move( shooter, shooter.primary_weapon(),
+            shooter.recoil ) );
+    CAPTURE( shooter.primary_weapon().gun_skill().str() );
+    CAPTURE( shooter.get_skill_level( shooter.primary_weapon().gun_skill() ) );
     CAPTURE( shooter.get_dex() );
-    CAPTURE( to_milliliter( shooter.weapon.volume() ) );
+    CAPTURE( to_milliliter( shooter.primary_weapon().volume() ) );
     CAPTURE( fast_stats.n() );
     CAPTURE( fast_stats.margin_of_error() );
     CHECK( fast_stats.avg() > hit_rate );

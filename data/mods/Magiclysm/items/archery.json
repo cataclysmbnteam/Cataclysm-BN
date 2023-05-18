@@ -46,6 +46,6 @@
     "range": 7,
     "count": 15,
     "stack_size": 15,
-    "effects": [ "RECOVER_65" ]
+    "dont_recover_one_in": 65
   }
 ]

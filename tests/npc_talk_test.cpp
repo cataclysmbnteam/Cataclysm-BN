@@ -215,7 +215,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
     CHECK( d.responses[2].text == "This is a short trait test response." );
-    player_character.wear_item( item( "badge_marshal" ) );
+    player_character.wear_item( item::spawn( "badge_marshal" ) );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a trait test response." );
@@ -598,7 +598,7 @@ TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
 
 static bool has_item( Character &p, const std::string &id, int count )
 {
-    item old_item = item( id );
+    item &old_item = *item::spawn_temporary( id );
     if( old_item.count_by_charges() ) {
         return p.has_charges( itype_id( id ), count );
     } else {
@@ -614,8 +614,7 @@ static bool has_beer_bottle( Character &p, int count )
 static void give_item( Character &p, const std::string &id, int count )
 {
     for( int i = 0; i < count; i++ ) {
-        item it( id );
-        p.inv.add_item( it );
+        p.i_add( item::spawn( id ) );
     }
 }
 
@@ -628,10 +627,10 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
 
     player_character.int_cur = 8;
     player_character.cash = 1000;
-    player_character.remove_items_with( []( const item & it ) {
-        return it.get_category().get_id() == item_category_id( "books" ) ||
-               it.get_category().get_id() == item_category_id( "food" ) ||
-               it.typeId() == itype_id( "bottle_glass" );
+    player_character.remove_top_items_with( []( detached_ptr<item> &&it ) {
+        return ( it->get_category().get_id() == item_category_id( "books" ) ||
+                 it->get_category().get_id() == item_category_id( "food" ) ||
+                 it->typeId() == itype_id( "bottle_glass" ) ) ? detached_ptr<item>() : std::move( it );
     } );
 
     SECTION( "basic_has_item" ) {
@@ -807,7 +806,7 @@ TEST_CASE( "npc_talk_effects_advanced", "[npc_talk]" )
         REQUIRE( player_character.cash == 1000 );
         REQUIRE( has_item( player_character, "bottle_plastic", 1 ) );
         REQUIRE( has_beer_bottle( player_character, 2 ) );
-        REQUIRE( player_character.wield( player_character.i_at( player_character.inv.position_by_type(
+        REQUIRE( player_character.wield( player_character.i_at( player_character.inv_position_by_type(
                                              itype_id( "bottle_glass" ) ) ) ) );
         talk_effect_t &effects = d.responses[1].success;
         effects.apply( d );

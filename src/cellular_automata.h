@@ -18,8 +18,8 @@ namespace CellularAutomata
 * @returns The number of neighbors that are alive, a value between 0 and 8.
 */
 int neighbor_count( const std::vector<std::vector<int>> &cells,
-                    const point &size,
-                    const point &p );
+                    point size,
+                    point p );
 
 /**
 * Generate a cellular automaton using the provided parameters.
@@ -37,7 +37,7 @@ int neighbor_count( const std::vector<std::vector<int>> &cells,
 * @returns The width x height grid of cells. Each cell is a 0 if dead or a 1 if alive.
 */
 std::vector<std::vector<int>> generate_cellular_automaton(
-                               const point &size,
+                               point size,
                                const int alive,
                                const int iterations,
                                const int birth_limit,

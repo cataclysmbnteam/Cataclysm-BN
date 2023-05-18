@@ -182,7 +182,7 @@ color_tag_parse_result::tag_type update_color_stack(
     return tag.type;
 }
 
-void print_colored_text( const catacurses::window &w, const point &p, nc_color &color,
+void print_colored_text( const catacurses::window &w, point p, nc_color &color,
                          const nc_color &base_color, const std::string &text,
                          const report_color_error color_error )
 {
@@ -211,7 +211,7 @@ void print_colored_text( const catacurses::window &w, const point &p, nc_color &
     }
 }
 
-void trim_and_print( const catacurses::window &w, const point &begin,
+void trim_and_print( const catacurses::window &w, point begin,
                      const int width, const nc_color &base_color,
                      const std::string &text,
                      const report_color_error color_error )
@@ -296,7 +296,7 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
 }
 
 // returns number of printed lines
-int fold_and_print( const catacurses::window &w, const point &begin, int width,
+int fold_and_print( const catacurses::window &w, point begin, int width,
                     const nc_color &base_color, const std::string &text, const char split )
 {
     nc_color color = base_color;
@@ -308,7 +308,7 @@ int fold_and_print( const catacurses::window &w, const point &begin, int width,
     return textformatted.size();
 }
 
-int fold_and_print_from( const catacurses::window &w, const point &begin, int width,
+int fold_and_print_from( const catacurses::window &w, point begin, int width,
                          int begin_line, const nc_color &base_color, const std::string &text )
 {
     const int iWinHeight = getmaxy( w );
@@ -474,21 +474,21 @@ void wputch( const catacurses::window &w, nc_color FG, int ch )
     wattroff( w, FG );
 }
 
-void mvwputch( const catacurses::window &w, const point &p, nc_color FG, int ch )
+void mvwputch( const catacurses::window &w, point p, nc_color FG, int ch )
 {
     wattron( w, FG );
     mvwaddch( w, p, ch );
     wattroff( w, FG );
 }
 
-void mvwputch( const catacurses::window &w, const point &p, nc_color FG, const std::string &ch )
+void mvwputch( const catacurses::window &w, point p, nc_color FG, const std::string &ch )
 {
     wattron( w, FG );
     mvwprintw( w, p, ch );
     wattroff( w, FG );
 }
 
-void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG, int ch )
+void mvwputch_inv( const catacurses::window &w, point p, nc_color FG, int ch )
 {
     nc_color HC = invert_color( FG );
     wattron( w, HC );
@@ -496,7 +496,7 @@ void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG, int
     wattroff( w, HC );
 }
 
-void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG,
+void mvwputch_inv( const catacurses::window &w, point p, nc_color FG,
                    const std::string &ch )
 {
     nc_color HC = invert_color( FG );
@@ -505,7 +505,7 @@ void mvwputch_inv( const catacurses::window &w, const point &p, nc_color FG,
     wattroff( w, HC );
 }
 
-void mvwputch_hi( const catacurses::window &w, const point &p, nc_color FG, int ch )
+void mvwputch_hi( const catacurses::window &w, point p, nc_color FG, int ch )
 {
     nc_color HC = hilite( FG );
     wattron( w, HC );
@@ -513,7 +513,7 @@ void mvwputch_hi( const catacurses::window &w, const point &p, nc_color FG, int 
     wattroff( w, HC );
 }
 
-void mvwputch_hi( const catacurses::window &w, const point &p, nc_color FG, const std::string &ch )
+void mvwputch_hi( const catacurses::window &w, point p, nc_color FG, const std::string &ch )
 {
     nc_color HC = hilite( FG );
     wattron( w, HC );
@@ -525,7 +525,7 @@ void draw_custom_border(
     const catacurses::window &w, const catacurses::chtype ls, const catacurses::chtype rs,
     const catacurses::chtype ts, const catacurses::chtype bs, const catacurses::chtype tl,
     const catacurses::chtype tr, const catacurses::chtype bl, const catacurses::chtype br,
-    const nc_color FG, const point &pos, int height, int width )
+    const nc_color FG, point pos, int height, int width )
 {
     wattron( w, FG );
 
@@ -604,7 +604,7 @@ border_helper::border_info::border_info( border_helper &helper )
 {
 }
 
-void border_helper::border_info::set( const point &pos, const point &size )
+void border_helper::border_info::set( point pos, point size )
 {
     this->pos = pos;
     this->size = size;
@@ -1312,7 +1312,7 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
  *   If true, iCurrentLine can be at most iNumLines - iContentHeight.
  **/
 void draw_scrollbar( const catacurses::window &window, const int iCurrentLine,
-                     const int iContentHeight, const int iNumLines, const point &offset,
+                     const int iContentHeight, const int iNumLines, point offset,
                      nc_color bar_color, const bool bDoNotScrollToEnd )
 {
     scrollbar()
@@ -1540,7 +1540,7 @@ std::string rm_prefix( std::string str, char c1, char c2 )
 // draw a menu-item-like string with highlighted shortcut character
 // Example: <w>ield, m<o>ve
 // returns: output length (in console cells)
-size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
+size_t shortcut_print( const catacurses::window &w, point p, nc_color text_color,
                        nc_color shortcut_color, const std::string &fmt )
 {
     wmove( w, p );
@@ -1710,7 +1710,7 @@ void insert_table( const catacurses::window &w, int pad, int line, int columns,
     wattroff( w, FG );
 }
 
-scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
+scrollingcombattext::cSCT::cSCT( point p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,
                                  const std::string &p_sType )
@@ -1754,7 +1754,7 @@ scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
 
 }
 
-void scrollingcombattext::add( const point &pos, direction p_oDir,
+void scrollingcombattext::add( point pos, direction p_oDir,
                                const std::string &p_sText, const game_message_type p_gmt,
                                const std::string &p_sText2, const game_message_type p_gmt2,
                                const std::string &p_sType )
@@ -2078,7 +2078,7 @@ bool is_draw_tiles_mode()
 }
 #endif
 
-void mvwprintz( const catacurses::window &w, const point &p, const nc_color &FG,
+void mvwprintz( const catacurses::window &w, point p, const nc_color &FG,
                 const std::string &text )
 {
     wattron( w, FG );

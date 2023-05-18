@@ -6,6 +6,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <unordered_map>
@@ -39,7 +40,6 @@
 #include "mutation.h"
 #include "name.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pldata.h"
@@ -57,7 +57,6 @@
 #include "units.h"
 #include "weather.h"
 
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_drain( "bio_drain" );
@@ -67,9 +66,10 @@ static const bionic_id bio_glowy( "bio_glowy" );
 static const bionic_id bio_itchy( "bio_itchy" );
 static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_noise( "bio_noise" );
-static const bionic_id bio_plut_filter( "bio_plut_filter" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
 static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_reactoroverride( "bio_reactoroverride" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
 static const bionic_id bio_spasm( "bio_spasm" );
@@ -111,6 +111,7 @@ static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_rad_badge( "rad_badge" );
+static const itype_id itype_plut_cell( "plut_cell" );
 
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ALBINO( "ALBINO" );
@@ -168,6 +169,7 @@ static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_RAD_RESIST( "RAD_RESIST" );
+static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -432,10 +434,10 @@ void Character::suffer_from_chemimbalance()
 void Character::suffer_from_schizophrenia()
 {
     std::string i_name_w;
-    if( !weapon.is_null() ) {
-        i_name_w = weapon.has_var( "item_label" ) ? weapon.get_var( "item_label" ) :
+    if( !weapon->is_null() ) {
+        i_name_w = weapon->has_var( "item_label" ) ? weapon->get_var( "item_label" ) :
                    //~ %1$s: weapon name
-                   string_format( _( "your %1$s" ), weapon.type_name() );
+                   string_format( _( "your %1$s" ), weapon->type_name() );
     }
     // Start with the effects that both NPCs and avatars can suffer from
     // Delusions
@@ -491,15 +493,14 @@ void Character::suffer_from_schizophrenia()
         return;
     }
     // Drop weapon
-    if( one_turn_in( 2_days ) && !weapon.is_null() ) {
+    if( one_turn_in( 2_days ) && !weapon->is_null() ) {
         const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
                                      translation() );
         std::string str = string_format( snip, i_name_w );
         str[0] = toupper( str[0] );
 
         add_msg_if_player( m_bad, "%s", str );
-        item_location loc( *this, &weapon );
-        drop( loc, pos() );
+        drop( get_weapon(), pos() );
         return;
     }
     // Talk to self
@@ -569,7 +570,7 @@ void Character::suffer_from_schizophrenia()
     }
 
     // Talking weapon
-    if( !weapon.is_null() ) {
+    if( !weapon->is_null() ) {
         // If player has a weapon, picks a message from said weapon
         // Weapon tells player to kill a monster if any are nearby
         // Weapon is concerned for player if bleeding
@@ -597,7 +598,7 @@ void Character::suffer_from_schizophrenia()
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( weapon.damage() >= weapon.max_damage() / 3 && one_turn_in( 1_hours ) ) {
+        } else if( weapon->damage() >= weapon->max_damage() / 3 && one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
@@ -791,15 +792,15 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
         bp_exposure[bp] = 1.0;
     }
     // For every item worn, for every body part, adjust coverage
-    for( const item &it : worn ) {
+    for( const item * const &it : worn ) {
         // What body parts does this item cover?
-        body_part_set covered = it.get_covered_body_parts();
+        body_part_set covered = it->get_covered_body_parts();
         for( const bodypart_id &bp : all_body_parts )  {
             if( bp->token != num_bp && !covered.test( bp->token ) ) {
                 continue;
             }
             // How much exposure does this item leave on this part? (1.0 == naked)
-            float part_exposure = 1.0 - it.get_coverage() / 100.0f;
+            float part_exposure = 1.0 - it->get_coverage() / 100.0f;
             // Coverage multiplies, so two layers with 50% coverage will together give 75%
             bp_exposure[bp] = bp_exposure[bp] * part_exposure;
         }
@@ -841,7 +842,7 @@ void Character::suffer_from_sunburn()
         }
     }
     // Umbrellas can keep the sun off the skin
-    if( weapon.has_flag( "RAIN_PROTECT" ) ) {
+    if( weapon->has_flag( "RAIN_PROTECT" ) ) {
         return;
     }
 
@@ -1148,80 +1149,49 @@ void Character::suffer_from_radiation()
         mod_rad( -5 );
     }
 
-    if( !reactor_plut && !tank_plut && !slow_rad ) {
-        return;
-    }
-    // Microreactor CBM and supporting bionics
-    if( has_bionic( bio_reactor ) || has_bionic( bio_advreactor ) ) {
-        //first do the filtering of plutonium from storage to reactor
-        if( tank_plut > 0 ) {
-            int plut_trans;
-            if( has_active_bionic( bio_plut_filter ) ) {
-                plut_trans = tank_plut * 0.025;
+    // Microreactor CBM
+    if( get_fuel_type_available( itype_plut_cell ) > 0 ) {
+        if( calendar::once_every( 60_minutes ) ) {
+            int rad_mod = 0;
+            rad_mod += has_bionic( bio_reactor ) ? 3 : 0;
+            rad_mod += has_bionic( bio_advreactor ) ? 2 : 0;
+
+            if( rad_mod > 1 ) {
+                mod_rad( rad_mod );
+            }
+        }
+
+        bool powered_reactor = false;
+
+        if( has_bionic( bio_reactor ) ) {
+            if( get_bionic_state( bio_reactor ).powered ) {
+                powered_reactor = true;
             } else {
-                plut_trans = tank_plut * 0.005;
+                mod_power_level( 50_J );
             }
-            if( plut_trans < 1 ) {
-                plut_trans = 1;
-            }
-            tank_plut -= plut_trans;
-            reactor_plut += plut_trans;
         }
-        //leaking radiation, reactor is unshielded, but still better than a simple tank
-        slow_rad += ( ( tank_plut * 0.1 ) + ( reactor_plut * 0.01 ) );
-        //begin power generation
-        if( reactor_plut > 0 ) {
-            int power_gen = 0;
-            if( has_bionic( bio_advreactor ) ) {
-                if( ( reactor_plut * 0.05 ) > 2000 ) {
-                    power_gen = 2000;
-                } else {
-                    power_gen = reactor_plut * 0.05;
-                    if( power_gen < 1 ) {
-                        power_gen = 1;
-                    }
-                }
-                slow_rad += ( power_gen * 3 );
-                while( slow_rad >= 50 ) {
-                    if( power_gen >= 1 ) {
-                        slow_rad -= 50;
-                        power_gen -= 1;
-                        reactor_plut -= 1;
-                    } else {
-                        break;
-                    }
-                }
-            } else if( has_bionic( bio_reactor ) ) {
-                if( ( reactor_plut * 0.025 ) > 500 ) {
-                    power_gen = 500;
-                } else {
-                    power_gen = reactor_plut * 0.025;
-                    if( power_gen < 1 ) {
-                        power_gen = 1;
-                    }
-                }
-                slow_rad += ( power_gen * 3 );
+
+        if( has_bionic( bio_advreactor ) ) {
+            if( get_bionic_state( bio_advreactor ).powered ) {
+                powered_reactor = true;
+            } else {
+                mod_power_level( 100_J );
             }
-            reactor_plut -= power_gen;
-            while( power_gen >= 250 ) {
-                apply_damage( nullptr, bodypart_id( "torso" ), 1 );
-                mod_pain( 1 );
-                add_msg_if_player( m_bad,
-                                   _( "Your chest burns as your power systems overload!" ) );
-                mod_power_level( 50_kJ );
-                power_gen -= 60; // ten units of power lost due to short-circuiting into you
-            }
-            mod_power_level( units::from_kilojoule( power_gen ) );
         }
-    } else {
-        slow_rad += ( reactor_plut + tank_plut ) * 40;
-        //plutonium in body without any kind of container.  Not good at all.
-        reactor_plut *= 0.6;
-        tank_plut *= 0.6;
-    }
-    while( slow_rad >= 1000 ) {
-        mod_rad( 1 );
-        slow_rad -= 1000;
+
+        if( has_bionic( bio_reactoroverride ) && powered_reactor ) {
+            if( get_bionic_state( bio_reactoroverride ).powered ) {
+                int current_fuel_stock = std::stoi( get_value( itype_plut_cell.str() ) );
+
+                current_fuel_stock -= 50;
+
+                set_value( itype_plut_cell.str(), std::to_string( current_fuel_stock ) );
+                update_fuel_storage( itype_plut_cell );
+
+                mod_power_level( 40_kJ );
+                mod_rad( 2 );
+            }
+        }
     }
 }
 
@@ -1236,14 +1206,14 @@ void Character::suffer_from_bad_bionics()
         moves -= 150;
         mod_power_level( -bio_dis_shock->power_trigger );
 
-        if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
-            weapon.charges -= rng( 1, 3 ) * 50;
-            if( weapon.charges < 1 ) {
-                weapon.charges = 1;
+        if( weapon->typeId() == itype_e_handcuffs && weapon->charges > 0 ) {
+            weapon->charges -= rng( 1, 3 ) * 50;
+            if( weapon->charges < 1 ) {
+                weapon->charges = 1;
             }
 
             add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
-                               weapon.tname() );
+                               weapon->tname() );
         }
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
@@ -1683,7 +1653,7 @@ void Character::mend( int rate_multiplier )
             continue;
         }
 
-        if( needs_splint && !worn_with_flag( "SPLINT",  bp ) ) {
+        if( needs_splint && !worn_with_flag( flag_SPLINT, bp ) ) {
             continue;
         }
 

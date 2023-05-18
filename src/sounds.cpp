@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <system_error>
@@ -31,7 +32,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "player_activity.h"
@@ -475,7 +475,7 @@ void sounds::process_sound_markers( player *p )
 
         // don't print our own noise or things without descriptions
         if( !sound.ambient && ( pos != p->pos() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
-            if( !p->activity.is_distraction_ignored( distraction_type::noise ) &&
+            if( !p->activity->is_distraction_ignored( distraction_type::noise ) &&
                 !get_safemode().is_sound_safe( sound.description, distance_to_sound ) ) {
                 const std::string query = string_format( _( "Heard %s!" ), description );
                 g->cancel_activity_or_ignore_query( distraction_type::noise, query );
@@ -512,7 +512,7 @@ void sounds::process_sound_markers( player *p )
                     add_msg( _( "Your alarm clock wakes you up." ) );
                 } else {
                     add_msg( _( "Your alarm clock goes off and you haven't slept a wink." ) );
-                    p->activity.set_to_null();
+                    p->activity->set_to_null();
                 }
                 add_msg( _( "You turn off your alarm-clock." ) );
                 p->get_effect( effect_alarm_clock ).set_duration( 0_turns );
@@ -1118,8 +1118,8 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
         vol_targ = std::max( heard_volume - 20, 0 );
     }
     ang_targ = get_heard_angle( target );
-    weapon_skill = p->weapon.melee_skill();
-    weapon_volume = p->weapon.volume() / units::legacy_volume_factor;
+    weapon_skill = p->primary_weapon().melee_skill();
+    weapon_volume = p->primary_weapon().volume() / units::legacy_volume_factor;
 }
 
 // Operator overload required for thread API.
@@ -1572,8 +1572,8 @@ void sfx::play_activity_sound( const std::string &id, const std::string &variant
     }
 
     avatar &player_character = get_avatar();
-    if( act != player_character.activity.id() ) {
-        act = player_character.activity.id();
+    if( act != player_character.activity->id() ) {
+        act = player_character.activity->id();
         play_ambient_variant_sound( id, variant, volume, channel::player_activities, 0 );
     }
 }

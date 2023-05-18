@@ -3,9 +3,9 @@
 #define CATA_SRC_MAGIC_TER_FURN_TRANSFORM_H
 
 #include <map>
+#include <optional>
 #include <vector>
 
-#include "optional.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
@@ -31,7 +31,7 @@ class ter_furn_data
 
         bool has_msg() const;
         void add_msg( const Creature &critter ) const;
-        cata::optional<T> pick() const;
+        std::optional<T> pick() const;
         void load( const JsonObject &jo );
 };
 
@@ -48,17 +48,17 @@ class ter_furn_transform
         std::map<furn_str_id, ter_furn_data<furn_str_id>> furn_transform;
         std::map<std::string, ter_furn_data<furn_str_id>> furn_flag_transform;
 
-        cata::optional<ter_str_id> next_ter( const ter_str_id &ter ) const;
-        cata::optional<ter_str_id> next_ter( const std::string &flag ) const;
-        cata::optional<furn_str_id> next_furn( const furn_str_id &furn ) const;
-        cata::optional<furn_str_id> next_furn( const std::string &flag ) const;
+        std::optional<ter_str_id> next_ter( const ter_str_id &ter ) const;
+        std::optional<ter_str_id> next_ter( const std::string &flag ) const;
+        std::optional<furn_str_id> next_furn( const furn_str_id &furn ) const;
+        std::optional<furn_str_id> next_furn( const std::string &flag ) const;
 
         template<class T, class K>
-        cata::optional<ter_furn_data<T>> find_transform( const std::map<K, ter_furn_data<T>> &list,
-                                      const K &key ) const;
+        std::optional<ter_furn_data<T>> find_transform( const std::map<K, ter_furn_data<T>> &list,
+                                     const K &key ) const;
 
         template <class T, class K>
-        cata::optional<T> next( const std::map<K, ter_furn_data<T>> &list, const K &key ) const;
+        std::optional<T> next( const std::map<K, ter_furn_data<T>> &list, const K &key ) const;
 
         // return value is success of message found
         template <class T, class K>

@@ -5,12 +5,13 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
-#include "optional.h"
 #include "type_id.h"
+#include "colony.h"
 
 class Character;
 class inventory;
@@ -21,6 +22,9 @@ struct tripoint;
 // TODO (https://github.com/cataclysmbnteam/Cataclysm-BN/issues/1612):
 // Remove that forward declaration after repair_activity_actor.
 class vehicle;
+
+template<typename T>
+class detached_ptr;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
@@ -75,10 +79,10 @@ struct activity_reason_info {
     //is it possible to do this
     bool can_do;
     //construction index
-    cata::optional<construction_id> con_idx;
+    std::optional<construction_id> con_idx;
 
     activity_reason_info( do_activity_reason reason_, bool can_do_,
-                          const cata::optional<construction_id> &con_idx_ = cata::nullopt ) :
+                          const std::optional<construction_id> &con_idx_ = std::nullopt ) :
         reason( reason_ ),
         can_do( can_do_ ),
         con_idx( con_idx_ )
@@ -134,10 +138,21 @@ enum class item_drop_reason {
     tumbling
 };
 
-void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items );
-void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items,
+void put_into_vehicle_or_drop( Character &c, item_drop_reason,
+                               detached_ptr<item> &&it );
+void put_into_vehicle_or_drop( Character &c, item_drop_reason,
+                               std::vector<detached_ptr<item>> &items );
+void put_into_vehicle_or_drop( Character &c, item_drop_reason,
+                               std::vector<detached_ptr<item>> &items,
                                const tripoint &where, bool force_ground = false );
-void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &items,
+void put_into_vehicle_or_drop( Character &c, item_drop_reason,
+                               detached_ptr<item> &&it,
+                               const tripoint &where, bool force_ground = false );
+void drop_on_map( Character &c, item_drop_reason reason,
+                  std::vector<detached_ptr<item>> &items,
+                  const tripoint &where );
+void drop_on_map( Character &c, item_drop_reason reason,
+                  detached_ptr<item> &&it,
                   const tripoint &where );
 
 namespace activity_handlers

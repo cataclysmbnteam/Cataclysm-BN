@@ -58,9 +58,9 @@ status_t character_oracle_t::can_wear_warmer_clothes() const
     const player *p = dynamic_cast<const player *>( subject );
     // Check inventory for wearable warmer clothes, greedily.
     // Don't consider swapping clothes yet, just evaluate adding clothes.
-    for( const auto &i : subject->inv.const_slice() ) {
-        const item &candidate = i->front();
-        if( candidate.get_warmth() > 0 || p->can_wear( candidate ).success() ) {
+    for( const auto &i : subject->inv_const_slice() ) {
+        const item *const &candidate = i->front();
+        if( candidate->get_warmth() > 0 || p->can_wear( *candidate ).success() ) {
             return running;
         }
     }
@@ -72,14 +72,14 @@ status_t character_oracle_t::can_make_fire() const
     // Check inventory for firemaking tools and fuel
     bool tool = false;
     bool fuel = false;
-    for( const auto &i : subject->inv.const_slice() ) {
-        const item &candidate = i->front();
-        if( candidate.has_flag( flag_FIRESTARTER ) ) {
+    for( const auto &i : subject->inv_const_slice() ) {
+        const item *const &candidate = i->front();
+        if( candidate->has_flag( flag_FIRESTARTER ) ) {
             tool = true;
             if( fuel ) {
                 return running;
             }
-        } else if( candidate.flammable() ) {
+        } else if( candidate->flammable() ) {
             fuel = true;
             if( tool ) {
                 return running;
@@ -99,7 +99,7 @@ status_t character_oracle_t::can_take_shelter() const
 status_t character_oracle_t::has_water() const
 {
     // Check if we know about water somewhere
-    bool found_water = subject->inv.has_item_with( []( const item & cand ) {
+    bool found_water = subject->has_item_with( []( const item & cand ) {
         return cand.is_food() && cand.get_comestible()->quench > 0;
     } );
     return found_water ? running : failure;
@@ -108,7 +108,7 @@ status_t character_oracle_t::has_water() const
 status_t character_oracle_t::has_food() const
 {
     // Check if we know about food somewhere
-    bool found_food = subject->inv.has_item_with( []( const item & cand ) {
+    bool found_food = subject->has_item_with( []( const item & cand ) {
         return cand.is_food() && cand.get_comestible()->has_calories();
     } );
     return found_food ? running : failure;

@@ -37,7 +37,6 @@ static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
-static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
@@ -145,21 +144,17 @@ void Character::recalc_speed_bonus()
         mod_speed_bonus( -20 );
     }
 
-    float speed_modifier = Character::mutation_value( "speed_modifier" );
-    set_speed_bonus( static_cast<int>( get_speed() * speed_modifier ) - get_speed_base() );
+    mod_speed_bonus( get_speedydex_bonus( get_dex() ) );
 
-    if( has_bionic( bio_speed ) ) { // multiply by 1.1
-        set_speed_bonus( static_cast<int>( get_speed() * 1.1 ) - get_speed_base() );
+    float speed_modifier = Character::mutation_value( "speed_modifier" );
+    mod_speed_mult( speed_modifier - 1 );
+
+    if( has_bionic( bio_speed ) ) { // add 10% speed bonus
+        mod_speed_mult( 0.1 );
     }
 
     double ench_bonus = enchantment_cache->calc_bonus( enchant_vals::mod::SPEED, get_speed() );
-    set_speed_bonus( get_speed() + ench_bonus - get_speed_base() );
-
-    // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
-    const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
-    if( get_speed_bonus() < min_speed_bonus ) {
-        set_speed_bonus( min_speed_bonus );
-    }
+    mod_speed_bonus( ench_bonus );
 }
 
 void Character::process_turn()
@@ -180,16 +175,12 @@ void Character::process_turn()
 
     // If we're actively handling something we can't just drop it on the ground
     // in the middle of handling it
-    if( activity.targets.empty() ) {
+    if( activity->targets.empty() ) {
         drop_invalid_inventory();
     }
     process_items();
     // Didn't just pick something up
     last_item = itype_id( "null" );
-
-    if( !is_npc() && has_trait( trait_DEBUG_BIONIC_POWER ) ) {
-        mod_power_level( get_max_power_level() );
-    }
 
     visit_items( [this]( item * e ) {
         e->process_artifact( as_player(), pos() );
@@ -211,7 +202,7 @@ void Character::process_turn()
         int temp_norm_scent = INT_MIN;
         bool found_intensity = false;
         for( const trait_id &mut : get_mutations() ) {
-            const cata::optional<int> &scent_intensity = mut->scent_intensity;
+            const std::optional<int> &scent_intensity = mut->scent_intensity;
             if( scent_intensity ) {
                 found_intensity = true;
                 temp_norm_scent = std::max( temp_norm_scent, *scent_intensity );
@@ -222,7 +213,7 @@ void Character::process_turn()
         }
 
         for( const trait_id &mut : get_mutations() ) {
-            const cata::optional<int> &scent_mask = mut->scent_mask;
+            const std::optional<int> &scent_mask = mut->scent_mask;
             if( scent_mask ) {
                 norm_scent += *scent_mask;
             }
@@ -805,26 +796,30 @@ void Character::environmental_revert_effect()
 
 void Character::process_items()
 {
-    if( weapon.needs_processing() && weapon.process( as_player(), pos(), false ) ) {
-        weapon = item();
+    auto process_item = [this]( detached_ptr<item> &&ptr ) {
+        return item::process( std::move( ptr ), as_player(), pos(), false );
+    };
+    if( get_weapon().needs_processing() ) {
+        get_weapon().attempt_detach( process_item );
     }
 
     std::vector<item *> inv_active = inv.active_items();
     for( item *tmp_it : inv_active ) {
-        if( tmp_it->process( as_player(), pos(), false ) ) {
-            inv.remove_item( tmp_it );
-        }
+        tmp_it->attempt_detach( process_item );
     }
 
     // worn items
-    remove_worn_items_with( [this]( item & itm ) {
-        return itm.needs_processing() && itm.process( as_player(), pos(), false );
+    remove_worn_items_with( [process_item]( detached_ptr<item> &&itm ) {
+        if( itm->needs_processing() ) {
+            return process_item( std::move( itm ) );
+        }
+        return std::move( itm );
     } );
 
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
-    bool weapon_active = weapon.has_flag( "USE_UPS" ) &&
-                         weapon.charges < weapon.type->maximum_charges();
+    bool weapon_active = get_weapon().has_flag( "USE_UPS" ) &&
+                         get_weapon().charges < get_weapon().type->maximum_charges();
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
@@ -840,22 +835,22 @@ void Character::process_items()
         }
     }
     bool update_required = get_check_encumbrance();
-    for( item &w : worn ) {
-        if( w.has_flag( "USE_UPS" ) &&
-            w.charges < w.type->maximum_charges() ) {
-            active_worn_items.push_back( &w );
+    for( item *&w : worn ) {
+        if( w->has_flag( "USE_UPS" ) &&
+            w->charges < w->type->maximum_charges() ) {
+            active_worn_items.push_back( w );
         }
         // Necessary for UPS in Aftershock - check worn items for charge
-        const itype_id &identifier = w.typeId();
+        const itype_id &identifier = w->typeId();
         if( identifier == itype_UPS_off ) {
-            ch_UPS += w.ammo_remaining();
+            ch_UPS += w->ammo_remaining();
         } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += w.ammo_remaining() / 0.6;
+            ch_UPS += w->ammo_remaining() / 0.6;
         }
-        if( !update_required && w.encumbrance_update_ ) {
+        if( !update_required && w->encumbrance_update_ ) {
             update_required = true;
         }
-        w.encumbrance_update_ = false;
+        w->encumbrance_update_ = false;
     }
     if( update_required ) {
         reset_encumbrance();
@@ -877,7 +872,7 @@ void Character::process_items()
     }
     if( weapon_active && ch_UPS_used < ch_UPS ) {
         ch_UPS_used++;
-        weapon.charges++;
+        get_weapon().charges++;
     }
     for( item *worn_item : active_worn_items ) {
         if( ch_UPS_used >= ch_UPS ) {

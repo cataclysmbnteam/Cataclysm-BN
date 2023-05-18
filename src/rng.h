@@ -5,10 +5,10 @@
 #include <array>
 #include <functional>
 #include <iosfwd>
+#include <optional>
 #include <random>
 #include <type_traits>
 
-#include "optional.h"
 #include "units_angle.h"
 #include "units_probability.h"
 
@@ -102,10 +102,10 @@ inline V random_entry( const C &container, D default_value )
  */
 template<typename C>
 inline auto random_entry_opt( C &container ) ->
-cata::optional<decltype( std::ref( *container.begin() ) )>
+std::optional<decltype( std::ref( *container.begin() ) )>
 {
     if( container.empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
@@ -176,13 +176,30 @@ inline V random_entry_removed( C &container )
     return result;
 }
 
+
+template<typename T>
+class detached_ptr;
+template<typename T>
+class location_vector;
+
+template<typename C>
+inline detached_ptr<C> random_entry_detached( location_vector<C> &container )
+{
+    auto iter = container.begin();
+    std::advance( iter, rng( 0, container.size() - 1 ) );
+    detached_ptr<C> ret;
+    container.erase( iter, &ret );
+    return ret;
+}
+
+
 /// Returns a range enclosing all valid points of the map.
 tripoint_range<tripoint> points_in_range( const map &m );
 /// Returns a random point in the given range that satisfies the given predicate ( if any ).
-cata::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
-                                       const std::function<bool( const tripoint & )> &predicate );
+std::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
+                                      const std::function<bool( const tripoint & )> &predicate );
 /// Same as other random_point with a range enclosing all valid points of the map.
-cata::optional<tripoint> random_point( const map &m,
-                                       const std::function<bool( const tripoint & )> &predicate );
+std::optional<tripoint> random_point( const map &m,
+                                      const std::function<bool( const tripoint & )> &predicate );
 
 #endif // CATA_SRC_RNG_H

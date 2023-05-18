@@ -391,7 +391,7 @@ When `System language` is selected in settings, the game tries to use language t
 If you're testing translations for a new language, or the language does not show up in settings, make sure it has its own entry in the definitions file.
 
 
-[1]: https://www.transifex.com/bn-team/cataclysm-bright-nights
+[1]: https://app.transifex.com/bn-team/cataclysm-bright-nights
 [2]: https://docs.transifex.com/
 [3]: ../lang/notes
 [4]: https://www.gnu.org/software/gettext/

@@ -581,9 +581,17 @@
     "id": "MARTIAL_ARTS",
     "name": { "str": "Martial Arts Training" },
     "points": 2,
-    "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
+    "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, Kickboxing, or Pankration.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_karate", "style_judo", "style_aikido", "style_tai_chi", "style_taekwondo", "style_pankration" ],
+    "initial_ma_styles": [
+      "style_karate",
+      "style_judo",
+      "style_aikido",
+      "style_tai_chi",
+      "style_taekwondo",
+      "style_pankration",
+      "style_kickboxing"
+    ],
     "valid": false
   },
   {
@@ -2547,7 +2555,7 @@
     "id": "INFRESIST",
     "name": { "str": "Infection Immune" },
     "points": 1,
-    "description": "Your immune system is particularly good at resisting infections.  Your wounds will no longer become infected, altough existing infections are still dangerous.",
+    "description": "Your immune system is particularly good at resisting infections.  Your wounds will no longer become infected, altough existing infections are still dangerous.  You will also be able to install non-sterile CBMs.",
     "starting_trait": true,
     "category": [ "TROGLOBITE", "RAT", "MEDICAL" ]
   },
@@ -6348,26 +6356,6 @@
     "valid": false,
     "description": "Lets you instantly install torsion ratchets for your eight legs.",
     "debug": true
-  },
-  {
-    "type": "mutation",
-    "id": "DEBUG_BIONIC_POWER",
-    "name": { "str": "Debug Bionic Power" },
-    "points": 99,
-    "valid": false,
-    "description": "For fueling your inner cybug.  Activate to increase power capacity by 100 (can be repeated.)",
-    "debug": true,
-    "active": true
-  },
-  {
-    "type": "mutation",
-    "id": "DEBUG_BIONIC_POWERGEN",
-    "name": { "str": "Debug Bionic Powergen" },
-    "points": 99,
-    "valid": false,
-    "description": "Activate to increase power by an amount you specify (can be repeated).",
-    "debug": true,
-    "active": true
   },
   {
     "type": "mutation",

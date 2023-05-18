@@ -49,32 +49,34 @@ struct spawn_point {
 
 template<int sx, int sy>
 struct maptile_soa {
-    ter_id             ter[sx][sy];  // Terrain on each square
-    furn_id            frn[sx][sy];  // Furniture on each square
-    std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
-    cata::colony<item> itm[sx][sy];  // Items on each square
-    field              fld[sx][sy];  // Field on each square
-    trap_id            trp[sx][sy];  // Trap on each square
-    int                rad[sx][sy];  // Irradiation of each square
+    protected:
+        maptile_soa( tripoint offset );
+    public:
+        ter_id             ter[sx][sy];  // Terrain on each square
+        furn_id            frn[sx][sy];  // Furniture on each square
+        std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
+        location_vector<item> itm[sx][sy]; // Items on each square
+        field              fld[sx][sy];  // Field on each square
+        trap_id            trp[sx][sy];  // Trap on each square
+        int                rad[sx][sy];  // Irradiation of each square
 
-    void swap_soa_tile( const point &p1, const point &p2 );
-    void swap_soa_tile( const point &p, maptile_soa<1, 1> &other );
+        void swap_soa_tile( point p1, point p2 );
 };
 
 class submap : maptile_soa<SEEX, SEEY>
 {
     public:
-        submap();
-        submap( submap && );
+        submap( tripoint offset );
+        // submap( submap && );
         ~submap();
 
-        submap &operator=( submap && );
+        // submap &operator=( submap && );
 
-        trap_id get_trap( const point &p ) const {
+        trap_id get_trap( point p ) const {
             return trp[p.x][p.y];
         }
 
-        void set_trap( const point &p, trap_id trap ) {
+        void set_trap( point p, trap_id trap ) {
             is_uniform = false;
             trp[p.x][p.y] = trap;
         }
@@ -83,11 +85,11 @@ class submap : maptile_soa<SEEX, SEEY>
             std::uninitialized_fill_n( &trp[0][0], elements, trap );
         }
 
-        furn_id get_furn( const point &p ) const {
+        furn_id get_furn( point p ) const {
             return frn[p.x][p.y];
         }
 
-        void set_furn( const point &p, furn_id furn ) {
+        void set_furn( point p, furn_id furn ) {
             is_uniform = false;
             frn[p.x][p.y] = furn;
         }
@@ -96,11 +98,11 @@ class submap : maptile_soa<SEEX, SEEY>
             std::uninitialized_fill_n( &frn[0][0], elements, furn );
         }
 
-        ter_id get_ter( const point &p ) const {
+        ter_id get_ter( point p ) const {
             return ter[p.x][p.y];
         }
 
-        void set_ter( const point &p, ter_id terr ) {
+        void set_ter( point p, ter_id terr ) {
             is_uniform = false;
             ter[p.x][p.y] = terr;
         }
@@ -109,48 +111,48 @@ class submap : maptile_soa<SEEX, SEEY>
             std::uninitialized_fill_n( &ter[0][0], elements, terr );
         }
 
-        int get_radiation( const point &p ) const {
+        int get_radiation( point p ) const {
             return rad[p.x][p.y];
         }
 
-        void set_radiation( const point &p, const int radiation ) {
+        void set_radiation( point p, const int radiation ) {
             is_uniform = false;
             rad[p.x][p.y] = radiation;
         }
 
-        uint8_t get_lum( const point &p ) const {
+        uint8_t get_lum( point p ) const {
             return lum[p.x][p.y];
         }
 
-        void set_lum( const point &p, uint8_t luminance ) {
+        void set_lum( point p, uint8_t luminance ) {
             is_uniform = false;
             lum[p.x][p.y] = luminance;
         }
 
-        void update_lum_add( const point &p, const item &i ) {
+        void update_lum_add( point p, const item &i ) {
             is_uniform = false;
             if( i.is_emissive() && lum[p.x][p.y] < 255 ) {
                 lum[p.x][p.y]++;
             }
         }
 
-        void update_lum_rem( const point &p, const item &i );
+        void update_lum_rem( point p, const item &i );
 
         // TODO: Replace this as it essentially makes itm public
-        cata::colony<item> &get_items( const point &p ) {
+        location_vector<item> &get_items( const point &p ) {
             return itm[p.x][p.y];
         }
 
-        const cata::colony<item> &get_items( const point &p ) const {
+        const location_vector<item> &get_items( const point &p ) const {
             return itm[p.x][p.y];
         }
 
         // TODO: Replace this as it essentially makes fld public
-        field &get_field( const point &p ) {
+        field &get_field( point p ) {
             return fld[p.x][p.y];
         }
 
-        const field &get_field( const point &p ) const {
+        const field &get_field( point p ) const {
             return fld[p.x][p.y];
         }
 
@@ -160,7 +162,7 @@ class submap : maptile_soa<SEEX, SEEY>
             std::string str;
         };
 
-        void insert_cosmetic( const point &p, const std::string &type, const std::string &str );
+        void insert_cosmetic( point p, const std::string &type, const std::string &str );
 
         int get_temperature() const {
             return temperature;
@@ -170,34 +172,34 @@ class submap : maptile_soa<SEEX, SEEY>
             temperature = new_temperature;
         }
 
-        bool has_graffiti( const point &p ) const;
-        const std::string &get_graffiti( const point &p ) const;
-        void set_graffiti( const point &p, const std::string &new_graffiti );
-        void delete_graffiti( const point &p );
+        bool has_graffiti( point p ) const;
+        const std::string &get_graffiti( point p ) const;
+        void set_graffiti( point p, const std::string &new_graffiti );
+        void delete_graffiti( point p );
 
         // Signage is a pretend union between furniture on a square and stored
         // writing on the square. When both are present, we have signage.
         // Its effect is meant to be cosmetic and atmospheric only.
-        bool has_signage( const point &p ) const;
+        bool has_signage( point p ) const;
         // Dependent on furniture + cosmetics.
-        std::string get_signage( const point &p ) const;
+        std::string get_signage( point p ) const;
         // Can be used anytime (prevents code from needing to place sign first.)
-        void set_signage( const point &p, const std::string &s );
+        void set_signage( point p, const std::string &s );
         // Can be used anytime (prevents code from needing to place sign first.)
-        void delete_signage( const point &p );
+        void delete_signage( point p );
 
-        bool has_computer( const point &p ) const;
-        const computer *get_computer( const point &p ) const;
-        computer *get_computer( const point &p );
-        void set_computer( const point &p, const computer &c );
-        void delete_computer( const point &p );
+        bool has_computer( point p ) const;
+        const computer *get_computer( point p ) const;
+        computer *get_computer( point p );
+        void set_computer( point p, const computer &c );
+        void delete_computer( point p );
 
         bool contains_vehicle( vehicle * );
 
         void rotate( int turns );
 
         void store( JsonOut &jsout ) const;
-        void load( JsonIn &jsin, const std::string &member_name, int version );
+        void load( JsonIn &jsin, const std::string &member_name, int version, const tripoint offset );
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
@@ -216,9 +218,11 @@ class submap : maptile_soa<SEEX, SEEY>
          * deleted.
          */
         std::vector<std::unique_ptr<vehicle>> vehicles;
-        std::map<tripoint, partial_con> partial_constructions;
+        std::map<tripoint, std::unique_ptr<partial_con>> partial_constructions;
         std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
         std::map<point_sm_ms, cata::poly_serialized<active_tile_data>> active_furniture;
+
+        static void swap( submap &s1, submap &s2, tripoint offset );
 
     private:
         std::map<point, computer> computers;
@@ -242,11 +246,11 @@ struct maptile {
         submap *const sm;
         point pos_;
 
-        inline const point &pos() const {
+        inline point pos() const {
             return pos_;
         }
 
-        maptile( submap *sub, const point &p ) :
+        maptile( submap *sub, point p ) :
             sm( sub ), pos_( p ) { }
     public:
         trap_id get_trap() const {
@@ -307,7 +311,7 @@ struct maptile {
 
         // Assumes there is at least one item
         const item &get_uppermost_item() const {
-            return *std::prev( sm->get_items( pos() ).cend() );
+            return **std::prev( sm->get_items( pos() ).cend() );
         }
 };
 

@@ -10,6 +10,7 @@
 
 #include "translations.h"
 #include "type_id.h"
+#include "colony.h"
 
 class JsonArray;
 class JsonIn;
@@ -348,7 +349,7 @@ struct requirement_data {
          * Returned requirement_data is for *all* batches at once.
          */
         static requirement_data continue_requirements( const std::vector<item_comp> &required_comps,
-                const std::list<item> &remaining_comps );
+                const ItemList &remaining_comps );
 
         /**
          * Merge similar quality/tool/component lists.

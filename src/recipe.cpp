@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iterator>
 #include <numeric>
+#include <optional>
 #include <sstream>
 
 #include "assign.h"
@@ -19,7 +20,6 @@
 #include "itype.h"
 #include "json.h"
 #include "mapgen_functions.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "skill.h"
@@ -314,6 +314,9 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     } else {
         jo.throw_error( "unknown recipe type", "type" );
     }
+    if( reversible && time < 1 ) {
+        jo.throw_error( "Non-zero time mandatory for reversible recipe or uncraft" );
+    }
 
     const requirement_id req_id( "inline_" + type + "_" + ident_.str() );
     requirement_data::load_requirement( jo, req_id );
@@ -450,73 +453,72 @@ std::string recipe::get_consistency_error() const
     return std::string();
 }
 
-item recipe::create_result() const
+detached_ptr<item> recipe::create_result() const
 {
-    item newit( result_, calendar::turn, item::default_charges_tag{} );
+    detached_ptr<item> newit = item::spawn( result_, calendar::turn, item::default_charges_tag{} );
     if( charges ) {
-        newit.charges = *charges;
+        newit->charges = *charges;
     }
 
-    if( !newit.craft_has_charges() ) {
-        newit.charges = 0;
+    if( !newit->craft_has_charges() ) {
+        newit->charges = 0;
     } else if( result_mult != 1 ) {
         // TODO: Make it work for charge-less items (update makes amount)
-        newit.charges *= result_mult;
+        newit->charges *= result_mult;
     }
 
     // Show crafted items as fitting
     // They might end up not fitting, but it's rare
-    if( newit.has_flag( flag_VARSIZE ) ) {
-        newit.item_tags.insert( flag_FIT );
+    if( newit->has_flag( flag_VARSIZE ) ) {
+        newit->item_tags.insert( flag_FIT );
     }
 
     if( contained ) {
-        newit = newit.in_container( container );
+        newit = item::in_container( container, std::move( newit ) );
     }
 
     return newit;
 }
 
-std::vector<item> recipe::create_results( int batch ) const
+std::vector<detached_ptr<item>> recipe::create_results( int batch ) const
 {
-    std::vector<item> items;
+    std::vector<detached_ptr<item>> items;
 
     const bool by_charges = item::count_by_charges( result_ );
     if( contained || !by_charges ) {
         // by_charges items get their charges multiplied in create_result
         const int num_results = by_charges ? batch : batch * result_mult;
         for( int i = 0; i < num_results; i++ ) {
-            item newit = create_result();
-            items.push_back( newit );
+            items.push_back( create_result() );
         }
     } else {
-        item newit = create_result();
-        newit.charges *= batch;
-        items.push_back( newit );
+        detached_ptr<item> newit = create_result();
+        newit->charges *= batch;
+        items.push_back( std::move( newit ) );
     }
 
     return items;
 }
 
-std::vector<item> recipe::create_byproducts( int batch ) const
+std::vector<detached_ptr<item>> recipe::create_byproducts( int batch ) const
 {
-    std::vector<item> bps;
+    std::vector<detached_ptr<item>> bps;
     for( const auto &e : byproducts ) {
-        item obj( e.first, calendar::turn, item::default_charges_tag{} );
-        if( obj.has_flag( "VARSIZE" ) ) {
-            obj.set_flag( "FIT" );
+        detached_ptr<item> obj = item::spawn( e.first, calendar::turn, item::default_charges_tag{} );
+        if( obj->has_flag( "VARSIZE" ) ) {
+            obj->set_flag( "FIT" );
         }
 
-        if( obj.count_by_charges() ) {
-            obj.charges *= e.second * batch;
-            bps.push_back( obj );
+        if( obj->count_by_charges() ) {
+            obj->charges *= e.second * batch;
+            bps.push_back( std::move( obj ) );
 
         } else {
-            if( !obj.craft_has_charges() ) {
-                obj.charges = 0;
+            if( !obj->craft_has_charges() ) {
+                obj->charges = 0;
             }
             for( int i = 0; i < e.second * batch; ++i ) {
-                bps.push_back( obj );
+                bps.push_back( item::spawn( *obj ) );
             }
         }
     }
@@ -636,7 +638,8 @@ bool recipe::will_be_blacklisted() const
 std::function<bool( const item & )> recipe::get_component_filter(
     const recipe_filter_flags flags ) const
 {
-    const item result = create_result();
+    detached_ptr<item> res = create_result();
+    item &result = *res;
 
     // Disallow crafting of non-perishables with rotten components
     // Make an exception for items with the ALLOW_ROTTEN flag such as seeds
@@ -815,7 +818,7 @@ bool recipe::hot_result() const
     // does get heated we'll find it right away.
     //
     // TODO: Make this less of a hack
-    if( create_result().is_food() ) {
+    if( create_result()->is_food() ) {
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {

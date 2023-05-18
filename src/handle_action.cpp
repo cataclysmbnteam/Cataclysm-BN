@@ -396,7 +396,7 @@ input_context game::get_player_input( std::string &action )
     return ctxt;
 }
 
-inline static void rcdrive( const point &d )
+inline static void rcdrive( point d )
 {
     player &u = g->u;
     map &here = get_map();
@@ -431,12 +431,13 @@ inline static void rcdrive( const point &d )
         sounds::sound( dest, 7, sounds::sound_t::combat,
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
-    } else if( !here.add_item_or_charges( dest, *rc_car ).is_null() ) {
+    } else {
         tripoint src( c );
+        detached_ptr<item> det_car = here.i_rem( src, rc_car );
+        here.add_item_or_charges( dest, std::move( det_car ) );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
-        here.i_rem( src, rc_car );
 
         u.set_value( "remote_controlling", serialize_wrapper( [&]( JsonOut & jo ) {
             dest.serialize( jo );
@@ -516,9 +517,9 @@ inline static void pldrive( point d )
 static void open()
 {
     player &u = g->u;
-    const cata::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
-                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
-                                            ACTION_OPEN, false );
+    const std::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
+                                           pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                                           ACTION_OPEN, false );
 
     if( !openp_ ) {
         return;
@@ -562,7 +563,7 @@ static void open()
             }
         } else {
             // If there are any OPENABLE parts here, they must be already open
-            if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
+            if( const std::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
                     true ) ) {
                 const std::string name = already_open->info().name();
                 add_msg( m_info, _( "That %s is already open." ), name );
@@ -593,9 +594,9 @@ static void open()
 
 static void close()
 {
-    if( const cata::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
-            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
-            ACTION_CLOSE, false ) ) {
+    if( const std::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
+                                            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+                                            ACTION_CLOSE, false ) ) {
         doors::close_door( get_map(), g->u, *pnt );
     }
 }
@@ -617,7 +618,7 @@ static void grab()
         return;
     }
 
-    const cata::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
+    const std::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
     if( !grabp_ ) {
         add_msg( _( "Never mind." ) );
         return;
@@ -687,7 +688,9 @@ static void smash()
             }
         }
     }
-    const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_cost() * 0.8;
+    item &weapon = u.primary_weapon();
+    const int move_cost = !u.is_armed() ? 80 : weapon.attack_cost() * 0.8;
+
     bool didit = false;
     bool mech_smash = false;
     int smashskill;
@@ -698,11 +701,11 @@ static void smash()
                      mon->type->melee_sides;
         mech_smash = true;
     } else {
-        smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
+        smashskill = u.str_cur + weapon.damage_melee( DT_BASH );
     }
 
     const bool allow_floor_bash = here.has_zlevels();
-    const cata::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
+    const std::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
     if( !smashp_ ) {
         return;
     }
@@ -748,9 +751,9 @@ static void smash()
     }
 
     bool should_pulp = false;
-    for( const item &it : here.i_at( smashp ) ) {
-        if( it.is_corpse() && it.damage() < it.max_damage() && it.can_revive() ) {
-            if( it.get_mtype()->bloodType()->has_acid ) {
+    for( const item * const &it : here.i_at( smashp ) ) {
+        if( it->is_corpse() && it->damage() < it->max_damage() && it->can_revive() ) {
+            if( it->get_mtype()->bloodType()->has_acid ) {
                 if( query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
                     should_pulp = true;
                     break; // Don't prompt for the same thing multiple times
@@ -764,8 +767,8 @@ static void smash()
 
     if( should_pulp ) {
         // do activity forever. ACT_PULP stops itself
-        u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-        u.activity.placement = here.getabs( smashp );
+        u.assign_activity( std::make_unique<player_activity>( ACT_PULP, calendar::INDEFINITELY_LONG, 0 ) );
+        u.activity->placement = here.getabs( smashp );
         return; // don't smash terrain if we've smashed a corpse
     }
 
@@ -778,18 +781,18 @@ static void smash()
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         if( !mech_smash ) {
-            u.handle_melee_wear( u.weapon );
-            const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
+            u.handle_melee_wear( weapon );
+            const int mod_sta = ( ( weapon.weight() / 10_gram ) + 200 + static_cast<int>
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
             u.mod_stamina( mod_sta );
             if( u.get_skill_level( skill_melee ) == 0 ) {
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
-            const int vol = u.weapon.volume() / units::legacy_volume_factor;
-            if( u.weapon.made_of( material_id( "glass" ) ) &&
+            const int vol = weapon.volume() / units::legacy_volume_factor;
+            if( weapon.made_of( material_id( "glass" ) ) &&
                 rng( 0, vol + 3 ) < vol ) {
-                add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
-                u.weapon.spill_contents( u.pos() );
+                add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );
+                weapon.spill_contents( u.pos() );
                 sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
                 u.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 0, vol ) ) );
                 if( vol > 20 ) {
@@ -814,7 +817,7 @@ static void smash()
         }
 
         if( !here.has_floor_or_support( u.pos() ) && !here.has_flag_ter( "GOES_DOWN", u.pos() ) ) {
-            cata::optional<tripoint> to_safety;
+            std::optional<tripoint> to_safety;
             while( true ) {
                 to_safety = choose_direction( _( "Floor below destroyed!  Move where?" ) );
                 if( to_safety && *to_safety == tripoint_zero ) {
@@ -997,9 +1000,8 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) ), 0 );
-
-        u.assign_activity( new_act, false );
+        u.assign_activity( std::make_unique<player_activity>( actType,
+                           100 * ( to_turns<int>( time_to_wait ) ), 0 ), false );
     }
 }
 
@@ -1269,10 +1271,12 @@ static void loot()
 static void wear()
 {
     avatar &u = g->u;
-    item_location loc = game_menus::inv::wear( u );
+    item *loc = game_menus::inv::wear( u );
 
     if( loc ) {
-        u.wear_possessed( *loc.obtain( u ) );
+        loc->detach();
+        loc->obtain( u );
+        u.wear_possessed( *loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1281,10 +1285,12 @@ static void wear()
 static void takeoff()
 {
     avatar &u = g->u;
-    item_location loc = game_menus::inv::take_off( u );
+    item *loc = game_menus::inv::take_off( u );
 
     if( loc ) {
-        u.takeoff( *loc.obtain( u ) );
+        loc->obtain( u );
+        loc->detach();
+        u.takeoff( *loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1294,11 +1300,11 @@ static void read()
 {
     avatar &u = g->u;
     // Can read items from inventory or within one tile (including in vehicles)
-    item_location loc = game_menus::inv::read( u );
+    item *loc = game_menus::inv::read( u );
 
     if( loc ) {
         if( loc->type->can_use( "learn_spell" ) ) {
-            item spell_book = *loc.get_item();
+            item &spell_book = *loc;
             spell_book.get_use( "learn_spell" )->call( u, spell_book, spell_book.active, u.pos() );
         } else {
             u.read( loc );
@@ -1313,7 +1319,7 @@ static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory traj = target_handler::mode_reach( you, you.weapon );
+    target_handler::trajectory traj = target_handler::mode_reach( you, you.primary_weapon() );
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
@@ -1347,21 +1353,21 @@ static void fire()
         std::vector<std::function<void()>> actions;
 
         for( auto &w : u.worn ) {
-            if( w.type->can_use( "holster" ) && !w.has_flag( flag_NO_QUICKDRAW ) &&
-                !w.contents.empty() && w.contents.front().is_gun() ) {
+            if( w->type->can_use( "holster" ) && !w->has_flag( flag_NO_QUICKDRAW ) &&
+                !w->contents.empty() && w->contents.front().is_gun() ) {
                 //~ draw (first) gun contained in holster
                 //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
                 options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
-                                                  w.contents.front().tname(),
-                                                  w.type_name(),
-                                                  w.contents.front().ammo_remaining() ) );
+                                                  w->contents.front().tname(),
+                                                  w->type_name(),
+                                                  w->contents.front().ammo_remaining() ) );
 
-                actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
+                actions.emplace_back( [&] { u.invoke_item( w, "holster" ); } );
 
-            } else if( w.is_gun() && w.gunmod_find( itype_shoulder_strap ) ) {
+            } else if( w->is_gun() && w->gunmod_find( itype_shoulder_strap ) ) {
                 // wield item currently worn using shoulder strap
-                options.push_back( w.display_name() );
-                actions.emplace_back( [&] { u.wield( w ); } );
+                options.push_back( w->display_name() );
+                actions.emplace_back( [&] { u.wield( *w ); } );
             }
         }
         if( !options.empty() ) {
@@ -1372,9 +1378,10 @@ static void fire()
         }
     }
 
-    if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
+    item &weapon = u.primary_weapon();
+    if( weapon.is_gun() && !weapon.gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( u );
-    } else if( u.weapon.reach_range( u ) > 1 ) {
+    } else if( weapon.reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
@@ -1435,6 +1442,7 @@ static void cast_spell()
     if( !can_cast_spells ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't cast any of the spells you know!" ) );
+        return;
     }
 
     const int spell_index = u.magic->select_spell( u );
@@ -1445,7 +1453,7 @@ static void cast_spell()
     spell &sp = *u.magic->get_spells()[spell_index];
 
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !u.weapon.has_flag( flag_MAGIC_FOCUS ) ) {
+        !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
         return;
@@ -1464,14 +1472,15 @@ static void cast_spell()
         return;
     }
 
-    player_activity cast_spell( ACT_SPELLCASTING, sp.casting_time( u ) );
+    std::unique_ptr<player_activity> cast_spell = std::make_unique<player_activity>( ACT_SPELLCASTING,
+            sp.casting_time( u ) );
     // [0] this is used as a spell level override for items casting spells
-    cast_spell.values.emplace_back( -1 );
+    cast_spell->values.emplace_back( -1 );
     // [1] if this value is 1, the spell never fails
-    cast_spell.values.emplace_back( 0 );
+    cast_spell->values.emplace_back( 0 );
     // [2] this value overrides the mana cost if set to 0
-    cast_spell.values.emplace_back( 1 );
-    cast_spell.name = sp.id().c_str();
+    cast_spell->values.emplace_back( 1 );
+    cast_spell->name = sp.id().c_str();
     if( u.magic->casting_ignore ) {
         const std::vector<distraction_type> ignored_distractions = {
             distraction_type::alert,
@@ -1485,10 +1494,11 @@ static void cast_spell()
             distraction_type::weather_change
         };
         for( const distraction_type ignored : ignored_distractions ) {
-            cast_spell.ignore_distraction( ignored );
+            cast_spell->ignore_distraction( ignored );
         }
     }
-    u.assign_activity( cast_spell, false );
+    u.assign_activity( std::move( cast_spell ),
+                       false );
 }
 
 void game::open_consume_item_menu()
@@ -1546,7 +1556,7 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    cata::optional<tripoint> mouse_target;
+    std::optional<tripoint> mouse_target;
 
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
         uquit = QUIT_DIED;
@@ -1617,7 +1627,7 @@ bool game::handle_action()
                 return false;
             }
 
-            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            const std::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
             if( !mouse_pos ) {
                 return false;
             } else if( !u.sees( *mouse_pos ) ) {
@@ -1657,7 +1667,7 @@ bool game::handle_action()
             const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
                 add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
-                if( const cata::optional<std::string> hint =
+                if( const std::optional<std::string> hint =
                         press_x_if_bound( ACTION_KEYBINDINGS ) ) {
                     add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
                                         "the current context." ),
@@ -1981,7 +1991,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_COMPARE:
-                game_menus::inv::compare( u, cata::nullopt );
+                game_menus::inv::compare( u, std::nullopt );
                 break;
 
             case ACTION_ORGANIZE:
@@ -1995,7 +2005,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_USE_WIELDED:
-                avatar_funcs::use_item( u, item_location( u, &u.weapon ) );
+                avatar_funcs::use_item( u, u.primary_weapon() );
                 break;
 
             case ACTION_WEAR:
@@ -2048,12 +2058,11 @@ bool game::handle_action()
                 break;
 
             case ACTION_MEND:
-                avatar_action::mend( g->u, item_location() );
+                avatar_action::mend( g->u, nullptr );
                 break;
 
             case ACTION_THROW: {
-                item_location loc;
-                avatar_action::plthrow( g->u, loc );
+                avatar_action::plthrow( g->u, nullptr );
                 break;
             }
 
@@ -2066,25 +2075,25 @@ bool game::handle_action()
                 break;
 
             case ACTION_FIRE_BURST: {
-                if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
+                if( u.primary_weapon().gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
                     avatar_action::fire_wielded_weapon( u );
                 }
                 break;
             }
 
             case ACTION_SELECT_FIRE_MODE:
-                if( u.is_armed() && u.weapon.is_gun() && !u.weapon.is_gunmod() ) {
-                    if( u.weapon.gun_all_modes().size() > 1 ) {
-                        u.weapon.gun_cycle_mode();
+                if( u.is_armed() && u.primary_weapon().is_gun() && !u.primary_weapon().is_gunmod() ) {
+                    if( u.primary_weapon().gun_all_modes().size() > 1 ) {
+                        u.primary_weapon().gun_cycle_mode();
                     } else {
-                        add_msg( m_info, _( "Your %s has only one firing mode." ), u.weapon.display_name() );
+                        add_msg( m_info, _( "Your %s has only one firing mode." ), u.primary_weapon().display_name() );
                     }
                 }
                 break;
 
             case ACTION_SELECT_DEFAULT_AMMO:
-                if( u.is_armed() && u.weapon.is_gun() && !u.weapon.is_gunmod() ) {
-                    ranged::prompt_select_default_ammo_for( u, u.weapon );
+                if( u.is_armed() && u.primary_weapon().is_gun() && !u.primary_weapon().is_gunmod() ) {
+                    ranged::prompt_select_default_ammo_for( u, u.primary_weapon() );
                 }
                 break;
 
@@ -2260,7 +2269,7 @@ bool game::handle_action()
 
             case ACTION_SAVE:
                 if( query_yn( _( "Save and quit?" ) ) ) {
-                    if( save() ) {
+                    if( save( true ) ) {
                         u.moves = 0;
                         uquit = QUIT_SAVED;
                     }

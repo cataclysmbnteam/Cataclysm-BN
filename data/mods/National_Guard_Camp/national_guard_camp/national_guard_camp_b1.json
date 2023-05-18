@@ -1287,8 +1287,7 @@
         "r": { "item": "chem_lab", "chance": 40 },
         "c": { "item": "chem_lab", "chance": 20 },
         "g": { "item": "mut_lab", "chance": 25 },
-        "L": { "item": "sewage_plant", "chance": 40 },
-        "Z": { "item": "building_rubble", "chance": 60 }
+        "L": { "item": "sewage_plant", "chance": 40 }
       },
       "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "place_monsters": [

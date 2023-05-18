@@ -155,12 +155,12 @@ int intimidation( const Character &ch )
 {
     /** @EFFECT_STR increases intimidation factor */
     int ret = ch.get_str() * 2;
-    if( ch.weapon.is_gun() ) {
+    if( ch.primary_weapon().is_gun() ) {
         ret += 10;
     }
-    if( ch.weapon.damage_melee( DT_BASH ) >= 12 ||
-        ch.weapon.damage_melee( DT_CUT ) >= 12 ||
-        ch.weapon.damage_melee( DT_STAB ) >= 12 ) {
+    if( ch.primary_weapon().damage_melee( DT_BASH ) >= 12 ||
+        ch.primary_weapon().damage_melee( DT_CUT ) >= 12 ||
+        ch.primary_weapon().damage_melee( DT_STAB ) >= 12 ) {
         ret += 5;
     }
 
@@ -178,8 +178,8 @@ int calc_focus_equilibrium( const Character &who )
 {
     int focus_equilibrium = 100;
 
-    if( who.activity.id() == ACT_READ ) {
-        item_location loc = who.activity.targets[0];
+    if( who.activity->id() == ACT_READ ) {
+        safe_reference<item> loc = who.activity->targets[0];
         if( loc && loc->is_book() ) {
             auto &bt = *loc->type->book;
             // apply a penalty when we're actually learning something

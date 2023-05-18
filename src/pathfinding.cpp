@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <algorithm>
+#include <optional>
 #include <queue>
 #include <set>
 #include <array>
@@ -14,7 +15,6 @@
 #include "debug.h"
 #include "map.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "submap.h"
 #include "trap.h"
 #include "veh_type.h"
@@ -44,7 +44,7 @@ struct path_data_layer {
     std::array< int, MAPSIZE_X *MAPSIZE_Y > gscore;
     std::array< tripoint, MAPSIZE_X *MAPSIZE_Y > parent;
 
-    void init( const point &min, const point &max ) {
+    void init( point min, point max ) {
         tripoint p;
         for( p.x = min.x; p.x <= max.x; p.x++ ) {
             for( p.y = min.y; p.y <= max.y; p.y++ ) {
@@ -58,7 +58,7 @@ struct path_data_layer {
 struct pathfinder {
     point min;
     point max;
-    pathfinder( const point &_min, const point &_max ) :
+    pathfinder( point _min, point _max ) :
         min( _min ), max( _max ) {
     }
 

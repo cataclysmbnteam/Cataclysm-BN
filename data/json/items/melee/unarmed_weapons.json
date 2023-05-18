@@ -1,8 +1,9 @@
 [
   {
+    "id": "bagh_nakha",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "bagh_nakha",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "name": { "str_sp": "tiger claws" },
     "description": "Also called bagh nakha or iron paw, this is a small claw-like bladed weapon from India designed to be concealed under and against the palm.",
     "weight": "92 g",
@@ -17,9 +18,10 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   },
   {
+    "id": "cestus",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "cestus",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "symbol": "3",
     "color": "light_gray",
     "name": { "str": "cestus", "str_pl": "cestuses" },
@@ -32,9 +34,10 @@
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ]
   },
   {
+    "id": "knuckle_brass",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "knuckle_brass",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "symbol": "3",
     "color": "yellow",
     "name": { "str": "pair of brass knuckles", "str_pl": "pairs of brass knuckles" },
@@ -46,9 +49,10 @@
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE" ]
   },
   {
+    "id": "knuckle_katar",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "knuckle_katar",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "symbol": "!",
     "color": "dark_gray",
     "name": { "str": "razorbar katar" },
@@ -64,9 +68,10 @@
     "techniques": [ "WBLOCK_1" ]
   },
   {
+    "id": "knuckle_nail",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "knuckle_nail",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "symbol": "]",
     "color": "brown",
     "name": { "str": "pair of nail knuckles", "str_pl": "pairs of nail knuckles" },
@@ -80,9 +85,10 @@
     "flags": [ "UNARMED_WEAPON" ]
   },
   {
+    "id": "knuckle_steel",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "knuckle_steel",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "symbol": "3",
     "color": "dark_gray",
     "name": { "str": "pair of steel knuckles", "str_pl": "pairs of steel knuckles" },
@@ -96,13 +102,13 @@
     "flags": [ "UNARMED_WEAPON" ]
   },
   {
+    "id": "punch_dagger",
     "type": "GENERIC",
     "category": "weapons",
-    "id": "punch_dagger",
+    "weapon_category": [ "FIST_WEAPONS" ],
     "name": { "str": "punch dagger" },
     "description": "A short and sharp double-edged dagger made to be gripped in the palm, with the blade protruding between the fingers.",
     "weight": "168 g",
-    "to_hit": -1,
     "price_postapoc": 50,
     "color": "dark_gray",
     "symbol": "{",
@@ -113,5 +119,57 @@
     "flags": [ "STAB", "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE" ],
     "price": 10000,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
+  },
+  {
+    "id": "katar",
+    "type": "GENERIC",
+    "name": { "str": "katar" },
+    "copy-from": "knuckle_katar",
+    "description": "A steel brace with a metal blade at the end, designed to allow the user to stab and slash with the same motions as a punch.",
+    "material": [ "steel" ],
+    "volume": "750 ml",
+    "cutting": 20,
+    "price": "500 USD",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "spiked_boxing",
+    "category": "weapons",
+    "weapon_category": [ "FIST_WEAPONS" ],
+    "name": { "str": "spiked boxing gloves" },
+    "description": "Boxing gloves with nails driven through the inside.  Not exactly ring-legal, but there are no more referees.",
+    "weight": "464 g",
+    "volume": "1 L",
+    "price": "45 USD",
+    "price_postapoc": "450 cent",
+    "bashing": 4,
+    "cutting": 4,
+    "material": [ "cotton", "steel" ],
+    "symbol": "b",
+    "color": "red",
+    "looks_like": "cestus",
+    "flags": [ "DURABLE_MELEE", "UNARMED_WEAPON", "BELT_CLIP", "NONCONDUCTIVE", "STAB" ]
+  },
+  {
+    "id": "sai_weapon",
+    "type": "GENERIC",
+    "name": "sai",
+    "description": "A pointed metal baton with two curved prongs projecting from the handle.  It's primarily used for disarming opponents, but can also make your punches puncture your foes.",
+    "weight": 775,
+    "volume": "750 ml",
+    "price": "220 USD",
+    "price_postapoc": "4 USD",
+    "weapon_category": [ "FIST_WEAPONS" ],
+    "bashing": 6,
+    "cutting": 7,
+    "material": [ "steel" ],
+    "looks_like": "tanto",
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
+    "qualities": [ [ "COOK", 1 ] ],
+    "flags": [ "STAB", "DURABLE_MELEE", "UNARMED_WEAPON" ]
   }
 ]

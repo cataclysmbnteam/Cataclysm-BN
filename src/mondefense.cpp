@@ -58,18 +58,19 @@ void mdefense::zapback( monster &m, Creature *const source,
 
     if( const player *const foe = dynamic_cast<player *>( source ) ) {
         // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
-        for( const item &i : foe->worn ) {
-            if( ( i.covers( bp_hand_l ) || i.covers( bp_hand_r ) ) &&
-                !i.conductive() && i.get_coverage() >= 95 ) {
+        for( const item * const &i : foe->worn ) {
+            if( ( i->covers( bp_hand_l ) || i->covers( bp_hand_r ) ) &&
+                !i->conductive() && i->get_coverage() >= 95 ) {
                 return;
             }
         }
         // Players/NPCs can avoid the shock by using non-conductive weapons
-        if( !foe->weapon.conductive() ) {
+
+        if( !foe->primary_weapon().conductive() ) {
             if( foe->reach_attacking ) {
                 return;
             }
-            if( !foe->used_weapon().is_null() ) {
+            if( !foe->primary_weapon().is_null() ) {
                 return;
             }
         }
@@ -113,7 +114,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         }
     } else {
         if( const player *const foe = dynamic_cast<player *>( source ) ) {
-            if( foe->weapon.is_melee( DT_CUT ) || foe->weapon.is_melee( DT_STAB ) ) {
+            if( foe->primary_weapon().is_melee( DT_CUT ) || foe->primary_weapon().is_melee( DT_STAB ) ) {
                 num_drops += rng( 3, 4 );
             }
             if( foe->unarmed_attack() ) {

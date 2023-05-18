@@ -1,7 +1,7 @@
 [
   {
     "id": "sling",
-    "copy-from": "throwing_weapon_base",
+    "copy-from": "sling_base",
     "looks_like": "slingshot",
     "type": "GUN",
     "color": "brown",
@@ -11,7 +11,7 @@
     "//": "It's little more than a piece of slightly shaped leather",
     "material": "leather",
     "extend": { "flags": [ "BELT_CLIP" ] },
-    "ammo": "pebble",
+    "ammo": [ "pebble", "rock" ],
     "weight": "96 g",
     "volume": "250 ml",
     "price_postapoc": 250,
@@ -23,7 +23,7 @@
   },
   {
     "id": "staff_sling",
-    "copy-from": "throwing_weapon_base",
+    "copy-from": "sling_base",
     "looks_like": "slingshot",
     "type": "GUN",
     "color": "brown",
@@ -32,9 +32,10 @@
     "price": 150,
     "//": "The staff sling,consists of a staff with a short sling at one end. ",
     "material": [ "wood", "leather" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "extend": { "flags": [ "BELTED", "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ] },
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "ammo": "rock",
+    "ammo": [ "pebble", "rock" ],
     "weight": "2000 g",
     "volume": "3 L",
     "price_postapoc": 250,

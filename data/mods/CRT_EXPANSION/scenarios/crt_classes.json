@@ -1,5 +1,26 @@
 [
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "crit_mags_scarh",
+    "entries": [
+      { "item": "scarhmag", "ammo-item": "762_51", "charges": 20 },
+      { "item": "scarhmag", "ammo-item": "762_51", "charges": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "crit_mags_m9",
+    "entries": [ { "item": "m9mag", "ammo-item": "9mm", "charges": 15 }, { "item": "m9mag", "ammo-item": "9mm", "charges": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "crit_gun_specops",
+    "entries": [ { "item": "crt_laser_pistol", "contents-item": [ "flare_gmod", "bthk_stock", "beam_difractor" ] } ]
+  },
+  {
     "type": "profession",
     "id": "crt_rotc",
     "name": "C.R.I.T. ROTC Member",
@@ -17,11 +38,12 @@
     ],
     "items": {
       "both": {
-        "items": [ "bandana", "crt_chestrig", "crt_iduster", "army_top", "crt_canteen", "crt_pants", "socks", "crt_la_boots" ],
+        "ammo": 100,
+        "items": [ "bandana", "crt_iduster", "army_top", "crt_canteen", "crt_pants", "socks", "crt_la_boots" ],
         "entries": [
           { "item": "knife_crt", "container-item": "crt_belt" },
-          { "item": "scar_h", "ammo-item": "308", "contents-item": "shoulder_strap" },
-          { "item": "scarhmag", "ammo-item": "308", "count": 2 }
+          { "item": "scar_h", "ammo-item": "762_51", "contents-item": "shoulder_strap" },
+          { "item": "crt_chestrig", "contents-group": "crit_mags_scarh" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -32,7 +54,7 @@
     "type": "profession",
     "id": "crt_dude",
     "name": "C.R.I.T. Janitor",
-    "description": "*Sigh* Your life has been a wreck.  Hopping place to place you finally found a job at C.R.I.T… as a janitor of sorts.  The pay was good and you got some sneak-peeks on some pretty cool stuff.  After all non-essential personel were purged you found yourself stuck with nothing but the uniform they gave you and your job's sign-bonus equipment.",
+    "description": "*Sigh* Your life has been a wreck.  Hopping place to place you finally found a job at C.R.I.T… as a janitor of sorts.  The pay was good and you got some sneak-peeks on some pretty cool stuff.  After all non-essential personnel were purged you found yourself stuck with nothing but the uniform they gave you and your job's sign-bonus equipment.",
     "points": 6,
     "skills": [
       { "level": 2, "name": "tailor" },
@@ -48,18 +70,16 @@
           "crt_rec_hat",
           "crt_rec_duster",
           "crt_jacket",
-          "polo_shirt",
           "crt_rec_gloves",
           "crt_dress_pants",
+          "crt_belt",
           "socks",
           "crt_dress_shoes",
           "id_military",
+          "knife_swissarmy",
           "cell_phone"
         ],
-        "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "thermos" },
-          { "item": "knife_swissarmy", "container-item": "crt_belt" }
-        ]
+        "entries": [ { "item": "water_clean", "container-item": "thermos" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -86,7 +106,6 @@
         "ammo": 100,
         "items": [
           "beret",
-          "modularvestkevlar",
           "jacket_army",
           "army_top",
           "legguard_hard",
@@ -104,8 +123,8 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_crt", "container-item": "sheath" },
-          { "item": "m4a1", "ammo-item": "223", "contents-item": [ "grip", "holo_sight" ] },
-          { "item": "stanag30", "ammo-item": "223", "count": 1 }
+          { "item": "m4a1", "ammo-item": "556", "contents-item": [ "shoulder_strap", "grip", "holo_sight" ] },
+          { "item": "modularvestsuper", "contents-group": "army_mags_m4" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -116,7 +135,7 @@
     "type": "profession",
     "id": "crt_rifleman",
     "name": "C.R.I.T. Grunt",
-    "description": "You were part of the infantry; first to hit the ground running, clear a FOB and then come back to relax with your squad.  Those days ended when the cataclysm reared its ugly head.  Your lines were torn through like wet paper when the otherworldy abominations arived.  Now fleeing for your life, will you have what it takes to survive or is this hellish landcape your resting place?",
+    "description": "You were part of the infantry; first to hit the ground running, clear a FOB and then come back to relax with your squad.  Those days ended when the cataclysm reared its ugly head.  Your lines were torn through like wet paper when the otherworldly abominations arrived.  Now fleeing for your life, will you have what it takes to survive or is this hellish landscape your resting place?",
     "points": 8,
     "traits": [ "MARTIAL_CRT" ],
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "rifle" }, { "level": 1, "name": "stabbing" } ],
@@ -124,7 +143,7 @@
       "both": {
         "ammo": 100,
         "items": [
-          "modularvestkevlar",
+          "modularvest",
           "crt_chestrig",
           "crt_pants",
           "legguard_hard",
@@ -144,8 +163,8 @@
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_rm42", "container-item": "sheath" },
-          { "item": "scar_h", "ammo-item": "308", "contents-item": "shoulder_strap" },
-          { "item": "scarhmag", "ammo-item": "308", "count": 2 }
+          { "item": "scar_h", "ammo-item": "762_51", "contents-item": "shoulder_strap" },
+          { "item": "modularvestsuper", "contents-group": "crit_mags_scarh" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -173,8 +192,6 @@
           "helmet_army",
           "crt_helmet_liner",
           "crt_aarmor",
-          "armguard_hard",
-          "legguard_hard",
           "gloves_tactical",
           "crt_gloves_liner",
           "crt_canteen",
@@ -185,13 +202,13 @@
           "two_way_radio",
           "1st_aid",
           "bandages",
+          "knife_swissarmy",
           "crt_backpack",
           "UPS_off"
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "knife_swissarmy", "container-item": "sheath" },
+          { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] },
           { "item": "crt_laser_pistol", "container-item": "holster" }
         ]
       },
@@ -203,7 +220,7 @@
     "type": "profession",
     "id": "crt_saw",
     "name": "C.R.I.T. Automatic Rifleman",
-    "description": "You were assigned the billet of specializing in creating dead zones and providing support fire.  When the cataclysm struck, your trusty LMG couldn't keep the veritable tide of undead from overtaking your squad.  Now running with all the strength your body can muster, will you have what it takes to survive or is this hellish landcape something you just can't suppress?",
+    "description": "You were assigned the billet of specializing in creating dead zones and providing support fire.  When the cataclysm struck, your trusty LMG couldn't keep the veritable tide of undead from overtaking your squad.  Now running with all the strength your body can muster, will you have what it takes to survive or is this hellish landscape something you just can't suppress?",
     "points": 10,
     "traits": [ "MARTIAL_CRT" ],
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
@@ -214,8 +231,6 @@
           "crt_helmet",
           "crt_helmet_liner",
           "glasses_bal",
-          "balclava",
-          "modularvestkevlar",
           "jacket_army",
           "army_top",
           "crt_armguard",
@@ -229,12 +244,11 @@
         ],
         "entries": [
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "l_lmg_223", "ammo-item": "223" },
-          { "item": "lw223bigmag", "count": 1 },
+          { "item": "m249", "ammo-item": "556", "contents-item": "shoulder_strap" },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
-          { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
+          { "item": "modularvestsuper", "contents-group": "crit_mags_m9" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -262,7 +276,6 @@
           "beret",
           "crt_helmet_liner",
           "fancy_sunglasses",
-          "crt_chestrig",
           "crt_iduster",
           "army_top",
           "crt_pants",
@@ -278,7 +291,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_rm42", "container-item": "sheath" },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
-          { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
+          { "item": "crt_chestrig", "contents-group": "crit_mags_m9" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -289,7 +302,7 @@
     "type": "profession",
     "id": "crt_guard",
     "name": "C.R.I.T. Enforcer",
-    "description": "STR 10 recommended.  You were a granted the authority of a U.S Marshal.  As a guard, others joked that you were nothing more than a mall cop with a fancy badge.  Knowingly, you laughed it off as the you donned on your equipment and deployed.  While you mainly spent time at base, you honed your skills and received special implants to do your job easier at the low low cost of serving as a \"guard\" forever.  Time to do your job, mission parameters look like they've expanded quite a bit though.",
+    "description": "STR 10 recommended.  You were a granted the authority of a U.S Marshal.  As a guard, others joked that you were nothing more than a mall cop with a fancy badge.  Knowingly, you laughed it off as the you donned your equipment and deployed.  While you mainly spent time at base, you honed your skills and received special implants to do your job easier at the low low cost of serving as a \"guard\" forever.  Time to do your job, mission parameters look like they've expanded quite a bit though.",
     "traits": [ "MARTIAL_CRT", "PROF_FED" ],
     "CBMs": [ "bio_razors", "bio_sunglasses", "bio_ears", "bio_speed", "bio_str_enhancer" ],
     "points": 12,
@@ -312,18 +325,19 @@
           "army_top",
           "crt_gloves_liner",
           "crt_gloves",
-          "crt_canteen",
+          "crt_belt",
           "crt_legrig",
           "socks",
-          "crt_boots",
+          "crt_la_boots",
+          "crt_earmor_boots",
           "two_way_radio",
           "crt_nstick",
           "badge_marshal",
-          "lighter"
+          "lighter",
+          "knife_swissarmy"
         ],
         "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
-          { "item": "knife_swissarmy", "container-item": "crt_belt" },
+          { "item": "water_clean", "container-item": "crt_canteen" },
           { "item": "knife_crt", "container-item": "sheath" },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
           { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
@@ -383,7 +397,7 @@
           "army_top",
           "crt_gloves_liner",
           "crt_gloves",
-          "crt_canteen",
+          "crt_belt",
           "crt_legrig",
           "socks",
           "crt_boots",
@@ -391,11 +405,11 @@
           "crt_laser_gatling",
           "crt_nstick",
           "badge_marshal",
-          "lighter"
+          "lighter",
+          "knife_swissarmy"
         ],
         "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
-          { "item": "knife_swissarmy", "container-item": "crt_belt" },
+          { "item": "water_clean", "container-item": "crt_canteen" },
           { "item": "crt_mask", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_crt", "container-item": "sheath" },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
@@ -410,7 +424,7 @@
     "type": "profession",
     "id": "crt",
     "name": "C.R.I.T. Spec Ops",
-    "description": "STR 10 recommended.  You were an elite member of the Catastrophe Response/Research & Investigation Team.  A looming spectre which responded to secular threats which allowed your faction to leap decades in front of other world powers.  Your squad was the first to be deployed into the New England region, ground zero, to contain the impending outbreak and gain information to relay back to command.  Good luck soldier.",
+    "description": "STR 10 recommended.  You were an elite member of Catastrophe Response and Investigation Team, for a powerful military faction.  A looming spectre which responded to secular threats, with technology decades ahead of other world powers.  Your squad was the first to be deployed into the New England region, ground zero, to contain the impending outbreak and gain information to relay back to command.  Good luck soldier.",
     "traits": [ "MARTIAL_CRT", "PROF_FED" ],
     "CBMs": [
       "bio_razors",
@@ -447,7 +461,6 @@
           "crt_gloves_liner",
           "crt_gloves",
           "crt_legguard",
-          "crt_canteen",
           "crt_legrig",
           "socks",
           "crt_boots",
@@ -458,21 +471,16 @@
           "mre_veggy_box",
           "crt_mess_kit",
           "lighter",
+          "knife_swissarmy",
           "badge_marshal",
           "crt_etool"
         ],
         "entries": [
-          { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
+          { "item": "sleeping_bag_roll", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "water_clean", "container-item": "crt_canteen" },
           { "item": "knife_crt", "container-item": "crt_belt" },
-          { "item": "knife_swissarmy", "container-item": "sheath" },
-          {
-            "item": "crt_laser_pistol",
-            "contents-item": [ "flare_gmod", "bthk_stock", "beam_difractor" ],
-            "container-item": "holster"
-          },
-          { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
-          { "item": "battery", "ammo-item": "battery", "count": 25 }
+          { "item": "holster", "contents-group": "crit_gun_specops" },
+          { "item": "signal_flare", "charges": 5 }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -514,7 +522,6 @@
           "crt_gloves",
           "crt_legguard",
           "crt_legrig",
-          "crt_canteen",
           "crt_pants",
           "socks",
           "crt_boots",
@@ -522,13 +529,13 @@
           "crt_hatchet",
           "mre_veggy_box",
           "lighter",
-          "pellet",
-          "pelletgun",
-          "crt_etool"
+          "knife_swissarmy",
+          "pellet"
         ],
         "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
-          { "item": "knife_swissarmy", "container-item": "crt_belt" },
+          { "item": "pelletgun", "ammo-item": "pellet", "contents-item": "shoulder_strap" },
+          { "item": "water_clean", "container-item": "crt_canteen" },
+          { "item": "crt_etool", "container-item": "crt_belt" },
           { "item": "knife_crt", "container-item": "sheath" }
         ]
       },
@@ -566,17 +573,17 @@
           "crt_pants",
           "socks",
           "crt_la_boots",
-          "crt_hatchet",
           "mre_veggy_box",
           "lighter",
           "crt_mess_kit",
           "id_military",
-          "pelletgun",
+          "knife_swissarmy",
           "pellet"
         ],
         "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
-          { "item": "knife_swissarmy", "container-item": "crt_belt" }
+          { "item": "pelletgun", "ammo-item": "pellet", "contents-item": "shoulder_strap" },
+          { "item": "crt_hatchet", "container-item": "crt_belt" },
+          { "item": "water_clean", "container-item": "canteen" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -610,16 +617,15 @@
           "dress_shirt",
           "crt_rec_gloves",
           "crt_dress_pants",
+          "crt_belt",
           "socks",
           "crt_dress_shoes",
           "lighter",
+          "knife_swissarmy",
           "thorazine",
           "id_military"
         ],
-        "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "thermos" },
-          { "item": "knife_swissarmy", "container-item": "crt_belt" }
-        ]
+        "entries": [ { "item": "water_clean", "container-item": "thermos" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -646,18 +652,13 @@
           "rucksack",
           "ds_armor",
           "ds_monitor",
-          "crt_jacket",
           "army_top",
           "crt_rec_gloves",
           "crt_canteen",
           "crt_belt",
-          "crt_pants",
           "socks",
           "ds_plasma_cutter",
-          "ds_line_gun",
-          "ds_pulse_rifle",
           "ds_rivet_gun",
-          "ds_ripper",
           "toolbox",
           "mre_veggy_box",
           "lighter",
@@ -665,7 +666,11 @@
           "id_military",
           "id_science"
         ],
-        "entries": [ { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" } ]
+        "entries": [
+          { "item": "water_clean", "container-item": "canteen" },
+          { "item": "plasma", "charges": 13 },
+          { "item": "nail", "charges": 75 }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -675,7 +680,7 @@
     "type": "profession",
     "id": "crt_vamp",
     "name": "C.R.I.T. Night Walker",
-    "description": "Your base in New England fell to the unholy onslaught of the Cataclysm.  However, as a a top researcher in the R&D department, you had chosen to slowly mutate yourself into something more than human.  Even if the concotion was less than perfect, your old flimsy body feels empowered.  With the new flesh that is now your own, bare your fangs and fight until the next dawn.",
+    "description": "Your base in New England fell to the unholy onslaught of the Cataclysm.  However, as a a top researcher in the R&D department, you had chosen to slowly mutate yourself into something more than human.  Even if the concoction was less than perfect, your old flimsy body feels empowered.  With the new flesh that is now your own, bare your fangs and fight until the next dawn.",
     "traits": [
       "MARTIAL_CRT",
       "THRESH_VAMP",
@@ -730,7 +735,6 @@
           "ds_monitor",
           "crt_gloves",
           "crt_gloves_liner",
-          "crt_canteen",
           "crt_pants",
           "socks",
           "crt_la_boots",
@@ -738,15 +742,13 @@
           "mre_veggy_box",
           "crt_mess_kit",
           "lighter",
-          "knife_swissarmy",
-          "sword_crt",
-          "battery",
           "crt_etool",
           "id_military",
           "id_science"
         ],
         "entries": [
-          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "item": "water_clean", "container-item": "crt_canteen" },
+          { "item": "sword_crt", "container-item": "scabbard" },
           { "item": "knife_crt", "container-item": "crt_belt" }
         ]
       },

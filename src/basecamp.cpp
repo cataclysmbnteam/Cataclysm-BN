@@ -164,7 +164,7 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint_abs_omt
 }
 
 void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
-                              const point &dir )
+                              point dir )
 {
     expansion_data e;
     e.type = base_camps::faction_decode( bldg );
@@ -233,7 +233,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
 // upgrade levels
 // legacy next upgrade
-std::string basecamp::next_upgrade( const point &dir, const int offset ) const
+std::string basecamp::next_upgrade( point dir, const int offset ) const
 {
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
@@ -266,7 +266,7 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const cata::optional<point> &dir,
+bool basecamp::has_provides( const std::string &req, const std::optional<point> &dir,
                              int level ) const
 {
     if( !dir ) {
@@ -296,7 +296,7 @@ bool basecamp::has_water()
            has_provides( "faction_base_blacksmith_11" );
 }
 
-std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
+std::vector<basecamp_upgrade> basecamp::available_upgrades( point dir )
 {
     std::vector<basecamp_upgrade> ret_data;
     auto e = expansions.find( dir );
@@ -358,7 +358,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
 }
 
 // recipes and craft support functions
-std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
+std::map<recipe_id, translation> basecamp::recipe_deck( point dir ) const
 {
     std::map<recipe_id, translation> recipes;
     const auto &e = expansions.find( dir );
@@ -395,7 +395,7 @@ void basecamp::add_resource( const itype_id &camp_resource )
 {
     basecamp_resource bcp_r;
     bcp_r.fake_id = camp_resource;
-    item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
+    item &camp_item = *item::spawn_temporary( bcp_r.fake_id, calendar::start_of_cataclysm );
     bcp_r.ammo_id = camp_item.ammo_default();
     resources.emplace_back( bcp_r );
     fuel_types.insert( bcp_r.ammo_id );
@@ -428,7 +428,7 @@ void basecamp::update_provides( const std::string &bldg, expansion_data &e_data 
     }
 }
 
-void basecamp::update_in_progress( const std::string &bldg, const point &dir )
+void basecamp::update_in_progress( const std::string &bldg, point dir )
 {
     if( !recipe_id( bldg ).is_valid() ) {
         return;
@@ -501,7 +501,7 @@ void basecamp::remove_assignee( character_id id )
         debugmsg( "cant find npc to remove from basecamp, on the overmap_buffer" );
         return;
     }
-    npc_to_remove->assigned_camp = cata::nullopt;
+    npc_to_remove->assigned_camp = std::nullopt;
     assigned_npcs.erase( std::remove( assigned_npcs.begin(), assigned_npcs.end(), npc_to_remove ),
                          assigned_npcs.end() );
 }
@@ -581,20 +581,20 @@ void basecamp::set_name( const std::string &new_name )
  * we could put this logic in map::use_charges() the way the vehicle code does, but I think
  * that's sloppy
  */
-std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
+std::vector<detached_ptr<item>> basecamp::use_charges( const itype_id &fake_id, int &quantity )
 {
-    std::list<item> ret;
+    std::vector<detached_ptr<item>> ret;
     if( quantity <= 0 ) {
         return ret;
     }
     for( basecamp_resource &bcp_r : resources ) {
         if( bcp_r.fake_id == fake_id ) {
-            item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
-            camp_item.charges = std::min( bcp_r.available, quantity );
-            quantity -= camp_item.charges;
-            bcp_r.available -= camp_item.charges;
-            bcp_r.consumed += camp_item.charges;
-            ret.push_back( camp_item );
+            detached_ptr<item> camp_item = item::spawn( bcp_r.fake_id, calendar::start_of_cataclysm );
+            camp_item->charges = std::min( bcp_r.available, quantity );
+            quantity -= camp_item->charges;
+            bcp_r.available -= camp_item->charges;
+            bcp_r.consumed += camp_item->charges;
+            ret.push_back( std::move( camp_item ) );
             if( quantity <= 0 ) {
                 break;
             }
@@ -634,10 +634,10 @@ void basecamp::form_crafting_inventory( map &target_map )
     // find available fuel
     for( const tripoint &pt : target_map.points_in_radius( origin, inv_range ) ) {
         if( target_map.accessible_items( pt ) ) {
-            for( const item &i : target_map.i_at( pt ) ) {
+            for( const item * const &i : target_map.i_at( pt ) ) {
                 for( basecamp_fuel &bcp_f : fuels ) {
-                    if( bcp_f.ammo_id == i.typeId() ) {
-                        bcp_f.available += i.charges;
+                    if( bcp_f.ammo_id == i->typeId() ) {
+                        bcp_f.available += i->charges;
                         break;
                     }
                 }
@@ -646,14 +646,14 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
-        item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
+        item &camp_item = *item::spawn_temporary( bcp_r.fake_id, calendar::start_of_cataclysm );
         camp_item.set_flag( "PSEUDO" );
         if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
                     if( bcp_f.available > 0 ) {
                         bcp_r.available = bcp_f.available;
-                        camp_item = camp_item.ammo_set( bcp_f.ammo_id, bcp_f.available );
+                        camp_item.ammo_set( bcp_f.ammo_id, bcp_f.available );
                     }
                     break;
                 }
@@ -675,7 +675,7 @@ void basecamp::form_crafting_inventory()
 }
 
 // display names
-std::string basecamp::expansion_tab( const point &dir ) const
+std::string basecamp::expansion_tab( point dir ) const
 {
     if( dir == base_camps::base_dir ) {
         return _( "Base Missions" );
@@ -775,3 +775,4 @@ void basecamp_action_components::consume_components()
         map_.reset();
     }
 }
+

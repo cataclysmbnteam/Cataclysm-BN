@@ -36,7 +36,7 @@
 catacurses::window catacurses::stdscr;
 std::array<cata_cursesport::pairs, 100> cata_cursesport::colorpairs;   //storage for pair'ed colored
 
-static bool wmove_internal( const catacurses::window &win_, const point &p )
+static bool wmove_internal( const catacurses::window &win_, point p )
 {
     if( !win_ ) {
         return false;
@@ -62,7 +62,7 @@ static bool wmove_internal( const catacurses::window &win_, const point &p )
 //Pseudo-Curses Functions           *
 //***********************************
 
-catacurses::window catacurses::newwin( int nlines, int ncols, const point &begin )
+catacurses::window catacurses::newwin( int nlines, int ncols, point begin )
 {
     if( begin.y < 0 || begin.x < 0 ) {
         return window(); //it's the caller's problem now (since they have logging functions declared)
@@ -161,7 +161,7 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
     wattroff( win_, c_white );
 }
 
-void catacurses::mvwhline( const window &win, const point &p, chtype ch, int n )
+void catacurses::mvwhline( const window &win, point p, chtype ch, int n )
 {
     wattron( win, BORDER_COLOR );
     const chtype hline_char = ch ? ch : LINE_OXOX;
@@ -171,7 +171,7 @@ void catacurses::mvwhline( const window &win, const point &p, chtype ch, int n )
     wattroff( win, BORDER_COLOR );
 }
 
-void catacurses::mvwvline( const window &win, const point &p, chtype ch, int n )
+void catacurses::mvwvline( const window &win, point p, chtype ch, int n )
 {
     wattron( win, BORDER_COLOR );
     const chtype vline_char = ch ? ch : LINE_XOXO;
@@ -363,7 +363,7 @@ void catacurses::wprintw( const window &win, const std::string &text )
 }
 
 //Prints a formatted string to a window, moves the cursor
-void catacurses::mvwprintw( const window &win, const point &p, const std::string &text )
+void catacurses::mvwprintw( const window &win, point p, const std::string &text )
 {
     if( !wmove_internal( win, p ) ) {
         return;
@@ -409,7 +409,7 @@ void catacurses::init_pair( const short pair, const base_color f, const base_col
 }
 
 //moves the cursor in a window
-void catacurses::wmove( const window &win_, const point &p )
+void catacurses::wmove( const window &win_, point p )
 {
     if( !wmove_internal( win_, p ) ) {
         return;
@@ -425,7 +425,7 @@ void catacurses::clear()
 }
 
 //adds a character to the window
-void catacurses::mvwaddch( const window &win, const point &p, const chtype ch )
+void catacurses::mvwaddch( const window &win, point p, const chtype ch )
 {
     if( !wmove_internal( win, p ) ) {
         return;

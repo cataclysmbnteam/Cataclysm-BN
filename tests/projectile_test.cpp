@@ -59,7 +59,7 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     here.ter_set( range[1], ter_id( "t_chainfence" ) );
 
     // Create a gun to fire a projectile from
-    item gun( itype_id( "m1a" ) );
+    item &gun = *item::spawn_temporary( itype_id( "m1a" ) );
     gun.ammo_set( itype_id( "308" ), 5 );
 
     // Check that a bullet with the correct amount of speed can through obstacles

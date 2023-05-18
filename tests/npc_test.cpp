@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -20,7 +21,6 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "numeric_interval.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_helpers.h"
@@ -55,9 +55,8 @@ static void test_needs( const npc &who, const numeric_interval<int> &kcal_lost,
     CHECK( who.get_fatigue() >= fatigue.min );
 }
 
-static npc create_model()
+static void create_model( npc &model_npc )
 {
-    npc model_npc;
     model_npc.randomize( NC_NONE );
     for( const trait_id &tr : model_npc.get_mutations() ) {
         model_npc.unset_mutation( tr );
@@ -69,7 +68,6 @@ static npc create_model()
     // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
     model_npc.set_mutation( trait_id( "WEB_WEAVER" ) );
 
-    return model_npc;
 }
 
 static std::string get_list_of_npcs( const std::string &title )
@@ -87,7 +85,8 @@ TEST_CASE( "on_load-sane-values", "[.]" )
 {
     clear_all_state();
     SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
-        npc test_npc = create_model();
+        npc test_npc;
+        create_model( test_npc );
         const int five_min_ticks = 2;
         on_load_test( test_npc, 0_turns, 5_minutes * five_min_ticks );
         const int margin = 2;
@@ -101,7 +100,8 @@ TEST_CASE( "on_load-sane-values", "[.]" )
     }
 
     SECTION( "Awake for 2 days, gaining hunger/thirst/fatigue" ) {
-        npc test_npc = create_model();
+        npc test_npc;
+        create_model( test_npc );
         const auto five_min_ticks = 2_days / 5_minutes;
         on_load_test( test_npc, 0_turns, 5_minutes * five_min_ticks );
 
@@ -115,7 +115,8 @@ TEST_CASE( "on_load-sane-values", "[.]" )
     }
 
     SECTION( "Sleeping for 6 hours, gaining hunger/thirst (not testing fatigue due to lack of effects processing)" ) {
-        npc test_npc = create_model();
+        npc test_npc;
+        create_model( test_npc );
         test_npc.add_effect( efftype_id( "sleep" ), 6_hours );
         test_npc.set_fatigue( 1000 );
         const auto five_min_ticks = 6_hours / 5_minutes;
@@ -141,8 +142,10 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
 {
     clear_all_state();
     SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
-        npc on_load_npc = create_model();
-        npc iterated_npc = create_model();
+        npc on_load_npc;
+        create_model( on_load_npc );
+        npc iterated_npc;
+        create_model( iterated_npc );
         const int five_min_ticks = 2;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
@@ -160,8 +163,10 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
     }
 
     SECTION( "Awake for 6 hours, gaining hunger/thirst/fatigue" ) {
-        npc on_load_npc = create_model();
-        npc iterated_npc = create_model();
+        npc on_load_npc;
+        create_model( on_load_npc );
+        npc iterated_npc;
+        create_model( on_load_npc );
         const auto five_min_ticks = 6_hours / 5_minutes;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
@@ -376,7 +381,7 @@ TEST_CASE( "npc-movement" )
                 // This prevents npcs occasionally teleporting away
                 guy->assign_activity( activity_id( "ACT_MEDITATE" ) );
                 //Sometimes they spawn with sledge hammers and bash down the walls
-                guy->weapon = item( "null", calendar::start_of_cataclysm );;
+                guy->remove_weapon();
                 overmap_buffer.insert_npc( guy );
                 g->load_npcs();
                 guy->set_attitude( ( type == 'M' || type == 'C' ) ? NPCATT_NULL : NPCATT_FOLLOW );

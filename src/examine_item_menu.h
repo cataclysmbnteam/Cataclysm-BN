@@ -18,7 +18,7 @@ enum class menu_pos_t {
 };
 
 bool run(
-    item_location loc,
+    item &loc,
     const std::function<int()> &func_pos_x,
     const std::function<int()> &func_width,
     menu_pos_t menu_pos

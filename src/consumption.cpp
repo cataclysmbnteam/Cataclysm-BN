@@ -8,6 +8,7 @@
 #include <array>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <string>
 #include <tuple>
 
@@ -32,7 +33,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "optional.h"
 #include "options.h"
 #include "pldata.h"
 #include "recipe.h"
@@ -55,10 +55,8 @@ static const skill_id skill_survival( "survival" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_digestion( "bio_digestion" );
 static const bionic_id bio_furnace( "bio_furnace" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
@@ -215,18 +213,18 @@ struct prepared_item_consumption {
 };
 
 // Should return item_location instead, but it's really hard to get it from inventory
-static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
+static std::optional<prepared_item_consumption> find_food_heater( Character &c,
         const inventory &inv, bool has_fire )
 {
     if( has_fire ) {
-        std::vector<const item *> fire_heaters = inv.items_with( []( const item & it ) {
+        std::vector<item *> fire_heaters = inv.items_with( []( const item & it ) {
             return it.has_flag( "HEATS_FOOD_USING_FIRE" );
         } );
         if( !fire_heaters.empty() ) {
             return prepared_item_consumption( item_consumption_t::none, *fire_heaters.front() );
         }
     }
-    std::vector<const item *> charged_heaters = inv.items_with( [&c]( const item & it ) {
+    std::vector<item *> charged_heaters = inv.items_with( [&c]( const item & it ) {
         return it.has_flag( "HEATS_FOOD_USING_CHARGES" ) &&
                it.has_flag( "HEATS_FOOD" ) &&
                c.has_enough_charges( it, false );
@@ -234,7 +232,7 @@ static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
     if( !charged_heaters.empty() ) {
         return prepared_item_consumption( item_consumption_t::tool, *charged_heaters.front() );
     }
-    std::vector<const item *> consumed_heaters = inv.items_with( []( const item & it ) {
+    std::vector<item *> consumed_heaters = inv.items_with( []( const item & it ) {
         return it.has_flag( "HEATS_FOOD_IS_CONSUMED" ) &&
                it.has_flag( "HEATS_FOOD" ) &&
                is_crafting_component( it );
@@ -243,7 +241,7 @@ static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
         return prepared_item_consumption( item_consumption_t::component, *consumed_heaters.front() );
 
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 static int compute_default_effective_kcal( const item &comest, const Character &you,
@@ -339,12 +337,13 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
     }
 
     // if item has components, will derive calories from that instead.
-    if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
+    const ItemList &components = comest.get_components().as_vector();
+    if( !components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
         nutrients tally{};
-        for( const item &component : comest.components ) {
+        for( const item * const &component : components ) {
             nutrients component_value =
-                compute_effective_nutrients( component ) * component.charges;
-            if( component.has_flag( flag_BYPRODUCT ) ) {
+                compute_effective_nutrients( *component ) * component->charges;
+            if( component->has_flag( flag_BYPRODUCT ) ) {
                 tally -= component_value;
             } else {
                 tally += component_value;
@@ -410,7 +409,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     }
 
     for( const std::pair<const itype_id, int> &byproduct : rec.byproducts ) {
-        item byproduct_it( byproduct.first, calendar::turn, byproduct.second );
+        item &byproduct_it = *item::spawn_temporary( byproduct.first, calendar::turn, byproduct.second );
         nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
         tally_min -= byproduct_nutr;
         tally_max -= byproduct_nutr;
@@ -429,8 +428,8 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     if( !comest->comestible ) {
         return {};
     }
-
-    item comest_it( comest, calendar::turn, 1 );
+    //TODO!: wtf is all this shit
+    item &comest_it = *item::spawn_temporary( comest, calendar::turn, 1 );
     // The default nutrients are always a possibility
     nutrients min_nutr = compute_default_effective_nutrients( comest_it, *this, extra_flags );
 
@@ -445,18 +444,20 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_min;
         nutrients this_max;
 
-        item result_it = rec->create_result();
-        if( result_it.contents.num_item_stacks() == 1 ) {
-            const item alt_result = result_it.contents.front();
+        detached_ptr<item> res = rec->create_result();
+        item *result_it = &*res;
+        if( result_it->contents.num_item_stacks() == 1 ) {
+            item &alt_result = result_it->contents.front();
             if( alt_result.typeId() == comest_it.typeId() ) {
-                result_it = alt_result;
+                result_it = &alt_result;
             }
         }
-        if( result_it.typeId() != comest_it.typeId() ) {
+        if( result_it->typeId() != comest_it.typeId() ) {
             debugmsg( "When creating recipe result expected %s, got %s\n",
-                      comest_it.typeId().str(), result_it.typeId().str() );
+                      comest_it.typeId().str(), result_it->typeId().str() );
         }
-        std::tie( this_min, this_max ) = compute_nutrient_range( result_it, rec, extra_flags );
+
+        std::tie( this_min, this_max ) = compute_nutrient_range( *result_it, rec, extra_flags );
         min_nutr.min_in_place( this_min );
         max_nutr.max_in_place( this_max );
     }
@@ -1258,53 +1259,6 @@ bool Character::consume_effects( item &food )
     return true;
 }
 
-bool Character::can_feed_reactor_with( const item &it ) const
-{
-    static const std::set<ammotype> acceptable = {{
-            ammotype( "reactor_slurry" ),
-            ammotype( "plutonium" )
-        }
-    };
-
-    if( !it.is_ammo() || can_eat( it ).success() ) {
-        return false;
-    }
-
-    if( !has_active_bionic( bio_reactor ) && !has_active_bionic( bio_advreactor ) ) {
-        return false;
-    }
-
-    return std::any_of( acceptable.begin(), acceptable.end(), [ &it ]( const ammotype & elem ) {
-        return it.ammo_type() == elem;
-    } );
-}
-
-bool Character::feed_reactor_with( item &it )
-{
-    if( !can_feed_reactor_with( it ) ) {
-        return false;
-    }
-
-    const auto iter = plut_charges.find( it.typeId() );
-    const int max_amount = iter != plut_charges.end() ? iter->second : 0;
-    const int amount = std::min( get_acquirable_energy( it, rechargeable_cbm::reactor ), max_amount );
-
-    if( amount >= PLUTONIUM_CHARGES * 10 &&
-        !query_yn( _( "That is a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
-        return false;
-    }
-
-    add_msg_player_or_npc( _( "You add your %s to your reactor's tank." ),
-                           _( "<npcname> pours %s into their reactor's tank." ),
-                           it.tname() );
-
-    // TODO: Encapsulate
-    tank_plut += amount;
-    it.charges -= 1;
-    mod_moves( -250 );
-    return true;
-}
-
 bool Character::can_feed_furnace_with( const item &it ) const
 {
     if( !it.flammable() || it.has_flag( flag_RADIOACTIVE ) || can_eat( it ).success() ) {
@@ -1388,16 +1342,20 @@ bool Character::fuel_bionic_with( item &it )
     }
 
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-
-    const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
     const std::string str_loaded  = get_value( it.typeId().str() );
+
+    const int fuel_multiplier = get_bionic_state( bio ).info().fuel_multiplier;
+
+    int loadable = std::min( it.charges * fuel_multiplier, get_fuel_capacity( it.typeId() ) );
     int loaded = 0;
+
     if( !str_loaded.empty() ) {
         loaded = std::stoi( str_loaded );
     }
 
     const std::string new_charge = std::to_string( loadable + loaded );
 
+    loadable = std::ceil( loadable / fuel_multiplier );
     it.charges -= loadable;
     // Type and amount of fuel
     set_value( it.typeId().str(), new_charge );
@@ -1415,10 +1373,6 @@ bool Character::fuel_bionic_with( item &it )
 
 rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
 {
-    if( can_feed_reactor_with( it ) ) {
-        return rechargeable_cbm::reactor;
-    }
-
     if( can_feed_furnace_with( it ) ) {
         return rechargeable_cbm::furnace;
     }
@@ -1514,10 +1468,7 @@ item &Character::get_consumable_from( item &it ) const
         return it;
     }
 
-    static item null_comestible;
-    // Since it's not const.
-    null_comestible = item();
-    return null_comestible;
+    return null_item_reference();
 }
 
 static bool query_consume_ownership( item &target, avatar &you )
@@ -1535,15 +1486,31 @@ static bool query_consume_ownership( item &target, avatar &you )
     return true;
 }
 
-bool Character::consume_item( item &target )
+detached_ptr<item> Character::consume_item( detached_ptr<item> &&target )
+{
+
+    if( is_avatar() && !query_consume_ownership( *target, *as_avatar() ) ) {
+        return std::move( target );
+    }
+
+    if( consume_med( *target ) ||
+        eat( *target ) ||
+        feed_furnace_with( *target ) ||
+        fuel_bionic_with( *target ) ) {
+        return target->charges > 0 ? std::move( target ) : detached_ptr<item>();
+    }
+    return std::move( target );
+}
+
+void Character::consume( item &target )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
-        return false;
+        return;
     }
     if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
         add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return false;
+        return;
     }
 
     item &comest = get_consumable_from( target );
@@ -1553,51 +1520,26 @@ bool Character::consume_item( item &target )
         if( is_npc() ) {
             debugmsg( "%s tried to eat a %s", name, target.tname() );
         }
-        return false;
-    }
-    if( is_avatar() && !query_consume_ownership( target, *as_avatar() ) ) {
-        return false;
-    }
-    if( consume_med( comest ) ||
-        eat( comest ) ||
-        feed_reactor_with( comest ) ||
-        feed_furnace_with( comest ) ||
-        fuel_bionic_with( comest ) ) {
-
-        if( target.is_container() ) {
-            target.on_contents_changed();
-        }
-
-        return comest.charges <= 0;
+        return;
     }
 
-    return false;
-}
-
-void Character::consume( item_location loc )
-{
-    item &target = *loc;
     const bool wielding = is_wielding( target );
     const bool worn = is_worn( target );
     const bool inv_item = !( wielding || worn );
 
-    if( consume_item( target ) ) {
+    bool was_in_container = ( &comest != &target );
+    Character &who = *this;
+    bool consumed = comest.attempt_detach( [&who]( detached_ptr<item> &&it ) {
+        return who.consume_item( std::move( it ) );
+    } );
 
-        const bool was_in_container = !can_consume_as_is( target );
-
-        if( was_in_container ) {
-            i_rem( &target.contents.front() );
-        } else {
-            i_rem( &target );
-        }
-
-        // Restack and sort so that we don't lie about target's invlet
-        if( inv_item ) {
-            inv.restack( *this->as_player() );
-        }
-
+    // Restack and sort so that we don't lie about target's invlet
+    if( inv_item ) {
+        inv.restack( *this->as_player() );
+    }
+    if( consumed ) {
         if( was_in_container && wielding ) {
-            add_msg_if_player( _( "You are now wielding an empty %s." ), weapon.tname() );
+            add_msg_if_player( _( "You are now wielding an empty %s." ), get_weapon().tname() );
         } else if( was_in_container && worn ) {
             add_msg_if_player( _( "You are now wearing an empty %s." ), target.tname() );
         } else if( was_in_container && !is_npc() ) {
@@ -1611,7 +1553,7 @@ void Character::consume( item_location loc )
             }
             if( drop_it ) {
                 add_msg( _( "You drop the empty %s." ), target.tname() );
-                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { inv.remove_item( &target ) } );
+                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, target.detach() );
             } else {
                 int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
                 char letter = target.invlet ? target.invlet : ' ';
@@ -1619,9 +1561,10 @@ void Character::consume( item_location loc )
             }
         }
     } else if( inv_item ) {
-        if( pickup::handle_spillable_contents( *this, target, g->m ) ) {
-            i_rem( &target );
-        }
+        target.attempt_detach( [&who]( detached_ptr<item> &&it ) {
+            return pickup::handle_spillable_contents( who, std::move( it ), get_map() );
+        } );
+
         inv.restack( *this->as_player() );
         inv.unsort();
     }
