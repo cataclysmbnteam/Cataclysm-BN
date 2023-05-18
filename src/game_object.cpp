@@ -1,7 +1,6 @@
 #include "game_object.h"
 
 #include <memory>
-#include <execinfo.h>
 
 #include "cata_arena.h"
 #include "item.h"

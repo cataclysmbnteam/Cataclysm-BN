@@ -4,7 +4,6 @@
 
 #include <unordered_map>
 #include <set>
-#include <execinfo.h>
 
 #include "safe_reference.h"
 
