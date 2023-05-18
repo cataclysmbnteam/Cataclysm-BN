@@ -469,7 +469,16 @@ Character::Character() :
 }
 // *INDENT-ON*
 
-Character::Character( Character &&source ) : Character()
+Character::Character( Character &&source ) : Creature( source ),
+    worn( new worn_item_location( this ) ),
+    damage_bandaged( {{ 0 }} ),
+damage_disinfected( {{ 0 }} ),
+cached_time( calendar::before_time_starts ),
+inv( new character_item_location( this ) ),
+id( -1 ),
+weapon( new wield_item_location( this ) ),
+next_climate_control_check( calendar::before_time_starts ),
+last_climate_control_ret( false )
 {
     str_max = source.str_max;
     dex_max = source.dex_max;
@@ -629,6 +638,7 @@ Character &Character::operator=( Character &&source )
     for( detached_ptr<item> &it : source.inv.dump_remove() ) {
         inv.push_back( std::move( it ) );
     }
+    Creature::operator=( std::move( source ) );
     return *this;
 }
 
