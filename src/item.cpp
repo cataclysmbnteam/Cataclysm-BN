@@ -324,7 +324,7 @@ item &null_item_reference()
 {
     static item result{};
     // reset it, in case a previous caller has changed it
-    //result = item();
+    result = item();
     return result;
 }
 
@@ -390,7 +390,6 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ),
     }
 
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
-        //TODO!: ahahaha no
         itype_id nanofab_recipe = item_group::item_from( item_group_id( "nanofab_recipes" ) )->typeId();
         set_var( "NANOFAB_ITEM_ID", nanofab_recipe.str() );
     }
@@ -505,6 +504,7 @@ item::item( const recipe *rec, int qty, std::vector<detached_ptr<item>> &&items,
 item::item( const item &source ) : game_object<item>(), contents( this ),
     components( new component_item_location( this ) )
 {
+    //TODO!: back to defaults
     //Awful copy block, this can be avoided with equally awful inheritance shenanigans but...
     type = source.type;
     faults = source.faults;
@@ -546,6 +546,55 @@ item::item( const item &source ) : game_object<item>(), contents( this ),
     for( item * const &it : source.components ) {
         components.push_back( item::spawn( *it ) );
     }
+}
+
+item &item::operator=( const item &source )
+{
+    type = source.type;
+    faults = source.faults;
+    item_tags = source.item_tags;
+    curammo = source.curammo;
+    item_vars = source.item_vars;
+    corpse = source.corpse;
+    corpse_name = source.corpse_name;
+    techniques = source.techniques;
+    craft_data_ = source.craft_data_;
+    relic_data = source.relic_data;
+    charges = source.charges;
+    energy = source.energy;
+    recipe_charges = source.recipe_charges;
+    burnt = source.burnt;
+    poison = source.poison;
+    frequency = source.frequency;
+    snip_id = source.snip_id;
+    irradiation = source.irradiation;
+    item_counter = source.item_counter;
+    mission_id = source.mission_id;
+    player_id = source.player_id;
+    encumbrance_update_ = source.encumbrance_update_;
+    rot = source.rot;
+    last_rot_check = source.last_rot_check;
+    bday = source.bday;
+    owner = source.owner;
+    old_owner = source.old_owner;
+    damage_ = source.damage_;
+    light = source.light;
+    invlet = source.invlet;
+    active = source.active;
+    activated_by = source.activated_by;
+
+    contents.clear_items();
+
+    for( item * const &it : source.contents.all_items_top() ) {
+        contents.insert_item( item::spawn( *it ) );
+    }
+
+    components.clear();
+
+    for( item * const &it : source.components ) {
+        components.push_back( item::spawn( *it ) );
+    }
+    return *this;
 }
 
 void item::on_destroy()
@@ -958,10 +1007,10 @@ detached_ptr<item> item::in_container( const itype_id &cont, detached_ptr<item> 
         item &obj = *self;
         ret->put_in( std::move( self ) );
 
-        if( obj.made_of( LIQUID ) && obj.is_container() ) {
+        if( obj.made_of( LIQUID ) && ret->is_container() ) {
             // Note: we can't use any of the normal container functions as they check the
             // container being suitable (seals, watertight etc.)
-            ret->contents.back().charges = self->charges_per_volume( ret->get_container_capacity() );
+            ret->contents.back().charges = obj.charges_per_volume( ret->get_container_capacity() );
         }
         return ret;
     } else {
@@ -10350,6 +10399,9 @@ void item::obtain( Character &ch, int qty, bool costs_moves )
 {
     if( costs_moves ) {
         ch.moves -= obtain_cost( ch, qty );
+    }
+    if( ch.is_worn( *this ) || ch.is_wielding( *this ) ) {
+        return;
     }
     ch.i_add( split( qty ) );
 }

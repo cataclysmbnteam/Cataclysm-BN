@@ -310,9 +310,6 @@ item &inventory::add_item( item &newit, bool keep_invlet, bool assign_invlet, bo
         for( auto &elem : items ) {
             item *&it = *elem.begin();
             if( it->stacks_with( newit ) ) {
-                /* if( it->merge_charges( newit ) ) {
-                     return *it;
-                 }*/
                 if( it->invlet == '\0' ) {
                     if( !keep_invlet ) {
                         update_invlet( newit, assign_invlet );
@@ -366,9 +363,6 @@ item &inventory::add_item_by_items_type_cache( item &newit, bool keep_invlet, bo
         for( auto &elem : items_type_cache[type] ) {
             auto it_ref = *elem->begin();
             if( it_ref->stacks_with( newit, false, true ) ) {
-                /*if( it_ref->merge_charges( newit ) ) {
-                    return *it_ref;
-                }*/
                 if( it_ref->invlet == '\0' ) {
                     if( !keep_invlet ) {
                         update_invlet( newit, assign_invlet );
@@ -1406,14 +1400,29 @@ item &location_inventory::add_item( detached_ptr<item> &&newit, bool keep_invlet
     if( !newit ) {
         return null_item_reference();
     }
-    item *as_p = newit.release();
+    item *as_p = &*newit;
     if( &*loc == as_p->saved_loc ) {
+        newit.release();
         as_p->saved_loc = nullptr;
         as_p->set_location( &*loc );
         return *as_p;
     }
 
     as_p->resolve_saved_loc();
+
+    if( should_stack ) {
+        for( auto &elem : inv.items ) {
+            item *&it = *elem.begin();
+            if( it->stacks_with( *newit ) ) {
+                if( it->merge_charges( std::move( newit ) ) ) {
+                    newit.release();
+                    return null_item_reference();
+                }
+            }
+        }
+    }
+
+    newit.release();
     as_p->set_location( &*loc );
     return inv.add_item( *as_p, keep_invlet, assign_invlet, should_stack );
 }
@@ -1423,14 +1432,28 @@ item &location_inventory::add_item_by_items_type_cache( detached_ptr<item> &&new
     if( !newit ) {
         return null_item_reference();
     }
-    item *as_p = newit.release();
+    item *as_p = &*newit;
     if( &*loc == as_p->saved_loc ) {
+        newit.release();
         as_p->saved_loc = nullptr;
         as_p->set_location( &*loc );
         return *as_p;
     }
 
     as_p->resolve_saved_loc();
+    if( should_stack ) {
+        for( auto &elem : inv.items ) {
+            item *&it = *elem.begin();
+            if( it->stacks_with( *newit ) ) {
+                if( it->merge_charges( std::move( newit ) ) ) {
+                    newit.release();
+                    return null_item_reference();
+                }
+            }
+        }
+    }
+
+    newit.release();
     as_p->set_location( &*loc );
     return inv.add_item_by_items_type_cache( *as_p, keep_invlet, assign_invlet, should_stack );
 }
@@ -1439,14 +1462,26 @@ void location_inventory::add_item_keep_invlet( detached_ptr<item> &&newit )
     if( !newit ) {
         return;
     }
-    item *as_p = newit.release();
+    item *as_p = &*newit;
     if( &*loc == as_p->saved_loc ) {
+        newit.release();
         as_p->saved_loc = nullptr;
         as_p->set_location( &*loc );
         return;
     }
 
     as_p->resolve_saved_loc();
+    for( auto &elem : inv.items ) {
+        item *&it = *elem.begin();
+        if( it->stacks_with( *newit ) ) {
+            if( it->merge_charges( std::move( newit ) ) ) {
+                newit.release();
+                return;
+            }
+        }
+    }
+
+    newit.release();
     as_p->set_location( &*loc );
     return inv.add_item_keep_invlet( *as_p );
 }

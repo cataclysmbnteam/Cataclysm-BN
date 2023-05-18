@@ -449,7 +449,6 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         if( result_it->contents.num_item_stacks() == 1 ) {
             item &alt_result = result_it->contents.front();
             if( alt_result.typeId() == comest_it.typeId() ) {
-                result_it->contents.remove_top( &alt_result );
                 result_it = &alt_result;
             }
         }
@@ -457,6 +456,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
             debugmsg( "When creating recipe result expected %s, got %s\n",
                       comest_it.typeId().str(), result_it->typeId().str() );
         }
+
         std::tie( this_min, this_max ) = compute_nutrient_range( *result_it, rec, extra_flags );
         min_nutr.min_in_place( this_min );
         max_nutr.max_in_place( this_max );

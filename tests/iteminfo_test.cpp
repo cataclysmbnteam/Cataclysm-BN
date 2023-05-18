@@ -12,6 +12,7 @@
 #include "player_helpers.h"
 #include "options_helpers.h"
 #include "recipe.h"
+#include "state_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -72,6 +73,7 @@ static iteminfo_query q_vec( const std::vector<iteminfo_parts> &part_flags )
 
 TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_CATEGORY, iteminfo_parts::BASE_MATERIAL,
                                 iteminfo_parts::BASE_VOLUME, iteminfo_parts::BASE_WEIGHT,
                                 iteminfo_parts::DESCRIPTION
@@ -91,6 +93,7 @@ TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary
 
 TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( std::vector<iteminfo_parts>( { iteminfo_parts::BASE_PRICE, iteminfo_parts::BASE_BARTER } ) );
 
     SECTION( "owner and price" ) {
@@ -123,6 +126,7 @@ TEST_CASE( "item owner, price, and barter value", "[item][iteminfo][price]" )
 
 TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::BASE_RIGIDITY, iteminfo_parts::ARMOR_ENCUMBRANCE } );
 
     SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
@@ -159,6 +163,7 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
 
 TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
+    clear_all_state();
     // new DPS calculations depend on the avatar's stats, so make sure they're consistent
     REQUIRE( g->u.get_str() == 8 );
     REQUIRE( g->u.get_dex() == 8 );
@@ -229,6 +234,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 
 TEST_CASE( "techniques when wielded", "[item][iteminfo][weapon]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_TECHNIQUES } );
 
     test_info_equals(
@@ -242,6 +248,7 @@ TEST_CASE( "techniques when wielded", "[item][iteminfo][weapon]" )
 
 TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,
                                 iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH,
                                 iteminfo_parts::ARMOR_ENCUMBRANCE, iteminfo_parts::ARMOR_PROTECTION
@@ -272,7 +279,7 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
 
 TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
 {
-
+    clear_all_state();
     SECTION( "skill used" ) {
         iteminfo_query q = q_vec( { iteminfo_parts::GUN_USEDSKILL } );
         test_info_equals(
@@ -351,6 +358,7 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
 
 TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::AMMO_REMAINING_OR_TYPES, iteminfo_parts::AMMO_DAMAGE_VALUE,
                                 iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL, iteminfo_parts::AMMO_DAMAGE_AP,
                                 iteminfo_parts::AMMO_DAMAGE_RANGE, iteminfo_parts::AMMO_DAMAGE_DISPERSION,
@@ -370,9 +378,11 @@ TEST_CASE( "ammunition", "[item][iteminfo][ammo]" )
 
 TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_NUTRITION, iteminfo_parts::FOOD_VITAMINS,
                                 iteminfo_parts::FOOD_QUENCH
                               } );
+
     SECTION( "fixed nutrient values in regular item" ) {
         item &i = *item::spawn_temporary( "icecream" );
         test_info_equals(
@@ -398,6 +408,7 @@ TEST_CASE( "nutrients in food", "[item][iteminfo][food]" )
 
 TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::FOOD_ROT, iteminfo_parts::FOOD_ROT_STORAGE} );
 
     // Ensure test character has no skill estimating spoilage
@@ -460,6 +471,7 @@ TEST_CASE( "food freshness and lifetime", "[item][iteminfo][food]" )
 
 TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_CONDUCTIVITY } );
 
     SECTION( "non-conductive items" ) {
@@ -487,6 +499,7 @@ TEST_CASE( "item conductivity", "[item][iteminfo][conductivity]" )
 
 TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::QUALITIES } );
 
     SECTION( "Halligan bar" ) {
@@ -519,6 +532,7 @@ TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
 
 TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_REPAIREDWITH } );
 
     test_info_contains(
@@ -539,6 +553,7 @@ TEST_CASE( "repairable and with what tools", "[item][iteminfo][repair]" )
 
 TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_COMPONENTS_DISASSEMBLE } );
 
     test_info_equals(
@@ -560,6 +575,7 @@ TEST_CASE( "disassembly time and yield", "[item][iteminfo][disassembly]" )
 
 TEST_CASE( "item description flags", "[item][iteminfo]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_FLAGS } );
 
     test_info_equals(
@@ -586,6 +602,7 @@ TEST_CASE( "item description flags", "[item][iteminfo]" )
 
 TEST_CASE( "show available recipes with item as an ingredient", "[item][iteminfo][recipes]" )
 {
+    clear_all_state();
     iteminfo_query q = q_vec( { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES } );
     const recipe *purtab = &recipe_id( "pur_tablets" ).obj();
     g->u.clear_mutations();

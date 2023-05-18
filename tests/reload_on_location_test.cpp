@@ -33,8 +33,8 @@ TEST_CASE( "reload_on_vehicle_cargo", "[magazine] [visitable] [item] [item_locat
 
     int part_num = veh->part_with_feature( 0, VPFLAG_CARGO, true );
     REQUIRE( part_num >= 0 );
-    auto stack_iter_opt = veh->add_item( part_num, item::spawn( ups_id ) );
-    REQUIRE( stack_iter_opt );
+    auto remaining = veh->add_item( part_num, item::spawn( ups_id ) );
+    REQUIRE( !remaining );
 
     vehicle_cursor vc = vehicle_cursor( *veh, static_cast<std::ptrdiff_t>( part_num ) );
 

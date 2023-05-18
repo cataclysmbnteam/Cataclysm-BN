@@ -10075,7 +10075,7 @@ std::vector<detached_ptr<item>> Character::use_charges( const itype_id &what, in
 
         } else if( e->count_by_charges() ) {
             if( e->typeId() == what ) {
-                if( e->charges >= qty ) {
+                if( e->charges > qty ) {
                     e->charges -= qty;
                     detached_ptr<item> split = item::spawn( *e );
                     split->charges = qty;

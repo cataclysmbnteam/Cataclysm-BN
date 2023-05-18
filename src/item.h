@@ -236,6 +236,7 @@ class item : public location_visitable<item>, public game_object<item>
 
         item( item && ) = delete;
         item( const item & );
+        item &operator=( const item & );
 
         explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
         explicit item( const itype *type, time_point turn = calendar::turn, int qty = -1 );

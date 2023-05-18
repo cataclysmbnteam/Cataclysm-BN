@@ -2331,7 +2331,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             }
             // transfer the vehicle_part to the new vehicle
             new_vehicle->parts.emplace_back( std::move( parts[ mov_part ] ) );
-            vehicle_part &np = parts.back();
+            vehicle_part &np = new_vehicle->parts.back();
             np.mount = new_mount;
             np.set_vehicle_hack( new_vehicle );
 
