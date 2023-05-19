@@ -1,3 +1,4 @@
+#include "enums.h"
 #include "game.h" // IWYU pragma: associated
 
 #include <cstdlib>
@@ -5,6 +6,7 @@
 #include <numeric>
 
 #include "avatar.h"
+#include "character.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
@@ -28,12 +30,16 @@ auto make_scraping_noise( const tripoint &pos, const int volume ) -> void
                    _( "a scraping noise." ), true, "misc", "scraping" );
 }
 
+// vehicle movement: strength check. very strong humans can move about 2,000 kg in a wheelbarrow.
+auto base_str_req( vehicle *veh )-> int
+{
+    return veh->total_mass() / 100_kilogram;
+}
+
 // determine movecost for terrain touching wheels
 auto get_grabbed_vehicle_movecost( vehicle *veh ) -> int
 {
-    // vehicle movement: strength check. very strong humans can move about 2,000 kg in a wheelbarrow.
-    const int str_req = veh->total_mass() / 100_kilogram;
-
+    const int str_req = base_str_req( veh );
     const auto &map = get_map();
     const tripoint &vehpos = veh->global_pos3();
 
@@ -50,6 +56,29 @@ auto get_grabbed_vehicle_movecost( vehicle *veh ) -> int
 
         return sum + movecost;
     } );
+}
+
+//if vehicle has many or only one wheel (shopping cart), it is as if it had four.
+auto get_effective_wheels( vehicle *veh ) -> int
+{
+    const auto &wheels = veh->wheelcache;
+
+    return ( wheels.size() > 4 || wheels.size() == 1 ) ? 4 : wheels.size();
+}
+
+// very strong humans can move about 2,000 kg in a wheelbarrow.
+auto get_vehicle_str_requirement( vehicle *veh ) -> int
+{
+    if( !veh->valid_wheel_config() ) {
+        return base_str_req( veh ) * 10;
+    }
+
+    //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
+    const int all_movecost = get_grabbed_vehicle_movecost( veh );
+    // off-road coefficient (always 1.0 on a road, as low as 0.1 off road.)
+    const float traction = veh->k_traction(
+                               get_map().vehicle_wheel_traction( *veh ) );
+    return int { 1 + all_movecost / get_effective_wheels( veh ) } / traction;
 }
 
 } // namespace
@@ -115,35 +144,18 @@ bool game::grabbed_veh_move( const tripoint &dp )
     grabbed_vehicle->invalidate_mass();
 
     //vehicle movement: strength check. very strong humans can move about 2,000 kg in a wheelbarrow.
-    int str_req = grabbed_vehicle->total_mass() / 100_kilogram; //strength required to move vehicle.
-    // ARM_STR governs dragging heavy things
+    // int str_req = grabbed_vehicle->total_mass() / 100_kilogram; //strength required to move vehicle.
+    const int str_req = get_vehicle_str_requirement( grabbed_vehicle );
     const int str = u.get_str();
-
-    //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
-    const auto &wheel_indices = grabbed_vehicle->wheelcache;
-    if( grabbed_vehicle->valid_wheel_config() ) {
-        const int all_movecost = get_grabbed_vehicle_movecost( grabbed_vehicle );
-
-        //set strength check threshold
-        //if vehicle has many or only one wheel (shopping cart), it is as if it had four.
-        if( wheel_indices.size() > 4 || wheel_indices.size() == 1 ) {
-            str_req = all_movecost / 4 + 1;
-        } else {
-            str_req = all_movecost / wheel_indices.size() + 1;
-        }
-        //finally, adjust by the off-road coefficient (always 1.0 on a road, as low as 0.1 off road.)
-        str_req /= grabbed_vehicle->k_traction( get_map().vehicle_wheel_traction( *grabbed_vehicle ) );
-    } else {
-        str_req *= 10;
-        //if vehicle has no wheels str_req make a noise. since it has no wheels assume it has the worst off roading possible (0.1)
-        if( str_req <= str ) {
-            make_scraping_noise( grabbed_vehicle->global_pos3(), str_req * 2 );
-        }
-    }
+    add_msg( m_debug, "str_req: %d", str_req );
 
     //final strength check and outcomes
     ///\EFFECT_STR determines ability to drag vehicles
     if( str_req <= str ) {
+        if( !grabbed_vehicle->valid_wheel_config() ) {
+            make_scraping_noise( grabbed_vehicle->global_pos3(), str_req * 2 );
+        }
+
         //calculate exertion factor and movement penalty
         ///\EFFECT_STR increases speed of dragging vehicles
         u.moves -= 400 * str_req / std::max( 1, str );
@@ -223,7 +235,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         return false;
     }
 
-    for( int p : wheel_indices ) {
+    for( int p : grabbed_vehicle->wheelcache ) {
         if( one_in( 2 ) ) {
             tripoint wheel_p = grabbed_vehicle->global_part_pos3( grabbed_part );
             grabbed_vehicle->handle_trap( wheel_p, p );
