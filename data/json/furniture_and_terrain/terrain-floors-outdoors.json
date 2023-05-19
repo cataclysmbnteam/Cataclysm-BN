@@ -31,7 +31,14 @@
     "looks_like": "t_dirt",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100, "items": [ { "item": "material_sand", "charges": [ 250, 500 ] } ] }
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "material_sand", "charges": [ 250, 500 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -42,7 +49,14 @@
     "color": "light_red",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100, "items": [ { "item": "clay_lump", "count": [ 5, 10 ] } ] }
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "clay_lump", "count": [ 5, 10 ] } ]
+    }
   },
   {
     "type": "terrain",
