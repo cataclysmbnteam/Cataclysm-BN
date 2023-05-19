@@ -3,10 +3,10 @@ concurrency: release
 on:
   push:
     branches:
-      - test-release
-      
+      - upload
+
 env:
-   VCPKG_BINARY_SOURCES: "default"
+  VCPKG_BINARY_SOURCES: "default"
 jobs:
   release:
     name: Create Release
@@ -80,15 +80,6 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
-            debug: on
-          - name: Windows Tiles x64 MSVC release
-            artifact: windows-tiles-x64-msvc-release
-            arch: x64
-            os: windows-2019
-            mxe: none
-            ext: zip
-            content: application/zip
-            debug: off
           - name: Windows Tiles x32 MSVC
             artifact: windows-tiles-x32-msvc
             arch: x86
@@ -96,7 +87,6 @@ jobs:
             mxe: none
             ext: zip
             content: application/zip
-            debug: on
           - name: Windows Tiles x64
             mxe: x86_64
             mxe_apt: x86-64
@@ -104,7 +94,6 @@ jobs:
             os: ubuntu-20.04
             ext: zip
             content: application/zip
-            debug: on
           - name: Windows Tiles x32
             mxe: i686
             mxe_apt: i686
@@ -112,7 +101,6 @@ jobs:
             os: ubuntu-20.04
             ext: zip
             content: application/zip
-            debug: on
           - name: Linux Tiles x64
             os: ubuntu-22.04
             mxe: none
@@ -121,16 +109,6 @@ jobs:
             artifact: linux-tiles-x64
             ext: tar.gz
             content: application/gzip
-            debug: on
-          - name: Linux Tiles x64 Release
-            os: ubuntu-22.04
-            mxe: none
-            android: none
-            tiles: 1
-            artifact: linux-tiles-x64-release
-            ext: tar.gz
-            content: application/gzip
-            debug: off
           - name: linux-curses-x64
             os: ubuntu-22.04
             mxe: none
@@ -139,7 +117,6 @@ jobs:
             artifact: linux-curses-x64
             ext: tar.gz
             content: application/gzip
-            debug: on
           - name: osx-curses-x64
             os: macos-12
             mxe: none
@@ -147,7 +124,6 @@ jobs:
             artifact: osx-curses-x64
             ext: dmg
             content: application/x-apple-diskimage
-            debug: on
           - name: osx-tiles-x64
             os: macos-12
             mxe: none
@@ -155,15 +131,6 @@ jobs:
             artifact: osx-tiles-x64
             ext: dmg
             content: application/x-apple-diskimage
-            debug: on
-          - name: osx-tiles-x64-release
-            os: macos-12
-            mxe: none
-            tiles: 1
-            artifact: osx-tiles-x64-release
-            ext: dmg
-            content: application/x-apple-diskimage
-            debug: off
           - name: Android x64
             os: ubuntu-22.04
             mxe: none
@@ -254,53 +221,28 @@ jobs:
         shell: bash
         run: |
           lang/compile_mo.sh all
-      - name: Build CBN debug (linux)
-        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' && matrix.debug == 'on'
-        run: |
-          make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=0 LANGUAGES=all PCH=0 bindist
-          mv cataclysmbn-unstable.tar.gz cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
-      - name: Build CBN release (linux)
-        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' && matrix.debug == 'off'
+      - name: Build CBN (linux)
+        if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none'
         run: |
           make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LANGUAGES=all PCH=0 bindist
           mv cataclysmbn-unstable.tar.gz cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
-      - name: Build CBN debug (windows)
-        if: matrix.mxe != 'none' && matrix.debug == 'on'
-        env:
-          PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc11-
-        run: |
-          make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=0 LANGUAGES=all PCH=0 bindist
-          mv cataclysmbn-unstable.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
-      - name: Build CBN release (windows)
-        if: matrix.mxe != 'none' && matrix.debug == 'off'
+      - name: Build CBN (windows)
+        if: matrix.mxe != 'none'
         env:
           PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc11-
         run: |
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LANGUAGES=all PCH=0 bindist
           mv cataclysmbn-unstable.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
-      - name: Build CBN debug (windows msvc)
-        if: runner.os == 'Windows' && matrix.debug == 'on'
-        env:
-          VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
-        run: |
-          msbuild -m -p:Configuration=Debug -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln
-          .\build-scripts\windist.ps1
-          mv cataclysmbn.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
-      - name: Build CBN release (windows msvc)
-        if: runner.os == 'Windows' && matrix.debug == 'off'
+      - name: Build CBN (windows msvc)
+        if: runner.os == 'Windows'
         env:
           VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
         run: |
           msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln
           .\build-scripts\windist.ps1
           mv cataclysmbn.zip cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.zip
-      - name: Build CBN debug (osx)
-        if: runner.os == 'macOS' && matrix.debug == 'on'
-        run: |
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=0 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=11 PCH=0 dmgdist COMPILER=clang++
-          mv CataclysmBN-unstable.dmg cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
-      - name: Build CBN release (osx)
-        if: runner.os == 'macOS' && matrix.debug == 'off'
+      - name: Build CBN (osx)
+        if: runner.os == 'macOS'
         run: |
           make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LANGUAGES=all USE_HOME_DIR=1 OSX_MIN=11 PCH=0 dmgdist COMPILER=clang++
           mv CataclysmBN-unstable.dmg cbn-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
