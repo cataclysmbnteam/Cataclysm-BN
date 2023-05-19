@@ -26,7 +26,7 @@ jobs:
         id: generate_env_vars
         run: |
           echo "tag_name=cbn-test-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
-          echo "name=release_name::Cataclysm-BN test build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-BN test build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
       - name: Check if there is existing git tag
         id: tag_check
         uses: mukunku/tag-exists-action@v1.0.0
@@ -114,7 +114,7 @@ jobs:
             content: application/zip
             debug: on
           - name: Linux Tiles x64
-            os: ubuntu-18.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             tiles: 1
@@ -132,7 +132,7 @@ jobs:
             content: application/gzip
             debug: off
           - name: linux-curses-x64
-            os: ubuntu-18.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             tiles: 0
