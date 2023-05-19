@@ -1274,7 +1274,6 @@ static void wear()
     item *loc = game_menus::inv::wear( u );
 
     if( loc ) {
-        loc->detach();
         loc->obtain( u );
         u.wear_possessed( *loc );
     } else {
