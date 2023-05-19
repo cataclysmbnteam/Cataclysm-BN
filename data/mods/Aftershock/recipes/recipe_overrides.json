@@ -1,66 +1,6 @@
 [
   {
     "type": "recipe",
-    "result": "atomic_coffeepot",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
-    "skill_used": "electronics",
-    "difficulty": 4,
-    "time": 3000,
-    "reversible": true,
-    "book_learn": [ [ "recipe_caseless", 8 ], [ "textbook_atomic_lab", 3 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "plastic_chunk", 5 ] ],
-      [ [ "adhesive", 1, "LIST" ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "element", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "plut_cell", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "atomic_light",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_LIGHTING",
-    "skill_used": "electronics",
-    "difficulty": 3,
-    "time": 20000,
-    "reversible": true,
-    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 3 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "plastic_chunk", 1 ] ],
-      [ [ "adhesive", 1, "LIST" ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 1 ] ],
-      [ [ "lightstrip_inactive", 1 ], [ "e_scrap", 1 ] ],
-      [ [ "plut_cell", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "atomic_lamp",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_LIGHTING",
-    "skill_used": "electronics",
-    "difficulty": 3,
-    "time": 30000,
-    "reversible": true,
-    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 3 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "adhesive", 1, "LIST" ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 2 ] ],
-      [ [ "lightstrip_inactive", 1 ], [ "e_scrap", 1 ] ],
-      [ [ "plut_cell", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "wearable_atomic_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

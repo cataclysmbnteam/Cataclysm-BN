@@ -16,9 +16,9 @@
     "color": "dark_gray",
     "count": 10,
     "ammo_type": "metal_rail",
-    "range": 40,
-    "damage": { "damage_type": "stab", "amount": 70, "armor_penetration": 25 },
-    "dispersion": 150,
+    "range": 20,
+    "damage": { "damage_type": "stab", "amount": 60, "armor_penetration": 10 },
+    "dispersion": 200,
     "effects": [ "RECYCLED", "NON-FOULING" ]
   },
   {
@@ -34,8 +34,8 @@
     "cutting": 2,
     "material": [ "steel" ],
     "color": "light_gray",
-    "dispersion": 0,
+    "dispersion": 100,
     "effects": [ "NEVER_MISFIRES", "NON-FOULING" ],
-    "relative": { "range": 10, "damage": { "damage_type": "stab", "amount": -5, "armor_penetration": 15 } }
+    "relative": { "range": 10, "damage": { "damage_type": "stab", "amount": -10, "armor_penetration": 20 } }
   }
 ]
