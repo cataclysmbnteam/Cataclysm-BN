@@ -1546,7 +1546,6 @@ item_location npc::find_usable_ammo( const item &weap )
     if( !loc || !wants_to_reload_with( weap, *loc, ai_cache.danger > 0 ) ) {
         return item_location();
     }
-    add_msg( "Evaluated %s as suitable", loc->tname() );
 
     return loc;
 }
