@@ -38,6 +38,7 @@
       "terrain": { "?": "t_nanofab", "r": "t_metal_floor", "/": "t_nanofab_body" },
       "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
       "place_nested": [ { "chunks": [ "lab_finale_loot" ], "x": 6, "y": 11 } ],
+      "place_loot": [ { "group": "mech_power_cell_spawn", "x": [ 4, 5 ], "y": [ 3, 5 ] } ],
       "place_monster": [
         { "monster": "mon_secubot", "x": [ 1, 4 ], "y": [ 20, 22 ], "chance": 90 },
         { "monster": "mon_secubot", "x": [ 19, 20 ], "y": [ 20, 22 ], "chance": 90 },
