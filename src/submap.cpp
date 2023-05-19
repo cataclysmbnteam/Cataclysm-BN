@@ -38,7 +38,6 @@ void submap::swap( submap &first, submap &second, tripoint offset )
     std::swap( first.fld, second.fld );
     std::swap( first.trp, second.trp );
     std::swap( first.rad, second.rad );
-    std::swap( first.ter, second.ter );
 
     for( auto &row : first.itm ) {
         for( auto &tile : row ) {
