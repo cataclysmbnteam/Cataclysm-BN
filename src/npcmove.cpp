@@ -3458,7 +3458,7 @@ bool npc::wield_better_weapon()
 
     const auto compare_weapon =
     [this, &best, &best_dps, can_use_gun, use_silent, dist, &mode_pairs ]( const item & it ) {
-        // If dist is 1 then we're in melee range, so disallow guns.
+        // If dist is 1 then we're in melee range, so disallow shooting guns.
         bool gun_usable = can_use_gun && dist > 1 && ( !use_silent || it.is_silent() );
         double dps = 0.0f;
         auto [mode_id, mode_] = npc_ai::best_mode_for_range( *this, it, dist );
@@ -4712,6 +4712,8 @@ void npc::do_reload( const item &it )
 
     // Otherwise the NPC may not equip the weapon until they see danger
     has_new_items = true;
+    // Reloading clears mode choice.
+    clear_npc_ai_info_cache( npc_ai_info::range );
 }
 
 bool npc::adjust_worn()
