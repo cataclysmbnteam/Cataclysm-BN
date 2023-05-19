@@ -4924,7 +4924,7 @@ std::vector<detached_ptr<item>> map::use_amount_square( const tripoint &p, const
     std::vector<detached_ptr<item>> ret;
     // Handle infinite map sources.
     detached_ptr<item> water = water_from( p );
-    if( water->typeId() == type ) {
+    if( water && water->typeId() == type ) {
         ret.push_back( std::move( water ) );
         quantity = 0;
         return ret;

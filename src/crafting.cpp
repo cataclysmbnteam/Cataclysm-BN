@@ -624,25 +624,27 @@ void player::make_craft_with_command( const recipe_id &id_to_make, int batch_siz
 
 // @param offset is the index of the created item in the range [0, batch_size-1],
 // it makes sure that the used items are distributed equally among the new items.
-static void set_components( item &of, std::vector<detached_ptr<item>> &used,
+static void set_components( item &of, const std::vector<item *> &used,
                             const int batch_size, const size_t offset )
 {
     location_vector<item> &components = of.get_components();
     if( batch_size <= 1 ) {
-        components.insert( components.begin(), used.begin(), used.end() );
+        for( item * const &it : used ) {
+            components.push_back( item::spawn( *it ) );
+        }
         return;
     }
     // This count does *not* include items counted by charges!
     size_t non_charges_counter = 0;
     for( auto &tmp : used ) {
         if( tmp->count_by_charges() ) {
-            components.push_back( std::move( tmp ) );
+            components.push_back( item::spawn( *tmp ) );
             // This assumes all (count-by-charges) items of the same type have been merged into one,
             // which has a charges value that can be evenly divided by batch_size.
             components.back()->charges = tmp->charges / batch_size;
         } else {
             if( ( non_charges_counter + offset ) % batch_size == 0 ) {
-                components.push_back( std::move( tmp ) );
+                components.push_back( item::spawn( *tmp ) );
             }
             non_charges_counter++;
         }
@@ -1030,6 +1032,10 @@ void complete_craft( player &p, item &craft, const bench_location & )
     const recipe &making = craft.get_making();
     const int batch_size = craft.charges;
     std::vector<detached_ptr<item>> used = craft.remove_components();
+    std::vector<item *> used_items;
+    for( detached_ptr<item> &it : used ) {
+        used_items.push_back( &*it );
+    }
     const double relative_rot = craft.get_relative_rot();
 
     // Set up the new item, and assign an inventory letter if available
@@ -1076,13 +1082,8 @@ void complete_craft( player &p, item &craft, const bench_location & )
             }
         }
 
-        std::vector<item *> as_items;
 
-        for( detached_ptr<item> &it : used ) {
-            as_items.push_back( &*it );
-        }
-
-        food_contained.inherit_flags( as_items, making );
+        food_contained.inherit_flags( used_items, making );
 
         for( const std::string &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
@@ -1095,7 +1096,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either lose this information or merge it somehow.
-            set_components( food_contained, used, batch_size, newit_counter );
+            set_components( food_contained, used_items, batch_size, newit_counter );
             newit_counter++;
         } else if( food_contained.is_food() && !food_contained.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
             // if a component item has "cooks_like" it will be replaced by that item as a component
@@ -1118,7 +1119,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
                 }
             }
             // store components for food recipes that do not have the override flag
-            set_components( food_contained, used, batch_size, newit_counter );
+            set_components( food_contained, used_items, batch_size, newit_counter );
 
             // store the number of charges the recipe would create with batch size 1.
             //TODO!: check what ref level should be compared here
