@@ -27,6 +27,31 @@ auto make_scraping_noise( const tripoint &pos, const int volume ) -> void
     sounds::sound( pos, volume, sounds::sound_t::movement,
                    _( "a scraping noise." ), true, "misc", "scraping" );
 }
+
+// determine movecost for terrain touching wheels
+auto get_grabbed_vehicle_movecost( vehicle *veh ) -> int
+{
+    // vehicle movement: strength check. very strong humans can move about 2,000 kg in a wheelbarrow.
+    const int str_req = veh->total_mass() / 100_kilogram;
+
+    const auto &map = get_map();
+    const tripoint &vehpos = veh->global_pos3();
+
+    static const auto get_wheel_pos = [&]( const int p ) {
+        return vehpos + veh->part( p ).precalc[0];
+    };
+
+    const auto &wheel_indices = veh->wheelcache;
+    return std::accumulate( wheel_indices.begin(), wheel_indices.end(), 0,
+    [&]( const int sum, const int p ) {
+        const tripoint wheel_pos = get_wheel_pos( p );
+        const int mapcost = map.move_cost( wheel_pos, veh );
+        const int movecost = str_req / static_cast<int>( wheel_indices.size() ) * mapcost;
+
+        return sum + movecost;
+    } );
+}
+
 } // namespace
 
 
@@ -95,24 +120,16 @@ bool game::grabbed_veh_move( const tripoint &dp )
     const int str = u.get_str();
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
-
     const auto &wheel_indices = grabbed_vehicle->wheelcache;
     if( grabbed_vehicle->valid_wheel_config() ) {
-        int mc = 0;
+        const int all_movecost = get_grabbed_vehicle_movecost( grabbed_vehicle );
 
-        //determine movecost for terrain touching wheels
-        const tripoint vehpos = grabbed_vehicle->global_pos3();
-        for( int p : wheel_indices ) {
-            const tripoint wheel_pos = vehpos + grabbed_vehicle->part( p ).precalc[0];
-            const int mapcost = m.move_cost( wheel_pos, grabbed_vehicle );
-            mc += str_req / wheel_indices.size() * mapcost;
-        }
         //set strength check threshold
         //if vehicle has many or only one wheel (shopping cart), it is as if it had four.
         if( wheel_indices.size() > 4 || wheel_indices.size() == 1 ) {
-            str_req = mc / 4 + 1;
+            str_req = all_movecost / 4 + 1;
         } else {
-            str_req = mc / wheel_indices.size() + 1;
+            str_req = all_movecost / wheel_indices.size() + 1;
         }
         //finally, adjust by the off-road coefficient (always 1.0 on a road, as low as 0.1 off road.)
         str_req /= grabbed_vehicle->k_traction( get_map().vehicle_wheel_traction( *grabbed_vehicle ) );
