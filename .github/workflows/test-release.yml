@@ -3,7 +3,7 @@ concurrency: release
 on:
   push:
     branches:
-      - upload
+      - test-release
 
 env:
   VCPKG_BINARY_SOURCES: "default"
