@@ -2,11 +2,13 @@
 
 #include <cstdlib>
 #include <algorithm>
+#include <numeric>
 
 #include "avatar.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
+#include "point.h"
 #include "sounds.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -17,6 +19,16 @@
 #include "units.h"
 
 static const efftype_id effect_harnessed( "harnessed" );
+
+namespace
+{
+auto make_scraping_noise( const tripoint &pos, const int volume ) -> void
+{
+    sounds::sound( pos, volume, sounds::sound_t::movement,
+                   _( "a scraping noise." ), true, "misc", "scraping" );
+}
+} // namespace
+
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {
@@ -108,8 +120,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         str_req *= 10;
         //if vehicle has no wheels str_req make a noise. since it has no wheels assume it has the worst off roading possible (0.1)
         if( str_req <= str ) {
-            sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2, sounds::sound_t::movement,
-                           _( "a scraping noise." ), true, "misc", "scraping" );
+            make_scraping_noise( grabbed_vehicle->global_pos3(), str_req * 2 );
         }
     }
 
