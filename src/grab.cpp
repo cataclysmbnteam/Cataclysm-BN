@@ -78,15 +78,16 @@ bool game::grabbed_veh_move( const tripoint &dp )
     grabbed_vehicle->invalidate_mass();
 
     //vehicle movement: strength check. very strong humans can move about 2,000 kg in a wheelbarrow.
-    int mc = 0;
     int str_req = grabbed_vehicle->total_mass() / 100_kilogram; //strength required to move vehicle.
     // ARM_STR governs dragging heavy things
-    int str = u.get_str();
+    const int str = u.get_str();
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
 
     const auto &wheel_indices = grabbed_vehicle->wheelcache;
     if( grabbed_vehicle->valid_wheel_config() ) {
+        int mc = 0;
+
         //determine movecost for terrain touching wheels
         const tripoint vehpos = grabbed_vehicle->global_pos3();
         for( int p : wheel_indices ) {
@@ -114,7 +115,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     //final strength check and outcomes
     ///\EFFECT_STR determines ability to drag vehicles
-    if( str_req <= u.get_str() ) {
+    if( str_req <= str ) {
         //calculate exertion factor and movement penalty
         ///\EFFECT_STR increases speed of dragging vehicles
         u.moves -= 400 * str_req / std::max( 1, str );
@@ -126,7 +127,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
             add_msg( m_bad, _( "You strain yourself to move the %s!" ), grabbed_vehicle->name );
             u.moves -= 200;
             u.mod_pain( 1 );
-        } else if( ex >= u.get_str() ) {
+        } else if( ex >= str ) {
             // Movement is slow if exertion nearly equals character strength
             add_msg( _( "It takes some time to move the %s." ), grabbed_vehicle->name );
             u.moves -= 200;
