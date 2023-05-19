@@ -671,7 +671,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         add_msg_activate();
         primary_weapon() = item( bio.info().fake_item );
         primary_weapon().invlet = '#';
-        if( bio.ammo_count > 0 ) {
+        if( is_player() && bio.ammo_count > 0 ) {
             primary_weapon().ammo_set( bio.ammo_loaded, bio.ammo_count );
             avatar_action::fire_wielded_weapon( g->u );
         }

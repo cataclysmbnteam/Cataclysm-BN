@@ -1363,13 +1363,6 @@ npc_action npc::method_of_attack()
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
 
-    gun_mode g_mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
-                      cbm_fake_active.gun_current_mode();
-    if( !can_use_gun || ( use_silent && !g_mode->is_silent() ) ||
-        ( g_mode && ( item_funcs::shots_remaining( *this, *g_mode ) < g_mode.qty || dist <= 1 ) ) ) {
-        g_mode = gun_mode();
-    }
-
     if( emergency() && alt_attack() ) {
         add_msg( m_debug, "%s is trying an alternate attack", disp_name() );
         return npc_noop;
@@ -1379,6 +1372,13 @@ npc_action npc::method_of_attack()
     if( wield_better_weapon() ) {
         add_msg( m_debug, "%s is changing weapons", disp_name() );
         return npc_noop;
+    }
+
+    gun_mode g_mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
+                      cbm_fake_active.gun_current_mode();
+    if( !can_use_gun || ( use_silent && !g_mode->is_silent() ) ||
+        ( g_mode && ( item_funcs::shots_remaining( *this, *g_mode ) < g_mode.qty || dist <= 1 ) ) ) {
+        g_mode = gun_mode();
     }
 
     // reach attacks are silent and consume no ammo so prefer these if available
@@ -1409,7 +1409,7 @@ npc_action npc::method_of_attack()
     }
 
     if( dist == 1 && same_z ) {
-        add_msg( m_debug, "%s is trying a melle attack", disp_name() );
+        add_msg( m_debug, "%s is trying a melee attack", disp_name() );
         return npc_melee;
     }
 
@@ -3472,15 +3472,15 @@ bool npc::wield_better_weapon()
                 best_dps = dps;
             }
         } else {
-            if( it.is_gun() && !gun_usable ) {
-                mode_pairs[it.typeId()] = it.gun_get_mode_id();
-            }
             if( dist > 0 && dist > it.reach_range( *this ) ) {
                 return;
             }
             dps = npc_ai::melee_value( *this, it );
 
             if( dps > best_dps ) {
+                if( it.is_gun() ) {
+                    mode_pairs[it.typeId()] = it.gun_get_mode_id();
+                }
                 best = const_cast<item *>( &it );
                 best_dps = dps;
             }
