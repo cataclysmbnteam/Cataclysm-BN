@@ -2736,11 +2736,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   string_format( _( "%s:" ), piece.second.to_display.translated() ) + space, "",
                                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                                   piece.second.portion.encumber ) );
-                        if( !type->rigid ) {
-                            info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
-                                                      iteminfo::no_newline | iteminfo::lower_is_better,
-                                                      get_encumber_when_containing( you, get_total_capacity(), piece.first ) ) );
-                        } else if( any_encumb_increase ) {
+                        if( !type->rigid || any_encumb_increase ) {
                             info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
                                                       iteminfo::no_newline | iteminfo::lower_is_better,
                                                       piece.second.portion.max_encumber ) );
