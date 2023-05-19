@@ -317,9 +317,10 @@
       [ "tractor_plow", 1000 ],
       [ "tractor_seed", 1000 ],
       [ "tractor_reaper", 1000 ],
-      [ "oldtractor", 100 ],
+      [ "oldtractor", 250 ],
       [ "autotractor", 1000 ],
-      [ "excavator", 500 ]
+      [ "excavator", 500 ],
+      [ "helicopter_gyro", 100 ]
     ]
   },
   {

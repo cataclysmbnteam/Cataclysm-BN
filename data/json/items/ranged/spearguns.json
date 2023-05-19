@@ -18,7 +18,7 @@
     "dispersion": 150,
     "loudness": 0,
     "count": 4,
-    "effects": [ "RECOVER_5" ]
+    "dont_recover_one_in": 5
   },
   {
     "type": "AMMO",
@@ -39,7 +39,7 @@
     "dispersion": 90,
     "loudness": 0,
     "count": 4,
-    "effects": [ "RECOVER_3" ]
+    "dont_recover_one_in": 3
   },
   {
     "type": "AMMO",
@@ -60,7 +60,7 @@
     "dispersion": 120,
     "loudness": 0,
     "count": 4,
-    "effects": [ "RECOVER_15" ]
+    "dont_recover_one_in": 15
   },
   {
     "id": "airspeargun",

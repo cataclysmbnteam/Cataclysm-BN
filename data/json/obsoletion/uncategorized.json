@@ -272,16 +272,6 @@
   },
   {
     "type": "recipe",
-    "result": "rebar_rifle",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "heavy_rail_rifle",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "coilgun",
     "obsolete": true
   },
