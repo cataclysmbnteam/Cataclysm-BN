@@ -5571,7 +5571,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
             for( const vpart_reference &vpr : old_veh->get_all_parts() ) {
                 const tripoint part_pos = old_veh->global_part_pos3( vpr.part() ) - global_pos;
-                wreckage->install_part( part_pos.xy(), std::move( vpr.part() ) );
+                wreckage->install_part( part_pos.xy(), vehicle_part{vpr.part()} );
             }
 
             wreckage->name = _( "Wreckage" );
@@ -5585,11 +5585,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             }
 
             // If adding the wreck failed, we want to restore the vehicle we tried to merge with
-            //add_vehicle_to_map( std::move( old_veh ), false );
-
-            //We can't restore the vehicle like that anymore, it's been moved from now, just debugmsg instead
-            //I might come back to this and not move, but for now fuck it
-            debugmsg( "Failed to add wreck to map" );
+            add_vehicle_to_map( std::move( old_veh ), false );
             return nullptr;
 
         } else if( impassable( p ) ) {
