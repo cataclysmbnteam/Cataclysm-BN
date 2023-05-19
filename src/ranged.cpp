@@ -1967,7 +1967,8 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     return dispersion;
 }
 
-std::pair<gun_mode_id, gun_mode> npc_ai::best_mode_for_range( const npc &who, const item &firing,
+std::pair<gun_mode_id, gun_mode> npc_ai::best_mode_for_range( const Character &who,
+        const item &firing,
         int dist )
 {
     std::pair<gun_mode_id, gun_mode> res = std::make_pair( gun_mode_id(), gun_mode() );
@@ -1978,7 +1979,7 @@ std::pair<gun_mode_id, gun_mode> npc_ai::best_mode_for_range( const npc &who, co
     }
     int min_recoil = MAX_RECOIL;
     min_recoil = ranged::get_most_accurate_sight( who, firing );
-    int range = who.confident_shoot_range( firing, min_recoil );
+    int range = static_cast<const npc *>( &who )->confident_shoot_range( firing, min_recoil );
 
     if( dist > range ) {
         return res;
@@ -1996,7 +1997,7 @@ std::pair<gun_mode_id, gun_mode> npc_ai::best_mode_for_range( const npc &who, co
     erase_if( modes, [&]( const std::pair<gun_mode_id, gun_mode> &e ) {
         const auto &m = e.second;
         return m.melee() || !who.can_use( *m.target ) || m.flags.count( "NPC_AVOID" ) || shots < m.qty ||
-               ( dist > 0 && who.confident_gun_mode_range( m, min_recoil ) < dist );
+               ( dist > 0 && static_cast<const npc *>( &who )->confident_gun_mode_range( m, min_recoil ) < dist );
     } );
 
     if( modes.empty() ) {
@@ -2025,7 +2026,7 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
         ideal_weapon.ammo_set( ideal_weapon.ammo_default(), -1 );
     }
 
-    auto [mode_id, mode_] = npc_ai::best_mode_for_range( *who.as_npc(), ideal_weapon, -1 );
+    auto [mode_id, mode_] = npc_ai::best_mode_for_range( who, ideal_weapon, -1 );
 
     // Doesn't use calculate_dispersion because that requires a map
     // TODO: Turn this into a common function.

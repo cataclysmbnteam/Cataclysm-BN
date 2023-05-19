@@ -1356,18 +1356,28 @@ npc_action npc::method_of_attack()
                            rules.engagement == combat_engagement::FREE_FIRE;
     // NPCs engage in free fire can move to avoid allies, but not if they're in a vehicle
     const bool dont_move_ff = in_vehicle || rules.engagement == combat_engagement::NO_MOVE;
+    bool can_use_gun = ( ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) ) &&
+                         ( ai_cache.danger >= 3 || emergency() || dist < 0 ) );
+    bool use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
 
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
 
     gun_mode g_mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
                       cbm_fake_active.gun_current_mode();
-    if( g_mode && ( item_funcs::shots_remaining( *this, *g_mode ) < g_mode.qty || dist <= 1 ) ) {
+    if( !can_use_gun || ( use_silent && !g_mode->is_silent() ) ||
+        ( g_mode && ( item_funcs::shots_remaining( *this, *g_mode ) < g_mode.qty || dist <= 1 ) ) ) {
         g_mode = gun_mode();
     }
 
     if( emergency() && alt_attack() ) {
         add_msg( m_debug, "%s is trying an alternate attack", disp_name() );
+        return npc_noop;
+    }
+
+    // TODO: Add a time check now that wielding takes a lot of time
+    if( wield_better_weapon() ) {
+        add_msg( m_debug, "%s is changing weapons", disp_name() );
         return npc_noop;
     }
 
@@ -1391,12 +1401,6 @@ npc_action npc::method_of_attack()
                 return npc_avoid_friendly_fire;
             }
         }
-    }
-
-    // TODO: Add a time check now that wielding takes a lot of time
-    if( wield_better_weapon() ) {
-        add_msg( m_debug, "%s is changing weapons", disp_name() );
-        return npc_noop;
     }
 
     if( !primary_weapon().ammo_sufficient() && can_reload_current() ) {
@@ -1999,7 +2003,7 @@ npc_action npc::long_term_goal_action()
 
 double npc::confidence_mult() const
 {
-    if( !is_player_ally() ) {
+    if( !is_player_ally() || is_player() ) {
         return 1.0f;
     }
 
@@ -3456,14 +3460,11 @@ bool npc::wield_better_weapon()
     const auto compare_weapon =
     [this, &best, &best_dps, can_use_gun, use_silent, dist, &mode_pairs ]( const item & it ) {
         // If dist is 1 then we're in melee range, so disallow guns.
-        if( ( it.is_gun() && ( !can_use_gun || ( dist > 0 && dist <= 1 ) ) ) ||
-            ( use_silent && !it.is_silent() ) ) {
-            return;
-        }
+        bool gun_usable = can_use_gun && dist > 1 && ( !use_silent || it.is_silent() );
         double dps = 0.0f;
         auto [mode_id, mode_] = npc_ai::best_mode_for_range( *this, it, dist );
 
-        if( mode_ ) {
+        if( mode_ && gun_usable ) {
             dps = it.ideal_ranged_dps( *this, mode_ );
             mode_pairs[it.typeId()] = mode_id;
 
@@ -3472,6 +3473,9 @@ bool npc::wield_better_weapon()
                 best_dps = dps;
             }
         } else {
+            if( it.is_gun() && !gun_usable ) {
+                mode_pairs[it.typeId()] = it.gun_get_mode_id();
+            }
             if( dist > 0 && dist > it.reach_range( *this ) ) {
                 return;
             }
@@ -3630,6 +3634,11 @@ bool npc::alt_attack()
     const auto check_alt_item = [&used, &used_dangerous, dist, this]( item & it ) {
         const bool dangerous = it.has_flag( danger_string );
         if( !dangerous && used_dangerous ) {
+            return;
+        }
+
+        // Guns with bayonets inherit the thrown flag, prevent NPCs from throwing it.
+        if( it.is_gun() ) {
             return;
         }
 
