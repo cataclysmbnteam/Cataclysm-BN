@@ -1365,8 +1365,9 @@ class map
         const std::vector<tripoint> &get_furn_field_locations() const;
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
 
-        // Spawns byproducts from items destroyed in fire.
-        void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
+        // Adds to a list of byproducts from items destroyed in fire.
+        void create_burnproducts( std::vector<detached_ptr<item>> &out, const item &fuel,
+                                  const units::mass &burned_mass );
         // See fields.cpp
         void process_fields();
         void process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );

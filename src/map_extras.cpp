@@ -2146,14 +2146,16 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     // burn-away flammable items
     while( m.flammable_items_at( loc ) ) {
         map_stack stack = m.i_at( loc );
+        std::vector<detached_ptr<item>> products;
         for( auto it = stack.begin(); it != stack.end(); ) {
             if( ( *it )->flammable() ) {
-                m.create_burnproducts( loc, **it, ( *it )->weight() );
+                m.create_burnproducts( products, **it, ( *it )->weight() );
                 it = stack.erase( it );
             } else {
                 it++;
             }
         }
+        m.spawn_items( loc, std::move( products ) );
     }
 }
 

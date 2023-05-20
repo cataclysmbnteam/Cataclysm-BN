@@ -4316,17 +4316,15 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     if( item_is_blacklisted( type_id ) ) {
         return;
     }
-    // recurse to spawn (quantity - 1) items
-    for( size_t i = 1; i < quantity; i++ ) {
-        spawn_item( p, type_id, 1, charges, birthday, damlevel );
-    }
-    // spawn the item
-    detached_ptr<item> new_item = item::spawn( type_id, birthday );
-    if( one_in( 3 ) && new_item->has_flag( "VARSIZE" ) ) {
-        new_item->set_flag( "FIT" );
-    }
+    for( size_t i = 0; i < quantity; i++ ) {
+        // spawn the item
+        detached_ptr<item> new_item = item::spawn( type_id, birthday );
+        if( one_in( 3 ) && new_item->has_flag( "VARSIZE" ) ) {
+            new_item->set_flag( "FIT" );
+        }
 
-    spawn_an_item( p, std::move( new_item ), charges, damlevel );
+        spawn_an_item( p, std::move( new_item ), charges, damlevel );
+    }
 }
 
 units::volume map::max_volume( const tripoint &p )

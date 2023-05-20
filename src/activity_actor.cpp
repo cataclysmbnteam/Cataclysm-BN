@@ -220,7 +220,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "fake_weapon", fake_weapon );
+    jsout.member( "fake_weapon", fake_weapon ? *fake_weapon : null_item_reference() );
     jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
     jsout.member( "stamina_cost_per_shot", stamina_cost_per_shot );
     jsout.member( "action", action );

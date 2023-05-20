@@ -93,7 +93,8 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 
-void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
+void map::create_burnproducts( std::vector < detached_ptr<item>> &out, const item &fuel,
+                               const units::mass &burned_mass )
 {
     std::vector<material_id> all_mats = fuel.made_of();
     if( all_mats.empty() ) {
@@ -115,7 +116,7 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
             if( n <= 0 ) {
                 continue;
             }
-            spawn_item( p, id, n, 1, calendar::turn );
+            out.push_back( item::spawn( id ) );
         }
     }
 }
@@ -562,7 +563,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                             // which we can not use, so only call `weight` when it's still an existing item.
                             const units::mass new_weight = destroyed ? 0_gram : fuel->weight( false );
                             if( old_weight != new_weight ) {
-                                create_burnproducts( p, *fuel, old_weight - new_weight );
+                                create_burnproducts( new_content, *fuel, old_weight - new_weight );
                             }
 
                             if( destroyed ) {

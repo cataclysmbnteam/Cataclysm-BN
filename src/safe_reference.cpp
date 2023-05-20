@@ -88,7 +88,7 @@ void deserialize<item>( safe_reference<item> &out, JsonIn &js )
 
             Character *who = g->critter_by_id<Character>( who_id );
             if( !who ) {
-                debugmsg( "Could not find character for item location. May not have been loaded yet." );
+                debugmsg( "Could not find character for item location.  May not have been loaded yet." );
                 return;
             }
             who->visit_items( find_index );
