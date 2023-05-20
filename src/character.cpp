@@ -9975,6 +9975,7 @@ std::vector<detached_ptr<item>> Character::use_amount( itype_id it, int quantity
     remove_items_with( [&ret, &quantity, &it, filter]( detached_ptr<item> &&a ) {
         if( quantity > 0 && a->typeId() == it && filter( *a ) ) {
             ret.push_back( std::move( a ) );
+            quantity--;
             return VisitResponse::SKIP;
         }
         return VisitResponse::NEXT;

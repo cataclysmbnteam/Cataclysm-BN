@@ -921,6 +921,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             continue;
         }
 
+        const tripoint src = target->position();
         detached_ptr<item> newit = quantity == 0 ? target->detach() : target->split( quantity );
 
         // Handle charges, quantity == 0 means move all
@@ -934,7 +935,6 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             newit = &( *target );
         }*/
 
-        const tripoint src = target->position();
         const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
         who.mod_moves( -pickup::cost_to_move_item( who, *newit ) * distance );
 

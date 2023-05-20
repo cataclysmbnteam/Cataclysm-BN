@@ -51,6 +51,7 @@ class game_object
 
         virtual bool attempt_detach( std::function < detached_ptr<T>( detached_ptr<T> && ) > cb );
 
+        bool is_detached() const;
         bool is_loaded() const;
 
         tripoint position( ) const;

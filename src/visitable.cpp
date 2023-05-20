@@ -1121,11 +1121,17 @@ int visitable<inventory>::amount_of( const itype_id &what, bool pseudo, int limi
         for( const auto &kv : binned ) {
             for( const item *it : kv.second ) {
                 res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
+                if( res >= limit ) {
+                    break;
+                }
             }
         }
     } else {
         for( const item *it : iter->second ) {
             res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
+            if( res >= limit ) {
+                break;
+            }
         }
     }
 

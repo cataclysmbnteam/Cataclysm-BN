@@ -8294,7 +8294,7 @@ bool item::reload( player &u, item &loc, int qty )
         return false;
     }
     item *ammo = &loc;
-    if( ammo == nullptr || ammo->is_null() ) {
+    if( ammo->is_null() ) {
         debugmsg( "Tried to reload using non-existent ammo" );
         return false;
     }
@@ -8681,6 +8681,7 @@ detached_ptr<item> item::use_amount( detached_ptr<item> &&self, const itype_id &
     self->remove_items_with( [&]( detached_ptr<item> &&a ) {
         if( quantity > 0  && a->typeId() == it && filter( *a ) ) {
             used.push_back( std::move( a ) );
+            quantity--;
             return VisitResponse::SKIP;
         }
         return VisitResponse::NEXT;
@@ -8692,6 +8693,7 @@ detached_ptr<item> item::use_amount( detached_ptr<item> &&self, const itype_id &
 
     if( quantity > 0 && self->typeId() == it && filter( *self ) ) {
         used.push_back( std::move( self ) );
+        quantity--;
     }
     return std::move( self );
 }

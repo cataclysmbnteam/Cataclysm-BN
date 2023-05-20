@@ -33,15 +33,18 @@ void location_vector<T>::push_back( detached_ptr<T> &&obj )
     }
 
     T *raw = obj.release();
-    raw->set_location( &*loc );
 
     //Skip adding it if it's already here
     if( &*loc != raw->saved_loc ) {
+        raw->resolve_saved_loc();
         contents.push_back( raw );
         if( destroyed ) {
             raw->destroy_in_place();
         }
+    } else {
+        raw->saved_loc = nullptr;
     }
+    raw->set_location( &*loc );
 }
 
 template<typename T>

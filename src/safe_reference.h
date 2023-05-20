@@ -286,7 +286,8 @@ class safe_reference
             if( is_destroyed() ) {
                 return false;
             }
-            return ( rec->target.p == nullptr || !rec->target.p->is_loaded() );
+            return ( rec->target.p == nullptr || ( !rec->target.p->is_loaded() &&
+                                                   !rec->target.p->is_detached() ) );
         }
 
         inline bool is_destroyed() const {

@@ -137,6 +137,12 @@ void game_object<T>::resolve_saved_loc()
 }
 
 template<typename T>
+bool game_object<T>::is_detached() const
+{
+    return !!loc;
+}
+
+template<typename T>
 bool game_object<T>::is_loaded() const
 {
     if( !loc ) {

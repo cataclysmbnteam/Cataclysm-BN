@@ -832,10 +832,6 @@ void player::store( JsonOut &json ) const
     inv.json_save_items( json );
 
 
-    if( !get_weapon().is_null() ) {
-        json.member( "weapon", &get_weapon() ); // also saves contents
-    }
-
     if( const auto lt_ptr = last_target.lock() ) {
         if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
             json.member( "last_target", guy->getID() );
@@ -2396,7 +2392,6 @@ void item::serialize( JsonOut &json ) const
 
     safe_reference<item>::id_type id = safe_reference<item>::lookup_id( this );
     if( id != safe_reference<item>::ID_NONE ) {
-        debugmsg( "Saving item with id of %d", id );
         json.member( "id", id );
     }
 
