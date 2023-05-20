@@ -1378,9 +1378,9 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
-float monster::block_ranged_hit( Creature *, bodypart_id &, damage_instance & )
+bool monster::block_ranged_hit( Creature *, bodypart_id &, damage_instance & )
 {
-    return 1.0f;
+    return false;
 }
 
 void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
