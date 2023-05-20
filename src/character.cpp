@@ -10688,42 +10688,32 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
     }
     handle_melee_wear( shield, wear_modifier );
 
-    float total_damage = 0.0;
-    float damage_blocked = 0.0;
-
     for( auto &elem : dam.damage_units ) {
-        total_damage += elem.amount;
         // Go through all relevant damage types and reduce by armor value if one exists.
         if( elem.type == DT_BASH ) {
             float previous_amount = elem.amount;
             float block_amount = shield.bash_resist();
             elem.amount -= block_amount;
-            damage_blocked += previous_amount - elem.amount;
         } else if( elem.type == DT_CUT ) {
             float previous_amount = elem.amount;
             float block_amount = shield.cut_resist();
             elem.amount -= block_amount;
-            damage_blocked += previous_amount - elem.amount;
         } else if( elem.type == DT_STAB ) {
             float previous_amount = elem.amount;
             float block_amount = shield.stab_resist();
             elem.amount -= block_amount;
-            damage_blocked += previous_amount - elem.amount;
         } else if( elem.type == DT_BULLET ) {
             float previous_amount = elem.amount;
             float block_amount = shield.bullet_resist();
             elem.amount -= block_amount;
-            damage_blocked += previous_amount - elem.amount;
         } else if( elem.type == DT_HEAT ) {
             float previous_amount = elem.amount;
             float block_amount = shield.fire_resist();
             elem.amount -= block_amount;
-            damage_blocked += previous_amount - elem.amount;
         } else if( elem.type == DT_ACID ) {
             float previous_amount = elem.amount;
             float block_amount = shield.acid_resist();
             elem.amount -= block_amount;
-            damage_blocked += previous_amount - elem.amount;
         }
     }
 
