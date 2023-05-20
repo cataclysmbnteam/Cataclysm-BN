@@ -10636,14 +10636,14 @@ bool Character::uncanny_dodge()
     return character_funcs::try_uncanny_dodge( *this );
 }
 
-bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
+float Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
 {
     // Having access to more than one shield is not normal in vanilla, for now keep it simple and only give one chance to catch a bullet.
     item &shield = best_shield();
 
     // Bail out early just in case, if blocking with bare hands.
     if( shield.is_null() ) {
-        return false;
+        return 1.0f;
     }
 
     // Also bail out on the following conditions:
@@ -10652,7 +10652,7 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
     // 3. Targeted bodypart is a foot, unlikely to ever successfully block that low.
     if( !shield.has_flag( "BLOCK_WHILE_WORN" ) || shield.covers( bp_hit->token ) ||
         bp_hit == bodypart_str_id( "foot_l" ) || bp_hit == bodypart_str_id( "foot_r" ) ) {
-        return false;
+        return 1.0f;
     }
 
     // Modify chance based on coverage and blocking ability. Exclude armguards here.
@@ -10664,7 +10664,7 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
     } else if( shield.has_technique( WBLOCK_1 ) ) {
         shield_coverage_modifier *= 0.4;
     } else {
-        return false;
+        return 1.0f;
     }
     // Targeting the legs halves the chance.
     if( bp_hit == bodypart_str_id( "leg_l" ) || bp_hit == bodypart_str_id( "leg_r" ) ) {
@@ -10673,7 +10673,7 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
 
     // Now roll coverage to determine if we intercept the shot.
     if( rng( 1, 100 ) > shield_coverage_modifier ) {
-        return false;
+        return 1.0f;
     }
 
     std::string thing_blocked_with = shield.tname();
@@ -10688,30 +10688,43 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
     }
     handle_melee_wear( shield, wear_modifier );
 
+    float total_damage = 0.0;
+    float damage_blocked = 0.0;
+
     for( auto &elem : dam.damage_units ) {
+        total_damage += elem.amount;
+
         // Go through all relevant damage types and reduce by armor value if one exists.
         if( elem.type == DT_BASH ) {
             float block_amount = shield.bash_resist();
             elem.amount -= block_amount;
+            damage_blocked += block_amount;
         } else if( elem.type == DT_CUT ) {
             float block_amount = shield.cut_resist();
             elem.amount -= block_amount;
+            damage_blocked += block_amount;
         } else if( elem.type == DT_STAB ) {
             float block_amount = shield.stab_resist();
             elem.amount -= block_amount;
+            damage_blocked += block_amount;
         } else if( elem.type == DT_BULLET ) {
             float block_amount = shield.bullet_resist();
             elem.amount -= block_amount;
+            damage_blocked += block_amount;
         } else if( elem.type == DT_HEAT ) {
             float block_amount = shield.fire_resist();
             elem.amount -= block_amount;
+            damage_blocked += block_amount;
         } else if( elem.type == DT_ACID ) {
             float block_amount = shield.acid_resist();
             elem.amount -= block_amount;
+            damage_blocked += block_amount;
         }
     }
 
-    return true;
+    float block_result = ( total_damage - damage_blocked ) / total_damage;
+
+    return block_result;
 }
 
 float Character::fall_damage_mod() const
