@@ -10686,30 +10686,31 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
     int blocked_damage = 0;
 
     for( auto &elem : dam.damage_units ) {
-        total_damage += elem.amount;
+        total_damage += elem.amount * elem.damage_multiplier;
         // Go through all relevant damage types and reduce by armor value if one exists.
+        // Ugly, but need to check resistances separately.
         if( elem.type == DT_BASH ) {
-            float block_amount = std::max( 0.0f, ( shield.bash_resist() - elem.res_pen ) );
+            float block_amount = std::max( 0.0f, ( ( shield.bash_resist() - elem.res_pen ) * elem.res_mult ) );
             elem.amount -= block_amount;
             blocked_damage += block_amount;
         } else if( elem.type == DT_CUT ) {
-            float block_amount = std::max( 0.0f, ( shield.cut_resist() - elem.res_pen ) );
+            float block_amount = std::max( 0.0f, ( ( shield.cut_resist() - elem.res_pen ) * elem.res_mult ) );
             elem.amount -= block_amount;
             blocked_damage += block_amount;
         } else if( elem.type == DT_STAB ) {
-            float block_amount = std::max( 0.0f, ( shield.stab_resist() - elem.res_pen ) );
+            float block_amount = std::max( 0.0f, ( ( shield.stab_resist() - elem.res_pen ) * elem.res_mult ) );
             elem.amount -= block_amount;
             blocked_damage += block_amount;
         } else if( elem.type == DT_BULLET ) {
-            float block_amount = std::max( 0.0f, ( shield.bullet_resist() - elem.res_pen ) );
+            float block_amount = std::max( 0.0f, ( ( shield.bullet_resist() - elem.res_pen ) * elem.res_mult ) );
             elem.amount -= block_amount;
             blocked_damage += block_amount;
         } else if( elem.type == DT_HEAT ) {
-            float block_amount = std::max( 0.0f, ( shield.fire_resist() - elem.res_pen ) );
+            float block_amount = std::max( 0.0f, ( ( shield.fire_resist() - elem.res_pen ) * elem.res_mult ) );
             elem.amount -= block_amount;
             blocked_damage += block_amount;
         } else if( elem.type == DT_ACID ) {
-            float block_amount = std::max( 0.0f, ( shield.acid_resist() - elem.res_pen ) );
+            float block_amount = std::max( 0.0f, ( ( shield.acid_resist() - elem.res_pen ) * elem.res_mult ) );
             elem.amount -= block_amount;
             blocked_damage += block_amount;
         }

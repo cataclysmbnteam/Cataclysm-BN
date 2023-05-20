@@ -334,7 +334,8 @@
       { "item": "pur_tablets", "prob": 10 },
       { "item": "pastaextruder", "prob": 10 },
       { "item": "can_sealer", "prob": 10 },
-      { "item": "remotevehcontrol", "prob": 8 }
+      { "item": "remotevehcontrol", "prob": 8 },
+      { "item": "shield_ballistic", "prob": 10 }
     ]
   },
   {

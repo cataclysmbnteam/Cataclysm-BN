@@ -400,5 +400,37 @@
     "time": "4 m",
     "autolearn": true,
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "towel_soiled", 1 ] ] ]
+  },
+  {
+    "result": "shield_wooden",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "nail", 8 ] ],
+      [ [ "2x4", 4 ], [ "wood_panel", 1 ] ],
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "fur", 1 ], [ "leather", 1 ] ]
+    ]
+  },
+  {
+    "result": "shield_wooden_large",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "50 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "nail", 16 ] ],
+      [ [ "2x4", 8 ], [ "wood_panel", 2 ] ],
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "fur", 2 ], [ "leather", 2 ] ]
+    ]
   }
 ]
