@@ -1,10 +1,10 @@
 [
   {
     "type": "MOD_INFO",
-    "id": "no_fungal_growth",
-    "name": "No Fungal Growth",
+    "id": "limit_fungal_growth",
+    "name": "Limit Fungal Growth",
     "authors": [ "FickDiddler" ],
-    "description": "Removes the exponential growth ability of fungaloids.",
+    "description": "Greatly limits the exponential growth ability of fungaloids.",
     "category": "rebalance",
     "dependencies": [ "bn" ]
   },
