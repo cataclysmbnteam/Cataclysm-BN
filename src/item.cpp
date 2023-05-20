@@ -8365,7 +8365,9 @@ bool item::reload( player &u, item &loc, int qty )
             std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                                 magazine_current()->tname(), tname() );
 
-            u.dispose_item( *magazine_current(), prompt );
+            if( !u.dispose_item( *magazine_current(), prompt ) ) {
+                return false;
+            }
         }
 
         put_in( ammo->detach() );
