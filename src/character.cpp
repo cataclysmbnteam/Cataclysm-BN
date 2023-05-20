@@ -10650,7 +10650,8 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
     // 1. Best item available doesn't count as a shield.
     // 2. Shield already protects the part we're interested in.
     // 3. Targeted bodypart is a foot, unlikely to ever successfully block that low.
-    if( !shield.has_flag( "BLOCK_WHILE_WORN" ) || shield.covers( bp_hit->token ) || bp_hit == bodypart_str_id( "foot_l" ) || bp_hit == bodypart_str_id( "foot_r" ) ) {
+    if( !shield.has_flag( "BLOCK_WHILE_WORN" ) || shield.covers( bp_hit->token ) ||
+        bp_hit == bodypart_str_id( "foot_l" ) || bp_hit == bodypart_str_id( "foot_r" ) ) {
         return false;
     }
 
