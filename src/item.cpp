@@ -9065,7 +9065,7 @@ bool item::process_rot( const bool seals, const tripoint &pos,
     // If we're still here, mark how cold it is so we can apply tagtext to items
     // FIXME: this might cause issues with performance, move the comparision
     // directly to item::tname once #2250 lands
-    if( temp <= 0_c ) {
+    if( temp <= temperatures::freezing ) {
         unset_flag( flag_COLD );
         set_flag( flag_VERY_COLD );
     } else if( temp <= temperatures::root_cellar ) {
