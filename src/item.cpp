@@ -4699,6 +4699,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( is_fresh() ) {
             tagtext += _( " (fresh)" );
         }
+        if( has_flag( "COLD" ) ) {
+            tagtext += _( " (cold)" );
+        } else if( has_flag( "VERY_COLD" ) ) {
+            tagtext += _( " (very cold)" );
+        }
     }
 
     const sizing sizing_level = get_sizing( you, get_encumber( you ) != 0 );
@@ -9053,6 +9058,17 @@ bool item::process_rot( const bool seals, const tripoint &pos,
         last_rot_check = now;
 
         return has_rotten_away() && carrier == nullptr && !seals;
+    }
+    // If we're still here, mark how cold it is so we can apply tagtext to items
+    if ( temp <= 32_f ) {
+        unset_flag( "COLD" );
+        set_flag( "VERY_COLD" );
+    } else if ( temp <= 43_f ) {
+        set_flag( "COLD" );
+        unset_flag( "VERY_COLD" );
+    } else {
+        unset_flag( "COLD" );
+        unset_flag( "VERY_COLD" );
     }
 
     return false;
