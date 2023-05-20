@@ -57,6 +57,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "math_defines.h"
+#include "martialarts.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
@@ -113,6 +114,10 @@ static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_watch( "bio_watch" );
+
+static const matec_id WBLOCK_1( "WBLOCK_1" );
+static const matec_id WBLOCK_2( "WBLOCK_2" );
+static const matec_id WBLOCK_3( "WBLOCK_3" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_ai_waiting( "ai_waiting" );
@@ -10629,6 +10634,99 @@ float Character::stability_roll() const
 bool Character::uncanny_dodge()
 {
     return character_funcs::try_uncanny_dodge( *this );
+}
+
+bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
+{
+    // Having access to more than one shield is not normal in vanilla, for now keep it simple and only give one chance to catch a bullet.
+    item &shield = best_shield();
+
+    // Bail out early just in case, if blocking with bare hands.
+    if( shield.is_null() ) {
+        return false;
+    }
+
+    // Also bail out on the following conditions:
+    // 1. Best item available doesn't count as a shield.
+    // 2. Shield already protects the part we're interested in.
+    // 3. Targeted bodypart is a foot, unlikely to ever successfully block that low.
+    if( !shield.has_flag( "BLOCK_WHILE_WORN" ) || shield.covers( bp_hit->token ) || bp_hit == bodypart_str_id( "foot_l" ) || bp_hit == bodypart_str_id( "foot_r" ) ) {
+        return false;
+    }
+
+    // Modify chance based on coverage and blocking ability. Exclude armguards here.
+    float shield_coverage_modifier = shield.get_coverage();
+    if( shield.has_technique( WBLOCK_3 ) ) {
+        shield_coverage_modifier *= 0.8;
+    } else if( shield.has_technique( WBLOCK_2 ) ) {
+        shield_coverage_modifier *= 0.6;
+    } else if( shield.has_technique( WBLOCK_1 ) ) {
+        shield_coverage_modifier *= 0.4;
+    } else {
+        return false;
+    }
+    // Targeting the legs halves the chance.
+    if( bp_hit == bodypart_str_id( "leg_l" ) || bp_hit == bodypart_str_id( "leg_r" ) ) {
+        shield_coverage_modifier *= 0.5;
+    }
+
+    // Now roll coverage to determine if we intercept the shot.
+    if( rng( 1, 100 ) > shield_coverage_modifier ) {
+        return false;
+    }
+
+    std::string thing_blocked_with = shield.tname();
+    add_msg_player_or_npc(
+        _( "The shot hits your %s!" ),
+        _( "The shot hits <npcname>'s %s!" ),
+        thing_blocked_with );
+
+    float wear_modifier = 1.0f;
+    if( source != nullptr && source->is_hallucination() ) {
+        wear_modifier = 0.0f;
+    }
+    handle_melee_wear( shield, wear_modifier );
+
+    float total_damage = 0.0;
+    float damage_blocked = 0.0;
+
+    for( auto &elem : dam.damage_units ) {
+        total_damage += elem.amount;
+        // Go through all relevant damage types and reduce by armor value if one exists.
+        if( elem.type == DT_BASH ) {
+            float previous_amount = elem.amount;
+            float block_amount = shield.bash_resist();
+            elem.amount -= block_amount;
+            damage_blocked += previous_amount - elem.amount;
+        } else if( elem.type == DT_CUT ) {
+            float previous_amount = elem.amount;
+            float block_amount = shield.cut_resist();
+            elem.amount -= block_amount;
+            damage_blocked += previous_amount - elem.amount;
+        } else if( elem.type == DT_STAB ) {
+            float previous_amount = elem.amount;
+            float block_amount = shield.stab_resist();
+            elem.amount -= block_amount;
+            damage_blocked += previous_amount - elem.amount;
+        } else if( elem.type == DT_BULLET ) {
+            float previous_amount = elem.amount;
+            float block_amount = shield.bullet_resist();
+            elem.amount -= block_amount;
+            damage_blocked += previous_amount - elem.amount;
+        } else if( elem.type == DT_HEAT ) {
+            float previous_amount = elem.amount;
+            float block_amount = shield.fire_resist();
+            elem.amount -= block_amount;
+            damage_blocked += previous_amount - elem.amount;
+        } else if( elem.type == DT_ACID ) {
+            float previous_amount = elem.amount;
+            float block_amount = shield.acid_resist();
+            elem.amount -= block_amount;
+            damage_blocked += previous_amount - elem.amount;
+        }
+    }
+
+    return true;
 }
 
 float Character::fall_damage_mod() const
