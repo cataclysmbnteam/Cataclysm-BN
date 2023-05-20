@@ -607,6 +607,23 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                                 iteminfo_parts::ARMOR_ENCUMBRANCE, iteminfo_parts::ARMOR_PROTECTION
                               } );
 
+    SECTION( "shows coverage, encumbrance, and protection for armor with coverage" ) {
+        test_info_equals(
+            item( "test_longshirt" ), q,
+            "--\n"
+            // NOLINTNEXTLINE(cata-text-style)
+            "<color_c_white>Covers</color>: The <color_c_cyan>torso</color>. The <color_c_cyan>arms</color>. \n"
+            // NOLINTNEXTLINE(cata-text-style)
+            "Layer: <color_c_light_blue>Normal</color>. \n"
+            "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n"
+            "--\n"
+            "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
+            "Torso:  <color_c_yellow>3</color>  Coverage:  <color_c_yellow>90</color>\n"
+            "Arms:  <color_c_yellow>3</color>  Coverage:  <color_c_yellow>90</color>\n"
+            "<color_c_white>Protection</color>: Bash: <color_c_yellow>1</color>  Cut: <color_c_yellow>1</color>  Ballistic: <color_c_yellow>1</color>\n"
+            "  Acid: <color_c_yellow>0</color>  Fire: <color_c_yellow>0</color>  Environmental: <color_c_yellow>0</color>\n" );
+    }
+
     SECTION( "omits irrelevant info if it covers nothing" ) {
         test_info_equals(
             item( "test_ear_plugs" ), q,
