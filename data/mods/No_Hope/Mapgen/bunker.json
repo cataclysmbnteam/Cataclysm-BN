@@ -102,11 +102,7 @@
       },
       "furniture": { "r": "f_rack" },
       "items": { "r": { "item": "bunker_basement_loot", "chance": 15, "repeat": [ 2, 8 ] } },
-      "place_monster": [
-        { "monster": "mon_mech_combat", "x": 5, "y": 5, "chance": 2 },
-        { "monster": "mon_mech_lifter", "x": 6, "y": 6, "chance": 5 },
-        { "monster": "mon_mech_recon", "x": 7, "y": 6, "chance": 3 }
-      ]
+      "place_nested": [ { "chunks": [ [ "null", 9 ], "bunker_mech_spawn" ], "x": 5, "y": 5 } ]
     }
   },
   {

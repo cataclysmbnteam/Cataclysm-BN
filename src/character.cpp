@@ -2822,7 +2822,6 @@ bool Character::has_active_item( const itype_id &id ) const
 detached_ptr<item> Character::remove_weapon()
 {
     detached_ptr<item> ret( std::move( weapon ) );
-    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
     clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     return ret;
 }

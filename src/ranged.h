@@ -165,6 +165,9 @@ double recoil_total( const Character &who );
 int gun_engagement_moves( const Character &who, const item &gun, int target = 0,
                           int start = MAX_RECOIL );
 
+/** Calculates time taken to fire gun */
+int time_to_attack( const Character &p, const item &firing, const item *loc );
+
 void make_gun_sound_effect( const Character &who, bool burst, const item &gun );
 
 /**

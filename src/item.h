@@ -656,6 +656,8 @@ class item : public location_visitable<item>, public game_object<item>
         /** return the average dps of the weapon against evaluation monsters */
         double average_dps( const player &guy ) const;
 
+        double ideal_ranged_dps( const Character &who, gun_mode &mode ) const;
+
         /**
          * Whether the character needs both hands to wield this item.
          */

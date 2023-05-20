@@ -223,13 +223,6 @@ monster::monster( const mtype_id &id ) : monster()
     if( monster::has_flag( MF_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
     }
-    if( monster::has_flag( MF_RIDEABLE_MECH ) ) {
-        itype_id mech_bat = itype_id( type->mech_battery );
-        int max_charge = mech_bat->magazine->capacity;
-        detached_ptr<item> mech_bat_item = item::spawn( mech_bat, calendar::start_of_cataclysm );
-        mech_bat_item->ammo_consume( rng( 0, max_charge ), tripoint_zero );
-        set_battery_item( std::move( mech_bat_item ) );
-    }
 }
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )

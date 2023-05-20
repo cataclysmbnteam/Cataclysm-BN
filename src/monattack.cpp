@@ -4558,14 +4558,11 @@ bool mattack::parrot( monster *z )
 
 bool mattack::parrot_at_danger( monster *parrot )
 {
-    for( monster &monster : g->all_monsters() ) {
-        if( one_in( 20 ) && ( monster.faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
-                              ( monster.anger > 0 &&
-                                monster.faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
-            parrot->sees( monster ) ) {
-            parrot_common( parrot );
-            return true;
-        }
+
+    Creature *target = parrot->attack_target();
+    if( one_in( 20 ) && target != nullptr && parrot->sees( *target ) ) {
+        parrot_common( parrot );
+        return true;
     }
 
     return false;

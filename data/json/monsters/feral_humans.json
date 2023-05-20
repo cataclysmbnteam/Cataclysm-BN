@@ -227,7 +227,7 @@
     "path_settings": { "max_dist": 10 },
     "diff": 5,
     "starting_ammo": { "9mm": 5 },
-    "special_attacks": [ [ "PARROT_AT_DANGER", 5 ], [ "SEARCHLIGHT", 1 ], [ "TAZER", 10 ] ],
+    "special_attacks": [ [ "PARROT_AT_DANGER", 5 ], [ "TAZER", 10 ] ],
     "death_drops": "feral_security_death_drops_flashlight",
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zombie_labsecurity",

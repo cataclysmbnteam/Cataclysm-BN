@@ -2758,6 +2758,9 @@ bool game::save( bool quitting )
         }, _( "uistate data" ) ) ) {
             return false;
         } else {
+            world_generator->last_world_name = world_generator->active_world->world_name;
+            world_generator->last_character_name = u.name;
+            world_generator->save_last_world_info();
             world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
             return true;
         }

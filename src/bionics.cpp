@@ -470,7 +470,6 @@ void deactivate_weapon_cbm( npc &who )
             who.deactivate_bionic( i );
         }
     }
-    who.clear_npc_ai_info_cache( npc_ai_info::weapon_value );
     who.clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
 }
 
@@ -496,14 +495,36 @@ std::vector<std::pair<bionic_id, item *>> find_reloadable_cbms( npc &who )
     return cbm_list;
 }
 
+const std::map<item *, bionic_id> npc::check_toggle_cbm()
+{
+    std::map<item *, bionic_id> res;
+    const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
+    const units::energy free_power = get_power_level() - get_max_power_level() * allowed_ratio;
+    if( free_power <= 0_J ) {
+        return res;
+    }
+    for( bionic &bio : *my_bionics ) {
+        // I'm not checking if NPC_USABLE because if it isn't it shouldn't be in them.
+        if( bio.powered || !bio.info().has_flag( flag_BIONIC_WEAPON ) ||
+            free_power < bio.info().power_activate ) {
+            continue;
+        }
+        item *cbm_fake = item::spawn_temporary( bio.info().fake_item );
+        if( bio.ammo_count > 0 ) {
+            cbm_fake->ammo_set( bio.ammo_loaded, bio.ammo_count );
+        }
+        res[cbm_fake] = bio.id;
+    }
+    return res;
+}
+
 void npc::check_or_use_weapon_cbm()
 {
-    // if both toggle and active bionics have been chosen, keep using them.
-    if( !cbm_toggled.is_null() && !cbm_active.is_null() ) {
+    // if active bionics have been chosen, keep using them.
+    if( !cbm_active.is_null() ) {
         return;
     }
 
-    std::vector<int> avail_toggle_cbms;
     std::vector<int> avail_active_cbms;
 
     const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
@@ -515,63 +536,17 @@ void npc::check_or_use_weapon_cbm()
     int cbm_index = 0;
     for( bionic &bio : *my_bionics ) {
         // I'm not checking if NPC_USABLE because if it isn't it shouldn't be in them.
-        if( cbm_toggled.is_null() && bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
-            avail_toggle_cbms.push_back( cbm_index );
-        }
-        if( cbm_active.is_null() && bio.info().has_flag( flag_BIONIC_GUN ) ) {
+        if( free_power >= bio.info().power_activate && bio.info().has_flag( flag_BIONIC_GUN ) ) {
             avail_active_cbms.push_back( cbm_index );
         }
         cbm_index++;
     }
 
-    // There's no point in checking the bionics if they can't unwield what they have.
-    if( !primary_weapon().has_flag( flag_NO_UNWIELD ) && cbm_toggled.is_null() &&
-        !avail_toggle_cbms.empty() ) {
-        int toggle_index = -1;
-        detached_ptr<item> best_cbm_weap;
-        for( int i : avail_toggle_cbms ) {
-            bionic &bio = ( *my_bionics )[ i ];
-            if( free_power < bio.info().power_activate ) {
-                continue;
-            }
-            detached_ptr<item> cbm_fake = item::spawn( bio.info().fake_item );
-            if( bio.ammo_count > 0 ) {
-                cbm_fake->ammo_set( bio.ammo_loaded, bio.ammo_count );
-            }
-            const int fake_shots = item_funcs::shots_remaining( *this, *cbm_fake );
-
-            bool not_allowed = ( !rules.has_flag( ally_rule::use_guns ) && cbm_fake->is_gun() ) ||
-                               ( rules.has_flag( ally_rule::use_silent ) && !cbm_fake->is_silent() );
-            if( not_allowed ) {
-                continue;
-            }
-
-            double to_compare_value = 0.0;
-            if( toggle_index >= 0 ) {
-                // Previous iteration chose a CBM, compare them.
-                const int to_compare_shots = item_funcs::shots_remaining( *this,
-                                             best_cbm_weap ? *best_cbm_weap : null_item_reference() );
-                to_compare_value = npc_ai::weapon_value( *this,
-                                   best_cbm_weap ? *best_cbm_weap : null_item_reference(), to_compare_shots );
-            } else {
-                // Compare against weapon.
-                to_compare_value = npc_ai::wielded_value( *this, false );
-            }
-
-            if( to_compare_value < npc_ai::weapon_value( *this, *cbm_fake, fake_shots ) ) {
-                toggle_index = i;
-                best_cbm_weap = std::move( cbm_fake );
-            }
-        }
-
-        if( toggle_index >= 0 ) {
-            cbm_toggled = ( *my_bionics )[toggle_index].id;
-            cbm_fake_toggled = std::move( best_cbm_weap );
-        }
-    }
-
-    if( cbm_active.is_null() && !avail_active_cbms.empty() ) {
+    if( !avail_active_cbms.empty() ) {
+        Creature *critter = current_target();
+        int dist = rl_dist( pos(), critter->pos() );
         int active_index = -1;
+        int best_dps = -1;
         bool wield_gun = primary_weapon().is_gun();
         detached_ptr<item> best_cbm_active;
         for( int i : avail_active_cbms ) {
@@ -583,33 +558,17 @@ void npc::check_or_use_weapon_cbm()
             if( is_player_ally() && not_allowed ) {
                 continue;
             }
-
-            // Simpler than weapons because they're not real items and cannot be reloaded.
-            // Have fun changing this in the future.
-            int cbm_ammo = free_power / bio.info().power_activate;
-
-            double to_compare_value = 0.0;
-            if( !wield_gun && active_index < 0 ) {
-                // If it's not a gun, then we only need to compare the CBMs as
-                // You can fire an activated CBM without the need to equip/unequip anything.
-                active_index = i;
-                best_cbm_active = std::move( cbm_weapon );
-                continue;
-            }
-            if( active_index >= 0 ) {
-                // Previous iteration chose a CBM, compare them.
-                int b_cbm_ammo = free_power / ( *my_bionics )[active_index].info().power_activate;
-                to_compare_value = npc_ai::weapon_value( *this,
-                                   best_cbm_active ? *best_cbm_active : null_item_reference(), b_cbm_ammo );
-            } else if( wield_gun ) {
-                // For melee we keep it in reserve anyway, but ranged we're using either it or this one.
-                // Right now no BIONIC_GUNS are melee weapons, unlike BIONIC_WEAPONS and the bionic shotgun.
-                to_compare_value = npc_ai::wielded_value( *this, false );
+            auto [mode_id, mode_] = npc_ai::best_mode_for_range( *this, *cbm_weapon, dist );
+            double dps = cbm_weapon->ideal_ranged_dps( *this, mode_ );
+            if( wield_gun && active_index < 0 ) {
+                gun_mode weap_mode = npc_ai::best_mode_for_range( *this, this->primary_weapon(), dist ).second;
+                dps = this->primary_weapon().ideal_ranged_dps( *this, weap_mode );
             }
 
-            if( to_compare_value < npc_ai::weapon_value( *this, *cbm_weapon, cbm_ammo ) ) {
+            if( ( !wield_gun && active_index < 0 ) || dps > best_dps ) {
                 active_index = i;
                 best_cbm_active = std::move( cbm_weapon );
+                best_dps = dps;
             }
         }
 
@@ -712,10 +671,11 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         add_msg_activate();
         set_weapon( item::spawn( bio.info().fake_item ) );
         get_weapon().invlet = '#';
-        if( bio.ammo_count > 0 ) {
+        if( is_player() && bio.ammo_count > 0 ) {
             get_weapon().ammo_set( bio.ammo_loaded, bio.ammo_count );
             avatar_action::fire_wielded_weapon( g->u );
         }
+        clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
         add_msg_activate();
         for( bionic &bio : *my_bionics ) {
@@ -1189,8 +1149,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
         if( primary_weapon().typeId() == bio.info().fake_item ) {
             add_msg_if_player( _( "You withdraw your %s." ), primary_weapon().tname() );
             if( g->u.sees( pos() ) ) {
-                add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ),
-                                primary_weapon().tname() );
+                add_msg_if_npc( m_info, _( "<npcname> withdraws their %s." ), primary_weapon().tname() );
             }
             bio.ammo_loaded =
                 primary_weapon().ammo_data() != nullptr ? primary_weapon().ammo_data()->get_id() :

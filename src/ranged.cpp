@@ -36,6 +36,7 @@
 #include "gun_mode.h"
 #include "input.h"
 #include "item.h"
+#include "item_functions.h"
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
@@ -161,7 +162,6 @@ static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
 static constexpr int AIF_DURATION_LIMIT = 10;
 
 static projectile make_gun_projectile( const item &gun );
-int time_to_attack( const Character &p, const item &firing, const item *loc );
 static void cycle_action( item &weap, const tripoint &pos );
 bool can_use_bipod( const map &m, const tripoint &pos );
 dispersion_sources calculate_dispersion( const map &m, const Character &who, const item &gun,
@@ -830,7 +830,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
     }
 
     if( gun.ammo_required() > 0 && !gun.ammo_remaining() && !ammo ) {
-        debugmsg( "%s's gun %s is empty and has no ammo for reloading.", gun.tname() );
+        debugmsg( "%s's gun %s is empty and has no ammo for reloading.", who.name, gun.tname() );
         return 0;
     }
 
@@ -1604,7 +1604,7 @@ static int print_aim( const Character &p, const catacurses::window &w, int line_
     const auto cost_fun = [&]( const ranged::aim_type & at ) {
         int at_recoil = at.has_threshold ? at.threshold : static_cast<int>( predicted_recoil );
         return ranged::gun_engagement_moves( p, weapon, at_recoil, p.recoil ) +
-               time_to_attack( p, weapon, load_loc );
+               ranged::time_to_attack( p, weapon, load_loc );
     };
     const double range = rl_dist( p.pos(), pos );
     line_number = print_steadiness( w, line_number, steadiness );
@@ -1734,7 +1734,7 @@ static projectile make_gun_projectile( const item &gun )
     return proj;
 }
 
-int time_to_attack( const Character &p, const item &firing, const item *loc )
+int ranged::time_to_attack( const Character &p, const item &firing, const item *loc )
 {
     const skill_id &skill_used = firing.type->gun->skill_used;
     const time_info_t &info = skill_used->time_to_attack();
@@ -1970,6 +1970,48 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     return dispersion;
 }
 
+std::pair<gun_mode_id, gun_mode> npc_ai::best_mode_for_range( const Character &who,
+        const item &firing,
+        int dist )
+{
+    std::pair<gun_mode_id, gun_mode> res = std::make_pair( gun_mode_id(), gun_mode() );
+    int shots = who.is_wielding( firing ) ? character_funcs::ammo_count_for( who,
+                firing ) : item_funcs::shots_remaining( who, firing );
+    if( !firing.is_gun() || shots == 0 ) {
+        return res;
+    }
+    int min_recoil = MAX_RECOIL;
+    min_recoil = ranged::get_most_accurate_sight( who, firing );
+    int range = static_cast<const npc *>( &who )->confident_shoot_range( firing, min_recoil );
+
+    if( dist > range ) {
+        return res;
+    }
+
+    const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> lhs,
+    const std::pair<gun_mode_id, gun_mode> rhs ) {
+        return lhs.second.qty < rhs.second.qty;
+    };
+
+    const std::map<gun_mode_id, gun_mode> &to_add = firing.gun_all_modes();
+    std::vector<std::pair<gun_mode_id, gun_mode>> modes;
+    std::copy( to_add.begin(), to_add.end(), std::back_inserter( modes ) );
+
+    erase_if( modes, [&]( const std::pair<gun_mode_id, gun_mode> &e ) {
+        const auto &m = e.second;
+        return m.melee() || !who.can_use( *m.target ) || m.flags.count( "NPC_AVOID" ) || shots < m.qty ||
+               ( dist > 0 && static_cast<const npc *>( &who )->confident_gun_mode_range( m, min_recoil ) < dist );
+    } );
+
+    if( modes.empty() ) {
+        return res;
+    }
+
+    const auto g_mode = std::max_element( modes.begin(), modes.end(), gun_mode_cmp );
+    res = *g_mode;
+    return res;
+}
+
 double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
 {
     // TODO: Mods
@@ -1982,61 +2024,40 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
         return 0.0;
     }
 
-    itype_id ammo_type;
-    if( !weap.ammo_current().is_null() ) {
-        ammo_type = weap.ammo_current();
-    } else if( weap.magazine_current() ) {
-        ammo_type = weap.common_ammo_default();
-    } else {
-        ammo_type = weap.ammo_default();
-    }
-    const itype *def_ammo_i = ammo_type.is_null() ? nullptr : &*ammo_type;
-
-    damage_instance gun_damage = weap.gun_damage();
-    const int ammo_cap = weap.ammo_capacity();
-    bool empty = weap.ammo_remaining() == 0;
-    item &tmp = *item::spawn_temporary( weap );
-    tmp.ammo_set( ammo_type );
-    int total_dispersion = ranged::get_weapon_dispersion( who, tmp ).max() +
-                           ranged::effective_dispersion( who, tmp.sight_dispersion() );
-
-    if( def_ammo_i != nullptr && def_ammo_i->ammo ) {
-        const islot_ammo &def_ammo = *def_ammo_i->ammo;
-        gun_damage.add( def_ammo.damage );
-        total_dispersion += def_ammo.dispersion;
+    item &ideal_weapon = *item::spawn_temporary( weap );
+    if( !ideal_weapon.ammo_default().is_null() ) {
+        ideal_weapon.ammo_set( ideal_weapon.ammo_default(), -1 );
     }
 
-    float damage_factor = gun_damage.total_damage();
-    if( damage_factor > 0 ) {
-        // TODO: Multiple damage types
-        damage_factor += 0.5f * gun_damage.damage_units.front().res_pen;
-    }
+    auto [mode_id, mode_] = npc_ai::best_mode_for_range( who, ideal_weapon, -1 );
 
-    int move_cost = time_to_attack( who, weap, nullptr );
-    if( empty && ammo >= 1 ) {
-        int reload_cost = weap.get_reload_time() + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
-        move_cost += reload_cost;
+    // Doesn't use calculate_dispersion because that requires a map
+    // TODO: Turn this into a common function.
+    dispersion_sources mode_disp = ranged::get_weapon_dispersion( who, ideal_weapon );
+    double total_dispersion = mode_disp.max();
+    if( ideal_weapon.ammo_current() ) {
+        total_dispersion += ideal_weapon.ammo_current()->ammo->dispersion;
     }
-
-    // Gives an approximation of DPS disregarding modes.
-    float move_cost_factor = move_cost / 100.0f;
+    // Necessary so that ideal_ranged_dps will include the reload cost in calc.
+    ideal_weapon.ammo_unset();
+    double dps = ideal_weapon.ideal_ranged_dps( who, mode_ );
 
     // "Medium range" below means 9 tiles, "short range" means 4
     // Those are guarantees (assuming maximum time spent aiming)
     static const std::vector<std::pair<float, float>> dispersion_thresholds = {
         {
             // Headshots all the time
-            { 0.0f, 5.0f },
+            { 0.0f, 2.0f },
             // Critical at medium range
-            { 100.0f, 4.5f },
+            { 100.0f, 1.8f },
             // Critical at short range or good hit at medium
-            { 200.0f, 3.5f },
+            { 200.0f, 1.6f },
             // OK hits at medium
-            { 300.0f, 3.0f },
+            { 300.0f, 1.45f },
             // Point blank headshots
-            { 450.0f, 2.5f },
+            { 450.0f, 1.30f },
             // OK hits at short
-            { 700.0f, 1.5f },
+            { 700.0f, 1.15f },
             // Glances at medium, criticals at point blank
             { 1000.0f, 1.0f },
             // Nothing guaranteed, pure gamble
@@ -2046,29 +2067,10 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
 
     float dispersion_factor = multi_lerp( dispersion_thresholds, total_dispersion );
 
-    float damage_and_accuracy = damage_factor * dispersion_factor;
+    double gun_value = dps * dispersion_factor;
 
-    // TODO: Some better approximation of the ability to keep on shooting
-    static const std::vector<std::pair<float, float>> capacity_thresholds = {
-        {
-            { 1.0f, 0.5f },
-            { 5.0f, 1.0f },
-            { 10.0f, 1.5f },
-            { 20.0f, 2.0f },
-            { 50.0f, 3.0f },
-        }
-    };
-
-    // Ammo capacity. Reduced to ammo available if that's lower.
-    float capacity = ammo_cap > 0 ? std::min( ammo_cap, ammo ) : ammo;
-
-    double capacity_factor = multi_lerp( capacity_thresholds, capacity );
-
-    double gun_value = damage_and_accuracy * capacity_factor * move_cost_factor;
-
-    add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity, %.1f move",
-             weap.type->get_id().str(), gun_value, dispersion_factor, damage_factor,
-             capacity_factor, move_cost_factor );
+    add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f dps",
+             weap.type->get_id().str(), gun_value, dispersion_factor, dps );
     return std::max( 0.0, gun_value );
 }
 

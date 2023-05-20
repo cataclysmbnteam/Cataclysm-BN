@@ -2610,259 +2610,259 @@
   {
     "type": "speech",
     "speaker": [ "mon_feral_scientist_scalpel" ],
-    "sound": "I'll show them.  I'll prove I was right all along!",
+    "sound": "\"I'll show them.  I'll prove I was right all along!\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_scientist_scalpel" ],
-    "sound": "The vectors, the vectors are all wrong…",
+    "sound": "\"The vectors, the vectors are all wrong…\"",
     "volume": 15
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_scientist_scalpel" ],
-    "sound": "There's nothing there.  This is all just a simulation, a bad dream…",
+    "sound": "\"There's nothing there.  This is all just a simulation, a bad dream…\"",
     "volume": 15
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_scientist_scalpel" ],
-    "sound": "There's.  Nothing.  There.",
+    "sound": "\"There's.  Nothing.  There.\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_scientist_scalpel" ],
-    "sound": "They called me a fool.  Now who's the fool!?",
+    "sound": "\"They called me a fool.  Now who's the fool!?\"",
     "volume": 40
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight" ],
-    "sound": "Get back in your cage!",
+    "sound": "\"Get back in your cage!\"",
     "volume": 40
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight", "mon_feral_soldier" ],
-    "sound": "X-ray breaching perimeter!",
+    "sound": "\"X-ray breaching perimeter!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight" ],
-    "sound": "Lock this sector down, damnit!",
+    "sound": "\"Lock this sector down, damnit!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight" ],
-    "sound": "Unknown entity escaping containment!",
+    "sound": "\"Unknown entity escaping containment!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_jackboot" ],
-    "sound": "I am the night rider!",
+    "sound": "\"I am the night rider!\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_jackboot" ],
-    "sound": "I'm here to swim in gasoline, baby!",
+    "sound": "\"I'm here to swim in gasoline, baby!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_jackboot" ],
-    "sound": "Give me unleaded, or you'll get lead!",
+    "sound": "\"Give me unleaded, or you'll get lead!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_jackboot" ],
-    "sound": "I'm a fuel-injected suicide machine!",
+    "sound": "\"I'm a fuel-injected suicide machine!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_jackboot" ],
-    "sound": "I'm gonna tan your god damn hide!",
+    "sound": "\"I'm gonna tan your god damn hide!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_jackboot" ],
-    "sound": "Which one of you fuckers touched my bike!?",
+    "sound": "\"Which one of you fuckers touched my bike!?\"",
     "volume": 40
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
-    "sound": "Reach for the sky!",
+    "sound": "\"Reach for the sky!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_labsecurity_9mm", "mon_feral_militia", "mon_feral_prepper" ],
-    "sound": "Clear my line of fire!",
+    "sound": "\"Clear my line of fire!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
-    "sound": "Reach for the sky!",
+    "sound": "\"Reach for the sky!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_militia", "mon_feral_prepper" ],
-    "sound": "Weapons hot!",
+    "sound": "\"Weapons hot!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_militia", "mon_feral_prepper" ],
-    "sound": "Lock and load!",
+    "sound": "\"Lock and load!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_survivalist" ],
-    "sound": "I don't have to be faster than them, just faster than you!",
+    "sound": "\"I don't have to be faster than them, just faster than you!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_survivalist" ],
-    "sound": "My feet failed me!  Arms, don't fail me!",
+    "sound": "\"My feet failed me!  Arms, don't fail me!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
-    "sound": "Look at me.  I am the captain now.",
+    "sound": "\"Look at me.  I am the captain now.\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
-    "sound": "I don't have to take this abuse from you, there are plenty of people to abuse me!",
+    "sound": "\"I don't have to take this abuse from you, there are plenty of people to abuse me!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
-    "sound": "You're a monster!",
+    "sound": "\"You're a monster!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
-    "sound": "I've had enough of your bullshit!",
+    "sound": "\"I've had enough of your bullshit!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
-    "sound": "Adios, motherfucker!",
+    "sound": "\"Adios, motherfucker!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
-    "sound": "Get out of here or I'll kill you!",
+    "sound": "\"Get out of here or I'll kill you!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
-    "sound": "Keep your distance!",
+    "sound": "\"Keep your distance!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_jackboot", "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
-    "sound": "This is my territory, asshole!",
+    "sound": "\"This is my territory, asshole!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_jackboot", "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
-    "sound": "Fuck off, I saw this place first!",
+    "sound": "\"Fuck off, I saw this place first!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_jackboot", "mon_feral_militia", "mon_feral_prepper", "mon_feral_survivalist" ],
-    "sound": "Get out of here, I own this town now!",
+    "sound": "\"Get out of here, I own this town now!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_soldier" ],
-    "sound": "We've got incoming!",
+    "sound": "\"We've got incoming!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_soldier" ],
-    "sound": "Hostiles inbound.",
+    "sound": "\"Hostiles inbound.\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_labsecurity_9mm", "mon_feral_labsecurity_flashlight", "mon_feral_soldier" ],
-    "sound": "I've got movement!",
+    "sound": "\"I've got movement!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_soldier" ],
-    "sound": "Danger close!",
+    "sound": "\"Danger close!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_soldier" ],
-    "sound": "Last one alive, lock the door!",
+    "sound": "\"Last one alive, lock the door!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_soldier" ],
-    "sound": "We have you surrounded, at least from this side!",
+    "sound": "\"We have you surrounded, at least from this side!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_soldier" ],
-    "sound": "Charge!",
+    "sound": "\"Charge!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_soldier" ],
-    "sound": "Contact!",
+    "sound": "\"Contact!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_soldier" ],
-    "sound": "Contact, enemy in sight!",
+    "sound": "\"Contact, enemy in sight!\"",
     "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_soldier" ],
-    "sound": "Target in sight!",
+    "sound": "\"Target in sight!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_soldier" ],
-    "sound": "We've got hostiles!",
+    "sound": "\"We've got hostiles!\"",
     "volume": 25
   }
 ]

@@ -1209,7 +1209,6 @@ bool avatar::wield( item &target )
     if( !unwield() ) {
         return false;
     }
-    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
     clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     if( target.is_null() ) {
         return true;
@@ -1264,7 +1263,6 @@ detached_ptr<item> avatar::wield( detached_ptr<item> &&target )
     if( !unwield() ) {
         return std::move( target );
     }
-    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
     clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     if( !target || target->is_null() ) {
         return std::move( target );

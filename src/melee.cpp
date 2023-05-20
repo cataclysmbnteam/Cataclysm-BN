@@ -2266,30 +2266,20 @@ int Character::attack_cost( const item &weap ) const
     return move_cost;
 }
 
-double npc_ai::wielded_value( const Character &who, bool ideal )
+double npc_ai::wielded_value( const Character &who )
 {
-    const double cached = ideal ? *who.get_npc_ai_info_cache( npc_ai_info::ideal_weapon_value ) :
-                          *who.get_npc_ai_info_cache( npc_ai_info::weapon_value );
+    const double cached = *who.get_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     if( cached >= 0.0 ) {
-        if( ideal ) {
-            add_msg( m_debug, "%s ideal sum value: %.1f", who.primary_weapon().type->get_id().str(), cached );
-        } else {
-            add_msg( m_debug, "%s cached sum value: %.1f", who.primary_weapon().type->get_id().str(), cached );
-        }
+        add_msg( m_debug, "%s ideal sum value: %.1f", who.primary_weapon().type->get_id().str(), cached );
         return cached;
     }
-    int ammo_count = ideal ? who.get_weapon().ammo_capacity() :
-                     character_funcs::ammo_count_for( who, who.primary_weapon() );
+
     item &ideal_weapon = *item::spawn_temporary( who.primary_weapon() );
     if( !ideal_weapon.ammo_default().is_null() ) {
         ideal_weapon.ammo_set( ideal_weapon.ammo_default(), -1 );
     }
-    double weap_val = weapon_value( who, ideal ? ideal_weapon : who.primary_weapon(), ammo_count );
-    if( ideal ) {
-        who.set_npc_ai_info_cache( npc_ai_info::ideal_weapon_value, weap_val );
-    } else {
-        who.set_npc_ai_info_cache( npc_ai_info::weapon_value, weap_val );
-    }
+    double weap_val = weapon_value( who, ideal_weapon, ideal_weapon.ammo_capacity() );
+    who.set_npc_ai_info_cache( npc_ai_info::ideal_weapon_value, weap_val );
     return weap_val;
 }
 
