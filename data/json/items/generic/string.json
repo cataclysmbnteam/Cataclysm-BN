@@ -117,6 +117,7 @@
     "healthy": -20,
     "volume": "1 L",
     "stack_size": 10,
-    "weight": "80 g"
+    "weight": "80 g",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]
