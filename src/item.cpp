@@ -282,6 +282,9 @@ static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 
 static const matec_id rapid_strike( "RAPID" );
 
+static const std::string flag_COLD( "COLD" );
+static const std::string flag_VERY_COLD( "VERY_COLD" );
+
 class npc_class;
 
 using npc_class_id = string_id<npc_class>;
@@ -4699,9 +4702,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( is_fresh() ) {
             tagtext += _( " (fresh)" );
         }
-        if( has_flag( "COLD" ) ) {
+        if( has_flag( flag_COLD ) ) {
             tagtext += _( " (cold)" );
-        } else if( has_flag( "VERY_COLD" ) ) {
+        } else if( has_flag( flag_VERY_COLD ) ) {
             tagtext += _( " (very cold)" );
         }
     }
@@ -9060,15 +9063,17 @@ bool item::process_rot( const bool seals, const tripoint &pos,
         return has_rotten_away() && carrier == nullptr && !seals;
     }
     // If we're still here, mark how cold it is so we can apply tagtext to items
-    if ( temp <= 32_f ) {
-        unset_flag( "COLD" );
-        set_flag( "VERY_COLD" );
-    } else if ( temp <= 43_f ) {
-        set_flag( "COLD" );
-        unset_flag( "VERY_COLD" );
+    // FIXME: this might cause issues with performance, move the comparision
+    // directly to item::tname once #2250 lands
+    if( temp <= 0_c ) {
+        unset_flag( flag_COLD );
+        set_flag( flag_VERY_COLD );
+    } else if( temp <= temperatures::root_cellar ) {
+        set_flag( flag_COLD );
+        unset_flag( flag_VERY_COLD );
     } else {
-        unset_flag( "COLD" );
-        unset_flag( "VERY_COLD" );
+        unset_flag( flag_COLD );
+        unset_flag( flag_VERY_COLD );
     }
 
     return false;
