@@ -875,7 +875,7 @@
   {
     "type": "furniture",
     "id": "f_battery_huge",
-    "looks_like": "f_locker",
+    "looks_like": "f_battery",
     "name": "mounted large storage battery",
     "description": "A huge storage battery mount salvaged from a vehicle, and connected to building's electric grid.",
     "symbol": ":",

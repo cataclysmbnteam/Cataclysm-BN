@@ -214,13 +214,6 @@ monster::monster( const mtype_id &id ) : monster()
     if( monster::has_flag( MF_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
     }
-    if( monster::has_flag( MF_RIDEABLE_MECH ) ) {
-        itype_id mech_bat = itype_id( type->mech_battery );
-        int max_charge = mech_bat->magazine->capacity;
-        item mech_bat_item = item( mech_bat, calendar::start_of_cataclysm );
-        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
-        battery_item = cata::make_value<item>( mech_bat_item );
-    }
 }
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
@@ -817,7 +810,7 @@ std::string monster::extended_description() const
     ss += "--\n";
     ss += std::string( _( "In melee, you can expect to:" ) ) + "\n";
     ss += string_format( _( "Deal average damage per second: <stat>%.1f</stat>" ),
-                         g->u.weapon.effective_dps( g->u, *this ) );
+                         g->u.primary_weapon().effective_dps( g->u, *this ) );
     ss += "\n";
 
     if( debug_mode ) {

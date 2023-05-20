@@ -724,6 +724,10 @@ void Character::store( JsonOut &json ) const
         json.member( "fetch_data", things_to_fetch );
     }
 
+    if( !weapon.is_null() ) {
+        json.member( "weapon", weapon ); // also saves contents
+    }
+
     json.member( "stim", stim );
     json.member( "type_of_scent", type_of_scent );
 
@@ -827,10 +831,6 @@ void player::store( JsonOut &json ) const
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
     inv.json_save_items( json );
-
-    if( !weapon.is_null() ) {
-        json.member( "weapon", weapon ); // also saves contents
-    }
 
     if( const auto lt_ptr = last_target.lock() ) {
         if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {

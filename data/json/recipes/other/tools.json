@@ -2527,11 +2527,10 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "survival", 1 ], [ "cooking", 2 ] ],
     "difficulty": 1,
-    "time": "6 m",
+    "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "atomic_survival", 0 ], [ "textbook_survival", 0 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "rock", 3 ], [ "ceramic_shard", 3 ] ] ]
+    "components": [ [ [ "rock", 2 ], [ "ceramic_shard", 2 ] ] ]
   },
   {
     "type": "recipe",

@@ -55,7 +55,7 @@ TEST_CASE( "Aiming at a clearly visible target", "[ranged][aiming]" )
     set_up_player_vision();
     player &shooter = g->u;
     arm_character( shooter, "glock_19" );
-    int max_range = shooter.weapon.gun_range( &shooter );
+    int max_range = shooter.primary_weapon().gun_range( &shooter );
     REQUIRE( max_range >= 10 );
     REQUIRE( max_range < 30 );
 
@@ -105,7 +105,7 @@ TEST_CASE( "Aiming at a target behind wall", "[ranged][aiming]" )
     clear_character( shooter, true );
     shooter.add_effect( efftype_id( "debug_clairvoyance" ), time_duration::from_seconds( 1 ) );
     arm_character( shooter, "glock_19" );
-    int max_range = shooter.weapon.gun_range( &shooter );
+    int max_range = shooter.primary_weapon().gun_range( &shooter );
     REQUIRE( max_range >= 5 );
     for( int y_off = -1; y_off <= 1; y_off++ ) {
         g->m.ter_set( shooter_pos + point( 1, y_off ), t_wall );
@@ -144,7 +144,7 @@ TEST_CASE( "Aiming at a target behind bars", "[ranged][aiming]" )
     set_up_player_vision();
     player &shooter = g->u;
     arm_character( shooter, "glock_19" );
-    int max_range = shooter.weapon.gun_range( &shooter );
+    int max_range = shooter.primary_weapon().gun_range( &shooter );
     REQUIRE( max_range >= 5 );
     for( int y_off = -1; y_off <= 1; y_off++ ) {
         g->m.ter_set( shooter_pos + point( 1, y_off ), t_window_bars );
@@ -179,7 +179,7 @@ TEST_CASE( "Aiming a turret from a solid vehicle", "[ranged][aiming]" )
     avatar &shooter = g->u;
     shooter.setpos( shooter_pos );
     arm_character( shooter, "glock_19" );
-    int max_range = shooter.weapon.gun_range( &shooter );
+    int max_range = shooter.primary_weapon().gun_range( &shooter );
     REQUIRE( max_range >= 5 );
 
     monster &z = spawn_test_monster( "debug_mon", shooter_pos + point( 5, 0 ) );
@@ -227,7 +227,7 @@ TEST_CASE( "Aiming at a target partially covered by a wall", "[.][ranged][aiming
     clear_all_state();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 8 );
     arm_character( shooter, "win70" );
-    int max_range = shooter.weapon.gun_range( &shooter );
+    int max_range = shooter.primary_weapon().gun_range( &shooter );
     REQUIRE( max_range >= 55 );
 
     int unseen = 0;

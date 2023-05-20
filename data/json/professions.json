@@ -1198,6 +1198,35 @@
   },
   {
     "type": "profession",
+    "id": "gyro_pilot",
+    "name": "Gyrocopter Pilot",
+    "description": "You always loved tinkering with flying machines as a hobby.  With your gyrocopter and what little flight gear you could scrounge up while the world was ending, the sky's the limit.",
+    "vehicle": "helicopter_gyro",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "driving" }, { "level": 3, "name": "fabrication" }, { "level": 3, "name": "mechanics" } ],
+    "items": {
+      "both": {
+        "items": [
+          "socks",
+          "jumpsuit",
+          "boots_hiking",
+          "gloves_fingerless",
+          "helmet_larmor",
+          "survivor_goggles",
+          "knit_scarf",
+          "tool_belt",
+          "wristwatch",
+          "smart_phone"
+        ],
+        "entries": [ { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    },
+    "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
     "id": "k9_cop",
     "name": "K9 Officer",
     "description": "You spent your career busting drug smugglers with your faithful canine companion.  Now the world has ended and none of that matters anymore.  But at least you have a loyal friend.",
