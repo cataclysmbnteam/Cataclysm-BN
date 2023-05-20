@@ -10655,22 +10655,20 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
         return false;
     }
 
-    // Modify chance based on coverage and blocking ability. Exclude armguards here.
+    // Modify chance based on coverage and blocking ability, with lowered chance if hitting the legs. Exclude armguards here.
     float shield_coverage_modifier = shield.get_coverage();
+    bool leg_hit = ( bp_hit == bodypart_str_id( "leg_l" ) || bp_hit == bodypart_str_id( "leg_r" ) );
     if( shield.has_technique( WBLOCK_3 ) ) {
-        shield_coverage_modifier *= 0.8;
+        shield_coverage_modifier *= leg_hit ? 0.75 : 0.9;
     } else if( shield.has_technique( WBLOCK_2 ) ) {
-        shield_coverage_modifier *= 0.6;
+        shield_coverage_modifier *= leg_hit ? 0.5 : 0.8;
     } else if( shield.has_technique( WBLOCK_1 ) ) {
-        shield_coverage_modifier *= 0.4;
+        shield_coverage_modifier *= leg_hit ? 0.25 : 0.7;
     } else {
         return false;
     }
-    // Targeting the legs halves the chance.
-    if( bp_hit == bodypart_str_id( "leg_l" ) || bp_hit == bodypart_str_id( "leg_r" ) ) {
-        shield_coverage_modifier *= 0.5;
-    }
-    add_msg( m_debug, _( "block_ranged_hit success rate: %i%%" ), static_cast<int>( shield_coverage_modifier ) );
+    add_msg( m_debug, _( "block_ranged_hit success rate: %i%%" ),
+             static_cast<int>( shield_coverage_modifier ) );
 
     // Now roll coverage to determine if we intercept the shot.
     if( rng( 1, 100 ) > shield_coverage_modifier ) {
@@ -10699,7 +10697,7 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
             elem.amount -= block_amount;
             blocked_damage += block_amount;
         } else if( elem.type == DT_STAB ) {
-            float block_amount = std::max( 0.0f, ( shield.stab_resist() - elem.res_pen) );
+            float block_amount = std::max( 0.0f, ( shield.stab_resist() - elem.res_pen ) );
             elem.amount -= block_amount;
             blocked_damage += block_amount;
         } else if( elem.type == DT_BULLET ) {
@@ -10719,16 +10717,16 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
     blocked_damage = std::min( total_damage, blocked_damage );
     std::string thing_blocked_with = shield.tname();
     add_msg( m_debug, _( "expected base damage: %i" ), total_damage );
-    if ( blocked_damage > 0 ) {
-    add_msg_player_or_npc(
-        _( "The shot hits your %s, absorbing %i damage." ),
-        _( "The shot hits <npcname>'s %s, absorbing %i damage." ),
-        thing_blocked_with, blocked_damage );
+    if( blocked_damage > 0 ) {
+        add_msg_player_or_npc(
+            _( "The shot hits your %s, absorbing %i damage." ),
+            _( "The shot hits <npcname>'s %s, absorbing %i damage." ),
+            thing_blocked_with, blocked_damage );
     } else {
-    add_msg_player_or_npc(
-        _( "The shot hits your %s, but it punches right through!" ),
-        _( "The shot hits <npcname>'s %s, but it punches right through!" ),
-        thing_blocked_with );
+        add_msg_player_or_npc(
+            _( "The shot hits your %s, but it punches right through!" ),
+            _( "The shot hits <npcname>'s %s, but it punches right through!" ),
+            thing_blocked_with );
     }
 
     return true;
