@@ -68,6 +68,10 @@ T *location_vector<T>::back() const
 template<typename T>
 detached_ptr<T> location_vector<T>::remove( T *obj )
 {
+    if( destroyed ) {
+        debugmsg( "Attempted to remove something from a destroyed location." );
+        return detached_ptr<T>();
+    }
 
     for( auto iter = contents.begin(); iter != contents.end(); iter++ ) {
         if( *iter == obj ) {
@@ -76,7 +80,7 @@ detached_ptr<T> location_vector<T>::remove( T *obj )
             return ret;
         }
     }
-    debugmsg( "Attempted to remove something froma  location that wasn't there." );
+    debugmsg( "Attempted to remove something from a location that wasn't there." );
     return detached_ptr<T>();
 }
 
@@ -92,6 +96,10 @@ typename std::vector<T *>::iterator location_vector<T>::erase( typename
         it,
         detached_ptr<T> *out )
 {
+    if( destroyed && out ) {
+        debugmsg( "Attempted to erase something from a destroyed location." );
+        return contents.end();
+    }
     T *subject = *it;
     typename std::vector<T *>::iterator ret = contents.erase( it );
     subject->remove_location();
@@ -242,6 +250,10 @@ location<T> *location_vector<T>::get_location() const
 template<typename T>
 typename std::vector<detached_ptr<T>> location_vector<T>::clear()
 {
+    if( destroyed ) {
+        debugmsg( "Attempted to clear a destroyed location." );
+        return std::vector<detached_ptr<T>>();
+    }
     std::vector<detached_ptr<T>> ret;
     for( item * const &i : contents ) {
         i->remove_location();
@@ -254,6 +266,10 @@ typename std::vector<detached_ptr<T>> location_vector<T>::clear()
 template<typename T>
 void location_vector<T>::remove_with( std::function < detached_ptr<T>( detached_ptr<T> && ) > cb )
 {
+    if( destroyed ) {
+        debugmsg( "Attempted to remove_with from a destroyed location." );
+        return;
+    }
     if( locked ) {
         debugmsg( "Recursive removal in location_vector" );
         return;

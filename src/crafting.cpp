@@ -2159,10 +2159,6 @@ void crafting::complete_disassemble( Character &who, iuse_location target,
         int batch_size = dis.disassembly_batch_size();
         org_item.charges -= batch_size * target.count;
     }
-    // remove the item, except when it's counted by charges and still has some
-    if( !org_item.count_by_charges() || org_item.charges <= 0 ) {
-        org_item.detach();
-    }
 
     // Consume tool charges
     for( const auto &it : dis_requirements.get_tools() ) {
@@ -2260,6 +2256,12 @@ void crafting::complete_disassemble( Character &who, iuse_location target,
         } else {
             drop_items.push_back( std::move( newit ) );
         }
+    }
+
+    // remove the item, except when it's counted by charges and still has some
+    // It's important to remove/delete it after its contents are removed, lest they be deleted too
+    if( !org_item.count_by_charges() || org_item.charges <= 0 ) {
+        org_item.detach();
     }
 
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate, drop_items );
