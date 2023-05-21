@@ -10667,32 +10667,28 @@ auto is_covered_by_shield( const bodypart_id &bp_hit, const item &shield ) -> bo
 enum class ShieldLevel { None, Block1, Block2, Block3 };
 auto shield_level( const item &shield ) -> ShieldLevel
 {
-    static const auto flags = std::vector<std::pair<matec_id, ShieldLevel>> {
-        { WBLOCK_3, ShieldLevel::Block3 },
-        { WBLOCK_2, ShieldLevel::Block2 },
-        { WBLOCK_1, ShieldLevel::Block1 }
-    };
-    for( const auto& [flag, level] : flags ) {
-        if( shield.has_technique( flag ) ) {
-            return level;
-        }
+    if( shield.has_technique( WBLOCK_3 ) ) {
+        return ShieldLevel::Block3;
+    } else if( shield.has_technique( WBLOCK_2 ) ) {
+        return ShieldLevel::Block2;
+    } else if( shield.has_technique( WBLOCK_1 ) ) {
+        return ShieldLevel::Block1;
     }
     return ShieldLevel::None;
 }
 
 auto coverage_modifier_by_technic( ShieldLevel level, bool leg_hit ) -> float
 {
-    struct protect {
-        float leg, others;
-    };
-    static const auto blocks = std::map<ShieldLevel, protect> {
-        { ShieldLevel::Block1, { 0.1f, 0.3f } },
-        { ShieldLevel::Block2, { 0.2f, 0.5f } },
-        { ShieldLevel::Block3, { 0.3f, 0.7f } },
-        { ShieldLevel::None, { 0.0f, 0.0f } },
-    };
-    const auto &p = blocks.at( level );
-    return leg_hit ? p.leg : p.others;
+    switch( level ) {
+        case ShieldLevel::Block3:
+            return leg_hit ? 0.75f : 0.9f;
+        case ShieldLevel::Block2:
+            return leg_hit ? 0.5f : 0.8f;
+        case ShieldLevel::Block1:
+            return leg_hit ? 0.25f : 0.7f;
+        default:
+            return 0.0f;
+    }
 }
 
 auto is_valid_hallucination( Creature *source ) -> bool
