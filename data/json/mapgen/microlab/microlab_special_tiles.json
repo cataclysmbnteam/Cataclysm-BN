@@ -221,5 +221,156 @@
         }
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     |    |  |((((|     ",
+        "     ||22||  | 66 |     ",
+        " ccc      2  2    2     ",
+        "          2  2 cc 2     ",
+        " UUU      |  |    | ??V^",
+        "|((((2|||||||||22|||||||",
+        "       |  |   |         ",
+        " hhh   |  5   2   666   ",
+        " ttt   |  5   2   666   ",
+        "       |  |7  |         ",
+        "|((|||||44|||||22|||||||",
+        "   |----  ----|         ",
+        "   |-r +  - S-| ????    ",
+        "|22|----  - S-||((((|22|",
+        "   |-r +  + S-|UUcc    |",
+        "  d|----  - S-|       6|",
+        " hd|-r +  - S-|       6|",
+        "   |----------|        |",
+        "|22|||||||||||||22||||||",
+        "    B|             2  cF",
+        "    B|ccii         2  c ",
+        " F   |((((|22|||||||  c ",
+        " i   2 66 2  2  Y  2    ",
+        "     |    |  |     |    "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "+": "t_door_metal_c", "7": "t_console" },
+      "furniture": { "S": "f_utility_shelf" },
+      "mapping": {
+        "S": { "items": { "item": "microlab_storage_cvd_carbon", "chance": 50, "repeat": 2 } },
+        "r": { "items": { "item": "microlab_storage_cvd_hydrogen", "chance": 50, "repeat": 4 } }
+      },
+      "computers": {
+        "7": {
+          "name": "Hydrocarbon Materials Storage Control",
+          "security": 5,
+          "options": [ { "name": "UNLOCK STORAGE", "action": "unlock" } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "    h|||||||||    |     ",
+        " 6 dd|B  h  ^(    (cc   ",
+        " 6 dd|B ddd  (    (cc   ",
+        "    h|       (    (     ",
+        "     2       2    2     ",
+        "    n|||||||||||||||||||",
+        "     2       Y      2   ",
+        "     2       Y      2   ",
+        "   hd||22||||||||||||   ",
+        "    d|    |---------|   ",
+        "||2((|    55      r-|22|",
+        "     |    55      r-|   ",
+        "     |   7|-      r-|   ",
+        "|    ||22||-       -|22|",
+        "|t   |    |-     ---|   ",
+        "|^   |l  b|-     4 -|   ",
+        "|?   |l  b|-rrr  -S-|   ",
+        "|?   |l  b|---------|   ",
+        "|||2|||||||||||||||||22|",
+        "     | cFF|B   ??? |    ",
+        " FF  |    |B       2    ",
+        " cc  2 66 ||||     (6   ",
+        "     | 66 2  2     (6h  ",
+        "     |    |  |     |    "
+      ],
+      "palettes": [ "microlab" ],
+      "furniture": { "S": "f_utility_shelf" },
+      "set": [ { "square": "radiation", "amount": [ 10, 30 ], "x": 12, "y": 10, "x2": 18, "y2": 16 } ],
+      "mapping": {
+        "S": { "items": { "item": "microlab_storage_plutonium_special" } },
+        "l": { "items": { "item": "rad_gear", "chance": 50, "repeat": 2 } },
+        "r": {
+          "item": { "item": "plut_cell", "chance": 40, "repeat": 2 },
+          "items": { "item": "ammo_atomic_batteries_full", "chance": 25 }
+        }
+      },
+      "computers": {
+        "7": {
+          "name": "Nuclear Materials Storage Control",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
+          "security": 5,
+          "options": [ { "name": "UNLOCK STORAGE - CAUTION: RADIATION LEAK DETECTED", "action": "unlock" } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     |    |  ||||||     ",
+        " FF c|    |  |?  V(th   ",
+        " FF i||22||  |?  n(th   ",
+        " 66  2       |    (th   ",
+        "     2       2    2     ",
+        "||2||||||||||||||||||2||",
+        "      FF|------|  |     ",
+        "  66    |-r  x-|  2  d  ",
+        "  66  h |-r   -|  2  h  ",
+        "      cc|-r   -|  | BBB ",
+        "22|||||||-    -|  ||||||",
+        "  |FF|cc|--55--|YY      ",
+        "  |     |||55|||YY      ",
+        "22|     |    7 |  |||2||",
+        "    U O |      |  (6    ",
+        "    U O | 6    2  (6    ",
+        "    U O |hd    |  (dh   ",
+        "        | d BBB|  (d    ",
+        "||||||22||||||||22|||22|",
+        " 666n|    2  2    |6    ",
+        " h   2    2  2    |   c ",
+        "    c( YY |  | BB 2   c ",
+        "    c( YY |  | BB |  FF ",
+        "     |    |  |    |     "
+      ],
+      "palettes": [ "microlab" ],
+      "mapping": {
+        "r": { "item": { "item": "nanomaterial", "chance": 50, "repeat": 2 } },
+        "x": { "item": { "item": "standard_template_construct", "repeat": [ 1, 2 ] } }
+      },
+      "computers": {
+        "7": {
+          "name": "Nanomaterial Storage Control",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
+          "security": 5,
+          "options": [ { "name": "UNLOCK STORAGE", "action": "unlock" } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
+        }
+      }
+    }
   }
 ]
