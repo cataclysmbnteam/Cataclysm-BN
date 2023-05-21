@@ -670,8 +670,8 @@ static bool query_interaction_ownership( item &target, avatar &you )
 bool unload_item( avatar &you, item_location loc )
 {
     item &it = *loc.get_item();
-	//Give the player the same options as when attempting to eat food that doesn't belong to them, bomb out if they say no.
-	if(!query_interaction_ownership( it, you ) ) {
+    //Give the player the same options as when attempting to eat food that doesn't belong to them, bomb out if they say no.
+    if( !query_interaction_ownership( it, you ) ) {
         return false;
     }
     // Unload a container consuming moves per item successfully removed
