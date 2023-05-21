@@ -10644,6 +10644,11 @@ auto is_foot_hit( const bodypart_id &bp_hit ) -> bool
     return bp_hit == bodypart_str_id( "foot_l" ) || bp_hit == bodypart_str_id( "foot_r" );
 }
 
+auto is_leg_hit( const bodypart_id &bp_hit ) -> bool
+{
+    return bp_hit == bodypart_str_id( "leg_l" ) || bp_hit == bodypart_str_id( "leg_r" );
+}
+
 /**
  * @brief Check if the given shield can protect the given bodypart.
  *
@@ -10651,37 +10656,65 @@ auto is_foot_hit( const bodypart_id &bp_hit ) -> bool
  * - Shield already protects the part we're interested in.
  * - Targeted bodypart is a foot, unlikely to ever successfully block that low.
  */
-auto is_covered_by_shield( bodypart_id &bp_hit, item &shield ) -> bool
+auto is_covered_by_shield( const bodypart_id &bp_hit, const item &shield ) -> bool
 {
     return shield.has_flag( "BLOCK_WHILE_WORN" )
            && !shield.covers( bp_hit->token )
            && !is_foot_hit( bp_hit );
 }
 
+enum class ShieldLevel { None, Block1, Block2, Block3 };
+auto shield_level( const item &shield ) -> ShieldLevel
+{
+    static const auto flags = std::vector<std::pair<matec_id, ShieldLevel>> {
+        { WBLOCK_3, ShieldLevel::Block3 },
+        { WBLOCK_2, ShieldLevel::Block2 },
+        { WBLOCK_1, ShieldLevel::Block1 }
+    };
+    for( const auto& [flag, level] : flags ) {
+        if( shield.has_technique( flag ) ) {
+            return level;
+        }
+    }
+    return ShieldLevel::None;
+}
+
+auto coverage_modifier_by_technic( ShieldLevel level, bool leg_hit ) -> float
+{
+    struct protect {
+        float leg, others;
+    };
+    static const auto blocks = std::map<ShieldLevel, protect> {
+        { ShieldLevel::Block1, { 0.1f, 0.3f } },
+        { ShieldLevel::Block2, { 0.2f, 0.5f } },
+        { ShieldLevel::Block3, { 0.3f, 0.7f } },
+        { ShieldLevel::None, { 0.0f, 0.0f } },
+    };
+    const auto &p = blocks.at( level );
+    return leg_hit ? p.leg : p.others;
+}
 
 } // namespace
 
 bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
 {
     // Having access to more than one shield is not normal in vanilla, for now keep it simple and only give one chance to catch a bullet.
-    item &shield = best_shield();
+    const item &shield = best_shield();
+
     // Bail out early just in case, if blocking with bare hands.
-    if( shield.is_null() || !is_covered_by_shield( bp_hit, shield ) ) {
+    if( shield.is_null() ) {
         return false;
     }
 
-    // Modify chance based on coverage and blocking ability, with lowered chance if hitting the legs. Exclude armguards here.
-    float shield_coverage_modifier = shield.get_coverage();
-    bool leg_hit = ( bp_hit == bodypart_str_id( "leg_l" ) || bp_hit == bodypart_str_id( "leg_r" ) );
-    if( shield.has_technique( WBLOCK_3 ) ) {
-        shield_coverage_modifier *= leg_hit ? 0.75 : 0.9;
-    } else if( shield.has_technique( WBLOCK_2 ) ) {
-        shield_coverage_modifier *= leg_hit ? 0.5 : 0.8;
-    } else if( shield.has_technique( WBLOCK_1 ) ) {
-        shield_coverage_modifier *= leg_hit ? 0.25 : 0.7;
-    } else {
+    const auto level = shield_level( shield );
+    if ( level == ShieldLevel::None || !is_covered_by_shield( bp_hit, shield ) ) {
         return false;
     }
+    // Modify chance based on coverage and blocking ability, with lowered chance if hitting the legs. Exclude armguards here.
+    const bool leg_hit = is_leg_hit( bp_hit );
+    const float coverage_modifier = coverage_modifier_by_technic( level, leg_hit );
+    const float shield_coverage_modifier = shield.get_coverage() * coverage_modifier;
+
     add_msg( m_debug, _( "block_ranged_hit success rate: %i%%" ),
              static_cast<int>( shield_coverage_modifier ) );
 
