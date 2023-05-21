@@ -661,7 +661,7 @@ static bool query_interaction_ownership( item &target, avatar &you )
         if( you.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
             return false;
         }
-		//Makes them warn you in the same way as when you eat food - possibly need to change to confront.
+        //Makes them warn you in the same way as when you eat food - possibly need to change to confront.
         handle_theft_witnesses( you, target.get_owner() );
     }
     return true;
