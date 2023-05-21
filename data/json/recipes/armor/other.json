@@ -414,7 +414,7 @@
     "components": [
       [ [ "nail", 8 ] ],
       [ [ "2x4", 4 ], [ "wood_panel", 1 ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "fur", 1 ], [ "leather", 1 ] ]
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "fur", 2 ], [ "leather", 2 ] ]
     ]
   },
   {
