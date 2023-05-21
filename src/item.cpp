@@ -599,8 +599,9 @@ item &item::operator=( const item &source )
 
 void item::on_destroy()
 {
-    components.on_destroy();
-    contents.on_destroy();
+    //These are getting left out until it can be deferred better
+    //components.on_destroy();
+    //contents.on_destroy();
 }
 
 
