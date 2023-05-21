@@ -542,6 +542,7 @@ last_climate_control_ret( false )
     id = source.id;
     next_climate_control_check = source.next_climate_control_check;
     last_climate_control_ret = source.last_climate_control_ret;
+    learned_recipes = source.learned_recipes;
 
     activity = std::move( source.activity );
     stashed_outbounds_backlog = std::move( source.stashed_outbounds_backlog );
@@ -627,6 +628,7 @@ Character &Character::operator=( Character &&source )
     activity = std::move( source.activity );
     stashed_outbounds_backlog = std::move( source.stashed_outbounds_backlog );
     stashed_outbounds_activity = std::move( source.stashed_outbounds_activity );
+    learned_recipes = std::move( source.learned_recipes );
 
     worn.clear();
     for( detached_ptr<item> &it : source.worn.clear() ) {
