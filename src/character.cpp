@@ -30,6 +30,7 @@
 #include "consumption.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "damage.h"
 #include "debug.h"
 #include "disease.h"
 #include "effect.h"
@@ -10636,6 +10637,89 @@ bool Character::uncanny_dodge()
     return character_funcs::try_uncanny_dodge( *this );
 }
 
+namespace
+{
+
+auto is_foot_hit( const bodypart_id &bp_hit ) -> bool
+{
+    return bp_hit == bodypart_str_id( "foot_l" ) || bp_hit == bodypart_str_id( "foot_r" );
+}
+
+auto is_leg_hit( const bodypart_id &bp_hit ) -> bool
+{
+    return bp_hit == bodypart_str_id( "leg_l" ) || bp_hit == bodypart_str_id( "leg_r" );
+}
+
+/**
+ * @brief Check if the given shield can protect the given bodypart.
+ *
+ * - Best item available doesn't count as a shield.
+ * - Shield already protects the part we're interested in.
+ * - Targeted bodypart is a foot, unlikely to ever successfully block that low.
+ */
+auto is_covered_by_shield( const bodypart_id &bp_hit, const item &shield ) -> bool
+{
+    return shield.has_flag( "BLOCK_WHILE_WORN" )
+           && !shield.covers( bp_hit->token )
+           && !is_foot_hit( bp_hit );
+}
+
+enum class ShieldLevel { None, Block1, Block2, Block3 };
+auto shield_level( const item &shield ) -> ShieldLevel
+{
+    if( shield.has_technique( WBLOCK_3 ) ) {
+        return ShieldLevel::Block3;
+    } else if( shield.has_technique( WBLOCK_2 ) ) {
+        return ShieldLevel::Block2;
+    } else if( shield.has_technique( WBLOCK_1 ) ) {
+        return ShieldLevel::Block1;
+    }
+    return ShieldLevel::None;
+}
+
+auto coverage_modifier_by_technic( ShieldLevel level, bool leg_hit ) -> float
+{
+    switch( level ) {
+        case ShieldLevel::Block3:
+            return leg_hit ? 0.75f : 0.9f;
+        case ShieldLevel::Block2:
+            return leg_hit ? 0.5f : 0.8f;
+        case ShieldLevel::Block1:
+            return leg_hit ? 0.25f : 0.7f;
+        default:
+            return 0.0f;
+    }
+}
+
+auto is_valid_hallucination( Creature *source ) -> bool
+{
+    return source != nullptr && source->is_hallucination();
+}
+
+auto get_shield_resist( const item &shield, const damage_unit &damage ) -> int
+{
+    // *INDENT-OFF*
+    switch( damage.type ) {
+        case DT_BASH:   return shield.bash_resist();
+        case DT_CUT:    return shield.cut_resist();
+        case DT_STAB:   return shield.stab_resist();
+        case DT_BULLET: return shield.bullet_resist();
+        case DT_HEAT:   return shield.fire_resist();
+        case DT_ACID:   return shield.acid_resist();
+        default:        return 0;
+    }
+    // *INDENT-ON*
+}
+
+auto get_block_amount( const item &shield, const damage_unit &unit ) -> int
+{
+    const int resist = get_shield_resist( shield, unit );
+
+    return std::max( 0.0f, ( resist - unit.res_pen ) * unit.res_mult );
+}
+
+} // namespace
+
 bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
 {
     // Having access to more than one shield is not normal in vanilla, for now keep it simple and only give one chance to catch a bullet.
@@ -10646,27 +10730,14 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
         return false;
     }
 
-    // Also bail out on the following conditions:
-    // 1. Best item available doesn't count as a shield.
-    // 2. Shield already protects the part we're interested in.
-    // 3. Targeted bodypart is a foot, unlikely to ever successfully block that low.
-    if( !shield.has_flag( "BLOCK_WHILE_WORN" ) || shield.covers( bp_hit->token ) ||
-        bp_hit == bodypart_str_id( "foot_l" ) || bp_hit == bodypart_str_id( "foot_r" ) ) {
+    const auto level = shield_level( shield );
+    if( level == ShieldLevel::None || !is_covered_by_shield( bp_hit, shield ) ) {
         return false;
     }
-
     // Modify chance based on coverage and blocking ability, with lowered chance if hitting the legs. Exclude armguards here.
-    float shield_coverage_modifier = shield.get_coverage();
-    bool leg_hit = ( bp_hit == bodypart_str_id( "leg_l" ) || bp_hit == bodypart_str_id( "leg_r" ) );
-    if( shield.has_technique( WBLOCK_3 ) ) {
-        shield_coverage_modifier *= leg_hit ? 0.75 : 0.9;
-    } else if( shield.has_technique( WBLOCK_2 ) ) {
-        shield_coverage_modifier *= leg_hit ? 0.5 : 0.8;
-    } else if( shield.has_technique( WBLOCK_1 ) ) {
-        shield_coverage_modifier *= leg_hit ? 0.25 : 0.7;
-    } else {
-        return false;
-    }
+    const float technic_modifier = coverage_modifier_by_technic( level, is_leg_hit( bp_hit ) );
+    const float shield_coverage_modifier = shield.get_coverage() * technic_modifier;
+
     add_msg( m_debug, _( "block_ranged_hit success rate: %i%%" ),
              static_cast<int>( shield_coverage_modifier ) );
 
@@ -10676,49 +10747,22 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
         return false;
     }
 
-    float wear_modifier = 1.0f;
-    if( source != nullptr && source->is_hallucination() ) {
-        wear_modifier = 0.0f;
-    }
+    const float wear_modifier = is_valid_hallucination( source ) ? 0.0f : 1.0f;
     handle_melee_wear( shield, wear_modifier );
 
     int total_damage = 0;
     int blocked_damage = 0;
-
     for( auto &elem : dam.damage_units ) {
         total_damage += elem.amount * elem.damage_multiplier;
         // Go through all relevant damage types and reduce by armor value if one exists.
-        // Ugly, but need to check resistances separately.
-        if( elem.type == DT_BASH ) {
-            float block_amount = std::max( 0.0f, ( ( shield.bash_resist() - elem.res_pen ) * elem.res_mult ) );
-            elem.amount -= block_amount;
-            blocked_damage += block_amount;
-        } else if( elem.type == DT_CUT ) {
-            float block_amount = std::max( 0.0f, ( ( shield.cut_resist() - elem.res_pen ) * elem.res_mult ) );
-            elem.amount -= block_amount;
-            blocked_damage += block_amount;
-        } else if( elem.type == DT_STAB ) {
-            float block_amount = std::max( 0.0f, ( ( shield.stab_resist() - elem.res_pen ) * elem.res_mult ) );
-            elem.amount -= block_amount;
-            blocked_damage += block_amount;
-        } else if( elem.type == DT_BULLET ) {
-            float block_amount = std::max( 0.0f,
-                                           ( ( shield.bullet_resist() - elem.res_pen ) * elem.res_mult ) );
-            elem.amount -= block_amount;
-            blocked_damage += block_amount;
-        } else if( elem.type == DT_HEAT ) {
-            float block_amount = std::max( 0.0f, ( ( shield.fire_resist() - elem.res_pen ) * elem.res_mult ) );
-            elem.amount -= block_amount;
-            blocked_damage += block_amount;
-        } else if( elem.type == DT_ACID ) {
-            float block_amount = std::max( 0.0f, ( ( shield.acid_resist() - elem.res_pen ) * elem.res_mult ) );
-            elem.amount -= block_amount;
-            blocked_damage += block_amount;
-        }
+        const float block_amount = get_block_amount( shield, elem );
+        elem.amount -= block_amount;
+        blocked_damage += block_amount;
     }
     blocked_damage = std::min( total_damage, blocked_damage );
-    std::string thing_blocked_with = shield.tname();
     add_msg( m_debug, _( "expected base damage: %i" ), total_damage );
+
+    const std::string thing_blocked_with = shield.tname();
     if( blocked_damage > 0 ) {
         add_msg_player_or_npc(
             _( "The shot hits your %s, absorbing %i damage." ),
@@ -10730,7 +10774,6 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
             _( "The shot hits <npcname>'s %s, but it punches right through!" ),
             thing_blocked_with );
     }
-
     return true;
 }
 
