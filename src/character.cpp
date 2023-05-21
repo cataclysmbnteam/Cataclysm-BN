@@ -10702,7 +10702,8 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
             elem.amount -= block_amount;
             blocked_damage += block_amount;
         } else if( elem.type == DT_BULLET ) {
-            float block_amount = std::max( 0.0f, ( ( shield.bullet_resist() - elem.res_pen ) * elem.res_mult ) );
+            float block_amount = std::max( 0.0f,
+                                           ( ( shield.bullet_resist() - elem.res_pen ) * elem.res_mult ) );
             elem.amount -= block_amount;
             blocked_damage += block_amount;
         } else if( elem.type == DT_HEAT ) {
