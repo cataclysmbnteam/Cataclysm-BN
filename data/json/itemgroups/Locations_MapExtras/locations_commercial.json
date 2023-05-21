@@ -585,7 +585,8 @@
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
       [ "bionic_scanner", 5 ],
-      { "group": "tinware", "prob": 10 }
+      { "group": "tinware", "prob": 10 },
+      [ "shield_riot", 5 ]
     ]
   },
   {
