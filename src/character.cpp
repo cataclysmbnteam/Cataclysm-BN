@@ -10636,22 +10636,37 @@ bool Character::uncanny_dodge()
     return character_funcs::try_uncanny_dodge( *this );
 }
 
+namespace
+{
+
+auto is_foot_hit( const bodypart_id &bp_hit ) -> bool
+{
+    return bp_hit == bodypart_str_id( "foot_l" ) || bp_hit == bodypart_str_id( "foot_r" );
+}
+
+/**
+ * @brief Check if the given shield can protect the given bodypart.
+ *
+ * - Best item available doesn't count as a shield.
+ * - Shield already protects the part we're interested in.
+ * - Targeted bodypart is a foot, unlikely to ever successfully block that low.
+ */
+auto is_covered_by_shield( bodypart_id &bp_hit, item &shield ) -> bool
+{
+    return shield.has_flag( "BLOCK_WHILE_WORN" )
+           && !shield.covers( bp_hit->token )
+           && !is_foot_hit( bp_hit );
+}
+
+
+} // namespace
+
 bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
 {
     // Having access to more than one shield is not normal in vanilla, for now keep it simple and only give one chance to catch a bullet.
     item &shield = best_shield();
-
     // Bail out early just in case, if blocking with bare hands.
-    if( shield.is_null() ) {
-        return false;
-    }
-
-    // Also bail out on the following conditions:
-    // 1. Best item available doesn't count as a shield.
-    // 2. Shield already protects the part we're interested in.
-    // 3. Targeted bodypart is a foot, unlikely to ever successfully block that low.
-    if( !shield.has_flag( "BLOCK_WHILE_WORN" ) || shield.covers( bp_hit->token ) ||
-        bp_hit == bodypart_str_id( "foot_l" ) || bp_hit == bodypart_str_id( "foot_r" ) ) {
+    if( shield.is_null() || !is_covered_by_shield( bp_hit, shield ) ) {
         return false;
     }
 
