@@ -9816,8 +9816,6 @@ detached_ptr<item> item::process( detached_ptr<item> &&self, player *carrier, co
     const bool preserves = self->type->container && self->type->container->preserves;
     const bool seals = self->type->container && self->type->container->seals;
     item &obj = *self;
-    detached_ptr<item> res = process_internal( std::move( self ), carrier, pos, activate, seals, flag,
-                             weather_generator );
 
     obj.remove_items_with( [&]( detached_ptr<item> &&it ) {
         if( preserves ) {
@@ -9827,6 +9825,8 @@ detached_ptr<item> item::process( detached_ptr<item> &&self, player *carrier, co
                                    weather_generator );
         return VisitResponse::NEXT;
     } );
+    detached_ptr<item> res = process_internal( std::move( self ), carrier, pos, activate, seals, flag,
+                             weather_generator );
     return res;
 }
 

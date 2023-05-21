@@ -3923,9 +3923,9 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     if( craft->item_counter >= 10'000'000 ) {
         //TODO!: CHEEKY check
         item *craft_copy = craft;
-        act->targets.front()->detach();
         p->cancel_activity();
         complete_craft( *p, *craft_copy, bench_location{bench_t, bench_pos} );
+        act->targets.front()->detach();
         if( is_long ) {
             if( p->making_would_work( p->lastrecipe, craft_copy->charges ) ) {
                 p->last_craft->execute( bench_pos );
