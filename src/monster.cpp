@@ -3255,7 +3255,7 @@ detached_ptr<item> monster::remove_item( item *it )
     return ret;
 }
 
-std::vector<item *>::iterator monster::remove_item( std::vector<item *>::iterator &it,
+location_vector<item>::iterator monster::remove_item( location_vector<item>::iterator &it,
         detached_ptr<item> *result )
 {
     return inv.erase( it, result );

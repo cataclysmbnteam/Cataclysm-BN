@@ -2315,7 +2315,7 @@ int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
 }
 
 detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
-        bool interactive, std::optional<std::vector<item *>::iterator> position )
+        bool interactive, std::optional<location_vector<item>::iterator> position )
 {
     if( !wear ) {
         return std::move( wear );
@@ -2334,7 +2334,7 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
     last_item = to_wear.typeId();
 
 
-    std::vector<item *>::iterator pos = position ? *position : position_to_wear_new_item( to_wear );
+    location_vector<item>::iterator pos = position ? *position : position_to_wear_new_item( to_wear );
     worn.insert( pos, std::move( wear ) );
 
     if( interactive ) {
@@ -2385,7 +2385,7 @@ void Character::add_worn( detached_ptr<item> &&wear )
         return;
     }
     item &to_wear = *wear;
-    std::vector<item *>::iterator pos = position_to_wear_new_item( to_wear );
+    location_vector<item>::iterator pos = position_to_wear_new_item( to_wear );
     worn.insert( pos, std::move( wear ) );
     to_wear.on_wear( *this );
     inv.update_invlet( to_wear );
@@ -3279,7 +3279,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 }
 
 bool Character::wear_possessed( item &to_wear, bool interactive,
-                                std::optional<std::vector<item *>::iterator> position )
+                                std::optional<location_vector<item>::iterator> position )
 {
     if( is_worn( to_wear ) ) {
         if( interactive ) {
@@ -4260,7 +4260,7 @@ int layer_details::layer( const int encumbrance )
     return total - current;
 }
 
-ItemList::iterator Character::position_to_wear_new_item( const item &new_item )
+location_vector<item>::iterator Character::position_to_wear_new_item( const item &new_item )
 {
     // By default we put this item on after the last item on the same or any
     // lower layer.
@@ -4296,7 +4296,7 @@ void Character::item_encumb( char_encumbrance_data &vals, const item &new_item )
     vals = char_encumbrance_data();
 
     // Figure out where new_item would be worn
-    ItemList::const_iterator new_item_position = worn.end();
+    location_vector<item>::const_iterator new_item_position = worn.end();
     if( !new_item.is_null() ) {
         // const_cast required to work around g++-4.8 library bug
         // see the commit that added this comment to understand why

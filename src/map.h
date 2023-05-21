@@ -110,8 +110,6 @@ class map_stack : public item_stack
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
         void insert( detached_ptr<item> &&newitem ) override;
         iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) override;
-        iterator erase( const_iterator first, const_iterator last,
-                        std::vector<detached_ptr<item>> *out = nullptr ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_SQUARE;
         }
@@ -1197,12 +1195,7 @@ class map
                                    detached_ptr<item> *out = nullptr ) {
             return i_rem( tripoint( location, abs_sub.z ), it, out );
         }
-        map_stack::iterator i_rem( const tripoint &p, map_stack::const_iterator first,
-                                   map_stack::const_iterator last, std::vector<detached_ptr<item>> *out = nullptr );
-        map_stack::iterator i_rem( const point &location, map_stack::const_iterator first,
-                                   map_stack::const_iterator last, std::vector<detached_ptr<item>> *out = nullptr ) {
-            return i_rem( tripoint( location, abs_sub.z ), first, last, out );
-        }
+
         detached_ptr<item> i_rem( const tripoint &p, item *it );
         detached_ptr<item> i_rem( point p, item *it ) {
             return i_rem( tripoint( p, abs_sub.z ), it );

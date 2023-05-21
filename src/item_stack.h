@@ -22,10 +22,10 @@ class item_stack
         location_vector<item> *items;
 
     public:
-        using iterator = std::vector<item *>::iterator;
-        using const_iterator = std::vector<item *>::const_iterator;
-        using reverse_iterator = std::vector<item *>::reverse_iterator;
-        using const_reverse_iterator = std::vector<item *>::const_reverse_iterator;
+        using iterator = location_vector<item>::iterator;
+        using const_iterator = location_vector<item>::const_iterator;
+        using reverse_iterator = location_vector<item>::reverse_iterator;
+        using const_reverse_iterator = location_vector<item>::const_reverse_iterator;
 
         item_stack( location_vector<item> *items ) : items( items ) { }
         virtual ~item_stack() = default;
@@ -34,8 +34,8 @@ class item_stack
         bool empty() const;
         virtual void insert( detached_ptr<item> &&newitem ) = 0;
         virtual iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) = 0;
-        virtual iterator erase( const_iterator first, const_iterator last,
-                                std::vector<detached_ptr<item>> *out = nullptr ) = 0;
+        /*virtual iterator erase( const_iterator first, const_iterator last,
+                                std::vector<detached_ptr<item>> *out = nullptr ) = 0;*/
         virtual std::vector<detached_ptr<item>> clear();
 
         void remove_top_items_with( std::function < detached_ptr<item>( detached_ptr<item> && ) > cb );

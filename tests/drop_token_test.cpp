@@ -44,11 +44,6 @@ class testing_stack : public item_stack
         iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) override {
             return items->erase( it, out );
         }
-        iterator erase( const_iterator, const_iterator,
-                        std::vector<detached_ptr<item>> * = nullptr ) override {
-            debugmsg( "Unused and dummied out" );
-            return items->end();
-        }
         int count_limit() const override {
             return INT_MAX;
         }
@@ -144,6 +139,8 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
             REQUIRE( first_backpack_iter != dummy.worn.end() );
             drop.push_back( drop_location( **first_duffel_iter, 1 ) );
             drop.push_back( drop_location( **first_backpack_iter, 1 ) );
+
+            //Clear these lest they trigger safety warnings
             std::list<pickup::act_item> drop_list = pickup::reorder_for_dropping( dummy, drop );
             THEN( "he will try to drop some, but not all of the carried items" ) {
                 REQUIRE( drop_list.size() > 4 );
@@ -197,6 +194,9 @@ TEST_CASE( "full backpack drop", "[activity][drop_token]" )
                                 break;
                             }
                         }
+
+                        first_duffel_iter = {};
+                        first_backpack_iter = {};
 
                         // +1 because we aren't checking tokens, but the last item is still zero cost
                         CHECK( actual_duffel_content_count >= expected_duffel_content_count );

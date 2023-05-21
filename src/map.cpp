@@ -153,14 +153,7 @@ map &get_map()
 // Map stack methods.
 map_stack::iterator map_stack::erase( map_stack::const_iterator it, detached_ptr<item> *ret )
 {
-    return myorigin->i_rem( location, it, ret );
-}
-
-map_stack::iterator map_stack::erase( map_stack::const_iterator first,
-                                      map_stack::const_iterator last,
-                                      std::vector<detached_ptr<item>> *ret )
-{
-    return myorigin->i_rem( location, first, last, ret );
+    return myorigin->i_rem( location, std::move( it ), ret );
 }
 
 void map_stack::insert( detached_ptr<item> &&newitem )
@@ -4198,32 +4191,7 @@ map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator it,
 
     current_submap->update_lum_rem( l, **it );
 
-    return current_submap->get_items( l ).erase( it, out );
-}
-
-map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator first,
-                                map_stack::const_iterator last, std::vector<detached_ptr<item>> *out )
-{
-    point l;
-    submap *const current_submap = get_submap_at( p, l );
-    map_stack::iterator ret = current_submap->get_items( l ).end();
-    while( first != last ) {
-        // remove from the active items cache (if it isn't there does nothing)
-        current_submap->active_items.remove( *first );
-        if( current_submap->active_items.empty() ) {
-            submaps_with_active_items.erase( tripoint( abs_sub.x + p.x / SEEX, abs_sub.y + p.y / SEEY, p.z ) );
-        }
-
-        current_submap->update_lum_rem( l, **first );
-
-        detached_ptr<item> local;
-        ret = current_submap->get_items( l ).erase( first, &local );
-        if( out ) {
-            out->push_back( std::move( local ) );
-        }
-        first++;
-    }
-    return ret;
+    return current_submap->get_items( l ).erase( std::move( it ), out );
 }
 
 detached_ptr<item> map::i_rem( const tripoint &p, item *it )

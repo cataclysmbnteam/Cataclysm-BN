@@ -36,7 +36,7 @@ class item_contents
 
         /** removes a top-level item */
         detached_ptr<item> remove_top( item *it );
-        std::vector<item *>::iterator remove_top( std::vector<item *>::iterator &it,
+        location_vector<item>::iterator remove_top( location_vector<item>::iterator &it,
                 detached_ptr<item> *removed = nullptr );
 
         // returns a list of pointers to all items inside recursively

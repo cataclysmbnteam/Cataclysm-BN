@@ -233,13 +233,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
 vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator it,
         detached_ptr<item> *out )
 {
-    return myorigin->remove_item( part_num, it, out );
-}
-
-vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator first,
-        vehicle_stack::const_iterator last, std::vector<detached_ptr<item>> *out )
-{
-    return myorigin->remove_item( part_num, first, last, out );
+    return myorigin->remove_item( part_num, std::move( it ), out );
 }
 
 void vehicle_stack::insert( detached_ptr<item> &&newitem )
@@ -5464,10 +5458,10 @@ detached_ptr<item> vehicle::add_item( int part, detached_ptr<item> &&itm )
 
 detached_ptr<item> vehicle::remove_item( int part, item *it )
 {
-    const std::vector<item *> &veh_items = parts[part].items.as_vector();
+    const location_vector<item> &veh_items = parts[part].items;
     //const std::vector<item *>::const_iterator iter = veh_items.get_iterator_from_pointer( it );
 
-    const std::vector<item *>::const_iterator iter = std::find_if( veh_items.begin(),
+    const location_vector<item>::const_iterator iter = std::find_if( veh_items.begin(),
     veh_items.end(), [&it]( const item * const & item ) {
         return it == item;
     } );
@@ -5486,32 +5480,9 @@ vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_ite
     // remove from the active items cache (if it isn't there does nothing)
     active_items.remove( *it );
 
-    vehicle_stack::iterator iter = parts[part].items.erase( it, ret );
+    vehicle_stack::iterator iter = parts[part].items.erase( std::move( it ), ret );
     invalidate_mass();
     return iter;
-}
-
-vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_iterator first,
-        vehicle_stack::const_iterator last, std::vector<detached_ptr<item>> *out )
-{
-    location_vector<item> &veh_items = parts[part].items;
-    vehicle_stack::iterator ret = veh_items.end();
-    while( first != last ) {
-
-        // remove from the active items cache (if it isn't there does nothing)
-        active_items.remove( *first );
-
-        if( out ) {
-            detached_ptr<item> det;
-            ret = veh_items.erase( first, &det );
-            out->push_back( std::move( det ) );
-        } else {
-            ret = veh_items.erase( first );
-        }
-        invalidate_mass();
-        first++;
-    }
-    return ret;
 }
 
 vehicle_stack vehicle::get_items( const int part )

@@ -854,7 +854,7 @@ class Character : public Creature, public location_visitable<Character>
 
         /** Return the position in the worn list where new_item would be
          * put by default */
-        ItemList::iterator position_to_wear_new_item( const item &new_item );
+        location_vector<item>::iterator position_to_wear_new_item( const item &new_item );
 
         /** Applies encumbrance from items only
          * If new_item is not null, then calculate under the asumption that it
@@ -1379,7 +1379,7 @@ class Character : public Creature, public location_visitable<Character>
          * @return nullopt on fail, pointer to newly worn item on success
          */
         bool wear_possessed( item &to_wear, bool interactive = true,
-                             std::optional<std::vector<item *>::iterator> position = std::nullopt );
+                             std::optional<location_vector<item>::iterator> position = std::nullopt );
         /**
          * Wear a copy of specified item.
          * @param to_wear Item to wear. Will be moved from if actually worn.
@@ -1387,7 +1387,7 @@ class Character : public Creature, public location_visitable<Character>
          * @return the item if it was not worn
          */
         detached_ptr<item> wear_item( detached_ptr<item> &&to_wear,
-                                      bool interactive = true, std::optional<std::vector<item *>::iterator> position = std::nullopt );
+                                      bool interactive = true, std::optional<location_vector<item>::iterator> position = std::nullopt );
 
         /**
          * Wears an item in its default location with no checks.

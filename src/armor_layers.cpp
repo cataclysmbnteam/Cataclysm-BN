@@ -81,7 +81,7 @@ struct item_penalties {
 };
 
 // Figure out encumbrance penalties this clothing is involved in
-item_penalties get_item_penalties( ItemList::const_iterator worn_item_it,
+item_penalties get_item_penalties( location_vector<item>::const_iterator worn_item_it,
                                    const Character &c, int tabindex )
 {
     item *const &worn_item = *worn_item_it;
@@ -166,7 +166,7 @@ std::string body_part_names( const std::vector<body_part> &parts )
 }
 
 void draw_mid_pane( const catacurses::window &w_sort_middle,
-                    ItemList::const_iterator const worn_item_it,
+                    location_vector<item>::const_iterator const worn_item_it,
                     const Character &c, int tabindex )
 {
     item *const &worn_item = *worn_item_it;
@@ -490,7 +490,7 @@ void show_armor_layers_ui( Character &who )
     int leftListLines = 0;
     int rightListLines = 0;
 
-    std::vector<ItemList::iterator> tmp_worn;
+    std::vector<location_vector<item>::iterator> tmp_worn;
     std::array<std::string, 13> armor_cat = {{
             _( "Torso" ), _( "Head" ), _( "Eyes" ), _( "Mouth" ), _( "L. Arm" ), _( "R. Arm" ),
             _( "L. Hand" ), _( "R. Hand" ), _( "L. Leg" ), _( "R. Leg" ), _( "L. Foot" ),
@@ -823,16 +823,12 @@ void show_armor_layers_ui( Character &who )
                 }
             }
         } else if( action == "SORT_ARMOR" ) {
-            // Copy to a vector because stable_sort requires random-access
-            // iterators
-
-            std::vector<item *> worn_copy( who.worn.begin(), who.worn.end() );
-            std::stable_sort( worn_copy.begin(), worn_copy.end(),
+            std::stable_sort( who.worn.begin(),
+                              who.worn.end(),
             []( item * const & l, item * const & r ) {
                 return l->get_layer() < r->get_layer();
             }
                             );
-            std::copy( worn_copy.begin(), worn_copy.end(), who.worn.begin() );
             who.reset_encumbrance();
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
@@ -873,7 +869,7 @@ void show_armor_layers_ui( Character &who )
             if( loc ) {
                 // wear the item
                 loc->obtain( who );
-                ItemList::iterator cursor_it = tmp_worn[leftListIndex];
+                location_vector<item>::iterator cursor_it = tmp_worn[leftListIndex];
                 if( !who.as_player()->wear_possessed( *loc, true, cursor_it ) && who.is_npc() ) {
                     // TODO: Pass the reason here
                     popup( _( "Can't put this on!" ) );

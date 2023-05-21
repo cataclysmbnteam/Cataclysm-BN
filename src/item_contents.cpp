@@ -144,7 +144,7 @@ const std::vector<item *> &item_contents::all_items_top() const
 
 detached_ptr<item> item_contents::remove_top( item *it )
 {
-    std::vector<item *>::iterator iter = std::find_if( items.begin(),
+    auto iter = std::find_if( items.begin(),
     items.end(), [&it]( item *&against ) {
         return against == it;
     } );
@@ -153,7 +153,7 @@ detached_ptr<item> item_contents::remove_top( item *it )
     return ret;
 }
 
-std::vector<item *>::iterator item_contents::remove_top( std::vector<item *>::iterator &it,
+location_vector<item>::iterator item_contents::remove_top( location_vector<item>::iterator &it,
         detached_ptr<item> *removed )
 {
     return items.erase( it, removed );

@@ -437,7 +437,7 @@ class monster : public Creature, public location_visitable<monster>
 
         const std::vector<item *> &get_items() const;
         detached_ptr<item> remove_item( item *it );
-        std::vector<item *>::iterator remove_item( std::vector<item *>::iterator &it,
+        location_vector<item>::iterator remove_item( location_vector<item>::iterator &it,
                 detached_ptr<item> *result = nullptr );
         std::vector<detached_ptr<item>> clear_items();
         void drop_items();
