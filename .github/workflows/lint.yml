@@ -2,9 +2,9 @@ name: Code Style Check
 
 on:
   pull_request_target:
-    paths: ["**.json", "**.cpp", "**.hpp", "**.h", "**.c"]
+    paths: ["**.json", "**.cpp", "**.hpp", "**.h", "**.c", "**.ts"]
   pull_request:
-    paths: ["**.json", "**.cpp", "**.hpp", "**.h", "**.c"]
+    paths: ["**.json", "**.cpp", "**.hpp", "**.h", "**.c", "**.ts"]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}-${{ github.event_name }}
@@ -19,11 +19,15 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
+      - uses: denoland/setup-deno@v1
+      - run: deno fmt
+
       - run: sudo apt-get install astyle
       - run: make astyle
+
       - run: make style-all-json-parallel RELEASE=1
 
       - uses: reviewdog/action-suggester@v1
         if: ${{ always() }}
         with:
-          tool_name: astyle, style-json
+          tool_name: astyle, style-json, deno

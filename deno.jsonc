@@ -2,10 +2,14 @@
     "tasks": {
         "tools": "deno run --watch -A"
     },
-    "test": { "files": { "include": ["./tools"] } },
-    "lint": { "files": { "include": ["./tools"] } },
+    "test": { "include": ["./tools"] },
+    "lint": { "include": ["./tools"] },
     "fmt": {
-        "files": { "include": ["./tools"] },
-        "options": { "semiColons": false, "lineWidth": 100 }
+        "include": ["./tools"],
+        "semiColons": false,
+        "lineWidth": 100
+    },
+    "compilerOptions": {
+        "exactOptionalPropertyTypes": true
     }
 }

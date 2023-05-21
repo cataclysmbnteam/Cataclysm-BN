@@ -1,3 +1,4 @@
+schemas/
 !src/chkjson
 *.7z
 *.a
