@@ -649,8 +649,8 @@ static bool add_or_drop_with_msg( avatar &you, item &it, bool unloading )
 //Taken from consumption.cpp with the value reset here to keep asking as this is not a public function in consumption.cpp
 static bool query_interaction_ownership( item &target, avatar &you )
 {
-	
-	if( you.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+
+    if( you.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
         you.set_value( "THIEF_MODE", "THIEF_ASK" );
     }
     if( !target.is_owned_by( you, true ) ) {
