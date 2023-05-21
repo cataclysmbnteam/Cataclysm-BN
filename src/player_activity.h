@@ -28,6 +28,7 @@ class avatar;
 class monster;
 class player;
 class translation;
+class activity_ptr;
 
 class player_activity
 {
@@ -36,6 +37,13 @@ class player_activity
         std::unique_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions;
+
+        friend activity_ptr;
+        /** This keeps track of if the activity is currently running so we can avoid deleting it until it's done. */
+        bool active = false;
+
+        /** Unlocks the activity, or deletes it if it's already gone. */
+        void resolve_active();
 
     public:
         /** Total number of moves required to complete the activity */
@@ -68,6 +76,7 @@ class player_activity
          *  an identical activity. This value is set dynamically.
          */
         bool auto_resume = false;
+
 
         player_activity();
         // This constructor does not work with activites using the new activity_actor system
@@ -162,6 +171,9 @@ class activity_ptr
 {
     private:
         std::unique_ptr<player_activity> act;
+
+        /** This releases the activity's memory if it's still active, it will now manage it's own memory */
+        void check_active();
     public:
         activity_ptr();
         activity_ptr( const activity_ptr & ) = delete;

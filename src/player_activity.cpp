@@ -61,6 +61,17 @@ player_activity::player_activity( std::unique_ptr<activity_actor> &&actor ) : ty
 
 player_activity::~player_activity() = default;
 
+
+void player_activity::resolve_active()
+{
+    if( active ) {
+        active = false;
+    } else {
+        delete this;
+    }
+}
+
+
 void player_activity::migrate_item_position( Character &guy )
 {
     const bool simple_action_replace =
@@ -273,6 +284,7 @@ void player_activity::start_or_resume( Character &who, bool resuming )
 
 void player_activity::do_turn( player &p )
 {
+    active = true;
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
@@ -317,6 +329,7 @@ void player_activity::do_turn( player &p )
         // be still unloaded, can cause infinite loops.
         set_to_null();
         p.drop_invalid_inventory();
+        resolve_active();
         return;
     }
     const bool travel_activity = id() == activity_id( "ACT_TRAVELLING" );
@@ -344,6 +357,7 @@ void player_activity::do_turn( player &p )
                 ( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
         new_act->values.push_back( 200 + p.get_stamina_max() / 3 );
         p.assign_activity( std::move( new_act ) );
+        resolve_active();
         return;
     }
     if( *this && type->rooted() ) {
@@ -372,6 +386,7 @@ void player_activity::do_turn( player &p )
         // handle it, drop any overflow that may have caused
         p.drop_invalid_inventory();
     }
+    resolve_active();
 }
 
 void player_activity::canceled( Character &who )
@@ -467,13 +482,28 @@ activity_ptr::activity_ptr() : act( std::make_unique<player_activity>() ) {}
 activity_ptr::activity_ptr( activity_ptr && ) = default;
 activity_ptr::activity_ptr( std::unique_ptr<player_activity> &&source )
 {
+    check_active();
     act = std::move( source );
 }
 activity_ptr &activity_ptr::operator=( activity_ptr && ) = default;
 activity_ptr &activity_ptr::operator=( std::unique_ptr<player_activity> &&source )
 {
+    check_active();
     act = std::move( source );
     return *this;
 }
 
-activity_ptr::~activity_ptr() = default;
+activity_ptr::~activity_ptr()
+{
+    check_active();
+};
+
+void activity_ptr::check_active()
+{
+    if( act && act->active ) {
+        //If the activity is active then we're currently inside it's do_turn so it's not safe to delete it.
+        //It will delete itself at the end of it's do_turn function.
+        act->active = false;
+        act.release();
+    }
+}
