@@ -142,17 +142,17 @@
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
   },
   {
-   "id": "shield_banded_large",
-   "copy-from": "shield_banded",
-   "type": "ARMOR",
-   "name": { "str": "large banded shield" },
-   "description": "A large shield made of wood with steel bands reinforcing it.",
-   "volume": "5 L",
-   "weight": "5200 g",
-   "price": "120 USD",
-   "price_postapoc": "14 USD",
-   "encumbrance": 26,
-   "material_thickness": 4,
-   "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
+    "id": "shield_banded_large",
+    "copy-from": "shield_banded",
+    "type": "ARMOR",
+    "name": { "str": "large banded shield" },
+    "description": "A large shield made of wood with steel bands reinforcing it.",
+    "volume": "5 L",
+    "weight": "5200 g",
+    "price": "120 USD",
+    "price_postapoc": "14 USD",
+    "encumbrance": 26,
+    "material_thickness": 4,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
   }
 ]
