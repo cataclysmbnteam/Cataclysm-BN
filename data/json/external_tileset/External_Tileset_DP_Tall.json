@@ -1,0 +1,21 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "external_tileset/External_Tileset_DP_Tall.png",
+        "tiles": [
+          { "id": "t_utility_light_off", "fg": 0 },
+          { "id": "f_alien_nerve", "fg": 1 },
+          { "id": "mon_bear_armored", "fg": 2 },
+          { "id": "corpse_mon_bear_armored", "fg": 3 }
+        ],
+        "sprite_width": 64,
+        "sprite_height": 80,
+        "sprite_offset_x": -16,
+        "sprite_offset_y": -48
+      }
+    ]
+  }
+]

@@ -17,7 +17,7 @@
     "dispersion": 250,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_2" ]
+    "dont_recover_one_in": 2
   },
   {
     "type": "AMMO",
@@ -37,7 +37,7 @@
     "dispersion": 180,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_6" ]
+    "dont_recover_one_in": 6
   },
   {
     "type": "AMMO",
@@ -57,7 +57,8 @@
     "dispersion": 210,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_10", "NOGIB" ]
+    "dont_recover_one_in": 10,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -79,7 +80,7 @@
     "loudness": 0,
     "count": 10,
     "show_stats": true,
-    "effects": [ "RECOVER_8" ]
+    "dont_recover_one_in": 8
   },
   {
     "type": "AMMO",
@@ -98,7 +99,7 @@
     "dispersion": 110,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_25" ]
+    "dont_recover_one_in": 25
   },
   {
     "type": "AMMO",
@@ -118,7 +119,7 @@
     "dispersion": 100,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_30" ]
+    "dont_recover_one_in": 30
   },
   {
     "type": "AMMO",
@@ -138,7 +139,8 @@
     "dispersion": 130,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_35", "NOGIB" ]
+    "dont_recover_one_in": 35,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -154,12 +156,12 @@
     "weight": "55 g",
     "bashing": 1,
     "ammo_type": "bolt",
-    "damage": { "damage_type": "stab", "damage_multiplier": 1.0, "armor_multiplier": 1.5 },
+    "damage": { "damage_type": "stab", "damage_multiplier": 1, "armor_multiplier": 1.5 },
     "dispersion": 100,
     "loudness": 0,
     "count": 10,
     "show_stats": true,
-    "effects": [ "RECOVER_20" ]
+    "dont_recover_one_in": 20
   },
   {
     "type": "AMMO",
@@ -179,7 +181,7 @@
     "dispersion": 70,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_35" ]
+    "dont_recover_one_in": 35
   },
   {
     "type": "AMMO",
@@ -201,7 +203,7 @@
     "dispersion": 65,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_40" ]
+    "dont_recover_one_in": 40
   },
   {
     "type": "AMMO",
@@ -223,7 +225,8 @@
     "dispersion": 70,
     "loudness": 0,
     "count": 10,
-    "effects": [ "RECOVER_45", "NOGIB" ]
+    "dont_recover_one_in": 45,
+    "effects": [ "NOGIB" ]
   },
   {
     "type": "AMMO",
@@ -246,7 +249,7 @@
     "loudness": 0,
     "count": 10,
     "stack_size": 10,
-    "effects": [ "RECOVER_30" ]
+    "dont_recover_one_in": 30
   },
   {
     "type": "AMMO",

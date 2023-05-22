@@ -2098,6 +2098,8 @@ int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
 
 int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
 {
+    constexpr auto purification_efficiency = 8; // one tablet purifies 250ml x 8 = 2L
+
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
@@ -2112,15 +2114,16 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
     }
 
     item &liquid = obj->contents.front();
-    if( !it->units_sufficient( *p, liquid.charges ) ) {
+    const auto used_charges = std::max( liquid.charges / purification_efficiency, 1 );
+    if( !it->units_sufficient( *p, used_charges ) ) {
         p->add_msg_if_player( m_info, _( "That volume of water is too large to purify." ) );
         return 0;
     }
 
     p->moves -= to_moves<int>( 2_seconds );
-
     liquid.convert( itype_water_clean ).poison = 0;
-    return liquid.charges;
+
+    return used_charges;
 }
 
 int iuse::radio_off( player *p, item *it, bool, const tripoint & )

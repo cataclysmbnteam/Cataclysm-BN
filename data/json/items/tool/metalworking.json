@@ -69,6 +69,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "charcoal",
+    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ],
     "sub": "forge",
     "max_charges": 500,
     "charges_per_use": 8,
@@ -184,6 +185,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
+    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ],
     "ammo": "battery",
     "charges_per_use": 4,
     "use_action": [

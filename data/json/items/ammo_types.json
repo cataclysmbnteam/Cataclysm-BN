@@ -629,5 +629,11 @@
     "type": "ammunition_type",
     "name": "water",
     "default": "water"
+  },
+  {
+    "id": "acid",
+    "type": "ammunition_type",
+    "name": "acid",
+    "default": "acid"
   }
 ]

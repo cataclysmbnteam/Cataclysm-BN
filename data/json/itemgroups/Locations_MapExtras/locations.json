@@ -1385,6 +1385,7 @@
       [ "gloves_tactical", 10 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 20 ],
+      [ "shield_riot", 20 ],
       [ "emergency_book", 1 ]
     ]
   },
