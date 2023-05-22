@@ -111,7 +111,7 @@
     "id": "shield_banded",
     "type": "ARMOR",
     "name": { "str": "banded shield" },
-    "description": "A simple round shield made of wood with bands of steel reinforcing it.",
+    "description": "A simple round shield made of wood with bands of steel reinforcing it.  Stronger than a simple wooden shield, but also more encumbering.",
     "weight": "3400 g",
     "volume": "3 L",
     "price": "100 USD",
