@@ -116,7 +116,7 @@
     "price": "100 USD",
     "price_postapoc": "10 USD",
     "bashing": 8,
-    "material": ["wood", "steel"],
+    "material": [ "wood", "steel" ],
     "looks_like": "shield_wooden",
     "symbol": "x",
     "color": "blue",
