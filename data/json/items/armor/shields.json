@@ -96,6 +96,7 @@
     "price_postapoc": "8 USD",
     "to_hit": -1,
     "bashing": 8,
+    "//": "Wood-only to prevent repairing it via sewing.",
     "material": [ "wood" ],
     "looks_like": "shield_wooden",
     "symbol": "[",
