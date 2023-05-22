@@ -152,7 +152,7 @@
     "name": { "str": "large banded shield" },
     "description": "A large shield made of wood with steel bands reinforcing it.",
     "volume": "5 L",
-    "weight": "5200 g",
+    "weight": "5400 g",
     "price": "120 USD",
     "price_postapoc": "14 USD",
     "encumbrance": 26,
