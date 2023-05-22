@@ -133,6 +133,7 @@ include(CheckCXXCompilerFlag)
 #SET(CMAKE_SHARED_LIBRARY_C_FLAGS "${CMAKE_SHARED_LIBRARY_C_FLAGS} -m32")
 #SET(CMAKE_SHARED_LIBRARY_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CXX_FLAGS} -m32")
 
+find_package(PkgConfig)
 if (NOT DYNAMIC_LINKING)
     if(NOT MSVC)
         set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.dll.a")
@@ -295,32 +296,26 @@ find_package(Threads REQUIRED)
 if (TILES)
     # Find SDL, SDL_ttf & SDL_image for graphical install
     message(STATUS "Searching for SDL2 library --")
-    find_package(SDL2)
-    if (NOT (SDL2_FOUND OR TARGET SDL2::SDL2))
-        message(
-            FATAL_ERROR
-                "This project requires SDL2 to be installed to be compiled in graphical mode. \
-                Please install the SDL2 development libraries, or try compiling \
-                without the -DTILES=1 for a text only compilation. \
-                See CMake compiling guide for details and more info.")
-    endif ()
-
-    if (NOT DYNAMIC_LINKING)
-        # SDL, SDL_Image, SDL_ttf deps are required for static build
-        message(STATUS "Searching for SDL deps libraries --")
-        find_package(Freetype REQUIRED)
-        find_package(PNG REQUIRED)
-        find_package(JPEG REQUIRED)
-        find_package(ZLIB REQUIRED)
-        find_package(BZip2 REQUIRED)
+    if (NOT CMAKE_FIND_PACKAGE_PREFER_CONFIG)
+        set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON) # Use sdl2-config.cmake provided by the system or VCPKG
+        find_package(SDL2)
+        if(NOT SDL2_FOUND)
+            # Use our CMakeModules/Find/FindSDL2.cmake
+            set(CMAKE_FIND_PACKAGE_PREFER_CONFIG OFF)
+            find_package(SDL2)
+        endif()
+        set(CMAKE_FIND_PACKAGE_PREFER_CONFIG OFF)
+    endif()
+    if (NOT (SDL2_FOUND OR TARGET SDL2::SDL2 OR TARGET SDL2::SDL2-static))
+        message(FATAL_ERROR
+                "This project requires SDL2 to be installed to compile in graphical mode.  \
+                 Please install the SDL2 development libraries, \
+                 or try compiling without -DTILES=1 for a text-only compilation. \
+                 See CMake compiling guide for details and more info.")
     endif ()
 
     message(STATUS "Searching for SDL2_TTF library --")
-    if (NOT VCPKG_MANIFEST_MODE)
-        find_package(SDL2_ttf)
-    else()
-        find_package(SDL2_ttf)
-    endif()
+    find_package(SDL2_ttf)
     if (NOT (SDL2_TTF_FOUND OR TARGET SDL2::SDL2_ttf OR TARGET SDL2_ttf::SDL2_ttf-static))
         message(
             FATAL_ERROR
@@ -330,19 +325,14 @@ if (TILES)
                 See CMake compiling guide for details and more info.")
     endif ()
 
-    message(STATUS "Searching for SDL2_image library --\n")
-    if(VCPKG_MANIFEST_MODE)
-        find_package(SDL2_image)
-    else()
-        find_package(SDL2_image)
-    endif()
-    if (NOT (SDL2_IMAGE_FOUND OR TARGET SDL2_image::SDL2_image-static))
-        message(
-            FATAL_ERROR
-                "This project requires SDL2_image to be installed to be compiled in graphical mode. \
-                Please install the SDL2_image development libraries, or try compiling \
-                without the -DTILES=1 for a text only compilation. \
-                See CMake compiling guide for details and more info.")
+    message(STATUS "Searching for SDL2_image library --")
+    find_package(SDL2_image)
+    if (NOT (SDL2_IMAGE_FOUND OR TARGET SDL2::SDL2_image OR TARGET SDL2_image::SDL2_image-static))
+        message(FATAL_ERROR
+                "This project requires SDL2_image to be installed to compile in graphical mode. \
+                 Please install the SDL2_image development libraries, \
+                 or try compiling without -DTILES=1 for a text-only compilation. \
+                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
     endif ()
     add_definitions(-DTILES)
 endif ()
@@ -376,26 +366,13 @@ if (SOUND)
     endif ()
 
     # Sound requires SDL_mixer library
-    if(VCPKG_MANIFEST_MODE)
-        message(STATUS "Searching for sdl2-mixer library --")
-        find_package(Ogg REQUIRED)
-        find_package(SDL2_mixer)
-        if (NOT (TARGET SDL2_mixer::SDL2_mixer OR TARGET SDL2_mixer::SDL2_mixer-static))
-            message(FATAL_ERROR
-                    "You need the sdl2-mixer development library \
-                     to be able to compile with sound enabled. \
-                     See CMake compiling guide for details and more info.")
-        endif()
-    else()
-        message(STATUS "Searching for SDL2_mixer library --")
-        find_package(SDL2_mixer)
-        # if (NOT TARGET SDL2_mixer::SDL2_mixer-static) # TODO x64-mingw-static ?
-        if (NOT SDL2_MIXER_FOUND)
-            message(FATAL_ERROR
-                    "You need the SDL2_mixer development library \
-                     to be able to compile with sound enabled. \
-                     See CMake compiling guide for details and more info.")
-        endif ()
+    message(STATUS "Searching for SDL2_mixer library --")
+    find_package(SDL2_mixer)
+    if (NOT (SDL2_MIXER_FOUND OR TARGET SDL2_mixer::SDL2_mixer OR TARGET SDL2_mixer::SDL2_mixer-static))
+        message(FATAL_ERROR
+                "You need the SDL2_mixer development library \
+                    to be able to compile with sound enabled. \
+                    See CMake compiling guide for details and more info.")
     endif()
 endif ()
 
