@@ -98,7 +98,7 @@
     "bashing": 8,
     "material": [ "wood", "leather" ],
     "looks_like": "shield_wooden",
-    "symbol": "x",
+    "symbol": "[",
     "color": "blue",
     "covers": [ "arm_either", "hand_either" ],
     "coverage": 90,
