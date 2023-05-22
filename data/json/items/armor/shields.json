@@ -96,7 +96,7 @@
     "price_postapoc": "8 USD",
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "wood", "leather" ],
+    "material": [ "wood" ],
     "looks_like": "shield_wooden",
     "symbol": "[",
     "color": "blue",
@@ -141,6 +141,7 @@
     "price": "80 USD",
     "price_postapoc": "10 USD",
     "encumbrance": 26,
+    "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
   },
   {
@@ -155,6 +156,7 @@
     "price": "120 USD",
     "price_postapoc": "14 USD",
     "encumbrance": 26,
+    "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
   }
 ]
