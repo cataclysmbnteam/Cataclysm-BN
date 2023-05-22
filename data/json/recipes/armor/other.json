@@ -442,6 +442,7 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
+    "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "shield_wooden", 1 ] ],
