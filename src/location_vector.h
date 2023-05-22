@@ -180,7 +180,7 @@ class location_vector
                 }
 
                 friend const_iterator operator+( const const_iterator &term, difference_type n ) {
-                    return const_iterator( term.it + n, term.home );
+                    return const_iterator( term.it + n, *term.home );
                 }
 
                 friend const_iterator operator-( const const_iterator &term, difference_type n ) {
