@@ -94,6 +94,7 @@
     "volume": "3 L",
     "price": "80 USD",
     "price_postapoc": "8 USD",
+    "to_hit": -1,
     "bashing": 8,
     "material": [ "wood", "leather" ],
     "looks_like": "shield_wooden",
