@@ -2243,23 +2243,6 @@
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
   },
   {
-    "id": "woodgreatbow",
-    "copy-from": "longbow",
-    "type": "GUN",
-    "name": { "str": "wooden greatbow" },
-    "description": "An extremely large and stiff longbow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
-    "price": 150000,
-    "min_strength": 17,
-    "weight": "3200 g",
-    "volume": "6250 ml",
-    "price_postapoc": 2000,
-    "armor_data": { "covers": [ "torso" ], "coverage": 7, "material_thickness": 2, "encumbrance": 25 },
-    "durability": 8,
-    "loudness": 16,
-    "ranged_damage": { "damage_type": "stab", "amount": 50 },
-    "range": 20
-  },
-  {
     "id": "reflexrecurvebow",
     "looks_like": "longbow",
     "type": "GUN",
