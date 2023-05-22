@@ -92,7 +92,8 @@
     "description": "A simple round shield made of wood with leather reinforcement.  Sturdier and stronger than a simple wooden shield, and less encumbering than a metal one.",
     "weight": "3200 g",
     "volume": "3 L",
-    "price": 110000,
+    "price": "80 USD",
+    "price_postapoc": "8 USD",
     "bashing": 8,
     "material": ["wood", "leather"],
     "looks_like": "shield_wooden",
@@ -103,14 +104,7 @@
     "encumbrance": 16,
     "material_thickness": 4,
     "techniques": ["WBLOCK_2"],
-    "flags": [
-      "OVERSIZE",
-      "BELTED",
-      "RESTRICT_HANDS",
-      "BLOCK_WHILE_WORN",
-      "NONCONDUCTIVE",
-      "STURDY"
-    ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
   },
   {
     "id": "shield_banded",
@@ -119,7 +113,8 @@
     "description": "A simple round shield made of wood with bands of steel reinforcing it.",
     "weight": "3400 g",
     "volume": "3 L",
-    "price": 110000,
+    "price": "100 USD",
+    "price_postapoc": "10 USD",
     "bashing": 8,
     "material": ["wood", "steel"],
     "looks_like": "shield_wooden",
@@ -130,13 +125,32 @@
     "encumbrance": 20,
     "material_thickness": 4,
     "techniques": ["WBLOCK_2"],
-    "flags": [
-      "OVERSIZE",
-      "BELTED",
-      "RESTRICT_HANDS",
-      "BLOCK_WHILE_WORN",
-      "NONCONDUCTIVE",
-      "STURDY"
-    ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "NONCONDUCTIVE", "STURDY" ]
+  },
+  {
+   "id": "shield_leather_large",
+   "copy-from": "shield_leather",
+   "name": { "str": "large leather shield" },
+   "description": "A large shield made of wood with leather reinforcement.  Sturdier and stronger than a basic wooden shield, and less encumbering than a metal one.",
+   "volume": "5 L",
+   "weight": "5200 g",
+   "price": "80 USD",
+   "price_postapoc": "10 USD",
+   "encumbrance": 26,
+   "material_thickness": 4,
+   "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
+  },
+  {
+   "id": "shield_banded_large",
+   "copy-from": "shield_banded",
+   "name": { "str": "large banded shield" },
+   "description": "A large shield made of wood with steel bands reinforcing it.",
+   "volume": "5 L",
+   "weight": "5200 g",
+   "price": "120 USD",
+   "price_postapoc": "14 USD",
+   "encumbrance": 26,
+   "material_thickness": 4,
+   "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
   }
 ]
