@@ -158,7 +158,6 @@ class wield_status
 {
     public:
         std::shared_ptr<item> wielded;
-        bodypart_str_id primary_wielder;
 };
 
 class bodypart
