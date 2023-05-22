@@ -145,6 +145,7 @@
   {
     "id": "shield_banded_large",
     "copy-from": "shield_banded",
+    "looks_like": "shield_wooden_large",
     "type": "ARMOR",
     "name": { "str": "large banded shield" },
     "description": "A large shield made of wood with steel bands reinforcing it.",
