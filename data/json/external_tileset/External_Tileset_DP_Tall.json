@@ -11,7 +11,7 @@
           { "id": "mon_bear_armored", "fg": 2 },
           { "id": "corpse_mon_bear_armored", "fg": 3 },
           { "id": "t_tree_cherry_season_spring", "fg": 4 },
-          { "id": "t_tree_cherry_harvested_season_spring", "fg": 5 }
+          { "id": "t_tree_cherry_harvested_season_spring", "fg": 5 },
           { "id": "t_tree_cherry_season_summer", "fg": 6 }
         ],
         "sprite_width": 64,
