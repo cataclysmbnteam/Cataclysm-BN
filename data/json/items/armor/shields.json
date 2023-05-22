@@ -158,6 +158,6 @@
     "price_postapoc": "14 USD",
     "encumbrance": 30,
     "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
+    "extend": { "flags": [ "STURDY" ] }
   }
 ]
