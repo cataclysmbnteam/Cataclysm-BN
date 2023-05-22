@@ -84,5 +84,59 @@
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+  },
+  {
+    "id": "shield_leather",
+    "type": "ARMOR",
+    "name": { "str": "leather reinforced shield" },
+    "description": "A simple round shield made of wood with leather reinforcement.  Sturdier and stronger than a simple wooden shield, and less encumbering than a metal one.",
+    "weight": "3200 g",
+    "volume": "3 L",
+    "price": 110000,
+    "bashing": 8,
+    "material": ["wood", "leather"],
+    "looks_like": "shield_wooden",
+    "symbol": "x",
+    "color": "blue",
+    "covers": ["arm_either", "hand_either"],
+    "coverage": 90,
+    "encumbrance": 16,
+    "material_thickness": 4,
+    "techniques": ["WBLOCK_2"],
+    "flags": [
+      "OVERSIZE",
+      "BELTED",
+      "RESTRICT_HANDS",
+      "BLOCK_WHILE_WORN",
+      "NONCONDUCTIVE",
+      "STURDY"
+    ]
+  },
+  {
+    "id": "shield_banded",
+    "type": "ARMOR",
+    "name": { "str": "banded shield" },
+    "description": "A simple round shield made of wood with bands of steel reinforcing it.",
+    "weight": "3400 g",
+    "volume": "3 L",
+    "price": 110000,
+    "bashing": 8,
+    "material": ["wood", "steel"],
+    "looks_like": "shield_wooden",
+    "symbol": "x",
+    "color": "blue",
+    "covers": ["arm_either", "hand_either"],
+    "coverage": 90,
+    "encumbrance": 20,
+    "material_thickness": 4,
+    "techniques": ["WBLOCK_2"],
+    "flags": [
+      "OVERSIZE",
+      "BELTED",
+      "RESTRICT_HANDS",
+      "BLOCK_WHILE_WORN",
+      "NONCONDUCTIVE",
+      "STURDY"
+    ]
   }
 ]
