@@ -1238,9 +1238,9 @@ bool avatar::wield( item &target )
     moves -= mv;
 
     if( has_item( target ) ) {
-        primary_weapon() = i_rem( &target );
+        set_primary_weapon( i_rem( &target ) );
     } else {
-        primary_weapon() = target;
+        set_primary_weapon( target );
     }
 
     last_item = primary_weapon().typeId();

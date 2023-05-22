@@ -796,6 +796,7 @@ void Character::environmental_revert_effect()
 
 void Character::process_items()
 {
+    item &weapon = primary_weapon();
     if( weapon.needs_processing() && weapon.process( as_player(), pos(), false ) ) {
         weapon = item();
     }
