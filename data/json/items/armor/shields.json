@@ -150,7 +150,7 @@
     "looks_like": "shield_wooden_large",
     "type": "ARMOR",
     "name": { "str": "large banded shield" },
-    "description": "A large shield made of wood with steel bands reinforcing it.",
+    "description": "A large shield made of wood with steel bands reinforcing it.  Stronger than a simple wooden shield, but also more encumbering.",
     "volume": "5 L",
     "weight": "5400 g",
     "price": "120 USD",
