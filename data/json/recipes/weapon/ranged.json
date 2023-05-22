@@ -145,6 +145,25 @@
   },
   {
     "type": "recipe",
+    "result": "compositebow_short",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 2 ] ],
+    "difficulty": 3,
+    "time": "15 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bows", 2 ], [ "manual_archery", 3 ], [ "book_archery", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "stick", 3 ], [ "2x4", 2 ] ],
+      [ [ "bone_sturdy", 3, "LIST" ] ],
+      [ [ "superglue", 3 ], [ "bone_glue", 3 ] ],
+      [ [ "cordage_superior", 2, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "compositebow",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -156,11 +175,26 @@
     "book_learn": [ [ "recipe_bows", 3 ], [ "manual_archery", 4 ], [ "book_archery", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "stick", 3 ], [ "2x4", 2 ] ],
-      [ [ "bone_sturdy", 3, "LIST" ] ],
-      [ [ "superglue", 3 ], [ "bone_glue", 3 ] ],
+      [ [ "stick_long", 1 ], [ "2x4", 3 ] ],
+      [ [ "bone_sturdy", 4, "LIST" ] ],
+      [ [ "superglue", 4 ], [ "bone_glue", 4 ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "woodgreatbow",
+    "byproducts": [ [ "splinter", 20 ] ],
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "skills_required": [ "archery", 3 ],
+    "difficulty": 6,
+    "time": "45 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bows", 4 ], [ "manual_archery", 5 ], [ "book_archery", 5 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "log", 1 ] ], [ [ "rope_superior_short", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
