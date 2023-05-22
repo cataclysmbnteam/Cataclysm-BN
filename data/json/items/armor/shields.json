@@ -130,6 +130,7 @@
   {
     "id": "shield_leather_large",
     "copy-from": "shield_leather",
+    "looks_like": "shield_wooden_large",
     "type": "ARMOR",
     "name": { "str": "large leather shield" },
     "description": "A large shield made of wood with leather reinforcement.  Sturdier and stronger than a basic wooden shield, and less encumbering than a metal one.",
