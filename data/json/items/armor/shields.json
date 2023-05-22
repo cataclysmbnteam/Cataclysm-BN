@@ -106,7 +106,7 @@
     "encumbrance": 16,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_2" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
+    "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "shield_banded",
@@ -128,7 +128,7 @@
     "encumbrance": 20,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_2" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "NONCONDUCTIVE", "STURDY" ]
+    "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "shield_leather_large",
@@ -141,9 +141,10 @@
     "weight": "5200 g",
     "price": "80 USD",
     "price_postapoc": "10 USD",
+    "to_hit": -2,
+    "bashing": 10,
     "encumbrance": 26,
-    "techniques": [ "WBLOCK_3" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "techniques": [ "WBLOCK_3" ]
   },
   {
     "id": "shield_banded_large",
@@ -156,8 +157,9 @@
     "weight": "5400 g",
     "price": "120 USD",
     "price_postapoc": "14 USD",
+    "to_hit": -2,
+    "bashing": 10,
     "encumbrance": 30,
-    "techniques": [ "WBLOCK_3" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "techniques": [ "WBLOCK_3" ]
   }
 ]

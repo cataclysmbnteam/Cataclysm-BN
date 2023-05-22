@@ -2437,7 +2437,11 @@
       [ "armor_cuirass", 25 ],
       [ "legguard_bronze", 20 ],
       [ "shield_wooden", 10 ],
-      [ "shield_wooden_large", 5 ]
+      [ "shield_wooden_large", 5 ],
+      [ "shield_leather", 3 ],
+      [ "shield_leather_large", 2 ],
+      [ "shield_banded", 3 ],
+      [ "shield_banded_large", 2 ]
     ]
   },
   {
