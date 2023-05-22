@@ -141,7 +141,6 @@
     "price": "80 USD",
     "price_postapoc": "10 USD",
     "encumbrance": 26,
-    "material_thickness": 4,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
   },
   {
@@ -156,7 +155,6 @@
     "price": "120 USD",
     "price_postapoc": "14 USD",
     "encumbrance": 26,
-    "material_thickness": 4,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
   }
 ]
