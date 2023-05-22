@@ -88,7 +88,7 @@
   {
     "id": "shield_leather",
     "type": "ARMOR",
-    "name": { "str": "leather reinforced shield" },
+    "name": { "str": "leather-reinforced shield" },
     "description": "A simple round shield made of wood with leather reinforcement.  Sturdier and stronger than a simple wooden shield, and less encumbering than a metal one.",
     "weight": "3200 g",
     "volume": "3 L",
