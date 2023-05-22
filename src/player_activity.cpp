@@ -98,7 +98,7 @@ void player_activity::set_to_null()
 
 bool player_activity::rooted() const
 {
-    return type->rooted();
+    return type != activity_id::NULL_ID() && type->rooted();
 }
 
 std::string player_activity::get_stop_phrase() const

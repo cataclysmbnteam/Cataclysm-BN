@@ -6697,7 +6697,7 @@ detached_ptr<item> Character::pour_into( item &container, detached_ptr<item> &&l
 
     if( !err.empty() ) {
         add_msg_if_player( m_bad, err );
-        return detached_ptr<item>();
+        return std::move( liquid );
     }
 
     add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid->tname(), container.tname() );

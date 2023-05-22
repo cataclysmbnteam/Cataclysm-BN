@@ -8732,6 +8732,9 @@ bool item::allow_crafting_component() const
 
 detached_ptr<item> item::fill_with( detached_ptr<item> &&liquid, int amount )
 {
+    if( amount == -1 ) {
+        amount = INT_MAX;
+    }
     amount = std::min( get_remaining_capacity_for_liquid( *liquid, true ),
                        std::min( amount, liquid->charges ) );
     if( amount <= 0 ) {

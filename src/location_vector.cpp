@@ -234,6 +234,10 @@ bool location_vector<T>::empty() const
 template<typename T>
 T *location_vector<T>::back() const
 {
+    if( contents.empty() ) {
+        debugmsg( "Attempted to call back on an empty location vector" );
+        return &null_item_reference();
+    }
     return contents.back();
 }
 
@@ -430,6 +434,10 @@ typename location_vector<T>::const_reverse_iterator location_vector<T>::crend() 
 template<typename T>
 T *location_vector<T>::front() const
 {
+    if( contents.empty() ) {
+        debugmsg( "Attempted to call front on an empty location vector" );
+        return &null_item_reference();
+    }
     return contents.front();
 }
 

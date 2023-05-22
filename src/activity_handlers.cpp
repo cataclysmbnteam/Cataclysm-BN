@@ -1524,11 +1524,15 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     if( !vp ) {
                         debugmsg( "Lost track of vehicle source for fill_liquid activity" );
                     }
-                    item &source_it = vp->vehicle().part( act_ref.values.at( 1 ) ).get_base().contents.back();
+                    item &base = vp->vehicle().part( act_ref.values.at( 1 ) ).get_base();
+                    if( base.contents.empty() ) {
+                        return true;
+                    }
+                    item &source_it = base.contents.back();
                     charges = std::max( 1, source_it.charges_per_volume( volume_per_second ) );
                     int orig = source_it.charges;
                     source_it.attempt_split( charges, cb );
-                    return source_it.charges == orig;
+                    return source_it.charges == 0 || source_it.charges == orig;
             }
             return false;
         };
