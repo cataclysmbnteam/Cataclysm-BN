@@ -128,18 +128,18 @@
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "NONCONDUCTIVE", "STURDY" ]
   },
   {
-   "id": "shield_leather_large",
-   "copy-from": "shield_leather",
-   "type": "ARMOR",
-   "name": { "str": "large leather shield" },
-   "description": "A large shield made of wood with leather reinforcement.  Sturdier and stronger than a basic wooden shield, and less encumbering than a metal one.",
-   "volume": "5 L",
-   "weight": "5200 g",
-   "price": "80 USD",
-   "price_postapoc": "10 USD",
-   "encumbrance": 26,
-   "material_thickness": 4,
-   "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
+    "id": "shield_leather_large",
+    "copy-from": "shield_leather",
+    "type": "ARMOR",
+    "name": { "str": "large leather shield" },
+    "description": "A large shield made of wood with leather reinforcement.  Sturdier and stronger than a basic wooden shield, and less encumbering than a metal one.",
+    "volume": "5 L",
+    "weight": "5200 g",
+    "price": "80 USD",
+    "price_postapoc": "10 USD",
+    "encumbrance": 26,
+    "material_thickness": 4,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
   },
   {
    "id": "shield_banded_large",
