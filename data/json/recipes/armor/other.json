@@ -444,10 +444,7 @@
     "autolearn": true,
     "reversible": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [
-      [ [ "shield_wooden", 1 ] ],
-      [ [ "fur", 4 ], [ "leather", 4 ] ]
-    ]
+    "components": [ [ [ "shield_wooden", 1 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ]
   },
   {
     "result": "shield_leather_large",
