@@ -1575,6 +1575,11 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
+bool monster::block_ranged_hit( Creature *, bodypart_id &, damage_instance & )
+{
+    return false;
+}
+
 void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {

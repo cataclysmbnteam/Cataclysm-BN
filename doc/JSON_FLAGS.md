@@ -64,6 +64,7 @@
   - [Skills](#skills)
     - [Tags](#tags)
   - [Techniques](#techniques)
+    - [WBLOCK_X](#wblock-x)
   - [Tools](#tools)
     - [Flags](#flags-12)
     - [Flags that apply to items](#flags-that-apply-to-items)
@@ -239,7 +240,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BAROMETER``` This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
 - ```BLIND``` Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
-- ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
+- ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks. See also the `Techniques` section.
 - ```BULLET_IMMNUE``` Wearing an item with this flag makes you immune to bullet damage
 - ```CLIMATE_CONTROL``` This piece of clothing has climate control of some sort, keeping you warmer or cooler depending on ambient and bodily temperature.
 - ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
@@ -1260,6 +1261,21 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 - See contents of `data/json/techniques.json`.
 - Techniques are also used with martial arts styles, see `data/json/martialarts.json`.
 
+### WBLOCK_X
+
+The following weapon techniques have some additional usage. These are defensive techniques that allow the item to assist in blocking attacks in melee, with some additional special uses.
+
+- ```WBLOCK_1``` "Medium blocking ability"
+- ```WBLOCK_2``` "High blocking ability"
+- ```WBLOCK_3``` "Very high blocking ability"
+
+An item with one of these techniques can be wielded to provide a bonus to damage reduced by blocking compared, or armor with the `BLOCK_WHILE_WORN` flag can also provide the use of this bonus while wearing the item, serving as a shield. Additionally, wielding or wearing an item with a combination of one of these techniques plus said flag will allow the item to block projectiles aimed at body parts the item otherwise does not cover (or is not covering, in the case of wielded items that meet those prerequisites). The chance that this will happen is based on the `coverage` percentage of the item used for its normal armor value, reduced by a penalty that depends on which blocking technique it possesses. The chance of it intercepting shots that strike the legs (again, unless the armor was set to cover the legs by default already, in which case it uses `coverage` as normal) is furtther penalized. The feet will always be vulnerable unless (for whatever reason a JSON author may devise, forcefield items for example) an item happens to be a shield that already covers the feet as armor.
+
+ Technique | Chance to intercept (head, torso, opposing arm, etc) | Chance to intercept (legs)    
+-----------|------------------------------------------------------|-------------------------------
+ WBLOCK_1  | 90% of default coverage value                        | 75% of default coverage value 
+ WBLOCK_2  | 90% of default coverage value                        | 75% of default coverage value 
+ WBLOCK_3  | 90% of default coverage value                        | 75% of default coverage value 
 
 ## Tools
 

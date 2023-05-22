@@ -789,6 +789,7 @@
     "name": "Military Recruit",
     "description": "You were a high school drop-out with one goal in mind: to join the military.  You finally got in, just in time for your training to get interrupted by a national emergency.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 4,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "rifle" },
@@ -829,6 +830,7 @@
     "name": "Special Operator",
     "description": "You were the best of the best, the military's finest.  That's why you're still alive, even after all your comrades fell to the undead.  As far as you can tell, military command abandoned you in this hellhole when you missed the emergency evac.",
     "points": 5,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "smg" },
@@ -2130,6 +2132,7 @@
       "bio_power_storage_mkII",
       "bio_taste_blocker"
     ],
+    "traits": [ "PROF_MILITARY" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "melee" },
@@ -2183,6 +2186,7 @@
       "bio_lighter",
       "bio_night_vision"
     ],
+    "traits": [ "PROF_MILITARY" ],
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "rifle" },
@@ -3197,6 +3201,7 @@
     "name": "National Guard",
     "description": "Your National Guard unit was activated when the epidemic struck.  Despite your best efforts you did not manage to meet up with them before all communications ceased and you found yourself alone amongst the dead.",
     "points": 3,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": {
@@ -3441,6 +3446,7 @@
     "name": "Military Holdout",
     "description": "You must have paid attention to your survival training in boot camp, otherwise you would never have lived long enough to outlast the chain of command and find yourself in this predicament.  The only mission left now is to survive.",
     "points": 6,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [
       { "level": 4, "name": "survival" },
       { "level": 4, "name": "gun" },
@@ -4464,6 +4470,7 @@
     "name": "Military Pilot",
     "description": "You got to see things fall apart from the sky, transporting soldiers and survivors from one holdout to the next.  You knew it was only a matter of time before the horrors patrolling the skies shot you down.",
     "points": 5,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [
       { "level": 4, "name": "driving" },
       { "level": 3, "name": "pistol" },
