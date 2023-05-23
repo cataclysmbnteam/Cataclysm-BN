@@ -16,7 +16,7 @@
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( point p1, point p2 )
 {
-    tripoint offset = tripoint( p2 - p1, 0 );
+    tripoint offset = tripoint( p1 - p2, 0 );
 
     itm[p1.x][p1.y].move_by( offset );
     itm[p2.x][p2.y].move_by( -offset );
@@ -41,12 +41,12 @@ void submap::swap( submap &first, submap &second, tripoint offset )
 
     for( auto &row : first.itm ) {
         for( auto &tile : row ) {
-            tile.move_by( offset );
+            tile.move_by( -offset );
         }
     }
     for( auto &row : second.itm ) {
         for( auto &tile : row ) {
-            tile.move_by( -offset );
+            tile.move_by( offset );
         }
     }
 
