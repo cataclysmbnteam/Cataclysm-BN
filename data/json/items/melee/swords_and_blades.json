@@ -30,7 +30,7 @@
     "cutting": 28,
     "to_hit": 1,
     "price_postapoc": 2500,
-    "flags": [ "SHEATH_SWORD" ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
     "techniques": [ "WBLOCK_2" ]
   },
@@ -300,7 +300,7 @@
     "color": "dark_gray",
     "techniques": "WBLOCK_2",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
   {
     "id": "makeshift_machete",
@@ -358,7 +358,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
   {
     "id": "cavalry_sabre_fake",
@@ -442,7 +442,7 @@
     "price": 100000,
     "price_postapoc": 4000,
     "material": "steel",
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "800 g",
     "volume": "2 L",
@@ -490,7 +490,7 @@
     "price_postapoc": 3500,
     "material": "iron",
     "techniques": [ "WBLOCK_2" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "weight": "1133 g",
     "volume": "2 L",
     "bashing": 6,
@@ -538,7 +538,7 @@
     "price_postapoc": 5000,
     "material": "steel",
     "techniques": [ "WBLOCK_2", "PRECISE" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "weight": "1814 g",
     "volume": "2750 ml",
     "bashing": 9,
@@ -584,7 +584,7 @@
     "price": 130000,
     "price_postapoc": 6000,
     "material": "steel",
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1814 g",
     "volume": "2750 ml",
@@ -633,7 +633,7 @@
     "price": 100000,
     "price_postapoc": 4500,
     "material": "steel",
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1360 g",
     "volume": "2 L",
@@ -809,7 +809,7 @@
     "color": "dark_gray",
     "techniques": "RAPID",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ]
   },
   {
     "id": "tanto_inferior",
@@ -860,7 +860,7 @@
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
   {
     "id": "wakizashi_inferior",
@@ -909,7 +909,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
   },
   {
     "id": "zweihander_inferior",
@@ -992,7 +992,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
   },
   {
     "id": "nodachi_inferior",
@@ -1171,7 +1171,7 @@
     "cutting": 25,
     "looks_like": "rapier",
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
   {
     "id": "broadsword",
@@ -1192,7 +1192,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
   {
     "id": "broadsword_inferior",
@@ -1240,7 +1240,7 @@
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
   {
     "id": "rapier_fake",
@@ -1276,7 +1276,7 @@
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
   {
     "id": "katana_inferior",
@@ -1320,7 +1320,7 @@
     "price": 50000,
     "price_postapoc": 6000,
     "material": "steel",
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1766 g",
     "volume": "1500 ml",
@@ -1432,7 +1432,7 @@
     "color": "dark_gray",
     "techniques": "WBLOCK_2",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
   },
   {
     "id": "cutlass_inferior",
@@ -1585,5 +1585,26 @@
     "use_action": "E_COMBATSAW_ON",
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND" ],
     "magazine_well": "500 ml"
+  },
+  {
+    "id": "dagger_medieval",
+    "type": "GENERIC",
+    "category": "weapons",
+    "weapon_category": [ "KNIVES" ],
+    "name": { "str": "dagger" },
+    "description": "A medieval dagger, more finely crafted than a baselard.",
+    "weight": "420 g",
+    "volume": "250 ml",
+    "price": 19590,
+    "to_hit": 2,
+    "bashing": 5,
+    "cutting": 22,
+    "material": [ "iron" ],
+    "looks_like": "knife_baselard",
+    "symbol": ";",
+    "color": "dark_gray",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 20 ] ],
+    "techniques": "RAPID",
+    "flags": [ "STAB", "SHEATH_KNIFE", "NONCONDUCTIVE", "DURABLE_MELEE" ]
   }
 ]

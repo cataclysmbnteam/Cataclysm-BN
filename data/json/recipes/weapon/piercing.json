@@ -806,5 +806,19 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 2 ] ],
     "components": [ [ [ "fur", 2 ], [ "leather", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dagger_medieval",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "2 h 30 m",
+    "book_learn": [ [ "textbook_weapwest", 7 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   }
 ]
