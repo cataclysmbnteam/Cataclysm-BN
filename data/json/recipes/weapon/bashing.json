@@ -36,9 +36,11 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "DRILL", "level": 1 } ],
-    "using": [ [ "forging_standard", 5 ] ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "shillelagh", 1 ] ], [ [ "weights", 15, "LIST" ] ] ]
+    "tools": [
+      [ [ "brick_kiln", 100 ], [ "kiln", 100 ], [ "surface_heat", 100, "LIST" ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    ],
+    "components": [ [ [ "shillelagh", 1 ], [ "log", 1 ], [ "2x4", 2 ], ["stick", 4 ] ], [ [ "weights", 15, "LIST" ] ] ]
   },
   {
     "type": "recipe",
