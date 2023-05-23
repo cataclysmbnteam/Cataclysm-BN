@@ -1604,7 +1604,6 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 20 ] ],
-    "techniques": "RAPID",
     "flags": [ "STAB", "SHEATH_KNIFE", "NONCONDUCTIVE", "DURABLE_MELEE" ]
   }
 ]
