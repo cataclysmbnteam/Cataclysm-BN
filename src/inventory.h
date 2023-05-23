@@ -266,7 +266,7 @@ class location_inventory : public location_visitable<location_inventory>
         location_inventory( item_location *location );
         location_inventory( location_inventory && ) = delete;
         location_inventory( const location_inventory & ) = delete;
-        location_inventory &operator=( location_inventory && ) = delete;
+        location_inventory &operator=( location_inventory && );
         location_inventory &operator=( const location_inventory & ) = delete;
 
         ~location_inventory();

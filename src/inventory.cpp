@@ -1360,6 +1360,18 @@ location_inventory::~location_inventory()
 
 location_inventory::location_inventory( item_location *location ) : loc( location ) {}
 
+location_inventory &location_inventory::operator=( location_inventory &&source )
+{
+    for( auto &stack : source.inv.items ) {
+        for( item * const &it : stack ) {
+            it->remove_location();
+            it->set_location( &*loc );
+        }
+    }
+    inv = std::move( source.inv );
+    return *this;
+}
+
 void location_inventory::unsort()
 {
     inv.unsort();

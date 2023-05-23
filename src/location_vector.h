@@ -22,6 +22,7 @@ class location_vector
         mutable int locked = 0;
         bool destroyed = false;
 
+        friend void std::swap( location_vector<T> &lhs, location_vector<T> &rhs );
 
     public:
         struct const_iterator;
@@ -217,8 +218,8 @@ class location_vector
 
         location_vector( location<T> *loc );
         location_vector( location<T> *loc, std::vector<detached_ptr<T>> &from );
-        location_vector( location_vector && ) = default;
-        location_vector &operator=( location_vector && ) = default;
+        location_vector( location_vector && ) = delete;
+        location_vector &operator=( location_vector && );
 
         ~location_vector();
 
@@ -263,6 +264,10 @@ class location_vector
 
         void on_destroy();
 };
-
+class item;
+namespace std
+{
+void swap( location_vector<item> &lhs, location_vector<item> &rhs );
+}
 
 #endif

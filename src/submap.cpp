@@ -50,8 +50,11 @@ void submap::swap( submap &first, submap &second, tripoint offset )
         }
     }
 
-    std::swap( first.itm, second.itm );
-
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEX; y++ ) {
+            std::swap( first.itm[x][y], second.itm[x][y] );
+        }
+    }
 }
 
 //There's not a briefer way to write this I don't think

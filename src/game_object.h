@@ -26,6 +26,7 @@ class game_object
         friend location_inventory;
         friend location_vector<T>;
         friend location_visitable<location_inventory>;
+        friend void std::swap( location_vector<T> &, location_vector<T> & );
         location<T> *saved_loc = nullptr;
     protected:
         location<T> *loc = nullptr;

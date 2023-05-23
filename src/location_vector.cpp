@@ -20,6 +20,18 @@ location_vector<T>::location_vector( location<T> *loc,
 };
 
 template<typename T>
+location_vector<T> &location_vector<T>::operator=( location_vector<T> &&source )
+{
+    for( item * const &it : source.contents ) {
+        it->remove_location();
+        it->set_location( &*loc );
+    }
+
+    contents = std::move( source.contents );
+    return *this;
+};
+
+template<typename T>
 location_vector<T>::~location_vector()
 {
     on_destroy();
@@ -381,27 +393,27 @@ template<typename T>
 typename location_vector<T>::const_reverse_iterator location_vector<T>::rbegin() const
 {
     return location_vector<T>::const_reverse_iterator( location_vector<T>::const_iterator(
-                contents.rbegin().base(), *this ) );
+                contents.end(), *this ) );
 }
 
 template<typename T>
 typename location_vector<T>::const_reverse_iterator location_vector<T>::rend() const
 {
     return location_vector<T>::const_reverse_iterator( location_vector<T>::const_iterator(
-                contents.rend().base(), *this ) );
+                contents.begin(), *this ) );
 }
 
 template<typename T>
 typename location_vector<T>::reverse_iterator location_vector<T>::rbegin()
 {
-    return location_vector<T>::reverse_iterator( location_vector<T>::iterator( contents.rbegin().base(),
+    return location_vector<T>::reverse_iterator( location_vector<T>::iterator( contents.end(),
             *this ) );
 }
 
 template<typename T>
 typename location_vector<T>::reverse_iterator location_vector<T>::rend()
 {
-    return location_vector<T>::reverse_iterator( location_vector<T>::iterator( contents.rend().base(),
+    return location_vector<T>::reverse_iterator( location_vector<T>::iterator( contents.begin(),
             *this ) );
 }
 
@@ -421,14 +433,14 @@ template<typename T>
 typename location_vector<T>::const_reverse_iterator location_vector<T>::crbegin() const
 {
     return location_vector<T>::const_reverse_iterator( location_vector<T>::const_iterator(
-                contents.crbegin().base(), *this ) );
+                contents.cend(), *this ) );
 }
 
 template<typename T>
 typename location_vector<T>::const_reverse_iterator location_vector<T>::crend() const
 {
     return location_vector<T>::const_reverse_iterator( location_vector<T>::const_iterator(
-                contents.crend().base(), *this ) );
+                contents.cbegin(), *this ) );
 }
 
 template<typename T>
@@ -532,6 +544,18 @@ void location_vector<T>::on_destroy()
     destroyed = true;
 }
 
+void std::swap( location_vector<item> &lhs, location_vector<item> &rhs )
+{
+    for( item *&it : lhs.contents ) {
+        it->remove_location();
+        it->set_location( &*rhs.loc );
+    }
+    for( item *&it : rhs.contents ) {
+        it->remove_location();
+        it->set_location( &*lhs.loc );
+    }
+    std::swap( lhs.contents, rhs.contents );
+}
 
 template
 class location_vector<item>;

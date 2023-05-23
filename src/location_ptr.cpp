@@ -56,7 +56,6 @@ location_ptr<T, error_if_null> &location_ptr<T, error_if_null>::operator=
         ptr->remove_location();
         ptr->destroy();
     }
-    loc = std::move( source.loc );
     ptr = source.ptr;
     update_location();
     source.ptr = nullptr;
@@ -71,7 +70,6 @@ location_ptr<T, error_if_null> &location_ptr<T, error_if_null>::operator=
         ptr->remove_location();
         ptr->destroy();
     }
-    loc = std::move( source.loc );
     ptr = source.ptr;
     update_location();
     source.ptr = nullptr;
