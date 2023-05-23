@@ -836,7 +836,7 @@
     "type": "GENERIC",
     "copy-from": "shillelagh",
     "name": { "str": "loaded club" },
-    "description": "A hollowed out wooden club that has been filled with lead or other easy to melt metals to make it more weighty;  packs a surprising punch for how easy it is to make.",
+    "description": "A hollowed out wooden club that has been filled with lead or other easy to melt metals to make it more weighty; packs a surprising punch for how easy it is to make.",
     "price": 30000,
     "price_postapoc": 1750,
     "material": [ "lead", "wood" ],
