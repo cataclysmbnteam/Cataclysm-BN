@@ -61,7 +61,7 @@ std::string get_pid_string();
 std::string read_entire_file( const std::string &path );
 
 /** Force 'path' to be a normalized directory */
-template<typename T> std::string as_norm_dir(const T& path); 
+std::string as_norm_dir( const std::string &path );
 
 namespace cata_files
 {

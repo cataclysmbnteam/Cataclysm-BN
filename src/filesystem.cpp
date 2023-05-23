@@ -82,15 +82,12 @@ bool file_exist( const std::string &path )
 }
 #endif
 
-template<typename T> std::string as_norm_dir(const T& path)
+std::string as_norm_dir( const std::string &path )
 {
-    auto dir = std::filesystem::path(path) / std::filesystem::path{};
-    auto norm = dir.lexically_normal();
+    std::filesystem::path dir = std::filesystem::u8path( path ) / std::filesystem::path{};
+    std::filesystem::path norm = dir.lexically_normal();
     return norm.generic_u8string();
 }
-
-template std::string as_norm_dir<std::filesystem::path>(const std::filesystem::path&);
-template std::string as_norm_dir<std::string>(const std::string&);
 
 #if defined(_WIN32)
 
