@@ -4717,7 +4717,6 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 you.add_msg_if_player( _( "You can't peek down there." ) );
                 return;
             }
-            
             g->peek( where );
             you.add_msg_if_player( _( "You peek over the ledge." ) );
             break;
