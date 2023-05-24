@@ -4660,31 +4660,44 @@ void iexamine::ledge( player &p, const tripoint &examp )
             const bool has_grapnel = p.has_amount( itype_grapnel, 1 );
             const int climb_cost = map_funcs::climbing_cost( here, where, examp );
             const auto fall_mod = p.fall_damage_mod();
-            std::string query_str = vgettext( "Looks like %d story.  Jump down?",
-                                              "Looks like %d stories.  Jump down?",
-                                              height );
+            const std::string query_str = vgettext( "Looks like %d story.  Jump down?",
+                                                    "Looks like %d stories.  Jump down?",
+                                                    height );
 
             if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
                 return;
             } else if( height == 1 ) {
-                std::string query;
-
-                if( !has_grapnel ) {
-                    if( climb_cost <= 0 && fall_mod > 0.8 ) {
-                        query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
+                enum class climb_result { dangerous_one_way, safe_one_way, safe, safe_difficult };
+                const auto get_status = [&]() {
+                    if( has_grapnel ) {
+                        return climb_result::safe;
+                    } else if( climb_cost <= 0 && fall_mod > 0.8 ) {
+                        return climb_result::dangerous_one_way;
                     } else if( climb_cost <= 0 ) {
-                        query = _( "You probably won't be able to get back up.  Climb down?" );
+                        return climb_result::safe_one_way;
                     } else if( climb_cost < 200 ) {
-                        query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
+                        return climb_result::safe;
                     } else {
-                        query = _( "You may have problems climbing back up.  Climb down?" );
+                        return climb_result::safe_difficult;
                     }
-                } else {
-                    query = _( "Use your grappling hook to climb down?" );
-                }
-
-                if( !query_yn( query.c_str() ) ) {
-                    return;
+                };
+                const auto status = get_status();
+                if( status != climb_result::safe ) {
+                    const auto get_query = [&]() {
+                        switch( status ) {
+                            case climb_result::dangerous_one_way:
+                                return _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
+                            case climb_result::safe_one_way:
+                                return _( "You probably won't be able to get back up.  Climb down?" );
+                            case climb_result::safe_difficult:
+                                return _( "You may have problems climbing back up.  Climb down?" );
+                            default:
+                                throw std::logic_error( "unreachable" );
+                        }
+                    };
+                    if( !query_yn( get_query() ) ) {
+                        return;
+                    }
                 }
             }
 
