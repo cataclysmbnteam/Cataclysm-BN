@@ -740,8 +740,6 @@ bool monexamine::give_items_to( monster &z )
 void monexamine::take_items_from( monster &z )
 {
     const std::string pet_name = z.get_name();
-    avatar &you = get_avatar();
-
     std::vector<item> &monster_inv = z.inv;
     if( monster_inv.empty() ) {
         return;
@@ -762,11 +760,15 @@ void monexamine::take_items_from( monster &z )
         return;
     }
 
-    item retrieved_item = monster_inv[index - 1];
+    // because the first entry is the cancel option
+    const int selection = index - 1;
+    item retrieved_item = monster_inv[selection];
+    monster_inv.erase( monster_inv.begin() + selection );
 
-    you.i_add( retrieved_item );
     add_msg( _( "You remove the %1$s from the %2$s's bag." ), retrieved_item.tname(), pet_name );
-    z.inv.erase( z.inv.begin() + index - 1 );
+
+    avatar &you = get_avatar();
+    you.i_add( retrieved_item );
 }
 
 bool monexamine::add_armor( monster &z )
