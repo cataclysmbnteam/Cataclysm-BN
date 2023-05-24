@@ -224,8 +224,9 @@
     "weight": "5500 g",
     "price": "120 USD",
     "price_postapoc": "14 USD",
-    "bashing": 26,
-    "cutting": 26,
+    "to_hit": -2,
+    "bashing": 10,
+    "cutting": 10,
     "encumbrance": 30
   }
 ]
