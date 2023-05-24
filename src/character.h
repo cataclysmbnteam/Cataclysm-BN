@@ -1234,6 +1234,8 @@ class Character : public Creature, public location_visitable<Character>
 
         void inv_update_cache_with_item( item &it );
 
+        int inv_invlet_to_position( char invlet ) const;
+
         void rust_iron_items();
 
         void inv_set_stack_favorite( int position, bool favorite );

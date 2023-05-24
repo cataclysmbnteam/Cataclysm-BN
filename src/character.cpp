@@ -2767,6 +2767,11 @@ void Character::inv_reassign_item( item &it, char invlet, bool remove_old )
     inv.reassign_item( it, invlet, remove_old );
 }
 
+int Character::inv_invlet_to_position( char invlet ) const
+{
+    return inv.invlet_to_position( invlet );
+}
+
 void Character::rust_iron_items()
 {
     inv.rust_iron_items();

@@ -40,7 +40,7 @@ And you can go the other way using this. Though note that it removes the object 
 in the process and will cause errors if called on an object that isn't in the game world.
 
 ```c++
-detached_ptr<item>=normal_ptr->detach();
+detached_ptr<item> as_detached=normal_ptr->detach();
 ```
 
 Trying to access an invalid `detached_ptr` (for instance one that has been `std::move`'d from) will
