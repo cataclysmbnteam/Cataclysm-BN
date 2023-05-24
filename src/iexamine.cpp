@@ -4608,20 +4608,21 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
 void iexamine::ledge( player &p, const tripoint &examp )
 {
+    enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
 
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
-    cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
-    cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+    cmenu.addentry( ledge_action::jump_over, true, 'j', _( "Jump over." ) );
+    cmenu.addentry( ledge_action::climb_down, true, 'c', _( "Climb down." ) );
     if( p.has_trait( trait_WEB_BRDIGE ) ) {
-        cmenu.addentry( 3, true, 'w', _( "Spin Web Bridge." ) );
+        cmenu.addentry( ledge_action::spin_web_bridge, true, 'w', _( "Spin Web Bridge." ) );
     }
 
     cmenu.query();
 
     map &here = get_map();
     switch( cmenu.ret ) {
-        case 1: {
+        case ledge_action::jump_over: {
             tripoint dest( p.posx() + 2 * sgn( examp.x - p.posx() ), p.posy() + 2 * sgn( examp.y - p.posy() ),
                            p.posz() );
             if( p.get_str() < 4 ) {
@@ -4641,7 +4642,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             }
             break;
         }
-        case 2: {
+        case ledge_action::climb_down: {
             tripoint where = examp;
             tripoint below = examp;
             below.z--;
@@ -4701,7 +4702,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             here.creature_on_trap( p );
             break;
         }
-        case 3: {
+        case ledge_action::spin_web_bridge: {
 
             if( !can_use_mutation_warn( trait_WEB_BRDIGE, p ) ) {
                 break;
