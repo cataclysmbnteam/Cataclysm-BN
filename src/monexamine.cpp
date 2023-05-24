@@ -739,7 +739,7 @@ bool monexamine::give_items_to( monster &z )
 
 void monexamine::take_items_from( monster &z )
 {
-    std::string pet_name = z.get_name();
+    const std::string pet_name = z.get_name();
     avatar &you = get_avatar();
 
     std::vector<item> monster_inv = z.inv;
@@ -756,8 +756,7 @@ void monexamine::take_items_from( monster &z )
     }
     selection_menu.selected = 1;
     selection_menu.query();
-    int index = selection_menu.ret;
-
+    const int index = selection_menu.ret;
     if( index == 0 || index == UILIST_CANCEL || index < 0 ||
         index > static_cast<int>( monster_inv.size() ) ) {
         return;
