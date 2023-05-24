@@ -742,7 +742,7 @@ void monexamine::take_items_from( monster &z )
     const std::string pet_name = z.get_name();
     avatar &you = get_avatar();
 
-    std::vector<item> monster_inv = z.inv;
+    std::vector<item> &monster_inv = z.inv;
     if( monster_inv.empty() ) {
         return;
     }
