@@ -110,6 +110,7 @@ class map_stack : public item_stack
             item_stack( newstack ), location( newloc ), myorigin( neworigin ) {}
         void insert( detached_ptr<item> &&newitem ) override;
         iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) override;
+        detached_ptr<item> remove( item *to_remove ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_SQUARE;
         }

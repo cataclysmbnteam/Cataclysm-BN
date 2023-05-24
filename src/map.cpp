@@ -160,6 +160,10 @@ void map_stack::insert( detached_ptr<item> &&newitem )
 {
     myorigin->add_item_or_charges( location, std::move( newitem ) );
 }
+detached_ptr<item> map_stack::remove( item *to_remove )
+{
+    return myorigin->i_rem( location, to_remove );
+}
 
 units::volume map_stack::max_volume() const
 {

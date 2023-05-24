@@ -724,27 +724,27 @@ void iexamine::vending( player &p, const tripoint &examp )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    // Collate identical items.
-    // First, build a map {item::tname} => {item_it, item_it, item_it...}
-    using iterator_t = decltype( std::begin( vend_items ) ); // map_stack::iterator doesn't exist.
-
-    std::map<std::string, std::vector<iterator_t>> item_map;
-    for( auto it = std::begin( vend_items ); it != std::end( vend_items ); ++it ) {
+    std::vector<std::vector<item *>> item_map;
+    for( item *&it : vend_items ) {
         // |# {name}|
         // 123      4
-        item_map[( *it )->tname()].push_back( it );
-    }
-
-    // Next, put pointers to the pairs in the map in a vector to allow indexing.
-    std::vector<std::map<std::string, std::vector<iterator_t>>::value_type *> item_list;
-    item_list.reserve( item_map.size() );
-    for( auto &pair : item_map ) {
-        item_list.emplace_back( &pair );
+        std::string name = it->tname();
+        bool found = false;
+        for( auto item_list : item_map ) {
+            if( item_list.front()->tname() == name ) {
+                item_list.push_back( it );
+                found = true;
+                break;
+            }
+        }
+        if( !found ) {
+            item_map.push_back( {it} );
+        }
     }
 
     int cur_pos = 0;
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        const int num_items = item_list.size();
+        const int num_items = item_map.size();
         const int page_size = std::min( num_items, list_lines );
 
         werase( w );
@@ -769,34 +769,34 @@ void iexamine::vending( player &p, const tripoint &examp )
         for( int line = 0; line < page_size; ++line ) {
             const int i = page_beg + line;
             const auto color = ( i == cur_pos ) ? h_light_gray : c_light_gray;
-            const auto &elem = item_list[i];
-            const int count = elem->second.size();
+            const auto &elem = item_map[i];
+            const int count = elem.size();
             const char c = ( count < 10 ) ? ( '0' + count ) : '*';
             trim_and_print( w, point( 1, first_item_offset + line ), w_items_w - 3, color, "%c %s", c,
-                            elem->first.c_str() );
+                            elem.front()->tname().c_str() );
         }
 
         draw_scrollbar( w, cur_pos, list_lines, num_items, point( 0, first_item_offset ) );
         wnoutrefresh( w );
 
         // Item info
-        auto &cur_items = item_list[static_cast<size_t>( cur_pos )]->second;
+        auto &cur_items = item_map[static_cast<size_t>( cur_pos )];
         auto &cur_item  = cur_items.back();
 
         werase( w_item_info );
         // | {line}|
         // 12      3
         fold_and_print( w_item_info, point( 2, 1 ), w_info_w - 3, c_light_gray,
-                        ( *cur_item )->info_string( ) );
+                        cur_item->info_string( ) );
         wborder( w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
         //+<{name}>+
         //12      34
-        const std::string name = utf8_truncate( ( *cur_item )->display_name(),
+        const std::string name = utf8_truncate( cur_item->display_name(),
                                                 static_cast<size_t>( w_info_w - 4 ) );
 
-        const auto cost = format_money( ( *cur_item )->price( false ) );
+        const auto cost = format_money( cur_item->price( false ) );
         mvwprintw( w_item_info, point_east, "<%s> %s", name, cost );
         wnoutrefresh( w_item_info );
     } );
@@ -804,10 +804,10 @@ void iexamine::vending( player &p, const tripoint &examp )
     for( ;; ) {
         ui_manager::redraw();
 
-        const int num_items = item_list.size();
+        const int num_items = item_map.size();
 
         // Item info
-        auto &cur_items = item_list[static_cast<size_t>( cur_pos )]->second;
+        auto &cur_items = item_map[static_cast<size_t>( cur_pos )];
         auto &cur_item  = cur_items.back();
 
         const std::string &action = ctxt.handle_input();
@@ -816,7 +816,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         } else if( action == "UP" ) {
             cur_pos = ( cur_pos + num_items - 1 ) % num_items;
         } else if( action == "CONFIRM" ) {
-            const int iprice = ( *cur_item )->price( false );
+            const int iprice = cur_item->price( false );
 
             if( iprice > money ) {
                 popup( _( "You can't afford that item." ) );
@@ -830,17 +830,15 @@ void iexamine::vending( player &p, const tripoint &examp )
 
             money -= iprice;
             p.use_charges( itype_cash_card, iprice );
-            detached_ptr<item> it;
-            vend_items.erase( cur_item, &it );
-            p.i_add_or_drop( std::move( it ) );
+            p.i_add_or_drop( vend_items.remove( cur_item ) );
 
             cur_items.pop_back();
             if( !cur_items.empty() ) {
                 continue;
             }
 
-            item_list.erase( std::begin( item_list ) + cur_pos );
-            if( item_list.empty() ) {
+            item_map.erase( std::begin( item_map ) + cur_pos );
+            if( item_map.empty() ) {
                 add_msg( _( "With a beep, the empty vending machine shuts down." ) );
                 return;
             } else if( cur_pos == num_items - 1 ) {

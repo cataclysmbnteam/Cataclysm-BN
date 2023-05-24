@@ -34,8 +34,7 @@ class item_stack
         bool empty() const;
         virtual void insert( detached_ptr<item> &&newitem ) = 0;
         virtual iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) = 0;
-        /*virtual iterator erase( const_iterator first, const_iterator last,
-                                std::vector<detached_ptr<item>> *out = nullptr ) = 0;*/
+        virtual detached_ptr<item> remove( item *to_remove ) = 0;
         virtual std::vector<detached_ptr<item>> clear();
 
         void remove_top_items_with( std::function < detached_ptr<item>( detached_ptr<item> && ) > cb );

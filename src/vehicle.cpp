@@ -241,6 +241,11 @@ void vehicle_stack::insert( detached_ptr<item> &&newitem )
     myorigin->add_item( part_num, std::move( newitem ) );
 }
 
+detached_ptr<item> vehicle_stack::remove( item *to_remove )
+{
+    return myorigin->remove_item( part_num, to_remove );
+}
+
 units::volume vehicle_stack::max_volume() const
 {
     if( myorigin->part_flag( part_num, "CARGO" ) && !myorigin->part( part_num ).is_broken() ) {

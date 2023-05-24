@@ -41,6 +41,16 @@ class testing_stack : public item_stack
         void insert( detached_ptr<item> &&newitem ) override {
             insert_with_return( std::move( newitem ) );
         }
+        detached_ptr<item> remove( item *to_remove ) override {
+            for( auto it = items->begin(); it != items->end(); it++ ) {
+                if( *it == to_remove ) {
+                    detached_ptr<item> out;
+                    erase( it, &out );
+                    return out;
+                }
+            }
+            return detached_ptr<item>();
+        }
         iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) override {
             return items->erase( it, out );
         }

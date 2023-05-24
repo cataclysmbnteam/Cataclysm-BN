@@ -3053,12 +3053,12 @@ units::mass Character::weight_carried_reduced_by( const excluded_stacks &without
     // Wielded item
     units::mass weaponweight = 0_gram;
     auto weapon_it = without.find( &*weapon );
+    int subtract_count = 0;
     if( weapon_it == without.end() ) {
         weaponweight = weapon->weight();
     } else {
-        int subtract_count = ( *weapon_it ).second;
+        subtract_count = ( *weapon_it ).second;
         if( weapon->count_by_charges() ) {
-            //TODO!: CHECK
             item *copy = &*weapon;
             copy->charges -= subtract_count;
             if( copy->charges < 0 ) {
@@ -3080,7 +3080,7 @@ units::mass Character::weight_carried_reduced_by( const excluded_stacks &without
     } else {
         ret += weaponweight;
     }
-
+    weapon->charges += subtract_count;
     return ret;
 }
 

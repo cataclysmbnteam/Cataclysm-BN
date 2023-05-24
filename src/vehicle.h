@@ -131,6 +131,7 @@ class vehicle_stack : public item_stack
         vehicle_stack( location_vector<item> *newstack, point newloc, vehicle *neworigin, int part ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
         iterator erase( const_iterator it, detached_ptr<item> *out = nullptr ) override;
+        detached_ptr<item> remove( item *to_remove ) override;
         void insert( detached_ptr<item> &&newitem ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_VEHICLE_STORAGE;
