@@ -1353,12 +1353,7 @@
     "skills_required": [ "mechanics", 3 ],
     "difficulty": 6,
     "autolearn": true,
-    "book_learn": [
-      [ "textbook_fabrication", 4 ],
-      [ "welding_book", 4 ],
-      [ "textbook_mechanics", 2 ],
-      [ "manual_mechanics", 2 ]
-    ],
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "welding_book", 4 ], [ "textbook_mechanics", 2 ], [ "manual_mechanics", 2 ] ],
     "time": "8 h",
     "using": [ [ "welding_standard", 25 ], [ "steel_standard", 20 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
