@@ -491,7 +491,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "fabrication",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
