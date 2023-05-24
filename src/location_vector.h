@@ -12,6 +12,16 @@ class location;
 
 struct tripoint;
 
+class item;
+
+template<typename T>
+class location_vector;
+
+namespace std
+{
+template<typename T>
+void swap( location_vector<T> &lhs, location_vector<T> &rhs );
+}
 
 template<typename T>
 class location_vector
@@ -22,7 +32,8 @@ class location_vector
         mutable int locked = 0;
         bool destroyed = false;
 
-        friend void std::swap( location_vector<T> &lhs, location_vector<T> &rhs );
+        template<typename U>
+        friend void std::swap( location_vector<U> &lhs, location_vector<U> &rhs );
 
     public:
         struct const_iterator;
@@ -264,10 +275,5 @@ class location_vector
 
         void on_destroy();
 };
-class item;
-namespace std
-{
-void swap( location_vector<item> &lhs, location_vector<item> &rhs );
-}
 
 #endif

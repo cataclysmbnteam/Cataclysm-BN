@@ -544,7 +544,8 @@ void location_vector<T>::on_destroy()
     destroyed = true;
 }
 
-void std::swap( location_vector<item> &lhs, location_vector<item> &rhs )
+template<>
+void std::swap<item>( location_vector<item> &lhs, location_vector<item> &rhs )
 {
     for( item *&it : lhs.contents ) {
         it->remove_location();
