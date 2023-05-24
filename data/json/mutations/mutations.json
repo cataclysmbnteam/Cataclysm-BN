@@ -6170,6 +6170,16 @@
   },
   {
     "type": "mutation",
+    "id": "PROF_MILITARY",
+    "name": { "str": "Military Remnant" },
+    "points": 0,
+    "description": "You are a member of the United States Armed Forces, or what's left of it at least.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
     "id": "NPC_BRANDY",
     "name": { "str": "Carries Brandy" },
     "points": 0,

@@ -21,7 +21,8 @@
     "monsters": [
       { "monster": "mon_zombie_soldier", "freq": 150, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_flamer", "freq": 200, "cost_multiplier": 30 },
-      { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 }
+      { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_feral_soldier", "starts": 250, "freq": 10, "cost_multiplier": 1 }
     ]
   },
   {
@@ -35,7 +36,8 @@
       { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_bio_op2", "freq": 25, "cost_multiplier": 5, "starts": 1440 },
-      { "monster": "mon_zombie_armored", "freq": 10, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_armored", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_feral_soldier", "freq": 25, "cost_multiplier": 1 }
     ]
   },
   {
@@ -53,7 +55,8 @@
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_scorched", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_zombie_hazmat", "freq": 25, "cost_multiplier": 1 },
-      { "monster": "mon_zombie", "freq": 50, "cost_multiplier": 1 }
+      { "monster": "mon_zombie", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_feral_soldier", "starts": 250, "freq": 25, "cost_multiplier": 1 }
     ]
   },
   {

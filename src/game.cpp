@@ -2745,6 +2745,9 @@ bool game::save()
         }, _( "uistate data" ) ) ) {
             return false;
         } else {
+            world_generator->last_world_name = world_generator->active_world->world_name;
+            world_generator->last_character_name = u.name;
+            world_generator->save_last_world_info();
             world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
             return true;
         }
@@ -8001,6 +8004,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         } else if( action == "fire" ) {
             if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                 u.last_target = shared_from( *cCurMon );
+                add_msg( "Target_set" );
                 u.recoil = MAX_RECOIL;
                 u.view_offset = stored_view_offset;
                 return game::vmenu_ret::FIRE;

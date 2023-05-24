@@ -81,7 +81,7 @@ template <typename E> struct enum_traits;
 
 enum class character_stat : char;
 
-#define MAX_CLAIRVOYANCE 40
+constexpr int MAX_CLAIRVOYANCE = 40;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -98,10 +98,10 @@ enum vision_modes {
 };
 
 enum npc_ai_info : size_t {
-    weapon_value = 0,
-    ideal_weapon_value,
+    ideal_weapon_value = 0,
     reloadables,
     reloadable_cbms,
+    range,
     num_npc_ai_info,
 };
 
@@ -583,6 +583,9 @@ class Character : public Creature, public visitable<Character>
         bool is_stealthy() const;
 
         bool uncanny_dodge() override;
+
+        /** Checks for chance that a ranged attack will hit other armor along the way */
+        bool block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
 
         // melee.cpp
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
@@ -1595,8 +1598,6 @@ class Character : public Creature, public visitable<Character>
         int focus_pool = 0;
         int cash = 0;
         std::set<character_id> follower_ids;
-        weak_ptr_fast<Creature> last_target;
-        std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
         std::set<tripoint_abs_omt> camps;

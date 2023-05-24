@@ -1146,6 +1146,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
                 bp.set_relative_rot( relative_rot );
             }
             bp.set_owner( p.get_faction()->id );
+            bp.inherit_flags( used, making );
             if( bp.made_of( LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else {

@@ -1553,7 +1553,11 @@
     "connections": [
       { "point": [ 5, -1, 0 ], "connection": "local_road", "from": [ 5, 0, 0 ] },
       { "point": [ -1, 7, 0 ], "connection": "local_road", "from": [ 0, 7, 0 ] },
-      { "point": [ 4, 9, 0 ], "connection": "local_road", "from": [ 4, 8, 0 ] }
+      { "point": [ 4, 9, 0 ], "connection": "local_road", "from": [ 4, 8, 0 ] },
+      { "point": [ -1, 6, -2 ], "connection": "subway_tunnel", "from": [ 0, 6, -2 ] },
+      { "point": [ 2, -1, -1 ], "connection": "sewer_tunnel", "from": [ 2, 0, -1 ] },
+      { "point": [ 1, 9, -1 ], "connection": "sewer_tunnel", "from": [ 1, 8, -1 ] },
+      { "point": [ 9, 6, -1 ], "connection": "sewer_tunnel", "from": [ 8, 6, -1 ] }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 12, -1 ],

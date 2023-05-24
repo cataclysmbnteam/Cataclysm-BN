@@ -6858,6 +6858,11 @@ bool item::can_unload_liquid() const
     return is_bucket() || !cts_is_frozen_liquid;
 }
 
+bool item::can_reload_with( const ammotype &ammo ) const
+{
+    return is_reloadable_helper( ammo->default_ammotype(), false );
+}
+
 bool item::can_reload_with( const itype_id &ammo ) const
 {
     return is_reloadable_helper( ammo, false );

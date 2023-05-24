@@ -30,6 +30,7 @@
 #include "consumption.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "damage.h"
 #include "debug.h"
 #include "disease.h"
 #include "effect.h"
@@ -57,6 +58,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "math_defines.h"
+#include "martialarts.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
@@ -113,6 +115,10 @@ static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_watch( "bio_watch" );
+
+static const matec_id WBLOCK_1( "WBLOCK_1" );
+static const matec_id WBLOCK_2( "WBLOCK_2" );
+static const matec_id WBLOCK_3( "WBLOCK_3" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_ai_waiting( "ai_waiting" );
@@ -995,11 +1001,15 @@ void Character::mount_creature( monster &z )
         guy.setpos( pnt );
     }
     z.facing = facing;
-    add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
-    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( !z.type->mech_weapon.is_empty() ) {
-            item mechwep = item( z.type->mech_weapon );
-            wield( mechwep );
+    // Make sure something didn't interrupt this process and knock the player off partway through!
+    if( has_effect( effect_riding ) ) {
+        add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
+        if( z.has_flag( MF_RIDEABLE_MECH ) ) {
+            if( !z.type->mech_weapon.is_empty() ) {
+                auto mechwep = item{ z.type->mech_weapon };
+                wield( mechwep );
+            }
+            add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
         }
         add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
     }
@@ -2505,7 +2515,6 @@ item Character::remove_weapon()
 {
     item tmp = primary_weapon();
     set_primary_weapon( item() );
-    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
     clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     return tmp;
 }
@@ -10647,6 +10656,146 @@ float Character::stability_roll() const
 bool Character::uncanny_dodge()
 {
     return character_funcs::try_uncanny_dodge( *this );
+}
+
+namespace
+{
+
+auto is_foot_hit( const bodypart_id &bp_hit ) -> bool
+{
+    return bp_hit == bodypart_str_id( "foot_l" ) || bp_hit == bodypart_str_id( "foot_r" );
+}
+
+auto is_leg_hit( const bodypart_id &bp_hit ) -> bool
+{
+    return bp_hit == bodypart_str_id( "leg_l" ) || bp_hit == bodypart_str_id( "leg_r" );
+}
+
+/**
+ * @brief Check if the given shield can protect the given bodypart.
+ *
+ * - Best item available doesn't count as a shield.
+ * - Shield already protects the part we're interested in.
+ * - Targeted bodypart is a foot, unlikely to ever successfully block that low.
+ */
+auto is_covered_by_shield( const bodypart_id &bp_hit, const item &shield ) -> bool
+{
+    return shield.has_flag( "BLOCK_WHILE_WORN" )
+           && !shield.covers( bp_hit->token )
+           && !is_foot_hit( bp_hit );
+}
+
+enum class ShieldLevel { None, Block1, Block2, Block3 };
+auto shield_level( const item &shield ) -> ShieldLevel
+{
+    if( shield.has_technique( WBLOCK_3 ) ) {
+        return ShieldLevel::Block3;
+    } else if( shield.has_technique( WBLOCK_2 ) ) {
+        return ShieldLevel::Block2;
+    } else if( shield.has_technique( WBLOCK_1 ) ) {
+        return ShieldLevel::Block1;
+    }
+    return ShieldLevel::None;
+}
+
+auto coverage_modifier_by_technic( ShieldLevel level, bool leg_hit ) -> float
+{
+    switch( level ) {
+        case ShieldLevel::Block3:
+            return leg_hit ? 0.75f : 0.9f;
+        case ShieldLevel::Block2:
+            return leg_hit ? 0.5f : 0.8f;
+        case ShieldLevel::Block1:
+            return leg_hit ? 0.25f : 0.7f;
+        default:
+            return 0.0f;
+    }
+}
+
+auto is_valid_hallucination( Creature *source ) -> bool
+{
+    return source != nullptr && source->is_hallucination();
+}
+
+auto get_shield_resist( const item &shield, const damage_unit &damage ) -> int
+{
+    // *INDENT-OFF*
+    switch( damage.type ) {
+        case DT_BASH:   return shield.bash_resist();
+        case DT_CUT:    return shield.cut_resist();
+        case DT_STAB:   return shield.stab_resist();
+        case DT_BULLET: return shield.bullet_resist();
+        case DT_HEAT:   return shield.fire_resist();
+        case DT_ACID:   return shield.acid_resist();
+        default:        return 0;
+    }
+    // *INDENT-ON*
+}
+
+auto get_block_amount( const item &shield, const damage_unit &unit ) -> int
+{
+    const int resist = get_shield_resist( shield, unit );
+
+    return std::max( 0.0f, ( resist - unit.res_pen ) * unit.res_mult );
+}
+
+} // namespace
+
+bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
+{
+    // Having access to more than one shield is not normal in vanilla, for now keep it simple and only give one chance to catch a bullet.
+    item &shield = best_shield();
+
+    // Bail out early just in case, if blocking with bare hands.
+    if( shield.is_null() ) {
+        return false;
+    }
+
+    const auto level = shield_level( shield );
+    if( level == ShieldLevel::None || !is_covered_by_shield( bp_hit, shield ) ) {
+        return false;
+    }
+    // Modify chance based on coverage and blocking ability, with lowered chance if hitting the legs. Exclude armguards here.
+    const float technic_modifier = coverage_modifier_by_technic( level, is_leg_hit( bp_hit ) );
+    const float shield_coverage_modifier = shield.get_coverage() * technic_modifier;
+
+    add_msg( m_debug, _( "block_ranged_hit success rate: %i%%" ),
+             static_cast<int>( shield_coverage_modifier ) );
+
+    // Now roll coverage to determine if we intercept the shot.
+    if( rng( 1, 100 ) > shield_coverage_modifier ) {
+        add_msg( m_debug, _( "block_ranged_hit attempt failed" ) );
+        return false;
+    }
+
+    const float wear_modifier = is_valid_hallucination( source ) ? 0.0f : 1.0f;
+    handle_melee_wear( shield, wear_modifier );
+
+    int total_damage = 0;
+    int blocked_damage = 0;
+    for( auto &elem : dam.damage_units ) {
+        total_damage += elem.amount * elem.damage_multiplier;
+        // Go through all relevant damage types and reduce by armor value if one exists.
+        const float block_amount = get_block_amount( shield, elem );
+        elem.amount -= block_amount;
+        blocked_damage += block_amount;
+    }
+    blocked_damage = std::min( total_damage, blocked_damage );
+    add_msg( m_debug, _( "expected base damage: %i" ), total_damage );
+
+    const std::string thing_blocked_with = shield.tname();
+    if( blocked_damage > 0 ) {
+        add_msg_player_or_npc(
+            _( "The shot hits your %s, absorbing %i damage." ),
+            _( "The shot hits <npcname>'s %s, absorbing %i damage." ),
+            thing_blocked_with, blocked_damage );
+    } else {
+        add_msg_player_or_npc(
+            _( "The shot hits your %s, but it punches right through!" ),
+            _( "The shot hits <npcname>'s %s, but it punches right through!" ),
+            thing_blocked_with );
+    }
+    return true;
 }
 
 float Character::fall_damage_mod() const

@@ -1,0 +1,83 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "limit_fungal_growth",
+    "name": "Limit Fungal Growth",
+    "authors": [ "FickDiddler" ],
+    "description": "Greatly limits the exponential growth ability of fungaloids.",
+    "category": "rebalance",
+    "dependencies": [ "bn" ]
+  },
+  {
+    "id": "mon_spore",
+    "copy-from": "mon_spore",
+    "type": "MONSTER",
+    "name": { "str": "spore cloud" },
+    "special_attacks": [ [ "DISAPPEAR", 10 ] ],
+    "delete": { "special_attacks": [ [ "PLANT", 100 ] ] }
+  },
+  {
+    "id": "mon_boomer_fungus",
+    "copy-from": "mon_boomer_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal boomer" },
+    "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
+    "delete": { "special_attacks": [ [ "FUNGUS", 100 ] ] }
+  },
+  {
+    "id": "mon_fungal_blossom",
+    "copy-from": "mon_fungal_blossom",
+    "type": "MONSTER",
+    "name": { "str": "fungal blossom" },
+    "special_attacks": [ [ "NONE", 0 ] ],
+    "delete": { "special_attacks": [ [ "FUNGUS_HAZE", 25 ] ] }
+  },
+  {
+    "id": "mon_fungal_wall",
+    "copy-from": "mon_fungal_wall",
+    "type": "MONSTER",
+    "name": { "str": "fungal wall" },
+    "special_attacks": [ [ "NONE", 0 ] ],
+    "delete": { "special_attacks": [ [ "FUNGUS", 10 ] ] }
+  },
+  {
+    "id": "mon_fungaloid",
+    "copy-from": "mon_fungaloid",
+    "type": "MONSTER",
+    "name": { "str": "fungaloid" },
+    "special_attacks": [ [ "NONE", 0 ] ],
+    "delete": { "special_attacks": [ [ "FUNGUS", 30 ] ] }
+  },
+  {
+    "id": "mon_zombie_fungus",
+    "copy-from": "mon_zombie_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal zombie" },
+    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
+    "delete": { "special_attacks": [ [ "FUNGUS", 200 ] ] }
+  },
+  {
+    "id": "mon_zombie_child_fungus",
+    "copy-from": "mon_zombie_child_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal child", "str_pl": "fungal children" },
+    "special_attacks": [ [ "scratch", 15 ] ],
+    "delete": { "special_attacks": [ [ "FUNGUS", 200 ] ] }
+  },
+  {
+    "id": "mon_ant_fungus",
+    "copy-from": "mon_ant_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal ant" },
+    "special_attacks": [ [ "NONE", 0 ] ],
+    "delete": { "special_attacks": [ [ "FUNGUS", 200 ] ] }
+  },
+  {
+    "id": "mon_spider_fungus",
+    "copy-from": "mon_spider_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal spider" },
+    "special_attacks": [ [ "NONE", 0 ] ],
+    "delete": { "special_attacks": [ [ "FUNGAL_TRAIL", 3 ] ] }
+  }
+]
