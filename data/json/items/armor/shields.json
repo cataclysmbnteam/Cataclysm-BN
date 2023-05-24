@@ -211,9 +211,7 @@
     "weight": "3500 g",
     "price": "100 USD",
     "price_postapoc": "12 USD",
-    "to_hit": 0,
-    "bashing": 22,
-    "cutting": 22,
+    "cutting": 8,
     "extend": { "flags": [ "STAB" ] }
   },
   {
