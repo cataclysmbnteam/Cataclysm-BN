@@ -189,17 +189,17 @@
     "looks_like": "shield_banded",
     "type": "ARMOR",
     "name": { "str": "buckler" },
-    "description": "A small metal shield historically used for dueling rather than protection from arrows.  It can be held in one hand without needing to be strapped to the forearm.",
+    "description": "A small metal shield historically used for dueling rather than protection from arrows.  It's small and light enough to not hinder the use of your hands.",
     "volume": "1 L",
     "weight": "1400 g",
     "price": "120 USD",
     "price_postapoc": "10 USD",
     "material": [ "steel" ],
-    "to_hit": -2,
-    "bashing": 10,
+    "to_hit": 0,
     "covers": [ "arm_either" ],
+    "coverage": 50,
     "encumbrance": 10,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY" ]
+    "flags": [ "OVERSIZE", "BELTED", "ONLY_ONE", "BLOCK_WHILE_WORN", "STURDY" ]
   },
   {
     "id": "shield_spiked",
