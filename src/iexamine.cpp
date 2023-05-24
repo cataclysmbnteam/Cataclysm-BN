@@ -4711,7 +4711,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 where.z--;
                 below.z--;
             }
-
+            
             const int height = examp.z - where.z;
             add_msg_debug( debugmode::DF_IEXAMINE, "Ledge height %d", height );
             if( height == 0 ) {
