@@ -495,7 +495,7 @@
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
-    "components": [ [ [ "steel_plate", 1 ] ] , [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "steel_plate", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "shield_buckler",
