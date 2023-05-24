@@ -106,7 +106,7 @@
     "encumbrance": 16,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_2" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "STURDY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "shield_banded",
@@ -128,7 +128,7 @@
     "encumbrance": 20,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_2" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY", "NONCONDUCTIVE" ]
   },
   {
     "id": "shield_leather_large",
