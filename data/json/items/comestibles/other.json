@@ -288,8 +288,8 @@
     "volume": "250 ml",
     "cooks_like": "beans_cooked",
     "charges": 6,
-    "fun": -6,
-    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ]
+    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ],
+    "fun": -6
   },
   {
     "type": "COMESTIBLE",
@@ -435,8 +435,8 @@
     "material": "veggy",
     "volume": "250 ml",
     "charges": 2,
-    "fun": -10,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ]
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
+    "fun": -10
   },
   {
     "type": "COMESTIBLE",
