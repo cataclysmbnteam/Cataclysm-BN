@@ -1471,8 +1471,12 @@ item &Character::get_consumable_from( item &it ) const
     return null_comestible;
 }
 
-static bool query_consume_ownership( item &target, avatar &you )
+bool query_consume_ownership( item &target, avatar &you )
 {
+	//Add in a reset here to make sure user keeps getting asked if not set to keep thief setting
+	if( you.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        you.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
     if( !target.is_owned_by( you, true ) ) {
         bool choice = true;
         if( you.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {

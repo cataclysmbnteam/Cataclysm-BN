@@ -3,6 +3,7 @@
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "character_functions.h"
+#include "consumption.h"
 #include "fault.h"
 #include "field_type.h"
 #include "game.h"
@@ -646,32 +647,11 @@ static bool add_or_drop_with_msg( avatar &you, item &it, bool unloading )
     return true;
 }
 
-//Taken from consumption.cpp with the value reset here to keep asking as this is not a public function in consumption.cpp
-static bool query_interaction_ownership( item &target, avatar &you )
-{
-
-    if( you.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-        you.set_value( "THIEF_MODE", "THIEF_ASK" );
-    }
-    if( !target.is_owned_by( you, true ) ) {
-        bool choice = true;
-        if( you.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
-            choice = pickup::query_thief();
-        }
-        if( you.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
-            return false;
-        }
-        //Makes them warn you in the same way as when you eat food - possibly need to change to confront.
-        handle_theft_witnesses( you, target.get_owner() );
-    }
-    return true;
-}
-
 bool unload_item( avatar &you, item_location loc )
 {
     item &it = *loc.get_item();
     //Give the player the same options as when attempting to eat food that doesn't belong to them, bomb out if they say no.
-    if( !query_interaction_ownership( it, you ) ) {
+    if( !query_consume_ownership( it, you ) ) {
         return false;
     }
     // Unload a container consuming moves per item successfully removed
