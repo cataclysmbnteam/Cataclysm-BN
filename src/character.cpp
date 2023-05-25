@@ -3059,13 +3059,12 @@ units::mass Character::weight_carried_reduced_by( const excluded_stacks &without
     } else {
         subtract_count = ( *weapon_it ).second;
         if( weapon->count_by_charges() ) {
-            item *copy = &*weapon;
-            copy->charges -= subtract_count;
-            if( copy->charges < 0 ) {
+            weapon->charges -= subtract_count;
+            if( weapon->charges < 0 ) {
                 debugmsg( "Trying to remove more charges than the wielded item has" );
-                copy->charges = 0;
+                weapon->charges = 0;
             }
-            weaponweight = copy->weight();
+            weaponweight = weapon->weight();
         } else if( subtract_count > 1 ) {
             debugmsg( "Trying to remove more than one wielded item" );
         }
