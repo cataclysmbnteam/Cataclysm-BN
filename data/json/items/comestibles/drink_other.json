@@ -253,10 +253,9 @@
     "comestible_type": "FOOD",
     "container": "jar_glass",
     "quench": -10,
-    "calories": 30,
+    "calories": 31,
     "charges": 48,
     "healthy": 1,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": -20,
     "phase": "liquid"
   },
