@@ -1392,7 +1392,7 @@
     "id": "swat_heavy",
     "name": "SWAT CQC Specialist",
     "description": "A member of the police force's most elite division, your close quarters combat training has kept you alive thus far.  Unfortunately, the breakdown of society has brought you to your current state of affairs; you now fight to simply stay alive.",
-    "points": 5,
+    "points": 6,
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "shotgun" },
