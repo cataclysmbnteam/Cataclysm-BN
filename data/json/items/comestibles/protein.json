@@ -19,7 +19,7 @@
     "phase": "liquid",
     "container": "bottle_plastic",
     "material": "water",
-    "calories": 100,
+    "calories": 148,
     "quench": 40,
     "healthy": 2,
     "fun": -1,
@@ -46,8 +46,7 @@
     "symbol": "%",
     "color": "white",
     "container": "bottle_plastic_small",
-    "calories": 100,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "calories": 148,
     "vitamins": [  ]
   },
   {
@@ -82,7 +81,7 @@
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.",
     "material": "fruit",
-    "calories": 150,
+    "calories": 222,
     "healthy": 4,
     "fun": 4,
     "volume": "500 ml",
