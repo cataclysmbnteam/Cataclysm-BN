@@ -101,7 +101,6 @@
     "material": "junk",
     "volume": "250 ml",
     "charges": 8,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": -6
   },
   {
@@ -181,14 +180,13 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
-    "calories": 377,
+    "calories": 307,
     "description": "A salty treat of a snack, covered in chocolate.",
     "price": 200,
     "price_postapoc": 350,
     "material": [ "wheat", "junk" ],
     "volume": "500 ml",
     "charges": 3,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 6
   },
   {
@@ -403,7 +401,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 1,
-    "calories": 54,
+    "calories": 53,
     "description": "Boiling the sap of a maple tree has concentrated it into sweet, delicious maple syrup.",
     "price": 600,
     "price_postapoc": 750,
@@ -411,7 +409,6 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 16,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 5,
     "vitamins": [ [ "calcium", 2 ] ],
     "freezing_point": -70
@@ -488,7 +485,7 @@
     "symbol": "%",
     "quench": -1,
     "addiction_potential": 2,
-    "calories": 140,
+    "calories": 138,
     "description": "Roasted coffee beans coated with dark chocolate, natural source of concentrated caffeine.",
     "price": 300,
     "price_postapoc": 300,
@@ -496,7 +493,6 @@
     "volume": "250 ml",
     "charges": 5,
     "stack_size": 30,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 2
   },
   {
@@ -601,7 +597,7 @@
     "symbol": "%",
     "quench": -2,
     "healthy": -2,
-    "calories": 257,
+    "calories": 254,
     "description": "Some caramel.  Still bad for your health.",
     "price": 150,
     "price_postapoc": 500,
@@ -609,7 +605,6 @@
     "volume": "250 ml",
     "charges": 5,
     "vitamins": [ [ "calcium", 9 ], [ "vitB", 8 ] ],
-    "flags": [ "NUTRIENT_OVERRIDE" ],
     "fun": 2
   },
   {
