@@ -560,7 +560,7 @@
     "valid": false,
     "social_modifiers": { "intimidate": 5 },
     "cancels": [ "KILLER", "PACIFIST" ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "PSYCHOPATH", "CANNIBAL" ]
   },
   {
     "type": "mutation",
@@ -574,7 +574,7 @@
     "prereqs": [ "PSYCHOPATH" ],
     "category": [ "LUPINE" ],
     "cancels": [ "PACIFIST" ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "PSYCHOPATH" ]
   },
   {
     "type": "mutation",

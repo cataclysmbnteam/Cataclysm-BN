@@ -114,6 +114,7 @@ static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -2520,14 +2521,21 @@ void npc::die( Creature *nkiller )
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
         bool cannibal = g->u.has_trait( trait_CANNIBAL );
-        bool psycho = g->u.has_trait( trait_PSYCHOPATH );
+        bool psycho = g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_KILLER );
         if( g->u.has_trait( trait_SAPIOVORE ) || psycho ) {
-            // No morale effect
+            // No morale penalty
         } else if( cannibal ) {
             g->u.add_morale( MORALE_KILLED_INNOCENT, -5, 0, 2_days, 3_hours );
         } else {
             g->u.add_morale( MORALE_KILLED_INNOCENT, -100, 0, 2_days, 3_hours );
         }
+    }
+
+    if( killer == &g->u && g->u.has_trait( trait_KILLER ) ) {
+        const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
+        g->u.add_msg_if_player( m_good, "%s", snip );
+        g->u.add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
+        g->u.rem_morale( MORALE_KILLER_NEED_TO_KILL );
     }
 
     place_corpse();
