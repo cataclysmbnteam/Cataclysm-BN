@@ -231,8 +231,9 @@ monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
     unset_dest();
 }
 
-monster::monster( const monster &source ) : corpse_components( new monster_component_item_location(
-                this ) ), tied_item( new monster_tied_item_location( this ) ),
+monster::monster( const monster &source ) : Creature( source ),
+    corpse_components( new monster_component_item_location(
+                           this ) ), tied_item( new monster_tied_item_location( this ) ),
     tack_item( new monster_tack_item_location( this ) ),
     armor_item( new monster_armor_item_location( this ) ),
     storage_item( new monster_storage_item_location( this ) ),
@@ -286,11 +287,11 @@ monster::monster( const monster &source ) : corpse_components( new monster_compo
     set_armor_item( item::spawn( *source.armor_item ) );
     set_storage_item( item::spawn( *source.storage_item ) );
     set_battery_item( item::spawn( *source.battery_item ) );
-
 };
 
-monster::monster( monster &&source ) : corpse_components( new monster_component_item_location(
-                this ) ), tied_item( new monster_tied_item_location( this ) ),
+monster::monster( monster &&source ) : Creature( std::move( source ) ),
+    corpse_components( new monster_component_item_location(
+                           this ) ), tied_item( new monster_tied_item_location( this ) ),
     tack_item( new monster_tack_item_location( this ) ),
     armor_item( new monster_armor_item_location( this ) ),
     storage_item( new monster_storage_item_location( this ) ),
@@ -344,7 +345,6 @@ monster::monster( monster &&source ) : corpse_components( new monster_component_
     set_armor_item( item::spawn( *source.armor_item ) );
     set_storage_item( item::spawn( *source.storage_item ) );
     set_battery_item( item::spawn( *source.battery_item ) );
-
 };
 
 
