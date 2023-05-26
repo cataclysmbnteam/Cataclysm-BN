@@ -49,7 +49,6 @@
     "volume": "2500 ml",
     "weight": "1800 g",
     "bashing": 8,
-    "cutting": 11,
     "techniques": [ "WBLOCK_1" ],
     "extend": { "flags": [ "REACH_ATTACK", "SHEATH_SPEAR" ] }
   },
