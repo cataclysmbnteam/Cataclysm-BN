@@ -3069,6 +3069,8 @@ units::mass Character::weight_carried_reduced_by( const excluded_stacks &without
             weaponweight = weapon->weight();
         } else if( subtract_count > 1 ) {
             debugmsg( "Trying to remove more than one wielded item" );
+        } else {
+            subtract_count = 0;
         }
     }
     // Exclude wielded item if using lifting tool

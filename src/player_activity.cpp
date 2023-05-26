@@ -377,7 +377,7 @@ void player_activity::do_turn( player &p )
             }
         }
     }
-    if( !*this ) {
+    if( !p.activity ) {
         // Make sure data of previous activity is cleared
         p.activity = std::make_unique<player_activity>();
         p.resume_backlog_activity();
