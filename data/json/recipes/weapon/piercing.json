@@ -12,6 +12,17 @@
   },
   {
     "type": "recipe",
+    "result": "pointy_stick_long",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "time": "48 s",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick_long", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "makeshift_knife",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
