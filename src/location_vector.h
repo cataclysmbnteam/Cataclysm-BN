@@ -17,6 +17,7 @@ class item;
 template<typename T>
 class location_vector;
 
+//TODO!: This should probably just be a static swap now and leave the std version alone.
 namespace std
 {
 template<typename T>

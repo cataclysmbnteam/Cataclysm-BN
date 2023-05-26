@@ -3062,6 +3062,8 @@ units::mass Character::weight_carried_reduced_by( const excluded_stacks &without
             weapon->charges -= subtract_count;
             if( weapon->charges < 0 ) {
                 debugmsg( "Trying to remove more charges than the wielded item has" );
+                //Set subtract_count to the original value of weapon->charges, so that it's set back correctly at the end
+                subtract_count += weapon->charges;
                 weapon->charges = 0;
             }
             weaponweight = weapon->weight();

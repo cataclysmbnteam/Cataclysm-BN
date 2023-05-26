@@ -5698,7 +5698,7 @@ void map::rotate( int turns, const bool setpos_safe )
 
         submap *sm1 = get_submap_at_grid( p1 );
         submap *sm2 = get_submap_at_grid( p2 );
-        submap::swap( *sm1, *sm2, tripoint( ( p1 - p2 )*SEEX, 0 ) );
+        submap::swap( *sm1, *sm2 );
 
     };
 

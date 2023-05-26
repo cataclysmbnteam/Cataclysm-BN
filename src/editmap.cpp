@@ -1895,7 +1895,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                     submap *destsm = here.get_submap_at_grid( dest_pos );
                     submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
 
-                    submap::swap( *destsm,  *srcsm, ( dest_pos - src_pos ) * 12 );
+                    submap::swap( *destsm,  *srcsm );
 
                     //TODO!: move this into the submap swap
                     for( auto &veh : destsm->vehicles ) {

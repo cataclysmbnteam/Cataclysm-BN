@@ -13,13 +13,10 @@
 #include "trap.h"
 #include "vehicle.h"
 
+
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( point p1, point p2 )
 {
-    tripoint offset = tripoint( p1 - p2, 0 );
-
-    itm[p1.x][p1.y].move_by( offset );
-    itm[p2.x][p2.y].move_by( -offset );
 
     std::swap( ter[p1.x][p1.y], ter[p2.x][p2.y] );
     std::swap( frn[p1.x][p1.y], frn[p2.x][p2.y] );
@@ -30,7 +27,7 @@ void maptile_soa<sx, sy>::swap_soa_tile( point p1, point p2 )
     std::swap( rad[p1.x][p1.y], rad[p2.x][p2.y] );
 }
 
-void submap::swap( submap &first, submap &second, tripoint offset )
+void submap::swap( submap &first, submap &second )
 {
     std::swap( first.ter, second.ter );
     std::swap( first.frn, second.frn );
@@ -39,19 +36,8 @@ void submap::swap( submap &first, submap &second, tripoint offset )
     std::swap( first.trp, second.trp );
     std::swap( first.rad, second.rad );
 
-    for( auto &row : first.itm ) {
-        for( auto &tile : row ) {
-            tile.move_by( -offset );
-        }
-    }
-    for( auto &row : second.itm ) {
-        for( auto &tile : row ) {
-            tile.move_by( offset );
-        }
-    }
-
     for( int x = 0; x < SEEX; x++ ) {
-        for( int y = 0; y < SEEX; y++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
             std::swap( first.itm[x][y], second.itm[x][y] );
         }
     }
