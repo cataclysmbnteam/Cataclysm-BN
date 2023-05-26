@@ -1392,7 +1392,7 @@
     "id": "swat_heavy",
     "name": "SWAT CQC Specialist",
     "description": "A member of the police force's most elite division, your close quarters combat training has kept you alive thus far.  Unfortunately, the breakdown of society has brought you to your current state of affairs; you now fight to simply stay alive.",
-    "points": 5,
+    "points": 6,
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "shotgun" },
@@ -1403,7 +1403,16 @@
     "traits": [ "PROF_SWAT" ],
     "items": {
       "both": {
-        "items": [ "socks", "swat_armor", "tac_fullhelmet", "boots_combat", "gloves_tactical", "badge_swat", "wristwatch" ],
+        "items": [
+          "socks",
+          "swat_armor",
+          "tac_fullhelmet",
+          "boots_combat",
+          "gloves_tactical",
+          "badge_swat",
+          "wristwatch",
+          "shield_ballistic"
+        ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -1484,6 +1493,7 @@
           "legguard_hard",
           "badge_deputy",
           "wristwatch",
+          "shield_riot",
           "gasbomb"
         ],
         "entries": [
