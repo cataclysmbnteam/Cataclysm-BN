@@ -195,7 +195,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_WEB_BRDIGE( "WEB_BRIDGE" );
+static const trait_id trait_WEB_BRIDGE( "WEB_BRIDGE" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
@@ -4614,7 +4614,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( ledge_action::jump_over, true, 'j', _( "Jump over." ) );
     cmenu.addentry( ledge_action::climb_down, true, 'c', _( "Climb down." ) );
-    if( p.has_trait( trait_WEB_BRDIGE ) ) {
+    if( p.has_trait( trait_WEB_BRIDGE ) ) {
         cmenu.addentry( ledge_action::spin_web_bridge, true, 'w', _( "Spin Web Bridge." ) );
     }
 
@@ -4717,7 +4717,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
         }
         case ledge_action::spin_web_bridge: {
 
-            if( !can_use_mutation_warn( trait_WEB_BRDIGE, p ) ) {
+            if( !can_use_mutation_warn( trait_WEB_BRIDGE, p ) ) {
                 break;
             }
             const int range = 6; //this means we could web across a gap of 5.
@@ -4741,7 +4741,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
                     g->m.ter_set( dest, t_web_bridge );
                 }
-                p.mutation_spend_resources( trait_WEB_BRDIGE );
+                p.mutation_spend_resources( trait_WEB_BRIDGE );
             }
             break;
         }
