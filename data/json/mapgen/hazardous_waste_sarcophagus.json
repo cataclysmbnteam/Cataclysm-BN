@@ -107,8 +107,8 @@
         "s": "t_floor",
         "v": "t_dirt",
         "V": "t_vat",
+        "W": "t_floor",
         "L": "t_door_metal_locked",
-        "W": "t_water_dispenser",
         "~": "t_thconc_floor",
         "`": "t_wall_glass"
       },
@@ -131,9 +131,11 @@
         "l": "f_locker",
         "p": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "s": "f_sink",
+        "W": "f_water_dispenser",
         "v": "f_vent_pipe"
       },
       "toilets": { "&": {  } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 75 ] } },
       "items": {
         "2": { "item": "coat_rack", "chance": 60, "repeat": 2 },
         "4": { "item": "toxic_dump_equipment", "chance": 85, "repeat": [ 1, 2 ] },
@@ -267,7 +269,7 @@
         "E": "t_elevator",
         "e": "t_elevator_control_off",
         "5": "t_console",
-        "W": "t_water_dispenser",
+        "W": "t_metal_floor",
         "~": [ [ "t_sewage", 55 ], [ "t_dirtfloor", 25 ], [ "t_dirtmound", 20 ] ]
       },
       "furniture": {
@@ -281,9 +283,11 @@
         "9": "f_utility_shelf",
         "a": "f_air_conditioner",
         "F": "f_filing_cabinet",
+        "W": "f_water_dispenser",
         "~": [ [ "f_null", 50 ], [ "f_wreckage", 50 ] ]
       },
       "toilets": { "&": {  } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 75 ] } },
       "items": {
         "8": { "item": "mechanics", "chance": 60, "repeat": [ 1, 2 ] },
         "9": { "item": "sewage_plant", "chance": 60, "repeat": [ 1, 2 ] },
