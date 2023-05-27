@@ -2237,7 +2237,6 @@ void options_manager::add_options_world_default()
          translate_marker( "A scaling factor that determines density of monster spawns." ),
          0.0, 50.0, 1.0, 0.1
        );
-	   
     add( "SPAWN_ANIMAL_DENSITY", world_default, translate_marker( "Animal spawn rate scaling factor" ),
          translate_marker( "A scaling factor that determines density of animal spawns." ),
          0.0, 50.0, 1.0, 0.1
