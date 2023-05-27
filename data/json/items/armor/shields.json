@@ -180,7 +180,7 @@
     "coverage": 90,
     "encumbrance": 40,
     "material_thickness": 3,
-    "techniques": [ "WBLOCK_3" ],
+    "techniques": [ "WBLOCK_2" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
   },
   {
