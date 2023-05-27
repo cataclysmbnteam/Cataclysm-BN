@@ -26,6 +26,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_unreachable.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -4658,7 +4659,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             }
 
             const bool has_grapnel = p.has_amount( itype_grapnel, 1 );
-            const int climb_cost = map_funcs::climbing_cost( here, where, examp );
+            const auto climb_cost = map_funcs::climbing_cost( here, where, examp );
             const auto fall_mod = p.fall_damage_mod();
             const std::string query_str = vgettext( "Looks like %d story.  Jump down?",
                                                     "Looks like %d stories.  Jump down?",
@@ -4667,46 +4668,59 @@ void iexamine::ledge( player &p, const tripoint &examp )
             if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
                 return;
             } else if( height == 1 ) {
-                enum class climb_result { dangerous_one_way, safe_one_way, safe, safe_difficult };
-                const auto get_status = [&]() {
+                enum class climb_result {
+                    one_way_dangerous, one_way_unclimbable,
+                    both_way_safe, both_way_grapnel, both_way_hard_to_climb,
+                };
+                const auto get_climb_result = [&]() {
                     if( has_grapnel ) {
-                        return climb_result::safe;
-                    } else if( climb_cost <= 0 && fall_mod > 0.8 ) {
-                        return climb_result::dangerous_one_way;
-                    } else if( climb_cost <= 0 ) {
-                        return climb_result::safe_one_way;
-                    } else if( climb_cost < 200 ) {
-                        return climb_result::safe;
+                        return climb_result::both_way_grapnel;
+                    }
+                    if( climb_cost.has_value() ) {
+                        return climb_cost.value() < 200
+                               ? climb_result::both_way_safe
+                               : climb_result::both_way_hard_to_climb;
                     } else {
-                        return climb_result::safe_difficult;
+                        return fall_mod > 0.8
+                               ? climb_result::one_way_dangerous
+                               : climb_result::one_way_unclimbable;
                     }
                 };
-                const auto status = get_status();
-                if( status != climb_result::safe ) {
-                    const auto get_query = [&]() {
-                        switch( status ) {
-                            case climb_result::dangerous_one_way:
-                                return _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
-                            case climb_result::safe_one_way:
-                                return _( "You probably won't be able to get back up.  Climb down?" );
-                            case climb_result::safe_difficult:
-                                return _( "You may have problems climbing back up.  Climb down?" );
-                            default:
-                                throw std::logic_error( "unreachable" );
-                        }
-                    };
-                    if( !query_yn( get_query() ) ) {
-                        return;
+                const auto get_message = []( climb_result res ) {
+                    switch( res ) {
+                        case climb_result::both_way_safe:
+                            return _( "You climb down." );
+                        case climb_result::both_way_grapnel:
+                            return _( "You tie the rope around your waist and begin to climb down." );
+                        case climb_result::both_way_hard_to_climb:
+                            return _( "You climb down but feel that it won't be easy to climb back up." );
+                        case climb_result::one_way_dangerous:
+                            return _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
+                        case climb_result::one_way_unclimbable:
+                            return _( "You probably won't be able to get back up.  Climb down?" );
                     }
+                    cata::unreachable();
+                };
+                add_msg( m_debug, "climb_cost: %d", climb_cost.value_or( -1 ) );
+                const auto result = get_climb_result();
+                const auto message = get_message( result );
+                switch( result ) {
+                    case climb_result::both_way_safe:
+                    case climb_result::both_way_grapnel:
+                    case climb_result::both_way_hard_to_climb:
+                        p.add_msg_if_player( message );
+                        break;
+                    case climb_result::one_way_dangerous:
+                    case climb_result::one_way_unclimbable:
+                    default:
+                        if( !query_yn( message ) ) {
+                            return;
+                        }
                 }
             }
 
             p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
             p.setpos( examp );
-
-            if( has_grapnel ) {
-                p.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
-            }
 
             if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
                 // One tile of falling less (possibly zero)
