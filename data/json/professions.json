@@ -4761,7 +4761,7 @@
     "copy-from": "prof_feral_unemployed",
     "name": "Feral Soldier",
     "//": "Contains a Full Metal Jacket reference.  One higher point cost due to added gear.",
-    "description": "As far as you can tell, command abandoned you to this hellhole.  How can you take care of a bunch of panicked civilians in need of assistance with no backup?   Easy, you just don't lead 'em so much.",
+    "description": "As far as you can tell, command abandoned you to this hellhole.  How can you take care of a bunch of panicked civilians in need of assistance with no backup?  Easy, you just don't lead 'em so much.",
     "points": 5,
     "traits": [ "PROF_MILITARY", "PROF_FERAL" ],
     "skills": [
