@@ -116,6 +116,7 @@ static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
@@ -2019,7 +2020,7 @@ bool npc::is_minion() const
 
 bool npc::guaranteed_hostile() const
 {
-    return is_enemy() || ( my_fac && my_fac->likes_u < -10 );
+    return is_enemy() || ( my_fac && my_fac->likes_u < -10 ) || g->u.has_trait( trait_PROF_FERAL );
 }
 
 bool npc::is_walking_with() const

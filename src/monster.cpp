@@ -111,6 +111,7 @@ static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
@@ -1124,6 +1125,13 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
+        static const string_id<monfaction> faction_zombie( "zombie" );
+        if( faction == faction_zombie || type->in_species( ZOMBIE ) ) {
+            if( u->has_trait( trait_PROF_FERAL ) ) {
+                return MATT_FRIEND;
+            }
+        }
+
         if( type->in_species( FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
                                             u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
@@ -1140,7 +1148,15 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         if( has_flag( MF_ANIMAL ) ) {
-            if( u->has_trait( trait_ANIMALEMPATH ) ) {
+            if( u->has_trait( trait_PROF_FERAL ) ) {
+                // We want wildlife to amp their normal fight-or-flight response up to eleven, so anger_relation won't cut it.
+                if( effective_anger >= -10 ) {
+                    effective_anger += 25;
+                }
+                if( effective_anger < -10 ) {
+                    effective_morale -= 100;
+                }
+            } else if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
                     effective_morale += 55;
