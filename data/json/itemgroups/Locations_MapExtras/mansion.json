@@ -452,7 +452,12 @@
     "id": "soa_plate",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_plate" }, [ "armor_lightplate", 100 ], [ "helmet_barbute", 100 ] ]
+    "items": [
+      { "group": "soa_weapons_plate" },
+      { "group": "soa_shields_plate", "prob": 25 },
+      [ "armor_lightplate", 100 ],
+      [ "helmet_barbute", 100 ]
+    ]
   },
   {
     "id": "soa_weapons_plate",
@@ -465,10 +470,15 @@
     ]
   },
   {
+    "id": "soa_shields_plate",
+    "type": "item_group",
+    "items": [ [ "shield_leather", 50 ] ]
+  },
+  {
     "id": "soa_mail",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_mail" }, [ "chainmail_suit", 100 ] ]
+    "items": [ { "group": "soa_weapons_mail" }, { "group": "soa_shields_mail", "prob": 50 }, [ "chainmail_suit", 100 ] ]
   },
   {
     "id": "soa_weapons_mail",
@@ -478,6 +488,17 @@
       { "group": "soa_fake_weapon_mail", "prob": 3 },
       { "group": "soa_poor_weapon_mail", "prob": 3 },
       { "group": "soa_real_weapon_mail", "prob": 3 }
+    ]
+  },
+  {
+    "id": "soa_shields_mail",
+    "type": "item_group",
+    "items": [
+      [ "shield_wooden", 10 ],
+      [ "shield_wooden_large", 5 ],
+      [ "shield_banded", 30 ],
+      [ "shield_leather", 40 ],
+      [ "shield_leather_large", 30 ]
     ]
   },
   {

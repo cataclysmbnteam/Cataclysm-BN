@@ -26,7 +26,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "150 s",
-    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 24 ] ] ]
   },
   {
@@ -35,7 +35,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "12 s",
-    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {

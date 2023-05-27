@@ -1073,7 +1073,7 @@
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": -2,
-    "material": [ "paper" ],
+    "material": [ "dry_plant" ],
     "symbol": "[",
     "looks_like": "leathersandals",
     "color": "light_gray",
