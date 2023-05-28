@@ -30,7 +30,7 @@
 // the execution flow to help clarify how it all fits together.
 //
 // * Various core game code paths generate events via the event bus.
-// * The stats_traecker subscribes to the event bus, and receives these events.
+// * The stats_tracker subscribes to the event bus, and receives these events.
 // * Events contribute to event_multisets managed by the stats_tracker.
 // * (In the docs, these event_multisets are described as "event streams").
 // * (Optionally) event_transformations transform these event_multisets into
@@ -320,8 +320,10 @@ achievement_completion kill_req_completed( const achievement &ach )
             break;
         }
         auto& [comp, count] = pair;
-        int kill_count = m_id == mtype_id::NULL_ID() ? kills.monster_kill_count() :
-                         kills.kill_count( m_id );
+        // HACK: Achievement checks are triggered before kill tracker is properly updated.
+        int kill_count = 1;
+        kill_count += m_id == mtype_id::NULL_ID() ? kills.monster_kill_count() :
+                      kills.kill_count( m_id );
         if( !ach_compare( comp, count, kill_count ) ) {
             switch( comp ) {
                 case achievement_comparison::greater_equal:
@@ -342,7 +344,8 @@ achievement_completion kill_req_completed( const achievement &ach )
             break;
         }
         auto& [comp, count] = pair;
-        int kill_count = kills.kill_count( fac_id );
+        // HACK: Achievement checks are triggered before kill tracker is properly updated.
+        int kill_count = 1 + kills.kill_count( fac_id );
         if( !ach_compare( comp, count, kill_count ) ) {
             switch( comp ) {
                 case achievement_comparison::greater_equal:
