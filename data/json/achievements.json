@@ -2,14 +2,14 @@
   {
     "id": "achievement_kill_zombie",
     "type": "achievement",
-    "name": "[Combat] One down, billions to go\u2026",
+    "name": { "str": "[Combat] One Down, Billions to Go\u2026" },
     "kill_requirements": [ { "faction": "ZOMBIE", "is": ">=", "count": 1 } ],
     "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": "anything" } ]
   },
   {
     "id": "achievement_kill_50_zombie",
     "type": "achievement",
-    "name": "[Combat] The Undertaker",
+    "name": { "str": "[Combat] The Undertaker" },
     "kill_requirements": [ { "faction": "ZOMBIE", "is": ">=", "count": 50 } ],
     "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": "anything" } ]
   },
@@ -23,7 +23,7 @@
   {
     "id": "achievement_kill_10_monsters",
     "type": "achievement",
-    "name": "[Combat] Decamate",
+    "name": { "str": "[Combat] Decamate" },
     "kill_requirements": [ { "monster": "mon_null", "is": ">=", "count": 10 } ],
     "requirements": [ { "event_statistic": "num_avatar_kills", "is": "anything" } ]
   },
