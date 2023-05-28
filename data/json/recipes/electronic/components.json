@@ -158,7 +158,7 @@
     "time": "1 h 25 m",
     "reversible": true,
     "decomp_learn": 4,
-    "book_learn": [ [ "recipe_lab_elec", 7 ] ],
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_atomic_lab", 8 ] ],
     "using": [ [ "soldering_standard", 24 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 6 ] ], [ [ "amplifier", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 14 ] ], [ [ "plut_cell", 2 ] ] ]

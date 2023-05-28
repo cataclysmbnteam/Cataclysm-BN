@@ -98,10 +98,10 @@ enum vision_modes {
 };
 
 enum npc_ai_info : size_t {
-    weapon_value = 0,
-    ideal_weapon_value,
+    ideal_weapon_value = 0,
     reloadables,
     reloadable_cbms,
+    range,
     num_npc_ai_info,
 };
 
@@ -583,6 +583,9 @@ class Character : public Creature, public visitable<Character>
         bool is_stealthy() const;
 
         bool uncanny_dodge() override;
+
+        /** Checks for chance that a ranged attack will hit other armor along the way */
+        bool block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
 
         // melee.cpp
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */

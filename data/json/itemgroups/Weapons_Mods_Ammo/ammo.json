@@ -717,5 +717,10 @@
       { "item": "medium_atomic_battery_cell", "prob": 2, "charges": 5000 },
       { "item": "heavy_atomic_battery_cell", "prob": 1, "charges": 10000 }
     ]
+  },
+  {
+    "id": "mech_power_cell_spawn",
+    "type": "item_group",
+    "items": [ { "item": "huge_atomic_battery_cell", "prob": 10, "charges": [ 0, 100000 ] } ]
   }
 ]

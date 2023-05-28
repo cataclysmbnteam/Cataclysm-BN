@@ -1553,7 +1553,11 @@
     "connections": [
       { "point": [ 5, -1, 0 ], "connection": "local_road", "from": [ 5, 0, 0 ] },
       { "point": [ -1, 7, 0 ], "connection": "local_road", "from": [ 0, 7, 0 ] },
-      { "point": [ 4, 9, 0 ], "connection": "local_road", "from": [ 4, 8, 0 ] }
+      { "point": [ 4, 9, 0 ], "connection": "local_road", "from": [ 4, 8, 0 ] },
+      { "point": [ -1, 6, -2 ], "connection": "subway_tunnel", "from": [ 0, 6, -2 ] },
+      { "point": [ 2, -1, -1 ], "connection": "sewer_tunnel", "from": [ 2, 0, -1 ] },
+      { "point": [ 1, 9, -1 ], "connection": "sewer_tunnel", "from": [ 1, 8, -1 ] },
+      { "point": [ 9, 6, -1 ], "connection": "sewer_tunnel", "from": [ 8, 6, -1 ] }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 12, -1 ],
@@ -7078,6 +7082,25 @@
       { "point": [ 2, -1, -1 ], "connection": "sewer_tunnel", "from": [ 2, 0, -1 ] }
     ],
     "city_distance": [ 4, 25 ],
+    "city_sizes": [ 3, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "URBAN", "ELECTRIC_GRID" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Power_Plant_Small",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "power_plant_small_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "power_plant_small_2_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "power_plant_small_3_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "power_plant_small_4_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "power_plant_small_2_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "power_plant_small_3_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "power_plant_small_4_roof_north" }
+    ],
+    "locations": [ "land" ],
+    "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "from": [ 0, 0, 0 ] } ],
+    "city_distance": [ 2, 25 ],
     "city_sizes": [ 3, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "URBAN", "ELECTRIC_GRID" ]

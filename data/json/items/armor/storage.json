@@ -798,7 +798,7 @@
     "price": 200,
     "price_postapoc": 50,
     "to_hit": -1,
-    "material": [ "paper" ],
+    "material": [ "dry_plant" ],
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",

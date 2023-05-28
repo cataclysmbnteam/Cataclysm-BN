@@ -236,7 +236,7 @@
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 80 ] ] ]
+    "components": [ [ [ "scrap", 80 ], [ "sheet_metal_small", 16 ] ] ]
   },
   {
     "result": "duster",
@@ -404,7 +404,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 30 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 9 ] ] ]
+    "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 9 ], [ "sheet_metal_small", 2 ] ] ]
   },
   {
     "result": "kevlar",
@@ -1228,7 +1228,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "vest_leather", 1 ] ], [ [ "scrap", 5 ] ] ]
+    "components": [ [ [ "vest_leather", 1 ] ], [ [ "scrap", 5 ], [ "sheet_metal_small", 1 ] ] ]
   },
   {
     "result": "wool_hoodie",

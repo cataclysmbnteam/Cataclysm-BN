@@ -312,7 +312,7 @@
     "id": "hk417_13",
     "copy-from": "rifle_auto",
     "type": "GUN",
-    "name": { "str": "HK417 A2" },
+    "name": { "str": "H&K417 A2" },
     "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36.",
     "weight": "4220 g",
     "volume": "1750 ml",

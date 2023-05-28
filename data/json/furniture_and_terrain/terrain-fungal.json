@@ -24,7 +24,7 @@
     "bash": {
       "sound": "smash",
       "//": "muffled because fungus",
-      "ter_set": "t_null",
+      "ter_set": "t_pit_shallow",
       "str_min": 20,
       "str_max": 400,
       "str_min_supported": 50

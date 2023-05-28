@@ -1089,7 +1089,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_dirt",
+    "roof": "t_thatch_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT" ],
     "bash": {
       "str_min": 12,

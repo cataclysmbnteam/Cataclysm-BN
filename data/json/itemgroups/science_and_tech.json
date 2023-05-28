@@ -496,5 +496,46 @@
       [ "test_tube", 10 ],
       [ "bionic_scanner", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "microlab_storage_electric",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "alloy_plate", "prob": 20 },
+      { "item": "recharge_station", "prob": 20 },
+      { "item": "solar_panel", "prob": 10 },
+      { "item": "solar_panel_v2", "prob": 20 },
+      { "item": "motor_large", "prob": 5 },
+      { "item": "motor_enhanced", "prob": 15 },
+      { "item": "motor_super", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "microlab_storage_cvd_carbon",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "charcoal", "prob": 75, "charges": [ 25, 50 ] },
+      { "item": "coal_lump", "prob": 25, "charges": [ 25, 50 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "microlab_storage_cvd_hydrogen",
+    "subtype": "distribution",
+    "entries": [ { "item": "hydrogen_tank", "prob": 25 }, { "item": "plasma", "prob": 75, "charges": [ 10, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "microlab_storage_plutonium_special",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "minireactor", "prob": 50 },
+      { "item": "bio_reactor", "prob": 10 },
+      { "item": "bio_advreactor", "prob": 10 },
+      { "item": "bio_reactor_upgrade", "prob": 5 },
+      { "item": "huge_atomic_battery_cell", "prob": 25 }
+    ]
   }
 ]
