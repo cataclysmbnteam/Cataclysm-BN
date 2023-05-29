@@ -12,6 +12,9 @@ Links to relevant pull requests, for content covered below:
 - Edits to blueberry bushes, strawberry bushes, and cherry trees: [#2861](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2861)
 - De-obsoleted wooden greatbow, reflavored compound/composite greatbow: [#2862](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2862)
 - Katar and sai: [#2715](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2715)
+- Utility light can be switched off: [#1003](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/1003)
+- Mi-go nerve cluster: [#1962](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/1962)
+- Scaled bear: [#1371](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/1371)
 
 ## Undead People
 
