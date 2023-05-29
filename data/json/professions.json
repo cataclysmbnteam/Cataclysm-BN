@@ -4545,7 +4545,7 @@
     "vehicle": "helicopter_blackhawk_3a",
     "points": 7,
     "copy-from": "mili_pilot"
-},
+  },
   {
     "type": "profession",
     "id": "hitman",
