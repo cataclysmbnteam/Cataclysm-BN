@@ -4560,12 +4560,7 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "fancy_sunglasses",
-          "platinum_watch",
-          "suppressor",
-          "tele_sight_pistol"
-        ],
+        "items": [ "fancy_sunglasses", "platinum_watch", "suppressor", "tele_sight_pistol" ],
         "entries": [
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
