@@ -1176,7 +1176,7 @@ void Character::suffer_from_radiation()
             if( get_bionic_state( bio_advreactor ).powered ) {
                 powered_reactor = true;
             } else {
-                mod_power_level( 100_J );
+                mod_power_level( 75_J );
             }
         }
 
