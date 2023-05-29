@@ -3,6 +3,16 @@ This folder is used for content specific to Bright Nights which are not presentl
 
 The primary advantage of this method is to set aside sprites so they won't interfere with updating the tilesets themselves (as their sources are in the repositories of the tileset authors), and likewise ensuring anything specific to BN won't be accidentally erased, like it would if a tileset update was submitted to BN after these editing these sprites our versions of the tilesets. It also covers divergences in content were, by nessecity, a different sprite is a better fit.
 
+Links to relevant pull requests, for content covered below:
+- Steam turbine: [#2815](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2815)
+- Bullet animations: [#1861](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/1681)
+- Wooden shields, riot shields, and ballistic shields: [#2851](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2851)
+- Lead sling bullet: [#2709](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2709)
+- Leather and banded shields: [#2856](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2856)
+- Edits to blueberry bushes, strawberry bushes, and cherry trees: [#2861](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2861)
+- De-obsoleted wooden greatbow, reflavored compound/composite greatbow: [#2862](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2862)
+- Katar and sai: [#2715](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2715)
+
 ## Undead People
 
 The following is a current list of sprites this folder adds to the UDP tileset, in which files and for what purpose. This is currently the only tileset with external_tileset coverage, but sprites for Ultica are planned for the future.
