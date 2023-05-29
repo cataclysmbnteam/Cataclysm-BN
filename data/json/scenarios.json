@@ -539,10 +539,7 @@
     "description": "Your mission required you to eliminate a certain high-ranking individual in hiding. Your mark seems to have turned feral while escaping and the world appears to be ending, but not even that can stop you from finishing your mission.",
     "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
     "start_name": "Evac Shelter",
-	    "professions": [
-      "assassin",
-      "hitman",
-      "bionic_hitman"],
+    "professions": [ "assassin", "hitman", "bionic_hitman" ],
     "flags": [ "CITY_START", "LONE_START" ],
     "missions": [ "MISSION_ASSASSINATION" ]
   },
