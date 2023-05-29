@@ -1210,11 +1210,6 @@
     "replace": "compositebow"
   },
   {
-    "id": "woodgreatbow",
-    "type": "MIGRATION",
-    "replace": "compgreatbow"
-  },
-  {
     "id": "ballistic_vest_empty",
     "type": "MIGRATION",
     "replace": "modularvest"

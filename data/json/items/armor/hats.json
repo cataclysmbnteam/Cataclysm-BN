@@ -520,7 +520,7 @@
     "volume": "750 ml",
     "price": 300,
     "price_postapoc": 100,
-    "material": [ "paper" ],
+    "material": [ "dry_plant" ],
     "symbol": "[",
     "looks_like": "cowboy_hat",
     "color": "dark_gray",

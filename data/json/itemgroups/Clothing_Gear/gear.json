@@ -31,7 +31,9 @@
       [ "suppressor_compact", 20 ],
       [ "swat_armor", 20 ],
       [ "tac_fullhelmet", 5 ],
-      [ "tac_helmet", 10 ]
+      [ "tac_helmet", 10 ],
+      [ "shield_riot", 20 ],
+      [ "shield_ballistic", 5 ]
     ]
   },
   {

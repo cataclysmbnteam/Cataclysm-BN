@@ -48,6 +48,6 @@ As much as possible, there should be content and feature parity between both (al
 * egg items - BN port removes FREEZERBURN flag
 * monster_factions - copy-from doesn't work for changing vanilla monster factions in BN
 * Overmap folder - CLASSIC and MAN_MADE flags and min_max_zlevel and terrain not supported in BN
-* Recipe folder - activity_level and proficiencies not supported in BN. chain mail recipes must use chainmail_vest item id in BN
+* Recipe folder - activity_level and proficiencies not supported in BN. chain mail recipes must use chainmail_vest item id in BN. Cutting 2 doesn't exist in BN so everything needs to be changed to cutting 1
 * Requirements folder - extend not supported in BN. Bronze armor copies from a different item ID in BN
 * Harvest file - no blood or marrow in BN

@@ -917,6 +917,7 @@
       "ter_set": "t_rock_floor",
       "items": [
         { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet_metal", "charges": 1 },
         { "item": "sheet_metal_small", "charges": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 3 ] }
       ]
