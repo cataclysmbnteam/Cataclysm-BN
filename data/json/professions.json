@@ -2286,14 +2286,7 @@
     ],
     "skills": [ { "level": 3, "name": "dodge" } ],
     "items": {
-      "both": {
-        "items": [
-          "fancy_sunglasses",
-          "platinum_watch",
-          "suppressor",
-          "tele_sight_pistol"
-        ]
-      },
+      "both": { "items": [ "fancy_sunglasses", "platinum_watch", "suppressor", "tele_sight_pistol" ] },
       "male": [
         "fancy_boxer_briefs",
         "socks",
