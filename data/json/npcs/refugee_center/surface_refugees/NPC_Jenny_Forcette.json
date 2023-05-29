@@ -112,7 +112,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_1",
     "dynamic_line": {
-      "u_has_effect": "u_met_Jenny_Forcette",
+      "u_has_var": "u_met_Jenny_Forcette", 
+	  "type": "general", 
+	  "context": "meeting", 
+	  "value": "yes",
       "yes": [ "Hello again.", "Nice to see you again.", "What's up?" ],
       "no": "Hi there.  Haven't see you around here before.  I'm Jenny, Jenny Forcette."
     },
