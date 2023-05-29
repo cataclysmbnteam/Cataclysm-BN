@@ -29,7 +29,6 @@
 #include "weather_gen.h"
 #include "weather.h"
 
-static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
@@ -39,8 +38,6 @@ static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
@@ -100,14 +97,25 @@ void siphon( Character &ch, vehicle &veh, const itype_id &desired_liquid )
     }
 }
 
-bool is_fun_to_read( const Character &ch, const item &book )
+bool is_book_morale_boosted( const Character &ch, const item &book )
 {
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( ch.has_trait( trait_CANNIBAL ) || ch.has_trait( trait_PSYCHOPATH ) ||
-          ch.has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == itype_cookbook_human ) {
+    if( ( ch.has_trait_flag( "CANNIBAL" ) || ch.has_trait_flag( "PSYCHOPATH" ) ||
+          ch.has_trait_flag( "SAPIOVORE" ) ) &&
+        book.has_flag( "CANNIBAL" ) ) {
         return true;
-    } else if( ch.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+    } else if( ch.has_trait_flag( "SPIRITUAL" ) && book.has_flag( "INSPIRATIONAL" ) ) {
+        return true;
+    } else if( ch.has_trait_flag( "PSYCHOPATH" ) && book.has_flag( "MORBID" ) ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool is_fun_to_read( const Character &ch, const item &book )
+{
+    if( is_book_morale_boosted( ch, book ) ) {
         return true;
     } else {
         return get_book_fun_for( ch, book ) > 0;
@@ -122,14 +130,13 @@ int get_book_fun_for( const Character &ch, const item &book )
         return 0;
     }
 
-    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( ch.has_trait( trait_CANNIBAL ) ||
-          ch.has_trait( trait_PSYCHOPATH ) ||
-          ch.has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == itype_cookbook_human ) {
+    if( is_book_morale_boosted( ch, book ) ) {
         fun_bonus = std::abs( fun_bonus );
-    } else if( ch.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        fun_bonus = std::abs( fun_bonus * 3 );
+    }
+
+    // Separate bonus for spiritual characters.
+    if( ch.has_trait_flag( "SPIRITUAL" ) && book.has_flag( "INSPIRATIONAL" ) ) {
+        fun_bonus += 2;
     }
 
     if( ch.has_trait( trait_LOVES_BOOKS ) ) {

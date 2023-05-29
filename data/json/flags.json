@@ -1205,6 +1205,11 @@
     "context": [ "TOOL" ]
   },
   {
+    "id": "BOOK_CANNIBAL",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "BYPRODUCT",
     "type": "json_flag",
     "context": [  ]
@@ -1521,6 +1526,11 @@
   },
   {
     "id": "MISSION_ITEM",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MORBID",
     "type": "json_flag",
     "context": [  ]
   },

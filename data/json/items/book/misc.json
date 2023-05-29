@@ -745,7 +745,9 @@
     "name": { "str_sp": "patient treatment records" },
     "description": "A massive stack of medical records that contain every gory detail.",
     "copy-from": "paperback_novel",
-    "price": 500
+    "price": 500,
+    "fun": -1,
+    "flags": [ "MORBID" ]
   },
   {
     "id": "record_weather",

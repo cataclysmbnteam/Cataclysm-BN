@@ -307,7 +307,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ## Books
 
-- ```INSPIRATIONAL``` Reading this book grants bonus morale to characters with the SPIRITUAL trait.
+- ```BOOK_CANNIBAL``` Reading this book converts negative morale to positive morale for characters with the CANNIBAL, PSYCHOPATH, or SAPIVORE trait flags.
+- ```INSPIRATIONAL``` Reading this book grants bonus morale to characters with the SPIRITUAL trait flag.
+- ```MORBID``` Reading this book converts negative morale to positive morale for characters with the PSYCHOPATH trait flag.
 
 ### Use actions
 
@@ -1113,8 +1115,12 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 #### Flags
 
+- ```CANNIBAL``` No morale penalty from butchery human corpses, converts negative morale of books with the BOOK_CANNIBAL flag into positive, skips warning you about human meat. NOTE: this only skips the warning, the actual morale effects of eating human flesh still require one of the relevant traits. Custom traits with this flag will skip the warning and suffer the morale penalty.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
+- ```PSYCHOPATH``` No morale penalty from butchery human corpses, converts negative morale of books with the BOOK_CANNIBAL and MORBID flags into positive, 
+- ```SAPIVORE``` No morale penalty from butchery human corpses, converts negative morale of books with the BOOK_CANNIBAL flag into positive, 
+- ```SPIRITUAL``` Grants bonus morale from reading books with the INSPIRATIONAL flag.
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
 
 
