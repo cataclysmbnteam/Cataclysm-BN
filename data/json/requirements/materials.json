@@ -12,6 +12,12 @@
     "components": [ [ [ "lead", 1 ] ] ]
   },
   {
+    "id": "chem_lye",
+    "type": "requirement",
+    "//": "Comparable ratios of liquid lye and lye powder.",
+    "components": [ [ [ "lye", 1 ], [ "lye_powder", 30 ] ] ]
+  },
+  {
     "id": "copper_scrap_equivalent",
     "type": "requirement",
     "//": "Material used for equivalence between one unit of scrap copper and corresponding amount of elemental copper.",
