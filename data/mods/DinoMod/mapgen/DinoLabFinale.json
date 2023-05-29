@@ -144,6 +144,7 @@
           ]
         }
       },
+      "place_loot": [ { "group": "mech_power_cell_spawn", "x": 1, "y": [ 1, 4 ] } ],
       "place_monster": [
         { "monster": "mon_deinonychus", "x": [ 7, 8 ], "y": [ 17, 18 ], "chance": 90, "repeat": [ 1, 5 ] },
         { "monster": "mon_deinonychus", "x": [ 16, 17 ], "y": [ 17, 18 ], "chance": 90, "repeat": [ 1, 5 ] },

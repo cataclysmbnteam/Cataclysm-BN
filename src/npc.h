@@ -985,8 +985,10 @@ class npc : public player
         // in bionics.cpp
         // can't use bionics::activate because it calls plfire directly
         void discharge_cbm_weapon();
-        // check if an NPC has a bionic weapon and activate it if possible
-        void check_or_use_weapon_cbm( const bionic_id &cbm_id );
+        // check if an NPC has activated bionic weapons and queue them for use if applicable
+        void check_or_use_weapon_cbm();
+        // check if an NPC has toggled bionic weapon and return a map to compare
+        const std::map<item, bionic_id> check_toggle_cbm();
 
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
@@ -1061,6 +1063,8 @@ class npc : public player
         /** Has a gun or magazine that can be reloaded */
         const item &find_reloadable() const;
         item &find_reloadable();
+        /* Checks and reloads any possible CBM toggled weapons.*/
+        void check_or_reload_cbm();
         /** Finds ammo the NPC could use to reload a given object */
         item_location find_usable_ammo( const item &weap );
         item_location find_usable_ammo( const item &weap ) const;
@@ -1250,6 +1254,8 @@ class npc : public player
          */
         tripoint global_square_location() const override;
         std::optional<tripoint> last_player_seen_pos; // Where we last saw the player
+        // Player orders a friendly NPC to move to this position
+        std::optional<tripoint_abs_ms> goto_to_this_pos;
         int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
@@ -1333,10 +1339,14 @@ class npc : public player
         void load( const JsonObject &data );
 
     private:
-        // the weapon we're actually holding when using bionic fake guns
-        item real_weapon;
-        // the index of the bionics for the fake gun;
-        int cbm_weapon_index = -1;
+        // index for chosen activated cbm weapon;
+        bionic_id cbm_active = bionic_id::NULL_ID();
+        // REALLY fake item temporarily created to prevent segfaults;
+        item cbm_fake_active = null_item_reference();
+        // index for chosen toggled cbm weapon;
+        bionic_id cbm_toggled = bionic_id::NULL_ID();
+        // Copy of toggled CBM weapon for comparisons;
+        item cbm_fake_toggled = null_item_reference();
 
         bool dead = false;  // If true, we need to be cleaned up
 
@@ -1386,15 +1396,25 @@ npc *pick_follower();
 
 namespace npc_ai
 {
+/** Evaluate wielded weapon's ideal value */
+double wielded_value( const Character &who );
 /** Evaluate item as weapon (melee or gun) */
-double weapon_value( const Character &who, const item &weap, int ammo = 10 );
+double weapon_value( const Character &who, const item &weap, int ammo );
 /** Evaluates item as a gun */
-double gun_value( const Character &who, const item &weap, int ammo = 10 );
+double gun_value( const Character &who, const item &weap, int ammo );
+/** Chooses best gun_mode for range */
+std::pair<gun_mode_id, gun_mode> best_mode_for_range( const Character &who, const item &firing,
+        int dist );
 /** Evaluate item as a melee weapon */
 double melee_value( const Character &who, const item &weap );
 /** Evaluate unarmed melee value */
 double unarmed_value( const Character &who );
 
 } // namespace npc_ai
+
+// disable toggled weapon cbms
+void deactivate_weapon_cbm( npc &who );
+// returns list of reloadable cbms.
+std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who );
 
 #endif // CATA_SRC_NPC_H

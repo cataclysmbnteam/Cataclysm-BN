@@ -96,8 +96,10 @@ class worldfactory
         WORLDPTR make_new_world( special_game_type special_type );
         // Used for unit tests - does NOT verify if the mods can be loaded
         WORLDPTR make_new_world( const std::vector<mod_id> &mods );
-        /// Returns the *existing* world of given name.
+        // Returns the *existing* world of given name.
         WORLDPTR get_world( const std::string &name );
+        // Returns index for world name, 0 if world cannot be found.
+        size_t get_world_index( const std::string &name );
         bool has_world( const std::string &name ) const;
 
         void set_active_world( WORLDPTR world );

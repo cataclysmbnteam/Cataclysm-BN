@@ -8,7 +8,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -18,8 +18,15 @@
     "symbol": ".",
     "color": "yellow",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "NOCOLLIDE" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "material_sand", "charges": [ 250, 500 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -30,8 +37,8 @@
     "color": "brown",
     "looks_like": "t_dirt",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "NOCOLLIDE" ],
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -42,7 +49,14 @@
     "color": "light_red",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_pit_shallow",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "clay_lump", "count": [ 5, 10 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -91,7 +105,7 @@
     "color": "brown",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "PLANTABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100 },
+    "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 },
     "examine_action": "dirtmound"
   },
   {
@@ -104,10 +118,10 @@
     "color": "brown",
     "move_cost": 3,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "NOCOLLIDE" ],
     "bash": {
       "sound": "thump",
-      "ter_set": "t_null",
+      "ter_set": "t_dirtfloor",
       "str_min": 50,
       "str_max": 100,
       "str_min_supported": 100,
@@ -175,7 +189,7 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
@@ -193,7 +207,7 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
@@ -211,7 +225,7 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
     "bash": {
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
@@ -368,7 +382,7 @@
     "move_cost": 2,
     "looks_like": "t_dirtfloor",
     "flags": [ "TRANSPARENT", "FLAT", "DIGGABLE" ],
-    "bash": { "sound": "SMASH!", "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "bash": { "sound": "SMASH!", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 400, "str_min_supported": 100 }
   },
   {
     "type": "terrain",

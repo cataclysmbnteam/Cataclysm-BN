@@ -584,6 +584,8 @@ class item : public visitable<item>
         /** return the average dps of the weapon against evaluation monsters */
         double average_dps( const player &guy ) const;
 
+        double ideal_ranged_dps( const Character &who, gun_mode &mode ) const;
+
         /**
          * Whether the character needs both hands to wield this item.
          */
@@ -1209,6 +1211,11 @@ class item : public visitable<item>
         bool is_reloadable() const;
         /**
          * Returns true if this item can be reloaded with specified ammo type,
+         * ignoring currently loaded ammo.
+         */
+        bool can_reload_with( const ammotype &ammo ) const;
+        /**
+         * Returns true if this item can be reloaded with specified ammo item,
          * ignoring currently loaded ammo.
          */
         bool can_reload_with( const itype_id &ammo ) const;

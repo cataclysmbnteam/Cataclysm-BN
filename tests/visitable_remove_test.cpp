@@ -147,7 +147,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
         WHEN( "one of the bottles is wielded" ) {
             p.wield( p.i_at( 0 ) );
-            REQUIRE( p.weapon.typeId() == container_id );
+            REQUIRE( p.primary_weapon().typeId() == container_id );
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count );
 
@@ -163,7 +163,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     REQUIRE( count_items( p, liquid_id ) == 0 );
                 }
                 THEN( "there is no currently wielded item" ) {
-                    REQUIRE( p.weapon.is_null() );
+                    REQUIRE( p.primary_weapon().is_null() );
                 }
                 THEN( "the correct number of items were removed" ) {
                     REQUIRE( del.size() == count );
@@ -189,11 +189,11 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 THEN( "there is only one bottle remaining in the players possession" ) {
                     REQUIRE( count_items( p, container_id ) == 1 );
                     AND_THEN( "the remaining bottle is currently wielded" ) {
-                        REQUIRE( p.weapon.typeId() == container_id );
+                        REQUIRE( p.primary_weapon().typeId() == container_id );
 
                         AND_THEN( "the remaining water is contained by the currently wielded bottle" ) {
-                            REQUIRE( p.weapon.contents.num_item_stacks() == 1 );
-                            REQUIRE( p.weapon.contents.front().typeId() == liquid_id );
+                            REQUIRE( p.primary_weapon().contents.num_item_stacks() == 1 );
+                            REQUIRE( p.primary_weapon().contents.front().typeId() == liquid_id );
                         }
                     }
                 }

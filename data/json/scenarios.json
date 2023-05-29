@@ -536,12 +536,11 @@
     "id": "last_flight",
     "name": "Last Flight",
     "points": 2,
-    "description": "Once it became clear that the world was ending you took to the skies, hoping that your flying skills could lead you to safety.  You found no standing safe zones, and when your fuel ran out, were forced to land in an empty field.",
+    "description": "Once it became clear that the world was ending you took to the skies, hoping that your flying skills could lead you to safety.  With no safe landing zones, knowing fuel will soon be a concern, you made a quick landing to plan your next move.",
     "start_name": "Emergency Landing Site",
-    "allowed_locs": [ "sloc_field" ],
-    "vehicle": "2seater2_scenario",
+    "allowed_locs": [ "sloc_field", "sloc_forest" ],
     "missions": [ "MISSION_HELICOPTER_REFUEL" ],
-    "professions": [ "heli_pilot" ],
+    "professions": [ "heli_pilot_scenario", "gyro_pilot", "mili_pilot_blackhawk" ],
     "flags": [ "LONE_START" ]
   },
   {
@@ -603,16 +602,5 @@
       "bio_gangster"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ]
-  },
-  {
-    "type": "scenario",
-    "id": "helicopter",
-    "name": "Ride of the Valkyries",
-    "points": 1,
-    "description": "You managed to get to the chopper just in time.  But are there safe places to land left in this world now?",
-    "start_name": "Wilderness",
-    "allowed_locs": [ "sloc_field", "sloc_forest" ],
-    "professions": [ "mili_pilot_blackhawk" ],
-    "flags": [ "LONE_START" ]
   }
 ]

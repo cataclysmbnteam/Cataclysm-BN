@@ -581,9 +581,17 @@
     "id": "MARTIAL_ARTS",
     "name": { "str": "Martial Arts Training" },
     "points": 2,
-    "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
+    "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, Kickboxing, or Pankration.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_karate", "style_judo", "style_aikido", "style_tai_chi", "style_taekwondo", "style_pankration" ],
+    "initial_ma_styles": [
+      "style_karate",
+      "style_judo",
+      "style_aikido",
+      "style_tai_chi",
+      "style_taekwondo",
+      "style_pankration",
+      "style_kickboxing"
+    ],
     "valid": false
   },
   {
@@ -6159,6 +6167,16 @@
     "purifiable": false,
     "profession": true,
     "cancels": [ "ILLITERATE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_MILITARY",
+    "name": { "str": "Military Remnant" },
+    "points": 0,
+    "description": "You are a member of the United States Armed Forces, or what's left of it at least.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
   },
   {
     "type": "mutation",

@@ -291,8 +291,7 @@
             "body_part": "mouth",
             "intensity": 4,
             "min_duration": "15 seconds",
-            "max_duration": "15 seconds",
-            "immune_inside_vehicle": true
+            "max_duration": "15 seconds"
           }
         ],
         "scent_neutralization": 5

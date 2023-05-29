@@ -42,6 +42,7 @@
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
+#include "item_functions.h"
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
@@ -133,7 +134,6 @@ static const itype_id itype_anesthetic( "anesthetic" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water_clean( "water_clean" );
 
@@ -201,6 +201,7 @@ static const std::string flag_PERSONAL( "PERSONAL" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
+static const std::string flag_SPLINT( "SPLINT" );
 
 static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
 static const flag_str_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
@@ -454,76 +455,128 @@ static void force_comedown( effect &eff )
 
 void npc::discharge_cbm_weapon()
 {
-    if( cbm_weapon_index < 0 ) {
+    if( cbm_active.is_null() ) {
         return;
     }
-    const bionic &bio = ( *my_bionics )[cbm_weapon_index];
-    mod_power_level( -bio.info().power_activate );
-    weapon = real_weapon;
-    cbm_weapon_index = -1;
+    mod_power_level( -cbm_active->power_activate );
+    cbm_fake_active = null_item_reference();
+    cbm_active = bionic_id::NULL_ID();
 }
 
-void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
+void deactivate_weapon_cbm( npc &who )
 {
-    // if we're already using a bio_weapon, keep using it
-    if( cbm_weapon_index >= 0 ) {
+    for( bionic &i : *who.my_bionics ) {
+        if( i.powered && i.info().has_flag( flag_BIONIC_WEAPON ) ) {
+            who.deactivate_bionic( i );
+        }
+    }
+    who.clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
+}
+
+std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
+{
+    std::vector<std::pair<bionic_id, item>> cbm_list;
+    // Runs down full list of CBMs that qualify as weapons.
+    // Need a way to make this less costly.
+    for( bionic bio : *who.my_bionics ) {
+        if( !bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
+            continue;
+        }
+        item cbm_fake = item( bio.info().fake_item );
+        // I'd hope it's not possible to be greater than but...
+        if( static_cast<int>( bio.ammo_count ) >= cbm_fake.ammo_capacity() ) {
+            continue;
+        }
+        if( bio.ammo_count > 0 ) {
+            cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
+        }
+        cbm_list.emplace_back( std::make_pair( bio.id, cbm_fake ) );
+    }
+    return cbm_list;
+}
+
+const std::map<item, bionic_id> npc::check_toggle_cbm()
+{
+    std::map<item, bionic_id> res;
+    const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
+    const units::energy free_power = get_power_level() - get_max_power_level() * allowed_ratio;
+    if( free_power <= 0_J ) {
+        return res;
+    }
+    for( bionic &bio : *my_bionics ) {
+        // I'm not checking if NPC_USABLE because if it isn't it shouldn't be in them.
+        if( bio.powered || !bio.info().has_flag( flag_BIONIC_WEAPON ) ||
+            free_power < bio.info().power_activate ) {
+            continue;
+        }
+        item cbm_fake = item( bio.info().fake_item );
+        if( bio.ammo_count > 0 ) {
+            cbm_fake.ammo_set( bio.ammo_loaded, bio.ammo_count );
+        }
+        res[cbm_fake] = bio.id;
+    }
+    return res;
+}
+
+void npc::check_or_use_weapon_cbm()
+{
+    // if active bionics have been chosen, keep using them.
+    if( !cbm_active.is_null() ) {
         return;
     }
+
+    std::vector<int> avail_active_cbms;
+
     const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
     const units::energy free_power = get_power_level() - get_max_power_level() * allowed_ratio;
     if( free_power <= 0_J ) {
         return;
     }
 
-    int index = 0;
-    bool found = false;
-    for( bionic &i : *my_bionics ) {
-        if( i.id == cbm_id && !i.powered ) {
-            found = true;
-            break;
+    int cbm_index = 0;
+    for( bionic &bio : *my_bionics ) {
+        // I'm not checking if NPC_USABLE because if it isn't it shouldn't be in them.
+        if( free_power >= bio.info().power_activate && bio.info().has_flag( flag_BIONIC_GUN ) ) {
+            avail_active_cbms.push_back( cbm_index );
         }
-        index += 1;
+        cbm_index++;
     }
-    if( !found ) {
-        return;
-    }
-    bionic &bio = ( *my_bionics )[index];
 
-    if( bio.info().has_flag( flag_BIONIC_GUN ) ) {
-        const item cbm_weapon = item( bio.info().fake_item );
-        bool not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
-                           ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon.is_silent() );
-        if( is_player_ally() && not_allowed ) {
-            return;
-        }
+    if( !avail_active_cbms.empty() ) {
+        Creature *critter = current_target();
+        int dist = rl_dist( pos(), critter->pos() );
+        int active_index = -1;
+        int best_dps = -1;
+        bool wield_gun = primary_weapon().is_gun();
+        item best_cbm_active = null_item_reference();
+        for( int i : avail_active_cbms ) {
+            bionic &bio = ( *my_bionics )[ i ];
+            const item cbm_weapon = item( bio.info().fake_item );
 
-        const int ups_charges = charges_of( itype_UPS );
-        int ammo_count = weapon.ammo_remaining();
-        const int ups_drain = weapon.get_gun_ups_drain();
-        if( ups_drain > 0 ) {
-            ammo_count = std::min( ammo_count, ups_charges / ups_drain );
-        }
-        const int cbm_ammo = free_power /  bio.info().power_activate;
+            bool not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
+                               ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon.is_silent() );
+            if( is_player_ally() && not_allowed ) {
+                continue;
+            }
 
-        if( npc_ai::weapon_value( *this, weapon, ammo_count ) <
-            npc_ai::weapon_value( *this, cbm_weapon, cbm_ammo ) ) {
-            real_weapon = weapon;
-            weapon = cbm_weapon;
-            cbm_weapon_index = index;
-        }
-    } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
-               free_power > bio.info().power_activate ) {
-        if( is_armed() ) {
-            stow_item( weapon );
-        }
-        if( get_player_character().sees( pos() ) ) {
-            add_msg( m_info, _( "%s activates their %s." ), disp_name(), bio.info().name );
+            auto [mode_id, mode_] = npc_ai::best_mode_for_range( *this, cbm_weapon, dist );
+            double dps = cbm_weapon.ideal_ranged_dps( *this, mode_ );
+            if( wield_gun && active_index < 0 ) {
+                gun_mode weap_mode = npc_ai::best_mode_for_range( *this, this->primary_weapon(), dist ).second;
+                dps = this->primary_weapon().ideal_ranged_dps( *this, weap_mode );
+            }
+
+            if( ( !wield_gun && active_index < 0 ) || dps > best_dps ) {
+                active_index = i;
+                best_cbm_active = cbm_weapon;
+                best_dps = dps;
+            }
         }
 
-        weapon = item( bio.info().fake_item );
-        mod_power_level( -bio.info().power_activate );
-        bio.powered = true;
-        cbm_weapon_index = index;
+        if( active_index > 0 ) {
+            cbm_active = ( *my_bionics )[active_index].id;
+            cbm_fake_active = best_cbm_active;
+        }
     }
 }
 
@@ -577,6 +630,9 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
     auto add_msg_activate = [&]() {
         if( !eff_only && !bio.is_auto_start_keep_full() ) {
             add_msg_if_player( m_info, _( "You activate your %s." ), bio.info().name );
+        } else if( get_player_character().sees( pos() ) ) {
+            add_msg( m_info, _( "%s activates their %s." ), disp_name(),
+                     bio.info().name );
         }
     };
     auto refund_power = [&]() {
@@ -596,16 +652,16 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         avatar_action::fire_ranged_bionic( *this->as_avatar(), item( bio.info().fake_item ),
                                            bio.info().power_activate );
     } else if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
-        if( weapon.has_flag( flag_NO_UNWIELD ) ) {
-            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
+        if( primary_weapon().has_flag( flag_NO_UNWIELD ) ) {
+            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), primary_weapon().tname() );
             refund_power();
             bio.powered = false;
             return false;
         }
 
-        if( !weapon.is_null() ) {
-            const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
-            if( !dispose_item( item_location( *this, &weapon ), query ) ) {
+        if( !primary_weapon().is_null() ) {
+            const std::string query = string_format( _( "Stop wielding %s?" ), primary_weapon().tname() );
+            if( !dispose_item( item_location( *this, &primary_weapon() ), query ) ) {
                 refund_power();
                 bio.powered = false;
                 return false;
@@ -613,12 +669,13 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         }
 
         add_msg_activate();
-        weapon = item( bio.info().fake_item );
-        weapon.invlet = '#';
-        if( bio.ammo_count > 0 ) {
-            weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
+        primary_weapon() = item( bio.info().fake_item );
+        primary_weapon().invlet = '#';
+        if( is_player() && bio.ammo_count > 0 ) {
+            primary_weapon().ammo_set( bio.ammo_loaded, bio.ammo_count );
             avatar_action::fire_wielded_weapon( g->u );
         }
+        clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     } else if( bio.id == bio_ears && has_active_bionic( bio_earplugs ) ) {
         add_msg_activate();
         for( bionic &bio : *my_bionics ) {
@@ -1086,16 +1143,16 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
 
     // Deactivation effects go here
     if( bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
-        if( weapon.typeId() == bio.info().fake_item ) {
-            add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
+        if( primary_weapon().typeId() == bio.info().fake_item ) {
+            add_msg_if_player( _( "You withdraw your %s." ), primary_weapon().tname() );
             if( g->u.sees( pos() ) ) {
-                add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ),
-                                weapon.tname() );
+                add_msg_if_npc( m_info, _( "<npcname> withdraws their %s." ), primary_weapon().tname() );
             }
             bio.ammo_loaded =
-                weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : itype_id::NULL_ID();
-            bio.ammo_count = static_cast<unsigned int>( weapon.ammo_remaining() );
-            weapon = item();
+                primary_weapon().ammo_data() != nullptr ? primary_weapon().ammo_data()->get_id() :
+                itype_id::NULL_ID();
+            bio.ammo_count = static_cast<unsigned int>( primary_weapon().ammo_remaining() );
+            primary_weapon() = item();
             invalidate_crafting_inventory();
         }
     } else if( bio.id == bio_cqb ) {
@@ -1589,7 +1646,6 @@ void Character::process_bionic( bionic &bio )
             const bool is_power_sufficient = get_power_level() >= bio.info().power_trigger;
             return is_kcal_sufficient && is_power_sufficient;
         };
-        std::vector<bodypart_id> damaged_hp_parts;
         if( get_stored_kcal() < threshold_kcal ) {
             bio.powered = false;
             add_msg_if_player( m_warning, _( "Your %s shut down to conserve calories." ), bio.info().name );
@@ -1613,12 +1669,18 @@ void Character::process_bionic( bionic &bio )
                     e->set_removed();
                 }
             }
-            if( calendar::once_every( 1_minutes ) ) {
-                std::vector<effect *> mending_list = get_all_effects_of_type( effect_mending );
+            if( calendar::once_every( 2_minutes ) ) {
+                std::vector<bodypart_id> damaged_hp_parts;
+                std::vector<effect *> mending_list;
+
                 for( const bodypart_id &bp : get_all_body_parts( true ) ) {
                     const int hp_cur = get_part_hp_cur( bp );
                     if( !is_limb_broken( bp ) && hp_cur < get_part_hp_max( bp ) ) {
                         damaged_hp_parts.push_back( bp );
+                    } else if( has_effect( effect_mending, bp.id() ) &&
+                               ( has_trait( trait_REGEN_LIZ ) || worn_with_flag( flag_SPLINT, bp ) ) ) {
+                        effect *e = &get_effect( effect_mending, bp->token );
+                        mending_list.push_back( e );
                     }
                 }
                 if( !damaged_hp_parts.empty() ) {

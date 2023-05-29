@@ -204,7 +204,7 @@
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 50 ] ] ]
+    "components": [ [ [ "scrap", 50 ], [ "sheet_metal_small", 10 ] ] ]
   },
   {
     "result": "boots_survivor",

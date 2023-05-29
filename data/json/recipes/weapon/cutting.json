@@ -129,6 +129,7 @@
     "skills_required": [ "bashing", 1 ],
     "difficulty": 4,
     "time": "30 m",
+    "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ], [ "textbook_weapeast", 8 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ], [ "stick", 8 ] ], [ [ "rebar", 5 ] ] ]
@@ -668,5 +669,17 @@
       ],
       [ [ "scrap_bronze", 5 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "katar",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "4 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_weapeast", 3 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ]
   }
 ]

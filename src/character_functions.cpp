@@ -412,7 +412,7 @@ std::string fmt_wielded_weapon( const Character &who )
     if( !who.is_armed() ) {
         return _( "fists" );
     }
-    const item &weapon = who.weapon;
+    const item &weapon = who.primary_weapon();
     if( weapon.is_gun() ) {
         std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
                                          weapon.gun_current_mode().tname(), weapon.type_name() );
@@ -486,7 +486,7 @@ void add_pain_msg( const Character &who, int val, body_part bp )
 void normalize( Character &who )
 {
     who.martial_arts_data->reset_style();
-    who.weapon = item();
+    who.primary_weapon() = item();
 
     who.set_body();
     who.recalc_hp();
@@ -545,11 +545,11 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
         who.inv.unsort();
     }
 
-    who.weapon = std::move( *internal_item );
+    who.primary_weapon() = std::move( *internal_item );
     container.remove_item( *internal_item );
     container.on_contents_changed();
 
-    item &weapon = who.weapon;
+    item &weapon = who.primary_weapon();
 
     who.inv.update_invlet( weapon );
     who.inv.update_cache_with_item( weapon );
@@ -1179,43 +1179,40 @@ std::vector<item_location> find_reloadables( const Character &who )
 
 int ammo_count_for( const Character &who, const item &gun )
 {
-    int ret = item::INFINITE_CHARGES;
     if( !gun.is_gun() ) {
-        return ret;
+        return item::INFINITE_CHARGES;
     }
+    int ammo_drain = gun.ammo_required();
+    int energy_drain = gun.get_gun_ups_drain();
 
-    int required = gun.ammo_required();
+    units::energy power = units::from_kilojoule( who.charges_of( itype_UPS ) );
+    int total_ammo = gun.ammo_remaining();
+    const std::vector<item_location> inv_ammo = find_ammo_items_or_mags( who, gun, true, -1 );
 
-    if( required > 0 ) {
-        int total_ammo = 0;
-        total_ammo += gun.ammo_remaining();
+    bool has_mag = gun.magazine_integral();
 
-        bool has_mag = gun.magazine_integral();
-
-        const auto found_ammo = find_ammo_items_or_mags( who, gun, true, -1 );
-        int loose_ammo = 0;
-        for( const auto &ammo : found_ammo ) {
-            if( ammo->is_magazine() ) {
-                has_mag = true;
-                total_ammo += ammo->ammo_remaining();
-            } else if( ammo->is_ammo() ) {
-                loose_ammo += ammo->charges;
-            }
+    for( const item_location &it : inv_ammo ) {
+        if( it->is_magazine() ) {
+            total_ammo += it->ammo_remaining();
+        } else if( has_mag && it->is_ammo() ) {
+            // In combat, NPCs will only consider ammo "available" if it's in an applicable magazine
+            // or if the gun has an integral magazine (whereupon the "mags" are usually speedloaders)
+            total_ammo += it->count();
         }
-
-        if( has_mag ) {
-            total_ammo += loose_ammo;
-        }
-
-        ret = std::min( ret, total_ammo / required );
     }
 
-    int ups_drain = gun.get_gun_ups_drain();
-    if( ups_drain > 0 ) {
-        ret = std::min( ret, who.charges_of( itype_UPS ) / ups_drain );
+    if( ammo_drain > 0 && energy_drain > 0 ) {
+        // Both UPS and ammo, lower is limiting.
+        return std::min( total_ammo / ammo_drain, power / units::from_kilojoule( energy_drain ) );
+    } else if( energy_drain > 0 ) {
+        //Only one of the two, it is limiting.
+        return power / units::from_kilojoule( energy_drain );
+    } else if( ammo_drain > 0 ) {
+        return total_ammo / ammo_drain;
+    } else {
+        // Effectively infinite ammo.
+        return item::INFINITE_CHARGES;
     }
-
-    return ret;
 }
 
 void show_skill_capped_notice( const Character &who, const skill_id &id )
