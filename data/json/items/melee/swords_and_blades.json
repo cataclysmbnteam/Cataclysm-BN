@@ -26,7 +26,7 @@
     "name": { "str": "nail sword" },
     "description": "The nail sword, or nord for short.  This wooden sword has a dozen nails sticking out at jagged angles from the edge of the blade, adding a bit of piercing to its swings.",
     "volume": "1750 ml",
-    "weight": "648 g",
+    "weight": "650 g",
     "cutting": 14,
     "price_postapoc": 100
   },
