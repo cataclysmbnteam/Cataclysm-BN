@@ -31,7 +31,7 @@ The following is a current list of sprites this folder adds to the UDP tileset, 
 * Large banded shield, including worn and wielded. Item specific to BN.
 * Swapped spring and summer sprites (the latter not depicting young berries) for blueberry bush, as harvest season has been moved in BN.
 * Swapped spring and summer sprites (the latter not depicting young berries) for strawberry bush, as harvest season has been moved in BN.
-* Fixed worn sprite for `woodgreatbow`, as it had a sprite error in its UDP version. * `Note: this can be removed once UDP is updated in BN, as the fix has been published in the source repository.`
+* Fixed worn sprite for `woodgreatbow`, as it had a sprite error in its UDP version. `Note: this can be removed once UDP is updated in BN, as the fix has been published in the source repository.`
 * Overriding sprite for `compgreatbow`, as its version in BN is modeled after a composite bow instead of a compound bow.
 * New worn sprite for `compgreatbow`, as compound greatbow in DDA can't be worn thus UDP lacks a worn sprite for it (which we'd liklely need to edit to resemble composite bow anyway).
 * Katar, including sprite for wielded state. Item specific to BN.
@@ -40,6 +40,6 @@ The following is a current list of sprites this folder adds to the UDP tileset, 
 ### External_Tileset_DP_Large.png
 
 * Off state for utility light. Ability to switch on and off specific to BN.
-* Alien nerve cluster, furniture added to mi-go locations in BN. * `Note: this can be removed once UDP is updated in BN, as the sprite for this has been published in the source repository.`
+* Alien nerve cluster, furniture added to mi-go locations in BN. `Note: this can be removed once UDP is updated in BN, as the sprite for this has been published in the source repository.`
 * Scaled bear, including corpse. Monster specific to BN.
 * Cherry tree uses summer sprite (plus cherry blossom coloration), summer sprite depicted without berries, due to harvest season being moved in BN.
