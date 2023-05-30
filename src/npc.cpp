@@ -2541,7 +2541,7 @@ void npc::die( Creature *nkiller )
     }
 
     if( killer == &g->u && g->u.has_trait( trait_PROF_FERAL ) ) {
-       g->u.add_effect( effect_feral_killed_recently, 7_days );
+        g->u.add_effect( effect_feral_killed_recently, 7_days );
     }
     place_corpse();
 }

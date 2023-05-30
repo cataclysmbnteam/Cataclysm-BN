@@ -2327,8 +2327,9 @@ void monster::die( Creature *nkiller )
         }
         static const string_id<monfaction> faction_zombie( "zombie" );
         // Feral survivors are motivated to kill anything human that's not also a feral
-        if( ch->has_trait( trait_PROF_FERAL ) && ( has_flag( MF_HUMAN ) && faction != faction_zombie && !type->in_species( ZOMBIE ) ) ) {
-           ch->add_effect( effect_feral_killed_recently, 3_days );
+        if( ch->has_trait( trait_PROF_FERAL ) && ( has_flag( MF_HUMAN ) && faction != faction_zombie &&
+                !type->in_species( ZOMBIE ) ) ) {
+            ch->add_effect( effect_feral_killed_recently, 3_days );
         }
     }
     // Drop items stored in optionals
