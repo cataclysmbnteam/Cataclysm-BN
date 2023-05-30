@@ -190,7 +190,7 @@
     "type": "scenario",
     "id": "player_feral",
     "name": "Challenge - The Lost And Damned",
-    "points": -8,
+    "points": -5,
     "description": "You spent the first few weeks of the cataclysm in a dull haze.  The riots have died down and the summer sun has drawn out the stench of decay.  You stagger out of your hiding place with a gnawing hunger, unsure if you're the only one left alive, or if this is what living death is like.",
     "start_name": "In Town?",
     "allowed_locs": [

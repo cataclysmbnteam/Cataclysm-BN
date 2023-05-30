@@ -739,6 +739,14 @@
   },
   {
     "type": "effect_type",
+    "id": "feral_killed_recently",
+    "max_duration": "200 d",
+    "apply_message": "The voices in your head quiet down.",
+    "remove_message": "You can hear the whispering again.  Need more meat.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "no_sight",
     "name": [ "Poor sight" ],
     "desc": [ "You can't see very far from this spot." ],

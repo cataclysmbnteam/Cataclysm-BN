@@ -69,6 +69,7 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_emp( "emp" );
+static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_heavysnare( "heavysnare" );
@@ -2323,6 +2324,11 @@ void monster::die( Creature *nkiller )
             }
             ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
+        }
+        static const string_id<monfaction> faction_zombie( "zombie" );
+        // Feral survivors are motivated to kill anything human that's not also a feral
+        if( ch->has_trait( trait_PROF_FERAL ) && ( has_flag( MF_HUMAN ) && faction != faction_zombie && !type->in_species( ZOMBIE ) ) ) {
+           ch->add_effect( effect_feral_killed_recently, 3_days );
         }
     }
     // Drop items stored in optionals

@@ -81,6 +81,7 @@ static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_infection( "infection" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
@@ -2539,6 +2540,9 @@ void npc::die( Creature *nkiller )
         g->u.rem_morale( MORALE_KILLER_NEED_TO_KILL );
     }
 
+    if( killer == &g->u && g->u.has_trait( trait_PROF_FERAL ) ) {
+       g->u.add_effect( effect_feral_killed_recently, 7_days );
+    }
     place_corpse();
 }
 
