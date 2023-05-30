@@ -113,9 +113,9 @@ class achievement
         const std::map<mtype_id, std::pair<achievement_comparison, int>> &kill_requirements() const {
             return kill_requirements_;
         }
-        const std::map<species_id, std::pair<achievement_comparison, int>> &faction_kill_requirements()
+        const std::map<species_id, std::pair<achievement_comparison, int>> &species_kill_requirements()
         const {
-            return faction_kill_requirements_;
+            return species_kill_requirements_;
         }
         const std::map<skill_id, std::pair<achievement_comparison, int>> &skill_requirements() const {
             return skill_requirements_;
@@ -130,7 +130,7 @@ class achievement
         std::optional<time_bound> time_constraint_;
         std::map<skill_id, std::pair<achievement_comparison, int>> skill_requirements_;
         std::map<mtype_id, std::pair<achievement_comparison, int>> kill_requirements_;
-        std::map <species_id, std::pair<achievement_comparison, int>> faction_kill_requirements_;
+        std::map <species_id, std::pair<achievement_comparison, int>> species_kill_requirements_;
         std::vector<achievement_requirement> requirements_;
 
         /** Retrieves kill requirement JsonObjects and feeds it to add_skill_requirement*/

@@ -230,8 +230,8 @@ void achievement::add_kill_requirements( const JsonObject &jo, const std::string
 
 void achievement::add_kill_requirement( const JsonObject inner, const std::string & )
 {
-    if( inner.has_string( "monster" ) && inner.has_string( "faction" ) ) {
-        inner.throw_error( "Cannot have both species and faction identifiers" );
+    if( inner.has_string( "monster" ) && inner.has_string( "species" ) ) {
+        inner.throw_error( "Cannot have both id and species identifiers" );
     }
     if( inner.has_string( "monster" ) ) {
         const mtype_id victim = static_cast<mtype_id>( inner.get_string( "monster" ) );
@@ -239,12 +239,12 @@ void achievement::add_kill_requirement( const JsonObject inner, const std::strin
         const int count = inner.get_int( "count" );
 
         kill_requirements_[victim] = std::make_pair( compare, count );
-    } else if( inner.has_string( "faction" ) ) {
-        const species_id victim = static_cast<species_id>( inner.get_string( "faction" ) );
+    } else if( inner.has_string( "species" ) ) {
+        const species_id victim = static_cast<species_id>( inner.get_string( "species" ) );
         const achievement_comparison compare = inner.get_enum_value<achievement_comparison>( "is" );
         const int count = inner.get_int( "count" );
 
-        faction_kill_requirements_[victim] = std::make_pair( compare, count );
+        species_kill_requirements_[victim] = std::make_pair( compare, count );
     } else {
         const achievement_comparison compare = inner.get_enum_value<achievement_comparison>( "is" );
         const int count = inner.get_int( "count" );
@@ -312,9 +312,9 @@ achievement_completion kill_req_completed( const achievement &ach, const kill_tr
 {
     const std::map<mtype_id, std::pair<achievement_comparison, int>> &kill_reqs =
                 ach.kill_requirements();
-    const std::map<species_id, std::pair<achievement_comparison, int>> &faction_kill_reqs =
-                ach.faction_kill_requirements();
-    if( kill_reqs.empty() && faction_kill_reqs.empty() ) {
+    const std::map<species_id, std::pair<achievement_comparison, int>> &species_kill_reqs =
+                ach.species_kill_requirements();
+    if( kill_reqs.empty() && species_kill_reqs.empty() ) {
         return achievement_completion::completed;
     }
 
@@ -343,7 +343,7 @@ achievement_completion kill_req_completed( const achievement &ach, const kill_tr
             }
         }
     }
-    for( const auto& [fac_id, pair] : faction_kill_reqs ) {
+    for( const auto& [fac_id, pair] : species_kill_reqs ) {
         if( satisfied == achievement_completion::failed ) {
             break;
         }
@@ -437,7 +437,7 @@ std::string achievement::ui_text( achievement_completion completion, const kill_
         requirements += skill_ui_text();
     }
 
-    if( !kill_requirements().empty() || !faction_kill_requirements().empty() ) {
+    if( !kill_requirements().empty() || !species_kill_requirements().empty() ) {
         requirements += kill_ui_text( completion, kt );
     }
 
@@ -498,7 +498,7 @@ std::string achievement::kill_ui_text( achievement_completion completion,
         }
         kill_string += "  " + colorize( cur_kills, c ) + "\n";
     }
-    for( const auto& [fac_id, pair] : faction_kill_requirements() ) {
+    for( const auto& [fac_id, pair] : species_kill_requirements() ) {
         auto& [comp, count] = pair;
         std::string cur_kills;
         std::string fac_name = fac_id->name.translated( count );
@@ -721,8 +721,8 @@ void achievement::check() const
             }
         }
     }
-    if( !faction_kill_requirements_.empty() ) {
-        for( const auto& [fac_id, pair] : faction_kill_requirements_ ) {
+    if( !species_kill_requirements_.empty() ) {
+        for( const auto& [fac_id, pair] : species_kill_requirements_ ) {
             auto &&[comp, count] = pair;
             if( !fac_id.is_valid() || fac_id.is_null() ) {
                 debugmsg( "Achievement %s specifies invalid kill requirement %s.", id.str(), fac_id.c_str() );
