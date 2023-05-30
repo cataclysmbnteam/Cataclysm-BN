@@ -239,12 +239,17 @@ void achievement::add_kill_requirement( const JsonObject inner, const std::strin
         const int count = inner.get_int( "count" );
 
         kill_requirements_[victim] = std::make_pair( compare, count );
-    } else {
+    } else if( inner.has_string( "faction" ) ) {
         const species_id victim = static_cast<species_id>( inner.get_string( "faction" ) );
         const achievement_comparison compare = inner.get_enum_value<achievement_comparison>( "is" );
         const int count = inner.get_int( "count" );
 
         faction_kill_requirements_[victim] = std::make_pair( compare, count );
+    } else {
+        const achievement_comparison compare = inner.get_enum_value<achievement_comparison>( "is" );
+        const int count = inner.get_int( "count" );
+
+        kill_requirements_[mtype_id::NULL_ID()] = std::make_pair( compare, count );
     }
 }
 
@@ -422,7 +427,7 @@ achievement_comparison achievement::time_bound::comparison() const
     return comparison_;
 }
 
-std::string achievement::ui_text() const
+std::string achievement::ui_text( achievement_completion completion ) const
 {
     std::string requirements;
     if( time_constraint() ) {
@@ -434,13 +439,13 @@ std::string achievement::ui_text() const
     }
 
     if( !kill_requirements().empty() || !faction_kill_requirements().empty() ) {
-        requirements += kill_ui_text();
+        requirements += kill_ui_text( completion );
     }
 
     return requirements;
 }
 
-std::string achievement::kill_ui_text() const
+std::string achievement::kill_ui_text( achievement_completion completion ) const
 {
     std::string kill_string;
     const kill_tracker &kills = g->get_kill_tracker();
@@ -449,23 +454,29 @@ std::string achievement::kill_ui_text() const
         std::string cur_kills;
         std::string mon_name = m_id == mtype_id::NULL_ID() ? count > 1 ? "monsters" : "monster" :
                                m_id->nname( count );
-        int kill_count = m_id == mtype_id::NULL_ID() ? kills.monster_kill_count() :
+        int kill_count = 0;
+        std::string progress;
+        bool comp_pass = false;
+        // Don't waste time tallying kill count if the achievement has already failed.
+        if( completion != achievement_completion::failed ) {
+            kill_count = m_id == mtype_id::NULL_ID() ? kills.monster_kill_count() :
                          kills.kill_count( m_id );
-        std::string progress = string_format( ( "(%i/%i)" ), kill_count, count );
+            progress = string_format( ( " (%i/%i)" ), kill_count, count );
+            comp_pass = ach_compare( comp, count, kill_count );
+        }
         achievement_completion kill_status;
 
-        bool comp_pass = ach_compare( comp, count, kill_count );
         switch( comp ) {
             case achievement_comparison::greater_equal:
                 kill_status = comp_pass ? achievement_completion::completed : achievement_completion::pending;
-                cur_kills = string_format( _( "Kill at least %i %s %s" ), count, mon_name, progress );
+                cur_kills = string_format( _( "Kill at least %i %s%s" ), count, mon_name, progress );
                 break;
             case achievement_comparison::less_equal:
                 kill_status = comp_pass ? achievement_completion::completed : achievement_completion::failed;
                 if( count == 0 ) {
                     cur_kills = string_format( _( "Don't kill even a single %s" ), mon_name );
                 } else {
-                    cur_kills = string_format( _( "Kill no more than %i %s %s" ), count, mon_name, progress );
+                    cur_kills = string_format( _( "Kill no more than %i %s%s" ), count, mon_name, progress );
                 }
                 break;
             case achievement_comparison::anything:
@@ -476,8 +487,14 @@ std::string achievement::kill_ui_text() const
                 kill_status = achievement_completion::completed;
                 break;
         }
+
+        if( completion == achievement_completion::failed ) {
+            kill_status = completion;
+        }
+
         nc_color c = color_from_completion( kill_status );
-        if( kill_status == achievement_completion::failed ) {
+        if( kill_status == achievement_completion::failed &&
+            completion != achievement_completion::failed ) {
             cur_kills += _( " (failed)" );
         }
         kill_string += "  " + colorize( cur_kills, c ) + "\n";
@@ -486,22 +503,28 @@ std::string achievement::kill_ui_text() const
         auto& [comp, count] = pair;
         std::string cur_kills;
         std::string fac_name = fac_id->name.translated( count );
-        int kill_count = kills.kill_count( fac_id );
-        std::string progress = string_format( ( "(%i/%i)" ), kill_count, count );
+        int kill_count = 0;
+        std::string progress;
+        bool comp_pass = false;
+        // Don't waste time tallying kill count if the achievement has already failed.
+        if( completion != achievement_completion::failed ) {
+            kill_count = kills.kill_count( fac_id );
+            progress = string_format( ( " (%i/%i)" ), kill_count, count );
+            comp_pass = ach_compare( comp, count, kill_count );
+        }
         achievement_completion kill_status;
 
-        bool comp_pass = ach_compare( comp, count, kill_count );
         switch( comp ) {
             case achievement_comparison::greater_equal:
                 kill_status = comp_pass ? achievement_completion::completed : achievement_completion::pending;
-                cur_kills = string_format( _( "Kill at least %i %s %s" ), count, fac_name, progress );
+                cur_kills = string_format( _( "Kill at least %i %s%s" ), count, fac_name, progress );
                 break;
             case achievement_comparison::less_equal:
                 kill_status = comp_pass ? achievement_completion::completed : achievement_completion::failed;
                 if( count == 0 ) {
                     cur_kills = string_format( _( "Don't kill even a single %s" ), fac_name );
                 } else {
-                    cur_kills = string_format( _( "Kill no more than %i %s %s" ), count, fac_name, progress );
+                    cur_kills = string_format( _( "Kill no more than %i %s%s" ), count, fac_name, progress );
                 }
                 break;
             case achievement_comparison::anything:
@@ -512,8 +535,14 @@ std::string achievement::kill_ui_text() const
                 kill_status = achievement_completion::completed;
                 break;
         }
+
+        if( completion == achievement_completion::failed ) {
+            kill_status = completion;
+        }
+
         nc_color c = color_from_completion( kill_status );
-        if( kill_status == achievement_completion::failed ) {
+        if( kill_status == achievement_completion::failed &&
+            completion != achievement_completion::failed ) {
             cur_kills += _( " (failed)" );
         }
         kill_string += "  " + colorize( cur_kills, c ) + "\n";
@@ -809,7 +838,7 @@ std::string achievement_state::ui_text( const achievement *ach ) const
         result += "  " + colorize( message, c ) + "\n";
     } else {
         // Next: time constraint, kill requirements & skill requirements if any
-        result += ach->ui_text();
+        result += ach->ui_text( completion );
     }
 
     // Next: the requirements
@@ -922,7 +951,7 @@ std::string achievement_tracker::ui_text() const
     }
 
     // Next: the time constraint, skill requirements and kill_requirements, if any
-    result += achievement_->ui_text();
+    result += achievement_->ui_text( achievement_completion::pending );
 
     // Next: the requirements
     for( const std::unique_ptr<requirement_watcher> &watcher : watchers_ ) {

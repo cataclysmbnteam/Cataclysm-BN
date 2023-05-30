@@ -514,7 +514,7 @@ void game::setup()
 
     stats().clear();
     // reset kill counts
-    kill_tracker_ptr->clear();
+    get_kill_tracker().clear();
     achievements_tracker_ptr->clear();
     // reset follower list
     follower_ids.clear();
@@ -876,11 +876,6 @@ void game::reload_npcs()
     // and not invoke "on_load" for those NPCs that avoided unloading this way.
     unload_npcs();
     load_npcs();
-}
-
-const kill_tracker &game::get_kill_tracker() const
-{
-    return *kill_tracker_ptr;
 }
 
 void game::create_starting_npcs()
@@ -2717,6 +2712,11 @@ event_bus &game::events()
 stats_tracker &game::stats()
 {
     return *stats_tracker_ptr;
+}
+
+kill_tracker &game::get_kill_tracker()
+{
+    return *kill_tracker_ptr;
 }
 
 memorial_logger &game::memorial()

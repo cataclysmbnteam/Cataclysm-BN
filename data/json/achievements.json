@@ -18,13 +18,14 @@
     "type": "achievement",
     "name": { "str": "[Combat] Rude Awakening" },
     "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" },
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 1 } ]
+    "kill_requirements": [ { "is": ">=", "count": 1 } ],
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": "anything" } ]
   },
   {
     "id": "achievement_kill_10_monsters",
     "type": "achievement",
     "name": { "str": "[Combat] Decamate" },
-    "kill_requirements": [ { "monster": "mon_null", "is": ">=", "count": 10 } ],
+    "kill_requirements": [ { "is": ">=", "count": 10 } ],
     "requirements": [ { "event_statistic": "num_avatar_kills", "is": "anything" } ]
   },
   {
@@ -32,7 +33,7 @@
     "type": "achievement",
     "name": { "str": "[Combat] Centinel" },
     "hidden_by": [ "achievement_kill_10_monsters" ],
-    "kill_requirements": [ { "monster": "mon_null", "is": ">=", "count": 100 } ],
+    "kill_requirements": [ { "is": ">=", "count": 100 } ],
     "requirements": [ { "event_statistic": "num_avatar_kills", "is": "anything" } ]
   },
   {

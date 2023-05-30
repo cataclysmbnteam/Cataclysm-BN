@@ -1391,6 +1391,24 @@ the achievement can be claimed. The `"skill"` field uses the id of a skill.
 Note that like `"time_constraint"` below achievements can only be captured when
 a statistic listed in `"requirements"` changes.
 
+
+```C++
+"kill_requirements": [ { "faction": "ZOMBIE", "is": ">=", "count": 1 }, { "monster": "mon_sludge_crawler", "is": ">=", "count": 1 } ],
+```
+
+This allows a kill requirement (either an upper or lower bound) on when
+the achievement can be claimed. Can be defined with either `"faction"` or
+`"monster"` as a target, using MONSTER_FACTION ids from `monster_faction.json`
+or a specific monster id.
+
+Only one of the `"monster"`/`"faction"` fields can be used per entry. If neither
+are used, any monster will fulfill the requirements.
+
+NPCs cannot currently be defined as a target.
+
+Note that like `"time_constraint"` below achievements can only be captured when
+a statistic listed in `"requirements"` changes.
+
 ```C++
 "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" }
 ```

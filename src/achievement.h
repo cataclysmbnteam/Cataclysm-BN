@@ -65,9 +65,9 @@ class achievement
         static void check_consistency();
         static const std::vector<achievement> &get_all();
         static void reset();
-        std::string ui_text() const;
+        std::string ui_text( achievement_completion completion ) const;
         std::string skill_ui_text() const;
-        std::string kill_ui_text() const;
+        std::string kill_ui_text( achievement_completion completion ) const;
 
         string_id<achievement> id;
         bool was_loaded = false;

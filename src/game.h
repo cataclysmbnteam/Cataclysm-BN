@@ -480,7 +480,6 @@ class game
     public:
         /** Unloads, then loads the NPCs */
         void reload_npcs();
-        const kill_tracker &get_kill_tracker() const;
         /** Add follower id to set of followers. */
         void add_npc_follower( const character_id &id );
         /** Remove follower id from follower set. */
@@ -966,6 +965,7 @@ class game
 
         event_bus &events();
         stats_tracker &stats();
+        kill_tracker &get_kill_tracker();
         memorial_logger &memorial();
         spell_events &spell_events_subscriber();
 
