@@ -1398,8 +1398,8 @@ a statistic listed in `"requirements"` changes.
 
 This allows a kill requirement (either an upper or lower bound) on when
 the achievement can be claimed. Can be defined with either `"faction"` or
-`"monster"` as a target, using MONSTER_FACTION ids from `monster_faction.json`
-or a specific monster id.
+`"monster"` as a target, using species ids from `species.json` or a
+specific monster id.
 
 Only one of the `"monster"`/`"faction"` fields can be used per entry. If neither
 are used, any monster will fulfill the requirements.
