@@ -2,7 +2,7 @@
   {
     "type": "SPECIES",
     "id": "MAGICAL_BEAST",
-    "name": { "str": "magical beast" },
+    "name": { "str": "magical beast" }
   },
   {
     "type": "SPECIES",
@@ -13,7 +13,7 @@
   {
     "type": "SPECIES",
     "id": "LIZARDFOLK",
-    "name": { "str_sp": "lizardfolk",  },
+    "name": { "str_sp": "lizardfolk" },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "FIRE" ]
   }
