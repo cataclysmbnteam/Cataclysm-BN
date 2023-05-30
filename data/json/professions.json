@@ -4546,7 +4546,7 @@
         ]
       },
       "male": [
-        "fancy_boxer_briefs",
+        "boxer_briefs",
         "socks",
         "dress_shoes",
         "bowhat",
@@ -4558,8 +4558,8 @@
         "cufflinks_intricate"
       ],
       "female": [
-        "fancy_panties",
-        "fancy_bra",
+        "panties",
+        "bra",
         "stockings",
         "heels",
         "gown",
