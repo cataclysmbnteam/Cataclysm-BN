@@ -216,7 +216,6 @@
       "RAP_TALONS",
       "HOOVES",
       "CANINE_EARS",
-      "BIOLUM1",
       "BIOLUM2",
       "FELINE_EARS",
       "TAIL_FLUFFY",
@@ -243,7 +242,18 @@
       "ALCMET",
       "LIGHT_BONES",
       "CHITIN",
-      "ELECTRORECEPTORS"
+      "ELECTRORECEPTORS",
+      "SCALES",
+      "FEATHERS",
+      "FUR",
+      "PHEROMONE_INSECT",
+      "PHEROMONE_MAMMAL",
+      "ANTLERS",
+      "WINGS_BIRD",
+      "WINGS_INSECT",
+      "WINGS_BAT",
+      "SMALL",
+      "LARGE"
     ],
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
@@ -445,6 +455,7 @@
       "RAP_TALONS",
       "HOOVES",
       "CANINE_EARS",
+      "BIOLUM2",
       "FELINE_EARS",
       "TAIL_FLUFFY",
       "TAIL_LONG",
@@ -470,7 +481,18 @@
       "ALCMET",
       "LIGHT_BONES",
       "CHITIN",
-      "ELECTRORECEPTORS"
+      "ELECTRORECEPTORS",
+      "SCALES",
+      "FEATHERS",
+      "FUR",
+      "PHEROMONE_INSECT",
+      "PHEROMONE_MAMMAL",
+      "ANTLERS",
+      "WINGS_BIRD",
+      "WINGS_INSECT",
+      "WINGS_BAT",
+      "SMALL",
+      "LARGE"
     ],
     "flags": [ "LONE_START" ]
   },
@@ -523,9 +545,9 @@
       "bio_sniper",
       "bionic_spy",
       "national_guard",
-      "politician",
       "hitman",
       "assassin",
+      "politician",
       "mili_pilot"
     ],
     "map_extra": "mx_helicopter",
@@ -540,7 +562,7 @@
     "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
     "start_name": "Evac Shelter",
     "professions": [ "assassin", "hitman", "bionic_hitman" ],
-    "flags": [ "CITY_START", "LONE_START" ],
+    "flags": [ "CITY_START" ],
     "missions": [ "MISSION_ASSASSINATION" ]
   },
   {
