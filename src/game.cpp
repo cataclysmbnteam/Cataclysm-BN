@@ -298,7 +298,7 @@ static void achievement_attained( const achievement *a )
 game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
-    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained ),
+    achievements_tracker_ptr( *stats_tracker_ptr, *kill_tracker_ptr, achievement_attained ),
     grid_tracker_ptr( MAPBUFFER ),
     m( *map_ptr ),
     u( *u_ptr ),

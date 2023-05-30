@@ -22,6 +22,7 @@ class JsonOut;
 class achievements_tracker;
 class requirement_watcher;
 class stats_tracker;
+class kill_tracker;
 namespace cata
 {
 class event;
@@ -65,9 +66,9 @@ class achievement
         static void check_consistency();
         static const std::vector<achievement> &get_all();
         static void reset();
-        std::string ui_text( achievement_completion completion ) const;
+        std::string ui_text( achievement_completion completion, const kill_tracker &kt ) const;
         std::string skill_ui_text() const;
-        std::string kill_ui_text( achievement_completion completion ) const;
+        std::string kill_ui_text( achievement_completion completion, const kill_tracker &kt ) const;
 
         string_id<achievement> id;
         bool was_loaded = false;
@@ -159,7 +160,7 @@ struct achievement_state {
     // The values for each requirement at the time of completion or failure
     std::vector<cata_variant> final_values;
 
-    std::string ui_text( const achievement * ) const;
+    std::string ui_text( const achievement *, const kill_tracker &kt ) const;
 
     void serialize( JsonOut & ) const;
     void deserialize( JsonIn & );
@@ -200,9 +201,12 @@ class achievements_tracker : public event_subscriber
         achievements_tracker &operator=( const achievements_tracker & ) = delete;
 
         achievements_tracker(
-            stats_tracker &,
+            stats_tracker &, kill_tracker &,
             const std::function<void( const achievement * )> &achievement_attained_callback );
         ~achievements_tracker() override;
+
+        // Return kill tracker pointer (only matters for testing)
+        const kill_tracker *kills() const;
 
         // Return all scores which are valid now and existed at game start
         std::vector<const achievement *> valid_achievements() const;
@@ -222,6 +226,7 @@ class achievements_tracker : public event_subscriber
         void init_watchers();
 
         stats_tracker *stats_ = nullptr;
+        kill_tracker *kill_tracker_ = nullptr;
         std::function<void( const achievement * )> achievement_attained_callback_;
 
         // Class invariant: each valid achievement has exactly one of a watcher
@@ -233,7 +238,7 @@ class achievements_tracker : public event_subscriber
 /** Checks if time requirements for achievements are satisfied, have failed, or are pending.*/
 achievement_completion time_req_completed( const achievement &ach );
 /** Checks if kill requirements for achievements are satisfied, have failed, or are pending.*/
-achievement_completion kill_req_completed( const achievement &ach );
+achievement_completion kill_req_completed( const achievement &ach, const kill_tracker &kt );
 /** Checks if skill requirements for achievements are satisfied, or are pending.*/
 achievement_completion skill_req_completed( const achievement &ach );
 

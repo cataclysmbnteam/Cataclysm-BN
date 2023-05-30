@@ -950,8 +950,8 @@ class game
         pimpl<timed_event_manager> timed_event_manager_ptr;
         pimpl<event_bus> event_bus_ptr;
         pimpl<stats_tracker> stats_tracker_ptr;
-        pimpl<achievements_tracker> achievements_tracker_ptr;
         pimpl<kill_tracker> kill_tracker_ptr;
+        pimpl<achievements_tracker> achievements_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
         pimpl<distribution_grid_tracker> grid_tracker_ptr;
