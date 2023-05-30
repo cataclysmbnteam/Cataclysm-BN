@@ -31,9 +31,13 @@
           { "id": "t_shrub_strawberry_season_spring", "fg": 22 },
           { "id": "t_shrub_strawberry_season_summer", "fg": 23 },
           { "id": "overlay_worn_woodgreatbow", "fg": 24 },
-          { "id": "greatbow", "fg": 25 },
-          { "id": "overlay_wielded_greatbow", "fg": 26 },
-          { "id": "overlay_worn_greatbow", "fg": 27 }
+          { "id": "compgreatbow", "fg": 25 },
+          { "id": "overlay_wielded_compgreatbow", "fg": 26 },
+          { "id": "overlay_worn_compgreatbow", "fg": 27 },
+          { "id": "katar", "fg": 28 },
+          { "id": "overlay_wielded_katar", "fg": 29 },
+          { "id": "sai_weapon", "fg": 30 },
+          { "id": "overlay_wielded_sai_weapon", "fg": 31 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
