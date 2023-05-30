@@ -69,6 +69,7 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_emp( "emp" );
+static const efftype_id effect_feral_infighting_punishment( "feral_infighting_punishment" );
 static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
@@ -1128,7 +1129,7 @@ monster_attitude monster::attitude( const Character *u ) const
 
         static const string_id<monfaction> faction_zombie( "zombie" );
         if( faction == faction_zombie || type->in_species( ZOMBIE ) ) {
-            if( u->has_trait( trait_PROF_FERAL ) ) {
+            if( u->has_trait( trait_PROF_FERAL ) && !u->has_effect( effect_feral_infighting_punishment ) ) {
                 return MATT_FRIEND;
             }
         }
@@ -2326,10 +2327,19 @@ void monster::die( Creature *nkiller )
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
         static const string_id<monfaction> faction_zombie( "zombie" );
-        // Feral survivors are motivated to kill anything human that's not also a feral
-        if( ch->has_trait( trait_PROF_FERAL ) && ( has_flag( MF_HUMAN ) && faction != faction_zombie &&
-                !type->in_species( ZOMBIE ) ) ) {
-            ch->add_effect( effect_feral_killed_recently, 3_days );
+        // Feral survivors are motivated to kill anything human
+        if( ch->has_trait( trait_PROF_FERAL ) && has_flag( MF_HUMAN ) ) {
+            if( faction != faction_zombie && !type->in_species( ZOMBIE ) ) {
+                ch->add_effect( effect_feral_killed_recently, 3_days );
+            } else {
+                // Killing fellow ferals works but is less efficient, and comes with risk of punishment.
+                ch->add_effect( effect_feral_killed_recently, 6_hours );
+                if( one_in( 3 ) ) {
+                    ch->add_msg_if_player( m_bad,
+                                           _( "The rush of blood seems to drive off the smell of decay for a moment." ) );
+                    ch->add_effect( effect_feral_infighting_punishment, 6_hours );
+                }
+            }
         }
     }
     // Drop items stored in optionals

@@ -6461,7 +6461,7 @@
     "id": "PROF_FERAL",
     "name": { "str": "Lost To The Cataclysm" },
     "points": 0,
-    "description": "When the world ended, something inside you snapped.  Whether though wallowing in carrion and decay, or by some otherworldly influence, you find the living shun you while the undead mostly ignore you.",
+    "description": "Something inside you snapped.  Whether though wallowing in decay or by otherworldly influence, the living shun you while the undead mostly ignore you.  Your mind and body will deteriorate if you don't keep killing the living and sane.  Your fellow lost and damned will suffice too, but that might cause the others to mistake you for the living.",
     "valid": false,
     "purifiable": false,
     "profession": true,

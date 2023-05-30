@@ -226,6 +226,7 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_evil( "evil" );
+static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
@@ -727,6 +728,9 @@ bool game::start_game()
                                               om_direction::type::north );
         }
 
+    }
+    if( u.has_trait( "PROF_FERAL" ) ) {
+        u.add_effect( effect_feral_killed_recently, 3_days );
     }
     for( auto &e : u.inv_dump() ) {
         e->set_owner( g->u );

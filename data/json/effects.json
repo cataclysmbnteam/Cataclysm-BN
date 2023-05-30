@@ -741,9 +741,21 @@
     "type": "effect_type",
     "id": "feral_killed_recently",
     "max_duration": "200 d",
+    "name": [ "Content With Bloodshed" ],
+    "desc": [ "You've hunted your fellow man recently.  The voices in your head are staying quiet, for now." ],
     "apply_message": "The voices in your head quiet down.",
     "remove_message": "You can hear the whispering again.  Need more meat.",
     "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "feral_infighting_punishment",
+    "max_duration": "7 h",
+    "name": [ "Inner turmoil" ],
+    "desc": [ "You don't feel like you anymore.  The others seem to regard you as prey." ],
+    "apply_message": "You feel like you shouldn't have done that…",
+    "remove_message": "You feel normal again.",
+    "rating": "bad"
   },
   {
     "type": "effect_type",
