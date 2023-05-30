@@ -774,7 +774,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Internal Microreactor CBM" },
-    "description": "This stripped down mini-reactor will generate impressive amounts of bionic power, but may not be the safest thing to install.  1 plutonium fuel cell provides 2500 charges producing 10kJ of power a turn, while not active & fueled provides a constant 50J of power.",
+    "description": "This stripped down mini-reactor will generate impressive amounts of bionic power, but may not be the safest thing to install.  1 plutonium fuel cell provides 1000 charges producing 10kJ of power a turn, while not active & fueled provides a constant 50J of power.",
     "price": 900000,
     "difficulty": 11
   },
@@ -783,7 +783,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Advanced Microreactor CBM" },
-    "description": "This module upgrades a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.  1 plutonium fuel cell provides 3000 charges producing 12kJ of power a turn, while not active & fueled provides a constant 100J of power.",
+    "description": "This module upgrades a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.  1 plutonium fuel cell provides 1500 charges producing 10kJ of power a turn, while not active & fueled provides a constant 75J of power.",
     "price": 900000,
     "difficulty": 13
   },

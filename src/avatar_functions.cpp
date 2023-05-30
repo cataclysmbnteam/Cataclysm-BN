@@ -3,6 +3,7 @@
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "character_functions.h"
+#include "consumption.h"
 #include "fault.h"
 #include "field_type.h"
 #include "game.h"
@@ -648,8 +649,12 @@ static bool add_or_drop_with_msg( avatar &you, item &it, bool unloading )
 bool unload_item( avatar &you, item_location loc )
 {
     item &it = *loc.get_item();
+    //Give the player the same options as when attempting to eat food that doesn't belong to them, bomb out if they say no.
+    if( !query_consume_ownership( it, you ) ) {
+        return false;
+    }
     // Unload a container consuming moves per item successfully removed
-    if( it.is_container() || it.is_bandolier() ) {
+    if( it.is_container() || it.is_bandolier() || it.type->can_use( "holster" ) ) {
         if( it.contents.empty() ) {
             add_msg( m_info, _( "The %s is already empty!" ), it.tname() );
             return false;

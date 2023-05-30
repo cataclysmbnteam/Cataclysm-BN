@@ -7,7 +7,7 @@
     "symbol": "0",
     "color": "yellow",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "DIGGABLE_CAN_DEEPEN" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "DIGGABLE_CAN_DEEPEN", "NOCOLLIDE" ],
     "bash": { "sound": "thump", "ter_set": "t_pit", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {

@@ -560,7 +560,7 @@
     "valid": false,
     "social_modifiers": { "intimidate": 5 },
     "cancels": [ "KILLER", "PACIFIST" ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "PSYCHOPATH", "CANNIBAL" ]
   },
   {
     "type": "mutation",
@@ -574,7 +574,7 @@
     "prereqs": [ "PSYCHOPATH" ],
     "category": [ "LUPINE" ],
     "cancels": [ "PACIFIST" ],
-    "flags": [ "CANNIBAL" ]
+    "flags": [ "PSYCHOPATH" ]
   },
   {
     "type": "mutation",
@@ -3048,7 +3048,7 @@
     "type": "mutation",
     "id": "TAIL_LONG",
     "name": { "str": "Long Tail" },
-    "points": 0,
+    "points": 1,
     "visibility": 6,
     "ugliness": 2,
     "description": "You have a long, graceful tail, like that of a big cat.  It improves your balance, making your ability to dodge higher, but prevents wearing non-fabric pants.",
@@ -3079,7 +3079,7 @@
     "type": "mutation",
     "id": "TAIL_RAT",
     "name": { "str": "Rodent Tail" },
-    "points": 0,
+    "points": 1,
     "visibility": 6,
     "ugliness": 4,
     "description": "You have a long but hairless tail.  It's a pretty effective balancing aid, but does look, uh, ratty.  Prevents wearing non-fabric pants.",
@@ -3094,7 +3094,7 @@
     "type": "mutation",
     "id": "TAIL_THICK",
     "name": { "str": "Thick Tail" },
-    "points": 0,
+    "points": 1,
     "visibility": 8,
     "ugliness": 2,
     "description": "You have a long, thick, lizardlike tail.  It helps you balance a bit but also makes a serviceable whip.  Prevents wearing non-fabric pants.",
@@ -3731,7 +3731,7 @@
     "type": "mutation",
     "id": "LARGE",
     "name": { "str": "Inconveniently Large" },
-    "points": 0,
+    "points": -1,
     "visibility": 1,
     "ugliness": 1,
     "mixed_effect": true,
