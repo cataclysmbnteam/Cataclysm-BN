@@ -2286,31 +2286,9 @@
     ],
     "skills": [ { "level": 3, "name": "dodge" } ],
     "items": {
-      "both": { "items": [ "fancy_sunglasses", "platinum_watch", "suppressor", "tele_sight_pistol" ] },
-      "male": [
-        "fancy_boxer_briefs",
-        "socks",
-        "dress_shoes",
-        "bowhat",
-        "suit",
-        "tie_necktie",
-        "tieclip",
-        "leather_belt",
-        "briefcase",
-        "cufflinks_intricate"
-      ],
-      "female": [
-        "fancy_panties",
-        "fancy_bra",
-        "stockings",
-        "heels",
-        "gown",
-        "diamond_platinum_tiara",
-        "purse",
-        "platinum_ear",
-        "platinum_necklace",
-        "platinum_hairpin"
-      ]
+      "both": [ "dress_shoes", "dress_shirt", "knit_scarf", "wristwatch", "blazer", "wristwatch", "smart_phone" ],
+      "male": [ "briefs", "socks", "pants" ],
+      "female": [ "bra", "panties", "stockings", "skirt" ]
     }
   },
   {
