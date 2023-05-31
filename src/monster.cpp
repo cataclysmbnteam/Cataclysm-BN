@@ -69,6 +69,8 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_emp( "emp" );
+static const efftype_id effect_feral_infighting_punishment( "feral_infighting_punishment" );
+static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_heavysnare( "heavysnare" );
@@ -111,6 +113,7 @@ static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
@@ -1124,6 +1127,13 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
+        static const string_id<monfaction> faction_zombie( "zombie" );
+        if( faction == faction_zombie || type->in_species( ZOMBIE ) ) {
+            if( u->has_trait( trait_PROF_FERAL ) && !u->has_effect( effect_feral_infighting_punishment ) ) {
+                return MATT_FRIEND;
+            }
+        }
+
         if( type->in_species( FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
                                             u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
@@ -1140,7 +1150,15 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         if( has_flag( MF_ANIMAL ) ) {
-            if( u->has_trait( trait_ANIMALEMPATH ) ) {
+            if( u->has_trait( trait_PROF_FERAL ) ) {
+                // We want wildlife to amp their normal fight-or-flight response up to eleven, so anger_relation won't cut it.
+                if( effective_anger >= -10 ) {
+                    effective_anger += 25;
+                }
+                if( effective_anger < -10 ) {
+                    effective_morale -= 100;
+                }
+            } else if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
                     effective_morale += 55;
@@ -2307,6 +2325,24 @@ void monster::die( Creature *nkiller )
             }
             ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
+        }
+        static const string_id<monfaction> faction_zombie( "zombie" );
+        // Feral survivors are motivated to kill anything human
+        if( ch->has_trait( trait_PROF_FERAL ) && has_flag( MF_HUMAN ) ) {
+            if( !ch->has_effect( effect_feral_killed_recently ) ) {
+                ch->add_msg_if_player( m_good, _( "The voices in your head quiet down a bit." ) );
+            }
+            if( faction != faction_zombie && !type->in_species( ZOMBIE ) ) {
+                ch->add_effect( effect_feral_killed_recently, 3_days );
+            } else {
+                // Killing fellow ferals works but is less efficient, and comes with risk of punishment.
+                ch->add_effect( effect_feral_killed_recently, 6_hours );
+                if( one_in( 3 ) ) {
+                    ch->add_msg_if_player( m_bad,
+                                           _( "The rush of blood seems to drive off the smell of decay for a moment." ) );
+                    ch->add_effect( effect_feral_infighting_punishment, 6_hours );
+                }
+            }
         }
     }
     // Drop items stored in optionals

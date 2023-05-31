@@ -6455,5 +6455,16 @@
     "valid": false,
     "purifiable": false,
     "profession": false
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_FERAL",
+    "name": { "str": "Lost To The Cataclysm" },
+    "points": 0,
+    "description": "Something inside you snapped.  Whether though wallowing in decay or by otherworldly influence, the living shun you while the undead mostly ignore you.  Your mind and body will deteriorate if you don't keep killing the living and sane.  Your fellow lost and damned will suffice too, but that might cause the others to mistake you for the living.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true,
+    "scent_type": "sc_fetid"
   }
 ]
