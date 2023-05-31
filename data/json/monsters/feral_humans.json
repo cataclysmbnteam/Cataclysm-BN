@@ -28,6 +28,7 @@
     "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "starting_ammo": { "rock": 6 },
     "special_attacks": [
+      [ "PARROT_AT_DANGER", 5 ],
       {
         "type": "gun",
         "cooldown": 5,
@@ -349,6 +350,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "special_attacks": [ [ "PARROT_AT_DANGER", 5 ] ],
     "death_function": [ "NORMAL" ],
     "death_drops": "feral_maids_death_drops_broom",
     "zombify_into": "mon_zombie",
@@ -403,6 +405,7 @@
     "description": "Wearing fancy clothes and with crossbow in hand, this maniac was once a socialite.  Its hands seem to caress the crossbow as if touching a loved one.",
     "starting_ammo": { "bolt_cf": 6 },
     "special_attacks": [
+      [ "PARROT_AT_DANGER", 5 ],
       {
         "type": "gun",
         "cooldown": 15,
