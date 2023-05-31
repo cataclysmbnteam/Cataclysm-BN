@@ -465,10 +465,10 @@ TEST_CASE( "achievements_tracker", "[stats]" )
 
     std::map<string_id<achievement>, const achievement *> achievements_completed;
     event_bus b;
-    stats_tracker s;
     kill_tracker k;
-    b.subscribe( &s );
+    stats_tracker s;
     b.subscribe( &k );
+    b.subscribe( &s );
     achievements_tracker a( s, k, [&]( const achievement * a ) {
         achievements_completed.emplace( a->id, a );
     } );
