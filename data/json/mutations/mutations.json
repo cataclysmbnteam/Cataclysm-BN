@@ -356,9 +356,10 @@
     "type": "mutation",
     "id": "DEFT",
     "name": { "str": "Deft" },
-    "points": 1,
-    "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
+    "points": 2,
+    "description": "Your attacks are 10% faster overall.  You are also better at recovering from a miss, and will be able to attempt another strike faster.",
     "starting_trait": true,
+    "attackcost_modifier": 0.9,
     "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE", "FELINE" ]
   },
   {
