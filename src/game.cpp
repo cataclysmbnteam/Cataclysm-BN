@@ -261,6 +261,7 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
@@ -729,7 +730,7 @@ bool game::start_game()
         }
 
     }
-    if( u.has_trait( "PROF_FERAL" ) ) {
+    if( u.has_trait( trait_PROF_FERAL ) ) {
         u.add_effect( effect_feral_killed_recently, 3_days );
     }
     for( auto &e : u.inv_dump() ) {
