@@ -629,6 +629,9 @@ bool game::start_game()
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
 
     u.moves = 0;
+    if( u.has_trait( trait_PROF_FERAL ) ) {
+        u.add_effect( effect_feral_killed_recently, 3_days );
+    }
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
     get_weather().temperature = SPRING_TEMPERATURE;
@@ -729,9 +732,6 @@ bool game::start_game()
                                               om_direction::type::north );
         }
 
-    }
-    if( u.has_trait( trait_PROF_FERAL ) ) {
-        u.add_effect( effect_feral_killed_recently, 3_days );
     }
     for( auto &e : u.inv_dump() ) {
         e->set_owner( g->u );

@@ -741,9 +741,8 @@
     "type": "effect_type",
     "id": "feral_killed_recently",
     "max_duration": "200 d",
-    "name": [ "Content With Bloodshed" ],
-    "desc": [ "You've hunted your fellow man recently.  The voices in your head are staying quiet, for now." ],
-    "apply_message": "The voices in your head quiet down.",
+    "name": [ "Lucidity" ],
+    "desc": [ "You could always go for more bloodshed, but the voices in your head are staying quiet for now.  You currently won't suffer the side effects of your deteriorating mind and body." ],
     "remove_message": "You can hear the whispering again.  Need more meat.",
     "rating": "good"
   },

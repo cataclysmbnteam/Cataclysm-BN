@@ -724,79 +724,82 @@ void Character::suffer_feral_kill_withdrawl()
     if( has_effect( effect_feral_killed_recently ) ) {
         return;
     }
-    // Once every 4 hours, recent non-human kills slow but not stop the effect.
-    if( !one_in( ( to_turns<int>( 4_hours ) ) *
-                 ( has_morale( MORALE_KILLER_HAS_KILLED ) ? 2 : 1 ) ) ) {
-        return;
-    }
-    // Select a random side effect:
-    switch( dice( 1, 4 ) ) {
-        default:
-        case 1:
-            // Feel ill, overcome with nausea if awake.  Additional chance of unexplained bleeding.
-            mod_healthy_mod( -50, -500 );
-            if( !in_sleep_state() ) {
-                add_msg_if_player( m_bad, _( "You feel as if your insides are rotting away." ) );
-                vomit();
-                if( one_in( 3 ) ) {
-                    add_msg_if_player( m_bad, _( "Blood starts leaking from your eyes and nose." ) );
-                    add_effect( effect_bleed, 10_minutes, bp_head );
-                    add_effect( effect_blind, rng( 1_seconds, 30_seconds ) );
+    // Once every 4 hours
+    if( calendar::once_every( 4_hours ) ) {
+        // Recent non-human kills reduce chance of it triggering but don't prevent entirely.
+        if( one_in( 2 ) && has_morale( MORALE_KILLER_HAS_KILLED ) ) {
+            return;
+        }
+        // Select a random side effect:
+        switch( dice( 1, 4 ) ) {
+            default:
+            case 1:
+                // Feel ill, overcome with nausea if awake.  Additional chance of unexplained bleeding.
+                mod_healthy_mod( -50, -500 );
+                if( !in_sleep_state() ) {
+                    add_msg_if_player( m_bad, _( "You feel as if your insides are rotting away." ) );
+                    vomit();
+                    if( one_in( 3 ) ) {
+                        add_msg_if_player( m_bad, _( "Blood starts leaking from your eyes and nose." ) );
+                        add_effect( effect_bleed, 10_minutes, bp_head );
+                        add_effect( effect_blind, rng( 1_seconds, 30_seconds ) );
+                    }
+                } else {
+                    add_msg_if_player( m_bad, _( "You feel a bit queasy in your sleep." ) );
+                    if( one_in( 3 ) ) {
+                        add_msg_if_player( m_bad, _( "You wake up bloody for some reason." ) );
+                        wake_up();
+                        add_effect( effect_bleed, 10_minutes, bp_head );
+                        add_effect( effect_blind, rng( 1_seconds, 30_seconds ) );
+                    }
                 }
-            } else {
-                add_msg_if_player( m_bad, _( "You feel a bit queasy in your sleep." ) );
-                if( one_in( 3 ) ) {
-                    add_msg_if_player( m_bad, _( "You wake up bloody for some reason." ) );
-                    wake_up();
-                    add_effect( effect_bleed, 10_minutes, bp_head );
-                    add_effect( effect_blind, rng( 1_seconds, 30_seconds ) );
+                break;
+            case 2:
+                // Empty stamina and inflict fatigue, pain if awake.
+                mod_fatigue( rng( 5, 10 ) );
+                set_stamina( get_stamina() * 1 / ( rng( 3, 8 ) ) );
+                if( !in_sleep_state() ) {
+                    add_msg_if_player( m_bad, _( "Your head aches as a wave of exhaustion passes through you." ) );
+                    mod_pain( rng( 10, 25 ) );
+                } else {
+                    add_msg_if_player( m_bad, _( "You stir restlessly in your sleep." ) );
                 }
-            }
-            break;
-        case 2:
-            // Empty stamina and inflict fatigue, pain if awake.
-            mod_fatigue( rng( 5, 10 ) );
-            set_stamina( get_stamina() * 1 / ( rng( 3, 8 ) ) );
-            if( !in_sleep_state() ) {
-                add_msg_if_player( m_bad, _( "Your head aches as a wave of exhaustion passes through you." ) );
-                mod_pain( rng( 10, 25 ) );
-            } else {
-                add_msg_if_player( m_bad, _( "You stir restlessly in your sleep." ) );
-            }
-            break;
-        case 3:
-            // Adrenaline rush plus side effects from panic. Chance it will wake you up anyway.
-            if( !in_sleep_state() ) {
-                add_msg_if_player( m_bad, _( "A pang of terror stirs your fight-or-flight response!" ) );
-                add_effect( effect_adrenaline, rng( 3_minutes, 5_minutes ) );
-                mod_stim( rng( 5, 10 ) );
-                add_morale( MORALE_FEELING_BAD, -5, -25, 10_minutes, 3_minutes, true );
-            } else {
-                if( !one_in( 4 ) ) {
-                    add_msg_if_player( m_bad, _( "You jolt awake in a panic attack!" ) );
-                    wake_up();
+                break;
+            case 3:
+                // Adrenaline rush plus side effects from panic. Chance it will wake you up anyway.
+                if( !in_sleep_state() ) {
+                    add_msg_if_player( m_bad, _( "A pang of terror stirs your fight-or-flight response!" ) );
                     add_effect( effect_adrenaline, rng( 3_minutes, 5_minutes ) );
                     mod_stim( rng( 5, 10 ) );
                     add_morale( MORALE_FEELING_BAD, -5, -25, 10_minutes, 3_minutes, true );
                 } else {
-                    add_msg_if_player( m_bad, _( "You have a vivid nightmare that almost wakes you up." ) );
+                    if( !one_in( 4 ) ) {
+                        add_msg_if_player( m_bad, _( "You jolt awake in a panic attack!" ) );
+                        wake_up();
+                        add_effect( effect_adrenaline, rng( 3_minutes, 5_minutes ) );
+                        mod_stim( rng( 5, 10 ) );
+                        add_morale( MORALE_FEELING_BAD, -5, -25, 10_minutes, 3_minutes, true );
+                    } else {
+                        add_msg_if_player( m_bad, _( "You have a vivid nightmare that almost wakes you up." ) );
+                    }
                 }
-            }
-            break;
-        case 4:
-            // The others are displeased with your lack of bloodshed, can sleep through the mental contact itself.
-            add_effect( effect_attention, rng( 3_hours, 6_hours ), num_bp, rng( 1, 4 ), false, true );
-            if( !in_sleep_state() ) {
-                add_msg_if_player( m_bad,
-                                   _( "You feel like something is judging you from afar, leaving your head spinning." ) );
-                add_effect( effect_shakes, 5_minutes );
-                add_effect( effect_stunned, rng( 1_turns, 10_turns ) );
-            } else {
-                add_msg_if_player( m_bad,
-                                   _( "You have a vivid nightmare about being deemed unworthy by a higher power." ) );
-            }
-            break;
+                break;
+            case 4:
+                // The others are displeased with your lack of bloodshed, can sleep through the mental contact itself.
+                add_effect( effect_attention, rng( 3_hours, 6_hours ), num_bp, rng( 1, 4 ), false, true );
+                if( !in_sleep_state() ) {
+                    add_msg_if_player( m_bad,
+                                       _( "You feel like something is judging you from afar, leaving your head spinning." ) );
+                    add_effect( effect_shakes, 5_minutes );
+                    add_effect( effect_stunned, rng( 1_turns, 10_turns ) );
+                } else {
+                    add_msg_if_player( m_bad,
+                                       _( "You have a vivid nightmare about being deemed unworthy by a higher power." ) );
+                }
+                break;
+        }
     }
+
 }
 
 void Character::suffer_in_sunlight()
