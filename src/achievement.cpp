@@ -324,10 +324,8 @@ achievement_completion kill_req_completed( const achievement &ach, const kill_tr
             break;
         }
         auto& [comp, count] = pair;
-        // HACK: Achievement checks are triggered before kill tracker is properly updated.
-        int kill_count = 1;
-        kill_count += m_id == mtype_id::NULL_ID() ? kt.monster_kill_count() :
-                      kt.kill_count( m_id );
+        int kill_count = m_id == mtype_id::NULL_ID() ? kt.monster_kill_count() :
+                         kt.kill_count( m_id );
         if( !ach_compare( comp, count, kill_count ) ) {
             switch( comp ) {
                 case achievement_comparison::greater_equal:
@@ -348,8 +346,7 @@ achievement_completion kill_req_completed( const achievement &ach, const kill_tr
             break;
         }
         auto& [comp, count] = pair;
-        // HACK: Achievement checks are triggered before kill tracker is properly updated.
-        int kill_count = 1 + kt.kill_count( fac_id );
+        int kill_count = kt.kill_count( fac_id );
         if( !ach_compare( comp, count, kill_count ) ) {
             switch( comp ) {
                 case achievement_comparison::greater_equal:
@@ -1071,6 +1068,11 @@ void achievements_tracker::serialize( JsonOut &jsout ) const
 void achievements_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
+    // Just to toss it.
+    if( jo.has_member( "initial_achievements" ) ) {
+        std::unordered_set<string_id<achievement>> initial_achievements;
+        jo.read( "initial_achievements", initial_achievements );
+    }
     jo.read( "achievements_status", achievements_status_ );
 
     init_watchers();
