@@ -501,8 +501,8 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         const cata::event avatar_zombie_kill =
             cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
 
-        string_id<achievement> a_kill_10( "achievement_kill_10_monsters" );
-        string_id<achievement> a_kill_100( "achievement_kill_100_monsters" );
+        string_id<achievement> a_kill_10( "achievement_kill_monsters_10" );
+        string_id<achievement> a_kill_100( "achievement_kill_monsters_100" );
 
         b.send<event_type::game_start>( u_id );
 
