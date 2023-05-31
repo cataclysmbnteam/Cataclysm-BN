@@ -320,8 +320,8 @@ game::game() :
 {
     first_redraw_since_waiting_started = true;
     reset_light_level();
-    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*kill_tracker_ptr );
+    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*memorial_logger_ptr );
     events().subscribe( &*achievements_tracker_ptr );
     events().subscribe( &*spell_events_ptr );
