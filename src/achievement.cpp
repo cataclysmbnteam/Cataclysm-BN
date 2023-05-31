@@ -714,7 +714,7 @@ void achievement::check() const
                 debugmsg( "Achievement %s specifies invalid comparator for kill requirement %s.", id.str(),
                           m_id.c_str() );
             } else if( count < 0 ) {
-                debugmsg( "Achievement %s has invalid value for kill requirement %s.", id.str(), m_id.c_str() );
+                debugmsg( "Achievement %s has negative count for kill requirement %s.", id.str(), m_id.c_str() );
             }
         }
     }
