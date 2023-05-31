@@ -1068,11 +1068,6 @@ void achievements_tracker::serialize( JsonOut &jsout ) const
 void achievements_tracker::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    // Just to toss it.
-    if( jo.has_member( "initial_achievements" ) ) {
-        std::unordered_set<string_id<achievement>> initial_achievements;
-        jo.read( "initial_achievements", initial_achievements );
-    }
     jo.read( "achievements_status", achievements_status_ );
 
     init_watchers();
