@@ -742,7 +742,9 @@
     "id": "feral_killed_recently",
     "max_duration": "200 d",
     "name": [ "Lucidity" ],
-    "desc": [ "You could always go for more bloodshed, but the voices in your head are staying quiet for now.  You currently won't suffer the side effects of your deteriorating mind and body." ],
+    "desc": [
+      "You could always go for more bloodshed, but the voices in your head are staying quiet for now.  You currently won't suffer the side effects of your deteriorating mind and body."
+    ],
     "remove_message": "You can hear the whispering again.  Need more meat.",
     "rating": "good"
   },
