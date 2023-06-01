@@ -143,7 +143,6 @@ static const bionic_id bio_ups( "bio_ups" );
 static const std::string flag_CONSUMABLE( "CONSUMABLE" );
 static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
 static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
-static const std::string flag_MOUNTABLE( "MOUNTABLE" );
 static const std::string flag_MOUNTED_GUN( "MOUNTED_GUN" );
 static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
 static const std::string flag_NON_FOULING( "NON-FOULING" );

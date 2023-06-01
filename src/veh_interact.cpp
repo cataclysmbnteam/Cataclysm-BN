@@ -48,6 +48,7 @@
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
+#include "ranged.h"
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -2148,6 +2149,10 @@ void veh_interact::move_cursor( point d, int dstart_at )
     if( ovp && &ovp->vehicle() != veh ) {
         obstruct = true;
     }
+	//Set obstruction if object is mountable to stop vehicles being built in windows, on tables etc.
+	if ( g->m.has_flag( flag_MOUNTABLE, vehp ) ) {
+		obstruct = true;
+	}
 
     can_mount.clear();
     if( !obstruct ) {
@@ -2321,6 +2326,10 @@ void veh_interact::display_veh()
     if( ovp && &ovp->vehicle() != veh ) {
         obstruct = true;
     }
+	//Set obstruction if object is mountable to stop vehicles being built in windows, on tables etc.
+	if ( g->m.has_flag( flag_MOUNTABLE, vehp ) ) {
+		obstruct = true;
+	}
     nc_color col = cpart >= 0 ? veh->part_color( cpart ) : c_black;
     int sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
     mvwputch( w_disp, point( hw, hh ), obstruct ? red_background( col ) : hilite( col ),

@@ -62,6 +62,7 @@ trajectory mode_shaped( avatar &you, shape_factory &shape_fac, aim_activity_acto
 } // namespace target_handler
 
 int range_with_even_chance_of_good_hit( int dispersion );
+static const std::string flag_MOUNTABLE( "MOUNTABLE" ); //Moved here to be checked by the vehicle interaction menu
 
 namespace ranged
 {
