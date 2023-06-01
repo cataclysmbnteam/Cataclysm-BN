@@ -2326,10 +2326,10 @@ void veh_interact::display_veh()
     if( ovp && &ovp->vehicle() != veh ) {
         obstruct = true;
     }
-	//Set obstruction if object is mountable to stop vehicles being built in windows, on tables etc.
-	if ( g->m.has_flag( flag_MOUNTABLE, vehp ) ) {
-		obstruct = true;
-	}
+    //Set obstruction if object is mountable to stop vehicles being built in windows, on tables etc.
+    if( g->m.has_flag( flag_MOUNTABLE, vehp ) ) {
+        obstruct = true;
+    }
     nc_color col = cpart >= 0 ? veh->part_color( cpart ) : c_black;
     int sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
     mvwputch( w_disp, point( hw, hh ), obstruct ? red_background( col ) : hilite( col ),
