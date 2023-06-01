@@ -11,12 +11,9 @@
       { "item": "jacket_army", "prob": 5 },
       { "item": "trenchcoat", "prob": 10 },
       { "item": "trenchcoat_leather", "prob": 10 },
-      { "item": "jacket_leather", "prob": 10 },
-      { "item": "jacket_leather_mod", "prob": 5 },
-      { "item": "jacket_leather_spiked", "prob": 5 },
-      { "item": "vest_leather", "prob": 10 },
-      { "item": "vest_leather_mod", "prob": 5 },
-      { "item": "vest_leather_spiked", "prob": 5 }
+      { "item": "jacket_leather", "prob": 20 },
+      { "item": "jacket_leather_mod", "prob": 10 },
+      { "item": "jacket_leather_spiked", "prob": 10 }
     ]
   },
   {
