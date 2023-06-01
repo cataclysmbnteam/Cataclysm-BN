@@ -2967,6 +2967,15 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
         return;
     }
 
+    static const string_id<monfaction> faction_zombie( "zombie" );
+    const bool feral_friend = ( faction == faction_zombie || !type->in_species( ZOMBIE ) ) &&
+                              g->u.has_trait( trait_PROF_FERAL ) && !g->u.has_effect( effect_feral_infighting_punishment );
+
+    // Hackery: If player is currently a feral and you're a zombie, ignore any sounds close to their position.
+    if( feral_friend && rl_dist( g->u.pos(), source ) <= 10 ) {
+        return;
+    }
+
     const bool goodhearing = has_flag( MF_GOODHEARING );
     const int volume = goodhearing ? 2 * vol - dist : vol - dist;
     // Error is based on volume, louder sound = less error
