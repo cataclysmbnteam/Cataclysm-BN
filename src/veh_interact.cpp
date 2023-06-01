@@ -2149,10 +2149,10 @@ void veh_interact::move_cursor( point d, int dstart_at )
     if( ovp && &ovp->vehicle() != veh ) {
         obstruct = true;
     }
-	//Set obstruction if object is mountable to stop vehicles being built in windows, on tables etc.
-	if ( g->m.has_flag( flag_MOUNTABLE, vehp ) ) {
-		obstruct = true;
-	}
+    //Set obstruction if object is mountable to stop vehicles being built in windows, on tables etc.
+    if( g->m.has_flag( flag_MOUNTABLE, vehp ) ) {
+        obstruct = true;
+    }
 
     can_mount.clear();
     if( !obstruct ) {
