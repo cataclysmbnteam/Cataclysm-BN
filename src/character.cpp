@@ -8301,6 +8301,28 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         // Should hit body part used for attack
         source->deal_damage( this, bodypart_id( "torso" ), ods_shock_damage );
     }
+    for( const item &worn_item : worn ) {
+        if( worn_item.covers( bp_hit ) && worn_item.has_flag( "SPIKED" ) &&
+            ( worn_item.damage_melee( DT_STAB ) > 0 ) && ( rng( 1, 100 ) <= worn_item.get_coverage() * 0.5 ) &&
+            !( source->has_weapon() ) ) {
+            int spike = rng( worn_item.damage_melee( DT_STAB ) * 0.5, worn_item.damage_melee( DT_STAB ) );
+
+            if( is_player() ) {
+                add_msg( m_good, _( "Your %1$s impales %2$s in mid-attack!" ),
+                         worn_item.display_name(), source->disp_name() );
+            } else if( u_see ) {
+                add_msg( _( "%1$s's %2$s impales %3$s in mid-attack!" ),
+                         name, worn_item.display_name(),
+                         source->disp_name() );
+            }
+            damage_instance spike_damage;
+            spike_damage.add_damage( DT_STAB, spike );
+            // In general, critters don't have separate limbs
+            // so safer to target the torso
+            source->deal_damage( this, bodypart_id( "torso" ), spike_damage );
+
+        }
+    }
     if( !wearing_something_on( bp_hit ) &&
         ( has_trait( trait_SPINES ) || has_trait( trait_QUILLS ) ) ) {
         int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
@@ -10654,13 +10676,14 @@ auto is_leg_hit( const bodypart_id &bp_hit ) -> bool
  * @brief Check if the given shield can protect the given bodypart.
  *
  * - Best item available doesn't count as a shield.
- * - Shield already protects the part we're interested in.
+ * - Shield already protects the part we're interested in, unless it's not currently worn.
  * - Targeted bodypart is a foot, unlikely to ever successfully block that low.
  */
-auto is_covered_by_shield( const bodypart_id &bp_hit, const item &shield ) -> bool
+auto is_covered_by_shield( const Character &you, const bodypart_id &bp_hit,
+                           const item &shield ) -> bool
 {
     return shield.has_flag( "BLOCK_WHILE_WORN" )
-           && !shield.covers( bp_hit->token )
+           && ( !shield.covers( bp_hit->token ) || !you.is_wearing( shield ) )
            && !is_foot_hit( bp_hit );
 }
 
@@ -10731,7 +10754,7 @@ bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_
     }
 
     const auto level = shield_level( shield );
-    if( level == ShieldLevel::None || !is_covered_by_shield( bp_hit, shield ) ) {
+    if( level == ShieldLevel::None || !is_covered_by_shield( *this, bp_hit, shield ) ) {
         return false;
     }
     // Modify chance based on coverage and blocking ability, with lowered chance if hitting the legs. Exclude armguards here.

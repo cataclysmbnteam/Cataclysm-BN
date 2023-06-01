@@ -690,7 +690,7 @@
     "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
-    "flags": [ "FANCY", "STAB" ]
+    "flags": [ "FANCY", "STAB", "SPIKED" ]
   },
   {
     "id": "helmet_corinthian",

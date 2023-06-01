@@ -1801,6 +1801,36 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // fire martial arts block-triggered effects
     martial_arts_data->ma_onblock_effects( *this );
 
+    if( has_shield ) {
+        // Define impale chance since item may potentially be a non-wearable.
+        int spike_factor = shield.get_coverage();
+        if( spike_factor == 0 ) {
+            spike_factor = 50;
+        }
+        // If the blocking item has stabbing damage and the SPIKED flag, roll a chance to spike unarmed attackers.
+        // Exclude item if it's being worn and covers the part we hit, since Character::on_hit also rolls for this.
+        if( ( !shield.covers( bp_hit->token ) || !is_wearing( shield ) ) && shield.has_flag( "SPIKED" ) &&
+            ( shield.damage_melee( DT_STAB ) > 0 ) && ( rng( 1, 100 ) <= spike_factor * 0.75 ) &&
+            !( source->has_weapon() ) ) {
+            int spike = shield.damage_melee( DT_STAB );
+
+            if( is_player() ) {
+                add_msg( m_good, _( "Your %1$s impales %2$s in mid-attack!" ),
+                         shield.display_name(), source->disp_name() );
+            } else if( g->u.sees( *this ) ) {
+                add_msg( _( "%1$s's %2$s impales %3$s in mid-attack!" ),
+                         name, shield.display_name(),
+                         source->disp_name() );
+            }
+            damage_instance spike_damage;
+            spike_damage.add_damage( DT_STAB, spike );
+            // In general, critters don't have separate limbs
+            // so safer to target the torso
+            source->deal_damage( this, bodypart_id( "torso" ), spike_damage );
+
+        }
+    }
+
     // Check if we have any block counters
     matec_id tec = pick_technique( *source, shield, false, false, true );
 
@@ -1813,6 +1843,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
             melee_attack( *source, false, &tec );
         }
     }
+
+
 
     return true;
 }

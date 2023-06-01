@@ -483,6 +483,12 @@
     "context": [ "GENERIC", "TOOL" ]
   },
   {
+    "id": "SPIKED",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR", "GENERIC", "TOOL"  ],
+    "info": "This armor has a chance to <good>impale</good> unarmed attackers that hit you, while wearing or (if possible) blocking with this."
+  },
+  {
     "id": "PRIMITIVE_RANGED_WEAPON",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ]

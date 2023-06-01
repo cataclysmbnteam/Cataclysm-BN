@@ -218,6 +218,19 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "jacket_leather_spiked",
+    "copy-from": "jacket_leather_mod",
+    "type": "ARMOR",
+    "name": { "str": "spiked leather jacket" },
+    "description": "An up-armored jacket with some gnarly-looking spikes welded to the plates, the height of post-apoc punk fashion.  They get in the way and add more encumbrance, but come in handy for packed mosh pits.",
+    "weight": "5480 g",
+    "volume": "6 L",
+    "to_hit": -1,
+    "cutting": 6,
+    "encumbrance": 28,
+    "extend": { "flags": [ "STAB", "SPIKED" ] }
+  },
+  {
     "id": "jacket_leather_bone",
     "type": "ARMOR",
     "name": { "str": "occult bone armor" },
@@ -415,5 +428,18 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "vest_leather_spiked",
+    "copy-from": "vest_leather_mod",
+    "type": "ARMOR",
+    "name": { "str": "armored leather vest" },
+    "description": "An up-armored leather vest with some gnarly-looking spikes welded to the plates, for the fashionable raider.  They get in the way and add more encumbrance, but discourages anyone from getting too close.",
+    "weight": "3410 g",
+    "volume": "3500 ml",
+    "to_hit": -1,
+    "cutting": 6,
+    "encumbrance": 28,
+    "extend": { "flags": [ "STAB", "SPIKED" ] }
   }
 ]

@@ -407,6 +407,20 @@
     "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 9 ], [ "sheet_metal_small", 2 ] ] ]
   },
   {
+    "result": "jacket_leather_spiked",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 4 ],
+    "time": "60 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_melee", 3 ] ],
+    "using": [ [ "welding_standard", 18 ] ],
+    "components": [ [ [ "jacket_leather_mod", 1 ] ], [ [ "spike", 6 ] ] ]
+  },
+  {
     "result": "kevlar",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -1229,6 +1243,20 @@
     "using": [ [ "sewing_standard", 20 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "vest_leather", 1 ] ], [ [ "scrap", 5 ], [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "vest_leather_spiked",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 4 ],
+    "time": "40 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_melee", 3 ] ],
+    "using": [ [ "welding_standard", 12 ] ],
+    "components": [ [ [ "vest_leather_mod", 1 ] ], [ [ "spike", 4 ] ] ]
   },
   {
     "result": "wool_hoodie",

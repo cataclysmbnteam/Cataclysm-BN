@@ -1,6 +1,26 @@
 [
   {
     "type": "item_group",
+    "id": "NC_THUG_coat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 20 },
+      { "item": "hoodie", "prob": 5 },
+      { "item": "jacket_light", "prob": 5 },
+      { "item": "jacket_jean", "prob": 5 },
+      { "item": "jacket_army", "prob": 5 },
+      { "item": "trenchcoat", "prob": 10 },
+      { "item": "trenchcoat_leather", "prob": 10 },
+      { "item": "jacket_leather", "prob": 10 },
+      { "item": "jacket_leather_mod", "prob": 5 },
+      { "item": "jacket_leather_spiked", "prob": 5 },
+      { "item": "vest_leather", "prob": 10 },
+      { "item": "vest_leather_mod", "prob": 5 },
+      { "item": "vest_leather_spiked", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "NC_THUG_bashing",
     "subtype": "distribution",
     "entries": [
