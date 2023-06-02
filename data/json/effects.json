@@ -739,6 +739,27 @@
   },
   {
     "type": "effect_type",
+    "id": "feral_killed_recently",
+    "max_duration": "200 d",
+    "name": [ "Lucidity" ],
+    "desc": [
+      "You could always go for more bloodshed, but the voices in your head are staying quiet for now.  You currently won't suffer the side effects of your deteriorating mind and body."
+    ],
+    "remove_message": "You can hear the whispering again.  Need more meat.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "feral_infighting_punishment",
+    "max_duration": "7 h",
+    "name": [ "Inner turmoil" ],
+    "desc": [ "You don't feel like you anymore.  The others seem to regard you as prey." ],
+    "apply_message": "You feel like you shouldn't have done that…",
+    "remove_message": "You feel normal again.",
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "no_sight",
     "name": [ "Poor sight" ],
     "desc": [ "You can't see very far from this spot." ],

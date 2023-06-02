@@ -226,6 +226,7 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_evil( "evil" );
+static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
@@ -260,6 +261,7 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
@@ -627,6 +629,9 @@ bool game::start_game()
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
 
     u.moves = 0;
+    if( u.has_trait( trait_PROF_FERAL ) ) {
+        u.add_effect( effect_feral_killed_recently, 3_days );
+    }
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
     get_weather().temperature = SPRING_TEMPERATURE;
