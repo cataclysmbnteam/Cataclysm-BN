@@ -4572,7 +4572,7 @@
     "type": "profession",
     "id": "assassin",
     "name": "Assassin",
-    "description": "You were the best undercover agent they had, with a mission so vital that you had to take it even with the riots going on.  Your target seems to have turned feral as well as your contact, you are all alone now.",
+    "description": "You were the best undercover agent they had, sent on missions so vital that you had to take it even with the riots going on.  You've lost contact with your handler, you are all alone now.",
     "points": 5,
     "skills": [
       { "level": 3, "name": "dodge" },
