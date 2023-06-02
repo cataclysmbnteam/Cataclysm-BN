@@ -726,10 +726,6 @@ void Character::suffer_feral_kill_withdrawl()
     }
     // Once every 4 hours
     if( calendar::once_every( 4_hours ) ) {
-        // Recent non-human kills reduce chance of it triggering but don't prevent entirely.
-        if( one_in( 2 ) && has_morale( MORALE_KILLER_HAS_KILLED ) ) {
-            return;
-        }
         // Select a random side effect:
         switch( dice( 1, 4 ) ) {
             default:

@@ -1733,13 +1733,13 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mutant_experimental",
+    "speaker": [ "mon_mutant_experimental", "mon_feral_human_chainsaw" ],
     "sound": "\"Hrgm…  Blood…  Hungry…\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": "mon_mutant_experimental",
+    "speaker": [ "mon_mutant_experimental", "mon_feral_human_chainsaw" ],
     "sound": "\"Hunger…  Must eat…\"",
     "volume": 20
   },
@@ -1751,7 +1751,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mutant_experimental",
+    "speaker": [ "mon_mutant_experimental", "mon_feral_human_chainsaw" ],
     "sound": "hysterical laughing.",
     "volume": 20
   },
@@ -1817,7 +1817,7 @@
   },
   {
     "type": "speech",
-    "speaker": "mon_mutant_experimental",
+    "speaker": [ "mon_mutant_experimental", "mon_feral_human_chainsaw" ],
     "sound": "\"MEAT!\"",
     "volume": 40
   },
@@ -2978,5 +2978,41 @@
     ],
     "sound": "\"What are you!?\"",
     "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_feral_human_chainsaw",
+    "sound": "the roar of a chainsaw!",
+    "volume": 50
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_feral_human_chainsaw",
+    "sound": "a motor sputtering to life!",
+    "volume": 50
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_feral_human_chainsaw",
+    "sound": "an engine revving up!",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_feral_human_chainsaw",
+    "sound": "hummm!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_feral_human_chainsaw",
+    "sound": "whirrr!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_feral_human_chainsaw",
+    "sound": "vroom!",
+    "volume": 60
   }
 ]

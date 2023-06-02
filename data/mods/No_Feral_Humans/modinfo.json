@@ -29,10 +29,7 @@
       "mon_feral_prepper",
       "mon_feral_survivalist",
       "mon_feral_militia",
-      "mon_feral_soldier",
-      "mon_zombie_soldier_acid_1",
-      "mon_zombie_soldier_acid_2",
-      "mon_zombie_wretched"
+      "mon_feral_soldier"
     ]
   }
 ]

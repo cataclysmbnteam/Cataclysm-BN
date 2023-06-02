@@ -220,10 +220,13 @@
       "prof_feral_survivalist",
       "prof_feral_soldier",
       "prof_feral_cyborg",
-      "prof_feral_socialite"
+      "prof_feral_maid",
+      "prof_feral_socialite",
+      "prof_feral_armored",
+      "prof_feral_lumberjack"
     ],
     "traits": [ "RADIOGENIC", "ROT2", "SAPROVORE", "SORES", "UNSTABLE" ],
-    "forced_traits": [ "KILLER", "SCHIZOPHRENIC", "CARNIVORE" ],
+    "forced_traits": [ "PSYCHOPATH", "SCHIZOPHRENIC", "CARNIVORE" ],
     "forbidden_traits": [ "ANIMALEMPATH", "ANIMALDISCORD", "ANTIWHEAT", "ANTIFRUIT", "MEATARIAN", "SQUEAMISH" ],
     "flags": [ "CHALLENGE", "LONE_START", "SUM_START", "CITY_START" ]
   },
