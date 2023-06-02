@@ -44,6 +44,7 @@
 #include "filesystem.h"
 #include "fstream_utils.h"
 #include "flag.h"
+#include "flag_trait.h"
 #include "gates.h"
 #include "harvest.h"
 #include "item_action.h"
@@ -248,6 +249,7 @@ void DynamicDataLoader::initialize()
     add( "WORLD_OPTION", &load_world_option );
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "json_flag", &json_flag::load_all );
+    add( "mutation_flag", &json_trait_flag::load_all );
     add( "fault", &fault::load_fault );
     add( "field_type", &field_types::load );
     add( "weather_type", &weather_types::load );
@@ -569,6 +571,7 @@ void DynamicDataLoader::unload_data()
     item_action_generator::generator().reset();
     item_controller->reset();
     json_flag::reset();
+    json_trait_flag::reset();
     MapExtras::reset();
     mapgen_palette::reset();
     materials::reset();
@@ -647,6 +650,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::finalize_all },
+            { _( "Mutation Flags" ), &json_trait_flag::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Bionics" ), &bionic_data::finalize_all },
             { _( "Weather types" ), &weather_types::finalize_all },
@@ -727,6 +731,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::check_consistency },
+            { _( "Mutation Flags" ), &json_trait_flag::check_consistency },
             {
                 _( "Crafting requirements" ), []()
                 {
