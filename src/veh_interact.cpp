@@ -2152,10 +2152,10 @@ void veh_interact::move_cursor( point d, int dstart_at )
     //Set obstruction if object is mountable to stop vehicles being built in windows, on tables etc.
     if( g->m.has_flag( flag_MOUNTABLE, vehp ) ) {
         obstruct = true;
-		//Sanity check that vehicle part is not over a passable but mountable piece of terrain
-		if( ovp && &ovp->vehicle() == veh ) {
-			obstruct = false;
-		}
+        //Sanity check that vehicle part is not over a passable but mountable piece of terrain
+        if( ovp && &ovp->vehicle() == veh ) {
+            obstruct = false;
+        }
     }
 
     can_mount.clear();
