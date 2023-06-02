@@ -2333,10 +2333,10 @@ void veh_interact::display_veh()
     //Set obstruction if object is mountable to stop vehicles being built in windows, on tables etc.
     if( g->m.has_flag( flag_MOUNTABLE, vehp ) ) {
         obstruct = true;
-		//Sanity check that vehicle part is not over a passable but mountable piece of terrain
-		if( ovp && &ovp->vehicle() == veh ) {
-			obstruct = false;
-		}
+        //Sanity check that vehicle part is not over a passable but mountable piece of terrain
+        if( ovp && &ovp->vehicle() == veh ) {
+            obstruct = false;
+        }
     }
     nc_color col = cpart >= 0 ? veh->part_color( cpart ) : c_black;
     int sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
