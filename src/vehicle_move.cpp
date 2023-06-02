@@ -693,6 +693,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             //       Floor values are still used to set damage dealt to vehicle
             smashed = here.is_bashable_ter_furn( p, false ) &&
                       here.bash_resistance( p, bash_floor ) <= obj_dmg &&
+                      !here.has_flag_ter_or_furn( "NOCOLLIDE", p ) &&
                       here.bash( p, obj_dmg, false, false, false, this ).success;
             if( smashed ) {
                 if( here.is_bashable_ter_furn( p, bash_floor ) ) {
