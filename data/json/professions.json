@@ -4848,6 +4848,35 @@
   },
   {
     "type": "profession",
+    "id": "prof_feral_maid",
+    "copy-from": "prof_feral_unemployed",
+    "name": { "male": "Feral Butler", "female": "Feral Maid" },
+    "description": "You worked in a wealthy household, but after the Cataclysm your employer had an unfortunate accident.  What a shame, they would've loved the tender flesh you've since learned to cook.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "tailor" } ],
+    "items": {
+      "both": {
+        "items": [ "pocketwatch" ],
+        "entries": [
+          { "item": "socks", "damage": [ 0, 3 ] },
+          { "item": "dress_shoes", "damage": [ 0, 3 ] },
+          { "item": "knife_butcher", "container-item": "sheath" },
+          { "item": "broom", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs", "damage": [ 0, 3 ] }, { "item": "suit", "damage": [ 0, 3 ] } ] },
+      "female": {
+        "entries": [
+          { "item": "bra", "damage": [ 0, 3 ] },
+          { "item": "panties", "damage": [ 0, 3 ] },
+          { "item": "maid_dress", "damage": [ 0, 3 ] },
+          { "item": "maid_hat", "damage": [ 0, 3 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
     "id": "prof_feral_socialite",
     "copy-from": "prof_feral_unemployed",
     "name": "Feral Socialite",
@@ -4862,19 +4891,12 @@
     ],
     "items": {
       "both": {
-        "items": [ "pocketwatch" ],
+        "items": [ "quiver", "pocketwatch" ],
         "entries": [
           { "item": "socks", "damage": [ 0, 3 ] },
           { "item": "dress_shoes", "damage": [ 0, 3 ] },
-          { "item": "case_violin", "damage": [ 0, 3 ] },
           { "item": "rapier", "container-item": "scabbard" },
-          {
-            "item": "thompson_drum",
-            "ammo-item": "45_acp",
-            "charges": [ 1, 50 ],
-            "container-item": "tommygun",
-            "custom-flags": [ "auto_wield" ]
-          }
+          { "item": "rep_crossbow", "ammo-item": "bolt_cf", "charges": [ 1, 10 ], "custom-flags": [ "auto_wield" ] }
         ]
       },
       "male": {
@@ -4893,6 +4915,65 @@
           { "item": "purse", "damage": [ 0, 3 ] }
         ]
       }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "prof_feral_armored",
+    "copy-from": "prof_feral_unemployed",
+    "name": "Feral Reenactor",
+    "//": "Contains a (rearranged) Manowar reference.",
+    "description": "You were all set to attend the faire, only for these impudent knaves to spoil your fun.  With mace in hand, may steel meet blood and bone.",
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "bashing" },
+      { "level": 2, "name": "tailor" },
+      { "level": 1, "name": "fabrication" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "leather_pouch" ],
+        "entries": [
+          { "item": "chainmail_hauberk", "damage": [ 0, 3 ] },
+          { "item": "socks", "damage": [ 0, 3 ] },
+          { "item": "boots_plate", "damage": [ 0, 3 ] },
+          { "item": "gloves_plate", "damage": [ 0, 3 ] },
+          { "item": "helmet_barbute", "damage": [ 0, 3 ] },
+          { "item": "shield_leather", "damage": [ 0, 3 ] },
+          { "item": "mace", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts", "damage": [ 0, 3 ] } ] },
+      "female": { "entries": [ { "item": "bra", "damage": [ 0, 3 ] }, { "item": "panties", "damage": [ 0, 3 ] } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "prof_feral_lumberjack",
+    "copy-from": "prof_feral_unemployed",
+    "name": "Feral Chainsaw Maniac",
+    "//": "Contains a reference to The Texas Chainsaw Massacre.  One higher point cost due to included chainsaw and safety gear.",
+    "description": "You felled trees before the world ended, but now there's so much more you could be doing.  When your work's finally finished, who will survive, and what will be left of them?",
+    "points": 1,
+    "items": {
+      "both": {
+        "items": [ "wristwatch", "attached_ear_plugs_off" ],
+        "entries": [
+          { "item": "longshirt", "damage": [ 0, 3 ] },
+          { "item": "apron_leather", "damage": [ 0, 3 ] },
+          { "item": "jeans", "damage": [ 0, 3 ] },
+          { "item": "socks", "damage": [ 0, 3 ] },
+          { "item": "boots_steel", "damage": [ 0, 3 ] },
+          { "item": "armguard_hard", "damage": [ 0, 3 ] },
+          { "item": "gloves_work", "damage": [ 0, 3 ] },
+          { "item": "glasses_safety", "damage": [ 0, 3 ] },
+          { "item": "hat_hard_hooded", "damage": [ 0, 3 ] },
+          { "item": "chainsaw_off", "ammo-item": "gasoline", "charges": [ 1, 450 ], "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts", "damage": [ 0, 3 ] } ] },
+      "female": { "entries": [ { "item": "bra", "damage": [ 0, 3 ] }, { "item": "boxer_shorts", "damage": [ 0, 3 ] } ] }
     }
   }
 ]

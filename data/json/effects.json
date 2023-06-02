@@ -741,6 +741,8 @@
     "type": "effect_type",
     "id": "feral_killed_recently",
     "max_duration": "200 d",
+    "max_intensity": 200,
+    "int_dur_factor": "1 d",
     "name": [ "Lucidity" ],
     "desc": [
       "You could always go for more bloodshed, but the voices in your head are staying quiet for now.  You currently won't suffer the side effects of your deteriorating mind and body."
@@ -751,7 +753,9 @@
   {
     "type": "effect_type",
     "id": "feral_infighting_punishment",
-    "max_duration": "7 h",
+    "max_duration": "7 d",
+    "max_intensity": 7,
+    "int_dur_factor": "1 d",
     "name": [ "Inner turmoil" ],
     "desc": [ "You don't feel like you anymore.  The others seem to regard you as prey." ],
     "apply_message": "You feel like you shouldn't have done that…",
