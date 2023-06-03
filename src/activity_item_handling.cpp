@@ -732,7 +732,7 @@ void drop_activity_actor::do_turn( player_activity &, Character &who )
 void activity_on_turn_wear( player_activity &act, player &p )
 {
     // ACT_WEAR has item_location targets, and int quantities
-    while( p.moves > 0 && !act.targets.empty() ) {
+    while( p.moves > 0 && !act.targets.empty() && !act.values.empty() ) {
         safe_reference<item> target = std::move( act.targets.back() );
         int quantity = act.values.back();
         act.targets.pop_back();
