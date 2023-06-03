@@ -3497,7 +3497,11 @@ bool npc::wield_better_weapon()
     // to have NPCs wield weapons with shorter ranges than dist in preparation
     // if they don't have a weapon with appropriate range/ammo.
     visit_items( [&compare_weapon, this ]( item * node ) {
-        // Only compare melee weapons, guns, or holstered items
+        // For worn items, only compare if they have a weapon category defined.
+        if( is_worn( *node ) && node->type->weapon_category.empty() ) {
+            return VisitResponse::SKIP;
+        }
+        // Otherwise, compare any melee usable item, guns or holstered items
         if( node->is_melee() || node->is_gun() ) {
             compare_weapon( *node );
         } else if( node->get_use( "holster" ) && !node->contents.empty() && node != &primary_weapon() ) {

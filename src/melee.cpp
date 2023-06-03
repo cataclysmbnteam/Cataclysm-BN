@@ -2311,14 +2311,8 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
     const double more = std::max( val_gun, val_melee );
     const double less = std::min( val_gun, val_melee );
 
-    // discourage wielding helmets, but not worn firearms
-    int armor_penalty = 1;
-    if( weap.is_armor() && !weap.is_gun() ) {
-        armor_penalty = 0;
-    }
-
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
-    const double my_val = ( more + ( less / 2.0 ) ) * armor_penalty;
+    const double my_val = ( more + ( less / 2.0 ) );
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
     return my_val;
 }
