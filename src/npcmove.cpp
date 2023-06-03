@@ -3608,6 +3608,7 @@ static void npc_throw( npc &np, item &it, int index, const tripoint &pos )
     } else {
         it.charges = stack_size - 1;
     }
+    np.clear_npc_ai_info_cache( npc_ai_info::range );
 }
 
 bool npc::alt_attack()
