@@ -176,7 +176,7 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "Typical damage per second:\n"
             "Best: <color_c_yellow>4.67</color>"
             "  Vs. Agile: <color_c_yellow>1.94</color>"
-            "  Vs. Armored: <color_c_yellow>0.15</color>\n" );
+            "  Vs. Armored: <color_c_yellow>0.14</color>\n" );
     }
 
     SECTION( "bash and cut damage" ) {
