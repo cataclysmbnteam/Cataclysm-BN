@@ -352,10 +352,10 @@ TEST_CASE( "Enchantments modify attack cost", "[magic][enchantment][melee]" )
     clear_character( *guy.as_player(), true );
 
     SECTION( "normal sword" ) {
-        tests_attack_cost( guy, item( "test_normal_sword" ), 101, 96, 77 );
+        tests_attack_cost( guy, item( "test_normal_sword" ), 105, 100, 81 );
     }
     SECTION( "normal sword + ITEM_ATTACK_COST" ) {
-        tests_attack_cost( guy, item( "test_relic_sword" ), 86, 82, 66 );
+        tests_attack_cost( guy, item( "test_relic_sword" ), 90, 85, 66 );
     }
 }
 
