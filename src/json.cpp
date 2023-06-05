@@ -18,6 +18,7 @@
 #include <vector>
 
 #include "cached_options.h"
+#include "cata_utility.h"
 #include "debug.h"
 #include "string_formatter.h"
 #include "string_utils.h"
@@ -236,6 +237,73 @@ void JsonObject::throw_error( std::string err ) const
         throw JsonError( err );
     }
     jsin->error( err );
+}
+
+void JsonObject::show_warning( std::string err ) const
+{
+#ifndef CATA_IN_TOOL
+    try {
+        throw_error( err );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+#else
+    ( void )err;
+#endif // CATA_IN_TOOL
+}
+
+void JsonObject::show_warning( std::string err, const std::string &name ) const
+{
+#ifndef CATA_IN_TOOL
+    try {
+        throw_error( err, name );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+#else
+    ( void )err;
+    ( void )name;
+#endif // CATA_IN_TOOL
+}
+
+void JsonArray::show_warning( std::string err )
+{
+#ifndef CATA_IN_TOOL
+    try {
+        throw_error( err );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+#else
+    ( void )err;
+#endif // CATA_IN_TOOL
+}
+
+void JsonArray::show_warning( std::string err, int idx )
+{
+#ifndef CATA_IN_TOOL
+    try {
+        throw_error( err, idx );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+#else
+    ( void )err;
+    ( void )idx;
+#endif // CATA_IN_TOOL
+}
+
+void JsonValue::show_warning( std::string err ) const
+{
+#ifndef CATA_IN_TOOL
+    try {
+        throw_error( err );
+    } catch( const std::exception &e ) {
+        debugmsg( "%s", e.what() );
+    }
+#else
+    ( void )err;
+#endif // CATA_IN_TOOL
 }
 
 JsonIn *JsonObject::get_raw( const std::string &name ) const
@@ -1634,16 +1702,114 @@ bool JsonIn::read( JsonDeserializer &j, bool throw_on_error )
     }
 }
 
+/**
+ * Get the normal form of a relative path. Does not work on absolute paths.
+ * Slash and backslash are both treated as path separators and replaced with
+ * slash. Trailing slashes are always removed.
+ * TODO: figure out how to use std::filesystem on android ndk
+ */
+static std::string normalize_relative_path( const std::string &path )
+{
+    if( path.empty() ) {
+        // normal form of an empty path is an empty path
+        return path;
+    }
+    std::vector<std::string> names;
+    for( size_t name_start = 0; name_start < path.size(); ) {
+        const size_t name_end = std::min( path.find_first_of( "\\/", name_start ),
+                                          path.size() );
+        if( name_start < name_end ) {
+            const std::string name = path.substr( name_start, name_end - name_start );
+            if( name == "." ) {
+                // do nothing
+            } else if( name == ".." ) {
+                if( names.empty() || names.back() == ".." ) {
+                    names.emplace_back( name );
+                } else {
+                    names.pop_back();
+                }
+            } else {
+                names.emplace_back( name );
+            }
+        }
+        name_start = std::min( path.find_first_not_of( "\\/", name_end ),
+                               path.size() );
+    }
+    if( names.empty() ) {
+        return ".";
+    } else {
+        std::string normpath;
+        for( auto it = names.begin(); it != names.end(); ++it ) {
+            if( it != names.begin() ) {
+                normpath += "/";
+            }
+            normpath += *it;
+        }
+        return normpath;
+    }
+}
+
+/**
+ * Escape special chars in github action command properties.
+ * See https://github.com/actions/toolkit/blob/main/packages/core/src/command.ts
+ */
+static std::string escape_property( std::string str )
+{
+    switch( error_log_format ) {
+        case error_log_format_t::human_readable:
+            break;
+        case error_log_format_t::github_action:
+            replace_all( str, "%", "%25" );
+            // NOLINTNEXTLINE(cata-text-style)
+            replace_all( str, "\r", "%0D" );
+            replace_all( str, "\n", "%0A" );
+            replace_all( str, ":", "%3A" );
+            replace_all( str, ",", "%2C" );
+            break;
+    }
+    return str;
+}
+
+/**
+ * Escape special chars in github action command messages.
+ * See https://github.com/actions/toolkit/blob/main/packages/core/src/command.ts
+ */
+static std::string escape_data( std::string str )
+{
+    switch( error_log_format ) {
+        case error_log_format_t::human_readable:
+            break;
+        case error_log_format_t::github_action:
+            replace_all( str, "%", "%25" );
+            // NOLINTNEXTLINE(cata-text-style)
+            replace_all( str, "\r", "%0D" );
+            replace_all( str, "\n", "%0A" );
+            break;
+    }
+    return str;
+}
+
 /* error display */
 
 // WARNING: for occasional use only.
 std::string JsonIn::line_number( int offset_modifier )
 {
-    const std::string &name = path ? *path : "<unknown source file>";
+    const std::string &name = escape_property( path ? normalize_relative_path( *path )
+                              : "<unknown source file>" );
     if( stream && stream->eof() ) {
-        return name + ":EOF";
+        switch( error_log_format ) {
+            case error_log_format_t::human_readable:
+                return name + ":EOF";
+            case error_log_format_t::github_action:
+                return "file=" + name + ",line=EOF";
+        }
     } else if( !stream || stream->fail() ) {
-        return name + ":???";
+        switch( error_log_format ) {
+            case error_log_format_t::human_readable:
+                return name + ":???";
+            case error_log_format_t::github_action:
+                return "file=" + name + ",line=???";
+        }
     } // else stream is fine
     int pos = tell();
     int line = 1;
@@ -1671,18 +1837,41 @@ std::string JsonIn::line_number( int offset_modifier )
     }
     seek( pos );
     std::stringstream ret;
-    ret << name << ":" << line << ":" << offset;
+    switch( error_log_format ) {
+        case error_log_format_t::human_readable:
+            ret << name << ":" << line << ":" << offset;
+            break;
+        case error_log_format_t::github_action:
+            ret.imbue( std::locale::classic() );
+            ret << "file=" << name << ",line=" << line << ",col=" << offset;
+            break;
+    }
     return ret.str();
 }
 
 void JsonIn::error( const std::string &message, int offset )
 {
-    std::ostringstream err;
-    err << "Json error: " << line_number( offset ) << ": " << message;
+    std::ostringstream err_header;
+    switch( error_log_format ) {
+        case error_log_format_t::human_readable:
+            err_header << "Json error: " << line_number( offset ) << ": ";
+            break;
+        case error_log_format_t::github_action:
+            err_header << "::error " << line_number( offset ) << "::";
+            break;
+    }
     // if we can't get more info from the stream don't try
     if( !stream->good() ) {
-        throw JsonError( err.str() );
+        throw JsonError( err_header.str() + escape_data( message ) );
     }
+    // Seek to eof after throwing to avoid continue reading from the incorrect
+    // location. The calling code of json error methods is supposed to restore
+    // the stream location if it wishes to recover from the error.
+    on_out_of_scope seek_to_eof( [this]() {
+        stream->seekg( 0, std::istream::end );
+    } );
+    std::ostringstream err;
+    err << message;
     // also print surrounding few lines of context, if not too large
     err << "\n\n";
     stream->seekg( offset, std::istream::cur );
@@ -1690,7 +1879,7 @@ void JsonIn::error( const std::string &message, int offset )
     rewind( 3, 240 );
     size_t startpos = tell();
     std::string buffer( pos - startpos, '\0' );
-    stream->read( &buffer[0], pos - startpos );
+    stream->read( buffer.data(), pos - startpos );
     auto it = buffer.begin();
     for( ; it < buffer.end() && ( *it == '\r' || *it == '\n' ); ++it ) {
         // skip starting newlines
@@ -1752,7 +1941,7 @@ void JsonIn::error( const std::string &message, int offset )
     if( !msg.empty() && msg.back() != '\n' ) {
         msg.push_back( '\n' );
     }
-    throw JsonError( msg );
+    throw JsonError( err_header.str() + escape_data( msg ) );
 }
 
 void JsonIn::string_error( const std::string &message, const int offset )

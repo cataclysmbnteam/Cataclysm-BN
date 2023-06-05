@@ -1,7 +1,7 @@
 [
   {
     "id": "m2010",
-    "copy-from": "rifle_base",
+    "copy-from": "rifle_manual",
     "type": "GUN",
     "name": { "str_sp": "M2010 ESR" },
     "//": "http://www.guns.com/2012/05/17/remington-xm2010-army-sniper-system-esr-now-in-stores/.",

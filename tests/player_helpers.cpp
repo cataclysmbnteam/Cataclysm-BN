@@ -11,6 +11,7 @@
 #include "bionics.h"
 #include "character.h"
 #include "character_id.h"
+#include "character_functions.h"
 #include "consumption.h"
 #include "game.h"
 #include "inventory.h"
@@ -54,8 +55,7 @@ bool player_has_item_of_type( const std::string &type )
 
 void clear_character( player &dummy, bool debug_storage )
 {
-    dummy.set_body();
-    dummy.normalize(); // In particular this clears martial arts style
+    character_funcs::normalize( dummy );
 
     // Remove first worn item until there are none left.
     std::list<item> temp;
@@ -72,6 +72,8 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.clear_bionics();
     dummy.set_power_level( 0_J );
     dummy.set_max_power_level( 0_J );
+
+    dummy.recalculate_enchantment_cache();
 
     // Clear stomach and then eat a nutritious meal to normalize stomach
     // contents (needs to happen before clear_morale).
@@ -115,6 +117,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.set_all_parts_hp_to_max();
 
     dummy.cash = 0;
+    dummy.dodges_left = 1;
 
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );

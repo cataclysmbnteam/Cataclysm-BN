@@ -17,6 +17,7 @@
 #include <map>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <stack>
@@ -83,7 +84,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
-#include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pickup_token.h"
@@ -412,6 +412,13 @@ void Character::load( const JsonObject &data )
     data.read( "int_bonus", int_bonus );
     data.read( "omt_path", omt_path );
 
+    std::string new_name;
+    data.read( "name", new_name );
+    if( !new_name.empty() ) {
+        // Bugfix for name not having been saved properly
+        name = new_name;
+    }
+
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
 
@@ -668,6 +675,8 @@ void Character::store( JsonOut &json ) const
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
 
+    json.member( "name", name );
+
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
 
@@ -713,6 +722,10 @@ void Character::store( JsonOut &json ) const
                     destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
         requirement_data things_to_fetch = requirement_id( backlog.front().str_values.back() ).obj();
         json.member( "fetch_data", things_to_fetch );
+    }
+
+    if( !weapon.is_null() ) {
+        json.member( "weapon", weapon ); // also saves contents
     }
 
     json.member( "stim", stim );
@@ -819,10 +832,6 @@ void player::store( JsonOut &json ) const
     json.member( "inv" );
     inv.json_save_items( json );
 
-    if( !weapon.is_null() ) {
-        json.member( "weapon", weapon ); // also saves contents
-    }
-
     if( const auto lt_ptr = last_target.lock() ) {
         if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
             json.member( "last_target", guy->getID() );
@@ -837,19 +846,6 @@ void player::store( JsonOut &json ) const
     }
 
     json.member( "destination_point", destination_point );
-
-    // faction warnings
-    json.member( "faction_warnings" );
-    json.start_array();
-    for( const auto &elem : warning_record ) {
-        json.start_object();
-        json.member( "fac_warning_id", elem.first );
-        json.member( "fac_warning_num", elem.second.first );
-        json.member( "fac_warning_time", elem.second.second );
-        json.end_object();
-    }
-    json.end_array();
-
     json.member( "ammo_location", ammo_location );
 
     // TODO: move to Character
@@ -908,17 +904,6 @@ void player::load( const JsonObject &data )
             if( has_trait( mid ) ) {
                 remove_mutation( mid );
             }
-        }
-    }
-
-    if( data.has_array( "faction_warnings" ) ) {
-        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
-            warning_data.allow_omitted_members();
-            std::string fac_id = warning_data.get_string( "fac_warning_id" );
-            int warning_num = warning_data.get_int( "fac_warning_num" );
-            time_point warning_time = calendar::before_time_starts;
-            warning_data.read( "fac_warning_time", warning_time );
-            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
         }
     }
 
@@ -1010,6 +995,17 @@ void avatar::store( JsonOut &json ) const
     inv.json_save_invcache( json );
 
     json.member( "preferred_aiming_mode", preferred_aiming_mode );
+
+    json.member( "faction_warnings" );
+    json.start_array();
+    for( const auto &elem : warning_record ) {
+        json.start_object();
+        json.member( "fac_warning_id", elem.first );
+        json.member( "fac_warning_num", elem.second.first );
+        json.member( "fac_warning_time", elem.second.second );
+        json.end_object();
+    }
+    json.end_array();
 }
 
 void avatar::deserialize( JsonIn &jsin )
@@ -1147,6 +1143,17 @@ void avatar::load( const JsonObject &data )
     }
 
     data.read( "preferred_aiming_mode", preferred_aiming_mode );
+
+    if( data.has_array( "faction_warnings" ) ) {
+        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
+            warning_data.allow_omitted_members();
+            std::string fac_id = warning_data.get_string( "fac_warning_id" );
+            int warning_num = warning_data.get_int( "fac_warning_num" );
+            time_point warning_time = calendar::before_time_starts;
+            warning_data.read( "fac_warning_time", warning_time );
+            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1425,7 +1432,6 @@ void npc::load( const JsonObject &data )
     time_point companion_mission_t_r = calendar::start_of_cataclysm;
     std::string act_id;
 
-    data.read( "name", name );
     data.read( "marked_for_death", marked_for_death );
     data.read( "dead", dead );
     data.read( "patience", patience );
@@ -1610,10 +1616,25 @@ void npc::load( const JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
-    real_weapon = item( "null", calendar::start_of_cataclysm );
-    data.read( "real_weapon", real_weapon );
-    cbm_weapon_index = -1;
-    data.read( "cbm_weapon_index", cbm_weapon_index );
+    cbm_toggled = bionic_id::NULL_ID();
+    data.read( "cbm_toggled", cbm_toggled );
+    cbm_fake_toggled = null_item_reference();
+    data.read( "cbm_fake_toggled", cbm_fake_toggled );
+    if( !cbm_toggled.is_null() && cbm_fake_toggled.is_null() ) {
+        cbm_fake_toggled = item( cbm_toggled->fake_item );
+    }
+    if( data.has_member( "cbm_weapon_index" ) ) {
+        int index = 0;
+        data.read( "cbm_weapon_index", index );
+        if( index >= 0 ) {
+            cbm_toggled = ( *my_bionics )[ index ].id;
+            cbm_fake_toggled = item( cbm_toggled->fake_item );
+        }
+    }
+    cbm_active = bionic_id::NULL_ID();
+    data.read( "cbm_active", cbm_active );
+    cbm_fake_active = null_item_reference();
+    data.read( "cbm_fake_active", cbm_fake_active );
 
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
@@ -1638,7 +1659,6 @@ void npc::store( JsonOut &json ) const
 {
     player::store( json );
 
-    json.member( "name", name );
     json.member( "marked_for_death", marked_for_death );
     json.member( "dead", dead );
     json.member( "patience", patience );
@@ -1676,10 +1696,14 @@ void npc::store( JsonOut &json ) const
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
 
-    if( !real_weapon.is_null() ) {
-        json.member( "real_weapon", real_weapon ); // also saves contents
+    json.member( "cbm_toggled", cbm_toggled );
+    if( !cbm_fake_toggled.is_null() ) {
+        json.member( "cbm_fake_toggled", cbm_fake_toggled );
     }
-    json.member( "cbm_weapon_index", cbm_weapon_index );
+    json.member( "cbm_active", cbm_active );
+    if( !cbm_fake_active.is_null() ) {
+        json.member( "cbm_fake_active", cbm_fake_active );
+    }
 
     json.member( "comp_mission_id", comp_mission.mission_id );
     json.member( "comp_mission_pt", comp_mission.position );
@@ -2278,7 +2302,7 @@ void item::io( Archive &archive )
     if( note_read ) {
         snip_id = SNIPPET.migrate_hash_to_id( note );
     } else {
-        cata::optional<std::string> snip;
+        std::optional<std::string> snip;
         if( archive.read( "snippet_id", snip ) && snip ) {
             snip_id = snippet_id( snip.value() );
         }
@@ -4290,6 +4314,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "bionic_ui_sort_mode", bionic_sort_mode );
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
+    json.member( "msg_window_wide_display", msg_window_wide_display );
+    json.member( "msg_window_full_height_display", msg_window_full_height_display );
 
     json.member( "input_history" );
     json.start_object();
@@ -4338,6 +4364,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
+    jo.read( "msg_window_wide_display", msg_window_wide_display );
+    jo.read( "msg_window_full_height_display", msg_window_full_height_display );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,

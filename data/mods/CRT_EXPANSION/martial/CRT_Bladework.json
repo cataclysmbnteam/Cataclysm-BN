@@ -54,33 +54,8 @@
       }
     ],
     "techniques": [ "tec_crt_blade_normal", "tec_crt_blade_rapid", "tec_crt_blade_precise", "tec_crt_blade_arpen", "tec_feint" ],
-    "weapons": [
-      "sword_crt",
-      "blade_crt",
-      "knife_crt",
-      "knife_combat",
-      "knife_hunting",
-      "knife_rambo",
-      "knife_rm42",
-      "knife_steak",
-      "knife_trench",
-      "knife_folding",
-      "knife_paring",
-      "knife_carving",
-      "knife_vegetable_cleaver",
-      "knife_meat_cleaver",
-      "knife_bread",
-      "knife_chef",
-      "knife_butcher",
-      "makeshift_knife",
-      "primitive_knife",
-      "pockknife",
-      "copper_knife",
-      "diveknife",
-      "kris",
-      "switchblade",
-      "xacto"
-    ]
+    "weapon_category": [ "KNIVES", "1H_SWORDS" ],
+    "weapons": [ "crt_hatchet", "crt_etool", "xacto" ]
   },
   {
     "type": "technique",

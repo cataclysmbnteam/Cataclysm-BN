@@ -6,6 +6,7 @@
 #include <initializer_list>
 #include <list>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -37,7 +38,6 @@
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
@@ -954,7 +954,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                         quantities );
                 g->u.assign_activity( player_activity( pickup_activity_actor(
                         targets,
-                        panes[src].in_vehicle() ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
+                        panes[src].in_vehicle() ? std::nullopt : std::optional<tripoint>( g->u.pos() )
                                                        ) ) );
             } else {
                 g->u.assign_activity( player_activity( move_items_activity_actor(
@@ -1184,7 +1184,7 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
                     quantities );
             g->u.assign_activity( player_activity( pickup_activity_actor(
                     targets,
-                    from_vehicle ? cata::nullopt : cata::optional<tripoint>( g->u.pos() )
+                    from_vehicle ? std::nullopt : std::optional<tripoint>( g->u.pos() )
                                                    ) ) );
         } else {
             // Stash the destination
@@ -1338,11 +1338,10 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         recalc = true;
     } else {
         item &it = *sitem->items.front();
-        std::vector<iteminfo> vThisItem;
-        std::vector<iteminfo> vDummy;
-        it.info( true, vThisItem );
+        std::vector<iteminfo> dummy;
+        std::vector<iteminfo> item_info = it.info();
 
-        item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
+        item_info_data data( it.tname(), it.type_name(), item_info, dummy );
         data.handle_scrolling = true;
 
         ret = draw_item_info( [&]() -> catacurses::window {

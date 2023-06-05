@@ -170,6 +170,7 @@
     "description": "A homemade 6-shot revolver.  While it's not as good as the pre-Cataclysm manufactured weapons, it's a decent piece of work, all things considered.",
     "weight": "1333 g",
     "volume": "750 ml",
+    "barrel_length": "100 ml",
     "price": 15000,
     "price_postapoc": 750,
     "material": [ "steel" ],

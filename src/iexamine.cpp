@@ -21,6 +21,7 @@
 #include "ammo.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "avatar_functions.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -588,7 +589,7 @@ class atm_menu
             int pos = u.inv.position_by_type( itype_cash_card );
             item *dst;
             if( pos == INT_MIN ) {
-                dst = &u.weapon;
+                dst = &u.primary_weapon();
             } else {
                 dst = &u.i_at( pos );
             }
@@ -786,7 +787,7 @@ void iexamine::vending( player &p, const tripoint &examp )
         werase( w_item_info );
         // | {line}|
         // 12      3
-        fold_and_print( w_item_info, point( 2, 1 ), w_info_w - 3, c_light_gray, cur_item->info( true ) );
+        fold_and_print( w_item_info, point( 2, 1 ), w_info_w - 3, c_light_gray, cur_item->info_string() );
         wborder( w_item_info, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
                  LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
 
@@ -794,7 +795,9 @@ void iexamine::vending( player &p, const tripoint &examp )
         //12      34
         const std::string name = utf8_truncate( cur_item->display_name(),
                                                 static_cast<size_t>( w_info_w - 4 ) );
-        mvwprintw( w_item_info, point_east, "<%s>", name );
+
+        const auto cost = format_money( cur_item->price( false ) );
+        mvwprintw( w_item_info, point_east, "<%s> %s", name, cost );
         wnoutrefresh( w_item_info );
     } );
 
@@ -1588,7 +1591,7 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
     map &here = get_map();
     // TODO: fix point types
     point_abs_omt omt( ms_to_omt_copy( here.getabs( examp.xy() ) ) );
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_bb_pos( here.getabs( examp ) );
@@ -2848,7 +2851,7 @@ void iexamine::autoclave_empty( player &p, const tripoint & )
 {
     item_location bionic = game_menus::inv::sterilize_cbm( p );
     if( bionic ) {
-        p.mend_item( item_location( bionic ) );
+        avatar_funcs::mend_item( *p.as_avatar(), item_location( bionic ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -3633,7 +3636,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
         case REMOVE_CONTAINER: {
             g->u.assign_activity( player_activity( pickup_activity_actor(
-            { { item_location( map_cursor( examp ), container ), cata::nullopt, {} } }, g->u.pos() ) ) );
+            { { item_location( map_cursor( examp ), container ), std::nullopt, {} } }, g->u.pos() ) ) );
             return;
         }
 
@@ -3965,7 +3968,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
             for( auto &itm : items ) {
                 if( itm.type == cur_ammo ) {
                     g->u.assign_activity( player_activity( pickup_activity_actor(
-                    { { item_location( map_cursor( examp ), &itm ), cata::nullopt, {} } }, g->u.pos() ) ) );
+                    { { item_location( map_cursor( examp ), &itm ), std::nullopt, {} } }, g->u.pos() ) ) );
                     return;
                 }
             }
@@ -4241,10 +4244,10 @@ static int getNearPumpCount( const tripoint &p )
     return result;
 }
 
-cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &gas_units )
+std::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &gas_units )
 {
     map &here = get_map();
-    cata::optional<tripoint> tank_loc;
+    std::optional<tripoint> tank_loc;
     int distance = INT_MAX;
     gas_units = 0;
 
@@ -4350,7 +4353,7 @@ static int getGasPricePerLiter( int discount )
     }
 }
 
-cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int number )
+std::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int number )
 {
     map &here = get_map();
     int k = 0;
@@ -4360,7 +4363,7 @@ cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int nu
             return tmp;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
@@ -4453,7 +4456,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     int tankGasUnits;
-    const cata::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankGasUnits );
+    const std::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankGasUnits );
     if( !pTank_ ) {
         popup( str_to_illiterate_str( _( "Failure!  No gas tank found!" ) ) );
         return;
@@ -4553,7 +4556,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             liters = maximum_liters;
         }
 
-        const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
+        const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
         if( !pGasPump || !toPumpFuel( pTank, *pGasPump, liters * 1000 ) ) {
             return;
@@ -4585,7 +4588,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         item *cashcard = &( p.i_at( pos ) );
         // Okay, we have a cash card. Now we need to know what's left in the pump.
-        const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
+        const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
         int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0;
         if( amount >= 0 ) {
@@ -4786,7 +4789,7 @@ static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
         }
     }
     // if we're in a autodoc couch on a vehicle, go through the items in it, and return the item if's a cyborg
-    if( const cata::optional<vpart_reference> vp = get_map().veh_at( couch_pos ).part_with_feature(
+    if( const std::optional<vpart_reference> vp = get_map().veh_at( couch_pos ).part_with_feature(
                 flag_AUTODOC_COUCH, false ) ) {
         auto dest_veh = &vp->vehicle();
         int dest_part = vp->part_index();
@@ -4965,7 +4968,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
     }
     // find splints in vehicle
-    if( const cata::optional<vpart_reference> vp = get_map().veh_at( examp ).part_with_feature(
+    if( const std::optional<vpart_reference> vp = get_map().veh_at( examp ).part_with_feature(
                 flag_AUTODOC, false ) ) {
         auto dest_veh = &vp->vehicle();
         int dest_part = vp->part_index();
@@ -5345,7 +5348,7 @@ static void mill_activate( player &p, const tripoint &examp )
     for( auto &it : here.i_at( examp ) ) {
         if( it.type->milling_data ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_rot( 1, false, examp, nullptr );
+            it.process_rot( examp );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -5446,7 +5449,7 @@ static void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( itype_fire, 1 );
     for( auto &it : here.i_at( examp ) ) {
         if( it.has_flag( flag_SMOKABLE ) ) {
-            it.process_rot( 1, false, examp, nullptr );
+            it.process_rot( examp );
             it.set_flag( flag_PROCESSING );
         }
     }
@@ -5486,7 +5489,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
 
     for( item &it : items ) {
         if( it.type->milling_data ) {
-            it.calc_rot_while_processing( milling_time );
+            it.mod_last_rot_check( milling_time );
             const islot_milling &mdata = *it.type->milling_data;
             item result( mdata.into_, start_time + milling_time, it.count() * mdata.conversion_rate_ );
             result.components.push_back( it );
@@ -5533,7 +5536,7 @@ static void smoker_finalize( player &, const tripoint &examp, const time_point &
             if( it.get_comestible()->smoking_result.is_empty() ) {
                 it.unset_flag( flag_PROCESSING );
             } else {
-                it.calc_rot_while_processing( 6_hours );
+                it.mod_last_rot_check( 6_hours );
 
                 item result( it.get_comestible()->smoking_result, start_time + 6_hours, it.charges );
 

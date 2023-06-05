@@ -21,11 +21,6 @@ extern bool test_mode;
 extern bool debug_mode;
 
 /**
- * Report unused JSON fields in regular (non-test) mode.
- */
-extern bool json_report_unused_fields;
-
-/**
  * Report extra problems in JSONs.
  * Because either @ref test_mode or @ref json_report_unused_fields is set.
  */
@@ -50,6 +45,8 @@ extern int message_cooldown;
 
 /** Display mod source for items, furniture, terrain and monsters.*/
 extern bool display_mod_source;
+/** Display internal IDs for items, furniture, terrain and monsters.*/
+extern bool display_object_ids;
 
 /**
  * Circular distances.
@@ -86,5 +83,17 @@ extern int PICKUP_RANGE;
  * If true, disables all debug messages. Only used for debugging "weird" saves.
  */
 extern bool dont_debugmsg;
+
+enum class error_log_format_t {
+    human_readable,
+    // Output error messages in github action command format (currently json only)
+    // See https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-commands-for-github-actions#setting-an-error-message
+    github_action,
+};
+#ifndef CATA_IN_TOOL
+extern error_log_format_t error_log_format;
+#else
+constexpr error_log_format_t error_log_format = error_log_format_t::human_readable;
+#endif
 
 #endif // CATA_SRC_CACHED_OPTIONS_H

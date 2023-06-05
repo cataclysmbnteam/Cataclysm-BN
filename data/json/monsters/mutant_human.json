@@ -76,7 +76,7 @@
     "regenerates": 1,
     "regeneration_modifiers": [ { "effect": "onfire", "base_mod": -1.0 }, { "effect": "corroding", "base_mod": -1.0 } ],
     "regen_morale": true,
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BLEED", "BASHES", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BLEED", "BASHES", "HUMAN", "PATH_AVOID_DANGER_2" ]
   },
   {
     "id": "mon_mutant_evolved",
@@ -124,6 +124,7 @@
       "WARM",
       "BLEED",
       "BASHES",
+      "HUMAN",
       "PATH_AVOID_DANGER_2",
       "PUSH_MON",
       "PUSH_VEH"

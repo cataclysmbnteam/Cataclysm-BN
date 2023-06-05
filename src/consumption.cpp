@@ -1,3 +1,6 @@
+#include "avatar_functions.h"
+#include "npc.h"
+#include "pickup.h"
 #include "player.h" // IWYU pragma: associated
 #include "consumption.h" // IWYU pragma: associated
 
@@ -5,9 +8,11 @@
 #include <array>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <string>
 #include <tuple>
 
+#include "activity_handlers.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -28,7 +33,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "optional.h"
 #include "options.h"
 #include "pldata.h"
 #include "recipe.h"
@@ -51,10 +55,9 @@ static const skill_id skill_survival( "survival" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_digestion( "bio_digestion" );
 static const bionic_id bio_furnace( "bio_furnace" );
-static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
@@ -68,6 +71,8 @@ static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_visuals( "visuals" );
+
+static const itype_id itype_syringe( "syringe" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
@@ -208,7 +213,7 @@ struct prepared_item_consumption {
 };
 
 // Should return item_location instead, but it's really hard to get it from inventory
-static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
+static std::optional<prepared_item_consumption> find_food_heater( Character &c,
         const inventory &inv, bool has_fire )
 {
     if( has_fire ) {
@@ -236,7 +241,7 @@ static cata::optional<prepared_item_consumption> find_food_heater( Character &c,
         return prepared_item_consumption( item_consumption_t::component, *consumed_heaters.front() );
 
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 static int compute_default_effective_kcal( const item &comest, const Character &you,
@@ -818,7 +823,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     return ret_val<edible_rating>::make_success();
 }
 
-bool player::eat( item &food, bool force )
+bool Character::eat( item &food, bool force )
 {
     if( !food.is_food() ) {
         return false;
@@ -842,7 +847,7 @@ bool player::eat( item &food, bool force )
             !food.type->can_use( "CATFOOD" ) &&
             !food.type->can_use( "BIRDFOOD" ) &&
             !food.type->can_use( "CATTLEFODDER" ) ) {
-            charges_used = food.type->invoke( *this, food, pos() );
+            charges_used = food.type->invoke( *this->as_player(), food, pos() );
             if( charges_used <= 0 ) {
                 return false;
             }
@@ -1251,53 +1256,6 @@ bool Character::consume_effects( item &food )
     return true;
 }
 
-bool Character::can_feed_reactor_with( const item &it ) const
-{
-    static const std::set<ammotype> acceptable = {{
-            ammotype( "reactor_slurry" ),
-            ammotype( "plutonium" )
-        }
-    };
-
-    if( !it.is_ammo() || can_eat( it ).success() ) {
-        return false;
-    }
-
-    if( !has_active_bionic( bio_reactor ) && !has_active_bionic( bio_advreactor ) ) {
-        return false;
-    }
-
-    return std::any_of( acceptable.begin(), acceptable.end(), [ &it ]( const ammotype & elem ) {
-        return it.ammo_type() == elem;
-    } );
-}
-
-bool Character::feed_reactor_with( item &it )
-{
-    if( !can_feed_reactor_with( it ) ) {
-        return false;
-    }
-
-    const auto iter = plut_charges.find( it.typeId() );
-    const int max_amount = iter != plut_charges.end() ? iter->second : 0;
-    const int amount = std::min( get_acquirable_energy( it, rechargeable_cbm::reactor ), max_amount );
-
-    if( amount >= PLUTONIUM_CHARGES * 10 &&
-        !query_yn( _( "That is a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
-        return false;
-    }
-
-    add_msg_player_or_npc( _( "You add your %s to your reactor's tank." ),
-                           _( "<npcname> pours %s into their reactor's tank." ),
-                           it.tname() );
-
-    // TODO: Encapsulate
-    tank_plut += amount;
-    it.charges -= 1;
-    mod_moves( -250 );
-    return true;
-}
-
 bool Character::can_feed_furnace_with( const item &it ) const
 {
     if( !it.flammable() || it.has_flag( flag_RADIOACTIVE ) || can_eat( it ).success() ) {
@@ -1381,16 +1339,20 @@ bool Character::fuel_bionic_with( item &it )
     }
 
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-
-    const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
     const std::string str_loaded  = get_value( it.typeId().str() );
+
+    const int fuel_multiplier = get_bionic_state( bio ).info().fuel_multiplier;
+
+    int loadable = std::min( it.charges * fuel_multiplier, get_fuel_capacity( it.typeId() ) );
     int loaded = 0;
+
     if( !str_loaded.empty() ) {
         loaded = std::stoi( str_loaded );
     }
 
     const std::string new_charge = std::to_string( loadable + loaded );
 
+    loadable = std::ceil( loadable / fuel_multiplier );
     it.charges -= loadable;
     // Type and amount of fuel
     set_value( it.typeId().str(), new_charge );
@@ -1408,10 +1370,6 @@ bool Character::fuel_bionic_with( item &it )
 
 rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
 {
-    if( can_feed_reactor_with( it ) ) {
-        return rechargeable_cbm::reactor;
-    }
-
     if( can_feed_furnace_with( it ) ) {
         return rechargeable_cbm::furnace;
     }
@@ -1511,6 +1469,169 @@ item &Character::get_consumable_from( item &it ) const
     // Since it's not const.
     null_comestible = item();
     return null_comestible;
+}
+
+bool query_consume_ownership( item &target, avatar &you )
+{
+    //Add in a reset here to make sure user keeps getting asked if not set to keep thief setting
+    if( you.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        you.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
+    if( !target.is_owned_by( you, true ) ) {
+        bool choice = true;
+        if( you.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+            choice = pickup::query_thief();
+        }
+        if( you.get_value( "THIEF_MODE" ) == "THIEF_HONEST" || !choice ) {
+            return false;
+        }
+        avatar_funcs::handle_theft_witnesses( you, target.get_owner() );
+    }
+    return true;
+}
+
+bool Character::consume_item( item &target )
+{
+    if( target.is_null() ) {
+        add_msg_if_player( m_info, _( "You do not have that item." ) );
+        return false;
+    }
+    if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
+        add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return false;
+    }
+
+    item &comest = get_consumable_from( target );
+
+    if( comest.is_null() || target.is_craft() ) {
+        add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
+        if( is_npc() ) {
+            debugmsg( "%s tried to eat a %s", name, target.tname() );
+        }
+        return false;
+    }
+    if( is_avatar() && !query_consume_ownership( target, *as_avatar() ) ) {
+        return false;
+    }
+    if( consume_med( comest ) ||
+        eat( comest ) ||
+        feed_furnace_with( comest ) ||
+        fuel_bionic_with( comest ) ) {
+
+        if( target.is_container() ) {
+            target.on_contents_changed();
+        }
+
+        return comest.charges <= 0;
+    }
+
+    return false;
+}
+
+void Character::consume( item_location loc )
+{
+    item &target = *loc;
+    const bool wielding = is_wielding( target );
+    const bool worn = is_worn( target );
+    const bool inv_item = !( wielding || worn );
+
+    if( consume_item( target ) ) {
+
+        const bool was_in_container = !can_consume_as_is( target );
+
+        if( was_in_container ) {
+            i_rem( &target.contents.front() );
+        } else {
+            i_rem( &target );
+        }
+
+        // Restack and sort so that we don't lie about target's invlet
+        if( inv_item ) {
+            inv.restack( *this->as_player() );
+        }
+
+        if( was_in_container && wielding ) {
+            add_msg_if_player( _( "You are now wielding an empty %s." ), weapon.tname() );
+        } else if( was_in_container && worn ) {
+            add_msg_if_player( _( "You are now wearing an empty %s." ), target.tname() );
+        } else if( was_in_container && !is_npc() ) {
+            bool drop_it = false;
+            if( get_option<std::string>( "DROP_EMPTY" ) == "no" ) {
+                drop_it = false;
+            } else if( get_option<std::string>( "DROP_EMPTY" ) == "watertight" ) {
+                drop_it = !target.is_watertight_container();
+            } else if( get_option<std::string>( "DROP_EMPTY" ) == "all" ) {
+                drop_it = true;
+            }
+            if( drop_it ) {
+                add_msg( _( "You drop the empty %s." ), target.tname() );
+                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { inv.remove_item( &target ) } );
+            } else {
+                int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
+                char letter = target.invlet ? target.invlet : ' ';
+                add_msg( m_info, _( "%c - %d empty %s" ), letter, quantity, target.tname( quantity ) );
+            }
+        }
+    } else if( inv_item ) {
+        if( pickup::handle_spillable_contents( *this, target, g->m ) ) {
+            i_rem( &target );
+        }
+        inv.restack( *this->as_player() );
+        inv.unsort();
+    }
+}
+
+// TODO: Properly split medications and food instead of hacking around
+bool Character::consume_med( item &target )
+{
+    if( !target.is_medication() ) {
+        return false;
+    }
+
+    const itype_id tool_type = target.get_comestible()->tool;
+    const itype *req_tool = &*tool_type;
+    bool check_tool = true;
+    if( tool_type == itype_syringe && has_bionic( bio_syringe ) ) {
+        check_tool = false;
+    }
+    if( req_tool->tool ) {
+        if( check_tool && !(
+                has_amount( tool_type, 1 ) &&
+                has_charges( tool_type, req_tool->tool->charges_per_use )
+            ) ) {
+            add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ) );
+            return false;
+        }
+        use_charges( tool_type, req_tool->tool->charges_per_use );
+    }
+
+    int amount_used = 1;
+    if( target.type->has_use() ) {
+        amount_used = target.type->invoke( *this->as_player(), target, pos() );
+        if( amount_used <= 0 ) {
+            return false;
+        }
+    }
+
+    // TODO: Get the target it was used on
+    // Otherwise injecting someone will give us addictions etc.
+    if( target.has_flag( "NO_INGEST" ) ) {
+        const auto &comest = *target.get_comestible();
+        // Assume that parenteral meds don't spoil, so don't apply rot
+        modify_health( comest );
+        modify_stimulation( comest );
+        modify_fatigue( comest );
+        modify_radiation( comest );
+        modify_addiction( comest );
+        modify_morale( target );
+    } else {
+        // Take by mouth
+        consume_effects( target );
+    }
+
+    mod_moves( -250 );
+    target.charges -= amount_used;
+    return target.charges <= 0;
 }
 
 consumption_event::consumption_event( const item &food ) : time( calendar::turn )

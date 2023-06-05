@@ -387,7 +387,7 @@ static void favorite_remove( const construction_group_str_id &c )
     uistate.favorite_construct_recipes.erase( c );
 }
 
-cata::optional<construction_id> construction_menu( const bool blueprint )
+std::optional<construction_id> construction_menu( const bool blueprint )
 {
     if( !all_constructions.is_finalized() ) {
         debugmsg( "construction_menu called before finalization" );
@@ -418,7 +418,7 @@ cata::optional<construction_id> construction_menu( const bool blueprint )
     int available_window_width = 0;
     int available_buffer_height = 0;
 
-    cata::optional<construction_id> ret;
+    std::optional<construction_id> ret;
 
     bool update_info = true;
     bool update_cat = true;
@@ -641,7 +641,7 @@ cata::optional<construction_id> construction_menu( const bool blueprint )
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
-        cata::optional<point> cursor_pos;
+        std::optional<point> cursor_pos;
         for( size_t i = 0; static_cast<int>( i ) < w_list_height &&
              ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
@@ -1022,7 +1022,7 @@ void place_construction( const construction_group_str_id &group )
     } );
     g->add_draw_callback( draw_valid );
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
+    const std::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {
         return;
     }
@@ -1105,7 +1105,7 @@ void complete_construction( Character &ch )
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
     if( ch.is_avatar() ) {
-        for( auto &elem : ch.as_avatar()->get_crafting_helpers() ) {
+        for( auto &elem : character_funcs::get_crafting_helpers( ch ) ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
             } else {
@@ -1253,7 +1253,7 @@ bool construct::check_no_trap( const tripoint &p )
 bool construct::check_ramp_high( const tripoint &p )
 {
     if( check_up_OK( p ) && check_up_OK( p + tripoint_above ) ) {
-        for( const point &car_d : four_cardinal_directions ) {
+        for( point car_d : four_cardinal_directions ) {
             // check adjacent points on the z-level above for a completed down ramp
             if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
                 return true;
@@ -1791,7 +1791,7 @@ void construction::finalize()
     reqs_using.clear();
 }
 
-int construction::print_time( const catacurses::window &w, const point &p, int width,
+int construction::print_time( const catacurses::window &w, point p, int width,
                               nc_color col ) const
 {
     std::string text = get_time_string();
@@ -1818,7 +1818,7 @@ int construction::adjusted_time() const
     int final_time = to_moves<int>( time );
     int assistants = 0;
 
-    for( auto &elem : g->u.get_crafting_helpers() ) {
+    for( auto &elem : character_funcs::get_crafting_helpers( get_player_character() ) ) {
         if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }

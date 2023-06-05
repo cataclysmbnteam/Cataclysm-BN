@@ -10,6 +10,7 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "animation.h"
+#include "armor_layers.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -395,7 +396,7 @@ input_context game::get_player_input( std::string &action )
     return ctxt;
 }
 
-inline static void rcdrive( const point &d )
+inline static void rcdrive( point d )
 {
     player &u = g->u;
     map &here = get_map();
@@ -515,9 +516,9 @@ inline static void pldrive( point d )
 static void open()
 {
     player &u = g->u;
-    const cata::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
-                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
-                                            ACTION_OPEN, false );
+    const std::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
+                                           pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                                           ACTION_OPEN, false );
 
     if( !openp_ ) {
         return;
@@ -534,7 +535,7 @@ static void open()
             const vehicle *player_veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                if( !veh->handle_potential_theft( get_avatar() ) ) {
                     u.moves += 100;
                     return;
                 } else {
@@ -551,7 +552,7 @@ static void open()
                     add_msg( m_info, _( "That %s can only opened from the inside." ), name );
                     u.moves += 100;
                 } else {
-                    if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                    if( !veh->handle_potential_theft( get_avatar() ) ) {
                         u.moves += 100;
                         return;
                     } else {
@@ -561,7 +562,7 @@ static void open()
             }
         } else {
             // If there are any OPENABLE parts here, they must be already open
-            if( const cata::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
+            if( const std::optional<vpart_reference> already_open = vp.part_with_feature( "OPENABLE",
                     true ) ) {
                 const std::string name = already_open->info().name();
                 add_msg( m_info, _( "That %s is already open." ), name );
@@ -592,9 +593,9 @@ static void open()
 
 static void close()
 {
-    if( const cata::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
-            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
-            ACTION_CLOSE, false ) ) {
+    if( const std::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
+                                            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+                                            ACTION_CLOSE, false ) ) {
         doors::close_door( get_map(), g->u, *pnt );
     }
 }
@@ -616,7 +617,7 @@ static void grab()
         return;
     }
 
-    const cata::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
+    const std::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
     if( !grabp_ ) {
         add_msg( _( "Never mind." ) );
         return;
@@ -629,7 +630,7 @@ static void grab()
         return;
     }
     if( const optional_vpart_position vp = here.veh_at( grabp ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( get_avatar() ) ) {
             return;
         }
         you.grab( OBJECT_VEHICLE, grabp - you.pos() );
@@ -686,7 +687,8 @@ static void smash()
             }
         }
     }
-    const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_cost() * 0.8;
+    item &weapon = u.primary_weapon();
+    const int move_cost = !u.is_armed() ? 80 : weapon.attack_cost() * 0.8;
     bool didit = false;
     bool mech_smash = false;
     int smashskill;
@@ -697,11 +699,11 @@ static void smash()
                      mon->type->melee_sides;
         mech_smash = true;
     } else {
-        smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
+        smashskill = u.str_cur + weapon.damage_melee( DT_BASH );
     }
 
     const bool allow_floor_bash = here.has_zlevels();
-    const cata::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
+    const std::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
     if( !smashp_ ) {
         return;
     }
@@ -770,25 +772,25 @@ static void smash()
 
     vehicle *veh = veh_pointer_or_null( g->m.veh_at( smashp ) );
     if( veh != nullptr ) {
-        if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        if( !veh->handle_potential_theft( get_avatar() ) ) {
             return;
         }
     }
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         if( !mech_smash ) {
-            u.handle_melee_wear( u.weapon );
-            const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
+            u.handle_melee_wear( weapon );
+            const int mod_sta = ( ( weapon.weight() / 10_gram ) + 200 + static_cast<int>
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
             u.mod_stamina( mod_sta );
             if( u.get_skill_level( skill_melee ) == 0 ) {
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
-            const int vol = u.weapon.volume() / units::legacy_volume_factor;
-            if( u.weapon.made_of( material_id( "glass" ) ) &&
+            const int vol = weapon.volume() / units::legacy_volume_factor;
+            if( weapon.made_of( material_id( "glass" ) ) &&
                 rng( 0, vol + 3 ) < vol ) {
-                add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
-                u.weapon.spill_contents( u.pos() );
+                add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );
+                weapon.spill_contents( u.pos() );
                 sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
                 u.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 0, vol ) ) );
                 if( vol > 20 ) {
@@ -813,7 +815,7 @@ static void smash()
         }
 
         if( !here.has_floor_or_support( u.pos() ) && !here.has_flag_ter( "GOES_DOWN", u.pos() ) ) {
-            cata::optional<tripoint> to_safety;
+            std::optional<tripoint> to_safety;
             while( true ) {
                 to_safety = choose_direction( _( "Floor below destroyed!  Move where?" ) );
                 if( to_safety && *to_safety == tripoint_zero ) {
@@ -1271,7 +1273,7 @@ static void wear()
     item_location loc = game_menus::inv::wear( u );
 
     if( loc ) {
-        u.wear( *loc.obtain( u ) );
+        u.wear_possessed( *loc.obtain( u ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1312,7 +1314,7 @@ static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory traj = target_handler::mode_reach( you, you.weapon );
+    target_handler::trajectory traj = target_handler::mode_reach( you, you.primary_weapon() );
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
@@ -1371,9 +1373,10 @@ static void fire()
         }
     }
 
-    if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
+    item &weapon = u.primary_weapon();
+    if( weapon.is_gun() && !weapon.gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( u );
-    } else if( u.weapon.reach_range( u ) > 1 ) {
+    } else if( weapon.reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
@@ -1434,6 +1437,7 @@ static void cast_spell()
     if( !can_cast_spells ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't cast any of the spells you know!" ) );
+        return;
     }
 
     const int spell_index = u.magic->select_spell( u );
@@ -1444,7 +1448,7 @@ static void cast_spell()
     spell &sp = *u.magic->get_spells()[spell_index];
 
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !u.weapon.has_flag( flag_MAGIC_FOCUS ) ) {
+        !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
         return;
@@ -1545,7 +1549,7 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    cata::optional<tripoint> mouse_target;
+    std::optional<tripoint> mouse_target;
 
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
         uquit = QUIT_DIED;
@@ -1616,7 +1620,7 @@ bool game::handle_action()
                 return false;
             }
 
-            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            const std::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
             if( !mouse_pos ) {
                 return false;
             } else if( !u.sees( *mouse_pos ) ) {
@@ -1656,7 +1660,7 @@ bool game::handle_action()
             const std::string &&name = inp_mngr.get_keyname( ch, evt.type, true );
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
                 add_msg( m_info, _( "Unknown command: \"%s\" (%ld)" ), name, ch );
-                if( const cata::optional<std::string> hint =
+                if( const std::optional<std::string> hint =
                         press_x_if_bound( ACTION_KEYBINDINGS ) ) {
                     add_msg( m_info, _( "%s at any time to see and edit keybindings relevant to "
                                         "the current context." ),
@@ -1980,7 +1984,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_COMPARE:
-                game_menus::inv::compare( u, cata::nullopt );
+                game_menus::inv::compare( u, std::nullopt );
                 break;
 
             case ACTION_ORGANIZE:
@@ -1994,7 +1998,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_USE_WIELDED:
-                u.use_wielded();
+                avatar_funcs::use_item( u, item_location( u, &u.primary_weapon() ) );
                 break;
 
             case ACTION_WEAR:
@@ -2065,25 +2069,25 @@ bool game::handle_action()
                 break;
 
             case ACTION_FIRE_BURST: {
-                if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
+                if( u.primary_weapon().gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
                     avatar_action::fire_wielded_weapon( u );
                 }
                 break;
             }
 
             case ACTION_SELECT_FIRE_MODE:
-                if( u.is_armed() && u.weapon.is_gun() && !u.weapon.is_gunmod() ) {
-                    if( u.weapon.gun_all_modes().size() > 1 ) {
-                        u.weapon.gun_cycle_mode();
+                if( u.is_armed() && u.primary_weapon().is_gun() && !u.primary_weapon().is_gunmod() ) {
+                    if( u.primary_weapon().gun_all_modes().size() > 1 ) {
+                        u.primary_weapon().gun_cycle_mode();
                     } else {
-                        add_msg( m_info, _( "Your %s has only one firing mode." ), u.weapon.display_name() );
+                        add_msg( m_info, _( "Your %s has only one firing mode." ), u.primary_weapon().display_name() );
                     }
                 }
                 break;
 
             case ACTION_SELECT_DEFAULT_AMMO:
-                if( u.is_armed() && u.weapon.is_gun() && !u.weapon.is_gunmod() ) {
-                    ranged::prompt_select_default_ammo_for( u, u.weapon );
+                if( u.is_armed() && u.primary_weapon().is_gun() && !u.primary_weapon().is_gunmod() ) {
+                    ranged::prompt_select_default_ammo_for( u, u.primary_weapon() );
                 }
                 break;
 
@@ -2107,7 +2111,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_SORT_ARMOR:
-                u.sort_armor();
+                show_armor_layers_ui( u );
                 break;
 
             case ACTION_WAIT:

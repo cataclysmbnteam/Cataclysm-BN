@@ -72,7 +72,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Arms Alloy Plating CBM" },
-    "description": "Alloy plating that replaces the flesh on the user's arms.  Provides passive protection and can be used in conjunction with bionic martial arts.",
+    "description": "Alloy plating that replaces the flesh on the user's arms.  Provides 6 bash and cut protection, 5 ballistic protection, and can be used in conjunction with bionic martial arts.",
     "price": 350000,
     "difficulty": 3,
     "installation_data": "AID_bio_armor_arms"
@@ -83,7 +83,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Protective Lenses CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A bionic package that seals the user's eye sockets with highly protective mirrored lenses and re-routes their tear ducts to their mouth.  When the user cries, they must spit out or swallow their tears.",
+    "description": "A bionic package that seals the user's eye sockets with highly protective mirrored lenses and re-routes their tear ducts to their mouth.  Provides 3 bash and cut protection, and 7 environmental protection.",
     "price": 550000,
     "weight": "500 g",
     "difficulty": 5
@@ -94,7 +94,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Head Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Alloy plating that replaces the flesh on the user's head, protecting both their head and jaw regions.",
+    "description": "Alloy plating that replaces the flesh on the user's head, protecting both their head and jaw regions.  Provides 6 bash and cut protection, and 5 ballistic protection.",
     "price": 350000,
     "weight": "1000 g",
     "difficulty": 5
@@ -105,7 +105,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Legs Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Alloy plating that replaces the flesh on the user's legs.  Provides passive protection and can be used in conjunction with bionic martial arts.",
+    "description": "Alloy plating that replaces the flesh on the user's legs.  Provides 6 bash and cut protection, 5 ballistic protection, and can be used in conjunction with bionic martial arts.",
     "price": 350000,
     "difficulty": 3,
     "installation_data": "AID_bio_armor_legs"
@@ -116,7 +116,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Torso Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Alloy plating that replaces the flesh on the user's torso, protecting it from physical trauma.",
+    "description": "Alloy plating that replaces the flesh on the user's torso, protecting it from physical trauma.  Provides 6 bash and cut protection, and 5 ballistic protection.",
     "price": 350000,
     "weight": "3000 g",
     "difficulty": 4
@@ -195,7 +195,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Subdermal Carbon Filament CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A thin armor made of carbon nanotubes, implanted just beneath the skin.  This reduces bashing damage by 2 and cutting damage by 4.",
+    "description": "A thin armor made of carbon nanotubes, implanted just beneath the skin.  This reduces all bashing damage by 5%, cutting damage by 10%, and ballistic damage by 15%.",
     "price": 750000,
     "difficulty": 9
   },
@@ -608,7 +608,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Repair Nanobots CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A fleet of tiny dormant robots.  While activated they will flit about your body, randomly recovering 1 HP every 15s, consuming power and calories only on a success.  It will also slow and eventually stop any bleeding on your body.",
+    "description": "A fleet of tiny dormant robots.  While activated they will reduce the intensity of one bleed effect every 30 seconds, and heal all injured body parts by 1 HP (or broken limbs by 1%) every 2 minutes if you have 3 kJ bionic power and 5 kcal per body part.  Broken limbs must still be splinted (unless you have specific mutations) to benefit.  If you don't have enough, they will prioritize based on the resources you have.",
     "price": 950000,
     "weight": "200 g",
     "difficulty": 6
@@ -730,7 +730,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Radiation Scrubber System CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A system of advanced piezomechanical blood filters that are implanted throughout your body, allowing the user to purge themself of absorbed radiation at the cost of some bionic power.",
+    "description": "A system of advanced piezomechanical blood filters have been surgically implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.  While activated if irradiated stacks are present will remove 1 stack of irradiated every 10 minutes costing 10kJ.",
     "price": 450000,
     "weight": "100 g",
     "difficulty": 4
@@ -768,6 +768,44 @@
     "price": 450000,
     "weight": "600 g",
     "difficulty": 7
+  },
+  {
+    "id": "bio_reactor",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Internal Microreactor CBM" },
+    "description": "This stripped down mini-reactor will generate impressive amounts of bionic power, but may not be the safest thing to install.  1 plutonium fuel cell provides 1000 charges producing 10kJ of power a turn, while not active & fueled provides a constant 50J of power.",
+    "price": 900000,
+    "difficulty": 11
+  },
+  {
+    "id": "bio_advreactor",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Advanced Microreactor CBM" },
+    "description": "This module upgrades a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.  1 plutonium fuel cell provides 1500 charges producing 10kJ of power a turn, while not active & fueled provides a constant 75J of power.",
+    "price": 900000,
+    "difficulty": 13
+  },
+  {
+    "id": "bio_reactoroverride",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Micro Reactor Safety Override CBM" },
+    "description": "Disables the radiation safety protocols allowing for much higher energy production.  While active produces 40kJ of power a turn and 1 irradiated stack every 20 turns.",
+    "price": 900000,
+    "difficulty": 13
+  },
+  {
+    "id": "bio_reactor_upgrade",
+    "bionic_id": "bio_advreactor",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Microreactor Upgrade CBM" },
+    "description": "A kit for upgrading a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.",
+    "price": 250000,
+    "difficulty": 11,
+    "is_upgrade": true
   },
   {
     "id": "bio_recycler",
@@ -1266,5 +1304,13 @@
     "description": "Heavy-duty fusion blaster was integrated into your left arm!  You may use your energy banks to fire a damaging heat ray.",
     "price": 220000,
     "difficulty": 3
+  },
+  {
+    "id": "bio_perpetual_test",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Perpetual Generator CBM" },
+    "description": "Installed within you is a perpetual generator powered by nonsensoleum.  When activated it's power gen doubles.  If you are seeing this, you'd better be debugging.",
+    "price": 0
   }
 ]

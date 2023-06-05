@@ -7,6 +7,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <set>
 #include <string>
@@ -37,7 +38,6 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "point.h"
@@ -63,7 +63,7 @@ struct line_iterable {
     point delta;
     size_t index;
 
-    line_iterable( const point &origin, const point &delta, const std::vector<point> &dline )
+    line_iterable( point origin, point delta, const std::vector<point> &dline )
         : delta_line( dline ), cur_origin( origin ), delta( delta ), index( 0 ) {}
 
     point get() const {
@@ -79,25 +79,25 @@ struct line_iterable {
         cur_origin = cur_origin - delta * ( index == 0 );
         index = ( index + delta_line.size() - 1 ) % delta_line.size();
     }
-    void reset( const point &origin ) {
+    void reset( point origin ) {
         cur_origin = origin;
         index = 0;
     }
 };
 // Orientation of point C relative to line AB
-static int side_of( const point &a, const point &b, const point &c )
+static int side_of( point a, point b, point c )
 {
     int cross = ( ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) );
     return ( cross > 0 ) - ( cross < 0 );
 }
 // Tests if point c is between or on lines (a0, a0 + d) and (a1, a1 + d)
-static bool between_or_on( const point &a0, const point &a1, const point &d, const point &c )
+static bool between_or_on( point a0, point a1, point d, point c )
 {
     return side_of( a0, a0 + d, c ) != 1 && side_of( a1, a1 + d, c ) != -1;
 }
 // Builds line until obstructed or outside of region bound by near and far lines. Stores result in set
 static void build_line( spell_detail::line_iterable line, const tripoint &source,
-                        const point &delta, const point &delta_perp, bool ( *test )( const tripoint &, const tripoint & ),
+                        point delta, point delta_perp, bool ( *test )( const tripoint &, const tripoint & ),
                         std::set<tripoint> &result )
 {
     tripoint last_point = source;
@@ -287,7 +287,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     if( delta_side == 0 ) { // delta is already axis aligned, only need straight lines
         // cw leg
         point prev_point;
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+        for( point p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
             if( !test( source + p, source + prev_point ) ) {
                 break;
@@ -298,7 +298,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
         }
         // ccw leg
         prev_point = point_zero;
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( point p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
             if( !test( source + p, source + prev_point ) ) {
                 break;
@@ -310,7 +310,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     } else if( delta_side == 1 ) { // delta is cw of primary axis
         // ccw leg is behind perp axis
         point prev_point;
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( point p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
             // forward until in
@@ -325,7 +325,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
         }
         prev_point = point_zero;
         // cw leg is before perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+        for( point p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
 
             // move back
@@ -342,7 +342,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     } else if( delta_side == -1 ) { // delta is ccw of primary axis
         // ccw leg is before perp axis
         point prev_point;
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( point p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
             // move back
@@ -358,7 +358,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
         }
         prev_point = point_zero;
         // cw leg is behind perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+        for( point p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
 
             // forward until in
@@ -740,7 +740,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
         granted.set_flag( "FIT" );
         you.wear_item( granted, false );
     } else if( !you.is_armed() ) {
-        you.weapon = granted;
+        you.primary_weapon() = granted;
     } else {
         you.i_add( granted );
     }

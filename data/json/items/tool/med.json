@@ -83,6 +83,7 @@
     "id": "scalpel",
     "type": "GENERIC",
     "category": "tools",
+    "weapon_category": [ "KNIVES" ],
     "name": { "str": "scalpel" },
     "description": "This is a very sharp knife designed for surgical cutting.  Its small, sharp blade allows for precision strikes in the hands of the skilled.",
     "weight": "23 g",
@@ -172,6 +173,7 @@
   {
     "id": "vacutainer",
     "type": "CONTAINER",
+    "category": "tools",
     "name": { "str": "blood draw kit" },
     "description": "This is a kit for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
     "weight": "13 g",

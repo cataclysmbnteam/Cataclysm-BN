@@ -39,7 +39,7 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
             clear_character( attacker );
             attacker.wield( weapon );
             // Verify that wielding worked (and not e.g. using martial arts instead)
-            REQUIRE( attacker.used_weapon().type == weapon.type );
+            REQUIRE( attacker.primary_weapon().type == weapon.type );
 
             int before_moves = attacker.get_moves();
 

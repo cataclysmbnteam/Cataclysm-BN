@@ -3,6 +3,7 @@
 #include <functional>
 #include <list>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "avatar.h"
@@ -12,7 +13,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "point.h"
 #include "rng.h"
 #include "state_helpers.h"
@@ -80,7 +80,7 @@ TEST_CASE( "item_in_container", "[item][item_location]" )
 
     backpack.put_in( jeans );
 
-    item_location backpack_loc( dummy, & **dummy.wear( backpack ) );
+    item_location backpack_loc( dummy, & **dummy.wear_possessed( backpack ) );
 
     REQUIRE( dummy.has_item( *backpack_loc ) );
 

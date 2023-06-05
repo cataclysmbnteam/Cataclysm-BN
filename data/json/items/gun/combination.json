@@ -1,7 +1,7 @@
 [
   {
     "id": "combination_gun",
-    "copy-from": "rifle_base",
+    "copy-from": "rifle_manual",
     "type": "GUN",
     "color": "brown",
     "name": { "str": "combination gun" },
@@ -9,7 +9,6 @@
     "price": 259500,
     "price_postapoc": 1500,
     "material": [ "steel", "wood" ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "ammo": "3006",
     "weight": "4200 g",
     "volume": "3 L",
@@ -30,8 +29,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ],
       [ "rail mount", 1 ]
-    ],
-    "delete": { "faults": "fault_gun_chamber_spent" }
+    ]
   },
   {
     "id": "pipe_combination_gun",

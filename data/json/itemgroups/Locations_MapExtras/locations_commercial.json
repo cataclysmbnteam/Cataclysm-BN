@@ -82,7 +82,6 @@
     "items": [
       [ "rope_6", 20 ],
       [ "string_36", 25 ],
-      [ "toilet_paper", 10 ],
       [ "handflare", 15 ],
       [ "duct_tape", 25 ],
       [ "flashlight", 25 ],
@@ -586,7 +585,8 @@
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
       [ "bionic_scanner", 5 ],
-      { "group": "tinware", "prob": 10 }
+      { "group": "tinware", "prob": 10 },
+      [ "shield_riot", 5 ]
     ]
   },
   {
@@ -771,7 +771,7 @@
     "id": "bookstore_misc",
     "subtype": "distribution",
     "entries": [
-      { "item": "paper", "prob": 150 },
+      { "item": "paper", "prob": 150, "charges": [ 40, 60 ] },
       { "item": "wrapper", "prob": 25 },
       { "item": "bubblewrap", "prob": 25 },
       { "item": "permanent_marker", "prob": 50 },
@@ -1212,7 +1212,7 @@
       [ "radio", 10 ],
       [ "eyedrops", 10 ],
       [ "rag", 30 ],
-      [ "paper", 30 ],
+      { "item": "paper", "prob": 30, "charges": [ 40, 60 ] },
       [ "coffee_raw", 20 ],
       [ "coffee_syrup", 20 ],
       [ "crude_picklock", 10 ],
@@ -1257,7 +1257,7 @@
       [ "radio", 10 ],
       [ "eyedrops", 10 ],
       [ "rag", 30 ],
-      [ "paper", 30 ],
+      { "item": "paper", "prob": 30, "charges": [ 40, 60 ] },
       [ "coffee_raw", 20 ],
       [ "coffee_syrup", 20 ],
       [ "crude_picklock", 10 ],

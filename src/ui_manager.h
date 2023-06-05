@@ -115,7 +115,7 @@ class ui_adaptor
          * Note that `topleft` and `size` are in console cells on both tiles
          * and curses builds.
          **/
-        void position( const point &topleft, const point &size );
+        void position( point topleft, point size );
         /**
          * Set redraw and resize callbacks. The resize callback should
          * call `position` or `position_from_window` to set the size of the UI,

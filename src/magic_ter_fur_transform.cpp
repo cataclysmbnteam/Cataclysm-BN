@@ -1,5 +1,6 @@
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -12,7 +13,6 @@
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -121,43 +121,43 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
 }
 
 template<class T, class K>
-cata::optional<ter_furn_data<T>> ter_furn_transform::find_transform( const
-                              std::map<K, ter_furn_data<T>> &list, const K &key ) const
+std::optional<ter_furn_data<T>> ter_furn_transform::find_transform( const
+                             std::map<K, ter_furn_data<T>> &list, const K &key ) const
 {
     const auto result_iter = list.find( key );
     if( result_iter == list.cend() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return result_iter->second;
 }
 
 template<class T, class K>
-cata::optional<T> ter_furn_transform::next( const std::map<K, ter_furn_data<T>> &list,
+std::optional<T> ter_furn_transform::next( const std::map<K, ter_furn_data<T>> &list,
         const K &key ) const
 {
-    const cata::optional<ter_furn_data<T>> result = find_transform( list, key );
+    const std::optional<ter_furn_data<T>> result = find_transform( list, key );
     if( result ) {
         return result->pick();
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
-cata::optional<ter_str_id> ter_furn_transform::next_ter( const ter_str_id &ter ) const
+std::optional<ter_str_id> ter_furn_transform::next_ter( const ter_str_id &ter ) const
 {
     return next( ter_transform, ter );
 }
 
-cata::optional<ter_str_id> ter_furn_transform::next_ter( const std::string &flag ) const
+std::optional<ter_str_id> ter_furn_transform::next_ter( const std::string &flag ) const
 {
     return next( ter_flag_transform, flag );
 }
 
-cata::optional<furn_str_id> ter_furn_transform::next_furn( const furn_str_id &furn ) const
+std::optional<furn_str_id> ter_furn_transform::next_furn( const furn_str_id &furn ) const
 {
     return next( furn_transform, furn );
 }
 
-cata::optional<furn_str_id> ter_furn_transform::next_furn( const std::string &flag ) const
+std::optional<furn_str_id> ter_furn_transform::next_furn( const std::string &flag ) const
 {
     return next( furn_flag_transform, flag );
 }
@@ -166,7 +166,7 @@ template<class T, class K>
 bool ter_furn_transform::add_message( const std::map<K, ter_furn_data<T>> &list, const K &key,
                                       const Creature &critter, const tripoint &location ) const
 {
-    const cata::optional<ter_furn_data<T>> result = find_transform( list, key );
+    const std::optional<ter_furn_data<T>> result = find_transform( list, key );
     if( result && !result->has_msg() ) {
         if( critter.sees( location ) ) {
             result->add_msg( critter );
@@ -213,9 +213,9 @@ void ter_furn_transform::transform( const tripoint &location ) const
 void ter_furn_transform::transform( map &m, const tripoint &location ) const
 {
     const ter_id ter_at_loc = m.ter( location );
-    cata::optional<ter_str_id> ter_potential = next_ter( ter_at_loc->id );
+    std::optional<ter_str_id> ter_potential = next_ter( ter_at_loc->id );
     const furn_id furn_at_loc = m.furn( location );
-    cata::optional<furn_str_id> furn_potential = next_furn( furn_at_loc->id );
+    std::optional<furn_str_id> furn_potential = next_furn( furn_at_loc->id );
 
     if( !ter_potential ) {
         for( const std::pair<const std::string, ter_furn_data<ter_str_id>> &flag_result :
@@ -250,11 +250,11 @@ void ter_furn_transform::transform( map &m, const tripoint &location ) const
 }
 
 template<class T>
-cata::optional<T> ter_furn_data<T>::pick() const
+std::optional<T> ter_furn_data<T>::pick() const
 {
     const T *picked = list.pick();
     if( picked == nullptr ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return *picked;
 }

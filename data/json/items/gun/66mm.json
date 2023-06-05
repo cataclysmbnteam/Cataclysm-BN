@@ -1,7 +1,7 @@
 [
   {
     "id": "m202_flash",
-    "copy-from": "launcher_base",
+    "copy-from": "rocket_base",
     "type": "GUN",
     "color": "dark_gray",
     "name": { "str_sp": "M202A1 FLASH" },
@@ -12,14 +12,44 @@
     "ammo": "m235",
     "weight": "5220 g",
     "volume": "6 L",
+    "barrel_length": "500 ml",
     "dispersion": 300,
     "durability": 7,
-    "modes": [ [ "DEFAULT", "single shot", 1 ], [ "BURST", "all barrels", 4 ] ],
+    "modes": [ [ "DEFAULT", "single shot", 1, "NPC_AVOID" ], [ "BURST", "all barrels", 4, "NPC_AVOID" ] ],
     "magazines": [ [ "m235", [ "m74_clip" ] ] ],
     "reload": 600,
     "loudness": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "sling", 1 ] ],
     "flags": [ "BACKBLAST", "NEVER_JAMS", "PYROMANIAC_WEAPON" ],
     "faults": [  ]
+  },
+  {
+    "id": "LAW",
+    "copy-from": "rocket_base",
+    "type": "GUN",
+    "color": "green",
+    "name": { "str_sp": "M72 LAW" },
+    "description": "A disposable light anti-tank rocket launcher.  Once fired, it cannot be reloaded and must be disposed of.",
+    "price": 200000,
+    "//": "A tube with a lever.  Unsurprisingly, dirt cheap (at least for a rocket launcher).",
+    "material": "aluminum",
+    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD", "BACKBLAST", "TRADER_AVOID" ] },
+    "ammo": "66mm",
+    "weight": "700 g",
+    "volume": "2500 ml",
+    "price_postapoc": 3500,
+    "bashing": 6,
+    "dispersion": 300,
+    "durability": 9,
+    "clip_size": 1,
+    "reload": 150,
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   }
 ]

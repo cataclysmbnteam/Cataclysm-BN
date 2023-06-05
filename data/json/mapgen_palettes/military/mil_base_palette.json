@@ -109,7 +109,7 @@
       "!": "f_dryer"
     },
     "liquids": {
-      "6": { "liquid": "water_clean", "amount": [ 0, 100 ] },
+      "6": { "liquid": "water", "amount": [ 0, 100 ] },
       "7": { "liquid": "water_sewage", "amount": [ 0, 200 ] },
       "H": { "liquid": "diesel", "amount": [ 0, 30000 ] }
     },

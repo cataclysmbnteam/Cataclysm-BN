@@ -8,6 +8,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -53,7 +54,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -195,7 +195,7 @@ mission *avatar::get_active_mission() const
     return active_mission;
 }
 
-void avatar::reset_all_misions()
+void avatar::reset_all_missions()
 {
     active_mission = nullptr;
     active_missions.clear();
@@ -303,7 +303,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     }
 
     int time_taken = INT_MAX;
-    auto candidates = get_crafting_helpers();
+    auto candidates = character_funcs::get_crafting_helpers( *this );
 
     for( const npc *elem : candidates ) {
         // Check for disqualifying factors:
@@ -433,7 +433,7 @@ bool avatar::read( item_location loc, const bool continuous )
     //reading only for fun
     std::map<npc *, std::string> fun_learners;
     std::map<npc *, std::string> nonlearners;
-    auto candidates = get_crafting_helpers();
+    auto candidates = character_funcs::get_crafting_helpers( *this );
     for( npc *elem : candidates ) {
         const int lvl = elem->get_skill_level( skill );
         const bool is_fun_to_read = character_funcs::is_fun_to_read( *elem, it );
@@ -1057,11 +1057,11 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-cata::optional<int> avatar::kill_xp_for_next_point() const
+std::optional<int> avatar::kill_xp_for_next_point() const
 {
     auto it = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
     if( it == xp_cutoffs.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return *it - kill_xp();
     }
@@ -1209,7 +1209,7 @@ bool avatar::wield( item &target )
     if( !unwield() ) {
         return false;
     }
-    clear_npc_ai_info_cache( "weapon_value" );
+    clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     if( target.is_null() ) {
         return true;
     }
@@ -1237,18 +1237,18 @@ bool avatar::wield( item &target )
     moves -= mv;
 
     if( has_item( target ) ) {
-        weapon = i_rem( &target );
+        primary_weapon() = i_rem( &target );
     } else {
-        weapon = target;
+        primary_weapon() = target;
     }
 
-    last_item = weapon.typeId();
+    last_item = primary_weapon().typeId();
     recoil = MAX_RECOIL;
 
-    weapon.on_wield( *this, mv );
+    primary_weapon().on_wield( *this, mv );
 
-    inv.update_invlet( weapon );
-    inv.update_cache_with_item( weapon );
+    inv.update_invlet( primary_weapon() );
+    inv.update_cache_with_item( primary_weapon() );
 
     return true;
 }
@@ -1304,4 +1304,27 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
 bool avatar::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
+}
+
+bool avatar::add_faction_warning( const faction_id &id )
+{
+    const auto it = warning_record.find( id );
+    if( it != warning_record.end() ) {
+        it->second.first += 1;
+        if( it->second.second - calendar::turn > 5_minutes ) {
+            it->second.first -= 1;
+        }
+        it->second.second = calendar::turn;
+        if( it->second.first > 3 ) {
+            return true;
+        }
+    } else {
+        warning_record[id] = std::make_pair( 1, calendar::turn );
+    }
+    faction *fac = g->faction_manager_ptr->get( id );
+    if( fac != nullptr && is_player() && fac->id != faction_id( "no_faction" ) ) {
+        fac->likes_u -= 1;
+        fac->respects_u -= 1;
+    }
+    return false;
 }

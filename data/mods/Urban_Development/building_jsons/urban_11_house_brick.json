@@ -204,15 +204,15 @@
         "........................",
         "........................",
         "........................",
-        "...............RRRR.....",
-        "...........RRRRRRRRRRRRR",
-        "...........RRRRRRRRRRRRR",
-        "...........RRRRRRRRRRRRR",
-        "...........RRRRRRRRRRRRR",
-        "...........RRRRRRRRRRRRR",
-        "...........RRRRRRRRRRRRR",
-        "...........RRRRRRRRRRRRR",
-        "...............RRRR.....",
+        "...............1111.....",
+        "...........41111RR111111",
+        "...........4RRRRRRRRRRRR",
+        "...........4RRRRRRRRRRRR",
+        "...........4RRRRRRRRRRRR",
+        "...........4RRRRRRRRRRRR",
+        "...........4RRRRRRRRRRRR",
+        "...........43333RR333333",
+        "...............3333.....",
         "........................",
         "........................",
         "........................",
@@ -224,7 +224,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ]
+      "palettes": [ "acidia_residential_roof_palette" ]
     }
   },
   {
@@ -240,15 +240,15 @@
         "........................",
         "........................",
         "........................",
-        "RRRRR.....RRRR..........",
-        "RRRRRRRRRRRRRRRRRR......",
-        "RRRRRRRRRRRRRRRRRR......",
-        "RRRRRRRRRRRRRRRRRR......",
-        "RRRRRRRRRRRRRRRRRR......",
-        "RRRRRRRRRRRRRRRRRR......",
-        "RRRRRRRRRRRRRRRRRR......",
-        "RRRRRRRRRRRRRRRRRR......",
-        "RRRRR.....RRRR..........",
+        "11111.....1111..........",
+        "RRRR1111111RR11112......",
+        "RRRRRRRRRRRRRRRRR2......",
+        "RRRRRRRRRRRRRRRRR2......",
+        "RRRRRRRRRRRR&RRRR2......",
+        "RRRRRRR^RRRRRRRRR2......",
+        "RRRRRRRRRRRRRRRRR2......",
+        "RRRR3333333RR33332......",
+        "33333.....3333..........",
         "........................",
         "........................",
         "........................",
@@ -260,7 +260,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ]
+      "palettes": [ "acidia_residential_roof_palette" ]
     }
   }
 ]

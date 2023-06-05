@@ -108,5 +108,97 @@
         }
       ]
     }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_stamina",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods stamina rate",
+    "relic_data": {
+      "passive_effects": [
+        { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "STAMINA_CAP", "multiply": -0.1 } ] },
+        { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "STAMINA_REGEN", "multiply": -0.1 } ] }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_thirst",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods thirst rate",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "THIRST", "multiply": -0.1 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_fatigue",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods fatigue rate",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "FATIGUE", "multiply": -0.1 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_dodges",
+    "copy-from": "test_relic_base",
+    "name": "TEST relic mods dodges",
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_cut_dmg",
+    "copy-from": "test_balanced_sword",
+    "name": "TEST relic mods cut dmg",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_CUT", "multiply": -0.5, "add": 1 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_stab_dmg",
+    "copy-from": "test_screwdriver",
+    "name": "TEST relic mods stab dmg",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_STAB", "multiply": -0.5, "add": 1 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_mods_bash_dmg",
+    "copy-from": "test_halligan",
+    "name": "TEST relic mods bash dmg",
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_BASH", "multiply": -0.5, "add": 1 } ] } ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_item_armor_mod",
+    "copy-from": "test_hazmat_suit",
+    "name": "TEST relic item armor mod",
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ARMOR_CUT", "multiply": -0.5, "add": 3 } ] },
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ITEM_ARMOR_BASH", "multiply": 0.5, "add": -3 } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_relic_char_armor_mod",
+    "copy-from": "test_socks",
+    "name": "TEST relic character armor mod",
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_CUT", "multiply": -0.5, "add": -2 } ] },
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_STAB", "multiply": -0.1, "add": -3 } ] }
+      ]
+    }
   }
 ]

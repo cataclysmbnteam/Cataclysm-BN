@@ -40,7 +40,7 @@ struct window_dimensions {
 window_dimensions get_window_dimensions( const catacurses::window &win );
 // Get dimensional info of an imaginary normal catacurses::window with the given
 // position and size. Unlike real catacurses::window, size can be zero.
-window_dimensions get_window_dimensions( const point &pos, const point &size );
+window_dimensions get_window_dimensions( point pos, point size );
 
 const SDL_Renderer_Ptr &get_sdl_renderer();
 

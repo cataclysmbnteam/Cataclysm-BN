@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <limits>
 #include <memory>
+#include <optional>
 #include <tuple>
 #include <unordered_map>
 
@@ -40,7 +41,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -69,6 +69,8 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_emp( "emp" );
+static const efftype_id effect_feral_infighting_punishment( "feral_infighting_punishment" );
+static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_heavysnare( "heavysnare" );
@@ -111,6 +113,7 @@ static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
@@ -213,13 +216,6 @@ monster::monster( const mtype_id &id ) : monster()
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
     if( monster::has_flag( MF_AQUATIC ) ) {
         fish_population = dice( 1, 20 );
-    }
-    if( monster::has_flag( MF_RIDEABLE_MECH ) ) {
-        itype_id mech_bat = itype_id( type->mech_battery );
-        int max_charge = mech_bat->magazine->capacity;
-        item mech_bat_item = item( mech_bat, calendar::start_of_cataclysm );
-        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
-        battery_item = cata::make_value<item>( mech_bat_item );
     }
 }
 
@@ -656,6 +652,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         vStart += fold_and_print( w, point( column, vStart + 1 ), getmaxx( w ) - 2, c_cyan,
                                   string_format( _( "Origin: %s" ), mod_src ) );
     }
+    if( display_object_ids ) {
+        mvwprintz( w, point( column, ++vStart ), c_light_blue, string_format( "[%s]", type->id.str() ) );
+    }
 
     if( sees( g->u ) ) {
         mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
@@ -714,6 +713,12 @@ std::string monster::extended_description() const
         type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
             return string_format( "'%s'", source.second->name() );
         }, enumeration_conjunction::arrow );
+    }
+    if( display_object_ids ) {
+        if( display_mod_source ) {
+            ss += "\n";
+        }
+        ss += colorize( string_format( "[%s]", type->id.str() ), c_light_blue );
     }
 
     ss += "\n--\n";
@@ -808,7 +813,7 @@ std::string monster::extended_description() const
     ss += "--\n";
     ss += std::string( _( "In melee, you can expect to:" ) ) + "\n";
     ss += string_format( _( "Deal average damage per second: <stat>%.1f</stat>" ),
-                         g->u.weapon.effective_dps( g->u, *this ) );
+                         g->u.primary_weapon().effective_dps( g->u, *this ) );
     ss += "\n";
 
     if( debug_mode ) {
@@ -995,7 +1000,7 @@ void monster::set_goal( const tripoint &p )
     goal = p;
 }
 
-void monster::shift( const point &sm_shift )
+void monster::shift( point sm_shift )
 {
     const point ms_shift = sm_to_ms_copy( sm_shift );
     position -= ms_shift;
@@ -1122,6 +1127,13 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
+        static const string_id<monfaction> faction_zombie( "zombie" );
+        if( faction == faction_zombie || type->in_species( ZOMBIE ) ) {
+            if( u->has_trait( trait_PROF_FERAL ) && !u->has_effect( effect_feral_infighting_punishment ) ) {
+                return MATT_FRIEND;
+            }
+        }
+
         if( type->in_species( FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
                                             u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
@@ -1138,7 +1150,15 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         if( has_flag( MF_ANIMAL ) ) {
-            if( u->has_trait( trait_ANIMALEMPATH ) ) {
+            if( u->has_trait( trait_PROF_FERAL ) ) {
+                // We want wildlife to amp their normal fight-or-flight response up to eleven, so anger_relation won't cut it.
+                if( effective_anger >= -10 ) {
+                    effective_anger += 25;
+                }
+                if( effective_anger < -10 ) {
+                    effective_morale -= 100;
+                }
+            } else if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
                     effective_morale += 55;
@@ -1376,6 +1396,11 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
+bool monster::block_ranged_hit( Creature *, bodypart_id &, damage_instance & )
+{
+    return false;
+}
+
 void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
@@ -1589,7 +1614,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bodypart_id( "torso" ), INT_MIN, &attack );
+        on_hit( source, bodypart_id( "torso" ), &attack );
     }
 }
 
@@ -2301,6 +2326,24 @@ void monster::die( Creature *nkiller )
             ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
+        static const string_id<monfaction> faction_zombie( "zombie" );
+        // Feral survivors are motivated to kill anything human
+        if( ch->has_trait( trait_PROF_FERAL ) && has_flag( MF_HUMAN ) ) {
+            if( !ch->has_effect( effect_feral_killed_recently ) ) {
+                ch->add_msg_if_player( m_good, _( "The voices in your head quiet down a bit." ) );
+            }
+            if( faction != faction_zombie && !type->in_species( ZOMBIE ) ) {
+                ch->add_effect( effect_feral_killed_recently, 3_days );
+            } else {
+                // Killing fellow ferals works but is less efficient, and comes with risk of punishment.
+                ch->add_effect( effect_feral_killed_recently, 6_hours );
+                if( one_in( 3 ) ) {
+                    ch->add_msg_if_player( m_bad,
+                                           _( "The rush of blood seems to drive off the smell of decay for a moment." ) );
+                    ch->add_effect( effect_feral_infighting_punishment, 6_hours );
+                }
+            }
+        }
     }
     // Drop items stored in optionals
     move_special_item_to_inv( tack_item );
@@ -2540,12 +2583,6 @@ void monster::process_effects_internal()
                 process_one_effect( _effect_it.second, false );
             }
         }
-    }
-
-    // Like with player/NPCs - keep the speed above 0
-    const int min_speed_bonus = -0.75 * get_speed_base();
-    if( get_speed_bonus() < min_speed_bonus ) {
-        set_speed_bonus( min_speed_bonus );
     }
 
     //If this monster has the ability to heal in combat, do it now.
@@ -2842,13 +2879,7 @@ float monster::speed_rating() const
     return ret;
 }
 
-void monster::on_dodge( Creature *, float )
-{
-    // Currently does nothing, later should handle faction relations
-}
-
-void monster::on_hit( Creature *source, bodypart_id,
-                      float, dealt_projectile_attack const *const proj )
+void monster::on_hit( Creature *source, bodypart_id, dealt_projectile_attack const *const proj )
 {
     if( is_hallucination() ) {
         return;
@@ -2933,6 +2964,15 @@ float monster::get_mountable_weight_ratio() const
 void monster::hear_sound( const tripoint &source, const int vol, const int dist )
 {
     if( !can_hear() ) {
+        return;
+    }
+
+    static const string_id<monfaction> faction_zombie( "zombie" );
+    const bool feral_friend = ( faction == faction_zombie || !type->in_species( ZOMBIE ) ) &&
+                              g->u.has_trait( trait_PROF_FERAL ) && !g->u.has_effect( effect_feral_infighting_punishment );
+
+    // Hackery: If player is currently a feral and you're a zombie, ignore any sounds close to their position.
+    if( feral_friend && rl_dist( g->u.pos(), source ) <= 10 ) {
         return;
     }
 

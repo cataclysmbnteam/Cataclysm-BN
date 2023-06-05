@@ -69,7 +69,7 @@
     "type": "construction_sequence",
     "id": "t_junk_wall",
     "post_terrain": "t_junk_wall",
-    "elems": [ "constr_pit", "constr_junk_palisade", "constr_junk_wall_spot_weld" ]
+    "elems": [ "constr_junk_palisade", "constr_junk_wall_spot_weld" ]
   },
   {
     "type": "construction_sequence",

@@ -7,6 +7,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 
@@ -27,7 +28,6 @@
 #include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "options.h"
 #include "player.h"
 #include "point_float.h"
@@ -931,7 +931,7 @@ bool vehicle::has_harnessed_animal() const
     return false;
 }
 
-void vehicle::selfdrive( const point &p )
+void vehicle::selfdrive( point p )
 {
     if( !is_towed() && !magic ) {
         for( size_t e = 0; e < parts.size(); e++ ) {
@@ -1051,20 +1051,39 @@ bool vehicle::check_heli_ascend( player &p )
             p.add_msg_if_player( m_bad, _( "It would be unsafe to try and ascend further." ) );
             return false;
         }
-        if( here.has_flag_ter_or_furn( TFLAG_INDOORS, pt )
-            || here.impassable_ter_furn( above )
-            || here.veh_at( above )
-            || g->critter_at( above )
-          ) {
-            p.add_msg_if_player( m_bad,
-                                 _( "It would be unsafe to try and ascend when there are obstacles above you." ) );
+        bool has_ceiling = !here.has_flag_ter( TFLAG_NO_FLOOR, above );
+        bool has_blocking_ter_furn = here.impassable_ter_furn( above );
+        bool has_veh = here.veh_at( above ).has_value();
+        bool has_critter = g->critter_at( above );
+        if( has_ceiling || has_blocking_ter_furn || has_veh || has_critter ) {
+            direction obstacle_direction = direction_from( ( pt - p.pos() ).xy() );
+            const std::string direction_string = direction_name( obstacle_direction );
+            std::string blocker_string;
+            if( has_ceiling ) {
+                blocker_string = _( "ceiling" );
+            } else if( has_blocking_ter_furn ) {
+                blocker_string = here.ter( above )->movecost == 0 ? here.tername( above ) : here.furnname( above );
+            } else if( has_veh ) {
+                blocker_string = here.veh_at( above )->vehicle().disp_name();
+            } else if( has_critter ) {
+                blocker_string = g->critter_at( above )->disp_name();
+            } else {
+                blocker_string = "BUGS";
+            }
+            if( obstacle_direction == direction::CENTER ) {
+                p.add_msg_if_player( m_bad, _( "Your ascent is blocked by %s directly above you." ),
+                                     blocker_string );
+            } else {
+                p.add_msg_if_player( m_bad, _( "Your ascent is blocked by %s to your %s." ), blocker_string,
+                                     direction_string );
+            }
             return false;
         }
     }
     return true;
 }
 
-void vehicle::pldrive( Character &driver, const point &p, int z )
+void vehicle::pldrive( Character &driver, point p, int z )
 {
     if( z != 0 && is_rotorcraft() ) {
         driver.moves = std::min( driver.moves, 0 );
@@ -1751,7 +1770,7 @@ static bool scan_rails_from_veh_internal(
 }
 
 // Get number of rotations of identity vector
-static inline int get_num_cw_rots_of_ray_delta( const point &v )
+static inline int get_num_cw_rots_of_ray_delta( point v )
 {
     if( v == point_north_east ) {
         return 0;

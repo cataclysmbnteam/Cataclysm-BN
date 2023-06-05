@@ -3,6 +3,7 @@
 #define CATA_SRC_MTYPE_H
 
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -14,7 +15,6 @@
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
-#include "optional.h"
 #include "pathfinding.h"
 #include "translations.h"
 #include "type_id.h"
@@ -281,8 +281,8 @@ struct mtype {
         // Will stop fleeing if at max hp, and regen anger and morale.
         bool regen_morale = false;
 
-        // mountable ratio for rider weight vs. mount weight, default 0.2
-        float mountable_weight_ratio = 0.2;
+        // mountable ratio for rider weight vs. mount weight, default 0.3
+        float mountable_weight_ratio = 0.3;
 
         int attack_cost = 100;  /** moves per regular attack */
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
@@ -333,7 +333,7 @@ struct mtype {
         mtype_id fungalize_into;
 
         // Monster reproduction variables
-        cata::optional<time_duration> baby_timer;
+        std::optional<time_duration> baby_timer;
         int baby_count;
         mtype_id baby_monster;
         itype_id baby_egg;

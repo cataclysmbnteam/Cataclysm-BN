@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <map>
 #include <memory>
+#include <optional>
 
 #include "anatomy.h"
 #include "avatar.h"
@@ -33,7 +34,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "point.h"
@@ -118,10 +118,6 @@ std::vector<std::string> Creature::get_grammatical_genders() const
     return {};
 }
 
-void Creature::normalize()
-{
-}
-
 void Creature::reset()
 {
     reset_bonuses();
@@ -148,6 +144,7 @@ void Creature::reset_bonuses()
     armor_bullet_bonus = 0;
 
     speed_bonus = 0;
+    speed_mult = 0;
     dodge_bonus = 0;
     block_bonus = 0;
     hit_bonus = 0;
@@ -785,7 +782,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             impact.mult_damage( 1.0f / dmg_ratio );
         }
     }
-
+    // If we have a shield, it might passively block ranged impacts
+    block_ranged_hit( source, bp_hit, impact );
     dealt_dam = deal_damage( source, bp_hit, impact );
     dealt_dam.bp_hit = bp_hit->token;
 
@@ -956,6 +954,11 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );
+}
+
+void Creature::on_dodge( Creature */*source*/, int /*difficulty*/ )
+{
+
 }
 
 /*
@@ -1231,6 +1234,19 @@ const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) con
         }
     }
     return effect::null_effect;
+}
+std::vector<effect *> Creature::get_all_effects_of_type( const efftype_id &eff_id )
+{
+    std::vector< effect *> ret;
+    auto got_outer = effects->find( eff_id );
+    if( got_outer == effects->end() ) {
+        return {};
+    }
+    std::unordered_map<bodypart_str_id, effect> &effect_map = got_outer->second;
+    for( auto&[ _, effect ] : effect_map ) {
+        ret.push_back( &effect );
+    }
+    return ret;
 }
 std::vector<const effect *> Creature::get_all_effects_of_type( const efftype_id &eff_id ) const
 {
@@ -1508,7 +1524,8 @@ int Creature::get_armor_bullet_bonus() const
 
 int Creature::get_speed() const
 {
-    return get_speed_base() + get_speed_bonus();
+    int speed = round( ( get_speed_base() + get_speed_bonus() ) * ( 1 + get_speed_mult() ) );
+    return std::max( static_cast<int>( round( 0.25 * get_speed_base() ) ), speed );
 }
 float Creature::get_dodge() const
 {
@@ -1684,6 +1701,10 @@ int Creature::get_speed_bonus() const
 {
     return speed_bonus;
 }
+float Creature::get_speed_mult() const
+{
+    return speed_mult;
+}
 float Creature::get_dodge_bonus() const
 {
     return dodge_bonus;
@@ -1746,6 +1767,10 @@ void Creature::set_speed_bonus( int nspeed )
 {
     speed_bonus = nspeed;
 }
+void Creature::set_speed_mult( float nspeed )
+{
+    speed_mult = nspeed;
+}
 void Creature::set_dodge_bonus( float ndodge )
 {
     dodge_bonus = ndodge;
@@ -1762,6 +1787,10 @@ void Creature::set_hit_bonus( float nhit )
 void Creature::mod_speed_bonus( int nspeed )
 {
     speed_bonus += nspeed;
+}
+void Creature::mod_speed_mult( float nspeed )
+{
+    speed_mult += nspeed;
 }
 void Creature::mod_dodge_bonus( float ndodge )
 {
@@ -1803,7 +1832,7 @@ units::mass Creature::weight_capacity() const
 /*
  * Drawing-related functions
  */
-void Creature::draw( const catacurses::window &w, const point &origin, bool inverted ) const
+void Creature::draw( const catacurses::window &w, point origin, bool inverted ) const
 {
     draw( w, tripoint( origin, posz() ), inverted );
 }

@@ -13,7 +13,7 @@
     "copy-from": "shot_dragon",
     "type": "AMMO",
     "name": { "str": "dragon's breath shell, black powder" },
-    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
+    "proportional": { "price": 0.6, "damage": { "damage_type": "heat", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -44,7 +44,7 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
-    "id": "shot_00",
+    "abstract": "shot_abstract",
     "type": "AMMO",
     "name": { "str": "00 shot" },
     "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
@@ -65,6 +65,13 @@
     "recoil": 2500,
     "loudness": 160,
     "effects": [ "COOKOFF", "SHOT" ]
+  },
+  {
+    "id": "shot_00",
+    "copy-from": "shot_abstract",
+    "type": "AMMO",
+    "name": { "str": "00 shot" },
+    "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces."
   },
   {
     "id": "shot_beanbag",
@@ -104,13 +111,10 @@
     "price": 1000,
     "price_postapoc": 1600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "proportional": {
-      "damage": { "damage_type": "bullet", "amount": 0.2 },
-      "recoil": 0.6,
-      "loudness": 0.8,
-      "dispersion": 1.2,
-      "range": 0.5
-    },
+    "damage": { "damage_type": "heat", "amount": 10 },
+    "proportional": { "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2 },
+    "range": 0,
+    "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {
@@ -161,7 +165,7 @@
   },
   {
     "id": "shot_slug",
-    "copy-from": "shot_00",
+    "copy-from": "shot_abstract",
     "type": "AMMO",
     "name": { "str": "shotgun slug" },
     "description": "A heavy metal slug used with shotguns to give them the range capabilities of a rifle.  Extremely damaging but rather inaccurate.",

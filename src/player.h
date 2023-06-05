@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -24,7 +25,6 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"
@@ -90,12 +90,6 @@ class player : public Character
         player &operator=( const player & ) = delete;
         player &operator=( player && );
 
-        /** Calls Character::normalize()
-         *  normalizes HP and body temperature
-         */
-
-        void normalize() override;
-
         bool is_player() const override {
             return true;
         }
@@ -116,219 +110,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        // martialarts.cpp
-
-        /** Returns true if the player is able to use a grab breaking technique */
-        bool can_grab_break( const item &weap ) const;
-        // melee.cpp
-
-        /** How many moves does it take to aim gun to the target accuracy. */
-        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
-
-        /**
-         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
-         *  @param target where the first shot is aimed at (may vary for later shots)
-         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
-         *  @return number of shots actually fired
-         */
-
-        int fire_gun( const tripoint &target, int shots = 1 );
-        /**
-         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
-         *  @param target where the first shot is aimed at (may vary for later shots)
-         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
-         *  @param gun item to fire (which does not necessary have to be in the players possession)
-         *  @return number of shots actually fired
-         */
-        int fire_gun( const tripoint &target, int shots, item &gun );
-
-        /** Called after the player has successfully dodged an attack */
-        void on_dodge( Creature *source, float difficulty ) override;
-        /** Handles special defenses from an attack that hit us (source can be null) */
-        void on_hit( Creature *source, bodypart_id bp_hit,
-                     float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-
-        /** Returns melee skill level, to be used to throttle dodge practice. **/
-        float get_melee() const override;
-
-        /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
-        bool uncanny_dodge() override;
-
-        // ranged.cpp
-        /** Execute a throw */
-        dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
-                                            const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
-
-        /**
-         * Check if a given body part is immune to a given damage type
-         *
-         * This function checks whether a given body part cannot be damaged by a given
-         * damage_unit.  Note that this refers only to reduction of hp on that part. It
-         * does not account for clothing damage, pain, status effects, etc.
-         *
-         * @param bp: Body part to perform the check on
-         * @param dam: Type of damage to check for
-         * @returns true if given damage can not reduce hp of given body part
-         */
-        bool immune_to( body_part bp, damage_unit dam ) const;
-
-        /** Knocks the player to a specified tile */
-        void knock_back_to( const tripoint &to ) override;
-
-        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
-        float fall_damage_mod() const override;
-        /** Deals falling/collision damage with terrain/creature at pos */
-        int impact( int force, const tripoint &pos ) override;
-
-        /** Returns overall % of HP remaining */
-        int hp_percentage() const override;
-
-        /** used for drinking from hands, returns how many charges were consumed */
-        int drink_from_hands( item &water );
-        /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
-        bool consume( item_location loc );
-        /** Used for eating a particular item that doesn't need to be in inventory.
-         *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume_item( item &target );
-
-        /** Used for eating entered comestible, returns true if comestible is successfully eaten */
-        bool eat( item &food, bool force = false );
-
-        int get_lift_assist() const;
-
-        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool include_empty_mags = true, bool include_potential = false ) const;
-        /**
-         * Select suitable ammo with which to reload the item
-         * @param base Item to select ammo for
-         * @param prompt Force display of the menu even if only one choice
-         * @param include_empty_mags Allow selection of empty magazines
-         * @param include_potential Include ammo that can potentially be used, but not right now
-         */
-        item::reload_option select_ammo( const item &base, bool prompt = false,
-                                         bool include_empty_mags = true, bool include_potential = false ) const;
-
-        /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
-
-        /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
-        bool can_lift( int lift_strength_required ) const;
-
-        /**
-         * Check player capable of taking off an item.
-         * @param it Thing to be taken off
-         */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr ) const;
-
-        /**
-         * Check player capable of wielding an item.
-         * @param it Thing to be wielded
-         */
-        ret_val<bool> can_wield( const item &it ) const;
-
-        bool unwield();
-
-        /**
-         * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
-         * @param it Thing to be reloaded
-         * @param ammo if set also check item currently compatible with this specific ammo or magazine
-         * @note items currently loaded with a detachable magazine are considered reloadable
-         * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
-         */
-        bool can_reload( const item &it, const itype_id &ammo = itype_id() ) const;
-
-        /**
-         * Attempt to mend an item (fix any current faults)
-         * @param obj Object to mend
-         * @param interactive if true prompts player when multiple faults, otherwise mends the first
-         */
-        void mend_item( item_location &&obj, bool interactive = true );
-
-        /**
-         * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
-         * @param it Item to calculate reload cost for
-         * @param ammo either ammo or magazine to use when reloading the item
-         * @param qty maximum units of ammo to reload. Capped by remaining capacity and ignored if reloading using a magazine.
-         */
-        int item_reload_cost( const item &it, const item &ammo, int qty ) const;
-
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        cata::optional<std::list<item>::iterator>
-        wear( int pos, bool interactive = true );
-        cata::optional<std::list<item>::iterator>
-        wear( item &to_wear, bool interactive = true );
-
-        /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
-        bool takeoff( item &it, std::list<item> *res = nullptr );
-        bool takeoff( int pos );
-
-        /** So far only called by unload() from game.cpp */
-        bool add_or_drop_with_msg( item &it, bool unloading = false );
-
-        bool unload( item_location loc );
-
-        /**
-         * Try to wield a contained item consuming moves proportional to weapon skill and volume.
-         * @param container Container containing the item to be wielded
-         * @param internal_item reference to contained item to wield.
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         */
-        bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
-                             int base_cost = INVENTORY_HANDLING_PENALTY );
-        /**
-         * Stores an item inside another consuming moves proportional to weapon skill and volume
-         * @param container Container in which to store the item
-         * @param put Item to add to the container
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         */
-        void store( item &container, item &put, bool penalties = true,
-                    int base_cost = INVENTORY_HANDLING_PENALTY );
-        /** Draws the UI and handles player input for the armor re-ordering window */
-        void sort_armor();
-        /** Uses a tool */
-        void use( int inventory_position );
-        /** Uses a tool at location */
-        void use( item_location loc );
-        /** Uses the current wielded weapon */
-        void use_wielded();
-
-        /** Reassign letter. */
-        void reassign_item( item &it, int invlet );
-
-        /** Removes gunmod after first unloading any contained ammo and returns true on success */
-        bool gunmod_remove( item &gun, item &mod );
-
-        /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
-        void gunmod_add( item &gun, item &mod );
-
-        /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
-        std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
-
-        /** Starts activity to install toolmod */
-        void toolmod_add( item_location tool, item_location mod );
-
-        /** Note that we've read a book at least once. **/
-        virtual bool has_identified( const itype_id &item_id ) const = 0;
-
-    private:
-        safe_reference_anchor anchor;
-
-    public:
-        safe_reference<player> get_safe_reference();
-        //returns true if the warning is now beyond final and results in hostility.
-        bool add_faction_warning( const faction_id &id );
-        int current_warnings_fac( const faction_id &id );
-        bool beyond_final_warning( const faction_id &id );
-
-        /** This handles giving xp for a skill */
-        void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
-        /** This handles warning the player that there current activity will not give them xp */
-        void handle_skill_warning( const skill_id &id, bool force_warning = false );
-
-        void on_worn_item_transform( const item &old_it, const item &new_it );
-
         /**
          * Remove charges from a specific item (given by its item position).
          * The item must exist and it must be counted by charges.
@@ -346,12 +127,6 @@ class player : public Character
          * @param quantity How many charges to remove
          */
         item reduce_charges( item *it, int quantity );
-
-        /**
-         * Check whether the player has a gun that uses the given type of ammo.
-         */
-        bool has_gun_for_ammo( const ammotype &at ) const;
-        bool has_magazine_for_ammo( const ammotype &at ) const;
 
         // Checks crafting inventory for books providing the requested recipe.
         // Then checks nearby NPCs who could provide it too.
@@ -424,11 +199,6 @@ class player : public Character
          */
         bool can_continue_craft( item &craft );
         /**
-         * Returns nearby NPCs ready and willing to help with crafting or some other manual task.
-         * @param max If set, limits number of helpers to that value
-         */
-        std::vector<npc *> get_crafting_helpers( size_t max = 0 ) const;
-        /**
          * Handle skill gain for player and followers during crafting
          * @param craft the currently in progress craft
          * @param multiplier what factor to multiply the base skill gain by.  This is used to apply
@@ -469,7 +239,7 @@ class player : public Character
         start_location_id start_location;
 
         weak_ptr_fast<Creature> last_target;
-        cata::optional<tripoint> last_target_pos;
+        std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
         int scent = 0;
@@ -477,7 +247,7 @@ class player : public Character
         int movecounter = 0;
 
         bool manual_examine = false;
-        vproto_id starting_vehicle;
+        vproto_id starting_vehicle = vproto_id::NULL_ID();
         std::vector<mtype_id> starting_pets;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
@@ -489,7 +259,6 @@ class player : public Character
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
         std::set<character_id> follower_ids;
-        void mod_stat( const std::string &stat, float modifier ) override;
 
         //message related stuff
         using Character::add_msg_if_player;
@@ -509,32 +278,10 @@ class player : public Character
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
 
-
-        /**
-         * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
-         * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
-         * @param target Target NPC to disarm
-         */
-        void disarm( npc &target );
-
     protected:
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
-
-    private:
-
-        /**
-         * Consumes an item as medication.
-         * @param target Item consumed. Must be a medication or a container of medication.
-         * @return Whether the target was fully consumed.
-         */
-        bool consume_med( item &target );
-
-    private:
-
-        /** warnings from a faction about bad behavior */
-        std::map<faction_id, std::pair<int, time_point>> warning_record;
 };
 
 #endif // CATA_SRC_PLAYER_H

@@ -15,20 +15,20 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     REQUIRE( gun.has_flag( "RELOAD_ONE" ) );
     REQUIRE( gun.ammo_remaining() == 0 );
 
-    const item::reload_option gun_option( &dummy, &gun, &gun, ammo_location );
+    const item_reload_option gun_option( &dummy, &gun, &gun, ammo_location );
     REQUIRE( gun_option.qty() == 1 );
 
     ammo_location = item_location( dummy, &ammo );
     item &speedloader = dummy.i_add( item( "38_speedloader", bday, 0 ) );
     REQUIRE( speedloader.ammo_remaining() == 0 );
 
-    const item::reload_option speedloader_option( &dummy, &speedloader, &speedloader,
+    const item_reload_option speedloader_option( &dummy, &speedloader, &speedloader,
             ammo_location );
     CHECK( speedloader_option.qty() == speedloader.ammo_capacity() );
 
     speedloader.put_in( ammo );
     item_location speedloader_location( dummy, &speedloader );
-    const item::reload_option gun_speedloader_option( &dummy, &gun, &gun,
+    const item_reload_option gun_speedloader_option( &dummy, &gun, &gun,
             speedloader_location );
     CHECK( gun_speedloader_option.qty() == speedloader.ammo_capacity() );
 }
@@ -42,14 +42,14 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
     item &ammo = dummy.i_add( item( "9mm", bday, magazine.ammo_capacity() ) );
     item_location ammo_location( dummy, &ammo );
 
-    const item::reload_option magazine_option( &dummy, &magazine, &magazine,
+    const item_reload_option magazine_option( &dummy, &magazine, &magazine,
             ammo_location );
     CHECK( magazine_option.qty() == magazine.ammo_capacity() );
 
     magazine.put_in( ammo );
     item_location magazine_location( dummy, &magazine );
     item &gun = dummy.i_add( item( "glock_19", bday, 0 ) );
-    const item::reload_option gun_option( &dummy, &gun, &gun, magazine_location );
+    const item_reload_option gun_option( &dummy, &gun, &gun, magazine_location );
     CHECK( gun_option.qty() == 1 );
 }
 
@@ -67,14 +67,14 @@ TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
     belt.ammo_unset();
 
     REQUIRE( belt.ammo_remaining() == 0 );
-    const item::reload_option belt_option( &dummy, &belt, &belt, ammo_location );
+    const item_reload_option belt_option( &dummy, &belt, &belt, ammo_location );
     CHECK( belt_option.qty() == belt.ammo_capacity() );
 
     belt.put_in( ammo );
     item_location belt_location( dummy, &ammo );
     item &gun = dummy.i_add( item( "m134", bday, 0 ) );
 
-    const item::reload_option gun_option( &dummy, &gun, &gun, belt_location );
+    const item_reload_option gun_option( &dummy, &gun, &gun, belt_location );
 
     CHECK( gun_option.qty() == 1 );
 }
@@ -87,7 +87,7 @@ TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
     item &bottle = dummy.i_add( item( "bottle_plastic" ) );
     item_location water_location( dummy, &water );
 
-    const item::reload_option bottle_option( &dummy, &bottle, &bottle, water_location );
+    const item_reload_option bottle_option( &dummy, &bottle, &bottle, water_location );
     CHECK( bottle_option.qty() == bottle.get_remaining_capacity_for_liquid( water, true ) );
 
     // Add water to bottle?
@@ -95,7 +95,7 @@ TEST_CASE( "canteen_reload_option", "[reload],[reload_option],[liquid]" )
     item &canteen = dummy.i_add( item( "2lcanteen" ) );
     item_location bottle_location( dummy, &bottle );
 
-    const item::reload_option canteen_option( &dummy, &canteen, &canteen,
+    const item_reload_option canteen_option( &dummy, &canteen, &canteen,
             bottle_location );
 
     CHECK( canteen_option.qty() == 2 );

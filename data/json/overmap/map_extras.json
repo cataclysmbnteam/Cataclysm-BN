@@ -189,8 +189,8 @@
   {
     "id": "mx_jabberwock",
     "type": "map_extra",
-    "name": "Jabberwock",
-    "description": "Jabberwock is nearby.",
+    "name": "Eater of The Dead",
+    "description": "Something big and nasty is nearby.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_jabberwock" },
     "sym": "J",
     "color": "red",
@@ -209,7 +209,7 @@
   {
     "id": "mx_shrubbery",
     "type": "map_extra",
-    "name": "Shrubberry",
+    "name": "Shrubbery",
     "description": "This area is covered with a single type of shrubs.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_shrubbery" },
     "sym": "s",
@@ -256,6 +256,7 @@
     "name": "Derelict shed",
     "description": "A collapsed shed.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_fallen_shed_map" },
+    "sym": "N",
     "color": "brown",
     "autonote": true
   },

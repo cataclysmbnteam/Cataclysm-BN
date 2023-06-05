@@ -164,7 +164,7 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint_abs_omt
 }
 
 void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
-                              const point &dir )
+                              point dir )
 {
     expansion_data e;
     e.type = base_camps::faction_decode( bldg );
@@ -233,7 +233,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
 // upgrade levels
 // legacy next upgrade
-std::string basecamp::next_upgrade( const point &dir, const int offset ) const
+std::string basecamp::next_upgrade( point dir, const int offset ) const
 {
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
@@ -266,7 +266,7 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const cata::optional<point> &dir,
+bool basecamp::has_provides( const std::string &req, const std::optional<point> &dir,
                              int level ) const
 {
     if( !dir ) {
@@ -296,7 +296,7 @@ bool basecamp::has_water()
            has_provides( "faction_base_blacksmith_11" );
 }
 
-std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
+std::vector<basecamp_upgrade> basecamp::available_upgrades( point dir )
 {
     std::vector<basecamp_upgrade> ret_data;
     auto e = expansions.find( dir );
@@ -358,7 +358,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
 }
 
 // recipes and craft support functions
-std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
+std::map<recipe_id, translation> basecamp::recipe_deck( point dir ) const
 {
     std::map<recipe_id, translation> recipes;
     const auto &e = expansions.find( dir );
@@ -428,7 +428,7 @@ void basecamp::update_provides( const std::string &bldg, expansion_data &e_data 
     }
 }
 
-void basecamp::update_in_progress( const std::string &bldg, const point &dir )
+void basecamp::update_in_progress( const std::string &bldg, point dir )
 {
     if( !recipe_id( bldg ).is_valid() ) {
         return;
@@ -501,7 +501,7 @@ void basecamp::remove_assignee( character_id id )
         debugmsg( "cant find npc to remove from basecamp, on the overmap_buffer" );
         return;
     }
-    npc_to_remove->assigned_camp = cata::nullopt;
+    npc_to_remove->assigned_camp = std::nullopt;
     assigned_npcs.erase( std::remove( assigned_npcs.begin(), assigned_npcs.end(), npc_to_remove ),
                          assigned_npcs.end() );
 }
@@ -675,7 +675,7 @@ void basecamp::form_crafting_inventory()
 }
 
 // display names
-std::string basecamp::expansion_tab( const point &dir ) const
+std::string basecamp::expansion_tab( point dir ) const
 {
     if( dir == base_camps::base_dir ) {
         return _( "Base Missions" );

@@ -12,7 +12,7 @@
   {
     "type": "enchantment",
     "id": "ench_bio_sneeze_beam",
-    "values": [ { "value": "MAX_MANA", "add": 500 } ]
+    "values": [ { "value": "MANA_CAP", "add": 500 } ]
   },
   {
     "id": "bio_sneeze_beam",

@@ -1,4 +1,4 @@
-name: Cataclysm Windows build
+name: Cataclysm Windows build (MSVC)
 
 on:
   push:
@@ -54,12 +54,12 @@ jobs:
 
     steps:
     - name: checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 1
 
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v1.3.1
 
     - name: Restore artifacts, or run vcpkg, build and cache artifacts
       uses: lukka/run-vcpkg@v10
@@ -72,12 +72,13 @@ jobs:
         # Keep vcpkg version here in sync with the builtin-baseline
         # field in vcpkg.json. Caching happens as a post-action which runs at the end of
         # the whole workflow, after vcpkg install happens during msbuild run.
-        vcpkgGitCommitId: 'f4b262b259145adb2ab0116a390b08642489d32b'
+        vcpkgGitCommitId: 'a7b6122f6b6504d16d96117336a0562693579933'
 
     - name: Integrate vcpkg
       run: |
         vcpkg integrate install
 
+    - uses: ammaraskar/msvc-problem-matcher@master
     - name: Build
       run: |
           cd msvc-full-features

@@ -2411,11 +2411,6 @@
   },
   {
     "type": "recipe",
-    "result": "woodgreatbow",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "q_solarpack",
     "obsolete": true
   },
@@ -3156,6 +3151,27 @@
   {
     "type": "recipe",
     "result": "40x53mm_flechette_m169",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "noodles_fast",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sharp_toothbrush",
+    "obsolete": true
+  },
+  {
+    "result": "chem_zinc_powder",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jug_plastic",
+    "id_suffix": "plastic-mod",
     "obsolete": true
   }
 ]

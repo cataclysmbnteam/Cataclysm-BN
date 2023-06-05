@@ -4,6 +4,7 @@
 #include <iosfwd>
 #include <iterator>
 #include <list>
+#include <optional>
 #include <vector>
 
 #include "avatar.h"
@@ -22,7 +23,6 @@
 #include "line.h"
 #include "map.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "player.h"
 #include "point.h"
 #include "safe_reference.h"
@@ -355,7 +355,7 @@ class item_location::impl::item_on_person : public item_location::impl
                 obj = *target();
             }
 
-            if( who->is_armed() && &who->weapon == target() ) {
+            if( who->is_armed() && who->is_wielding( *target() ) ) {
                 // no penalties because we already have this item in our hands
                 mv += dynamic_cast<player *>( who )->item_handling_cost( obj, false, 0 );
             } else {

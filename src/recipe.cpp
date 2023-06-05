@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iterator>
 #include <numeric>
+#include <optional>
 #include <sstream>
 
 #include "assign.h"
@@ -19,7 +20,6 @@
 #include "itype.h"
 #include "json.h"
 #include "mapgen_functions.h"
-#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "skill.h"
@@ -313,6 +313,9 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         reversible = true;
     } else {
         jo.throw_error( "unknown recipe type", "type" );
+    }
+    if( reversible && time < 1 ) {
+        jo.throw_error( "Non-zero time mandatory for reversible recipe or uncraft" );
     }
 
     const requirement_id req_id( "inline_" + type + "_" + ident_.str() );

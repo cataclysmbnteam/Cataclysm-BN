@@ -75,7 +75,7 @@
     "id": "robogun_308",
     "type": "GUN",
     "copy-from": "robogun_base",
-    "name": "integral 7.62mm firearm",
+    "name": "integral 7.62x51mm firearm",
     "skill": "rifle",
     "ammo": "308",
     "clip_size": 100,

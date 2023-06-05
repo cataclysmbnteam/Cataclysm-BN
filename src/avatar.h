@@ -73,6 +73,7 @@ class avatar : public player
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
         void save_template( const std::string &name, const points_left &points );
+        void character_to_template( const std::string &name );
 
         bool is_avatar() const override {
             return true;
@@ -82,6 +83,13 @@ class avatar : public player
         }
         const avatar *as_avatar() const override {
             return this;
+        }
+
+        std::string get_save_id() const {
+            return save_id.empty() ? name : save_id;
+        }
+        void set_save_id( const std::string &id ) {
+            save_id = id;
         }
 
         void toggle_map_memory();
@@ -103,7 +111,7 @@ class avatar : public player
         /** Provides the window and detailed morale data */
         void disp_morale();
         /** Resets all missions before saving character to template */
-        void reset_all_misions();
+        void reset_all_missions();
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
@@ -157,7 +165,7 @@ class avatar : public player
         /** Completes book reading action. **/
         void do_read( item_location loc );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const itype_id &item_id ) const override;
+        bool has_identified( const itype_id &item_id ) const;
 
         void wake_up();
         // Grab furniture / vehicle
@@ -165,13 +173,6 @@ class avatar : public player
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();
-
-        /**
-         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
-         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
-         * @param target Target NPC to steal from
-         */
-        void steal( npc &target );
 
         bool is_hallucination() const override;
 
@@ -187,7 +188,7 @@ class avatar : public player
         // how much "kill xp" you have
         int kill_xp() const;
         // how much "kill xp" needed for next point (empty if reached max level)
-        cata::optional<int> kill_xp_for_next_point() const;
+        std::optional<int> kill_xp_for_next_point() const;
         // upgrade stat from kills
         void upgrade_stat( character_stat stat );
 
@@ -210,6 +211,12 @@ class avatar : public player
 
         bool wield( item &target ) override;
 
+        /**
+         * Add warning from faction.
+         * @returns true if the warning is now beyond final and results in hostility
+         */
+        bool add_faction_warning( const faction_id &id );
+
         using Character::invoke_item;
         bool invoke_item( item *, const tripoint &pt ) override;
         bool invoke_item( item * ) override;
@@ -221,6 +228,9 @@ class avatar : public player
         }
 
     private:
+        // The name used to generate save filenames for this avatar. Not serialized in json.
+        std::string save_id;
+
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory = true;
 
@@ -260,6 +270,9 @@ class avatar : public player
         int per_upgrade = 0;
 
         monster_visible_info mon_visible;
+
+        /** Warnings from factions about bad behavior */
+        std::map<faction_id, std::pair<int, time_point>> warning_record;
 };
 
 avatar &get_avatar();

@@ -17,6 +17,7 @@
 #include "animation.h"
 #include "assign.h"
 #include "avatar.h"
+#include "avatar_functions.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -117,6 +118,7 @@ static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_stock_small( "stock_small" );
 static const itype_id itype_syringe( "syringe" );
 
 static const skill_id skill_fabrication( "fabrication" );
@@ -129,6 +131,7 @@ static const species_id ZOMBIE( "ZOMBIE" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -1030,7 +1033,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name() );
-        const cata::optional<tripoint> pnt_ = choose_adjacent( query );
+        const std::optional<tripoint> pnt_ = choose_adjacent( query );
         if( !pnt_ ) {
             return 0;
         }
@@ -1110,7 +1113,7 @@ void place_npc_iuse::load( const JsonObject &obj )
 int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
 {
     map &here = get_map();
-    cata::optional<tripoint> target_pos;
+    std::optional<tripoint> target_pos;
     if( place_randomly ) {
         const tripoint_range<tripoint> target_range = points_in_radius( p.pos(), 1 );
         target_pos = random_point( target_range, []( const tripoint & t ) {
@@ -1168,7 +1171,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint &t ) const
         return is_allowed;
     };
 
-    const cata::optional<tripoint> pnt_ = ( t != p.pos() ) ? t : choose_adjacent_highlight(
+    const std::optional<tripoint> pnt_ = ( t != p.pos() ) ? t : choose_adjacent_highlight(
             _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), f, false );
     if( !pnt_ ) {
         return 0;
@@ -1256,15 +1259,19 @@ void deploy_furn_actor::load( const JsonObject &obj )
     furn_type = furn_str_id( obj.get_string( "furn_type" ) );
 }
 
-int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const
+int deploy_furn_actor::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
+    if( t ) {
+        return 0;
+    }
+
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
     tripoint pnt = pos;
     if( pos == p.pos() ) {
-        if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
+        if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
             pnt = *pnt_;
         } else {
             return 0;
@@ -1382,7 +1389,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 {
     // checks for fuel are handled by use and the activity, not here
     if( pos == p.pos() ) {
-        if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
+        if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
         } else {
             return false;
@@ -1648,7 +1655,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
         return false;
     }
     // Softer warnings at the end so we don't ask permission and then tell them no.
-    if( &it == &p.weapon ) {
+    if( p.is_wielding( it ) ) {
         if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
             return false;
         }
@@ -1898,7 +1905,7 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( choice == 0 ) {
-        const cata::optional<tripoint> dest_ = choose_adjacent( _( "Write where?" ) );
+        const std::optional<tripoint> dest_ = choose_adjacent( _( "Write where?" ) );
         if( !dest_ ) {
             return 0;
         }
@@ -2636,7 +2643,6 @@ int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     spell casting = spell( spell_id( item_spell ) );
-    int charges = it.type->charges_to_use();
 
     player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -2652,13 +2658,14 @@ int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( it.has_flag( "USE_PLAYER_ENERGY" ) ) {
         // [2] this value overrides the mana cost if set to 0
         cast_spell.values.emplace_back( 1 );
-        charges = 0;
     } else {
         // [2]
         cast_spell.values.emplace_back( 0 );
     }
     p.assign_activity( cast_spell, false );
-    return charges;
+    p.activity.targets.push_back( item_location( p, &it ) );
+    // Actual handling of charges_to_use is in activity_handlers::spellcasting_finish
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> holster_actor::clone() const
@@ -2749,8 +2756,8 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
     p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg ),
                          obj.tname(), holster.tname() );
 
-    // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, false, draw_cost );
+    // Holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+    character_funcs::store_in_container( p, holster, obj, false, draw_cost );
     return true;
 }
 
@@ -2799,12 +2806,17 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+        // Worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
+        bool penalties;
+        int cost;
         if( p.is_worn( it ) ) {
-            p.wield_contents( it, internal_item, false, draw_cost );
+            penalties = false;
+            cost = draw_cost;
         } else {
-            p.wield_contents( it, internal_item );
+            penalties = true;
+            cost = INVENTORY_HANDLING_PENALTY;
         }
+        character_funcs::try_wield_contents( *p.as_avatar(), it, internal_item, penalties, cost );
 
     } else {
         item_location loc = game_menus::inv::holster( p, it );
@@ -2916,13 +2928,13 @@ bool bandolier_actor::reload( player &p, item &obj ) const
     }
 
     // convert these into reload options and display the selection prompt
-    std::vector<item::reload_option> opts;
+    std::vector<item_reload_option> opts;
     std::transform( std::make_move_iterator( found.begin() ), std::make_move_iterator( found.end() ),
     std::back_inserter( opts ), [&]( item_location && e ) {
-        return item::reload_option( &p, &obj, &obj, e );
+        return item_reload_option( &p, &obj, &obj, e );
     } );
 
-    item::reload_option sel = p.select_ammo( obj, std::move( opts ) );
+    item_reload_option sel = character_funcs::select_ammo( p, obj, std::move( opts ) );
     if( !sel ) {
         return false; // canceled menu
     }
@@ -3034,7 +3046,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
         return 0;
     }
 
-    item::reload_option opt = p.select_ammo( mag, true );
+    item_reload_option opt = character_funcs::select_ammo( p, mag, true );
     if( opt ) {
         p.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
         p.activity.targets.emplace_back( p, &p.i_add( mag ) );
@@ -3974,6 +3986,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             if( ( !patient.has_effect( effect_bandaged, elem.first->token ) && bandages_power > 0 ) ||
                 ( !patient.has_effect( effect_disinfected, elem.first->token ) && disinfectant_power > 0 ) ) {
                 damage += part.get_hp_max() - part.get_hp_cur();
+                damage += damage > 0 ? part.get_id()->essential * essential_value : 0;
                 damage += bleed * patient.get_effect_dur( effect_bleed, elem.first->token ) / 5_minutes;
                 damage += bite * patient.get_effect_dur( effect_bite, elem.first->token ) / 10_minutes;
                 damage += infect * patient.get_effect_dur( effect_infected, elem.first->token ) / 10_minutes;
@@ -4121,7 +4134,7 @@ std::unique_ptr<iuse_actor> place_trap_actor::clone() const
     return std::make_unique<place_trap_actor>( *this );
 }
 
-static bool is_solid_neighbor( const tripoint &pos, const point &offset )
+static bool is_solid_neighbor( const tripoint &pos, point offset )
 {
     map &here = get_map();
     const tripoint a = pos + offset;
@@ -4199,8 +4212,8 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
-                                          it.tname() ) );
+    const std::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
+                                         it.tname() ) );
     if( !pos_ ) {
         return 0;
     }
@@ -4346,6 +4359,83 @@ std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
     return std::make_unique<saw_barrel_actor>( *this );
 }
 
+void saw_stock_actor::load( const JsonObject &jo )
+{
+    assign( jo, "cost", cost );
+}
+
+int saw_stock_actor::use( player &p, item &it, bool t, const tripoint & ) const
+{
+    if( t ) {
+        return 0;
+    }
+
+    auto loc = game_menus::inv::saw_stock( p, it );
+
+    if( !loc ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return 0;
+    }
+
+    item &obj = *loc.obtain( p );
+    p.add_msg_if_player( _( "You saw down the stock of your %s." ), obj.tname() );
+    obj.put_in( item( "stock_small", calendar::turn ) );
+
+    return 0;
+}
+
+ret_val<bool> saw_stock_actor::can_use_on( const player &, const item &, const item &target ) const
+{
+    if( !target.is_gun() ) {
+        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
+    }
+
+    if( target.gunmod_find( itype_stock_small ) ) {
+        return ret_val<bool>::make_failure( _( "The stock is already sawn-off." ) );
+    }
+
+    // Exclude pistols and the like that have had a stock mount bubba'd onto them.
+    const auto gunmods = target.gunmods();
+    const bool external_stock = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "stock mount" );
+    } );
+
+    if( external_stock ) {
+        return ret_val<bool>::make_failure( _( "You can't saw anything off this." ) );
+    }
+
+    // Don't allow trying to stack stock mods.
+    const bool modified_stock = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "stock" );
+    } );
+
+    if( modified_stock ) {
+        return ret_val<bool>::make_failure( _( "Can't cut off modified stocks." ) );
+    }
+
+    // Also bail out if there's no unmodified stock to touch at all.
+    if( target.get_free_mod_locations( gunmod_location( "stock" ) ) == 0 ||
+        target.type->gun->skill_used == skill_id( "pistol" ) ) {
+        return ret_val<bool>::make_failure(
+                   _( "This doesn't have a stock." ) );
+    }
+
+    // Stock ideally should be made out of wood.
+    if( !target.made_of( material_id( "wood" ) ) ) {
+        return ret_val<bool>::make_failure(
+                   _( "Can't cut off non-wooden stocks." ) );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+std::unique_ptr<iuse_actor> saw_stock_actor::clone() const
+{
+    return std::make_unique<saw_stock_actor>( *this );
+}
+
 int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( p.can_install_bionics( *it.type, p, false ) ) {
@@ -4369,7 +4459,7 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         !p.has_trait( trait_DEBUG_BIONICS ) ) {
         return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
     } else if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-        if( it.has_fault( fault_bionic_nonsterile ) ) {
+        if( it.has_fault( fault_bionic_nonsterile ) && !p.has_trait( trait_INFRESIST ) ) {
             return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
         } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
             return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
@@ -4422,7 +4512,7 @@ int detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) con
 
     if( prompt.ret >= 0 ) {
         item *gm = mods[ prompt.ret ];
-        p.gunmod_remove( it, *gm );
+        avatar_funcs::gunmod_remove( *p.as_avatar(), it, *gm );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );
     }
@@ -4634,8 +4724,8 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const cata::optional<tripoint> dir = choose_direction( string_format(
-            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
+    const std::optional<tripoint> dir = choose_direction( string_format(
+                                            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
     if( !dir ) {
         return 0;
     }

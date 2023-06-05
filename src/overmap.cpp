@@ -10,6 +10,7 @@
 #include <exception>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <unordered_set>
@@ -39,7 +40,6 @@
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_connection.h"
@@ -1370,10 +1370,10 @@ bool overmap::has_note( const tripoint_om_omt &p ) const
     return false;
 }
 
-cata::optional<int> overmap::has_note_with_danger_radius( const tripoint_om_omt &p ) const
+std::optional<int> overmap::has_note_with_danger_radius( const tripoint_om_omt &p ) const
 {
     if( p.z() < -OVERMAP_DEPTH || p.z() > OVERMAP_HEIGHT ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     for( const om_note &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
@@ -1385,7 +1385,7 @@ cata::optional<int> overmap::has_note_with_danger_radius( const tripoint_om_omt 
             }
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool overmap::is_marked_dangerous( const tripoint_om_omt &p ) const
@@ -1623,7 +1623,7 @@ void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
                         overmap_special_batch &enabled_specials )
 {
-    if( g->gametype() == SGAME_DEFENSE ) {
+    if( g->gametype() == special_game_type::DEFENSE ) {
         dbg( DL::Info ) << "overmap::generate skipped in Defense special game mode!";
         return;
     }
@@ -3392,7 +3392,7 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
                 }
                 generated_lab.push_back( cand );
                 // add new candidates, don't backtrack
-                for( const point &offset : four_adjacent_offsets ) {
+                for( point offset : four_adjacent_offsets ) {
                     const tripoint_om_omt new_cand = cand + offset;
                     const int new_dist = manhattan_dist( p.xy(), new_cand.xy() );
                     if( closed_candidates.count( new_cand ) == 0 && new_dist > dist ) {
@@ -3426,7 +3426,7 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
 
     ter_set( p, labt_core );
     int numstairs = 0;
-    if( s > 0 ) { // Build stairs going down
+    if( s > 0 && p.z() != -OVERMAP_DEPTH ) { // Build stairs going down
         while( !one_in( 6 ) ) {
             tripoint_om_omt stair;
             int tries = 0;
@@ -3460,7 +3460,7 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
         if( endgame_finale ) {
             for( const tripoint_om_omt &c : closest_points_first( p, 2 * s + 1 ) ) {
                 if( is_ot_match( labt.id().str(), ter( c ), ot_match_type::contains ) ) {
-                    for( const point &offset : four_adjacent_offsets ) {
+                    for( point offset : four_adjacent_offsets ) {
                         if( inbounds( c + offset ) && ter( c + offset ) != labt_stairs ) {
                             secondary_candidates.insert( c + offset );
                         }
@@ -3499,7 +3499,7 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
             tries++;
 
             adjacent_labs = 0;
-            for( const point &offset : four_adjacent_offsets ) {
+            for( point offset : four_adjacent_offsets ) {
                 if( is_ot_match( "lab", ter( train + offset ), ot_match_type::contains ) ) {
                     ++adjacent_labs;
                 }
@@ -3512,7 +3512,7 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
         if( tries < 50 ) {
             lab_train_points.push_back( train.xy() ); // possible train depot
             // next is rail connection
-            for( const point &offset : four_adjacent_offsets ) {
+            for( point offset : four_adjacent_offsets ) {
                 if( is_ot_match( "lab", ter( train + offset ), ot_match_type::contains ) ) {
                     lab_train_points.push_back( train.xy() - offset );
                     break;
@@ -3533,7 +3533,7 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
             tries++;
 
             adjacent_labs = 0;
-            for( const point &offset : four_adjacent_offsets ) {
+            for( point offset : four_adjacent_offsets ) {
                 if( is_ot_match( "lab", ter( cell + offset ), ot_match_type::contains ) ) {
                     ++adjacent_labs;
                 }
@@ -3704,7 +3704,7 @@ void overmap::build_mine( const tripoint_om_omt &origin, int s )
     while( built < s ) {
         ter_set( p, mine );
         std::vector<tripoint_om_omt> next;
-        for( const point &offset : four_adjacent_offsets ) {
+        for( point offset : four_adjacent_offsets ) {
             if( ter( p + offset ) == empty_rock ) {
                 next.push_back( p + offset );
             }
@@ -3724,7 +3724,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_connection(
     int z, const bool must_be_unexplored ) const
 {
     const pf::two_node_scoring_fn<point_om_omt> estimate =
-    [&]( pf::directed_node<point_om_omt> cur, cata::optional<pf::directed_node<point_om_omt>> prev ) {
+    [&]( pf::directed_node<point_om_omt> cur, std::optional<pf::directed_node<point_om_omt>> prev ) {
         const auto &id( ter( tripoint_om_omt( cur.pos, z ) ) );
 
         const overmap_connection::subtype *subtype = connection.pick_subtype_for( id );
@@ -3985,7 +3985,7 @@ void overmap::chip_rock( const tripoint_om_omt &p )
     const oter_id rock( "rock" );
     const oter_id empty_rock( "empty_rock" );
 
-    for( const point &offset : four_adjacent_offsets ) {
+    for( point offset : four_adjacent_offsets ) {
         if( ter( p + offset ) == empty_rock ) {
             ter_set( p + offset, rock );
         }
@@ -4147,7 +4147,7 @@ std::string om_direction::name( type dir )
     (0,2)(1,2)(2,2)    (-2,0)(-2,1)(-2,2)    (-2,2)(-1,2)(0,2)
 */
 
-point om_direction::rotate( const point &p, type dir )
+point om_direction::rotate( point p, type dir )
 {
     switch( dir ) {
         case om_direction::type::invalid:
@@ -4580,6 +4580,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         return;
     }
 
+    std::shuffle( enabled_specials.begin(), enabled_specials.end(), rng_get_engine() );
+
     // First, place the mandatory specials to ensure that all minimum instance
     // counts are met.
     place_specials_pass( enabled_specials, sectors, false, false );
@@ -4924,14 +4926,14 @@ shared_ptr_fast<npc> overmap::find_npc( const character_id &id ) const
     return nullptr;
 }
 
-cata::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )
+std::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )
 {
     for( auto &v : camps ) {
         if( v.camp_omt_pos().xy() == p ) {
             return &v;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const
@@ -4992,12 +4994,12 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
 {
     switch( data ) {
         // *INDENT-OFF*
-        case exact: return "EXACT";
-        case type: return "TYPE";
-        case prefix: return "PREFIX";
-        case contains: return "CONTAINS";
+        case ot_match_type::exact: return "EXACT";
+        case ot_match_type::type: return "TYPE";
+        case ot_match_type::prefix: return "PREFIX";
+        case ot_match_type::contains: return "CONTAINS";
         // *INDENT-ON*
-        case num_ot_match_type:
+        case ot_match_type::num_ot_match_type:
             break;
     }
     debugmsg( "Invalid ot_match_type" );

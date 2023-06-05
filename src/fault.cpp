@@ -62,8 +62,8 @@ void fault::load_fault( const JsonObject &jo )
             requirement_data::load_requirement( jo_req, m.requirements );
         }
 
-        optional( jo_method, false, "turns_into", m.turns_into, cata::nullopt );
-        optional( jo_method, false, "also_mends", m.also_mends, cata::nullopt );
+        optional( jo_method, false, "turns_into", m.turns_into, std::nullopt );
+        optional( jo_method, false, "also_mends", m.also_mends, std::nullopt );
 
         f.mending_methods_.emplace( m.id, m );
     }

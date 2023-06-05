@@ -16,6 +16,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -69,7 +70,6 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -334,7 +334,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
 
     std::string msg;
     if( display_all_entries ) {
-        msg = _( "Debug Functions - Using these will cheat not only the game, but yourself.\nYou won't grow.  You won't improve.\nTaking this shortcut will gain you nothing.  Your victory will be hollow.\nNothing will be risked and nothing will be gained." );
+        msg = _( "Debug Functions - Manipulate the fabric of reality!\nYou can use them to fix a bug or test something.\nBe careful, as some of them may potentially break things." );
     } else {
         msg = _( "Debug Functions" );
     }
@@ -379,7 +379,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
 
 void teleport_short()
 {
-    const cata::optional<tripoint> where = g->look_around( true );
+    const std::optional<tripoint> where = g->look_around( true );
     if( !where || *where == g->u.pos() ) {
         return;
     }
@@ -416,7 +416,7 @@ void teleport_overmap( bool specific_coordinates )
         coord.z = coord_strings.size() >= 3 ? std::atoi( coord_strings[2].c_str() ) : 0;
         where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
     } else {
-        const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+        const std::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
         if( !dir_ ) {
             return;
         }
@@ -441,7 +441,7 @@ void spawn_nested_mapgen()
     nest_menu.query();
     const int nest_choice = nest_menu.ret;
     if( nest_choice >= 0 && nest_choice < static_cast<int>( nest_str.size() ) ) {
-        const cata::optional<tripoint> where = g->look_around( true );
+        const std::optional<tripoint> where = g->look_around( true );
         if( !where ) {
             return;
         }
@@ -548,14 +548,14 @@ void character_edit_menu( Character &c )
     enum edit_character {
         pick, desc, skills, stats, items, delete_items, item_worn,
         hp, stamina, morale, pain, needs, healthy, status, mission_add, mission_edit,
-        tele, mutate, npc_class, attitude, opinion, effects,
+        tele, mutate, bionics, npc_class, attitude, opinion, effects,
         learn_ma, unlock_recipes, learn_spells, level_spells
     };
 
     // Maybe TODO: this could actually be static if not for translations
     const std::vector<uilist_entry> static_entries = {{
             uilist_entry( edit_character::pick, true, 'p', _( "[p]ick different character" ) ),
-            uilist_entry( edit_character::desc, true, 'D',  _( "Edit [D]escription - Name, Age, Height" ) ),
+            uilist_entry( edit_character::desc, true, 'D',  _( "Edit [D]escription - Name, Age, Height, Gender" ) ),
             uilist_entry( edit_character::skills, true, 's',  _( "Edit [s]kills" ) ),
             uilist_entry( edit_character::stats, true, 't',  _( "Edit s[t]ats" ) ),
             uilist_entry( edit_character::items, true, 'i',  _( "Grant [i]tems" ) ),
@@ -568,6 +568,7 @@ void character_edit_menu( Character &c )
             uilist_entry( edit_character::healthy, true, 'a',  _( "Set he[a]lth" ) ),
             uilist_entry( edit_character::needs, true, 'n',  _( "Set [n]eeds" ) ),
             uilist_entry( edit_character::mutate, true, 'u',  _( "M[u]tate" ) ),
+            uilist_entry( edit_character::bionics, true, 'b',  _( "Edit [b]ionics" ) ),
             uilist_entry( edit_character::status, true, '@',  _( "Status Window [@]" ) ),
             uilist_entry( edit_character::tele, true, 'e',  _( "t[e]leport" ) ),
             uilist_entry( edit_character::mission_edit, true, 'M',  _( "Edit [M]issions (WARNING: Unstable!)" ) ),
@@ -648,7 +649,7 @@ void character_edit_menu( Character &c )
             }
             p.worn.clear();
             p.inv.clear();
-            p.weapon = item();
+            p.primary_weapon() = item();
             break;
         case edit_character::item_worn: {
             item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
@@ -660,7 +661,7 @@ void character_edit_menu( Character &c )
                 p.on_item_wear( to_wear );
                 p.worn.push_back( to_wear );
             } else if( !to_wear.is_null() ) {
-                p.weapon = to_wear;
+                p.primary_weapon() = to_wear;
             }
         }
         break;
@@ -754,6 +755,10 @@ void character_edit_menu( Character &c )
         }
         break;
         case edit_character::opinion: {
+            if( np == nullptr ) {
+                // HACK: For some reason, tidy is not satisfied with simple assert(np)
+                std::abort();
+            }
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "trust" ), np->op_of_u.trust );
             smenu.addentry( 1, true, 's', "%s: %d", _( "fear" ), np->op_of_u.fear );
@@ -798,16 +803,33 @@ void character_edit_menu( Character &c )
         case edit_character::desc: {
             uilist smenu;
             smenu.text = _( "Select a value and press enter to change it." );
-            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), p.get_name() );
-            smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), p.base_age() );
-            smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), p.base_height() );
+            if( p.is_avatar() ) {
+                smenu.addentry( 0, true, 's', "%s: %s", _( "Current save file name" ), get_avatar().get_save_id() );
+            }
+            smenu.addentry( 1, true, 'n', "%s: %s", _( "Current pre-Cataclysm name" ), p.name );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Current age" ), p.base_age() );
+            smenu.addentry( 3, true, 'h', "%s: %d", _( "Current height in cm" ), p.base_height() );
+            smenu.addentry( 4, true, 'h', "%s: %s", _( "Current gender" ),
+                            p.male ? _( "Male" ) : _( "Female" ) );
             smenu.query();
             switch( smenu.ret ) {
                 case 0: {
+                    std::string buf = get_avatar().get_save_id();
+                    string_input_popup popup;
+                    popup
+                    .title( _( "Rename save file (WARNING: this will duplicate the save):" ) )
+                    .width( 85 )
+                    .edit( buf );
+                    if( popup.confirmed() ) {
+                        get_avatar().set_save_id( buf );
+                    }
+                }
+                break;
+                case 1: {
                     std::string buf = p.name;
                     string_input_popup popup;
                     popup
-                    .title( _( "Rename:" ) )
+                    .title( _( "Rename character:" ) )
                     .width( 85 )
                     .edit( buf );
                     if( popup.confirmed() ) {
@@ -815,7 +837,7 @@ void character_edit_menu( Character &c )
                     }
                 }
                 break;
-                case 1: {
+                case 2: {
                     string_input_popup popup;
                     popup
                     .title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
@@ -827,7 +849,7 @@ void character_edit_menu( Character &c )
                     }
                 }
                 break;
-                case 2: {
+                case 3: {
                     string_input_popup popup;
                     popup
                     .title( _( "Enter height in centimeters.  Minimum 145, maximum 200" ) )
@@ -837,6 +859,10 @@ void character_edit_menu( Character &c )
                     if( result != 0 ) {
                         p.set_base_height( clamp( result, 145, 200 ) );
                     }
+                }
+                break;
+                case 4: {
+                    p.male = !p.male;
                 }
                 break;
             }
@@ -912,6 +938,9 @@ void character_edit_menu( Character &c )
         case edit_character::mutate:
             wishmutate( &p );
             break;
+        case edit_character::bionics:
+            wishbionics( *p.as_character() );
+            break;
         case edit_character::healthy: {
             uilist smenu;
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
@@ -963,7 +992,7 @@ void character_edit_menu( Character &c )
             mission_debug::edit( p );
             break;
         case edit_character::tele: {
-            if( const cata::optional<tripoint> newpos = g->look_around( true ) ) {
+            if( const std::optional<tripoint> newpos = g->look_around( true ) ) {
                 p.setpos( *newpos );
                 if( p.is_player() ) {
                     if( p.is_mounted() ) {
@@ -1374,7 +1403,6 @@ void debug()
 
         case DEBUG_SPAWN_NPC: {
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
-            temp->normalize();
             temp->randomize();
             temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, u.pos() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );
@@ -1393,7 +1421,7 @@ void debug()
         break;
 
         case DEBUG_SPAWN_MON:
-            debug_menu::wishmonster( cata::nullopt );
+            debug_menu::wishmonster( std::nullopt );
             break;
 
         case DEBUG_GAME_STATE: {
@@ -1539,7 +1567,7 @@ void debug()
             break;
 
         case DEBUG_SPAWN_ARTIFACT:
-            if( const cata::optional<tripoint> center = g->look_around( true ) ) {
+            if( const std::optional<tripoint> center = g->look_around( true ) ) {
                 artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 m.create_anomaly( *center, prop );
@@ -1590,7 +1618,7 @@ void debug()
             }
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
-                weather.wind_direction_override = cata::nullopt;
+                weather.wind_direction_override = std::nullopt;
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
                 weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
                 weather.set_nextweather( calendar::turn );
@@ -1612,7 +1640,7 @@ void debug()
             }
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
-                weather.windspeed_override = cata::nullopt;
+                weather.windspeed_override = std::nullopt;
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
                 weather.windspeed_override = selected_wind_speed;
@@ -1622,7 +1650,7 @@ void debug()
         break;
 
         case DEBUG_GEN_SOUND: {
-            const cata::optional<tripoint> where = g->look_around( true );
+            const std::optional<tripoint> where = g->look_around( true );
             if( !where ) {
                 return;
             }

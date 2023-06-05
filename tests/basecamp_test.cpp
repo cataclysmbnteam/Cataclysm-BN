@@ -55,20 +55,21 @@ TEST_CASE( "distribute_food" )
     constexpr tripoint origin( 60, 60, 0 );
     constexpr tripoint thirty_steps_rd = tripoint( 30, 30, 0 );
     g->u.setpos( origin );
+    const tripoint origin_abs = get_map().getabs( origin );
     const tripoint_abs_omt omt_pos = g->u.global_omt_location();
     g->m.add_camp( omt_pos, "faction_camp_for_distribute" );
     basecamp *bcp = overmap_buffer.find_camp( omt_pos.xy() ).value();
-    bcp->set_bb_pos( origin + tripoint_east );
+    bcp->set_bb_pos( origin_abs + tripoint_east );
     zone_manager &zmgr = zone_manager::get_manager();
     const faction *yours = g->u.get_faction();
     zmgr.add( "Zone for dumping food", zone_type_id( "CAMP_FOOD" ),
               g->u.get_faction()->id, false, true,
-              origin - thirty_steps_rd,
-              origin + thirty_steps_rd );
+              origin_abs - thirty_steps_rd,
+              origin_abs + thirty_steps_rd );
     zmgr.add( "Storage zone", zone_type_id( "CAMP_STORAGE" ),
               g->u.get_faction()->id, false, true,
-              origin - thirty_steps_rd,
-              origin + thirty_steps_rd );
+              origin_abs - thirty_steps_rd,
+              origin_abs + thirty_steps_rd );
 
     calendar::turn = calendar::turn_zero + 365_days * 5;
 
@@ -79,7 +80,7 @@ TEST_CASE( "distribute_food" )
         g->m.add_item_or_charges( origin, make_food( meat_cooked_id, 2, canned_status::without_can, false ),
                                   false );
         bcp->distribute_food();
-        CHECK( yours->food_supply - previous_kcal == rounded_int( 0.6 * 2 * kcal_in_meat ) );
+        CHECK( yours->food_supply - previous_kcal == rounded_int( 1.6 * kcal_in_meat ) );
         CHECK( g->m.i_at( origin ).empty() );
     }
 
@@ -132,7 +133,7 @@ TEST_CASE( "distribute_food" )
                                   false ),
                                   false );
         bcp->distribute_food();
-        CHECK( yours->food_supply - previous_kcal == rounded_int( 10 * kcal_in_meat * 0.6 ) );
+        CHECK( yours->food_supply - previous_kcal == rounded_int( 8 * kcal_in_meat ) );
         const map_stack stack = g->m.i_at( origin );
         CHECK( stack.size() == 1 );
         CHECK( std::all_of( stack.begin(), stack.end(),

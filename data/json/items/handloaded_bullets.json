@@ -36,6 +36,7 @@
     "ammo_type": "blunderbuss",
     "damage": { "damage_type": "bullet", "amount": 55, "armor_multiplier": 1.5 },
     "range": 6,
+    "dispersion": 1000,
     "recoil": 780,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]
   },
@@ -56,6 +57,7 @@
     "//": "Balanced as standard FMJ to allow lower damage but more penetration over shot.",
     "damage": { "damage_type": "bullet", "amount": 44, "armor_penetration": 24, "armor_multiplier": 1.5 },
     "range": 10,
+    "dispersion": 1000,
     "recoil": 840,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]
   }

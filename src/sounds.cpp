@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <system_error>
@@ -31,7 +32,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "player_activity.h"
@@ -1001,9 +1001,8 @@ void sfx::do_ambient()
 }
 
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
-// gunmod. p is the character that is firing, this may be a pseudo-character (used by monattack/
-// vehicle turrets) or a NPC.
-void sfx::generate_gun_sound( const player &source_arg, const item &firing )
+// gunmod.
+void sfx::generate_gun_sound( const tripoint &source, const item &firing )
 {
     if( test_mode ) {
         return;
@@ -1014,7 +1013,6 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() < 80 ) {
         return;
     }
-    const tripoint source = source_arg.pos();
     int heard_volume = get_heard_volume( source );
     if( heard_volume <= 30 ) {
         heard_volume = 30;
@@ -1120,8 +1118,8 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
         vol_targ = std::max( heard_volume - 20, 0 );
     }
     ang_targ = get_heard_angle( target );
-    weapon_skill = p->weapon.melee_skill();
-    weapon_volume = p->weapon.volume() / units::legacy_volume_factor;
+    weapon_skill = p->primary_weapon().melee_skill();
+    weapon_volume = p->primary_weapon().volume() / units::legacy_volume_factor;
 }
 
 // Operator overload required for thread API.
@@ -1603,7 +1601,7 @@ void sfx::play_ambient_variant_sound( const std::string &, const std::string &, 
                                       double, int ) { }
 void sfx::play_activity_sound( const std::string &, const std::string &, int ) { }
 void sfx::end_activity_sounds() { }
-void sfx::generate_gun_sound( const player &, const item & ) { }
+void sfx::generate_gun_sound( const tripoint &, const item & ) { }
 void sfx::generate_melee_sound( const tripoint &, const tripoint &, bool, bool,
                                 const std::string & ) { }
 void sfx::do_hearing_loss( int ) { }

@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -20,7 +21,6 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "numeric_interval.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_helpers.h"
@@ -58,7 +58,6 @@ static void test_needs( const npc &who, const numeric_interval<int> &kcal_lost,
 static npc create_model()
 {
     npc model_npc;
-    model_npc.normalize();
     model_npc.randomize( NC_NONE );
     for( const trait_id &tr : model_npc.get_mutations() ) {
         model_npc.unset_mutation( tr );
@@ -366,7 +365,6 @@ TEST_CASE( "npc-movement" )
 
                 shared_ptr_fast<npc> guy = make_shared_fast<npc>();
                 do {
-                    guy->normalize();
                     guy->randomize();
                     // Repeat until we get an NPC vulnerable to acid
                 } while( guy->is_immune_field( fd_acid ) );
@@ -378,7 +376,7 @@ TEST_CASE( "npc-movement" )
                 // This prevents npcs occasionally teleporting away
                 guy->assign_activity( activity_id( "ACT_MEDITATE" ) );
                 //Sometimes they spawn with sledge hammers and bash down the walls
-                guy->weapon = item( "null", calendar::start_of_cataclysm );;
+                guy->primary_weapon() = item( "null", calendar::start_of_cataclysm );;
                 overmap_buffer.insert_npc( guy );
                 g->load_npcs();
                 guy->set_attitude( ( type == 'M' || type == 'C' ) ? NPCATT_NULL : NPCATT_FOLLOW );
@@ -476,7 +474,6 @@ TEST_CASE( "npc_move_through_vehicle_holes" )
     tripoint mon_origin = origin + tripoint( -2, 1, 0 );
 
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
-    guy->normalize();
     guy->randomize();
     guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, mon_origin );
 

@@ -17,7 +17,6 @@
     "price_postapoc": 600,
     "material": "wheat",
     "volume": "1 L",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 12,
     "vitamins": [ [ "vitC", 7 ], [ "calcium", 2 ], [ "iron", 9 ] ],
     "fun": 8
@@ -39,9 +38,30 @@
     "material": "wheat",
     "milling": { "into": "flour", "conversion_rate": 15 },
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "RAW" ],
     "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ] ],
     "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "porridge_cooked",
+    "looks_like": "buckwheat_cooked",
+    "name": { "str_sp": "boiled grain" },
+    "spoils_in": "20 days",
+    "weight": "260 g",
+    "color": "brown",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 1,
+    "calories": 705,
+    "description": "Whole wheat or barley kernels that have been boiled in water.  Very bland on their own, but will do if you can't prepare them in a different way.",
+    "price": 20,
+    "price_postapoc": 100,
+    "material": [ "wheat" ],
+    "volume": "250 ml",
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "calcium", 5 ], [ "iron", 34 ] ],
+    "fun": -1
   },
   {
     "type": "COMESTIBLE",
@@ -59,7 +79,7 @@
     "price_postapoc": 100,
     "material": "wheat",
     "volume": "62 ml",
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "RAW" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
     "fun": -8
   },
@@ -79,7 +99,7 @@
     "price_postapoc": 100,
     "material": "wheat",
     "volume": "62 ml",
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "RAW" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
     "fun": -8
   },
@@ -118,7 +138,7 @@
     "price": 150,
     "price_postapoc": 100,
     "material": "wheat",
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "RAW" ],
     "volume": "62 ml",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
     "fun": -6
@@ -161,7 +181,7 @@
     "price_postapoc": 100,
     "material": [ "wheat", "powder" ],
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "RAW" ],
     "charges": 10,
     "vitamins": [ [ "iron", 3 ] ],
     "fun": -5
@@ -183,7 +203,7 @@
     "material": "wheat",
     "volume": "250 ml",
     "cooks_like": "oatmeal_cooked",
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ],
     "charges": 16,
     "vitamins": [ [ "iron", 2 ] ],
     "fun": -2
@@ -205,7 +225,7 @@
     "material": "wheat",
     "volume": "250 ml",
     "milling": { "into": "flour", "conversion_rate": 4 },
-    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "flags": [ "RAW" ],
     "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
     "fun": -10
   },
@@ -366,7 +386,6 @@
     "price_postapoc": 600,
     "material": "wheat",
     "volume": "1 L",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 8,
     "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],
     "fun": 2
@@ -436,7 +455,6 @@
     "material": [ "wheat", "fruit" ],
     "primary_material": "wheat",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ] ],
     "fun": 3
@@ -481,9 +499,8 @@
     "price": 200,
     "price_postapoc": 100,
     "material": "wheat",
-    "volume": "500 ml",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ] ],
-    "flags": [ "EDIBLE_FROZEN" ]
+    "volume": "250 ml",
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ] ]
   },
   {
     "type": "COMESTIBLE",

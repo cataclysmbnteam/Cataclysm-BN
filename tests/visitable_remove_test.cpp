@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <list>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -16,7 +17,6 @@
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "player.h"
 #include "point.h"
 #include "rng.h"
@@ -79,7 +79,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     }
 
     item temp_liquid( liquid_id );
-    item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( "null" ) );
+    item obj =
+        temp_liquid.in_container( temp_liquid.type->default_container.value_or( itype_id::NULL_ID() ) );
     REQUIRE( obj.contents.num_item_stacks() == 1 );
     REQUIRE( obj.contents.front().typeId() == liquid_id );
 
@@ -146,7 +147,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
         WHEN( "one of the bottles is wielded" ) {
             p.wield( p.i_at( 0 ) );
-            REQUIRE( p.weapon.typeId() == container_id );
+            REQUIRE( p.primary_weapon().typeId() == container_id );
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count );
 
@@ -162,7 +163,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     REQUIRE( count_items( p, liquid_id ) == 0 );
                 }
                 THEN( "there is no currently wielded item" ) {
-                    REQUIRE( p.weapon.is_null() );
+                    REQUIRE( p.primary_weapon().is_null() );
                 }
                 THEN( "the correct number of items were removed" ) {
                     REQUIRE( del.size() == count );
@@ -188,11 +189,11 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 THEN( "there is only one bottle remaining in the players possession" ) {
                     REQUIRE( count_items( p, container_id ) == 1 );
                     AND_THEN( "the remaining bottle is currently wielded" ) {
-                        REQUIRE( p.weapon.typeId() == container_id );
+                        REQUIRE( p.primary_weapon().typeId() == container_id );
 
                         AND_THEN( "the remaining water is contained by the currently wielded bottle" ) {
-                            REQUIRE( p.weapon.contents.num_item_stacks() == 1 );
-                            REQUIRE( p.weapon.contents.front().typeId() == liquid_id );
+                            REQUIRE( p.primary_weapon().contents.num_item_stacks() == 1 );
+                            REQUIRE( p.primary_weapon().contents.front().typeId() == liquid_id );
                         }
                     }
                 }
@@ -421,7 +422,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             return static_cast<bool>( g->m.veh_at( e ) );
         } ) == 1 );
 
-        const cata::optional<vpart_reference> vp = g->m.veh_at( veh ).part_with_feature( "CARGO", true );
+        const std::optional<vpart_reference> vp = g->m.veh_at( veh ).part_with_feature( "CARGO", true );
         REQUIRE( vp );
         vehicle *const v = &vp->vehicle();
         const int part = vp->part_index();

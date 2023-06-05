@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 
 #include "cata_utility.h"
@@ -11,7 +12,6 @@
 #include "cursesdef.h"
 #include "fstream_utils.h"
 #include "input.h"
-#include "optional.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
@@ -101,7 +101,7 @@ void sokoban_game::parse_level( std::istream &fin )
     }
 }
 
-int sokoban_game::get_wall_connection( const point &i )
+int sokoban_game::get_wall_connection( point i )
 {
     bool bTop = false;
     bool bRight = false;
@@ -301,7 +301,7 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             dir = vec->xy();
             bMoved = true;
         } else if( action == "QUIT" ) {

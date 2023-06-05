@@ -600,8 +600,7 @@
     "symbol": "I",
     "color": "green",
     "seals": true,
-    "watertight": true,
-    "insulation": 10
+    "watertight": true
   },
   {
     "id": "clay_canister",
@@ -935,7 +934,7 @@
     "category": "container",
     "name": { "str": "gallon jug" },
     "description": "A standard plastic jug used for milk and household cleaning chemicals.",
-    "weight": "190 g",
+    "weight": "19 g",
     "volume": "3750 ml",
     "price": 0,
     "price_postapoc": 10,
@@ -973,7 +972,7 @@
     "category": "container",
     "name": { "str": "steel keg" },
     "description": "A reusable heavy steel keg, used for shipping beer.  It has a capacity of 50 liters.",
-    "weight": "12600 g",
+    "weight": "9000 g",
     "volume": "50 L",
     "price": 8000,
     "price_postapoc": 250,
@@ -1159,7 +1158,7 @@
     "category": "container",
     "name": { "str": "wooden barrel" },
     "description": "Traditionally made of white oak; these vessels are known for delivering delicious whiskey to the future.  It has a capacity of 100 liters.",
-    "weight": "42408 g",
+    "weight": "60000 g",
     "volume": "100 L",
     "price": 12000,
     "price_postapoc": 250,

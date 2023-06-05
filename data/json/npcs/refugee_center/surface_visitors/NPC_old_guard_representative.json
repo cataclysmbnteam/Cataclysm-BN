@@ -231,6 +231,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_REP_5",
     "dialogue": {
       "describe": "We need help…",
       "offer": "I've located a Hell's Raiders encampment in the region that appears to be coordinating operations against the Free Merchants.  We know almost nothing about the command structure in the 'gang' so I need to send someone in to decapitate the leadership.  The raid will be held under orders of the U.S. Marshals Service and by agreeing to the mission you will become a marshal, swearing to assist the federal government in regaining order.",
@@ -238,7 +239,33 @@
       "rejected": "Come back when you get a chance, we could use a few good men.",
       "advice": "I'd recommend having two deputies… it would be a death trap if a single man got surrounded.",
       "inquire": "Has the leadership been dealt with?",
-      "success": "Marshal, you continue to impress us.  If you are interested, I recently received a message that a unit was deploying into our AO.  I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.  The bird dropped them off next to a pump station.  Can't tell you much more.  If you could locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.  Thank you once again marshal.",
+      "success": "Marshal, you continue to impress us.  With their leadership broken it will be easier to establish a foothold in the area, secure resources for rebuilding.  I've been keeping Command informed and while there is certainly a lot you could do to help here, they might have missions for me to offer you that will take you farther afield.  In any case, thank you once again marshal.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REP_5",
+    "type": "mission_definition",
+    "name": { "str": "Link Up With Vault Expedition" },
+    "description": "Find the team securing an installation under a city, return with the captain's report on the location.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 8,
+    "value": 200000,
+    "item": "necropolis_datasheet",
+    "start": {
+      "assign_mission_target": { "om_terrain": "necropolis_a_29", "om_special": "Necropolis", "reveal_radius": 5, "search_range": 360 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
+    "dialogue": {
+      "describe": "We need help…",
+      "offer": "If you are interested, I recently received a message that a unit was deploying into our AO.  I've been informed of an underground facility they're attempting to secure, and they may require assistance.  The bird dropped them off next to a pump station.  Not much more I can tell you.  We've had difficulty keeping in contact with them, so command has requested you give us a status report when you return.  If you could locate the captain in charge, I'm sure he could use your skills.",
+      "accepted": "It's a small urban center with a fortified vault underneath it.  The sewage network most likely contains access tunnels to enter the facility itself, and if they're going to actually get any use out of the place they'll likely focus their efforts on any communications hub or command-and-control systems inside.  We last heard contact from them shortly before they ventured underground, if they are still alive the lack of radio silence means they probably got tied up trying to get comms online.  If you can, get a full sit-rep from their commanding officer.",
+      "rejected": "Come back when you get a chance, we need someone with experience like you.",
+      "advice": "That place had to have been staffed when this started, so if they had to try and re-take it you should expect trouble of some sort.  They last reports also mentioned damage from what might be artillery or some other ordinance, so infrastructure on the surface might be damaged.  Might even be contaminated, the conditions are currently an unknown at present.",
+      "inquire": "What do you have for me?",
+      "success": "Great, I'll work on sending word to my superiors about this.  I'm going to guess it was a mess down there, but hopefully their report will tell us more about what's still functional and could be brought back online.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     }
