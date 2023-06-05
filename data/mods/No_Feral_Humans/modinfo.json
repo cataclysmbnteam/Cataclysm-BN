@@ -35,6 +35,6 @@
   {
     "type": "SCENARIO_BLACKLIST",
     "subtype": "whitelist",
-    "scenarios": [ "assassination" ]
+    "scenarios": [ "assassination", "player_feral" ]
   }
 ]
