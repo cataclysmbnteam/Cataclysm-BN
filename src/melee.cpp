@@ -2254,8 +2254,8 @@ int Character::attack_cost( const item &weap ) const
                                 skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
-    /** @EFFECT_DEX above 8 increases attack speed */
-    const float dexbonus = 2.0f / std::max( 8, dex_cur );
+    /** @EFFECT_DEX increases attack speed */
+    const int dexbonus = dex_cur;
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
@@ -2270,8 +2270,7 @@ int Character::attack_cost( const item &weap ) const
     move_cost += encumbrance_penalty;
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
-    // Trend towards 0.75x as dex exceeds 8
-    move_cost *= ( 0.75f + dexbonus );
+    move_cost -= dexbonus;
 
     move_cost += bonus_from_enchantments( move_cost, enchant_vals::mod::ATTACK_COST, true );
 
