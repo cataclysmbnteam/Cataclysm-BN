@@ -185,8 +185,6 @@
   },
   {
     "id": "shield_buckler",
-    "copy-from": "shield_banded",
-    "looks_like": "shield_banded",
     "type": "ARMOR",
     "name": { "str": "buckler" },
     "description": "A small metal shield historically used for dueling rather than protection from arrows.  It's small and light enough to not hinder the use of your hands.",
@@ -194,11 +192,16 @@
     "weight": "1400 g",
     "price": "120 USD",
     "price_postapoc": "10 USD",
+    "bashing": 8,
     "material": [ "steel" ],
-    "to_hit": 0,
+    "looks_like": "shield_banded",
+    "symbol": "[",
+    "color": "blue",
     "covers": [ "arm_either" ],
     "coverage": 50,
     "encumbrance": 10,
+    "material_thickness": 3,
+    "techniques": [ "WBLOCK_2" ],
     "flags": [ "OVERSIZE", "BELTED", "ONLY_ONE", "BLOCK_WHILE_WORN", "STURDY" ]
   },
   {
