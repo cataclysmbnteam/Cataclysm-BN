@@ -487,11 +487,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "welding_standard", 6 ], [ "sewing_standard", 12 ] ],
-    "qualities": [
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "DRILL", "level": 2 }
-    ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "components": [ [ [ "material_aluminium_ingot", 8 ] ], [ [ "sheet", 1 ] ] ]
   }
 ]
