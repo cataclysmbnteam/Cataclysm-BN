@@ -2458,7 +2458,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::GUNMOD_USEDON ) ) {
-        std::string used_on_str = _( "Used on:" );
+        std::string used_on_str = _( "<bold>Used on:</bold>" );
 
         if( !mod.usable.empty() ) {
             used_on_str += _( "\n  Specific: " ) + enumerate_as_string( mod.usable.begin(),
@@ -2468,14 +2468,15 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( !mod.usable_category.empty() ) {
-            used_on_str += _( "\n  Category:" );
+            used_on_str += _( "\n  Category: " );
             std::vector<std::string> combination;
             for( const std::unordered_set<weapon_category_id> &catgroup : mod.usable_category ) {
-                combination.emplace_back( ( " [ " ) + enumerate_as_string( catgroup.begin(),
+                combination.emplace_back( ( "[" ) + enumerate_as_string( catgroup.begin(),
                 catgroup.end(), []( const weapon_category_id & wcid ) {
                     return string_format( "<info>%s</info>", wcid->name().translated() );
-                }, enumeration_conjunction::none ) + ( " ]" ) );
+                }, enumeration_conjunction::none ) + ( "]" ) );
             }
+            used_on_str += enumerate_as_string( combination, enumeration_conjunction::or_ );
         }
 
         info.push_back( iteminfo( "GUNMOD", used_on_str ) );
