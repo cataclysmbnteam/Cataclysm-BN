@@ -217,8 +217,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  To-hit bonus: <color_c_yellow>+0</color>\n"
             "Moves per attack: <color_c_yellow>65</color>\n"
             "Typical damage per second:\n"
-            "Best: <color_c_yellow>4.60</color>"
-            "  Vs. Agile: <color_c_yellow>2.31</color>"
+            "Best: <color_c_yellow>5.25</color>"
+            "  Vs. Agile: <color_c_yellow>2.63</color>"
             "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
 
