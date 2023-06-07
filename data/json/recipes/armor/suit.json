@@ -195,7 +195,11 @@
     "time": "28 m",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
     "using": [ [ "sewing_standard", 26 ] ],
-    "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "armor_larmor", 1 ] ], [ [ "armguard_larmor", 1 ] ] ]
+    "components": [
+      [ [ "steel_chunk", 6 ], [ "scrap", 18 ], [ "sheet_metal_small", 6 ] ],
+      [ [ "armor_larmor", 1 ] ],
+      [ [ "armguard_larmor", 1 ] ]
+    ]
   },
   {
     "result": "armor_plate",
@@ -258,7 +262,7 @@
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 170 ] ] ]
+    "components": [ [ [ "scrap", 170 ], [ "sheet_metal_small", 34 ] ] ]
   },
   {
     "result": "armor_scrapsuit",
@@ -952,6 +956,6 @@
     "time": "2 h",
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "sewing_standard", 36 ] ],
-    "components": [ [ [ "lycra_patch", 34 ] ] ]
+    "components": [ [ [ "nylon", 34 ] ] ]
   }
 ]

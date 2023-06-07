@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_UNITS_MASS_H
 #define CATA_SRC_UNITS_MASS_H
 
+#include <cstdint>
 #include <algorithm>
 
 #include "units_def.h"

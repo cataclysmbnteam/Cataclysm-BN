@@ -782,7 +782,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             impact.mult_damage( 1.0f / dmg_ratio );
         }
     }
-
+    // If we have a shield, it might passively block ranged impacts
+    block_ranged_hit( source, bp_hit, impact );
     dealt_dam = deal_damage( source, bp_hit, impact );
     dealt_dam.bp_hit = bp_hit->token;
 

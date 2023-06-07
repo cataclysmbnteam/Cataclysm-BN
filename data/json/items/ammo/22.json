@@ -43,7 +43,8 @@
     "count": 100,
     "price_postapoc": 400,
     "dispersion": 0,
-    "relative": { "range": -9 },
+    "range": 0,
+    "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "proportional": { "recoil": 0.334 },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
   },

@@ -236,7 +236,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "lycra_patch", 10 ] ] ]
+    "components": [ [ [ "nylon", 10 ] ] ]
   },
   {
     "result": "legguard_hard",
@@ -275,9 +275,9 @@
     "time": "45 m",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "cordage", 4 ], [ "steel_tiny", 4 ] ],
+    "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ] ]
+    "components": [ [ [ "fur", 6 ], [ "leather", 6 ] ], [ [ "steel_tiny", 4, "LIST" ], [ "sheet_metal_small", 4 ] ] ]
   },
   {
     "result": "legguard_paper",
@@ -302,7 +302,7 @@
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 60 ] ] ]
+    "components": [ [ [ "scrap", 60 ], [ "sheet_metal_small", 12 ] ] ]
   },
   {
     "result": "loincloth",
@@ -593,7 +593,7 @@
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "lycra_patch", 5 ] ] ]
+    "components": [ [ [ "nylon", 5 ] ] ]
   },
   {
     "result": "chainmail_legs",

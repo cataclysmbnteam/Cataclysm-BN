@@ -35,6 +35,7 @@
       "r": "f_rack",
       "x": "f_region_flower_decorative",
       "z": "f_crate_c",
+      "(": "f_cupboard",
       "{": "f_rubble",
       "t": "f_toilet",
       "u": "f_barricade_road"
@@ -119,10 +120,23 @@
       "x": "t_region_groundcover_urban",
       "y": "t_window_boarded",
       "z": "t_sidewalk",
+      "(": "t_floor",
       "{": "t_floor",
       "|": "t_wall",
       "}": "t_manhole_cover",
       "U": "t_sidewalk"
+    },
+    "toilets": { "t": {  } },
+    "items": {
+      "(": { "item": "pantry", "chance": 50, "repeat": 3 },
+      "@": { "item": "bed", "chance": 50, "repeat": 2 },
+      ".": { "item": "field", "chance": 1 },
+      "D": { "item": "floor_trash", "chance": 90, "repeat": 3 },
+      "O": { "item": "oven", "chance": 50, "repeat": 2 },
+      "d": { "item": "dresser", "chance": 50, "repeat": 3 },
+      "f": { "item": "SUS_fridge", "chance": 80 },
+      "k": { "item": "office", "chance": 75, "repeat": 2 },
+      "o": { "item": "homebooks", "chance": 50, "repeat": 2 }
     }
   }
 ]

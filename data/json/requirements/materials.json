@@ -3,13 +3,19 @@
     "id": "adhesive",
     "type": "requirement",
     "//": "Materials used for joining (typically non-metallic) parts",
-    "components": [ [ [ "duct_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
     "components": [ [ [ "lead", 1 ] ] ]
+  },
+  {
+    "id": "chem_lye",
+    "type": "requirement",
+    "//": "Comparable ratios of liquid lye and lye powder.",
+    "components": [ [ [ "lye", 1 ], [ "lye_powder", 30 ] ] ]
   },
   {
     "id": "copper_scrap_equivalent",
@@ -69,13 +75,13 @@
     "id": "fabric_standard",
     "type": "requirement",
     "//": "Materials used for crafting or repairing clothing or sheeting, etc.",
-    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
   },
   {
     "id": "fabric_standard_permeable",
     "type": "requirement",
     "//": "Materials used for crafting or repairing woven fabrics",
-    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
   },
   {
     "id": "fabric_standard_nostretch",
@@ -117,7 +123,7 @@
     "id": "rope_natural_short",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "rope_superior",
@@ -129,7 +135,7 @@
     "id": "rope_superior_short",
     "type": "requirement",
     "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "steel_standard",
@@ -157,6 +163,7 @@
       [
         [ "feather", 10 ],
         [ "duct_tape", 40 ],
+        [ "medical_tape", 40 ],
         [ "cardboard", 10 ],
         [ "bag_plastic", 1 ],
         [ "bottle_plastic_small", 1 ],

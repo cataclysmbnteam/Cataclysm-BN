@@ -589,7 +589,7 @@ class atm_menu
             int pos = u.inv.position_by_type( itype_cash_card );
             item *dst;
             if( pos == INT_MIN ) {
-                dst = &u.weapon;
+                dst = &u.primary_weapon();
             } else {
                 dst = &u.i_at( pos );
             }
@@ -795,7 +795,9 @@ void iexamine::vending( player &p, const tripoint &examp )
         //12      34
         const std::string name = utf8_truncate( cur_item->display_name(),
                                                 static_cast<size_t>( w_info_w - 4 ) );
-        mvwprintw( w_item_info, point_east, "<%s>", name );
+
+        const auto cost = format_money( cur_item->price( false ) );
+        mvwprintw( w_item_info, point_east, "<%s> %s", name, cost );
         wnoutrefresh( w_item_info );
     } );
 
