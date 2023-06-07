@@ -174,9 +174,9 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  To-hit bonus: <color_c_yellow>-2</color>\n"
             "Moves per attack: <color_c_yellow>79</color>\n"
             "Typical damage per second:\n"
-            "Best: <color_c_yellow>4.92</color>"
-            "  Vs. Agile: <color_c_yellow>2.05</color>"
-            "  Vs. Armored: <color_c_yellow>0.15</color>\n" );
+            "Best: <color_c_yellow>5.20</color>"
+            "  Vs. Agile: <color_c_yellow>2.16</color>"
+            "  Vs. Armored: <color_c_yellow>0.16</color>\n" );
     }
 
     SECTION( "bash and cut damage" ) {
@@ -188,9 +188,9 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  To-hit bonus: <color_c_yellow>+2</color>\n"
             "Moves per attack: <color_c_yellow>145</color>\n"
             "Typical damage per second:\n"
-            "Best: <color_c_yellow>9.38</color>"
-            "  Vs. Agile: <color_c_yellow>5.74</color>"
-            "  Vs. Armored: <color_c_yellow>2.84</color>\n" );
+            "Best: <color_c_yellow>9.65</color>"
+            "  Vs. Agile: <color_c_yellow>5.91</color>"
+            "  Vs. Armored: <color_c_yellow>2.92</color>\n" );
     }
 
     SECTION( "bash and pierce damage" ) {
@@ -202,8 +202,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  To-hit bonus: <color_c_yellow>+0</color>\n"
             "Moves per attack: <color_c_yellow>100</color>\n"
             "Typical damage per second:\n"
-            "Best: <color_c_yellow>9.21</color>"
-            "  Vs. Agile: <color_c_yellow>4.77</color>"
+            "Best: <color_c_yellow>9.61</color>"
+            "  Vs. Agile: <color_c_yellow>4.97</color>"
             "  Vs. Armored: <color_c_yellow>0.17</color>\n"
         );
     }
