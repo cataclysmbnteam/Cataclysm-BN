@@ -29,7 +29,7 @@
     "copy-from": "debug_mon",
     "name": { "str": "menacing debug monster" },
     "description": "This monster exists only for testing purposes.  It's threatening enough to warrant bullets from NPCs",
-    "diff": 20
+    "diff": 1
   },
   {
     "id": "mon_dragon_dummy",
