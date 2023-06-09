@@ -242,6 +242,9 @@ class body_part_set
         void set( const body_part &bp ) {
             parts.set( bp );
         }
+        void reset() {
+            parts.reset();
+        }
         void reset( const body_part &bp ) {
             parts.reset( bp );
         }
