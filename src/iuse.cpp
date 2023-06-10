@@ -5842,7 +5842,7 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::gun_clean( player *p, item *, bool, const tripoint &pos )
+int iuse::gun_clean( player *p, item *, bool, const tripoint & )
 {
     item_location loc = game_menus::inv::titled_menu( g->u, ( "Select the firearm to clean or mend" ) );
     if( !loc ) {
