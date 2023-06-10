@@ -1698,7 +1698,8 @@
     "price_postapoc": 50,
     "material": [ "steel", "cotton" ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "use_action": "GUN_CLEAN"
   },
   {
     "type": "GENERIC",
