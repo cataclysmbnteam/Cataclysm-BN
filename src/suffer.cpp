@@ -1926,9 +1926,9 @@ void Character::apply_wetness_morale( int temperature )
         }
 
         // For an unmutated human swimming in deep water, this will add up to:
-        // +12 when hot in 100% water friendly clothing
-        // -26 when cold/hot in 100% unfriendly clothing
-        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 8.0 );
+        // +26 when hot in 100% water friendly clothing
+        // -52 when cold/hot in 100% unfriendly clothing
+        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 4.0 );
     }
 
     if( total_morale == 0 ) {
