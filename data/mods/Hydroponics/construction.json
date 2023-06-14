@@ -21,7 +21,7 @@
       [ [ "water", 100 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_hydroponics"
+    "post_furniture": "f_hydroponics"
   },
   {
     "type": "construction",
@@ -40,6 +40,6 @@
       [ [ "power_supply", 1 ] ]
     ],
     "pre_special": "check_empty",
-    "post_terrain": "f_hydro_heater"
+    "post_furniture": "f_hydro_heater"
   }
 ]
