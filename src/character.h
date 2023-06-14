@@ -2277,9 +2277,6 @@ class Character : public Creature, public visitable<Character>
         safe_reference_anchor anchor;
 
     protected:
-        // a cache of all active enchantment values.
-        // is recalculated every turn in Character::recalculate_enchantment_cache
-        pimpl<enchantment> enchantment_cache;
 
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point_abs_omt, time_duration> overmap_time;
@@ -2300,6 +2297,10 @@ class Character : public Creature, public visitable<Character>
         std::optional<double> get_npc_ai_info_cache( npc_ai_info key ) const;
 
         safe_reference<Character> get_safe_reference();
+
+        // a cache of all active enchantment values.
+        // is recalculated every turn in Character::recalculate_enchantment_cache
+        pimpl<enchantment> enchantment_cache;
 };
 
 Character &get_player_character();

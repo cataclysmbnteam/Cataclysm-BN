@@ -2173,6 +2173,7 @@ Character::wear_item( const item &to_wear, bool interactive )
     inv.update_invlet( *new_item_it );
     inv.update_cache_with_item( *new_item_it );
 
+    recalculate_enchantment_cache();
     recalc_sight_limits();
     reset_encumbrance();
 
@@ -3070,6 +3071,7 @@ bool Character::takeoff( item &it, std::list<item> *res )
     mod_moves( -250 );
     worn.erase( iter );
 
+    recalculate_enchantment_cache();
     recalc_sight_limits();
     reset_encumbrance();
 

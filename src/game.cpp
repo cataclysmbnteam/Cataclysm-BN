@@ -108,6 +108,7 @@
 #include "live_view.h"
 #include "loading_ui.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
@@ -2629,6 +2630,8 @@ bool game::load( const save_t &name )
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
     u.reset();
+    u.recalculate_enchantment_cache();
+    u.enchantment_cache->activate_passive( u );
 
     return true;
 }

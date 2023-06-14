@@ -48,6 +48,7 @@
 #include "json.h"
 #include "line.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -301,6 +302,9 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
     obj->item_counter = countdown > 0 ? countdown : obj->type->countdown_interval;
     obj->active = active || obj->item_counter;
+    p.recalculate_enchantment_cache();
+    p.enchantment_cache->activate_passive( p );
+    p.recalc_sight_limits();
 
     return 0;
 }
@@ -1717,6 +1721,8 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     cut.remove_item();
     // Force an encumbrance update in case they were wearing that item.
     p.reset_encumbrance();
+    p.recalculate_enchantment_cache();
+    p.recalc_sight_limits();
 
     map &here = get_map();
     for( const auto &salvaged : materials_salvaged ) {

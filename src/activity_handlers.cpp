@@ -4814,6 +4814,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             p->consume_charges( it, it.type->charges_to_use() );
         }
     }
+    p->recalculate_enchantment_cache();
 }
 
 void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
