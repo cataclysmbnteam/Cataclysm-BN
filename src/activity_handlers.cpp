@@ -4231,19 +4231,22 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     act->set_to_null();
 
-    // Quality of tool used and assistants can together both reduce intensity of work, to a minimum of one.
+    // Quality of tool used and assistants can together both reduce intensity of work.
     item_location &loc = act->targets[ 0 ];
     item *it = loc.get_item();
     if( it == nullptr ) {
         debugmsg( "woodcutting item location lost" );
         return;
     }
-    const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
-    int act_exertion = std::max( 1, 5 - helpersize - it->get_quality( qual_AXE ) );
 
-    p->mod_stored_nutr( act_exertion );
-    p->mod_thirst( act_exertion );
-    p->mod_fatigue( act_exertion * 2 );
+    int act_exertion = iuse::chop_moves( *p, *it );
+    p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
+    act_exertion = act_exertion * ( 10 - helpers.size() ) / 10;
+
+    p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 80_seconds ) ) );
+    p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 12_minutes ) ) );
+    p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
 
     resume_for_multi_activities( *p );
 }
@@ -4288,19 +4291,21 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
 
     act->set_to_null();
 
-    // Quality of tool used and assistants can together both reduce intensity of work, to a minimum of one.
+    // Quality of tool used and assistants can together both reduce intensity of work.
     item_location &loc = act->targets[ 0 ];
     item *it = loc.get_item();
     if( it == nullptr ) {
-        debugmsg( "lockpick item location lost" );
+        debugmsg( "woodcutting item location lost" );
         return;
     }
-    const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
-    int act_exertion = std::max( 1, 5 - helpersize - it->get_quality( qual_AXE ) );
 
-    p->mod_stored_nutr( act_exertion );
-    p->mod_thirst( act_exertion );
-    p->mod_fatigue( act_exertion * 2 );
+    int act_exertion = iuse::chop_moves( *p, *it );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
+    act_exertion = act_exertion * ( 10 - helpers.size() ) / 10;
+
+    p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 80_seconds ) ) );
+    p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 12_minutes ) ) );
+    p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
 
     resume_for_multi_activities( *p );
 }
