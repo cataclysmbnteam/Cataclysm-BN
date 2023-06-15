@@ -226,6 +226,7 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_evil( "evil" );
+static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
@@ -260,6 +261,7 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
@@ -627,6 +629,9 @@ bool game::start_game()
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
 
     u.moves = 0;
+    if( u.has_trait( trait_PROF_FERAL ) ) {
+        u.add_effect( effect_feral_killed_recently, 3_days );
+    }
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
     get_weather().temperature = SPRING_TEMPERATURE;
@@ -747,8 +752,13 @@ bool game::start_game()
         const auto mission = mission::reserve_new( m, character_id() );
         mission->assign( u );
     }
-
     g->events().send<event_type::game_start>( u.getID() );
+    for( Skill &elem : Skill::skills ) {
+        int level = u.get_skill_level_object( elem.ident() ).level();
+        if( level > 0 ) {
+            g->events().send<event_type::gains_skill_level>( u.getID(), elem.ident(), level );
+        }
+    }
     return true;
 }
 
@@ -1636,7 +1646,7 @@ void game::process_voluntary_act_interrupt()
     // If player is performing a task and a monster is dangerously close, warn them
     // regardless of previous safemode warnings.
     // Distraction Manager can change this.
-    if( has_activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
+    if( ( has_activity || is_travelling ) && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
         !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
         Creature *hostile_critter = is_hostile_very_close();
         if( hostile_critter != nullptr ) {
@@ -1700,6 +1710,9 @@ static bool cancel_auto_move( player &p, const std::string &text )
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
 {
     invalidate_main_ui_adaptor();
+    if( ( !u.activity && !u.has_distant_destination() ) || u.activity.is_distraction_ignored( type ) ) {
+        return false;
+    }
     if( u.has_distant_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
@@ -1707,9 +1720,6 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
             u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
             return false;
         }
-    }
-    if( !u.activity || u.activity.is_distraction_ignored( type ) ) {
-        return false;
     }
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
@@ -2338,7 +2348,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
             return false;
         }
 
-        if( !u.weapon.is_gun() ) {
+        if( !u.primary_weapon().is_gun() ) {
             add_msg( m_info, _( "You are not wielding a ranged weapon." ) );
             return false;
         }
@@ -2740,6 +2750,9 @@ bool game::save()
         }, _( "uistate data" ) ) ) {
             return false;
         } else {
+            world_generator->last_world_name = world_generator->active_world->world_name;
+            world_generator->last_character_name = u.name;
+            world_generator->save_last_world_info();
             world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
             return true;
         }
@@ -4260,6 +4273,8 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
     }
     std::size_t force_remaining = traj.size();
     if( monster *const targ = critter_at<monster>( tp, true ) ) {
+        tripoint start_pos = targ->pos();
+
         if( stun > 0 ) {
             targ->add_effect( effect_stunned, 1_turns * stun );
             add_msg( _( "%s was stunned!" ), targ->name() );
@@ -4317,8 +4332,14 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
                 }
             }
             tp = traj[i];
+            if( start_pos != targ->pos() ) {
+                map &here = get_map();
+                here.creature_on_trap( *targ );
+            }
         }
     } else if( npc *const targ = critter_at<npc>( tp ) ) {
+        tripoint start_pos = targ->pos();
+
         if( stun > 0 ) {
             targ->add_effect( effect_stunned, 1_turns * stun );
             add_msg( _( "%s was stunned!" ), targ->name );
@@ -4383,8 +4404,15 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
             }
             targ->setpos( traj[i] );
             tp = traj[i];
+
+            if( start_pos != targ->pos() ) {
+                map &here = get_map();
+                here.creature_on_trap( *targ );
+            }
         }
     } else if( u.pos() == tp ) {
+        tripoint start_pos = u.pos();
+
         if( stun > 0 ) {
             u.add_effect( effect_stunned, 1_turns * stun );
             add_msg( m_bad, vgettext( "You were stunned for %d turn!",
@@ -4462,8 +4490,12 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult,
             } else {
                 u.setpos( traj[i] );
             }
-
             tp = traj[i];
+
+            if( start_pos != u.pos() ) {
+                map &here = get_map();
+                here.creature_on_trap( u );
+            }
         }
     }
 }
@@ -5264,7 +5296,7 @@ bool game::npc_menu( npc &who )
     amenu.addentry( push, obeys && !who.is_mounted(), 'p', _( "Push away" ) );
     amenu.addentry( examine_wounds, true, 'w', _( "Examine wounds" ) );
     amenu.addentry( use_item, true, 'i', _( "Use item on" ) );
-    amenu.addentry( sort_armor, true, 'r', _( "Sort armor" ) );
+    amenu.addentry( sort_armor, obeys, 'r', _( "Sort armor" ) );
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
     if( !who.is_player_ally() ) {
         amenu.addentry( disarm, who.is_armed(), 'd', _( "Disarm" ) );
@@ -7731,7 +7763,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     } );
     ui.mark_resize();
 
-    const int max_gun_range = u.weapon.gun_range( &u );
+    const int max_gun_range = u.primary_weapon().gun_range( &u );
 
     const tripoint stored_view_offset = u.view_offset;
     u.view_offset = tripoint_zero;
@@ -7977,6 +8009,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         } else if( action == "fire" ) {
             if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                 u.last_target = shared_from( *cCurMon );
+                add_msg( "Target_set" );
                 u.recoil = MAX_RECOIL;
                 u.view_offset = stored_view_offset;
                 return game::vmenu_ret::FIRE;
@@ -9724,8 +9757,7 @@ void game::on_options_changed()
     grid_tracker_ptr->on_options_changed();
 }
 
-void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled,
-                           bool suppress_map_update )
+void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bool controlled )
 {
     if( c == nullptr ) {
         debugmsg( "game::fling_creature invoked on null target" );
@@ -9829,7 +9861,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
                     m.unboard_vehicle( p->pos() );
                 }
                 // If we're flinging the player around, make sure the map stays centered on them.
-                if( is_u && !suppress_map_update ) {
+                if( is_u ) {
                     update_map( pt.x, pt.y );
                 } else {
                     p->setpos( pt );
@@ -11013,9 +11045,21 @@ void game::shift_monsters( const tripoint &shift )
     critter_tracker->rebuild_cache();
 }
 
+double npc_overmap::spawn_chance_in_hour( int npc_num, double density )
+{
+    static constexpr int days_in_year = 14 * 4;
+    const double expected_npc_count = days_in_year * density;
+    const double overcrowding_ratio = npc_num / expected_npc_count;
+    if( overcrowding_ratio < 1.0 ) {
+        return std::min( 1.0, density / 24.0 );
+    }
+    return ( 1.0 / 24.0 ) / overcrowding_ratio;
+}
+
 void game::perhaps_add_random_npc()
 {
-    if( !calendar::once_every( 1_hours ) ) {
+    static constexpr time_duration spawn_interval = 1_hours;
+    if( !calendar::once_every( spawn_interval ) ) {
         return;
     }
     // Create a new NPC?
@@ -11024,32 +11068,34 @@ void game::perhaps_add_random_npc()
         return;
     }
 
-    float density = get_option<float>( "NPC_DENSITY" );
-    static constexpr int density_search_radius = 60;
-    const float npc_num = overmap_buffer.get_npcs_near_player( density_search_radius ).size();
-    if( npc_num > 0.0 ) {
-        // 100%, 80%, 64%, 52%, 41%, 33%...
-        density *= std::pow( 0.8f, npc_num );
-    }
-
-    if( !x_in_y( density, 100 ) ) {
+    // We want the "NPC_DENSITY" to denote number of NPCs per week, per overmap, or so
+    // But soft-cap it at about a standard year (4*14 days) worth
+    const int npc_num = overmap_buffer.get_npcs_near_player(
+                            npc_overmap::density_search_radius ).size();
+    const double chance = npc_overmap::spawn_chance_in_hour( npc_num,
+                          get_option<float>( "NPC_DENSITY" ) );
+    add_msg( m_debug, "Random NPC spawn chance %0.3f%%", chance * 100 );
+    if( !x_in_y( chance, 1.0f ) ) {
         return;
     }
+
     bool spawn_allowed = false;
     tripoint_abs_omt spawn_point;
     int counter = 0;
     while( !spawn_allowed ) {
-        if( counter >= 10 ) {
+        if( counter >= 100 ) {
             return;
         }
-        static constexpr int radius_spawn_range = 120;
+        // Shouldn't be larger than search radius or it might get swarmy at the edges
+        static constexpr int radius_spawn_range = npc_overmap::density_search_radius;
         const tripoint_abs_omt u_omt = u.global_omt_location();
         spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
                                      rng( -radius_spawn_range, radius_spawn_range ) );
         spawn_point.z() = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
-        // shouldn't spawn on lakes or rivers.
-        if( !is_river_or_lake( oter ) ) {
+        // Shouldn't spawn on lakes or rivers.
+        // TODO: Prefer greater distance
+        if( !is_river_or_lake( oter ) || rl_dist( u_omt.xy(), spawn_point.xy() ) < 30 ) {
             spawn_allowed = true;
         }
         counter += 1;
@@ -11073,6 +11119,7 @@ void game::perhaps_add_random_npc()
     tmp->long_term_goal_action();
     tmp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
+    dbg( DL::Debug ) << "Spawning a random NPC at " << spawn_point;
     // This will make the new NPC active- if its nearby to the player
     load_npcs();
 }
@@ -11289,7 +11336,7 @@ void game::autosave()
 void game::process_artifact( item &it, player &p )
 {
     const bool worn = p.is_worn( it );
-    const bool wielded = ( &it == &p.weapon );
+    const bool wielded = ( &it == &p.primary_weapon() );
     std::vector<art_effect_passive> effects = it.type->artifact->effects_carried;
     if( worn ) {
         const std::vector<art_effect_passive> &ew = it.type->artifact->effects_worn;
@@ -11496,7 +11543,7 @@ bool check_art_charge_req( item &it )
     player &p = g->u;
     bool reqsmet = true;
     const bool worn = p.is_worn( it );
-    const bool wielded = ( &it == &p.weapon );
+    const bool wielded = ( &it == &p.primary_weapon() );
     const bool heldweapon = ( wielded && !it.is_armor() ); //don't charge wielded clothes
     map &here = get_map();
     switch( it.type->artifact->charge_req ) {

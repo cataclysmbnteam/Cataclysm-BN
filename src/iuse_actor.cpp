@@ -131,6 +131,7 @@ static const species_id ZOMBIE( "ZOMBIE" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -1625,7 +1626,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
         return false;
     }
     // Softer warnings at the end so we don't ask permission and then tell them no.
-    if( &it == &p.weapon ) {
+    if( p.is_wielding( it ) ) {
         if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
             return false;
         }
@@ -2602,7 +2603,6 @@ int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     spell casting = spell( spell_id( item_spell ) );
-    int charges = it.type->charges_to_use();
 
     player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -2618,13 +2618,14 @@ int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( it.has_flag( "USE_PLAYER_ENERGY" ) ) {
         // [2] this value overrides the mana cost if set to 0
         cast_spell.values.emplace_back( 1 );
-        charges = 0;
     } else {
         // [2]
         cast_spell.values.emplace_back( 0 );
     }
     p.assign_activity( cast_spell, false );
-    return charges;
+    p.activity.targets.push_back( item_location( p, &it ) );
+    // Actual handling of charges_to_use is in activity_handlers::spellcasting_finish
+    return 0;
 }
 
 std::unique_ptr<iuse_actor> holster_actor::clone() const
@@ -2775,7 +2776,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             penalties = true;
             cost = INVENTORY_HANDLING_PENALTY;
         }
-        character_funcs::try_wield_contents( *p.as_avatar(), it, internal_item, penalties, cost );
+        character_funcs::try_wield_contents( p, it, internal_item, penalties, cost );
 
     } else {
         item_location loc = game_menus::inv::holster( p, it );
@@ -3945,6 +3946,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             if( ( !patient.has_effect( effect_bandaged, elem.first->token ) && bandages_power > 0 ) ||
                 ( !patient.has_effect( effect_disinfected, elem.first->token ) && disinfectant_power > 0 ) ) {
                 damage += part.get_hp_max() - part.get_hp_cur();
+                damage += damage > 0 ? part.get_id()->essential * essential_value : 0;
                 damage += bleed * patient.get_effect_dur( effect_bleed, elem.first->token ) / 5_minutes;
                 damage += bite * patient.get_effect_dur( effect_bite, elem.first->token ) / 10_minutes;
                 damage += infect * patient.get_effect_dur( effect_infected, elem.first->token ) / 10_minutes;
@@ -4417,7 +4419,7 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         !p.has_trait( trait_DEBUG_BIONICS ) ) {
         return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
     } else if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-        if( it.has_fault( fault_bionic_nonsterile ) ) {
+        if( it.has_fault( fault_bionic_nonsterile ) && !p.has_trait( trait_INFRESIST ) ) {
             return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
         } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
             return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );

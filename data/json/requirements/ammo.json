@@ -44,7 +44,7 @@
     "id": "ammo_10mm",
     "type": "requirement",
     "//": "Components required for 10mm Auto ammo",
-    "components": [ [ [ "10mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
+    "components": [ [ [ "10mm_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_45colt",
@@ -97,7 +97,7 @@
   {
     "id": "223_casehead",
     "type": "requirement",
-    "//": "References needed for boltfaces and magazines using .223 or derivatives",
+    "//": "References needed for boltfaces and magazines using 5.56x45mm (.223) or derivatives",
     "tools": [
       [
         [ "300blk_casing", -1 ],
@@ -121,7 +121,7 @@
   {
     "id": "308_casehead",
     "type": "requirement",
-    "//": "References needed for boltfaces and magazines using .308 or derivatives",
+    "//": "References needed for boltfaces and magazines using 7.62x51mm (.308) or derivatives",
     "tools": [
       [
         [ "308_casing", -1 ],

@@ -50,7 +50,7 @@
     "type": "GUN",
     "name": { "str": "laser finger" },
     "description": "this a pseudo item",
-    "volume": "3 L",
+    "volume": "1 L",
     "price": 0,
     "material": [ "steel", "plastic" ],
     "symbol": "(",

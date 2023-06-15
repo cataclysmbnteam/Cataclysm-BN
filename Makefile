@@ -117,6 +117,7 @@ WARNINGS = \
   -Wunused-macros \
   -Wzero-as-null-pointer-constant \
   -Wno-unknown-warning-option \
+  -Wno-dangling-reference \
   -Wno-range-loop-analysis # TODO: Fix warnings instead of disabling
 # Uncomment below to disable warnings
 #WARNINGS = -w
@@ -1158,12 +1159,18 @@ else
 	@echo Cannot run json formatter in cross compiles.
 endif
 
+ifeq ($(NATIVE), osx)
+  NUM_STYLE_JOBS = $$(sysctl -n hw.logicalcpu)
+else
+  NUM_STYLE_JOBS = $$(nproc)
+endif
+
 # /data/names work really terribly with the formatter, so we skip them
 style-all-json: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | grep -z -v '^data/names/' | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 
 style-all-json-parallel: $(JSON_FORMATTER_BIN)
-	find data -name "*.json" -print0 | grep -z -v '^data/names/' | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
+	find data -name "*.json" -print0 | grep -z -v '^data/names/' | xargs -0 -L 1 -P $(NUM_STYLE_JOBS) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \

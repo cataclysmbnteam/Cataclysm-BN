@@ -148,12 +148,14 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     };
 
     if( jo.has_array( key ) ) {
+        parts.reset();
         for( const std::string line : jo.get_array( key ) ) {
             parse( line );
         }
         return true;
 
     } else if( jo.has_string( key ) ) {
+        parts.reset();
         parse( jo.get_string( key ) );
         return true;
 

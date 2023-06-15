@@ -609,7 +609,7 @@
     "bodytype": "quadruped",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "volume": "1000 ml",
+    "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 100,
     "speed": 130,

@@ -197,6 +197,7 @@ enum npc_chat_menu {
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
     NPC_CHAT_FOLLOW,
+    NPC_CHAT_MOVE_TO_POS,
     NPC_CHAT_AWAKE,
     NPC_CHAT_MOUNT,
     NPC_CHAT_DISMOUNT,
@@ -482,6 +483,9 @@ void game::chat()
                         string_format( _( "Tell %s to guard" ), followers.front()->name ) :
                         _( "Tell someone to guard…" )
                       );
+        nmenu.addentry( NPC_CHAT_MOVE_TO_POS, true, 'G',
+                        follower_count == 1 ? string_format( _( "Tell %s to move to location" ),
+                                followers.front()->get_name() ) : _( "Tell someone to move to location…" ) );
         nmenu.addentry( NPC_CHAT_AWAKE, true, 'w', _( "Tell everyone on your team to wake up" ) );
         nmenu.addentry( NPC_CHAT_MOUNT, true, 'M', _( "Tell everyone on your team to mount up" ) );
         nmenu.addentry( NPC_CHAT_DISMOUNT, true, 'm', _( "Tell everyone on your team to dismount" ) );
@@ -539,6 +543,37 @@ void game::chat()
             } else {
                 talk_function::assign_guard( *followers[npcselect] );
                 yell_msg = string_format( _( "Guard here, %s!" ), followers[npcselect]->name );
+            }
+            break;
+        }
+        case NPC_CHAT_MOVE_TO_POS: {
+            const int npcselect = npc_select_menu( followers, _( "Who should move?" ) );
+            if( npcselect < 0 ) {
+                return;
+            }
+
+            map &here = get_map();
+            std::optional<tripoint> p = look_around();
+
+            if( !p ) {
+                return;
+            }
+
+            if( here.impassable( tripoint( *p ) ) ) {
+                add_msg( m_info, _( "This destination can't be reached." ) );
+                return;
+            }
+
+            const auto &to = p.value();
+            if( npcselect == follower_count ) {
+                for( npc *them : followers ) {
+                    tripoint_abs_ms( here.getabs( to ) );
+                    them->goto_to_this_pos = here.getglobal( to );
+                }
+                yell_msg = _( "Everyone move there!" );
+            } else {
+                followers[npcselect]->goto_to_this_pos = here.getglobal( to );
+                yell_msg = string_format( _( "Move there, %s!" ), followers[npcselect]->get_name() );
             }
             break;
         }
@@ -1599,18 +1634,18 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
 
         // Special, dynamic tags go here
         if( tag == "<yrwp>" ) {
-            phrase.replace( fa, l, remove_color_tags( u.weapon.tname() ) );
+            phrase.replace( fa, l, remove_color_tags( u.primary_weapon().tname() ) );
         } else if( tag == "<mywp>" ) {
             if( !me.is_armed() ) {
                 phrase.replace( fa, l, _( "fists" ) );
             } else {
-                phrase.replace( fa, l, remove_color_tags( me.weapon.tname() ) );
+                phrase.replace( fa, l, remove_color_tags( me.primary_weapon().tname() ) );
             }
         } else if( tag == "<ammo>" ) {
-            if( !me.weapon.is_gun() ) {
+            if( !me.primary_weapon().is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
             } else {
-                phrase.replace( fa, l, me.weapon.ammo_current()->nname( 1 ) );
+                phrase.replace( fa, l, me.primary_weapon().ammo_current()->nname( 1 ) );
             }
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;
@@ -3349,8 +3384,9 @@ std::string give_item_to( npc &p, bool allow_use )
     }
     item &given = *loc;
 
-    if( ( &given == &you.weapon && given.has_flag( "NO_UNWIELD" ) ) || ( you.is_worn( given ) &&
-            given.has_flag( "NO_TAKEOFF" ) ) ) {
+    if( ( &given == &you.primary_weapon() && given.has_flag( "NO_UNWIELD" ) ) ||
+        ( you.is_worn( given ) &&
+          given.has_flag( "NO_TAKEOFF" ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }
@@ -3361,12 +3397,12 @@ std::string give_item_to( npc &p, bool allow_use )
 
     bool taken = false;
     std::string reason = _( "Nope." );
-    int our_ammo = character_funcs::ammo_count_for( p, p.weapon );
+    int our_ammo = character_funcs::ammo_count_for( p, p.primary_weapon() );
     int new_ammo = character_funcs::ammo_count_for( p, given );
     const double new_weapon_value = npc_ai::weapon_value( p, given, new_ammo );
-    const double cur_weapon_value = npc_ai::weapon_value( p, p.weapon, our_ammo );
+    const double cur_weapon_value = npc_ai::weapon_value( p, p.primary_weapon(), our_ammo );
     add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
-             p.weapon.typeId().str(), our_ammo, cur_weapon_value );
+             p.primary_weapon().typeId().str(), our_ammo, cur_weapon_value );
     add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
              given.typeId().str(), new_ammo, new_weapon_value );
     if( allow_use ) {

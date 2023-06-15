@@ -514,7 +514,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
     "transforms_into": "t_tree_cherry_harvested",
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "cherries", "base_num": [ 6, 18 ], "scale_num": [ 0, 0.5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring" ], "entries": [ { "drop": "cherries", "base_num": [ 6, 18 ], "scale_num": [ 0, 0.5 ] } ] } ],
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -1473,7 +1473,7 @@
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [
       {
-        "seasons": [ "summer" ],
+        "seasons": [ "spring" ],
         "entries": [
           { "drop": "blueberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
           { "drop": "seed_blueberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
@@ -1526,7 +1526,7 @@
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [
       {
-        "seasons": [ "summer" ],
+        "seasons": [ "spring" ],
         "entries": [
           { "drop": "strawberries", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] },
           { "drop": "seed_strawberries", "base_num": [ 1, 2 ], "scale_num": [ 0, 0.25 ] }
@@ -1963,7 +1963,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100 }
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -1975,7 +1975,7 @@
     "color": "light_green",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -1986,7 +1986,7 @@
     "color": "green",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -1998,7 +1998,7 @@
     "color": "white",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -2009,8 +2009,8 @@
     "symbol": ",",
     "color": "green",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE", "VEH_TREAT_AS_BASH_BELOW" ],
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -2022,8 +2022,8 @@
     "color": "green",
     "move_cost": 5,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "VEH_TREAT_AS_BASH_BELOW" ],
+    "bash": { "sound": "thump", "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -2035,7 +2035,7 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "bash": { "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -2047,7 +2047,7 @@
     "color": "light_green",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "bash": { "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 400, "str_min_supported": 100 }
   },
   {
     "type": "terrain",
@@ -2059,7 +2059,7 @@
     "color": "white",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
-    "bash": { "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "bash": { "ter_set": "t_pit_shallow", "str_min": 50, "str_max": 400, "str_min_supported": 100 }
   },
   {
     "type": "terrain",

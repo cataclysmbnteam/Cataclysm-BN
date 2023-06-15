@@ -38,8 +38,8 @@
     "dispersion": 135,
     "loudness": 0,
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 11 } ],
-    "effects": [ "RECOVER_25" ],
-    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
+    "flags": [ "FRAGILE_MELEE", "JAVELIN" ],
+    "dont_recover_one_in": 25
   },
   {
     "id": "javelin_stone",
@@ -77,8 +77,8 @@
     "dispersion": 135,
     "loudness": 0,
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 17 } ],
-    "effects": [ "RECOVER_30" ],
-    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
+    "flags": [ "FRAGILE_MELEE", "JAVELIN" ],
+    "dont_recover_one_in": 30
   },
   {
     "id": "javelin_copper",

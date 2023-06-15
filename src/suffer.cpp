@@ -57,7 +57,6 @@
 #include "units.h"
 #include "weather.h"
 
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_drain( "bio_drain" );
@@ -67,9 +66,10 @@ static const bionic_id bio_glowy( "bio_glowy" );
 static const bionic_id bio_itchy( "bio_itchy" );
 static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_noise( "bio_noise" );
-static const bionic_id bio_plut_filter( "bio_plut_filter" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
 static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_reactoroverride( "bio_reactoroverride" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
 static const bionic_id bio_spasm( "bio_spasm" );
@@ -88,6 +88,7 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_hallu( "hallu" );
@@ -135,6 +136,7 @@ static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
@@ -168,6 +170,7 @@ static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_RAD_RESIST( "RAD_RESIST" );
+static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -311,7 +314,7 @@ void Character::suffer_while_awake( const int current_stim )
         suffer_from_chemimbalance();
     }
     if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
-        !has_effect( effect_took_thorazine ) ) {
+        !has_effect( effect_took_thorazine ) && !has_effect( effect_feral_killed_recently ) ) {
         suffer_from_schizophrenia();
     }
 
@@ -713,6 +716,86 @@ void Character::suffer_from_asthma( const int current_stim )
                                                 _( "You can't focus while choking!" ) );
         }
     }
+}
+
+void Character::suffer_feral_kill_withdrawl()
+{
+    // If we somehow triggered this while content with our bloodshed, cancel.
+    if( has_effect( effect_feral_killed_recently ) ) {
+        return;
+    }
+    // Once every 4 hours
+    if( calendar::once_every( 4_hours ) ) {
+        // Select a random side effect:
+        switch( dice( 1, 4 ) ) {
+            default:
+            case 1:
+                // Feel ill, overcome with nausea if awake.  Additional chance of unexplained bleeding.
+                mod_healthy_mod( -50, -500 );
+                if( !in_sleep_state() ) {
+                    add_msg_if_player( m_bad, _( "You feel as if your insides are rotting away." ) );
+                    vomit();
+                    if( one_in( 3 ) ) {
+                        add_msg_if_player( m_bad, _( "Blood starts leaking from your eyes and nose." ) );
+                        add_effect( effect_bleed, 10_minutes, bp_head );
+                        add_effect( effect_blind, rng( 1_seconds, 30_seconds ) );
+                    }
+                } else {
+                    add_msg_if_player( m_bad, _( "You feel a bit queasy in your sleep." ) );
+                    if( one_in( 3 ) ) {
+                        add_msg_if_player( m_bad, _( "You wake up bloody for some reason." ) );
+                        wake_up();
+                        add_effect( effect_bleed, 10_minutes, bp_head );
+                        add_effect( effect_blind, rng( 1_seconds, 30_seconds ) );
+                    }
+                }
+                break;
+            case 2:
+                // Empty stamina and inflict fatigue, pain if awake.
+                mod_fatigue( rng( 5, 10 ) );
+                set_stamina( get_stamina() * 1 / ( rng( 3, 8 ) ) );
+                if( !in_sleep_state() ) {
+                    add_msg_if_player( m_bad, _( "Your head aches as a wave of exhaustion passes through you." ) );
+                    mod_pain( rng( 10, 25 ) );
+                } else {
+                    add_msg_if_player( m_bad, _( "You stir restlessly in your sleep." ) );
+                }
+                break;
+            case 3:
+                // Adrenaline rush plus side effects from panic. Chance it will wake you up anyway.
+                if( !in_sleep_state() ) {
+                    add_msg_if_player( m_bad, _( "A pang of terror stirs your fight-or-flight response!" ) );
+                    add_effect( effect_adrenaline, rng( 3_minutes, 5_minutes ) );
+                    mod_stim( rng( 5, 10 ) );
+                    add_morale( MORALE_FEELING_BAD, -5, -25, 10_minutes, 3_minutes, true );
+                } else {
+                    if( !one_in( 4 ) ) {
+                        add_msg_if_player( m_bad, _( "You jolt awake in a panic attack!" ) );
+                        wake_up();
+                        add_effect( effect_adrenaline, rng( 3_minutes, 5_minutes ) );
+                        mod_stim( rng( 5, 10 ) );
+                        add_morale( MORALE_FEELING_BAD, -5, -25, 10_minutes, 3_minutes, true );
+                    } else {
+                        add_msg_if_player( m_bad, _( "You have a vivid nightmare that almost wakes you up." ) );
+                    }
+                }
+                break;
+            case 4:
+                // The others are displeased with your lack of bloodshed, can sleep through the mental contact itself.
+                add_effect( effect_attention, rng( 3_hours, 6_hours ), num_bp, rng( 1, 4 ), false, true );
+                if( !in_sleep_state() ) {
+                    add_msg_if_player( m_bad,
+                                       _( "You feel like something is judging you from afar, leaving your head spinning." ) );
+                    add_effect( effect_shakes, 5_minutes );
+                    add_effect( effect_stunned, rng( 1_turns, 10_turns ) );
+                } else {
+                    add_msg_if_player( m_bad,
+                                       _( "You have a vivid nightmare about being deemed unworthy by a higher power." ) );
+                }
+                break;
+        }
+    }
+
 }
 
 void Character::suffer_in_sunlight()
@@ -1148,80 +1231,50 @@ void Character::suffer_from_radiation()
         mod_rad( -5 );
     }
 
-    if( !reactor_plut && !tank_plut && !slow_rad ) {
-        return;
-    }
-    // Microreactor CBM and supporting bionics
-    if( has_bionic( bio_reactor ) || has_bionic( bio_advreactor ) ) {
-        //first do the filtering of plutonium from storage to reactor
-        if( tank_plut > 0 ) {
-            int plut_trans;
-            if( has_active_bionic( bio_plut_filter ) ) {
-                plut_trans = tank_plut * 0.025;
+    // Microreactor CBM
+    const itype_id &plut_cell = item( "plut_cell" ).typeId();
+    if( get_fuel_type_available( plut_cell ) > 0 ) {
+        if( calendar::once_every( 60_minutes ) ) {
+            int rad_mod = 0;
+            rad_mod += has_bionic( bio_reactor ) ? 3 : 0;
+            rad_mod += has_bionic( bio_advreactor ) ? 2 : 0;
+
+            if( rad_mod > 1 ) {
+                mod_rad( rad_mod );
+            }
+        }
+
+        bool powered_reactor = false;
+
+        if( has_bionic( bio_reactor ) ) {
+            if( get_bionic_state( bio_reactor ).powered ) {
+                powered_reactor = true;
             } else {
-                plut_trans = tank_plut * 0.005;
+                mod_power_level( 50_J );
             }
-            if( plut_trans < 1 ) {
-                plut_trans = 1;
-            }
-            tank_plut -= plut_trans;
-            reactor_plut += plut_trans;
         }
-        //leaking radiation, reactor is unshielded, but still better than a simple tank
-        slow_rad += ( ( tank_plut * 0.1 ) + ( reactor_plut * 0.01 ) );
-        //begin power generation
-        if( reactor_plut > 0 ) {
-            int power_gen = 0;
-            if( has_bionic( bio_advreactor ) ) {
-                if( ( reactor_plut * 0.05 ) > 2000 ) {
-                    power_gen = 2000;
-                } else {
-                    power_gen = reactor_plut * 0.05;
-                    if( power_gen < 1 ) {
-                        power_gen = 1;
-                    }
-                }
-                slow_rad += ( power_gen * 3 );
-                while( slow_rad >= 50 ) {
-                    if( power_gen >= 1 ) {
-                        slow_rad -= 50;
-                        power_gen -= 1;
-                        reactor_plut -= 1;
-                    } else {
-                        break;
-                    }
-                }
-            } else if( has_bionic( bio_reactor ) ) {
-                if( ( reactor_plut * 0.025 ) > 500 ) {
-                    power_gen = 500;
-                } else {
-                    power_gen = reactor_plut * 0.025;
-                    if( power_gen < 1 ) {
-                        power_gen = 1;
-                    }
-                }
-                slow_rad += ( power_gen * 3 );
+
+        if( has_bionic( bio_advreactor ) ) {
+            if( get_bionic_state( bio_advreactor ).powered ) {
+                powered_reactor = true;
+            } else {
+                mod_power_level( 75_J );
             }
-            reactor_plut -= power_gen;
-            while( power_gen >= 250 ) {
-                apply_damage( nullptr, bodypart_id( "torso" ), 1 );
-                mod_pain( 1 );
-                add_msg_if_player( m_bad,
-                                   _( "Your chest burns as your power systems overload!" ) );
-                mod_power_level( 50_kJ );
-                power_gen -= 60; // ten units of power lost due to short-circuiting into you
-            }
-            mod_power_level( units::from_kilojoule( power_gen ) );
         }
-    } else {
-        slow_rad += ( reactor_plut + tank_plut ) * 40;
-        //plutonium in body without any kind of container.  Not good at all.
-        reactor_plut *= 0.6;
-        tank_plut *= 0.6;
-    }
-    while( slow_rad >= 1000 ) {
-        mod_rad( 1 );
-        slow_rad -= 1000;
+
+        if( has_bionic( bio_reactoroverride ) && powered_reactor ) {
+            if( get_bionic_state( bio_reactoroverride ).powered ) {
+                int current_fuel_stock = std::stoi( get_value( plut_cell.str() ) );
+
+                current_fuel_stock -= 50;
+
+                set_value( plut_cell.str(), std::to_string( current_fuel_stock ) );
+                update_fuel_storage( plut_cell );
+
+                mod_power_level( 40_kJ );
+                mod_rad( 2 );
+            }
+        }
     }
 }
 
@@ -1507,6 +1560,9 @@ void Character::suffer()
     if( has_trait( trait_ASTHMA ) ) {
         suffer_from_asthma( current_stim );
     }
+    if( has_trait( trait_PROF_FERAL ) && !has_effect( effect_feral_killed_recently ) ) {
+        suffer_feral_kill_withdrawl();
+    }
 
     suffer_in_sunlight();
     suffer_from_other_mutations();
@@ -1683,7 +1739,7 @@ void Character::mend( int rate_multiplier )
             continue;
         }
 
-        if( needs_splint && !worn_with_flag( "SPLINT",  bp ) ) {
+        if( needs_splint && !worn_with_flag( flag_SPLINT, bp ) ) {
             continue;
         }
 
@@ -1870,9 +1926,9 @@ void Character::apply_wetness_morale( int temperature )
         }
 
         // For an unmutated human swimming in deep water, this will add up to:
-        // +51 when hot in 100% water friendly clothing
-        // -103 when cold/hot in 100% unfriendly clothing
-        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 2.0 );
+        // +26 when hot in 100% water friendly clothing
+        // -52 when cold/hot in 100% unfriendly clothing
+        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 4.0 );
     }
 
     if( total_morale == 0 ) {

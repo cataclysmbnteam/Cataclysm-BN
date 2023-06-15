@@ -449,9 +449,10 @@ VisitResponse visitable<Character>::visit_items(
 {
     auto ch = static_cast<Character *>( this );
 
-    if( !ch->weapon.is_null() &&
-        visit_internal( func, &ch->weapon ) == VisitResponse::ABORT ) {
-        return VisitResponse::ABORT;
+    for( item *weapon : ch->wielded_items() ) {
+        if( visit_internal( func, weapon ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
     }
 
     for( auto &e : ch->worn ) {
@@ -695,11 +696,11 @@ std::list<item> visitable<Character>::remove_items_with( const
     }
 
     // finally try the currently wielded item (if any)
-    if( filter( ch->weapon ) ) {
+    if( filter( ch->primary_weapon() ) ) {
         res.push_back( ch->remove_weapon() );
         count--;
     } else {
-        ch->weapon.contents.remove_internal( filter, count, res );
+        ch->primary_weapon().contents.remove_internal( filter, count, res );
     }
 
     return res;

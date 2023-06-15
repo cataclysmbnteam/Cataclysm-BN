@@ -239,6 +239,10 @@ class Creature
         virtual bool block_hit( Creature *source, bodypart_id &bp_hit,
                                 damage_instance &dam ) = 0;
 
+        // handles interaction of shields and ranged attacks. mutates &dam
+        virtual bool block_ranged_hit( Creature *source, bodypart_id &bp_hit,
+                                       damage_instance &dam ) = 0;
+
         // handles armor absorption (including clothing damage etc)
         // of damage instance. mutates &dam
         virtual void absorb_hit( const bodypart_id &bp, damage_instance &dam ) = 0;
@@ -391,6 +395,7 @@ class Creature
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
         /** Returns pointers to all effects matching given type. */
         std::vector<const effect *> get_all_effects_of_type( const efftype_id &eff_id ) const;
+        std::vector<effect *> get_all_effects_of_type( const efftype_id &eff_id );
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
         time_duration get_effect_dur( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
@@ -530,6 +535,7 @@ class Creature
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
+        virtual float get_speed_mult() const;
         virtual int get_block_bonus() const;
 
         virtual float get_dodge_base() const = 0;
@@ -553,9 +559,11 @@ class Creature
 
         virtual void set_speed_base( int nspeed );
         virtual void set_speed_bonus( int nspeed );
+        virtual void set_speed_mult( float nspeed );
         virtual void set_block_bonus( int nblock );
 
         virtual void mod_speed_bonus( int nspeed );
+        virtual void mod_speed_mult( float nspeed );
         virtual void mod_block_bonus( int nblock );
 
         virtual void set_dodge_bonus( float ndodge );
@@ -827,6 +835,7 @@ class Creature
         int speed_base = 0; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
         int speed_bonus = 0;
+        float speed_mult = 0.f;
         float dodge_bonus = 0.0;
         int block_bonus = 0;
         float hit_bonus = 0.0;

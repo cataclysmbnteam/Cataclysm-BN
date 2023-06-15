@@ -133,6 +133,10 @@
       { "item": "tinderbox", "prob": 4 },
       { "item": "flint_steel", "prob": 7 },
       { "item": "canteen_wood", "prob": 5 },
+      { "item": "shield_wooden", "prob": 3 },
+      { "item": "shield_wooden_large", "prob": 3 },
+      { "item": "shield_banded", "prob": 3 },
+      { "item": "shield_banded_large", "prob": 3 },
       { "item": "apron_leather", "prob": 1 },
       { "item": "pot_copper", "prob": 3 },
       { "group": "tinware", "prob": 10 }

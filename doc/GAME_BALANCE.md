@@ -253,8 +253,8 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 ,300BLK subsonic   | 220gr OTM                   | 675       | 26  | 16in     |  subsonic
 7.62x54mmR         | 150gr FMJ bullet            | 3629      | 60  | 28in     |                              |
 .308 Winchester    | 168gr hollow point bullet   | 3570      | 60  | 24in     |                              |
-7.62 NATO M80      | 147gr FMJ bullet            | 3304      | 57  | 24in     |                              |
-7.62 NATO M62      | 142gr tracer bullet         | 3232      | 57  | 24in     |  Belt with 1/5 tracer rounds |
+7.62x51mm NATO M80 | 147gr FMJ bullet            | 3304      | 57  | 24in     |                              |
+7.62x51mm NATO M62 | 142gr tracer bullet         | 3232      | 57  | 24in     |  Belt with 1/5 tracer rounds |
 .270 Winchester    | 130gr soft point bullet     | 3663      | 61  | 24in     |                              |
 .30-06 Springfield | 165gr soft point bullet     | 3894      | 62  | 24in     |        damage increased by 4 |
 .30-06 M2          | 165.7gr AP bullet           | 3676      | 60  | 24in     |         damage reduced by 10 |

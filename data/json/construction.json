@@ -3135,7 +3135,7 @@
       [ [ "wire", 8 ], [ "spike", 8 ], [ "nail", 16 ] ],
       [ [ "scrap", 40 ], [ "sheet_metal", 1 ], [ "sheet_metal_small", 20 ] ]
     ],
-    "pre_terrain": "t_pit",
+    "pre_special": "check_empty",
     "post_terrain": "t_junk_palisade"
   },
   {
@@ -4405,7 +4405,7 @@
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "autoclave", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
@@ -4503,7 +4503,7 @@
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "small_space_heater", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
@@ -4517,7 +4517,7 @@
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "large_space_heater", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",

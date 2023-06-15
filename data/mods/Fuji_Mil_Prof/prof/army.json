@@ -5,6 +5,7 @@
     "name": "Military Rifleman",
     "description": "Frontline infantry, frontline infantry, frontline infantry, frontline infantry.",
     "points": 2,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
     "items": {
       "both": {
@@ -40,6 +41,7 @@
     "name": "Military Marksman",
     "description": "You like to think you're a real sniper, but really you're just infantry with a bigger gun.",
     "points": 4,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [ { "level": 1, "name": "survival" }, { "level": 2, "name": "gun" }, { "level": 2, "name": "rifle" } ],
     "items": {
       "both": {
@@ -73,6 +75,7 @@
     "name": "Military Automatic Rifleman",
     "description": "S stands for suppressing fire!",
     "points": 3,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
     "items": {
       "both": {
@@ -104,6 +107,7 @@
     "name": "Military Grenadier",
     "description": "There's no kill like overkill.",
     "points": 3,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "gun" },
@@ -144,6 +148,7 @@
     "name": "Military Breacher",
     "description": "Doors and windows everywhere dare not speak your name.",
     "points": 3,
+    "traits": [ "PROF_MILITARY" ],
     "skills": [
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "gun" },

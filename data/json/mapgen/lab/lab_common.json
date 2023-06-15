@@ -33,7 +33,9 @@
       "W": "t_door_lab_c",
       "M": "t_door_metal_lab_c",
       "L": "t_door_metal_locked",
-      "#": "t_rock"
+      "#": "t_rock",
+      "C": "t_machinery_electronic",
+      "Y": "t_thconc_floor_olight"
     },
     "toilets": { "T": {  } }
   },
