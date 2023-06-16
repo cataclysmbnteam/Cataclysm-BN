@@ -646,10 +646,17 @@
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "2x4", 5 ], [ "stick", 10 ] ],
-      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
-      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
-      [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
+      [ [ "wood_structural_small", 5, "LIST" ] ],
+      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ], [ "material_soil", 20 ] ],
+      [
+        [ "withered", 4 ],
+        [ "straw_pile", 4 ],
+        [ "cattail_stalk", 4 ],
+        [ "dogbane", 4 ],
+        [ "pine_bough", 4 ],
+        [ "pebble", 10 ],
+        [ "material_sand", 10 ]
+      ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
     ],
     "pre_special": "check_empty",
@@ -665,10 +672,17 @@
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "2x4", 5 ], [ "stick", 10 ] ],
-      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
-      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
-      [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
+      [ [ "wood_structural_small", 5, "LIST" ] ],
+      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ], [ "material_soil", 20 ] ],
+      [
+        [ "withered", 4 ],
+        [ "straw_pile", 4 ],
+        [ "cattail_stalk", 4 ],
+        [ "dogbane", 4 ],
+        [ "pine_bough", 4 ],
+        [ "pebble", 10 ],
+        [ "material_sand", 10 ]
+      ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
     ],
     "pre_terrain": "t_wall_wattle_half",
