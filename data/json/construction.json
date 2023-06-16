@@ -81,7 +81,7 @@
     "required_skills": [ [ "survival", 2 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "stick", 12 ], [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ] ],
+    "components": [ [ [ "wood_structural", 3, "LIST" ], [ "wood_panel", 1 ] ], [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "dark_craftable": true,
     "post_terrain": "t_improvised_shelter"
@@ -126,7 +126,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 6 ], [ "stick", 6 ], [ "wood_panel", 1 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ] ],
+    "components": [ [ [ "wood_structural", 3, "LIST" ], [ "wood_panel", 1 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_door_frame",
     "post_terrain": "t_door_makeshift_c"
