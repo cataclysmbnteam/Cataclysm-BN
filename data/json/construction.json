@@ -3304,12 +3304,12 @@
     "group": "build_rammed_earth_wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "360 m",
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ "frame_wood_light" ], [ "log" ] ],
+    "time": "240 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SMOOTH", "level": 1 } ],
+    "tools": [ [ "log" ] ],
     "components": [
-      [ [ "material_soil", 240 ] ],
-      [ [ "water", 100 ], [ "water_clean", 100 ] ],
+      [ [ "material_soil", 100 ] ],
+      [ [ "water", 50 ], [ "water_clean", 50 ] ],
       [ [ "material_sand", 20 ], [ "material_quicklime", 20 ], [ "concrete", 1 ] ]
     ],
     "pre_terrain": "t_fence_post",

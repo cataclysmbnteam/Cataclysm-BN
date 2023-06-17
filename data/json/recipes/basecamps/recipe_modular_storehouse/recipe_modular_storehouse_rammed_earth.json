@@ -13,19 +13,19 @@
     "blueprint_provides": [ { "id": "fbms_east" } ],
     "blueprint_excludes": [ { "id": "fbms_east" } ],
     "blueprint_needs": {
-      "time": "4 d 3 h",
+      "time": "3 d 3 h",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [ [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
         "components": [
           [ [ "2x4", 48 ], [ "stick", 48 ], [ "stick_long", 24 ] ],
           [ [ "birchbark", 144 ], [ "pine_bough", 144 ] ],
           [ [ "concrete", 12 ], [ "material_quicklime", 240 ], [ "material_sand", 240 ] ],
           [ [ "log", 24 ] ],
-          [ [ "material_soil", 3360 ] ],
+          [ [ "material_soil", 1680 ] ],
           [ [ "pointy_stick", 24 ], [ "spear_wood", 24 ] ],
-          [ [ "water", 1200 ], [ "water_clean", 1200 ] ]
+          [ [ "water", 600 ], [ "water_clean", 600 ] ]
         ]
       }
     }
@@ -44,19 +44,19 @@
     "blueprint_provides": [ { "id": "fbms_west" } ],
     "blueprint_excludes": [ { "id": "fbms_west" } ],
     "blueprint_needs": {
-      "time": "4 d 3 h",
+      "time": "3 d 3 h",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [ [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
         "components": [
           [ [ "2x4", 48 ], [ "stick", 48 ], [ "stick_long", 24 ] ],
           [ [ "birchbark", 144 ], [ "pine_bough", 144 ] ],
           [ [ "concrete", 12 ], [ "material_quicklime", 240 ], [ "material_sand", 240 ] ],
           [ [ "log", 24 ] ],
-          [ [ "material_soil", 3360 ] ],
+          [ [ "material_soil", 1680 ] ],
           [ [ "pointy_stick", 24 ], [ "spear_wood", 24 ] ],
-          [ [ "water", 1200 ], [ "water_clean", 1200 ] ]
+          [ [ "water", 600 ], [ "water_clean", 600 ] ]
         ]
       }
     }
@@ -75,20 +75,20 @@
     "blueprint_provides": [ { "id": "fbms_northwest" } ],
     "blueprint_excludes": [ { "id": "fbms_northwest" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h 15 m",
+      "time": "1 d 2 h 15 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [ [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
         "components": [
           [ [ "log", 10 ] ],
           [ [ "2x4", 16 ], [ "stick", 16 ], [ "stick_long", 8 ] ],
           [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
-          [ [ "material_soil", 1120 ] ],
+          [ [ "material_soil", 560 ] ],
           [ [ "nail", 30 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
-          [ [ "water", 400 ], [ "water_clean", 400 ] ]
+          [ [ "water", 200 ], [ "water_clean", 200 ] ]
         ]
       }
     }
@@ -107,20 +107,20 @@
     "blueprint_provides": [ { "id": "fbms_southwest" } ],
     "blueprint_excludes": [ { "id": "fbms_southwest" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h 15 m",
+      "time": "1 d 2 h 15 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [ [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
         "components": [
           [ [ "log", 10 ] ],
           [ [ "2x4", 16 ], [ "stick", 16 ], [ "stick_long", 8 ] ],
           [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
-          [ [ "material_soil", 1120 ] ],
+          [ [ "material_soil", 560 ] ],
           [ [ "nail", 30 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
-          [ [ "water", 400 ], [ "water_clean", 400 ] ]
+          [ [ "water", 200 ], [ "water_clean", 200 ] ]
         ]
       }
     }
@@ -139,20 +139,20 @@
     "blueprint_provides": [ { "id": "fbms_northeast" } ],
     "blueprint_excludes": [ { "id": "fbms_northeast" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h 15 m",
+      "time": "1 d 2 h 15 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [ [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
         "components": [
           [ [ "log", 10 ] ],
           [ [ "2x4", 16 ], [ "stick", 16 ], [ "stick_long", 8 ] ],
           [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
-          [ [ "material_soil", 1120 ] ],
+          [ [ "material_soil", 560 ] ],
           [ [ "nail", 30 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
-          [ [ "water", 400 ], [ "water_clean", 400 ] ]
+          [ [ "water", 200 ], [ "water_clean", 200 ] ]
         ]
       }
     }
@@ -171,20 +171,20 @@
     "blueprint_provides": [ { "id": "fbms_southeast" } ],
     "blueprint_excludes": [ { "id": "fbms_southeast" } ],
     "blueprint_needs": {
-      "time": "1 d 10 h 15 m",
+      "time": "1 d 2 h 15 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [ [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
         "components": [
           [ [ "log", 10 ] ],
           [ [ "2x4", 16 ], [ "stick", 16 ], [ "stick_long", 8 ] ],
           [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
-          [ [ "material_soil", 1120 ] ],
+          [ [ "material_soil", 560 ] ],
           [ [ "nail", 30 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
-          [ [ "water", 400 ], [ "water_clean", 400 ] ]
+          [ [ "water", 200 ], [ "water_clean", 200 ] ]
         ]
       }
     }
@@ -203,21 +203,21 @@
     "blueprint_provides": [ { "id": "fbms_south" } ],
     "blueprint_excludes": [ { "id": "fbms_south" } ],
     "blueprint_needs": {
-      "time": "3 d 6 h 30 m",
+      "time": "2 d 22 h 30 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [ [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
         "components": [
           [ [ "2x4", 162 ] ],
+          [ [ "birchbark", 288 ], [ "pine_bough", 288 ] ],
+          [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
+          [ [ "log", 48 ] ],
+          [ [ "material_soil", 1360 ] ],
           [ [ "nail", 108 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
-          [ [ "material_soil", 1920 ] ],
-          [ [ "water", 400 ], [ "water_clean", 400 ] ],
-          [ [ "material_sand", 80 ], [ "material_quicklime", 80 ], [ "concrete", 4 ] ],
-          [ [ "rope_makeshift_6", 4 ], [ "rope_6", 4 ] ],
-          [ [ "log", 48 ] ],
-          [ [ "birchbark", 288 ], [ "pine_bough", 288 ] ]
+          [ [ "rope_6", 4 ], [ "rope_makeshift_6", 4 ] ],
+          [ [ "water", 200 ], [ "water_clean", 200 ] ]
         ]
       }
     }
@@ -236,21 +236,21 @@
     "blueprint_provides": [ { "id": "fbms_north" } ],
     "blueprint_excludes": [ { "id": "fbms_north" } ],
     "blueprint_needs": {
-      "time": "3 d 6 h 30 m",
+      "time": "2 d 22 h 30 m",
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [ [ [ "log", -1 ] ] ],
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SMOOTH" } ] ],
         "components": [
           [ [ "2x4", 162 ] ],
+          [ [ "birchbark", 288 ], [ "pine_bough", 288 ] ],
+          [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
+          [ [ "log", 48 ] ],
+          [ [ "material_soil", 1360 ] ],
           [ [ "nail", 108 ] ],
           [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
-          [ [ "material_soil", 1920 ] ],
-          [ [ "water", 400 ], [ "water_clean", 400 ] ],
-          [ [ "material_sand", 80 ], [ "material_quicklime", 80 ], [ "concrete", 4 ] ],
-          [ [ "rope_makeshift_6", 4 ], [ "rope_6", 4 ] ],
-          [ [ "log", 48 ] ],
-          [ [ "birchbark", 288 ], [ "pine_bough", 288 ] ]
+          [ [ "rope_6", 4 ], [ "rope_makeshift_6", 4 ] ],
+          [ [ "water", 200 ], [ "water_clean", 200 ] ]
         ]
       }
     }
