@@ -19,7 +19,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 354 ] ],
+          [ [ "2x4", 246 ] ],
           [ [ "hinge", 2 ] ],
           [ [ "log", 72 ] ],
           [ [ "nail", 360 ] ],
@@ -54,7 +54,7 @@
           [ { "id": "WRENCH" } ]
         ],
         "components": [
-          [ [ "2x4", 274 ] ],
+          [ [ "2x4", 208 ] ],
           [ [ "glass_sheet", 4 ] ],
           [ [ "hinge", 2 ] ],
           [ [ "log", 44 ] ],
@@ -86,7 +86,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 341 ] ],
+          [ [ "2x4", 251 ] ],
           [ [ "hinge", 2 ] ],
           [ [ "log", 60 ] ],
           [ [ "nail", 432 ] ],
@@ -116,7 +116,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 334 ] ],
+          [ [ "2x4", 256 ] ],
           [ [ "hinge", 4 ] ],
           [ [ "log", 52 ] ],
           [ [ "nail", 464 ] ],
@@ -146,7 +146,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 338 ] ],
+          [ [ "2x4", 254 ] ],
           [ [ "hinge", 4 ] ],
           [ [ "log", 56 ] ],
           [ [ "nail", 444 ] ],

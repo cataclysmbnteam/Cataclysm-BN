@@ -80,7 +80,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 62 ] ], [ [ "hinge", 2 ] ], [ [ "log", 16 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ] ]
+        "components": [ [ [ "2x4", 38 ] ], [ [ "hinge", 2 ] ], [ [ "log", 16 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ] ]
       }
     }
   },

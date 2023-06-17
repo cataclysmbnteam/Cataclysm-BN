@@ -327,10 +327,10 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
+          [ [ "2x4", 240 ], [ "stick", 240 ], [ "stick_long", 120 ] ],
+          [ [ "birchbark", 720 ], [ "pine_bough", 720 ] ],
           [ [ "log", 120 ] ],
-          [ [ "stick", 240 ], [ "2x4", 240 ] ],
-          [ [ "material_soil", 2400 ] ],
-          [ [ "birchbark", 720 ], [ "pine_bough", 720 ] ]
+          [ [ "material_soil", 2400 ] ]
         ]
       }
     }

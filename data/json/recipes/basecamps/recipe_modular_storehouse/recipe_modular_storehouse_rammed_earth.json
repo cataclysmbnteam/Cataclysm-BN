@@ -19,13 +19,13 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "pointy_stick", 24 ], [ "spear_wood", 24 ] ],
-          [ [ "material_soil", 3360 ] ],
-          [ [ "water", 1200 ], [ "water_clean", 1200 ] ],
-          [ [ "material_sand", 240 ], [ "material_quicklime", 240 ], [ "concrete", 12 ] ],
+          [ [ "2x4", 48 ], [ "stick", 48 ], [ "stick_long", 24 ] ],
+          [ [ "birchbark", 144 ], [ "pine_bough", 144 ] ],
+          [ [ "concrete", 12 ], [ "material_quicklime", 240 ], [ "material_sand", 240 ] ],
           [ [ "log", 24 ] ],
-          [ [ "stick", 48 ], [ "2x4", 48 ] ],
-          [ [ "birchbark", 144 ], [ "pine_bough", 144 ] ]
+          [ [ "material_soil", 3360 ] ],
+          [ [ "pointy_stick", 24 ], [ "spear_wood", 24 ] ],
+          [ [ "water", 1200 ], [ "water_clean", 1200 ] ]
         ]
       }
     }
@@ -50,13 +50,13 @@
         "tools": [ [ [ "frame_wood_light", -1 ] ], [ [ "log", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
-          [ [ "pointy_stick", 24 ], [ "spear_wood", 24 ] ],
-          [ [ "material_soil", 3360 ] ],
-          [ [ "water", 1200 ], [ "water_clean", 1200 ] ],
-          [ [ "material_sand", 240 ], [ "material_quicklime", 240 ], [ "concrete", 12 ] ],
+          [ [ "2x4", 48 ], [ "stick", 48 ], [ "stick_long", 24 ] ],
+          [ [ "birchbark", 144 ], [ "pine_bough", 144 ] ],
+          [ [ "concrete", 12 ], [ "material_quicklime", 240 ], [ "material_sand", 240 ] ],
           [ [ "log", 24 ] ],
-          [ [ "stick", 48 ], [ "2x4", 48 ] ],
-          [ [ "birchbark", 144 ], [ "pine_bough", 144 ] ]
+          [ [ "material_soil", 3360 ] ],
+          [ [ "pointy_stick", 24 ], [ "spear_wood", 24 ] ],
+          [ [ "water", 1200 ], [ "water_clean", 1200 ] ]
         ]
       }
     }
@@ -82,7 +82,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "log", 10 ] ],
-          [ [ "2x4", 16 ], [ "stick", 16 ] ],
+          [ [ "2x4", 16 ], [ "stick", 16 ], [ "stick_long", 8 ] ],
           [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 1120 ] ],
@@ -114,7 +114,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "log", 10 ] ],
-          [ [ "2x4", 16 ], [ "stick", 16 ] ],
+          [ [ "2x4", 16 ], [ "stick", 16 ], [ "stick_long", 8 ] ],
           [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 1120 ] ],
@@ -146,7 +146,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "log", 10 ] ],
-          [ [ "2x4", 16 ], [ "stick", 16 ] ],
+          [ [ "2x4", 16 ], [ "stick", 16 ], [ "stick_long", 8 ] ],
           [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 1120 ] ],
@@ -178,7 +178,7 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
           [ [ "log", 10 ] ],
-          [ [ "2x4", 16 ], [ "stick", 16 ] ],
+          [ [ "2x4", 16 ], [ "stick", 16 ], [ "stick_long", 8 ] ],
           [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
           [ [ "concrete", 4 ], [ "material_quicklime", 80 ], [ "material_sand", 80 ] ],
           [ [ "material_soil", 1120 ] ],
@@ -275,10 +275,10 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
+          [ [ "2x4", 240 ], [ "stick", 240 ], [ "stick_long", 120 ] ],
+          [ [ "birchbark", 720 ], [ "pine_bough", 720 ] ],
           [ [ "log", 120 ] ],
-          [ [ "stick", 240 ], [ "2x4", 240 ] ],
-          [ [ "material_soil", 2400 ] ],
-          [ [ "birchbark", 720 ], [ "pine_bough", 720 ] ]
+          [ [ "material_soil", 2400 ] ]
         ]
       }
     }

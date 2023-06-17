@@ -697,7 +697,7 @@
     "time": "30 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "2x4", 2 ], [ "stick", 4 ] ],
+      [ [ "wood_structural_small", 2, "LIST" ] ],
       [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ], [ "clay_lump", 2 ] ],
       [ [ "pebble", 4 ], [ "material_sand", 4 ] ],
       [ [ "straw_pile", 2 ], [ "cattail_stalk", 2 ], [ "dogbane", 2 ], [ "pine_bough", 2 ] ],
@@ -780,7 +780,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "log", 2 ] ], [ [ "stick", 3 ], [ "2x4", 6 ] ] ],
+    "components": [ [ [ "log", 2 ] ], [ [ "wood_structural_small", 3, "LIST" ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_wall_log_half"
   },
@@ -1319,7 +1319,7 @@
     "required_skills": [ [ "fabrication", 5 ], [ "survival", 3 ] ],
     "time": "120 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 8 ], [ "stick", 8 ] ], [ [ "straw_pile", 24 ], [ "withered", 24 ] ], [ [ "cordage", 2, "LIST" ] ] ],
+    "components": [ [ [ "wood_structural", 4, "LIST" ] ], [ [ "straw_pile", 24 ], [ "withered", 24 ] ], [ [ "cordage", 2, "LIST" ] ] ],
     "pre_special": "check_support",
     "post_terrain": "t_dirtfloor_thatchroof"
   },
@@ -1333,7 +1333,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "log", 2 ] ],
-      [ [ "stick", 4 ], [ "2x4", 4 ] ],
+      [ [ "wood_structural", 2, "LIST" ] ],
       [ [ "material_soil", 40 ] ],
       [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
     ],
@@ -1361,7 +1361,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
     "time": "60 m",
-    "components": [ [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ], [ [ "stick", 8 ], [ "2x4", 8 ] ] ],
+    "components": [ [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ], [ [ "wood_structural", 4, "LIST" ] ] ],
     "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_palisade_pulley"
@@ -1374,7 +1374,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "log", 2 ] ], [ [ "2x4", 3 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ] ],
+    "components": [ [ [ "log", 2 ] ], [ [ "wood_structural_small", 3, "LIST" ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ] ],
     "pre_note": "Must be between palisade walls to function, and at least one wall must have an adjacent rope & pulley system.",
     "pre_terrain": "t_pit",
     "post_terrain": "t_palisade_gate"
@@ -1870,7 +1870,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
-    "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "straw_pile", 8 ], [ "withered", 8 ], [ "pine_bough", 8 ] ] ],
+    "components": [ [ [ "wood_structural", 2, "LIST" ] ], [ [ "straw_pile", 8 ], [ "withered", 8 ], [ "pine_bough", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
@@ -3002,7 +3002,7 @@
     "required_skills": [ [ "fabrication", 3 ], [ "cooking", 2 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "stick", 16 ], [ "2x4", 16 ] ], [ [ "rock", 8 ] ] ],
+    "components": [ [ [ "wood_structural", 8, "LIST" ] ], [ [ "rock", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_furniture": "f_smoking_rack"
@@ -3083,7 +3083,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "130 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "rock", 40 ], [ "brick", 40 ] ], [ [ "2x4", 6 ], [ "stick", 6 ] ], [ [ "withered", 12 ], [ "straw_pile", 12 ] ] ],
+    "components": [ [ [ "rock", 40 ], [ "brick", 40 ] ], [ [ "wood_structural", 3, "LIST" ] ], [ [ "withered", 12 ], [ "straw_pile", 12 ] ] ],
     "pre_note": "You need a deep pit to construct a root cellar.",
     "pre_terrain": "t_pit",
     "post_terrain": "t_rootcellar"
@@ -3469,7 +3469,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "90m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "stick", 6 ], [ "2x4", 3 ] ] ],
+    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ] ],
     "pre_terrain": "t_tree_pine",
     "post_terrain": "t_leanto"
   },
