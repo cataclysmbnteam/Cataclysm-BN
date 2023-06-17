@@ -207,7 +207,7 @@
             [ "straw_pile", 24 ],
             [ "withered", 24 ]
           ],
-          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_adobe", 1 ], [ "mortar_build", 1 ] ],
           [
             [ "clay_lump", 24 ],
             [ "material_limestone", 24 ],

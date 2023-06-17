@@ -615,8 +615,8 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_adobe", 1 ], [ "mortar_build", 1 ] ],
           [ [ "rock", 40 ] ],
-          [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
           [ [ "water", 2 ], [ "water_clean", 2 ] ]
         ]
       }

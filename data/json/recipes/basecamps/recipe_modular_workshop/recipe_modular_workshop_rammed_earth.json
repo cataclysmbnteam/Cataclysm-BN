@@ -157,9 +157,9 @@
       "skills": [ [ "fabrication", 4 ] ],
       "inline": {
         "tools": [
+          [ [ "fake_gridwelder", 100 ], [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ],
           [ [ "frame_wood_light", -1 ] ],
-          [ [ "log", -1 ] ],
-          [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ]
+          [ [ "log", -1 ] ]
         ],
         "qualities": [
           [ { "id": "DIG", "level": 2 } ],
@@ -169,7 +169,7 @@
         ],
         "components": [
           [ [ "2x4", 132 ] ],
-          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_adobe", 1 ], [ "mortar_build", 1 ] ],
           [ [ "concrete", 3 ], [ "material_quicklime", 60 ], [ "material_sand", 60 ] ],
           [ [ "material_soil", 720 ] ],
           [ [ "nail", 380 ] ],

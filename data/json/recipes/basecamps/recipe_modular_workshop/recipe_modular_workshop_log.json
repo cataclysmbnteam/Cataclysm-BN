@@ -142,7 +142,7 @@
         ],
         "components": [
           [ [ "2x4", 150 ] ],
-          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_adobe", 1 ], [ "mortar_build", 1 ] ],
           [ [ "log", 12 ] ],
           [ [ "nail", 380 ] ],
           [ [ "pipe", 16 ] ],
