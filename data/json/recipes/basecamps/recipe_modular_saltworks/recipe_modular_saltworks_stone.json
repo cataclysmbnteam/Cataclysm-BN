@@ -20,13 +20,13 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 71 ] ],
-          [ [ "nail", 158 ] ],
-          [ [ "wood_panel", 6 ] ],
-          [ [ "hinge", 2 ] ],
           [ [ "glass_sheet", 3 ] ],
-          [ [ "rock", 480 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "mortar_adobe", 40 ], [ "mortar_build", 40 ] ],
+          [ [ "nail", 158 ] ],
           [ [ "pebble", 1000 ] ],
-          [ [ "mortar_build", 40 ] ]
+          [ [ "rock", 480 ] ],
+          [ [ "wood_panel", 6 ] ]
         ]
       }
     }
@@ -57,15 +57,15 @@
         ],
         "components": [
           [ [ "2x4", 78 ] ],
-          [ [ "nail", 164 ] ],
-          [ [ "wood_panel", 2 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "pipe", 60 ] ],
-          [ [ "sheet_metal", 10 ] ],
           [ [ "glass_sheet", 4 ] ],
-          [ [ "rock", 264 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "mortar_adobe", 22 ], [ "mortar_build", 22 ] ],
+          [ [ "nail", 164 ] ],
           [ [ "pebble", 550 ] ],
-          [ [ "mortar_build", 22 ] ]
+          [ [ "pipe", 60 ] ],
+          [ [ "rock", 264 ] ],
+          [ [ "sheet_metal", 10 ] ],
+          [ [ "wood_panel", 2 ] ]
         ]
       }
     }
@@ -85,7 +85,7 @@
     "blueprint_excludes": [ { "id": "fbmsw_southwest" } ],
     "blueprint_needs": {
       "time": "5 d 17 h 30 m",
-      "skills": [ [ "cooking", 3 ], [ "fabrication", 6 ] ],
+      "skills": [ [ "fabrication", 6 ], [ "cooking", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [
@@ -97,17 +97,17 @@
         ],
         "components": [
           [ [ "2x4", 76 ] ],
-          [ [ "nail", 122 ] ],
-          [ [ "wood_panel", 1 ] ],
+          [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 2 ] ],
+          [ [ "mortar_adobe", 42 ], [ "mortar_build", 42 ] ],
+          [ [ "nail", 122 ] ],
+          [ [ "pebble", 1050 ] ],
           [ [ "pipe", 36 ] ],
+          [ [ "rock", 504 ] ],
           [ [ "sheet_metal", 7 ] ],
           [ [ "sheet_metal_small", 12 ] ],
           [ [ "water_faucet", 2 ] ],
-          [ [ "glass_sheet", 2 ] ],
-          [ [ "rock", 504 ] ],
-          [ [ "pebble", 1050 ] ],
-          [ [ "mortar_build", 42 ] ]
+          [ [ "wood_panel", 1 ] ]
         ]
       }
     }

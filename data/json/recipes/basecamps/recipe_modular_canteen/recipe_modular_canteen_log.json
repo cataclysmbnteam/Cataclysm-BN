@@ -19,7 +19,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 131 ] ],
+          [ [ "2x4", 95 ] ],
           [ [ "glass_sheet", 3 ] ],
           [ [ "hinge", 2 ] ],
           [ [ "log", 24 ] ],
@@ -49,7 +49,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 151 ] ],
+          [ [ "2x4", 97 ] ],
           [ [ "glass_sheet", 1 ] ],
           [ [ "hinge", 4 ] ],
           [ [ "log", 36 ] ],
@@ -78,7 +78,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 252 ] ], [ [ "log", 24 ] ], [ [ "nail", 448 ] ], [ [ "wood_panel", 22 ] ] ]
+        "components": [ [ [ "2x4", 216 ] ], [ [ "log", 24 ] ], [ [ "nail", 448 ] ], [ [ "wood_panel", 22 ] ] ]
       }
     }
   },
@@ -101,7 +101,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "log", 64 ] ], [ [ "2x4", 180 ], [ "stick", 90 ] ], [ [ "glass_sheet", 2 ] ], [ [ "nail", 60 ] ] ]
+        "components": [ [ [ "log", 64 ] ], [ [ "2x4", 90 ], [ "stick", 90 ] ], [ [ "glass_sheet", 2 ] ], [ [ "nail", 60 ] ] ]
       }
     }
   },
@@ -125,7 +125,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 128 ] ],
+          [ [ "2x4", 92 ] ],
           [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 2 ] ],
           [ [ "log", 24 ] ],
@@ -154,7 +154,7 @@
       "inline": {
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 141 ] ], [ [ "glass_sheet", 3 ] ], [ [ "log", 28 ] ], [ [ "nail", 120 ] ] ]
+        "components": [ [ [ "2x4", 99 ] ], [ [ "glass_sheet", 3 ] ], [ [ "log", 28 ] ], [ [ "nail", 120 ] ] ]
       }
     }
   },
@@ -178,7 +178,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 53 ] ],
+          [ [ "2x4", 41 ] ],
           [ [ "glass_sheet", 1 ] ],
           [ [ "hinge", 2 ] ],
           [ [ "log", 8 ] ],
