@@ -1554,27 +1554,32 @@ const std::map<bodypart_str_id, bodypart> &Creature::get_body() const
 void Creature::set_body()
 {
     body.clear();
-    for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
-        body.emplace( bp.id(), bodypart( bp.id() ) );
+    // TODO: Probably shouldn't be needed, but it's called from game::game()
+    if( get_anatomy().is_valid() ) {
+        for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
+            body.emplace( bp.id(), bodypart( bp.id() ) );
+        }
     }
 }
 
-bodypart *Creature::get_part( const bodypart_id &id )
+bodypart &Creature::get_part( const bodypart_id &id )
 {
     auto found = body.find( id.id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
-        return nullptr;
+        static bodypart nullpart;
+        return nullpart;
     }
-    return &found->second;
+    return found->second;
 }
 
-bodypart Creature::get_part( const bodypart_id &id ) const
+const bodypart &Creature::get_part( const bodypart_id &id ) const
 {
     auto found = body.find( id.id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
-        return bodypart();
+        static const bodypart nullpart;
+        return nullpart;
     }
     return found->second;
 }
@@ -1596,32 +1601,32 @@ int Creature::get_part_healed_total( const bodypart_id &id ) const
 
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
-    get_part( id )->set_hp_cur( set );
+    get_part( id ).set_hp_cur( set );
 }
 
 void Creature::set_part_hp_max( const bodypart_id &id, int set )
 {
-    get_part( id )->set_hp_max( set );
+    get_part( id ).set_hp_max( set );
 }
 
 void Creature::set_part_healed_total( const bodypart_id &id, int set )
 {
-    get_part( id )->set_healed_total( set );
+    get_part( id ).set_healed_total( set );
 }
 
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_hp_cur( mod );
+    get_part( id ).mod_hp_cur( mod );
 }
 
 void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_hp_max( mod );
+    get_part( id ).mod_hp_max( mod );
 }
 
 void Creature::mod_part_healed_total( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_healed_total( mod );
+    get_part( id ).mod_healed_total( mod );
 }
 
 void Creature::set_all_parts_hp_cur( const int set )

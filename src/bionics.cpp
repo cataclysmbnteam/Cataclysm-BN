@@ -669,7 +669,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         }
 
         add_msg_activate();
-        primary_weapon() = item( bio.info().fake_item );
+        set_primary_weapon( item( bio.info().fake_item ) );
         primary_weapon().invlet = '#';
         if( is_player() && bio.ammo_count > 0 ) {
             primary_weapon().ammo_set( bio.ammo_loaded, bio.ammo_count );
@@ -1152,7 +1152,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
                 primary_weapon().ammo_data() != nullptr ? primary_weapon().ammo_data()->get_id() :
                 itype_id::NULL_ID();
             bio.ammo_count = static_cast<unsigned int>( primary_weapon().ammo_remaining() );
-            primary_weapon() = item();
+            set_primary_weapon( item() );
             invalidate_crafting_inventory();
         }
     } else if( bio.id == bio_cqb ) {

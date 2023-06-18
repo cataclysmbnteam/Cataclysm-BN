@@ -1551,7 +1551,7 @@ void Character::consume( item_location loc )
         }
 
         if( was_in_container && wielding ) {
-            add_msg_if_player( _( "You are now wielding an empty %s." ), weapon.tname() );
+            add_msg_if_player( _( "You are now wielding an empty %s." ), primary_weapon().tname() );
         } else if( was_in_container && worn ) {
             add_msg_if_player( _( "You are now wearing an empty %s." ), target.tname() );
         } else if( was_in_container && !is_npc() ) {

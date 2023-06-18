@@ -435,6 +435,7 @@ void Character::suffer_from_chemimbalance()
 void Character::suffer_from_schizophrenia()
 {
     std::string i_name_w;
+    item &weapon = primary_weapon();
     if( !weapon.is_null() ) {
         i_name_w = weapon.has_var( "item_label" ) ? weapon.get_var( "item_label" ) :
                    //~ %1$s: weapon name
@@ -924,7 +925,7 @@ void Character::suffer_from_sunburn()
         }
     }
     // Umbrellas can keep the sun off the skin
-    if( weapon.has_flag( "RAIN_PROTECT" ) ) {
+    if( primary_weapon().has_flag( "RAIN_PROTECT" ) ) {
         return;
     }
 
@@ -1289,6 +1290,7 @@ void Character::suffer_from_bad_bionics()
         moves -= 150;
         mod_power_level( -bio_dis_shock->power_trigger );
 
+        item &weapon = primary_weapon();
         if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
             weapon.charges -= rng( 1, 3 ) * 50;
             if( weapon.charges < 1 ) {

@@ -486,7 +486,7 @@ void add_pain_msg( const Character &who, int val, body_part bp )
 void normalize( Character &who )
 {
     who.martial_arts_data->reset_style();
-    who.primary_weapon() = item();
+    who.set_primary_weapon( item() );
 
     who.set_body();
     who.recalc_hp();
@@ -545,7 +545,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
         who.inv.unsort();
     }
 
-    who.primary_weapon() = std::move( *internal_item );
+    who.set_primary_weapon( *internal_item );
     container.remove_item( *internal_item );
     container.on_contents_changed();
 
