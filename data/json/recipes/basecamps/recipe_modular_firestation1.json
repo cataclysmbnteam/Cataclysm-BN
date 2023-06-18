@@ -571,7 +571,7 @@
       "inline": {
         "tools": [ [ [ "fake_gridsolderingiron", 20 ], [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
         "qualities": [ [ { "id": "SCREW" } ] ],
-        "components": [ [ [ "cable", 5 ] ], [ [ "forge", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 25 ] ] ]
+        "components": [ [ [ "cable", 5 ] ], [ [ "forge", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 20 ] ] ]
       }
     }
   },
