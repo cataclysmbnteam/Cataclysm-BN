@@ -229,7 +229,7 @@ int main( int argc, char *argv[] )
 #   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR)
     PATH_INFO::init_user_dir( "" );
 #   else
-    PATH_INFO::init_user_dir( "./" );
+    PATH_INFO::init_user_dir( "." );
 #   endif
 #endif
     PATH_INFO::set_standard_filenames();
