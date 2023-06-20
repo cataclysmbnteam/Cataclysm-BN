@@ -377,7 +377,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
 
     cata::flat_set<std::string> our_extra_flags = extra_flags;
 
-    if( rec.hot_result() ) {
+    if( rec.hot_result() || rec.dehydrate_result() ) {
         our_extra_flags.insert( flag_COOKED );
     }
 

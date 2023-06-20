@@ -1030,6 +1030,9 @@ void complete_craft( player &p, item &craft, const bench_location & )
     std::vector<item> newits = making.create_results( batch_size );
 
     const bool should_heat = making.hot_result();
+    const bool is_dehydrated = making.dehydrate_result();
+    //std::string test = craft.get_tools();
+    //add_msg("Hello %s", test);
 
     bool first = true;
     size_t newit_counter = 0;
@@ -1092,8 +1095,8 @@ void complete_craft( player &p, item &craft, const bench_location & )
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
-                // If this recipe is cooked, components are no longer raw.
-                if( should_heat ) {
+                // If this recipe is cooked or dehydrated, components are no longer raw.
+                if( should_heat || is_dehydrated ) {
                     comp.set_flag_recursive( flag_COOKED );
                 }
             }

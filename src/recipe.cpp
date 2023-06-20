@@ -37,6 +37,9 @@ static const std::string flag_FIT( "FIT" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 
 static const itype_id itype_hotplate( "hotplate" );
+static const itype_id itype_dehydrator( "dehydrator" );
+static const itype_id itype_char_smoker( "char_smoker" );
+
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -823,6 +826,21 @@ bool recipe::hot_result() const
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
                 if( t.type == itype_hotplate ) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool recipe::dehydrate_result() const
+{
+    if( create_result().is_food() ) {
+        const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
+        for( const std::vector<tool_comp> &tools : tool_lists ) {
+            for( const tool_comp &t : tools ) {
+                if( t.type == itype_dehydrator || t.type == itype_char_smoker ) {
                     return true;
                 }
             }
