@@ -226,9 +226,11 @@ def extract_bodypart(state, item):
     writestr(state, item["accusative"])
     if "accusative_multiple" in item:
         writestr(state, item["accusative_multiple"])
-    writestr(state, item["encumbrance_text"])
+    if "encumbrance_text" in item:
+        writestr(state, item["encumbrance_text"])
     writestr(state, item["heading"])
-    writestr(state, item["heading_multiple"])
+    if "heading_multiple" in item:
+        writestr(state, item["heading_multiple"])
     if "hp_bar_ui_text" in item:
         writestr(state, item["hp_bar_ui_text"])
 
@@ -259,7 +261,7 @@ def extract_material(state, item):
         writestr(state, item["dmg_adj"][3])
         wrote = True
     if not wrote and not "copy-from" in item:
-        print("WARNING: {}: no mandatory field in item: {}".format(state.current_source_file, item))        
+        print("WARNING: {}: no mandatory field in item: {}".format(state.current_source_file, item))
 
 
 def extract_martial_art(state, item):
@@ -910,7 +912,7 @@ def writestr(state, string, context=None, format_strings=False, comment=None, pl
         return;
     else:
         raise WrongJSONItem("ERROR: value is not a string, dict, list, or None", string)
-    
+
     flags = []
     if format_strings and ("%" in str_singular or (str_pl is not None and "%" in str_pl)):
         flags.append('c-format')
