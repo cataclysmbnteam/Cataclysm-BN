@@ -860,7 +860,7 @@
     "material": "bean",
     "fun": -1,
     "cooks_like": "beans_cooked",
-    "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_beans",
     "vitamins": [ [ "iron", 2 ], [ "vitC", 20 ] ]
   },
