@@ -810,7 +810,7 @@ bool recipe::hot_result() const
     // We don't actually know which specific tool the player used/will use here, but
     // we're checking for a class of tools; because of the way requirements
     // processing works, the "surface_heat" id gets nuked into an actual
-    // list of tools, see data/json/recipes/cooking_tools.json.
+    // list of tools, see data/json/requirements/cooking_tools.json.
     //
     // Currently it's only checking for a hotplate because that's a
     // suitable item in both the "surface_heat" and "water_boiling_heat"
