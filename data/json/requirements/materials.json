@@ -90,6 +90,12 @@
     "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
   {
+    "id": "fabric_hides_untanned",
+    "type": "requirement",
+    "//": "For where cured hides and pelts can be used, usually for recipes that don't require sewing.",
+    "components": [ [ [ "cured_hide", 1 ], [ "cured_pelt", 1 ] ] ]
+  },
+  {
     "id": "fabric_standard_permeable",
     "type": "requirement",
     "//": "Materials used for crafting or repairing woven fabrics",
