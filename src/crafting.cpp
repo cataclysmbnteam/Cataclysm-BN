@@ -1031,8 +1031,6 @@ void complete_craft( player &p, item &craft, const bench_location & )
 
     const bool should_heat = making.hot_result();
     const bool is_dehydrated = making.dehydrate_result();
-    //std::string test = craft.get_tools();
-    //add_msg("Hello %s", test);
 
     bool first = true;
     size_t newit_counter = 0;
