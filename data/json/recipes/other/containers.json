@@ -441,7 +441,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "clay_lump", 4 ] ],
-      [ [ "leather", 2 ], [ "fur", 2 ], [ "cured_hide", 2 ], [ "cured_pelt", 2 ] ]
+      [ [ "fabric_hides_proper", 2, "LIST" ], [ "fabric_hides_untanned", 2, "LIST" ] ]
     ]
   },
   {
@@ -458,7 +458,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "clay_lump", 2 ] ],
-      [ [ "leather", 2 ], [ "fur", 2 ], [ "cured_hide", 2 ], [ "cured_pelt", 2 ] ]
+      [ [ "fabric_hides_proper", 2, "LIST" ], [ "fabric_hides_untanned", 2, "LIST" ] ]
     ]
   },
   {
@@ -475,7 +475,7 @@
     "components": [
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "clay_lump", 10 ] ],
-      [ [ "leather", 3 ], [ "fur", 3 ], [ "cured_hide", 3 ], [ "cured_pelt", 3 ] ]
+      [ [ "fabric_hides_proper", 3, "LIST" ], [ "fabric_hides_untanned", 3, "LIST" ] ]
     ]
   },
   {
@@ -492,7 +492,7 @@
     "components": [
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "clay_lump", 20 ] ],
-      [ [ "leather", 3 ], [ "fur", 3 ], [ "cured_hide", 3 ], [ "cured_pelt", 3 ] ]
+      [ [ "fabric_hides_proper", 3, "LIST" ], [ "fabric_hides_untanned", 3, "LIST" ] ]
     ]
   },
   {
@@ -509,7 +509,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "clay_lump", 6 ] ],
-      [ [ "leather", 3 ], [ "fur", 3 ], [ "cured_hide", 2 ], [ "cured_pelt", 2 ] ]
+      [ [ "fabric_hides_proper", 3, "LIST" ], [ "fabric_hides_untanned", 2, "LIST" ] ]
     ]
   },
   {
