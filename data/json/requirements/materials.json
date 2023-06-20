@@ -3,13 +3,19 @@
     "id": "adhesive",
     "type": "requirement",
     "//": "Materials used for joining (typically non-metallic) parts",
-    "components": [ [ [ "duct_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
     "components": [ [ [ "lead", 1 ] ] ]
+  },
+  {
+    "id": "chem_lye",
+    "type": "requirement",
+    "//": "Comparable ratios of liquid lye and lye powder.",
+    "components": [ [ [ "lye", 1 ], [ "lye_powder", 30 ] ] ]
   },
   {
     "id": "copper_scrap_equivalent",
@@ -157,6 +163,7 @@
       [
         [ "feather", 10 ],
         [ "duct_tape", 40 ],
+        [ "medical_tape", 40 ],
         [ "cardboard", 10 ],
         [ "bag_plastic", 1 ],
         [ "bottle_plastic_small", 1 ],

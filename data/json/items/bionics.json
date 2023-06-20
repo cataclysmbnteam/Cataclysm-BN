@@ -72,7 +72,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Arms Alloy Plating CBM" },
-    "description": "Alloy plating that replaces the flesh on the user's arms.  Provides passive protection and can be used in conjunction with bionic martial arts.",
+    "description": "Alloy plating that replaces the flesh on the user's arms.  Provides 6 bash and cut protection, 5 ballistic protection, and can be used in conjunction with bionic martial arts.",
     "price": 350000,
     "difficulty": 3,
     "installation_data": "AID_bio_armor_arms"
@@ -83,7 +83,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Protective Lenses CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A bionic package that seals the user's eye sockets with highly protective mirrored lenses and re-routes their tear ducts to their mouth.  When the user cries, they must spit out or swallow their tears.",
+    "description": "A bionic package that seals the user's eye sockets with highly protective mirrored lenses and re-routes their tear ducts to their mouth.  Provides 3 bash and cut protection, and 7 environmental protection.",
     "price": 550000,
     "weight": "500 g",
     "difficulty": 5
@@ -94,7 +94,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Head Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Alloy plating that replaces the flesh on the user's head, protecting both their head and jaw regions.",
+    "description": "Alloy plating that replaces the flesh on the user's head, protecting both their head and jaw regions.  Provides 6 bash and cut protection, and 5 ballistic protection.",
     "price": 350000,
     "weight": "1000 g",
     "difficulty": 5
@@ -105,7 +105,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Legs Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Alloy plating that replaces the flesh on the user's legs.  Provides passive protection and can be used in conjunction with bionic martial arts.",
+    "description": "Alloy plating that replaces the flesh on the user's legs.  Provides 6 bash and cut protection, 5 ballistic protection, and can be used in conjunction with bionic martial arts.",
     "price": 350000,
     "difficulty": 3,
     "installation_data": "AID_bio_armor_legs"
@@ -116,7 +116,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Torso Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Alloy plating that replaces the flesh on the user's torso, protecting it from physical trauma.",
+    "description": "Alloy plating that replaces the flesh on the user's torso, protecting it from physical trauma.  Provides 6 bash and cut protection, and 5 ballistic protection.",
     "price": 350000,
     "weight": "3000 g",
     "difficulty": 4
@@ -195,7 +195,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Subdermal Carbon Filament CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A thin armor made of carbon nanotubes, implanted just beneath the skin.  This reduces bashing damage by 2 and cutting damage by 4.",
+    "description": "A thin armor made of carbon nanotubes, implanted just beneath the skin.  This reduces all bashing damage by 5%, cutting damage by 10%, and ballistic damage by 15%.",
     "price": 750000,
     "difficulty": 9
   },
@@ -774,7 +774,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Internal Microreactor CBM" },
-    "description": "This stripped down mini-reactor will generate impressive amounts of bionic power, but may not be the safest thing to install.  1 plutonium fuel cell provides 2500 charges producing 10kJ of power a turn, while not active & fueled provides a constant 50J of power.",
+    "description": "This stripped down mini-reactor will generate impressive amounts of bionic power, but may not be the safest thing to install.  1 plutonium fuel cell provides 1000 charges producing 10kJ of power a turn, while not active & fueled provides a constant 50J of power.",
     "price": 900000,
     "difficulty": 11
   },
@@ -783,7 +783,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Advanced Microreactor CBM" },
-    "description": "This module upgrades a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.  1 plutonium fuel cell provides 3000 charges producing 12kJ of power a turn, while not active & fueled provides a constant 100J of power.",
+    "description": "This module upgrades a pre-installed microreactor with enhanced maximum yield and limited automatic radiation scrubbing capabilities.  1 plutonium fuel cell provides 1500 charges producing 10kJ of power a turn, while not active & fueled provides a constant 75J of power.",
     "price": 900000,
     "difficulty": 13
   },

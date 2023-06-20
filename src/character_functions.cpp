@@ -534,7 +534,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
         return false;
     }
 
-    const ret_val<bool> ret = who.as_player()->can_wield( *internal_item );
+    const ret_val<bool> ret = who.can_wield( *internal_item );
     if( !ret.success() ) {
         who.add_msg_if_player( m_info, "%s", ret.c_str() );
         return false;

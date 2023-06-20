@@ -260,8 +260,11 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     if( monster *const mon_ptr = g->critter_at<monster>( dest_loc, true ) ) {
         monster &critter = *mon_ptr;
+        // Additional checking to make sure we won't take a swing at friendly monsters.
+        Character &u = get_player_character();
+        monster_attitude att = critter.attitude( const_cast<Character *>( &u ) );
         if( critter.friendly == 0 &&
-            !critter.has_effect( effect_pet ) ) {
+            !critter.has_effect( effect_pet ) && att != MATT_FRIEND ) {
             if( you.is_auto_moving() ) {
                 add_msg( m_warning, _( "Monster in the way.  Auto-move canceled." ) );
                 add_msg( m_info, _( "Move into the monster to attack." ) );

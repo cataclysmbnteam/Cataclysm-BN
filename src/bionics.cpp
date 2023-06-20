@@ -1284,11 +1284,13 @@ bool Character::burn_fuel( bionic &bio, bool start )
                         mod_stored_kcal( -kcal_consumed );
                         mod_power_level( power_gain );
                     } else if( is_perpetual_fuel ) {
-                        if( fuel == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
-                            const weather_type_id &wtype = current_weather( pos() );
-                            const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
-                            const double intensity = tick_sunlight / default_daylight_level();
-                            mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_efficiency );
+                        if( fuel == fuel_type_sun_light ) {
+                            if( g->is_in_sunlight( pos() ) ) {
+                                const weather_type_id &wtype = current_weather( pos() );
+                                const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
+                                const double intensity = tick_sunlight / default_daylight_level();
+                                mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_efficiency );
+                            }
                         } else if( fuel == fuel_type_wind ) {
                             int vehwindspeed = 0;
                             const optional_vpart_position vp = here.veh_at( pos() );

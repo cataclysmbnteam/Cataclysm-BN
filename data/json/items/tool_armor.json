@@ -1962,7 +1962,7 @@
     "description": "Straw fedora hat, comfortable and stylish.  Its brim helps keep the sun out of your eyes.",
     "price": 5000,
     "price_postapoc": 50,
-    "material": [ "paper" ],
+    "material": [ "dry_plant" ],
     "volume": "1250 ml",
     "warmth": 5,
     "environmental_protection": 3,

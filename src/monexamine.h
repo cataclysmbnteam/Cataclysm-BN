@@ -19,6 +19,7 @@ void attach_bag_to( monster &z );
 void remove_bag_from( monster &z );
 void dump_items( monster &z );
 bool give_items_to( monster &z );
+void take_items_from( monster &z );
 bool add_armor( monster &z );
 void remove_armor( monster &z );
 void remove_harness( monster &z );

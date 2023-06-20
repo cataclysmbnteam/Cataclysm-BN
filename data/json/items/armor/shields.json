@@ -74,13 +74,13 @@
     "price_postapoc": "50 USD",
     "to_hit": -3,
     "bashing": 12,
-    "material": [ "ceramic", "kevlar" ],
+    "material": [ "ceramic", "kevlar_rigid" ],
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "arm_either", "hand_either" ],
     "coverage": 100,
     "encumbrance": 30,
-    "material_thickness": 6,
+    "material_thickness": 5,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
@@ -106,7 +106,7 @@
     "encumbrance": 16,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_2" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "STURDY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "shield_banded",
@@ -128,7 +128,7 @@
     "encumbrance": 20,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_2" ],
-    "extend": { "flags": [ "STURDY" ] }
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY", "NONCONDUCTIVE" ]
   },
   {
     "id": "shield_leather_large",
@@ -161,5 +161,75 @@
     "bashing": 10,
     "encumbrance": 30,
     "techniques": [ "WBLOCK_3" ]
+  },
+  {
+    "id": "shield_welded",
+    "type": "ARMOR",
+    "name": { "str": "welded shield" },
+    "description": "A shield made out of steel armor plating with handles welded on.  It's a lot heavier and less well-made compared to a proper medieval shield, but it certainly works.",
+    "weight": "12 kg",
+    "volume": "3 L",
+    "price_postapoc": "5 USD",
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "looks_like": "shield_ballistic",
+    "symbol": "[",
+    "color": "blue",
+    "covers": [ "arm_either", "hand_either" ],
+    "coverage": 90,
+    "encumbrance": 40,
+    "material_thickness": 3,
+    "techniques": [ "WBLOCK_2" ],
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+  },
+  {
+    "id": "shield_buckler",
+    "type": "ARMOR",
+    "name": { "str": "buckler" },
+    "description": "A small metal shield historically used for dueling rather than protection from arrows.  It's small and light enough to not hinder the use of your hands.",
+    "volume": "1 L",
+    "weight": "1400 g",
+    "price": "120 USD",
+    "price_postapoc": "10 USD",
+    "bashing": 8,
+    "material": [ "steel" ],
+    "looks_like": "shield_banded",
+    "symbol": "[",
+    "color": "blue",
+    "covers": [ "arm_either" ],
+    "coverage": 50,
+    "encumbrance": 10,
+    "material_thickness": 3,
+    "techniques": [ "WBLOCK_2" ],
+    "flags": [ "OVERSIZE", "BELTED", "ONLY_ONE", "BLOCK_WHILE_WORN", "STURDY" ]
+  },
+  {
+    "id": "shield_spiked",
+    "copy-from": "shield_banded",
+    "looks_like": "shield_banded",
+    "type": "ARMOR",
+    "name": { "str": "spiked shield" },
+    "description": "A metal reinforced shield with spikes jutting out of it.  Can be used as a melee weapon if need be.",
+    "weight": "3500 g",
+    "price": "100 USD",
+    "price_postapoc": "12 USD",
+    "cutting": 8,
+    "extend": { "flags": [ "STAB" ] }
+  },
+  {
+    "id": "shield_spiked_large",
+    "copy-from": "shield_spiked",
+    "looks_like": "shield_banded_large",
+    "type": "ARMOR",
+    "name": { "str": "large spiked shield" },
+    "description": "A large metal reinforced shield with spikes jutting out of it.  Can be used as a melee weapon if need be.",
+    "weight": "5500 g",
+    "price": "120 USD",
+    "price_postapoc": "14 USD",
+    "to_hit": -2,
+    "bashing": 10,
+    "cutting": 10,
+    "encumbrance": 30
   }
 ]

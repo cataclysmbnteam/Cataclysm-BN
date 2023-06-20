@@ -177,11 +177,11 @@
     "color": "light_gray",
     "name": { "str": "withered plant" },
     "description": "A dead plant.  Good for starting fires or making a pile of leaves to sleep on.",
-    "material": "paper",
+    "material": "dry_plant",
     "weight": "20 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_SALVAGE" ]
   },
   {
     "type": "GENERIC",
@@ -2227,7 +2227,7 @@
     "name": { "str": "pile of straw", "str_pl": "piles of straw" },
     "category": "spare_parts",
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
-    "material": [ "paper" ],
+    "material": [ "dry_plant" ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "20 g",
     "volume": "250 ml",
@@ -2242,7 +2242,7 @@
     "description": "Old straw doll.  Represents a woman in a dress.",
     "price": 100,
     "price_postapoc": 0,
-    "material": [ "paper" ],
+    "material": [ "dry_plant" ],
     "weight": "80 g",
     "volume": "500 ml"
   },

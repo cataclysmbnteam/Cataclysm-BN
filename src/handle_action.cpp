@@ -689,6 +689,10 @@ static void smash()
         }
     }
     item &weapon = u.primary_weapon();
+    if( weapon.made_of( material_id( "glass" ) ) &&
+        !query_yn( _( "Are you sure you want to smash with an item made of glass?" ) ) ) {
+        return;
+    }
     const int move_cost = !u.is_armed() ? 80 : weapon.attack_cost() * 0.8;
 
     bool didit = false;

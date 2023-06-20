@@ -295,12 +295,12 @@ void player_activity::do_turn( player &p )
     }
     if( *this && !p.is_npc() && type->valid_auto_needs() && !no_food_nearby_for_auto_consume ) {
         if( p.get_kcal_percent() < 0.95f ) {
-            if( !find_auto_consume( p, true ) ) {
+            if( !find_auto_consume( p, consume_type::FOOD ) ) {
                 no_food_nearby_for_auto_consume = true;
             }
         }
         if( p.get_thirst() > thirst_levels::thirsty && !no_drink_nearby_for_auto_consume ) {
-            if( !find_auto_consume( p, false ) ) {
+            if( !find_auto_consume( p, consume_type::DRINK ) ) {
                 no_drink_nearby_for_auto_consume = true;
             }
         }

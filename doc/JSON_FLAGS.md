@@ -601,6 +601,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
+- ```VEH_TREAT_AS_BASH_BELOW``` Vehicles will not collide with this even if it counts as rough terrain, like floor with bash_below does.  Used for terrain meant to be turned into other terrain when smashed instead of destroying the tile beneath it.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
 
 ### Examine Actions

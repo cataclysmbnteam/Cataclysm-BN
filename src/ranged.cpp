@@ -3101,7 +3101,13 @@ void target_ui::update_ammo_range_from_gun_mode()
     } else {
         ammo = activity->reload_loc ? activity->reload_loc->type :
                relevant->gun_current_mode().target->ammo_data();
-        range = relevant->gun_current_mode().target->gun_range( you );
+        if( activity->reload_loc ) {
+            item *temp_weapon = item::spawn_temporary( *relevant );
+            temp_weapon->ammo_set( ammo->get_id() );
+            range = temp_weapon->gun_current_mode().target->gun_range( you );
+        } else {
+            range = relevant->gun_current_mode().target->gun_range( you );
+        }
     }
 }
 

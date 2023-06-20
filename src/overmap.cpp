@@ -4580,6 +4580,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         return;
     }
 
+    std::shuffle( enabled_specials.begin(), enabled_specials.end(), rng_get_engine() );
+
     // First, place the mandatory specials to ensure that all minimum instance
     // counts are met.
     place_specials_pass( enabled_specials, sectors, false, false );

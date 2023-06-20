@@ -88,6 +88,7 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_hallu( "hallu" );
@@ -136,6 +137,7 @@ static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
@@ -313,7 +315,7 @@ void Character::suffer_while_awake( const int current_stim )
         suffer_from_chemimbalance();
     }
     if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
-        !has_effect( effect_took_thorazine ) ) {
+        !has_effect( effect_took_thorazine ) && !has_effect( effect_feral_killed_recently ) ) {
         suffer_from_schizophrenia();
     }
 
@@ -714,6 +716,86 @@ void Character::suffer_from_asthma( const int current_stim )
                                                 _( "You can't focus while choking!" ) );
         }
     }
+}
+
+void Character::suffer_feral_kill_withdrawl()
+{
+    // If we somehow triggered this while content with our bloodshed, cancel.
+    if( has_effect( effect_feral_killed_recently ) ) {
+        return;
+    }
+    // Once every 4 hours
+    if( calendar::once_every( 4_hours ) ) {
+        // Select a random side effect:
+        switch( dice( 1, 4 ) ) {
+            default:
+            case 1:
+                // Feel ill, overcome with nausea if awake.  Additional chance of unexplained bleeding.
+                mod_healthy_mod( -50, -500 );
+                if( !in_sleep_state() ) {
+                    add_msg_if_player( m_bad, _( "You feel as if your insides are rotting away." ) );
+                    vomit();
+                    if( one_in( 3 ) ) {
+                        add_msg_if_player( m_bad, _( "Blood starts leaking from your eyes and nose." ) );
+                        add_effect( effect_bleed, 10_minutes, bp_head );
+                        add_effect( effect_blind, rng( 1_seconds, 30_seconds ) );
+                    }
+                } else {
+                    add_msg_if_player( m_bad, _( "You feel a bit queasy in your sleep." ) );
+                    if( one_in( 3 ) ) {
+                        add_msg_if_player( m_bad, _( "You wake up bloody for some reason." ) );
+                        wake_up();
+                        add_effect( effect_bleed, 10_minutes, bp_head );
+                        add_effect( effect_blind, rng( 1_seconds, 30_seconds ) );
+                    }
+                }
+                break;
+            case 2:
+                // Empty stamina and inflict fatigue, pain if awake.
+                mod_fatigue( rng( 5, 10 ) );
+                set_stamina( get_stamina() * 1 / ( rng( 3, 8 ) ) );
+                if( !in_sleep_state() ) {
+                    add_msg_if_player( m_bad, _( "Your head aches as a wave of exhaustion passes through you." ) );
+                    mod_pain( rng( 10, 25 ) );
+                } else {
+                    add_msg_if_player( m_bad, _( "You stir restlessly in your sleep." ) );
+                }
+                break;
+            case 3:
+                // Adrenaline rush plus side effects from panic. Chance it will wake you up anyway.
+                if( !in_sleep_state() ) {
+                    add_msg_if_player( m_bad, _( "A pang of terror stirs your fight-or-flight response!" ) );
+                    add_effect( effect_adrenaline, rng( 3_minutes, 5_minutes ) );
+                    mod_stim( rng( 5, 10 ) );
+                    add_morale( MORALE_FEELING_BAD, -5, -25, 10_minutes, 3_minutes, true );
+                } else {
+                    if( !one_in( 4 ) ) {
+                        add_msg_if_player( m_bad, _( "You jolt awake in a panic attack!" ) );
+                        wake_up();
+                        add_effect( effect_adrenaline, rng( 3_minutes, 5_minutes ) );
+                        mod_stim( rng( 5, 10 ) );
+                        add_morale( MORALE_FEELING_BAD, -5, -25, 10_minutes, 3_minutes, true );
+                    } else {
+                        add_msg_if_player( m_bad, _( "You have a vivid nightmare that almost wakes you up." ) );
+                    }
+                }
+                break;
+            case 4:
+                // The others are displeased with your lack of bloodshed, can sleep through the mental contact itself.
+                add_effect( effect_attention, rng( 3_hours, 6_hours ), num_bp, rng( 1, 4 ), false, true );
+                if( !in_sleep_state() ) {
+                    add_msg_if_player( m_bad,
+                                       _( "You feel like something is judging you from afar, leaving your head spinning." ) );
+                    add_effect( effect_shakes, 5_minutes );
+                    add_effect( effect_stunned, rng( 1_turns, 10_turns ) );
+                } else {
+                    add_msg_if_player( m_bad,
+                                       _( "You have a vivid nightmare about being deemed unworthy by a higher power." ) );
+                }
+                break;
+        }
+    }
+
 }
 
 void Character::suffer_in_sunlight()
@@ -1175,7 +1257,7 @@ void Character::suffer_from_radiation()
             if( get_bionic_state( bio_advreactor ).powered ) {
                 powered_reactor = true;
             } else {
-                mod_power_level( 100_J );
+                mod_power_level( 75_J );
             }
         }
 
@@ -1476,6 +1558,9 @@ void Character::suffer()
 
     if( has_trait( trait_ASTHMA ) ) {
         suffer_from_asthma( current_stim );
+    }
+    if( has_trait( trait_PROF_FERAL ) && !has_effect( effect_feral_killed_recently ) ) {
+        suffer_feral_kill_withdrawl();
     }
 
     suffer_in_sunlight();
@@ -1840,9 +1925,9 @@ void Character::apply_wetness_morale( int temperature )
         }
 
         // For an unmutated human swimming in deep water, this will add up to:
-        // +51 when hot in 100% water friendly clothing
-        // -103 when cold/hot in 100% unfriendly clothing
-        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 2.0 );
+        // +26 when hot in 100% water friendly clothing
+        // -52 when cold/hot in 100% unfriendly clothing
+        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 4.0 );
     }
 
     if( total_morale == 0 ) {

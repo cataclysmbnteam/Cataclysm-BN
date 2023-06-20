@@ -2778,7 +2778,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             penalties = true;
             cost = INVENTORY_HANDLING_PENALTY;
         }
-        character_funcs::try_wield_contents( *p.as_avatar(), it, internal_item, penalties, cost );
+        character_funcs::try_wield_contents( p, it, internal_item, penalties, cost );
 
     } else {
         item *loc = game_menus::inv::holster( p, it );
