@@ -1583,14 +1583,6 @@ bool game::do_turn()
     character_funcs::update_body_wetness( u, get_weather().get_precise() );
     u.apply_wetness_morale( weather.temperature );
 
-    if( calendar::once_every( 1_minutes ) ) {
-        u.update_morale();
-    }
-
-    if( calendar::once_every( 9_turns ) ) {
-        u.check_and_recover_morale();
-    }
-
     if( !u.is_deaf() ) {
         sfx::remove_hearing_loss();
     }
