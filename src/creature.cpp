@@ -580,11 +580,16 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
                  target.skin_name() :
                  body_part_name_accusative( dealt_dam.bp_hit ) );
     } else if( target.is_player() ) {
-        //monster hits player ranged
-        //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-        target.add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                                  body_part_name_accusative( dealt_dam.bp_hit ),
-                                  dealt_dam.total_damage() );
+        if( dealt_dam.bp_hit != bodypart_str_id::NULL_ID()->token ) {
+            //monster hits player ranged
+            //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
+            target.add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
+                                      body_part_name_accusative( dealt_dam.bp_hit ),
+                                      dealt_dam.total_damage() );
+        } else {
+            target.add_msg_if_player( m_bad, _( "You were hit for a total of %d damage." ),
+                                      dealt_dam.total_damage() );
+        }
     } else if( source != nullptr ) {
         if( source->is_player() ) {
             //player hits monster ranged
@@ -622,16 +627,30 @@ dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const da
         return acc + pr.first->hit_size;
     } );
     dealt_damage_instance dealt_damage;
+    // This should be set to only body part that was damaged, or null, if not exactly one was damaged
+    bodypart_str_id bp_hit = bodypart_str_id::NULL_ID();
+    bool hit_multiple_bps = false;
     for( const std::pair<const bodypart_str_id, bodypart> &pr : all_body_parts ) {
+        bool hit_this_bp = false;
         damage_instance impact = di;
         impact.mult_damage( pr.first->hit_size / hit_size_sum );
         dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact );
         for( size_t i = 0; i < dealt_damage.dealt_dams.size(); i++ ) {
             dealt_damage.dealt_dams[i] += bp_damage.dealt_dams[i];
+            hit_this_bp |= bp_damage.dealt_dams[i] > 0;
+        }
+
+        if( !hit_multiple_bps && hit_this_bp ) {
+            if( !bp_hit ) {
+                bp_hit = pr.first;
+            } else {
+                bp_hit = bodypart_str_id::NULL_ID();
+                hit_multiple_bps = true;
+            }
         }
     }
 
-    dealt_damage.bp_hit = bodypart_str_id::NULL_ID()->token;
+    dealt_damage.bp_hit = bp_hit->token;
     if( get_player_character().sees( target ) ) {
         ranged::print_dmg_msg( target, source, dealt_damage );
     }
