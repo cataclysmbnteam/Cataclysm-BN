@@ -91,6 +91,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "sledge_heavy_plus_one",
+    "copy-from": "hammer_sledge_heavy",
+    "name": { "str": "heavy sledge hammer +1", "str_pl": "heavy sledge hammers +1" },
+    "proportional": { "price": 15.0, "price_postapoc": 30.0, "weight": 0.9, "bashing": 1.1, "cutting": 1.1 },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "sledge_heavy_plus_two",
+    "copy-from": "hammer_sledge_heavy",
+    "name": { "str": "heavy sledge hammer +2", "str_pl": "heavy sledge hammers +2" },
+    "proportional": { "price": 18.0, "price_postapoc": 36.0, "weight": 0.8, "bashing": 1.2, "cutting": 1.2 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
     "id": "warhammer_plus_one",
     "copy-from": "warhammer",
     "looks_like": "warhammer",
@@ -753,6 +769,22 @@
     "looks_like": "dao",
     "name": "dao +2",
     "proportional": { "price": 6, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "relative": { "to_hit": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "lucerne_plus_one",
+    "copy-from": "lucern_hammer",
+    "name": { "str": "lucerne hammer +1", "str_pl": "lucerne hammers +1" },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
+    "relative": { "to_hit": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "lucerne_plus_two",
+    "copy-from": "lucern_hammer",
+    "name": { "str": "lucerne hammer +2", "str_pl": "lucerne hammers +2" },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
   },
   {
