@@ -151,6 +151,8 @@ static const std::string flag_RADIOACTIVE( "RADIOACTIVE" );
 static const std::string flag_RAW( "RAW" );
 static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
+static const std::string flag_COLD( "COLD" );
+static const std::string flag_VERY_COLD( "VERY_COLD" );
 
 const std::vector<std::string> carnivore_blacklist {{
         flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
@@ -877,6 +879,11 @@ bool Character::eat( item &food, bool force )
     } else if( spoiled && saprophage ) {
         add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious…" ), food.tname() );
     }
+    // Store the fact that the food was cold to later reapply it to the rest of the stack, to prevent rot.
+    // Note: Implemented to fix display error when eating reheated food.
+    bool food_was_cold = food.has_flag( flag_COLD );
+    bool food_was_very_cold = food.has_flag( flag_VERY_COLD );
+
     if( !consume_effects( food ) ) {
         // Already consumed by using `food.type->invoke`?
         if( charges_used > 0 ) {
@@ -945,6 +952,14 @@ bool Character::eat( item &food, bool force )
     } else if( chew ) {
         add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                food.tname() );
+    }
+
+    if( food_was_cold ) {
+        food.set_flag( flag_COLD );
+    }
+
+    if( food_was_very_cold ) {
+        food.set_flag( flag_VERY_COLD );
     }
 
     if( food.get_comestible()->tool->tool ) {
@@ -1065,6 +1080,8 @@ void Character::modify_morale( item &food, int nutr )
                                    _( "You heat up your %1$s using the %2$s." ),
                                    _( "<npcname> heats up their %1$s using the %2$s." ),
                                    food.tname(), heater->it.tname() );
+            food.unset_flag( flag_COLD );
+            food.unset_flag( flag_VERY_COLD );
             morale_time = 3_hours;
             int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
             add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
