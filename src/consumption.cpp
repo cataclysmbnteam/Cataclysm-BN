@@ -960,7 +960,7 @@ bool Character::eat( item &food, bool force )
 
     if( food_was_very_cold ) {
         food.set_flag( flag_VERY_COLD );
-    }   
+    }
 
     if( food.get_comestible()->tool->tool ) {
         // Tools like lighters get used
