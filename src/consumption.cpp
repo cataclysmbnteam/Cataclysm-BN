@@ -954,11 +954,11 @@ bool Character::eat( item &food, bool force )
                                food.tname() );
     }
 
-    if ( food_was_cold ) {
+    if( food_was_cold ) {
         food.set_flag( flag_COLD );
     }
 
-    if ( food_was_very_cold ) {
+    if( food_was_very_cold ) {
         food.set_flag( flag_VERY_COLD );
     }   
 
