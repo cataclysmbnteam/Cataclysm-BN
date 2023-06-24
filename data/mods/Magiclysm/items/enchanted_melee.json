@@ -776,7 +776,7 @@
     "id": "lucerne_plus_one",
     "copy-from": "lucern_hammer",
     "name": { "str": "lucerne hammer +1", "str_pl": "lucerne hammers +1" },
-    "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "bashing": 1.1, "cutting": 1.1},
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "bashing": 1.1, "cutting": 1.1 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -784,7 +784,7 @@
     "id": "lucerne_plus_two",
     "copy-from": "lucern_hammer",
     "name": { "str": "lucerne hammer +2", "str_pl": "lucerne hammers +2" },
-    "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "bashing": 1.2, "cutting": 1.2},
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "bashing": 1.2, "cutting": 1.2 },
     "relative": { "to_hit": 2 }
   },
   {
