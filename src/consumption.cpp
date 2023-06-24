@@ -879,6 +879,11 @@ bool Character::eat( item &food, bool force )
     } else if( spoiled && saprophage ) {
         add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious…" ), food.tname() );
     }
+    // Store the fact that the food was cold to later reapply it to the rest of the stack, to prevent rot.
+    // Note: Implemented to fix display error when eating reheated food.
+    bool food_was_cold = food.has_flag( flag_COLD );
+    bool food_was_very_cold = food.has_flag( flag_VERY_COLD );
+
     if( !consume_effects( food ) ) {
         // Already consumed by using `food.type->invoke`?
         if( charges_used > 0 ) {
@@ -948,6 +953,14 @@ bool Character::eat( item &food, bool force )
         add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                food.tname() );
     }
+
+    if ( food_was_cold ) {
+        food.set_flag( flag_COLD );
+    }
+
+    if ( food_was_very_cold ) {
+        food.set_flag( flag_VERY_COLD );
+    }   
 
     if( food.get_comestible()->tool->tool ) {
         // Tools like lighters get used
