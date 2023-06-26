@@ -3,11 +3,12 @@
 #include <unordered_map>
 
 #include "debug.h"
+#include "flag_trait.h"
 #include "json.h"
 #include "type_id.h"
 #include "generic_factory.h"
 
-const trait_flag_str_id flag_NULL = trait_flag_str_id( "null" ); // intentionally invalid flag
+const trait_flag_str_id trait_flag_NULL = trait_flag_str_id( "null" ); // intentionally invalid flag
 
 namespace
 {

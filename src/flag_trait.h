@@ -9,7 +9,7 @@
 #include "type_id.h"
 class JsonObject;
 
-extern const trait_flag_str_id flag_NULL;
+extern const trait_flag_str_id trait_flag_NULL;
 
 class json_trait_flag
 {
@@ -18,7 +18,7 @@ class json_trait_flag
 
     public:
         // used by generic_factory
-        trait_flag_str_id id = flag_NULL;
+        trait_flag_str_id id = trait_flag_NULL;
         bool was_loaded = false;
 
         json_trait_flag() = default;
