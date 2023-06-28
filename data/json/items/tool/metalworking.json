@@ -32,7 +32,7 @@
     "material": "bronze",
     "symbol": ";",
     "color": "yellow",
-    "qualities": [ [ "ANVIL", 2 ] ],
+    "qualities": [ [ "ANVIL", 3 ] ],
     "flags": [ "DURABLE_MELEE" ]
   },
   {

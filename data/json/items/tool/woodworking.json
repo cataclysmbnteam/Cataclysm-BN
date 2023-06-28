@@ -122,7 +122,7 @@
     "material": [ "wood", "copper" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -44 ] ],
+    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -44 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
   },
