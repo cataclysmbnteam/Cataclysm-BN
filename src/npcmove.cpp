@@ -1376,9 +1376,9 @@ npc_action npc::method_of_attack()
 
     gun_mode g_mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
                       cbm_fake_active.gun_current_mode();
-    if( !can_use_gun || dist <= 1 || g_mode &&
-        ( ( use_silent && !g_mode->is_silent() ) ||
-          ( item_funcs::shots_remaining( *this, *g_mode ) < g_mode.qty ) ) ) {
+    if( !can_use_gun || dist <= 1 ||
+        ( g_mode && ( ( use_silent && !g_mode->is_silent() ) ||
+                      ( item_funcs::shots_remaining( *this, *g_mode ) < g_mode.qty ) ) ) ) {
         g_mode = gun_mode();
     }
 
