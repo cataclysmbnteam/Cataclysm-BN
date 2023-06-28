@@ -3438,8 +3438,8 @@ bool npc::wield_better_weapon()
     const Creature *critter = current_target();
     const int dist = critter ? rl_dist( pos(), critter->pos() ) : - 1;
 
-    if( get_npc_ai_info_cache( npc_ai_info::range ) == dist ) {
-        add_msg( m_debug, "Distance hasn't changed from last wield check, cancelling." );
+    if( get_npc_ai_info_cache( npc_ai_info::range ) == dist && !has_new_items ) {
+        add_msg( m_debug, "Distance unchanged and npc has no new items, cancelling." );
         return false;
     }
     if( primary_weapon().has_flag( flag_NO_UNWIELD ) && cbm_toggled.is_null() ) {
