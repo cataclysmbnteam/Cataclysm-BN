@@ -13,15 +13,15 @@ static const mtype_id mon_mi_go_myrmidon( "mon_mi_go_myrmidon" );
 namespace map_funcs
 {
 
-int climbing_cost( const map &m, const tripoint &from, const tripoint &to )
+auto climbing_cost( const map &m, const tripoint &from, const tripoint &to ) -> std::optional<int>
 {
     // TODO: All sorts of mutations, equipment weight etc. for characters
     if( !m.valid_move( from, to, false, true ) ) {
-        return 0;
+        return {};
     }
     const int diff = m.climb_difficulty( from );
     if( diff > 5 ) {
-        return 0;
+        return {};
     }
     return 50 + diff * 100;
 }
