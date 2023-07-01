@@ -8,6 +8,7 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "iuse_actor.h"
 #include "map.h"
@@ -82,7 +83,7 @@ static void cut_up_yields( const std::string &target )
     const std::vector<material_id> &target_materials = cut_up_target.made_of();
     units::mass smallest_yield_mass = units::mass_max;
     for( const material_id &mater : target_materials ) {
-        if( const cata::optional<itype_id> item_id = mater->salvaged_into() ) {
+        if( const std::optional<itype_id> item_id = mater->salvaged_into() ) {
             smallest_yield_mass = std::min( smallest_yield_mass, item_id->obj().weight );
         }
     }
@@ -141,4 +142,11 @@ TEST_CASE( "cut_up_yields" )
     cut_up_yields( "leatherbone_armor_small_quadruped" );
     cut_up_yields( "kevlar_armor_small_quadruped" );
     cut_up_yields( "rubber_armor_small_quadruped" );
+}
+
+TEST_CASE( "cut_up_yields_all", "[.]" )
+{
+    for( const itype *itp : item_controller->all() ) {
+        cut_up_yields( itp->get_id().str() );
+    }
 }

@@ -1568,7 +1568,7 @@ int salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
 static void visit_salvage_products( const item &it, std::function<void( const item & )> func )
 {
     for( const material_id &material : it.made_of() ) {
-        if( const cata::optional<itype_id> id = material->salvaged_into() ) {
+        if( const std::optional<itype_id> id = material->salvaged_into() ) {
             item exemplar( *id );
             func( exemplar );
         }
@@ -1722,7 +1722,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // Essentially we round-robbin through the components subtracting mass as we go.
     std::map<units::mass, itype_id> weight_to_item_map;
     for( const material_id &material : cut_material_components ) {
-        if( const cata::optional<itype_id> id = material->salvaged_into() ) {
+        if( const std::optional<itype_id> id = material->salvaged_into() ) {
             materials_salvaged[*id] = 0;
             weight_to_item_map[ item( *id, calendar::turn_zero, item::solitary_tag{} ).weight() ] = *id;
         }
