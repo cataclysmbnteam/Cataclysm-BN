@@ -1583,14 +1583,6 @@ bool game::do_turn()
     character_funcs::update_body_wetness( u, get_weather().get_precise() );
     u.apply_wetness_morale( weather.temperature );
 
-    if( calendar::once_every( 1_minutes ) ) {
-        u.update_morale();
-    }
-
-    if( calendar::once_every( 9_turns ) ) {
-        u.check_and_recover_morale();
-    }
-
     if( !u.is_deaf() ) {
         sfx::remove_hearing_loss();
     }
@@ -10031,9 +10023,10 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
 
-        const int cost = map_funcs::climbing_cost( m, u.pos(), stairs );
 
-        if( cost == 0 ) {
+        const auto cost = map_funcs::climbing_cost( m, u.pos(), stairs );
+
+        if( !cost.has_value() ) {
             if( u.has_trait( trait_WEB_ROPE ) )  {
                 if( pts.empty() ) {
                     add_msg( m_info, _( "There is nothing above you that you can attach a web to." ) );
@@ -10061,14 +10054,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         }
 
-        if( cost <= 0 || pts.empty() ) {
+        if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
             return;
         } else {
             // TODO: Make it an extended action
             climbing = true;
-            move_cost = cost;
+            move_cost = cost.value();
 
             const std::optional<tripoint> pnt = point_selection_menu( pts );
             if( !pnt ) {
@@ -11045,9 +11038,21 @@ void game::shift_monsters( const tripoint &shift )
     critter_tracker->rebuild_cache();
 }
 
+double npc_overmap::spawn_chance_in_hour( int npc_num, double density )
+{
+    static constexpr int days_in_year = 14 * 4;
+    const double expected_npc_count = days_in_year * density;
+    const double overcrowding_ratio = npc_num / expected_npc_count;
+    if( overcrowding_ratio < 1.0 ) {
+        return std::min( 1.0, density / 24.0 );
+    }
+    return ( 1.0 / 24.0 ) / overcrowding_ratio;
+}
+
 void game::perhaps_add_random_npc()
 {
-    if( !calendar::once_every( 1_hours ) ) {
+    static constexpr time_duration spawn_interval = 1_hours;
+    if( !calendar::once_every( spawn_interval ) ) {
         return;
     }
     // Create a new NPC?
@@ -11056,32 +11061,34 @@ void game::perhaps_add_random_npc()
         return;
     }
 
-    float density = get_option<float>( "NPC_DENSITY" );
-    static constexpr int density_search_radius = 60;
-    const float npc_num = overmap_buffer.get_npcs_near_player( density_search_radius ).size();
-    if( npc_num > 0.0 ) {
-        // 100%, 80%, 64%, 52%, 41%, 33%...
-        density *= std::pow( 0.8f, npc_num );
-    }
-
-    if( !x_in_y( density, 100 ) ) {
+    // We want the "NPC_DENSITY" to denote number of NPCs per week, per overmap, or so
+    // But soft-cap it at about a standard year (4*14 days) worth
+    const int npc_num = overmap_buffer.get_npcs_near_player(
+                            npc_overmap::density_search_radius ).size();
+    const double chance = npc_overmap::spawn_chance_in_hour( npc_num,
+                          get_option<float>( "NPC_DENSITY" ) );
+    add_msg( m_debug, "Random NPC spawn chance %0.3f%%", chance * 100 );
+    if( !x_in_y( chance, 1.0f ) ) {
         return;
     }
+
     bool spawn_allowed = false;
     tripoint_abs_omt spawn_point;
     int counter = 0;
     while( !spawn_allowed ) {
-        if( counter >= 10 ) {
+        if( counter >= 100 ) {
             return;
         }
-        static constexpr int radius_spawn_range = 120;
+        // Shouldn't be larger than search radius or it might get swarmy at the edges
+        static constexpr int radius_spawn_range = npc_overmap::density_search_radius;
         const tripoint_abs_omt u_omt = u.global_omt_location();
         spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
                                      rng( -radius_spawn_range, radius_spawn_range ) );
         spawn_point.z() = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
-        // shouldn't spawn on lakes or rivers.
-        if( !is_river_or_lake( oter ) ) {
+        // Shouldn't spawn on lakes or rivers.
+        // TODO: Prefer greater distance
+        if( !is_river_or_lake( oter ) || rl_dist( u_omt.xy(), spawn_point.xy() ) < 30 ) {
             spawn_allowed = true;
         }
         counter += 1;
@@ -11105,6 +11112,7 @@ void game::perhaps_add_random_npc()
     tmp->long_term_goal_action();
     tmp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
+    dbg( DL::Debug ) << "Spawning a random NPC at " << spawn_point;
     // This will make the new NPC active- if its nearby to the player
     load_npcs();
 }

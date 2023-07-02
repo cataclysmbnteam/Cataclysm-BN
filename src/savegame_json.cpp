@@ -577,8 +577,8 @@ void Character::load( const JsonObject &data )
         inv.json_load_items( *invin );
     }
 
-    weapon = item( "null", calendar::start_of_cataclysm );
-    data.read( "weapon", weapon );
+    set_primary_weapon( item( "null", calendar::start_of_cataclysm ) );
+    data.read( "weapon", primary_weapon() );
 
     data.read( "move_mode", move_mode );
 
@@ -724,6 +724,7 @@ void Character::store( JsonOut &json ) const
         json.member( "fetch_data", things_to_fetch );
     }
 
+    const item &weapon = primary_weapon();
     if( !weapon.is_null() ) {
         json.member( "weapon", weapon ); // also saves contents
     }

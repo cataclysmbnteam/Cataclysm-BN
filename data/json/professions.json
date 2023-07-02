@@ -4523,6 +4523,104 @@
   },
   {
     "type": "profession",
+    "id": "hitman",
+    "name": { "male": "Hitman", "female": "Hitwoman" },
+    "description": "You were a killer for hire, trained and equipped to efficiently eliminate your target while keeping a low profile.  No one's hiring now that the world's ended, but your skills may prove useful for staying alive.",
+    "points": 5,
+    "skills": [
+      { "level": 3, "name": "dodge" },
+      { "level": 1, "name": "melee" },
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "fancy_sunglasses", "platinum_watch", "suppressor", "tele_sight_pistol" ],
+        "entries": [
+          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 }
+        ]
+      },
+      "male": [
+        "boxer_briefs",
+        "socks",
+        "dress_shoes",
+        "bowhat",
+        "suit",
+        "tie_necktie",
+        "tieclip",
+        "leather_belt",
+        "briefcase",
+        "cufflinks_intricate"
+      ],
+      "female": [
+        "panties",
+        "bra",
+        "stockings",
+        "heels",
+        "gown",
+        "diamond_platinum_tiara",
+        "purse",
+        "platinum_ear",
+        "platinum_necklace",
+        "platinum_hairpin"
+      ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "assassin",
+    "name": "Assassin",
+    "description": "You were the best undercover agent they had, sent on missions so vital that you had to take it even with the riots going on.  You've lost contact with your handler, you are all alone now.",
+    "points": 5,
+    "skills": [
+      { "level": 3, "name": "dodge" },
+      { "level": 3, "name": "melee" },
+      { "level": 2, "name": "throw" },
+      { "level": 2, "name": "stabbing" }
+    ],
+    "items": {
+      "both": {
+        "items": [
+          "fancy_sunglasses",
+          "throwing_knife",
+          "throwing_knife",
+          "throwing_knife",
+          "throwing_knife",
+          "throwing_knife",
+          "throwing_knife"
+        ],
+        "entries": [ { "item": "knife_combat", "container-item": "bootsheath" } ]
+      },
+      "male": [
+        "boxer_briefs",
+        "socks",
+        "dress_shoes",
+        "bowhat",
+        "suit",
+        "tie_necktie",
+        "tieclip",
+        "leather_belt",
+        "briefcase",
+        "cufflinks_intricate"
+      ],
+      "female": [
+        "panties",
+        "bra",
+        "stockings",
+        "heels",
+        "gown",
+        "diamond_platinum_tiara",
+        "purse",
+        "platinum_ear",
+        "platinum_necklace",
+        "platinum_hairpin"
+      ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "prof_feral_unemployed",
     "name": "Feral Survivor",
     "description": "They used to say that there's nothing particularly notable about you.  But you survived, and they didn't.  You made sure of that.",

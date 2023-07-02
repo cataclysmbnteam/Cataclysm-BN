@@ -683,7 +683,8 @@
     "price_postapoc": 10,
     "material": [ "wood", "steel" ],
     "weight": "40 kg",
-    "volume": "30000 ml"
+    "volume": "30000 ml",
+    "qualities": [ [ "ANVIL", 2 ] ]
   },
   {
     "type": "GENERIC",
@@ -1965,7 +1966,7 @@
     "symbol": ",",
     "color": "brown",
     "name": { "str": "soft adobe brick" },
-    "description": "A compacted mass of soil and natural fibers, still too wet to build with.  Load it onto a pallet and leave it to dry.",
+    "description": "A compacted mass of soil and natural fibers, still too wet to build with.  You could load it onto a pallet and leave it to dry to process them in bulk.",
     "price": 0,
     "price_postapoc": 0,
     "material": "soil",
@@ -1973,14 +1974,14 @@
     "volume": "750 ml",
     "bashing": 2,
     "to_hit": -3,
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "adobe_brick",
       "msg": "You test the brick, and it seems solid enough to use.",
       "moves": 50,
       "type": "delayed_transform",
       "transform_age": 100800,
-      "not_ready_msg": "The brick is still too damp to bear weight.",
-      "//": "Should be about a week. Irl it's ten days, so make big batches."
+      "not_ready_msg": "The brick is still too damp to bear weight."
     }
   },
   {
@@ -2964,7 +2965,7 @@
     "color": "brown",
     "name": { "str": "fire brick" },
     "category": "spare_parts",
-    "description": "A reinforced brick designed to withstand intense heat.",
+    "description": "A reinforced brick designed to withstand intense heat.  It could also be used as an impromptu anvil for light metalworking.",
     "price": 2500,
     "price_postapoc": 10,
     "material": [ "clay", "stone" ],
@@ -2972,7 +2973,7 @@
     "volume": "500 ml",
     "bashing": 8,
     "to_hit": -2,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ], [ "ANVIL", 1 ] ]
   },
   {
     "id": "survival_kit",

@@ -300,7 +300,7 @@
       [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [ [ [ "lead", 50 ] ] ]
+    "components": [ [ [ "lead", 50 ], [ "bismuth", 125 ] ] ]
   },
   {
     "result": "sling_bullet_small",
@@ -317,6 +317,6 @@
       [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [ [ [ "lead", 50 ] ] ]
+    "components": [ [ [ "lead", 50 ], [ "bismuth", 125 ] ] ]
   }
 ]

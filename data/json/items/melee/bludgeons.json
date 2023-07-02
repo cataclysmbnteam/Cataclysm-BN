@@ -322,7 +322,7 @@
     "to_hit": 1,
     "price": 12000,
     "price_postapoc": 500,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 2 ] ]
   },
   {
     "id": "hammer_sledge_short",
@@ -367,7 +367,7 @@
     "to_hit": -1,
     "price": 6000,
     "price_postapoc": 250,
-    "qualities": [ [ "HAMMER", 2 ] ]
+    "qualities": [ [ "HAMMER", 3 ] ]
   },
   {
     "id": "hockey_stick",
@@ -477,7 +477,7 @@
     "cutting": 34,
     "to_hit": 1,
     "price_postapoc": 10000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "HAMMER", 2 ], [ "COOK", 1 ] ]
   },
   {
     "id": "lucern_hammerfake",
@@ -493,7 +493,8 @@
     "weight": "2700 g",
     "volume": "3750 ml",
     "bashing": 48,
-    "cutting": 8
+    "cutting": 8,
+    "qualities": [ [ "HAMMER", 1 ], [ "COOK", 1 ] ]
   },
   {
     "id": "mace",
@@ -906,6 +907,6 @@
     "bashing": 22,
     "cutting": 23,
     "price": 16000,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 2 ] ]
   }
 ]

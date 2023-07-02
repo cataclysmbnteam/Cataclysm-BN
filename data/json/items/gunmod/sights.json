@@ -13,7 +13,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "archery" ],
+    "mod_target_category": [ [ "BOWS" ] ],
     "sight_dispersion": 10,
     "aim_speed": 5
   },
@@ -31,7 +31,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "archery" ],
+    "mod_target_category": [ [ "BOWS" ] ],
     "sight_dispersion": 25,
     "aim_speed": 8
   },
@@ -49,7 +49,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "archery" ],
+    "mod_target_category": [ [ "BOWS" ] ],
     "sight_dispersion": 5,
     "aim_speed": 2,
     "flags": [ "ZOOM" ]
@@ -68,7 +68,20 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
+    "mod_target_category": [
+      [ "PISTOLS" ],
+      [ "REVOLVERS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "S_XBOWS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ],
     "sight_dispersion": 13,
     "aim_speed": 6,
     "flags": [ "DISABLE_SIGHTS" ]
@@ -88,7 +101,20 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
+    "mod_target_category": [
+      [ "PISTOLS" ],
+      [ "REVOLVERS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "S_XBOWS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ],
     "sight_dispersion": 30,
     "aim_speed": 6,
     "flags": [ "DISABLE_SIGHTS" ]
@@ -106,7 +132,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "pistol", "smg" ],
+    "mod_target_category": [ [ "PISTOLS" ], [ "REVOLVERS" ], [ "SUBMACHINE_GUNS" ] ],
     "sight_dispersion": 8,
     "aim_speed": 2,
     "flags": [ "DISABLE_SIGHTS" ]
@@ -125,7 +151,20 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "smg", "rifle", "shotgun", "pistol", "crossbow", "launcher" ],
+    "mod_target_category": [
+      [ "PISTOLS" ],
+      [ "REVOLVERS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "S_XBOWS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ],
     "sight_dispersion": 23,
     "aim_speed": 6,
     "flags": [ "DISABLE_SIGHTS" ]
@@ -144,7 +183,15 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "rifle", "crossbow", "launcher" ],
+    "mod_target_category": [
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ],
     "install_time": "30 m",
     "sight_dispersion": 0,
     "aim_speed": 0,
@@ -156,7 +203,16 @@
     "type": "GUNMOD",
     "name": { "str": "modified rifle scope" },
     "description": "A 3-18x44 rifle scope.  It is adjustable for windage and elevation in 1/10th mrad increments and is remarkably small and light for its magnification.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
-    "mod_targets": [ "rifle", "shotgun", "launcher", "crossbow" ]
+    "mod_target_category": [
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ]
   },
   {
     "id": "acog_scope",
@@ -171,7 +227,15 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "rifle", "crossbow", "launcher" ],
+    "mod_target_category": [
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ],
     "install_time": "30 m",
     "sight_dispersion": 8,
     "aim_speed": 2,
@@ -183,7 +247,17 @@
     "type": "GUNMOD",
     "name": { "str": "modified ACOG scope" },
     "description": "A 4x32 TA01 Advanced Combat Optical Gunsight with a tritium illuminated crosshair.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ]
   },
   {
     "id": "riv_scope",
@@ -211,7 +285,16 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "rifle", "shotgun", "crossbow", "launcher" ],
+    "mod_target_category": [
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ],
     "install_time": "30 m",
     "sight_dispersion": 15,
     "aim_speed": 1,
@@ -230,7 +313,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_targets": [ "pistol", "smg" ],
+    "mod_target_category": [ [ "PISTOLS" ], [ "REVOLVERS" ], [ "SUBMACHINE_GUNS" ] ],
     "sight_dispersion": 20,
     "aim_speed": 1,
     "flags": [ "DISABLE_SIGHTS", "ZOOM" ]

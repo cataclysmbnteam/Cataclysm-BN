@@ -191,7 +191,7 @@
     "id": "player_feral",
     "name": "Challenge - The Lost And Damned",
     "points": -5,
-    "description": "You spent the first few weeks of the cataclysm in a dull haze.  The riots have died down and the summer sun has drawn out the stench of decay.  You stagger out of your hiding place with a gnawing hunger, unsure if you're the only one left alive, or if this is what living death is like.",
+    "description": "You spent the first few weeks of the Cataclysm in a dull haze.  The riots have died down and the summer sun has drawn out the stench of decay.  You stagger out of your hiding place with a gnawing hunger, unsure if you're the only one left alive, or if this is what living death is like.",
     "start_name": "In Town?",
     "allowed_locs": [
       "sloc_shelter_vandalized",
@@ -583,9 +583,32 @@
     "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
     "start_name": "Crash site",
     "allowed_locs": [ "sloc_field", "sloc_forest" ],
-    "professions": [ "soldier", "specops", "bio_soldier", "bio_sniper", "bionic_spy", "national_guard", "politician", "mili_pilot" ],
+    "professions": [
+      "soldier",
+      "specops",
+      "bio_soldier",
+      "bio_sniper",
+      "bionic_spy",
+      "national_guard",
+      "hitman",
+      "assassin",
+      "politician",
+      "mili_pilot"
+    ],
     "map_extra": "mx_helicopter",
     "flags": [ "HELI_CRASH", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "assassination",
+    "name": "One Last Assassination",
+    "points": 0,
+    "description": "Your mission required you to eliminate a certain high-ranking individual in hiding. Your mark seems to have turned feral while escaping and the world appears to be ending, but not even that can stop you from finishing your mission.",
+    "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
+    "start_name": "Evac Shelter",
+    "professions": [ "assassin", "hitman", "scoundrel", "gangster", "specops", "bionic_hitman", "bio_gangster", "razorgirl", "bio_sniper" ],
+    "flags": [ "CITY_START" ],
+    "missions": [ "MISSION_ASSASSINATION" ]
   },
   {
     "type": "scenario",

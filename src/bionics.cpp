@@ -669,7 +669,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         }
 
         add_msg_activate();
-        primary_weapon() = item( bio.info().fake_item );
+        set_primary_weapon( item( bio.info().fake_item ) );
         primary_weapon().invlet = '#';
         if( is_player() && bio.ammo_count > 0 ) {
             primary_weapon().ammo_set( bio.ammo_loaded, bio.ammo_count );
@@ -1152,7 +1152,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
                 primary_weapon().ammo_data() != nullptr ? primary_weapon().ammo_data()->get_id() :
                 itype_id::NULL_ID();
             bio.ammo_count = static_cast<unsigned int>( primary_weapon().ammo_remaining() );
-            primary_weapon() = item();
+            set_primary_weapon( item() );
             invalidate_crafting_inventory();
         }
     } else if( bio.id == bio_cqb ) {
@@ -1281,11 +1281,13 @@ bool Character::burn_fuel( bionic &bio, bool start )
                         mod_stored_kcal( -kcal_consumed );
                         mod_power_level( power_gain );
                     } else if( is_perpetual_fuel ) {
-                        if( fuel == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
-                            const weather_type_id &wtype = current_weather( pos() );
-                            const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
-                            const double intensity = tick_sunlight / default_daylight_level();
-                            mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_efficiency );
+                        if( fuel == fuel_type_sun_light ) {
+                            if( g->is_in_sunlight( pos() ) ) {
+                                const weather_type_id &wtype = current_weather( pos() );
+                                const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
+                                const double intensity = tick_sunlight / default_daylight_level();
+                                mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_efficiency );
+                            }
                         } else if( fuel == fuel_type_wind ) {
                             int vehwindspeed = 0;
                             const optional_vpart_position vp = here.veh_at( pos() );

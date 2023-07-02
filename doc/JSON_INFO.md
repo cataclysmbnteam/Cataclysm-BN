@@ -2097,7 +2097,8 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 | Weapon Category       | Description
 | ---                   | ---
 | BOWS                  | Elastic launching device for long-shafted projectiles.
-| CROSSBOWS             | Elastic launching device mounted on a frame to be triggered.
+| S_XBOWS               | Elastic launching device mounted on a frame to be triggered, pistol sized.
+| M_XBOWS               | Elastic launching device mounted on a frame to be triggered.
 | SLINGSHOTS            | Elastic, handheld launching device typically used for small round projectiles.
 | SLINGS                | Projectile weapon using a cradle connected to two retention cords, used to fling blunt projectiles.
 | ---                   | ---
