@@ -1376,8 +1376,9 @@ npc_action npc::method_of_attack()
 
     gun_mode g_mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
                       cbm_fake_active.gun_current_mode();
-    if( !can_use_gun || ( use_silent && !g_mode->is_silent() ) ||
-        ( g_mode && ( item_funcs::shots_remaining( *this, *g_mode ) < g_mode.qty || dist <= 1 ) ) ) {
+    if( !can_use_gun || dist <= 1 ||
+        ( g_mode && ( ( use_silent && !g_mode->is_silent() ) ||
+                      ( item_funcs::shots_remaining( *this, *g_mode ) < g_mode.qty ) ) ) ) {
         g_mode = gun_mode();
     }
 
@@ -3437,8 +3438,8 @@ bool npc::wield_better_weapon()
     const Creature *critter = current_target();
     const int dist = critter ? rl_dist( pos(), critter->pos() ) : - 1;
 
-    if( get_npc_ai_info_cache( npc_ai_info::range ) == dist ) {
-        add_msg( m_debug, "Distance hasn't changed from last wield check, cancelling." );
+    if( get_npc_ai_info_cache( npc_ai_info::range ) == dist && !has_new_items ) {
+        add_msg( m_debug, "Distance unchanged and npc has no new items, cancelling." );
         return false;
     }
     if( primary_weapon().has_flag( flag_NO_UNWIELD ) && cbm_toggled.is_null() ) {
@@ -3497,7 +3498,11 @@ bool npc::wield_better_weapon()
     // to have NPCs wield weapons with shorter ranges than dist in preparation
     // if they don't have a weapon with appropriate range/ammo.
     visit_items( [&compare_weapon, this ]( item * node ) {
-        // Only compare melee weapons, guns, or holstered items
+        // For worn items, only compare if they have a weapon category defined.
+        if( is_worn( *node ) && node->type->weapon_category.empty() ) {
+            return VisitResponse::SKIP;
+        }
+        // Otherwise, compare any melee usable item, guns or holstered items
         if( node->is_melee() || node->is_gun() ) {
             compare_weapon( *node );
         } else if( node->get_use( "holster" ) && !node->contents.empty() && node != &primary_weapon() ) {
@@ -3604,6 +3609,7 @@ static void npc_throw( npc &np, item &it, int index, const tripoint &pos )
     } else {
         it.charges = stack_size - 1;
     }
+    np.clear_npc_ai_info_cache( npc_ai_info::range );
 }
 
 bool npc::alt_attack()

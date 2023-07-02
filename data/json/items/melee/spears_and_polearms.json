@@ -39,6 +39,20 @@
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
+    "id": "pointy_stick_long",
+    "copy-from": "pointy_stick",
+    "looks_like": "spear_wood",
+    "type": "GENERIC",
+    "weapon_category": [ "SPEARS" ],
+    "name": { "str": "long pointy stick" },
+    "description": "A stout wood pole with one end sharpened.  More clunky than a properly-made spear, but still has some heft to it.",
+    "volume": "2500 ml",
+    "weight": "1800 g",
+    "bashing": 8,
+    "techniques": [ "WBLOCK_1" ],
+    "extend": { "flags": [ "REACH_ATTACK", "SHEATH_SPEAR" ] }
+  },
+  {
     "id": "spear_wood",
     "type": "GENERIC",
     "category": "weapons",

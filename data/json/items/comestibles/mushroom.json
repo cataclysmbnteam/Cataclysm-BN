@@ -9,7 +9,8 @@
     "price": 150,
     "price_postapoc": 50,
     "fun": 1,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "iron", 7 ] ],
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",

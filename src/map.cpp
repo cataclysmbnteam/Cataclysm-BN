@@ -2525,7 +2525,8 @@ bool map::is_bashable( const tripoint &p, const bool allow_floor ) const
 bool map::is_bashable_ter( const tripoint &p, const bool allow_floor ) const
 {
     const auto &ter_bash = ter( p ).obj().bash;
-    return ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor );
+    return ter_bash.str_max != -1 && ( ( !ter_bash.bash_below &&
+                                         !ter( p ).obj().has_flag( "VEH_TREAT_AS_BASH_BELOW" ) ) || allow_floor );
 }
 
 bool map::is_bashable_furn( const tripoint &p ) const

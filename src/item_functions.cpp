@@ -2,6 +2,7 @@
 
 #include "character.h"
 #include "item.h"
+#include "itype.h"
 #include "units.h"
 
 static flag_str_id flag_NO_UNLOAD( "NO_UNLOAD" );
@@ -13,7 +14,8 @@ namespace item_funcs
 
 bool can_be_unloaded( const item &itm )
 {
-    if( ( itm.is_container() || itm.is_bandolier() ) && !itm.contents.empty() &&
+    if( ( itm.is_container() || itm.is_bandolier() || itm.type->can_use( "holster" ) ) &&
+        !itm.contents.empty() &&
         itm.can_unload_liquid() ) {
         return true;
     }

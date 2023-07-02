@@ -58,6 +58,7 @@ class mon_spellcasting_actor : public mattack_actor
         void load_internal( const JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
+        void finalize() override;
 };
 
 class melee_actor : public mattack_actor

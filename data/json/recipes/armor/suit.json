@@ -91,7 +91,7 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 36 ] ], [ [ "leather", 36 ] ] ]
+    "components": [ [ [ "acidchitin_piece", 36 ] ], [ [ "fabric_hides_proper", 36, "LIST" ] ] ]
   },
   {
     "result": "armor_farmor",
@@ -116,7 +116,7 @@
     "time": "28 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 52 ] ],
-    "components": [ [ [ "leather", 30 ], [ "fur", 30 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 30, "LIST" ] ] ]
   },
   {
     "result": "armor_lightplate",
@@ -130,7 +130,7 @@
     "using": [ [ "blacksmithing_standard", 80 ], [ "steel_standard", 20 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 20 ], [ "leather", 20 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 20, "LIST" ] ] ]
   },
   {
     "result": "armor_lightplate",
@@ -213,7 +213,7 @@
     "using": [ [ "blacksmithing_standard", 120 ], [ "steel_standard", 30 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 16 ], [ "leather", 16 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
   },
   {
     "result": "armor_samurai",
@@ -227,7 +227,7 @@
     "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 16 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "fur", 28 ], [ "leather", 28 ] ], [ [ "rag", 10 ] ] ]
+    "components": [ [ [ "fabric_hides_proper", 28, "LIST" ] ], [ [ "fabric_standard", 10, "LIST" ] ] ]
   },
   {
     "result": "armor_scavenger",
@@ -434,7 +434,7 @@
     "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "rag", 4 ] ],
+      [ [ "fabric_standard", 4, "LIST" ] ],
       [ [ "nomex_suit", 1 ], [ "entry_suit", 1 ], [ "nomex", 20 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
@@ -478,7 +478,7 @@
     "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
-      [ [ "rag", 10 ] ],
+      [ [ "fabric_standard", 10, "LIST" ] ],
       [ [ "wetsuit", 1 ], [ "wetsuit_spring", 1 ] ],
       [
         [ "tacvest", 1 ],
@@ -508,8 +508,8 @@
     "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
-      [ [ "rag", 20 ] ],
-      [ [ "leather", 20 ] ],
+      [ [ "fabric_standard", 20, "LIST" ] ],
+      [ [ "fabric_hides_proper", 20, "LIST" ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
@@ -676,8 +676,8 @@
     "using": [ [ "sewing_standard", 150 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "rag", 20 ] ],
-      [ [ "leather", 20 ] ],
+      [ [ "fabric_standard", 20, "LIST" ] ],
+      [ [ "fabric_hides_proper", 20, "LIST" ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
       [
         [ "tacvest", 1 ],
@@ -819,7 +819,7 @@
     "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
-      [ [ "rag", 10 ] ],
+      [ [ "fabric_standard", 10, "LIST" ] ],
       [ [ "leather", 20 ] ],
       [ [ "fur", 20 ] ],
       [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
@@ -851,8 +851,8 @@
     "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
     "components": [
-      [ [ "rag", 30 ] ],
-      [ [ "leather", 40 ] ],
+      [ [ "fabric_standard", 30, "LIST" ] ],
+      [ [ "fabric_hides_proper", 40, "LIST" ] ],
       [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
       [
@@ -883,8 +883,8 @@
     "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
-      [ [ "rag", 30 ] ],
-      [ [ "leather", 40 ] ],
+      [ [ "fabric_standard", 30, "LIST" ] ],
+      [ [ "fabric_hides_proper", 40, "LIST" ] ],
       [ [ "scrap", 8 ] ],
       [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
       [
