@@ -1036,7 +1036,7 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_intermediate", 4 ], [ "steel_standard", 1 ] ],0
+    "using": [ [ "blacksmithing_intermediate", 4 ], [ "steel_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
@@ -2292,7 +2292,7 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_advanced, 2 ], [ "steel_tiny", 2 ] ]
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ]
   },
   {
     "result": "knife_folding",
