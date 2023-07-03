@@ -577,8 +577,8 @@ void Character::load( const JsonObject &data )
         inv.json_load_items( *invin );
     }
 
-    weapon = item( "null", calendar::start_of_cataclysm );
-    data.read( "weapon", weapon );
+    set_primary_weapon( item( "null", calendar::start_of_cataclysm ) );
+    data.read( "weapon", primary_weapon() );
 
     data.read( "move_mode", move_mode );
 
@@ -724,6 +724,11 @@ void Character::store( JsonOut &json ) const
         json.member( "fetch_data", things_to_fetch );
     }
 
+    const item &weapon = primary_weapon();
+    if( !weapon.is_null() ) {
+        json.member( "weapon", weapon ); // also saves contents
+    }
+
     json.member( "stim", stim );
     json.member( "type_of_scent", type_of_scent );
 
@@ -827,10 +832,6 @@ void player::store( JsonOut &json ) const
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
     inv.json_save_items( json );
-
-    if( !weapon.is_null() ) {
-        json.member( "weapon", weapon ); // also saves contents
-    }
 
     if( const auto lt_ptr = last_target.lock() ) {
         if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
@@ -1616,10 +1617,25 @@ void npc::load( const JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
-    real_weapon = item( "null", calendar::start_of_cataclysm );
-    data.read( "real_weapon", real_weapon );
-    cbm_weapon_index = -1;
-    data.read( "cbm_weapon_index", cbm_weapon_index );
+    cbm_toggled = bionic_id::NULL_ID();
+    data.read( "cbm_toggled", cbm_toggled );
+    cbm_fake_toggled = null_item_reference();
+    data.read( "cbm_fake_toggled", cbm_fake_toggled );
+    if( !cbm_toggled.is_null() && cbm_fake_toggled.is_null() ) {
+        cbm_fake_toggled = item( cbm_toggled->fake_item );
+    }
+    if( data.has_member( "cbm_weapon_index" ) ) {
+        int index = 0;
+        data.read( "cbm_weapon_index", index );
+        if( index >= 0 ) {
+            cbm_toggled = ( *my_bionics )[ index ].id;
+            cbm_fake_toggled = item( cbm_toggled->fake_item );
+        }
+    }
+    cbm_active = bionic_id::NULL_ID();
+    data.read( "cbm_active", cbm_active );
+    cbm_fake_active = null_item_reference();
+    data.read( "cbm_fake_active", cbm_fake_active );
 
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
@@ -1681,10 +1697,14 @@ void npc::store( JsonOut &json ) const
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
 
-    if( !real_weapon.is_null() ) {
-        json.member( "real_weapon", real_weapon ); // also saves contents
+    json.member( "cbm_toggled", cbm_toggled );
+    if( !cbm_fake_toggled.is_null() ) {
+        json.member( "cbm_fake_toggled", cbm_fake_toggled );
     }
-    json.member( "cbm_weapon_index", cbm_weapon_index );
+    json.member( "cbm_active", cbm_active );
+    if( !cbm_fake_active.is_null() ) {
+        json.member( "cbm_fake_active", cbm_fake_active );
+    }
 
     json.member( "comp_mission_id", comp_mission.mission_id );
     json.member( "comp_mission_pt", comp_mission.position );

@@ -144,21 +144,17 @@ void Character::recalc_speed_bonus()
         mod_speed_bonus( -20 );
     }
 
-    float speed_modifier = Character::mutation_value( "speed_modifier" );
-    set_speed_bonus( static_cast<int>( get_speed() * speed_modifier ) - get_speed_base() );
+    mod_speed_bonus( get_speedydex_bonus( get_dex() ) );
 
-    if( has_bionic( bio_speed ) ) { // multiply by 1.1
-        set_speed_bonus( static_cast<int>( get_speed() * 1.1 ) - get_speed_base() );
+    float speed_modifier = Character::mutation_value( "speed_modifier" );
+    mod_speed_mult( speed_modifier - 1 );
+
+    if( has_bionic( bio_speed ) ) { // add 10% speed bonus
+        mod_speed_mult( 0.1 );
     }
 
     double ench_bonus = enchantment_cache->calc_bonus( enchant_vals::mod::SPEED, get_speed() );
-    set_speed_bonus( get_speed() + ench_bonus - get_speed_base() );
-
-    // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
-    const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
-    if( get_speed_bonus() < min_speed_bonus ) {
-        set_speed_bonus( min_speed_bonus );
-    }
+    mod_speed_bonus( ench_bonus );
 }
 
 void Character::process_turn()
@@ -193,6 +189,17 @@ void Character::process_turn()
     } );
 
     suffer();
+
+    // Handle player and NPC morale ticks
+
+    if( calendar::once_every( 1_minutes ) ) {
+        update_morale();
+    }
+
+    if( calendar::once_every( 9_turns ) ) {
+        check_and_recover_morale();
+    }
+
     // NPCs currently don't make any use of their scent, pointless to calculate it
     // TODO: make use of NPC scent.
     if( !is_npc() ) {
@@ -800,6 +807,7 @@ void Character::environmental_revert_effect()
 
 void Character::process_items()
 {
+    item &weapon = primary_weapon();
     if( weapon.needs_processing() && weapon.process( as_player(), pos(), false ) ) {
         weapon = item();
     }

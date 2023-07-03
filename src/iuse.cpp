@@ -1740,7 +1740,9 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
             return e.is_toolmod() && !e.is_irremovable();
         } );
         add_msg( m_info, _( "You remove the %s from the tool." ), mod->tname() );
-        p->i_add_or_drop( *mod );
+        if( !mod->is_irremovable() ) {
+            p->i_add_or_drop( *mod );
+        }
         loc->remove_item( *mod );
 
         remove_radio_mod( *loc, *p );
@@ -2096,6 +2098,8 @@ int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
 
 int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
 {
+    constexpr auto purification_efficiency = 8; // one tablet purifies 250ml x 8 = 2L
+
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
@@ -2110,15 +2114,16 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
     }
 
     item &liquid = obj->contents.front();
-    if( !it->units_sufficient( *p, liquid.charges ) ) {
+    const auto used_charges = std::max( liquid.charges / purification_efficiency, 1 );
+    if( !it->units_sufficient( *p, used_charges ) ) {
         p->add_msg_if_player( m_info, _( "That volume of water is too large to purify." ) );
         return 0;
     }
 
     p->moves -= to_moves<int>( 2_seconds );
-
     liquid.convert( itype_water_clean ).poison = 0;
-    return liquid.charges;
+
+    return used_charges;
 }
 
 int iuse::radio_off( player *p, item *it, bool, const tripoint & )
@@ -3113,7 +3118,7 @@ int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           it->ammo_remaining() > 1 && !p->is_underwater(),
+                           !p->is_underwater(),
                            40, _( "With a buzz, the chainsaws leap to life!" ),
                            _( "You pull the trigger, but nothing happens." ) );
 }
@@ -4809,6 +4814,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
     moves = moves * ( 10 - helpers.size() ) / 10;
 
     p->assign_activity( ACT_CHOP_TREE, moves, -1, p->get_item_position( it ) );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = g->m.getabs( pnt );
 
     return it->type->charges_to_use();
@@ -4854,6 +4860,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
     moves = moves * ( 10 - helpers.size() ) / 10;
 
     p->assign_activity( ACT_CHOP_LOGS, moves, -1, p->get_item_position( it ) );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = g->m.getabs( pnt );
 
     return it->type->charges_to_use();
@@ -7799,7 +7806,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
             it->unset_flag( "NO_UNWIELD" );
             it->active = false;
 
-            if( p->has_item( *it ) && p->weapon.typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->primary_weapon().typeId() == itype_e_handcuffs ) {
                 add_msg( m_good, _( "%s on your hands opened!" ), it->tname() );
             }
 
@@ -7831,7 +7838,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
                 p2.y != pos.y ) ) {
 
-            if( p->has_item( *it ) && p->weapon.typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->primary_weapon().typeId() == itype_e_handcuffs ) {
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {

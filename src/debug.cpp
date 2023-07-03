@@ -17,6 +17,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <ostream>
 #include <set>
 #include <sstream>
 #include <sys/stat.h>
@@ -1202,6 +1203,7 @@ detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
             // Cool down for 60s between backtrace emissions.
             next_backtrace = after + 60;
             out << "Backtrace emission took " << after - now << " seconds." << std::endl;
+            out << "(continued from above) " << io::enum_to_string( lev ) << ": ";
         }
 #endif
 
@@ -1524,7 +1526,7 @@ std::string game_info::mods_loaded()
     std::transform( mod_ids.begin(), mod_ids.end(),
     std::back_inserter( mod_names ), []( const mod_id mod ) -> std::string {
         // e.g. "Dark Days Ahead [dda]".
-        return string_format( "%s [%s]", mod->name(), mod->ident.str() );
+        return string_format( "%s [%s]", remove_color_tags( mod->name() ), mod->ident.str() );
     } );
 
     return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.

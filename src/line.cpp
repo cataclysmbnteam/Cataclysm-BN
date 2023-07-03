@@ -549,13 +549,14 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
 // Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
 // Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
 // e.g. if the direction is NNE, also include E.
+// Plus the z-level cardinal, if z != 0.
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
 {
     std::vector<tripoint> adjacent_closer_squares;
     const tripoint d( -from + to );
     const point a( std::abs( d.x ), std::abs( d.y ) );
     if( d.z != 0 ) {
-        adjacent_closer_squares.push_back( from + tripoint( sgn( d.x ), sgn( d.y ), sgn( d.z ) ) );
+        adjacent_closer_squares.push_back( from + tripoint( 0, 0, sgn( d.z ) ) );
     }
     if( a.x > a.y ) {
         // X dominant.

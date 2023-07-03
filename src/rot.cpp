@@ -56,15 +56,16 @@ temperature_flag temperature_flag_for_location( const map &m, const item_locatio
 temperature_flag temperature_flag_for_part( const vehicle &veh, size_t part_index )
 {
     const vehicle_part &part = veh.cpart( part_index );
+    const vpart_info &info = part.info();
     if( !part.enabled ) {
         return temperature_flag::TEMP_NORMAL;
     }
 
-    if( part.has_flag( VPFLAG_FREEZER ) ) {
+    if( info.has_flag( VPFLAG_FREEZER ) ) {
         return temperature_flag::TEMP_FREEZER;
     }
 
-    if( part.has_flag( VPFLAG_FRIDGE ) ) {
+    if( info.has_flag( VPFLAG_FRIDGE ) ) {
         return temperature_flag::TEMP_FRIDGE;
     }
     return temperature_flag::TEMP_NORMAL;

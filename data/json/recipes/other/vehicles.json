@@ -122,6 +122,18 @@
     "components": [ [ [ "leather", 6 ], [ "fur", 6 ] ], [ [ "wood_structural", 4, "LIST" ] ], [ [ "rope_natural_short", 4, "LIST" ] ] ]
   },
   {
+    "result": "five-point_harness",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seatbelt", 3 ] ] ]
+  },
+  {
     "result": "hd_tow_cable",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -1163,7 +1175,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ], [ "welding_standard", 5 ] ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "leather", 12 ], [ "fur", 12 ] ], [ [ "rag", 8 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "fabric_hides_proper", 12, "LIST" ], [ "fur", 12 ] ], [ [ "rag", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -1299,5 +1311,52 @@
     "using": [ [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "reinforced_glass_pane", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "homebuilt_gyrocopter_rotor",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 5 ],
+    "difficulty": 7,
+    "time": "1 h",
+    "book_learn": [
+      [ "textbook_fabrication", 6 ],
+      [ "welding_book", 6 ],
+      [ "textbook_carpentry", 6 ],
+      [ "book_icef", 4 ],
+      [ "textbook_mechanics", 4 ],
+      [ "manual_mechanics", 4 ]
+    ],
+    "using": [ [ "welding_standard", 10 ], [ "adhesive", 4 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "SAW_W", "level": 2 }
+    ],
+    "components": [
+      [ [ "2x4", 20 ], [ "frame_wood", 4 ], [ "wood_panel", 4 ] ],
+      [ [ "sheet_metal_small", 10 ] ],
+      [ [ "nail", 20 ] ],
+      [ [ "pipe", 5 ] ],
+      [ [ "chain", 1 ] ]
+    ]
+  },
+  {
+    "result": "v_rockwheel_item",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 3 ],
+    "difficulty": 6,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "welding_book", 4 ], [ "textbook_mechanics", 2 ], [ "manual_mechanics", 2 ] ],
+    "time": "8 h",
+    "using": [ [ "welding_standard", 25 ], [ "steel_standard", 20 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "frame", 2 ] ] ]
   }
 ]

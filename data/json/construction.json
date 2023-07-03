@@ -81,7 +81,7 @@
     "required_skills": [ [ "survival", 2 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ], [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "stick", 12 ], [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ] ],
+    "components": [ [ [ "wood_structural", 3, "LIST" ], [ "wood_panel", 1 ] ], [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "dark_craftable": true,
     "post_terrain": "t_improvised_shelter"
@@ -126,7 +126,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 6 ], [ "stick", 6 ], [ "wood_panel", 1 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ] ],
+    "components": [ [ [ "wood_structural", 3, "LIST" ], [ "wood_panel", 1 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_door_frame",
     "post_terrain": "t_door_makeshift_c"
@@ -646,10 +646,17 @@
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "2x4", 5 ], [ "stick", 10 ] ],
-      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
-      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
-      [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
+      [ [ "wood_structural_small", 5, "LIST" ] ],
+      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ], [ "material_soil", 20 ] ],
+      [
+        [ "withered", 4 ],
+        [ "straw_pile", 4 ],
+        [ "cattail_stalk", 4 ],
+        [ "dogbane", 4 ],
+        [ "pine_bough", 4 ],
+        [ "pebble", 10 ],
+        [ "material_sand", 10 ]
+      ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
     ],
     "pre_special": "check_empty",
@@ -665,10 +672,17 @@
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "2x4", 5 ], [ "stick", 10 ] ],
-      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ] ],
-      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
-      [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
+      [ [ "wood_structural_small", 5, "LIST" ] ],
+      [ [ "material_quicklime", 4 ], [ "material_limestone", 4 ], [ "clay_lump", 4 ], [ "material_soil", 20 ] ],
+      [
+        [ "withered", 4 ],
+        [ "straw_pile", 4 ],
+        [ "cattail_stalk", 4 ],
+        [ "dogbane", 4 ],
+        [ "pine_bough", 4 ],
+        [ "pebble", 10 ],
+        [ "material_sand", 10 ]
+      ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
     ],
     "pre_terrain": "t_wall_wattle_half",
@@ -683,7 +697,7 @@
     "time": "30 m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "2x4", 2 ], [ "stick", 4 ] ],
+      [ [ "wood_structural_small", 2, "LIST" ] ],
       [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ], [ "clay_lump", 2 ] ],
       [ [ "pebble", 4 ], [ "material_sand", 4 ] ],
       [ [ "straw_pile", 2 ], [ "cattail_stalk", 2 ], [ "dogbane", 2 ], [ "pine_bough", 2 ] ],
@@ -766,7 +780,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "log", 2 ] ], [ [ "stick", 3 ], [ "2x4", 6 ] ] ],
+    "components": [ [ [ "log", 2 ] ], [ [ "wood_structural_small", 3, "LIST" ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_wall_log_half"
   },
@@ -1228,7 +1242,7 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "pebble", 50 ] ], [ [ "mortar_build", 1 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "pebble", 50 ] ], [ [ "mortar_build", 1 ], [ "mortar_adobe", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_rock_wall_half"
   },
@@ -1241,7 +1255,7 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ], [ "mortar_adobe", 1 ] ] ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_rock_wall"
   },
@@ -1305,7 +1319,11 @@
     "required_skills": [ [ "fabrication", 5 ], [ "survival", 3 ] ],
     "time": "120 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 8 ], [ "stick", 8 ] ], [ [ "straw_pile", 24 ], [ "withered", 24 ] ], [ [ "cordage", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "wood_structural", 4, "LIST" ] ],
+      [ [ "straw_pile", 24 ], [ "withered", 24 ], [ "pine_bough", 24 ] ],
+      [ [ "cordage", 2, "LIST" ] ]
+    ],
     "pre_special": "check_support",
     "post_terrain": "t_dirtfloor_thatchroof"
   },
@@ -1319,7 +1337,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "log", 2 ] ],
-      [ [ "stick", 4 ], [ "2x4", 4 ] ],
+      [ [ "wood_structural", 2, "LIST" ] ],
       [ [ "material_soil", 40 ] ],
       [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
     ],
@@ -1347,7 +1365,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
     "time": "60 m",
-    "components": [ [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ], [ [ "stick", 8 ], [ "2x4", 8 ] ] ],
+    "components": [ [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ], [ [ "wood_structural", 4, "LIST" ] ] ],
     "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_palisade_pulley"
@@ -1360,7 +1378,11 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "log", 2 ] ], [ [ "2x4", 3 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ] ],
+    "components": [
+      [ [ "log", 2 ] ],
+      [ [ "wood_structural_small", 3, "LIST" ] ],
+      [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ]
+    ],
     "pre_note": "Must be between palisade walls to function, and at least one wall must have an adjacent rope & pulley system.",
     "pre_terrain": "t_pit",
     "post_terrain": "t_palisade_gate"
@@ -1856,7 +1878,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
-    "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "straw_pile", 8 ], [ "withered", 8 ], [ "pine_bough", 8 ] ] ],
+    "components": [ [ [ "wood_structural", 2, "LIST" ] ], [ [ "straw_pile", 8 ], [ "withered", 8 ], [ "pine_bough", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "dark_craftable": true,
@@ -2558,7 +2580,10 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "components": [ [ [ "2x4", 8 ], [ "log", 8 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
+    "components": [
+      [ [ "wood_structural", 4, "LIST" ], [ "log", 1 ] ],
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]
+    ],
     "pre_flags": "DIGGABLE",
     "pre_special": "check_down_OK",
     "post_special": "done_dig_stair"
@@ -2576,7 +2601,10 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
-    "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
+    "components": [
+      [ [ "wood_structural", 6, "LIST" ], [ "log", 2 ] ],
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]
+    ],
     "pre_special": "check_down_OK",
     "pre_terrain": "t_rock_floor",
     "post_special": "done_mine_downstair"
@@ -2655,7 +2683,10 @@
       ]
     ],
     "//": "Helmets are essential because you're digging up and things may fall on you.",
-    "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
+    "components": [
+      [ [ "wood_structural", 6, "LIST" ], [ "log", 2 ] ],
+      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]
+    ],
     "pre_special": "check_up_OK",
     "pre_terrain": "t_rock",
     "post_special": "done_mine_upstair"
@@ -2988,7 +3019,7 @@
     "required_skills": [ [ "fabrication", 3 ], [ "cooking", 2 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "CUT", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "stick", 16 ], [ "2x4", 16 ] ], [ [ "rock", 8 ] ] ],
+    "components": [ [ [ "wood_structural", 8, "LIST" ] ], [ [ "rock", 8 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_furniture": "f_smoking_rack"
@@ -3015,7 +3046,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "rock", 40 ] ],
-      [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
+      [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "mortar_adobe", 1 ], [ "clay_lump", 12 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
     "pre_note": "Can be deconstructed without tools.",
@@ -3069,7 +3100,11 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "130 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "rock", 40 ], [ "brick", 40 ] ], [ [ "2x4", 6 ], [ "stick", 6 ] ], [ [ "withered", 12 ], [ "straw_pile", 12 ] ] ],
+    "components": [
+      [ [ "rock", 40 ], [ "brick", 40 ] ],
+      [ [ "wood_structural", 3, "LIST" ] ],
+      [ [ "withered", 12 ], [ "straw_pile", 12 ] ]
+    ],
     "pre_note": "You need a deep pit to construct a root cellar.",
     "pre_terrain": "t_pit",
     "post_terrain": "t_rootcellar"
@@ -3135,7 +3170,7 @@
       [ [ "wire", 8 ], [ "spike", 8 ], [ "nail", 16 ] ],
       [ [ "scrap", 40 ], [ "sheet_metal", 1 ], [ "sheet_metal_small", 20 ] ]
     ],
-    "pre_terrain": "t_pit",
+    "pre_special": "check_empty",
     "post_terrain": "t_junk_palisade"
   },
   {
@@ -3269,12 +3304,12 @@
     "group": "build_rammed_earth_wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "360 m",
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ "frame_wood_light" ], [ "log" ] ],
+    "time": "240 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SMOOTH", "level": 1 } ],
+    "tools": [ [ "log" ] ],
     "components": [
-      [ [ "material_soil", 240 ] ],
-      [ [ "water", 100 ], [ "water_clean", 100 ] ],
+      [ [ "material_soil", 100 ] ],
+      [ [ "water", 50 ], [ "water_clean", 50 ] ],
       [ [ "material_sand", 20 ], [ "material_quicklime", 20 ], [ "concrete", 1 ] ]
     ],
     "pre_terrain": "t_fence_post",
@@ -3455,7 +3490,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "90m",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "stick", 6 ], [ "2x4", 3 ] ] ],
+    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ] ],
     "pre_terrain": "t_tree_pine",
     "post_terrain": "t_leanto"
   },
@@ -4252,7 +4287,7 @@
     "time": "45 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid.",
     "pre_special": "check_empty",
     "post_furniture": "f_cable_connector"
@@ -4266,7 +4301,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "cable", 5 ] ], [ [ "battery_charger", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "cable", 5 ] ], [ [ "battery_charger", 1 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in a building with an electric grid.",
     "pre_special": "check_empty",
     "post_furniture": "f_charger"
@@ -4280,7 +4315,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "cable", 5 ] ], [ [ "recharge_station", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "cable", 5 ] ], [ [ "recharge_station", 1 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in a building with an electric grid.",
     "pre_special": "check_empty",
     "post_furniture": "f_recharge_station"
@@ -4294,7 +4329,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "welder", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "welder", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridwelder"
@@ -4308,7 +4343,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "weldrig", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "weldrig", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_welderrig"
@@ -4322,7 +4357,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "forge", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridforge"
@@ -4336,7 +4371,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "forgerig", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "forgerig", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_forgerig"
@@ -4350,7 +4385,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "kiln", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "kiln", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridkiln"
@@ -4364,7 +4399,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "electrolysis_kit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "electrolysis_kit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridelectrolysis_kit"
@@ -4378,7 +4413,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "chemistry_set", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "chemistry_set", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_chemistry_set"
@@ -4392,7 +4427,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "chemlab", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "chemlab", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_chemlab"
@@ -4405,8 +4440,8 @@
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "tools": [ [ [ "soldering_iron", 20 ] ] ],
-    "components": [ [ [ "autoclave", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "autoclave", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridautoclave"
@@ -4420,7 +4455,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "dehydrator", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "dehydrator", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_griddehydrator"
@@ -4434,7 +4469,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "food_processor", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "food_processor", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridfood_processor"
@@ -4448,7 +4483,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "vac_sealer", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "vac_sealer", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridvac_sealer"
@@ -4462,7 +4497,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "craftrig", 1 ] ], [ [ "cable", 5 ] ], [ [ "solder_wire", 10 ] ] ],
+    "components": [ [ [ "craftrig", 1 ] ], [ [ "cable", 5 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_craftrig"
@@ -4476,7 +4511,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "kitchen_unit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "kitchen_unit", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_rvoven"
@@ -4490,7 +4525,7 @@
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "soldering_standard", 20 ] ],
-    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_gridsolderingiron"
@@ -4503,8 +4538,8 @@
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "tools": [ [ [ "soldering_iron", 20 ] ] ],
-    "components": [ [ [ "small_space_heater", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "small_space_heater", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_space_heater_off"
@@ -4517,8 +4552,8 @@
     "required_skills": [ [ "electronics", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
-    "tools": [ [ [ "soldering_iron", 20 ] ] ],
-    "components": [ [ [ "large_space_heater", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 5 ] ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "large_space_heater", 1 ] ], [ [ "cable", 5 ] ], [ [ "power_supply", 1 ] ] ],
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_space_heater_large_off"

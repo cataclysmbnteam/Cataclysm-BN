@@ -214,40 +214,40 @@ const weather_type_id &weather_generator::get_weather_conditions( const w_point 
     w_point wp2 = w;
     const weather_type_id *current_conditions = &weather_type_id::NULL_ID();
     for( const weather_type_id &type : weather_types ) {
-        const weather_requirements &requires = type->requirements;
-        weather_requirements rq2 = requires;
+        const weather_requirements &wrequires = type->requirements;
+        weather_requirements rq2 = wrequires;
         bool test_pressure =
-            requires.pressure_max > w.pressure &&
-            requires.pressure_min < w.pressure;
+            wrequires.pressure_max > w.pressure &&
+            wrequires.pressure_min < w.pressure;
         bool test_humidity =
-            requires.humidity_max > w.humidity &&
-            requires.humidity_min < w.humidity;
-        if( ( requires.humidity_and_pressure && !( test_pressure && test_humidity ) ) ||
-            ( !requires.humidity_and_pressure && !( test_pressure || test_humidity ) ) ) {
+            wrequires.humidity_max > w.humidity &&
+            wrequires.humidity_min < w.humidity;
+        if( ( wrequires.humidity_and_pressure && !( test_pressure && test_humidity ) ) ||
+            ( !wrequires.humidity_and_pressure && !( test_pressure || test_humidity ) ) ) {
             continue;
         }
         bool test_temperature =
-            requires.temperature_max > units::to_fahrenheit( w.temperature ) &&
-            requires.temperature_min < units::to_fahrenheit( w.temperature );
+            wrequires.temperature_max > units::to_fahrenheit( w.temperature ) &&
+            wrequires.temperature_min < units::to_fahrenheit( w.temperature );
         bool test_windspeed =
-            requires.windpower_max > w.windpower &&
-            requires.windpower_min < w.windpower;
-        bool test_acidic = !requires.acidic || w.acidic;
+            wrequires.windpower_max > w.windpower &&
+            wrequires.windpower_min < w.windpower;
+        bool test_acidic = !wrequires.acidic || w.acidic;
         if( !( test_temperature && test_windspeed && test_acidic ) ) {
             continue;
         }
 
-        if( !requires.required_weathers.empty() ) {
-            if( std::find( requires.required_weathers.begin(), requires.required_weathers.end(),
-                           *current_conditions ) == requires.required_weathers.end() ) {
+        if( !wrequires.required_weathers.empty() ) {
+            if( std::find( wrequires.required_weathers.begin(), wrequires.required_weathers.end(),
+                           *current_conditions ) == wrequires.required_weathers.end() ) {
                 continue;
             }
         }
 
-        if( requires.time != weather_time_requirement_type::both ) {
+        if( wrequires.time != weather_time_requirement_type::both ) {
             bool day = is_day( calendar::turn );
-            if( ( requires.time == weather_time_requirement_type::day && !day ) ||
-                ( requires.time == weather_time_requirement_type::night && day ) ) {
+            if( ( wrequires.time == weather_time_requirement_type::day && !day ) ||
+                ( wrequires.time == weather_time_requirement_type::night && day ) ) {
                 continue;
             }
         }

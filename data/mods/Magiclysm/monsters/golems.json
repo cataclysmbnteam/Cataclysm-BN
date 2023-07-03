@@ -57,7 +57,6 @@
     "vision_day": 30,
     "vision_night": 30,
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "regenerates": 10,
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "LOUDMOVES" ]
   },

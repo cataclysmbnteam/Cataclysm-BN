@@ -16,6 +16,7 @@
 class JsonObject;
 class JsonIn;
 class JsonOut;
+class item;
 struct body_part_type;
 
 template <typename E> struct enum_traits;
@@ -116,6 +117,8 @@ struct body_part_type {
          * Formula is `chance *= pow(hit_roll, hit_difficulty)`
          */
         float hit_difficulty = 0.0f;
+        // Is this part important, as in, can you live without it?
+        bool essential = false;
         // "Parent" of this part - main parts are their own "parents"
         // TODO: Connect head and limbs to torso
         bodypart_str_id main_part;
@@ -154,6 +157,12 @@ struct body_part_type {
         int bionic_slots_ = 0;
 };
 
+class wield_status
+{
+    public:
+        std::shared_ptr<item> wielded;
+};
+
 class bodypart
 {
     private:
@@ -166,6 +175,10 @@ class bodypart
         /** Not used yet*/
         int damage_bandaged = 0;
         int damage_disinfected = 0;
+
+    public:
+        // TODO: private
+        wield_status wielding;
 
     public:
         bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
@@ -242,6 +255,9 @@ class body_part_set
         }
         void set( const body_part &bp ) {
             parts.set( bp );
+        }
+        void reset() {
+            parts.reset();
         }
         void reset( const body_part &bp ) {
             parts.reset( bp );

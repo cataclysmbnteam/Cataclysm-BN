@@ -55,10 +55,8 @@ static const skill_id skill_survival( "survival" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_digestion( "bio_digestion" );
 static const bionic_id bio_furnace( "bio_furnace" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
@@ -153,6 +151,8 @@ static const std::string flag_RADIOACTIVE( "RADIOACTIVE" );
 static const std::string flag_RAW( "RAW" );
 static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
+static const std::string flag_COLD( "COLD" );
+static const std::string flag_VERY_COLD( "VERY_COLD" );
 
 const std::vector<std::string> carnivore_blacklist {{
         flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
@@ -879,6 +879,11 @@ bool Character::eat( item &food, bool force )
     } else if( spoiled && saprophage ) {
         add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious…" ), food.tname() );
     }
+    // Store the fact that the food was cold to later reapply it to the rest of the stack, to prevent rot.
+    // Note: Implemented to fix display error when eating reheated food.
+    bool food_was_cold = food.has_flag( flag_COLD );
+    bool food_was_very_cold = food.has_flag( flag_VERY_COLD );
+
     if( !consume_effects( food ) ) {
         // Already consumed by using `food.type->invoke`?
         if( charges_used > 0 ) {
@@ -947,6 +952,14 @@ bool Character::eat( item &food, bool force )
     } else if( chew ) {
         add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                food.tname() );
+    }
+
+    if( food_was_cold ) {
+        food.set_flag( flag_COLD );
+    }
+
+    if( food_was_very_cold ) {
+        food.set_flag( flag_VERY_COLD );
     }
 
     if( food.get_comestible()->tool->tool ) {
@@ -1067,6 +1080,8 @@ void Character::modify_morale( item &food, int nutr )
                                    _( "You heat up your %1$s using the %2$s." ),
                                    _( "<npcname> heats up their %1$s using the %2$s." ),
                                    food.tname(), heater->it.tname() );
+            food.unset_flag( flag_COLD );
+            food.unset_flag( flag_VERY_COLD );
             morale_time = 3_hours;
             int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
             add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
@@ -1258,53 +1273,6 @@ bool Character::consume_effects( item &food )
     return true;
 }
 
-bool Character::can_feed_reactor_with( const item &it ) const
-{
-    static const std::set<ammotype> acceptable = {{
-            ammotype( "reactor_slurry" ),
-            ammotype( "plutonium" )
-        }
-    };
-
-    if( !it.is_ammo() || can_eat( it ).success() ) {
-        return false;
-    }
-
-    if( !has_active_bionic( bio_reactor ) && !has_active_bionic( bio_advreactor ) ) {
-        return false;
-    }
-
-    return std::any_of( acceptable.begin(), acceptable.end(), [ &it ]( const ammotype & elem ) {
-        return it.ammo_type() == elem;
-    } );
-}
-
-bool Character::feed_reactor_with( item &it )
-{
-    if( !can_feed_reactor_with( it ) ) {
-        return false;
-    }
-
-    const auto iter = plut_charges.find( it.typeId() );
-    const int max_amount = iter != plut_charges.end() ? iter->second : 0;
-    const int amount = std::min( get_acquirable_energy( it, rechargeable_cbm::reactor ), max_amount );
-
-    if( amount >= PLUTONIUM_CHARGES * 10 &&
-        !query_yn( _( "That is a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
-        return false;
-    }
-
-    add_msg_player_or_npc( _( "You add your %s to your reactor's tank." ),
-                           _( "<npcname> pours %s into their reactor's tank." ),
-                           it.tname() );
-
-    // TODO: Encapsulate
-    tank_plut += amount;
-    it.charges -= 1;
-    mod_moves( -250 );
-    return true;
-}
-
 bool Character::can_feed_furnace_with( const item &it ) const
 {
     if( !it.flammable() || it.has_flag( flag_RADIOACTIVE ) || can_eat( it ).success() ) {
@@ -1388,16 +1356,20 @@ bool Character::fuel_bionic_with( item &it )
     }
 
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-
-    const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
     const std::string str_loaded  = get_value( it.typeId().str() );
+
+    const int fuel_multiplier = get_bionic_state( bio ).info().fuel_multiplier;
+
+    int loadable = std::min( it.charges * fuel_multiplier, get_fuel_capacity( it.typeId() ) );
     int loaded = 0;
+
     if( !str_loaded.empty() ) {
         loaded = std::stoi( str_loaded );
     }
 
     const std::string new_charge = std::to_string( loadable + loaded );
 
+    loadable = std::ceil( loadable / fuel_multiplier );
     it.charges -= loadable;
     // Type and amount of fuel
     set_value( it.typeId().str(), new_charge );
@@ -1415,10 +1387,6 @@ bool Character::fuel_bionic_with( item &it )
 
 rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
 {
-    if( can_feed_reactor_with( it ) ) {
-        return rechargeable_cbm::reactor;
-    }
-
     if( can_feed_furnace_with( it ) ) {
         return rechargeable_cbm::furnace;
     }
@@ -1520,8 +1488,12 @@ item &Character::get_consumable_from( item &it ) const
     return null_comestible;
 }
 
-static bool query_consume_ownership( item &target, avatar &you )
+bool query_consume_ownership( item &target, avatar &you )
 {
+    //Add in a reset here to make sure user keeps getting asked if not set to keep thief setting
+    if( you.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        you.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
     if( !target.is_owned_by( you, true ) ) {
         bool choice = true;
         if( you.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
@@ -1560,7 +1532,6 @@ bool Character::consume_item( item &target )
     }
     if( consume_med( comest ) ||
         eat( comest ) ||
-        feed_reactor_with( comest ) ||
         feed_furnace_with( comest ) ||
         fuel_bionic_with( comest ) ) {
 
@@ -1597,7 +1568,7 @@ void Character::consume( item_location loc )
         }
 
         if( was_in_container && wielding ) {
-            add_msg_if_player( _( "You are now wielding an empty %s." ), weapon.tname() );
+            add_msg_if_player( _( "You are now wielding an empty %s." ), primary_weapon().tname() );
         } else if( was_in_container && worn ) {
             add_msg_if_player( _( "You are now wearing an empty %s." ), target.tname() );
         } else if( was_in_container && !is_npc() ) {

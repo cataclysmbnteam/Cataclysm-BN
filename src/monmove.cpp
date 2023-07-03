@@ -119,11 +119,13 @@ static bool z_is_valid( int z )
 bool monster::will_move_to( const tripoint &p ) const
 {
     if( g->m.impassable( p ) ) {
+        tripoint above_p( p.x, p.y, p.z + 1 );
         if( digging() ) {
             if( !g->m.has_flag( "BURROWABLE", p ) ) {
                 return false;
             }
-        } else if( !( can_climb() && g->m.has_flag( "CLIMBABLE", p ) ) ) {
+        } else if( !( can_climb() && g->m.has_flag( "CLIMBABLE", p ) &&
+                      !g->m.has_floor_or_support( above_p ) ) ) {
             return false;
         }
     }
@@ -854,6 +856,7 @@ void monster::move()
             }
         }
     }
+
     // If true, don't try to greedily avoid locally bad paths
     bool pathed = false;
     if( try_to_move ) {
@@ -944,23 +947,24 @@ void monster::move()
             }
             tripoint candidate_abs = g->m.getabs( candidate );
 
+            bool can_z_move = true;
             if( candidate.z != posz() ) {
-                bool can_z_move = true;
+                bool can_z_attack = true;
                 if( !here.valid_move( pos(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
                     can_z_move = false;
+                    can_z_attack = false;
                 }
 
                 // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
                 // This prevents non-climb/fly enemies running up walls
-                if( candidate.z > posz() && !( via_ramp || flies() ) ) {
-                    if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
-                        // Can't "jump" up a whole z-level
-                        can_z_move = false;
-                    }
+                if( can_z_move && candidate.z > posz() && !( via_ramp || flies() ) &&
+                    ( !can_climb() || !here.has_floor_or_support( candidate ) ) ) {
+                    // Can't "jump" up a whole z-level
+                    can_z_move = false;
                 }
 
-                // Last chance - we can still do the z-level stair teleport bullshit that isn't removed yet
+                // We can still do the z-level stair teleport bullshit that isn't removed yet
                 // TODO: Remove z-level stair bullshit teleport after aligning all stairs
                 if( !can_z_move &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
@@ -972,7 +976,7 @@ void monster::move()
                     }
                 }
 
-                if( !can_z_move ) {
+                if( !can_z_attack ) {
                     continue;
                 }
             }
@@ -996,6 +1000,10 @@ void monster::move()
                 }
                 // Friendly fire and pushing are always bad choices - they take a lot of time
                 bad_choice = true;
+            }
+
+            if( !can_z_move ) {
+                continue;
             }
 
             map &here = g->m;
@@ -1485,8 +1493,7 @@ bool monster::attack_at( const tripoint &p )
     if( has_flag( MF_PACIFIST ) ) {
         return false;
     }
-    if( p.z != posz() ) {
-        // TODO: Remove this
+    if( p.z != posz() && !get_map().valid_move( pos(), p, false, true, false ) ) {
         return false;
     }
 
@@ -1570,7 +1577,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = g->critter_at( destination, is_hallucination() );
     if( g->m.has_flag( "CLIMBABLE", destination ) ) {
-        if( g->m.impassable( destination ) && critter == nullptr ) {
+        tripoint above_dest( destination.x, destination.y, destination.z + 1 );
+        if( g->m.impassable( destination ) && critter == nullptr &&
+            !g->m.has_floor_or_support( above_dest ) ) {
             if( flies() ) {
                 moves -= 100;
                 force = true;
@@ -2005,6 +2014,9 @@ void monster::knock_back_to( const tripoint &to )
 
     } else { // It's no wall
         setpos( to );
+
+        map &here = get_map();
+        here.creature_on_trap( *this );
     }
     check_dead_state();
 }

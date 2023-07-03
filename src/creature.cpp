@@ -144,6 +144,7 @@ void Creature::reset_bonuses()
     armor_bullet_bonus = 0;
 
     speed_bonus = 0;
+    speed_mult = 0;
     dodge_bonus = 0;
     block_bonus = 0;
     hit_bonus = 0;
@@ -781,7 +782,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             impact.mult_damage( 1.0f / dmg_ratio );
         }
     }
-
+    // If we have a shield, it might passively block ranged impacts
+    block_ranged_hit( source, bp_hit, impact );
     dealt_dam = deal_damage( source, bp_hit, impact );
     dealt_dam.bp_hit = bp_hit->token;
 
@@ -1233,6 +1235,19 @@ const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) con
     }
     return effect::null_effect;
 }
+std::vector<effect *> Creature::get_all_effects_of_type( const efftype_id &eff_id )
+{
+    std::vector< effect *> ret;
+    auto got_outer = effects->find( eff_id );
+    if( got_outer == effects->end() ) {
+        return {};
+    }
+    std::unordered_map<bodypart_str_id, effect> &effect_map = got_outer->second;
+    for( auto&[ _, effect ] : effect_map ) {
+        ret.push_back( &effect );
+    }
+    return ret;
+}
 std::vector<const effect *> Creature::get_all_effects_of_type( const efftype_id &eff_id ) const
 {
     std::vector<const effect *> ret;
@@ -1509,7 +1524,8 @@ int Creature::get_armor_bullet_bonus() const
 
 int Creature::get_speed() const
 {
-    return get_speed_base() + get_speed_bonus();
+    int speed = round( ( get_speed_base() + get_speed_bonus() ) * ( 1 + get_speed_mult() ) );
+    return std::max( static_cast<int>( round( 0.25 * get_speed_base() ) ), speed );
 }
 float Creature::get_dodge() const
 {
@@ -1538,27 +1554,32 @@ const std::map<bodypart_str_id, bodypart> &Creature::get_body() const
 void Creature::set_body()
 {
     body.clear();
-    for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
-        body.emplace( bp.id(), bodypart( bp.id() ) );
+    // TODO: Probably shouldn't be needed, but it's called from game::game()
+    if( get_anatomy().is_valid() ) {
+        for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
+            body.emplace( bp.id(), bodypart( bp.id() ) );
+        }
     }
 }
 
-bodypart *Creature::get_part( const bodypart_id &id )
+bodypart &Creature::get_part( const bodypart_id &id )
 {
     auto found = body.find( id.id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
-        return nullptr;
+        static bodypart nullpart;
+        return nullpart;
     }
-    return &found->second;
+    return found->second;
 }
 
-bodypart Creature::get_part( const bodypart_id &id ) const
+const bodypart &Creature::get_part( const bodypart_id &id ) const
 {
     auto found = body.find( id.id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
-        return bodypart();
+        static const bodypart nullpart;
+        return nullpart;
     }
     return found->second;
 }
@@ -1580,32 +1601,32 @@ int Creature::get_part_healed_total( const bodypart_id &id ) const
 
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
-    get_part( id )->set_hp_cur( set );
+    get_part( id ).set_hp_cur( set );
 }
 
 void Creature::set_part_hp_max( const bodypart_id &id, int set )
 {
-    get_part( id )->set_hp_max( set );
+    get_part( id ).set_hp_max( set );
 }
 
 void Creature::set_part_healed_total( const bodypart_id &id, int set )
 {
-    get_part( id )->set_healed_total( set );
+    get_part( id ).set_healed_total( set );
 }
 
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_hp_cur( mod );
+    get_part( id ).mod_hp_cur( mod );
 }
 
 void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_hp_max( mod );
+    get_part( id ).mod_hp_max( mod );
 }
 
 void Creature::mod_part_healed_total( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_healed_total( mod );
+    get_part( id ).mod_healed_total( mod );
 }
 
 void Creature::set_all_parts_hp_cur( const int set )
@@ -1685,6 +1706,10 @@ int Creature::get_speed_bonus() const
 {
     return speed_bonus;
 }
+float Creature::get_speed_mult() const
+{
+    return speed_mult;
+}
 float Creature::get_dodge_bonus() const
 {
     return dodge_bonus;
@@ -1747,6 +1772,10 @@ void Creature::set_speed_bonus( int nspeed )
 {
     speed_bonus = nspeed;
 }
+void Creature::set_speed_mult( float nspeed )
+{
+    speed_mult = nspeed;
+}
 void Creature::set_dodge_bonus( float ndodge )
 {
     dodge_bonus = ndodge;
@@ -1763,6 +1792,10 @@ void Creature::set_hit_bonus( float nhit )
 void Creature::mod_speed_bonus( int nspeed )
 {
     speed_bonus += nspeed;
+}
+void Creature::mod_speed_mult( float nspeed )
+{
+    speed_mult += nspeed;
 }
 void Creature::mod_dodge_bonus( float ndodge )
 {

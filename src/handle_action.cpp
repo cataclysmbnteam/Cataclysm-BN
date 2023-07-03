@@ -688,7 +688,12 @@ static void smash()
             }
         }
     }
-    const int move_cost = !u.is_armed() ? 80 : u.weapon.attack_cost() * 0.8;
+    item &weapon = u.primary_weapon();
+    if( weapon.made_of( material_id( "glass" ) ) &&
+        !query_yn( _( "Are you sure you want to smash with an item made of glass?" ) ) ) {
+        return;
+    }
+    const int move_cost = !u.is_armed() ? 80 : weapon.attack_cost() * 0.8;
     bool didit = false;
     bool mech_smash = false;
     int smashskill;
@@ -699,7 +704,7 @@ static void smash()
                      mon->type->melee_sides;
         mech_smash = true;
     } else {
-        smashskill = u.str_cur + u.weapon.damage_melee( DT_BASH );
+        smashskill = u.str_cur + weapon.damage_melee( DT_BASH );
     }
 
     const bool allow_floor_bash = here.has_zlevels();
@@ -779,18 +784,18 @@ static void smash()
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
         if( !mech_smash ) {
-            u.handle_melee_wear( u.weapon );
-            const int mod_sta = ( ( u.weapon.weight() / 10_gram ) + 200 + static_cast<int>
+            u.handle_melee_wear( weapon );
+            const int mod_sta = ( ( weapon.weight() / 10_gram ) + 200 + static_cast<int>
                                   ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) ) * -1;
             u.mod_stamina( mod_sta );
             if( u.get_skill_level( skill_melee ) == 0 ) {
                 u.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
             }
-            const int vol = u.weapon.volume() / units::legacy_volume_factor;
-            if( u.weapon.made_of( material_id( "glass" ) ) &&
+            const int vol = weapon.volume() / units::legacy_volume_factor;
+            if( weapon.made_of( material_id( "glass" ) ) &&
                 rng( 0, vol + 3 ) < vol ) {
-                add_msg( m_bad, _( "Your %s shatters!" ), u.weapon.tname() );
-                u.weapon.spill_contents( u.pos() );
+                add_msg( m_bad, _( "Your %s shatters!" ), weapon.tname() );
+                weapon.spill_contents( u.pos() );
                 sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
                 u.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( DT_CUT, rng( 0, vol ) ) );
                 if( vol > 20 ) {
@@ -1314,7 +1319,7 @@ static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory traj = target_handler::mode_reach( you, you.weapon );
+    target_handler::trajectory traj = target_handler::mode_reach( you, you.primary_weapon() );
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
@@ -1373,9 +1378,10 @@ static void fire()
         }
     }
 
-    if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
+    item &weapon = u.primary_weapon();
+    if( weapon.is_gun() && !weapon.gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( u );
-    } else if( u.weapon.reach_range( u ) > 1 ) {
+    } else if( weapon.reach_range( u ) > 1 ) {
         if( u.has_effect( effect_relax_gas ) ) {
             if( one_in( 8 ) ) {
                 add_msg( m_good, _( "Your willpower asserts itself, and so do you!" ) );
@@ -1436,6 +1442,7 @@ static void cast_spell()
     if( !can_cast_spells ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You can't cast any of the spells you know!" ) );
+        return;
     }
 
     const int spell_index = u.magic->select_spell( u );
@@ -1446,7 +1453,7 @@ static void cast_spell()
     spell &sp = *u.magic->get_spells()[spell_index];
 
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !u.weapon.has_flag( flag_MAGIC_FOCUS ) ) {
+        !u.primary_weapon().has_flag( flag_MAGIC_FOCUS ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
         return;
@@ -1996,7 +2003,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_USE_WIELDED:
-                avatar_funcs::use_item( u, item_location( u, &u.weapon ) );
+                avatar_funcs::use_item( u, item_location( u, &u.primary_weapon() ) );
                 break;
 
             case ACTION_WEAR:
@@ -2067,25 +2074,25 @@ bool game::handle_action()
                 break;
 
             case ACTION_FIRE_BURST: {
-                if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
+                if( u.primary_weapon().gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
                     avatar_action::fire_wielded_weapon( u );
                 }
                 break;
             }
 
             case ACTION_SELECT_FIRE_MODE:
-                if( u.is_armed() && u.weapon.is_gun() && !u.weapon.is_gunmod() ) {
-                    if( u.weapon.gun_all_modes().size() > 1 ) {
-                        u.weapon.gun_cycle_mode();
+                if( u.is_armed() && u.primary_weapon().is_gun() && !u.primary_weapon().is_gunmod() ) {
+                    if( u.primary_weapon().gun_all_modes().size() > 1 ) {
+                        u.primary_weapon().gun_cycle_mode();
                     } else {
-                        add_msg( m_info, _( "Your %s has only one firing mode." ), u.weapon.display_name() );
+                        add_msg( m_info, _( "Your %s has only one firing mode." ), u.primary_weapon().display_name() );
                     }
                 }
                 break;
 
             case ACTION_SELECT_DEFAULT_AMMO:
-                if( u.is_armed() && u.weapon.is_gun() && !u.weapon.is_gunmod() ) {
-                    ranged::prompt_select_default_ammo_for( u, u.weapon );
+                if( u.is_armed() && u.primary_weapon().is_gun() && !u.primary_weapon().is_gunmod() ) {
+                    ranged::prompt_select_default_ammo_for( u, u.primary_weapon() );
                 }
                 break;
 

@@ -31,6 +31,8 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "gasoline",
+    "fuel_options": [ "gasoline", "avgas" ],
+    "//2": "TODO: remove when injectors are implemented",
     "m2c": 60,
     "//": "30% energy efficiency",
     "description": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle."
@@ -43,7 +45,8 @@
     "fuel_options": [ "gasoline", "diesel", "lamp_oil", "jp8", "motor_oil", "avgas", "biodiesel" ],
     "m2c": 60,
     "//": "25% energy efficiency",
-    "description": "An advanced combustion engine.  Burns gasoline or diesel or aviation fuel from a tank in the vehicle.  Can also burn lamp oil, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine, but consumes more fuel."
+    "extend": { "flags": [ "E_NO_POWER_DECAY" ] },
+    "description": "An advanced combustion engine.  Burns gasoline or diesel or aviation fuel from a tank in the vehicle.  Can also burn lamp oil, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine but consumes more fuel, its power will not diminish even when multiple of them are installed."
   },
   {
     "id": "diesel_engine_i6",
@@ -363,6 +366,30 @@
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "damage_reduction": { "all": 50 }
+  },
+  {
+    "id": "engine_steam_turbine",
+    "copy-from": "steam_engine",
+    "type": "vehicle_part",
+    "item": "steam_turbine",
+    "durability": 300,
+    "epower": -20,
+    "//": "45% energy efficiency",
+    "power": 551700,
+    "energy_consumption": 1226000,
+    "extend": { "flags": [ "E_NO_POWER_DECAY" ] },
+    "description": "A closed cycle steam engine powering a hefty turbine.  Burns coal or charcoal from a bunker in the vehicle to produce steam, its power will not diminish even when multiple of them are installed.",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 120, 240 ] },
+      { "item": "steel_chunk", "count": [ 120, 240 ] },
+      { "item": "scrap", "count": [ 120, 240 ] }
+    ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "damage_reduction": { "all": 50 }
   },

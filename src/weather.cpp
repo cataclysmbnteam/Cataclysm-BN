@@ -374,7 +374,7 @@ void weather_effect::wet_player( int amount )
     Character &target = get_avatar();
     if( !is_player_outside() ||
         target.has_trait( trait_FEATHERS ) ||
-        target.weapon.has_flag( "RAIN_PROTECT" ) ||
+        target.primary_weapon().has_flag( "RAIN_PROTECT" ) ||
         ( !one_in( 50 ) && target.worn_with_flag( "RAINPROOF" ) ) ) {
         return;
     }
@@ -461,8 +461,8 @@ void weather_effect::lightning( int intensity )
 void weather_effect::light_acid( int intensity )
 {
     if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
-            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname() );
+        if( g->u.primary_weapon().has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
+            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.primary_weapon().tname() );
         } else {
             if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
                 add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
@@ -488,7 +488,7 @@ void weather_effect::light_acid( int intensity )
 void weather_effect::acid( int intensity )
 {
     if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
+        if( g->u.primary_weapon().has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
             add_msg( _( "Your umbrella protects you from the acid rain." ) );
         } else {
             if( g->u.worn_with_flag( "RAINPROOF" ) && one_in( 2 ) ) {

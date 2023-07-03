@@ -35,7 +35,6 @@ class JsonObject;
 class JsonOut;
 class Creature;
 class faction;
-class gun_type_type;
 class gunmod_location;
 class item;
 class iteminfo_query;
@@ -583,6 +582,8 @@ class item : public visitable<item>
         std::map<std::string, double> dps( bool for_display, bool for_calc ) const;
         /** return the average dps of the weapon against evaluation monsters */
         double average_dps( const player &guy ) const;
+
+        double ideal_ranged_dps( const Character &who, gun_mode &mode ) const;
 
         /**
          * Whether the character needs both hands to wield this item.
@@ -1209,6 +1210,11 @@ class item : public visitable<item>
         bool is_reloadable() const;
         /**
          * Returns true if this item can be reloaded with specified ammo type,
+         * ignoring currently loaded ammo.
+         */
+        bool can_reload_with( const ammotype &ammo ) const;
+        /**
+         * Returns true if this item can be reloaded with specified ammo item,
          * ignoring currently loaded ammo.
          */
         bool can_reload_with( const itype_id &ammo ) const;
@@ -1904,9 +1910,6 @@ class item : public visitable<item>
          * The skill used to operate the gun. Can be "null" if this is not a gun.
          */
         skill_id gun_skill() const;
-
-        /** Get the type of a ranged weapon (e.g. "rifle", "crossbow"), or empty string if non-gun */
-        gun_type_type gun_type() const;
 
         /** Get mod locations, including those added by other mods */
         std::map<gunmod_location, int> get_mod_locations() const;

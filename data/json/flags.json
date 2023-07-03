@@ -1265,6 +1265,11 @@
     "context": [  ]
   },
   {
+    "id": "VERY_COLD",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "COLLAPSIBLE_STOCK",
     "type": "json_flag",
     "context": [  ]
@@ -1336,6 +1341,11 @@
   },
   {
     "id": "E_COMBUSTION",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "E_NO_POWER_DECAY",
     "type": "json_flag",
     "context": [  ]
   },

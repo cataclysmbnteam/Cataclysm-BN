@@ -284,5 +284,39 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ] ] ]
+  },
+  {
+    "result": "sling_bullet",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "6 m",
+    "batch_time_factors": [ 70, 1 ],
+    "autolearn": true,
+    "charges": 1,
+    "tools": [
+      [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    ],
+    "components": [ [ [ "lead", 50 ], [ "bismuth", 125 ] ] ]
+  },
+  {
+    "result": "sling_bullet_small",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h",
+    "batch_time_factors": [ 70, 1 ],
+    "autolearn": true,
+    "charges": 6,
+    "tools": [
+      [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    ],
+    "components": [ [ [ "lead", 50 ], [ "bismuth", 125 ] ] ]
   }
 ]

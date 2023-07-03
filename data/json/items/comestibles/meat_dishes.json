@@ -1275,7 +1275,8 @@
     "price_postapoc": 10,
     "material": "flesh",
     "volume": "125 ml",
-    "fun": -4
+    "fun": -4,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",

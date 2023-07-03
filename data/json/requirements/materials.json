@@ -3,13 +3,19 @@
     "id": "adhesive",
     "type": "requirement",
     "//": "Materials used for joining (typically non-metallic) parts",
-    "components": [ [ [ "duct_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 25 ], [ "medical_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
   },
   {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
-    "components": [ [ [ "lead", 1 ] ] ]
+    "components": [ [ [ "lead", 1 ], [ "bismuth", 3 ] ] ]
+  },
+  {
+    "id": "chem_lye",
+    "type": "requirement",
+    "//": "Comparable ratios of liquid lye and lye powder.",
+    "components": [ [ [ "lye", 1 ], [ "lye_powder", 30 ] ] ]
   },
   {
     "id": "copper_scrap_equivalent",
@@ -68,14 +74,32 @@
   {
     "id": "fabric_standard",
     "type": "requirement",
-    "//": "Materials used for crafting or repairing clothing or sheeting, etc.",
-    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+    "//": "Any valid fabric material, for when the material used shouldn't impact the material of the end product.  Excludes felt patches, since this may still be worn on skin.",
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+  },
+  {
+    "id": "fabric_hides_any",
+    "type": "requirement",
+    "//": "For where leather or fur are used, that don't impact the material of the end product, and for which fake fur won't weaken the end result.",
+    "components": [ [ [ "leather", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ] ] ]
+  },
+  {
+    "id": "fabric_hides_proper",
+    "type": "requirement",
+    "//": "For where proper leather or fur are used, that don't impact the material of the end product, but the real deal is needed for durability.",
+    "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ] ]
+  },
+  {
+    "id": "fabric_hides_untanned",
+    "type": "requirement",
+    "//": "For where cured hides and pelts can be used, usually for recipes that don't require sewing.",
+    "components": [ [ [ "cured_hide", 1 ], [ "cured_pelt", 1 ] ] ]
   },
   {
     "id": "fabric_standard_permeable",
     "type": "requirement",
     "//": "Materials used for crafting or repairing woven fabrics",
-    "components": [ [ [ "rag", 1 ], [ "lycra_patch", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
   },
   {
     "id": "fabric_standard_nostretch",
@@ -117,7 +141,7 @@
     "id": "rope_natural_short",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "rope_superior",
@@ -129,7 +153,7 @@
     "id": "rope_superior_short",
     "type": "requirement",
     "//": "Materials used for lashing, when extra durability and/or flexibilty is needed, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "steel_standard",
@@ -157,6 +181,7 @@
       [
         [ "feather", 10 ],
         [ "duct_tape", 40 ],
+        [ "medical_tape", 40 ],
         [ "cardboard", 10 ],
         [ "bag_plastic", 1 ],
         [ "bottle_plastic_small", 1 ],
@@ -171,7 +196,7 @@
     "id": "weights",
     "type": "requirement",
     "//": "Materials used for adding weight to weapons and to other items. The materials should be malleable, ductile and dense.",
-    "components": [ [ [ "lead", 5 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
+    "components": [ [ [ "lead", 5 ], [ "bismuth", 8 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
   },
   {
     "id": "plastics",
@@ -214,5 +239,17 @@
     "type": "requirement",
     "//": "Planks or sticks used in recipes, roughly 1:1 basis by weight.",
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+  },
+  {
+    "id": "fabric_leather_fur_hide",
+    "type": "requirement",
+    "//": "Materials used for crafting leather clothing where fur is or should be an option (can be scraped off with a cutting tool for example), when tanned hides/pelts are available it seems to roughly be a 1:8 ratio",
+    "components": [ [ [ "leather", 8 ], [ "fur", 8 ] ] ]
+  },
+  {
+    "id": "bone_sturdy",
+    "type": "requirement",
+    "//": "Any kind of bones, human or not.  Tainted bones are too brittle and won't work for this purpose.",
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
   }
 ]

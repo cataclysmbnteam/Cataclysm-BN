@@ -116,7 +116,7 @@
         [ "tobacco_raw", 50 ],
         [ "nicotine_liquid", 50 ]
       ],
-      [ [ "lye", 2 ], [ "lye_powder", 50 ] ]
+      [ [ "chem_lye", 2, "LIST" ] ]
     ]
   },
   {
@@ -205,12 +205,13 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": "1 h 30 m",
+    "time": "15 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
+    "charges": 30,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 120, "LIST" ] ] ],
-    "components": [ [ [ "lye", 6 ] ] ]
+    "tools": [ [ [ "water_boiling_heat", 25, "LIST" ] ] ],
+    "components": [ [ [ "lye", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -277,7 +278,7 @@
       [ [ "water", 4 ], [ "water_clean", 4 ] ],
       [ [ "meal_bone", 2 ] ],
       [ [ "meal_chitin_piece", 1 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ], [ "chem_saltpetre", 50 ] ]
+      [ [ "ammonia", 1 ], [ "chem_lye", 3, "LIST" ], [ "chem_saltpetre", 50 ] ]
     ]
   },
   {
@@ -308,7 +309,7 @@
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "components": [
       [ [ "edible_tallow_lard", 2, "LIST" ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ] ],
-      [ [ "lye", 2 ], [ "lye_powder", 75 ] ],
+      [ [ "chem_lye", 2, "LIST" ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
     "flags": [ "ALLOW_ROTTEN" ]

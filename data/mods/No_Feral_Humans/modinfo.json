@@ -1,0 +1,40 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "No_Ferals",
+    "name": "No Feral Humans",
+    "description": "Removes all feral humans from the game.",
+    "category": "monster_exclude",
+    "dependencies": [ "bn" ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+      "mon_feral_human_pipe",
+      "mon_feral_human_crowbar",
+      "mon_feral_human_axe",
+      "mon_feral_scientist_scalpel",
+      "mon_feral_labsecurity_9mm",
+      "mon_feral_labsecurity_flashlight",
+      "mon_feral_human_tool",
+      "mon_feral_jackboot",
+      "mon_feral_maid_broom",
+      "mon_feral_maid_candlestick",
+      "mon_feral_maid_knife",
+      "mon_feral_fancy_rapier",
+      "mon_feral_fancy_rapier_fake",
+      "mon_feral_fancy_crossbow",
+      "mon_feral_armored_mace",
+      "mon_feral_armored_battleaxe",
+      "mon_feral_prepper",
+      "mon_feral_survivalist",
+      "mon_feral_militia",
+      "mon_feral_soldier"
+    ]
+  },
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "blacklist",
+    "scenarios": [ "assassination", "player_feral" ]
+  }
+]

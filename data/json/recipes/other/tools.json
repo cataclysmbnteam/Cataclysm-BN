@@ -218,7 +218,13 @@
     "book_learn": [ [ "textbook_fabrication", 0 ], [ "manual_fabrication", 0 ], [ "mag_electronics", 0 ] ],
     "components": [
       [ [ "flashlight", 1 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [
+        [ "fabric_standard", 2, "LIST" ],
+        [ "fabric_hides_any", 2, "LIST" ],
+        [ "cordage", 1, "LIST" ],
+        [ "duct_tape", 10 ],
+        [ "medical_tape", 20 ]
+      ]
     ]
   },
   {
@@ -257,7 +263,13 @@
       [ [ "amplifier", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "wire", 2 ] ],
-      [ [ "rag", 4 ], [ "leather", 4 ], [ "duct_tape", 20 ], [ "medical_tape", 40 ], [ "cordage", 1, "LIST" ] ]
+      [
+        [ "fabric_standard", 4, "LIST" ],
+        [ "fabric_hides_any", 4, "LIST" ],
+        [ "duct_tape", 20 ],
+        [ "medical_tape", 40 ],
+        [ "cordage", 1, "LIST" ]
+      ]
     ]
   },
   {
@@ -274,12 +286,18 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "betavoltaic", 4 ] ],
+      [ [ "plut_cell", 4 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "wire", 2 ] ],
       [ [ "lens", 1 ], [ "lens_small", 1 ] ],
-      [ [ "rag", 4 ], [ "leather", 4 ], [ "duct_tape", 20 ], [ "medical_tape", 40 ], [ "cordage", 1, "LIST" ] ]
+      [
+        [ "fabric_standard", 4, "LIST" ],
+        [ "fabric_hides_any", 4, "LIST" ],
+        [ "duct_tape", 20 ],
+        [ "medical_tape", 40 ],
+        [ "cordage", 1, "LIST" ]
+      ]
     ]
   },
   {
@@ -364,7 +382,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "skewer_bone", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "skewer_bone", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -389,7 +407,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -401,7 +419,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ], [ "bone_sturdy", 1, "LIST" ] ],
       [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
       [ [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ]
     ]
@@ -441,7 +459,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 3,
+    "difficulty": 4,
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
@@ -725,7 +743,7 @@
     "components": [
       [ [ "xacto", 1 ] ],
       [ [ "saw", 1 ] ],
-      [ [ "rag", 1 ], [ "leather", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ] ]
+      [ [ "fabric_standard", 1, "LIST" ], [ "fabric_hides_any", 1, "LIST" ], [ "felt_patch", 1 ] ]
     ]
   },
   {
@@ -766,7 +784,7 @@
     "difficulty": 1,
     "time": "2 m",
     "autolearn": true,
-    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ [ "rag", 1 ] ] ]
+    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ [ "fabric_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1592,7 +1610,13 @@
     "book_learn": [ [ "recipe_caseless", 5 ] ],
     "components": [
       [ [ "rx12_injector", 1 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [
+        [ "fabric_standard", 2, "LIST" ],
+        [ "fabric_hides_any", 2, "LIST" ],
+        [ "cordage", 1, "LIST" ],
+        [ "duct_tape", 10 ],
+        [ "medical_tape", 20 ]
+      ]
     ]
   },
   {
@@ -1618,17 +1642,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [
-        [ "bone", 1 ],
-        [ "bone_human", 1 ],
-        [ "stick", 1 ],
-        [ "broom", 1 ],
-        [ "pool_cue", 1 ],
-        [ "splinter", 1 ],
-        [ "2x4", 1 ]
-      ]
-    ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "stick", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ], [ "splinter", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1639,7 +1653,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1918,8 +1932,8 @@
     "autolearn": true,
     "using": [ [ "cordage_short", 2 ] ],
     "components": [
-      [ [ "leather", 1 ], [ "fur", 1 ] ],
-      [ [ "rag", 1 ] ],
+      [ [ "fabric_hides_proper", 1, "LIST" ] ],
+      [ [ "fabric_standard", 1, "LIST" ] ],
       [ [ "razor_shaving", 1 ] ],
       [ [ "mirror", 1 ] ],
       [ [ "plastic_chunk", 1 ], [ "skewer_bone", 4 ], [ "splinter", 4 ] ]
@@ -1936,7 +1950,12 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage_short", 4 ] ],
-    "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ], [ [ "rag", 1 ] ], [ [ "scissors", 1 ] ], [ [ "mirror", 1 ] ] ]
+    "components": [
+      [ [ "fabric_hides_proper", 1, "LIST" ] ],
+      [ [ "fabric_standard", 1, "LIST" ] ],
+      [ [ "scissors", 1 ] ],
+      [ [ "mirror", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2224,7 +2243,7 @@
       [ [ "knife_butcher", 1 ] ],
       [ [ "knife_carving", 1 ] ],
       [ [ "knife_meat_cleaver", 1 ] ],
-      [ [ "leather", 2 ], [ "rag", 2 ] ],
+      [ [ "fabric_hides_any", 2, "LIST" ], [ "fabric_standard", 2, "LIST" ] ],
       [ [ "string_6", 2 ], [ "cordage_6", 2 ] ]
     ]
   },
@@ -2358,7 +2377,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "result": "awl_steel",
@@ -2537,11 +2556,10 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "survival", 1 ], [ "cooking", 2 ] ],
     "difficulty": 1,
-    "time": "6 m",
+    "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "atomic_survival", 0 ], [ "textbook_survival", 0 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "rock", 3 ], [ "ceramic_shard", 3 ] ] ]
+    "components": [ [ [ "rock", 2 ], [ "ceramic_shard", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2677,7 +2695,7 @@
     "components": [
       [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ],
       [ [ "filament", 100, "LIST" ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+      [ [ "fabric_standard", 2, "LIST" ], [ "felt_patch", 2 ], [ "fabric_hides_any", 2, "LIST" ] ]
     ]
   },
   {
