@@ -127,9 +127,7 @@
     "difficulty": 8,
     "time": "9 h 20 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 80 ], [ "steel_standard", 20 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 80 ], [ "steel_standard", 20 ] ],
     "components": [ [ [ "fabric_hides_proper", 20, "LIST" ] ] ]
   },
   {
@@ -210,9 +208,7 @@
     "difficulty": 9,
     "time": "10 h",
     "book_learn": [ [ "textbook_armwest", 8 ] ],
-    "using": [ [ "blacksmithing_standard", 120 ], [ "steel_standard", 30 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 120 ], [ "steel_standard", 30 ] ],
     "components": [ [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
   },
   {
@@ -224,9 +220,7 @@
     "difficulty": 9,
     "time": "9 h 20 m",
     "book_learn": [ [ "textbook_armeast", 8 ] ],
-    "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 16 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 64 ], [ "steel_standard", 16 ] ],
     "components": [ [ [ "fabric_hides_proper", 28, "LIST" ] ], [ [ "fabric_standard", 10, "LIST" ] ] ]
   },
   {
