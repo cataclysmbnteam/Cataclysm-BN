@@ -176,5 +176,31 @@
       { "id": "PRY", "level": 3 },
       { "id": "SCREW", "level": 1 }
     ]
+  },
+  {
+    "id": "tool_flat_press_large",
+    "type": "requirement",
+    "//": "For making sheets of material, e.g. paper, neoprene, etc.  For larger items like glass panes.",
+    "tools": [ [ [ "sheet_metal", -1 ], [ "steel_plate", -1 ], [ "alloy_plate", -1 ], [ "hard_plate", -1 ] ] ]
+  },
+  {
+    "id": "tool_flat_press_small",
+    "type": "requirement",
+    "//": "For making sheets of material, e.g. paper, neoprene, etc.  For smaller items like neoprene.",
+    "tools": [ [ [ "sheet_metal_small", -1 ], [ "alloy_sheet", -1 ] ] ]
+  },
+  {
+    "id": "tool_flat_press_improvised",
+    "type": "requirement",
+    "//": "For making sheets of material, e.g. paper, neoprene, etc.  Allow for makeshift items where high temps aren't a concern.",
+    "tools": [
+      [
+        [ "glass_sheet", -1 ],
+        [ "tempered_glass_sheet", -1 ],
+        [ "rigid_plastic_sheet", -1 ],
+        [ "wood_panel", -1 ],
+        [ "wood_sheet", -1 ]
+      ]
+    ]
   }
 ]
