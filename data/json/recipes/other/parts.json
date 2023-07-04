@@ -98,7 +98,7 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_intermediate", 1 ], [ "steel_tiny", 1 ] ],
-    "tools": [ [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "result": "sheet_metal",
