@@ -894,15 +894,8 @@
     "time": "240 m",
     "autolearn": true,
     "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "using": [ [ "forging_standard", 4 ], [ "steel_standard", 3 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -916,15 +909,8 @@
     "time": "360 m",
     "autolearn": true,
     "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "using": [ [ "forging_standard", 6 ], [ "steel_standard", 3 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "blacksmithing_advanced", 6 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -938,15 +924,8 @@
     "time": "240 m",
     "autolearn": true,
     "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "blacksmithing_advanced", 3 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -960,15 +939,8 @@
     "time": "80 m",
     "autolearn": true,
     "book_learn": [ [ "manual_pistol", 5 ], [ "mag_pistol", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "using": [ [ "forging_standard", 2 ], [ "steel_standard", 3 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
