@@ -60,9 +60,7 @@
     "difficulty": 6,
     "time": "7 h 40 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 24 ], [ "steel_standard", 6 ] ],
     "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {
@@ -115,9 +113,7 @@
     "difficulty": 9,
     "time": "55 m",
     "book_learn": [ [ "welding_book", 7 ], [ "recipe_melee", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
   },
   {
@@ -143,9 +139,7 @@
     "difficulty": 6,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
@@ -157,8 +151,7 @@
     "difficulty": 6,
     "time": "6 h",
     "book_learn": [ [ "textbook_fireman", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_intermediate", 4 ], [ "steel_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "filament", 100, "LIST" ] ],
@@ -174,9 +167,7 @@
     "difficulty": 4,
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 8 ], [ "steel_standard", 2 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
@@ -188,9 +179,7 @@
     "difficulty": 4,
     "time": "4 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ],
     "components": [ [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
@@ -202,9 +191,7 @@
     "difficulty": 4,
     "time": "6 h 30 m",
     "book_learn": [ [ "manual_knives", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ],
     "components": [ [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
@@ -216,9 +203,7 @@
     "difficulty": 8,
     "time": "6 h",
     "book_learn": [ [ "manual_knives", 9 ], [ "textbook_weapeast", 8 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 1 ] ],
     "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
   {
@@ -231,9 +216,7 @@
     "time": "6 h",
     "autolearn": true,
     "book_learn": [ [ "manual_knives", 5 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ],
     "components": [ [ [ "plastic_chunk", 2 ], [ "scrap", 2 ] ] ]
   },
   {
@@ -267,8 +250,7 @@
     "difficulty": 9,
     "time": "7 h",
     "book_learn": [ [ "textbook_fireman", 8 ], [ "textbook_fabrication", 9 ] ],
-    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_intermediate", 16 ], [ "steel_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
@@ -281,9 +263,7 @@
     "difficulty": 6,
     "time": "7 h 40 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 24 ], [ "steel_standard", 6 ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ] ]
   },
   {
@@ -307,9 +287,7 @@
     "difficulty": 7,
     "time": "6 h 40 m",
     "book_learn": [ [ "textbook_weapwest", 6 ], [ "scots_cookbook", 8 ] ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
@@ -321,9 +299,7 @@
     "difficulty": 8,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ] ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
@@ -335,9 +311,7 @@
     "difficulty": 8,
     "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ] ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
@@ -349,9 +323,7 @@
     "difficulty": 5,
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
@@ -363,9 +335,7 @@
     "difficulty": 8,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ], [ "recipe_melee", 7 ], [ "scots_cookbook", 9 ] ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
@@ -377,9 +347,7 @@
     "difficulty": 8,
     "time": "8 h",
     "book_learn": [ [ "textbook_armschina", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
@@ -391,9 +359,7 @@
     "difficulty": 8,
     "time": "7 h",
     "book_learn": [ [ "textbook_armschina", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
@@ -405,9 +371,7 @@
     "difficulty": 8,
     "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 7 ], [ "scots_cookbook", 9 ] ],
-    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 16 ], [ "steel_standard", 4 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 1, "LIST" ] ] ]
   },
   {
@@ -419,9 +383,7 @@
     "difficulty": 9,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ], [ "scots_cookbook", 10 ] ],
-    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 16 ], [ "steel_standard", 4 ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
@@ -433,9 +395,7 @@
     "difficulty": 8,
     "time": "7 h",
     "book_learn": [ [ "textbook_weapeast", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 8 ], [ "steel_standard", 2 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
@@ -447,9 +407,7 @@
     "difficulty": 9,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapeast", 8 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 8 ], [ "steel_standard", 2 ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
@@ -461,9 +419,7 @@
     "difficulty": 10,
     "time": "9 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 8 ] ],
-    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 20 ], [ "steel_standard", 5 ] ],
     "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fabric_hides_any", 3, "LIST" ] ] ]
   },
   {
@@ -475,9 +431,7 @@
     "difficulty": 5,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapeast", 9 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 3 ], [ "steel_tiny", 3 ] ]
   },
   {
     "type": "recipe",
@@ -513,9 +467,7 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
@@ -527,9 +479,7 @@
     "difficulty": 7,
     "time": "7 h 40 m",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 8 ], [ "steel_standard", 2 ] ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
@@ -541,9 +491,7 @@
     "difficulty": 7,
     "time": "7 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 8 ], [ "steel_standard", 2 ] ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
@@ -556,9 +504,7 @@
     "difficulty": 7,
     "time": "46 m",
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 5 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 5 ] ],
     "components": [ [ [ "katana", 1 ], [ "wakizashi", 1 ] ], [ [ "stick_long", 1 ] ] ]
   },
   {
@@ -584,10 +530,8 @@
     "difficulty": 5,
     "time": "13 h 20 m",
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_advanced", 20 ], [ "steel_standard", 5 ] ],
     "//": "basically 2.5x the resources of a single machete to cover the fact that it's two weapons, each with a hand guard",
-    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fabric_hides_any", 4, "LIST" ] ] ]
   },
   {
@@ -599,9 +543,7 @@
     "difficulty": 8,
     "time": "420 m",
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
-    "using": [ [ "forging_standard", 2 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_standard", 2 ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ] ]
   },
   {
