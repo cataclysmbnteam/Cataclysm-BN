@@ -179,7 +179,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         dummy.i_add( std::move( det ) );
         REQUIRE( ammo.is_ammo() );
 
-        dummy.set_weapon( item::spawn( "sw_610", bday, 0 ) );
+        dummy.set_primary_weapon( item::spawn( "sw_610", bday, 0 ) );
         REQUIRE( dummy.primary_weapon().ammo_remaining() == 0 );
         REQUIRE( dummy.primary_weapon().can_reload_with( ammo.type->get_id() ) );
 
@@ -228,7 +228,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
         REQUIRE( mag.ammo_remaining() == 0 );
 
-        dummy.set_weapon( item::spawn( "glock_19", bday, 0 ) );
+        dummy.set_primary_weapon( item::spawn( "glock_19", bday, 0 ) );
         REQUIRE( dummy.primary_weapon().ammo_remaining() == 0 );
 
         WHEN( "the player triggers auto reload" ) {

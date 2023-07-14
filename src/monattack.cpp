@@ -831,7 +831,7 @@ bool mattack::pull_metal_weapon( monster *z )
             if( rng( 1, 100 ) <= success ) {
                 target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
                                                _( "%s is pulled away from <npcname>'s hands!" ), weapon.tname() );
-                z->add_item( foe->remove_weapon() );
+                z->add_item( foe->remove_primary_weapon() );
                 if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
                 }
@@ -3348,12 +3348,13 @@ void mattack::rifle( monster *z, Creature *target )
     if( g->u.sees( *z ) ) {
         add_msg( m_warning, _( "The %s opens up with its rifle!" ), z->name() );
     }
+
     detached_ptr<item> gun = item::spawn( "m4a1" );
     gun->ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    tmp->set_weapon( std::move( gun ) );
-    int burst = std::max( tmp->get_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    tmp->set_primary_weapon( std::move( gun ) );
+    int burst = std::max( tmp->primary_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
     z->ammo[ ammo_type ] -= ranged::fire_gun( *tmp, target->pos(),
-                            burst ) * tmp->get_weapon().ammo_required();
+                            burst ) * tmp->primary_weapon().ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3409,13 +3410,14 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     if( g->u.sees( *z ) ) {
         add_msg( m_warning, _( "The %s's grenade launcher fires!" ), z->name() );
     }
-    detached_ptr<item> gun = item::spawn( "mgl" );
-    gun->ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    tmp->set_weapon( std::move( gun ) );
-    int burst = std::max( tmp->get_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+
+    detached_ptr<item> tweap = item::spawn( "mgl" );
+    tweap->ammo_set( ammo_type, z->ammo[ ammo_type ] );
+    tmp->set_primary_weapon( std::move( tweap ) );
+    int burst = std::max( tmp->primary_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= ranged::fire_gun( *tmp, target->pos(),
-                            burst ) * tmp->get_weapon().ammo_required();
+                            burst ) * tmp->primary_weapon().ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3471,13 +3473,14 @@ void mattack::tankgun( monster *z, Creature *target )
     if( g->u.sees( *z ) ) {
         add_msg( m_warning, _( "The %s's 120mm cannon fires!" ), z->name() );
     }
+
     detached_ptr<item> gun = item::spawn( "TANK" );
     gun->ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    tmp->set_weapon( std::move( gun ) );
-    int burst = std::max( tmp->get_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    tmp->set_primary_weapon( std::move( gun ) );
+    int burst = std::max( tmp->primary_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= ranged::fire_gun( *tmp, target->pos(),
-                            burst ) * tmp->get_weapon().ammo_required();
+                            burst ) * tmp->primary_weapon().ammo_required();
 }
 
 bool mattack::searchlight( monster *z )

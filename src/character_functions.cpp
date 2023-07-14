@@ -489,7 +489,7 @@ void add_pain_msg( const Character &who, int val, body_part bp )
 void normalize( Character &who )
 {
     who.martial_arts_data->reset_style();
-    who.remove_weapon();
+    who.remove_primary_weapon();
 
     who.set_body();
     who.recalc_hp();
@@ -549,8 +549,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
         who.inv_unsort();
     }
 
-    who.set_weapon( internal_item->detach() );
-
+    who.set_primary_weapon( internal_item->detach() );
     who.inv_update_invlet( *internal_item );
     who.inv_update_cache_with_item( *internal_item );
     who.last_item = internal_item->typeId();

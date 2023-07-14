@@ -333,7 +333,7 @@ void npc::randomize( const npc_class_id &type )
         setID( g->assign_npc_id() );
     }
 
-    remove_weapon( );
+    remove_primary_weapon( );
     inv.clear();
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
@@ -821,7 +821,7 @@ int npc::best_skill_level() const
 void npc::starting_weapon( const npc_class_id &type )
 {
     if( item_group::group_is_defined( type->weapon_override ) ) {
-        set_weapon( item_group::item_from( type->weapon_override, calendar::turn ) );
+        set_primary_weapon( item_group::item_from( type->weapon_override, calendar::turn ) );
         return;
     }
 
@@ -829,29 +829,29 @@ void npc::starting_weapon( const npc_class_id &type )
 
     // if NPC has no suitable skills default to stabbing weapon
     if( !best || best == skill_stabbing ) {
-        set_weapon( random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) ) );
+        set_primary_weapon( random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) ) );
     } else if( best == skill_bashing ) {
-        set_weapon( random_item_from( type, "bashing",  item_group_id( "survivor_bashing" ) ) );
+        set_primary_weapon( random_item_from( type, "bashing",  item_group_id( "survivor_bashing" ) ) );
     } else if( best == skill_cutting ) {
-        set_weapon( random_item_from( type, "cutting",  item_group_id( "survivor_cutting" ) ) );
+        set_primary_weapon( random_item_from( type, "cutting",  item_group_id( "survivor_cutting" ) ) );
     } else if( best == skill_throw ) {
-        set_weapon( random_item_from( type, "throw" ) );
+        set_primary_weapon( random_item_from( type, "throw" ) );
     } else if( best == skill_archery ) {
-        set_weapon( random_item_from( type, "archery" ) );
+        set_primary_weapon( random_item_from( type, "archery" ) );
     } else if( best == skill_pistol ) {
-        set_weapon( random_item_from( type, "pistol",  item_group_id( "guns_pistol_common" ) ) );
+        set_primary_weapon( random_item_from( type, "pistol",  item_group_id( "guns_pistol_common" ) ) );
     } else if( best == skill_shotgun ) {
-        set_weapon( random_item_from( type, "shotgun",  item_group_id( "guns_shotgun_common" ) ) );
+        set_primary_weapon( random_item_from( type, "shotgun",  item_group_id( "guns_shotgun_common" ) ) );
     } else if( best == skill_smg ) {
-        set_weapon( random_item_from( type, "smg",  item_group_id( "guns_smg_common" ) ) );
+        set_primary_weapon( random_item_from( type, "smg",  item_group_id( "guns_smg_common" ) ) );
     } else if( best == skill_rifle ) {
-        set_weapon( random_item_from( type, "rifle",  item_group_id( "guns_rifle_common" ) ) );
+        set_primary_weapon( random_item_from( type, "rifle",  item_group_id( "guns_rifle_common" ) ) );
     }
 
-    if( get_weapon().is_gun() ) {
-        get_weapon().ammo_set( get_weapon().ammo_default() );
+    if( primary_weapon().is_gun() ) {
+        primary_weapon().ammo_set( primary_weapon().ammo_default() );
     }
-    get_weapon().set_owner( get_faction()->id );
+    primary_weapon().set_owner( get_faction()->id );
 }
 
 bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
@@ -1133,7 +1133,7 @@ void npc::stow_weapon( )
     if( !is_armed() ) {
         return;
     }
-    detached_ptr<item> detached = remove_weapon();
+    detached_ptr<item> detached = remove_primary_weapon();
     item &weapon = *detached;
     detached = wear_item( std::move( detached ), false );
     if( !detached ) {
@@ -1182,15 +1182,15 @@ bool npc::wield( item &it )
     }
 
     if( it.is_null() ) {
-        remove_weapon();
+        remove_primary_weapon();
         return true;
     }
 
     moves -= 15;
-    set_weapon( it.detach() );
+    set_primary_weapon( it.detach() );
 
     if( g->u.sees( pos() ) ) {
-        add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  get_weapon().tname() );
+        add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  primary_weapon().tname() );
     }
     invalidate_range_cache();
     return true;
@@ -1212,7 +1212,7 @@ detached_ptr<item> npc::wield( detached_ptr<item> &&target )
         return std::move( target );
     }
     item &obj = *target;
-    set_weapon( std::move( target ) );
+    set_primary_weapon( std::move( target ) );
 
     last_item = obj.typeId();
     recoil = MAX_RECOIL;
@@ -2188,7 +2188,7 @@ void npc::npc_dismount()
     remove_effect( effect_riding );
     if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
         !mounted_creature->type->mech_weapon.is_empty() ) {
-        remove_weapon();
+        remove_primary_weapon();
     }
     mounted_creature->remove_effect( effect_ridden );
     mounted_creature->add_effect( effect_ai_waiting, 5_turns );

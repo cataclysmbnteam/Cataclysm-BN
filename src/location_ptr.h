@@ -25,9 +25,9 @@ class location_ptr
 
     public:
         location_ptr( location<T> *loc );
-        location_ptr( location_ptr & ) = delete;
-        location_ptr( location_ptr && ) = delete;
-        location_ptr operator=( location_ptr<T, error_if_null> & ) = delete;
+        location_ptr( const location_ptr & ) = delete;
+        location_ptr( location_ptr && );
+        location_ptr &operator=( location_ptr<T, error_if_null> & ) = delete;
 
         location_ptr<T, error_if_null> &operator=( detached_ptr<T> &&source );
         location_ptr<T, error_if_null> &operator=( location_ptr<T, true> &&source );
@@ -58,6 +58,7 @@ class location_ptr
 
         /** this is needed until vehicles are GOs */
         void set_loc_hack( location<T> *loc );
+        location<T> *get_loc_hack() const;
 };
 
 #endif

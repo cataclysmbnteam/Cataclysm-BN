@@ -742,7 +742,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
         granted->set_flag( "FIT" );
         you.wear_item( std::move( granted ), false );
     } else if( !you.is_armed() ) {
-        you.set_weapon( std::move( granted ) );
+        you.set_primary_weapon( std::move( granted ) );
     } else {
         you.i_add( std::move( granted ) );
     }

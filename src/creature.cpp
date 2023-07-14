@@ -27,6 +27,7 @@
 #include "json.h"
 #include "lightmap.h"
 #include "line.h"
+#include "locations.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -108,6 +109,55 @@ Creature::Creature()
     Creature::reset_bonuses();
 
     fake = false;
+}
+
+Creature::Creature( const Creature &source )
+{
+
+    facing = source.facing;
+    creature_anatomy = source.creature_anatomy;
+
+
+    moves = source.moves;
+    killer = source.killer;
+    effects = source.effects;
+    values = source.values;
+
+    num_blocks = source.num_blocks;
+    num_dodges = source.num_dodges;
+    num_blocks_bonus = source.num_blocks_bonus;
+    num_dodges_bonus = source.num_dodges_bonus;
+
+    armor_bash_bonus = source.armor_bash_bonus;
+    armor_cut_bonus = source.armor_cut_bonus;
+    armor_bullet_bonus = source.armor_bullet_bonus;
+    speed_base = source.speed_bonus;
+
+    speed_bonus = source.speed_bonus;
+    speed_mult = source.speed_mult;
+    dodge_bonus = source.dodge_bonus;
+    block_bonus = source.block_bonus;
+    hit_bonus = source.hit_bonus;
+
+    fake = source.fake;
+    pain = source.pain;
+    underwater = source.underwater;
+
+    //This is a bit ugly, will get cleaned up with other constructors
+    for( auto &bp : source.body ) {
+        auto placed = body.emplace( std::piecewise_construct, std::forward_as_tuple( bp.first ),
+                                    std::forward_as_tuple( bp.second.get_str_id(),
+                                            new wield_item_location( this ) ) );
+        placed.first->second.set_hp_max( bp.second.get_hp_max() );
+        placed.first->second.set_hp_cur( bp.second.get_hp_cur() );
+
+        placed.first->second.set_healed_total( bp.second.get_healed_total() );
+        placed.first->second.set_damage_bandaged( bp.second.get_damage_bandaged() );
+        placed.first->second.set_damage_disinfected( bp.second.get_damage_disinfected() );
+        if( bp.second.wielding.wielded ) {
+            placed.first->second.wielding.wielded = item::spawn( *bp.second.wielding.wielded );
+        }
+    }
 }
 
 Creature::~Creature() = default;
@@ -616,13 +666,13 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
 
 dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di )
 {
-    const auto all_body_parts = target.get_body();
+    auto &all_body_parts = target.get_body();
     float hit_size_sum = std::accumulate( all_body_parts.begin(), all_body_parts.end(), 0.0f,
-    []( float acc, const std::pair<bodypart_str_id, bodypart> &pr ) {
+    []( float acc, const std::pair<const bodypart_str_id, bodypart> &pr ) {
         return acc + pr.first->hit_size;
     } );
     dealt_damage_instance dealt_damage;
-    for( const std::pair<const bodypart_str_id, bodypart> &pr : all_body_parts ) {
+    for( std::pair<const bodypart_str_id, bodypart> &pr : all_body_parts ) {
         damage_instance impact = di;
         impact.mult_damage( pr.first->hit_size / hit_size_sum );
         dealt_damage_instance bp_damage = target.deal_damage( source, pr.first.id(), impact );
@@ -1546,6 +1596,11 @@ void Creature::set_anatomy( anatomy_id anat )
     creature_anatomy = anat;
 }
 
+std::map<bodypart_str_id, bodypart> &Creature::get_body()
+{
+    return body;
+}
+
 const std::map<bodypart_str_id, bodypart> &Creature::get_body() const
 {
     return body;
@@ -1554,27 +1609,34 @@ const std::map<bodypart_str_id, bodypart> &Creature::get_body() const
 void Creature::set_body()
 {
     body.clear();
-    for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
-        body.emplace( bp.id(), bodypart( bp.id() ) );
+    // TODO: Probably shouldn't be needed, but it's called from game::game()
+    if( get_anatomy().is_valid() ) {
+        for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
+            body.emplace( std::piecewise_construct, std::forward_as_tuple( bp.id() ),
+                          std::forward_as_tuple( bp.id(),
+                                                 new wield_item_location( this ) ) );
+        }
     }
 }
 
-bodypart *Creature::get_part( const bodypart_id &id )
+bodypart &Creature::get_part( const bodypart_id &id )
 {
     auto found = body.find( id.id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
-        return nullptr;
+        static bodypart nullpart( new fake_item_location() );
+        return nullpart;
     }
-    return &found->second;
+    return found->second;
 }
 
-bodypart Creature::get_part( const bodypart_id &id ) const
+const bodypart &Creature::get_part( const bodypart_id &id ) const
 {
     auto found = body.find( id.id() );
     if( found == body.end() ) {
         debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
-        return bodypart();
+        static const bodypart nullpart( new fake_item_location() );
+        return nullpart;
     }
     return found->second;
 }
@@ -1596,32 +1658,32 @@ int Creature::get_part_healed_total( const bodypart_id &id ) const
 
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
-    get_part( id )->set_hp_cur( set );
+    get_part( id ).set_hp_cur( set );
 }
 
 void Creature::set_part_hp_max( const bodypart_id &id, int set )
 {
-    get_part( id )->set_hp_max( set );
+    get_part( id ).set_hp_max( set );
 }
 
 void Creature::set_part_healed_total( const bodypart_id &id, int set )
 {
-    get_part( id )->set_healed_total( set );
+    get_part( id ).set_healed_total( set );
 }
 
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_hp_cur( mod );
+    get_part( id ).mod_hp_cur( mod );
 }
 
 void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_hp_max( mod );
+    get_part( id ).mod_hp_max( mod );
 }
 
 void Creature::mod_part_healed_total( const bodypart_id &id, int mod )
 {
-    get_part( id )->mod_healed_total( mod );
+    get_part( id ).mod_healed_total( mod );
 }
 
 void Creature::set_all_parts_hp_cur( const int set )

@@ -454,7 +454,7 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
         // remove all items
         dummy.inv_clear();
         dummy.worn.clear();
-        dummy.remove_weapon();
+        dummy.remove_primary_weapon();
         get_map().i_clear( dummy.pos() );
 
 
@@ -535,7 +535,7 @@ static void stack_invlet_test( player &dummy, inventory_location from, inventory
     // remove all items
     dummy.inv_clear();
     dummy.worn.clear();
-    dummy.remove_weapon();
+    dummy.remove_primary_weapon();
     get_map().i_clear( dummy.pos() );
 
     // some stackable item that can be wielded and worn
@@ -583,7 +583,7 @@ static void swap_invlet_test( player &dummy, inventory_location loc )
     // remove all items
     dummy.inv_clear();
     dummy.worn.clear();
-    dummy.remove_weapon();
+    dummy.remove_primary_weapon();
     get_map().i_clear( dummy.pos() );
 
     // two items of the same type that do not stack
@@ -664,7 +664,7 @@ static void merge_invlet_test( player &dummy, inventory_location from )
         // remove all items
         dummy.inv_clear();
         dummy.worn.clear();
-        dummy.remove_weapon();
+        dummy.remove_primary_weapon();
         get_map().i_clear( dummy.pos() );
 
         // some stackable item

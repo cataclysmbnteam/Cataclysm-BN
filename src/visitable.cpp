@@ -505,8 +505,8 @@ VisitResponse visitable<Character>::visit_items(
 {
     auto ch = static_cast<Character *>( this );
 
-    if( !ch->get_weapon().is_null() &&
-        visit_internal( func, &ch->get_weapon() ) == VisitResponse::ABORT ) {
+    if( !ch->primary_weapon().is_null() &&
+        visit_internal( func, &ch->primary_weapon() ) == VisitResponse::ABORT ) {
         return VisitResponse::ABORT;
     }
 
@@ -792,12 +792,12 @@ void location_visitable<Character>::remove_items_with( const
         return;
     }
 
-    if( !ch->get_weapon().attempt_detach( [&last, &filter]( detached_ptr<item> &&e ) {
+    if( !ch->primary_weapon().attempt_detach( [&last, &filter]( detached_ptr<item> &&e ) {
     last = filter( std::move( e ) );
         return std::move( e );
     } ) ) {
         if( last == VisitResponse::NEXT ) {
-            ch->get_weapon().contents.remove_items_with( filter );
+            ch->primary_weapon().contents.remove_items_with( filter );
         }
     }
 }

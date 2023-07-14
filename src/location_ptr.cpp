@@ -3,6 +3,14 @@
 #include "locations.h"
 
 template<typename T, bool error_if_null>
+location_ptr<T, error_if_null>::location_ptr( location_ptr<T, error_if_null> &&source )
+{
+    if( source ) {
+        *this = std::move( source );
+    }
+}
+
+template<typename T, bool error_if_null>
 void location_ptr<T, error_if_null>::update_location()
 {
     if( ptr ) {
@@ -178,6 +186,12 @@ void location_ptr<T, error_if_null>::set_loc_hack( location<T> *new_loc )
         ptr->remove_location();
         ptr->set_location( &*loc );
     }
+}
+
+template <typename T, bool error_if_null>
+location<T> *location_ptr<T, error_if_null>::get_loc_hack( ) const
+{
+    return &*loc;
 }
 
 template

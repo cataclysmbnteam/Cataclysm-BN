@@ -399,7 +399,10 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
 
 bool avatar::create( character_type type, const std::string &tempname )
 {
-    remove_weapon( );
+    // TODO: This block should not be needed
+    if( get_body().find( body_part_arm_r ) != get_body().end() ) {
+        remove_primary_weapon();
+    }
 
     prof = profession::generic();
     g->scen = scenario::generic();
@@ -530,7 +533,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         scent = 300;
     }
 
-    remove_weapon( );
+    remove_primary_weapon( );
 
     // Grab the skills from the profession, if there are any
     // We want to do this before the recipes

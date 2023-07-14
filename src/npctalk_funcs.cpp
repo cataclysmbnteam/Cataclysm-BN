@@ -867,17 +867,17 @@ void talk_function::drop_weapon( npc &p )
     if( p.is_hallucination() ) {
         return;
     }
-    get_map().add_item_or_charges( p.pos(), p.remove_weapon() );
+    get_map().add_item_or_charges( p.pos(), p.remove_primary_weapon() );
 }
 
 void talk_function::player_weapon_away( npc &/*p*/ )
 {
-    g->u.i_add( g->u.remove_weapon() );
+    g->u.i_add( g->u.remove_primary_weapon() );
 }
 
 void talk_function::player_weapon_drop( npc &/*p*/ )
 {
-    get_map().add_item_or_charges( g->u.pos(), g->u.remove_weapon() );
+    get_map().add_item_or_charges( g->u.pos(), g->u.remove_primary_weapon() );
 }
 
 void talk_function::lead_to_safety( npc &p )

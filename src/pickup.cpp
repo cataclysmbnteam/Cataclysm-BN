@@ -331,11 +331,11 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
                     newloc = u.wield( std::move( newloc ) );
 
                     picked_up = !newloc;
-                    if( u.get_weapon().invlet ) {
-                        add_msg( m_info, _( "Wielding %c - %s" ), u.get_weapon().invlet,
-                                 u.get_weapon().display_name() );
+                    if( u.primary_weapon().invlet ) {
+                        add_msg( m_info, _( "Wielding %c - %s" ), u.primary_weapon().invlet,
+                                 u.primary_weapon().display_name() );
                     } else {
-                        add_msg( m_info, _( "Wielding - %s" ), u.get_weapon().display_name() );
+                        add_msg( m_info, _( "Wielding - %s" ), u.primary_weapon().display_name() );
                     }
                 } else {
                     add_msg( m_neutral, "%s", wield_check.c_str() );

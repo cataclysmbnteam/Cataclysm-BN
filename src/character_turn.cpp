@@ -799,8 +799,8 @@ void Character::process_items()
     auto process_item = [this]( detached_ptr<item> &&ptr ) {
         return item::process( std::move( ptr ), as_player(), pos(), false );
     };
-    if( get_weapon().needs_processing() ) {
-        get_weapon().attempt_detach( process_item );
+    if( primary_weapon().needs_processing() ) {
+        primary_weapon().attempt_detach( process_item );
     }
 
     std::vector<item *> inv_active = inv.active_items();
@@ -818,8 +818,8 @@ void Character::process_items()
 
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
-    bool weapon_active = get_weapon().has_flag( "USE_UPS" ) &&
-                         get_weapon().charges < get_weapon().type->maximum_charges();
+    bool weapon_active = primary_weapon().has_flag( "USE_UPS" ) &&
+                         primary_weapon().charges < primary_weapon().type->maximum_charges();
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
@@ -872,7 +872,7 @@ void Character::process_items()
     }
     if( weapon_active && ch_UPS_used < ch_UPS ) {
         ch_UPS_used++;
-        get_weapon().charges++;
+        primary_weapon().charges++;
     }
     for( item *worn_item : active_worn_items ) {
         if( ch_UPS_used >= ch_UPS ) {

@@ -61,12 +61,17 @@ class npc_mission_item_location : public character_item_location
         bool check_for_corruption( const item *it ) const override;
 };
 
-class wield_item_location :  public character_item_location
+class wield_item_location :  public item_location
 {
+    protected:
+        Creature *holder;
     public:
-        wield_item_location( Character *h ): character_item_location( h ) {};
+        wield_item_location( Creature *h ): item_location(), holder( h ) {};
         detached_ptr<item> detach( item *it ) override;
         void attach( detached_ptr<item> &&obj ) override;
+        bool is_loaded( const item *it ) const override;
+        tripoint position( const item *it ) const override;
+        item_location_type where() const override;
         int obtain_cost( const Character &ch, int qty, const item *it ) const override;
         std::string describe( const Character *ch, const item *it ) const override;
         bool check_for_corruption( const item *it ) const override;

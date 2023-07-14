@@ -804,7 +804,7 @@ static void smash()
                     u.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( DT_CUT, rng( 0,
                                    static_cast<int>( vol * .5 ) ) ) );
                 }
-                u.remove_weapon();
+                u.remove_primary_weapon();
                 u.check_dead_state();
             }
         }

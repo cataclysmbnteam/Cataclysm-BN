@@ -1237,9 +1237,9 @@ bool avatar::wield( item &target )
     moves -= mv;
 
     if( has_item( target ) ) {
-        set_weapon( i_rem( &target ) );
+        set_primary_weapon( i_rem( &target ) );
     } else {
-        set_weapon( target.detach() );
+        set_primary_weapon( target.detach() );
     }
 
     last_item = target.typeId();
@@ -1268,7 +1268,7 @@ detached_ptr<item> avatar::wield( detached_ptr<item> &&target )
         return std::move( target );
     }
     item &obj = *target;
-    set_weapon( std::move( target ) );
+    set_primary_weapon( std::move( target ) );
 
     last_item = obj.typeId();
     recoil = MAX_RECOIL;

@@ -290,6 +290,7 @@ monster::monster( const monster &source ) : Creature( source ),
     set_armor_item( item::spawn( *source.armor_item ) );
     set_storage_item( item::spawn( *source.storage_item ) );
     set_battery_item( item::spawn( *source.battery_item ) );
+    set_anatomy( anatomy_id( "default_anatomy" ) );
 };
 
 monster::monster( monster &&source ) : Creature( std::move( source ) ),
@@ -348,6 +349,7 @@ monster::monster( monster &&source ) : Creature( std::move( source ) ),
     set_armor_item( item::spawn( *source.armor_item ) );
     set_storage_item( item::spawn( *source.storage_item ) );
     set_battery_item( item::spawn( *source.battery_item ) );
+    set_anatomy( anatomy_id( "default_anatomy" ) );
 };
 
 

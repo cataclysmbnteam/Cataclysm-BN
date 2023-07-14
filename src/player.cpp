@@ -106,7 +106,7 @@ player::player() : Character()
     cash = 0;
     scent = 500;
     male = true;
-    remove_weapon();
+    remove_primary_weapon();
 
     start_location = start_location_id( "sloc_shelter" );
     moves = 100;
@@ -132,7 +132,9 @@ player::player() : Character()
         vitamin_levels[ v.first ] = 0;
     }
 
-    if( g != nullptr && json_flag::is_ready() ) {
+    if( g != nullptr && json_flag::is_ready() && get_anatomy().is_valid() ) {
+        // TODO: Remove the set_body here
+        set_body();
         recalc_sight_limits();
         reset_encumbrance();
     }

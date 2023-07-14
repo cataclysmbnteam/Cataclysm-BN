@@ -145,14 +145,26 @@ bool npc_mission_item_location::check_for_corruption( const item *it ) const
     return as_npc->companion_mission_inv.position_by_item( it ) >= 0;
 }
 
-detached_ptr<item> wield_item_location::detach( item * )
+detached_ptr<item> wield_item_location::detach( item *it )
 {
-    return holder->remove_weapon();
+    for( std::pair<const bodypart_str_id, bodypart> &part : holder->get_body() ) {
+        if( &*part.second.wielding.wielded == it ) {
+            detached_ptr<item> d = part.second.wielding.wielded.release();
+            return d;
+        }
+    }
+    debugmsg( "Could not find wielded item for detach" );
+    return detached_ptr<item>();
 }
 
 void wield_item_location::attach( detached_ptr<item> &&it )
 {
-    holder->set_weapon( std::move( it ) );
+    auto &body = holder->get_body();
+    auto iter = body.find( body_part_arm_r );
+    if( iter != body.end() ) {
+        bodypart &part = holder->get_part( body_part_arm_r );
+        part.wielding.wielded = std::move( it );
+    }
 }
 
 int wield_item_location::obtain_cost( const Character &ch, int qty, const item *it ) const
@@ -166,12 +178,27 @@ std::string wield_item_location::describe( const Character *ch, const item * ) c
     if( ch == holder ) {
         return _( "wield" );
     }
-    return holder->name;
+    return holder->get_name();
 }
 
-bool wield_item_location::check_for_corruption( const item *it ) const
+bool wield_item_location::is_loaded( const item * ) const
 {
-    return &( holder->get_weapon() ) == it;
+    return holder->is_loaded();
+}
+
+tripoint wield_item_location::position( const item * ) const
+{
+    return holder->pos();
+}
+
+item_location_type wield_item_location::where( ) const
+{
+    return item_location_type::character;
+}
+
+bool wield_item_location::check_for_corruption( const item * ) const
+{
+    return false;
 }
 
 detached_ptr<item> worn_item_location::detach( item *it )

@@ -52,7 +52,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     player &p = g->u;
     p.worn.clear();
     p.inv_clear();
-    p.remove_weapon();
+    p.remove_primary_weapon();
     p.wear_item( item::spawn( "backpack" ) ); // so we don't drop anything
 
     // check if all tiles within radius are loaded within current submap and passable

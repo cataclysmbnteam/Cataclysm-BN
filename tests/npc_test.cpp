@@ -381,7 +381,7 @@ TEST_CASE( "npc-movement" )
                 // This prevents npcs occasionally teleporting away
                 guy->assign_activity( activity_id( "ACT_MEDITATE" ) );
                 //Sometimes they spawn with sledge hammers and bash down the walls
-                guy->remove_weapon();
+                guy->remove_primary_weapon();
                 overmap_buffer.insert_npc( guy );
                 g->load_npcs();
                 guy->set_attitude( ( type == 'M' || type == 'C' ) ? NPCATT_NULL : NPCATT_FOLLOW );

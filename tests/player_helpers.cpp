@@ -61,7 +61,7 @@ void clear_character( player &dummy, bool debug_storage )
     std::vector<detached_ptr<item>> temp;
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
     dummy.inv_clear();
-    dummy.remove_weapon();
+    dummy.remove_primary_weapon();
     dummy.clear_mutations();
 
     // Prevent spilling, but don't cause encumbrance
@@ -183,7 +183,7 @@ void arm_character( player &shooter, const std::string &gun_type,
                     const std::vector<std::string> &mods,
                     const std::string &ammo_type )
 {
-    shooter.remove_weapon();
+    shooter.remove_primary_weapon();
 
     itype_id gun_id( gun_type );
     // Give shooter a loaded gun of the requested type.

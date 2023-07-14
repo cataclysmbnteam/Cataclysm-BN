@@ -38,7 +38,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
     player &p = g->u;
     p.worn.clear();
     p.inv_clear();
-    p.remove_weapon();
+    p.remove_primary_weapon();
     p.wear_item( item::spawn( "backpack" ) ); // so we don't drop anything
     detached_ptr<item> det = item::spawn( mag_id );
     item &mag = *det;

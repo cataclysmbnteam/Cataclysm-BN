@@ -143,16 +143,48 @@ item &Character::used_weapon() const
 
 item &Character::primary_weapon() const
 {
-    return *weapon;
+    if( get_body().find( body_part_arm_r ) == get_body().end() ) {
+        return null_item_reference();
+    }
+    return *get_part( body_part_arm_r ).wielding.wielded;
 }
 
 std::vector<item *> Character::wielded_items() const
 {
-    if( !weapon->is_null() ) {
-        return {& *weapon};
+    if( get_body().find( body_part_arm_r ) == get_body().end() ) {
+        return {};
     }
 
-    return {};
+    if( !get_part( body_part_arm_r ).wielding.wielded ) {
+        return {};
+    }
+
+    return {& *get_part( body_part_arm_r ).wielding.wielded};
+}
+
+detached_ptr<item> Character::set_primary_weapon( detached_ptr<item> &&new_weapon )
+{
+    auto &body = get_body();
+    auto iter = body.find( body_part_arm_r );
+    if( iter != body.end() ) {
+        bodypart &part = get_part( body_part_arm_r );
+        detached_ptr<item> d = part.wielding.wielded.release();
+        part.wielding.wielded = std::move( new_weapon );
+        return d;
+    }
+    return std::move( new_weapon );
+}
+
+detached_ptr<item> Character::remove_primary_weapon()
+{
+    auto &body = get_body();
+    auto iter = body.find( body_part_arm_r );
+    detached_ptr<item> ret;
+    if( iter != body.end() ) {
+        ret = get_part( body_part_arm_r ).wielding.wielded.release();
+        clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
+    }
+    return ret;
 }
 
 bool Character::is_armed() const
@@ -1479,11 +1511,11 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
                                    p->name );
         }
 
-        wield( p->remove_weapon() );
+        wield( p->remove_primary_weapon() );
     }
 
     if( technique.disarms && p != nullptr && p->is_armed() ) {
-        g->m.add_item_or_charges( p->pos(), p->remove_weapon() );
+        g->m.add_item_or_charges( p->pos(), p->remove_primary_weapon() );
         if( p->is_player() ) {
             add_msg_if_npc( _( "<npcname> disarms you!" ) );
         } else {
@@ -1553,7 +1585,7 @@ static int blocking_ability( const item &shield )
 item &Character::best_shield()
 {
     // Note: wielded weapon, not one used for attacks
-    int best_value = blocking_ability( *weapon );
+    int best_value = blocking_ability( primary_weapon() );
     // "BLOCK_WHILE_WORN" without a blocking tech need to be worn for the bonus
     best_value = best_value == 2 ? 0 : best_value;
     item *best = best_value > 0 ? &primary_weapon() : &null_item_reference();
@@ -1899,7 +1931,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
                          0 ) );
         }
         d.add_damage( DT_CUT, rng( 0, 5 + static_cast<int>( vol * 1.5 ) ) ); // Hurt the monster extra
-        remove_weapon();
+        remove_primary_weapon();
     }
 
     if( !t.is_hallucination() ) {

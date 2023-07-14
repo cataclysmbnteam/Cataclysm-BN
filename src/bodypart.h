@@ -11,12 +11,15 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "location_ptr.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
+class item;
 struct body_part_type;
 
+template <typename T> class location;
 template <typename E> struct enum_traits;
 
 using bodypart_str_id = string_id<body_part_type>;
@@ -153,6 +156,17 @@ struct body_part_type {
         int bionic_slots_ = 0;
 };
 
+class wield_status
+{
+    public:
+        wield_status( const wield_status & ) = delete;
+        wield_status &operator=( const wield_status & ) = delete;
+        wield_status( wield_status && ) noexcept;
+        wield_status &operator=( wield_status && ) noexcept;
+        wield_status( location<item> *loc ) : wielded( loc ) {};
+        location_ptr<item, false> wielded;
+};
+
 class bodypart
 {
     private:
@@ -167,10 +181,22 @@ class bodypart
         int damage_disinfected = 0;
 
     public:
-        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
-        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp )  {}
+        // TODO: private
+        wield_status wielding;
+
+    public:
+        bodypart( const bodypart & ) = delete;
+        bodypart( bodypart && ) = default;
+        bodypart();
+        bodypart( location<item> *loc ): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ),
+            wielding( loc ) {}
+        bodypart( bodypart_str_id id, location<item> *loc ): id( id ), hp_cur( id->base_hp ),
+            hp_max( id->base_hp ), wielding( loc )  {}
+
+        bodypart &operator=( bodypart && ) = default;
 
         bodypart_id get_id() const;
+        bodypart_str_id get_str_id() const;
 
         void set_hp_to_max();
         bool is_at_max_hp() const;
@@ -195,6 +221,8 @@ class bodypart
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+
+        void set_location( location<item> *loc );
 };
 
 class body_part_set

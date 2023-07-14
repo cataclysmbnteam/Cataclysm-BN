@@ -1246,16 +1246,6 @@ class Character : public Creature, public location_visitable<Character>
         int inv_position_by_type( const itype_id &type ) const;
 
         /**
-         * Returns the character's wielded item.
-         */
-        item &get_weapon() const;
-
-        /**
-         * Sets the character's weapon.
-         */
-        detached_ptr<item> set_weapon( detached_ptr<item> &&it );
-
-        /**
          * Returns all equipped items that require a limb to be held.
          */
         /*@{*/
@@ -1279,6 +1269,12 @@ class Character : public Creature, public location_visitable<Character>
         /*@{*/
         item &primary_weapon() const;
         /*@}*/
+
+        /**
+         * Use this when primary weapon might not exist yet.
+         * Returns the old primary weapon, if any.
+         */
+        detached_ptr<item> set_primary_weapon( detached_ptr<item> &&new_weapon );
 
         /**
          * Try to find a container/s on character containing ammo of type it.typeId() and
@@ -1328,7 +1324,7 @@ class Character : public Creature, public location_visitable<Character>
          * Whether the player carries an active item of the given item type.
          */
         bool has_active_item( const itype_id &id ) const;
-        detached_ptr<item> remove_weapon();
+        detached_ptr<item> remove_primary_weapon();
         bool has_mission_item( int mission_id ) const;
         void remove_mission_items( int mission_id );
         /** Maximum thrown range with a given item, taking all active effects into account. */
@@ -1644,6 +1640,7 @@ class Character : public Creature, public location_visitable<Character>
         std::list<activity_ptr> backlog;
         std::optional<tripoint> destination_point;
         itype_id last_item;
+    public:
 
         int scent = 0;
         pimpl<bionic_collection> my_bionics;
@@ -2312,8 +2309,6 @@ class Character : public Creature, public location_visitable<Character>
         activity_ptr destination_activity;
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
-
-        location_ptr<item, false> weapon;
 
         units::energy power_level;
         units::energy max_power_level;

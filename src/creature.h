@@ -514,10 +514,11 @@ class Creature
          */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
 
+        std::map<bodypart_str_id, bodypart> &get_body();
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
-        bodypart *get_part( const bodypart_id &id );
-        bodypart get_part( const bodypart_id &id ) const;
+        bodypart &get_part( const bodypart_id &id );
+        const bodypart &get_part( const bodypart_id &id ) const;
 
         int get_part_hp_cur( const bodypart_id &id ) const;
         int get_part_hp_max( const bodypart_id &id ) const;
@@ -844,9 +845,9 @@ class Creature
 
         bool fake = false;
         Creature();
-        Creature( const Creature & ) = default;
+        Creature( const Creature & );
         Creature( Creature && ) = default;
-        Creature &operator=( const Creature & ) = default;
+        Creature &operator=( const Creature & ) = delete;
         Creature &operator=( Creature && ) = default;
 
     protected:

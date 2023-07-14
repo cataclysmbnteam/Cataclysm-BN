@@ -1102,7 +1102,7 @@ void npc::execute_action( npc_action action )
             gun_mode mode = cbm_active.is_null() ? primary_weapon().gun_current_mode() :
                             cbm_fake_active->gun_current_mode();
             if( !mode ) {
-                std::string error_weapon = cbm_active.is_null() ? get_weapon().tname() :
+                std::string error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
                                            cbm_fake_active->tname();
                 debugmsg( "NPC tried to shoot %s without valid mode.", error_weapon );
             }

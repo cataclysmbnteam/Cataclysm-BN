@@ -393,6 +393,12 @@ void MonsterGenerator::finalize_mtypes()
         if( !mon.has_flag( MF_NOT_HALLU ) ) {
             hallucination_monsters.push_back( mon.id );
         }
+
+        for( auto &attack : mon.special_attacks ) {
+            const mattack_actor &actor = *attack.second;
+            mattack_actor &actor_nonconst_hack = const_cast<mattack_actor &>( actor );
+            actor_nonconst_hack.finalize();
+        }
     }
 }
 

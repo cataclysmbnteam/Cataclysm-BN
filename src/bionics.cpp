@@ -669,10 +669,10 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         }
 
         add_msg_activate();
-        set_weapon( item::spawn( bio.info().fake_item ) );
-        get_weapon().invlet = '#';
+        set_primary_weapon( item::spawn( bio.info().fake_item ) );
+        primary_weapon().invlet = '#';
         if( is_player() && bio.ammo_count > 0 ) {
-            get_weapon().ammo_set( bio.ammo_loaded, bio.ammo_count );
+            primary_weapon().ammo_set( bio.ammo_loaded, bio.ammo_count );
             avatar_action::fire_wielded_weapon( g->u );
         }
         clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
@@ -1155,7 +1155,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
                 primary_weapon().ammo_data() != nullptr ? primary_weapon().ammo_data()->get_id() :
                 itype_id::NULL_ID();
             bio.ammo_count = static_cast<unsigned int>( primary_weapon().ammo_remaining() );
-            remove_weapon();
+            remove_primary_weapon();
             invalidate_crafting_inventory();
         }
     } else if( bio.id == bio_cqb ) {

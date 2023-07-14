@@ -19,7 +19,7 @@ static void wield_check_internal( player &dummy, item &the_item,
                                   const char *section_text,
                                   const std::string &var_name, const int expected_cost )
 {
-    dummy.remove_weapon();
+    dummy.remove_primary_weapon();
     dummy.set_moves( 1000 );
     const int old_moves = dummy.moves;
     dummy.wield( the_item );

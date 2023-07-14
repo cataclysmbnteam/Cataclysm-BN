@@ -577,7 +577,10 @@ void Character::load( const JsonObject &data )
         inv.json_load_items( *invin );
     }
 
-    data.read( "weapon", weapon );
+    remove_primary_weapon( );
+    detached_ptr<item> weap;
+    data.read( "weapon", weap );
+    set_primary_weapon( std::move( weap ) );
 
     data.read( "move_mode", move_mode );
 
@@ -723,8 +726,9 @@ void Character::store( JsonOut &json ) const
         json.member( "fetch_data", things_to_fetch );
     }
 
-    if( !get_weapon().is_null() ) {
-        json.member( "weapon", get_weapon() ); // also saves contents
+    const item &weapon = primary_weapon();
+    if( !weapon.is_null() ) {
+        json.member( "weapon", weapon ); // also saves contents
     }
 
     json.member( "stim", stim );
@@ -3138,6 +3142,10 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "underwater", underwater );
 
     jsin.read( "body", body );
+
+    for( auto &it : body ) {
+        it.second.set_location( new wield_item_location( this ) );
+    }
 
     fake = false; // see Creature::load
 
