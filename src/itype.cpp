@@ -212,11 +212,6 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
     return use->call( p, it, false, pos );
 }
 
-std::string gun_type_type::name() const
-{
-    return pgettext( "gun_type_type", name_.c_str() );
-}
-
 bool itype::can_have_charges() const
 {
     if( count_by_charges() ) {

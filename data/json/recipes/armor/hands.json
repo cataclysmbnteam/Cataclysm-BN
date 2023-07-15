@@ -277,9 +277,7 @@
     "difficulty": 6,
     "time": "7 h",
     "book_learn": [ [ "textbook_armwest", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 24 ], [ "steel_standard", 6 ] ],
     "components": [ [ [ "fabric_hides_proper", 10, "LIST" ] ] ]
   },
   {

@@ -683,7 +683,8 @@
     "price_postapoc": 10,
     "material": [ "wood", "steel" ],
     "weight": "40 kg",
-    "volume": "30000 ml"
+    "volume": "30000 ml",
+    "qualities": [ [ "ANVIL", 2 ] ]
   },
   {
     "type": "GENERIC",
@@ -2964,7 +2965,7 @@
     "color": "brown",
     "name": { "str": "fire brick" },
     "category": "spare_parts",
-    "description": "A reinforced brick designed to withstand intense heat.",
+    "description": "A reinforced brick designed to withstand intense heat.  It could also be used as an impromptu anvil for light metalworking.",
     "price": 2500,
     "price_postapoc": 10,
     "material": [ "clay", "stone" ],
@@ -2972,7 +2973,7 @@
     "volume": "500 ml",
     "bashing": 8,
     "to_hit": -2,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ], [ "ANVIL", 1 ] ]
   },
   {
     "id": "survival_kit",

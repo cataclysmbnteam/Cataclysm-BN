@@ -8,8 +8,16 @@
 
 void active_item_cache::remove( const item *it )
 {
-    std::vector<cache_reference<item>> &items = active_items[it->processing_speed()];
-    items.erase( std::remove( items.begin(), items.end(), it ), items.end() );
+    for( auto &list : active_items ) {
+        list.second.erase( std::remove_if( list.second.begin(),
+        list.second.end(), [it]( const cache_reference<item> &active_item ) {
+            if( !active_item ) {
+                return true;
+            }
+            item *const target = &*active_item;
+            return !target || target == it;
+        } ), list.second.end() );
+    }
     if( it->can_revive() ) {
         std::vector<cache_reference<item>> &corpse = special_items[ special_item_type::corpse ];
         corpse.erase( std::remove( corpse.begin(), corpse.end(), it ), corpse.end() );

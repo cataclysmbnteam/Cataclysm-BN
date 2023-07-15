@@ -189,6 +189,17 @@ void Character::process_turn()
     } );
 
     suffer();
+
+    // Handle player and NPC morale ticks
+
+    if( calendar::once_every( 1_minutes ) ) {
+        update_morale();
+    }
+
+    if( calendar::once_every( 9_turns ) ) {
+        check_and_recover_morale();
+    }
+
     // NPCs currently don't make any use of their scent, pointless to calculate it
     // TODO: make use of NPC scent.
     if( !is_npc() ) {

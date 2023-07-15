@@ -9,7 +9,7 @@
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
-    "components": [ [ [ "lead", 1 ] ] ]
+    "components": [ [ [ "lead", 1 ], [ "bismuth", 3 ] ] ]
   },
   {
     "id": "chem_lye",
@@ -88,6 +88,12 @@
     "type": "requirement",
     "//": "For where proper leather or fur are used, that don't impact the material of the end product, but the real deal is needed for durability.",
     "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ] ]
+  },
+  {
+    "id": "fabric_hides_untanned",
+    "type": "requirement",
+    "//": "For where cured hides and pelts can be used, usually for recipes that don't require sewing.",
+    "components": [ [ [ "cured_hide", 1 ], [ "cured_pelt", 1 ] ] ]
   },
   {
     "id": "fabric_standard_permeable",
@@ -190,7 +196,7 @@
     "id": "weights",
     "type": "requirement",
     "//": "Materials used for adding weight to weapons and to other items. The materials should be malleable, ductile and dense.",
-    "components": [ [ [ "lead", 5 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
+    "components": [ [ [ "lead", 5 ], [ "bismuth", 8 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
   },
   {
     "id": "plastics",

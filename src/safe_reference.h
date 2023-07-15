@@ -556,7 +556,7 @@ class cache_reference
 
         inline T *get() const {
             if( !*this ) {
-                //TODO!: proper error
+                debugmsg( "Tried to access invalid safe_reference" );
                 return nullptr;
             }
             return p;

@@ -1590,14 +1590,6 @@ bool game::do_turn()
     character_funcs::update_body_wetness( u, get_weather().get_precise() );
     u.apply_wetness_morale( weather.temperature );
 
-    if( calendar::once_every( 1_minutes ) ) {
-        u.update_morale();
-    }
-
-    if( calendar::once_every( 9_turns ) ) {
-        u.check_and_recover_morale();
-    }
-
     if( !u.is_deaf() ) {
         sfx::remove_hearing_loss();
     }
@@ -10040,9 +10032,10 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
 
-        const int cost = map_funcs::climbing_cost( m, u.pos(), stairs );
 
-        if( cost == 0 ) {
+        const auto cost = map_funcs::climbing_cost( m, u.pos(), stairs );
+
+        if( !cost.has_value() ) {
             if( u.has_trait( trait_WEB_ROPE ) )  {
                 if( pts.empty() ) {
                     add_msg( m_info, _( "There is nothing above you that you can attach a web to." ) );
@@ -10070,14 +10063,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         }
 
-        if( cost <= 0 || pts.empty() ) {
+        if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
             return;
         } else {
             // TODO: Make it an extended action
             climbing = true;
-            move_cost = cost;
+            move_cost = cost.value();
 
             const std::optional<tripoint> pnt = point_selection_menu( pts );
             if( !pnt ) {
