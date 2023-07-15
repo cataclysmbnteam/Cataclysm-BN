@@ -1626,7 +1626,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
         return false;
     }
     // Softer warnings at the end so we don't ask permission and then tell them no.
-    if( &it == &p.weapon ) {
+    if( p.is_wielding( it ) ) {
         if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
             return false;
         }
@@ -2193,9 +2193,8 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
     if( rng( 0, 10 ) - it.damage_level( 4 ) > success_chance && !p.is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p.pos(), noise, sounds::sound_t::combat, _( success_message ) );
-        } else {
-            p.add_msg_if_player( _( success_message ) );
         }
+        p.add_msg_if_player( _( success_message ) );
 
         it.convert( target_id );
         it.active = true;
@@ -2260,9 +2259,8 @@ int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) co
     } else if( one_in( noise_chance ) ) {
         if( noise > 0 ) {
             sounds::sound( p.pos(), noise, sounds::sound_t::combat, _( noise_message ) );
-        } else {
-            p.add_msg_if_player( _( noise_message ) );
         }
+        p.add_msg_if_player( _( noise_message ) );
     }
 
     return it.type->charges_to_use();
@@ -2776,7 +2774,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             penalties = true;
             cost = INVENTORY_HANDLING_PENALTY;
         }
-        character_funcs::try_wield_contents( *p.as_avatar(), it, internal_item, penalties, cost );
+        character_funcs::try_wield_contents( p, it, internal_item, penalties, cost );
 
     } else {
         item_location loc = game_menus::inv::holster( p, it );

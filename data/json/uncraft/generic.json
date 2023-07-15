@@ -26,7 +26,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "150 s",
-    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 24 ] ] ]
   },
   {
@@ -35,7 +35,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "12 s",
-    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
@@ -4384,5 +4384,50 @@
     "components": [ [ [ "nylon", 3 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "type": "uncraft",
+    "result": "engine_block_tiny",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 8 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "engine_block_small",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 40 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "engine_block_medium",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "20 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 90 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "engine_block_large",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "25 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 190 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "engine_block_massive",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 280 ] ] ]
   }
 ]

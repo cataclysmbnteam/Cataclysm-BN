@@ -228,15 +228,9 @@
       [ "beaker", 5 ],
       [ "gradcylinder", 5 ],
       [ "flask_glass", 2 ],
-      [ "rack_test_tube", 7 ],
-      [ "rack_test_tube_micro", 7 ],
-      [ "burette", 4 ],
       [ "rotovap", 2 ],
-      [ "stand_ring", 5 ],
-      [ "stand_ring_clamps", 3 ],
       [ "spectrophotometer", 5 ],
       [ "balance_small", 5 ],
-      [ "cuvettes", 5 ],
       [ "ph_meter", 5 ],
       [ "recipe_elfa", 1 ],
       [ "recipe_raptor", 1 ],
@@ -490,11 +484,51 @@
       [ "microscope_dissecting", 15 ],
       [ "beaker", 5 ],
       [ "gradcylinder", 5 ],
-      [ "rack_test_tube", 5 ],
       [ "flask_glass", 10 ],
       [ "beaker", 10 ],
       [ "test_tube", 10 ],
       [ "bionic_scanner", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "microlab_storage_electric",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "alloy_plate", "prob": 20 },
+      { "item": "recharge_station", "prob": 20 },
+      { "item": "solar_panel", "prob": 10 },
+      { "item": "solar_panel_v2", "prob": 20 },
+      { "item": "motor_large", "prob": 5 },
+      { "item": "motor_enhanced", "prob": 15 },
+      { "item": "motor_super", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "microlab_storage_cvd_carbon",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "charcoal", "prob": 75, "charges": [ 25, 50 ] },
+      { "item": "coal_lump", "prob": 25, "charges": [ 25, 50 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "microlab_storage_cvd_hydrogen",
+    "subtype": "distribution",
+    "entries": [ { "item": "hydrogen_tank", "prob": 25 }, { "item": "plasma", "prob": 75, "charges": [ 10, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "microlab_storage_plutonium_special",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "minireactor", "prob": 50 },
+      { "item": "bio_reactor", "prob": 10 },
+      { "item": "bio_advreactor", "prob": 10 },
+      { "item": "bio_reactor_upgrade", "prob": 5 },
+      { "item": "huge_atomic_battery_cell", "prob": 25 }
     ]
   }
 ]

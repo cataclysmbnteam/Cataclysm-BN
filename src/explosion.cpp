@@ -1778,12 +1778,13 @@ void emp_blast( const tripoint &p )
         }
         // TODO: More effects?
         //e-handcuffs effects
-        if( u.weapon.typeId() == itype_e_handcuffs && u.weapon.charges > 0 ) {
-            u.weapon.unset_flag( "NO_UNWIELD" );
-            u.weapon.charges = 0;
-            u.weapon.active = false;
+        item &cuffs = u.primary_weapon();
+        if( cuffs.typeId() == itype_e_handcuffs && cuffs.charges > 0 ) {
+            cuffs.unset_flag( "NO_UNWIELD" );
+            cuffs.charges = 0;
+            cuffs.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
-                     u.weapon.tname() );
+                     cuffs.tname() );
         }
     }
     // Drain any items of their battery charge
@@ -1979,4 +1980,3 @@ explosion_data::operator bool() const
 {
     return damage > 0 || fragment;
 }
-

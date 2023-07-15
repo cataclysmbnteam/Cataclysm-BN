@@ -81,7 +81,7 @@ template <typename E> struct enum_traits;
 
 enum class character_stat : char;
 
-#define MAX_CLAIRVOYANCE 40
+constexpr int MAX_CLAIRVOYANCE = 40;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -98,10 +98,10 @@ enum vision_modes {
 };
 
 enum npc_ai_info : size_t {
-    weapon_value = 0,
-    ideal_weapon_value,
+    ideal_weapon_value = 0,
     reloadables,
     reloadable_cbms,
+    range,
     num_npc_ai_info,
 };
 
@@ -583,6 +583,9 @@ class Character : public Creature, public visitable<Character>
         bool is_stealthy() const;
 
         bool uncanny_dodge() override;
+
+        /** Checks for chance that a ranged attack will hit other armor along the way */
+        bool block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
 
         // melee.cpp
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
@@ -1190,13 +1193,37 @@ class Character : public Creature, public visitable<Character>
         int get_item_position( const item *it ) const;
 
         /**
-         * Returns a reference to the item which will be used to make attacks.
-         * At the moment it's always @ref weapon or a reference to a null item.
+         * Returns all equipped items that require a limb to be held.
          */
         /*@{*/
-        const item &used_weapon() const;
-        item &used_weapon();
+        std::vector<item *> wielded_items();
+        std::vector<const item *> wielded_items() const;
         /*@}*/
+
+        /**
+         * Legacy code hack, don't use.
+         * Returns the null item if martial art forces unarmed, otherwise @ref primary_weapon.
+         * Use @ref wielded_items instead.
+         */
+        /*@{*/
+        item &used_weapon();
+        const item &used_weapon() const;
+        /*@}*/
+
+        /**
+         * Legacy code hack, don't use.
+         * Returns the first wielded weapon or a null item.
+         * Use @ref wielded_items instead.
+         */
+        /*@{*/
+        item &primary_weapon();
+        const item &primary_weapon() const;
+        /*@}*/
+
+        /**
+         * Use this when primary weapon might not exist yet.
+         */
+        void set_primary_weapon( const item &new_weapon );
 
         /**
          * Try to find a container/s on character containing ammo of type it.typeId() and
@@ -1553,7 +1580,8 @@ class Character : public Creature, public visitable<Character>
         std::optional<tripoint> destination_point;
         inventory inv;
         itype_id last_item;
-        item weapon;
+
+    public:
 
         int scent = 0;
         pimpl<bionic_collection> my_bionics;
@@ -1570,8 +1598,6 @@ class Character : public Creature, public visitable<Character>
         int focus_pool = 0;
         int cash = 0;
         std::set<character_id> follower_ids;
-        weak_ptr_fast<Creature> last_target;
-        std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
         std::set<tripoint_abs_omt> camps;
@@ -2200,6 +2226,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_chemimbalance();
         void suffer_from_schizophrenia();
         void suffer_from_asthma( int current_stim );
+        void suffer_feral_kill_withdrawl();
         void suffer_in_sunlight();
         void suffer_from_sunburn();
         void suffer_from_other_mutations();

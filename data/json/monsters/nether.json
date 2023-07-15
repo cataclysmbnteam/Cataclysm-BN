@@ -59,7 +59,7 @@
     "harvest": "human",
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ] ],
     "death_function": [ "AMIGARA", "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ]
+    "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT", "HUMAN" ]
   },
   {
     "id": "mon_blank",
@@ -212,7 +212,7 @@
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "POISON", "REVIVES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "POISON", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_dog_thing",
@@ -295,20 +295,7 @@
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BLEED",
-      "HARDTOSHOOT",
-      "ATTACKMON",
-      "FLIES",
-      "HUMAN",
-      "POISON",
-      "REVIVES",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BLEED", "HARDTOSHOOT", "ATTACKMON", "FLIES", "POISON", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_flying_polyp",
@@ -400,9 +387,9 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 4,
-    "harvest": "mammal_leather",
+    "harvest": "human",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "HUMAN", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
   },
   {
     "id": "mon_headless_dog_thing",
@@ -457,9 +444,9 @@
     "armor_bash": 4,
     "armor_cut": 2,
     "armor_bullet": 2,
-    "harvest": "human",
+    "harvest": "zombie_leather",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES", "CLIMBS", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "REVIVES", "CLIMBS", "FILTHY" ]
   },
   {
     "id": "mon_hound_tindalos",

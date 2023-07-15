@@ -2,6 +2,10 @@
 Leave the headings unless they don't apply to your PR, and remove the comment blocks (surrounded with <!–– and ––>) when you are done.
 
 NOTE: Please grant permission for repository maintainers to edit your PR.  It is EXTREMELY common for PRs to be held up due to trivial changes being requested and the author being unavailable to make them.
+
+CODE STYLE: please follow below guide.
+JSON: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/JSON_STYLE.md
+C++: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/CODE_STYLE.md
 -->
 
 #### Summary

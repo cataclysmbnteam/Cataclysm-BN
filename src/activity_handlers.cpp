@@ -236,6 +236,7 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
+static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
@@ -1986,17 +1987,17 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     const tripoint &pos = here.getlocal( act->placement );
 
     // Stabbing weapons are a lot less effective at pulping
-    const int cut_power = std::max( p->weapon.damage_melee( DT_CUT ),
-                                    p->weapon.damage_melee( DT_STAB ) / 2 );
+    const int cut_power = std::max( p->primary_weapon().damage_melee( DT_CUT ),
+                                    p->primary_weapon().damage_melee( DT_STAB ) / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( p->str_cur + p->weapon.damage_melee( DT_BASH ) ) *
+    float pulp_power = std::sqrt( ( p->str_cur + p->primary_weapon().damage_melee( DT_BASH ) ) *
                                   ( cut_power + 1.0f ) );
-    float pulp_effort = p->str_cur + p->weapon.damage_melee( DT_BASH );
+    float pulp_effort = p->str_cur + p->primary_weapon().damage_melee( DT_BASH );
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + p->get_skill_level( skill_survival ) * 5;
 
-    const int mess_radius = p->weapon.has_flag( flag_MESSY ) ? 2 : 1;
+    const int mess_radius = p->primary_weapon().has_flag( flag_MESSY ) ? 2 : 1;
 
     int moves = 0;
     // use this to collect how many corpse are pulped
@@ -4151,20 +4152,13 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
+void activity_handlers::chop_tree_do_turn( player_activity *act, player * )
 {
     map &here = get_map();
     sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
         sounds::sound( here.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
-    }
-    if( calendar::once_every( 6_minutes ) ) {
-        p->mod_fatigue( 1 );
-    }
-    if( calendar::once_every( 12_minutes ) ) {
-        p->mod_stored_nutr( 1 );
-        p->mod_thirst( 1 );
     }
 }
 
@@ -4236,6 +4230,31 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     act->set_to_null();
+
+    // Quality of tool used and assistants can together both reduce intensity of work.
+    if( act->targets.empty() ) {
+        debugmsg( "woodcutting item location not set" );
+        resume_for_multi_activities( *p );
+        return;
+    }
+
+    item_location &loc = act->targets[ 0 ];
+    item *it = loc.get_item();
+    if( it == nullptr ) {
+        debugmsg( "woodcutting item location lost" );
+        resume_for_multi_activities( *p );
+        return;
+    }
+
+    int act_exertion = iuse::chop_moves( *p, *it );
+    p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
+    act_exertion = act_exertion * ( 10 - helpers.size() ) / 10;
+
+    p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 80_seconds ) ) );
+    p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 12_minutes ) ) );
+    p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
+
     resume_for_multi_activities( *p );
 }
 
@@ -4278,6 +4297,23 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
+
+    // Quality of tool used and assistants can together both reduce intensity of work.
+    item_location &loc = act->targets[ 0 ];
+    item *it = loc.get_item();
+    if( it == nullptr ) {
+        debugmsg( "woodcutting item location lost" );
+        return;
+    }
+
+    int act_exertion = iuse::chop_moves( *p, *it );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
+    act_exertion = act_exertion * ( 10 - helpers.size() ) / 10;
+
+    p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 80_seconds ) ) );
+    p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 12_minutes ) ) );
+    p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
+
     resume_for_multi_activities( *p );
 }
 

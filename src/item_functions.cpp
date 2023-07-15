@@ -2,6 +2,7 @@
 
 #include "character.h"
 #include "item.h"
+#include "itype.h"
 #include "units.h"
 
 static flag_str_id flag_NO_UNLOAD( "NO_UNLOAD" );
@@ -13,7 +14,8 @@ namespace item_funcs
 
 bool can_be_unloaded( const item &itm )
 {
-    if( ( itm.is_container() || itm.is_bandolier() ) && !itm.contents.empty() &&
+    if( ( itm.is_container() || itm.is_bandolier() || itm.type->can_use( "holster" ) ) &&
+        !itm.contents.empty() &&
         itm.can_unload_liquid() ) {
         return true;
     }
@@ -42,16 +44,20 @@ bool can_be_unloaded( const item &itm )
 // TODO: Add consideration for BIONIC_GUNS when their fake_items get USES_BIONIC_POWER
 int shots_remaining( const Character &who, const item &it )
 {
+    if( !it.is_gun() ) {
+        return 0;
+    }
+
     int ammo_drain = it.ammo_required();
     int energy_drain = it.get_gun_ups_drain();
-    units::energy power = units::from_kilojoule( who.charges_of( itype_UPS ) );
+    int power = who.charges_of( itype_UPS );
 
     if( ammo_drain > 0 && energy_drain > 0 ) {
         // Both UPS and ammo, lower is limiting.
-        return std::min( it.ammo_remaining() / ammo_drain, power / units::from_kilojoule( energy_drain ) );
+        return std::min( it.ammo_remaining() / ammo_drain, power / energy_drain );
     } else if( energy_drain > 0 ) {
         //Only one of the two, it is limiting.
-        return power / units::from_kilojoule( energy_drain );
+        return power / energy_drain;
     } else if( ammo_drain > 0 ) {
         return it.ammo_remaining() / ammo_drain;
     } else {

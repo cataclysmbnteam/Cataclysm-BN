@@ -1616,6 +1616,10 @@ static bool mx_crater( map &m, const tripoint &abs_sub )
             //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
             if( !trigdist || ( i - p.x ) * ( i - p.x ) + ( j - p.y ) * ( j - p.y ) <= size_squared ) {
                 m.destroy( tripoint( i,  j, abs_sub.z ), true );
+                // Make the resulting crater a bit more shallow if needed.
+                if( m.ter( tripoint( i, j, abs_sub.z ) ) == t_pit ) {
+                    m.ter_set( tripoint( i,  j, abs_sub.z ), t_pit_shallow );
+                }
                 m.adjust_radiation( point( i, j ), rng( 20, 40 ) );
             }
         }

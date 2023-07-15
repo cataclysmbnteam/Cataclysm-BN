@@ -655,7 +655,8 @@
     "material": "veggy",
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
-    "charges": 2
+    "charges": 2,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",

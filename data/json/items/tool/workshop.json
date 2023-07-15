@@ -21,8 +21,7 @@
       "moves": 50,
       "type": "delayed_transform",
       "transform_age": 100800,
-      "not_ready_msg": "The bricks are still too damp to bear weight.",
-      "//": "Should be about a week. Irl it's ten days, so make big batches."
+      "not_ready_msg": "The bricks are still too damp to bear weight."
     }
   },
   {
@@ -30,7 +29,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "pallet of dry adobe bricks", "str_pl": "pallets of dry adobe bricks" },
-    "description": "A pallet of humble mud bricks that have dried for a week, while you were out risking your life.  Disassemble it to retrieve your frame and building supplies.",
+    "description": "A pallet of humble mud bricks that have dried out while you were out risking your life.  Disassemble it to retrieve your frame and building supplies.",
     "weight": "30000 g",
     "volume": "12500 ml",
     "price": 40000,
@@ -506,6 +505,7 @@
     "id": "makeshift_hammer",
     "type": "GENERIC",
     "category": "tools",
+    "weapon_category": [ "1H_HAMMERS" ],
     "name": { "str": "makeshift hammer" },
     "description": "This is a crude hammer made from a piece of metal affixed to a stick.  It functions adequately as a hammer, but really can't compare to a proper one.",
     "weight": "1020 g",
@@ -578,7 +578,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "acidchitin", "bone", "chitin", "paper", "cardboard", "wood", "kevlar_rigid" ],
+        "materials": [ "acidchitin", "bone", "chitin", "paper", "dry_plant", "cardboard", "wood", "kevlar_rigid" ],
         "skill": "fabrication",
         "tool_quality": 5,
         "cost_scaling": 0.1,

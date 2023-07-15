@@ -1872,7 +1872,8 @@
       [ "beret_wool", 40 ],
       [ "elbow_pads", 50 ],
       [ "knee_pads", 50 ],
-      [ "solarpack", 5 ]
+      [ "solarpack", 5 ],
+      [ "shield_ballistic", 3 ]
     ]
   },
   {
@@ -1903,6 +1904,7 @@
       [ "elbow_pads", 40 ],
       [ "knee_pads", 40 ],
       [ "mask_bal", 5 ],
+      [ "shield_ballistic", 2 ],
       [ "e_tool", 10 ],
       [ "waterproof_gunmod", 8 ],
       [ "grapnel", 3 ],
@@ -2398,7 +2400,11 @@
       [ "survivor_shavingkit", 3 ],
       [ "survivor_hairtrimmer", 1 ],
       [ "survivor_scope", 1 ],
-      [ "survnote", 30 ]
+      [ "survnote", 30 ],
+      [ "shield_wooden", 1 ],
+      [ "shield_wooden_large", 1 ],
+      [ "shield_riot", 3 ],
+      [ "shield_ballistic", 2 ]
     ]
   },
   {
@@ -2429,7 +2435,13 @@
       [ "legguard_metal", 10 ],
       [ "helmet_corinthian", 45 ],
       [ "armor_cuirass", 25 ],
-      [ "legguard_bronze", 20 ]
+      [ "legguard_bronze", 20 ],
+      [ "shield_wooden", 10 ],
+      [ "shield_wooden_large", 5 ],
+      [ "shield_leather", 3 ],
+      [ "shield_leather_large", 2 ],
+      [ "shield_banded", 3 ],
+      [ "shield_banded_large", 2 ]
     ]
   },
   {

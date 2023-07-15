@@ -282,6 +282,9 @@ static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 
 static const matec_id rapid_strike( "RAPID" );
 
+static const std::string flag_COLD( "COLD" );
+static const std::string flag_VERY_COLD( "VERY_COLD" );
+
 class npc_class;
 
 using npc_class_id = string_id<npc_class>;
@@ -2458,10 +2461,27 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::GUNMOD_USEDON ) ) {
-        std::string used_on_str = _( "Used on: " ) +
-        enumerate_as_string( mod.usable.begin(), mod.usable.end(), []( const gun_type_type & used_on ) {
-            return string_format( "<info>%s</info>", used_on.name() );
-        } );
+        std::string used_on_str = _( "<bold>Used on:</bold>" );
+
+        if( !mod.usable.empty() ) {
+            used_on_str += _( "\n  Specific: " ) + enumerate_as_string( mod.usable.begin(),
+            mod.usable.end(), []( const itype_id & used_on ) {
+                return string_format( "<info>%s</info>", used_on->nname( 1 ) );
+            } );
+        }
+
+        if( !mod.usable_category.empty() ) {
+            used_on_str += _( "\n  Category: " );
+            std::vector<std::string> combination;
+            for( const std::unordered_set<weapon_category_id> &catgroup : mod.usable_category ) {
+                combination.emplace_back( ( "[" ) + enumerate_as_string( catgroup.begin(),
+                catgroup.end(), []( const weapon_category_id & wcid ) {
+                    return string_format( "<info>%s</info>", wcid->name().translated() );
+                }, enumeration_conjunction::none ) + ( "]" ) );
+            }
+            used_on_str += enumerate_as_string( combination, enumeration_conjunction::or_ );
+        }
+
         info.push_back( iteminfo( "GUNMOD", used_on_str ) );
     }
 
@@ -4699,6 +4719,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( is_fresh() ) {
             tagtext += _( " (fresh)" );
         }
+        if( has_flag( flag_COLD ) ) {
+            tagtext += _( " (cold)" );
+        } else if( has_flag( flag_VERY_COLD ) ) {
+            tagtext += _( " (very cold)" );
+        }
     }
 
     const sizing sizing_level = get_sizing( you, get_encumber( you ) != 0 );
@@ -6858,6 +6883,11 @@ bool item::can_unload_liquid() const
     return is_bucket() || !cts_is_frozen_liquid;
 }
 
+bool item::can_reload_with( const ammotype &ammo ) const
+{
+    return is_reloadable_helper( ammo->default_ammotype(), false );
+}
+
 bool item::can_reload_with( const itype_id &ammo ) const
 {
     return is_reloadable_helper( ammo, false );
@@ -7185,19 +7215,6 @@ skill_id item::gun_skill() const
         return skill_id::NULL_ID();
     }
     return type->gun->skill_used;
-}
-
-gun_type_type item::gun_type() const
-{
-    if( !is_gun() ) {
-        return gun_type_type( std::string() );
-    }
-    if( has_flag( flag_CROSSBOW ) ) {
-        return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
-    }
-    // TODO: move to JSON and remove extraction of this from "GUN" (via skill id)
-    //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
-    return gun_type_type( gun_skill().str() );
 }
 
 skill_id item::melee_skill() const
@@ -7762,9 +7779,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         debugmsg( "Tried checking compatibility of non-gunmod" );
         return ret_val<bool>::make_failure();
     }
-    static const gun_type_type pistol_gun_type( translate_marker_context( "gun_type_type", "pistol" ) );
-    static const skill_id skill_archery( "archery" );
-    static const std::string bow_hack_str( "bow" );
+    const islot_gunmod &g_mod = *mod.type->gunmod;
 
     if( !is_gun() ) {
         return ret_val<bool>::make_failure( _( "isn't a weapon" ) );
@@ -7775,24 +7790,30 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( gunmod_find( mod.typeId() ) ) {
         return ret_val<bool>::make_failure( _( "already has a %s" ), mod.tname( 1 ) );
 
-    } else if( !get_mod_locations().count( mod.type->gunmod->location ) ) {
+    } else if( !get_mod_locations().count( g_mod.location ) ) {
         return ret_val<bool>::make_failure( _( "doesn't have a slot for this mod" ) );
 
-    } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
+    } else if( get_free_mod_locations( g_mod.location ) <= 0 ) {
         return ret_val<bool>::make_failure( _( "doesn't have enough room for another %s mod" ),
                                             mod.type->gunmod->location.name() );
 
-        // TODO: Get rid of the "archery"->"bow" hack
-    } else if( !mod.type->gunmod->usable.count( gun_type() ) &&
-               !mod.type->gunmod->usable.count( typeId().str() ) &&
-               !( gun_skill() == skill_archery && mod.type->gunmod->usable.count( bow_hack_str ) > 0 ) ) {
-        return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
+    } else if( !g_mod.usable.empty() || !g_mod.usable_category.empty() ) {
+        bool usable = g_mod.usable.count( this->typeId() );
+        for( const std::unordered_set<weapon_category_id> &mod_cat : g_mod.usable_category ) {
+            if( usable ) {
+                break;
+            }
+            if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( const weapon_category_id & wcid ) {
+            return this->type->weapon_category.count( wcid );
+            } ) ) {
+                usable = true;
+            }
+        }
+        if( !usable ) {
+            return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
+        }
 
-    } else if( typeId() == itype_hand_crossbow &&
-               !mod.type->gunmod->usable.count( pistol_gun_type ) ) {
-        return ret_val<bool>::make_failure( _( "isn't big enough to use that mod" ) );
-
-    } else if( mod.type->gunmod->location.str() == "underbarrel" &&
+    } else if( g_mod.location.str() == "underbarrel" &&
                !mod.has_flag( flag_PUMP_RAIL_COMPATIBLE ) && has_flag( flag_PUMP_ACTION ) ) {
         return ret_val<bool>::make_failure( _( "can only accept small mods on that slot" ) );
 
@@ -8471,7 +8492,7 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
 int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
         std::string *err ) const
 {
-    const bool allow_bucket = this == &p.weapon || !p.has_item( *this );
+    const bool allow_bucket = p.is_wielding( *this ) || !p.has_item( *this );
     int res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
     if( res > 0 && !type->rigid && p.inv.has_item( *this ) ) {
@@ -9049,6 +9070,19 @@ bool item::process_rot( const bool seals, const tripoint &pos,
 
         return has_rotten_away() && carrier == nullptr && !seals;
     }
+    // If we're still here, mark how cold it is so we can apply tagtext to items
+    // FIXME: this might cause issues with performance, move the comparision
+    // directly to item::tname once #2250 lands
+    if( temp <= temperatures::freezing ) {
+        unset_flag( flag_COLD );
+        set_flag( flag_VERY_COLD );
+    } else if( temp <= temperatures::root_cellar ) {
+        set_flag( flag_COLD );
+        unset_flag( flag_VERY_COLD );
+    } else {
+        unset_flag( flag_COLD );
+        unset_flag( flag_VERY_COLD );
+    }
 
     return false;
 }
@@ -9297,7 +9331,7 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
         extinguish = true;
     }
     if( !extinguish ||
-        ( in_inv && precipitation && carrier->weapon.has_flag( flag_RAIN_PROTECT ) ) ) {
+        ( in_inv && precipitation && carrier->primary_weapon().has_flag( flag_RAIN_PROTECT ) ) ) {
         return false; //nothing happens
     }
     if( carrier != nullptr ) {

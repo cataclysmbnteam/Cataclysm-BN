@@ -484,8 +484,10 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
 
-    if( is_container_eligible_for_crafting( weapon, true ) ) {
-        conts.push_back( &weapon );
+    for( const item *it : wielded_items() ) {
+        if( is_container_eligible_for_crafting( *it, true ) ) {
+            conts.push_back( it );
+        }
     }
     for( const auto &it : worn ) {
         if( is_container_eligible_for_crafting( it, false ) ) {
@@ -570,7 +572,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     }
     cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
     cached_crafting_inventory += inv;
-    cached_crafting_inventory += weapon;
+    cached_crafting_inventory += primary_weapon();
     cached_crafting_inventory += worn;
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
@@ -1144,6 +1146,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
                 bp.set_relative_rot( relative_rot );
             }
             bp.set_owner( p.get_faction()->id );
+            bp.inherit_flags( used, making );
             if( bp.made_of( LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else {
@@ -1494,7 +1497,7 @@ static void empty_buckets( player &p )
 {
     // First grab (remove) all items that are non-empty buckets and not wielded
     auto buckets = p.remove_items_with( [&p]( const item & it ) {
-        return it.is_bucket_nonempty() && &it != &p.weapon;
+        return it.is_bucket_nonempty() && !p.is_wielding( it );
     }, INT_MAX );
     for( auto &it : buckets ) {
         for( const item *in : it.contents.all_items_top() ) {

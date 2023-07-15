@@ -3,6 +3,7 @@
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "character_functions.h"
+#include "consumption.h"
 #include "fault.h"
 #include "field_type.h"
 #include "game.h"
@@ -365,7 +366,22 @@ void gunmod_add( avatar &you, item &gun, item &mod )
 
     item modded = gun;
     modded.put_in( mod );
-    bool no_magazines = modded.common_ammo_default().is_null();
+    bool no_magazines = false;
+    if( !modded.magazine_integral() && !mod.type->mod->ammo_modifier.empty() ) {
+        no_magazines = true;
+        for( itype_id mags : modded.magazine_compatible() ) {
+            item mag = item( mags );
+            if( !no_magazines ) {
+                break;
+            }
+            for( ammotype at : modded.ammo_types() ) {
+                if( mag.can_reload_with( at ) ) {
+                    no_magazines = false;
+                    break;
+                }
+            }
+        }
+    }
 
     std::string query_msg = mod.is_irremovable()
                             ? _( "<color_yellow>Permanently</color> install your %1$s in your %2$s?" )
@@ -373,7 +389,7 @@ void gunmod_add( avatar &you, item &gun, item &mod )
     if( no_magazines ) {
         query_msg += "\n";
         query_msg += colorize(
-                         _( "Warning: after installing this mod, a magazine adapter mod will be required to load it!" ),
+                         _( "Warning: A magazine adapter is required to load this gun after modification." ),
                          c_red );
     }
 
@@ -633,8 +649,12 @@ static bool add_or_drop_with_msg( avatar &you, item &it, bool unloading )
 bool unload_item( avatar &you, item_location loc )
 {
     item &it = *loc.get_item();
+    //Give the player the same options as when attempting to eat food that doesn't belong to them, bomb out if they say no.
+    if( !query_consume_ownership( it, you ) ) {
+        return false;
+    }
     // Unload a container consuming moves per item successfully removed
-    if( it.is_container() || it.is_bandolier() ) {
+    if( it.is_container() || it.is_bandolier() || it.type->can_use( "holster" ) ) {
         if( it.contents.empty() ) {
             add_msg( m_info, _( "The %s is already empty!" ), it.tname() );
             return false;

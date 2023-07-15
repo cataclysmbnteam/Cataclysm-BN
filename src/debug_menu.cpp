@@ -649,7 +649,7 @@ void character_edit_menu( Character &c )
             }
             p.worn.clear();
             p.inv.clear();
-            p.weapon = item();
+            p.set_primary_weapon( item() );
             break;
         case edit_character::item_worn: {
             item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
@@ -661,7 +661,7 @@ void character_edit_menu( Character &c )
                 p.on_item_wear( to_wear );
                 p.worn.push_back( to_wear );
             } else if( !to_wear.is_null() ) {
-                p.weapon = to_wear;
+                p.set_primary_weapon( to_wear );
             }
         }
         break;

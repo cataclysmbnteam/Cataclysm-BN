@@ -438,15 +438,17 @@ This section describes each json file and their contents. Each json has their ow
 | name              | (_mandatory_) In-game name displayed.
 | accusative        | (_mandatory_) Accusative form for this bodypart.
 | heading           | (_mandatory_) How it's displayed in headings.
-| heading_multiple  | (_mandatory_) Plural form of heading.
-| hp_bar_ui_text    | (_mandatory_) How it's displayed next to the hp bar in the panel.
-| main_part         | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
-| base_hp           | (_mandatory_) The amount of hp this part has before any modification.
-| opposite_part     | (_mandatory_) What is the opposite part ot this one in case of a pair.
-| essential         | (_optional_) Whether the character dies if this part drops to 0 HP.
-| hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
-| hit_size_relative | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
-| hit_difficulty    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
+| heading_multiple  | (_optional_) Plural form of heading. (default: heading value)
+| hp_bar_ui_text    | (_optional_) How it's displayed next to the hp bar in the panel. (default: empty string)
+| encumbrance_text  | (_optional_) Description of effect when encumbered. (default: empty string)
+| main_part         | (_optional_) What is the main part this one is attached to. (default: self)
+| base_hp           | (_optional_) The amount of hp this part has before any modification. (default: `60`)
+| opposite_part     | (_optional_) What is the opposite part ot this one in case of a pair. (default: self)
+| essential         | (_optional_) Whether the character dies if this part drops to `0` HP.
+| hit_size          | (_optional_) Float. Size of the body part when doing an unweighted selection. (default: `0.`)
+| hit_size_relative | (_optional_) Float. Hit sizes for attackers who are smaller, equal in size, and bigger. (default: `[ 0, 0, 0 ]`
+| hit_difficulty    | (_optional_) Float. How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)` (default: `0`)
+| side              | (_optional_) Which side this body part is on. Default both.
 | stylish_bonus     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
 | hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | cold_morale_mod   | (_optional_) Mood effect of being too cold on this part. (default: `0`)
@@ -2095,7 +2097,8 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 | Weapon Category       | Description
 | ---                   | ---
 | BOWS                  | Elastic launching device for long-shafted projectiles.
-| CROSSBOWS             | Elastic launching device mounted on a frame to be triggered.
+| S_XBOWS               | Elastic launching device mounted on a frame to be triggered, pistol sized.
+| M_XBOWS               | Elastic launching device mounted on a frame to be triggered.
 | SLINGSHOTS            | Elastic, handheld launching device typically used for small round projectiles.
 | SLINGS                | Projectile weapon using a cradle connected to two retention cords, used to fling blunt projectiles.
 | ---                   | ---

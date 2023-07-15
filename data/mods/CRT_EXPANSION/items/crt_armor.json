@@ -1,8 +1,8 @@
 [
   {
     "id": "crt_mask",
+    "repairs_like": "mask_bal",
     "type": "ARMOR",
-    "category": "armor",
     "name": "C.R.I.T. face mask",
     "description": "This is the C.R.I.T. standard issue face mask, lined with Kevlar for extra protection.  A few filters provide decent environmental safety, but it was not intended for extended use.  It has a basic integrated HUD.",
     "weight": "5 kg",
@@ -12,6 +12,7 @@
     "material": [ "neoprene", "kevlar" ],
     "symbol": "[",
     "color": "dark_gray",
+    "looks_like": "mask_bal",
     "covers": [ "eyes", "mouth" ],
     "coverage": 100,
     "encumbrance": 20,
@@ -37,8 +38,8 @@
   },
   {
     "id": "crt_la_boots",
+    "repairs_like": "boots_combat",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of C.R.I.T. light-armor boots", "str_pl": "pairs of C.R.I.T. light-armor boots" },
     "description": "C.R.I.T. skeletonized boots.  Based off of C.R.I.T. boots, the light-armor variant was created for missions in warmer climates.  The light-armor boots keep most of the old features of the standard issue boots but trade in protection for easier movement.",
     "weight": "1060 g",
@@ -49,6 +50,7 @@
     "material": [ "rubber", "superalloy", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
+    "looks_like": "boots_combat",
     "covers": [ "feet" ],
     "coverage": 100,
     "encumbrance": 10,
@@ -126,7 +128,7 @@
   {
     "id": "crt_armguard",
     "type": "ARMOR",
-    "category": "armor",
+    "repairs_like": "armguard_hard",
     "name": { "str": "pair of C.R.I.T. arm guards", "str_pl": "pairs of C.R.I.T. arm guards" },
     "description": "A pair of arm guards made from superalloy molded upon neoprene, and then insulated with rubber.  They are sturdy and will block attacks, but they are ridiculously heavy.",
     "weight": "1820 g",
@@ -136,6 +138,7 @@
     "material": [ "superalloy", "neoprene", "rubber" ],
     "symbol": "[",
     "color": "white",
+    "looks_like": "armguard_hard",
     "covers": [ "arms" ],
     "coverage": 100,
     "encumbrance": 20,
@@ -157,7 +160,7 @@
   {
     "id": "crt_iduster",
     "type": "ARMOR",
-    "category": "armor",
+    "repairs_like": "duster_survivor",
     "name": "C.R.I.T. infantry duster",
     "description": "A thick full-length duster coat with rubber insulation.  More than mildly encumbering, but rather protective against any anti-infantry electrical discharges from the robots.  Has several pockets for storage.",
     "weight": "2120 g",
@@ -167,6 +170,7 @@
     "material": [ "neoprene", "rubber", "kevlar" ],
     "symbol": "[",
     "color": "black_green",
+    "looks_like": "duster_survivor",
     "covers": [ "torso", "arms", "legs" ],
     "coverage": 100,
     "encumbrance": 20,
@@ -179,7 +183,6 @@
   {
     "id": "ds_monitor",
     "type": "TOOL_ARMOR",
-    "category": "armor",
     "name": "C.R.I.T. S-I G.E.A.R",
     "description": "C.R.I.T. standard issue General Engineering Assistance Rig.  Plugged into your spinal cord, this device improves your overall physique and provides basic information on your surroundings.",
     "weight": "500 g",
@@ -213,7 +216,6 @@
   {
     "id": "ds_armor",
     "type": "ARMOR",
-    "category": "armor",
     "name": "C.R.I.T. Engineering Suit",
     "description": "An airtight, flexible suit of woven composite fibers complete with segmented plates of armor.  A complex system digitizes items in an individual pocket universe for storage while built in joint-torsion ratchets generate the necessary energy required to power the interface.",
     "weight": "13460 g",
@@ -237,7 +239,6 @@
   {
     "id": "crt_aarmor",
     "type": "ARMOR",
-    "category": "armor",
     "name": "C.R.I.T. Armored Anomaly Suit",
     "description": "A relatively simple suit of armor.  A suit of woven composite fibers combined with a cleansuit core and strategically placed segmented Kevlar plates keep the suit light-weight and the one wearing it alive while offering superb resistance to the elements and ambient radiation.  ",
     "weight": "11460 g",
@@ -259,6 +260,7 @@
   },
   {
     "id": "crt_legrig",
+    "repairs_like": "legrig",
     "type": "ARMOR",
     "name": { "str": "C.R.I.T. drop leg pouch", "str_pl": "C.R.I.T. drop leg pouches" },
     "description": "A set of pouches that can be worn on the thighs using buckled straps.  This variety is more compact and is favored by the C.R.I.T. for its ease of use.",
@@ -268,6 +270,7 @@
     "material": [ "plastic", "cotton", "rubber" ],
     "symbol": "[",
     "color": "dark_gray",
+    "looks_like": "legrig",
     "covers": [ "legs" ],
     "coverage": 30,
     "encumbrance": 3,
@@ -278,7 +281,6 @@
   {
     "id": "crt_earmor",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "C.R.I.T. Enforcer armor assembly", "str_pl": "C.R.I.T. Enforcer armor assemblies" },
     "description": "A series of plates, guards and buckles which assemble into a suit of sturdy body-armor which usually goes over other armor.  Overlapping steel plates on top of Kevlar plates cover vast expanses as the armor juts off in places so it can deflect attacks.  Built with the idea that comfort is less important than safety, this heavy suit is difficult to move about in but highly protective.  Various adjustable connectors such as straps and clips hold it together.",
     "weight": "21460 g",
@@ -301,7 +303,6 @@
   {
     "id": "crt_earmor_boots",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "pair of C.R.I.T. Enforcer boots", "str_pl": "pairs of C.R.I.T. Enforcer boots" },
     "description": "C.R.I.T. Enforcer boots.  Metal plates vaguely molded into the shape of oversized feet which clamp down onto your own footwear keep your feet out of harms way.  It looks terrible and feels clunky unlike most of C.R.I.T.'s designs, but they do seem to be worth using if you were to be in the middle of a warzone.",
     "weight": "2060 g",
@@ -323,7 +324,6 @@
   {
     "id": "crt_sarmor",
     "type": "ARMOR",
-    "category": "armor",
     "name": "C.R.I.T. Soldier Suit",
     "description": "A suit of modern body-armor.  Strategically placed superalloy plates keep the suit's weight minimal while Kevlar plates other areas and a lining of soft neoprene pads areas for extra comfort.  Most importantly, this can be worn comfortably under other armor.",
     "weight": "5439 g",
@@ -344,7 +344,6 @@
   {
     "id": "crt_warmor",
     "type": "ARMOR",
-    "category": "armor",
     "name": "C.R.I.T. Lone Wolf Series Armor",
     "description": "A matte black suit of outdated and bulky looking plate armor fitted onto a soft Kevlar body-suit.  Retrofitted with new armor improvements, this heavy armor will definitely protect you from practically anything.  Just make sure you can actually walk with it on though.",
     "weight": "42563 g",

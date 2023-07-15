@@ -210,7 +210,7 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 30 ], [ "leather", 30 ], [ "felt_patch", 30 ] ] ]
+    "components": [ [ [ "fabric_standard", 30, "LIST" ], [ "fabric_hides_any", 30, "LIST" ], [ "felt_patch", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -254,8 +254,7 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_intermediate", 2 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -321,7 +320,7 @@
     "using": [ [ "filament", 50 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "superglue", 1 ] ], [ [ "rag", 6 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "superglue", 1 ] ], [ [ "fabric_standard", 6, "LIST" ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -386,9 +385,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 1 ], [ "steel_tiny", 1 ] ]
   },
   {
     "type": "recipe",
@@ -399,9 +396,8 @@
     "difficulty": 4,
     "time": "1 h 40 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 32 ], [ "steel_standard", 8 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -528,6 +524,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "survival", 4 ],
     "difficulty": 5,
+    "charges": 50,
     "time": "2 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
@@ -558,9 +555,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_tiny", 2 ] ]
   },
   {
     "type": "recipe",
@@ -594,9 +589,7 @@
     "difficulty": 4,
     "time": "2 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 12 ], [ "steel_standard", 3 ] ]
   },
   {
     "type": "recipe",
@@ -607,9 +600,7 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 1 ], [ "steel_tiny", 1 ] ]
   },
   {
     "type": "recipe",
@@ -621,8 +612,8 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "2x4", 24 ] ], [ [ "nail", 40 ] ] ]
   },
   {
@@ -855,10 +846,13 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "frame_wood", -1 ], [ "frame_wood_light", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 }, { "id": "SMOOTH", "level": 1 } ],
     "batch_time_factors": [ 75, 4 ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "material_soil", 2 ] ], [ [ "withered", 2 ], [ "straw_pile", 2 ] ] ]
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "material_soil", 2 ] ],
+      [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "cattail_stalk", 2 ], [ "dogbane", 2 ], [ "pine_bough", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -868,7 +862,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "survival", 1 ],
     "difficulty": 2,
-    "time": "30 m",
+    "time": "15 m",
     "autolearn": true,
     "components": [ [ [ "soft_adobe_brick", 20 ] ], [ [ "frame_wood_light", 1 ] ] ]
   },

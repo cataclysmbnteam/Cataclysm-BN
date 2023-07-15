@@ -985,8 +985,10 @@ class npc : public player
         // in bionics.cpp
         // can't use bionics::activate because it calls plfire directly
         void discharge_cbm_weapon();
-        // check if an NPC has a bionic weapon and activate it if possible
+        // check if an NPC has activated bionic weapons and queue them for use if applicable
         void check_or_use_weapon_cbm();
+        // check if an NPC has toggled bionic weapon and return a map to compare
+        const std::map<item, bionic_id> check_toggle_cbm();
 
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
@@ -1394,12 +1396,15 @@ npc *pick_follower();
 
 namespace npc_ai
 {
-/** Evaluate wielded weapon */
-double wielded_value( const Character &who, bool ideal );
+/** Evaluate wielded weapon's ideal value */
+double wielded_value( const Character &who );
 /** Evaluate item as weapon (melee or gun) */
 double weapon_value( const Character &who, const item &weap, int ammo );
 /** Evaluates item as a gun */
 double gun_value( const Character &who, const item &weap, int ammo );
+/** Chooses best gun_mode for range */
+std::pair<gun_mode_id, gun_mode> best_mode_for_range( const Character &who, const item &firing,
+        int dist );
 /** Evaluate item as a melee weapon */
 double melee_value( const Character &who, const item &weap );
 /** Evaluate unarmed melee value */
@@ -1411,5 +1416,13 @@ double unarmed_value( const Character &who );
 void deactivate_weapon_cbm( npc &who );
 // returns list of reloadable cbms.
 std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who );
+
+namespace npc_overmap
+{
+/** Radius of the area in which we count NPCs for random spawn chance. */
+static constexpr int density_search_radius = 120;
+/** Chance that a random NPC spawns somewhere on overmap. */
+double spawn_chance_in_hour( int current_npc_count, double density );
+} // namespace npc_overmap
 
 #endif // CATA_SRC_NPC_H

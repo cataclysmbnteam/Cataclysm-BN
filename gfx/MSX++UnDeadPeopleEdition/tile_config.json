@@ -35279,9 +35279,7 @@
         { "id": "medical_sample", "fg": 19227, "rotates": false },
         { "id": "mon_starer_axe", "fg": 19228, "rotates": false },
         { "id": "mon_starer_crowbar", "fg": 19229, "rotates": false },
-        { "id": "mon_starer_pipe", "fg": 19230, "rotates": false },
-        { "id": "animation_bullet_normal_0deg", "fg": 19231, "rotates": true },
-        { "id": "animation_bullet_normal_45deg", "fg": 19232, "rotates": true }
+        { "id": "mon_starer_pipe", "fg": 19230, "rotates": false }
       ],
       "//": "range 19137 to 19336"
     },

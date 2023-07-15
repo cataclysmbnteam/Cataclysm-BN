@@ -421,8 +421,9 @@ class overmap
         bool build_lab( const tripoint_om_omt &p, lab &l, int size,
                         std::vector<point_om_omt> &lab_train_points,
                         const std::string &prefix, int train_odds );
-        void build_anthill( const tripoint_om_omt &p, int s );
-        void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir );
+        void build_anthill( const tripoint_om_omt &p, int s, bool ordinary_ants = true );
+        void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir,
+                           bool ordinary_ants = true );
         bool build_slimepit( const tripoint_om_omt &origin, int s );
         void build_mine( const tripoint_om_omt &origin, int s );
 

@@ -179,6 +179,10 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
               to_translation( "%1$s casts %2$s at %3$s!" ) );
     spell_data = intermediate.get_spell();
     spell_data.set_message( monster_message );
+}
+
+void mon_spellcasting_actor::finalize()
+{
     avatar fake_player;
     move_cost = spell_data.casting_time( fake_player );
 }
@@ -669,11 +673,11 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         tmp.set_skill_level( pr.first, pr.second );
     }
 
-    tmp.weapon = gun;
+    tmp.set_primary_weapon( gun );
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
     if( g->u.sees( z ) ) {
-        add_msg( m_warning, _( description ), z.name(), tmp.weapon.tname() );
+        add_msg( m_warning, _( description ), z.name(), tmp.primary_weapon().tname() );
     }
 
     z.ammo[ammo] -= ranged::fire_gun( tmp, target, gun.gun_current_mode().qty );

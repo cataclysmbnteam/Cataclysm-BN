@@ -613,18 +613,11 @@ bool main_menu::opening_screen()
     player_character = avatar();
 
     int sel_line = 0;
-    size_t last_world_pos = 0;
 
     // Make [Load Game] the default cursor position if there's game save available
     if( !world_generator->all_worldnames().empty() ) {
-        std::vector<std::string> worlds = world_generator->all_worldnames();
-        last_world_pos = std::find( worlds.begin(), worlds.end(),
-                                    world_generator->last_world_name ) - worlds.begin();
-        if( last_world_pos >= worlds.size() ) {
-            last_world_pos = 0;
-        }
         sel1 = getopt( main_menu_opts::LOADCHAR );
-        sel2 = last_world_pos;
+        sel2 = world_generator->get_world_index( world_generator->last_world_name );
     }
 
     background_pane background;
@@ -642,6 +635,9 @@ bool main_menu::opening_screen()
     bool start_new = false;
     while( !start ) {
         ui_manager::redraw();
+        // Refresh in case player created new world or deleted old world
+        // Since this is an index for a mutable array, it should always be regenerated instead of modified.
+        const size_t last_world_pos = world_generator->get_world_index( world_generator->last_world_name );
         std::string action = ctxt.handle_input();
         input_event sInput = ctxt.get_raw_input();
 

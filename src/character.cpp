@@ -30,6 +30,7 @@
 #include "consumption.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "damage.h"
 #include "debug.h"
 #include "disease.h"
 #include "effect.h"
@@ -57,6 +58,7 @@
 #include "mapdata.h"
 #include "material.h"
 #include "math_defines.h"
+#include "martialarts.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
@@ -113,6 +115,10 @@ static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_watch( "bio_watch" );
+
+static const matec_id WBLOCK_1( "WBLOCK_1" );
+static const matec_id WBLOCK_2( "WBLOCK_2" );
+static const matec_id WBLOCK_3( "WBLOCK_3" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_ai_waiting( "ai_waiting" );
@@ -431,6 +437,7 @@ Character::Character() :
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     set_anatomy( anatomy_id("human_anatomy") );
+    set_body();
     update_type_of_scent( true );
     pkill = 0;
     stored_calories = max_stored_kcal() - 100;
@@ -994,11 +1001,15 @@ void Character::mount_creature( monster &z )
         guy.setpos( pnt );
     }
     z.facing = facing;
-    add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
-    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( !z.type->mech_weapon.is_empty() ) {
-            item mechwep = item( z.type->mech_weapon );
-            wield( mechwep );
+    // Make sure something didn't interrupt this process and knock the player off partway through!
+    if( has_effect( effect_riding ) ) {
+        add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
+        if( z.has_flag( MF_RIDEABLE_MECH ) ) {
+            if( !z.type->mech_weapon.is_empty() ) {
+                auto mechwep = item{ z.type->mech_weapon };
+                wield( mechwep );
+            }
+            add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
         }
         add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
     }
@@ -1079,7 +1090,7 @@ void Character::forced_dismount()
         auto mon = mounted_creature.get();
         if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.is_empty() ) {
             mech = true;
-            remove_item( weapon );
+            remove_item( primary_weapon() );
         }
         mon->mounted_player_id = character_id();
         mon->remove_effect( effect_ridden );
@@ -1184,6 +1195,7 @@ void Character::dismount()
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
+        item &weapon = primary_weapon();
         if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() &&
             weapon.typeId() == critter->type->mech_weapon ) {
             remove_item( weapon );
@@ -1585,7 +1597,7 @@ void Character::recalc_hp()
 void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max )
 {
     for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
-        bodypart &bp = *get_part( part.first );
+        bodypart &bp = get_part( part.first );
         int new_max = ( part.first->base_hp + str_max * 3 + hp_adjustment ) * hp_mod;
 
         if( has_trait( trait_id( "GLASSJAW" ) ) && part.first == bodypart_str_id( "head" ) ) {
@@ -2318,7 +2330,7 @@ item *Character::invlet_to_item( const int linvlet )
 const item &Character::i_at( int position ) const
 {
     if( position == -1 ) {
-        return weapon;
+        return primary_weapon();
     }
     if( position < -1 ) {
         int worn_index = worn_position_to_index( position );
@@ -2339,6 +2351,7 @@ item &Character::i_at( int position )
 
 int Character::get_item_position( const item *it ) const
 {
+    const item &weapon = primary_weapon();
     if( weapon.has_item( *it ) ) {
         return -1;
     }
@@ -2358,8 +2371,8 @@ item Character::i_rem( int pos )
 {
     item tmp;
     if( pos == -1 ) {
-        tmp = weapon;
-        weapon = item();
+        tmp = primary_weapon();
+        set_primary_weapon( item() );
         return tmp;
     } else if( pos < -1 && pos > worn_position_to_index( worn.size() ) ) {
         auto iter = worn.begin();
@@ -2480,6 +2493,7 @@ invlets_bitset Character::allocated_invlets() const
 {
     invlets_bitset invlets = inv.allocated_invlets();
 
+    const item &weapon = primary_weapon();
     invlets.set( weapon.invlet );
     for( const auto &w : worn ) {
         invlets.set( w.invlet );
@@ -2499,9 +2513,8 @@ bool Character::has_active_item( const itype_id &id ) const
 
 item Character::remove_weapon()
 {
-    item tmp = weapon;
-    weapon = item();
-    clear_npc_ai_info_cache( npc_ai_info::weapon_value );
+    item tmp = primary_weapon();
+    set_primary_weapon( item() );
     clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
     return tmp;
 }
@@ -2567,6 +2580,7 @@ units::mass Character::weight_carried_reduced_by( const excluded_stacks &without
 
     // Wielded item
     units::mass weaponweight = 0_gram;
+    const item &weapon = primary_weapon();
     auto weapon_it = without.find( &weapon );
     if( weapon_it == without.end() ) {
         weaponweight = weapon.weight();
@@ -2908,6 +2922,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
+    const item &weapon = primary_weapon();
     if( it.has_flag( flag_RESTRICT_HANDS ) && ( worn_with_flag( flag_RESTRICT_HANDS ) ||
             weapon.is_two_handed( *this ) ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have a hand free to wear that." )
@@ -2978,6 +2993,7 @@ Character::wear_possessed( item &to_wear, bool interactive )
 
     bool was_weapon;
     item to_wear_copy( to_wear );
+    item &weapon = primary_weapon();
     if( &to_wear == &weapon ) {
         weapon = item();
         was_weapon = true;
@@ -3079,6 +3095,7 @@ ret_val<bool> Character::can_wield( const item &it ) const
                    _( "You need at least one arm to even consider wielding something." ) );
     }
 
+    const item &weapon = primary_weapon();
     if( is_armed() && weapon.has_flag( "NO_UNWIELD" ) ) {
         return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             character_funcs::fmt_wielded_weapon( *this ), it.tname() );
@@ -3118,6 +3135,7 @@ ret_val<bool> Character::can_unwield( const item &it ) const
 
 bool Character::unwield()
 {
+    item &weapon = primary_weapon();
     if( weapon.is_null() ) {
         return true;
     }
@@ -3195,8 +3213,10 @@ void Character::drop_invalid_inventory()
 
 bool Character::has_artifact_with( const art_effect_passive effect ) const
 {
-    if( weapon.has_effect_when_wielded( effect ) ) {
-        return true;
+    for( const item *weapon : wielded_items() ) {
+        if( weapon->has_effect_when_wielded( effect ) ) {
+            return true;
+        }
     }
     for( auto &i : worn ) {
         if( i.has_effect_when_worn( effect ) ) {
@@ -3210,7 +3230,7 @@ bool Character::has_artifact_with( const art_effect_passive effect ) const
 
 bool Character::is_wielding( const item &target ) const
 {
-    return &weapon == &target;
+    return &primary_weapon() == &target;
 }
 
 bool Character::is_wearing( const item &itm ) const
@@ -3304,6 +3324,7 @@ std::vector<std::string> Character::get_overlay_ids() const
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
+    const item &weapon = primary_weapon();
     if( is_armed() ) {
         rval.push_back( "wielded_" + weapon.typeId().str() );
     }
@@ -3678,6 +3699,7 @@ units::mass Character::get_weight() const
     ret += bodyweight();       // The base weight of the player's body
     ret += inv.weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
+    const item &weapon = primary_weapon();
     ret += weapon.weight();        // Weight of wielded item
     ret += bionics_weight();       // Weight of installed bionics
     return ret;
@@ -4597,12 +4619,12 @@ void Character::regen( int rate_multiplier )
         }
 
         // remove effects if the limb was healed by other way
-        if( has_effect( effect_bandaged, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
+        if( has_effect( effect_bandaged, bp->token ) && ( get_part( bp ).is_at_max_hp() ) ) {
             damage_bandaged[i] = 0;
             remove_effect( effect_bandaged, bp->token );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
-        if( has_effect( effect_disinfected, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
+        if( has_effect( effect_disinfected, bp->token ) && ( get_part( bp ).is_at_max_hp() ) ) {
             damage_disinfected[i] = 0;
             remove_effect( effect_disinfected, bp->token );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
@@ -5305,6 +5327,7 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
         }
     }
     // If player is wielding something large, pockets are not usable
+    const item &weapon = primary_weapon();
     if( weapon.volume() >= 500_ml ) {
         bonus_clothing_map[body_part_hand_l].clear();
         bonus_clothing_map[body_part_hand_r].clear();
@@ -6522,6 +6545,7 @@ std::string Character::extended_description() const
 
     ss += "--\n";
     ss += _( "Wielding:" ) + std::string( " " );
+    const item &weapon = primary_weapon();
     if( weapon.is_null() ) {
         ss += _( "Nothing" );
     } else {
@@ -7455,6 +7479,7 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
         mv += std::min( 200, it.volume() / 20_ml );
     }
 
+    const item &weapon = primary_weapon();
     if( weapon.typeId() == itype_e_handcuffs ) {
         mv *= 4;
     } else if( penalties && has_effect( effect_grabbed ) ) {
@@ -8237,6 +8262,7 @@ void Character::on_dodge( Creature *source, int difficulty )
     dodges_left--;
 
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
+    const item &weapon = primary_weapon();
     if( is_armed() && weapon.is_gun() ) {
         recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
         recoil = std::min( MAX_RECOIL, recoil );
@@ -8250,7 +8276,7 @@ void Character::on_dodge( Creature *source, int difficulty )
 
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
-        matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
+        matec_id tec = pick_technique( *source, primary_weapon(), false, true, false );
 
         if( tec != tec_none && !is_dead_state() ) {
             if( get_stamina() < get_stamina_max() / 3 ) {
@@ -8396,6 +8422,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
     get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
+    const item &weapon = primary_weapon();
     if( !weapon.is_null() && !as_player()->can_wield( weapon ).success() &&
         can_unwield( weapon ).success() ) {
         add_msg_if_player( _( "You are no longer able to wield your %s and drop it!" ),
@@ -8530,6 +8557,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
 
 
     // TODO: Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
+    const item &weapon = primary_weapon();
     recoil += recoil_mul * weapon.volume() / 250_ml;
     recoil = std::min( MAX_RECOIL, recoil );
     //looks like this should be based off of dealt damages, not d as d has no damage reduction applied.
@@ -8933,8 +8961,8 @@ int Character::shoe_type_count( const itype_id &it ) const
 std::vector<item *> Character::inv_dump()
 {
     std::vector<item *> ret;
-    if( is_armed() && can_unwield( weapon ).success() ) {
-        ret.push_back( &weapon );
+    if( is_armed() && can_unwield( primary_weapon() ).success() ) {
+        ret.push_back( &primary_weapon() );
     }
     for( auto &i : worn ) {
         ret.push_back( &i );
@@ -9604,7 +9632,7 @@ std::list<item> Character::use_amount( itype_id it, int quantity,
                                        const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
-    if( weapon.use_amount( it, quantity, ret ) ) {
+    if( primary_weapon().use_amount( it, quantity, ret ) ) {
         remove_weapon();
     }
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
@@ -9946,6 +9974,7 @@ const pathfinding_settings &Character::get_pathfinding_settings() const
 
 float Character::power_rating() const
 {
+    const item &weapon = primary_weapon();
     int dmg = std::max( { weapon.damage_melee( DT_BASH ),
                           weapon.damage_melee( DT_CUT ),
                           weapon.damage_melee( DT_STAB )
@@ -10300,7 +10329,7 @@ std::vector<std::string> Character::short_description_parts() const
     std::string gender = male ? _( "Male" ) : _( "Female" );
     result.push_back( name +  ", "  + gender );
     if( is_armed() ) {
-        result.push_back( _( "Wielding: " ) + weapon.tname() );
+        result.push_back( _( "Wielding: " ) + primary_weapon().tname() );
     }
     const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(),
     []( const item & it ) {
@@ -10627,6 +10656,146 @@ float Character::stability_roll() const
 bool Character::uncanny_dodge()
 {
     return character_funcs::try_uncanny_dodge( *this );
+}
+
+namespace
+{
+
+auto is_foot_hit( const bodypart_id &bp_hit ) -> bool
+{
+    return bp_hit == bodypart_str_id( "foot_l" ) || bp_hit == bodypart_str_id( "foot_r" );
+}
+
+auto is_leg_hit( const bodypart_id &bp_hit ) -> bool
+{
+    return bp_hit == bodypart_str_id( "leg_l" ) || bp_hit == bodypart_str_id( "leg_r" );
+}
+
+/**
+ * @brief Check if the given shield can protect the given bodypart.
+ *
+ * - Best item available doesn't count as a shield.
+ * - Shield already protects the part we're interested in.
+ * - Targeted bodypart is a foot, unlikely to ever successfully block that low.
+ */
+auto is_covered_by_shield( const bodypart_id &bp_hit, const item &shield ) -> bool
+{
+    return shield.has_flag( "BLOCK_WHILE_WORN" )
+           && !shield.covers( bp_hit->token )
+           && !is_foot_hit( bp_hit );
+}
+
+enum class ShieldLevel { None, Block1, Block2, Block3 };
+auto shield_level( const item &shield ) -> ShieldLevel
+{
+    if( shield.has_technique( WBLOCK_3 ) ) {
+        return ShieldLevel::Block3;
+    } else if( shield.has_technique( WBLOCK_2 ) ) {
+        return ShieldLevel::Block2;
+    } else if( shield.has_technique( WBLOCK_1 ) ) {
+        return ShieldLevel::Block1;
+    }
+    return ShieldLevel::None;
+}
+
+auto coverage_modifier_by_technic( ShieldLevel level, bool leg_hit ) -> float
+{
+    switch( level ) {
+        case ShieldLevel::Block3:
+            return leg_hit ? 0.75f : 0.9f;
+        case ShieldLevel::Block2:
+            return leg_hit ? 0.5f : 0.8f;
+        case ShieldLevel::Block1:
+            return leg_hit ? 0.25f : 0.7f;
+        default:
+            return 0.0f;
+    }
+}
+
+auto is_valid_hallucination( Creature *source ) -> bool
+{
+    return source != nullptr && source->is_hallucination();
+}
+
+auto get_shield_resist( const item &shield, const damage_unit &damage ) -> int
+{
+    // *INDENT-OFF*
+    switch( damage.type ) {
+        case DT_BASH:   return shield.bash_resist();
+        case DT_CUT:    return shield.cut_resist();
+        case DT_STAB:   return shield.stab_resist();
+        case DT_BULLET: return shield.bullet_resist();
+        case DT_HEAT:   return shield.fire_resist();
+        case DT_ACID:   return shield.acid_resist();
+        default:        return 0;
+    }
+    // *INDENT-ON*
+}
+
+auto get_block_amount( const item &shield, const damage_unit &unit ) -> int
+{
+    const int resist = get_shield_resist( shield, unit );
+
+    return std::max( 0.0f, ( resist - unit.res_pen ) * unit.res_mult );
+}
+
+} // namespace
+
+bool Character::block_ranged_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam )
+{
+    // Having access to more than one shield is not normal in vanilla, for now keep it simple and only give one chance to catch a bullet.
+    item &shield = best_shield();
+
+    // Bail out early just in case, if blocking with bare hands.
+    if( shield.is_null() ) {
+        return false;
+    }
+
+    const auto level = shield_level( shield );
+    if( level == ShieldLevel::None || !is_covered_by_shield( bp_hit, shield ) ) {
+        return false;
+    }
+    // Modify chance based on coverage and blocking ability, with lowered chance if hitting the legs. Exclude armguards here.
+    const float technic_modifier = coverage_modifier_by_technic( level, is_leg_hit( bp_hit ) );
+    const float shield_coverage_modifier = shield.get_coverage() * technic_modifier;
+
+    add_msg( m_debug, _( "block_ranged_hit success rate: %i%%" ),
+             static_cast<int>( shield_coverage_modifier ) );
+
+    // Now roll coverage to determine if we intercept the shot.
+    if( rng( 1, 100 ) > shield_coverage_modifier ) {
+        add_msg( m_debug, _( "block_ranged_hit attempt failed" ) );
+        return false;
+    }
+
+    const float wear_modifier = is_valid_hallucination( source ) ? 0.0f : 1.0f;
+    handle_melee_wear( shield, wear_modifier );
+
+    int total_damage = 0;
+    int blocked_damage = 0;
+    for( auto &elem : dam.damage_units ) {
+        total_damage += elem.amount * elem.damage_multiplier;
+        // Go through all relevant damage types and reduce by armor value if one exists.
+        const float block_amount = get_block_amount( shield, elem );
+        elem.amount -= block_amount;
+        blocked_damage += block_amount;
+    }
+    blocked_damage = std::min( total_damage, blocked_damage );
+    add_msg( m_debug, _( "expected base damage: %i" ), total_damage );
+
+    const std::string thing_blocked_with = shield.tname();
+    if( blocked_damage > 0 ) {
+        add_msg_player_or_npc(
+            _( "The shot hits your %s, absorbing %i damage." ),
+            _( "The shot hits <npcname>'s %s, absorbing %i damage." ),
+            thing_blocked_with, blocked_damage );
+    } else {
+        add_msg_player_or_npc(
+            _( "The shot hits your %s, but it punches right through!" ),
+            _( "The shot hits <npcname>'s %s, but it punches right through!" ),
+            thing_blocked_with );
+    }
+    return true;
 }
 
 float Character::fall_damage_mod() const

@@ -28,5 +28,20 @@
     "material": "steel",
     "symbol": "X",
     "color": "blue"
+  },
+  {
+    "id": "homebuilt_gyrocopter_rotor",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": { "str": "homebuilt gyrocopter rotors", "str_pl": "sets of homebuilt gyrocopter rotors" },
+    "description": "A two-bladed wooden rotor and propeller, for lightweight vehicles put together by hobbyists.",
+    "price": "10 USD",
+    "price_postapoc": "2 USD",
+    "weight": "120 kg",
+    "volume": "120 L",
+    "looks_like": "wind_turbine",
+    "material": [ "steel", "wood" ],
+    "symbol": "X",
+    "color": "brown"
   }
 ]
