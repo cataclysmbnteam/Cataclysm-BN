@@ -2617,13 +2617,12 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     const int quality = it->get_quality( qual_DIG );
 
     ///\EFFECT_STR modifies dig rate
-    // Adjust the dig rate if the player is above or below average strength of 8.
+    // Adjust the dig rate if the player is above or below strength of 10.
     // Floor it at 1 so we don't divide by zero, of course!
-    const double attr = 8 / std::max( 1, p->str_cur );
+    const double attr = 10 / std::max( 1, p->str_cur );
 
     // And now determine the moves...
-    int dig_minutes = deep ? deep_pit_time :
-                      shallow_pit_time;
+    int dig_minutes = deep ? deep_pit_time : shallow_pit_time;
     int moves = to_moves<int>( std::max( 10_minutes,
                                          time_duration::from_minutes( dig_minutes * attr ) / quality ) );
 
