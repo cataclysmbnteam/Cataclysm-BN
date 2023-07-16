@@ -1016,6 +1016,7 @@
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "recon_mech_laser_salvaged", 1 ] ],
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
@@ -1025,7 +1026,8 @@
       [ [ "power_supply", 20 ] ],
       [ [ "storage_battery", 2 ] ],
       [ [ "plut_cell", 4 ] ],
-      [ [ "mil_plate", 15 ] ]
+      [ [ "mil_plate", 15 ] ],
+      [ [ "alloy_sheet", 25 ] ]
     ]
   },
   {
@@ -1046,7 +1048,8 @@
       [ [ "power_supply", 20 ] ],
       [ [ "storage_battery", 2 ] ],
       [ [ "plut_cell", 4 ] ],
-      [ [ "mil_plate", 6 ] ]
+      [ [ "mil_plate", 6 ] ],
+      [ [ "alloy_sheet", 15 ] ]
     ]
   },
   {
@@ -1058,6 +1061,7 @@
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "gatling_mech_laser_salvaged", 1 ] ],
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
@@ -1067,7 +1071,8 @@
       [ [ "power_supply", 20 ] ],
       [ [ "storage_battery", 2 ] ],
       [ [ "plut_cell", 4 ] ],
-      [ [ "mil_plate", 20 ] ]
+      [ [ "mil_plate", 20 ] ],
+      [ [ "alloy_sheet", 20 ] ]
     ]
   },
   {

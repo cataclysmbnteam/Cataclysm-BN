@@ -5470,7 +5470,22 @@ void game::examine( const tripoint &examp )
     if( c != nullptr ) {
         monster *mon = dynamic_cast<monster *>( c );
         if( mon != nullptr ) {
-            add_msg( _( "There is a %s." ), mon->get_name() );
+            if( mon->battery_item && mon->has_effect( effect_pet ) ) {
+                const itype &type = *mon->type->mech_battery;
+                int max_charge = type.magazine->capacity;
+                float charge_percent;
+                if( mon->battery_item ) {
+                    charge_percent = static_cast<float>( mon->battery_item->ammo_remaining() ) / max_charge * 100;
+                } else {
+                    charge_percent = 0.0;
+                }
+                add_msg( _( "There is a %s.  Battery level: %d%%" ), mon->get_name(),
+                         static_cast<int>( charge_percent ) );
+            } else {
+                add_msg( _( "There is a %s." ), mon->get_name() );
+            }
+
+
             if( mon->has_effect( effect_pet ) && !u.is_mounted() ) {
                 if( monexamine::pet_menu( *mon ) ) {
                     return;
