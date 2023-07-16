@@ -3116,10 +3116,6 @@ ret_val<bool> Character::can_wield( const item &it ) const
                                                 it.tname() );
         }
     }
-    if( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
-        mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
-        return ret_val<bool>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
-    }
 
     return ret_val<bool>::make_success();
 }
