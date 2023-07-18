@@ -110,6 +110,12 @@ void game::serialize( std::ostream &fout )
 
     json.member( "token_provider", *token_provider_ptr );
 
+    json.member( "safe_references" );
+    json.start_object();
+    json.member( "items" );
+    safe_reference<item>::serialize_global( json );
+    json.end_object();
+
     json.member( "player", u );
     Messages::serialize( json );
 
@@ -245,6 +251,14 @@ void game::unserialize( std::istream &fin )
             }
 
             kill_tracker_ptr->reset( kills, npc_kills );
+        }
+
+        if( data.has_object( "safe_references" ) ) {
+            for( const JsonMember member : data.get_object( "safe_references" ) ) {
+                if( member.name() == "items" ) {
+                    safe_reference<item>::deserialize_global( member.get_array() );
+                }
+            }
         }
 
         data.read( "player", u );

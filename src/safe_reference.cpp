@@ -16,30 +16,41 @@ bool save_and_quit = false;
 template<typename T>
 void safe_reference<T>::serialize_global( JsonOut &json )
 {
-    json.member( "safe_references" );
     json.start_array();
-    for( rbi_it &it : records_by_id ) {
+    for( auto &it : records_by_id ) {
         //TODO!: better format
-        safe_reference<T>::id_type id = it->second->id;
-        uint32_t count = it->second->json_count;
+        safe_reference<T>::id_type id = it.second->id;
+        uint32_t count = it.second->json_count;
         json.write( id );
         json.write( count );
     }
     json.end_array();
+    if( save_and_quit ) {
+        //Cleanup now if we're saving and quitting
+        cleanup();
+    }
 }
 
 template<typename T>
-void safe_reference<T>::deserialize_global( JsonIn &jsin )
+void safe_reference<T>::deserialize_global( JsonArray jsin )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        safe_reference<T>::id_type id;
-        jsin.read( id );
-        uint32_t count;
-        jsin.read( count );
+    bool pair = false;
+    safe_reference<T>::id_type id;
+    for( const JsonValue val : jsin ) {
+        if( !pair ) {
+            id = val.get_int64();
+            pair = true;
+            continue;
+        }
+
+        pair = false;
+        uint32_t count = val.get_int();
         record *rec = new record( id );
         rec->json_count = count;
         records_by_id.insert( {id, rec} );
+    }
+    if( pair ) {
+        debugmsg( "Corrupt safe_references in save" );
     }
 }
 
@@ -143,3 +154,146 @@ void serialize( const safe_reference<T> &val, JsonOut &js )
 
 template
 void serialize<item>( const safe_reference<item> &val, JsonOut &js );
+
+
+template<typename T>
+void safe_reference<T>::cleanup()
+{
+    std::set<record *> records;
+    for( auto &rec : records_by_pointer ) {
+        records.insert( rec.second );
+    }
+    for( auto &rec : records_by_id ) {
+        records.insert( rec.second );
+    }
+    for( record *rec : records ) {
+        delete rec;
+    }
+    records_by_id.clear();
+    records_by_pointer.clear();
+}
+
+template<typename T>
+void safe_reference<T>::register_load( T *obj, id_type id )
+{
+    if( id == ID_NONE ) {
+        return;
+    }
+    rbi_it search = records_by_id.find( id );
+    if( search != records_by_id.end() ) {
+        search->second->target.p = obj;
+    } else {
+        record *rec = new record( obj, id );
+        records_by_id.insert( {id, rec} );
+        records_by_pointer.insert( {obj, rec} );
+    }
+}
+
+template<typename T>
+typename safe_reference<T>::id_type safe_reference<T>::lookup_id( const T *obj )
+{
+    rbp_it search = records_by_pointer.find( obj );
+    if( search != records_by_pointer.end() ) {
+        if( search->second->id == ID_NONE ) {
+            search->second->id = generate_new_id();
+        }
+        return search->second->id;
+    }
+    return ID_NONE;
+}
+
+template<typename T>
+void safe_reference<T>::mark_destroyed( T *obj )
+{
+    rbp_it search = records_by_pointer.find( obj );
+    if( search == records_by_pointer.end() ) {
+        return;
+    }
+    search->second->id |= DESTROYED_MASK;
+}
+
+template<typename T>
+void safe_reference<T>::mark_deallocated( T *obj )
+{
+    rbp_it search = records_by_pointer.find( obj );
+    if( search == records_by_pointer.end() ) {
+        return;
+    }
+    records_by_pointer.erase( search );
+}
+
+template<typename T>
+safe_reference<T>::safe_reference(): rec( nullptr ) {}
+
+template<typename T>
+safe_reference<T>::safe_reference( T *obj )
+{
+    fill( obj );
+    rec->mem_count++;
+}
+
+
+template<typename T>
+safe_reference<T>::safe_reference( T &obj )
+{
+    fill( &obj );
+    rec->mem_count++;
+}
+template<typename T>
+safe_reference<T>::safe_reference( id_type id )
+{
+    if( id == ID_NONE || id_is_destroyed( id ) ) {
+        //TODO!: add cannon destroyed record
+        rec = nullptr;
+    } else {
+        fill( id );
+        rec->mem_count++;
+    }
+}
+template<typename T>
+safe_reference<T>::safe_reference( const safe_reference<T> &source )
+{
+    rec = source.rec;
+    if( rec ) {
+        rec->mem_count++;
+    }
+}
+template<typename T>
+safe_reference<T>::safe_reference( safe_reference<T> &&source )
+{
+    rec = source.rec;
+    source.rec = nullptr;
+}
+template<typename T>
+safe_reference<T> &safe_reference<T>::operator=( const safe_reference<T> &source )
+{
+    remove();
+    rec = source.rec;
+    if( rec ) {
+        rec->mem_count++;
+    }
+    return *this;
+}
+template<typename T>
+safe_reference<T> &safe_reference<T>::operator=( safe_reference<T> &&source )
+{
+    remove();
+    rec = source.rec;
+    source.rec = nullptr;
+    return *this;
+}
+
+template<typename T>
+safe_reference<T>::~safe_reference()
+{
+    remove();
+}
+
+
+void cleanup_references()
+{
+    safe_reference<item>::cleanup();
+}
+
+template
+class safe_reference<item>;

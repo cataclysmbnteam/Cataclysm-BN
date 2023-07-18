@@ -43,6 +43,7 @@
 class item;
 class game;
 class JsonIn;
+class JsonArray;
 class JsonOut;
 
 template<typename T> class cata_arena;
@@ -128,6 +129,10 @@ class safe_reference
             return ( id & REDIRECTED_MASK ) != 0;
         }
 
+        inline static id_type base_id( id_type id ) {
+            return ( id & ~( DESTROYED_MASK | REDIRECTED_MASK ) );
+        }
+
         inline void resolve_redirects() const {
             while( rec != nullptr && id_is_redirected( rec->id ) ) {
                 if( rec->mem_count == 1 && rec->json_count == 0 ) {
@@ -148,7 +153,7 @@ class safe_reference
             }
             //Check if we're the last in-memory reference
             if( rec->mem_count == 1 ) {
-                if( rec->id == ID_NONE ) {
+                if( base_id( rec->id ) == ID_NONE ) {
                     //If the record doesn't have an ID it's ok to just forget it
                     records_by_pointer.erase( rec->target.p );
                     delete rec;
@@ -169,50 +174,15 @@ class safe_reference
             }
         }
 
-        static void register_load( T *obj, id_type id ) {
-            if( id == ID_NONE ) {
-                return;
-            }
-            rbi_it search = records_by_id.find( id );
-            if( search != records_by_id.end() ) {
-                search->second->target.p = obj;
-            } else {
-                record *rec = new record( obj, id );
-                records_by_id.insert( {id, rec} );
-                records_by_pointer.insert( {obj, rec} );
-            }
-        }
+        static void register_load( T *obj, id_type id );
 
-        static id_type lookup_id( const T *obj ) {
-            rbp_it search = records_by_pointer.find( obj );
-            if( search != records_by_pointer.end() ) {
-                if( search->second->id == ID_NONE ) {
-                    search->second->id = generate_new_id();
-                }
-                return search->second->id;
-            }
-            return ID_NONE;
-        }
+        static id_type lookup_id( const T *obj );
 
-        static void mark_destroyed( T *obj ) {
-            rbp_it search = records_by_pointer.find( obj );
-            if( search == records_by_pointer.end() ) {
-                return;
-            }
-            search->second->id |= DESTROYED_MASK;
-        }
+        static void mark_destroyed( T *obj );
 
-        static void mark_deallocated( T *obj ) {
-            rbp_it search = records_by_pointer.find( obj );
-            if( search == records_by_pointer.end() ) {
-                return;
-            }
-            search->second->target.p = nullptr;
-            records_by_pointer.erase( search );
-        }
-
+        static void mark_deallocated( T *obj );
         static void serialize_global( JsonOut &json );
-        static void deserialize_global( JsonIn &jsin );
+        static void deserialize_global( JsonArray jsin );
 
         static id_type generate_new_id() {
             return save_id_prefix | next_id++;
@@ -220,55 +190,20 @@ class safe_reference
 
     public:
 
-        safe_reference(): rec( nullptr ) {}
+        safe_reference();
 
-        safe_reference( T *obj ) {
-            fill( obj );
-            rec->mem_count++;
-        }
-        safe_reference( T &obj ) {
-            fill( &obj );
-            rec->mem_count++;
-        }
-        explicit safe_reference( id_type id ) {
-            if( id == ID_NONE || id_is_destroyed( id ) ) {
-                //TODO!: add cannon destroyed record
-                rec = nullptr;
-            } else {
-                fill( id );
-                rec->mem_count++;
-            }
-        }
-        safe_reference( const safe_reference<T> &source ) {
-            rec = source.rec;
-            if( rec ) {
-                rec->mem_count++;
-            }
-        }
-        safe_reference( safe_reference<T> &&source ) {
-            rec = source.rec;
-            source.rec = nullptr;
-        }
+        safe_reference( T *obj );
+        safe_reference( T &obj );
+        explicit safe_reference( id_type id );
+        safe_reference( const safe_reference<T> &source );
+        safe_reference( safe_reference<T> &&source );
 
-        safe_reference<T> &operator=( const safe_reference<T> &source ) {
-            remove();
-            rec = source.rec;
-            if( rec ) {
-                rec->mem_count++;
-            }
-            return *this;
-        }
+        safe_reference<T> &operator=( const safe_reference<T> &source );
 
-        safe_reference<T> &operator=( safe_reference<T> &&source ) {
-            remove();
-            rec = source.rec;
-            source.rec = nullptr;
-            return *this;
-        }
+        safe_reference<T> &operator=( safe_reference<T> &&source );
 
-        ~safe_reference() {
-            remove();
-        }
+        ~safe_reference();
+        static void cleanup();
 
         inline bool is_unassigned() const {
             return rec == nullptr;
@@ -601,5 +536,7 @@ void deserialize( safe_reference<T> &, JsonIn & );
 
 template<typename T>
 void serialize( const safe_reference<T> &, JsonOut & );
+
+void cleanup_references();
 
 #endif // CATA_SRC_SAFE_REFERENCE_H

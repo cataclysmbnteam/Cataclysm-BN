@@ -1136,7 +1136,6 @@ void advanced_inventory::start_activity( const aim_location destarea,
             for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
                  it != sitem->items.end(); ++it ) {
                 g->u.activity->targets.emplace_back( *it );
-                g->u.activity->targets.emplace_back( *it );
                 g->u.activity->values.push_back( 0 );
                 --amount_to_move;
             }
@@ -1146,7 +1145,6 @@ void advanced_inventory::start_activity( const aim_location destarea,
         std::vector<item *> target_items;
         std::vector<int> quantities;
         if( by_charges ) {
-            target_items.emplace_back( sitem->items.front() );
             target_items.emplace_back( sitem->items.front() );
             quantities.push_back( amount_to_move );
         } else {

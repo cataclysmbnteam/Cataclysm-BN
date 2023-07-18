@@ -1225,7 +1225,7 @@ bool game::cleanup_at_end()
     overmap_buffer.clear();
 
     g->u.destruct_hack();
-
+    cleanup_references();
     cleanup_arenas();
     DynamicDataLoader::get_instance().unload_data();
 
@@ -2742,10 +2742,10 @@ bool game::save( bool quitting )
 {
     try {
         reset_save_ids( time( nullptr ), quitting );
-        if( !save_player_data() ||
-            !save_factions_missions_npcs() ||
+        if( !save_factions_missions_npcs() ||
             !save_artifacts() ||
             !save_maps() ||
+            !save_player_data() ||
             !get_auto_pickup().save_character() ||
             !get_auto_notes_settings().save() ||
             !get_safemode().save_character() ||
