@@ -2667,6 +2667,30 @@
     "category": "spare_parts"
   },
   {
+    "id": "gatling_mech_laser_salvaged",
+    "copy-from": "cerberus_laser",
+    "looks_like": "gatling_mech_laser",
+    "type": "GENERIC",
+    "color": "blue",
+    "name": { "str": "salvaged CMES gatling laser" },
+    "description": "A rapid-fire weapon system stripped from a wrecked combat exoskeleton.  No longer usable as a weapon in its current condition.",
+    "material": [ "superalloy", "plastic" ],
+    "weight": "39 kg",
+    "volume": "11 L"
+  },
+  {
+    "id": "recon_mech_laser_salvaged",
+    "copy-from": "cerberus_laser",
+    "looks_like": "recon_mech_laser",
+    "type": "GENERIC",
+    "color": "blue",
+    "name": { "str": "salvaged RMES marksman laser" },
+    "description": "A long-range weapon system stripped from a wrecked recon exoskeleton.  No longer usable as a weapon in its current condition.",
+    "material": [ "superalloy", "plastic" ],
+    "weight": "12 kg",
+    "volume": "5500 ml"
+  },
+  {
     "id": "light_bulb",
     "type": "GENERIC",
     "name": { "str": "light bulb" },
