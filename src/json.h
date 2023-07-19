@@ -20,7 +20,6 @@
 #include "json_source_location.h"
 #include "memory_fast.h"
 #include "string_id.h"
-#include "colony.h"
 #include "detached_ptr.h"
 #include "safe_reference.h"
 #include "cata_arena.h"

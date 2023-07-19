@@ -28,7 +28,6 @@
 #include "character_functions.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
-#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "construction_partial.h"

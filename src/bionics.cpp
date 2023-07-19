@@ -22,7 +22,6 @@
 #include "character.h"
 #include "character_martial_arts.h"
 #include "character_stat.h"
-#include "colony.h"
 #include "color.h"
 #include "consistency_report.h"
 #include "cursesdef.h"
@@ -647,7 +646,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
     if( bio.info().has_flag( flag_BIONIC_GUN ) ) {
         add_msg_activate();
         refund_power(); // Power usage calculated later, in avatar_action::fire
-        //TODO!: check lifetime
         avatar_action::fire_ranged_bionic( *this->as_avatar(),
                                            item::spawn( bio.info().fake_item ),
                                            bio.info().power_activate );

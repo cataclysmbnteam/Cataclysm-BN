@@ -54,7 +54,6 @@
 #include "character_martial_arts.h"
 #include "character_turn.h"
 #include "clzones.h"
-#include "colony.h"
 #include "color.h"
 #include "computer_session.h"
 #include "construction.h"
@@ -1683,7 +1682,6 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
                             const time_duration &catch_duration ) // catching function
 {
     //spawn the corpse, rotten by a part of the duration
-    //TODO!:restore next
     m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + rng( 0_turns,
                            catch_duration ) ) );
     if( u.sees( pos ) ) {

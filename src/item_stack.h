@@ -4,7 +4,6 @@
 
 #include <cstddef>
 
-#include "colony.h"
 #include "item.h" // IWYU pragma: keep
 #include "units.h"
 

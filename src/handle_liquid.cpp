@@ -16,7 +16,6 @@
 #include "action.h"
 #include "avatar.h"
 #include "cata_utility.h"
-#include "colony.h"
 #include "debug.h"
 #include "enums.h"
 #include "fstream_utils.h"

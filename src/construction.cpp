@@ -13,7 +13,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "character_functions.h"
-#include "colony.h"
 #include "color.h"
 #include "consistency_report.h"
 #include "construction_category.h"

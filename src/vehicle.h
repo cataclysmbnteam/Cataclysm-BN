@@ -19,7 +19,6 @@
 #include "calendar.h"
 #include "character_id.h"
 #include "clzones.h"
-#include "colony.h"
 #include "coordinates.h"
 #include "damage.h"
 #include "game_constants.h"
@@ -498,7 +497,7 @@ struct vehicle_part {
          */
         detached_ptr<item> properties_to_item() const;
         /**
-         * Returns an ItemList of the pieces that should arise from breaking
+         * Returns an std::vector<item *> of the pieces that should arise from breaking
          * this part.
          */
         std::vector<detached_ptr<item>> pieces_for_broken_part() const;

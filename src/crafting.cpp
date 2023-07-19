@@ -23,7 +23,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "character_functions.h"
 #include "craft_command.h"
@@ -1015,7 +1014,7 @@ void item::inherit_flags( const item &parent, const recipe &making )
     }
 }
 
-void item::inherit_flags( const ItemList &parents, const recipe &making )
+void item::inherit_flags( const std::vector<item *> &parents, const recipe &making )
 {
     for( const item * const &parent : parents ) {
         inherit_flags( *parent, making );
@@ -2285,7 +2284,7 @@ void crafting::complete_disassemble( Character &who, iuse_location target,
     }
 }
 
-void remove_ammo( ItemList &dis_items, Character &who )
+void remove_ammo( std::vector<item *> &dis_items, Character &who )
 {
     for( auto &dis_item : dis_items ) {
         remove_ammo( *dis_item, who );

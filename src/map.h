@@ -19,7 +19,6 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "enums.h"

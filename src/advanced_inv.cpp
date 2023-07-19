@@ -20,7 +20,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
@@ -845,7 +844,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
         if( spane.get_area() == AIM_INVENTORY ) {
             for( size_t index = 0; index < g->u.inv_size(); ++index ) {
-                const ItemList &stack = g->u.inv_const_stack( index );
+                const std::vector<item *> &stack = g->u.inv_const_stack( index );
                 item *const &it = stack.front();
 
                 if( !spane.is_filtered( *it ) ) {

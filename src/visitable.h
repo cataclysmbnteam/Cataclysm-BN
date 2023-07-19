@@ -10,7 +10,6 @@
 
 #include "filter_utils.h"
 #include "type_id.h"
-#include "colony.h"
 
 class item;
 template<typename T>
@@ -122,8 +121,8 @@ class temp_visitable : public visitable<T>
          * @param count maximum number of items to if unspecified unlimited. A count of zero is a no-op
          * @return any items removed (items counted by charges are not guaranteed to be stacked)
          */
-        ItemList remove_items_with( const std::function < bool( const item & ) > &filter,
-                                    int count = INT_MAX );
+        std::vector<item *> remove_items_with( const std::function < bool( const item & ) > &filter,
+                                               int count = INT_MAX );
 
         /** Removes and returns the item which must be contained by this instance */
         void remove_item( item &it );

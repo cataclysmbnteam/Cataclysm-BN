@@ -14,7 +14,6 @@
 #include "cata_unreachable.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "cuboid_rectangle.h"
 #include "field.h"
 #include "fragment_cloud.h" // IWYU pragma: keep

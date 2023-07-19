@@ -4,7 +4,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
-#include "colony.h"
 #include "debug.h"
 #include "game.h"
 #include "ime.h"

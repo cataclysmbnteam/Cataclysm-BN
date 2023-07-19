@@ -11,7 +11,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "character_id.h"
-#include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "creature.h"

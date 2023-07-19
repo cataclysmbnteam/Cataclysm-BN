@@ -339,7 +339,7 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
     }
 
     // if item has components, will derive calories from that instead.
-    const ItemList &components = comest.get_components().as_vector();
+    const std::vector<item *> &components = comest.get_components().as_vector();
     if( !components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
         nutrients tally{};
         for( const item * const &component : components ) {

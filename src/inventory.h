@@ -28,10 +28,10 @@ class npc;
 class player;
 struct tripoint;
 
-using invstack = std::list<ItemList >;
-using invslice = std::vector<ItemList *>;
-using const_invslice = std::vector<const ItemList *>;
-using indexed_invslice = std::vector< std::pair<ItemList *, int> >;
+using invstack = std::list<std::vector<item *> >;
+using invslice = std::vector<std::vector<item *> *>;
+using const_invslice = std::vector<const std::vector<item *> *>;
+using indexed_invslice = std::vector< std::pair<std::vector<item *> *, int> >;
 using itype_bin = std::unordered_map< itype_id, std::list<const item *> >;
 using invlets_bitset = std::bitset<std::numeric_limits<char>::max()>;
 
@@ -93,7 +93,7 @@ class inventory : public temp_visitable<inventory>
     public:
         invslice slice();
         const_invslice const_slice() const;
-        const ItemList &const_stack( int i ) const;
+        const std::vector<item *> &const_stack( int i ) const;
         size_t size() const;
         bool locked = false;
 
@@ -113,11 +113,11 @@ class inventory : public temp_visitable<inventory>
         inventory &operator+= ( const item_stack &rhs );
         inventory  operator+ ( const inventory &rhs );
         inventory  operator+ ( item &rhs );
-        inventory  operator+ ( const ItemList &rhs );
+        inventory  operator+ ( const std::vector<item *> &rhs );
 
         void unsort(); // flags the inventory as unsorted
         void clear();
-        void push_back( const ItemList &newits );
+        void push_back( const std::vector<item *> &newits );
         // returns a reference to the added item
         item &add_item( item &newit, bool keep_invlet = false, bool assign_invlet = true,
                         bool should_stack = true );
@@ -236,7 +236,7 @@ class inventory : public temp_visitable<inventory>
         char find_usable_cached_invlet( const itype_id &item_type );
 
         std::list<std::vector<item *>> items;
-        std::map<itype_id, std::list<ItemList *>> items_type_cache;
+        std::map<itype_id, std::list<std::vector<item *> *>> items_type_cache;
         std::map<quality_id, std::map<int, int>> quality_cache;
 
         bool items_type_cached = false;
@@ -260,7 +260,7 @@ class location_inventory : public location_visitable<location_inventory>
     public:
 
         const_invslice const_slice() const;
-        const ItemList &const_stack( int i ) const;
+        const std::vector<item *> &const_stack( int i ) const;
         size_t size() const;
 
         location_inventory( item_location *location );
@@ -273,12 +273,12 @@ class location_inventory : public location_visitable<location_inventory>
 
         //location_inventory &operator+= ( const location_inventory &rhs );
         //location_inventory &operator+= ( detached_ptr<item &rhs );
-        // location_inventory &operator+= ( const ItemList &rhs );
+        // location_inventory &operator+= ( const std::vector<item *> &rhs );
         //location_inventory &operator+= ( const std::vector<item *> &rhs );
         //location_inventory &operator+= ( const item_stack &rhs );
         //location_inventory  operator+ ( const location_inventory &rhs );
         //location_inventory  operator+ ( item &rhs );
-        //location_inventory  operator+ ( const ItemList &rhs );
+        //location_inventory  operator+ ( const std::vector<item *> &rhs );
 
         std::map<char, itype_id> assigned_invlet;
 

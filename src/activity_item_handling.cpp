@@ -23,7 +23,6 @@
 #include "character.h"
 #include "character_functions.h"
 #include "clzones.h"
-#include "colony.h"
 #include "construction.h"
 #include "construction_partial.h"
 #include "creature.h"
@@ -571,7 +570,7 @@ std::list<act_item> reorder_for_dropping( Character &p, const drop_locations &dr
             if( inv_indices.count( i ) != 0 ) {
                 continue;
             }
-            const ItemList &inv_stack = *old_inv[i];
+            const std::vector<item *> &inv_stack = *old_inv[i];
             for( item * const &item : inv_stack ) {
                 // Note: zero cost, but won't be contained on drop
                 act_item to_drop = act_item( *item, item->count(), 0 );

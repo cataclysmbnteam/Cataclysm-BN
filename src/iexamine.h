@@ -12,7 +12,6 @@
 #include "itype.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "colony.h"
 
 class item;
 class player;

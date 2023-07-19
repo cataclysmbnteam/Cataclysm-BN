@@ -44,7 +44,6 @@
 #include "character_martial_arts.h"
 #include "clone_ptr.h"
 #include "clzones.h"
-#include "colony.h"
 #include "computer.h"
 #include "construction.h"
 #include "consumption.h"

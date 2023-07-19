@@ -17,7 +17,6 @@
 #include "basecamp.h"
 #include "calendar.h"
 #include "catacharset.h"
-#include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"

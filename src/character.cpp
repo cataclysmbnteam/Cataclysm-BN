@@ -25,7 +25,6 @@
 #include "character_martial_arts.h"
 #include "character_stat.h"
 #include "clzones.h"
-#include "colony.h"
 #include "construction.h"
 #include "consumption.h"
 #include "coordinate_conversions.h"

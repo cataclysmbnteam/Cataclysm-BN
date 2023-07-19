@@ -13,7 +13,6 @@
 #include "active_item_cache.h"
 #include "active_tile_data.h"
 #include "calendar.h"
-#include "colony.h"
 #include "computer.h"
 #include "construction_partial.h"
 #include "field.h"

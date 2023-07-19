@@ -34,7 +34,6 @@
 #include "rng.h"
 #include "material.h"
 #include "type_id.h"
-#include "colony.h"
 #include "flat_set.h"
 #include "point.h"
 #include "inventory_ui.h" // auto inventory blocking
@@ -150,11 +149,11 @@ const_invslice inventory::const_slice() const
     return stacks;
 }
 
-const ItemList &inventory::const_stack( int i ) const
+const std::vector<item *> &inventory::const_stack( int i ) const
 {
     if( i < 0 || i >= static_cast<int>( items.size() ) ) {
         debugmsg( "Attempted to access stack %d in an inventory (size %d)", i, items.size() );
-        static const ItemList nullstack{};
+        static const std::vector<item *> nullstack{};
         return nullstack;
     }
 
@@ -194,7 +193,7 @@ inventory &inventory::operator+= ( const location_vector<item> &rhs )
     return *this;
 }
 /*
-inventory &inventory::operator+= ( const ItemList &rhs )
+inventory &inventory::operator+= ( const std::vector<item *> &rhs )
 {
     for( const auto &rh : rhs ) {
         add_item( *rh, false, false );
@@ -231,7 +230,7 @@ inventory inventory::operator+ ( const inventory &rhs )
     return inventory( *this ) += rhs;
 }
 
-inventory inventory::operator+ ( const ItemList &rhs )
+inventory inventory::operator+ ( const std::vector<item *> &rhs )
 {
     return inventory( *this ) += rhs;
 }
@@ -247,7 +246,7 @@ void inventory::unsort()
     items_type_cached = false;
 }
 
-static bool stack_compare( const ItemList &lhs, const ItemList &rhs )
+static bool stack_compare( const std::vector<item *> &lhs, const std::vector<item *> &rhs )
 {
     return lhs.front() < rhs.front();
 }
@@ -259,7 +258,7 @@ void inventory::clear()
     items_type_cached = false;
 }
 
-void inventory::push_back( const ItemList &newits )
+void inventory::push_back( const std::vector<item *> &newits )
 {
     for( const auto &newit : newits ) {
         add_item( *newit, true );
@@ -416,7 +415,7 @@ void inventory::restack( player &p )
 
     binned = false;
     items_type_cached = false;
-    ItemList to_restack;
+    std::vector<item *> to_restack;
     int idx = 0;
     for( invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx ) {
         std::vector<item *> &stack = *iter;
@@ -720,7 +719,7 @@ std::vector<detached_ptr<item>> location_inventory::reduce_stack( const int posi
             inv.binned = false;
             inv.items_type_cached = false;
             if( quantity >= static_cast<int>( iter->size() ) || quantity < 0 ) {
-                ItemList stack = *iter;
+                std::vector<item *> stack = *iter;
                 inv.items.erase( iter );
                 for( item *&it : stack ) {
                     it->remove_location();
@@ -763,7 +762,7 @@ item &inventory::remove_item( const int position )
             binned = false;
             items_type_cached = false;
             if( iter->size() > 1 ) {
-                ItemList::iterator stack_member = iter->begin();
+                std::vector<item *>::iterator stack_member = iter->begin();
                 char invlet = ( *stack_member )->invlet;
                 ++stack_member;
                 ( *stack_member )->invlet = invlet;
@@ -1134,7 +1133,7 @@ units::volume inventory::volume_without( const excluded_stacks &without ) const
 std::vector<item *> inventory::active_items()
 {
     std::vector<item *> ret;
-    for( ItemList &elem : items ) {
+    for( std::vector<item *> &elem : items ) {
         for( item * const &elem_stack_iter : elem ) {
             if( elem_stack_iter->needs_processing() ) {
                 ret.push_back( elem_stack_iter );
@@ -1147,7 +1146,7 @@ std::vector<item *> inventory::active_items()
 enchantment inventory::get_active_enchantment_cache( const Character &owner ) const
 {
     enchantment temp_cache;
-    for( const ItemList &elem : items ) {
+    for( const std::vector<item *> &elem : items ) {
         for( const item * const &check_item : elem ) {
             for( const enchantment &ench : check_item->get_enchantments() ) {
                 if( ench.is_active( owner, *check_item ) ) {
@@ -1339,7 +1338,7 @@ const_invslice location_inventory::const_slice() const
     return inv.const_slice();
 }
 
-const ItemList &location_inventory::const_stack( int i ) const
+const std::vector<item *> &location_inventory::const_stack( int i ) const
 {
     return inv.const_stack( i );
 }

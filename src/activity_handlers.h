@@ -11,7 +11,6 @@
 #include <vector>
 
 #include "type_id.h"
-#include "colony.h"
 
 class Character;
 class inventory;

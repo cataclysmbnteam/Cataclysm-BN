@@ -15,7 +15,6 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "colony.h"
 #include "creature.h"
 #include "enums.h"
 #include "explosion_queue.h"

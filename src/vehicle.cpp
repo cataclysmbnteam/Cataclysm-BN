@@ -25,7 +25,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "clzones.h"
-#include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"

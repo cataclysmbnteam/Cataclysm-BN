@@ -19,7 +19,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"

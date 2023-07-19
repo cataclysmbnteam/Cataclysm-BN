@@ -9,7 +9,6 @@
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "colony.h"
 
 class avatar;
 class Character;
@@ -47,7 +46,7 @@ void remove_ammo( item &dis_item, Character &who );
 /**
  * @brief Removes any (removable) ammo from each item and stores it in character's inventory.
  */
-void remove_ammo( ItemList &dis_items, Character &who );
+void remove_ammo( std::vector<item *> &dis_items, Character &who );
 
 bench_location find_best_bench( const player &p, const item &craft );
 

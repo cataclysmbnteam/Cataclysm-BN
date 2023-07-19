@@ -18,7 +18,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
-#include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"

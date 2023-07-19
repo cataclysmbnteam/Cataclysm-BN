@@ -1120,8 +1120,8 @@ class npc : public player
         // Drop wgt and vol, including all items with less value than min_val
         void drop_items( units::mass drop_weight, units::volume drop_volume, int min_val = 0 );
         /** Picks up items and returns a list of them. */
-        ItemList pick_up_item_map( const tripoint &where );
-        ItemList pick_up_item_vehicle( vehicle &veh, int part_index );
+        std::vector<item *> pick_up_item_map( const tripoint &where );
+        std::vector<item *> pick_up_item_vehicle( vehicle &veh, int part_index );
 
         bool has_item_whitelist() const;
         bool item_name_whitelisted( const std::string &to_match );

@@ -31,7 +31,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_functions.h"
-#include "colony.h"
 #include "flag.h"
 #include "color.h"
 #include "construction.h"

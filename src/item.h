@@ -2170,7 +2170,7 @@ class item : public location_visitable<item>, public game_object<item>
          *
          * @param parents Items to inherit from
          */
-        void inherit_flags( const ItemList &parents, const recipe &making );
+        void inherit_flags( const std::vector<item *> &parents, const recipe &making );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;

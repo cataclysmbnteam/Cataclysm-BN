@@ -12,7 +12,6 @@
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "character.h"
-#include "colony.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"

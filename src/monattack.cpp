@@ -23,7 +23,6 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "colony.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"

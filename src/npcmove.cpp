@@ -3150,13 +3150,13 @@ std::vector<item *> npc_pickup_from_stack( npc &who, T &items )
     return picked_up;
 }
 
-ItemList npc::pick_up_item_map( const tripoint &where )
+std::vector<item *> npc::pick_up_item_map( const tripoint &where )
 {
     map_stack stack = get_map().i_at( where );
     return npc_pickup_from_stack( *this, stack );
 }
 
-ItemList npc::pick_up_item_vehicle( vehicle &veh, int part_index )
+std::vector<item *> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
 {
     auto stack = veh.get_items( part_index );
     return npc_pickup_from_stack( *this, stack );
@@ -4064,7 +4064,7 @@ void npc::mug_player( Character &mark )
     double best_value = minimum_item_value() * value_mod;
     item *to_steal = nullptr;
     const_invslice slice = mark.inv_const_slice();
-    for( const ItemList *stack : slice ) {
+    for( const std::vector<item *> *stack : slice ) {
         item &front_stack = *stack->front();
         if( value( front_stack ) >= best_value &&
             can_pick_volume( front_stack ) &&

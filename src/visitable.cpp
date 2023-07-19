@@ -11,7 +11,6 @@
 #include "active_item_cache.h"
 #include "bionics.h"
 #include "character.h"
-#include "colony.h"
 #include "debug.h"
 #include "inventory.h"
 #include "item.h"
@@ -655,11 +654,11 @@ void item_contents::remove_items_with( const std::function < VisitResponse(
 
 /** @relates visitable */
 template <>
-ItemList temp_visitable<inventory>::remove_items_with( const
+std::vector<item *> temp_visitable<inventory>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
 {
     auto inv = static_cast<inventory *>( this );
-    ItemList res;
+    std::vector<item *> res;
     if( inv->locked ) {
         debugmsg( "Attempted recursive item removal" );
         return res;
@@ -671,7 +670,7 @@ ItemList temp_visitable<inventory>::remove_items_with( const
     }
     inv->locked = true;
     for( auto stack = inv->items.begin(); stack != inv->items.end() && count > 0; ) {
-        ItemList &istack = *stack;
+        std::vector<item *> &istack = *stack;
         for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
             if( filter( **istack_iter ) ) {
                 count--;
@@ -719,7 +718,7 @@ void location_visitable<location_inventory>::remove_items_with( const
     VisitResponse last = VisitResponse::NEXT;
     for( auto stack = inv->inv.items.begin(); stack != inv->inv.items.end() &&
          last != VisitResponse::ABORT; ) {
-        ItemList &istack = *stack;
+        std::vector<item *> &istack = *stack;
         const auto original_invlet = istack.front()->invlet;
 
         for( auto istack_iter = istack.begin(); istack_iter != istack.end() &&
