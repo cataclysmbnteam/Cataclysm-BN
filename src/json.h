@@ -1316,8 +1316,11 @@ class JsonValue
         int get_int() const {
             return seek().get_int();
         }
-        uint64_t get_int64() const {
+        int64_t get_int64() const {
             return seek().get_int64();
+        }
+        uint64_t get_uint64() const {
+            return seek().get_uint64();
         }
         bool get_bool() const {
             return seek().get_bool();

@@ -8,7 +8,6 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "colony.h"
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
