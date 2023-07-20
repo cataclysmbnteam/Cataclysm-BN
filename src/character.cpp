@@ -8652,7 +8652,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
 
     // Don't damage armor as much when bypassed by armor piercing
     // Most armor piercing damage comes from bypassing armor, not forcing through
-    const int raw_dmg = du.amount;
+    const int raw_dmg = du.amount * std::min( 1.0f, du.damage_multiplier );
     if( raw_dmg > armors_own_resist ) {
         // If damage is above armor value, the chance to avoid armor damage is
         // 50% + 50% * 1/dmg

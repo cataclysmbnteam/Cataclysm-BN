@@ -2042,6 +2042,11 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
         return 0;
     }
 
+    const std::optional<shape_factory> shaped = ranged::get_shape_factory( *gun.target );
+    if( shaped ) {
+        return static_cast<int>( shaped->get_range() ) - 1;
+    }
+
     // Doesn't use calculate_dispersion because that requires a map
     // TODO: Turn this into a common function.
     int gun_recoil = gun->gun_recoil();
