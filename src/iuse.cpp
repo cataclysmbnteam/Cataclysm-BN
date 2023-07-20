@@ -5844,6 +5844,26 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+int iuse::gun_clean( player *p, item *, bool, const tripoint & )
+{
+    item_location loc = game_menus::inv::titled_menu( g->u, ( "Select the firearm to clean or mend" ) );
+    if( !loc ) {
+        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+        return 0;
+    }
+    item &fix = *loc;
+    if( !fix.is_firearm() ) {
+        p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
+        return 0;
+    }
+    if( fix.faults.empty() ) {
+        p->add_msg_if_player( m_info, _( "There's nothing you can clean or mend with this." ) );
+        return 0;
+    }
+    avatar_funcs::mend_item( *p->as_avatar(), std::move( loc ) );
+    return 0;
+}
+
 int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
 {
     if( !it->units_sufficient( *p ) ) {
