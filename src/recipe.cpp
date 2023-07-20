@@ -37,6 +37,9 @@ static const std::string flag_FIT( "FIT" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 
 static const itype_id itype_hotplate( "hotplate" );
+static const itype_id itype_dehydrator( "dehydrator" );
+static const itype_id itype_char_smoker( "char_smoker" );
+
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -810,7 +813,7 @@ bool recipe::hot_result() const
     // We don't actually know which specific tool the player used/will use here, but
     // we're checking for a class of tools; because of the way requirements
     // processing works, the "surface_heat" id gets nuked into an actual
-    // list of tools, see data/json/recipes/cooking_tools.json.
+    // list of tools, see data/json/requirements/cooking_tools.json.
     //
     // Currently it's only checking for a hotplate because that's a
     // suitable item in both the "surface_heat" and "water_boiling_heat"
@@ -823,6 +826,21 @@ bool recipe::hot_result() const
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
                 if( t.type == itype_hotplate ) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool recipe::dehydrate_result() const
+{
+    if( create_result().is_food() ) {
+        const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
+        for( const std::vector<tool_comp> &tools : tool_lists ) {
+            for( const tool_comp &t : tools ) {
+                if( t.type == itype_dehydrator || t.type == itype_char_smoker ) {
                     return true;
                 }
             }
