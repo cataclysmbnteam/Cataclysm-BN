@@ -856,10 +856,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
     }
 
-    std::optional<shape_factory> shape;
-    if( gun.ammo_current() && gun.ammo_current()->ammo ) {
-        shape = gun.ammo_current()->ammo->shape;
-    }
+    std::optional<shape_factory> shape = ranged::get_shape_factory( gun );
 
     map &here = get_map();
     // Shaped attacks don't allow aiming, so they don't suffer from lack of aim either
@@ -3964,4 +3961,13 @@ double ranged::aim_per_move( const Character &who, const item &gun, double recoi
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
+}
+
+std::optional<shape_factory> ranged::get_shape_factory( const item &gun )
+{
+    if( gun.ammo_current() && gun.ammo_current()->ammo ) {
+        return gun.ammo_current()->ammo->shape;
+    }
+
+    return {};
 }
