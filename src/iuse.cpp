@@ -5805,7 +5805,7 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
 int iuse::gun_clean( player *p, item *, bool, const tripoint & )
 {
-    item_location loc = game_menus::inv::titled_menu( g->u, ( "Select the firearm to clean or mend" ) );
+    item *loc = game_menus::inv::titled_menu( g->u, ( "Select the firearm to clean or mend" ) );
     if( !loc ) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
@@ -5819,7 +5819,7 @@ int iuse::gun_clean( player *p, item *, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "There's nothing you can clean or mend with this." ) );
         return 0;
     }
-    avatar_funcs::mend_item( *p->as_avatar(), std::move( loc ) );
+    avatar_funcs::mend_item( *p->as_avatar(),  *loc );
     return 0;
 }
 
