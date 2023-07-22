@@ -23,6 +23,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "character_functions.h"
 #include "character_id.h"
 #include "clzones.h"
@@ -116,6 +117,7 @@ void act_vehicle_unload_fuel( vehicle *veh );
 player_activity veh_interact::serialize_activity()
 {
     const auto &here = get_map();
+    const auto &you = get_avatar();
     const auto *pt = sel_vehicle_part;
     const auto *vp = sel_vpart_info;
 
@@ -126,24 +128,24 @@ player_activity veh_interact::serialize_activity()
     int time = 1000;
     switch( sel_cmd ) {
         case 'i':
-            time = vp->install_time( g->u );
+            time = vp->install_time( you );
             break;
         case 'r':
             if( pt != nullptr ) {
                 if( pt->is_broken() ) {
-                    time = vp->install_time( g->u );
+                    time = vp->install_time( you );
                 } else if( pt->base.max_damage() > 0 ) {
-                    time = vp->repair_time( g->u ) * pt->base.damage() / pt->base.max_damage();
+                    time = vp->repair_time( you ) * pt->base.damage() / pt->base.max_damage();
                 }
             }
             break;
         case 'o':
-            time = vp->removal_time( g->u );
+            time = vp->removal_time( you );
             break;
         default:
             break;
     }
-    if( g->u.has_trait( trait_DEBUG_HS ) ) {
+    if( you.has_trait( trait_DEBUG_HS ) ) {
         time = 1;
     }
     player_activity res( ACT_VEHICLE, time, static_cast<int>( sel_cmd ) );
@@ -302,7 +304,8 @@ void veh_interact::allocate_windows()
 bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
                                 const std::map<skill_id, int> &skills, int moves ) const
 {
-    const inventory &inv = g->u.crafting_inventory();
+    auto &you = get_avatar();
+    const inventory &inv = you.crafting_inventory();
     bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
 
     msg += _( "<color_white>Time required:</color>\n" );
@@ -311,7 +314,7 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 
     msg += _( "<color_white>Skills required:</color>\n" );
     for( const auto &e : skills ) {
-        bool hasSkill = g->u.get_skill_level( e.first ) >= e.second;
+        bool hasSkill = you.get_skill_level( e.first ) >= e.second;
         if( !hasSkill ) {
             ok = false;
         }
@@ -458,7 +461,7 @@ void veh_interact::do_main_loop()
                 do_siphon();
                 // Siphoning may have started a player activity. If so, we should close the
                 // vehicle dialog and continue with the activity.
-                finish = !g->u.activity.is_null();
+                finish = !you.activity.is_null();
                 if( !finish ) {
                     // it's possible we just invalidated our crafting inventory
                     cache_tool_availability();
@@ -509,22 +512,23 @@ void veh_interact::do_main_loop()
 
 void veh_interact::cache_tool_availability()
 {
-    crafting_inv = g->u.crafting_inventory();
+    auto &you = get_avatar();
+    crafting_inv = you.crafting_inventory();
 
-    cache_tool_availability_update_lifting( g->u.pos() );
+    cache_tool_availability_update_lifting( you.pos() );
     int mech_jack = 0;
-    if( g->u.is_mounted() ) {
-        mech_jack = g->u.mounted_creature->mech_str_addition() + 10;
+    if( you.is_mounted() ) {
+        mech_jack = you.mounted_creature->mech_str_addition() + 10;
     }
-    max_jack = std::max( { g->u.max_quality( qual_JACK ), mech_jack,
-                           map_selector( g->u.pos(), PICKUP_RANGE, false ).max_quality( qual_JACK ),
-                           vehicle_selector( g->u.pos(), PICKUP_RANGE, false, *veh ).max_quality( qual_JACK )
+    max_jack = std::max( { you.max_quality( qual_JACK ), mech_jack,
+                           map_selector( you.pos(), PICKUP_RANGE, false ).max_quality( qual_JACK ),
+                           vehicle_selector( you.pos(), PICKUP_RANGE, false, *veh ).max_quality( qual_JACK )
                          } );
 }
 
 void veh_interact::cache_tool_availability_update_lifting( const tripoint &world_cursor_pos )
 {
-    max_lift = g->u.best_nearby_lifting_assist( world_cursor_pos );
+    max_lift = get_avatar().best_nearby_lifting_assist( world_cursor_pos );
 }
 
 /**
@@ -1758,7 +1762,7 @@ vehicle_part *veh_interact::get_most_damaged_part() const
 
 vehicle_part *veh_interact::get_most_repariable_part() const
 {
-    auto &part = veh_utils::most_repairable_part( *veh, g->u );
+    auto &part = veh_utils::most_repairable_part( *veh, get_avatar() );
     return part ? &part : nullptr;
 }
 
@@ -1848,7 +1852,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     sel_vehicle_part->info().format_description( nmsg, desc_color, getmaxx( w_msg ) - 4 );
 
     msg = colorize( nmsg, c_light_gray );
-    return ok || g->u.has_trait( trait_DEBUG_HS );
+    return ok || get_avatar().has_trait( trait_DEBUG_HS );
 }
 
 void veh_interact::do_remove()
@@ -2123,7 +2127,7 @@ int veh_interact::part_at( point d )
  */
 bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
-    return g->u.has_trait( trait_DEBUG_HS ) ||
+    return get_avatar().has_trait( trait_DEBUG_HS ) ||
            vpart.install_requirements().can_make_with_inventory( crafting_inv, is_crafting_component );
 }
 
@@ -2641,7 +2645,7 @@ void veh_interact::display_name()
     mvwprintz( w_name, point( 1, 0 ), c_light_gray, _( "Name: " ) );
 
     mvwprintz( w_name, point( 1 + utf8_width( _( "Name: " ) ), 0 ),
-               !veh->is_owned_by( g->u, true ) ? c_light_red : c_light_green,
+               !veh->is_owned_by( get_avatar(), true ) ? c_light_red : c_light_green,
                string_format( _( "%s (%s)" ), veh->name, veh->get_owner_name() ) );
     wnoutrefresh( w_name );
 }
@@ -2978,6 +2982,7 @@ void act_vehicle_siphon( vehicle *veh )
 
 void act_vehicle_unload_fuel( vehicle *veh )
 {
+    auto &you = get_avatar();
     std::vector<itype_id> fuels;
     for( auto &e : veh->fuels_left() ) {
         if( e.first == fuel_type_battery || e.first->phase != SOLID ) {
@@ -3021,12 +3026,12 @@ void act_vehicle_unload_fuel( vehicle *veh )
         item plutonium( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
         add_msg( m_info, _( "You unload %s from the vehicle." ), plutonium.display_name() );
         veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
-        g->u.i_add_or_drop( plutonium );
+        you.i_add_or_drop( plutonium );
     } else {
         item solid_fuel( fuel, calendar::turn, qty );
         add_msg( m_info, _( "You unload %s from the vehicle." ), solid_fuel.display_name() );
         veh->drain( fuel, qty );
-        g->u.i_add_or_drop( solid_fuel );
+        you.i_add_or_drop( solid_fuel );
     }
 }
 
