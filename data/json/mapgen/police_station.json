@@ -63,7 +63,7 @@
         "t": { "item": "trash_cart", "chance": 50 },
         "c": { "item": "kitchen", "chance": 40, "repeat": [ 2, 4 ] },
         "1": { "item": "cop_gear", "chance": 70, "repeat": [ 2, 4 ] },
-		"n": { "item": "pwr_armor", "chance": 10, "repeat": [ 2, 4 ] },
+        "n": { "item": "pwr_armor", "chance": 10, "repeat": [ 2, 4 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 4 ] },
         "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 4 ] }
       },
