@@ -115,6 +115,7 @@ void act_vehicle_unload_fuel( vehicle *veh );
 
 player_activity veh_interact::serialize_activity()
 {
+    const auto &here = get_map();
     const auto *pt = sel_vehicle_part;
     const auto *vp = sel_vpart_info;
 
@@ -149,10 +150,10 @@ player_activity veh_interact::serialize_activity()
 
     // if we're working on an existing part, use that part as the reference point
     // otherwise (e.g. installing a new frame), just use part 0
-    const tripoint q = g->m.getabs( veh->global_part_pos3( pt ? *pt : veh->part( 0 ) ) );
+    const tripoint q = here.getabs( veh->global_part_pos3( pt ? *pt : veh->part( 0 ) ) );
     const vehicle_part *vpt = pt ? pt : &veh->part( 0 );
     for( const tripoint &p : veh->get_points( true ) ) {
-        res.coord_set.insert( g->m.getabs( p ) );
+        res.coord_set.insert( here.getabs( p ) );
     }
     res.values.push_back( q.x );   // values[0]
     res.values.push_back( q.y );   // values[1]
@@ -2133,6 +2134,8 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
  */
 void veh_interact::move_cursor( point d, int dstart_at )
 {
+    const auto &here = get_map();
+
     dd += d.rotate( 3 );
     if( d != point_zero ) {
         start_limit = 0;
@@ -2146,13 +2149,13 @@ void veh_interact::move_cursor( point d, int dstart_at )
     const point q = veh->coord_translate( vd );
     const tripoint vehp = veh->global_pos3() + q;
     const bool has_critter = g->critter_at( vehp );
-    bool obstruct = g->m.impassable_ter_furn( vehp );
-    const optional_vpart_position ovp = g->m.veh_at( vehp );
+    bool obstruct = here.impassable_ter_furn( vehp );
+    const optional_vpart_position ovp = here.veh_at( vehp );
     if( ovp && &ovp->vehicle() != veh ) {
         obstruct = true;
     }
     //Set obstruction if object is mountable to stop vehicles being built in windows, on tables etc.
-    if( g->m.has_flag( flag_MOUNTABLE, vehp ) ) {
+    if( here.has_flag( flag_MOUNTABLE, vehp ) ) {
         obstruct = true;
         //Sanity check that vehicle part is not over a passable but mountable piece of terrain
         if( ovp && &ovp->vehicle() == veh ) {
@@ -2327,13 +2330,15 @@ void veh_interact::display_veh()
     const point vd = -dd;
     const point q = veh->coord_translate( vd );
     const tripoint vehp = veh->global_pos3() + q;
-    bool obstruct = g->m.impassable_ter_furn( vehp );
-    const optional_vpart_position ovp = g->m.veh_at( vehp );
+
+    const auto &here = get_map();
+    bool obstruct = here.impassable_ter_furn( vehp );
+    const optional_vpart_position ovp = here.veh_at( vehp );
     if( ovp && &ovp->vehicle() != veh ) {
         obstruct = true;
     }
     //Set obstruction if object is mountable to stop vehicles being built in windows, on tables etc.
-    if( g->m.has_flag( flag_MOUNTABLE, vehp ) ) {
+    if( here.has_flag( flag_MOUNTABLE, vehp ) ) {
         obstruct = true;
         //Sanity check that vehicle part is not over a passable but mountable piece of terrain
         if( ovp && &ovp->vehicle() == veh ) {
@@ -3142,7 +3147,7 @@ void veh_interact::complete_vehicle( player &p )
             // TODO: allow boarding for non-players as well.
             player *const pl = g->critter_at<player>( vehp );
             if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
-                g->m.board_vehicle( vehp, pl );
+                here.board_vehicle( vehp, pl );
             }
 
             p.add_msg_if_player( m_good, _( "You install a %1$s into the %2$s." ), veh->part( partnum ).name(),
