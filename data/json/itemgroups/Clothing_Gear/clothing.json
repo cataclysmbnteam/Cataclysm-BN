@@ -1878,6 +1878,22 @@
   },
   {
     "type": "item_group",
+    "id": "pwr_armor",
+    "items": [
+      [ "power_armor_helmet_basic", 10 ],
+      [ "power_armor_basic", 10 ],
+      [ "power_armor_frame", 10 ],
+      [ "power_armor_back_holster", 1 ],
+      [ "power_armor_holster", 1 ],
+      [ "power_armor_chest_rig", 1 ],
+      [ "power_armor_bscabbard", 1 ],
+      [ "power_armor_scabbard", 1 ],
+      [ "power_armor_sheath", 1 ],
+      
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "mil_accessories",
     "items": [
       [ "mask_gas", 10 ],
