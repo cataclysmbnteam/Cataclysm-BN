@@ -85,6 +85,8 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
+static const std::string flag_MOUNTABLE( "MOUNTABLE" );
+
 static inline std::string status_color( bool status )
 {
     return status ? "<color_green>" : "<color_red>";
