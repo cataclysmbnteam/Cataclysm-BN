@@ -504,7 +504,7 @@
         "t": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
         "1": { "item": "cop_gear", "chance": 70, "repeat": [ 2, 3 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 3 ] },
-		"n": { "item": "pwr_armor", "chance": 10, "repeat": [ 2, 4 ] },
+        "n": { "item": "pwr_armor", "chance": 10, "repeat": [ 2, 4 ] },
         "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 3 ] },
         "D": { "item": "office", "chance": 60, "repeat": [ 2, 3 ] },
         "T": { "item": "dining", "chance": 60, "repeat": [ 2, 3 ] },
