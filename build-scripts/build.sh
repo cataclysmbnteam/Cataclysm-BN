@@ -55,20 +55,9 @@ then
     then
         cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
         # Need to specify the particular LLVM / Clang versions to use, lest it
-        # use the llvm that comes by default on the Github Actions image.
-        cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-12/lib/cmake/llvm")
-        cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-12/lib/cmake/clang")
-    fi
-
-    if echo "$COMPILER" | grep -q "clang"
-    then
-        if [ -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
-        then
-            # This is a hacky workaround for the fact that the custom clang-tidy we are
-            # using was built for now-defunct Travis CI, so it's not using the correct
-            # include directories for GitHub workflows.
-            cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/12.0.0/include")
-        fi
+        # use the older LLVM that comes by default on Ubuntu.
+        cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-16/lib/cmake/llvm")
+        cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-16/lib/cmake/clang")
     fi
 
     mkdir build

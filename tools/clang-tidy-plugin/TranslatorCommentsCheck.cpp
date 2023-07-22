@@ -1,6 +1,6 @@
 #include "TranslatorCommentsCheck.h"
 
-#include <ClangTidyDiagnosticConsumer.h>
+#include <clang-tidy/ClangTidyDiagnosticConsumer.h>
 #include <clang/AST/ASTContext.h>
 #include <clang/AST/Expr.h>
 #include <clang/ASTMatchers/ASTMatchers.h>
@@ -35,9 +35,11 @@ namespace clang
 {
 namespace ast_matchers
 {
+namespace
+{
 AST_POLYMORPHIC_MATCHER_P2( hasImmediateArgument,
                             AST_POLYMORPHIC_SUPPORTED_TYPES( CallExpr, CXXConstructExpr ),
-                            unsigned int, N, internal::Matcher<Expr>, InnerMatcher )
+                            unsigned int, N, ast_matchers::internal::Matcher<Expr>, InnerMatcher )
 {
     return N < Node.getNumArgs() &&
            InnerMatcher.matches( *Node.getArg( N )->IgnoreImplicit(), Finder, Builder );
@@ -51,16 +53,15 @@ AST_MATCHER_P( StringLiteral, isMarkedString, tidy::cata::TranslatorCommentsChec
     return Check->MarkedStrings.find( Loc ) != Check->MarkedStrings.end();
     static_cast<void>( Builder );
 }
+} // namespace
 } // namespace ast_matchers
-namespace tidy
-{
-namespace cata
+namespace tidy::cata
 {
 
 class TranslatorCommentsCheck::TranslatorCommentsHandler : public CommentHandler
 {
     public:
-        TranslatorCommentsHandler( TranslatorCommentsCheck &Check ) : Check( Check ),
+        explicit TranslatorCommentsHandler( TranslatorCommentsCheck &Check ) : Check( Check ),
             // xgettext will treat all comments containing the marker as
             // translator comments, but we only match those starting with
             // the marker to allow using the marker inside normal comments
@@ -230,14 +231,14 @@ void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
         );
     Finder->addMatcher(
         callExpr(
-            callee( functionDecl( hasAnyName( "_", "gettext" ) ) ),
+            callee( functionDecl( hasAnyName( "_", "translation_argument_identity", "gettext" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentBound )
         ),
         this
     );
     Finder->addMatcher(
         callExpr(
-            callee( functionDecl( hasName( "vgettext" ) ) ),
+            callee( functionDecl( hasName( "n_gettext" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentBound ),
             hasImmediateArgument( 1, stringLiteralArgumentUnbound )
         ),
@@ -270,7 +271,7 @@ void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
     );
     Finder->addMatcher(
         callExpr(
-            callee( functionDecl( hasAnyName( "vpgettext" ) ) ),
+            callee( functionDecl( hasAnyName( "npgettext" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentUnbound ),
             hasImmediateArgument( 1, stringLiteralArgumentBound ),
             hasImmediateArgument( 2, stringLiteralArgumentUnbound )
@@ -350,6 +351,5 @@ void TranslatorCommentsCheck::onEndOfTranslationUnit()
     ClangTidyCheck::onEndOfTranslationUnit();
 }
 
-} // namespace cata
-} // namespace tidy
+} // namespace tidy::cata
 } // namespace clang

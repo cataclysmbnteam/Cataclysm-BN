@@ -33,11 +33,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 static auto isRefactorableExpr( const std::string &member_ )
@@ -549,7 +545,7 @@ static void CheckConstructor( UsePointArithmeticCheck &Check,
             const std::string &Key = Position.first;
             bool AtEnd = Position.second == Components.at( Key ).end();
             if( !AtEnd && *Position.second < *CurrentMin ) {
-                assert( false );
+                abort(); // NOLINT(cata-assert)
             } else if( AtEnd || *Position.second > *CurrentMin ) {
                 AllEqual = false;
                 if( Key != "z" ) {
@@ -655,6 +651,4 @@ void UsePointArithmeticCheck::check( const MatchFinder::MatchResult &Result )
     CheckConstructor( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

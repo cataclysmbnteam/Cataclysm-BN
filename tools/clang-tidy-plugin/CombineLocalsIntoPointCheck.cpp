@@ -27,11 +27,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void CombineLocalsIntoPointCheck::registerMatchers( MatchFinder *Finder )
@@ -153,8 +149,8 @@ static void CheckDecl( CombineLocalsIntoPointCheck &Check, const MatchFinder::Ma
     }
 
     const Expr *XInit = XDecl->getAnyInitializer();
-    const Expr *YInit = YDecl->getInit();
-    const Expr *ZInit = ZDecl ? ZDecl->getInit() : nullptr;
+    const Expr *YInit = YDecl->getAnyInitializer();
+    const Expr *ZInit = ZDecl ? ZDecl->getAnyInitializer() : nullptr;
 
     if( !XInit || !YInit || ( ZDecl && !ZInit ) ) {
         return;
@@ -290,6 +286,4 @@ void CombineLocalsIntoPointCheck::onEndOfTranslationUnit()
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

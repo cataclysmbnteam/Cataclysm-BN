@@ -1,5 +1,6 @@
 #include "HeaderGuardCheck.h"
 
+#include <unordered_map>
 #include <unordered_set>
 
 #include <clang/Frontend/CompilerInstance.h>
@@ -10,11 +11,9 @@
 #include <unistd.h>
 #endif
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+#include "Utils.h"
+
+namespace clang::tidy::cata
 {
 
 CataHeaderGuardCheck::CataHeaderGuardCheck( StringRef Name,
@@ -32,7 +31,7 @@ static std::string cleanPath( StringRef Path )
 static bool pathExists( const std::string &path )
 {
     struct stat buffer;
-    return ( stat( path.c_str(), &buffer ) == 0 );
+    return stat( path.c_str(), &buffer ) == 0;
 }
 
 static bool isHeaderFileName( StringRef FileName )
@@ -50,7 +49,9 @@ static std::string getHeaderGuard( StringRef Filename )
     bool Found = false;
     while( std::string::npos != ( LastSlash = TopDir.find_last_of( "/\\" ) ) ) {
         TopDir = TopDir.substr( 0, LastSlash );
-        if( pathExists( TopDir + "/.astylerc" ) ) {
+        // Either the root source dir (containing .travis.yml) or the root build
+        // dir (containing CMakeCache.txt)
+        if( pathExists( TopDir + "/.travis.yml" ) || pathExists( TopDir + "/CMakeCache.txt" ) ) {
             Found = true;
             break;
         }
@@ -296,7 +297,7 @@ class HeaderGuardPPCallbacks : public PPCallbacks
 
         /// \brief Looks for files that were visited but didn't have a header guard.
         /// Emits a warning with fixits suggesting adding one.
-        void checkGuardlessHeaders( std::unordered_set<std::string> GuardlessHeaders ) {
+        void checkGuardlessHeaders( const std::unordered_set<std::string> &GuardlessHeaders ) {
             // Look for header files that didn't have a header guard. Emit a warning and
             // fix-its to add the guard.
             for( const std::string &FileName : GuardlessHeaders ) {
@@ -326,7 +327,7 @@ class HeaderGuardPPCallbacks : public PPCallbacks
                 // be code outside of the guarded area. Emit a plain warning without
                 // fix-its.
                 bool SeenMacro = false;
-                for( const auto &MacroEntry : Info.Macros ) {
+                for( const clang::tidy::cata::MacroInfo_ &MacroEntry : Info.Macros ) {
                     StringRef Name = MacroEntry.Tok.getIdentifierInfo()->getName();
                     SourceLocation DefineLoc = MacroEntry.Tok.getLocation();
                     if( Name == CPPVar &&
@@ -359,12 +360,13 @@ class HeaderGuardPPCallbacks : public PPCallbacks
                     Newlines = "\n";
                 }
 
+                std::string ToInsertHeader = StrCat(
+                                                 "#ifndef ", CPPVar, "\n#define ", CPPVar, Newlines );
                 Check->diag( InsertLoc, "Header is missing header guard." )
-                        << FixItHint::CreateInsertion(
-                            InsertLoc, "#ifndef " + CPPVar + "\n#define " + CPPVar + Newlines )
+                        << FixItHint::CreateInsertion( InsertLoc, ToInsertHeader )
                         << FixItHint::CreateInsertion(
                             SM.getLocForEndOfFile( FID ),
-                            "\n#" + formatEndIf( CPPVar ) + "\n" );
+                            StrCat( "\n#", formatEndIf( CPPVar ), "\n" ) );
             }
         }
     private:
@@ -381,6 +383,4 @@ void CataHeaderGuardCheck::registerPPCallbacks(
     PP->addPPCallbacks( std::make_unique<HeaderGuardPPCallbacks>( PP, this ) );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

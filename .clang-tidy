@@ -86,8 +86,9 @@ Checks: >
   -readability-redundant-access-specifiers,
   -readability-use-anyofallof,
 
-HeaderFilterRegex: "(src|(test(?!.*catch.*catch.h))|tools).*"
+HeaderFilterRegex: '(src|test|tools).*'
 FormatStyle: none
+
 CheckOptions:
   - key: readability-uppercase-literal-suffix.NewSuffixes
     value: "L;UL;LL;ULL"

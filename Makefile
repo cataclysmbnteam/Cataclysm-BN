@@ -461,7 +461,7 @@ ifeq ($(PCH), 1)
   endif
 endif
 
-CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
+CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS)
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
 BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt $(JSON_FORMATTER_BIN)
@@ -890,7 +890,7 @@ ifeq ($(RELEASE), 1)
 endif
 
 $(PCH_P): $(PCH_H)
-	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c $(PCH_H) -o $(PCH_P)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -MMD -MP -Wno-error -c $(PCH_H) -o $(PCH_P)
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 ifeq ($(VERBOSE),1)
@@ -912,12 +912,24 @@ version:
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
 
-$(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
+$(ODIR)/%.inc: $(SRC_DIR)/%.cpp
 ifeq ($(VERBOSE), 1)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -H -E $< -o /dev/null 2> $@
 else
 	@echo $(@F)
-	@$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
+	@$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -H -E $< -o /dev/null 2> $@
+endif
+
+.PHONY: includes
+includes: $(OBJS:.o=.inc)
+	+make -C tests includes
+
+$(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
+ifeq ($(VERBOSE), 1)
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(PCHFLAGS) -c $< -o $@
+else
+	@echo $(@F)
+	@$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(PCHFLAGS) -c $< -o $@
 endif
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
@@ -1173,7 +1185,7 @@ style-all-json-parallel: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | grep -z -v '^data/names/' | xargs -0 -L 1 -P $(NUM_STYLE_JOBS) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
-	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
+	$(CXX) $(CXXFLAGS) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc \
 	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
 tests: version $(BUILD_PREFIX)cataclysm.a

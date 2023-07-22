@@ -13,11 +13,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 void PointInitializationCheck::registerMatchers( MatchFinder *Finder )
 {
@@ -63,7 +59,7 @@ static void CheckDecl( PointInitializationCheck &Check, const MatchFinder::Match
     }
     QualType Type = MatchedDecl->getType();
     PrintingPolicy Policy( LangOptions{} );
-    Policy.SuppressTagKeyword = true;
+    Policy.adjustForCPlusPlus();
     Type.removeLocalConst();
     std::string Replacement = Type.getAsString( Policy ) + " " + MatchedDecl->getNameAsString();
     SourceRange ToReplace( MatchedDecl->getTypeSpecStartLoc(),  MatchedDecl->getEndLoc() );
@@ -97,6 +93,4 @@ void PointInitializationCheck::check( const MatchFinder::MatchResult &Result )
     CheckInit( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

@@ -23,7 +23,7 @@ DEFINES += -DCATCH_CONFIG_ENABLE_BENCHMARKING
 # Add no-sign-compare to fix MXE issue when compiling
 # Catch also uses "#pragma gcc diagnostic", which is not recognized on some supported compilers.
 # Clang and mingw are warning about Catch macros around perfectly normal boolean operations.
-CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
+CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses
 CXXFLAGS += -Wall -Wextra \
   -Wno-range-loop-analysis # TODO: Fix warnings instead of disabling
 
@@ -63,7 +63,7 @@ else
 endif
 
 $(PCH_P): $(PCH_H)
-	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -MMD -MP -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
@@ -82,11 +82,22 @@ $(shell mkdir -p $(ODIR))
 # Adding ../tests/ so that the directory appears in __FILE__ for log messages
 $(ODIR)/%.o: %.cpp $(PCH_P)
 ifeq ($(VERBOSE),1)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
 else
 	@echo $(@F)
-	@$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
+	@$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
 endif
+
+$(ODIR)/%.inc: %.cpp
+ifeq ($(VERBOSE),1)
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -H -E $< -o /dev/null 2> $@
+else
+	@echo $(@F)
+	@$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -H -E $< -o /dev/null 2> $@
+endif
+
+.PHONY: includes
+includes: $(OBJS:.o=.inc)
 
 .PHONY: clean check tests precompile_header
 

@@ -9,11 +9,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void JsonTranslationInputCheck::registerMatchers( MatchFinder *Finder )
@@ -30,7 +26,7 @@ void JsonTranslationInputCheck::registerMatchers( MatchFinder *Finder )
             hasAncestor(
                 callExpr( callee( decl( anyOf(
                                             functionDecl(
-                                                    hasAnyName( "_", "gettext", "pgettext", "vgettext", "vpgettext" )
+                                                    hasAnyName( "_", "translation_argument_identity", "gettext", "pgettext", "n_gettext", "npgettext" )
                                             ).bind( "translationFunc" ),
                                             functionDecl(
                                                     hasAnyName( "to_translation", "pl_translation" )
@@ -74,6 +70,4 @@ void JsonTranslationInputCheck::check( const MatchFinder::MatchResult &Result )
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata
