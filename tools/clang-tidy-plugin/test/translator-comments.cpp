@@ -1,49 +1,6 @@
-// RUN: %check_clang_tidy %s cata-translator-comments %t -- --load=%cata_plugin -- -I %test_include
+// RUN: %check_clang_tidy -allow-stdinc %s cata-translator-comments %t -- --load=%cata_plugin -- -isystem %cata_include -DLOCALIZE
 
-// check_clang_tidy uses -nostdinc++, so we add dummy declaration of std::string here
-namespace std
-{
-template<class CharT, class Traits = void, class Allocator = void>
-class basic_string
-{
-    public:
-        basic_string();
-        basic_string( const CharT * );
-        CharT *c_str();
-        const CharT *c_str() const;
-};
-using string = basic_string<char>;
-} // namespace std
-
-// check_clang_tidy uses -nostdinc++, so we add dummy translation interface here instead of including translations.h
-#define translate_marker( s ) ( s )
-#define translate_marker_context( c, s ) ( s )
-// mimic how it's declared in translation.h
-#define _( msg ) \
-    ( ( []( const auto & arg ) { \
-        return arg; \
-    } )( msg ) )
-
-const char *gettext( const char * );
-const char *pgettext( const char *, const char * );
-const char *vgettext( const char *, const char *, int );
-const char *vpgettext( const char *, const char *, const char *, int );
-
-class translation
-{
-    public:
-        static translation to_translation( const std::string & );
-        static translation to_translation( const std::string &, const std::string & );
-        static translation pl_translation( const std::string &, const std::string & );
-        static translation pl_translation( const std::string &, const std::string &, const std::string & );
-        static translation no_translation( const std::string & );
-};
-
-translation to_translation( const std::string & );
-translation to_translation( const std::string &, const std::string & );
-translation pl_translation( const std::string &, const std::string & );
-translation pl_translation( const std::string &, const std::string &, const std::string & );
-translation no_translation( const std::string & );
+#include "translations.h"
 
 void foo()
 {

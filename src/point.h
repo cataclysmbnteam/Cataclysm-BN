@@ -2,10 +2,6 @@
 #ifndef CATA_SRC_POINT_H
 #define CATA_SRC_POINT_H
 
-// The CATA_NO_STL macro is used by the cata clang-tidy plugin tests so they
-// can include this header when compiling with -nostdinc++
-#ifndef CATA_NO_STL
-
 #include <array>
 #include <cassert>
 #include <climits>
@@ -15,18 +11,6 @@
 #include <ostream>
 #include <string>
 #include <vector>
-
-#else
-
-#define assert(...)
-
-namespace std
-{
-class string;
-class ostream;
-}
-
-#endif // CATA_NO_STL
 
 class JsonIn;
 class JsonOut;
@@ -74,11 +58,9 @@ struct point {
         return point( x / rhs, y / rhs );
     }
 
-#ifndef CATA_NO_STL
     inline point abs() const {
         return point( std::abs( x ), std::abs( y ) );
     }
-#endif
 
     /**
      * Rotate point clockwise @param turns times, 90 degrees per turn,
@@ -104,6 +86,7 @@ struct point {
     }
 
     friend std::ostream &operator<<( std::ostream &, point );
+    friend std::istream &operator>>( std::istream &, point );
 };
 
 inline int divide_round_to_minus_infinity( int n, int d )
@@ -197,11 +180,9 @@ struct tripoint {
         return *this;
     }
 
-#ifndef CATA_NO_STL
     inline tripoint abs() const {
         return tripoint( std::abs( x ), std::abs( y ), std::abs( z ) );
     }
-#endif
 
     constexpr point xy() const {
         return point( x, y );
@@ -223,6 +204,7 @@ struct tripoint {
     void deserialize( JsonIn &jsin );
 
     friend std::ostream &operator<<( std::ostream &, const tripoint & );
+    friend std::istream &operator>>( std::istream &, const tripoint & );
 
     friend inline constexpr bool operator==( const tripoint &a, const tripoint &b ) {
         return a.x == b.x && a.y == b.y && a.z == b.z;
@@ -288,8 +270,6 @@ struct sphere {
     explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
     explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
 };
-
-#ifndef CATA_NO_STL
 
 /**
  * Following functions return points in a spiral pattern starting at center_x/center_y until it hits the radius. Clockwise fashion.
@@ -387,7 +367,5 @@ static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
         { tripoint_south_east },
     }
 };
-
-#endif // CATA_NO_STL
 
 #endif // CATA_SRC_POINT_H
