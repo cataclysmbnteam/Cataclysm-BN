@@ -224,7 +224,7 @@
         "c": { "item": "kitchen", "chance": 40 },
         "1": { "item": "cop_gear", "chance": 70 },
         "l": { "item": "cop_armory", "chance": 70 },
-		"n": { "item": "pwr_armor", "chance": 10},
+        "n": { "item": "pwr_armor", "chance": 10 },
         "L": { "item": "cop_evidence", "chance": 60 },
         "N": { "item": "vending_food_items", "chance": 70, "repeat": [ 4, 12 ] },
         "U": { "item": "vending_drink_items", "chance": 70, "repeat": [ 4, 12 ] }
