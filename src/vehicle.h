@@ -208,9 +208,6 @@ struct vehicle_part {
         vehicle_part( const vehicle_part & );
         vehicle_part &operator=( const vehicle_part & );
 
-        //vehicle_part( vehicle_part && ) noexcept;
-        //vehicle_part &operator=( vehicle_part && ) noexcept;
-
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
 

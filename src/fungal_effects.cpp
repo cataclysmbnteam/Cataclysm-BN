@@ -219,7 +219,6 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
                 dbg( DL::Warn ) << "No seed item in the PLANT terrain at position " << p;
             } else {
                 ( *seed )->convert( itype_fungal_seeds );
-                //*seed = item( "fungal_seeds", calendar::turn );
             }
         }
     }

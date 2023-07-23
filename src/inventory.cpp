@@ -131,15 +131,6 @@ invlet_favorites::get_invlets_by_id() const
 
 inventory::inventory() = default;
 
-invslice inventory::slice()
-{
-    invslice stacks;
-    for( auto &elem : items ) {
-        stacks.push_back( &elem );
-    }
-    return stacks;
-}
-
 const_invslice inventory::const_slice() const
 {
     const_invslice stacks;
@@ -192,14 +183,6 @@ inventory &inventory::operator+= ( const location_vector<item> &rhs )
     }
     return *this;
 }
-/*
-inventory &inventory::operator+= ( const std::vector<item *> &rhs )
-{
-    for( const auto &rh : rhs ) {
-        add_item( *rh, false, false );
-    }
-    return *this;
-}*/
 
 inventory &inventory::operator+= ( const std::vector<item *> &rhs )
 {

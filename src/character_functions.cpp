@@ -785,7 +785,6 @@ item_reload_option select_ammo( const Character &who, item &base,
             return e.ammo->contents.front().display_name();
 
         } else {
-            //const_cast<item_location &>( who.ammo_location ).make_dirty();
             return ( who.ammo_location && who.ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
         }
     } );

@@ -1207,7 +1207,6 @@ class Character : public Creature, public location_visitable<Character>
 
         const std::vector<item *> inv_const_stack( int position ) const;
 
-        //invslice inv_slice();
         const_invslice inv_const_slice() const;
 
         void inv_assign_empty_invlet( item &it, bool force = false );

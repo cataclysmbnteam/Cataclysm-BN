@@ -2733,11 +2733,6 @@ const std::vector<item *> Character::inv_const_stack( int position ) const
 {
     return inv.const_stack( position );
 }
-/*
-invslice Character::inv_slice()
-{
-    return inv.slice();
-}*/
 
 const_invslice Character::inv_const_slice() const
 {
