@@ -16,6 +16,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "player_activity.h"
 #include "skill.h"
 #include "trap.h"
 #include "veh_type.h"

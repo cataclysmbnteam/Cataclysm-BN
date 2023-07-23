@@ -39,7 +39,7 @@
 #include "location_ptr.h"
 #include "memory_fast.h"
 #include "pimpl.h"
-#include "player_activity.h"
+#include "player_activity_ptr.h"
 #include "pldata.h"
 #include "point.h"
 #include "ret_val.h"

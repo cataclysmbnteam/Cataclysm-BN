@@ -73,6 +73,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "player_activity.h"
 #include "profession.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"

@@ -13,7 +13,7 @@
 #include "input.h"
 #include "inventory.h"
 #include "memory_fast.h"
-#include "player_activity.h"
+#include "player_activity_ptr.h"
 #include "point.h"
 #include "type_id.h"
 

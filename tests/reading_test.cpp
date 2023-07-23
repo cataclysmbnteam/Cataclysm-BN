@@ -18,6 +18,7 @@
 #include "map_helpers.h"
 #include "morale_types.h"
 #include "options.h"
+#include "player_activity.h"
 #include "player_helpers.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"

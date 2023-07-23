@@ -1,4 +1,5 @@
 #include "player_activity.h"
+#include "player_activity_ptr.h"
 
 #include <algorithm>
 #include <array>
@@ -506,6 +507,18 @@ void activity_ptr::check_active()
         act->active = false;
         act.release();
     }
+}
+
+std::unique_ptr<player_activity> activity_ptr::release()
+{
+    std::unique_ptr<player_activity> ret = std::move( act );
+    act = std::make_unique < player_activity>();
+    return ret;
+}
+
+activity_ptr::operator bool() const
+{
+    return !!*act;
 }
 
 void activity_ptr::serialize( JsonOut &json ) const
