@@ -32,9 +32,7 @@
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 3 ] ],
     "components": [ [ [ "gold_small", 3 ] ] ]
   },
   {
@@ -46,9 +44,7 @@
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 3 ] ],
     "components": [ [ [ "gold_small", 12 ] ] ]
   },
   {
@@ -60,9 +56,7 @@
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 3 ] ],
     "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {
@@ -74,9 +68,7 @@
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 3 ] ],
     "components": [ [ [ "silver_small", 15 ] ] ]
   },
   {

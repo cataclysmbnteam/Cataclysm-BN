@@ -116,9 +116,7 @@
     "difficulty": 6,
     "time": "10 h",
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 3 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 3 ] ],
     "components": [ [ [ "gold_small", 300 ] ] ]
   },
   {
@@ -390,8 +388,7 @@
     "difficulty": 6,
     "time": "9 h",
     "book_learn": [ [ "textbook_armwest", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 40 ], [ "steel_standard", 10 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_intermediate", 40 ], [ "steel_standard", 10 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
@@ -429,8 +426,7 @@
     "difficulty": 6,
     "time": "7 h 12 m",
     "book_learn": [ [ "textbook_armschina", 5 ] ],
-    "using": [ [ "sewing_standard", 18 ], [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "sewing_standard", 18 ], [ "blacksmithing_intermediate", 8 ], [ "steel_standard", 2 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fur", 6 ] ] ]
   },
@@ -443,8 +439,7 @@
     "difficulty": 7,
     "time": "7 h 12 m",
     "book_learn": [ [ "textbook_armwest", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_intermediate", 8 ], [ "steel_standard", 2 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
@@ -457,8 +452,7 @@
     "difficulty": 9,
     "time": "10 h",
     "book_learn": [ [ "textbook_armeast", 8 ] ],
-    "using": [ [ "blacksmithing_standard", 48 ], [ "steel_standard", 12 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_intermediate", 48 ], [ "steel_standard", 12 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fabric_hides_proper", 14, "LIST" ] ], [ [ "fabric_standard", 4, "LIST" ] ] ]
   },
@@ -483,8 +477,7 @@
     "difficulty": 5,
     "time": "7 h 12 m",
     "book_learn": [ [ "textbook_armwest", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_intermediate", 4 ], [ "steel_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fabric_hides_proper", 3, "LIST" ] ] ]
   },
@@ -509,8 +502,7 @@
     "difficulty": 7,
     "time": "9 h",
     "book_learn": [ [ "textbook_armwest", 6 ] ],
-    "using": [ [ "blacksmithing_standard", 56 ], [ "steel_standard", 14 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_intermediate", 56 ], [ "steel_standard", 14 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
   },
@@ -1479,8 +1471,7 @@
     "difficulty": 5,
     "time": "9 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_intermediate", 16 ], [ "steel_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "goggles_welding", 1 ] ] ]
   },

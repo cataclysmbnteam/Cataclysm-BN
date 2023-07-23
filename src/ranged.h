@@ -101,6 +101,9 @@ float str_draw_damage_modifier( const item &it, const Character &p );
 float str_draw_dispersion_modifier( const item &it, const Character &p );
 float str_draw_range_modifier( const item &it, const Character &p );
 
+/** Returns shaped attack used by the gun+ammo, if set */
+std::optional<shape_factory> get_shape_factory( const item &gun );
+
 /** AoE attack, with area given by shape */
 void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
 
