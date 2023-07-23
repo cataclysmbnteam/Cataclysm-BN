@@ -36,7 +36,6 @@
 #include "inventory.h"
 #include "item_handling_util.h"
 #include "item.h"
-#include "item_location.h"
 #include "location_ptr.h"
 #include "memory_fast.h"
 #include "pimpl.h"

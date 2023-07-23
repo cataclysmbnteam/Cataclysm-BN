@@ -24,7 +24,6 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_location.h"
 #include "pimpl.h"
 #include "point.h"
 #include "ret_val.h"

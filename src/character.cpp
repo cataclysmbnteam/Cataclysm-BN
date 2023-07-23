@@ -43,7 +43,6 @@
 #include "game_constants.h"
 #include "int_id.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"

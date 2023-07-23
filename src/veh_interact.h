@@ -12,7 +12,6 @@
 #include "cursesdef.h"
 #include "input.h"
 #include "inventory.h"
-#include "item_location.h"
 #include "memory_fast.h"
 #include "player_activity.h"
 #include "point.h"

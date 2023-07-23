@@ -43,7 +43,6 @@
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_group.h"
-#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"

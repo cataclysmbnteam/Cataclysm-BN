@@ -1,6 +1,5 @@
 #include "rot.h"
 
-#include "item_location.h"
 #include "map.h"
 #include "vehicle.h"
 #include "units.h"

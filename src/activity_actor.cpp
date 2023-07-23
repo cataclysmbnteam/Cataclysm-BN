@@ -26,7 +26,6 @@
 #include "int_id.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_location.h"
 #include "json.h"
 #include "line.h"
 #include "locations.h"

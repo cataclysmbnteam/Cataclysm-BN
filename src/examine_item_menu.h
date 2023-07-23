@@ -4,8 +4,6 @@
 
 #include <functional>
 
-#include "item_location.h"
-
 class avatar;
 class item;
 

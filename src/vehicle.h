@@ -24,7 +24,6 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_location.h"
 #include "item_stack.h"
 #include "location_ptr.h"
 #include "point.h"

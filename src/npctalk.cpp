@@ -39,7 +39,6 @@
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"

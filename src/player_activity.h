@@ -14,7 +14,6 @@
 #include "activity_actor.h"
 #include "clone_ptr.h"
 #include "enums.h"
-#include "item_location.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"

@@ -42,7 +42,6 @@
 #include "int_id.h"
 #include "item.h"
 #include "item_functions.h"
-#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"

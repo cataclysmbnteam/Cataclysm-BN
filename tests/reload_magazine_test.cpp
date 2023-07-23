@@ -11,7 +11,6 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "player.h"
 #include "state_helpers.h"
 #include "type_id.h"

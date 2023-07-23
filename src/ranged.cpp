@@ -37,7 +37,6 @@
 #include "input.h"
 #include "item.h"
 #include "item_functions.h"
-#include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "magic.h"
