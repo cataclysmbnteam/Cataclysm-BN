@@ -1566,7 +1566,7 @@ class vehicle
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
          */
-        void make_active( item &loc );
+        void make_active( item &target );
         /**
          * Try to add an item to part's cargo.
          */

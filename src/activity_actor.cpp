@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <list>
+#include <memory>
 #include <string>
 #include <utility>
 
@@ -395,7 +396,7 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & )
 {
-    return std::unique_ptr<autodrive_activity_actor>( new autodrive_activity_actor() );
+    return std::make_unique<autodrive_activity_actor>();
 }
 
 void dig_activity_actor::start( player_activity &act, Character & )
