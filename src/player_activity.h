@@ -205,6 +205,9 @@ class activity_ptr
             act = std::make_unique < player_activity>();
             return ret;
         }
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

@@ -507,3 +507,13 @@ void activity_ptr::check_active()
         act.release();
     }
 }
+
+void activity_ptr::serialize( JsonOut &json ) const
+{
+    act->serialize( json );
+}
+
+void activity_ptr::deserialize( JsonIn &jsin )
+{
+    act->deserialize( jsin );
+}
