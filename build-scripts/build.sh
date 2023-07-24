@@ -2,6 +2,7 @@
 
 # Build script intended for use in Github workflow
 
+echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
 num_jobs=3
@@ -98,12 +99,43 @@ then
         cd ..
         ln -s build/compile_commands.json
 
-        # TODO: first analyze all files that changed in this PR
         set +x
+        # Check for changes to any files that would require us to run clang-tidy across everything
+        changed_global_files="$( ( ./build-scripts/files_changed || echo 'unknown') | \
+            egrep -i "clang-tidy|build-scripts|cmake|unknown" || true )"
+        if [ -n "$changed_global_files" ]
+        then
+            first_changed_file="$(echo "$changed_global_files" | head -n 1)"
+            echo "Analyzing all files because $first_changed_file was changed"
+            TIDY="all"
+        fi
+
         all_cpp_files="$( \
             grep '"file": "' build/compile_commands.json | \
             sed "s+.*$PWD/++;s+\",\?$++")"
-        set -x
+        if [ "$TIDY" == "all" ]
+        then
+            echo "Analyzing all files"
+            tidyable_cpp_files=$all_cpp_files
+        else
+            make \
+                -j $num_jobs \
+                ${COMPILER:+COMPILER=$COMPILER} \
+                TILES=${TILES:-0} \
+                SOUND=${SOUND:-0} \
+                includes
+
+            ./build-scripts/files_changed > ./files_changed
+            tidyable_cpp_files="$( \
+                ( build-scripts/get_affected_files.py ./files_changed ) || \
+                echo unknown )"
+
+            if [ "tidyable_cpp_files" == "unknown" ]
+            then
+                echo "Unable to determine affected files, tidying all files"
+                tidyable_cpp_files=$all_cpp_files
+            fi
+        fi
 
         function analyze_files_in_random_order
         {
@@ -118,6 +150,7 @@ then
 
         echo "Analyzing all files"
         analyze_files_in_random_order "$all_cpp_files"
+        set -x
     else
         # Regular build
         make -j$num_jobs translations_compile
