@@ -10,7 +10,6 @@
 #include "avatar_action.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "state_helpers.h"

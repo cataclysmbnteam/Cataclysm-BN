@@ -52,7 +52,6 @@
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_group.h"
-#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"

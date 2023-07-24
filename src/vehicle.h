@@ -24,7 +24,6 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_location.h"
 #include "item_stack.h"
 #include "location_ptr.h"
 #include "point.h"
@@ -208,9 +207,6 @@ struct vehicle_part {
 
         vehicle_part( const vehicle_part & );
         vehicle_part &operator=( const vehicle_part & );
-
-        //vehicle_part( vehicle_part && ) noexcept;
-        //vehicle_part &operator=( vehicle_part && ) noexcept;
 
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
@@ -1570,7 +1566,7 @@ class vehicle
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
          */
-        void make_active( item &loc );
+        void make_active( item &target );
         /**
          * Try to add an item to part's cargo.
          */

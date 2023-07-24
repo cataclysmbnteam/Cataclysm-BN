@@ -25,7 +25,6 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "item_location.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "point.h"

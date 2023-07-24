@@ -66,10 +66,7 @@ class submap : maptile_soa<SEEX, SEEY>
 {
     public:
         submap( tripoint offset );
-        // submap( submap && );
         ~submap();
-
-        // submap &operator=( submap && );
 
         trap_id get_trap( point p ) const {
             return trp[p.x][p.y];

@@ -10,6 +10,7 @@
 #include "make_static.h"
 #include "map_iterator.h"
 #include "player.h"
+#include "player_activity.h"
 #include "rng.h"
 #include "skill.h"
 #include "submap.h"

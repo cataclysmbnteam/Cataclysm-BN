@@ -23,7 +23,6 @@
 #include "detached_ptr.h"
 #include "safe_reference.h"
 #include "cata_arena.h"
-#include "player_activity.h"
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -528,34 +527,6 @@ class JsonIn
             return true;
         }
 
-        // special case for colony as it uses `insert()` instead of `push_back()`
-        // and therefore doesn't fit with vector/deque/list
-        /*template <typename T>
-        bool read( cata::colony<T> &v, bool throw_on_error = false ) {
-            if( !test_array() ) {
-                return error_or_false( throw_on_error, "Expected json array" );
-            }
-            try {
-                start_array();
-                v.clear();
-                while( !end_array() ) {
-                    T element;
-                    if( read( element, throw_on_error ) ) {
-                        v.insert( std::move( element ) );
-                    } else {
-                        skip_value();
-                    }
-                }
-            } catch( const JsonError & ) {
-                if( throw_on_error ) {
-                    throw;
-                }
-                return false;
-            }
-
-            return true;
-        }*/
-
         // object ~> containers with unmatching key_type and value_type
         // map, unordered_map ~> object
         template < typename T, typename std::enable_if <
@@ -592,10 +563,6 @@ class JsonIn
         auto read( std::unique_ptr<T> &v,
                    bool throw_on_error = false ) -> decltype( v->deserialize( *this ), true ) {
             return read( *v, throw_on_error );
-        }
-
-        auto read( const activity_ptr &val, bool throw_on_error = false ) -> bool {
-            return read( *val, throw_on_error );
         }
 
         // error messages
@@ -740,20 +707,6 @@ class JsonOut
         template <typename T, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>
         void write( T val ) {
             write( static_cast<typename std::underlying_type<T>::type>( val ) );
-        }
-
-        /*
-                template <typename T>
-                void write( const std::unique_ptr<T> &val ) {
-                    if( !val ) {
-                        debugmsg( "Null unique_ptr during save" );
-                        return;
-                    }
-                    write( *val );
-                }*/
-
-        void write( const activity_ptr &val ) {
-            write( *val );
         }
 
         // strings need escaping and quoting

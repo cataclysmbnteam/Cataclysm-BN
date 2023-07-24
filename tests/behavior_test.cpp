@@ -8,7 +8,6 @@
 #include "behavior_strategy.h"
 #include "character_oracle.h"
 #include "item.h"
-#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"

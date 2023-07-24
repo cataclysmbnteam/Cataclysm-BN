@@ -1151,10 +1151,8 @@ overmap::overmap( const point_abs_om &p ) : loc( p )
     init_layers();
 }
 
-//overmap::overmap( const overmap & ) = default;
 overmap::overmap( overmap && ) = default;
 overmap::~overmap() = default;
-//overmap &overmap::operator=( const overmap & ) = default;
 
 void overmap::populate( overmap_special_batch &enabled_specials )
 {

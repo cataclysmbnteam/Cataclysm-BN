@@ -29,7 +29,6 @@
 #include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "item_search.h"
 #include "item_stack.h"
 #include "json.h"

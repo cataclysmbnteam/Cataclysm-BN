@@ -442,14 +442,6 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
     return VisitResponse::ABORT;
 }
 
-/*static VisitResponse visit_internal( std::function<VisitResponse( const item *, const item * )>
-                                     &func,
-                                     item *node, item *parent = nullptr )
-{
-    return visit_internal( static_cast<std::function<VisitResponse( item *, item * )>&>( func ), node,
-                           parent );
-}*/
-
 VisitResponse item_contents::visit_contents( const std::function<VisitResponse( item *, item * )>
         &func, item *parent )
 {

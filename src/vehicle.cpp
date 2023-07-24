@@ -5480,7 +5480,6 @@ detached_ptr<item> vehicle::add_item( int part, detached_ptr<item> &&itm )
 detached_ptr<item> vehicle::remove_item( int part, item *it )
 {
     const location_vector<item> &veh_items = parts[part].items;
-    //const std::vector<item *>::const_iterator iter = veh_items.get_iterator_from_pointer( it );
 
     const location_vector<item>::const_iterator iter = std::find_if( veh_items.begin(),
     veh_items.end(), [&it]( const item * const & item ) {

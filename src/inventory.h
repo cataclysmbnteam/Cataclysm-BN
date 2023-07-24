@@ -29,7 +29,6 @@ class player;
 struct tripoint;
 
 using invstack = std::list<std::vector<item *> >;
-using invslice = std::vector<std::vector<item *> *>;
 using const_invslice = std::vector<const std::vector<item *> *>;
 using indexed_invslice = std::vector< std::pair<std::vector<item *> *, int> >;
 using itype_bin = std::unordered_map< itype_id, std::list<const item *> >;
@@ -91,7 +90,6 @@ class invlet_favorites
 class inventory : public temp_visitable<inventory>
 {
     public:
-        invslice slice();
         const_invslice const_slice() const;
         const std::vector<item *> &const_stack( int i ) const;
         size_t size() const;
@@ -270,15 +268,6 @@ class location_inventory : public location_visitable<location_inventory>
         location_inventory &operator=( const location_inventory & ) = delete;
 
         ~location_inventory();
-
-        //location_inventory &operator+= ( const location_inventory &rhs );
-        //location_inventory &operator+= ( detached_ptr<item &rhs );
-        // location_inventory &operator+= ( const std::vector<item *> &rhs );
-        //location_inventory &operator+= ( const std::vector<item *> &rhs );
-        //location_inventory &operator+= ( const item_stack &rhs );
-        //location_inventory  operator+ ( const location_inventory &rhs );
-        //location_inventory  operator+ ( item &rhs );
-        //location_inventory  operator+ ( const std::vector<item *> &rhs );
 
         std::map<char, itype_id> assigned_invlet;
 

@@ -10,7 +10,6 @@
 #include <list>
 
 #include "inventory.h"
-#include "item_location.h"
 #include "output.h"
 #include "units.h"
 #include "cursesdef.h"

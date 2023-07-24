@@ -12,7 +12,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "itype.h"
 #include "player.h"
 #include "player_activity.h"

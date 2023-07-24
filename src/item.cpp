@@ -78,6 +78,7 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
 #include "projectile.h"

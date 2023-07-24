@@ -10,7 +10,6 @@
 #include "avatar.h"
 #include "game.h"
 #include "item.h"
-#include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "point.h"

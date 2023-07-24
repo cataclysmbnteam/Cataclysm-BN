@@ -20,7 +20,7 @@ it_ref = other; // Compile error
 New GOs can be created via `::spawn` static methods that return a `detached_ptr` to the newly
 created game object. A `detached_ptr` represents an object that does not currently exist in the game
 world. There can only be one `detached_ptr` to an object at a time (those who know
-[`std::unique_ptr`](https://en.cppreference.com/w/cpp/memory/unique_ptr) will be familiar this
+[`std::unique_ptr`](https://en.cppreference.com/w/cpp/memory/unique_ptr) will be familiar with this
 behavior). Functions that add an object to the world will require that you `std::move` in a
 `detached_ptr`. In general `detached_ptr`s must be `std::move`'d when they're passed into a
 function. Note that you should never use any variable after it has been moved. Likewise functions
@@ -49,14 +49,14 @@ cause a debugmsg and give you the null version of that object.
 ## Safe References
 
 Game objects support safe references. `safe_reference<item>` will refuse access to an object that
-has been destroyed or is outside of the reality bubble without losing track of it and they can be
+has been destroyed or is outside of the reality bubble without losing track of it, and they can be
 saved and loaded. You must check them as a boolean (e.g. `if( ref )`) to see if they're valid.
 Trying to access them when they're not will cause debugmsgs and give you a null object instead. They
 have a small interface that lets you check if they're destroyed or unloaded etc. If they were
 destroyed or unloaded this turn, they have a method that will allow you to access the object in a
 const fashion, for instance to display an error message.
 
-If you're moving objects around you needs to use `detached_ptr`s but otherwise when choosing which
+If you're moving objects around you need to use `detached_ptr`s, but otherwise when choosing which
 reference to use the most important thing to consider is how long you want to hold onto it. If
 you're just using something temporarily, for instance most arguments and variables, you should use a
 normal reference or pointer. If you need to store it for longer you should use a safe reference and

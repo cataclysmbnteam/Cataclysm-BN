@@ -17,7 +17,6 @@
 #include "game.h"
 #include "game_inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "map.h"

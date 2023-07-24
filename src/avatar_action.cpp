@@ -34,7 +34,6 @@
 #include "item.h"
 #include "item_functions.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "iuse_actor.h"
 #include "itype.h"
 #include "line.h"

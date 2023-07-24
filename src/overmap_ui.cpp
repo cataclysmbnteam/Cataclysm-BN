@@ -56,6 +56,7 @@
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "overmap_special.h"
+#include "player_activity.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "sdltiles.h"

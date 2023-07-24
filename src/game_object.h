@@ -2,12 +2,9 @@
 #ifndef CATA_SRC_GAME_OBJECT_H
 #define CATA_SRC_GAME_OBJECT_H
 
-
-#include "debug.h"
 #include "detached_ptr.h"
 #include "safe_reference.h"
 #include "point.h"
-
 
 class location_inventory;
 
