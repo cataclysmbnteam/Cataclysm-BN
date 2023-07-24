@@ -66,7 +66,6 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
-#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "kill_tracker.h"

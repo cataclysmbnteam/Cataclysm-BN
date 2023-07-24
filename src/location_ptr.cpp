@@ -1,5 +1,6 @@
 #include "location_ptr.h"
 
+#include "item.h"
 #include "locations.h"
 
 template<typename T, bool error_if_null>

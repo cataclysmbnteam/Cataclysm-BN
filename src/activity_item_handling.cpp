@@ -39,7 +39,6 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"

@@ -6,7 +6,6 @@
 #include <optional>
 #include <vector>
 #include "item_handling_util.h"
-#include "item_location.h"
 #include "item_stack.h"
 #include "safe_reference.h"
 

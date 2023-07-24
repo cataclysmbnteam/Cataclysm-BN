@@ -39,7 +39,6 @@
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
@@ -2121,9 +2120,9 @@ void talk_effect_fun_t::set_u_buy_item( const itype_id &item_name, int cost, int
             //TODO!: check
             detached_ptr<item> container = item::spawn( container_name, calendar::turn );
             container->put_in( item::spawn( item_name, calendar::turn, count ) );
+            //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), p.name, container->tname() );
             u.i_add( std::move( container ) );
-            //~ %1%s is the NPC name, %2$s is an item
         }
     };
 
@@ -2177,9 +2176,9 @@ void talk_effect_fun_t::set_consume_item( const JsonObject &jo, const std::strin
             } else if( p.has_amount( item_name, count ) ) {
                 p.use_amount( item_name, count );
             } else {
-                //~ %1%s is the "You" or the NPC name, %2$s are a translated item name
                 //TODO!: Push this up? Hard but valuable
                 item *old_item = item::spawn_temporary( item_name );
+                //~ %1%s is the "You" or the NPC name, %2$s are a translated item name
                 popup( _( "%1$s doesn't have a %2$s!" ), p.disp_name(), old_item->tname() );
             }
         };

@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_DETACHED_PTR_H
 #define CATA_SRC_DETACHED_PTR_H
 
-#include "debug.h"
-
 template <typename T>
 class game_object;
 template <typename T, bool error_if_null>

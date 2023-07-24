@@ -3,15 +3,16 @@
 #define CATA_SRC_LOCATIONS_H
 
 #include "point.h"
-#include "npc.h"
 #include "type_id.h"
 
 class item;
 enum class item_location_type : int;
 class Character;
+class Creature;
 class submap;
 class vehicle;
 class monster;
+class npc;
 struct tripoint;
 template<typename T>
 class detached_ptr;
@@ -55,7 +56,7 @@ class character_item_location : public item_location
 class npc_mission_item_location : public character_item_location
 {
     public:
-        npc_mission_item_location( npc *h ): character_item_location( h ) {};
+        npc_mission_item_location( npc *h );
         detached_ptr<item> detach( item *it ) override;
         void attach( detached_ptr<item> &&obj ) override;
         bool check_for_corruption( const item *it ) const override;

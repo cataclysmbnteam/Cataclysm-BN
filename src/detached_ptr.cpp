@@ -2,6 +2,7 @@
 
 #include "item.h"
 #include "location_ptr.h"
+
 template<typename T>
 detached_ptr<T>::detached_ptr() : ptr( nullptr ) {}
 

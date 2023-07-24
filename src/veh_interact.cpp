@@ -48,6 +48,7 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player.h"
+#include "player_activity.h"
 #include "point.h"
 #include "requirements.h"
 #include "skill.h"

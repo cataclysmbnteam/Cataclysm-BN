@@ -43,7 +43,6 @@
 #include "game_constants.h"
 #include "int_id.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -74,6 +73,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "player_activity.h"
 #include "profession.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -2733,11 +2733,6 @@ const std::vector<item *> Character::inv_const_stack( int position ) const
 {
     return inv.const_stack( position );
 }
-/*
-invslice Character::inv_slice()
-{
-    return inv.slice();
-}*/
 
 const_invslice Character::inv_const_slice() const
 {

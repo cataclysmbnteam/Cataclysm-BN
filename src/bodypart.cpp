@@ -503,11 +503,6 @@ void bodypart::set_location( location<item> *loc )
     wielding.wielded.set_loc_hack( loc );
 }
 
-/*wield_status::wield_status( const wield_status &source ): wielded( source.wielded.get_loc_hack() )
-{
-    wielded = source.wielded.release();
-}*/
-
 wield_status::wield_status( wield_status &&source ) noexcept : wielded(
         source.wielded.get_loc_hack() )
 {

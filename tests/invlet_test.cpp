@@ -15,7 +15,6 @@
 #include "game_inventory.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
@@ -51,35 +50,6 @@ enum test_action {
     REMOVE_1ST_ADD_1ST,
     TEST_ACTION_NUM,
 };
-
-// This is a massive hack that makes this test work without totally rewriting it after #31406
-// The number of null items in item.components is used as a unique id for the purposes of this test
-//
-// The reason components is used instead of some other property of items is that this isn't checked
-// when determining if two items stack and therefore has no side effects.
-/*static void set_id( item &it, int id )
-{
-    it.components = std::list<item>( static_cast<size_t>( id ), item() );
-}
-
-static int get_id( const item &it )
-{
-    return static_cast<int>( it.components.size() );
-}
-
-template <typename T>
-static item *retrieve_item( const T &sel, int id )
-{
-    item *obj = nullptr;
-    sel.visit_items( [&id, &obj]( const item * e ) {
-        if( get_id( *e ) == id ) {
-            obj = const_cast<item *>( e );
-            return VisitResponse::ABORT;
-        }
-        return VisitResponse::NEXT;
-    } );
-    return obj;
-}*/
 
 static std::string location_desc( const inventory_location loc )
 {
@@ -313,29 +283,7 @@ static void add_item( player &p, detached_ptr<item> &&it, const inventory_locati
             break;
     }
 }
-/*
-static item &item_at( player &p, const int id, const inventory_location loc )
-{
-    switch( loc ) {
-        case GROUND: {
-            item *found = retrieve_item( map_cursor( p.pos() ), id );
-            REQUIRE( found );
-            return *found;
-        }
-        case INVENTORY:
-        case WORN:
-        case WIELDED_OR_WORN: {
-            item *found = retrieve_item( p, id );
-            REQUIRE( found );
-            return *found;
-        }
-        default:
-            FAIL( "unimplemented" );
-            break;
-    }
-    return null_item_reference();
-}
-*/
+
 static void move_item( player &p, item &it, const inventory_location from,
                        const inventory_location to )
 {

@@ -7,7 +7,6 @@
 #include "item.h"
 #include "activity_handlers.h"
 #include "avatar_action.h"
-#include "item_location.h"
 #include "pickup.h"
 #include "calendar.h"
 #include "player_helpers.h"

@@ -18,7 +18,6 @@
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_location.h"
 #include "json.h"
 #include "map_helpers.h"
 #include "npc.h"

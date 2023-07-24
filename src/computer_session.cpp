@@ -27,7 +27,6 @@
 #include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_location.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"

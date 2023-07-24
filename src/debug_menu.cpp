@@ -51,7 +51,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_location.h"
 #include "language.h"
 #include "magic.h"
 #include "map.h"

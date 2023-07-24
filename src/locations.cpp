@@ -126,6 +126,8 @@ bool character_item_location::check_for_corruption( const item *it ) const
     return holder->get_item_position( it ) >= 0;
 }
 
+npc_mission_item_location::npc_mission_item_location( npc *h ) : character_item_location( h ) {};
+
 detached_ptr<item> npc_mission_item_location::detach( item *it )
 {
     npc *as_npc = static_cast<npc *>( holder );

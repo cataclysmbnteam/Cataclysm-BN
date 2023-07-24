@@ -18,6 +18,7 @@
 #include "map_iterator.h"
 #include "morale.h"
 #include "player.h"
+#include "player_activity.h"
 #include "rng.h"
 #include "submap.h"
 #include "trap.h"

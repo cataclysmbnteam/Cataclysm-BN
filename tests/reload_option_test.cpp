@@ -2,7 +2,6 @@
 
 #include "avatar.h"
 #include "item.h"
-#include "item_location.h"
 
 TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
 {
