@@ -31,9 +31,7 @@ void TranslateStringLiteralCheck::registerMatchers( MatchFinder *Finder )
                                             "_",
                                             "translation_argument_identity",
                                             "gettext",
-                                            "pgettext",
-                                            "n_gettext",
-                                            "npgettext"
+                                            "pgettext"
                                         )
                                     )
                                 )

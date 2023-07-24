@@ -30,9 +30,7 @@ void JsonTranslationInputCheck::registerMatchers( MatchFinder *Finder )
                             anyOf(
                                 functionDecl(
                                     hasAnyName(
-                                        "_", "translation_argument_identity", "gettext", "pgettext",
-                                        "n_gettext", "npgettext"
-                                    )
+                                        "_", "translation_argument_identity", "pgettext" )
                                 ).bind( "translationFunc" ),
                                 functionDecl(
                                     hasAnyName( "to_translation", "pl_translation" )

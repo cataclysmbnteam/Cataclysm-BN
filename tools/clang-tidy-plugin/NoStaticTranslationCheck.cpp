@@ -19,19 +19,12 @@ void NoStaticTranslationCheck::registerMatchers( MatchFinder *Finder )
                 decl(
                     anyOf(
                         functionDecl(
-                            hasAnyName( "_", "translation_argument_identity", "gettext", "pgettext",
-                                        "n_gettext", "npgettext" )
+                            hasAnyName( "_", "translation_argument_identity", "gettext", "pgettext" )
                         ),
                         cxxMethodDecl(
                             ofClass( hasName( "translation" ) ),
                             hasAnyName( "translated", "translated_eq", "translated_ne",
                                         "translated_lt", "translated_gt", "translated_le", "translated_ge" )
-                        ),
-                        cxxMethodDecl(
-                            ofClass( hasAnyName( "translated_less", "translated_greater",
-                                     "translated_less_equal", "translated_greater_equal",
-                                     "translated_equal_to", "translated_not_equal_to" ) ),
-                            hasOverloadedOperatorName( "()" )
                         )
                     )
                 )

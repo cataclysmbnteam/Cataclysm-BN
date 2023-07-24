@@ -29,7 +29,6 @@ set(CataAnalyzerSrc
     TestsMustRestoreGlobalStateCheck.cpp
     TextStyleCheck.cpp
     TranslateStringLiteralCheck.cpp
-    TranslationsInDebugMessagesCheck.cpp
     TranslatorCommentsCheck.cpp
     UnsequencedCallsCheck.cpp
     UnusedStaticsCheck.cpp

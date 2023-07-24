@@ -1,6 +1,6 @@
 // RUN: %check_clang_tidy -allow-stdinc %s cata-tests-must-restore-global-state %t -- --load=%cata_plugin -- -isystem %cata_include
 
-#include "cata_scope_helpers.h"
+#include "cata_utility.h"
 
 bool fov_3d;
 int fov_3d_z_range;
