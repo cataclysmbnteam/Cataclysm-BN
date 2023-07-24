@@ -146,7 +146,11 @@ TEST_CASE( "cut_up_yields" )
 
 TEST_CASE( "cut_up_yields_all", "[.]" )
 {
+    int i = 0;
     for( const itype *itp : item_controller->all() ) {
-        cut_up_yields( itp->get_id().str() );
+        i++;
+        SECTION( string_format( "Item number %d", i ) ) {
+            cut_up_yields( itp->get_id().str() );
+        }
     }
 }
