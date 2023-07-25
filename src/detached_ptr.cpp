@@ -12,6 +12,7 @@ detached_ptr<T>::detached_ptr( detached_ptr &&source )
     ptr = source.ptr;
     source.ptr = nullptr;
 }
+
 template<typename T>
 detached_ptr<T> &detached_ptr<T>::operator=( detached_ptr &&source )
 {
