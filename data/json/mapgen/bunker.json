@@ -193,7 +193,7 @@
         { "group": "grenades", "x": [ 2, 6 ], "y": 8, "chance": 100, "repeat": [ 5, 15 ] },
         { "group": "mil_hw", "x": [ 7, 8 ], "y": 8, "chance": 100, "repeat": [ 15, 40 ] },
         { "group": "pwr_armor", "x": [ 7, 8 ], "y": 6, "chance": 20, "repeat": [ 1, 2 ] },
-         { "group": "pwr_armor_acc", "x": [ 7, 8 ], "y": 6, "chance": 40, "repeat": [ 1, 2 ] },
+        { "group": "pwr_armor_acc", "x": [ 7, 8 ], "y": 6, "chance": 40, "repeat": [ 1, 2 ] },
         { "group": "mil_armor", "x": [ 7, 8 ], "y": 6, "chance": 65, "repeat": [ 1, 2 ] },
         { "group": "guns_rifle_milspec", "x": [ 2, 6 ], "y": 6, "chance": 80, "repeat": [ 1, 3 ] },
         { "group": "guns_rifle_milspec", "x": 5, "y": [ 19, 20 ], "chance": 80, "repeat": [ 1, 3 ] },
