@@ -490,12 +490,19 @@ void show_armor_layers_ui( Character &who )
     int leftListLines = 0;
     int rightListLines = 0;
 
-    std::vector<location_vector<item>::iterator> tmp_worn;
+    std::vector<uint> tmp_worn;
     std::array<std::string, 13> armor_cat = {{
             _( "Torso" ), _( "Head" ), _( "Eyes" ), _( "Mouth" ), _( "L. Arm" ), _( "R. Arm" ),
             _( "L. Hand" ), _( "R. Hand" ), _( "L. Leg" ), _( "R. Leg" ), _( "L. Foot" ),
             _( "R. Foot" ), _( "All" )
         }
+    };
+
+    auto access_tmp_worn = [&]( uint index ) {
+        uint worn_index = tmp_worn[index];
+        location_vector<item>::iterator it = who.worn.begin();
+        std::advance( it, worn_index );
+        return it;
     };
 
     // Layout window
@@ -598,15 +605,15 @@ void show_armor_layers_ui( Character &who )
                 mvwprintz( w_sort_left, point( 0, drawindex + 1 ), c_yellow, ">>" );
             }
 
-            std::string worn_armor_name = ( *tmp_worn[itemindex] )->tname();
+            std::string worn_armor_name = ( *access_tmp_worn( itemindex ) )->tname();
             item_penalties const penalties =
-                get_item_penalties( tmp_worn[itemindex], who, tabindex );
+                get_item_penalties( access_tmp_worn( itemindex ), who, tabindex );
 
             const int offset_x = ( itemindex == selected ) ? 3 : 2;
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ), left_w - offset_x - 3,
                             penalties.color_for_stacking_badness(), worn_armor_name );
             right_print( w_sort_left, drawindex + 1, 0, c_light_gray,
-                         format_volume( ( *tmp_worn[itemindex] )->get_storage() ) );
+                         format_volume( ( *access_tmp_worn( itemindex ) )->get_storage() ) );
         }
 
         // Left footer
@@ -624,7 +631,7 @@ void show_armor_layers_ui( Character &who )
 
         // Items stats
         if( leftListSize > 0 ) {
-            draw_mid_pane( w_sort_middle, tmp_worn[leftListIndex], who, tabindex );
+            draw_mid_pane( w_sort_middle, access_tmp_worn( leftListIndex ), who, tabindex );
         } else {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             fold_and_print( w_sort_middle, point( 1, 0 ), middle_w - 1, c_white,
@@ -633,7 +640,7 @@ void show_armor_layers_ui( Character &who )
 
         mvwprintz( w_encumb, point_east, c_white, _( "Encumbrance and Warmth" ) );
         character_display::print_encumbrance( w_encumb, who, -1,
-                                              ( leftListSize > 0 ) ? *tmp_worn[leftListIndex] : nullptr );
+                                              ( leftListSize > 0 ) ? *access_tmp_worn( leftListIndex ) : nullptr );
 
         // Right header
         mvwprintz( w_sort_right, point_zero, c_light_gray, _( "(Innermost)" ) );
@@ -725,16 +732,19 @@ void show_armor_layers_ui( Character &who )
         tmp_worn.clear();
         if( tabindex == num_bp ) {
             // All
+            uint i = 0;
             for( auto it = who.worn.begin(); it != who.worn.end(); ++it ) {
-                tmp_worn.push_back( it );
+                tmp_worn.push_back( i++ );
             }
         } else {
             // bp_*
             body_part bp = static_cast<body_part>( tabindex );
+            uint i = 0;
             for( auto it = who.worn.begin(); it != who.worn.end(); ++it ) {
                 if( ( *it )->covers( bp ) ) {
-                    tmp_worn.push_back( it );
+                    tmp_worn.push_back( i );
                 }
+                i++;
             }
         }
         leftListSize = tmp_worn.size();
@@ -753,9 +763,9 @@ void show_armor_layers_ui( Character &who )
         // Helper function for moving items in the list
         auto shift_selected_item = [&]() {
             if( selected >= 0 ) {
-                item *temp = *tmp_worn[selected];
-                *tmp_worn[selected] = *tmp_worn[leftListIndex];
-                *tmp_worn[leftListIndex] = temp;
+                uint temp = tmp_worn[selected];
+                tmp_worn[selected] = tmp_worn[leftListIndex];
+                tmp_worn[leftListIndex] = temp;
                 selected = leftListIndex;
                 who.reset_encumbrance();
             }
@@ -815,11 +825,11 @@ void show_armor_layers_ui( Character &who )
                 selected = leftListIndex;
             }
         } else if( action == "CHANGE_SIDE" ) {
-            if( leftListIndex < leftListSize && ( *tmp_worn[leftListIndex] )->is_sided() ) {
+            if( leftListIndex < leftListSize && ( *access_tmp_worn( leftListIndex ) )->is_sided() ) {
                 if( you.query_yn( _( "Swap side for %s?" ),
-                                  colorize( ( *tmp_worn[leftListIndex] )->tname(),
-                                            ( *tmp_worn[leftListIndex] )->color_in_inventory() ) ) ) {
-                    who.change_side( *tmp_worn[leftListIndex] );
+                                  colorize( ( *access_tmp_worn( leftListIndex ) )->tname(),
+                                            ( *access_tmp_worn( leftListIndex ) )->color_in_inventory() ) ) ) {
+                    who.change_side( *access_tmp_worn( leftListIndex ) );
                 }
             }
         } else if( action == "SORT_ARMOR" ) {
@@ -869,8 +879,8 @@ void show_armor_layers_ui( Character &who )
             if( loc ) {
                 // wear the item
                 loc->obtain( who );
-                location_vector<item>::iterator cursor_it = tmp_worn[leftListIndex];
-                if( !who.as_player()->wear_possessed( *loc, true, cursor_it ) && who.is_npc() ) {
+                if( !who.as_player()->wear_possessed( *loc, true, access_tmp_worn( leftListIndex ) ) &&
+                    who.is_npc() ) {
                     // TODO: Pass the reason here
                     popup( _( "Can't put this on!" ) );
                 }
@@ -881,7 +891,7 @@ void show_armor_layers_ui( Character &who )
                 if( you.query_yn( _( "Remove selected armor?" ) ) ) {
                     do_return_entry();
                     // remove the item, asking to drop it if necessary
-                    who.as_player()->takeoff( **tmp_worn[leftListIndex] );
+                    who.as_player()->takeoff( **access_tmp_worn( leftListIndex ) );
                     if( !you.has_activity( ACT_ARMOR_LAYERS ) ) {
                         // An activity has been created to take off the item;
                         // we must surrender control until it is done.

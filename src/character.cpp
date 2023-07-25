@@ -2492,7 +2492,7 @@ detached_ptr<item> Character::wear_item( detached_ptr<item> &&wear,
 
 
     location_vector<item>::iterator pos = position ? *position : position_to_wear_new_item( to_wear );
-    worn.insert( pos, std::move( wear ) );
+    worn.insert( std::move( pos ), std::move( wear ) );
 
     if( interactive ) {
         add_msg_player_or_npc(
@@ -2628,7 +2628,7 @@ detached_ptr<item> Character::i_add_to_container( detached_ptr<item> &&it, const
     return std::move( it );
 }
 
-void Character::i_add( detached_ptr<item> &&it, bool should_stack )
+item &Character::i_add( detached_ptr<item> &&it, bool should_stack )
 {
     itype_id item_type_id = it->typeId();
     last_item = item_type_id;
@@ -2649,12 +2649,12 @@ void Character::i_add( detached_ptr<item> &&it, bool should_stack )
         }
     }
 
-    item &item_in_inv = *it;
-    inv.add_item( std::move( it ), keep_invlet, true, should_stack );
+    item &item_in_inv = inv.add_item( std::move( it ), keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
 
     clear_npc_ai_info_cache( npc_ai_info::reloadables );
     clear_npc_ai_info_cache( npc_ai_info::reloadable_cbms );
+    return item_in_inv;
 }
 
 void Character::remove_worn_items_with( std::function < detached_ptr<item>
@@ -3468,7 +3468,7 @@ bool Character::wear_possessed( item &to_wear, bool interactive,
         was_weapon = false;
     }
 
-    auto result = wear_item( std::move( det ), interactive, position );
+    auto result = wear_item( std::move( det ), interactive, std::move( position ) );
     if( result ) {
         if( was_weapon ) {
             set_primary_weapon( std::move( result ) );

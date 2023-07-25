@@ -1282,7 +1282,7 @@ class Character : public Creature, public location_visitable<Character>
          * @return Remaining charges which could not be stored in a container.
          */
         detached_ptr<item> i_add_to_container( detached_ptr<item> &&it, bool unloading );
-        void i_add( detached_ptr<item> &&it, bool should_stack = true );
+        item &i_add( detached_ptr<item> &&it, bool should_stack = true );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are

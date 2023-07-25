@@ -990,7 +990,7 @@ void avatar_action::use_item( avatar &you, item *loc )
         } else {
             const int obtain_cost = loc->obtain_cost( you );
             //TODO!: check
-            loc->obtain( you );
+            loc = &( loc->obtain( you ) );
 
             // TODO: the following comment is inaccurate and this mechanic needs to be rexamined
             // This method only handles items in the inventory, so refund the obtain cost.

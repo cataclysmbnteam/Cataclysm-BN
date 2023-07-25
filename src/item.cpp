@@ -823,7 +823,7 @@ void item::set_damage( int qty )
 
 detached_ptr<item> item::split( int qty )
 {
-    if( qty == 0 || !count_by_charges() || qty >= charges ) {
+    if( qty <= 0 || !count_by_charges() || qty >= charges ) {
         return detach();
     }
     detached_ptr<item> res = item::spawn( *this );
@@ -10438,15 +10438,15 @@ item_location_type item::where() const
     return static_cast<item_location *>( &*loc )->where();
 }
 
-void item::obtain( Character &ch, int qty, bool costs_moves )
+item &item::obtain( Character &ch, int qty, bool costs_moves )
 {
     if( costs_moves ) {
         ch.moves -= obtain_cost( ch, qty );
     }
     if( ch.is_worn( *this ) || ch.is_wielding( *this ) ) {
-        return;
+        return *this;
     }
-    ch.i_add( split( qty ) );
+    return ch.i_add( split( qty ) );
 }
 
 int item::obtain_cost( const Character &ch, int qty ) const

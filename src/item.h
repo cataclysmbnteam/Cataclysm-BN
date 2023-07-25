@@ -2204,8 +2204,9 @@ class item : public location_visitable<item>, public game_object<item>
 
         /** Move an item from the location to the character inventory
          *  @param ch Character who's inventory gets the item
-         *  @param qty if specified limits maximum obtained charges */
-        void obtain( Character &ch, int qty = -1, bool costs_moves = true );
+         *  @param qty if specified limits maximum obtained charges
+         *  @return the item in the inventory, may be different to this if the item merged */
+        item &obtain( Character &ch, int qty = -1, bool costs_moves = true );
 
         /** Calculate (but do not deduct) number of moves required to obtain an item
          *  @see item::obtain */

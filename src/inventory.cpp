@@ -1409,8 +1409,7 @@ item &location_inventory::add_item( detached_ptr<item> &&newit, bool keep_invlet
             item *&it = *elem.begin();
             if( it->stacks_with( *newit ) ) {
                 if( it->merge_charges( std::move( newit ) ) ) {
-                    newit.release();
-                    return null_item_reference();
+                    return *it;
                 }
             }
         }

@@ -1510,15 +1510,41 @@ bool query_consume_ownership( item &target, avatar &you )
 detached_ptr<item> Character::consume_item( detached_ptr<item> &&target )
 {
 
+    if( !target ) {
+        return detached_ptr<item>();
+    }
+    if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
+        add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return std::move( target );
+    }
+
+    item &comest = get_consumable_from( *target );
+
+    if( comest.is_null() || target->is_craft() ) {
+        add_msg_if_player( m_info, _( "You can't eat your %s." ), target->tname() );
+        if( is_npc() ) {
+            debugmsg( "%s tried to eat a %s", name, target->tname() );
+        }
+        return std::move( target );
+    }
+
     if( is_avatar() && !query_consume_ownership( *target, *as_avatar() ) ) {
         return std::move( target );
     }
 
-    if( consume_med( *target ) ||
-        eat( *target ) ||
-        feed_furnace_with( *target ) ||
-        fuel_bionic_with( *target ) ) {
-        return target->charges > 0 ? std::move( target ) : detached_ptr<item>();
+    if( consume_med( comest ) ||
+        eat( comest ) ||
+        feed_furnace_with( comest ) ||
+        fuel_bionic_with( comest ) ) {
+
+        if( &comest == &*target ) {
+            return target->charges > 0 ? std::move( target ) : detached_ptr<item>();
+        } else {
+            if( comest.charges <= 0 ) {
+                comest.detach();
+            }
+            return std::move( target );
+        }
     }
     return std::move( target );
 }
