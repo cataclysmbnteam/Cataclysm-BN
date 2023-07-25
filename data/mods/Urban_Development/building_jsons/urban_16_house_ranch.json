@@ -132,7 +132,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ]
+      "palettes": [ "acidia_residential_roof_palette" ]
     }
   },
   {
@@ -168,7 +168,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ]
+      "palettes": [ "acidia_residential_roof_palette" ]
     }
   }
 ]
