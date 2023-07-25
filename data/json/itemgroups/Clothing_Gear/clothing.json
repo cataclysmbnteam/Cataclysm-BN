@@ -1882,10 +1882,10 @@
     "items": [
       [ "power_armor_helmet_basic", 10 ],
       [ "power_armor_basic", 10 ],
-      ["power_armor_heavy", 5 ],
-      ["power_armor_helmet_heavy", 5 ],
-      ["power_armor_light", 15 ],
-      ["power_armor_helmet_light", 15 ]
+      [ "power_armor_heavy", 5 ],
+      [ "power_armor_helmet_heavy", 5 ],
+      [ "power_armor_light", 15 ],
+      [ "power_armor_helmet_light", 15 ]
     ]
   },
    {
