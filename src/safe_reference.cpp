@@ -267,6 +267,9 @@ safe_reference<T>::safe_reference( safe_reference<T> &&source )
 template<typename T>
 safe_reference<T> &safe_reference<T>::operator=( const safe_reference<T> &source )
 {
+    if( &source == this ) {
+        return *this;
+    }
     remove();
     rec = source.rec;
     if( rec ) {
@@ -277,6 +280,9 @@ safe_reference<T> &safe_reference<T>::operator=( const safe_reference<T> &source
 template<typename T>
 safe_reference<T> &safe_reference<T>::operator=( safe_reference<T> &&source )
 {
+    if( &source == this ) {
+        return *this;
+    }
     remove();
     rec = source.rec;
     source.rec = nullptr;

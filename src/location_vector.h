@@ -3,6 +3,7 @@
 #define CATA_SRC_LOCATION_VECTOR_H
 
 #include <vector>
+#include <functional>
 #include <memory>
 
 #include "detached_ptr.h"
