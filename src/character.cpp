@@ -1237,6 +1237,11 @@ player_activity &Character::get_stashed_activity() const
     return *stashed_outbounds_activity;
 }
 
+void Character::set_stashed_activity( std::unique_ptr<player_activity> &&act )
+{
+    set_stashed_activity( std::move( act ), std::make_unique<player_activity>() );
+}
+
 void Character::set_stashed_activity( std::unique_ptr<player_activity> &&act,
                                       std::unique_ptr<player_activity> &&act_back )
 {
@@ -10994,6 +10999,11 @@ nc_color Character::bodytemp_color( int bp ) const
         color = c_blue;
     }
     return color;
+}
+
+void Character::set_destination( const std::vector<tripoint> &route )
+{
+    set_destination( route, std::make_unique<player_activity>() );
 }
 
 void Character::set_destination( const std::vector<tripoint> &route,
