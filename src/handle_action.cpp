@@ -1292,7 +1292,6 @@ static void takeoff()
 
     if( loc ) {
         loc->obtain( u );
-        loc->detach();
         u.takeoff( *loc );
     } else {
         add_msg( _( "Never mind." ) );
