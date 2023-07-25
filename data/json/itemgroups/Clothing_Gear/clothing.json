@@ -1882,7 +1882,17 @@
     "items": [
       [ "power_armor_helmet_basic", 10 ],
       [ "power_armor_basic", 10 ],
-      [ "power_armor_frame", 10 ],
+      ["power_armor_heavy", 5 ],
+      ["power_armor_helmet_heavy", 5 ],
+      ["power_armor_light", 15 ],
+      ["power_armor_helmet_light", 15 ]
+    ]
+  },
+   {
+    "type": "item_group",
+    "id": "pwr_armor_acc",
+    "items": [
+      [ "power_armor_frame", 1 ],
       [ "power_armor_back_holster", 1 ],
       [ "power_armor_holster", 1 ],
       [ "power_armor_chest_rig", 1 ],
