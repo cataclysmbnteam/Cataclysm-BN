@@ -58,7 +58,8 @@ bool consume_liquid( vehicle *veh, itype_id liquid, int radius = 0 );
 
 /**
 * The function consumes moves of the player as needed.
-* @param liquid The actual liquid, any liquid remaining will be left in this parameter. If no liquid is remaining it will be null.
+* @param liquid The actual liquid, any liquid remaining will be left in this parameter.
+* If no liquid is remaining it will be null.
 * @return Whether the user has handled the liquid (at least part of it). `false` indicates
 * the user has rejected all possible actions. But note that `true` does *not* indicate any
 * liquid was actually consumed, the user may have chosen an option that turned out to be
