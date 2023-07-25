@@ -231,7 +231,7 @@ void game::unserialize( std::istream &fin )
 
         coming_to_stairs.clear();
         for( auto elem : data.get_array( "stair_monsters" ) ) {
-            shared_ptr_fast<monster> stairtmp;
+            shared_ptr_fast<monster> stairtmp = make_shared_fast<monster>();
             elem.read( *stairtmp );
             coming_to_stairs.push_back( stairtmp );
         }
