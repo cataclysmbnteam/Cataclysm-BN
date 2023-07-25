@@ -18,7 +18,7 @@
  * When comparing IDs the flag bits are ignored. The pointer usually stores a pointer to the target
  * itself. If the target is in memory it reliably points to them and is nullptr otherwise. Note that
  * the pointer will not be made null until the end of the turn if the target is unloaded or
- * destroyed. It's important to check these things separatly. In the case that the redirect ID bit
+ * destroyed. It's important to check these things separately. In the case that the redirect ID bit
  * is set the pointer instead points to another record.
  *
  * Two in-memory global (really per GO type) unordered_maps are used to manage this. One that
