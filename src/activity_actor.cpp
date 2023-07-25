@@ -259,7 +259,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "reload_requested", actor->reload_requested );
     data.read( "abort_if_no_targets", actor->abort_if_no_targets );
 
-    return  actor;
+    return actor;
 }
 
 item *aim_activity_actor::get_weapon()
