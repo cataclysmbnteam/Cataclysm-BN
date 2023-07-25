@@ -39,7 +39,6 @@
 #include "location_ptr.h"
 #include "memory_fast.h"
 #include "pimpl.h"
-#include "player_activity.h"
 #include "player_activity_ptr.h"
 #include "pldata.h"
 #include "point.h"
@@ -62,6 +61,7 @@ class faction;
 class ma_technique;
 class known_magic;
 class player;
+class player_activity;
 class player_morale;
 class recipe_subset;
 class vehicle;
@@ -1729,8 +1729,9 @@ class Character : public Creature, public location_visitable<Character>
         void cancel_stashed_activity();
         player_activity &get_stashed_activity() const;
         std::unique_ptr<player_activity> remove_stashed_activity();
+        void set_stashed_activity( std::unique_ptr<player_activity> &&act );
         void set_stashed_activity( std::unique_ptr<player_activity> &&act,
-                                   std::unique_ptr<player_activity> &&act_back = std::unique_ptr<player_activity>() );
+                                   std::unique_ptr<player_activity> &&act_back );
         bool has_stashed_activity() const;
         void initialize_stomach_contents();
 
@@ -2166,8 +2167,9 @@ class Character : public Creature, public location_visitable<Character>
         bool has_weapon() const override;
         void shift_destination( point shift );
         // Auto move methods
+        void set_destination( const std::vector<tripoint> &route );
         void set_destination( const std::vector<tripoint> &route,
-                              std::unique_ptr<player_activity> new_destination_activity = std::unique_ptr<player_activity>() );
+                              std::unique_ptr<player_activity> new_destination_activity );
         std::unique_ptr<player_activity> clear_destination();
         bool has_distant_destination() const;
 

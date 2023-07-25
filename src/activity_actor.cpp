@@ -259,7 +259,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "reload_requested", actor->reload_requested );
     data.read( "abort_if_no_targets", actor->abort_if_no_targets );
 
-    return  actor;
+    return actor;
 }
 
 item *aim_activity_actor::get_weapon()
@@ -923,17 +923,6 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
         const tripoint src = target->position();
         detached_ptr<item> newit = quantity == 0 ? target->detach() : target->split( quantity );
-
-        // Handle charges, quantity == 0 means move all
-        /*if( quantity != 0 && target->count_by_charges() ) {
-            // If it's only a partial stack move, make a copy to be put in the destination location
-            newit = item::spawn( *target );
-            newit->charges = std::min( newit->charges, quantity );
-            target->charges -= quantity;
-        } else {
-            // Otherwise just move the original
-            newit = &( *target );
-        }*/
 
         const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
         who.mod_moves( -pickup::cost_to_move_item( who, *newit ) * distance );

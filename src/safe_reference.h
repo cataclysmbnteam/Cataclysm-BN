@@ -3,37 +3,49 @@
 #define CATA_SRC_SAFE_REFERENCE_H
 
 /**
-*
-* Safe references are easy to use but very complex internally. Please refer to proper documentation on how to use them.
-* This comments covers their internal workings rather than their public interface.
-*
-* Note that safe references require that the objects referenced have an is_loaded method, but more generally that it's a game object in order for the persistance to work correct.
-*
-* Central to safe references is their records. Each record contains 2 counts, an id and a pointer.
-* The first count stores the number of live in-memory references. It can be assumed to be accurate.
-* The second count stores the number of in-json references. It can't be trusted due to save scumming.
-* The ID will often be ID_NONE and contains two flag bits, which will be discussed later. When comparing IDs the flag bits are ignored.
-* The pointer usually stores a pointer to the target itself. If the target is in memory it reliably points to them and is nullptr otherwise.
-* Note that the pointer will not be made null until the end of the turn if the target is unloaded or destroyed. It's important to check these things separatly.
-* In the case that the redirect ID bit is set the pointer instead points to another record.
-*
-* Two in-memory global (really per GO type) unordered_maps are used to manage this. One that contains object pointers -> record pointers and one that contains ids -> record pointers.
-* There are also two global json structures created when saving. These store the json counts of IDs and a table of ID redirects. Both of these are cleaned when the json count for an ID hits 0.
-* Objects are not given a record until a safe reference to them is first created. These records can exist in both, either or neither of the global lists during their life.
-* IDs are not added to a record until either the object itself or one of its references is saved. IDs only exist in records, not in the objects themselves.
-* Records are typically cleaned up when the counts indicate we can do so, however we never forget an ID once one has been assigned and will keep that record loaded for as long as the object is.
-*
-* The two flags stored in IDs represent destruction and redirection. They can't be trusted due to save scumming.
-* Either one or neither, but not both can be set and they aren't considered part of the ID proper.
-* They are still stored in the record and persistened to json when appropriate. Note that in json references and object ids never have these bits set. Only in memory and the global structures.
-* References to a destroyed thing should instead use ID_NONE with the destroyed bit set, references to a redirected thing should resolve the redirection before saving.
-* Destroyed objects shouldn't be saved and likewise resolve redirections before saving.
-*
-* Merging and redirects is the most complicated part but fortunately they're quite rare, it's only very few merges result in a redirect flag being set.
-* The big thing to remember is that a redirected entry is kept around until its counts are both 0.
-* However, redirected references are replaced with the thing they redirect to at every opportunity.
-* This updates the counts appropriately and so the counts of a redirected reference should only ever go down.
-*/
+ *
+ * Safe references are easy to use but very complex internally. Please refer to proper documentation
+ * on how to use them. This comments covers their internal workings rather than their public
+ * interface.
+ *
+ * Note that safe references require that the objects referenced have an is_loaded method, but more
+ * generally that it's a game object in order for the persistance to work correct.
+ *
+ * Central to safe references is their records. Each record contains 2 counts, an id and a pointer.
+ * The first count stores the number of live in-memory references. It can be assumed to be accurate.
+ * The second count stores the number of in-json references. It can't be trusted due to save
+ * scumming. The ID will often be ID_NONE and contains two flag bits, which will be discussed later.
+ * When comparing IDs the flag bits are ignored. The pointer usually stores a pointer to the target
+ * itself. If the target is in memory it reliably points to them and is nullptr otherwise. Note that
+ * the pointer will not be made null until the end of the turn if the target is unloaded or
+ * destroyed. It's important to check these things separately. In the case that the redirect ID bit
+ * is set the pointer instead points to another record.
+ *
+ * Two in-memory global (really per GO type) unordered_maps are used to manage this. One that
+ * contains object pointers -> record pointers and one that contains ids -> record pointers. There
+ * are also two global json structures created when saving. These store the json counts of IDs and a
+ * table of ID redirects. Both of these are cleaned when the json count for an ID hits 0. Objects
+ * are not given a record until a safe reference to them is first created. These records can exist
+ * in both, either or neither of the global lists during their life. IDs are not added to a record
+ * until either the object itself or one of its references is saved. IDs only exist in records, not
+ * in the objects themselves. Records are typically cleaned up when the counts indicate we can do
+ * so, however we never forget an ID once one has been assigned and will keep that record loaded for
+ * as long as the object is.
+ *
+ * The two flags stored in IDs represent destruction and redirection. They can't be trusted due to
+ * save scumming. Either one or neither, but not both can be set and they aren't considered part of
+ * the ID proper. They are still stored in the record and persistened to json when appropriate. Note
+ * that in json references and object ids never have these bits set. Only in memory and the global
+ * structures. References to a destroyed thing should instead use ID_NONE with the destroyed bit
+ * set, references to a redirected thing should resolve the redirection before saving. Destroyed
+ * objects shouldn't be saved and likewise resolve redirections before saving.
+ *
+ * Merging and redirects is the most complicated part but fortunately they're quite rare, it's only
+ * very few merges result in a redirect flag being set. The big thing to remember is that a
+ * redirected entry is kept around until its counts are both 0. However, redirected references are
+ * replaced with the thing they redirect to at every opportunity. This updates the counts
+ * appropriately and so the counts of a redirected reference should only ever go down.
+ */
 
 #include <memory>
 #include <unordered_map>
@@ -240,7 +252,8 @@ class safe_reference
             if( rec->id == ID_NONE && rec->target.p != nullptr ) {
                 rec->id = generate_new_id();
             }
-            //If this object is to remain loaded, we don't increase the json count as we should be saving it again before we're done.
+            // If this object is to remain loaded, we don't increase the json count
+            // as we should be saving it again before we're done.
             if( save_and_quit || is_unloaded() ) {
                 rec->json_count++;
             }
@@ -319,14 +332,16 @@ class safe_reference
         }
 
         /**
-         *  Merge the secondary object into the primary. This means all references to the secondary will now point to the primary.
-         *  Typically you'll want to destroy the secondary shortly afterwards.
+         * Merge the secondary object into the primary. This means all
+         * references to the secondary will now point to the primary.
+         * Typically you'll want to destroy the secondary shortly afterwards.
          */
         static void merge( T *primary, T *secondary ) {
 
             rbp_it sec_search = records_by_pointer.find( secondary );
 
-            //The secondary doesn't have a record (i.e. there are no references to it to redirect) so there's nothing to do
+            // The secondary doesn't have a record (i.e. there are no references
+            // to it to redirect) so there's nothing to do
             if( sec_search == records_by_pointer.end() ) {
                 return;
             }
@@ -343,8 +358,9 @@ class safe_reference
                 return;
             }
 
-            //They both have a record
-            //Neither of these records should be a redirect as this would imply that a secondary wasn't destroyed after being merged
+            // They both have a record
+            // Neither of these records should be a redirect as this would imply
+            // that a secondary wasn't destroyed after being merged
             record *pri_rec = pri_search->second;
             record *sec_rec = sec_search->second;
 
