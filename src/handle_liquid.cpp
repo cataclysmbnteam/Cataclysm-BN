@@ -114,12 +114,17 @@ static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &
     map &here = get_map();
     const std::string liquid_name = liquid.display_name( liquid.charges );
 
-    menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
-                               liquid.describe_location() );
+    if( liquid.is_loaded() ) {
+        menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
+                                   liquid.describe_location() );
+    } else {
+        menu.text = string_format( pgettext( "liquid", "What to do with the %1$s?" ), liquid_name );
+    }
 
     std::vector<std::function<void()>> actions;
 
-    if( g->u.can_consume( liquid ) && liquid.where() != item_location_type::monster ) {
+    if( g->u.can_consume( liquid ) && ( !liquid.is_loaded() ||
+                                        liquid.where() != item_location_type::monster ) ) {
         if( g->u.can_consume_for_bionic( liquid ) ) {
             menu.addentry( -1, true, 'e', _( "Fuel bionic with it" ) );
         } else {
@@ -174,7 +179,8 @@ static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &
         if( !iexamine::has_keg( target_pos ) ) {
             continue;
         }
-        if( liquid.where() == item_location_type::map && liquid.position() == target_pos ) {
+        if( liquid.is_loaded() && liquid.where() == item_location_type::map &&
+            liquid.position() == target_pos ) {
             continue;
         }
         const std::string dir = direction_name( direction_from( g->u.pos(), target_pos ) );
@@ -189,7 +195,8 @@ static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &
     actions.emplace_back( [&]() {
         // From infinite source to the ground somewhere else. The target has
         // infinite space and the liquid can not be used from there anyway.
-        if( liquid.has_infinite_charges() && liquid.where() == item_location_type::map ) {
+        if( liquid.has_infinite_charges() && liquid.is_loaded() &&
+            liquid.where() == item_location_type::map ) {
             add_msg( m_info, _( "Clearing out the %s would take forever." ), here.name( liquid.position() ) );
             return;
         }
@@ -202,7 +209,8 @@ static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &
         }
         target.pos = *target_pos_;
 
-        if( liquid.where() == item_location_type::map && liquid.position() == target.pos ) {
+        if( liquid.is_loaded() && liquid.where() == item_location_type::map &&
+            liquid.position() == target.pos ) {
             add_msg( m_info, _( "That's where you took it from!" ) );
             return;
         }

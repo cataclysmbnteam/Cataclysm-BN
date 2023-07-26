@@ -661,7 +661,12 @@ bool unload_item( avatar &you, item &loc )
         }
 
         bool changed = false;
-        it.contents.remove_top_items_with( [&changed, &you]( detached_ptr<item> &&contained ) {
+        std::vector<item *> liquids;
+        it.contents.remove_top_items_with( [&changed, &you, &liquids]( detached_ptr<item> &&contained ) {
+            if( contained->made_of( LIQUID ) ) {
+                liquids.push_back( &*contained );
+                return std::move( contained );
+            }
             int old_charges = contained->charges;
             item &obj = *contained;
             contained = add_or_drop_with_msg( you, std::move( contained ), true );
@@ -671,6 +676,10 @@ bool unload_item( avatar &you, item &loc )
             }
             return std::move( contained );
         } );
+
+        for( item *liquid : liquids ) {
+            liquid_handler::consume_liquid( *liquid, 1 );
+        }
 
         if( changed ) {
             it.on_contents_changed();
