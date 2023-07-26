@@ -798,15 +798,6 @@ Character::~Character()
 {
 }
 
-//TODO!: do proper destruction
-void Character::destruct_hack()
-{
-    remove_items_with( []( detached_ptr<item> &&e ) {
-        detached_ptr<item> del = std::move( e );
-        return VisitResponse::SKIP;
-    } );
-}
-
 void Character::setID( character_id i, bool force )
 {
     if( id.is_valid() && !force ) {

@@ -25,10 +25,6 @@ void safe_reference<T>::serialize_global( JsonOut &json )
         json.write( count );
     }
     json.end_array();
-    if( save_and_quit ) {
-        //Cleanup now if we're saving and quitting
-        cleanup();
-    }
 }
 
 template<typename T>
@@ -167,6 +163,9 @@ void safe_reference<T>::cleanup()
         records.insert( rec.second );
     }
     for( record *rec : records ) {
+        if( rec->mem_count > 0 ) {
+            debugmsg( "Found a safe_reference entry with a mem_count. It's advised to fully restart the game now in case of crashes." );
+        }
         delete rec;
     }
     records_by_id.clear();

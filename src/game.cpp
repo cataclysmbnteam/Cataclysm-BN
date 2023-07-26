@@ -1222,7 +1222,9 @@ bool game::cleanup_at_end()
     MAPBUFFER.clear();
     overmap_buffer.clear();
 
-    g->u.destruct_hack();
+    avatar &player_character = get_avatar();
+    player_character = avatar();
+
     cleanup_references();
     cleanup_arenas();
     DynamicDataLoader::get_instance().unload_data();
