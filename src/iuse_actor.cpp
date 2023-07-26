@@ -2755,7 +2755,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             auto iter = std::next( top_contents.begin(), ret );
             internal_item = *iter;
         }
-    } else {
+    } else if( !it.contents.empty() ) {
         internal_item = &it.contents.front();
     }
 
