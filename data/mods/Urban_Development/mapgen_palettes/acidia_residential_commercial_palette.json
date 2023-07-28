@@ -27,38 +27,32 @@
       "&": "f_roof_turbine_vent",
       "!": "f_vent_pipe"
     },
-      "nested": {
-        "E": {
-          "chunks": [
-            [ "roof_4x4_party", 5 ],
-            [ "roof_4x4_survivor", 3 ],
-            [ "roof_4x4_utility", 20 ],
-            [ "roof_4x4_utility_1", 20 ]
-          ]
-        },
-        "B": { "chunks": [ [ "roof_16x16_help", 5 ] ] },
-        "G": {
-          "chunks": [
-            [ "null", 5 ],
-            [ "roof_2x2_infrastructure", 20 ],
-            [ "roof_2x2_infrastructure_1", 20 ],
-            [ "roof_2x2_utilities_b", 20 ],
-            [ "roof_2x2_utilities_c", 20 ],
-            [ "roof_2x2_utilities_d", 20 ]
-          ]
-        },
-        "D": {
-          "chunks": [
-            [ "null", 1 ],
-            [ "roof_6x6_garden_1", 10 ],
-            [ "roof_6x6_garden_2", 10 ],
-            [ "roof_6x6_garden_3", 10 ],
-            [ "roof_6x6_garden_4", 10 ],
-            [ "roof_6x6_greenhouse_1", 5 ],
-            [ "roof_6x6_greenhouse_2", 5 ],
-            [ "roof_6x6_greenhouse_3", 5 ]
-          ]
-        }
+    "nested": {
+      "E": {
+        "chunks": [ [ "roof_4x4_party", 5 ], [ "roof_4x4_survivor", 3 ], [ "roof_4x4_utility", 20 ], [ "roof_4x4_utility_1", 20 ] ]
+      },
+      "B": { "chunks": [ [ "roof_16x16_help", 5 ] ] },
+      "G": {
+        "chunks": [
+          [ "null", 5 ],
+          [ "roof_2x2_infrastructure", 20 ],
+          [ "roof_2x2_infrastructure_1", 20 ],
+          [ "roof_2x2_utilities_b", 20 ],
+          [ "roof_2x2_utilities_c", 20 ],
+          [ "roof_2x2_utilities_d", 20 ]
+        ]
+      },
+      "D": {
+        "chunks": [
+          [ "null", 1 ],
+          [ "roof_6x6_garden_1", 10 ],
+          [ "roof_6x6_garden_2", 10 ],
+          [ "roof_6x6_garden_3", 10 ],
+          [ "roof_6x6_garden_4", 10 ],
+          [ "roof_6x6_greenhouse_1", 5 ],
+          [ "roof_6x6_greenhouse_2", 5 ],
+          [ "roof_6x6_greenhouse_3", 5 ]
+        ]
       }
   },
   {
