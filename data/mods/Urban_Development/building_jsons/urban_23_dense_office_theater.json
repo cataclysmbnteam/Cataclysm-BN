@@ -383,12 +383,8 @@
         "........................"
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
-      
-    "terrain": {
-      "¦": "t_gutter_west"
-},
-	  
-	  "toilets": { "T": {  } },
+      "terrain": { "¦": "t_gutter_west" },
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "office", "chance": 1 },
         "A": { "item": "magazines", "chance": 15 },
