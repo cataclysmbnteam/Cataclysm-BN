@@ -267,7 +267,7 @@
         "i3;;7_._.._._._._.._._7N"
       ],
       "palettes": [ "acidia_commercial_destroyed_palette" ],
-      "terrain": { ".": "t_pavement_y",  "(": "t_sidewalk", "3": "t_sidewalk", "7": "t_backboard" },
+      "terrain": { ".": "t_pavement_y", "(": "t_sidewalk", "3": "t_sidewalk", "7": "t_backboard" },
       "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
