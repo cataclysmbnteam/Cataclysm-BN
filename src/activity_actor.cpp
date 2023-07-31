@@ -455,7 +455,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
                                   calendar::turn ) );
     }
 
-    int act_exertion = act.moves_total;
+    const int act_exertion = act.moves_total;
 
     who.mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 80_seconds ) ) );
     who.mod_thirst( std::max( 1, act_exertion / to_moves<int>( 12_minutes ) ) );
