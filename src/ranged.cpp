@@ -2011,10 +2011,12 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
     // TODO: Mods
     // TODO: Allow using a specified type of ammo rather than default or current
     if( !weap.type->gun ) {
+        add_msg( m_debug, "%s is not a gun, gun_value set to 0", weap.type->get_id().str() );
         return 0.0;
     }
 
     if( ammo <= 0 ) {
+        add_msg( m_debug, "%s has no ammo, gun_value set to 0", weap.type->get_id().str() );
         return 0.0;
     }
 

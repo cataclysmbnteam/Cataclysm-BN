@@ -3467,7 +3467,7 @@ bool npc::wield_better_weapon()
     const auto compare_weapon =
     [this, &best, &best_dps, can_use_gun, use_silent, dist, &mode_pairs ]( const item & it ) {
         // If dist is 1 then we're in melee range, so disallow shooting guns.
-        bool gun_usable = can_use_gun && dist > 1 && ( !use_silent || it.is_silent() );
+        bool gun_usable = can_use_gun && ( dist > 1 || dist == -1 ) && ( !use_silent || it.is_silent() );
         double dps = 0.0f;
         auto [mode_id, mode_] = npc_ai::best_mode_for_range( *this, it, dist );
 
@@ -3544,6 +3544,8 @@ bool npc::wield_better_weapon()
         return false;
     }
 
+    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id().str(), best_dps );
+
     if( toggled_list[*best].is_valid() ) {
         cbm_toggled = toggled_list[*best];
         cbm_fake_toggled = *best;
@@ -3572,8 +3574,6 @@ bool npc::wield_better_weapon()
         cbm_toggled = bionic_id::NULL_ID();
         cbm_fake_toggled = null_item_reference();
     }
-
-    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id().str(), best_dps );
 
     wield( *best );
     if( primary_weapon().is_gun() &&
