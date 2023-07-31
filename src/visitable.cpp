@@ -743,11 +743,13 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
             iter = stack.erase( iter );
 
             if( --count == 0 ) {
+                here.update_submap_active_item_status( *cur );
                 return res;
             }
         } else {
             iter->contents.remove_internal( filter, count, res );
             if( count == 0 ) {
+                here.update_submap_active_item_status( *cur );
                 return res;
             }
             ++iter;

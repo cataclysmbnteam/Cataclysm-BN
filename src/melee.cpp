@@ -148,7 +148,19 @@ item &Character::used_weapon()
 
 const item &Character::primary_weapon() const
 {
-    return weapon;
+    if( get_body().find( body_part_arm_r ) == get_body().end() ) {
+        debugmsg( "primary_weapon called before set_anatomy" );
+        return null_item_reference();
+    }
+
+    // TODO: Remove unconst hacks
+    const std::shared_ptr<item> &wielded_const = get_part( body_part_arm_r ).wielding.wielded;
+    std::shared_ptr<item> &wielded = const_cast<std::shared_ptr<item> &>( wielded_const );
+    if( wielded == nullptr ) {
+        wielded = std::make_shared<item>();
+    }
+
+    return *wielded;
 }
 
 item &Character::primary_weapon()
@@ -156,10 +168,29 @@ item &Character::primary_weapon()
     return const_cast<item &>( const_cast<const Character *>( this )->primary_weapon() );
 }
 
+void Character::set_primary_weapon( const item &new_weapon )
+{
+    auto &body = get_body();
+    auto iter = body.find( body_part_arm_r );
+    if( iter != body.end() ) {
+        bodypart &part = get_part( body_part_arm_r );
+        if( part.wielding.wielded == nullptr ) {
+            part.wielding.wielded = std::make_shared<item>( new_weapon );
+        } else {
+            *part.wielding.wielded = new_weapon;
+        }
+    }
+}
+
 std::vector<item *> Character::wielded_items()
 {
-    if( !weapon.is_null() ) {
-        return {&weapon};
+    if( get_body().find( body_part_arm_r ) == get_body().end() ) {
+        return {};
+    }
+    const bodypart &right_arm = get_part( body_part_arm_r );
+    const auto wielded = right_arm.wielding.wielded;
+    if( wielded != nullptr && !wielded->is_null() ) {
+        return {& *wielded};
     }
 
     return {};
@@ -167,11 +198,8 @@ std::vector<item *> Character::wielded_items()
 
 std::vector<const item *> Character::wielded_items() const
 {
-    if( !weapon.is_null() ) {
-        return {&weapon};
-    }
-
-    return {};
+    const auto nonconst_ret = const_cast<Character *>( this )->wielded_items();
+    return std::vector<const item *>( nonconst_ret.begin(), nonconst_ret.end() );
 }
 
 bool Character::is_armed() const

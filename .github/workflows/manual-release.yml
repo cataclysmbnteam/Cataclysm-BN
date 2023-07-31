@@ -10,6 +10,7 @@ on:
         type: string
 env:
   VERSION: ${{ inputs.version }}
+  VCPKG_BINARY_SOURCES: "default"
 jobs:
   release:
     name: Create Release
@@ -231,7 +232,7 @@ jobs:
       - name: Build CBN (windows)
         if: matrix.mxe != 'none'
         env:
-          PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static-
+          PLATFORM: /opt/mxe/usr/bin/${{ matrix.mxe }}-w64-mingw32.static.gcc11-
         run: |
           make -j$((`nproc`+0)) CROSS="${PLATFORM}" TILES=1 SOUND=1 RELEASE=1 LANGUAGES=all PCH=0 bindist
           mv cataclysmbn-${{ inputs.version }}.zip cbn-${{ matrix.artifact }}-${{ inputs.version }}.zip
@@ -278,8 +279,8 @@ jobs:
                mv ./app/build/outputs/apk/stable/release/*.apk ../cbn-${{ matrix.artifact }}-${{ inputs.version }}.apk
           elif [ ${{ matrix.android }} = bundle ]
           then
-               ./gradlew -Pj=$((`nproc`+0)) assembleStableRelease -Poverride_version=${{ inputs.version }}
-               mv ./app/build/outputs/bundle/stable/*.aab ../cbn-${{ matrix.artifact }}-${{ inputs.version }}.aab
+               ./gradlew -Pj=$((`nproc`+0)) bundleStableRelease -Poverride_version=${{ inputs.version }}
+               mv ./app/build/outputs/bundle/stableRelease/*.aab ../cbn-${{ matrix.artifact }}-${{ inputs.version }}.aab
           fi
       - name: Upload release asset
         id: upload-release-asset

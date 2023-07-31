@@ -400,6 +400,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( !veh1->handle_potential_theft( you ) ) {
             return true;
         } else {
+            // This check must be present in both avatar_action::move and map::open_door for vehiclepart doors specifically,
+            // having it in just one does not prevent opening doors on horseback, for some insane reason.
+            if( you.is_mounted() ) {
+                auto mon = you.mounted_creature.get();
+                if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                    // Message is printed by the other check in map::open_door
+                    return false;
+                }
+            }
             if( outside_vehicle ) {
                 veh1->open_all_at( dpart );
             } else {

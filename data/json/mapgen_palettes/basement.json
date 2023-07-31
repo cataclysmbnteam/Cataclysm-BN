@@ -140,9 +140,10 @@
       "<": "t_stairs_up",
       "M": "t_wall_metal",
       "|": "t_reinforced_glass",
-      "/": "t_door_curtain_c",
-      "W": "t_water_dispenser"
+      "/": "t_door_curtain_c"
     },
+    "furniture": { "W": "f_water_dispenser" },
+    "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 75 ] } },
     "toilets": { "&": {  } }
   },
   {

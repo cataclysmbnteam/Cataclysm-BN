@@ -26,9 +26,23 @@
   {
     "id": "blacksmithing_standard",
     "type": "requirement",
-    "//": "Includes forging resources as well as tools needed for most blacksmithing",
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "//": "Includes forging resources as well as tools needed for basic blacksmithing.  Permits working hot metal on stone surfaces.",
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ] ]
+  },
+  {
+    "id": "blacksmithing_intermediate",
+    "type": "requirement",
+    "//": "Includes forging resources as well as tools needed for mid-level blacksmithing.  Require a harder work surface for hot-cut chiseling and other uses of chisel quality.",
+    "qualities": [ { "id": "ANVIL", "level": 2 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ] ]
+  },
+  {
+    "id": "blacksmithing_advanced",
+    "type": "requirement",
+    "//": "Includes forging resources as well as tools needed for advanced blacksmithing.  Require a proper dediciated anvil for use of a swage and die set.",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ], [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
     "id": "mutagen_production_standard",
@@ -175,6 +189,32 @@
       { "id": "CHISEL", "level": 2 },
       { "id": "PRY", "level": 3 },
       { "id": "SCREW", "level": 1 }
+    ]
+  },
+  {
+    "id": "tool_flat_press_large",
+    "type": "requirement",
+    "//": "For making sheets of material, e.g. paper, neoprene, etc.  For larger items like glass panes.",
+    "tools": [ [ [ "sheet_metal", -1 ], [ "steel_plate", -1 ], [ "alloy_plate", -1 ], [ "hard_plate", -1 ] ] ]
+  },
+  {
+    "id": "tool_flat_press_small",
+    "type": "requirement",
+    "//": "For making sheets of material, e.g. paper, neoprene, etc.  For smaller items like neoprene.",
+    "tools": [ [ [ "sheet_metal_small", -1 ], [ "alloy_sheet", -1 ] ] ]
+  },
+  {
+    "id": "tool_flat_press_improvised",
+    "type": "requirement",
+    "//": "For making sheets of material, e.g. paper, neoprene, etc.  Allow for makeshift items where high temps aren't a concern.",
+    "tools": [
+      [
+        [ "glass_sheet", -1 ],
+        [ "tempered_glass_sheet", -1 ],
+        [ "rigid_plastic_sheet", -1 ],
+        [ "wood_panel", -1 ],
+        [ "wood_sheet", -1 ]
+      ]
     ]
   }
 ]
