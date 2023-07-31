@@ -907,7 +907,8 @@ void npc::move()
             } else {
                 action = goal == global_omt_location() ?  npc_pause : npc_goto_destination;
             }
-        } else if( has_new_items && scan_new_items() ) {
+        } else if( has_new_items ) {
+            scan_new_items();
             return;
         } else if( !fetching_item ) {
             find_item();
@@ -3461,17 +3462,12 @@ bool npc::wield_better_weapon()
     return true;
 }
 
-bool npc::scan_new_items()
+void npc::scan_new_items()
 {
     add_msg( m_debug, "%s scanning new items", name );
-    if( wield_better_weapon() ) {
-        return true;
-    } else {
-        // Stop "having new items" when you no longer do anything with them
-        has_new_items = false;
-    }
-
-    return false;
+    wield_better_weapon();
+    has_new_items = false;
+    return;
     // TODO: Armor?
 }
 
