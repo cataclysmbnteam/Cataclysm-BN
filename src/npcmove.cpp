@@ -896,6 +896,7 @@ void npc::move()
             }
         }
         if( is_stationary( true ) && !assigned_camp ) {
+            add_msg( m_debug, "%s is pausing from is_stationary", name );
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {
                 action = npc_pause;
@@ -3564,6 +3565,7 @@ bool npc::wield_better_weapon()
             cbm_fake_active = null_item_reference();
             cbm_active = bionic_id::NULL_ID();
         }
+        moves -= 15;
         return true;
     } else if( primary_weapon().typeId() == cbm_fake_toggled.typeId() ) {
         deactivate_bionic_by_id( cbm_toggled );
