@@ -1045,7 +1045,7 @@ class npc : public player
         npc_action address_player();
         npc_action long_term_goal_action();
         // Returns true if did something and we should end turn
-        bool scan_new_items();
+        void scan_new_items();
         // Returns true if did wield it
         bool wield_better_weapon();
 

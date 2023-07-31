@@ -903,7 +903,8 @@ void npc::move()
             } else {
                 action = goal == global_omt_location() ?  npc_pause : npc_goto_destination;
             }
-        } else if( has_new_items && scan_new_items() ) {
+        } else if( has_new_items ) {
+            scan_new_items();
             return;
         } else if( !fetching_item ) {
             find_item();
@@ -2708,13 +2709,13 @@ void npc::move_pause()
 
 {
     // make sure we're using the best weapon
+    if( has_new_items ) {
+        scan_new_items();
+    }
     if( calendar::once_every( 1_hours ) ) {
         deactivate_bionic_by_id( bio_soporific );
         for( const bionic_id &bio_id : health_cbms ) {
             activate_bionic_by_id( bio_id );
-        }
-        if( wield_better_weapon() ) {
-            return;
         }
     }
     // NPCs currently always aim when using a gun, even with no target
@@ -3443,8 +3444,8 @@ bool npc::wield_better_weapon()
     const Creature *critter = current_target();
     const int dist = critter ? rl_dist( pos(), critter->pos() ) : - 1;
 
-    if( get_npc_ai_info_cache( npc_ai_info::range ) == dist && !has_new_items ) {
-        add_msg( m_debug, "Distance unchanged and npc has no new items, cancelling." );
+    if( get_npc_ai_info_cache( npc_ai_info::range ) == dist ) {
+        add_msg( m_debug, "Distance unchanged from last check, cancelling." );
         return false;
     }
     if( primary_weapon().has_flag( flag_NO_UNWIELD ) && cbm_toggled.is_null() ) {
@@ -3465,7 +3466,7 @@ bool npc::wield_better_weapon()
     const auto compare_weapon =
     [this, &best, &best_dps, can_use_gun, use_silent, dist, &mode_pairs ]( const item & it ) {
         // If dist is 1 then we're in melee range, so disallow shooting guns.
-        bool gun_usable = can_use_gun && dist > 1 && ( !use_silent || it.is_silent() );
+        bool gun_usable = can_use_gun && ( dist > 1 || dist == -1 ) && ( !use_silent || it.is_silent() );
         double dps = 0.0f;
         auto [mode_id, mode_] = npc_ai::best_mode_for_range( *this, it, dist );
 
@@ -3542,6 +3543,8 @@ bool npc::wield_better_weapon()
         return false;
     }
 
+    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id().str(), best_dps );
+
     if( toggled_list[*best].is_valid() ) {
         cbm_toggled = toggled_list[*best];
         cbm_fake_toggled = *best;
@@ -3563,14 +3566,13 @@ bool npc::wield_better_weapon()
             cbm_fake_active = null_item_reference();
             cbm_active = bionic_id::NULL_ID();
         }
+        moves -= 15;
         return true;
     } else if( primary_weapon().typeId() == cbm_fake_toggled.typeId() ) {
         deactivate_bionic_by_id( cbm_toggled );
         cbm_toggled = bionic_id::NULL_ID();
         cbm_fake_toggled = null_item_reference();
     }
-
-    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id().str(), best_dps );
 
     wield( *best );
     if( primary_weapon().is_gun() &&
@@ -3580,17 +3582,12 @@ bool npc::wield_better_weapon()
     return true;
 }
 
-bool npc::scan_new_items()
+void npc::scan_new_items()
 {
     add_msg( m_debug, "%s scanning new items", name );
-    if( wield_better_weapon() ) {
-        return true;
-    } else {
-        // Stop "having new items" when you no longer do anything with them
-        has_new_items = false;
-    }
-
-    return false;
+    wield_better_weapon();
+    has_new_items = false;
+    return;
     // TODO: Armor?
 }
 
