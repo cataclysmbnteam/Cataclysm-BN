@@ -896,7 +896,6 @@ void npc::move()
             }
         }
         if( is_stationary( true ) && !assigned_camp ) {
-            add_msg( m_debug, "%s is pausing from is_stationary", name );
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {
                 action = npc_pause;
@@ -2710,13 +2709,13 @@ void npc::move_pause()
 
 {
     // make sure we're using the best weapon
+    if( has_new_items ) {
+        scan_new_items();
+    }
     if( calendar::once_every( 1_hours ) ) {
         deactivate_bionic_by_id( bio_soporific );
         for( const bionic_id &bio_id : health_cbms ) {
             activate_bionic_by_id( bio_id );
-        }
-        if( wield_better_weapon() ) {
-            return;
         }
     }
     // NPCs currently always aim when using a gun, even with no target
@@ -3445,8 +3444,8 @@ bool npc::wield_better_weapon()
     const Creature *critter = current_target();
     const int dist = critter ? rl_dist( pos(), critter->pos() ) : - 1;
 
-    if( get_npc_ai_info_cache( npc_ai_info::range ) == dist && !has_new_items ) {
-        add_msg( m_debug, "Distance unchanged and npc has no new items, cancelling." );
+    if( get_npc_ai_info_cache( npc_ai_info::range ) == dist ) {
+        add_msg( m_debug, "Distance unchanged from last check, cancelling." );
         return false;
     }
     if( primary_weapon().has_flag( flag_NO_UNWIELD ) && cbm_toggled.is_null() ) {
