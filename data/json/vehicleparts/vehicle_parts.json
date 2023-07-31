@@ -657,10 +657,10 @@
     "broken_color": "red",
     "damage_modifier": 80,
     "durability": 580,
-    "description": "A small nuclear reactor.  When loaded with plutonium cells and turned on, will generate a lot of electrical power.",
+    "description": "A small nuclear reactor.  When loaded with plutonium cells and turned on it will generate a lot of electrical power.  Capable of providing 50,000 kJ per individual cell, ten times its maximum possible output if used in non-nuclear systems.",
     "power": 100,
     "//": "Here it is a multiplier on power efficiency - 1 unit of plutonium is 100 units of battery",
-    "epower": 149200,
+    "epower": 100000,
     "fuel_type": "plut_cell",
     "item": "minireactor",
     "location": "fuel_source",
@@ -1444,7 +1444,7 @@
     "description": "A belt, attached to a seat.",
     "folded_volume": 2,
     "bonus": 25,
-    "item": "rope_6",
+    "item": "seatbelt",
     "location": "on_seat",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1452,7 +1452,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "FOLDABLE" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ]
+    "breaks_into": [ { "item": "nylon", "count": [ 0, 3 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -1498,7 +1498,7 @@
     "description": "A series of straps attached to the seat, intended to fasten together after going over your shoulders and hips and between your legs.",
     "folded_volume": 4,
     "bonus": 25,
-    "item": "rope_30",
+    "item": "five-point_harness",
     "location": "on_seat",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1506,7 +1506,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "FOLDABLE" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ]
+    "breaks_into": [ { "item": "seatbelt", "count": [ 0, 3 ] } ]
   },
   {
     "type": "vehicle_part",

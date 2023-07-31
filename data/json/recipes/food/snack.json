@@ -286,9 +286,16 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
+      [
+        [ "flatbread", 2 ],
+        [ "bread", 2 ],
+        [ "bread_garlic", 2 ],
+        [ "cornbread", 2 ],
+        [ "wastebread", 2 ],
+        [ "sourdough_bread", 2 ]
+      ],
       [ [ "cucumber", 1 ], [ "irradiated_cucumber", 1 ] ],
-      [ [ "mayonnaise", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "seasoning_salt", 1 ] ]
+      [ [ "condiment", 1, "LIST" ], [ "seasoning_salt", 1 ] ]
     ]
   },
   {
@@ -299,17 +306,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
-      [ [ "mayonnaise", 1 ], [ "ketchup", 1 ], [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "mustard", 1 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "condiment", 1, "LIST" ], [ "sauce_pesto", 1 ], [ "sauce_red", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -319,17 +316,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
-      [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -340,17 +327,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [
-        [ "flatbread", 2 ],
-        [ "bread", 2 ],
-        [ "cornbread", 2 ],
-        [ "wastebread", 2 ],
-        [ "sourdough_bread", 2 ],
-        [ "brioche", 2 ]
-      ],
-      [ [ "cheese_any", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "cheese_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",

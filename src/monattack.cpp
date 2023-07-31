@@ -810,12 +810,13 @@ bool mattack::pull_metal_weapon( monster *z )
     }
     player *foe = dynamic_cast< player * >( target );
     if( foe != nullptr ) {
+        const item &weapon = foe->primary_weapon();
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
-        if( !foe->weapon.has_flag( "NO_UNWIELD" ) &&
-            ( foe->weapon.made_of( material_id( "iron" ) ) ||
-              foe->weapon.made_of( material_id( "hardsteel" ) ) ||
-              foe->weapon.made_of( material_id( "steel" ) ) ||
-              foe->weapon.made_of( material_id( "budget_steel" ) ) ) ) {
+        if( !weapon.has_flag( "NO_UNWIELD" ) &&
+            ( weapon.made_of( material_id( "iron" ) ) ||
+              weapon.made_of( material_id( "hardsteel" ) ) ||
+              weapon.made_of( material_id( "steel" ) ) ||
+              weapon.made_of( material_id( "budget_steel" ) ) ) ) {
             int wp_skill = foe->get_skill_level( skill_melee );
             // It takes a while
             z->moves -= att_cost_pull;
@@ -828,7 +829,7 @@ bool mattack::pull_metal_weapon( monster *z )
             auto m_type = foe == &g->u ? m_bad : m_neutral;
             if( rng( 1, 100 ) <= success ) {
                 target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
-                                               _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname() );
+                                               _( "%s is pulled away from <npcname>'s hands!" ), weapon.tname() );
                 z->add_item( foe->remove_weapon() );
                 if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
@@ -2715,7 +2716,7 @@ bool mattack::grab( monster *z )
         return true;
     }
 
-    item &cur_weapon = pl->weapon;
+    item &cur_weapon = pl->primary_weapon();
     ///\EFFECT_DEX increases chance to avoid being grabbed
     if( pl->can_use_grab_break_tec( cur_weapon ) &&
         rng( 0, pl->get_dex() ) > rng( 0, z->type->melee_sides + z->type->melee_dice ) ) {
@@ -2723,7 +2724,7 @@ bool mattack::grab( monster *z )
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
         } else if( pl->is_throw_immune() && ( !pl->is_armed() ||
-                                              pl->martial_arts_data->selected_has_weapon( pl->weapon.typeId() ) ) ) {
+                                              pl->martial_arts_data->selected_has_weapon( pl->primary_weapon().typeId() ) ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you…" ), z->name() );
             thrown_by_judo( z );
         } else if( pl->has_grab_break_tec() ) {
@@ -3243,7 +3244,7 @@ bool mattack::photograph( monster *z )
         }
     }
 
-    if( z->friendly || g->u.weapon.typeId() == itype_e_handcuffs ) {
+    if( z->friendly || g->u.primary_weapon().typeId() == itype_e_handcuffs ) {
         // Friendly (hacked?) bot ignore the player. Arrested suspect ignored too.
         // TODO: might need to be revisited when it can target npcs.
         return false;
@@ -3261,7 +3262,7 @@ bool mattack::photograph( monster *z )
                    string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), cname ), false, "speech",
                    z->type->id.str() );
 
-    if( g->u.weapon.is_gun() ) {
+    if( g->u.primary_weapon().is_gun() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your gun!  Now!\"" ) );
     } else if( g->u.is_armed() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your weapon!  Now!\"" ) );
@@ -3349,10 +3350,11 @@ void mattack::rifle( monster *z, Creature *target )
         add_msg( m_warning, _( "The %s opens up with its rifle!" ), z->name() );
     }
 
-    tmp.weapon = item( "m4a1" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    tmp.set_primary_weapon( item( "m4a1" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
+    int burst = std::max( tmp.primary_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(),
+                            burst ) * tmp.primary_weapon().ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3409,10 +3411,11 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
         add_msg( m_warning, _( "The %s's grenade launcher fires!" ), z->name() );
     }
 
-    tmp.weapon = item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    tmp.set_primary_weapon( item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
+    int burst = std::max( tmp.primary_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(),
+                            burst ) * tmp.primary_weapon().ammo_required();
 
     if( target == &g->u ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3468,10 +3471,11 @@ void mattack::tankgun( monster *z, Creature *target )
     if( g->u.sees( *z ) ) {
         add_msg( m_warning, _( "The %s's 120mm cannon fires!" ), z->name() );
     }
-    tmp.weapon = item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
-    int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    tmp.set_primary_weapon( item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
+    int burst = std::max( tmp.primary_weapon().gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(), burst ) * tmp.weapon.ammo_required();
+    z->ammo[ ammo_type ] -= ranged::fire_gun( tmp, target->pos(),
+                            burst ) * tmp.primary_weapon().ammo_required();
 }
 
 bool mattack::searchlight( monster *z )
@@ -3787,7 +3791,7 @@ bool mattack::copbot( monster *z )
     // TODO: Make it recognize zeds as human, but ignore animals
     player *foe = dynamic_cast<player *>( target );
     bool sees_u = foe != nullptr && z->sees( *foe );
-    bool cuffed = foe != nullptr && foe->weapon.typeId() == itype_e_handcuffs;
+    bool cuffed = foe != nullptr && foe->primary_weapon().typeId() == itype_e_handcuffs;
     // Taze first, then ask questions (simplifies later checks for non-humans)
     if( !cuffed && is_adjacent( z, target, true ) ) {
         taze( z, target );
@@ -4552,14 +4556,11 @@ bool mattack::parrot( monster *z )
 
 bool mattack::parrot_at_danger( monster *parrot )
 {
-    for( monster &monster : g->all_monsters() ) {
-        if( one_in( 20 ) && ( monster.faction->attitude( parrot->faction ) == mf_attitude::MFA_HATE ||
-                              ( monster.anger > 0 &&
-                                monster.faction->attitude( parrot->faction ) == mf_attitude::MFA_BY_MOOD ) ) &&
-            parrot->sees( monster ) ) {
-            parrot_common( parrot );
-            return true;
-        }
+
+    Creature *target = parrot->attack_target();
+    if( one_in( 20 ) && target != nullptr && parrot->sees( *target ) ) {
+        parrot_common( parrot );
+        return true;
     }
 
     return false;
@@ -4747,7 +4748,7 @@ bool mattack::riotbot( monster *z )
     //already arrested?
     //and yes, if the player has no hands, we are not going to arrest him.
     if( foe != nullptr &&
-        ( foe->weapon.typeId() == itype_e_handcuffs || !foe->has_two_arms() ) ) {
+        ( foe->primary_weapon().typeId() == itype_e_handcuffs || !foe->has_two_arms() ) ) {
         z->anger = 0;
 
         if( calendar::once_every( 25_turns ) ) {
@@ -4996,6 +4997,7 @@ bool mattack::evolve_kill_strike( monster *z )
 
 bool mattack::leech_spawner( monster *z )
 {
+    Creature *target = z->attack_target();
     const bool u_see = g->u.sees( *z );
     std::list<monster *> allies;
     for( monster &candidate : g->all_monsters() ) {
@@ -5003,8 +5005,12 @@ bool mattack::leech_spawner( monster *z )
             allies.push_back( &candidate );
         }
     }
-    if( allies.size() > 45 ) {
-        return true;
+    // Only propagate if you see a target or are the current queen
+    if( !z->has_flag( MF_QUEEN ) && target == nullptr ) {
+        return false;
+    }
+    if( allies.size() > 30 ) {
+        return false;
     }
     const int monsters_spawned = rng( 1, 4 );
     const mtype_id monster_type = one_in( 3 ) ? mon_leech_root_runner : mon_leech_root_drone;
@@ -5014,14 +5020,19 @@ bool mattack::leech_spawner( monster *z )
                 add_msg( m_warning,
                          _( "An egg pod ruptures and a %s crawls out from the remains!" ), new_mon->name() );
             }
-            if( one_in( 25 ) ) {
+            if( one_in( 10 ) && z->has_flag( MF_QUEEN ) ) {
                 z->poly( mon_leech_stalk );
                 if( u_see ) {
                     add_msg( m_warning,
                              _( "Resplendent fronds emerge from the still intact pods!" ) );
                 }
+                return true;
             }
         }
+    }
+    // If egg pod or other non-queen source of this attack, die off from doing this
+    if( !z->has_flag( MF_QUEEN ) ) {
+        z->set_hp( 0 );
     }
     return true;
 }
@@ -5033,7 +5044,7 @@ bool mattack::mon_leech_evolution( monster *z )
     std::list<monster *> queens;
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.in_species( LEECH_PLANT ) && candidate.has_flag( MF_QUEEN ) &&
-            rl_dist( z->pos(), candidate.pos() ) < 35 ) {
+            rl_dist( z->pos(), candidate.pos() ) < 45 ) {
             queens.push_back( &candidate );
         }
     }
@@ -5274,7 +5285,7 @@ bool mattack::bio_op_takedown( monster *z )
             foe->add_effect( effect_downed, 3_turns );
         }
     } else if( ( !foe->is_armed() ||
-                 foe->martial_arts_data->selected_has_weapon( foe->weapon.typeId() ) ) &&
+                 foe->martial_arts_data->selected_has_weapon( foe->primary_weapon().typeId() ) ) &&
                !thrown_by_judo( z ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bodypart_id( "torso" );
@@ -5420,7 +5431,7 @@ bool mattack::bio_op_disarm( monster *z )
     their_roll += dice( 3, foe->get_per() );
     their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
 
-    item &it = foe->weapon;
+    item &it = foe->primary_weapon();
 
     target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
 

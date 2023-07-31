@@ -337,7 +337,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
-    "weight": 100,
+    "weight": 50,
     "object": {
       "rotation": [ 3, 4 ],
       "fill_ter": "t_thconc_floor",

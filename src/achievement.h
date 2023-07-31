@@ -65,6 +65,7 @@ class achievement
         static void check_consistency();
         static const std::vector<achievement> &get_all();
         static void reset();
+        std::string ui_text() const;
 
         string_id<achievement> id;
         bool was_loaded = false;
@@ -84,6 +85,7 @@ class achievement
         class time_bound
         {
             public:
+                friend class achievement;
                 enum class epoch {
                     cataclysm,
                     game_start,
@@ -92,10 +94,10 @@ class achievement
 
                 void deserialize( JsonIn & );
                 void check( const string_id<achievement> & ) const;
+                std::string time_ui_text( const achievement_completion ) const;
 
                 time_point target() const;
-                achievement_completion completed() const;
-                std::string ui_text() const;
+                achievement_comparison comparison() const;
             private:
                 achievement_comparison comparison_;
                 epoch epoch_;
@@ -105,7 +107,9 @@ class achievement
         const std::optional<time_bound> &time_constraint() const {
             return time_constraint_;
         }
-
+        const std::map<skill_id, std::pair<achievement_comparison, int>> &skill_requirements() const {
+            return skill_requirements_;
+        }
         const std::vector<achievement_requirement> &requirements() const {
             return requirements_;
         }
@@ -114,7 +118,13 @@ class achievement
         translation description_;
         std::vector<string_id<achievement>> hidden_by_;
         std::optional<time_bound> time_constraint_;
+        std::map<skill_id, std::pair<achievement_comparison, int>> skill_requirements_;
         std::vector<achievement_requirement> requirements_;
+
+        /** Retrieves skill requirement JsonObjects and feeds it to add_skill_requirement*/
+        void add_skill_requirements( const JsonObject &jo, const std::string &src );
+        /** Organizes variables provided and adds skill_requirements to achievements*/
+        void add_skill_requirement( const JsonObject inner, const std::string &src );
 };
 
 template<>
@@ -205,5 +215,13 @@ class achievements_tracker : public event_subscriber
         std::unordered_map<string_id<achievement>, achievement_tracker> trackers_;
         std::unordered_map<string_id<achievement>, achievement_state> achievements_status_;
 };
+
+/** Checks if time requirements for achievements are satisfied, have failed, or are pending.*/
+achievement_completion time_req_completed( const achievement &ach );
+/** Checks if skill requirements for achievements are satisfied, have failed, or are pending.*/
+achievement_completion skill_req_completed( const achievement &ach );
+
+/** Uses comparator supplied to compare target and supplied value. Only works on integers.*/
+bool ach_compare( const achievement_comparison symbol, const int target, const int to_compare );
 
 #endif // CATA_SRC_ACHIEVEMENT_H

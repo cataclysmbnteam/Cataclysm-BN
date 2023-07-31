@@ -1,44 +1,5 @@
 [
   {
-    "id": "bio_advreactor",
-    "type": "bionic",
-    "name": { "str": "Advanced Microreactor System" },
-    "description": "This stripped down mini-reactor is more efficient and safer than the base model due to integrated radiation cleansers.  There is no way to shut it down once active, but you can toggle additional fuel intake.",
-    "occupied_bodyparts": [ [ "torso", 55 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "included_bionics": [ "bio_plutdump" ],
-    "upgraded_bionic": "bio_reactor"
-  },
-  {
-    "id": "bio_plut_filter",
-    "type": "bionic",
-    "name": { "str": "Plutonium Filter" },
-    "description": "This set of tanks and filters allows you to extract plutonium from radioactive slurry.",
-    "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": 1,
-    "react_cost": 1,
-    "time": 12
-  },
-  {
-    "id": "bio_plutdump",
-    "type": "bionic",
-    "name": { "str": "Plutonium Purger" },
-    "included": true,
-    "description": "Triggers an emergency reactor fuel purge that ejects all fuel from your reactor.",
-    "act_cost": 1
-  },
-  {
-    "id": "bio_reactor",
-    "type": "bionic",
-    "name": { "str": "Microreactor System" },
-    "description": "This stripped down mini-reactor generates impressive amounts of bionic power.  There is no way to shut it down, but you can toggle additional fuel intake.  Irradiates your body when active.",
-    "occupied_bodyparts": [ [ "torso", 55 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "available_upgrades": [ "bio_advreactor" ],
-    "included_bionics": [ "bio_plutdump" ]
-  },
-  {
     "id": "bio_furnace",
     "type": "bionic",
     "name": { "str": "Internal Furnace" },
@@ -311,16 +272,6 @@
   },
   {
     "type": "recipe",
-    "result": "rebar_rifle",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "heavy_rail_rifle",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "coilgun",
     "obsolete": true
   },
@@ -431,5 +382,60 @@
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ]
     }
+  },
+  {
+    "type": "material",
+    "id": "lycra",
+    "name": "Lycra",
+    "//": "not actually pure Lycra, but poly/nylon and Lycra blend",
+    "density": 2,
+    "specific_heat_liquid": 1.7,
+    "specific_heat_solid": 1.7,
+    "latent_heat": 27,
+    "soft": true,
+    "reinforces": true,
+    "bash_resist": 2,
+    "cut_resist": 2,
+    "bullet_resist": 2,
+    "acid_resist": 9,
+    "fire_resist": 2,
+    "elec_resist": 2,
+    "chip_resist": 6,
+    "repaired_with": "lycra_patch",
+    "salvaged_into": "lycra_patch",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "650 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 3 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
+    "type": "terrain",
+    "//": "Obsoleted in favor of a furniture version.",
+    "id": "t_water_dispenser",
+    "name": "water dispenser",
+    "looks_like": "f_sink",
+    "description": "A machine with several taps that dispenses clean water.",
+    "symbol": "W",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 15,
+      "str_max": 80,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "pipe", "count": [ 0, 2 ] }
+      ]
+    },
+    "examine_action": "clean_water_source"
   }
 ]

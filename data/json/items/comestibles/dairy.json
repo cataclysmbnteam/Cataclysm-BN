@@ -75,7 +75,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
-    "calories": 101,
+    "calories": 106,
     "container": "wrapper",
     "description": "A yellow stick of milkfat and milk solids, usually made from cow's milk.",
     "price": 300,
@@ -223,7 +223,6 @@
     "primary_material": "powder",
     "volume": "250 ml",
     "cooks_like": "milk",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "vitamins": [ [ "vitA", 3 ], [ "vitB", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": -5

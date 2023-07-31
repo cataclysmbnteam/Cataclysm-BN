@@ -2250,7 +2250,7 @@ void remove_stale_inventory_quick_shortcuts()
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
-                    if( g->u.weapon.invlet == key ) {
+                    if( g->u.primary_weapon().invlet == key ) {
                         in_inventory = true;
                     }
                 }
@@ -2383,8 +2383,8 @@ void draw_quick_shortcuts()
                 }
                 if( hint_text == "none" ) {
                     // We couldn't find it in worn items either, must be weapon held
-                    if( g->u.weapon.invlet == key ) {
-                        hint_text = g->u.weapon.display_name();
+                    if( g->u.primary_weapon().invlet == key ) {
+                        hint_text = g->u.primary_weapon().display_name();
                     }
                 }
             } else {
@@ -2764,7 +2764,7 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+                    if( g->u.primary_weapon().is_gun() || g->u.primary_weapon().has_flag( "REACH_ATTACK" ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }

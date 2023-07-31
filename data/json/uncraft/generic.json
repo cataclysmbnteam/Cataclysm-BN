@@ -26,7 +26,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "150 s",
-    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 24 ] ] ]
   },
   {
@@ -35,7 +35,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "12 s",
-    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
@@ -1016,6 +1016,7 @@
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "recon_mech_laser_salvaged", 1 ] ],
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
@@ -1025,7 +1026,8 @@
       [ [ "power_supply", 20 ] ],
       [ [ "storage_battery", 2 ] ],
       [ [ "plut_cell", 4 ] ],
-      [ [ "mil_plate", 15 ] ]
+      [ [ "mil_plate", 15 ] ],
+      [ [ "alloy_sheet", 25 ] ]
     ]
   },
   {
@@ -1046,7 +1048,8 @@
       [ [ "power_supply", 20 ] ],
       [ [ "storage_battery", 2 ] ],
       [ [ "plut_cell", 4 ] ],
-      [ [ "mil_plate", 6 ] ]
+      [ [ "mil_plate", 6 ] ],
+      [ [ "alloy_sheet", 15 ] ]
     ]
   },
   {
@@ -1058,6 +1061,7 @@
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "gatling_mech_laser_salvaged", 1 ] ],
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
@@ -1067,7 +1071,8 @@
       [ [ "power_supply", 20 ] ],
       [ [ "storage_battery", 2 ] ],
       [ [ "plut_cell", 4 ] ],
-      [ [ "mil_plate", 20 ] ]
+      [ [ "mil_plate", 20 ] ],
+      [ [ "alloy_sheet", 20 ] ]
     ]
   },
   {
@@ -1487,6 +1492,33 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "motor", 2 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 4 ] ], [ [ "steel_lump", 6 ] ], [ [ "steel_chunk", 6 ] ] ]
+  },
+  {
+    "result": "turret_chassis",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": "4 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 10 ] ], [ [ "scrap", 30 ] ], [ [ "steel_chunk", 10 ] ] ]
+  },
+  {
+    "result": "copbot_chassis",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": "4 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "alloy_sheet", 10 ] ], [ [ "scrap", 60 ] ], [ [ "steel_chunk", 20 ] ] ]
+  },
+  {
+    "result": "android_chassis",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": "4 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 40 ] ], [ [ "scrap", 40 ] ], [ [ "steel_chunk", 20 ] ] ]
   },
   {
     "result": "cable",
@@ -4349,5 +4381,58 @@
       [ [ "receiver", 1 ] ],
       [ [ "plastic_chunk", 5 ] ]
     ]
+  },
+  {
+    "type": "uncraft",
+    "result": "seatbelt",
+    "time": "30 s",
+    "components": [ [ [ "nylon", 3 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "type": "uncraft",
+    "result": "engine_block_tiny",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 8 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "engine_block_small",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 40 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "engine_block_medium",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "20 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 90 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "engine_block_large",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "25 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 190 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "engine_block_massive",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 280 ] ] ]
   }
 ]

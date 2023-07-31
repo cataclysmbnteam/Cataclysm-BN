@@ -935,6 +935,85 @@
   },
   {
     "type": "technique",
+    "id": "tec_kickboxing_rapid",
+    "name": "Jab",
+    "messages": [ "You quickly jab %s", "<npcname> quickly jabs at %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_straight_cross",
+    "name": "Straight Cross",
+    "messages": [ "You deliver a cross punch to %s", "<npcname> delivers a cross punch to %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_upper",
+    "name": "Uppercut",
+    "messages": [ "You uppercut %s", "<npcname> uppercuts %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_roundhouse",
+    "name": "Roundhouse Kick",
+    "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_ok": true,
+    "weighting": -2,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_sidekick",
+    "name": "Side Kick",
+    "messages": [ "You side kick %s", "<npcname> side kicks %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "dodge_counter": true,
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.2 },
+      { "stat": "damage", "type": "cut", "scale": 1.2 },
+      { "stat": "damage", "type": "stab", "scale": 1.2 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_kickboxing_straight_kick",
+    "name": "Straight Kick",
+    "messages": [
+      "You deliver a straight kick to %s, knocking them back",
+      "<npcname> delivers a straight kick to %s, knocking them back"
+    ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "knockback_dist": 1,
+    "stun_dur": 1,
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.3 } ]
+  },
+  {
+    "type": "technique",
     "id": "tec_krav_maga_rapid",
     "messages": [ "You jab at %s", "<npcname> jabs at %s" ],
     "name": "Jab",

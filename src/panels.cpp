@@ -60,12 +60,15 @@
 #include "vpart_position.h"
 #include "weather.h"
 
+static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_got_checked( "got_checked" );
+
+static const std::string flag_SPLINT( "SPLINT" );
 
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
@@ -774,7 +777,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
 
-        if( u.worn_with_flag( "SPLINT",  bp ) ) {
+        if( u.worn_with_flag( flag_SPLINT,  bp ) || u.has_trait( trait_REGEN_LIZ ) ) {
             static const efftype_id effect_mending( "mending" );
             const auto &eff = u.get_effect( effect_mending, bp->token );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
@@ -1656,16 +1659,16 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 35, 4 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_light_blue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 21, 5 ), c_light_gray, type );
+        mvwprintz( w, point( 26, 5 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            nc_color col_vel = strain <= 0 ? c_light_blue :
-                               ( strain <= 0.2 ? c_yellow :
-                                 ( strain <= 0.4 ? c_light_red : c_red ) );
-            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-            int offset = get_int_digits( t_speed );
-            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, point( 21, 5 ), c_light_gray, type );
-            mvwprintz( w, point( 26, 5 ), col_vel, "%d", c_speed );
             mvwprintz( w, point( 26 + offset, 5 ), c_light_gray, ">" );
             mvwprintz( w, point( 28 + offset, 5 ), c_light_green, "%d", t_speed );
         }
@@ -1770,18 +1773,18 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 6, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_light_blue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 12, 0 ), c_light_gray, "%s :", type );
+        mvwprintz( w, point( 19, 0 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            nc_color col_vel = strain <= 0 ? c_light_blue :
-                               ( strain <= 0.2 ? c_yellow :
-                                 ( strain <= 0.4 ? c_light_red : c_red ) );
-            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-            int offset = get_int_digits( t_speed );
-            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, point( 12, 0 ), c_light_gray, "%s :", type );
-            mvwprintz( w, point( 19, 0 ), c_light_green, "%d", t_speed );
             mvwprintz( w, point( 20 + offset, 0 ), c_light_gray, "%s", ">" );
-            mvwprintz( w, point( 22 + offset, 0 ), col_vel, "%d", c_speed );
+            mvwprintz( w, point( 22 + offset, 0 ), c_light_green, "%d", t_speed );
         }
     }
 
@@ -1805,15 +1808,15 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         nc_color col_vel = strain <= 0 ? c_light_blue :
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 13, 0 ), c_light_gray, "%s :", type );
+        mvwprintz( w, point( 20, 0 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-            int offset = get_int_digits( t_speed );
-            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, point( 13, 0 ), c_light_gray, "%s :", type );
-            mvwprintz( w, point( 20, 0 ), c_light_green, "%d", t_speed );
             mvwprintz( w, point( 21 + offset, 0 ), c_light_gray, "%s", ">" );
-            mvwprintz( w, point( 23 + offset, 0 ), col_vel, "%d", c_speed );
+            mvwprintz( w, point( 23 + offset, 0 ), c_light_green, "%d", t_speed );
         }
     }
 
@@ -2005,7 +2008,15 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
 
 static bool spell_panel()
 {
-    return get_avatar().magic->knows_spell();
+    std::vector<spell_id> spells = get_avatar().magic->spells();
+    bool has_manacasting = false;
+    for( spell_id sp : spells ) {
+        spell temp_spell = get_avatar().magic->get_spell( sp );
+        if( temp_spell.energy_source() == mana_energy ) {
+            has_manacasting = true;
+        }
+    }
+    return has_manacasting;
 }
 
 bool default_render()

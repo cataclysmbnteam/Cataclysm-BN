@@ -484,8 +484,10 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
 
-    if( is_container_eligible_for_crafting( weapon, true ) ) {
-        conts.push_back( &weapon );
+    for( const item *it : wielded_items() ) {
+        if( is_container_eligible_for_crafting( *it, true ) ) {
+            conts.push_back( it );
+        }
     }
     for( const auto &it : worn ) {
         if( is_container_eligible_for_crafting( it, false ) ) {
@@ -570,7 +572,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     }
     cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
     cached_crafting_inventory += inv;
-    cached_crafting_inventory += weapon;
+    cached_crafting_inventory += primary_weapon();
     cached_crafting_inventory += worn;
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
@@ -1030,6 +1032,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
     std::vector<item> newits = making.create_results( batch_size );
 
     const bool should_heat = making.hot_result();
+    const bool is_dehydrated = making.dehydrate_result();
 
     bool first = true;
     size_t newit_counter = 0;
@@ -1092,8 +1095,8 @@ void complete_craft( player &p, item &craft, const bench_location & )
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
-                // If this recipe is cooked, components are no longer raw.
-                if( should_heat ) {
+                // If this recipe is cooked or dehydrated, components are no longer raw.
+                if( should_heat || is_dehydrated ) {
                     comp.set_flag_recursive( flag_COOKED );
                 }
             }
@@ -1144,6 +1147,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
                 bp.set_relative_rot( relative_rot );
             }
             bp.set_owner( p.get_faction()->id );
+            bp.inherit_flags( used, making );
             if( bp.made_of( LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else {
@@ -1494,7 +1498,7 @@ static void empty_buckets( player &p )
 {
     // First grab (remove) all items that are non-empty buckets and not wielded
     auto buckets = p.remove_items_with( [&p]( const item & it ) {
-        return it.is_bucket_nonempty() && &it != &p.weapon;
+        return it.is_bucket_nonempty() && !p.is_wielding( it );
     }, INT_MAX );
     for( auto &it : buckets ) {
         for( const item *in : it.contents.all_items_top() ) {

@@ -1,5 +1,15 @@
 [
   {
+    "id": "urban_subway",
+    "type": "overmap_terrain",
+    "name": "subway",
+    "sym": "S",
+    "color": "light_green",
+    "see_cost": 10,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
     "id": "urban_7_1",
     "type": "overmap_terrain",
     "name": "house",
@@ -3722,9 +3732,9 @@
   {
     "id": "urban_39_1",
     "type": "overmap_terrain",
-    "name": "dense urban",
-    "sym": "v",
-    "color": "i_white",
+    "name": "subway station",
+    "sym": "S",
+    "color": "yellow",
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -3966,5 +3976,45 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "urban_41_9",
+    "//": "Northwest corner",
+    "type": "overmap_terrain",
+    "name": "public library, roof",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "id": "urban_41_10",
+    "//": "Northeast corner",
+    "type": "overmap_terrain",
+    "name": "public library, roof",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "id": "urban_41_11",
+    "//": "Southwest corner",
+    "type": "overmap_terrain",
+    "name": "public library, roof",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "id": "urban_41_12",
+    "//": "Southeast corner",
+    "type": "overmap_terrain",
+    "name": "public library, roof",
+    "sym": "L",
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 1
   }
 ]

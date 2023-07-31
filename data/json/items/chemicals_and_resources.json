@@ -389,7 +389,8 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
-    "fun": -30
+    "fun": -30,
+    "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 2 }, "effects": [ "RECOVER_10" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -410,7 +411,8 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
-    "fun": -15
+    "fun": -15,
+    "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 1 }, "effects": [ "RECOVER_10" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -433,7 +435,8 @@
     "category": "chems",
     "fun": -45,
     "freezing_point": 25,
-    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true }
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true },
+    "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 3 }, "effects": [ "RECOVER_10" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -565,7 +568,9 @@
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
-    "ammo_type": "components",
+    "ammo_type": "acid",
+    "damage": { "damage_type": "acid", "amount": 6 },
+    "effects": [ "RECOVER_10" ],
     "phase": "liquid",
     "container": "bottle_glass",
     "//freezing_point": 25,
@@ -585,7 +590,9 @@
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
-    "ammo_type": "components",
+    "ammo_type": "acid",
+    "damage": { "damage_type": "acid", "amount": 5 },
+    "effects": [ "RECOVER_10" ],
     "phase": "liquid",
     "container": "bottle_glass",
     "//freezing_point": 25,
@@ -605,7 +612,9 @@
     "volume": "250 ml",
     "weight": "375 g",
     "bashing": 1,
-    "ammo_type": "components",
+    "ammo_type": "acid",
+    "damage": { "damage_type": "acid", "amount": 4 },
+    "effects": [ "RECOVER_10" ],
     "phase": "liquid",
     "container": "bottle_glass",
     "//freezing_point": -44,
@@ -786,7 +795,9 @@
     "volume": "250 ml",
     "weight": "300 g",
     "bashing": 1,
-    "ammo_type": "components",
+    "ammo_type": "acid",
+    "damage": { "damage_type": "acid", "amount": 3 },
+    "effects": [ "RECOVER_10" ],
     "phase": "liquid",
     "container": "bottle_glass"
   },
@@ -964,7 +975,7 @@
     "container": "bottle_plastic_small",
     "comestible_type": "MED",
     "symbol": "!",
-    "description": "Intended for the clarification and disinfection of unsafe drinking water, these halazone-based purification tablets remove dangerous contaminants using powerful chemicals.  The label says to use one tablet per unit of water.",
+    "description": "Intended for the clarification and disinfection of unsafe drinking water, these halazone-based purification tablets remove dangerous contaminants using powerful chemicals.  The label says one tablet purifies up to 2L of water.",
     "price": 900,
     "price_postapoc": 2000,
     "volume": "250 ml",
@@ -1174,7 +1185,6 @@
     "fun": -4,
     "color": "yellow",
     "container": "bottle_plastic_small",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 50,
     "calories": 13,
     "description": "This is a pre-mixed salty solution of protein and sugar.  It's meant for bacteria to eat, but if you were desperate you could eat it too; it's not much different from cup noodle stock.",
@@ -1197,7 +1207,7 @@
     "calories": 70,
     "charges": 8,
     "container": "bag_plastic",
-    "flags": [ "EDIBLE_FROZEN", "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD" ],
     "description": "These clear cubes of processed seaweed can be dissolved in boiling water to create a very sturdy, temperature resistant gel.  Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
     "material": "junk",
     "volume": "900 ml",

@@ -1673,6 +1673,17 @@ WORLDPTR worldfactory::get_world( const std::string &name )
     return iter->second.get();
 }
 
+size_t worldfactory::get_world_index( const std::string &name )
+{
+    std::vector<std::string> worlds = all_worldnames();
+    size_t world_pos = std::find( worlds.begin(), worlds.end(),
+                                  name ) - worlds.begin();
+    if( world_pos >= worlds.size() ) {
+        world_pos = 0;
+    }
+    return world_pos;
+}
+
 // Helper predicate to exclude files from deletion when resetting a world directory.
 static bool isForbidden( const std::string &candidate )
 {

@@ -13,7 +13,17 @@
     "symbol": ":",
     "color": "green",
     "location": "sling",
-    "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ],
     "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   }
 ]

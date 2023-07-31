@@ -112,7 +112,7 @@
     "volume": "250 ml",
     "price": 3000,
     "price_postapoc": 500,
-    "material": [ "lycra" ],
+    "material": [ "nylon" ],
     "covers": [ "torso" ],
     "encumbrance": 0,
     "use_action": {

@@ -278,6 +278,18 @@
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
+    },
+    "deconstruct": {
+      "ter_set": "t_pavement",
+      "items": [
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 5, 7 ] },
+        { "item": "motor_small", "count": [ 0, 1 ] },
+        { "item": "jerrycan", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "frame", "count": [ 0, 1 ] }
+      ]
     }
   },
   {
@@ -631,31 +643,6 @@
       ]
     },
     "examine_action": "water_source"
-  },
-  {
-    "type": "terrain",
-    "id": "t_water_dispenser",
-    "name": "water dispenser",
-    "looks_like": "f_sink",
-    "description": "A machine with several taps that dispenses clean water.",
-    "symbol": "W",
-    "color": "light_blue",
-    "move_cost": 0,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT" ],
-    "bash": {
-      "str_min": 15,
-      "str_max": 80,
-      "sound": "whack!",
-      "sound_fail": "thunk.",
-      "ter_set": "t_concrete",
-      "items": [
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
-        { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "pipe", "count": [ 0, 2 ] }
-      ]
-    },
-    "examine_action": "clean_water_source"
   },
   {
     "type": "terrain",

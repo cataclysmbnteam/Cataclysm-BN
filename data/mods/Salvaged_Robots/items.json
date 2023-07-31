@@ -720,7 +720,7 @@
     "type": "TOOL",
     "copy-from": "bot_milbot_base",
     "name": "inactive military robot",
-    "description": "An unpowered military robot fitted with an integrated 7.62 firearm and electric prod.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
+    "description": "An unpowered military robot fitted with an integrated 7.62x51mm firearm and electric prod.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
     "color": "green",
     "use_action": {
       "type": "place_monster",

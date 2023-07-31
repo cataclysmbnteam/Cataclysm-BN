@@ -138,7 +138,7 @@
     "material": "egg",
     "volume": "600 ml",
     "fun": -5,
-    "proportional": { "weight": 12.0, "calories": 12.0 },
+    "proportional": { "weight": 12, "calories": 12 },
     "vitamins": [ [ "vitA", 108 ], [ "calcium", 36 ], [ "iron", 48 ], [ "vitB", 252 ], [ "mutant_toxin", 25 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
     "rot_spawn_chance": 60
@@ -255,7 +255,6 @@
     "material": [ "powder", "egg" ],
     "primary_material": "powder",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 16,
     "fun": -3,
     "vitamins": [ [ "vitB", 2 ] ]
@@ -289,7 +288,8 @@
     "price": 95,
     "price_postapoc": 50,
     "material": "egg",
-    "fun": 2
+    "fun": 2,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",

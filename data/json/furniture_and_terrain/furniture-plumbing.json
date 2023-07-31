@@ -142,6 +142,43 @@
   },
   {
     "type": "furniture",
+    "id": "f_water_dispenser",
+    "copy-from": "f_water_heater",
+    "name": "water dispenser",
+    "looks_like": "t_water_dispenser",
+    "description": "A machine with several taps that dispenses clean water.  Also known as a water cooler, it's still useful so long as the tank is full.",
+    "symbol": "W",
+    "color": "light_blue",
+    "keg_capacity": 75,
+    "bash": {
+      "str_min": 15,
+      "str_max": 80,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "items": [
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 0, 10 ] },
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "pipe", "count": [ 0, 2 ] },
+        { "item": "hose", "count": 1 },
+        { "item": "water_faucet", "count": 1 }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "steel_chunk", "count": 2 },
+        { "item": "scrap", "count": 6 },
+        { "item": "pipe", "count": 2 },
+        { "item": "cable", "charges": 10 },
+        { "item": "hose", "count": 1 },
+        { "item": "water_faucet", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_water_purifier",
     "looks_like": "f_water_heater",
     "name": "water purifier",

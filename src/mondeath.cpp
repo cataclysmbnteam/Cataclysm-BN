@@ -223,9 +223,9 @@ void mdeath::splatter( monster &z )
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
     int gibbed_weight = rng( 0, std::round( to_gram( z.get_weight() ) / 100.0 *
                                             ( overflow_damage / max_hp + 1 ) ) );
-    const int z_weight = to_gram( z.get_weight() );
+    const uint64_t z_weight = to_gram( z.get_weight() );
     // limit gibbing to 15%
-    gibbed_weight = std::min( gibbed_weight, z_weight * 15 / 100 );
+    gibbed_weight = std::min( static_cast<uint64_t>( gibbed_weight ), z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;
@@ -764,17 +764,17 @@ void mdeath::jabberwock( monster &z )
     player *ch = dynamic_cast<player *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  ch->weapon.has_flag( "DIAMOND" ) &&
-                  ch->weapon.volume() > 750_ml;
+                  ch->primary_weapon().has_flag( "DIAMOND" ) &&
+                  ch->primary_weapon().volume() > 750_ml;
 
-    if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
+    if( vorpal && !ch->primary_weapon().has_technique( matec_id( "VORPAL" ) ) ) {
         if( ch->sees( z ) ) {
             ch->add_msg_if_player( m_info,
                                    //~ %s is the possessive form of the monster's name
                                    _( "As the flames in %s eyes die out, your weapon seems to shine slightly brighter." ),
                                    z.disp_name( true ) );
         }
-        ch->weapon.add_technique( matec_id( "VORPAL" ) );
+        ch->primary_weapon().add_technique( matec_id( "VORPAL" ) );
     }
 
     mdeath::normal( z );

@@ -177,11 +177,11 @@
     "color": "light_gray",
     "name": { "str": "withered plant" },
     "description": "A dead plant.  Good for starting fires or making a pile of leaves to sleep on.",
-    "material": "paper",
+    "material": "dry_plant",
     "weight": "20 g",
     "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_SALVAGE" ]
   },
   {
     "type": "GENERIC",
@@ -683,7 +683,8 @@
     "price_postapoc": 10,
     "material": [ "wood", "steel" ],
     "weight": "40 kg",
-    "volume": "30000 ml"
+    "volume": "30000 ml",
+    "qualities": [ [ "ANVIL", 2 ] ]
   },
   {
     "type": "GENERIC",
@@ -1063,14 +1064,14 @@
     "id": "broken_haulerbot",
     "symbol": ",",
     "color": "yellow",
-    "name": { "str": "broken debug hauler bot" },
+    "name": { "str": "broken hauler bot" },
     "category": "other",
-    "description": "A broken hauler bot, now just a mass of limp mechanical limbs and busted chassis.  Only useful for debug-testing the monster and related items.",
+    "description": "A broken hauler bot, now just a mass of limp mechanical limbs and busted chassis.  Only useful for parts now.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "steel", "plastic" ],
-    "weight": "30 kg",
-    "volume": "25 L",
+    "weight": "100 kg",
+    "volume": "65 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
@@ -1698,7 +1699,8 @@
     "price_postapoc": 50,
     "material": [ "steel", "cotton" ],
     "symbol": ";",
-    "color": "light_gray"
+    "color": "light_gray",
+    "use_action": "GUN_CLEAN"
   },
   {
     "type": "GENERIC",
@@ -1965,7 +1967,7 @@
     "symbol": ",",
     "color": "brown",
     "name": { "str": "soft adobe brick" },
-    "description": "A compacted mass of soil and natural fibers, still too wet to build with.  Load it onto a pallet and leave it to dry.",
+    "description": "A compacted mass of soil and natural fibers, still too wet to build with.  You could load it onto a pallet and leave it to dry to process them in bulk.",
     "price": 0,
     "price_postapoc": 0,
     "material": "soil",
@@ -1973,14 +1975,14 @@
     "volume": "750 ml",
     "bashing": 2,
     "to_hit": -3,
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "target": "adobe_brick",
       "msg": "You test the brick, and it seems solid enough to use.",
       "moves": 50,
       "type": "delayed_transform",
       "transform_age": 100800,
-      "not_ready_msg": "The brick is still too damp to bear weight.",
-      "//": "Should be about a week. Irl it's ten days, so make big batches."
+      "not_ready_msg": "The brick is still too damp to bear weight."
     }
   },
   {
@@ -2227,7 +2229,7 @@
     "name": { "str": "pile of straw", "str_pl": "piles of straw" },
     "category": "spare_parts",
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
-    "material": [ "paper" ],
+    "material": [ "dry_plant" ],
     "flags": [ "TRADER_AVOID" ],
     "weight": "20 g",
     "volume": "250 ml",
@@ -2242,7 +2244,7 @@
     "description": "Old straw doll.  Represents a woman in a dress.",
     "price": 100,
     "price_postapoc": 0,
-    "material": [ "paper" ],
+    "material": [ "dry_plant" ],
     "weight": "80 g",
     "volume": "500 ml"
   },
@@ -2666,6 +2668,30 @@
     "category": "spare_parts"
   },
   {
+    "id": "gatling_mech_laser_salvaged",
+    "copy-from": "cerberus_laser",
+    "looks_like": "gatling_mech_laser",
+    "type": "GENERIC",
+    "color": "blue",
+    "name": { "str": "salvaged CMES gatling laser" },
+    "description": "A rapid-fire weapon system stripped from a wrecked combat exoskeleton.  No longer usable as a weapon in its current condition.",
+    "material": [ "superalloy", "plastic" ],
+    "weight": "39 kg",
+    "volume": "11 L"
+  },
+  {
+    "id": "recon_mech_laser_salvaged",
+    "copy-from": "cerberus_laser",
+    "looks_like": "recon_mech_laser",
+    "type": "GENERIC",
+    "color": "blue",
+    "name": { "str": "salvaged RMES marksman laser" },
+    "description": "A long-range weapon system stripped from a wrecked recon exoskeleton.  No longer usable as a weapon in its current condition.",
+    "material": [ "superalloy", "plastic" ],
+    "weight": "12 kg",
+    "volume": "5500 ml"
+  },
+  {
     "id": "light_bulb",
     "type": "GENERIC",
     "name": { "str": "light bulb" },
@@ -2964,7 +2990,7 @@
     "color": "brown",
     "name": { "str": "fire brick" },
     "category": "spare_parts",
-    "description": "A reinforced brick designed to withstand intense heat.",
+    "description": "A reinforced brick designed to withstand intense heat.  It could also be used as an impromptu anvil for light metalworking.",
     "price": 2500,
     "price_postapoc": 10,
     "material": [ "clay", "stone" ],
@@ -2972,7 +2998,7 @@
     "volume": "500 ml",
     "bashing": 8,
     "to_hit": -2,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 1 ], [ "ANVIL", 1 ] ]
   },
   {
     "id": "survival_kit",

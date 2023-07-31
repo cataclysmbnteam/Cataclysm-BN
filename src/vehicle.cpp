@@ -3524,7 +3524,7 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
                 m2c *= 0.6;
             }
             pwr += part_vpower_w( p ) * m2c / 100;
-            cnt++;
+            cnt += static_cast<int>( !part_info( p ).has_flag( "E_NO_POWER_DECAY" ) );
         }
     }
 
@@ -3747,6 +3747,26 @@ int vehicle::max_reverse_velocity( const bool fueled ) const
 // the same physics as max_ground_velocity, but with a smaller engine power
 int vehicle::safe_ground_velocity( const bool fueled ) const
 {
+    for( size_t e = 0; e < parts.size(); e++ ) {
+        const vehicle_part &vp = parts[ e ];
+        int animal_vel = 0;
+        if( vp.info().fuel_type == fuel_type_animal && engines.size() != 1 ) {
+            monster *mon = get_pet( e );
+            if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
+                int animal_vel_cur = mon->get_speed() * 12;
+                if( animal_vel > 0 ) {
+                    animal_vel = std::min( animal_vel, animal_vel_cur );
+                } else {
+                    animal_vel = animal_vel_cur;
+                }
+            }
+        }
+        // Cap safe speed at the point where the slowest animal found would start to damage their yoke
+        // If damage or weight has pulled max speed lower than this, cap at that instead.
+        if( animal_vel > 0 ) {
+            return std::min( animal_vel, max_ground_velocity( fueled ) );
+        }
+    }
     int effective_engine_w = total_power_w( fueled, true );
     double c_rolling_drag = coeff_rolling_drag();
     double safe_in_mps = simple_cubic_solution( coeff_air_drag(), c_rolling_drag,
@@ -4626,7 +4646,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         }
         // decreased stamina burn scalable with load
         if( g->u.has_active_bionic( bio_jointservo ) ) {
-            g->u.mod_power_level( units::from_kilojoule( -std::max( eff_load / 20, 1 ) ) );
+            g->u.mod_power_level( -bio_jointservo->power_trigger * std::max( eff_load / 20, 1 ) );
             mod -= std::max( eff_load / 5, 5 );
         }
         if( one_in( 1000 / load ) && one_in( 10 ) ) {

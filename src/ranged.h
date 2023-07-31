@@ -101,6 +101,9 @@ float str_draw_damage_modifier( const item &it, const Character &p );
 float str_draw_dispersion_modifier( const item &it, const Character &p );
 float str_draw_range_modifier( const item &it, const Character &p );
 
+/** Returns shaped attack used by the gun+ammo, if set */
+std::optional<shape_factory> get_shape_factory( const item &gun );
+
 /** AoE attack, with area given by shape */
 void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &attacker );
 
@@ -162,6 +165,9 @@ double recoil_total( const Character &who );
 /** How many moves does it take to aim gun to the target accuracy. */
 int gun_engagement_moves( const Character &who, const item &gun, int target = 0,
                           int start = MAX_RECOIL );
+
+/** Calculates time taken to fire gun */
+int time_to_attack( const Character &p, const item &firing, const item_location loc );
 
 void make_gun_sound_effect( const Character &who, bool burst, const item &gun );
 

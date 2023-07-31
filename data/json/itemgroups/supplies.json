@@ -381,6 +381,8 @@
       [ "wheel_bicycle_or", 5 ],
       [ "wheel_motorbike_or", 5 ],
       [ "wheel_slick", 5 ],
+      { "item": "seatbelt", "prob": 10, "count": [ 3, 10 ] },
+      { "item": "five-point_harness", "prob": 3, "count": [ 2, 4 ] },
       [ "1cyl_combustion", 10 ],
       [ "v2_combustion", 10 ],
       [ "i4_combustion", 10 ],
@@ -549,7 +551,7 @@
     "id": "civilian_helicopter_parts",
     "type": "item_group",
     "//": "Parts for civilian helicopter",
-    "items": [ [ "small_turbine_engine", 50 ], [ "small_helicopter_rotor", 50 ] ]
+    "items": [ [ "small_turbine_engine", 50 ], [ "small_helicopter_rotor", 40 ], [ "homebuilt_gyrocopter_rotor", 10 ] ]
   },
   {
     "id": "military_helicopter_parts",

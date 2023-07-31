@@ -8,10 +8,12 @@
 
 void active_item_cache::remove( const item *it )
 {
-    active_items[it->processing_speed()].remove_if( [it]( const item_reference & active_item ) {
-        item *const target = active_item.item_ref.get();
-        return !target || target == it;
-    } );
+    for( auto &list : active_items ) {
+        list.second.remove_if( [it]( const item_reference & active_item ) {
+            item *const target = active_item.item_ref.get();
+            return !target || target == it;
+        } );
+    }
     if( it->can_revive() ) {
         special_items[ special_item_type::corpse ].remove_if( [it]( const item_reference & active_item ) {
             item *const target = active_item.item_ref.get();
