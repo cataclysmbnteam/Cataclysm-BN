@@ -24,6 +24,7 @@
 #include "player.h"
 #include "popup.h"
 #include "rng.h"
+#include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 
@@ -507,6 +508,28 @@ void cata::detail::reg_game_api( sol::state &lua )
     luna::finalize_lib( lib );
 }
 
+// We have to alias the function here because VS compiler 
+// confuses namespaces 'detail' and 'cata::detail'
+const auto &gettext_raw = sol::resolve<const char *( const char * )>
+                          ( &detail::_translate_internal );
+
+void cata::detail::reg_locale_api( sol::state &lua )
+{
+    DOC( "Localization API." );
+    luna::userlib lib = luna::begin_lib( lua, "locale" );
+
+    DOC( "Expects english source string, returns translated string." );
+    luna::set_fx( lib, "gettext", gettext_raw );
+    DOC( "First is english singular string, second is english plural string. Number is amount to translate for." );
+    luna::set_fx( lib, "vgettext", &vgettext );
+    DOC( "First is context string. Second is english source string." );
+    luna::set_fx( lib, "pgettext", &pgettext );
+    DOC( "First is context string. Second is english singular string. third is english plural. Number is amount to translate for." );
+    luna::set_fx( lib, "vpgettext", &vpgettext );
+
+    luna::finalize_lib( lib );
+}
+
 template<typename E>
 void reg_enum( sol::state &lua )
 {
@@ -754,6 +777,7 @@ void cata::reg_all_bindings( sol::state &lua )
     override_default_print( lua );
     reg_debug_api( lua );
     reg_game_api( lua );
+    reg_locale_api( lua );
     reg_creature_family( lua );
     reg_point_tripoint( lua );
     reg_item( lua );

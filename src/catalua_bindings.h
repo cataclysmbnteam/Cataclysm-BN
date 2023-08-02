@@ -21,6 +21,7 @@ void reg_debug_api( sol::state &lua );
 void reg_distribution_grid( sol::state &lua );
 void reg_enums( sol::state &lua );
 void reg_game_api( sol::state &lua );
+void reg_locale_api( sol::state &lua );
 void reg_hooks_examples( sol::state &lua );
 void reg_item( sol::state &lua );
 void reg_map( sol::state &lua );
