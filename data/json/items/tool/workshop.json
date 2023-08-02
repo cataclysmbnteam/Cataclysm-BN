@@ -491,7 +491,7 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
+    "use_action": [ "GUN_CLEAN", "GUN_REPAIR", "CROWBAR", "HAMMER" ],
     "magazines": [
       [
         "battery",
@@ -839,7 +839,7 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
+    "use_action": [ "GUN_CLEAN", "GUN_REPAIR", "CROWBAR", "HAMMER" ],
     "magazines": [
       [
         "battery",

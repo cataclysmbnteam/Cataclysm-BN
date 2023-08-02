@@ -1857,7 +1857,13 @@ bool game::handle_action()
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't open things while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
-                    add_msg( m_info, _( "You can't open things while you're riding." ) );
+                    auto mon = u.mounted_creature.get();
+                    if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( m_info, _( "You can't open things while you're riding." ) );
+                        break;
+                    } else {
+                        open();
+                    }
                 } else {
                     open();
                 }
@@ -1870,6 +1876,9 @@ bool game::handle_action()
                     auto mon = u.mounted_creature.get();
                     if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
                         add_msg( m_info, _( "You can't close things while you're riding." ) );
+                        break;
+                    } else {
+                        close();
                     }
                 } else if( mouse_target ) {
                     doors::close_door( m, u, *mouse_target );
@@ -1932,7 +1941,16 @@ bool game::handle_action()
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't grab things while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
-                    add_msg( m_info, _( "You can't grab things while you're riding." ) );
+                    auto mon = u.mounted_creature.get();
+                    if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( m_info, _( "You can't grab things while you're riding." ) );
+                        break;
+                    } else if( !mon->type->mech_weapon.is_empty() ) {
+                        add_msg( m_info, _( "Your mech doesn't have hands to grab with." ) );
+                        break;
+                    } else {
+                        grab();
+                    }
                 } else {
                     grab();
                 }

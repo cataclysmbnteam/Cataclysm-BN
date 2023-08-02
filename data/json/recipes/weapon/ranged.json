@@ -653,9 +653,7 @@
     "difficulty": 4,
     "time": "4 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 2 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 8 ], [ "steel_tiny", 2 ] ]
   },
   {
     "type": "recipe",
@@ -666,8 +664,8 @@
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_intermediate", 3 ], [ "steel_tiny", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
@@ -739,6 +737,34 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "cerberus_laser", 1 ] ], [ [ "battery_ups", 1 ] ], [ [ "cable", 15 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "gatling_mech_laser_rebuilt",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "skills_required": [ [ "fabrication", 5 ], [ "gun", 1 ] ],
+    "difficulty": 7,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "gatling_mech_laser_salvaged", 1 ] ], [ [ "battery_ups", 1 ] ], [ [ "cable", 25 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "gatling_mech_laser_rebuilt",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "skills_required": [ [ "fabrication", 5 ], [ "gun", 1 ] ],
+    "difficulty": 7,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "gatling_mech_laser_salvaged", 1 ] ], [ [ "battery_ups", 1 ] ], [ [ "cable", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -896,15 +922,8 @@
     "time": "240 m",
     "autolearn": true,
     "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "using": [ [ "forging_standard", 4 ], [ "steel_standard", 3 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "blacksmithing_advanced", 4 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -918,15 +937,8 @@
     "time": "360 m",
     "autolearn": true,
     "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "using": [ [ "forging_standard", 6 ], [ "steel_standard", 3 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "blacksmithing_advanced", 6 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -940,15 +952,8 @@
     "time": "240 m",
     "autolearn": true,
     "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "blacksmithing_advanced", 3 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -962,15 +967,8 @@
     "time": "80 m",
     "autolearn": true,
     "book_learn": [ [ "manual_pistol", 5 ], [ "mag_pistol", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "using": [ [ "forging_standard", 2 ], [ "steel_standard", 3 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -1119,7 +1117,7 @@
     "using": [
       [ "soldering_standard", 20 ],
       [ "welding_standard", 50 ],
-      [ "blacksmithing_standard", 12 ],
+      [ "blacksmithing_advanced", 12 ],
       [ "surface_heat", 30 ],
       [ "steel_standard", 3 ]
     ],
@@ -1131,10 +1129,9 @@
       { "id": "SAW_M", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ], [ [ "mold_plastic", -1 ] ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "plastic_chunk", 20 ] ],
       [ [ "sheet_metal", 1 ] ],

@@ -41,7 +41,8 @@ TEST_CASE( "auto_consume_priority", "[auto_consume][food][zone]" )
     avatar &you = get_avatar();
     you.setpos( zone_origin );
 
-    static auto create_zone = [&]( const std::string & name ) -> void {
+    static auto create_zone = [ &, zone_origin_absolute,
+       zone_size]( const std::string & name ) -> void {
         zmgr.add( name, zone_type_id( name ),
                   faction_id( "your_followers" ), false, true,
                   zone_origin_absolute - zone_size,

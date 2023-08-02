@@ -31,7 +31,9 @@
     "price": 0,
     "price_postapoc": 0,
     "weight": "500 g",
-    "description": "This CBM is broken beyond repair, you can't do anything with it."
+    "description": "This CBM is broken beyond repair, you can't do anything with it.",
+    "//": "Needed for dissection of faulty CBMs from dead PCs and NPCs to convert the harvest result into a burnt-out bionic automatically.",
+    "extend": { "flags": [ "BIONIC_FAULTY" ] }
   },
   {
     "id": "bio_adrenaline",
@@ -1096,7 +1098,7 @@
     "id": "bio_deformity",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Pieces Of Junk", "str_pl": "Pieces of Junk" },
+    "name": { "str": "Bionic-Induced Deformity", "str_pl": "Bionic-Induced Deformities" },
     "description": "A jumble of broken metal pieces that were removed during reconstructive surgery.",
     "difficulty": 5
   },
@@ -1104,7 +1106,7 @@
     "id": "bio_dis_acid",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Acidic Leaking CBM" },
+    "name": { "str": "Acidic Discharge" },
     "description": "This CBM has been breached in several places and some acid is leaking from it.",
     "weight": "700 g",
     "difficulty": 11
@@ -1113,7 +1115,7 @@
     "id": "bio_dis_shock",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Faulty Electric System" },
+    "name": { "str": "Electrical Discharge" },
     "description": "This CBM is a mess of naked wire and burnt resistors.",
     "weight": "700 g",
     "difficulty": 5

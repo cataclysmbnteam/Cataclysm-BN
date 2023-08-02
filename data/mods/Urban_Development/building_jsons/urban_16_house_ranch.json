@@ -132,7 +132,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ]
+      "palettes": [ "acidia_residential_roof_palette" ]
     }
   },
   {
@@ -155,20 +155,20 @@
         "RRRRRRRR&RRRR2..........",
         "RRRRRRRRRRRRR11111......",
         "RRRRRRRRRRRRRRRRR2......",
+        "RRRRRRGRRRRRRRRRR2......",
         "RRRRRRRRRRRRRRRRR2......",
-        "RRRRRRRRRRRRRRRRR2......",
-        "RRRRRRRRRRRRRRRRR2......",
-        "RRRRRRRRRRRRRRRRR2......",
+        "RRRRRRRRRRRGRRRRR2......",
         "RRRRRRRRRRRRRRRRR2......",
         "RRRRRRRRRRRRRRRRR2......",
         "RRRRRRRRRRRRRRRRR2......",
         "RRRRRRRRRRRRRRRRR2......",
         "RRRRRRRRR!RRRRRRR2......",
+        "RRRRRRRRRRRRRRRRR2......",
         "333333333333333333......",
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ]
+      "palettes": [ "acidia_residential_roof_palette" ]
     }
   }
 ]
