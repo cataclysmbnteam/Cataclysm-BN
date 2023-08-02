@@ -508,7 +508,7 @@ void cata::detail::reg_game_api( sol::state &lua )
     luna::finalize_lib( lib );
 }
 
-// We have to alias the function here because VS compiler 
+// We have to alias the function here because VS compiler
 // confuses namespaces 'detail' and 'cata::detail'
 const auto &gettext_raw = sol::resolve<const char *( const char * )>
                           ( &detail::_translate_internal );
