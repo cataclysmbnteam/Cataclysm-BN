@@ -202,6 +202,8 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_under_op( "under_operation" );
 
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
@@ -486,10 +488,19 @@ static void extract_or_wreck_cbms( const std::list<item> &cbms, int roll,
         // This complicates things
         if( it.is_bionic() ) {
             if( check_butcher_cbm( roll ) || it.typeId() == itype_burnt_out_bionic ) {
-                add_msg( m_good, _( "You discover a %s!" ), it.tname() );
+                if( it.has_flag( "BIONIC_FAULTY" ) ) {
+                    it.convert( itype_burnt_out_bionic );
+                    // We don't need the non-sterile fault on a piece of burnt-out bionic
+                    if( it.has_fault( fault_bionic_nonsterile ) ) {
+                        it.faults.erase( fault_bionic_nonsterile );
+                    }
+                }
+                add_msg( m_good, _( "You discover: %s!" ), it.tname() );
             } else {
-                // We convert instead of recreating so that it keeps flags and faults
                 it.convert( itype_burnt_out_bionic );
+                if( it.has_fault( fault_bionic_nonsterile ) ) {
+                    it.faults.erase( fault_bionic_nonsterile );
+                }
                 add_msg( m_bad, _( "Your imprecise surgery damaged a bionic, producing a %s." ), it.tname() );
             }
         } else {
@@ -497,7 +508,11 @@ static void extract_or_wreck_cbms( const std::list<item> &cbms, int roll,
                 add_msg( m_bad, _( "Your imprecise surgery destroyed some organs." ) );
                 continue;
             } else {
-                add_msg( m_good, _( "You discover a %s!" ), it.tname() );
+                // If we have non-bionic loot in a harvest's bionic_group it doesn't need to be marked non-sterile either.
+                if( it.has_fault( fault_bionic_nonsterile ) ) {
+                    it.faults.erase( fault_bionic_nonsterile );
+                }
+                add_msg( m_good, _( "You discover: %s!" ), it.tname() );
             }
         }
 
