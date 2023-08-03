@@ -265,7 +265,8 @@
         { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": 21, "y": [ 11, 19 ] },
         { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 17, 18 ], "y": [ 11, 18 ] },
         { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 14, 15 ], "y": [ 11, 18 ] },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] }
+        { "chance": 75, "repeat": [ 1, 4 ], "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] },
+        { "chance": 3, "repeat": [ 1, 4 ], "item": "pwr_armor_acc", "x": [ 9, 10 ], "y": [ 9, 10 ] }
       ]
     }
   },

@@ -10,6 +10,7 @@
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "point.h"
 #include "sounds.h"
 #include "vehicle.h"
@@ -34,6 +35,12 @@ auto make_scraping_noise( const tripoint &pos, const int volume ) -> void
 auto base_str_req( vehicle *veh )-> int
 {
     return veh->total_mass() / 100_kilogram;
+}
+
+// alternative strength check, for saner results with weights less than 100 kg
+auto offroad_str_req_cap( vehicle *veh )-> int
+{
+    return veh->total_mass() / 10_kilogram;
 }
 
 // determine movecost for terrain touching wheels
@@ -145,8 +152,16 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     //vehicle movement: strength check. very strong humans can move about 2,000 kg in a wheelbarrow.
     // int str_req = grabbed_vehicle->total_mass() / 100_kilogram; //strength required to move vehicle.
-    const int str_req = get_vehicle_str_requirement( grabbed_vehicle );
-    const int str = u.get_str();
+    // for smaller vehicles, offroad_str_req_cap sanity-checks our results.
+    int str_req = std::min( get_vehicle_str_requirement( grabbed_vehicle ),
+                            offroad_str_req_cap( grabbed_vehicle ) );
+    int str = u.get_str();
+    if( u.is_mounted() ) {
+        auto mons = u.mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
+            str = mons->mech_str_addition();
+        }
+    }
     add_msg( m_debug, "str_req: %d", str_req );
 
     //final strength check and outcomes

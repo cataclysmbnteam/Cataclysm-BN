@@ -96,6 +96,11 @@
   },
   {
     "type": "item_action",
+    "id": "GUN_CLEAN",
+    "name": { "str": "Repair/mend a gun" }
+  },
+  {
+    "type": "item_action",
     "id": "GUN_REPAIR",
     "name": { "str": "Repair a gun" }
   },

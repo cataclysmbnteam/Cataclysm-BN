@@ -1221,6 +1221,11 @@ class Character : public Creature, public visitable<Character>
         /*@}*/
 
         /**
+         * Use this when primary weapon might not exist yet.
+         */
+        void set_primary_weapon( const item &new_weapon );
+
+        /**
          * Try to find a container/s on character containing ammo of type it.typeId() and
          * add charges until the container is full.
          * @param unloading Do not try to add to a container when the item was intentionally unloaded.
@@ -1575,8 +1580,7 @@ class Character : public Creature, public visitable<Character>
         std::optional<tripoint> destination_point;
         inventory inv;
         itype_id last_item;
-    private:
-        item weapon;
+
     public:
 
         int scent = 0;
@@ -2222,6 +2226,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_chemimbalance();
         void suffer_from_schizophrenia();
         void suffer_from_asthma( int current_stim );
+        void suffer_feral_kill_withdrawl();
         void suffer_in_sunlight();
         void suffer_from_sunburn();
         void suffer_from_other_mutations();

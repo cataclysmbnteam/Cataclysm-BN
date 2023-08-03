@@ -119,11 +119,13 @@ static bool z_is_valid( int z )
 bool monster::will_move_to( const tripoint &p ) const
 {
     if( g->m.impassable( p ) ) {
+        tripoint above_p( p.x, p.y, p.z + 1 );
         if( digging() ) {
             if( !g->m.has_flag( "BURROWABLE", p ) ) {
                 return false;
             }
-        } else if( !( can_climb() && g->m.has_flag( "CLIMBABLE", p ) ) ) {
+        } else if( !( can_climb() && g->m.has_flag( "CLIMBABLE", p ) &&
+                      !g->m.has_floor_or_support( above_p ) ) ) {
             return false;
         }
     }
@@ -1575,7 +1577,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = g->critter_at( destination, is_hallucination() );
     if( g->m.has_flag( "CLIMBABLE", destination ) ) {
-        if( g->m.impassable( destination ) && critter == nullptr ) {
+        tripoint above_dest( destination.x, destination.y, destination.z + 1 );
+        if( g->m.impassable( destination ) && critter == nullptr &&
+            !g->m.has_floor_or_support( above_dest ) ) {
             if( flies() ) {
                 moves -= 100;
                 force = true;

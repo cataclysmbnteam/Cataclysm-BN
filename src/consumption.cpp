@@ -151,6 +151,8 @@ static const std::string flag_RADIOACTIVE( "RADIOACTIVE" );
 static const std::string flag_RAW( "RAW" );
 static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
+static const std::string flag_COLD( "COLD" );
+static const std::string flag_VERY_COLD( "VERY_COLD" );
 
 const std::vector<std::string> carnivore_blacklist {{
         flag_ALLERGEN_VEGGY, flag_ALLERGEN_FRUIT, flag_ALLERGEN_WHEAT, flag_ALLERGEN_NUT,
@@ -377,7 +379,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
 
     cata::flat_set<std::string> our_extra_flags = extra_flags;
 
-    if( rec.hot_result() ) {
+    if( rec.hot_result() || rec.dehydrate_result() ) {
         our_extra_flags.insert( flag_COOKED );
     }
 
@@ -877,6 +879,11 @@ bool Character::eat( item &food, bool force )
     } else if( spoiled && saprophage ) {
         add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious…" ), food.tname() );
     }
+    // Store the fact that the food was cold to later reapply it to the rest of the stack, to prevent rot.
+    // Note: Implemented to fix display error when eating reheated food.
+    bool food_was_cold = food.has_flag( flag_COLD );
+    bool food_was_very_cold = food.has_flag( flag_VERY_COLD );
+
     if( !consume_effects( food ) ) {
         // Already consumed by using `food.type->invoke`?
         if( charges_used > 0 ) {
@@ -945,6 +952,14 @@ bool Character::eat( item &food, bool force )
     } else if( chew ) {
         add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                food.tname() );
+    }
+
+    if( food_was_cold ) {
+        food.set_flag( flag_COLD );
+    }
+
+    if( food_was_very_cold ) {
+        food.set_flag( flag_VERY_COLD );
     }
 
     if( food.get_comestible()->tool->tool ) {
@@ -1065,6 +1080,8 @@ void Character::modify_morale( item &food, int nutr )
                                    _( "You heat up your %1$s using the %2$s." ),
                                    _( "<npcname> heats up their %1$s using the %2$s." ),
                                    food.tname(), heater->it.tname() );
+            food.unset_flag( flag_COLD );
+            food.unset_flag( flag_VERY_COLD );
             morale_time = 3_hours;
             int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
             add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
@@ -1471,8 +1488,12 @@ item &Character::get_consumable_from( item &it ) const
     return null_comestible;
 }
 
-static bool query_consume_ownership( item &target, avatar &you )
+bool query_consume_ownership( item &target, avatar &you )
 {
+    //Add in a reset here to make sure user keeps getting asked if not set to keep thief setting
+    if( you.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        you.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
     if( !target.is_owned_by( you, true ) ) {
         bool choice = true;
         if( you.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
@@ -1547,7 +1568,7 @@ void Character::consume( item_location loc )
         }
 
         if( was_in_container && wielding ) {
-            add_msg_if_player( _( "You are now wielding an empty %s." ), weapon.tname() );
+            add_msg_if_player( _( "You are now wielding an empty %s." ), primary_weapon().tname() );
         } else if( was_in_container && worn ) {
             add_msg_if_player( _( "You are now wearing an empty %s." ), target.tname() );
         } else if( was_in_container && !is_npc() ) {

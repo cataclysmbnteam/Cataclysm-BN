@@ -1954,7 +1954,7 @@ bool overmap::generate_sub( const int z )
         add_mon_group(
             mongroup( ant_group, tripoint_om_sm( project_to<coords::sm>( i.pos ), z ),
                       ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
-        build_anthill( p_loc, i.size );
+        build_anthill( p_loc, i.size, ter( p_loc + tripoint_above ) == "anthill" );
     }
 
     return requires_sub;
@@ -3552,10 +3552,10 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
     return numstairs > 0;
 }
 
-void overmap::build_anthill( const tripoint_om_omt &p, int s )
+void overmap::build_anthill( const tripoint_om_omt &p, int s, bool ordinary_ants )
 {
     for( om_direction::type dir : om_direction::all ) {
-        build_tunnel( p, s - rng( 0, 3 ), dir );
+        build_tunnel( p, s - rng( 0, 3 ), dir, ordinary_ants );
     }
 
     // TODO: This should follow the tunnel network,
@@ -3573,7 +3573,7 @@ void overmap::build_anthill( const tripoint_om_omt &p, int s )
         debugmsg( "No queenpoints when building anthill, anthill over %s", ter( p ).id().str() );
     }
     const tripoint_om_omt target = random_entry( queenpoints );
-    ter_set( target, oter_id( "ants_queen" ) );
+    ter_set( target, ordinary_ants ? oter_id( "ants_queen" ) : oter_id( "ants_queen_acid" ) );
 
     const oter_id root_id( "ants_isolated" );
 
@@ -3600,7 +3600,8 @@ void overmap::build_anthill( const tripoint_om_omt &p, int s )
     }
 }
 
-void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir )
+void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir,
+                            bool ordinary_ants )
 {
     if( s <= 0 ) {
         return;
@@ -3633,6 +3634,7 @@ void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type 
 
     const oter_id ants_food( "ants_food" );
     const oter_id ants_larvae( "ants_larvae" );
+    const oter_id ants_larvae_acid( "ants_larvae_acid" );
     const tripoint_om_omt next =
         s != 1 ? p + om_direction::displace( dir ) : tripoint_om_omt( -1, -1, -1 );
 
@@ -3648,15 +3650,15 @@ void overmap::build_tunnel( const tripoint_om_omt &p, int s, om_direction::type 
                 if( one_in( 2 ) ) {
                     ter_set( cand, ants_food );
                 } else {
-                    ter_set( cand, ants_larvae );
+                    ter_set( cand, ordinary_ants ? ants_larvae : ants_larvae_acid );
                 }
             } else if( one_in( 5 ) ) {
                 // Branch off a side tunnel
-                build_tunnel( cand, s - rng( 1, 3 ), r );
+                build_tunnel( cand, s - rng( 1, 3 ), r, ordinary_ants );
             }
         }
     }
-    build_tunnel( next, s - 1, dir );
+    build_tunnel( next, s - 1, dir, ordinary_ants );
 }
 
 bool overmap::build_slimepit( const tripoint_om_omt &origin, int s )
@@ -4579,6 +4581,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     if( enabled_specials.empty() ) {
         return;
     }
+
+    std::shuffle( enabled_specials.begin(), enabled_specials.end(), rng_get_engine() );
 
     // First, place the mandatory specials to ensure that all minimum instance
     // counts are met.

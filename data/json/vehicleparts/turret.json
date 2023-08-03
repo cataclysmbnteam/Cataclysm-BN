@@ -147,6 +147,34 @@
     }
   },
   {
+    "id": "mounted_gatling_mech_laser_rebuilt",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted gatling laser" },
+    "item": "gatling_mech_laser_rebuilt",
+    "color": "blue",
+    "broken_color": "blue",
+    "breaks_into": [ { "item": "scrap", "count": 14 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
+    }
+  },
+  {
+    "id": "mounted_recon_mech_laser_rebuilt",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted marksman laser" },
+    "item": "recon_mech_laser_rebuilt",
+    "color": "blue",
+    "broken_color": "blue",
+    "breaks_into": [ { "item": "scrap", "count": 14 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
+    }
+  },
+  {
     "id": "m249",
     "copy-from": "turret",
     "type": "vehicle_part",

@@ -856,10 +856,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
     }
 
-    std::optional<shape_factory> shape;
-    if( gun.ammo_current() && gun.ammo_current()->ammo ) {
-        shape = gun.ammo_current()->ammo->shape;
-    }
+    std::optional<shape_factory> shape = ranged::get_shape_factory( gun );
 
     map &here = get_map();
     // Shaped attacks don't allow aiming, so they don't suffer from lack of aim either
@@ -2014,10 +2011,12 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
     // TODO: Mods
     // TODO: Allow using a specified type of ammo rather than default or current
     if( !weap.type->gun ) {
+        add_msg( m_debug, "%s is not a gun, gun_value set to 0", weap.type->get_id().str() );
         return 0.0;
     }
 
     if( ammo <= 0 ) {
+        add_msg( m_debug, "%s has no ammo, gun_value set to 0", weap.type->get_id().str() );
         return 0.0;
     }
 
@@ -3098,7 +3097,13 @@ void target_ui::update_ammo_range_from_gun_mode()
     } else {
         ammo = activity->reload_loc ? activity->reload_loc.get_item()->type :
                relevant->gun_current_mode().target->ammo_data();
-        range = relevant->gun_current_mode().target->gun_range( you );
+        if( activity->reload_loc ) {
+            item temp_weapon = *relevant;
+            temp_weapon.ammo_set( ammo->get_id() );
+            range = temp_weapon.gun_current_mode().target->gun_range( you );
+        } else {
+            range = relevant->gun_current_mode().target->gun_range( you );
+        }
     }
 }
 
@@ -3776,10 +3781,16 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
     }
 
     if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
+
+        bool mech_mount = false;
+        if( you.is_mounted() && you.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+            mech_mount = true;
+        }
+
         const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
                                  true ) );
         bool t_mountable = m.has_flag_ter_or_furn( flag_MOUNTABLE, you.pos() );
-        if( !t_mountable && !v_mountable && !( you.get_size() > MS_MEDIUM ) ) {
+        if( !mech_mount && !t_mountable && !v_mountable && !( you.get_size() > MS_MEDIUM ) ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),
                                     gmode->tname() ) );
@@ -3952,4 +3963,13 @@ double ranged::aim_per_move( const Character &who, const item &gun, double recoi
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
+}
+
+std::optional<shape_factory> ranged::get_shape_factory( const item &gun )
+{
+    if( gun.ammo_current() && gun.ammo_current()->ammo ) {
+        return gun.ammo_current()->ammo->shape;
+    }
+
+    return {};
 }
