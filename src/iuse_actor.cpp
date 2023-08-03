@@ -2193,9 +2193,8 @@ int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) c
     if( rng( 0, 10 ) - it.damage_level( 4 ) > success_chance && !p.is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p.pos(), noise, sounds::sound_t::combat, _( success_message ) );
-        } else {
-            p.add_msg_if_player( _( success_message ) );
         }
+        p.add_msg_if_player( _( success_message ) );
 
         it.convert( target_id );
         it.active = true;
@@ -2260,9 +2259,8 @@ int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) co
     } else if( one_in( noise_chance ) ) {
         if( noise > 0 ) {
             sounds::sound( p.pos(), noise, sounds::sound_t::combat, _( noise_message ) );
-        } else {
-            p.add_msg_if_player( _( noise_message ) );
         }
+        p.add_msg_if_player( _( noise_message ) );
     }
 
     return it.type->charges_to_use();

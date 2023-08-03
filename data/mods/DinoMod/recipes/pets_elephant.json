@@ -216,8 +216,6 @@
     "skills_required": [ "fabrication", 8 ],
     "time": "96 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_standard", 800 ], [ "steel_standard", 200 ], [ "fabric_leather_fur_hide", 30 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 800 ], [ "steel_standard", 200 ], [ "fabric_leather_fur_hide", 30 ] ]
   }
 ]

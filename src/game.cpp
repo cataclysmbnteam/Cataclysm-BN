@@ -300,7 +300,7 @@ static void achievement_attained( const achievement *a )
 game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
-    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained ),
+    achievements_tracker_ptr( *stats_tracker_ptr, *kill_tracker_ptr, achievement_attained ),
     grid_tracker_ptr( MAPBUFFER ),
     m( *map_ptr ),
     u( *u_ptr ),
@@ -322,8 +322,8 @@ game::game() :
 {
     first_redraw_since_waiting_started = true;
     reset_light_level();
-    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*kill_tracker_ptr );
+    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*memorial_logger_ptr );
     events().subscribe( &*achievements_tracker_ptr );
     events().subscribe( &*spell_events_ptr );
@@ -516,7 +516,7 @@ void game::setup()
 
     stats().clear();
     // reset kill counts
-    kill_tracker_ptr->clear();
+    get_kill_tracker().clear();
     achievements_tracker_ptr->clear();
     // reset follower list
     follower_ids.clear();
@@ -881,11 +881,6 @@ void game::reload_npcs()
     // and not invoke "on_load" for those NPCs that avoided unloading this way.
     unload_npcs();
     load_npcs();
-}
-
-const kill_tracker &game::get_kill_tracker() const
-{
-    return *kill_tracker_ptr;
 }
 
 void game::create_starting_npcs()
@@ -1582,14 +1577,6 @@ bool game::do_turn()
     u.update_bodytemp( m, weather );
     character_funcs::update_body_wetness( u, get_weather().get_precise() );
     u.apply_wetness_morale( weather.temperature );
-
-    if( calendar::once_every( 1_minutes ) ) {
-        u.update_morale();
-    }
-
-    if( calendar::once_every( 9_turns ) ) {
-        u.check_and_recover_morale();
-    }
 
     if( !u.is_deaf() ) {
         sfx::remove_hearing_loss();
@@ -2722,6 +2709,11 @@ event_bus &game::events()
 stats_tracker &game::stats()
 {
     return *stats_tracker_ptr;
+}
+
+kill_tracker &game::get_kill_tracker()
+{
+    return *kill_tracker_ptr;
 }
 
 memorial_logger &game::memorial()
@@ -5478,7 +5470,22 @@ void game::examine( const tripoint &examp )
     if( c != nullptr ) {
         monster *mon = dynamic_cast<monster *>( c );
         if( mon != nullptr ) {
-            add_msg( _( "There is a %s." ), mon->get_name() );
+            if( mon->battery_item && mon->has_effect( effect_pet ) ) {
+                const itype &type = *mon->type->mech_battery;
+                int max_charge = type.magazine->capacity;
+                float charge_percent;
+                if( mon->battery_item ) {
+                    charge_percent = static_cast<float>( mon->battery_item->ammo_remaining() ) / max_charge * 100;
+                } else {
+                    charge_percent = 0.0;
+                }
+                add_msg( _( "There is a %s.  Battery level: %d%%" ), mon->get_name(),
+                         static_cast<int>( charge_percent ) );
+            } else {
+                add_msg( _( "There is a %s." ), mon->get_name() );
+            }
+
+
             if( mon->has_effect( effect_pet ) && !u.is_mounted() ) {
                 if( monexamine::pet_menu( *mon ) ) {
                     return;
@@ -9577,14 +9584,21 @@ bool game::grabbed_furn_move( const tripoint &dp )
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
+    int adjusted_str = u.get_str();
+    if( u.is_mounted() ) {
+        auto mons = u.mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
+            adjusted_str = mons->mech_str_addition();
+        }
+    }
     if( !canmove ) {
         // TODO: What is something?
         add_msg( _( "The %s collides with something." ), furntype.name() );
         u.moves -= 50;
         return true;
         ///\EFFECT_STR determines ability to drag furniture
-    } else if( str_req > u.get_str() &&
-               one_in( std::max( 20 - str_req - u.get_str(), 2 ) ) ) {
+    } else if( str_req > adjusted_str &&
+               one_in( std::max( 20 - str_req - adjusted_str, 2 ) ) ) {
         add_msg( m_bad, _( "You strain yourself trying to move the heavy %s!" ),
                  furntype.name() );
         u.moves -= 100;
@@ -9598,10 +9612,10 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     u.moves -= str_req * 10;
     // Additional penalty if we can't comfortably move it.
-    if( str_req > u.get_str() ) {
+    if( str_req > adjusted_str ) {
         int move_penalty = std::pow( str_req, 2.0 ) + 100.0;
         if( move_penalty <= 1000 ) {
-            if( u.get_str() >= str_req - 3 ) {
+            if( adjusted_str >= str_req - 3 ) {
                 u.moves -= std::max( 3000, move_penalty * 10 );
                 add_msg( m_bad, _( "The %s is really heavy!" ), furntype.name() );
                 if( one_in( 3 ) ) {
@@ -10031,9 +10045,10 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
 
-        const int cost = map_funcs::climbing_cost( m, u.pos(), stairs );
 
-        if( cost == 0 ) {
+        const auto cost = map_funcs::climbing_cost( m, u.pos(), stairs );
+
+        if( !cost.has_value() ) {
             if( u.has_trait( trait_WEB_ROPE ) )  {
                 if( pts.empty() ) {
                     add_msg( m_info, _( "There is nothing above you that you can attach a web to." ) );
@@ -10061,14 +10076,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         }
 
-        if( cost <= 0 || pts.empty() ) {
+        if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
             return;
         } else {
             // TODO: Make it an extended action
             climbing = true;
-            move_cost = cost;
+            move_cost = cost.value();
 
             const std::optional<tripoint> pnt = point_selection_menu( pts );
             if( !pnt ) {

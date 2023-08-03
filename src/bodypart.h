@@ -15,6 +15,7 @@
 class JsonObject;
 class JsonIn;
 class JsonOut;
+class item;
 struct body_part_type;
 
 template <typename E> struct enum_traits;
@@ -153,6 +154,12 @@ struct body_part_type {
         int bionic_slots_ = 0;
 };
 
+class wield_status
+{
+    public:
+        std::shared_ptr<item> wielded;
+};
+
 class bodypart
 {
     private:
@@ -165,6 +172,10 @@ class bodypart
         /** Not used yet*/
         int damage_bandaged = 0;
         int damage_disinfected = 0;
+
+    public:
+        // TODO: private
+        wield_status wielding;
 
     public:
         bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}

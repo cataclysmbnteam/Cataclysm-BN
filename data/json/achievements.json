@@ -3,27 +3,50 @@
     "id": "achievement_kill_zombie",
     "type": "achievement",
     "name": { "str": "[Combat] One Down, Billions to Go\u2026" },
-    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": ">=", "target": 1 } ]
+    "kill_requirements": [ { "species": "ZOMBIE", "is": ">=", "count": 1 } ],
+    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": "anything" } ]
+  },
+  {
+    "id": "achievement_kill_zombie_50",
+    "type": "achievement",
+    "name": { "str": "[Combat] The Undertaker" },
+    "hidden_by": [ "achievement_kill_zombie" ],
+    "kill_requirements": [ { "species": "ZOMBIE", "is": ">=", "count": 50 } ],
+    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": "anything" } ]
   },
   {
     "id": "achievement_kill_in_first_minute",
     "type": "achievement",
     "name": { "str": "[Combat] Rude Awakening" },
     "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" },
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 1 } ]
+    "kill_requirements": [ { "is": ">=", "count": 1 } ],
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": "anything" } ]
   },
   {
-    "id": "achievement_kill_10_monsters",
+    "id": "achievement_kill_pacifist",
+    "type": "achievement",
+    "name": { "str": "[Combat] Pacifist" },
+    "time_constraint": { "since": "game_start", "is": ">=", "target": "7 days" },
+    "kill_requirements": [ { "is": "<=", "count": 0 } ],
+    "requirements": [
+      { "event_statistic": "num_avatar_kills", "is": "anything" },
+      { "event_statistic": "num_avatar_wake_ups", "is": "anything" }
+    ]
+  },
+  {
+    "id": "achievement_kill_monsters_10",
     "type": "achievement",
     "name": { "str": "[Combat] Decamate" },
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 10 } ]
+    "kill_requirements": [ { "is": ">=", "count": 10 } ],
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": "anything" } ]
   },
   {
-    "id": "achievement_kill_100_monsters",
+    "id": "achievement_kill_monsters_100",
     "type": "achievement",
     "name": { "str": "[Combat] Centinel" },
-    "hidden_by": [ "achievement_kill_10_monsters" ],
-    "requirements": [ { "event_statistic": "num_avatar_kills", "is": ">=", "target": 100 } ]
+    "hidden_by": [ "achievement_kill_monsters_10" ],
+    "kill_requirements": [ { "is": ">=", "count": 100 } ],
+    "requirements": [ { "event_statistic": "num_avatar_kills", "is": "anything" } ]
   },
   {
     "id": "achievement_survive_one_day",

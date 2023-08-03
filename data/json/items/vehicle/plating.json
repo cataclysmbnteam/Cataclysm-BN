@@ -64,7 +64,7 @@
     "category": "veh_parts",
     "price": 12000,
     "price_postapoc": 250,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
   },
   {
     "type": "GENERIC",
@@ -81,7 +81,7 @@
     "category": "veh_parts",
     "price": 18500,
     "price_postapoc": 500,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
   },
   {
     "type": "GENERIC",
@@ -133,7 +133,7 @@
     "category": "veh_parts",
     "price": 16000,
     "price_postapoc": 500,
-    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
   },
   {
     "type": "GENERIC",
@@ -150,7 +150,7 @@
     "category": "veh_parts",
     "price": 16000,
     "price_postapoc": 750,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
   },
   {
     "type": "GENERIC",

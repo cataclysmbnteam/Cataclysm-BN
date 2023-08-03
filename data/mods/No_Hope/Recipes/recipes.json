@@ -463,7 +463,7 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
     "skills_required": [ [ "mechanics", 4 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ] ],
+    "using": [ [ "blacksmithing_advanced", 4 ] ],
     "difficulty": 7,
     "time": "4 h",
     "book_learn": [ [ "recipe_bows", 8 ], [ "welding_book", 7 ], [ "textbook_mechanics", 7 ] ],
@@ -471,10 +471,8 @@
       { "id": "CUT", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "SAW_M_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "steel_standard", 1, "LIST" ] ],
@@ -490,7 +488,7 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
     "skills_required": [ [ "mechanics", 5 ] ],
-    "using": [ [ "blacksmithing_standard", 4 ] ],
+    "using": [ [ "blacksmithing_advanced", 4 ] ],
     "difficulty": 7,
     "time": "4 h",
     "book_learn": [ [ "recipe_bows", 9 ], [ "welding_book", 8 ], [ "textbook_mechanics", 8 ] ],
@@ -498,10 +496,8 @@
       { "id": "CUT", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
+      { "id": "SAW_M_FINE", "level": 1 }
     ],
-    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "steel_standard", 1, "LIST" ] ],

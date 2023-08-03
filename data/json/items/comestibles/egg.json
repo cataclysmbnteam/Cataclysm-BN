@@ -288,7 +288,8 @@
     "price": 95,
     "price_postapoc": 50,
     "material": "egg",
-    "fun": 2
+    "fun": 2,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",
