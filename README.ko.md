@@ -29,7 +29,7 @@
 
 [![안정판][stable-releases-badge]][stable-releases] [![최신 릴리즈][all-releases-badge]][all-releases]
 
-[stable-releases]: https://github.com/cataclysmbnteam/cataclysm-BN/releases/tag/cbn-0.2
+[stable-releases]: https://github.com/cataclysmbnteam/cataclysm-BN/releases/tag/cbn-0.3
 [stable-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/cataclysm-BN?style=for-the-badge&color=success&label=stable
 [all-releases]: https://github.com/cataclysmbnteam/cataclysm-BN/releases
 [all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/cataclysm-BN?style=for-the-badge&color=important&label=Latest%20Release&include_prereleases&sort=date
