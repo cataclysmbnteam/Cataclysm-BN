@@ -19,6 +19,7 @@ Use the `Home` key to return to the top.
       - [Global overrides](#global-overrides)
       - [Hooks](#hooks)
       - [Item use function](#item-use-function)
+      - [Translation functions](#translation-functions)
   - [C++ layout](#c-layout)
     - [Lua source files](#lua-source-files)
     - [Sol2 source files](#sol2-source-files)
@@ -224,6 +225,82 @@ mod.my_awesome_iuse_function = function( who, item, pos )
   -- `item` is the item itself
   -- `pos` is the position of the item (equal to character pos if character has it on them)
 end
+```
+
+#### Translation functions
+To make the mod translatable to other languages,
+get your text via functions bound in `locale` library.
+See [TRANSLATING.md](TRANSLATING.md) for detailed explanation of their C++ counterparts.
+
+Usage examples are shown below:
+
+```lua
+-- Simple string.
+--
+-- The "Experimental Lab" text will be extracted from this code by a script,
+-- and will be available for translators.
+-- When your Lua script runs, this function will search for translation of
+-- "Experimental Lab" string and return either translated string, 
+-- or the original string if there was no translation found.
+local location_name_translated = locale.gettext( "Experimental Lab" )
+
+-- ERROR: you must call `gettext` with a string literal.
+-- Calling it like this will make it so "Experimental Lab" is NOT extracted,
+-- and translators won't see it when they translate the text.
+local location_name_original = "Experimental Lab"
+local location_name_translated = locale.gettext( location_name_original )
+
+-- ERROR: don't alias the function under different name.
+-- Calling it like this will make it so "Experimental Lab" is NOT extracted,
+-- and translators won't see it when they translate the text.
+local gettext_alt = locale.gettext
+local location_name_translated = gettext_alt( "Experimental Lab" )
+
+-- This, however, is fine.
+local gettext = locale.gettext
+local location_name_translated = gettext( "Experimental Lab" )
+
+-- String with possible plural form.
+-- Many languages have more than 2 plural forms with complex rules related to which one to use.
+local item_display_name = locale.vgettext( "X-37 Prototype", "X-37 Prototypes", num_of_prototypes )
+
+-- String with context
+local text_1 = locale.pgettext("the one made of metal", "Spring")
+local text_2 = locale.pgettext("the one that makes water", "Spring")
+local text_3 = locale.pgettext("time of the year", "Spring")
+
+-- String with both context and plural forms.
+local item_display_name = locale.vpgettext("the one made of metal", "Spring", "Springs", num_of_springs)
+
+--[[
+  When some text is tricky and requires explanation,
+  it's common to place a special comment denoted with `~` to help translators.
+  The comment MUST BE right above the function call.
+]]
+
+--~ This comment is good and will be visible for translators.
+local ok = locale.gettext("Confusing text that needs explanation.")
+
+--~ ERROR: This comment is too far from gettext call and won't be extracted!
+local not_ok = locale.
+                gettext("Confusing text that needs explanation.")
+
+local not_ok = locale.gettext(
+                  --~ ERROR: This comment is in wrong place and won't be extracted!
+                  "Confusing text that needs explanation."
+                )
+
+--[[~
+  ERROR: Multiline Lua comments can't be used as translator comments!
+  This comment won't be extracted!
+]] 
+local ok = locale.gettext("Confusing text that needs explanation.")
+
+--~ If you need a multiline translator comment,
+--~ just use 2 or more single-line comments.
+--~ They'll be concatenated and shown as a single multi-line comment.
+local ok = locale.gettext("Confusing text that needs explanation.")
+
 ```
 
 ## C++ layout

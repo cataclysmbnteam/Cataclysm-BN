@@ -1,14 +1,20 @@
 # Translating Cataclysm: BN
 
-* [Translators](#translators)
-  * [Getting Started](#getting-Started)
-  * [Grammatical gender](#grammatical-gender)
-  * [Tips](#tips)
-* [Developers](#developers)
-  * [Translation Functions](#translation-functions)
-  * [`translation`](#translation)
-  * [Recommendations](#recommendations)
-* [Maintainers](#maintainers)
+- [Translating Cataclysm: BN](#translating-cataclysm-bn)
+  - [Translators](#translators)
+    - [Getting Started](#getting-started)
+    - [Grammatical gender](#grammatical-gender)
+    - [Tips](#tips)
+  - [Developers](#developers)
+    - [Translation Functions](#translation-functions)
+      - [`_()`](#_)
+      - [`pgettext()`](#pgettext)
+      - [`vgettext()`](#vgettext)
+      - [`vpgettext()`](#vpgettext)
+    - [`translation`](#translation)
+    - [Lua](#lua)
+    - [Recommendations](#recommendations)
+  - [Maintainers](#maintainers)
 
 ## Translators
 
@@ -347,6 +353,11 @@ issues reported by the `translation` class.
 | Keybinding action names
 | Field level names
 
+
+### Lua
+The 4 translation functions are exposed to the Lua code.
+See [LUA_SUPPORT.md](LUA_SUPPORT.md) for details.
+
 ### Recommendations
 
 In Cataclysm: BN, some classes, like `itype` and `mtype`, provide a wrapper
@@ -373,7 +384,7 @@ There are scripts available for these, so usually the process will be as follows
 
 1. Download the translations in `.po` format.
 2. Put them in `lang/incoming/`, ensuring they are named consistently with the files in `lang/po/`.
-3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-BN.pot` (requires python with `polib` library installed).
+3. Run `lang/update_pot.sh` to update `lang/po/cataclysm-BN.pot` (requires python with `polib` and `luaparser` modules installed).
 4. Run `lang/merge_po.sh` to update `lang/po/*.po`. (This is only used to test translations locally as the project now uses Transifex for translation)
 
     This will also merge the translations from `lang/incoming/`.
