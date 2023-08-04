@@ -17,8 +17,21 @@ local sorted_by = function(t, f)
     return sorted
 end
 
+local remove_hidden_args = function(arg_list)
+    local ret = {}
+    for _, arg in pairs(arg_list) do
+        if arg == "<this_state>" then
+            -- sol::this_state is only visible to C++ side
+        else
+            ret[#ret + 1] = arg
+        end
+    end
+    return ret
+end
+
 local fmt_arg_list = function(arg_list)
     local ret = ""
+    local arg_list = remove_hidden_args(arg_list)
     if #arg_list == 0 then
         return ret
     end
