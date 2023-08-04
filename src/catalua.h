@@ -25,6 +25,7 @@ void startup_lua_test();
 bool generate_lua_docs();
 void show_lua_console();
 void reload_lua_code();
+void debug_write_lua_backtrace( std::ostream &out );
 
 bool save_world_lua_state( const std::string &path );
 bool load_world_lua_state( const std::string &path );

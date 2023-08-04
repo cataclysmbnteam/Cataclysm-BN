@@ -56,6 +56,11 @@ void reload_lua_code()
     .query();
 }
 
+void debug_write_lua_backtrace( std::ostream &/*out*/ )
+{
+    // Nothing to do here
+}
+
 bool save_world_lua_state( const std::string & )
 {
     return true;
@@ -166,6 +171,17 @@ void reload_lua_code()
         debugmsg( "%s", e.what() );
     }
     clear_mod_being_loaded( state );
+}
+
+void debug_write_lua_backtrace( std::ostream &out )
+{
+    cata::lua_state &state = *DynamicDataLoader::get_instance().lua;
+    sol::state container;
+
+    luaL_traceback( container.lua_state(), state.lua.lua_state(), "=== Lua backtrace report ===", 1 );
+
+    std::string data = sol::stack::pop<std::string>( container );
+    out << data << std::endl;
 }
 
 static sol::table get_mod_storage_table( lua_state &state )
