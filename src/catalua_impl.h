@@ -7,9 +7,9 @@
 
 namespace cata
 {
-struct on_every_x_hook {
+struct on_every_x_hooks {
     time_duration interval;
-    sol::protected_function f;
+    std::vector<sol::protected_function> functions;
 };
 
 /**

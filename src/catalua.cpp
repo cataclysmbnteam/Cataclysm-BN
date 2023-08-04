@@ -271,7 +271,7 @@ void init_global_state_tables( lua_state &state, const std::vector<mod_id> &modl
     it["active_mods"] = active_mods;
     it["mod_runtime"] = mod_runtime;
     it["mod_storage"] = mod_storage;
-    it["on_every_x_hooks"] = std::vector<on_every_x_hook>();
+    it["on_every_x_hooks"] = std::vector<on_every_x_hooks>();
     gt["hooks"] = hooks;
 
     // Runtime infrastructure
@@ -401,18 +401,20 @@ void run_on_game_load_hooks( lua_state &state )
 
 void run_on_every_x_hooks( lua_state &state )
 {
-    std::vector<on_every_x_hook> &hooks = state.lua["game"]["cata_internal"]["on_every_x_hooks"];
-    for( const auto &hook : hooks ) {
-        if( calendar::once_every( hook.interval ) ) {
-            try {
-                sol::protected_function_result res = hook.f();
-                check_func_result( res );
-            } catch( std::runtime_error &e ) {
-                debugmsg(
-                    "Failed to run hook on_every_x(interval = %s): %s",
-                    to_string( hook.interval ), e.what()
-                );
-                break;
+    std::vector<on_every_x_hooks> &master_table =
+        state.lua["game"]["cata_internal"]["on_every_x_hooks"];
+    for( const auto &entry : master_table ) {
+        if( calendar::once_every( entry.interval ) ) {
+            for( auto &func : entry.functions ) {
+                try {
+                    sol::protected_function_result res = func();
+                    check_func_result( res );
+                } catch( std::runtime_error &e ) {
+                    debugmsg(
+                        "Failed to run hook on_every_x(interval = %s): %s",
+                        to_string( entry.interval ), e.what()
+                    );
+                }
             }
         }
     }

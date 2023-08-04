@@ -509,8 +509,16 @@ void cata::detail::reg_game_api( sol::state &lua )
     luna::set_fx( lib, "add_on_every_x_hook", []( sol::this_state lua_this, time_duration interval,
     sol::protected_function f ) {
         sol::state_view lua( lua_this );
-        std::vector<on_every_x_hook> &hooks = lua["game"]["cata_internal"]["on_every_x_hooks"];
-        hooks.push_back( on_every_x_hook{ interval, f } );
+        std::vector<on_every_x_hooks> &hooks = lua["game"]["cata_internal"]["on_every_x_hooks"];
+        for( auto &entry : hooks ) {
+            if( entry.interval == interval ) {
+                entry.functions.push_back( f );
+                return;
+            }
+        }
+        std::vector<sol::protected_function> vec;
+        vec.push_back( f );
+        hooks.push_back( on_every_x_hooks{ interval, vec } );
     } );
 
     luna::finalize_lib( lib );
