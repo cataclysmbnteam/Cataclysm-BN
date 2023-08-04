@@ -2,10 +2,16 @@
 #ifndef CATA_SRC_CATALUA_IMPL_H
 #define CATA_SRC_CATALUA_IMPL_H
 
+#include "calendar.h"
 #include "catalua_sol.h"
 
 namespace cata
 {
+struct on_every_x_hook {
+    time_duration interval;
+    sol::protected_function f;
+};
+
 /**
  * Lua state handle.
  * Definition is hidden from outside code to prevent sol::state

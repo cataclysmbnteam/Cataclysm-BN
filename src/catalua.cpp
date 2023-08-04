@@ -271,6 +271,7 @@ void init_global_state_tables( lua_state &state, const std::vector<mod_id> &modl
     it["active_mods"] = active_mods;
     it["mod_runtime"] = mod_runtime;
     it["mod_storage"] = mod_storage;
+    it["on_every_x_hooks"] = std::vector<on_every_x_hook>();
     gt["hooks"] = hooks;
 
     // Runtime infrastructure
@@ -285,10 +286,6 @@ void init_global_state_tables( lua_state &state, const std::vector<mod_id> &modl
     // hooks
     hooks["on_game_load"] = lua.create_table();
     hooks["on_game_save"] = lua.create_table();
-    hooks["on_every_second"] = lua.create_table();
-    hooks["on_every_minute"] = lua.create_table();
-    hooks["on_every_hour"] = lua.create_table();
-    hooks["on_every_day"] = lua.create_table();
     hooks["on_mapgen_postprocess"] = lua.create_table();
 }
 
@@ -402,24 +399,23 @@ void run_on_game_load_hooks( lua_state &state )
     run_hooks( state, "on_game_load" );
 }
 
-void run_on_every_second( lua_state &state )
+void run_on_every_x_hooks( lua_state &state )
 {
-    run_hooks( state, "on_every_second" );
-}
-
-void run_on_every_minute( lua_state &state )
-{
-    run_hooks( state, "on_every_minute" );
-}
-
-void run_on_every_hour( lua_state &state )
-{
-    run_hooks( state, "on_every_hour" );
-}
-
-void run_on_every_day( lua_state &state )
-{
-    run_hooks( state, "on_every_day" );
+    std::vector<on_every_x_hook> &hooks = state.lua["game"]["cata_internal"]["on_every_x_hooks"];
+    for( const auto &hook : hooks ) {
+        if( calendar::once_every( hook.interval ) ) {
+            try {
+                sol::protected_function_result res = hook.f();
+                check_func_result( res );
+            } catch( std::runtime_error &e ) {
+                debugmsg(
+                    "Failed to run hook on_every_x(interval = %s): %s",
+                    to_string( hook.interval ), e.what()
+                );
+                break;
+            }
+        }
+    }
 }
 
 void run_on_mapgen_postprocess_hooks( lua_state &state, map &m, const tripoint &p,

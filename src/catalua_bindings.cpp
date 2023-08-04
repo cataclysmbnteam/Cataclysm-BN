@@ -5,6 +5,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "catalua_bindings_utils.h"
+#include "catalua_impl.h"
 #include "catalua_log.h"
 #include "catalua_luna_doc.h"
 #include "catalua_luna.h"
@@ -505,6 +506,12 @@ void cata::detail::reg_game_api( sol::state &lua )
     luna::set_fx( lib, "turn_zero", []() -> time_point { return calendar::turn_zero; } );
     luna::set_fx( lib, "before_time_starts", []() -> time_point { return calendar::before_time_starts; } );
     luna::set_fx( lib, "rng", sol::resolve<int( int, int )>( &rng ) );
+    luna::set_fx( lib, "add_on_every_x_hook", []( sol::this_state lua_this, time_duration interval,
+    sol::protected_function f ) {
+        sol::state_view lua( lua_this );
+        std::vector<on_every_x_hook> &hooks = lua["game"]["cata_internal"]["on_every_x_hooks"];
+        hooks.push_back( on_every_x_hook{ interval, f } );
+    } );
 
     luna::finalize_lib( lib );
 }
@@ -584,14 +591,8 @@ void cata::detail::reg_hooks_examples( sol::state &lua )
     luna::set_fx( lib, "on_game_save", []() {} );
     DOC( "Called right after game has loaded" );
     luna::set_fx( lib, "on_game_load", []() {} );
-    DOC( "Called every in-game second" );
-    luna::set_fx( lib, "on_every_second", []() {} );
-    DOC( "Called every in-game minute" );
-    luna::set_fx( lib, "on_every_minute", []() {} );
-    DOC( "Called every in-game hour" );
-    luna::set_fx( lib, "on_every_hour", []() {} );
-    DOC( "Called every in-game day" );
-    luna::set_fx( lib, "on_every_day", []() {} );
+    DOC( "Called every in-game period" );
+    luna::set_fx( lib, "on_every_x", []() {} );
     DOC( "Called right after mapgen has completed. "
          "Map argument is the tinymap that represents 24x24 area (2x2 submaps, or 1x1 omt), "
          "tripoint is the absolute omt pos, and time_point is the current time (for time-based effects)."
