@@ -271,7 +271,7 @@ void init_global_state_tables( lua_state &state, const std::vector<mod_id> &modl
     it["active_mods"] = active_mods;
     it["mod_runtime"] = mod_runtime;
     it["mod_storage"] = mod_storage;
-    it["on_every_x_hooks"] = std::vector<on_every_x_hooks>();
+    it["on_every_x_hooks"] = std::vector<cata::on_every_x_hooks>();
     gt["hooks"] = hooks;
 
     // Runtime infrastructure
@@ -401,7 +401,7 @@ void run_on_game_load_hooks( lua_state &state )
 
 void run_on_every_x_hooks( lua_state &state )
 {
-    std::vector<on_every_x_hooks> &master_table =
+    std::vector<cata::on_every_x_hooks> &master_table =
         state.lua["game"]["cata_internal"]["on_every_x_hooks"];
     for( const auto &entry : master_table ) {
         if( calendar::once_every( entry.interval ) ) {
