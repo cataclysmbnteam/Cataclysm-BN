@@ -89,6 +89,8 @@ void reg_lua_iuse_actors( lua_state &, Item_factory & ) {}
 template<typename... Args>
 void run_hooks( Args &&... ) {}
 
+void run_on_every_x_hooks( lua_state & ) {}
+
 } // namespace cata
 
 #else // LUA
@@ -372,6 +374,27 @@ void reg_lua_iuse_actors( lua_state &state, Item_factory &ifactory )
     }
 }
 
+void run_on_every_x_hooks( lua_state &state )
+{
+    std::vector<cata::on_every_x_hooks> &master_table =
+        state.lua["game"]["cata_internal"]["on_every_x_hooks"];
+    for( const auto &entry : master_table ) {
+        if( calendar::once_every( entry.interval ) ) {
+            for( auto &func : entry.functions ) {
+                try {
+                    sol::protected_function_result res = func();
+                    check_func_result( res );
+                } catch( std::runtime_error &e ) {
+                    debugmsg(
+                        "Failed to run hook on_every_x(interval = %s): %s",
+                        to_string( entry.interval ), e.what()
+                    );
+                }
+            }
+        }
+    }
+}
+
 } // namespace cata
 
 #endif // LUA
@@ -397,27 +420,6 @@ void run_on_game_save_hooks( lua_state &state )
 void run_on_game_load_hooks( lua_state &state )
 {
     run_hooks( state, "on_game_load" );
-}
-
-void run_on_every_x_hooks( lua_state &state )
-{
-    std::vector<cata::on_every_x_hooks> &master_table =
-        state.lua["game"]["cata_internal"]["on_every_x_hooks"];
-    for( const auto &entry : master_table ) {
-        if( calendar::once_every( entry.interval ) ) {
-            for( auto &func : entry.functions ) {
-                try {
-                    sol::protected_function_result res = func();
-                    check_func_result( res );
-                } catch( std::runtime_error &e ) {
-                    debugmsg(
-                        "Failed to run hook on_every_x(interval = %s): %s",
-                        to_string( entry.interval ), e.what()
-                    );
-                }
-            }
-        }
-    }
 }
 
 void run_on_mapgen_postprocess_hooks( lua_state &state, map &m, const tripoint &p,
