@@ -386,6 +386,7 @@ void cata::detail::reg_ui_elements( sol::state &lua )
         luna::set_fx( ut, "message_color", []( query_popup & popup, color_id col ) {
             popup.default_color( get_all_colors().get( col ) );
         } );
+        DOC( "Set whether to allow any key" );
         luna::set_fx( ut, "allow_any_key", []( query_popup & popup, bool val ) {
             popup.allow_anykey( val );
         } );
