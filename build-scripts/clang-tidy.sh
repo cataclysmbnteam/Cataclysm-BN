@@ -66,6 +66,7 @@ ${COMPILER:-clang++} -v -x c++ /dev/null -c
 # And the same for clang-tidy
 "$CATA_CLANG_TIDY" ../src/version.cpp -- -v
 
+cd ..
 ln -s build/compile_commands.json
 
 # We want to first analyze all files that changed in this PR, then as
