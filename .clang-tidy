@@ -21,6 +21,7 @@ Checks: >
   -modernize-use-trailing-return-type,
   performance-*,
   readability-*,
+  -bugprone-throw-keyword-missing,
   -bugprone-branch-clone,
   -bugprone-infinite-loop,
   -bugprone-misplaced-widening-cast,
@@ -47,6 +48,7 @@ Checks: >
   -cert-msc51-cpp,
   -misc-non-private-member-variables-in-classes,
   -misc-redundant-expression,
+  -misc-use-anonymous-namespace,
   -modernize-avoid-bind,
   -modernize-avoid-c-arrays,
   -modernize-pass-by-value,
@@ -92,8 +94,12 @@ HeaderFilterRegex: '(src|test|tools).*'
 FormatStyle: none
 
 CheckOptions:
-  - key: readability-uppercase-literal-suffix.NewSuffixes
-    value: "L;UL;LL;ULL"
+  - key: cata-large-inline-function.MaxStatements
+    value: 5
   - key: cata-text-style.EscapeUnicode
     value: 0
+  - key: cert-oop54-cpp.WarnOnlyIfThisHasSuspiciousField
+    value: true
+  - key: readability-uppercase-literal-suffix.NewSuffixes
+    value: "L;UL;LL;ULL"
 # vim:tw=0
