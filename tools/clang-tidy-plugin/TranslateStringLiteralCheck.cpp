@@ -28,12 +28,8 @@ void TranslateStringLiteralCheck::registerMatchers( MatchFinder *Finder )
                                 callee(
                                     functionDecl(
                                         hasAnyName(
-                                            "_",
-                                            "translation_argument_identity",
-                                            "gettext",
-                                            "pgettext"
-                                        )
-                                    )
+                                            "_", "gettext", "pgettext", "vgettext", "vpgettext",
+                                            "translation_argument_identity" ) )
                                 )
                             )
                         ),

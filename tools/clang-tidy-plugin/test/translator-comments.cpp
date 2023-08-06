@@ -27,6 +27,13 @@ void foo()
     //~ bar
     _( "bar" );
 
+    vgettext( /*~ foo */ ( "bar" ), _( "baz" ), 0 );
+
+    //~ bar
+    gettext( "bar" );
+
+    //~bar
+    vgettext( "bar", "baz", 1 );
 
     /*~ bar */ to_translation( "bar" );
 
@@ -68,6 +75,16 @@ void foo()
 
     //~ barf
     pgettext( ( "foo" ), "bar" );
+    // CHECK-MESSAGES: [[@LINE-2]]:5: warning: Translator comment without a matching raw string
+
+    /*~
+    barnacle */
+    vpgettext( "foo",
+               "bar", "baz", 2 );
+    // CHECK-MESSAGES: [[@LINE-4]]:5: warning: Translator comment without a matching raw string
+
+    //~ barn
+    vpgettext( "foo", "bar", ( "baz" ), 3 );
     // CHECK-MESSAGES: [[@LINE-2]]:5: warning: Translator comment without a matching raw string
 
     //~ baron
