@@ -2,6 +2,8 @@
 
 #include "translations.h"
 
+const char *gettext( const char * );
+
 void foo()
 {
     // translation markers only accepts string literals as arguments
