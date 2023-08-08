@@ -1396,15 +1396,14 @@
     "type": "mutation",
     "id": "REGEN_LIZ",
     "name": { "str": "Reptilian Healing" },
-    "points": 5,
+    "//": "Not worth a point, barely more than flavor.",
+    "points": 0,
     "valid": false,
     "purifiable": false,
-    "description": "Your broken limbs mend themselves without significant difficulty.  You do not require splints and broken limbs heal 20 times faster than usual.",
-    "cancels": [ "ROT1", "ROT2", "ROT3" ],
+    "description": "Your broken limbs mend themselves without significant difficulty.  You do not require splints.",
     "prereqs": [ "FASTHEALER2" ],
     "threshreq": [ "THRESH_LIZARD" ],
-    "category": [ "LIZARD" ],
-    "mending_modifier": 20.0
+    "category": [ "LIZARD" ]
   },
   {
     "type": "mutation",
