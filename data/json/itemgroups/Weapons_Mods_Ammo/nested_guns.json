@@ -1345,15 +1345,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [
-      {
-        "item": "mosin44_ebr",
-        "prob": 1,
-        "charges-min": 0,
-        "charges-max": 5
-      },
-      { "group": "on_hand_762R" }
-    ]
+    "entries": [ { "item": "mosin44_ebr", "prob": 1, "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
   },
   {
     "id": "nested_mosin91_30_ebr",
@@ -1361,15 +1353,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [
-      {
-        "item": "mosin91_30_ebr",
-        "prob": 1,
-        "charges-min": 0,
-        "charges-max": 5
-      },
-      { "group": "on_hand_762R" }
-    ]
+    "entries": [ { "item": "mosin91_30_ebr", "prob": 1, "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
   },
   {
     "id": "nested_savage_111f",
@@ -1788,10 +1772,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [
-      { "item": "mossberg_500_security", "charges-min": 0, "charges-max": 6 },
-      { "group": "on_hand_shot" }
-    ]
+    "entries": [ { "item": "mossberg_500_security", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_remington_870_express",
@@ -1807,10 +1788,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [
-      { "item": "browning_a5", "charges-min": 0, "charges-max": 5 },
-      { "group": "on_hand_shot" }
-    ]
+    "entries": [ { "item": "browning_a5", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_remington_1100",
@@ -1818,10 +1796,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [
-      { "item": "remington_1100", "charges-min": 0, "charges-max": 5 },
-      { "group": "on_hand_shot" }
-    ]
+    "entries": [ { "item": "remington_1100", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_mossberg_930",
