@@ -185,7 +185,10 @@
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
-    "entries": [ { "item": "38_fmj", "prob": 100, "charges": [ 20, 40 ] }, { "item": "38_special", "prob": 100, "charges": [ 20, 40 ] } ]
+    "entries": [
+      { "item": "38_fmj", "prob": 100, "charges": [ 20, 40 ] },
+      { "item": "38_special", "prob": 100, "charges": [ 20, 40 ] }
+    ]
   },
   {
     "id": "on_hand_357_38mixed",
