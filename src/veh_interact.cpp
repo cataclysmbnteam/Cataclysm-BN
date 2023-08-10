@@ -3025,12 +3025,12 @@ void act_vehicle_unload_fuel( vehicle *veh )
         detached_ptr<item> plutonium = item::spawn( fuel, calendar::turn, qty / PLUTONIUM_CHARGES );
         add_msg( m_info, _( "You unload %s from the vehicle." ), plutonium->display_name() );
         veh->drain( fuel, qty - ( qty % PLUTONIUM_CHARGES ) );
-        you.i_add_or_drop( std::move(plutonium) );
+        you.i_add_or_drop( std::move( plutonium ) );
     } else {
         detached_ptr<item> solid_fuel = item::spawn( fuel, calendar::turn, qty );
         add_msg( m_info, _( "You unload %s from the vehicle." ), solid_fuel->display_name() );
         veh->drain( fuel, qty );
-        you.i_add_or_drop( std::move(solid_fuel) );
+        you.i_add_or_drop( std::move( solid_fuel ) );
     }
 }
 

@@ -2140,7 +2140,7 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
         detached_ptr<item> cbm;
         if( bid->itype().is_valid() && !bid.obj().has_flag( flag_BIONIC_FAULTY ) ) {
             cbm = item::spawn( bid.c_str() );
-            cbm.faults.emplace( fault_bionic_nonsterile );
+            cbm->faults.emplace( fault_bionic_nonsterile );
         } else {
             cbm = item::spawn( itype_burnt_out_bionic );
         }
@@ -2218,8 +2218,8 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         detached_ptr<item> cbm = item::spawn( iid, calendar::start_of_cataclysm );
 
         if( itemtype.is_valid() ) {
-			cbm->faults.emplace( fault_bionic_nonsterile );
-		}
+            cbm->faults.emplace( fault_bionic_nonsterile );
+        }
         get_map().add_item( patient.pos(), std::move( cbm ) );
     } else {
         bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
