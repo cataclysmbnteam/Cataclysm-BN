@@ -133,6 +133,7 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_cough_aggravated_asthma( "cough_aggravated_asthma" );
 static const efftype_id effect_cough_suppress( "cough_suppress" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_darkness( "darkness" );
@@ -215,6 +216,7 @@ static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
+static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
@@ -8017,6 +8019,10 @@ void Character::cough( bool harmful, int loudness )
         mod_stamina( -malus );
         if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
             apply_damage( nullptr, bodypart_id( "torso" ), 1 );
+        }
+        // Asthmatic characters gain increased risk of an asthma attack from smoke and other dangerous respiratory effects.
+        if( has_trait( trait_ASTHMA ) ) {
+            add_effect( effect_cough_aggravated_asthma, 1_minutes );
         }
     }
 

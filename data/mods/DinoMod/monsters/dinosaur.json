@@ -2,6 +2,7 @@
   {
     "type": "SPECIES",
     "id": "DINOSAUR",
+    "name": { "str": "dinosaur" },
     "//": "Capping these at 1000 L and kg to prevent bodies and meat disappearing, otherwise specific gravity of dinos should range from 0.75 kg/L for pterosaurs, 1 for most, to 1.2 kg/L for ankylosaurs",
     "fear_triggers": [ "FIRE" ],
     "description": "a dinosaur"

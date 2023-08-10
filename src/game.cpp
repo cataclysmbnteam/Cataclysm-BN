@@ -298,7 +298,7 @@ static void achievement_attained( const achievement *a )
 game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
-    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained ),
+    achievements_tracker_ptr( *stats_tracker_ptr, *kill_tracker_ptr, achievement_attained ),
     grid_tracker_ptr( MAPBUFFER ),
     m( *map_ptr ),
     u( *u_ptr ),
@@ -320,8 +320,8 @@ game::game() :
 {
     first_redraw_since_waiting_started = true;
     reset_light_level();
-    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*kill_tracker_ptr );
+    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*memorial_logger_ptr );
     events().subscribe( &*achievements_tracker_ptr );
     events().subscribe( &*spell_events_ptr );
@@ -514,7 +514,7 @@ void game::setup()
 
     stats().clear();
     // reset kill counts
-    kill_tracker_ptr->clear();
+    get_kill_tracker().clear();
     achievements_tracker_ptr->clear();
     // reset follower list
     follower_ids.clear();
@@ -879,11 +879,6 @@ void game::reload_npcs()
     // and not invoke "on_load" for those NPCs that avoided unloading this way.
     unload_npcs();
     load_npcs();
-}
-
-const kill_tracker &game::get_kill_tracker() const
-{
-    return *kill_tracker_ptr;
 }
 
 void game::create_starting_npcs()
@@ -2725,6 +2720,11 @@ event_bus &game::events()
 stats_tracker &game::stats()
 {
     return *stats_tracker_ptr;
+}
+
+kill_tracker &game::get_kill_tracker()
+{
+    return *kill_tracker_ptr;
 }
 
 memorial_logger &game::memorial()

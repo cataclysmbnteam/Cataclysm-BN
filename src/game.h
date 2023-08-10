@@ -479,7 +479,6 @@ class game
     public:
         /** Unloads, then loads the NPCs */
         void reload_npcs();
-        const kill_tracker &get_kill_tracker() const;
         /** Add follower id to set of followers. */
         void add_npc_follower( const character_id &id );
         /** Remove follower id from follower set. */
@@ -950,8 +949,8 @@ class game
         pimpl<timed_event_manager> timed_event_manager_ptr;
         pimpl<event_bus> event_bus_ptr;
         pimpl<stats_tracker> stats_tracker_ptr;
-        pimpl<achievements_tracker> achievements_tracker_ptr;
         pimpl<kill_tracker> kill_tracker_ptr;
+        pimpl<achievements_tracker> achievements_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
         pimpl<distribution_grid_tracker> grid_tracker_ptr;
@@ -965,6 +964,7 @@ class game
 
         event_bus &events();
         stats_tracker &stats();
+        kill_tracker &get_kill_tracker();
         memorial_logger &memorial();
         spell_events &spell_events_subscriber();
 

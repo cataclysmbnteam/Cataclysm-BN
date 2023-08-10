@@ -201,6 +201,7 @@ static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
 static const std::string flag_SPLINT( "SPLINT" );
 
+static const flag_str_id flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
 static const flag_str_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const flag_str_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
@@ -2137,12 +2138,12 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
         mod_max_power_level( -power_lvl );
 
         detached_ptr<item> cbm;
-        if( bid->itype().is_valid() ) {
+        if( bid->itype().is_valid() && !bid.obj().has_flag( flag_BIONIC_FAULTY ) ) {
             cbm = item::spawn( bid.c_str() );
+            cbm.faults.emplace( fault_bionic_nonsterile );
         } else {
             cbm = item::spawn( itype_burnt_out_bionic );
         }
-        cbm->faults.emplace( fault_bionic_nonsterile );
         here.add_item( pos(), std::move( cbm ) );
     } else {
         g->events().send<event_type::fails_to_remove_cbm>( getID(), bid );
@@ -2212,9 +2213,13 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         // remove power bank provided by bionic
         patient.mod_max_power_level( -target_cbm.info().capacity );
         patient.remove_bionic( target_cbm.id );
-        const itype_id iid = itemtype.is_valid() ? itemtype : itype_burnt_out_bionic;
+        const itype_id iid = itemtype.is_valid() &&
+                             !target_cbm.info().has_flag( flag_BIONIC_FAULTY ) ? itemtype : itype_burnt_out_bionic;
         detached_ptr<item> cbm = item::spawn( iid, calendar::start_of_cataclysm );
-        cbm->faults.emplace( fault_bionic_nonsterile );
+
+        if( itemtype.is_valid() ) {
+			cbm->faults.emplace( fault_bionic_nonsterile );
+		}
         get_map().add_item( patient.pos(), std::move( cbm ) );
     } else {
         bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
