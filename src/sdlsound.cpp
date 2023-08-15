@@ -679,10 +679,24 @@ void load_soundset()
 
     // Preload sound effects
     for( const id_and_variant &preload : sfx_preload ) {
-        const auto find_result = sfx_resources.sound_effects.find( preload );
-        if( find_result != sfx_resources.sound_effects.end() ) {
-            for( const auto &sfx : find_result->second ) {
-                get_sfx_resource( sfx.resource_id );
+        const auto& [id, variant] = preload;
+
+        // HACK
+        // context: @link https://discord.com/channels/830879262763909202/830916451517857894/1140806895200911493
+        if( variant == "all" ) {
+            for( const auto &[key, sfxs] : sfx_resources.sound_effects ) {
+                if( key.first == id ) {
+                    for( const auto &sfx : sfxs ) {
+                        get_sfx_resource( sfx.resource_id );
+                    }
+                }
+            }
+        } else {
+            const auto find_result = sfx_resources.sound_effects.find( preload );
+            if( find_result != sfx_resources.sound_effects.end() ) {
+                for( const auto &sfx : find_result->second ) {
+                    get_sfx_resource( sfx.resource_id );
+                }
             }
         }
     }
