@@ -43,7 +43,7 @@ namespace
 class basic_animation
 {
     public:
-        explicit basic_animation( const int scale ) :
+        explicit basic_animation( const float scale ) :
             delay( static_cast<size_t>( get_option<int>( "ANIMATION_DELAY" ) ) * scale * 1000000L ) {
         }
 
@@ -89,7 +89,7 @@ class explosion_animation : public basic_animation
 class bullet_animation : public basic_animation
 {
     public:
-        bullet_animation() : basic_animation( 1 ) {
+        bullet_animation() : basic_animation( 0.5 ) {
         }
 };
 
