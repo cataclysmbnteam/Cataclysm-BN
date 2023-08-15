@@ -223,7 +223,6 @@ static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
@@ -4582,14 +4581,14 @@ void Character::regen( int rate_multiplier )
 
     float rest = rest_quality();
     float heal_rate = healing_rate( rest ) * to_turns<int>( 5_minutes );
+    const float broken_regen_mod = clamp( mutation_value( "mending_modifier" ), 0.25f, 1.0f );
     if( heal_rate > 0.0f ) {
         const int base_heal = roll_remainder( rate_multiplier * heal_rate );
-        const int broken_heal = roll_remainder( base_heal * 0.25f );
+        const int broken_heal = roll_remainder( base_heal * broken_regen_mod );
 
         for( const bodypart_id &bp : get_all_body_parts() ) {
             const bool is_broken = is_limb_broken( bp ) &&
-                                   !worn_with_flag( flag_SPLINT, bp ) &&
-                                   !has_trait( trait_REGEN_LIZ );
+                                   !worn_with_flag( flag_SPLINT, bp );
             heal( bp, is_broken ? broken_heal : base_heal );
             mod_part_healed_total( bp, is_broken ? broken_heal : base_heal );
         }
@@ -4607,9 +4606,8 @@ void Character::regen( int rate_multiplier )
         float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
 
         const bool is_broken = is_limb_broken( bp ) &&
-                               !worn_with_flag( flag_SPLINT, bp ) &&
-                               !has_trait( trait_REGEN_LIZ );
-        const int healing_apply = roll_remainder( is_broken ? healing * 0.25f : healing );
+                               !worn_with_flag( flag_SPLINT, bp );
+        const int healing_apply = roll_remainder( is_broken ? healing *broken_regen_mod : healing );
 
         healed_bp( i, healing_apply );
         heal( bp, healing_apply );
@@ -5818,8 +5816,6 @@ hp_part Character::body_window( const std::string &menu_header,
             e.allowed = true;
         } else if( has_curable_effect ) {
             e.allowed = true;
-        } else if( limb_is_broken ) {
-            e.allowed = false;
         } else if( current_hp < maximal_hp && ( e.bonus != 0 || bandage_power > 0.0f  ||
                                                 disinfectant_power > 0.0f ) ) {
             e.allowed = true;
@@ -5849,15 +5845,19 @@ hp_part Character::body_window( const std::string &menu_header,
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
         std::string hp_str;
         if( limb_is_broken ) {
+            const nc_color color = worn_with_flag( flag_SPLINT, bp ) ||
+                                   ( mutation_value( "mending_modifier" ) >= 1.0f ) ?
+                                   c_blue :
+                                   c_light_red;
             desc += colorize( _( "It is broken and must heal fully before it becomes functional again." ),
                               c_blue ) + "\n";
             const int mend_perc = 100 * current_hp / maximal_hp;
 
             if( precise ) {
-                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), c_blue );
+                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), color );
             } else {
                 const int num = mend_perc / 20;
-                hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
+                hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), color );
             }
         } else if( precise ) {
             hp_str = string_format( "%d", current_hp );

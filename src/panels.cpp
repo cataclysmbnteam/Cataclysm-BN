@@ -60,7 +60,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
@@ -775,16 +774,18 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
     const int hp_cur = u.get_part_hp_cur( bp );
     const int hp_max = u.get_part_hp_max( bp );
 
+    std::optional<nc_color> color_override;
+
     if( u.is_limb_broken( bp.id() ) && ( limb_index >= hp_arm_l &&
                                          limb_index <= hp_leg_r ) ) {
         //Limb is broken
         const int mend_perc =  100 * hp_cur / hp_max;
-        bool splinted = u.worn_with_flag( flag_SPLINT.str(), bp ) || u.has_trait( trait_REGEN_LIZ );
-        nc_color color = splinted ? c_blue : c_light_red;
+        bool splinted = u.worn_with_flag( flag_SPLINT.str(), bp ) ||
+                        ( u.mutation_value( "mending_modifier" ) >= 1.0f );
+        nc_color color = splinted ? c_blue : c_dark_gray;
 
         if( is_self_aware || u.has_effect( effect_got_checked ) ) {
-            std::string limb = string_format( "=%2d%%=", mend_perc );
-            wprintz( w, color, limb );
+            color_override = color;
         } else {
             const int num = mend_perc / 20;
             print_symbol_num( w, num, "#", color );
@@ -795,6 +796,9 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
 
 
     std::pair<std::string, nc_color> hp = get_hp_bar( hp_cur, hp_max );
+    if( color_override ) {
+        hp.second = *color_override;
+    }
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", hp_cur );
