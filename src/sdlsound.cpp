@@ -340,8 +340,7 @@ static Mix_Chunk *load_chunk( const std::string &path )
 {
     Mix_Chunk *result = Mix_LoadWAV( path.c_str() );
     if( result == nullptr ) {
-        // Failing to load a sound file is not a fatal error worthy of a backtrace
-        dbg( DL::Warn ) << "Failed to load sfx audio file " << path << ": " << Mix_GetError();
+        debugmsg( "Failed to load sfx audio file %s: %s", path.c_str(), Mix_GetError() );
         result = make_null_chunk();
     }
     return result;
