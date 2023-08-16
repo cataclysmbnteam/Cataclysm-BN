@@ -87,8 +87,9 @@ mod.get_transform_list = function()
                 't_window_no_curtains',
                 't_window_no_curtains_open'
             },
-            -- name in UI
-            name = 'curtains',
+            -- action name in UI
+            name_open = locale.gettext('Open curtains'),
+            name_close = locale.gettext('Close curtains'),
             -- power required to open or close
             power = 5,
         },
@@ -96,7 +97,8 @@ mod.get_transform_list = function()
             -- TODO: garage doors should check whether there's something obstructing them.
             o = 't_door_metal_locked_o',
             c = 't_door_metal_locked',
-            name = 'garage door',
+            name_open = locale.gettext('Raise garage door'),
+            name_close = locale.gettext('Lower garage door'),
             power = 20,
         }
     }
@@ -253,7 +255,9 @@ end
 -- Show 'not enough power' error
 mod.show_low_power_error = function()
     local pp = QueryPopup.new()
-    pp:message("Low current at endpoint")
+    --~ Message on the remote, stylized as calculator led display.
+    --~ Shown when there's not enough grid charge.
+    pp:message(locale.gettext("Low Current At Endpoint"))
     -- This color is awful, but it's a cheap LCD display, what did you expect?
     pp:message_color( Color.i_green )
     pp:allow_any_key( true )
@@ -263,7 +267,9 @@ end
 -- Show 'no signal' error
 mod.show_no_signal_error = function()
     local pp = QueryPopup.new()
-    pp:message("No Signal")
+    --~ Message on the remote, stylized as calculator led display.
+    --~ Shown when player is too far away from the area.
+    pp:message(locale.gettext("No Signal"))
     pp:message_color( Color.i_green )
     pp:allow_any_key( true )
     pp:query()
@@ -272,7 +278,9 @@ end
 -- Show 'no valid blocks' error
 mod.show_no_endpoints_error = function()
     local pp = QueryPopup.new()
-    pp:message("No endpoints available.")
+    --~ Message on the remote, stylized as calculator led display.
+    --~ Shown when there's nothing to activate.
+    pp:message(locale.gettext("No Endpoints Available"))
     pp:message_color( Color.i_green )
     pp:allow_any_key( true )
     pp:query()
@@ -280,7 +288,7 @@ end
 
 -- Add message indicating the remote works
 mod.show_msg_remote_working = function()
-    gapi.add_msg("The remote beeps quietly.")
+    gapi.add_msg(locale.gettext("The remote beeps quietly."))
 end
 
 -- Open or close all tiles in block
@@ -316,7 +324,7 @@ mod.iuse_function = function( who, item, pos )
     -- Uncomment this so on activation the remote reconfigures itself to work in user's omt
     --[[
     mod.set_remote_base( item, coords.ms_to_omt( user_pos ) )
-    gapi.add_msg("Remote reconfigured!")
+    gapi.add_msg(locale.gettext("Remote reconfigured!"))
     --if true then
     --    return 0
     --end
@@ -354,13 +362,13 @@ mod.iuse_function = function( who, item, pos )
             sel_list[#sel_list + 1] = {
                 block = block,
                 do_open = true,
-                text = "Open "..transforms[block.idx].name.." #"..tostring(block_idx)
+                text = transforms[block.idx].name_open.." #"..tostring(block_idx)
             }
         elseif block.can_close then
             sel_list[#sel_list + 1] = {
                 block = block,
                 do_open = false,
-                text = "Close "..transforms[block.idx].name.." #"..tostring(block_idx)
+                text = transforms[block.idx].name_close.." #"..tostring(block_idx)
             }
         end
     end
@@ -379,7 +387,9 @@ mod.iuse_function = function( who, item, pos )
 
     -- Query which block to activate
     local ui = UiList.new()
-    ui:title("Select endpoint")
+    --~ Title of the menu prompting player to select what to activate with the remote.
+    --~ Typically it's doors, garage doors or window curtains.
+    ui:title(locale.gettext("Select endpoint"))
     for i = 1, #sel_list do
         ui:add( i, sel_list[i].text )
     end
@@ -387,7 +397,7 @@ mod.iuse_function = function( who, item, pos )
 
     -- Canceled by player
     if eidx < 1 then
-        gapi.add_msg("Nevermind.")
+        gapi.add_msg(locale.gettext("Nevermind."))
         return 0
     end
     
