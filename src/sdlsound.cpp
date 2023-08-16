@@ -340,8 +340,7 @@ static Mix_Chunk *load_chunk( const std::string &path )
 {
     Mix_Chunk *result = Mix_LoadWAV( path.c_str() );
     if( result == nullptr ) {
-        // Failing to load a sound file is not a fatal error worthy of a backtrace
-        dbg( DL::Warn ) << "Failed to load sfx audio file " << path << ": " << Mix_GetError();
+        debugmsg( "Failed to load sfx audio file %s: %s", path.c_str(), Mix_GetError() );
         result = make_null_chunk();
     }
     return result;
@@ -571,18 +570,21 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
                                 effect_to_play ) == 0 ) {
             // We'll be unable to de-allocate the chunk, stop the playback right now.
             failed = true;
-            dbg( DL::Warn ) << "Mix_RegisterEffect failed: " << Mix_GetError();
+            dbg( DL::Warn ) << "Mix_RegisterEffect failed { id: " << id << ", variant: " << variant << " }: " <<
+                            Mix_GetError();
             Mix_HaltChannel( channel );
         }
     }
     if( !failed ) {
         if( Mix_SetPosition( channel, static_cast<Sint16>( to_degrees( angle ) ), 1 ) == 0 ) {
             // Not critical
-            dbg( DL::Info ) << "Mix_SetPosition failed: " << Mix_GetError();
+            dbg( DL::Info ) << "Mix_SetPosition failed { id: " << id << ", variant: " << variant << " }: " <<
+                            Mix_GetError();
         }
     }
     if( failed ) {
-        dbg( DL::Error ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( DL::Error ) << "Failed to play sound effect { id: " << id << ", variant: " << variant << " }: "
+                         << Mix_GetError();
         if( is_pitched ) {
             cleanup_when_channel_finished( channel, effect_to_play );
         }
@@ -625,12 +627,14 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
         if( Mix_RegisterEffect( ch, empty_effect, cleanup_when_channel_finished, effect_to_play ) == 0 ) {
             // We'll be unable to de-allocate the chunk, stop the playback right now.
             failed = true;
-            dbg( DL::Warn ) << "Mix_RegisterEffect failed: " << Mix_GetError();
+            dbg( DL::Warn ) << "Mix_RegisterEffect failed { id: " << id << ", variant: " << variant << " }: " <<
+                            Mix_GetError();
             Mix_HaltChannel( ch );
         }
     }
     if( failed ) {
-        dbg( DL::Error ) << "Failed to play sound effect: " << Mix_GetError();
+        dbg( DL::Error ) << "Failed to play sound effect { id: " << id << ", variant: " << variant << " }: "
+                         << Mix_GetError();
         if( is_pitched ) {
             cleanup_when_channel_finished( ch, effect_to_play );
         }
