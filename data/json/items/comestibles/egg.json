@@ -305,5 +305,125 @@
     "price_postapoc": 75,
     "material": "egg",
     "fun": 2
-  }
+  }, 
+  {
+  "type": "COMESTIBLE",
+  "id": "salsify_omelette",
+  "name": {
+    "str_sp": "salsify omelette"
+  },
+  "color": "yellow",
+  "spoils_in": "2 days",
+  "symbol": "%",
+  "description": "A salsify omelette.",
+  "quench": 4,
+  "healthy": 1,
+  "calories": 189,
+  "vitamins": [
+    [ "vitA", 9 ],
+    [ "vitC", 18 ],
+    [ "calcium", 11 ],
+    [ "iron", 9 ],
+    [ "vitB", 21 ]
+  ],
+  "price": 490,
+  "price_postapoc": 150,
+  "material": ["egg", "veggy"],
+  "volume": "125 ml",
+  "charges": 2,
+  "flags": [
+    "EATEN_HOT"
+  ],
+  "fun": 3
+ },
+ {
+  "type": "COMESTIBLE",
+  "id": "wild_veggy_omelette",
+  "name": {
+    "str_sp": "wild veggetable omelette"
+  },
+  "color": "yellow",
+  "spoils_in": "2 days",
+  "symbol": "%",
+  "description": "An omelette made with wild vegetables.",
+  "quench": 4,
+  "healthy": 1,
+  "calories": 222,
+  "vitamins": [
+    [ "vitA", 9 ],
+    [ "vitC", 36 ],
+    [ "calcium", 7 ],
+    [ "iron", 8 ],
+    [ "vitB", 21 ]
+  ],
+  "price": 1190,
+  "price_postapoc": 200,
+  "material": ["egg", "veggy"],
+  "volume": "125 ml",
+  "charges": 2,
+  "flags": [
+    "EATEN_HOT"
+  ],
+  "fun": 3
+ },
+ {
+  "type": "COMESTIBLE",
+  "id": "mushroom_omelette",
+  "name": {
+    "str_sp": "mushroom omelette"
+  },
+  "color": "yellow",
+  "spoils_in": "2 days",
+  "symbol": "%",
+  "description": "An omelette made with mushrooms.",
+  "quench": 4,
+  "healthy": 1,
+  "calories": 203,
+  "vitamins": [
+    [ "vitA", 9 ],
+	[ "vitC", 4 ],
+    [ "calcium", 3 ],
+    [ "iron", 11 ],
+    [ "vitB", 21 ]
+  ],
+  "price": 400,
+  "price_postapoc": 100,
+  "material": ["egg", "veggy"],
+  "volume": "125 ml",
+  "charges": 2,
+  "flags": [
+    "EATEN_HOT"
+  ],
+  "fun": 3
+ }, 
+ {
+  "type": "COMESTIBLE",
+  "id": "spanish_omelette",
+  "name": {
+    "str_sp": "spanish omelette"
+  },
+  "color": "yellow",
+  "spoils_in": "2 days",
+  "symbol": "%",
+  "description": "A spanish omelette.",
+  "quench": 4,
+  "healthy": 1,
+  "calories": 351,
+  "vitamins": [
+    [ "vitA", 10 ],
+	[ "vitC", 9 ],
+    [ "calcium", 13 ],
+    [ "iron", 12 ],
+    [ "vitB", 21 ]
+  ],
+  "price": 400,
+  "price_postapoc": 100,
+  "material": "egg",
+  "volume": "125 ml",
+  "charges": 2,
+  "flags": [
+    "EATEN_HOT"
+  ],
+  "fun": 3
+ }
 ]
