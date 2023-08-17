@@ -1284,5 +1284,16 @@
     "fuel_efficiency": 2,
     "time": 1,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "debug_bio_fuel_cell",
+    "type": "bionic",
+    "name": { "str": "Debug Fuel Cell CBM" },
+    "description": "The power of the sun, in the palm of my hand!  Installed within you is a perpetual generator powered by nonsensoleum.  When activated its power gen doubles.  If you are seeing this, you'd better be debugging.",
+    "fuel_options": [ "nonsensoleum" ],
+    "passive_fuel_efficiency": 10000,
+    "fuel_efficiency": 20000,
+    "time": 1,
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   }
 ]
