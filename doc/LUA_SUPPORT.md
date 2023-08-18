@@ -454,7 +454,7 @@ Let's bind an imaginary `horde_type` enum here:
    ```
 2. Add the declaration to `catalua_luna_doc.h`
    ```c++
-   struct horde_type : int;
+   enum horde_type : int;
    ```
 3. Register it in `catalua_luna_doc.h` with
    ```c++
