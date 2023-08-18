@@ -466,6 +466,22 @@ Let's bind an imaginary `horde_type` enum here:
    Usually it's just a matter of specializing `enum_traits<T>` for your enum `T`
    in the header, then defining `io::enum_to_string<T>` in the `.cpp`
    file with enum -> string conversion.
+   Some enums won't have the "last" value required for `enum_traits<T>`.
+   In that case, you'd have to add one:
+    ```diff
+      enum class horde_type : int {
+        animals,
+        robots,
+    -   zombies
+    +   zombies,
+    +   num_horde_types
+      }
+    ```
+   Note that this only works for "monotonic" enums, i.e. ones that start with 0
+   and don't skip any values. In the example above, `animals` has implicit
+   value of `0`, robots has implicit value of `1` and `zombies` has implicit
+   value of `2`, so we can easily add `num_horde_types`, which will have
+   correct and expected implicit value of `3`.
 5. Bind enum fields in `reg_enums` function in `catalua_bindings.cpp`:
    ```c++
    reg_enum<horde_type>( lua );
