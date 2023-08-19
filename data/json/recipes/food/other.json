@@ -2135,7 +2135,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "eggs_small", 2, "LIST" ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "dry_mushroom", 1 ], [ "mushroom", 1 ] ] ]
+    "components": [ [ [ "eggs_small", 2, "LIST" ] ], [ [ "dry_mushroom", 1 ], [ "mushroom", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2164,7 +2164,7 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "eggs_small", 2, "LIST" ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "dry_mushroom", 1 ], [ "mushroom", 1 ] ] ]
+    "components": [ [ [ "eggs_small", 2, "LIST" ] ], [ [ "potato", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2174,11 +2174,11 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "6 m",
+    "time": "13 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "eggs_small_dry", 2, "LIST" ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "dry_mushroom", 1 ], [ "mushroom", 1 ] ] ]
+    "components": [ [ [ "eggs_small_dry", 2, "LIST" ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "potato", 1 ] ] ]
   } 
 ]
