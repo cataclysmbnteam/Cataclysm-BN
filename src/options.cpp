@@ -1827,6 +1827,11 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
 
+    add( "BULLETS_AS_LASERS", graphics, translate_marker( "Draw bullets as lines" ),
+         translate_marker( "If true, bullets are drawn as lines of images, and the animation lasts only one frame." ),
+         false
+       );
+
     add( "BLINK_SPEED", graphics, translate_marker( "Blinking effects speed" ),
          translate_marker( "The speed of every blinking effects in ms." ),
          100, 5000, 800
