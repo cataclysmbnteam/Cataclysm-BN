@@ -1006,6 +1006,23 @@
   },
   {
     "type": "recipe",
+    "result": "pressure_cooker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_intermediate", 4 ], [ "steel_standard", 4 ] ],
+    "components": [
+      [ [ "pot_canning", 1 ], [ "stock_pot", 1 ], [ "pot", 1 ], [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ],
+      [ [ "thermometer", 1 ] ],
+      [ [ "barometer", 1 ] ],
+      [ [ "chunk_rubber", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "teapot",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
