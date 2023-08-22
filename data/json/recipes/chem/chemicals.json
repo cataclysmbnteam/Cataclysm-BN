@@ -391,6 +391,22 @@
   },
   {
     "type": "recipe",
+    "result": "chem_sulphuric_acid",
+	  "id_suffix": "from SO3",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "cooking",
+    "difficulty": 8,
+    "time": "60 m",
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 5 ] ],
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
+	  "using": [ [ "forging_standard", 50 ] ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "platinum_grille", -1 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "chem_sulphur", 470 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "chem_nitric_acid",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
