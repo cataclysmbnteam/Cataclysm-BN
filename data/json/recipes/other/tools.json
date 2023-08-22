@@ -1014,8 +1014,8 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "blacksmithing_intermediate", 4 ], [ "steel_standard", 4 ] ],
-	"components": [
-      [ [ "pot_canning", 1], [ "stock_pot", 1], [ "pot", 1], [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ],
+    "components": [
+      [ [ "pot_canning", 1 ], [ "stock_pot", 1 ], [ "pot", 1 ], [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ],
       [ [ "thermometer", 1 ] ],
       [ [ "barometer", 1 ] ],
       [ [ "chunk_rubber", 5 ] ]
