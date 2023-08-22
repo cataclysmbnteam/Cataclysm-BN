@@ -1909,7 +1909,7 @@
     "type": "uncraft",
     "time": "30 s",
     "components": [ [ [ "glass_shard", 3 ] ] ]
-  },  
+  },
   {
     "result": "game_watch",
     "type": "uncraft",
