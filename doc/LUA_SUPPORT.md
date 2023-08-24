@@ -176,7 +176,7 @@ The game exposes various functions, constants and types to Lua.
 Functions and constants are organized into "libraries" for organizational purposes.
 Types are available globally, and may have member functions and fields.
 
-To see the full list of funcitons, constants and types, run the game with `--lua-doc` command line argument.
+To see the full list of functions, constants and types, run the game with `--lua-doc` command line argument.
 This will generate documentation file `lua_doc.md` that will be placed in your `config` folder.
 
 #### Global overrides
