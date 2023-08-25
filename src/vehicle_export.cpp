@@ -43,7 +43,7 @@ auto json_part_write( JsonOut &json, const vpart_reference &vpr ) -> void
     if( p.is_tank() ) {
         json.member( "fuel", ammo_type );
     } else if( p.is_turret() ) {
-        // TODO: serializing items are not implemented, thus ammo must be 0
+        json.member( "ammo", 50 );
         json.member( "ammo_types", std::array{ ammo_type } );
         json.member( "ammo_qty", std::array{ 0, p.ammo_capacity() } );
     }
