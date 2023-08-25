@@ -2085,10 +2085,17 @@ void debug()
             JsonOut json( ss, true );
             json_export::vehicle( json, veh );
 
-            int clipboard_result = SDL_SetClipboardText( ss.str().c_str() );
-            printErrorIf( clipboard_result != 0, "Error while copying the game report to the clipboard." );
-
-            std::string popup_msg = _( "Copied Vehicle JSON to clipboard." );
+            // write to log
+            DebugLog( DL::Info, DC::Main ) << " JSON TEMPLATE EXPORT:\n" << ss.str();
+            std::string popup_msg = _( "JSON template written to debug.log" );
+#if defined(TILES)
+            // copy to clipboard
+            const int clipboard_result = SDL_SetClipboardText( ss.str().c_str() );
+            printErrorIf( clipboard_result != 0, "Error while exporting JSON to the clipboard." );
+            if( clipboard_result == 0 ) {
+                popup_msg += _( " and to the clipboard." );
+            }
+#endif
             popup( popup_msg );
             break;
         }
