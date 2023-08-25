@@ -104,7 +104,7 @@
         [ "solder_wire", 100 ]
       ],
       [ [ "copper", 35 ] ],
-	  [ [ "steel_lump", 1 ], ["scrap", 4] ]
+      [ [ "steel_lump", 1 ], [ "scrap", 4 ] ]
     ]
   },
   {
