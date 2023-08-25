@@ -52,6 +52,8 @@
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "json.h"
+#include "json_export.h"
 #include "language.h"
 #include "magic.h"
 #include "map.h"
@@ -178,6 +180,7 @@ enum debug_menu_index {
     DEBUG_DISPLAY_SUBMAP_GRID,
     DEBUG_TEST_MAP_EXTRA_DISTRIBUTION,
     DEBUG_VEHICLE_BATTERY_CHARGE,
+    DEBUG_VEHICLE_COPY_JSON,
     DEBUG_HOUR_TIMER,
     DEBUG_NESTED_MAPGEN,
     DEBUG_RESET_IGNORED_MESSAGES,
@@ -254,6 +257,7 @@ static int vehicle_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change [b]attery charge" ) ) },
+        { uilist_entry( DEBUG_VEHICLE_COPY_JSON, true, 'j', _( "Copy [j]son representation" ) ) },
     };
 
     return uilist( _( "Vehicle…" ), uilist_initializer );
@@ -2068,6 +2072,24 @@ void debug()
                     veh.discharge_battery( -amount, false );
                 }
             }
+            break;
+        }
+        case DEBUG_VEHICLE_COPY_JSON: {
+            const optional_vpart_position v_part_pos = g->m.veh_at( u.pos() );
+            if( !v_part_pos ) {
+                add_msg( m_bad, _( "There's no vehicle there." ) );
+                break;
+            }
+            const vehicle &veh = v_part_pos->vehicle();
+            std::stringstream ss;
+            JsonOut json( ss, true );
+            json_export::vehicle( json, veh );
+
+            int clipboard_result = SDL_SetClipboardText( ss.str().c_str() );
+            printErrorIf( clipboard_result != 0, "Error while copying the game report to the clipboard." );
+
+            std::string popup_msg = _( "Copied Vehicle JSON to clipboard." );
+            popup( popup_msg );
             break;
         }
 
