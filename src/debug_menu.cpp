@@ -257,7 +257,7 @@ static int vehicle_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change [b]attery charge" ) ) },
-        { uilist_entry( DEBUG_VEHICLE_EXPORT_JSON, true, 'j', _( "Copy [j]son representation" ) ) },
+        { uilist_entry( DEBUG_VEHICLE_EXPORT_JSON, true, 'j', _( "Export [j]son template" ) ) },
     };
 
     return uilist( _( "Vehicle…" ), uilist_initializer );
