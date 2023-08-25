@@ -13,10 +13,7 @@ sol::state make_lua_state()
 
     lua.open_libraries(
         sol::lib::base,
-        sol::lib::debug,
-        sol::lib::io,
         sol::lib::math,
-        sol::lib::os,
         sol::lib::string,
         sol::lib::table
     );

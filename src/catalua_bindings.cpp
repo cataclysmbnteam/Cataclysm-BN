@@ -473,6 +473,15 @@ void cata::detail::override_default_print( sol::state &lua )
     lua.globals()["print"] = &lua_log_info_impl;
 }
 
+void cata::detail::forbid_unsafe_functions( sol::state &lua )
+{
+    auto g = lua.globals();
+    g["dofile"] = sol::nil;
+    g["loadfile"] = sol::nil;
+    g["load"] = sol::nil;
+    g["loadstring"] = sol::nil;
+}
+
 static void add_msg_lua( game_message_type t, sol::variadic_args va )
 {
     if( va.size() == 0 ) {
@@ -785,6 +794,7 @@ void cata::reg_all_bindings( sol::state &lua )
     using namespace detail;
 
     override_default_print( lua );
+    forbid_unsafe_functions( lua );
     reg_debug_api( lua );
     reg_game_api( lua );
     reg_locale_api( lua );

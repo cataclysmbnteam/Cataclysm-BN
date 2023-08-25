@@ -12,6 +12,7 @@ namespace detail
 {
 std::string fmt_lua_va( sol::variadic_args va );
 void override_default_print( sol::state &lua );
+void forbid_unsafe_functions( sol::state &lua );
 
 void reg_colors( sol::state &lua );
 void reg_constants( sol::state &lua );
