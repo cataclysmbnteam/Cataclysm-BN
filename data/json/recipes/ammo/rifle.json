@@ -406,15 +406,15 @@
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 4 ] ],
-    "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "charges": 8,
+    "using": [ [ "bullet_forming", 16 ], [ "ammo_bullet", 8 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
-      [ [ "5x50_hull", 1 ] ],
+      [ [ "5x50_hull", 8 ] ],
       [ [ "plastic_chunk", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 3 ] ],
-      [ [ "combatnail", 1 ] ]
+      [ [ "smrifle_primer", 8 ] ],
+      [ [ "gunpowder", 24 ] ],
+      [ [ "combatnail", 8 ] ]
     ]
   },
   {
@@ -428,15 +428,15 @@
     "time": "2 m",
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 4 ] ],
-    "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 3 ] ],
+    "charges": 8,
+    "using": [ [ "bullet_forming", 16 ], [ "ammo_bullet", 24 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
-      [ [ "5x50_hull", 1 ] ],
+      [ [ "5x50_hull", 8 ] ],
       [ [ "plastic_chunk", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 4 ] ],
-      [ [ "scrap", 1 ] ]
+      [ [ "smrifle_primer", 8 ] ],
+      [ [ "gunpowder", 32 ] ],
+      [ [ "scrap", 8 ] ]
     ]
   },
   {
