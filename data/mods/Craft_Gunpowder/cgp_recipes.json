@@ -125,12 +125,7 @@
       [ [ "plastic_chunk", 5 ] ],
       [ [ "oxy_powder", 120 ] ],
       [ [ "incendiary", 120 ] ],
-      [
-        [ "lead", 100 ],
-        [ "tin", 100 ],
-        [ "bismuth", 100 ],
-        [ "solder_wire", 100 ]
-      ],
+      [ [ "lead", 100 ], [ "tin", 100 ], [ "bismuth", 100 ], [ "solder_wire", 100 ] ],
       [ [ "copper", 35 ] ],
 	  [ [ "platinum_small", 1], [ "gold_small", 1 ], [ "silver_small", 1 ] ],
 	  [ [ "steel_lump", 1 ], ["scrap", 4] ]
