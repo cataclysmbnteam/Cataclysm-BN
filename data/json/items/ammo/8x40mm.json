@@ -10,6 +10,36 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
+    "id": "8mm_bootleg_caseless",
+    "copy-from": "8mm_caseless",
+    "type": "AMMO",
+    "name": { "str": "bootleg 8x40mm caseless" },
+    "description": "Bootleg duplicates of Rivtech 8x40mm caseless rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "8mm_bootleg_hvp",
+    "copy-from": "8mm_hvp",
+    "type": "AMMO",
+    "name": { "str": "bootleg 8x40mm HVP" },
+    "description": "Bootleg duplicates of Rivtech 8x40mm caseless rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "8mm_bootleg_inc",
+    "copy-from": "8mm_inc",
+    "type": "AMMO",
+    "name": { "str": "bootleg 8x40mm tracer" },
+    "description": "Bootleg duplicates of Rivtech 8x40mm caseless rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
     "id": "8mm_caseless",
     "type": "AMMO",
     "name": { "str_sp": "8x40mm caseless" },
