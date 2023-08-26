@@ -79,7 +79,7 @@
   {
     "id": "cop_weapons",
     "type": "item_group",
-    "items": [ { "group": "cop_melee", "prob": 60 }, { "group": "guns_cop", "prob": 40 } ]
+    "items": [ { "group": "cop_melee", "prob": 60 }, { "group": "carried_guns_cop", "prob": 40 } ]
   },
   {
     "id": "mon_zombie_swat_death_drops",
@@ -193,6 +193,6 @@
     "id": "swat_weapons",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "group": "cop_melee", "prob": 25 }, { "group": "guns_swat", "prob": 75 } ]
+    "entries": [ { "group": "cop_melee", "prob": 25 }, { "group": "carried_guns_swat", "prob": 75 } ]
   }
 ]
