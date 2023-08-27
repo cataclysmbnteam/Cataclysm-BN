@@ -665,7 +665,7 @@
       [ [ "gold_small", 5 ], [ "silver_small", 5 ], [ "tin", 5 ], [ "bismuth", 5 ], [ "solder_wire", 5 ] ]
     ]
   },
-   {
+  {
     "type": "recipe",
     "result": "20x66_flechette_reloaded",
     "category": "CC_AMMO",
