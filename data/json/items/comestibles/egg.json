@@ -324,7 +324,7 @@
     "material": [ "egg", "veggy" ],
     "volume": "125 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 3
   },
   {
@@ -345,7 +345,7 @@
     "material": [ "egg", "veggy" ],
     "volume": "125 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 3
   },
   {
@@ -366,7 +366,7 @@
     "material": [ "egg", "veggy" ],
     "volume": "125 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 3
   },
   {
@@ -387,7 +387,7 @@
     "material": "egg",
     "volume": "125 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 3
   }
 ]
