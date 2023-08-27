@@ -508,7 +508,7 @@
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_caseless", 4 ] ],
     "charges": 8,
-    "using": [ [ "bullet_forming", 16 ], [ "ammo_bullet", 8 ] ],
+    "using": [ [ "bullet_forming", 16 ], [ "ammo_bullet", 16 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "5x50_hull", 8 ] ],
