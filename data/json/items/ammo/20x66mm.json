@@ -14,7 +14,7 @@
     "extend": { "effects": [ "LARGE_BEANBAG", "NOGIB" ] }
   },
   {
-    "id": "20x66_bootleg_flechette",
+    "id": "20x66_flechette_reloaded",
     "copy-from": "20x66_flechette",
     "type": "AMMO",
     "name": { "str": "20x66mm flechette, handmade", "str_pl": "20x66mm flechettes, handmade" },
@@ -24,7 +24,7 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
-    "id": "20x66_bootleg_shot",
+    "id": "20x66_shot_reloaded",
     "copy-from": "20x66_shot",
     "type": "AMMO",
     "name": { "str": "20x66mm buckshot, handmade" },
@@ -34,7 +34,7 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
-    "id": "20x66_bootleg_slug",
+    "id": "20x66_slug_reloaded",
     "copy-from": "20x66_slug",
     "type": "AMMO",
     "name": { "str": "20x66mm slug, handmade", "str_pl": "20x66mm slugs, handmade" },
