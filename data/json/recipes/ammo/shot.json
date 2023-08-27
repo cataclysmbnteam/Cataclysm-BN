@@ -662,12 +662,7 @@
       [ [ "oxy_powder", 60 ] ],
       [ [ "gunpowder", 120 ] ],
       [ [ "lead", 160 ] ],
-      [ [ "gold_small", 5 ],
-        [ "silver_small", 5 ],
-        [ "tin", 5 ],
-        [ "bismuth", 5 ],
-        [ "solder_wire", 5 ]
-      ]
+      [ [ "gold_small", 5 ], [ "silver_small", 5 ], [ "tin", 5 ], [ "bismuth", 5 ], [ "solder_wire", 5 ] ]
     ]
   },
    {
