@@ -5681,7 +5681,7 @@ time_duration item::calc_rot( time_point time, int temp ) const
     // is in a sealed container they won't rot away, this avoids needlessly
     // calculating their rot in that case.
     if( !is_corpse() && get_relative_rot() > 2.0 ) {
-        return time_duration::from_seconds( 0 );
+        return 0_seconds;
     }
 
     // rot modifier
@@ -5690,7 +5690,7 @@ time_duration item::calc_rot( time_point time, int temp ) const
         factor = 0.75;
     }
 
-    time_duration added_rot = time_duration::from_seconds( 0 );
+    time_duration added_rot = 0_seconds;
     // simulation of different age of food at the start of the game and good/bad storage
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
     // positive = food was produced some time before calendar::start and/or bad storage
@@ -9008,7 +9008,7 @@ bool item::process_rot( const bool seals, const tripoint &pos,
 
     // process rot at most once every 100_turns (10 min)
     // note we're also gated by item::processing_speed
-    time_duration smallest_interval = 10_minutes;
+    constexpr time_duration smallest_interval = 10_minutes;
 
     units::temperature temp = units::from_fahrenheit( weather.get_temperature( pos ) );
     temp = clip_by_temperature_flag( temp, flag );

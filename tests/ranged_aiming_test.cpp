@@ -104,7 +104,7 @@ TEST_CASE( "Aiming at a target behind wall", "[ranged][aiming]" )
     clear_all_state();
     player &shooter = g->u;
     clear_character( shooter, true );
-    shooter.add_effect( efftype_id( "debug_clairvoyance" ), time_duration::from_seconds( 1 ) );
+    shooter.add_effect( efftype_id( "debug_clairvoyance" ), 1_seconds );
     arm_character( shooter, "glock_19" );
     int max_range = shooter.primary_weapon().gun_range( &shooter );
     REQUIRE( max_range >= 5 );
