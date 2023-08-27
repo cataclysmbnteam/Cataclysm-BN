@@ -48,7 +48,7 @@ TEST_CASE( "Rate of rotting" )
 
         set_map_temperature( weather, 18_c );
         ensure_no_temperature_mods( tripoint_zero );
-        REQUIRE( weather.get_temperature( tripoint_zero ) == Approx( 64 ) );
+        REQUIRE( weather.get_temperature( tripoint_zero ) == 18_c );
 
         normal_item = item::process( std::move( normal_item ), nullptr, tripoint_zero, false,
                                      temperature_flag::TEMP_NORMAL, weather );

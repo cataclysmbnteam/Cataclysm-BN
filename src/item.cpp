@@ -9016,7 +9016,7 @@ detached_ptr<item>  item::process_rot( detached_ptr<item> &&self, const bool sea
     // note we're also gated by item::processing_speed
     constexpr time_duration smallest_interval = 10_minutes;
 
-    units::temperature temp = units::from_fahrenheit( weather.get_temperature( pos ) );
+    units::temperature temp = weather.get_temperature( pos );
     temp = clip_by_temperature_flag( temp, flag );
 
     time_point time = self->last_rot_check;

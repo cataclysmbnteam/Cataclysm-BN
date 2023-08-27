@@ -203,14 +203,14 @@ class weather_manager
         // The time at which weather will shift next.
         time_point nextweather;
 
-        /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures in Fahrenheit */
-        mutable std::unordered_map< tripoint, int > temperature_cache;
-        // Returns outdoor or indoor temperature of given location (in local coords) in Fahrenheit.
-        int get_temperature( const tripoint &location ) const;
+        /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
+        mutable std::unordered_map< tripoint, units::temperature > temperature_cache;
+        // Returns outdoor or indoor temperature of given location (in local coords).
+        auto get_temperature( const tripoint &location ) const -> units::temperature;
         // Returns outdoor or indoor temperature of given location
-        int get_temperature( const tripoint_abs_omt &location );
+        auto get_temperature( const tripoint_abs_omt &location ) const -> units::temperature;
         // Returns water temperature of given location (in local coords).
-        units::temperature get_water_temperature( const tripoint &location ) const;
+        auto get_water_temperature( const tripoint &location ) const -> units::temperature;
         void clear_temp_cache();
 
         // Get precise weather data

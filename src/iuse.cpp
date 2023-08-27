@@ -9101,7 +9101,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
                 get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
                                      weatherPoint.humidity,
                                      windpower / 100 ) +
-                player_local_temp ) );
+                units::to_fahrenheit( player_local_temp ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }

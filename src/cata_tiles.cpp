@@ -1,3 +1,4 @@
+#include "units_temperature.h"
 #if defined(TILES)
 #include "cata_tiles.h"
 
@@ -1298,29 +1299,27 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
 
             // Add temperature value to the overlay_strings list for every visible tile when displaying temperature
             if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invis ) {
-                int temp_value = get_weather().get_temperature( {temp_x, temp_y, center.z} );
-                int ctemp = units::fahrenheit_to_celsius( temp_value );
+                const auto temp = get_weather().get_temperature( tripoint_abs_omt{temp_x, temp_y, center.z} );
                 short color;
                 const short bold = 8;
-                if( ctemp > 40 ) {
+                if( temp > 40_c ) {
                     color = catacurses::red;
-                } else if( ctemp > 25 ) {
+                } else if( temp > 25_c ) {
                     color = catacurses::yellow + bold;
-                } else if( ctemp > 10 ) {
+                } else if( temp > 10_c ) {
                     color = catacurses::green + bold;
-                } else if( ctemp > 0 ) {
+                } else if( temp > 0_c ) {
                     color = catacurses::white + bold;
-                } else if( ctemp > -10 ) {
+                } else if( temp > -10_c ) {
                     color = catacurses::cyan + bold;
                 } else {
                     color = catacurses::blue + bold;
                 }
-                if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
-                    temp_value = units::fahrenheit_to_celsius( temp_value );
-                } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
-                    temp_value = units::fahrenheit_to_kelvin( temp_value );
+                const auto display_option = get_option<std::string>( "USE_CELSIUS" );
+                const int temp_value = display_option == "kelvin" ? units::to_kelvins( temp )
+                                       : display_option == "fahrenheit" ? units::to_fahrenheit( temp )
+                                       : units::to_celsius( temp );
 
-                }
                 overlay_strings.emplace( player_to_screen( point( temp_x, temp_y ) ) + point( tile_width / 2, 0 ),
                                          formatted_text( std::to_string( temp_value ), color,
                                                  direction::NORTH ) );
