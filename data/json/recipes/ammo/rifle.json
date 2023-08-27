@@ -479,7 +479,14 @@
       [ [ "gunpowder", 400 ] ],
       [ [ "oxy_powder", 120 ] ],
       [ [ "lead", 80 ] ],
-      [ [ "gold_small", 40 ], [ "silver_small", 40 ], [ "tin", 40 ], [ "bismuth", 40 ], [ "solder_wire", 40 ], [ "platinum_small", 40 ] ],
+      [
+        [ "gold_small", 40 ],
+        [ "silver_small", 40 ],
+        [ "tin", 40 ],
+        [ "bismuth", 40 ],
+        [ "solder_wire", 40 ],
+        [ "platinum_small", 40 ]
+      ],
       [ [ "copper", 80 ] ],
       [ [ "smrifle_primer", 1 ], [ "lgpistol_primer", 1 ] ]
     ]
