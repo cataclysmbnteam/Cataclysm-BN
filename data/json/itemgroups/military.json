@@ -13,13 +13,19 @@
     "type": "item_group",
     "id": "military_standard_shotguns",
     "subtype": "distribution",
-    "entries": [ { "group": "everyday_m1014", "prob": 60, "charges": [ 0, 8 ] }, { "group": "everyday_mossberg_590", "prob": 40, "charges": [ 0, 9 ] } ]
+    "entries": [
+      { "group": "everyday_m1014", "prob": 60, "charges": [ 0, 8 ] },
+      { "group": "everyday_mossberg_590", "prob": 40, "charges": [ 0, 9 ] }
+    ]
   },
   {
     "type": "item_group",
     "id": "military_standard_sniper_rifles",
     "subtype": "distribution",
-    "entries": [ { "group": "everyday_m2010", "prob": 20, "charges": [ 0, 5 ] }, { "group": "everyday_m110a1", "prob": 80, "charges": [ 0, 20 ] } ]
+    "entries": [
+      { "group": "everyday_m2010", "prob": 20, "charges": [ 0, 5 ] },
+      { "group": "everyday_m110a1", "prob": 80, "charges": [ 0, 20 ] }
+    ]
   },
   {
     "type": "item_group",
