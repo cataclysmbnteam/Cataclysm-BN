@@ -3271,15 +3271,13 @@ bool Character::worn_with_flag( const std::string &flag, const bodypart_id &bp )
 
 const item *Character::item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
-    const item *it_with_flag = nullptr;
     for( const item &it : worn ) {
         if( it.has_flag( flag ) && ( bp == bodypart_str_id::NULL_ID() ||
                                      it.covers( bp->token ) ) ) {
-            it_with_flag = &it;
-            break;
+            return &it;
         }
     }
-    return it_with_flag;
+    return nullptr;
 }
 
 std::vector<std::string> Character::get_overlay_ids() const
@@ -3292,7 +3290,7 @@ std::vector<std::string> Character::get_overlay_ids() const
     // first get effects
     for( const auto &eff_pr : *effects ) {
         if( !eff_pr.second.begin()->second.is_removed() ) {
-            rval.push_back( "effect_" + eff_pr.first.str() );
+            rval.emplace_back( "effect_" + eff_pr.first.str() );
         }
     }
 
