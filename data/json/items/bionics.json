@@ -1285,7 +1285,6 @@
     "name": { "str": "Linguistic Coprocessor CBM" },
     "description": "A microcomputer installed into the left hemisphere of your brain to increase the speed that it processes language.  When installed, it provides a passive boost to reading speed.",
     "price": 100000,
-    "price_postapoc": 50000,
     "difficulty": 5
   },
   {
@@ -1294,8 +1293,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Dopamine Stimulators CBM" },
     "description": "A set of tiny bionic nerve stimulators that install into the reward center of your brain.  When run with bionic power, it periodically releases a hit of dopamine and other reward chemicals, inducing a state of euphoria and suppressing fear.",
-    "price": 1000000,
-    "price_postapoc": 100000,
+    "price": 100000,
     "difficulty": 8
   },
   {
