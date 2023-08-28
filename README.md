@@ -31,7 +31,7 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 [stable-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/cbn-0.3
 [stable-releases-badge]: <https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=success&label=stable>
-[all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases
+[all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases?q=prerelease%3Atrue&expanded=true
 [all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=important&label=Latest%20Release&include_prereleases&sort=date
 
 | [Source Code][source-zip-archive] | [Clone From Repo][clone] |

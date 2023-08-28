@@ -31,7 +31,7 @@
 
 [stable-releases]: https://github.com/cataclysmbnteam/cataclysm-BN/releases/tag/cbn-0.3
 [stable-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/cataclysm-BN?style=for-the-badge&color=success&label=stable
-[all-releases]: https://github.com/cataclysmbnteam/cataclysm-BN/releases
+[all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases?q=prerelease%3Atrue&expanded=true
 [all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/cataclysm-BN?style=for-the-badge&color=important&label=Latest%20Release&include_prereleases&sort=date
 
 | [소스 코드][source-zip-archive] | [저장소에서 클론하기][clone] |
