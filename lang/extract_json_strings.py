@@ -197,6 +197,7 @@ needs_plural = {
     "MAGAZINE",
     "MONSTER",
     "PET_ARMOR",
+    "SPECIES",
     "TOOL",
     "TOOLMOD",
     "TOOL_ARMOR",
