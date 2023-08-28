@@ -135,6 +135,11 @@ static const std::vector<debug_log_class> debug_log_classes = { {
             translate_marker( "Messages related to SDL, tiles, tilesets and sound." ),
             false
         },
+        {
+            DC::Lua, "DEBUGLOG_CL_LUA", translate_marker( "Lua" ),
+            translate_marker( "Messages from Lua scripts." ),
+            true
+        },
     }
 };
 

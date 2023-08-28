@@ -459,6 +459,24 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
     return nullptr;
 }
 
+template<>
+const faction &string_id<faction>::obj() const
+{
+    const faction *ptr = g->faction_manager_ptr->get( *this, true );
+    if( ptr ) {
+        return *ptr;
+    } else {
+        static faction null_fac;
+        return null_fac;
+    }
+}
+
+template<>
+bool string_id<faction>::is_valid() const
+{
+    return g->faction_manager_ptr->get( *this, false );
+}
+
 void basecamp::faction_display( const catacurses::window &fac_w, const int width ) const
 {
     int y = 2;

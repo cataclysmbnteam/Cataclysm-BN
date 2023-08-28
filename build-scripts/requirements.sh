@@ -14,7 +14,7 @@ if [ -n "$CATA_CLANG_TIDY" ]; then
 fi
 
 if [ -n "$LANGUAGES" ]; then
-  pip install --user polib
+  pip install --user polib luaparser
 fi
 
 # Influenced by https://github.com/zer0main/battleship/blob/master/build/windows/requirements.sh
