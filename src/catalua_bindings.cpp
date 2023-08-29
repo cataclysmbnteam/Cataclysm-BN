@@ -82,7 +82,7 @@ item_stack_lua_next(
         return std::make_tuple( sol::object( sol::lua_nil ),
                                 sol::object( sol::lua_nil ) );
     }
-    item *elem = &*it;
+    item *elem = *it;
     // 2 values are returned (pushed onto the stack):
     // the key and the value
     // the state is left alone
@@ -462,7 +462,7 @@ void cata::detail::reg_debug_api( sol::state &lua )
     } );
     luna::set_fx( lib, "reload_lua_code", &cata::reload_lua_code );
     luna::set_fx( lib, "save_game", []() -> bool {
-        return g->save();
+        return g->save( false );
     } );
 
     luna::finalize_lib( lib );
