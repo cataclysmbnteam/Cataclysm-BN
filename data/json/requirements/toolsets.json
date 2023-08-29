@@ -91,6 +91,12 @@
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {
+    "id": "drawing_tool",
+    "type": "requirement",
+    "//": "Things suitable for drawing or writing something on paper, cardboard, cloth or similar materials.",
+    "tools": [ [ [ "permanent_marker", 1 ], [ "survival_marker", 1 ] ] ]
+  },
+  {
     "id": "coding_standard",
     "type": "requirement",
     "//": "For writing software",

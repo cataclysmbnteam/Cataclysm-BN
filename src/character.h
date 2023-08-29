@@ -2080,7 +2080,7 @@ class Character : public Creature, public location_visitable<Character>
         bool change_side( item &it, bool interactive = true );
         bool change_side( item *it, bool interactive = true );
 
-        bool get_check_encumbrance() {
+        bool get_check_encumbrance() const {
             return check_encumbrance;
         }
         void set_check_encumbrance( bool new_check ) {

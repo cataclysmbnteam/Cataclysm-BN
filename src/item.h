@@ -1334,6 +1334,16 @@ class item : public location_visitable<item>, public game_object<item>
         void set_snippet( const snippet_id &id );
 
         bool operator<( const item &other ) const;
+
+        /** LUA: We need this operator defined for Lua bindings to compile. */
+        inline bool operator==( const item &rhs ) const {
+            return this == &rhs;
+        };
+        /** LUA: We need this operator defined for Lua bindings to compile. */
+        inline bool operator<=( const item &other ) const {
+            return operator<( other ) || operator==( other );
+        }
+
         /** List of all @ref components in printable form, empty if this item has
          * no components */
         std::string components_to_string() const;

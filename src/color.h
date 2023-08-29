@@ -169,7 +169,7 @@ class translation;
 #define c_light_cyan_cyan all_colors.get(def_c_light_cyan_cyan)
 
 // def_x is a color that maps to x with default settings
-enum color_id {
+enum color_id : int {
     def_c_black = 0,
     def_c_white,
     def_c_light_gray,

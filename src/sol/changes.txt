@@ -1,0 +1,7 @@
+Changes done to sol.hpp header:
+
+Added include guard to prevent inclusions outside catalua_sol.h
+
+#ifndef CATALUA_SOL_WRAPPED
+static_assert(false, "sol.hpp must be included via catalua_sol.h");
+#endif

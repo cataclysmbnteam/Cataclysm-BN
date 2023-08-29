@@ -233,7 +233,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                         proj.has_effect( ammo_effect_JET );
     const char bullet = stream ? '#' : '*';
     const bool no_item_damage = proj.has_effect( ammo_effect_NO_ITEM_DAMAGE );
-    const bool do_draw_line = proj.has_effect( ammo_effect_DRAW_AS_LINE );
+    const bool do_draw_line = proj.has_effect( ammo_effect_DRAW_AS_LINE ) ||
+                              get_option<bool>( "BULLETS_AS_LASERS" );
     const bool null_source = proj.has_effect( ammo_effect_NULL_SOURCE );
     // Determines whether it can penetrate obstacles
     const bool is_bullet = proj_arg.speed >= 200 &&

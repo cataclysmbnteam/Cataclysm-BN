@@ -14,31 +14,31 @@
     "extend": { "effects": [ "LARGE_BEANBAG", "NOGIB" ] }
   },
   {
-    "id": "20x66_bootleg_flechette",
+    "id": "20x66_flechette_reloaded",
     "copy-from": "20x66_flechette",
     "type": "AMMO",
     "name": { "str": "20x66mm flechette, handmade", "str_pl": "20x66mm flechettes, handmade" },
-    "description": "Handcrafted bootleg duplicates of Rivtech 20x66mm caseless flechette rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
+    "description": "Handmade duplicates of Rivtech 20x66mm caseless flechette rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
-    "id": "20x66_bootleg_shot",
+    "id": "20x66_shot_reloaded",
     "copy-from": "20x66_shot",
     "type": "AMMO",
     "name": { "str": "20x66mm buckshot, handmade" },
-    "description": "Handcrafted bootleg duplicates of Rivtech 20x66mm caseless buckshot rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
+    "description": "Handmade duplicates of Rivtech 20x66mm caseless buckshot rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
   {
-    "id": "20x66_bootleg_slug",
+    "id": "20x66_slug_reloaded",
     "copy-from": "20x66_slug",
     "type": "AMMO",
     "name": { "str": "20x66mm slug, handmade", "str_pl": "20x66mm slugs, handmade" },
-    "description": "Handcrafted bootleg duplicates of Rivtech 20x66mm caseless solid projectile rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
+    "description": "Handmade duplicates of Rivtech 20x66mm caseless solid projectile rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

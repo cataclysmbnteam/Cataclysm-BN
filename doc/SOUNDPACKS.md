@@ -56,12 +56,20 @@ Sound effects can be included for preloading with a format like this:
     {
         "type": "sound_effect_preload",
         "preload": [
+            { "id": "fire_gun", "variant": "all" },
             { "id": "environment", "variant": "daytime" },
             { "id": "environment" }
         ]
     }
 ]
 ```
+
+`"variant": "all"` will be treated specially and load all variants of the given id. 
+
+> [!WARNING]
+> `"variant": "all"` uses unoptimal algorithm (because the devs were dumb and lazy and used hacks) and will slow down game loading time.
+
+If `"variant"` is omitted, it defaults to `"default"`.
 
 ### Playlist
 

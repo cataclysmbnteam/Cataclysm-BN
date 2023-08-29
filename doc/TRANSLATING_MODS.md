@@ -1,15 +1,30 @@
 # Translating mods for Cataclysm: BN
 
-- [Intro](#intro)
-- [A short glossary](#a-short-glossary)
-- [Workflow overview](#workflow-overview)
-- [Setting up environment for string extraction](#setting-up-environment-for-string-extraction)
-- [Extracting strings](#extracting-strings)
-- [Creating new PO](#creating-new-po)
-- [Updating existing PO](#updating-existing-po)
-- [Compiling PO into MO](#compiling-po-into-mo)
-- [Adding MO file to the mod](#adding-mo-file-to-the-mod)
-- [Miscellaneous notes](#miscellaneous-notes)
+- [Translating mods for Cataclysm: BN](#translating-mods-for-cataclysm-bn)
+  - [Intro](#intro)
+  - [A short glossary](#a-short-glossary)
+    - [POT file](#pot-file)
+    - [PO file](#po-file)
+    - [MO file](#mo-file)
+  - [Workflow overview](#workflow-overview)
+  - [Setting up environment for string extraction](#setting-up-environment-for-string-extraction)
+  - [Extracting strings](#extracting-strings)
+  - [Creating new PO](#creating-new-po)
+    - [Poedit](#poedit)
+    - [msginit](#msginit)
+  - [Updating existing PO](#updating-existing-po)
+    - [Poedit](#poedit-1)
+    - [msgmerge](#msgmerge)
+  - [Compiling PO into MO](#compiling-po-into-mo)
+    - [Poedit](#poedit-2)
+    - [msgfmt](#msgfmt)
+  - [Adding MO file to the mod](#adding-mo-file-to-the-mod)
+  - [Miscellaneous notes](#miscellaneous-notes)
+    - [Is it possible to use arbitrary location or names for MO files, like with JSONs?](#is-it-possible-to-use-arbitrary-location-or-names-for-mo-files-like-with-jsons)
+    - [Reloading translations in a running game](#reloading-translations-in-a-running-game)
+    - [MO load order](#mo-load-order)
+    - [Dialects](#dialects)
+    - [What if 2 or more mods provide different translations for same string?](#what-if-2-or-more-mods-provide-different-translations-for-same-string)
 
 ## Intro
 This document aims to give a brief explanation on how to set up and operate
@@ -32,7 +47,7 @@ see [TRANSLATING.md](TRANSLATING.md).
 ### POT file
 Portable Object Template file (`.pot`).
 
-This is a text file that contains original (English) strings extracted from mod's JSON files.
+This is a text file that contains original (English) strings extracted from mod's JSON and Lua source files.
 The POT file is a template used for creating empty or updating existing PO files of any language.
 
 ### PO file
@@ -50,7 +65,7 @@ The MO files are what the game loads, and where it gets translated strings from.
 ## Workflow overview
 The first translation workflow is as follows:
 
-1. Extract strings from mod JSON files into a POT file
+1. Extract strings from mod JSON and Lua source files into a POT file
 2. Create PO file for target language from this POT
 3. Fill the PO file with translated strings
 4. Compile PO into MO
@@ -59,7 +74,7 @@ The first translation workflow is as follows:
 As the mod changes with time, so may change its strings.
 Updating existing translations is done as follows:
 
-1. Extract strings from mod JSON files into a new POT file
+1. Extract strings from mod JSON and Lua source files into a new POT file
 2. Update existing PO file from the new POT file
 3. Add new or edit existing translated strings in the PO file
 4. Compile PO into MO
@@ -70,7 +85,7 @@ Step 1 in both workflows requires you to set up environment for string extractio
 Steps 2-4 can be done using translation software either by the mod author/maintainer, or by the translator.
 
 ## Setting up environment for string extraction
-You'll need Python 3 with `polib` library installed (available via `pip`).
+You'll need Python 3 with `polib` and `luaparser` modules installed (available via `pip`).
 
 Scripts for string extraction can be found in the `lang` subdirectory of the repository:
 * `extract_json_strings.py` - main string extraction routines
