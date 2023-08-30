@@ -1675,7 +1675,7 @@
     "ammo": 100,
     "entries": [ { "item": "streetsweeper", "charges-min": 0, "charges-max": 12 }, { "group": "on_hand_shot" } ]
   },
-    {
+  {
     "id": "everyday_rm228",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1693,11 +1693,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [
-      { "item": "an94", "charges-min": 0, "charges-max": 30 },
-      { "item": "ak74mag" },
-      { "item": "ak74mag", "prob": 50 }
-    ]
+    "entries": [ { "item": "an94", "charges-min": 0, "charges-max": 30 }, { "item": "ak74mag" }, { "item": "ak74mag", "prob": 50 } ]
   },
   {
     "id": "everyday_USAS_12",
@@ -1717,13 +1713,9 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [
-      { "item": "as50", "charges-min": 0, "charges-max": 10 },
-      { "item": "as50mag" },
-      { "item": "as50mag", "prob": 50 }
-    ]
+    "entries": [ { "item": "as50", "charges-min": 0, "charges-max": 10 }, { "item": "as50mag" }, { "item": "as50mag", "prob": 50 } ]
   },
-    {
+  {
     "id": "everyday_needlepistol",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -1753,11 +1745,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [
-      { "item": "ppsh", "charges-min": 0, "charges-max": 35 },
-      { "item": "ppshmag" },
-      { "item": "ppshmag", "prob": 50 }
-    ]
+    "entries": [ { "item": "ppsh", "charges-min": 0, "charges-max": 35 }, { "item": "ppshmag" }, { "item": "ppshmag", "prob": 50 } ]
   },
   {
     "id": "everyday_skorpion_61",
@@ -1789,11 +1777,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [
-      { "item": "acr", "charges-min": 0, "charges-max": 30 },
-      { "item": "stanag30" },
-      { "item": "stanag30", "prob": 50 }
-    ]
+    "entries": [ { "item": "acr", "charges-min": 0, "charges-max": 30 }, { "item": "stanag30" }, { "item": "stanag30", "prob": 50 } ]
   },
   {
     "id": "everyday_ar15_retool_300blk",
@@ -1819,7 +1803,7 @@
       { "item": "5x50_100_mag", "prob": 50 }
     ]
   },
-    {
+  {
     "id": "everyday_rm120c",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
