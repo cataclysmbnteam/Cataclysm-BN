@@ -263,7 +263,7 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "policesuv", 0.629843, 3.074006, 1243.469643, 13177, 15753 );
     test_vehicle_drag( "truck_swat", 0.808830, 7.563401, 6207.639583, 9935, 11688 );
     test_vehicle_drag( "oldtractor", 0.537285, 0.893482, 1319.981250, 12446, 14408 );
-    test_vehicle_drag("autotractor", 1.165945, 2.316233, 2281.250000, 7642, 7930);
+    test_vehicle_drag( "autotractor", 1.165945, 2.316233, 2281.250000, 7642, 7930 );
     test_vehicle_drag( "tractor_plow", 0.609525, 0.918444, 1739.562500, 11941, 13822 );
     test_vehicle_drag( "tractor_reaper", 0.609525, 0.804219, 1523.216346, 11963, 13843 );
     test_vehicle_drag( "tractor_seed", 0.609525, 0.804219, 1523.216346, 11963, 13843 );
