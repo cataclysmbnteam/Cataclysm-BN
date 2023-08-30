@@ -263,12 +263,12 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "policesuv", 0.629843, 3.074006, 1243.469643, 13177, 15753 );
     test_vehicle_drag( "truck_swat", 0.808830, 7.563401, 6207.639583, 9935, 11688 );
     test_vehicle_drag( "oldtractor", 0.537285, 0.893482, 1319.981250, 12446, 14408 );
-    test_vehicle_drag( "autotractor", 1.425450, 2.317193, 2282.195000, 7172, 7441 );
+    test_vehicle_drag("autotractor", 1.165945, 2.316233, 2281.250000, 7642, 7930);
     test_vehicle_drag( "tractor_plow", 0.609525, 0.918444, 1739.562500, 11941, 13822 );
     test_vehicle_drag( "tractor_reaper", 0.609525, 0.804219, 1523.216346, 11963, 13843 );
     test_vehicle_drag( "tractor_seed", 0.609525, 0.804219, 1523.216346, 11963, 13843 );
-    test_vehicle_drag( "aapc-mg", 1.625400, 8.660271, 4378.969494, 8038, 9427 );
-    test_vehicle_drag( "apc", 1.625400, 8.537083, 4316.680804, 8047, 9436 );
+    test_vehicle_drag( "aapc-mg", 0.922995, 8.662721, 4380.208333, 9440, 11121 );
+    test_vehicle_drag( "apc", 0.922995, 8.539115, 4317.708333, 9454, 11135 );
     test_vehicle_drag( "humvee", 0.616298, 7.288223, 4913.611607, 12935, 15175 );
     test_vehicle_drag( "military_cargo_truck", 0.840758, 9.507160, 4387.005556, 11554, 13581 );
     test_vehicle_drag( "flatbed_truck", 0.883328, 7.754008, 3471.316477, 9376, 11371 );
@@ -277,7 +277,7 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "truck_trailer", 1.176534, 18.305362, 8113.000000, 0, 0 );
     test_vehicle_drag( "tatra_truck", 0.440213, 8.807828, 4707.255814, 17575, 20635 );
     test_vehicle_drag( "animalctrl", 0.345398, 2.823777, 1142.249107, 13373, 16062 );
-    test_vehicle_drag( "autosweeper", 0.986850, 1.844396, 1305.637500, 6884, 7144 );
+    test_vehicle_drag( "autosweeper", 0.741965, 1.843054, 1304.687500, 7525, 7812 );
     test_vehicle_drag( "excavator", 0.659728, 1.793523, 1269.625000, 13204, 15305 );
     test_vehicle_drag( "road_roller", 1.823738, 2.768224, 9197.104167, 9430, 10928 );
     test_vehicle_drag( "forklift", 0.565988, 1.510686, 712.937500, 8258, 8572 );
