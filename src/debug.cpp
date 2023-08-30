@@ -507,11 +507,12 @@ void debug_reset_ignored_messages()
 // Null OStream                                                     {{{2
 // ---------------------------------------------------------------------
 
-struct NullBuf : public std::streambuf {
-    NullBuf() = default;
-    int overflow( int c ) override {
-        return c;
-    }
+class NullStream : public std::ostream
+{
+    public:
+        NullStream() : std::ostream( nullptr ) {}
+        NullStream( const NullStream & ) = delete;
+        NullStream( NullStream && ) = delete;
 };
 
 // DebugFile OStream Wrapper                                        {{{2
@@ -1316,9 +1317,8 @@ detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
         return DebugLogGuard( out );
     }
 
-    static NullBuf nullBuf;
-    static std::ostream nullStream( &nullBuf );
-    return DebugLogGuard( nullStream );
+    static NullStream null_stream;
+    return DebugLogGuard( null_stream );
 }
 
 std::string game_info::operating_system()
