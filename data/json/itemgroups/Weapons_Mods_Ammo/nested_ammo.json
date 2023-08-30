@@ -354,5 +354,15 @@
       { "item": "20x66_inc", "prob": 100, "charges": [ 10, 20 ] },
       { "item": "20x66_slug", "prob": 100, "charges": [ 10, 20 ] }
     ]
+  },
+  {
+    "id": "on_hand_5x50mm",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "5x50dart", "prob": 100, "charges": [ 25, 50 ] },
+      { "item": "5x50heavy", "prob": 30, "charges": [ 25, 50 ] }
+    ]
   }
 ]
