@@ -956,7 +956,7 @@ void debug_write_backtrace( std::ostream &out )
         out << "\n  #" << i;
         out << "\n    (dbghelp: ";
         if( SymFromAddr( proc, reinterpret_cast<DWORD64>( bt[i] ), &off, &sym ) ) {
-            out << sym.Name << "+0x" << std::hex << off << std::dec;
+            out << demangle( sym.Name ) << "+0x" << std::hex << off << std::dec;
         }
         out << "@" << bt[i];
         const DWORD64 mod_base = SymGetModuleBase64( proc, reinterpret_cast<DWORD64>( bt[i] ) );
