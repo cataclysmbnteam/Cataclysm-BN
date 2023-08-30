@@ -8,16 +8,18 @@ For official way to build CataclysmBN See:
 
 # Contents
 
-  * [Prerequisites](#prerequisites)
-  * [Build Environment](#build-environment)
-    * [UNIX Environment](#unix-environment)
-    * [Windows Environment](#windows-environment-msys2)
-  * [CMake Build](#cmake-build)
-    * [MinGW,MSYS,MSYS2](#cmake-build-for-msys2-mingw)
-    * [MSBuild, VisualStudio](#cmake-build-for-visual-studio--msbuild)
-  * [Build Options](#build-options)
-    * [CMake specific options](#cmake-specific-options)
-    * [CataclysmBN specific options])(#cataclysmbn-specific-options)
+- [Disclaimer](#disclaimer)
+- [Contents](#contents)
+- [Prerequisites](#prerequisites)
+- [Build Environment](#build-environment)
+  - [UNIX Environment](#unix-environment)
+  - [Windows Environment (MSYS2)](#windows-environment-msys2)
+- [CMake Build](#cmake-build)
+  - [CMake Build for MSYS2 (MinGW)](#cmake-build-for-msys2-mingw)
+  - [CMake Build for Visual Studio / MSBuild](#cmake-build-for-visual-studio--msbuild)
+- [Build Options](#build-options)
+  - [CMake specific options](#cmake-specific-options)
+  - [CataclysmBN specific options](#cataclysmbn-specific-options)
 
 # Prerequisites
 
@@ -321,6 +323,26 @@ Run the game. Should work.
 
  Use dynamic linking. Or use static to remove MinGW dependency instead.
 
+ * CUSTOM LINKER=`<str>`
+
+ Choose custom linkers such as [gold], [lld] or [mold].
+
+ - Choose ld if you don't use libbacktrace.
+ - Choose mold if use libbacktrace. It's the fastest linker, outperforming gold by 24x.
+
+ [gold]: https://en.wikipedia.org/wiki/Gold_(linker)
+ [lld]: https://lld.llvm.org
+ [mold]: https://github.com/rui314/mold
+
+ * BACKTRACE=`<boolean>`
+
+ On crash, print a backtrace to the console. Defaults to `ON` for debug builds.
+
+ * LIBBACKTRACE=`<boolean>`
+
+ Print backtrace with [libbacktrace]. This allows lld and mold to print backtrace, and is generally much faster.
+
+ [libbacktrace]: https://github.com/ianlancetaylor/libbacktrace
 
  * GIT_BINARY=`<str>`
 
