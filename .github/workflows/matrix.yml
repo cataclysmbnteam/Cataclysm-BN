@@ -51,9 +51,9 @@ jobs:
             sound: 1
             lua: 1
             test-stage: 1
-            title: GCC 11, Ubuntu, Tiles, Sound, Lua
+            title: GCC 12, Ubuntu, Tiles, Sound, Lua
             native: linux64
-          - compiler: g++-11
+          - compiler: g++-12
             os: ubuntu-22.04
             cmake: 0
             tiles: 1
