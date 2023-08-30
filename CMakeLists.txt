@@ -205,6 +205,7 @@ MESSAGE(STATUS "CURSES                        : ${CURSES}")
 MESSAGE(STATUS "SOUND                         : ${SOUND}")
 MESSAGE(STATUS "LUA                           : ${LUA}")
 MESSAGE(STATUS "BACKTRACE                     : ${BACKTRACE}")
+MESSAGE(STATUS "LIBBACKTRACE                  : ${LIBBACKTRACE}")
 MESSAGE(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
 
 MESSAGE(STATUS "UNITY_BUILD                   : ${USE_UNITY_BUILD}")

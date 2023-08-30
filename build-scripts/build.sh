@@ -80,6 +80,7 @@ then
         -DCMAKE_BUILD_TYPE="$build_type" \
         -DTILES=${TILES:-0} \
         -DSOUND=${SOUND:-0} \
+        -DLIBBACKTRACE=${LIBBACKTRACE:-0} \
         "${cmake_extra_opts[@]}" \
         ..
     if [ -n "$CATA_CLANG_TIDY" ]
@@ -149,7 +150,7 @@ else
     else
         export BACKTRACE=1
     fi
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LANGUAGES="all" LINTJSON=0
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LANGUAGES="all" LINTJSON=0 LIBBACKTRACE="$LIBBACKTRACE"
 
     export UBSAN_OPTIONS=print_stacktrace=1
     if [ "$OS" == "macos-12" ]

@@ -136,12 +136,12 @@ IF(TILES)
 
         IF(BACKTRACE)
             target_link_libraries(cataclysm-tiles-common dbghelp.lib)
-
-            IF(LIBBACKTRACE)
-                target_link_libraries(cataclysm-tiles-common backtrace)
-            ENDIF(LIBBACKTRACE)
         ENDIF(BACKTRACE)
     ENDIF(WIN32)
+
+    IF(LIBBACKTRACE)
+        target_link_libraries(cataclysm-tiles-common backtrace)
+    ENDIF(LIBBACKTRACE)
 
     IF(RELEASE)
         install(TARGETS cataclysm-tiles DESTINATION ${BIN_PREFIX})
@@ -205,12 +205,12 @@ IF(CURSES)
 
         IF(BACKTRACE)
             target_link_libraries(cataclysm-common dbghelp.lib)
-
-            IF(LIBBACKTRACE)
-                target_link_libraries(cataclysm-common backtrace)
-            ENDIF(LIBBACKTRACE)
         ENDIF(BACKTRACE)
     ENDIF(WIN32)
+
+    IF(LIBBACKTRACE)
+        target_link_libraries(cataclysm-common backtrace)
+    ENDIF(LIBBACKTRACE)
 
     IF(RELEASE)
         install(TARGETS cataclysm DESTINATION ${BIN_PREFIX})
