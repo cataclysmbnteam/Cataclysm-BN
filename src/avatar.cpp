@@ -331,7 +331,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         } else if( elem->is_blind() ) {
             reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
         } else {
-            int proj_time = time_to_read( book, *elem );
+            int const proj_time = time_to_read( book, *elem );
             if( proj_time < time_taken ) {
                 reader = elem;
                 time_taken = proj_time;
@@ -390,7 +390,7 @@ bool avatar::read( item_location loc, const bool continuous )
         add_msg( m_info, _( "Never mind." ) );
         return false;
     }
-    item &it = *loc;
+    item  const&it = *loc;
     if( !has_identified( it.typeId() ) ) {
         // We insta-identify the book, then try to read it
         items_identified.insert( it.typeId() );
@@ -653,7 +653,7 @@ bool avatar::read( item_location loc, const bool continuous )
         apply_morale.insert( elem.first );
     }
     for( Character *ch : apply_morale ) {
-        int fun = character_funcs::get_book_fun_for( *ch, it );
+        int const fun = character_funcs::get_book_fun_for( *ch, it );
         ch->add_morale( MORALE_BOOK, 0, fun * 15, decay_start + 30_minutes,
                         decay_start, false, it.type );
     }
@@ -724,7 +724,7 @@ static void skim_book_msg( const item &book, avatar &u )
         recipe_list.push_back( elem.name );
     }
     if( !recipe_list.empty() ) {
-        std::string recipe_line =
+        std::string const recipe_line =
             string_format( vgettext( "This book contains %1$zu crafting recipe: %2$s",
                                      "This book contains %1$zu crafting recipes: %2$s",
                                      recipe_list.size() ),
@@ -785,7 +785,7 @@ void avatar::do_read( item_location loc )
     for( auto &elem : learners ) {
         player *learner = elem.first;
 
-        int book_fun_for = character_funcs::get_book_fun_for( *learner, book );
+        int const book_fun_for = character_funcs::get_book_fun_for( *learner, book );
         if( book_fun_for != 0 ) {
             learner->add_morale( MORALE_BOOK, book_fun_for * 5, book_fun_for * 15, 1_hours, 30_minutes, true,
                                  book.type );
@@ -839,7 +839,7 @@ void avatar::do_read( item_location loc )
 
             skill_level.readBook( min_ex, max_ex, reading->level );
 
-            std::string skill_name = skill.obj().name();
+            std::string const skill_name = skill.obj().name();
 
             if( skill_level != originalSkillLevel ) {
                 g->events().send<event_type::gains_skill_level>(
@@ -904,7 +904,7 @@ void avatar::do_read( item_location loc )
     auto m = book.type->use_methods.find( "MA_MANUAL" );
     if( m != book.type->use_methods.end() ) {
         const matype_id style_to_learn = martial_art_learned_from( *book.type );
-        skill_id skill_used = style_to_learn->primary_skill;
+        skill_id const skill_used = style_to_learn->primary_skill;
         int difficulty = std::max( 1, style_to_learn->learn_difficulty );
         difficulty = std::max( 1, 20 + difficulty * 2 - get_skill_level( skill_used ) * 2 );
         add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
@@ -1000,11 +1000,11 @@ bool avatar::is_hallucination() const
 
 void avatar::disp_morale()
 {
-    int equilibrium = character_effects::calc_focus_equilibrium( *this );
+    int const equilibrium = character_effects::calc_focus_equilibrium( *this );
 
-    int fatigue_cap = character_effects::calc_morale_fatigue_cap( this->get_fatigue() );
+    int const fatigue_cap = character_effects::calc_morale_fatigue_cap( this->get_fatigue() );
 
-    int pain_penalty = has_trait( trait_CENOBITE ) ? 0 : get_perceived_pain();
+    int const pain_penalty = has_trait( trait_CENOBITE ) ? 0 : get_perceived_pain();
 
     morale->display( equilibrium, pain_penalty, fatigue_cap );
 }
@@ -1229,8 +1229,8 @@ bool avatar::wield( item &target )
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    bool worn = is_worn( target );
-    int mv = item_handling_cost( target, true,
+    bool const worn = is_worn( target );
+    int const mv = item_handling_cost( target, true,
                                  worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
 
     add_msg( m_debug, "wielding took %d moves", mv );
@@ -1281,7 +1281,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
 
     umenu.query();
 
-    int choice = umenu.ret;
+    int const choice = umenu.ret;
     if( choice < 0 || choice >= static_cast<int>( use_methods.size() ) ) {
         return false;
     }

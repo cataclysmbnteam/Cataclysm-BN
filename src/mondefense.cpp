@@ -175,7 +175,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     // TODO: implement different rule, dependent on sound and probably some other things
     const tripoint fire_point = source->pos();
     // Add some innacuracy since it is blind fire
-    int dispersion = 150;
+    int const dispersion = 150;
 
     for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
         if( attack.second->id == "gun" ) {

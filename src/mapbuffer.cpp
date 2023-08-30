@@ -62,7 +62,7 @@ bool mapbuffer::add_submap( const tripoint &p, submap *sm )
 {
     // FIXME: get rid of this overload and make submap ownership semantics sane.
     std::unique_ptr<submap> temp( sm );
-    bool result = add_submap( p, temp );
+    bool const result = add_submap( p, temp );
     if( !result ) {
         // NOLINTNEXTLINE( bugprone-unused-return-value )
         temp.release();
@@ -100,9 +100,9 @@ void mapbuffer::save( bool delete_after_save )
     assure_dir_exist( g->get_world_base_save_path() + "/maps" );
 
     int num_saved_submaps = 0;
-    int num_total_submaps = submaps.size();
+    int const num_total_submaps = submaps.size();
 
-    map &here = get_map();
+    map  const&here = get_map();
     const tripoint map_origin = sm_to_omt_copy( here.get_abs_sub() );
     const bool map_has_zlevels = g != nullptr && here.has_zlevels();
 
@@ -281,12 +281,12 @@ void mapbuffer::deserialize( JsonIn &jsin )
         jsin.start_object();
         int version = 0;
         while( !jsin.end_object() ) {
-            std::string submap_member_name = jsin.get_member_name();
+            std::string const submap_member_name = jsin.get_member_name();
             if( submap_member_name == "version" ) {
                 version = jsin.get_int();
             } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
-                tripoint loc{ jsin.get_int(), jsin.get_int(), jsin.get_int() };
+                tripoint const loc{ jsin.get_int(), jsin.get_int(), jsin.get_int() };
                 jsin.end_array();
                 submap_coordinates = loc;
             } else {

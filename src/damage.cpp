@@ -41,7 +41,7 @@ damage_instance::damage_instance( damage_type dt, float amt, float arpen, float 
 void damage_instance::add_damage( damage_type dt, float amt, float arpen, float arpen_mult,
                                   float dmg_mult )
 {
-    damage_unit du( dt, amt, arpen, arpen_mult, dmg_mult );
+    damage_unit const du( dt, amt, arpen, arpen_mult, dmg_mult );
     add( du );
 }
 
@@ -146,7 +146,7 @@ void damage_instance::deserialize( JsonIn &jsin )
 {
     // TODO: Clean up
     if( jsin.test_object() ) {
-        JsonObject jo = jsin.get_object();
+        JsonObject const jo = jsin.get_object();
         *this = load_damage_instance( jo );
     } else if( jsin.test_array() ) {
         *this = load_damage_instance( jsin.get_array() );
@@ -192,7 +192,7 @@ resistances::resistances( const item &armor, bool to_self )
     // Armors protect, but all items can resist
     if( to_self || armor.is_armor() ) {
         for( int i = 0; i < NUM_DT; i++ ) {
-            damage_type dt = static_cast<damage_type>( i );
+            damage_type const dt = static_cast<damage_type>( i );
             set_resist( dt, armor.damage_resist( dt, to_self ) );
         }
     }
@@ -272,9 +272,9 @@ std::string name_by_dt( const damage_type &dt )
 
 const skill_id &skill_by_dt( damage_type dt )
 {
-    static skill_id skill_bashing( "bashing" );
-    static skill_id skill_cutting( "cutting" );
-    static skill_id skill_stabbing( "stabbing" );
+    static skill_id const skill_bashing( "bashing" );
+    static skill_id const skill_cutting( "cutting" );
+    static skill_id const skill_stabbing( "stabbing" );
 
     switch( dt ) {
         case DT_BASH:
@@ -293,19 +293,19 @@ const skill_id &skill_by_dt( damage_type dt )
 
 static damage_unit load_damage_unit( const JsonObject &curr )
 {
-    damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
+    damage_type const dt = dt_by_name( curr.get_string( "damage_type" ) );
     if( dt == DT_NULL ) {
         curr.throw_error( "Invalid damage type" );
     }
 
-    float amount = curr.get_float( "amount", 0 );
-    float arpen = curr.get_float( "armor_penetration", 0 );
-    float armor_mul = curr.get_float( "armor_multiplier", 1.0f );
-    float damage_mul = curr.get_float( "damage_multiplier", 1.0f );
+    float const amount = curr.get_float( "amount", 0 );
+    float const arpen = curr.get_float( "armor_penetration", 0 );
+    float const armor_mul = curr.get_float( "armor_multiplier", 1.0f );
+    float const damage_mul = curr.get_float( "damage_multiplier", 1.0f );
 
     // Legacy
-    float unc_armor_mul = curr.get_float( "constant_armor_multiplier", 1.0f );
-    float unc_damage_mul = curr.get_float( "constant_damage_multiplier", 1.0f );
+    float const unc_armor_mul = curr.get_float( "constant_armor_multiplier", 1.0f );
+    float const unc_damage_mul = curr.get_float( "constant_damage_multiplier", 1.0f );
 
     return damage_unit( dt, amount, arpen, armor_mul * unc_armor_mul, damage_mul * unc_damage_mul );
 }
@@ -391,15 +391,15 @@ damage_instance load_damage_instance_inherit( const JsonArray &jarr, const damag
 std::array<float, NUM_DT> load_damage_array( const JsonObject &jo )
 {
     std::array<float, NUM_DT> ret;
-    float init_val = jo.get_float( "all", 0.0f );
+    float const init_val = jo.get_float( "all", 0.0f );
 
-    float phys = jo.get_float( "physical", init_val );
+    float const phys = jo.get_float( "physical", init_val );
     ret[ DT_BASH ] = jo.get_float( "bash", phys );
     ret[ DT_CUT ] = jo.get_float( "cut", phys );
     ret[ DT_STAB ] = jo.get_float( "stab", phys );
     ret[ DT_BULLET ] = jo.get_float( "bullet", phys );
 
-    float non_phys = jo.get_float( "non_physical", init_val );
+    float const non_phys = jo.get_float( "non_physical", init_val );
     ret[ DT_BIOLOGICAL ] = jo.get_float( "biological", non_phys );
     ret[ DT_ACID ] = jo.get_float( "acid", non_phys );
     ret[ DT_HEAT ] = jo.get_float( "heat", non_phys );

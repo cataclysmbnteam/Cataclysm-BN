@@ -104,7 +104,7 @@ struct grids_draw_data {
     public:
         std::optional<char> get_active( const tripoint_abs_omt &omp ) {
             // TODO: fix point types
-            uintptr_t id = get_distribution_grid_tracker().debug_grid_id( omp );
+            uintptr_t const id = get_distribution_grid_tracker().debug_grid_id( omp );
             if( id == 0 ) {
                 return std::nullopt;
             }
@@ -129,14 +129,14 @@ struct grids_draw_data {
         }
 
         std::optional<char> get_inactive( const tripoint_abs_omt &omp ) {
-            std::set<tripoint_abs_omt> grid = overmap_buffer.electric_grid_at( omp );
+            std::set<tripoint_abs_omt> const grid = overmap_buffer.electric_grid_at( omp );
             if( grid.size() <= 1 ) {
                 return std::nullopt;
             }
             std::vector<tripoint_abs_omt> sorted( grid.begin(), grid.end() );
             std::sort( sorted.begin(), sorted.end() );
 
-            std::size_t id = cata::range_hash{}( sorted );
+            std::size_t const id = cata::range_hash{}( sorted );
 
             auto it = list_inactive.find( id );
             if( it != list_inactive.end() ) {
@@ -170,7 +170,7 @@ struct grids_draw_data {
         // Fn(char) -> bool
         template<typename Fn>
         std::optional<char> pick_char( Fn filter_func ) {
-            static std::string candidates( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+            static std::string const candidates( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" );
             for( char c : candidates ) {
                 if( filter_func( c ) ) {
                     return c;
@@ -251,7 +251,7 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
         const bool see = has_debug_vision || overmap_buffer.seen( dest );
         if( see ) {
             // Only load terrain if we can actually see it
-            oter_id cur_ter = overmap_buffer.ter( dest );
+            oter_id const cur_ter = overmap_buffer.ter( dest );
             ter_color = cur_ter->get_color();
             ter_sym = cur_ter->get_symbol();
         } else {
@@ -286,7 +286,7 @@ static void update_note_preview( const std::string &note,
     nc_color default_color = c_unset;
     print_colored_text( *w_preview_title, point_zero, default_color, note_color, note_text,
                         report_color_error::no );
-    int note_text_width = utf8_width( note_text );
+    int const note_text_width = utf8_width( note_text );
     mvwputch( *w_preview_title, point( note_text_width, 0 ), c_white, LINE_XOXO );
     for( int i = 0; i < note_text_width; i++ ) {
         mvwputch( *w_preview_title, point( i, 1 ), c_white, LINE_OXOX );
@@ -321,7 +321,7 @@ weather_type_id get_weather_at_point( const point_abs_omt &pos )
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
         // TODO: fix point types
-        tripoint_abs_omt pos_z( pos, OVERMAP_HEIGHT );
+        tripoint_abs_omt const pos_z( pos, OVERMAP_HEIGHT );
         const tripoint abs_ms_pos = project_to<coords::ms>( pos_z ).raw();
         const auto &wgen = overmap_buffer.get_settings( pos_z ).weather;
         auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
@@ -335,7 +335,7 @@ static bool get_scent_glyph( const tripoint_abs_omt &pos, nc_color &ter_color,
 {
     auto possible_scent = overmap_buffer.scent_at( pos );
     if( possible_scent.creation_time != calendar::before_time_starts ) {
-        color_manager &color_list = get_all_colors();
+        color_manager  const&color_list = get_all_colors();
         int i = 0;
         time_duration scent_age = calendar::turn - possible_scent.creation_time;
         while( i < num_colors && scent_age > 0_turns ) {
@@ -540,7 +540,7 @@ class map_notes_callback : public uilist_callback
                         const int max_amount = 20;
                         // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
                         const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
-                        int amount = string_input_popup()
+                        int const amount = string_input_popup()
                                      .title( popupmsg )
                                      .width( 20 )
                                      .text( std::to_string( 0 ) )
@@ -640,7 +640,7 @@ static tripoint_abs_omt show_notes_manager( const tripoint_abs_omt &origin )
 
         std::vector<note_cached> notes;
         for( int zlev = -OVERMAP_DEPTH; zlev <= OVERMAP_HEIGHT; zlev++ ) {
-            overmapbuffer::t_notes_vector notes_raw = overmap_buffer.get_all_notes( zlev );
+            overmapbuffer::t_notes_vector const notes_raw = overmap_buffer.get_all_notes( zlev );
             notes.reserve( notes.size() + notes_raw.size() );
             for( const auto &it : notes_raw ) {
                 auto om_symbol = get_note_display_info( it.second );
@@ -909,7 +909,7 @@ static void draw_ascii( const catacurses::window &w,
             const tripoint_abs_omt pos = np->global_omt_location();
             if( has_debug_vision || overmap_buffer.seen( pos ) ) {
                 auto iter = npc_color.find( pos );
-                nc_color np_color = np->basic_symbol_color();
+                nc_color const np_color = np->basic_symbol_color();
                 if( iter == npc_color.end() ) {
                     npc_color[pos] = { np_color, 1 };
                 } else {
@@ -924,7 +924,7 @@ static void draw_ascii( const catacurses::window &w,
         std::vector<npc *> followers;
         // get friendly followers
         for( auto &elem : g->get_follower_list() ) {
-            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            shared_ptr_fast<npc> const npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
             }
@@ -954,7 +954,7 @@ static void draw_ascii( const catacurses::window &w,
             }
             const tripoint_abs_omt pos = np->global_omt_location();
             auto iter = npc_color.find( pos );
-            nc_color np_color = np->basic_symbol_color();
+            nc_color const np_color = np->basic_symbol_color();
             if( iter == npc_color.end() ) {
                 npc_color[pos] = { np_color, 1 };
             } else {
@@ -967,7 +967,7 @@ static void draw_ascii( const catacurses::window &w,
         }
     }
 
-    tripoint_abs_omt pl_pos = get_player_character().global_omt_location();
+    tripoint_abs_omt const pl_pos = get_player_character().global_omt_location();
 
     for( int i = 0; i < om_map_width; ++i ) {
         for( int j = 0; j < om_map_height; ++j ) {
@@ -1149,7 +1149,7 @@ static void draw_ascii( const catacurses::window &w,
         draw_camp_labels( w, center );
     }
 
-    half_open_rectangle<point_abs_omt> screen_bounds(
+    half_open_rectangle<point_abs_omt> const screen_bounds(
         corner.xy(), corner.xy() + point( om_map_width, om_map_height ) );
 
     if( has_target && blink && !screen_bounds.contains( target.xy() ) ) {
@@ -1477,13 +1477,13 @@ static void create_note( const tripoint_abs_omt &curs )
                                       _( color_pair.second ), replace_all( color_pair.second, " ", "_" ) );
     }
 
-    std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
+    std::string const helper_text = string_format( ".\n\n%s\n%s\n%s\n",
                               _( "Type GLYPH:TEXT to set a custom glyph." ),
                               _( "Type COLOR;TEXT to set a custom color." ),
                               // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
                               _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
     color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), helper_text );
-    std::string title = _( "Note:" );
+    std::string const title = _( "Note:" );
 
     const std::string old_note = overmap_buffer.note( curs );
     std::string new_note = old_note;
@@ -1514,7 +1514,7 @@ static void create_note( const tripoint_abs_omt &curs )
     } );
 
     // this implies enable_ime() and ensures that ime mode is always restored on return
-    ime_sentry sentry;
+    ime_sentry const sentry;
 
     bool esc_pressed = false;
     string_input_popup input_popup;
@@ -1569,8 +1569,8 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
         overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
 
         if( om_loc ) {
-            tripoint_om_omt om_relative = om_loc.local;
-            point_abs_om om_cache = project_to<coords::om>( p.xy() );
+            tripoint_om_omt const om_relative = om_loc.local;
+            point_abs_om const om_cache = project_to<coords::om>( p.xy() );
 
             if( std::find( overmap_checked.begin(), overmap_checked.end(),
                            om_cache ) == overmap_checked.end() ) {
@@ -1624,13 +1624,13 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
     ui.on_redraw( [&]( const ui_adaptor & ) {
         //Draw search box
 
-        int a = utf8_width( _( "Search:" ) );
-        int b = utf8_width( _( "Result:" ) );
-        int c = utf8_width( _( "Results:" ) );
-        int d = utf8_width( _( "Direction:" ) );
+        int const a = utf8_width( _( "Search:" ) );
+        int const b = utf8_width( _( "Result:" ) );
+        int const c = utf8_width( _( "Results:" ) );
+        int const d = utf8_width( _( "Direction:" ) );
         int align_width = 0;
-        int align_w_value[4] = { a, b, c, d};
-        for( int n : align_w_value ) {
+        int const align_w_value[4] = { a, b, c, d};
+        for( int const n : align_w_value ) {
             if( n > align_width ) {
                 align_width = n + 2;
             }
@@ -1748,7 +1748,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
         uistate.omedit_rotation = om_direction::type::none;
         // If user chose an already rotated submap, figure out its direction
         if( terrain && can_rotate ) {
-            for( om_direction::type r : om_direction::all ) {
+            for( om_direction::type const r : om_direction::all ) {
                 if( uistate.place_terrain->id.id() == uistate.place_terrain->get_rotated( r ) ) {
                     uistate.omedit_rotation = r;
                     break;
@@ -1835,7 +1835,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         return {};
     }
     const Character &player_character = get_player_character();
-    map &here = get_map();
+    map  const&here = get_map();
     const tripoint_abs_omt player_omt_pos = player_character.global_omt_location();
     overmap_path_params params;
     vehicle *player_veh = nullptr;
@@ -1887,13 +1887,13 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
 {
     const int previous_zoom = g->get_zoom();
     g->set_zoom( overmap_zoom_level );
-    on_out_of_scope reset_zoom( [&]() {
+    on_out_of_scope const reset_zoom( [&]() {
         overmap_zoom_level = g->get_zoom();
         g->set_zoom( previous_zoom );
         g->mark_main_ui_adaptor_resize();
     } );
 
-    background_pane bg_pane;
+    background_pane const bg_pane;
 
     ui_adaptor ui;
     ui.on_screen_resize( []( ui_adaptor & ui ) {
@@ -1964,7 +1964,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     std::string action;
     bool show_explored = true;
     bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
-    int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
+    int const fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
     std::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
     grids_draw_data grids_data;
@@ -1988,7 +1988,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         action = ictxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 #endif
         if( const std::optional<tripoint> vec = ictxt.get_direction( action ) ) {
-            int scroll_d = fast_scroll ? fast_scroll_offset : 1;
+            int const scroll_d = fast_scroll ? fast_scroll_offset : 1;
             curs += vec->xy() * scroll_d;
         } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
             tripoint edge_scroll = g->mouse_edge_scrolling_overmap( ictxt );
@@ -2102,7 +2102,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             g->list_missions();
         }
 
-        std::chrono::time_point<std::chrono::steady_clock> now = std::chrono::steady_clock::now();
+        std::chrono::time_point<std::chrono::steady_clock> const now = std::chrono::steady_clock::now();
         if( now > last_blink + std::chrono::milliseconds( get_option<int>( "BLINK_SPEED" ) ) ) {
             if( uistate.overmap_blinking ) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
@@ -2122,7 +2122,7 @@ void ui::omap::display()
 
 void ui::omap::display_hordes()
 {
-    overmap_ui::draw_data_t data;
+    overmap_ui::draw_data_t const data;
     uistate.overmap_debug_mongroup = true;
     overmap_ui::display( get_player_character().global_omt_location(), data );
     uistate.overmap_debug_mongroup = false;
@@ -2130,7 +2130,7 @@ void ui::omap::display_hordes()
 
 void ui::omap::display_weather()
 {
-    overmap_ui::draw_data_t data;
+    overmap_ui::draw_data_t const data;
     uistate.overmap_debug_weather = true;
     tripoint_abs_omt pos = get_player_character().global_omt_location();
     pos.z() = 10;
@@ -2140,7 +2140,7 @@ void ui::omap::display_weather()
 
 void ui::omap::display_visible_weather()
 {
-    overmap_ui::draw_data_t data;
+    overmap_ui::draw_data_t const data;
     uistate.overmap_visible_weather = true;
     tripoint_abs_omt pos = get_player_character().global_omt_location();
     pos.z() = 10;

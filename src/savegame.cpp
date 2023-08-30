@@ -174,7 +174,7 @@ void game::unserialize( std::istream &fin )
     point com;
     JsonIn jsin( fin );
     try {
-        JsonObject data = jsin.get_object();
+        JsonObject const data = jsin.get_object();
 
         data.read( "turn", tmpturn );
         data.read( "calendar_start", tmpcalstart );
@@ -367,8 +367,8 @@ void overmap::convert_terrain(
             std::string new_id;
         };
 
-        std::vector<convert_nearby> nearby;
-        std::vector<std::pair<tripoint, std::string>> convert_unrelated_adjacent_tiles;
+        std::vector<convert_nearby> const nearby;
+        std::vector<std::pair<tripoint, std::string>> const convert_unrelated_adjacent_tiles;
 
         if( old == "fema" || old == "fema_entrance" || old == "fema_1_3" ||
             old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
@@ -476,7 +476,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
             std::string new_region_id;
             jsin.read( new_region_id );
             if( settings->id != new_region_id ) {
-                t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
+                t_regional_settings_map_citr const rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
                     // TODO: optimize
                     settings = &rit->second;
@@ -492,7 +492,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 jsin.start_object();
                 city new_city;
                 while( !jsin.end_object() ) {
-                    std::string city_member_name = jsin.get_member_name();
+                    std::string const city_member_name = jsin.get_member_name();
                     if( city_member_name == "name" ) {
                         jsin.read( new_city.name );
                     } else if( city_member_name == "x" ) {
@@ -511,7 +511,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 jsin.start_object();
                 lab new_lab;
                 while( !jsin.end_object() ) {
-                    std::string lab_member_name = jsin.get_member_name();
+                    std::string const lab_member_name = jsin.get_member_name();
                     if( lab_member_name == "type" ) {
                         std::string string_type;
                         jsin.read( string_type );
@@ -592,7 +592,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 om_vehicle new_tracker;
                 int id;
                 while( !jsin.end_object() ) {
-                    std::string tracker_member_name = jsin.get_member_name();
+                    std::string const tracker_member_name = jsin.get_member_name();
                     if( tracker_member_name == "id" ) {
                         jsin.read( id );
                     } else if( tracker_member_name == "x" ) {
@@ -613,7 +613,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 time_point time = calendar::before_time_starts;
                 int strength = 0;
                 while( !jsin.end_object() ) {
-                    std::string scent_member_name = jsin.get_member_name();
+                    std::string const scent_member_name = jsin.get_member_name();
                     if( scent_member_name == "pos" ) {
                         jsin.read( pos );
                     } else if( scent_member_name == "time" ) {
@@ -627,7 +627,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
         } else if( name == "npcs" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
-                shared_ptr_fast<npc> new_npc = make_shared_fast<npc>();
+                shared_ptr_fast<npc> const new_npc = make_shared_fast<npc>();
                 new_npc->deserialize( jsin );
                 if( !new_npc->get_fac_id().str().empty() ) {
                     new_npc->set_fac( new_npc->get_fac_id() );
@@ -647,7 +647,7 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                 jsin.start_object();
                 overmap_special_id s;
                 while( !jsin.end_object() ) {
-                    std::string name = jsin.get_member_name();
+                    std::string const name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
                     } else if( name == "placements" ) {
@@ -655,14 +655,14 @@ void overmap::unserialize( std::istream &fin, const std::string &file_path )
                         while( !jsin.end_array() ) {
                             jsin.start_object();
                             while( !jsin.end_object() ) {
-                                std::string name = jsin.get_member_name();
+                                std::string const name = jsin.get_member_name();
                                 if( name == "points" ) {
                                     jsin.start_array();
                                     while( !jsin.end_array() ) {
                                         jsin.start_object();
                                         tripoint_om_omt p;
                                         while( !jsin.end_object() ) {
-                                            std::string name = jsin.get_member_name();
+                                            std::string const name = jsin.get_member_name();
                                             if( name == "p" ) {
                                                 jsin.read( p );
                                                 overmap_special_placements[p] = s;
@@ -929,7 +929,7 @@ void overmap::serialize( std::ostream &fout ) const
         for( int j = 0; j < OMAPY; j++ ) {
             // NOLINTNEXTLINE(modernize-loop-convert)
             for( int i = 0; i < OMAPX; i++ ) {
-                oter_id t = layer_terrain[i][j];
+                oter_id const t = layer_terrain[i][j];
                 if( t != last_tertype ) {
                     if( count ) {
                         json.write( count );
@@ -1126,7 +1126,7 @@ void mongroup::io( Archive &archive )
 
 void mongroup::deserialize( JsonIn &data )
 {
-    JsonObject jo = data.get_object();
+    JsonObject const jo = data.get_object();
     jo.allow_omitted_members();
     io::JsonObjectInputArchive archive( jo );
     io( archive );
@@ -1142,7 +1142,7 @@ void mongroup::deserialize_legacy( JsonIn &json )
 {
     json.start_object();
     while( !json.end_object() ) {
-        std::string name = json.get_member_name();
+        std::string const name = json.get_member_name();
         if( name == "type" ) {
             type = mongroup_id( json.get_string() );
         } else if( name == "pos" ) {
@@ -1207,7 +1207,7 @@ void game::unserialize_master( std::istream &fin )
         JsonIn jsin( fin );
         jsin.start_object();
         while( !jsin.end_object() ) {
-            std::string name = jsin.get_member_name();
+            std::string const name = jsin.get_member_name();
             if( name == "next_mission_id" ) {
                 next_mission_id = jsin.get_int();
             } else if( name == "next_npc_id" ) {
@@ -1219,7 +1219,7 @@ void game::unserialize_master( std::istream &fin )
             } else if( name == "seed" ) {
                 jsin.read( seed );
             } else if( name == "weather" ) {
-                JsonObject w = jsin.get_object();
+                JsonObject const w = jsin.get_object();
                 w.read( "lightning", get_weather().lightning_active );
             } else {
                 // silently ignore anything else
@@ -1319,7 +1319,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     jsin.start_array();
     while( !jsin.end_array() ) {
         // TODO: would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
-        shared_ptr_fast<monster> mptr = make_shared_fast<monster>();
+        shared_ptr_fast<monster> const mptr = make_shared_fast<monster>();
         jsin.read( *mptr );
         add( mptr );
     }

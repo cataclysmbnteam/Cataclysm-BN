@@ -92,7 +92,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
     }
 
     void deserialize( JsonIn &jsin ) override {
-        JsonObject obj = jsin.get_object();
+        JsonObject const obj = jsin.get_object();
         obj.read( "turn", timestamp_in_turns );
         message = obj.get_string( "message" );
         count = obj.get_int( "count" );
@@ -189,7 +189,7 @@ class messages_impl
                 return;
             }
 
-            unsigned int message_limit = get_option<int>( "MESSAGE_LIMIT" );
+            unsigned int const message_limit = get_option<int>( "MESSAGE_LIMIT" );
             while( messages.size() > message_limit ) {
                 messages.pop_front();
             }
@@ -333,7 +333,7 @@ void Messages::deserialize( const JsonObject &json )
         return;
     }
 
-    JsonObject obj = json.get_object( "player_messages" );
+    JsonObject const obj = json.get_object( "player_messages" );
     obj.read( "messages", player_messages.messages );
     obj.read( "curmes", player_messages.curmes );
 }

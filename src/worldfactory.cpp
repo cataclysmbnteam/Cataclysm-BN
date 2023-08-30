@@ -286,13 +286,13 @@ void worldfactory::init()
         auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
         // split the save file names between the directory and the extension
         for( auto &world_sav_file : world_sav_files ) {
-            size_t save_index = world_sav_file.find( SAVE_EXTENSION );
+            size_t const save_index = world_sav_file.find( SAVE_EXTENSION );
             world_sav_file = world_sav_file.substr( world_dir.size() + 1,
                                                     save_index - ( world_dir.size() + 1 ) );
         }
         // the directory name is the name of the world
         std::string worldname;
-        size_t name_index = world_dir.find_last_of( "/\\" );
+        size_t const name_index = world_dir.find_last_of( "/\\" );
         worldname = world_dir.substr( name_index + 1 );
 
         // create and store the world
@@ -326,7 +326,7 @@ void worldfactory::init()
             const std::string origin_path = old_world.folder_path();
             // move files from origin_path into new world path
             for( auto &origin_file : get_files_from_path( ".", origin_path, false ) ) {
-                std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
+                std::string const filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
 
                 rename( origin_file.c_str(), ( newworld->folder_path() + filename ).c_str() );
             }
@@ -478,9 +478,9 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
             mvwprintz( w_worlds, point( 0, static_cast<int>( i ) ), c_white, "%d", i + 1 );
             wmove( w_worlds, point( 4, static_cast<int>( i ) ) );
 
-            std::string world_name = ( world_pages[selpage] )[i];
+            std::string const world_name = ( world_pages[selpage] )[i];
             WORLDPTR world = get_world( world_name );
-            size_t saves_num = world->world_saves.size();
+            size_t const saves_num = world->world_saves.size();
 
             std::string text = string_format( "%s (%d)", world_name, saves_num );
             nc_color col = c_white;
@@ -506,7 +506,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
         for( size_t i = 0; i < num_pages; ++i ) {
             //skip empty pages
             if( !world_pages[i].empty() ) {
-                nc_color tabcolor = ( selpage == i ) ? hilite( c_white ) : c_white;
+                nc_color const tabcolor = ( selpage == i ) ? hilite( c_white ) : c_white;
                 wprintz( w_worlds_header, c_white, "[" );
                 wprintz( w_worlds_header, tabcolor, _( "Page %lu" ), i + 1 );
                 wprintz( w_worlds_header, c_white, "]" );
@@ -601,7 +601,7 @@ void worldfactory::load_last_world_info()
     }
 
     JsonIn jsin( *file );
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     last_world_name = data.get_string( "world_name" );
     last_character_name = data.get_string( "character_name" );
 }
@@ -696,7 +696,7 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
             }
         }
 
-        int larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>( iModNum ) : iMaxRows;
+        int const larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>( iModNum ) : iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ) {
             if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start + larger ) ) {
                 if( !mSortCategory[iNum].empty() ) {
@@ -957,7 +957,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
         filter_pos = point( 2, TERMY - 8 );
         filter_view_len = iMinScreenWidth / 2 - 11;
         if( fpopup ) {
-            point inner_pos = filter_pos + point( 2, 0 );
+            point const inner_pos = filter_pos + point( 2, 0 );
             fpopup->window( win, inner_pos, inner_pos.x + filter_view_len );
         }
 
@@ -992,7 +992,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
 
     const std::map<std::string, std::string> &cat_tab_map = get_mod_list_cat_tab();
     for( const mod_id &mod : mman->get_all_sorted() ) {
-        int cat_idx = mod->category.first;
+        int const cat_idx = mod->category.first;
         const std::string &cat_id = get_mod_list_categories()[cat_idx].first;
 
         std::string dest_tab = "tab_default";
@@ -1047,7 +1047,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
                     continue;
                 }
                 if( !filter_str.empty() ) {
-                    std::string name = ( *mod ).name();
+                    std::string const name = ( *mod ).name();
                     if( !lcmatch( name, filter_str ) ) {
                         continue;
                     }
@@ -1090,7 +1090,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
     // Also tries to keep cursor position, though it's rather imprecise
     // when multiple mods are added simultaneously.
     const auto recalc_after_add_remove = [&]() {
-        size_t sel = cursel[0];
+        size_t const sel = cursel[0];
         recalc_visible( current_filter, show_obsolete );
         if( active_header == 0 ) {
             const std::vector<mod_id> &current_tab_mods = all_tabs[iCurrentTab].mods;
@@ -1129,7 +1129,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
 
         if( const MOD_INFORMATION *selmod = get_selected_mod() ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
-            int num_lines = fold_and_print( w_description, point( 1, 0 ),
+            int const num_lines = fold_and_print( w_description, point( 1, 0 ),
                                             getmaxx( w_description ) - 1,
                                             c_white, mman_ui->get_information( selmod ) );
             auto window_height = catacurses::getmaxy( w_description );
@@ -1137,7 +1137,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
             if( num_lines > window_height ) {
                 // The description didn't fit in the window, so provide a
                 // hint for how to see the whole thing
-                std::string message = string_format( _( "…%s = View full description " ),
+                std::string const message = string_format( _( "…%s = View full description " ),
                                                      ctxt.get_desc( "VIEW_MOD_DESCRIPTION" ) );
                 nc_color color = c_green;
                 print_colored_text( w_description, point( window_width - utf8_width( message ), window_height - 1 ),
@@ -1192,7 +1192,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
         const std::string old_filter = current_filter;
         fpopup->text( current_filter );
 
-        ime_sentry sentry;
+        ime_sentry const sentry;
 
         // On next redraw, call resize callback which will configure how popup is rendered
         ui.mark_resize();
@@ -1222,11 +1222,11 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
         const int prev_header = ( active_header == 0 ) ? 1 : 0;
 
         size_t selection = ( active_header == 0 ) ? cursel[0] : cursel[1];
-        size_t last_selection = selection;
+        size_t const last_selection = selection;
         size_t next_selection = selection + 1;
         size_t prev_selection = selection - 1;
         if( active_header == 0 ) {
-            size_t num_mods = all_tabs[iCurrentTab].mods.size();
+            size_t const num_mods = all_tabs[iCurrentTab].mods.size();
             next_selection = ( next_selection >= num_mods ) ? 0 : next_selection;
             prev_selection = ( prev_selection > num_mods ) ? num_mods - 1 : prev_selection;
         } else {
@@ -1250,9 +1250,9 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
             if( active_header == 0 && !current_tab_mods.empty() ) {
                 // try-add
                 const mod_id &to_add = current_tab_mods[cursel[0]];
-                ret_val<bool> ret = mman_ui->try_add( to_add, active_mod_order );
+                ret_val<bool> const ret = mman_ui->try_add( to_add, active_mod_order );
                 if( !ret.success() ) {
-                    std::string msg = string_format( _( "Cannot add mod %s [%s].\n\n%s" ),
+                    std::string const msg = string_format( _( "Cannot add mod %s [%s].\n\n%s" ),
                                                      to_add->name(), to_add, ret.str() );
                     popup( msg );
                 }
@@ -1383,7 +1383,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     std::string worldname = world->world_name;
 
     // do not switch IME mode now, but restore previous mode on return
-    ime_sentry sentry( ime_sentry::keep );
+    ime_sentry const sentry( ime_sentry::keep );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_worldgen_tabs( win, 2 );
@@ -1454,15 +1454,15 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
             const input_event ev = ctxt.get_raw_input();
             const int ch = ev.get_first_input();
             utf8_wrapper wrap( worldname );
-            utf8_wrapper newtext( ev.text );
+            utf8_wrapper const newtext( ev.text );
             if( ch == KEY_BACKSPACE ) {
                 if( !wrap.empty() ) {
                     wrap.erase( wrap.length() - 1, 1 );
                     worldname = wrap.str();
                 }
             } else if( ch == KEY_F( 2 ) ) {
-                std::string tmp = get_input_string_from_file();
-                int tmplen = utf8_width( tmp );
+                std::string const tmp = get_input_string_from_file();
+                int const tmplen = utf8_width( tmp );
                 if( tmplen > 0 && tmplen + utf8_width( worldname ) < 30 ) {
                     worldname.append( tmp );
                 }
@@ -1490,8 +1490,8 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
     for( int i = 0; i < 5; ++i ) {
-        point p( xs[i], ys[i] );
-        int l = ls[i];
+        point const p( xs[i], ys[i] );
+        int const l = ls[i];
         if( hv[i] ) {
             for( int j = 0; j < l; ++j ) {
                 mvwputch( win, p + point( j, 0 ), BORDER_COLOR, LINE_OXOX ); // -
@@ -1543,7 +1543,7 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     strings.push_back( string_format(
                            _( "[<color_yellow>%s</color>] = keybindings" ),
                            ctxtp.get_desc( "HELP_KEYBINDINGS" ) ) );
-    std::string msg = join( strings, "  " );
+    std::string const msg = join( strings, "  " );
 
     fold_and_print( win, point( 2, TERMY - 7 ), getmaxx( win ) - 4, c_light_gray, msg );
     wnoutrefresh( win );
@@ -1597,7 +1597,7 @@ void WORLD::load_options( JsonIn &jsin )
 
     jsin.start_array();
     while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
+        JsonObject const jo = jsin.get_object();
         jo.allow_omitted_members();
         const std::string name = opts.migrateOptionName( jo.get_string( "name" ) );
         const std::string value = opts.migrateOptionValue( jo.get_string( "name" ),
@@ -1618,7 +1618,7 @@ void WORLD::load_legacy_options( std::istream &fin )
     while( !fin.eof() ) {
         getline( fin, sLine );
         if( !sLine.empty() && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
-            size_t ipos = sLine.find( ' ' );
+            size_t const ipos = sLine.find( ' ' );
             // make sure that the option being loaded is part of the world_default page in OPTIONS
             // In 0.C some lines consisted of a space and nothing else
             const std::string name = opts.migrateOptionName( sLine.substr( 0, ipos ) );
@@ -1721,7 +1721,7 @@ static bool isForbidden( const std::string &candidate )
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
 {
-    std::string worldpath = get_world( worldname )->folder_path();
+    std::string const worldpath = get_world( worldname )->folder_path();
     std::set<std::string> directory_paths;
 
     auto file_paths = get_files_from_path( "", worldpath, true, true );

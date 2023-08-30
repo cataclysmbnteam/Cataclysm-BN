@@ -60,7 +60,7 @@ std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist
     std::vector<tripoint> result;
     result.reserve( points.size() );
 
-    for( point p : points ) {
+    for( point const p : points ) {
         result.emplace_back( p, center.z );
     }
 

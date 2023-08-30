@@ -129,7 +129,7 @@ std::string get_lapi_version_string()
 void startup_lua_test()
 {
     sol::state lua = make_lua_state();
-    std::string lua_startup_script = PATH_INFO::datadir() + "raw/on_game_start.lua";
+    std::string const lua_startup_script = PATH_INFO::datadir() + "raw/on_game_start.lua";
     try {
         run_lua_script( lua, lua_startup_script );
     } catch( std::runtime_error &e ) {
@@ -141,10 +141,10 @@ bool generate_lua_docs()
 {
     sol::state lua = make_lua_state();
     lua.globals()["doc_gen_func"] = lua.create_table();
-    std::string lua_doc_script = PATH_INFO::datadir() + "raw/generate_docs.lua";
+    std::string const lua_doc_script = PATH_INFO::datadir() + "raw/generate_docs.lua";
     try {
         run_lua_script( lua, lua_doc_script );
-        sol::protected_function doc_gen_func = lua["doc_gen_func"]["impl"];
+        sol::protected_function const doc_gen_func = lua["doc_gen_func"]["impl"];
         sol::protected_function_result res = doc_gen_func();
         check_func_result( res );
         std::string ret = res;
@@ -177,12 +177,12 @@ void reload_lua_code()
 
 void debug_write_lua_backtrace( std::ostream &out )
 {
-    cata::lua_state &state = *DynamicDataLoader::get_instance().lua;
-    sol::state container;
+    cata::lua_state  const&state = *DynamicDataLoader::get_instance().lua;
+    sol::state const container;
 
     luaL_traceback( container.lua_state(), state.lua.lua_state(), "=== Lua backtrace report ===", 0 );
 
-    std::string data = sol::stack::pop<std::string>( container );
+    std::string const data = sol::stack::pop<std::string>( container );
     out << data << std::endl;
 }
 
@@ -198,7 +198,7 @@ bool save_world_lua_state( const std::string &path )
     const mod_management::t_mod_list &mods = world_generator->active_world->active_mod_order;
     sol::table t = get_mod_storage_table( state );
     run_on_game_save_hooks( state );
-    bool ret = write_to_file( path, [&]( std::ostream & stream ) {
+    bool const ret = write_to_file( path, [&]( std::ostream & stream ) {
         JsonOut jsout( stream );
         jsout.start_object();
         for( const mod_id &mod : mods ) {
@@ -216,9 +216,9 @@ bool load_world_lua_state( const std::string &path )
     const mod_management::t_mod_list &mods = world_generator->active_world->active_mod_order;
     sol::table t = get_mod_storage_table( state );
 
-    bool ret = read_from_file_optional( path, [&]( std::istream & stream ) {
+    bool const ret = read_from_file_optional( path, [&]( std::istream & stream ) {
         JsonIn jsin( stream );
-        JsonObject jsobj = jsin.get_object();
+        JsonObject const jsobj = jsin.get_object();
 
         for( const mod_id &mod : mods ) {
             if( !jsobj.has_object( mod.str() ) ) {
@@ -243,7 +243,7 @@ std::unique_ptr<lua_state, lua_state_deleter> make_wrapped_state()
 
     sol::state &lua = ret->lua;
 
-    sol::table game_table = lua.create_table();
+    sol::table const game_table = lua.create_table();
     lua.globals()["game"] = game_table;
 
     return ret;
@@ -305,7 +305,7 @@ void clear_mod_being_loaded( lua_state &state )
 
 void run_mod_preload_script( lua_state &state, const mod_id &mod )
 {
-    std::string script_path = mod->path + "/" + "preload.lua";
+    std::string const script_path = mod->path + "/" + "preload.lua";
 
     if( !file_exist( script_path ) ) {
         return;
@@ -316,7 +316,7 @@ void run_mod_preload_script( lua_state &state, const mod_id &mod )
 
 void run_mod_finalize_script( lua_state &state, const mod_id &mod )
 {
-    std::string script_path = mod->path + "/" + "finalize.lua";
+    std::string const script_path = mod->path + "/" + "finalize.lua";
 
     if( !file_exist( script_path ) ) {
         return;
@@ -327,7 +327,7 @@ void run_mod_finalize_script( lua_state &state, const mod_id &mod )
 
 void run_mod_main_script( lua_state &state, const mod_id &mod )
 {
-    std::string script_path = mod->path + "/" + "main.lua";
+    std::string const script_path = mod->path + "/" + "main.lua";
 
     if( !file_exist( script_path ) ) {
         return;
@@ -340,12 +340,12 @@ template<typename... Args>
 void run_hooks( lua_state &state, std::string_view hooks_table, Args &&...args )
 {
     sol::state &lua = state.lua;
-    sol::table hooks = lua.globals()["game"]["hooks"][hooks_table];
+    sol::table const hooks = lua.globals()["game"]["hooks"][hooks_table];
     for( auto &ref : hooks ) {
         int idx = -1;
         try {
             idx = ref.first.as<int>();
-            sol::protected_function func = ref.second;
+            sol::protected_function const func = ref.second;
             sol::protected_function_result res = func( std::forward<Args>( args )... );
             check_func_result( res );
         } catch( std::runtime_error &e ) {
@@ -359,7 +359,7 @@ void reg_lua_iuse_actors( lua_state &state, Item_factory &ifactory )
 {
     sol::state &lua = state.lua;
 
-    sol::table funcs = lua.globals()["game"]["iuse_functions"];
+    sol::table const funcs = lua.globals()["game"]["iuse_functions"];
 
     for( auto &ref : funcs ) {
         std::string key;
@@ -376,7 +376,7 @@ void reg_lua_iuse_actors( lua_state &state, Item_factory &ifactory )
 
 void run_on_every_x_hooks( lua_state &state )
 {
-    std::vector<cata::on_every_x_hooks> &master_table =
+    std::vector<cata::on_every_x_hooks>  const&master_table =
         state.lua["game"]["cata_internal"]["on_every_x_hooks"];
     for( const auto &entry : master_table ) {
         if( calendar::once_every( entry.interval ) ) {

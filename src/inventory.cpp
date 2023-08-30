@@ -73,8 +73,8 @@ invlet_favorites::invlet_favorites( const std::unordered_map<itype_id, std::stri
             continue;
         }
         invlets_by_id.insert( p );
-        for( char invlet : p.second ) {
-            uint8_t invlet_u = invlet;
+        for( char const invlet : p.second ) {
+            uint8_t const invlet_u = invlet;
             if( !ids_by_invlet[invlet_u].is_empty() ) {
                 debugmsg( "Duplicate invlet: %s and %s both mapped to %c",
                           ids_by_invlet[invlet_u].str(), p.first.str(), invlet );
@@ -90,27 +90,27 @@ void invlet_favorites::set( char invlet, const itype_id &id )
         return;
     }
     erase( invlet );
-    uint8_t invlet_u = invlet;
+    uint8_t const invlet_u = invlet;
     ids_by_invlet[invlet_u] = id;
     invlets_by_id[id].push_back( invlet );
 }
 
 void invlet_favorites::erase( char invlet )
 {
-    uint8_t invlet_u = invlet;
+    uint8_t const invlet_u = invlet;
     const itype_id &id = ids_by_invlet[invlet_u];
     if( id.is_empty() ) {
         return;
     }
     std::string &invlets = invlets_by_id[id];
-    std::string::iterator it = std::find( invlets.begin(), invlets.end(), invlet );
+    std::string::iterator const it = std::find( invlets.begin(), invlets.end(), invlet );
     invlets.erase( it );
     ids_by_invlet[invlet_u] = itype_id();
 }
 
 bool invlet_favorites::contains( char invlet, const itype_id &id ) const
 {
-    uint8_t invlet_u = invlet;
+    uint8_t const invlet_u = invlet;
     return ids_by_invlet[invlet_u] == id;
 }
 
@@ -291,7 +291,7 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
     if( should_stack ) {
         // See if we can't stack this item.
         for( auto &elem : items ) {
-            std::list<item>::iterator it_ref = elem.begin();
+            std::list<item>::iterator const it_ref = elem.begin();
             if( it_ref->stacks_with( newit ) ) {
                 if( it_ref->merge_charges( newit ) ) {
                     return *it_ref;
@@ -329,7 +329,7 @@ void inventory::build_items_type_cache()
 {
     items_type_cache.clear();
     for( auto &elem : items ) {
-        itype_id type = elem.front().typeId();
+        itype_id const type = elem.front().typeId();
         items_type_cache[type].push_back( &elem );
     }
     items_type_cached = true;
@@ -343,7 +343,7 @@ item &inventory::add_item_by_items_type_cache( item newit, bool keep_invlet, boo
         debugmsg( "Tried to add item to inventory using cache without building the items_type_cache." );
         build_items_type_cache();
     }
-    itype_id type = newit.typeId();
+    itype_id const type = newit.typeId();
     if( should_stack ) {
         // See if we can't stack this item.
         for( auto &elem : items_type_cache[type] ) {
@@ -498,7 +498,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, const 
         m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
     } else {
         // Fill reachable points with points_in_radius
-        tripoint_range<tripoint> in_radius = m.points_in_radius( origin, range );
+        tripoint_range<tripoint> const in_radius = m.points_in_radius( origin, range );
         for( const tripoint &p : in_radius ) {
             reachable_pts.emplace_back( p );
         }
@@ -533,7 +533,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             }
         }
         if( m.has_items( p ) && m.accessible_items( p ) ) {
-            bool allow_liquids = m.has_flag_ter_or_furn( "LIQUIDCONT", p );
+            bool const allow_liquids = m.has_flag_ter_or_furn( "LIQUIDCONT", p );
             for( auto &i : m.i_at( p ) ) {
                 // if it's *the* player requesting this from from map inventory
                 // then don't allow items owned by another faction to be factored into recipe components etc.
@@ -552,7 +552,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             add_item_by_items_type_cache( fire );
         }
         // Handle any water from infinite map sources.
-        item water = m.water_from( p );
+        item const water = m.water_from( p );
         if( !water.is_null() ) {
             add_item_by_items_type_cache( water );
         }
@@ -738,7 +738,7 @@ item inventory::remove_item( const int position )
             items_type_cached = false;
             if( iter->size() > 1 ) {
                 std::list<item>::iterator stack_member = iter->begin();
-                char invlet = stack_member->invlet;
+                char const invlet = stack_member->invlet;
                 ++stack_member;
                 stack_member->invlet = invlet;
             }
@@ -919,7 +919,7 @@ int inventory::worst_item_value( npc *p ) const
     int worst = 99999;
     for( const auto &elem : items ) {
         const item &it = elem.front();
-        int val = p->value( it );
+        int const val = p->value( it );
         if( val < worst ) {
             worst = val;
         }
@@ -946,7 +946,7 @@ item *inventory::most_appropriate_painkiller( int pain )
     item *ret = &null_item_reference();
     for( auto &elem : items ) {
         int diff = 9999;
-        itype_id type = elem.front().typeId();
+        itype_id const type = elem.front().typeId();
         if( type == itype_aspirin ) {
             diff = std::abs( pain - 15 );
         } else if( type == itype_codeine ) {
@@ -1156,7 +1156,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
     }
 
     invlets_bitset cur_inv = p.allocated_invlets();
-    itype_id target_type = it.typeId();
+    itype_id const target_type = it.typeId();
     for( auto iter : assigned_invlet ) {
         if( iter.second == target_type && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
@@ -1167,7 +1167,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
         // XXX YUCK I don't know how else to get the keybindings
         // FIXME: Find a better way to get bound keys
         avatar &u = g->u;
-        inventory_selector selector( u );
+        inventory_selector const selector( u );
 
         std::vector<char> binds = selector.all_bound_keys();
 
@@ -1231,7 +1231,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
 
     // Remove letters that have been assigned to other items in the inventory
     if( newit.invlet ) {
-        char tmp_invlet = newit.invlet;
+        char const tmp_invlet = newit.invlet;
         newit.invlet = '\0';
         if( g->u.invlet_to_item( tmp_invlet ) == nullptr ) {
             newit.invlet = tmp_invlet;

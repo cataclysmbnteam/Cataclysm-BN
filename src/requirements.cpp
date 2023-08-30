@@ -88,7 +88,7 @@ void quality::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
 
-    for( JsonArray levels : jo.get_array( "usages" ) ) {
+    for( JsonArray const levels : jo.get_array( "usages" ) ) {
         const int level = levels.get_int( 0 );
         for( const std::string line : levels.get_array( 1 ) ) {
             usages.emplace_back( level, line );
@@ -213,7 +213,7 @@ void tool_comp::load( const JsonValue &value )
         value.read( type, true );
         count = -1;
     } else {
-        JsonArray comp = value.get_array();
+        JsonArray const comp = value.get_array();
         comp.read( 0, type, true );
         count = comp.get_int( 1 );
         requirement = comp.size() > 2 && comp.get_string( 2 ) == "LIST";
@@ -237,7 +237,7 @@ void tool_comp::dump( JsonOut &jsout ) const
 
 void item_comp::load( const JsonValue &value )
 {
-    JsonArray comp = value.get_array();
+    JsonArray const comp = value.get_array();
     comp.read( 0, type, true );
     count = comp.get_int( 1 );
     size_t handled = 2;
@@ -571,7 +571,7 @@ void requirement_data::finalize()
                 const std::list<itype_id> replacements = item_controller->subtype_replacement( comp.type );
                 for( const itype_id &replacing_type : replacements ) {
                     // Don't replace if replacement is already in list (e.g. it was explicitly specified)
-                    bool exists = std::any_of( new_list.begin(), new_list.end(), [&]( const tool_comp & elem ) {
+                    bool const exists = std::any_of( new_list.begin(), new_list.end(), [&]( const tool_comp & elem ) {
                         return elem.type == replacing_type;
                     } );
                     if( exists ) {
@@ -793,7 +793,7 @@ bool tool_comp::has(
             charges_required = crafting::charges_for_continuing( charges_required );
         }
 
-        int charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
+        int const charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
         return charges_found == charges_required;
     }
 }
@@ -1159,7 +1159,7 @@ requirement_data requirement_data::continue_requirements( const std::vector<item
                 return false;
             } );
         } else {
-            int amount = craft_components.amount_of( comp.type, comp.count );
+            int const amount = craft_components.amount_of( comp.type, comp.count );
             comp.count -= amount;
             craft_components.use_amount( comp.type, amount );
         }
@@ -1451,7 +1451,7 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
         for( auto comp_it = first_duplicated; comp_it != this_requirement.end(); ++comp_it ) {
             // Factor this requirement out into its own separate case
 
-            alter_item_comp_vector req_prefix( next.components.begin(),
+            alter_item_comp_vector const req_prefix( next.components.begin(),
                                                next.components.begin() + next.index );
             std::vector<alter_item_comp_vector> result;
             expand_item_in_reqs( *comp_it, req_prefix, next.components, next.index, next.index + 1,
@@ -1459,7 +1459,7 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
             for( const alter_item_comp_vector &v : result ) {
                 // When v is smaller, that means the current requirement was
                 // deleted, in which case we don't advance index.
-                size_t index_inc = v.size() == next.components.size() ? 1 : 0;
+                size_t const index_inc = v.size() == next.components.size() ? 1 : 0;
                 pending.push( { v, next.index + index_inc } );
             }
         }

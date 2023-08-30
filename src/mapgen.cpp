@@ -131,8 +131,8 @@ void map::generate( const tripoint &p, const time_point &when )
     }
     // x, and y are submap coordinates, convert to overmap terrain coordinates
     // TODO: fix point types
-    tripoint_abs_omt abs_omt( sm_to_omt_copy( p ) );
-    oter_id terrain_type = overmap_buffer.ter( abs_omt );
+    tripoint_abs_omt const abs_omt( sm_to_omt_copy( p ) );
+    oter_id const terrain_type = overmap_buffer.ter( abs_omt );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimeters sparse.
@@ -180,7 +180,7 @@ void map::generate( const tripoint &p, const time_point &when )
     if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
         int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
         for( ; pop > 0; pop-- ) {
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
+            MonsterGroupResult const spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
             if( !spawn_details.name ) {
                 continue;
             }
@@ -377,7 +377,7 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
     oter_mapgen.setup();
     // Not really calculate weights, but let's keep it here for now
     for( auto &pr : nested_mapgen ) {
-        for( weighted_object<int, std::shared_ptr<mapgen_function_json_nested>> &ptr : pr.second ) {
+        for( weighted_object<int, std::shared_ptr<mapgen_function_json_nested>>  const&ptr : pr.second ) {
             ptr.obj->setup();
             inp_mngr.pump_events();
         }
@@ -436,7 +436,7 @@ static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
 std::shared_ptr<mapgen_function>
 load_mapgen_function( const JsonObject &jio, point offset, point total )
 {
-    int mgweight = jio.get_int( "weight", 1000 );
+    int const mgweight = jio.get_int( "weight", 1000 );
     if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
         jio.allow_omitted_members();
         return nullptr; // nothing
@@ -449,7 +449,7 @@ load_mapgen_function( const JsonObject &jio, point offset, point total )
             jio.throw_error( "function does not exist", "name" );
         }
     } else if( mgtype == "json" ) {
-        JsonObject jo = jio.get_object( "object" );
+        JsonObject const jo = jio.get_object( "object" );
         const json_source_location jsrc = jo.get_source_location();
         jo.allow_omitted_members();
         return std::make_shared<mapgen_function_json>(
@@ -462,7 +462,7 @@ load_mapgen_function( const JsonObject &jio, point offset, point total )
 void load_and_add_mapgen_function( const JsonObject &jio, const std::string &id_base,
                                    point offset, point total )
 {
-    std::shared_ptr<mapgen_function> f = load_mapgen_function( jio, offset, total );
+    std::shared_ptr<mapgen_function> const f = load_mapgen_function( jio, offset, total );
     if( f ) {
         oter_mapgen.add( id_base, f );
     }
@@ -473,8 +473,8 @@ static void load_nested_mapgen( const JsonObject &jio, const std::string &id_bas
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
         if( jio.has_object( "object" ) ) {
-            int weight = jio.get_int( "weight", 1000 );
-            JsonObject jo = jio.get_object( "object" );
+            int const weight = jio.get_int( "weight", 1000 );
+            JsonObject const jo = jio.get_object( "object" );
             const json_source_location jsrc = jo.get_source_location();
             jo.allow_omitted_members();
             nested_mapgen[id_base].add( std::make_shared<mapgen_function_json_nested>( jsrc ), weight );
@@ -492,7 +492,7 @@ static void load_update_mapgen( const JsonObject &jio, const std::string &id_bas
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
         if( jio.has_object( "object" ) ) {
-            JsonObject jo = jio.get_object( "object" );
+            JsonObject const jo = jio.get_object( "object" );
             const json_source_location jsrc = jo.get_source_location();
             jo.allow_omitted_members();
             update_mapgen[id_base].push_back(
@@ -516,11 +516,11 @@ void load_mapgen( const JsonObject &jo )
     static constexpr point point_one( 1, 1 );
 
     if( jo.has_array( "om_terrain" ) ) {
-        JsonArray ja = jo.get_array( "om_terrain" );
+        JsonArray const ja = jo.get_array( "om_terrain" );
         if( ja.test_array() ) {
             point offset;
-            point total( ja.get_array( 0 ).size(), ja.size() );
-            for( JsonArray row_items : ja ) {
+            point const total( ja.get_array( 0 ).size(), ja.size() );
+            for( JsonArray const row_items : ja ) {
                 for( const std::string mapgenid : row_items ) {
                     load_and_add_mapgen_function( jo, mapgenid, offset, total );
                     offset.x++;
@@ -579,7 +579,7 @@ size_t mapgen_function_json_base::calc_index( point p ) const
 static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
                                  point mapgensize, const JsonObject &jso )
 {
-    half_open_rectangle<point> bounds( point_zero, mapgensize );
+    half_open_rectangle<point> const bounds( point_zero, mapgensize );
     if( !bounds.contains( point( x.val, y.val ) ) ) {
         return false;
     }
@@ -640,7 +640,7 @@ jmapgen_int::jmapgen_int( point p ) : val( p.x ), valmax( p.y ) {}
 jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag )
 {
     if( jo.has_array( tag ) ) {
-        JsonArray sparray = jo.get_array( tag );
+        JsonArray const sparray = jo.get_array( tag );
         if( sparray.size() < 1 || sparray.size() > 2 ) {
             jo.throw_error( "invalid data: must be an array of 1 or 2 values", tag );
         }
@@ -661,7 +661,7 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, int def_
     , valmax( def_valmax )
 {
     if( jo.has_array( tag ) ) {
-        JsonArray sparray = jo.get_array( tag );
+        JsonArray const sparray = jo.get_array( tag );
         if( sparray.size() > 2 ) {
             jo.throw_error( "invalid data: must be an array of 1 or 2 values", tag );
         }
@@ -790,7 +790,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         pjo.read( "rotation", tmp_rotation );
         pjo.read( "fuel", tmp_fuel );
         pjo.read( "status", tmp_status );
-        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2,
+        jmapgen_setmap const tmp( tmp_x, tmp_y, tmp_x2, tmp_y2,
                             static_cast<jmapgen_setmap_op>( tmpop + setmap_optype ), tmp_i,
                             tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
 
@@ -893,7 +893,7 @@ class jmapgen_npc : public jmapgen_piece
                 set_mapgen_defer( jsi, "class", "unknown npc class" );
             }
             if( jsi.has_string( "add_trait" ) ) {
-                std::string new_trait = jsi.get_string( "add_trait" );
+                std::string const new_trait = jsi.get_string( "add_trait" );
                 traits.emplace_back( new_trait );
             } else if( jsi.has_array( "add_trait" ) ) {
                 for( const std::string new_trait : jsi.get_array( "add_trait" ) ) {
@@ -902,7 +902,7 @@ class jmapgen_npc : public jmapgen_piece
             }
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
-            character_id npc_id = dat.m.place_npc( point( x.get(), y.get() ), npc_class );
+            character_id const npc_id = dat.m.place_npc( point( x.get(), y.get() ), npc_class );
             if( dat.mission() && target ) {
                 dat.mission()->set_target_npc_id( npc_id );
             }
@@ -964,7 +964,7 @@ class jmapgen_sign : public jmapgen_piece
                 signtext = _( signtext );
 
                 std::string cityname = "illegible city name";
-                tripoint abs_sub = dat.m.get_abs_sub();
+                tripoint const abs_sub = dat.m.get_abs_sub();
                 // TODO: fix point types
                 const city *c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) ).city;
                 if( c != nullptr ) {
@@ -1016,7 +1016,7 @@ class jmapgen_graffiti : public jmapgen_piece
                 graffiti = _( graffiti );
 
                 std::string cityname = "illegible city name";
-                tripoint abs_sub = dat.m.get_abs_sub();
+                tripoint const abs_sub = dat.m.get_abs_sub();
                 // TODO: fix point types
                 const city *c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) ).city;
                 if( c != nullptr ) {
@@ -1049,7 +1049,7 @@ class jmapgen_vending_machine : public jmapgen_piece
             }
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
-            point r{ x.get(), y.get() };
+            point const r{ x.get(), y.get() };
             dat.m.furn_set( r, f_null );
             dat.m.place_vending( r, item_group, reinforced );
         }
@@ -1166,7 +1166,7 @@ class jmapgen_item_group : public jmapgen_piece
         item_group_id group_id;
         jmapgen_int chance;
         jmapgen_item_group( const JsonObject &jsi ) : chance( jsi, "chance", 1, 1 ) {
-            JsonValue group = jsi.get_member( "item" );
+            JsonValue const group = jsi.get_member( "item" );
             group_id = item_group::load_item_group( group, "collection" );
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
@@ -1290,7 +1290,7 @@ class jmapgen_monster : public jmapgen_piece
                     mtype_id id;
                     int weight = 100;
                     if( entry.test_array() ) {
-                        JsonArray inner = entry.get_array();
+                        JsonArray const inner = entry.get_array();
                         id = mtype_id( inner.get_string( 0 ) );
                         weight = inner.get_int( 1 );
                     } else {
@@ -1303,7 +1303,7 @@ class jmapgen_monster : public jmapgen_piece
                     ids.add( id, weight );
                 }
             } else {
-                mtype_id id = mtype_id( jsi.get_string( "monster" ) );
+                mtype_id const id = mtype_id( jsi.get_string( "monster" ) );
                 if( !id.is_valid() ) {
                     set_mapgen_defer( jsi, "monster", "no such monster" );
                     return;
@@ -1313,13 +1313,13 @@ class jmapgen_monster : public jmapgen_piece
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
 
-            int raw_odds = chance.get();
+            int const raw_odds = chance.get();
 
             // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
             // Instead, apply a multipler to the number of monsters for really high densities.
             // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
             int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" );
-            int max_odds = ( 100 + raw_odds ) / 2;
+            int const max_odds = ( 100 + raw_odds ) / 2;
             float density_multiplier = 1;
             if( odds_after_density > max_odds ) {
                 density_multiplier = 1.0f * odds_after_density / max_odds;
@@ -1345,7 +1345,7 @@ class jmapgen_monster : public jmapgen_piece
             }
 
             if( m_id != mongroup_id::NULL_ID() ) {
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( m_id );
+                MonsterGroupResult const spawn_details = MonsterGroupManager::GetResultFromGroup( m_id );
                 dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(),
                 { x.get(), y.get(), dat.m.get_abs_sub().z },
                 friendly, -1, mission_id, name );
@@ -1432,7 +1432,7 @@ class jmapgen_spawn_item : public jmapgen_piece
 
             // 100% chance = exactly 1 item, otherwise scale by item spawn rate.
             const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-            int spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
+            int const spawn_count = ( c == 100 ) ? 1 : roll_remainder( c * spawn_rate / 100.0f );
             for( int i = 0; i < spawn_count; i++ ) {
                 dat.m.spawn_item( point( x.get(), y.get() ), type, amount.get() );
             }
@@ -1573,12 +1573,12 @@ class jmapgen_computer : public jmapgen_piece
             security = jsi.get_int( "security", 0 );
             target = jsi.get_bool( "target", false );
             if( jsi.has_array( "options" ) ) {
-                for( JsonObject jo : jsi.get_array( "options" ) ) {
+                for( JsonObject const jo : jsi.get_array( "options" ) ) {
                     options.emplace_back( computer_option::from_json( jo ) );
                 }
             }
             if( jsi.has_array( "failures" ) ) {
-                for( JsonObject jo : jsi.get_array( "failures" ) ) {
+                for( JsonObject const jo : jsi.get_array( "failures" ) ) {
                     failures.emplace_back( computer_failure::from_json( jo ) );
                 }
             }
@@ -1626,18 +1626,18 @@ class jmapgen_sealed_item : public jmapgen_piece
             : furniture( jsi.get_string( "furniture" ) )
             , chance( jsi, "chance", 100, 100 ) {
             if( jsi.has_object( "item" ) ) {
-                JsonObject item_obj = jsi.get_object( "item" );
+                JsonObject const item_obj = jsi.get_object( "item" );
                 item_spawner = jmapgen_spawn_item( item_obj );
             }
             if( jsi.has_object( "items" ) ) {
-                JsonObject items_obj = jsi.get_object( "items" );
+                JsonObject const items_obj = jsi.get_object( "items" );
                 item_group_spawner = jmapgen_item_group( items_obj );
             }
         }
 
         void check( const std::string &oter_name ) const override {
             const furn_t &furn = furniture.obj();
-            std::string summary = string_format(
+            std::string const summary = string_format(
                                       "sealed_item special in json mapgen for overmap terrain %s using furniture %s",
                                       oter_name, furn.id.str() );
 
@@ -1662,13 +1662,13 @@ class jmapgen_sealed_item : public jmapgen_piece
                 }
 
                 if( item_spawner ) {
-                    int count = item_spawner->amount.get();
+                    int const count = item_spawner->amount.get();
                     if( count != 1 ) {
                         debugmsg( "%s (with flag PLANT) spawns %d items; it should spawn exactly "
                                   "one.", summary, count );
                         return;
                     }
-                    int item_chance = item_spawner->chance.get();
+                    int const item_chance = item_spawner->chance.get();
                     if( item_chance != 100 ) {
                         debugmsg( "%s (with flag PLANT) spawns an item (%s) with probability %d%%; "
                                   "it should always spawn.  You can move the \"chance\" up to the "
@@ -1684,7 +1684,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                 }
 
                 if( item_group_spawner ) {
-                    int ig_chance = item_group_spawner->chance.get();
+                    int const ig_chance = item_group_spawner->chance.get();
                     if( ig_chance != 100 ) {
                         debugmsg( "%s (with flag PLANT) spawns item group %s with chance %d.  "
                                   "It should have chance 100.  You can move the \"chance\" up to the "
@@ -1692,7 +1692,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                                   summary, item_group_spawner->group_id.str(), ig_chance );
                         return;
                     }
-                    item_group_id group_id = item_group_spawner->group_id;
+                    item_group_id const group_id = item_group_spawner->group_id;
                     for( const itype *type : item_group::every_possible_item_from( group_id ) ) {
                         if( !type->seed ) {
                             debugmsg( "%s (with flag PLANT) spawns item group %s which can "
@@ -1786,7 +1786,7 @@ static void load_weighted_entries( const JsonObject &jsi, const std::string &jso
 {
     for( const JsonValue entry : jsi.get_array( json_key ) ) {
         if( entry.test_array() ) {
-            JsonArray inner = entry.get_array();
+            JsonArray const inner = entry.get_array();
             list.add( inner.get_string( 0 ), inner.get_int( 1 ) );
         } else {
             list.add( entry.get_string(), 100 );
@@ -1811,8 +1811,8 @@ class jmapgen_nested : public jmapgen_piece
                 std::set<oter_str_id> above;
             public:
                 neighborhood_check( const JsonObject &jsi ) {
-                    for( om_direction::type dir : om_direction::all ) {
-                        int index = static_cast<int>( dir );
+                    for( om_direction::type const dir : om_direction::all ) {
+                        int const index = static_cast<int>( dir );
                         neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
                         has_any |= !neighbors[index].empty();
 
@@ -1827,8 +1827,8 @@ class jmapgen_nested : public jmapgen_piece
                     }
 
                     bool all_directions_match  = true;
-                    for( om_direction::type dir : om_direction::all ) {
-                        int index = static_cast<int>( dir );
+                    for( om_direction::type const dir : om_direction::all ) {
+                        int const index = static_cast<int>( dir );
                         const std::set<oter_str_id> &allowed_neighbors = neighbors[index];
 
                         if( allowed_neighbors.empty() ) {
@@ -1930,7 +1930,7 @@ void jmapgen_objects::add( const jmapgen_place &place,
 template<typename PieceType>
 void jmapgen_objects::load_objects( JsonArray parray )
 {
-    for( JsonObject jsi : parray ) {
+    for( JsonObject const jsi : parray ) {
         jmapgen_place where( jsi );
         where.offset( m_offset );
 
@@ -1945,7 +1945,7 @@ void jmapgen_objects::load_objects( JsonArray parray )
 template<>
 void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
 {
-    for( JsonObject jsi : parray ) {
+    for( JsonObject const jsi : parray ) {
         jmapgen_place where( jsi );
         where.offset( m_offset );
 
@@ -2000,7 +2000,7 @@ void load_place_mapings( const JsonValue &value, mapgen_palette::placing_map::ma
     if( value.test_object() ) {
         load_place_mapings<PieceType>( value.get_object(), vect );
     } else {
-        for( JsonObject jo : value.get_array() ) {
+        for( JsonObject const jo : value.get_array() ) {
             load_place_mapings<PieceType>( jo, vect );
             jo.allow_omitted_members();
         }
@@ -2060,7 +2060,7 @@ void load_place_mapings_alternatively( const JsonValue &value,
                     entry.throw_error( err.what() );
                 }
             } else if( entry.test_object() ) {
-                JsonObject jsi = entry.get_object();
+                JsonObject const jsi = entry.get_object();
                 alter->alternatives.emplace_back( jsi );
             } else if( entry.test_array() ) {
                 // If this is an array, it means it is an entry followed by a desired total count of instances.
@@ -2077,7 +2077,7 @@ void load_place_mapings_alternatively( const JsonValue &value,
                         piece_and_count_jarr.throw_error( err.what() );
                     }
                 } else if( piece_and_count_jarr.test_object() ) {
-                    JsonObject jsi = piece_and_count_jarr.next_object();
+                    JsonObject const jsi = piece_and_count_jarr.next_object();
                     alter->alternatives.emplace_back( jsi );
                 } else {
                     piece_and_count_jarr.throw_error( "First entry must be a string or object." );
@@ -2085,7 +2085,7 @@ void load_place_mapings_alternatively( const JsonValue &value,
 
                 if( piece_and_count_jarr.test_int() ) {
                     // We already emplaced the first instance, so do one less.
-                    int repeat = std::max( 0, piece_and_count_jarr.next_int() - 1 );
+                    int const repeat = std::max( 0, piece_and_count_jarr.next_int() - 1 );
                     PieceType piece_to_repeat = alter->alternatives.back();
                     for( int i = 0; i < repeat; i++ ) {
                         alter->alternatives.emplace_back( piece_to_repeat );
@@ -2127,7 +2127,7 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
     if( jo.has_object( "mapping" ) ) {
         for( const JsonMember member : jo.get_object( "mapping" ) ) {
             const map_key key( member );
-            JsonObject sub = member.get_object();
+            JsonObject const sub = member.get_object();
             sub.allow_omitted_members();
             if( !sub.has_member( member_name ) ) {
                 continue;
@@ -2170,7 +2170,7 @@ static bool check_furn( const furn_id &id, const std::string &context )
 
 void mapgen_palette::check()
 {
-    std::string context = "palette " + id;
+    std::string const context = "palette " + id;
     for( const std::pair<const map_key, furn_id> &p : format_furniture ) {
         if( check_furn( p.second, context ) ) {
             return;
@@ -2191,7 +2191,7 @@ mapgen_palette mapgen_palette::load_temp( const JsonObject &jo, const std::strin
 
 void mapgen_palette::load( const JsonObject &jo, const std::string &src )
 {
-    mapgen_palette ret = load_internal( jo, src, true, false );
+    mapgen_palette const ret = load_internal( jo, src, true, false );
     if( ret.id.empty() ) {
         jo.throw_error( "Named palette needs an id" );
     }
@@ -2212,7 +2212,7 @@ const mapgen_palette &mapgen_palette::get( const palette_id &id )
     }
 
     debugmsg( "Requested palette with unknown id %s", id.c_str() );
-    static mapgen_palette dummy;
+    static mapgen_palette const dummy;
     return dummy;
 }
 
@@ -2353,7 +2353,7 @@ bool mapgen_function_json_nested::setup_internal( const JsonObject &jo )
 {
     // Mandatory - nested mapgen must be explicitly sized
     if( jo.has_array( "mapgensize" ) ) {
-        JsonArray jarr = jo.get_array( "mapgensize" );
+        JsonArray const jarr = jo.get_array( "mapgensize" );
         mapgensize = point( jarr.get_int( 0 ), jarr.get_int( 1 ) );
         if( mapgensize.x == 0 || mapgensize.x != mapgensize.y ) {
             // Non-square sizes not implemented yet
@@ -2399,10 +2399,10 @@ void mapgen_function_json_base::setup_common()
         debugmsg( "null json source location path" );
         return;
     }
-    shared_ptr_fast<std::istream> stream = DynamicDataLoader::get_instance().get_cached_stream(
+    shared_ptr_fast<std::istream> const stream = DynamicDataLoader::get_instance().get_cached_stream(
             *jsrcloc->path );
     JsonIn jsin( *stream, *jsrcloc );
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     mapgen_defer::defer = false;
     if( !setup_common( jo ) ) {
         jsin.error( "format: no terrain map" );
@@ -2418,8 +2418,8 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
 {
     bool fallback_terrain_exists = setup_internal( jo );
     JsonArray parray;
-    JsonArray sparray;
-    JsonObject pjo;
+    JsonArray const sparray;
+    JsonObject const pjo;
 
     format.resize( static_cast<size_t>( mapgensize.x * mapgensize.y ) );
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
@@ -2438,7 +2438,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         // mandatory: mapgensize rows of mapgensize character lines, each of which must have a
         // matching key in "terrain", unless fill_ter is set
         // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
-        point expected_dim = mapgensize + m_offset;
+        point const expected_dim = mapgensize + m_offset;
         assert( expected_dim.x >= 0 );
         assert( expected_dim.y >= 0 );
 
@@ -2503,7 +2503,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                     format[ calc_index( p ) ].furn = iter_furn->second;
                 }
                 if( has_placing ) {
-                    jmapgen_place where( p );
+                    jmapgen_place const where( p );
                     for( auto &what : fpi->second ) {
                         objects.add( where, what );
                     }
@@ -2583,7 +2583,7 @@ void mapgen_function_json_base::check_common( const std::string &oter_name ) con
             setmap.op != JMAPGEN_SETMAP_SQUARE_FURN ) {
             continue;
         }
-        furn_id id( setmap.val.get() );
+        furn_id const id( setmap.val.get() );
         if( check_furn( id, "oter " + oter_name ) ) {
             return;
         }
@@ -2760,7 +2760,7 @@ void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, point o
 {
     for( int y = 0; y < mapgensize.y; y++ ) {
         for( int x = 0; x < mapgensize.x; x++ ) {
-            point p( x, y );
+            point const p( x, y );
             const size_t index = calc_index( p );
             const ter_furn_id &tdata = format[index];
             const point map_pos = p + offset;
@@ -2965,7 +2965,7 @@ void map::draw_office_tower( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
     const auto place_office_chairs = [&]() {
-        int num_chairs = rng( 0, 6 );
+        int const num_chairs = rng( 0, 6 );
         for( int i = 0; i < num_chairs; i++ ) {
             add_vehicle( vproto_id( "swivel_chair" ), point( rng( 6, 16 ), rng( 6, 16 ) ),
                          0_degrees, -1, -1, false );
@@ -3557,7 +3557,7 @@ void map::draw_lab( mapgendata &dat )
     bool central_lab = false;
     bool tower_lab = false;
 
-    point p2;
+    point const p2;
 
     int lw = 0;
     int rw = 0;
@@ -3577,7 +3577,7 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * ( dat.zlevel() );
+            int const temperature = -20 + 30 * ( dat.zlevel() );
             set_temperature( p2, temperature );
             set_temperature( p2 + point( SEEX, 0 ), temperature );
             set_temperature( p2 + point( 0, SEEY ), temperature );
@@ -3725,16 +3725,16 @@ void map::draw_lab( mapgendata &dat )
                     // Rotated maps cannot handle borders and have to be caught in code.
                     // We determine if a border isn't handled by checking the east-facing
                     // border space where the door normally is -- it should be a wall or door.
-                    tripoint east_border( 23, 11, abs_sub.z );
+                    tripoint const east_border( 23, 11, abs_sub.z );
                     if( !has_flag_ter( "WALL", east_border ) &&
                         !has_flag_ter( "DOOR", east_border ) ) {
                         // TODO: create a ter_reset function that does ter_set,
                         // furn_set, and i_clear?
-                        ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                        ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                        ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass :
+                        ter_id const lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                        ter_id const tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                        ter_id const rw_type = tower_lab && rw == 2 ? t_reinforced_glass :
                                          t_concrete_wall;
-                        ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass :
+                        ter_id const bw_type = tower_lab && bw == 2 ? t_reinforced_glass :
                                          t_concrete_wall;
                         for( int i = 0; i < SEEX * 2; i++ ) {
                             ter_set( point( 23, i ), rw_type );
@@ -4108,7 +4108,7 @@ void map::draw_lab( mapgendata &dat )
                 // toxic gas leaks and smoke-filled rooms.
                 case 3:
                 case 4: {
-                    bool is_toxic = one_in( 3 );
+                    bool const is_toxic = one_in( 3 );
                     for( int i = 0; i < SEEX * 2; i++ ) {
                         for( int j = 0; j < SEEY * 2; j++ ) {
                             if( one_in( 200 ) && ( t_thconc_floor == ter( point( i, j ) ) ||
@@ -4125,8 +4125,8 @@ void map::draw_lab( mapgendata &dat )
                 }
                 // portal with an artifact effect.
                 case 5: {
-                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
-                    std::vector<artifact_natural_property> valid_props = {
+                    tripoint const center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+                    std::vector<artifact_natural_property> const valid_props = {
                         ARTPROP_BREATHING,
                         ARTPROP_CRACKLING,
                         ARTPROP_WARM,
@@ -4150,7 +4150,7 @@ void map::draw_lab( mapgendata &dat )
                 }
                 // radioactive accident.
                 case 6: {
-                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+                    tripoint const center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
                     if( has_flag_ter( "WALL", center.xy() ) ) {
                         // just skip it, we don't want to risk embedding radiation out of sight.
                         break;
@@ -4183,8 +4183,8 @@ void map::draw_lab( mapgendata &dat )
                                   center.xy() + point_west, 1, true );
 
                     // damaged mininuke/plut thrown past edge of rubble so the player can see it.
-                    int marker_x = center.x - 2 + 4 * rng( 0, 1 );
-                    int marker_y = center.y + rng( -2, 2 );
+                    int const marker_x = center.x - 2 + 4 * rng( 0, 1 );
+                    int const marker_y = center.y + rng( -2, 2 );
                     if( one_in( 4 ) ) {
                         spawn_item(
                             point( marker_x, marker_y ), "mininuke", 1, 1, calendar::start_of_cataclysm, rng( 2, 4 )
@@ -4214,7 +4214,7 @@ void map::draw_lab( mapgendata &dat )
                             }
                         }
                     }
-                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
+                    tripoint const center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
 
                     // Make a portal surrounded by more dense fungal stuff and a fungaloid.
                     draw_rough_circle( [this]( point  p ) {
@@ -4252,7 +4252,7 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * dat.zlevel();
+            int const temperature = -20 + 30 * dat.zlevel();
             set_temperature( p2, temperature );
             set_temperature( p2 + point( SEEX, 0 ), temperature );
             set_temperature( p2 + point( 0, SEEY ), temperature );
@@ -4270,13 +4270,13 @@ void map::draw_lab( mapgendata &dat )
             // Rotated maps cannot handle borders and have to be caught in code.
             // We determine if a border isn't handled by checking the east-facing
             // border space where the door normally is -- it should be a wall or door.
-            tripoint east_border( 23, 11, abs_sub.z );
+            tripoint const east_border( 23, 11, abs_sub.z );
             if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
                 // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
-                ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
-                ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
+                ter_id const lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                ter_id const tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
+                ter_id const rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
+                ter_id const bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
                 for( int i = 0; i < SEEX * 2; i++ ) {
                     ter_set( point( 23, i ), rw_type );
                     furn_set( point( 23, i ), f_null );
@@ -4636,7 +4636,7 @@ void map::draw_mine( mapgendata &dat )
 
             case 1: {
                 // Toxic gas
-                point gas_vent_location( rng( 9, 14 ), rng( 9, 14 ) );
+                point const gas_vent_location( rng( 9, 14 ), rng( 9, 14 ) );
                 ter_set( point( gas_vent_location ), t_rock );
                 add_field( { gas_vent_location, abs_sub.z }, fd_gas_vent, 2 );
             }
@@ -4644,14 +4644,14 @@ void map::draw_mine( mapgendata &dat )
 
             case 2: {
                 // Lava
-                point start_location( rng( 6, SEEX ), rng( 6, SEEY ) );
-                point end_location( rng( SEEX + 1, SEEX * 2 - 7 ), rng( SEEY + 1, SEEY * 2 - 7 ) );
+                point const start_location( rng( 6, SEEX ), rng( 6, SEEY ) );
+                point const end_location( rng( SEEX + 1, SEEX * 2 - 7 ), rng( SEEY + 1, SEEY * 2 - 7 ) );
                 const int num = rng( 2, 4 );
                 for( int i = 0; i < num; i++ ) {
-                    int lx1 = start_location.x + rng( -1, 1 );
-                    int lx2 = end_location.x + rng( -1, 1 );
-                    int ly1 = start_location.y + rng( -1, 1 );
-                    int ly2 = end_location.y + rng( -1, 1 );
+                    int const lx1 = start_location.x + rng( -1, 1 );
+                    int const lx2 = end_location.x + rng( -1, 1 );
+                    int const ly1 = start_location.y + rng( -1, 1 );
+                    int const ly2 = end_location.y + rng( -1, 1 );
                     line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
                 }
                 for( const tripoint &ore : points_in_rectangle( tripoint( start_location, abs_sub.z ),
@@ -4666,7 +4666,7 @@ void map::draw_mine( mapgendata &dat )
 
             case 3: {
                 // Wrecked equipment
-                point wreck_location( rng( 9, 14 ), rng( 9, 14 ) );
+                point const wreck_location( rng( 9, 14 ), rng( 9, 14 ) );
                 for( int i = wreck_location.x - 3; i < wreck_location.x + 3; i++ ) {
                     for( int j = wreck_location.y - 3; j < wreck_location.y + 3; j++ ) {
                         if( !one_in( 4 ) ) {
@@ -4850,7 +4850,7 @@ void map::draw_mine( mapgendata &dat )
         // The Thing dog
         const int num_bodies = rng( 4, 8 );
         for( int i = 0; i < num_bodies; i++ ) {
-            point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
+            point const p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
             add_item( p3, item::make_corpse() );
             place_items( item_group_id( "mon_zombie_miner_death_drops" ), 60, p3,
                          p3, false, calendar::start_of_cataclysm );
@@ -4937,13 +4937,13 @@ void map::draw_triffid( mapgendata &dat )
         do {
             node_built[node] = true;
             step++;
-            point node2( 1 + 6 * ( node % 4 ), 1 + 6 * static_cast<int>( node / 4 ) );
+            point const node2( 1 + 6 * ( node % 4 ), 1 + 6 * static_cast<int>( node / 4 ) );
             // Clear a 4x4 dirt square
             square( this, t_dirt, node2, node2 + point( 3, 3 ) );
             // Spawn a monster in there
             if( step > 2 ) { // First couple of chambers are safe
-                int monrng = rng( 1, 25 );
-                point spawn( node2 + point{ rng( 0, 3 ), rng( 0, 3 ) } );
+                int const monrng = rng( 1, 25 );
+                point const spawn( node2 + point{ rng( 0, 3 ), rng( 0, 3 ) } );
                 if( monrng <= 24 ) {
                     place_spawns( GROUP_TRIFFID_OUTER, 1, node2,
                                   node2 + point( 3, 3 ), 1, true );
@@ -5051,7 +5051,7 @@ void map::draw_triffid( mapgendata &dat )
                         chance_south++;
                     }
                 }
-                int roll = rng( 0, chance_west + chance_east + chance_north + chance_south );
+                int const roll = rng( 0, chance_west + chance_east + chance_north + chance_south );
                 if( roll < chance_west && x > 0 ) {
                     x--;
                 } else if( roll < chance_west + chance_east && x < EAST_EDGE ) {
@@ -5197,7 +5197,7 @@ void map::draw_connections( mapgendata &dat )
     if( terrain_type->has_flag( has_sidewalk ) ) {
         for( int dir = 4; dir < 8; dir++ ) { // NE SE SW NW
             bool n_roads_nesw[4] = {};
-            int n_num_dirs = terrain_type_to_nesw_array( oter_id( dat.t_nesw[dir] ), n_roads_nesw );
+            int const n_num_dirs = terrain_type_to_nesw_array( oter_id( dat.t_nesw[dir] ), n_roads_nesw );
             // only handle diagonal neighbors
             if( n_num_dirs == 2 &&
                 n_roads_nesw[( ( dir - 4 ) + 3 ) % 4] &&
@@ -5249,9 +5249,9 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         spawn_density = get_option< float >( "SPAWN_DENSITY" );
     }
 
-    float multiplier = density * spawn_density;
+    float const multiplier = density * spawn_density;
     // Only spawn 1 creature if individual flag set, else scale by density
-    float thenum = individual ? 1 : ( multiplier * rng_float( 10.0f, 50.0f ) );
+    float const thenum = individual ? 1 : ( multiplier * rng_float( 10.0f, 50.0f ) );
     int num = roll_remainder( thenum );
 
     // GetResultFromGroup decrements num
@@ -5267,7 +5267,7 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         } while( impassable( p ) && tries > 0 );
 
         // Pick a monster type
-        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
+        MonsterGroupResult const spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
 
         add_spawn( spawn_details.name, spawn_details.pack_size, { p, abs_sub.z },
                    friendly, -1, mission_id, name );
@@ -5320,7 +5320,7 @@ character_id map::place_npc( point p, const string_id<npc_template> &type, bool 
     if( !force && !get_option<bool>( "STATIC_NPC" ) ) {
         return character_id(); //Do not generate an npc.
     }
-    shared_ptr_fast<npc> temp = make_shared_fast<npc>();
+    shared_ptr_fast<npc> const temp = make_shared_fast<npc>();
     temp->load_npc_template( type );
     temp->spawn_at_precise( { abs_sub.xy() }, { p, abs_sub.z } );
     temp->toggle_trait( trait_NPC_STATIC_NPC );
@@ -5369,7 +5369,7 @@ std::vector<item *> map::place_items( const item_group_id &loc, const int chance
     }
 
     const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-    int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
+    int const spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
     for( int i = 0; i < spawn_count; i++ ) {
         // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
@@ -5430,7 +5430,7 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }
-    spawn_point tmp( type, count, offset, faction_id, mission_id, friendly, name );
+    spawn_point const tmp( type, count, offset, faction_id, mission_id, friendly, name );
     place_on_submap->spawns.push_back( tmp );
 }
 
@@ -5686,7 +5686,7 @@ void map::rotate( int turns, const bool setpos_safe )
             // OK, this is ugly: we remove the NPC from the whole map
             // Then we place it back from scratch
             // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
-            shared_ptr_fast<npc> npc_ptr = overmap_buffer.remove_npc( np.getID() );
+            shared_ptr_fast<npc> const npc_ptr = overmap_buffer.remove_npc( np.getID() );
             np.spawn_at_precise( { abs_sub.xy() }, { new_pos, abs_sub.z } );
             overmap_buffer.insert_npc( npc_ptr );
         }
@@ -5714,7 +5714,7 @@ void map::rotate( int turns, const bool setpos_safe )
     // Then rotate them and recalculate vehicle positions.
     for( int j = 0; j < 2; ++j ) {
         for( int i = 0; i < 2; ++i ) {
-            point p( i, j );
+            point const p( i, j );
             auto sm = get_submap_at_grid( p );
 
             sm->rotate( turns );
@@ -5788,7 +5788,7 @@ void science_room( map *m, point p1, point p2, int z, int rotate )
     int height = p2.y - p1.y;
     int width  = p2.x - p1.x;
     if( rotate % 2 == 1 ) { // Swap width & height if we're a lateral room
-        int tmp = height;
+        int const tmp = height;
         height  = width;
         width   = tmp;
     }
@@ -5797,7 +5797,7 @@ void science_room( map *m, point p1, point p2, int z, int rotate )
             m->ter_set( point( i, j ), t_thconc_floor );
         }
     }
-    int area = height * width;
+    int const area = height * width;
     std::vector<room_type> valid_rooms;
     if( height < 5 && width < 5 ) {
         valid_rooms.push_back( room_closet );
@@ -5836,7 +5836,7 @@ void science_room( map *m, point p1, point p2, int z, int rotate )
             break;
         case room_lobby:
             if( rotate % 2 == 0 ) { // Vertical
-                int desk = p1.y + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
+                int const desk = p1.y + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
                                        static_cast<int>( height / 2 ) + 1 );
                 for( int x = p1.x + static_cast<int>( width / 4 ); x < p2.x - static_cast<int>( width / 4 ); x++ ) {
                     m->furn_set( point( x, desk ), f_counter );
@@ -5852,7 +5852,7 @@ void science_room( map *m, point p1, point p2, int z, int rotate )
                                  point( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ),
                                  point( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ), 1, true );
             } else {
-                int desk = p1.x + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
+                int const desk = p1.x + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
                                        static_cast<int>( height / 2 ) + 1 );
                 for( int y = p1.y + static_cast<int>( width / 4 ); y < p2.y - static_cast<int>( width / 4 ); y++ ) {
                     m->furn_set( point( desk, y ), f_counter );
@@ -5996,7 +5996,7 @@ void science_room( map *m, point p1, point p2, int z, int rotate )
         case room_bionics:
             if( rotate % 2 == 0 ) {
                 int biox = p1.x + 2;
-                int bioy = static_cast<int>( ( p1.y + p2.y ) / 2 );
+                int const bioy = static_cast<int>( ( p1.y + p2.y ) / 2 );
                 mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
                                             "---\n"
                                             "|c|\n"
@@ -6037,7 +6037,7 @@ void science_room( map *m, point p1, point p2, int z, int rotate )
                     _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
             } else {
                 int bioy = p1.y + 2;
-                int biox = static_cast<int>( ( p1.x + p2.x ) / 2 );
+                int const biox = static_cast<int>( ( p1.x + p2.x ) / 2 );
                 mapf::formatted_set_simple( m, point( biox - 1, bioy - 1 ),
                                             "|-|\n"
                                             "|c=\n"
@@ -6126,8 +6126,8 @@ void science_room( map *m, point p1, point p2, int z, int rotate )
             break;
         case room_split:
             if( rotate % 2 == 0 ) {
-                int w1 = static_cast<int>( ( p1.x + p2.x ) / 2 ) - 2;
-                int w2 = static_cast<int>( ( p1.x + p2.x ) / 2 ) + 2;
+                int const w1 = static_cast<int>( ( p1.x + p2.x ) / 2 ) - 2;
+                int const w2 = static_cast<int>( ( p1.x + p2.x ) / 2 ) + 2;
                 for( int y = p1.y; y <= p2.y; y++ ) {
                     m->ter_set( point( w1, y ), t_concrete_wall );
                     m->ter_set( point( w2, y ), t_concrete_wall );
@@ -6137,8 +6137,8 @@ void science_room( map *m, point p1, point p2, int z, int rotate )
                 science_room( m, p1, point( w1 - 1, p2.y ), z, 1 );
                 science_room( m, point( w2 + 1, p1.y ), p2, z, 3 );
             } else {
-                int w1 = static_cast<int>( ( p1.y + p2.y ) / 2 ) - 2;
-                int w2 = static_cast<int>( ( p1.y + p2.y ) / 2 ) + 2;
+                int const w1 = static_cast<int>( ( p1.y + p2.y ) / 2 ) - 2;
+                int const w2 = static_cast<int>( ( p1.y + p2.y ) / 2 ) + 2;
                 for( int x = p1.x; x <= p2.x; x++ ) {
                     m->ter_set( point( x, w1 ), t_concrete_wall );
                     m->ter_set( point( x, w2 ), t_concrete_wall );
@@ -6157,7 +6157,7 @@ void science_room( map *m, point p1, point p2, int z, int rotate )
 void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bool create_rubble )
 {
     // TODO: Z
-    point c( cp.xy() );
+    point const c( cp.xy() );
     if( create_rubble ) {
         rough_circle( this, t_dirt, c, 11 );
         rough_circle_furn( this, f_rubble, c, 5 );
@@ -6409,7 +6409,7 @@ bool update_mapgen_function_json::update_map( mapgendata &md, point offset,
             const mapgendata &md;
             const int rotation;
     };
-    rotation_guard rot( md );
+    rotation_guard const rot( md );
 
     for( auto &elem : setmap_points ) {
         if( verify && elem.has_vehicle_collision( md, offset ) ) {
@@ -6496,7 +6496,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     ::fake_map fake_map( f_null, t_dirt, tr_null, fake_map_z );
 
-    oter_id any = oter_id( "field" );
+    oter_id const any = oter_id( "field" );
     // just need a variable here, it doesn't need to be valid
     const regional_settings dummy_settings;
 
@@ -6505,12 +6505,12 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     if( update_function->second[0]->update_map( fake_md ) ) {
         for( const tripoint &pos : fake_map.points_on_zlevel( fake_map_z ) ) {
-            ter_id ter_at_pos = fake_map.ter( pos );
+            ter_id const ter_at_pos = fake_map.ter( pos );
             if( ter_at_pos != t_dirt ) {
                 terrains[ter_at_pos] += 1;
             }
             if( fake_map.has_furn( pos ) ) {
-                furn_id furn_at_pos = fake_map.furn( pos );
+                furn_id const furn_at_pos = fake_map.furn( pos );
                 furnitures[furn_at_pos] += 1;
             }
         }

@@ -79,9 +79,9 @@ void weed_msg( player &p )
 {
     const time_duration howhigh = p.get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed
-    int smarts = p.get_int();
+    int const smarts = p.get_int();
     if( howhigh > 12_minutes && one_in( 7 ) ) {
-        int msg = rng( 0, 5 );
+        int const msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
                 // Freakazoid
@@ -140,7 +140,7 @@ void weed_msg( player &p )
                 return;
         }
     } else if( howhigh > 10_minutes && one_in( 5 ) ) {
-        int msg = rng( 0, 5 );
+        int const msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
                 // Bob Marley
@@ -189,7 +189,7 @@ void weed_msg( player &p )
                 return;
         }
     } else if( howhigh > 5_minutes && one_in( 3 ) ) {
-        int msg = rng( 0, 5 );
+        int const msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
                 // Cheech and Chong
@@ -232,7 +232,7 @@ static void extract_effect(
     double val = 0;
     double reduced_val = 0;
     if( j.has_member( mod_type ) ) {
-        JsonArray jsarr = j.get_array( mod_type );
+        JsonArray const jsarr = j.get_array( mod_type );
         val = jsarr.get_float( 0 );
         // If a second value exists use it, else reduced_val = val.
         if( jsarr.size() >= 2 ) {
@@ -253,7 +253,7 @@ static void extract_effect(
 bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_object( member ) ) {
-        JsonObject j = jo.get_object( member );
+        JsonObject const j = jo.get_object( member );
 
         // Stats first
         //                          json field                  type key    arg key
@@ -506,7 +506,7 @@ morale_type effect_type::get_morale_type() const
 bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
-        for( JsonArray inner : jo.get_array( member ) ) {
+        for( JsonArray const inner : jo.get_array( member ) ) {
             miss_msgs.push_back( std::make_pair( inner.get_string( 0 ), inner.get_int( 1 ) ) );
         }
         return true;
@@ -516,9 +516,9 @@ bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &membe
 bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
-        for( JsonArray inner : jo.get_array( member ) ) {
-            std::string msg = inner.get_string( 0 );
-            std::string r = inner.get_string( 1 );
+        for( JsonArray const inner : jo.get_array( member ) ) {
+            std::string const msg = inner.get_string( 0 );
+            std::string const r = inner.get_string( 1 );
             game_message_type rate = m_neutral;
             if( r == "good" ) {
                 rate = m_good;
@@ -874,7 +874,7 @@ int effect::set_intensity( int val, bool alert )
                  eff_type->decay_msgs[ val - 1 ].first.c_str() );
     }
 
-    int old_intensity = intensity;
+    int const old_intensity = intensity;
     intensity = val;
     if( old_intensity != intensity ) {
         add_msg( m_debug, "%s intensity %d->%d", get_id().c_str(), old_intensity, intensity );
@@ -973,7 +973,7 @@ int effect::get_avg_mod( std::string arg, bool reduced ) const
 
 int effect::get_amount( std::string arg, bool reduced ) const
 {
-    int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
+    int const intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
                                eff_type->max_effective_intensity, intensity ) : intensity;
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
@@ -1293,7 +1293,7 @@ void load_effect_type( const JsonObject &jo )
     new_etype.part_descs = jo.get_bool( "part_descs", false );
 
     if( jo.has_member( "rating" ) ) {
-        std::string r = jo.get_string( "rating" );
+        std::string const r = jo.get_string( "rating" );
         if( r == "good" ) {
             new_etype.rating = e_good;
         } else if( r == "neutral" ) {
@@ -1375,7 +1375,7 @@ void load_effect_type( const JsonObject &jo )
     new_etype.mod_data.end(), []( decltype( *new_etype.mod_data.begin() ) & pr ) {
         return std::get<2>( pr.first ) == "MORALE";
     } );
-    bool has_morale_effect = morale_effect != new_etype.mod_data.end();
+    bool const has_morale_effect = morale_effect != new_etype.mod_data.end();
     if( new_etype.morale && !has_morale_effect ) {
         jo.throw_error( "Morale type set, but no MORALE base/scaling effect", "morale" );
     } else if( !new_etype.morale && has_morale_effect ) {
@@ -1394,8 +1394,8 @@ void load_effect_type( const JsonObject &jo )
             auto reduced = new_etype.mod_data.find( reduced_tuple );
             auto non_reduced_tuple = std::make_tuple( cur_mod, false, "MORALE", "amount" );
             auto non_reduced = new_etype.mod_data.find( non_reduced_tuple );
-            bool has_reduced = reduced != new_etype.mod_data.end();
-            bool has_non_reduced = non_reduced != new_etype.mod_data.end();
+            bool const has_reduced = reduced != new_etype.mod_data.end();
+            bool const has_non_reduced = non_reduced != new_etype.mod_data.end();
             if( ( has_reduced && has_non_reduced && reduced->second != non_reduced->second )
                 || has_reduced != has_non_reduced ) {
                 jo.throw_error( "MORALE doesn't support different amounts for resisted effects yet",
@@ -1443,7 +1443,7 @@ void effect::serialize( JsonOut &json ) const
 }
 void effect::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     const efftype_id id( jo.get_string( "eff_type" ) );
     eff_type = &id.obj();
     jo.read( "duration", duration );

@@ -91,14 +91,14 @@ double logarithmic_range( int min, int max, int pos )
     }
 
     // Normalize the pos to [0,1]
-    double range = max - min;
-    double unit_pos = ( pos - min ) / range;
+    double const range = max - min;
+    double const unit_pos = ( pos - min ) / range;
 
     // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
-    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
+    double const scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
 
     // Get the raw logistic value.
-    double raw_logistic = logarithmic( scaled_pos );
+    double const raw_logistic = logarithmic( scaled_pos );
 
     // Scale the output to [0,1]
     return ( raw_logistic - LOGI_MIN ) / LOGI_RANGE;
@@ -142,7 +142,7 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
     } else if( scale > 0 ) {
         for( int s = 1; s <= scale; s++ ) {
             // 1 decimal separator + "s"
-            int scale_width = 1 + s;
+            int const scale_width = 1 + s;
             if( width > scale_width && value >= std::pow( 10.0, width - scale_width ) ) {
                 // above the maximum number we can fit in the width with "s" decimals
                 // show this number with one less decimal than "s"
@@ -274,7 +274,7 @@ cata_ofstream &cata_ofstream::operator=( cata_ofstream &&x )
 
 cata_ofstream &cata_ofstream::open( const std::string &path )
 {
-    std::ios_base::openmode mode = cata_ios_mode_to_std( std::ios_base::out, _mode );
+    std::ios_base::openmode const mode = cata_ios_mode_to_std( std::ios_base::out, _mode );
 
 #if defined (_MSC_VER)
     _stream = std::make_unique<std::ofstream>( utf8_to_wstr( path ), mode );
@@ -394,7 +394,7 @@ cata_ifstream &cata_ifstream::operator=( cata_ifstream &&x )
 
 cata_ifstream &cata_ifstream::open( const std::string &path )
 {
-    std::ios_base::openmode mode = cata_ios_mode_to_std( std::ios_base::in, _mode );
+    std::ios_base::openmode const mode = cata_ios_mode_to_std( std::ios_base::in, _mode );
 
 #if defined (_MSC_VER)
     _stream = std::make_unique<std::ifstream>( utf8_to_wstr( path ), mode );
@@ -493,11 +493,11 @@ ofstream_wrapper::~ofstream_wrapper()
 std::istream &safe_getline( std::istream &ins, std::string &str )
 {
     str.clear();
-    std::istream::sentry se( ins, true );
+    std::istream::sentry const se( ins, true );
     std::streambuf *sb = ins.rdbuf();
 
     while( true ) {
-        int c = sb->sbumpc();
+        int const c = sb->sbumpc();
         switch( c ) {
             case '\n':
                 return ins;
@@ -604,7 +604,7 @@ void ofstream_wrapper::close()
     }
 
     file_stream.flush();
-    bool failed = file_stream.fail();
+    bool const failed = file_stream.fail();
     file_stream.close();
     if( failed ) {
         // Remove the incomplete or otherwise faulty file (if possible).
@@ -621,18 +621,18 @@ void ofstream_wrapper::close()
 std::string obscure_message( const std::string &str, std::function<char()> f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
-    std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
-    std::string gibberish_wide =
+    std::string const gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
+    std::string const gibberish_wide =
         //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
         _( "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌" );
-    std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
-    std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
+    std::wstring const w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
+    std::wstring const w_gibberish_wide = utf8_to_wstr( gibberish_wide );
     std::wstring w_str = utf8_to_wstr( str );
     // a trailing NULL terminator is necessary for utf8_width function
     char transformation[2] = { 0 };
     for( size_t i = 0; i < w_str.size(); ++i ) {
         transformation[0] = f();
-        std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );
+        std::string const this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );
         if( transformation[0] == -1 ) {
             continue;
         } else if( transformation[0] == 0 ) {
@@ -718,7 +718,7 @@ holiday get_holiday_from_time( std::time_t time, bool force_refresh )
     bool success = false;
 
     std::tm local_time;
-    std::time_t current_time = time == 0 ? std::time( nullptr ) : time;
+    std::time_t const current_time = time == 0 ? std::time( nullptr ) : time;
 
     /* necessary to pass LGTM, as threadsafe version of localtime differs by platform */
 #if defined(_WIN32)

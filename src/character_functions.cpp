@@ -161,10 +161,10 @@ float fine_detail_vision_mod( const Character &who, const tripoint &p )
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
     // Therefore give a hefty bonus relative to ambient light.
-    float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - who.active_light() - 2.0f );
+    float const own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - who.active_light() - 2.0f );
 
     // Same calculation as above, but with a result 3 lower.
-    float ambient_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) + 1.0f );
+    float const ambient_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) + 1.0f );
 
     return std::min( own_light, ambient_light );
 }
@@ -189,13 +189,13 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
 
     comfort_response_t comfort_response;
 
-    bool plantsleep = who.has_trait( trait_CHLOROMORPH );
-    bool fungaloid_cosplay = who.has_trait( trait_M_SKIN3 );
-    bool websleep = who.has_trait( trait_WEB_WALKER );
-    bool webforce = who.has_trait( trait_THRESH_SPIDER ) && ( who.has_trait( trait_WEB_SPINNER ) ||
+    bool const plantsleep = who.has_trait( trait_CHLOROMORPH );
+    bool const fungaloid_cosplay = who.has_trait( trait_M_SKIN3 );
+    bool const websleep = who.has_trait( trait_WEB_WALKER );
+    bool const webforce = who.has_trait( trait_THRESH_SPIDER ) && ( who.has_trait( trait_WEB_SPINNER ) ||
                     ( who.has_trait( trait_WEB_WEAVER ) ) );
-    bool in_shell = who.has_active_mutation( trait_SHELL2 );
-    bool watersleep = who.has_trait( trait_WATERSLEEP );
+    bool const in_shell = who.has_active_mutation( trait_SHELL2 );
+    bool const watersleep = who.has_trait( trait_WATERSLEEP );
 
     map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
@@ -204,7 +204,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
     const ter_id ter_at_pos = tile.get_ter();
     const furn_id furn_at_pos = tile.get_furn();
 
-    int web = here.get_field_intensity( p, fd_web );
+    int const web = here.get_field_intensity( p, fd_web );
 
     // Some mutants have different comfort needs
     if( !plantsleep && !webforce ) {
@@ -319,7 +319,7 @@ int rate_sleep_spot( const Character &who, const tripoint &p )
     }
 
     int sleepy = static_cast<int>( comfort_info.level );
-    bool watersleep = who.has_trait( trait_WATERSLEEP );
+    bool const watersleep = who.has_trait( trait_WATERSLEEP );
 
     if( who.has_addiction( add_type::SLEEP ) ) {
         sleepy -= 4;
@@ -384,7 +384,7 @@ bool roll_can_sleep( Character &who )
 
     int sleepy = character_funcs::rate_sleep_spot( who, who.pos() );
     sleepy += rng( -8, 8 );
-    bool result = sleepy > 0;
+    bool const result = sleepy > 0;
 
     if( who.has_active_bionic( bio_soporific ) ) {
         if( who.bio_soporific_powered_at_last_sleep_check && !who.has_power() ) {
@@ -400,7 +400,7 @@ bool roll_can_sleep( Character &who )
 
 bool can_interface_armor( const Character &who )
 {
-    bool okay = std::any_of( who.my_bionics->begin(), who.my_bionics->end(),
+    bool const okay = std::any_of( who.my_bionics->begin(), who.my_bionics->end(),
     []( const bionic & b ) {
         return b.powered && b.info().has_flag( STATIC( flag_str_id( "BIONIC_ARMOR_INTERFACE" ) ) );
     } );
@@ -417,10 +417,10 @@ std::string fmt_wielded_weapon( const Character &who )
         std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
                                          weapon.gun_current_mode().tname(), weapon.type_name() );
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
-        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
+        bool const base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
 
         const auto mods = weapon.gunmods();
-        bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item * e ) {
+        bool const aux = std::any_of( mods.begin(), mods.end(), [&]( const item * e ) {
             return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" );
         } );
 
@@ -515,7 +515,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
             return elem->display_name();
         } );
         if( opts.size() > 1 ) {
-            int pos = uilist( _( "Wield what?" ), opts );
+            int const pos = uilist( _( "Wield what?" ), opts );
             if( pos < 0 ) {
                 return false;
             }
@@ -565,7 +565,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
      * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
      * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
      */
-    int lvl = who.get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
+    int const lvl = who.get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
     mv += who.item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 
     who.moves -= mv;
@@ -582,9 +582,9 @@ bool try_uncanny_dodge( Character &who )
         return false;
     }
     who.mod_power_level( -trigger_cost );
-    bool is_u = who.is_avatar();
-    bool seen = is_u || get_player_character().sees( who );
-    std::optional<tripoint> adjacent = pick_safe_adjacent_tile( who );
+    bool const is_u = who.is_avatar();
+    bool const seen = is_u || get_player_character().sees( who );
+    std::optional<tripoint> const adjacent = pick_safe_adjacent_tile( who );
     if( adjacent ) {
         if( is_u ) {
             add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
@@ -663,7 +663,7 @@ std::vector<npc *> get_crafting_helpers( const Character &who, int max )
         if( max > 0 && n >= max ) {
             return false;
         }
-        bool ok = !guy.in_sleep_state() && guy.is_obeying( who ) &&
+        bool const ok = !guy.in_sleep_state() && guy.is_obeying( who ) &&
                   rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
                   get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
         if( ok ) {
@@ -720,7 +720,7 @@ bool list_ammo( const Character &who, const item &base, std::vector<item_reload_
     }
 
     bool ammo_match_found = false;
-    int ammo_search_range = who.is_mounted() ? -1 : 1;
+    int const ammo_search_range = who.is_mounted() ? -1 : 1;
     for( const auto e : opts ) {
         for( const item_location &ammo : find_ammo_items_or_mags( who, *e, include_empty_mags,
                 ammo_search_range ) ) {
@@ -794,7 +794,7 @@ item_reload_option select_ammo( const Character &who, const item &base,
     std::vector<std::string> where;
     std::transform( opts.begin(), opts.end(),
     std::back_inserter( where ), [&]( const item_reload_option & e ) {
-        bool is_ammo_container = e.ammo->is_ammo_container();
+        bool const is_ammo_container = e.ammo->is_ammo_container();
         if( is_ammo_container || e.ammo->is_container() ) {
             if( is_ammo_container && who.is_worn( *e.ammo ) ) {
                 return e.ammo->type_name();
@@ -849,11 +849,11 @@ item_reload_option select_ammo( const Character &who, const item &base,
                 const damage_instance &dam = ammo->ammo->damage;
                 const damage_unit &du = dam.damage_units.front();
                 if( du.damage_multiplier != 1.0f ) {
-                    float dam_amt = du.amount;
+                    float const dam_amt = du.amount;
                     row += string_format( "| %-3d*%3d%% ", static_cast<int>( dam_amt ),
                                           clamp( static_cast<int>( du.damage_multiplier * 100 ), 0, 999 ) );
                 } else {
-                    float dam_amt = dam.total_damage();
+                    float const dam_amt = dam.total_damage();
                     row += string_format( "| %-8d ", static_cast<int>( dam_amt ) );
                 }
                 if( du.res_mult != 1.0f ) {
@@ -870,10 +870,10 @@ item_reload_option select_ammo( const Character &who, const item &base,
     };
 
     const ammotype base_ammotype( base.ammo_default().str() );
-    itype_id last = uistate.lastreload[ base_ammotype ];
+    itype_id const last = uistate.lastreload[ base_ammotype ];
     // We keep the last key so that pressing the key twice (for example, r-r for reload)
     // will always pick the first option on the list.
-    int last_key = inp_mngr.get_previously_pressed_key();
+    int const last_key = inp_mngr.get_previously_pressed_key();
     bool last_key_bound = false;
     // This is the entry that has out default
     int default_to = 0;
@@ -1182,14 +1182,14 @@ int ammo_count_for( const Character &who, const item &gun )
     if( !gun.is_gun() ) {
         return item::INFINITE_CHARGES;
     }
-    int ammo_drain = gun.ammo_required();
-    int energy_drain = gun.get_gun_ups_drain();
+    int const ammo_drain = gun.ammo_required();
+    int const energy_drain = gun.get_gun_ups_drain();
 
-    units::energy power = units::from_kilojoule( who.charges_of( itype_UPS ) );
+    units::energy const power = units::from_kilojoule( who.charges_of( itype_UPS ) );
     int total_ammo = gun.ammo_remaining();
     const std::vector<item_location> inv_ammo = find_ammo_items_or_mags( who, gun, true, -1 );
 
-    bool has_mag = gun.magazine_integral();
+    bool const has_mag = gun.magazine_integral();
 
     for( const item_location &it : inv_ammo ) {
         if( it->is_magazine() ) {
@@ -1223,8 +1223,8 @@ void show_skill_capped_notice( const Character &who, const skill_id &id )
     const SkillLevel &level = who.get_skill_level_object( id );
 
     const Skill &skill = id.obj();
-    std::string skill_name = skill.name();
-    int curLevel = level.level();
+    std::string const skill_name = skill.name();
+    int const curLevel = level.level();
 
     add_msg( m_info, _( "This task is too simple to train your %s beyond %d." ),
              skill_name, curLevel );

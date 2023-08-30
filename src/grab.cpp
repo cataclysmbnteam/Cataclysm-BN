@@ -153,7 +153,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     //vehicle movement: strength check. very strong humans can move about 2,000 kg in a wheelbarrow.
     // int str_req = grabbed_vehicle->total_mass() / 100_kilogram; //strength required to move vehicle.
     // for smaller vehicles, offroad_str_req_cap sanity-checks our results.
-    int str_req = std::min( get_vehicle_str_requirement( grabbed_vehicle ),
+    int const str_req = std::min( get_vehicle_str_requirement( grabbed_vehicle ),
                             offroad_str_req_cap( grabbed_vehicle ) );
     int str = u.get_str();
     if( u.is_mounted() ) {
@@ -250,9 +250,9 @@ bool game::grabbed_veh_move( const tripoint &dp )
         return false;
     }
 
-    for( int p : grabbed_vehicle->wheelcache ) {
+    for( int const p : grabbed_vehicle->wheelcache ) {
         if( one_in( 2 ) ) {
-            tripoint wheel_p = grabbed_vehicle->global_part_pos3( grabbed_part );
+            tripoint const wheel_p = grabbed_vehicle->global_part_pos3( grabbed_part );
             grabbed_vehicle->handle_trap( wheel_p, p );
         }
     }

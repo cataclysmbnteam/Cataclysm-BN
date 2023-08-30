@@ -589,9 +589,9 @@ class comestible_inventory_preset : public inventory_selector_preset
                         cbm_name = _( "Furnace" );
                         break;
                     case rechargeable_cbm::other:
-                        std::vector<bionic_id> bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
+                        std::vector<bionic_id> const bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
                         if( !bids.empty() ) {
-                            bionic_id bid = p.get_most_efficient_bionic( bids );
+                            bionic_id const bid = p.get_most_efficient_bionic( bids );
                             cbm_name = bid->name.translated();
                         }
                         break;
@@ -642,10 +642,10 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            time_duration time_a = get_time_left( lhs.any_item() );
-            time_duration time_b = get_time_left( rhs.any_item() );
-            int order_a = get_order( lhs.any_item(), time_a );
-            int order_b = get_order( rhs.any_item(), time_b );
+            time_duration const time_a = get_time_left( lhs.any_item() );
+            time_duration const time_b = get_time_left( rhs.any_item() );
+            int const order_a = get_order( lhs.any_item(), time_a );
+            int const order_b = get_order( rhs.any_item(), time_b );
 
             return order_a < order_b
                    || ( order_a == order_b && time_a < time_b )
@@ -713,7 +713,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return _( "soon!" );
             }
 
-            time_duration time_left = get_time_left( loc );
+            time_duration const time_left = get_time_left( loc );
             return to_string_approx( time_left );
         }
 
@@ -1581,7 +1581,7 @@ iuse_locations game_menus::inv::multiwash( Character &ch, int water, int cleanse
         for( const auto &it : items ) {
             total_volume += it.first->volume() * it.second / it.first->count();
         }
-        washing_requirements required = washing_requirements_for_volume( total_volume );
+        washing_requirements const required = washing_requirements_for_volume( total_volume );
         auto to_string = []( int val ) -> std::string {
             if( val == INT_MAX )
             {
@@ -1651,12 +1651,12 @@ void game_menus::inv::compare( const item &l, const item &r )
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
 
-    std::vector<iteminfo> lhs_info = l.info();
-    std::vector<iteminfo> rhs_info = r.info();
-    std::string lhs_tname = l.tname();
-    std::string rhs_tname = r.tname();
-    std::string lhs_type_name = l.type_name();
-    std::string rhs_type_name = r.type_name();
+    std::vector<iteminfo> const lhs_info = l.info();
+    std::vector<iteminfo> const rhs_info = r.info();
+    std::string const lhs_tname = l.tname();
+    std::string const rhs_tname = r.tname();
+    std::string const lhs_type_name = l.type_name();
+    std::string const rhs_type_name = r.type_name();
 
     int lhs_scroll_pos = 0;
     int rhs_scroll_pos = 0;
@@ -1713,7 +1713,7 @@ void game_menus::inv::reassign_letter( Character &who, item &it, int invlet )
 
     if( !invlet || inv_chars.valid( invlet ) ) {
         const auto iter = who.inv.assigned_invlet.find( it.invlet );
-        bool found = iter != who.inv.assigned_invlet.end();
+        bool const found = iter != who.inv.assigned_invlet.end();
         if( found ) {
             who.inv.assigned_invlet.erase( iter );
         }
@@ -1812,7 +1812,7 @@ static item_location autodoc_internal( player &u, player &patient,
         }
     }
 
-    std::vector<const item *> install_programs = patient.crafting_inventory().items_with( [](
+    std::vector<const item *> const install_programs = patient.crafting_inventory().items_with( [](
                 const item & it ) -> bool { return it.has_flag( "BIONIC_INSTALLATION_DATA" ); } );
 
     if( !install_programs.empty() ) {
@@ -1927,7 +1927,7 @@ class bionic_install_preset: public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            std::vector<const item *> install_programs = p.crafting_inventory().items_with( [loc](
+            std::vector<const item *> const install_programs = p.crafting_inventory().items_with( [loc](
                         const item & it ) -> bool { return it.typeId() == loc.get_item()->type->bionic->installation_data; } );
 
             const bool has_install_program = !install_programs.empty();

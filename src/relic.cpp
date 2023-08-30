@@ -116,7 +116,7 @@ void relic_recharge::serialize( JsonOut &json ) const
 
 void relic_recharge::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     load( data );
 }
 
@@ -163,14 +163,14 @@ void relic::add_recharge_scheme( const relic_recharge &r )
 void relic::load( const JsonObject &jo )
 {
     if( jo.has_array( "active_effects" ) ) {
-        for( JsonObject jobj : jo.get_array( "active_effects" ) ) {
+        for( JsonObject const jobj : jo.get_array( "active_effects" ) ) {
             fake_spell sp;
             sp.load( jobj );
             add_active_effect( sp );
         }
     }
     if( jo.has_array( "passive_effects" ) ) {
-        for( JsonObject jobj : jo.get_array( "passive_effects" ) ) {
+        for( JsonObject const jobj : jo.get_array( "passive_effects" ) ) {
             enchantment ench;
             ench.load( jobj );
             if( !ench.id.is_empty() ) {
@@ -180,7 +180,7 @@ void relic::load( const JsonObject &jo )
         }
     }
     if( jo.has_array( "recharge_scheme" ) ) {
-        for( JsonObject jobj : jo.get_array( "recharge_scheme" ) ) {
+        for( JsonObject const jobj : jo.get_array( "recharge_scheme" ) ) {
             relic_recharge recharge;
             recharge.load( jobj );
             add_recharge_scheme( recharge );
@@ -193,7 +193,7 @@ void relic::load( const JsonObject &jo )
 
 void relic::deserialize( JsonIn &jsin )
 {
-    JsonObject jobj = jsin.get_object();
+    JsonObject const jobj = jsin.get_object();
     load( jobj );
 }
 
@@ -339,7 +339,7 @@ bool check_recharge_reqs( const item &itm, const relic_recharge &rech, const Cha
             return get_map().get_radiation( carrier.pos() ) > 0 || carrier.get_rad() > 0;
         }
         case relic_recharge_req::wet: {
-            bool has_wet = std::any_of( carrier.body_wetness.begin(), carrier.body_wetness.end(),
+            bool const has_wet = std::any_of( carrier.body_wetness.begin(), carrier.body_wetness.end(),
             []( const int w ) {
                 return w != 0;
             } );
@@ -405,7 +405,7 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
                 if( !field_at ) {
                     continue;
                 }
-                int int_here = field_at->get_field_intensity();
+                int const int_here = field_at->get_field_intensity();
                 if( int_here >= rech.intensity_min && int_here <= rech.intensity_max ) {
                     here.remove_field( dest, rech.field_type );
                     consumed = true;
@@ -435,7 +435,7 @@ bool process_recharge_entry( item &itm, const relic_recharge &rech, Character &c
         }
     }
     // If relic has a valid ammo type, make sure the first charge loaded isn't a "none"
-    bool was_zero = itm.charges == 0;
+    bool const was_zero = itm.charges == 0;
     itm.charges = clamp( itm.charges + rech.rate, 0, itm.ammo_capacity() );
     if( was_zero && !itm.ammo_types().empty() ) {
         itm.ammo_set( itm.ammo_default(), itm.charges );

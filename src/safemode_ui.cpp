@@ -43,7 +43,7 @@ void safemode::show()
 
 std::string safemode::npc_type_name()
 {
-    static std::string name = "human";
+    static std::string const name = "human";
     return name;
 }
 
@@ -496,7 +496,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
 
     //Loop through all monster mtypes
     for( const auto &mtype : MonsterGenerator::generator().get_all_mtypes() ) {
-        std::string creature_name = mtype.nname();
+        std::string const creature_name = mtype.nname();
         if( wildcard_match( creature_name, temp_rules[row_in].rule ) ) {
             creature_list.push_back( creature_name );
         }
@@ -528,7 +528,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
-    int nmatch = creature_list.size();
+    int const nmatch = creature_list.size();
     const std::string buf = string_format( vgettext( "%1$d monster matches: %2$s",
                                            "%1$d monsters match: %2$s",
                                            nmatch ), nmatch, temp_rules[row_in].rule.c_str() );
@@ -560,7 +560,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         for( int i = start_pos; i < static_cast<int>( creature_list.size() ); i++ ) {
             if( i >= start_pos &&
                 i < start_pos + std::min( content_height, static_cast<int>( creature_list.size() ) ) ) {
-                nc_color line_color = c_white;
+                nc_color const line_color = c_white;
 
                 mvwprintz( w_test_rule_content, point( 0, i - start_pos ), line_color, "%d", i + 1 );
                 mvwprintz( w_test_rule_content, point( 4, i - start_pos ), line_color, "" );
@@ -680,7 +680,7 @@ void safemode::add_rules( const std::vector<rules_class> &rules_in )
 
 void safemode::set_rule( const rules_class &rule_in, const std::string &name_in, rule_state rs_in )
 {
-    static std::vector<Creature::Attitude> attitude_any = { {Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY} };
+    static std::vector<Creature::Attitude> const attitude_any = { {Creature::A_HOSTILE, Creature::A_NEUTRAL, Creature::A_FRIENDLY} };
     switch( rule_in.category ) {
         case HOSTILE_SPOTTED:
             if( !rule_in.rule.empty() && rule_in.active && wildcard_match( name_in, rule_in.rule ) ) {
@@ -840,7 +840,7 @@ void safemode::deserialize( JsonIn &jsin )
 
     jsin.start_array();
     while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
+        JsonObject const jo = jsin.get_object();
 
         const std::string rule = jo.get_string( "rule" );
         const bool active = jo.get_bool( "active" );

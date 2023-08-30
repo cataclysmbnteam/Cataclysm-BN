@@ -109,7 +109,7 @@ void edit_json( SAVEOBJ &it )
 {
     int tmret = -1;
     std::string save1 = serialize( it );
-    std::string osave1 = save1;
+    std::string const osave1 = save1;
     std::vector<std::string> fs1 = fld_string( save1, TERMX - 10 );
     do {
         uilist tm;
@@ -125,7 +125,7 @@ void edit_json( SAVEOBJ &it )
             } catch( const std::exception &err ) {
                 popup( "Error on deserialization: %s", err.what() );
             }
-            std::string save2 = serialize( it );
+            std::string const save2 = serialize( it );
             std::vector<std::string> fs2 = fld_string( save2, TERMX - 10 );
 
             tm.addentry( -1, false, -2, "== Reloaded: =====================" );
@@ -141,7 +141,7 @@ void edit_json( SAVEOBJ &it )
             fs2.clear();
         } else if( tmret == 1 ) {
             string_input_popup popup;
-            std::string ret = popup
+            std::string const ret = popup
                               .text( save1 )
                               .query_string();
             if( popup.confirmed() ) {
@@ -231,7 +231,7 @@ void editmap_hilight::draw( editmap &em, bool update )
                 }
                 const field &t_field = here.field_at( p );
                 if( t_field.field_count() > 0 ) {
-                    field_type_id t_ftype = t_field.displayed_field_type();
+                    field_type_id const t_ftype = t_field.displayed_field_type();
                     const field_entry *t_fld = t_field.find_field( t_ftype );
                     if( t_fld != nullptr ) {
                         t_col = t_fld->color();
@@ -241,7 +241,7 @@ void editmap_hilight::draw( editmap &em, bool update )
                 if( blink_interval[ cur_blink ] ) {
                     t_col = getbg( t_col );
                 }
-                tripoint scrpos = em.pos2screen( p );
+                tripoint const scrpos = em.pos2screen( p );
                 mvwputch( g->w_terrain, scrpos.xy(), t_col, t_sym );
             }
         }
@@ -339,7 +339,7 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
 
 std::optional<tripoint> editmap::edit()
 {
-    restore_on_out_of_scope<tripoint> view_offset_prev( g->u.view_offset );
+    restore_on_out_of_scope<tripoint> const view_offset_prev( g->u.view_offset );
     target = g->u.pos() + g->u.view_offset;
     input_context ctxt( "EDITMAP" );
     ctxt.set_iso( true );
@@ -367,13 +367,13 @@ std::optional<tripoint> editmap::edit()
     uberdraw = uistate.editmap_nsa_viewmode;
     blink = true;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
+    shared_ptr_fast<game::draw_callback_t> const editmap_cb = draw_cb_container().create_or_get();
+    shared_ptr_fast<ui_adaptor> const current_ui = create_or_get_ui_adaptor();
+    on_out_of_scope const invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope<std::string> const info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope<std::string> const info_title_prev( info_title_curr );
 
     do {
         if( target_list.empty() ) {
@@ -448,9 +448,9 @@ std::optional<tripoint> editmap::edit()
 
 void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 {
-    tripoint center = target;
-    tripoint start = center.xy() + tripoint( -getmaxx( w ) / 2, -getmaxy( w ) / 2, target.z );
-    tripoint end = center.xy() + tripoint( getmaxx( w ) / 2, getmaxy( w ) / 2, target.z );
+    tripoint const center = target;
+    tripoint const start = center.xy() + tripoint( -getmaxx( w ) / 2, -getmaxy( w ) / 2, target.z );
+    tripoint const end = center.xy() + tripoint( getmaxx( w ) / 2, getmaxy( w ) / 2, target.z );
     /*
         // pending filter options
         bool draw_furn=true;
@@ -459,14 +459,14 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
         bool draw_fld=true;
         bool draw_veh=true;
     */
-    bool game_map = m == &get_map() || w == g->w_terrain;
+    bool const game_map = m == &get_map() || w == g->w_terrain;
     const int msize = MAPSIZE_X;
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
     }
-    drawsq_params params = drawsq_params().center( center );
+    drawsq_params const params = drawsq_params().center( center );
     for( const tripoint &p : tripoint_range<tripoint>( start, end ) ) {
-        int sym = game_map ? '%' : ' ';
+        int const sym = game_map ? '%' : ' ';
         if( p.x >= 0 && p.x < msize && p.y >= 0 && p.y < msize ) {
             if( game_map ) {
                 Creature *critter = g->critter_at( p );
@@ -573,7 +573,7 @@ void editmap::draw_main_ui_overlay()
                     }
                     const field &t_field = here.field_at( p );
                     if( t_field.field_count() > 0 ) {
-                        field_type_id t_ftype = t_field.displayed_field_type();
+                        field_type_id const t_ftype = t_field.displayed_field_type();
                         const field_entry *t_fld = t_field.find_field( t_ftype );
                         if( t_fld != nullptr ) {
                             t_col = t_fld->color();
@@ -581,7 +581,7 @@ void editmap::draw_main_ui_overlay()
                         }
                     }
                     t_col = altblink ? green_background( t_col ) : cyan_background( t_col );
-                    tripoint scrpos = pos2screen( p );
+                    tripoint const scrpos = pos2screen( p );
                     mvwputch( g->w_terrain, scrpos.xy(), t_col, t_sym );
                 }
 #ifdef TILES
@@ -643,8 +643,8 @@ void editmap::draw_main_ui_overlay()
                         char part_mod = 0;
                         const vpart_id &vp_id = veh.part_id_string( veh_part, false, part_mod );
                         const std::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
-                        bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
-                        units::angle veh_dir = veh.face.dir();
+                        bool const draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
+                        units::angle const veh_dir = veh.face.dir();
                         g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );
                     } else {
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false,
@@ -682,7 +682,7 @@ void editmap::draw_main_ui_overlay()
 #endif
             hilights["mapgentgt"].draw( *this, true );
             tmpmap.reset_vehicle_cache( );
-            drawsq_params params = drawsq_params().center( tripoint( SEEX - 1, SEEY - 1, target.z ) );
+            drawsq_params const params = drawsq_params().center( tripoint( SEEX - 1, SEEY - 1, target.z ) );
             for( const tripoint &p : tmpmap.points_on_zlevel() ) {
                 tmpmap.drawsq( g->w_terrain, p, params );
             }
@@ -697,7 +697,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     // updating info
     werase( w_info );
 
-    Character &player_character = get_player_character();
+    Character  const&player_character = get_player_character();
     map &here = get_map();
 
     const optional_vpart_position vp = here.veh_at( target );
@@ -747,8 +747,8 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                map_cache.seen_cache[target.x][target.y],
                map_cache.camera_cache[target.x][target.y]
              );
-    map::apparent_light_info al = map::apparent_light_helper( map_cache, target );
-    int apparent_light = static_cast<int>(
+    map::apparent_light_info const al = map::apparent_light_helper( map_cache, target );
+    int const apparent_light = static_cast<int>(
                              here.apparent_light_at( target, here.get_visibility_variables_cache() ) );
     mvwprintw( w_info, point( 1, off++ ), _( "outside: %d obstructed: %d floor: %d" ),
                static_cast<int>( here.is_outside( target ) ),
@@ -1121,13 +1121,13 @@ void editmap::edit_feature()
     int current_feature = emenu.selected = feature<T_id>( target ).to_i();
     emenu.entries[current_feature].text_color = c_green;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
+    shared_ptr_fast<game::draw_callback_t> const editmap_cb = draw_cb_container().create_or_get();
+    shared_ptr_fast<ui_adaptor> const current_ui = create_or_get_ui_adaptor();
+    on_out_of_scope const invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope<std::string> const info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope<std::string> const info_title_prev( info_title_curr );
 
     blink = true;
     bool quit = false;
@@ -1141,7 +1141,7 @@ void editmap::edit_feature()
             draw_target_override = nullptr;
         }
 
-        input_context ctxt( emenu.input_category );
+        input_context const ctxt( emenu.input_category );
         info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
                                        ctxt.describe_key_and_name( "CONFIRM" ),
                                        ctxt.describe_key_and_name( "CONFIRM_QUIT" ),
@@ -1238,13 +1238,13 @@ void editmap::edit_fld()
     };
     fmenu.allow_additional = true;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
+    shared_ptr_fast<game::draw_callback_t> const editmap_cb = draw_cb_container().create_or_get();
+    shared_ptr_fast<ui_adaptor> const current_ui = create_or_get_ui_adaptor();
+    on_out_of_scope const invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope<std::string> const info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope<std::string> const info_title_prev( info_title_curr );
     map &here = get_map();
 
     blink = true;
@@ -1258,7 +1258,7 @@ void editmap::edit_fld()
             draw_target_override = nullptr;
         }
 
-        input_context ctxt( fmenu.input_category );
+        input_context const ctxt( fmenu.input_category );
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
                                        "%s, %s, [%s,%s]\u00A0intensity, %s, %s, %s" ),
@@ -1284,7 +1284,7 @@ void editmap::edit_fld()
             const field_type &ftype = idx.obj();
             int fsel_intensity = field_intensity;
             if( fmenu.ret > 0 ) {
-                shared_ptr_fast<ui_adaptor> fmenu_ui = fmenu.create_or_get_ui_adaptor();
+                shared_ptr_fast<ui_adaptor> const fmenu_ui = fmenu.create_or_get_ui_adaptor();
 
                 uilist femenu;
                 femenu.w_width_setup = width;
@@ -1356,15 +1356,15 @@ void editmap::edit_fld()
             sel_field_intensity = 0;
         } else if( fmenu.ret == UILIST_ADDITIONAL ) {
             if( fmenu.ret_act == "EDITMAP_TAB" ) {
-                int sel_tmp = fmenu.selected;
-                int ret = select_shape( editshape, 0 );
+                int const sel_tmp = fmenu.selected;
+                int const ret = select_shape( editshape, 0 );
                 if( ret > 0 ) {
                     setup_fmenu( fmenu );
                 }
                 fmenu.selected = sel_tmp;
             } else if( fmenu.ret_act == "EDITMAP_MOVE" ) {
-                int sel_tmp = fmenu.selected;
-                int ret = select_shape( editshape, 1 );
+                int const sel_tmp = fmenu.selected;
+                int const ret = select_shape( editshape, 1 );
                 if( ret > 0 ) {
                     setup_fmenu( fmenu );
                 }
@@ -1411,15 +1411,15 @@ void editmap::edit_itm()
     };
     ilmenu.allow_additional = true;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
+    shared_ptr_fast<game::draw_callback_t> const editmap_cb = draw_cb_container().create_or_get();
+    shared_ptr_fast<ui_adaptor> const current_ui = create_or_get_ui_adaptor();
+    on_out_of_scope const invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope<std::string> const info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope<std::string> const info_title_prev( info_title_curr );
 
-    shared_ptr_fast<ui_adaptor> ilmenu_ui = ilmenu.create_or_get_ui_adaptor();
+    shared_ptr_fast<ui_adaptor> const ilmenu_ui = ilmenu.create_or_get_ui_adaptor();
 
     do {
         info_txt_curr.clear();
@@ -1454,7 +1454,7 @@ void editmap::edit_itm()
             };
             imenu.allow_additional = true;
 
-            shared_ptr_fast<ui_adaptor> imenu_ui = imenu.create_or_get_ui_adaptor();
+            shared_ptr_fast<ui_adaptor> const imenu_ui = imenu.create_or_get_ui_adaptor();
 
             do {
                 imenu.query();
@@ -1472,7 +1472,7 @@ void editmap::edit_itm()
                             break;
                     }
                     string_input_popup popup;
-                    int retval = popup
+                    int const retval = popup
                                  .title( "set:" )
                                  .width( 20 )
                                  .text( std::to_string( intval ) )
@@ -1537,8 +1537,8 @@ void editmap::recalc_target( shapetype shape )
     target_list.clear();
     switch( shape ) {
         case editmap_circle: {
-            int radius = rl_dist( origin, target );
-            map &here = get_map();
+            int const radius = rl_dist( origin, target );
+            map  const&here = get_map();
             for( const tripoint &p : here.points_in_radius( origin, radius ) ) {
                 if( rl_dist( p, origin ) <= radius ) {
                     if( editmap_boundaries.contains( p ) ) {
@@ -1608,7 +1608,7 @@ static int limited_shift( int var, int &shift, int min, int max )
 bool editmap::move_target( const std::string &action, int moveorigin )
 {
     tripoint mp;
-    bool move_origin = moveorigin == 1 ? true :
+    bool const move_origin = moveorigin == 1 ? true :
                        moveorigin == 0 ? false : moveall;
     if( eget_direction( mp, action ) ) {
         target.x = limited_shift( target.x, mp.x, 0, MAPSIZE_X );
@@ -1627,9 +1627,9 @@ bool editmap::move_target( const std::string &action, int moveorigin )
  */
 int editmap::select_shape( shapetype shape, int mode )
 {
-    tripoint orig = target;
-    tripoint origor = origin;
-    shapetype origshape = editshape;
+    tripoint const orig = target;
+    tripoint const origor = origin;
+    shapetype const origshape = editshape;
     editshape = shape;
     input_context ctxt( "EDITMAP_SHAPE" );
     ctxt.set_iso( true );
@@ -1658,13 +1658,13 @@ int editmap::select_shape( shapetype shape, int mode )
     }
     altblink = moveall;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
+    shared_ptr_fast<game::draw_callback_t> const editmap_cb = draw_cb_container().create_or_get();
+    shared_ptr_fast<ui_adaptor> const current_ui = create_or_get_ui_adaptor();
+    on_out_of_scope const invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope<std::string> const info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope<std::string> const info_title_prev( info_title_curr );
 
     do {
         if( moveall ) {
@@ -1707,11 +1707,11 @@ int editmap::select_shape( shapetype shape, int mode )
                 };
                 smenu.allow_additional = true;
 
-                on_out_of_scope invalidate_current_ui_2( [this]() {
+                on_out_of_scope const invalidate_current_ui_2( [this]() {
                     do_ui_invalidation();
                 } );
-                restore_on_out_of_scope<std::string> info_txt_prev_2( info_txt_curr );
-                restore_on_out_of_scope<std::string> info_title_prev_2( info_title_curr );
+                restore_on_out_of_scope<std::string> const info_txt_prev_2( info_txt_curr );
+                restore_on_out_of_scope<std::string> const info_title_prev_2( info_title_curr );
 
                 do {
                     info_txt_curr.clear();
@@ -1738,7 +1738,7 @@ int editmap::select_shape( shapetype shape, int mode )
             target = origin;
             update = true;
         } else if( action == "SWAP" ) {
-            tripoint tmporigin = origin;
+            tripoint const tmporigin = origin;
             origin = target;
             target = tmporigin;
             update = true;
@@ -1825,14 +1825,14 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     };
     gpmenu.allow_additional = true;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
+    shared_ptr_fast<game::draw_callback_t> const editmap_cb = draw_cb_container().create_or_get();
+    shared_ptr_fast<ui_adaptor> const current_ui = create_or_get_ui_adaptor();
+    on_out_of_scope const invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<tinymap *> tinymap_ptr_prev( tmpmap_ptr );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope<tinymap *> const tinymap_ptr_prev( tmpmap_ptr );
+    restore_on_out_of_scope<std::string> const info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope<std::string> const info_title_prev( info_title_curr );
     map &here = get_map();
 
     int lastsel = gmenu.selected;
@@ -1853,7 +1853,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         } else {
             tmpmap_ptr = nullptr;
         }
-        input_context ctxt( gpmenu.input_category );
+        input_context const ctxt( gpmenu.input_category );
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
                                        "[%s,%s]\u00A0prev/next oter type, [%s,%s]\u00A0select, %s, %s" ),
@@ -1990,7 +1990,7 @@ bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
             for( auto &z : destsm->vehicles ) {
                 if( z.get() == car_target ) {
-                    std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( z.get() );
+                    std::unique_ptr<vehicle> const old_veh = target_bay.detach_vehicle( z.get() );
                     here.reset_vehicle_cache( );
                     here.clear_vehicle_list( omt_tgt.z() );
                     //Rebuild vehicle_list?
@@ -2016,15 +2016,15 @@ void editmap::mapgen_retarget()
     // Needed for timeout to be useful
     ctxt.register_action( "ANY_INPUT" );
     std::string action;
-    tripoint origm = target;
+    tripoint const origm = target;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
+    shared_ptr_fast<game::draw_callback_t> const editmap_cb = draw_cb_container().create_or_get();
+    shared_ptr_fast<ui_adaptor> const current_ui = create_or_get_ui_adaptor();
+    on_out_of_scope const invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
+    restore_on_out_of_scope<std::string> const info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope<std::string> const info_title_prev( info_title_curr );
 
     blink = true;
     do {
@@ -2037,8 +2037,8 @@ void editmap::mapgen_retarget()
         ui_manager::redraw();
         action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
         if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            point vec_ms = omt_to_ms_copy( vec->xy() );
-            tripoint ptarget = target + vec_ms;
+            point const vec_ms = omt_to_ms_copy( vec->xy() );
+            tripoint const ptarget = target + vec_ms;
             if( editmap_boundaries.contains( ptarget ) &&
                 editmap_boundaries.contains( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
@@ -2091,19 +2091,19 @@ void editmap::edit_mapgen()
     }
     real_coords tc;
 
-    shared_ptr_fast<game::draw_callback_t> editmap_cb = draw_cb_container().create_or_get();
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    on_out_of_scope invalidate_current_ui( [this]() {
+    shared_ptr_fast<game::draw_callback_t> const editmap_cb = draw_cb_container().create_or_get();
+    shared_ptr_fast<ui_adaptor> const current_ui = create_or_get_ui_adaptor();
+    on_out_of_scope const invalidate_current_ui( [this]() {
         do_ui_invalidation();
     } );
-    restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
-    restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
-    map &here = get_map();
+    restore_on_out_of_scope<std::string> const info_txt_prev( info_txt_curr );
+    restore_on_out_of_scope<std::string> const info_title_prev( info_title_curr );
+    map  const&here = get_map();
 
     do {
         tc.fromabs( here.getabs( target.xy() ) );
-        point omt_lpos = here.getlocal( tc.begin_om_pos() );
-        tripoint om_ltarget = omt_lpos + tripoint( -1 + SEEX, -1 + SEEY, target.z );
+        point const omt_lpos = here.getlocal( tc.begin_om_pos() );
+        tripoint const om_ltarget = omt_lpos + tripoint( -1 + SEEX, -1 + SEEY, target.z );
 
         if( target.x != om_ltarget.x || target.y != om_ltarget.y ) {
             target = om_ltarget;
@@ -2121,7 +2121,7 @@ void editmap::edit_mapgen()
 
         blink = true;
 
-        input_context ctxt( gmenu.input_category );
+        input_context const ctxt( gmenu.input_category );
         info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s" ),
                                        ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
                                        ctxt.describe_key_and_name( "CONFIRM" ),
@@ -2133,7 +2133,7 @@ void editmap::edit_mapgen()
 
         if( gmenu.ret >= 0 ) {
             blink = false;
-            shared_ptr_fast<ui_adaptor> gmenu_ui = gmenu.create_or_get_ui_adaptor();
+            shared_ptr_fast<ui_adaptor> const gmenu_ui = gmenu.create_or_get_ui_adaptor();
             mapgen_preview( tc, gmenu );
             blink = true;
         } else if( gmenu.ret == UILIST_ADDITIONAL ) {

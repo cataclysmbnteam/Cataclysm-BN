@@ -85,8 +85,8 @@ JsonObject::JsonObject( JsonIn &j )
     // cache the position of the value for each member
     jsin->start_object();
     while( !jsin->end_object() ) {
-        std::string n = jsin->get_member_name();
-        int p = jsin->tell();
+        std::string const n = jsin->get_member_name();
+        int const p = jsin->tell();
         if( positions.count( n ) > 0 ) {
             j.error( "duplicate entry in json object" );
         }
@@ -308,7 +308,7 @@ void JsonValue::show_warning( std::string err ) const
 
 JsonIn *JsonObject::get_raw( const std::string &name ) const
 {
-    int pos = verify_position( name );
+    int const pos = verify_position( name );
     mark_visited( name );
     jsin->seek( pos );
     return jsin;
@@ -338,7 +338,7 @@ bool JsonObject::get_bool( const std::string &name ) const
 
 bool JsonObject::get_bool( const std::string &name, const bool fallback ) const
 {
-    int pos = verify_position( name, false );
+    int const pos = verify_position( name, false );
     if( !pos ) {
         return fallback;
     }
@@ -354,7 +354,7 @@ int JsonObject::get_int( const std::string &name ) const
 
 int JsonObject::get_int( const std::string &name, const int fallback ) const
 {
-    int pos = verify_position( name, false );
+    int const pos = verify_position( name, false );
     if( !pos ) {
         return fallback;
     }
@@ -370,7 +370,7 @@ double JsonObject::get_float( const std::string &name ) const
 
 double JsonObject::get_float( const std::string &name, const double fallback ) const
 {
-    int pos = verify_position( name, false );
+    int const pos = verify_position( name, false );
     if( !pos ) {
         return fallback;
     }
@@ -386,7 +386,7 @@ std::string JsonObject::get_string( const std::string &name ) const
 
 std::string JsonObject::get_string( const std::string &name, const std::string &fallback ) const
 {
-    int pos = verify_position( name, false );
+    int const pos = verify_position( name, false );
     if( !pos ) {
         return fallback;
     }
@@ -399,7 +399,7 @@ std::string JsonObject::get_string( const std::string &name, const std::string &
 
 JsonArray JsonObject::get_array( const std::string &name ) const
 {
-    int pos = verify_position( name, false );
+    int const pos = verify_position( name, false );
     if( !pos ) {
         return JsonArray();
     }
@@ -428,7 +428,7 @@ std::vector<std::string> JsonObject::get_string_array( const std::string &name )
 
 JsonObject JsonObject::get_object( const std::string &name ) const
 {
-    int pos = verify_position( name, false );
+    int const pos = verify_position( name, false );
     if( !pos ) {
         return JsonObject();
     }
@@ -441,7 +441,7 @@ JsonObject JsonObject::get_object( const std::string &name ) const
 
 bool JsonObject::has_null( const std::string &name ) const
 {
-    int pos = verify_position( name, false );
+    int const pos = verify_position( name, false );
     if( !pos ) {
         return false;
     }
@@ -452,7 +452,7 @@ bool JsonObject::has_null( const std::string &name ) const
 
 bool JsonObject::has_bool( const std::string &name ) const
 {
-    int pos = verify_position( name, false );
+    int const pos = verify_position( name, false );
     if( !pos ) {
         return false;
     }
@@ -462,7 +462,7 @@ bool JsonObject::has_bool( const std::string &name ) const
 
 bool JsonObject::has_number( const std::string &name ) const
 {
-    int pos = verify_position( name, false );
+    int const pos = verify_position( name, false );
     if( !pos ) {
         return false;
     }
@@ -472,7 +472,7 @@ bool JsonObject::has_number( const std::string &name ) const
 
 bool JsonObject::has_string( const std::string &name ) const
 {
-    int pos = verify_position( name, false );
+    int const pos = verify_position( name, false );
     if( !pos ) {
         return false;
     }
@@ -482,7 +482,7 @@ bool JsonObject::has_string( const std::string &name ) const
 
 bool JsonObject::has_array( const std::string &name ) const
 {
-    int pos = verify_position( name, false );
+    int const pos = verify_position( name, false );
     if( !pos ) {
         return false;
     }
@@ -492,7 +492,7 @@ bool JsonObject::has_array( const std::string &name ) const
 
 bool JsonObject::has_object( const std::string &name ) const
 {
-    int pos = verify_position( name, false );
+    int const pos = verify_position( name, false );
     if( !pos ) {
         return false;
     }
@@ -846,7 +846,7 @@ void JsonIn::skip_member()
 void JsonIn::skip_separator()
 {
     eat_whitespace();
-    signed char ch = peek();
+    signed char const ch = peek();
     if( ch == ',' ) {
         if( ate_separator ) {
             error( "duplicate comma" );
@@ -918,7 +918,7 @@ void JsonIn::skip_string()
 void JsonIn::skip_value()
 {
     eat_whitespace();
-    char ch = peek();
+    char const ch = peek();
     // it's either a string '"'
     if( ch == '"' ) {
         skip_string();
@@ -1256,7 +1256,7 @@ int JsonIn::get_int()
 {
     static_assert( sizeof( int ) <= sizeof( int64_t ),
                    "JsonIn::get_int() assumed sizeof( int ) <= sizeof( int64_t )" );
-    number_sci_notation n = get_any_int();
+    number_sci_notation const n = get_any_int();
     if( !n.negative && n.number > static_cast<uint64_t>( std::numeric_limits<int>::max() ) ) {
         error( "Found a number greater than " + std::to_string( std::numeric_limits<int>::max() ) +
                " which is unsupported in this context." );
@@ -1282,7 +1282,7 @@ int JsonIn::get_int()
 
 unsigned int JsonIn::get_uint()
 {
-    number_sci_notation n = get_any_int();
+    number_sci_notation const n = get_any_int();
     if( n.number > std::numeric_limits<unsigned int>::max() ) {
         error( "Found a number greater than " +
                std::to_string( std::numeric_limits<unsigned int>::max() ) +
@@ -1296,7 +1296,7 @@ unsigned int JsonIn::get_uint()
 
 int64_t JsonIn::get_int64()
 {
-    number_sci_notation n = get_any_int();
+    number_sci_notation const n = get_any_int();
     if( !n.negative && n.number > static_cast<uint64_t>( std::numeric_limits<int64_t>::max() ) ) {
         error( "Signed integers greater than " +
                std::to_string( std::numeric_limits<int64_t>::max() ) + " not supported." );
@@ -1322,7 +1322,7 @@ int64_t JsonIn::get_int64()
 
 uint64_t JsonIn::get_uint64()
 {
-    number_sci_notation n = get_any_int();
+    number_sci_notation const n = get_any_int();
     if( n.negative ) {
         error( "Unsigned integers cannot have a negative sign." );
     }
@@ -1331,7 +1331,7 @@ uint64_t JsonIn::get_uint64()
 
 double JsonIn::get_float()
 {
-    number_sci_notation n = get_any_number();
+    number_sci_notation const n = get_any_number();
     return n.number * std::pow( 10.0f, n.exp ) * ( n.negative ? -1.f : 1.f );
 }
 
@@ -1811,7 +1811,7 @@ std::string JsonIn::line_number( int offset_modifier )
                 return "file=" + name + ",line=???";
         }
     } // else stream is fine
-    int pos = tell();
+    int const pos = tell();
     int line = 1;
     int offset = 1;
     char ch;
@@ -1867,7 +1867,7 @@ void JsonIn::error( const std::string &message, int offset )
     // Seek to eof after throwing to avoid continue reading from the incorrect
     // location. The calling code of json error methods is supposed to restore
     // the stream location if it wishes to recover from the error.
-    on_out_of_scope seek_to_eof( [this]() {
+    on_out_of_scope const seek_to_eof( [this]() {
         stream->seekg( 0, std::istream::end );
     } );
     std::ostringstream err;
@@ -1875,7 +1875,7 @@ void JsonIn::error( const std::string &message, int offset )
     // also print surrounding few lines of context, if not too large
     err << "\n\n";
     stream->seekg( offset, std::istream::cur );
-    size_t pos = tell();
+    size_t const pos = tell();
     rewind( 3, 240 );
     size_t startpos = tell();
     std::string buffer( pos - startpos, '\0' );
@@ -2018,7 +2018,7 @@ std::string JsonIn::substr( size_t pos, size_t len )
     std::string ret;
     if( len == std::string::npos ) {
         stream->seekg( 0, std::istream::end );
-        size_t end = tell();
+        size_t const end = tell();
         len = end - pos;
     }
     ret.resize( len );
@@ -2171,7 +2171,7 @@ void JsonOut::write( const std::string &val )
     }
     stream->put( '"' );
     for( const auto &i : val ) {
-        unsigned char ch = i;
+        unsigned char const ch = i;
         if( ch == '"' ) {
             stream->write( "\\\"", 2 );
         } else if( ch == '\\' ) {
@@ -2193,7 +2193,7 @@ void JsonOut::write( const std::string &val )
             // convert to "\uxxxx" unicode escape
             stream->write( "\\u00", 4 );
             stream->put( ( ch < 0x10 ) ? '0' : '1' );
-            char remainder = ch & 0x0F;
+            char const remainder = ch & 0x0F;
             if( remainder < 0x0A ) {
                 stream->put( '0' + remainder );
             } else {
@@ -2213,10 +2213,10 @@ void JsonOut::write( const std::bitset<N> &b )
     if( need_separator ) {
         write_separator();
     }
-    std::string converted = b.to_string();
+    std::string const converted = b.to_string();
     stream->put( '"' );
     for( auto &i : converted ) {
-        unsigned char ch = i;
+        unsigned char const ch = i;
         stream->put( ch );
     }
     stream->put( '"' );

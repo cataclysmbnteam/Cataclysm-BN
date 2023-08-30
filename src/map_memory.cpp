@@ -72,7 +72,7 @@ map_memory::map_memory()
 
 const memorized_terrain_tile &map_memory::get_tile( const tripoint &pos )
 {
-    coord_pair p( pos );
+    coord_pair const p( pos );
     const mm_submap &sm = get_submap( p.sm );
     return sm.tile( p.loc );
 }
@@ -86,8 +86,8 @@ bool map_memory::has_memory_for_autodrive( const tripoint &pos )
     //       To work around it, we check for whether map memory has any data associated with the tile
     //       and then assume it's up to date, which works in 99% cases.
     //       Oh, and we don't want to use get_tile() and get_symbol() to avoid looking up the mm_submap twice.
-    coord_pair p( pos );
-    shared_ptr_fast<mm_submap> sm = fetch_submap( p.sm );
+    coord_pair const p( pos );
+    shared_ptr_fast<mm_submap> const sm = fetch_submap( p.sm );
     return sm->tile( p.loc ) != mm_submap::default_tile ||
            sm->symbol( p.loc ) != mm_submap::default_symbol;
 }
@@ -95,28 +95,28 @@ bool map_memory::has_memory_for_autodrive( const tripoint &pos )
 void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
                                 const int subtile, const int rotation )
 {
-    coord_pair p( pos );
+    coord_pair const p( pos );
     mm_submap &sm = get_submap( p.sm );
     sm.set_tile( p.loc, memorized_terrain_tile{ ter, subtile, rotation } );
 }
 
 int map_memory::get_symbol( const tripoint &pos )
 {
-    coord_pair p( pos );
+    coord_pair const p( pos );
     const mm_submap &sm = get_submap( p.sm );
     return sm.symbol( p.loc );
 }
 
 void map_memory::memorize_symbol( const tripoint &pos, const int symbol )
 {
-    coord_pair p( pos );
+    coord_pair const p( pos );
     mm_submap &sm = get_submap( p.sm );
     sm.set_symbol( p.loc, symbol );
 }
 
 void map_memory::clear_memorized_tile( const tripoint &pos )
 {
-    coord_pair p( pos );
+    coord_pair const p( pos );
     mm_submap &sm = get_submap( p.sm );
     sm.set_symbol( p.loc, mm_submap::default_symbol );
     sm.set_tile( p.loc, mm_submap::default_tile );
@@ -127,16 +127,16 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     assert( p1.z == p2.z );
     assert( p1.x <= p2.x && p1.y <= p2.y );
 
-    tripoint sm_p1 = coord_pair( p1 ).sm - point_south_east;
-    tripoint sm_p2 = coord_pair( p2 ).sm + point_south_east;
+    tripoint const sm_p1 = coord_pair( p1 ).sm - point_south_east;
+    tripoint const sm_p2 = coord_pair( p2 ).sm + point_south_east;
 
-    tripoint sm_pos = sm_p1;
-    point sm_size = sm_p2.xy() - sm_p1.xy();
+    tripoint const sm_pos = sm_p1;
+    point const sm_size = sm_p2.xy() - sm_p1.xy();
 
-    bool z_levels = get_map().has_zlevels();
+    bool const z_levels = get_map().has_zlevels();
 
     if( sm_pos.z == cache_pos.z || z_levels ) {
-        inclusive_rectangle<point> rect( cache_pos.xy(), cache_pos.xy() + cache_size );
+        inclusive_rectangle<point> const rect( cache_pos.xy(), cache_pos.xy() + cache_size );
         if( rect.contains( sm_p1.xy() ) && rect.contains( sm_p2.xy() ) ) {
             return false;
         }
@@ -145,8 +145,8 @@ bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
     dbg( DL::Info ) << "Preparing memory map for area: pos: " << sm_pos << " size: " << sm_size;
 
 
-    int minz = z_levels ? -OVERMAP_DEPTH : p1.z;
-    int maxz = z_levels ? OVERMAP_HEIGHT : p1.z;
+    int const minz = z_levels ? -OVERMAP_DEPTH : p1.z;
+    int const maxz = z_levels ? OVERMAP_HEIGHT : p1.z;
 
     cache_pos = sm_pos;
     cache_size = sm_size;
@@ -182,14 +182,14 @@ shared_ptr_fast<mm_submap> map_memory::allocate_submap( const tripoint &sm_pos )
     // Since all save/load operations are done on regions of submaps,
     // we need to allocate the whole region at once.
     shared_ptr_fast<mm_submap> ret;
-    tripoint reg = reg_coord_pair( sm_pos ).reg;
+    tripoint const reg = reg_coord_pair( sm_pos ).reg;
 
     dbg( DL::Info ) << "Allocated mm_region " << reg << " [" << mmr_to_sm_copy( reg ) << "]";
 
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
-            tripoint pos = mmr_to_sm_copy( reg ) + tripoint( x, y, 0 );
-            shared_ptr_fast<mm_submap> sm = make_shared_fast<mm_submap>();
+            tripoint const pos = mmr_to_sm_copy( reg ) + tripoint( x, y, 0 );
+            shared_ptr_fast<mm_submap> const sm = make_shared_fast<mm_submap>();
             if( pos == sm_pos ) {
                 ret = sm;
             }
@@ -236,7 +236,7 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
     }
 
     const std::string dirname = find_mm_dir();
-    reg_coord_pair p( sm_pos );
+    reg_coord_pair const p( sm_pos );
     const std::string path = find_region_path( dirname, p.reg );
 
     if( !dir_exist( dirname ) ) {
@@ -266,8 +266,8 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
 
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
-            tripoint pos = mmr_to_sm_copy( p.reg ) + tripoint( x, y, 0 );
-            shared_ptr_fast<mm_submap> &sm = mmr.submaps[x][y];
+            tripoint const pos = mmr_to_sm_copy( p.reg ) + tripoint( x, y, 0 );
+            shared_ptr_fast<mm_submap>  const&sm = mmr.submaps[x][y];
             if( pos == sm_pos ) {
                 ret = sm;
             }
@@ -286,7 +286,7 @@ mm_submap &map_memory::get_submap( const tripoint &sm_pos )
     // First, try fetching from cache.
     // If it's not in cache (or cache is absent), go the long way.
     if( cache_pos != tripoint_min ) {
-        int zoffset = get_map().has_zlevels()
+        int const zoffset = get_map().has_zlevels()
                       ? ( sm_pos.z + OVERMAP_DEPTH ) * cache_size.y * cache_size.x
                       : 0;
         const point idx = ( sm_pos - cache_pos ).xy();
@@ -318,8 +318,8 @@ void map_memory::load( const tripoint &pos )
         return;
     }
 
-    coord_pair p( pos );
-    tripoint start = p.sm - tripoint( MM_SIZE / 2, MM_SIZE / 2, 0 );
+    coord_pair const p( pos );
+    tripoint const start = p.sm - tripoint( MM_SIZE / 2, MM_SIZE / 2, 0 );
     dbg( DL::Info ) << "[LOAD] Loading memory map around " << p.sm << ". Loading submaps within "
                     << start << "->" << start + tripoint( MM_SIZE, MM_SIZE, 0 );
     for( int dy = 0; dy < MM_SIZE; dy++ ) {
@@ -332,7 +332,7 @@ void map_memory::load( const tripoint &pos )
 
 bool map_memory::save( const tripoint &pos )
 {
-    tripoint sm_center = coord_pair( pos ).sm;
+    tripoint const sm_center = coord_pair( pos ).sm;
     const std::string dirname = find_mm_dir();
     assure_dir_exist( dirname );
 
@@ -350,7 +350,7 @@ bool map_memory::save( const tripoint &pos )
     submaps.clear();
 
     constexpr point MM_HSIZE_P = point( MM_SIZE / 2, MM_SIZE / 2 );
-    half_open_rectangle<point> rect_keep( sm_center.xy() - MM_HSIZE_P, sm_center.xy() + MM_HSIZE_P );
+    half_open_rectangle<point> const rect_keep( sm_center.xy() - MM_HSIZE_P, sm_center.xy() + MM_HSIZE_P );
 
     dbg( DL::Info ) << "[SAVE] Saving memory map around " << sm_center << ". Keeping submaps within "
                     << rect_keep.p_min << "->" << rect_keep.p_max;
@@ -377,8 +377,8 @@ bool map_memory::save( const tripoint &pos )
             const bool res = write_to_file( path, writer, descr.c_str() );
             result = result & res;
         }
-        tripoint regp_sm = mmr_to_sm_copy( regp );
-        half_open_rectangle<point> rect_reg(
+        tripoint const regp_sm = mmr_to_sm_copy( regp );
+        half_open_rectangle<point> const rect_reg(
             regp_sm.xy(),
             regp_sm.xy() + point( MM_REG_SIZE, MM_REG_SIZE )
         );
@@ -387,8 +387,8 @@ bool map_memory::save( const tripoint &pos )
             // Put submaps back
             for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
                 for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
-                    tripoint p = regp_sm + tripoint( x, y, 0 );
-                    shared_ptr_fast<mm_submap> &sm = reg.submaps[x][y];
+                    tripoint const p = regp_sm + tripoint( x, y, 0 );
+                    shared_ptr_fast<mm_submap>  const&sm = reg.submaps[x][y];
                     submaps.insert( std::make_pair( p, sm ) );
                 }
             }

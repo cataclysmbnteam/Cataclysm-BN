@@ -175,7 +175,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     // Fire!
     gun_mode gun = weapon->gun_current_mode();
 
-    int shots_fired = ranged::fire_gun( who, fin_trajectory.back(), gun.qty, *gun, reload_loc );
+    int const shots_fired = ranged::fire_gun( who, fin_trajectory.back(), gun.qty, *gun, reload_loc );
 
     if( shots_fired > 0 ) {
         // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
@@ -200,7 +200,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     aim_actor.initial_view_offset = this->initial_view_offset;
 
     // if invalid target or it's dead - reset it so a new one is acquired
-    shared_ptr_fast<Creature> last_target = who.as_player()->last_target.lock();
+    shared_ptr_fast<Creature> const last_target = who.as_player()->last_target.lock();
     if( last_target && last_target->is_dead_state() ) {
         who.as_player()->last_target.reset();
     }
@@ -238,7 +238,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 {
     aim_activity_actor actor = aim_activity_actor();
 
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
 
     data.read( "fake_weapon", actor.fake_weapon );
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
@@ -274,7 +274,7 @@ item *aim_activity_actor::get_weapon()
 void aim_activity_actor::restore_view()
 {
     avatar &player_character = get_avatar();
-    bool changed_z = player_character.view_offset.z != initial_view_offset.z;
+    bool const changed_z = player_character.view_offset.z != initial_view_offset.z;
     player_character.view_offset = initial_view_offset;
     if( changed_z ) {
         get_map().invalidate_map_cache( player_character.view_offset.z );
@@ -314,7 +314,7 @@ bool aim_activity_actor::load_RAS_weapon()
         }
         return true;
     };
-    item_reload_option opt = ammo_location_is_valid() ? item_reload_option( &you, weapon,
+    item_reload_option const opt = ammo_location_is_valid() ? item_reload_option( &you, weapon,
                              weapon, you.ammo_location ) : character_funcs::select_ammo( you, *gun );
     if( !opt ) {
         // Menu canceled
@@ -433,7 +433,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             here.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
             here.furn_set( location, f_coffin_c );
         }
-        std::vector<item *> dropped = g->m.place_items( item_group_id( "allclothes" ), 50, location,
+        std::vector<item *> const dropped = g->m.place_items( item_group_id( "allclothes" ), 50, location,
                                       location, false,
                                       calendar::turn );
         g->m.place_items( item_group_id( "grave" ), 25, location, location, false, calendar::turn );
@@ -488,7 +488,7 @@ std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
     dig_activity_actor actor( 0, tripoint_zero,
                               {}, tripoint_zero, 0, {} );
 
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
 
     data.read( "moves", actor.moves_total );
     data.read( "location", actor.location );
@@ -554,7 +554,7 @@ std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn 
     dig_channel_activity_actor actor( 0, tripoint_zero,
                                       {}, tripoint_zero, 0, {} );
 
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
 
     data.read( "moves", actor.moves_total );
     data.read( "location", actor.location );
@@ -587,7 +587,7 @@ bool disassemble_activity_actor::try_start_single( player_activity &act, Charact
         return false;
     }
 
-    int moves_needed = dis.time * target.count;
+    int const moves_needed = dis.time * target.count;
 
     act.moves_total = moves_needed;
     act.moves_left = moves_needed;
@@ -625,7 +625,7 @@ void disassemble_activity_actor::finish( player_activity &act, Character &who )
     }
 
     // Make a copy to avoid use-after-free
-    bool recurse = this->recursive;
+    bool const recurse = this->recursive;
 
     act.set_to_null();
 
@@ -650,7 +650,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 {
     disassemble_activity_actor actor;
 
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
 
     data.read( "targets", actor.targets );
     data.read( "pos", actor.pos );
@@ -671,7 +671,7 @@ act_progress_message disassemble_activity_actor::get_progress_message(
 
     if( initial_num_targets != 1 ) {
         constexpr int width = 20; // An arbitrary value
-        std::string item_name_trimmed = trim_by_length( targets.front().loc->display_name(), width );
+        std::string const item_name_trimmed = trim_by_length( targets.front().loc->display_name(), width );
 
         msg += string_format(
                    _( "\n%d out of %d, working on %-20s" ),
@@ -713,7 +713,7 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
 {
     drop_activity_actor actor;
 
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
 
     data.read( "items", actor.items );
     data.read( "force_ground", actor.force_ground );
@@ -762,7 +762,7 @@ static hack_result hack_attempt( Character &who, const bool using_bionic )
     // only skilled supergenius never cause short circuits, but the odds are low for people
     // with moderate skills
     const int hack_stddev = 5;
-    int success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
+    int const success = std::ceil( normal_roll( hack_level( who ), hack_stddev ) );
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
         if( using_bionic ) {
@@ -812,8 +812,8 @@ hacking_activity_actor::hacking_activity_actor( use_bionic )
 
 void hacking_activity_actor::finish( player_activity &act, Character &who )
 {
-    tripoint examp = act.placement;
-    hack_type type = get_hack_type( examp );
+    tripoint const examp = act.placement;
+    hack_type const type = get_hack_type( examp );
     map &here = get_map();
     switch( hack_attempt( who, using_bionic ) ) {
         case HACK_UNABLE:
@@ -884,7 +884,7 @@ std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn &jsi
         // it was an item.
         actor.using_bionic = false;
     } else {
-        JsonObject jsobj = jsin.get_object();
+        JsonObject const jsobj = jsin.get_object();
         jsobj.read( "using_bionic", actor.using_bionic );
     }
     return actor.clone();
@@ -963,7 +963,7 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &
 {
     move_items_activity_actor actor( {}, {}, false, tripoint_zero );
 
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
 
     data.read( "target_items", actor.target_items );
     data.read( "quantities", actor.quantities );
@@ -1044,7 +1044,7 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin
 {
     pickup_activity_actor actor( {}, std::nullopt );
 
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
 
     data.read( "target_items", actor.target_items );
     data.read( "starting_pos", actor.starting_pos );
@@ -1106,7 +1106,7 @@ std::unique_ptr<activity_actor> toggle_gate_activity_actor::deserialize( JsonIn 
 {
     toggle_gate_activity_actor actor( 0, tripoint_zero );
 
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
 
     data.read( "moves", actor.moves_total );
     data.read( "placement", actor.placement );
@@ -1147,7 +1147,7 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
 {
     stash_activity_actor actor;
 
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
 
     data.read( "items", actor.items );
     data.read( "relpos", actor.relpos );
@@ -1193,7 +1193,7 @@ void throw_activity_actor::do_turn( player_activity &act, Character &who )
 
     if( &*target != &who.primary_weapon() ) {
         // This is to represent "implicit offhand wielding"
-        int extra_cost = who.item_handling_cost( *target, true, INVENTORY_HANDLING_PENALTY / 2 );
+        int const extra_cost = who.item_handling_cost( *target, true, INVENTORY_HANDLING_PENALTY / 2 );
         who.mod_moves( -extra_cost );
     }
 
@@ -1221,7 +1221,7 @@ std::unique_ptr<activity_actor> throw_activity_actor::deserialize( JsonIn &jsin 
 {
     throw_activity_actor actor;
 
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
 
     data.read( "target_loc", actor.target_loc );
     data.read( "blind_throw_from_pos", actor.blind_throw_from_pos );
@@ -1243,7 +1243,7 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonIn &jsin )
 {
     wash_activity_actor actor;
 
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
 
     data.read( "targets", actor.targets );
     data.read( "moves_total", actor.moves_total );
@@ -1292,7 +1292,7 @@ void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin )
     if( jsin.test_null() ) {
         actor = nullptr;
     } else {
-        JsonObject data = jsin.get_object();
+        JsonObject const data = jsin.get_object();
         if( data.has_member( "actor_data" ) ) {
             activity_id actor_type;
             data.read( "actor_type", actor_type );

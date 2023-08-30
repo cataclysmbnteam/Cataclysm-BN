@@ -78,9 +78,9 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     }
 
     if( mod->lua_api_version ) {
-        nc_color col_lua = cata::has_lua() ? c_light_blue : c_red;
-        int this_api = cata::get_lua_api_version();
-        nc_color col_api = this_api == *mod->lua_api_version ? c_white : c_yellow;
+        nc_color const col_lua = cata::has_lua() ? c_light_blue : c_red;
+        int const this_api = cata::get_lua_api_version();
+        nc_color const col_api = this_api == *mod->lua_api_version ? c_white : c_yellow;
         info += string_format(
                     _( "%s: API version %s\n" ),
                     colorize( _( "Needs Lua" ), col_lua ),
@@ -94,7 +94,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 
     info += colorize( _( "Mod info path" ), c_light_blue ) + ": " + mod->path_full + "\n";
 
-    std::string note = !mm_tree.is_available( mod->ident ) ? mm_tree.get_node(
+    std::string const note = !mm_tree.is_available( mod->ident ) ? mm_tree.get_node(
                            mod->ident )->s_errors() : "";
     if( !note.empty() ) {
         info += colorize( note, c_red );
@@ -168,7 +168,7 @@ ret_val<bool> mod_ui::try_add( const mod_id &mod_to_add, std::vector<mod_id> &ac
     }
 
     // get dependencies of selection in the order that they would appear from the top of the active list
-    std::vector<mod_id> dependencies = mm_tree.get_dependencies_of_X_as_strings( mod.ident );
+    std::vector<mod_id> const dependencies = mm_tree.get_dependencies_of_X_as_strings( mod.ident );
 
     std::vector<conflict_pair> conflicts;
     check_conflicts( mod_to_add, active_list, conflicts );
@@ -233,7 +233,7 @@ void mod_ui::try_rem( size_t selection, std::vector<mod_id> &active_list )
 
     const MOD_INFORMATION &mod = *active_list[selection];
 
-    std::vector<mod_id> dependents = mm_tree.get_dependents_of_X_as_strings( mod.ident );
+    std::vector<mod_id> const dependents = mm_tree.get_dependents_of_X_as_strings( mod.ident );
 
     // search through the rest of the active list for mods that depend on this one
     for( auto &i : dependents ) {
@@ -242,7 +242,7 @@ void mod_ui::try_rem( size_t selection, std::vector<mod_id> &active_list )
             active_list.erase( rem );
         }
     }
-    std::vector<mod_id>::iterator rem = std::find( active_list.begin(), active_list.end(),
+    std::vector<mod_id>::iterator const rem = std::find( active_list.begin(), active_list.end(),
                                         sel_string );
     if( rem != active_list.end() ) {
         active_list.erase( rem );
@@ -279,8 +279,8 @@ void mod_ui::try_shift( char direction, size_t &selection, std::vector<mod_id> &
         return;
     }
 
-    mod_id modstring = active_list[newsel];
-    mod_id selstring = active_list[oldsel];
+    mod_id const modstring = active_list[newsel];
+    mod_id const selstring = active_list[oldsel];
 
     // we can shift!
     // switch values!
@@ -306,10 +306,10 @@ bool mod_ui::can_shift_up( size_t selection, const std::vector<mod_id> &active_l
         return false;
     }
     // see if the mod at selection-1 is a) a core, or b) is depended on by this mod
-    int newsel = selection - 1;
+    int const newsel = selection - 1;
 
-    mod_id newsel_id = active_list[newsel];
-    bool newsel_is_dependency =
+    mod_id const newsel_id = active_list[newsel];
+    bool const newsel_is_dependency =
         std::find( dependencies.begin(), dependencies.end(), newsel_id ) != dependencies.end();
 
     return !newsel_id->core && !newsel_is_dependency;
@@ -329,12 +329,12 @@ bool mod_ui::can_shift_down( size_t selection, const std::vector<mod_id> &active
         // can't move down, don't bother trying
         return false;
     }
-    int newsel = selection;
-    int oldsel = selection + 1;
+    int const newsel = selection;
+    int const oldsel = selection + 1;
 
-    mod_id modstring = active_list[newsel];
-    mod_id selstring = active_list[oldsel];
-    bool sel_is_dependency =
+    mod_id const modstring = active_list[newsel];
+    mod_id const selstring = active_list[oldsel];
+    bool const sel_is_dependency =
         std::find( dependents.begin(), dependents.end(), selstring ) != dependents.end();
 
     return !modstring->core && !sel_is_dependency;

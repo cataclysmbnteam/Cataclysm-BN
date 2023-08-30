@@ -178,7 +178,7 @@ void monfactions::finalize()
 
     // Traverse the tree (breadth-first), starting from root
     while( !queue.empty() ) {
-        mfaction_id cur = queue.front();
+        mfaction_id const cur = queue.front();
         queue.pop();
         if( unloaded.count( cur ) != 0 ) {
             unloaded.erase( cur );
@@ -232,10 +232,10 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
 void monfactions::load_monster_faction( const JsonObject &jo )
 {
     // Factions inherit values from their parent factions - this is set during finalization
-    std::set< std::string > by_mood = jo.get_tags( "by_mood" );
-    std::set< std::string > neutral = jo.get_tags( "neutral" );
-    std::set< std::string > friendly = jo.get_tags( "friendly" );
-    std::set< std::string > hate = jo.get_tags( "hate" );
+    std::set< std::string > const by_mood = jo.get_tags( "by_mood" );
+    std::set< std::string > const neutral = jo.get_tags( "neutral" );
+    std::set< std::string > const friendly = jo.get_tags( "friendly" );
+    std::set< std::string > const hate = jo.get_tags( "hate" );
     // Need to make sure adding new factions won't invalidate our current faction's reference
     // That +1 is for base faction
     faction_list.reserve( faction_list.size() + by_mood.size() + neutral.size() + friendly.size() +
@@ -246,9 +246,9 @@ void monfactions::load_monster_faction( const JsonObject &jo )
     prealloc( hate );
 
     std::string name = jo.get_string( "name" );
-    mfaction_id cur_id = get_or_add_faction( mfaction_str_id( name ) );
+    mfaction_id const cur_id = get_or_add_faction( mfaction_str_id( name ) );
     std::string base_faction = jo.get_string( "base_faction", "" );
-    mfaction_id base_id = get_or_add_faction( mfaction_str_id( base_faction ) );
+    mfaction_id const base_id = get_or_add_faction( mfaction_str_id( base_faction ) );
     // Don't get the reference until here (to avoid vector reallocation messing it up)
     monfaction &faction = faction_list[cur_id.to_i()];
     faction.base_faction = base_id;

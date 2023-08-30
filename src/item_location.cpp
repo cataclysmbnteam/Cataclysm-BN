@@ -204,7 +204,7 @@ class item_location::impl::item_on_map : public item_location::impl
         item_location obtain( Character &ch, int qty ) override {
             ch.moves -= obtain_cost( ch, qty );
 
-            item obj = target()->split( qty );
+            item const obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
@@ -332,7 +332,7 @@ class item_location::impl::item_on_person : public item_location::impl
                 return item_location( ch, target() );
             }
 
-            item obj = target()->split( qty );
+            item const obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
@@ -447,7 +447,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         std::string describe( const Character *ch ) const override {
-            vpart_position part_pos( cur.veh, cur.part );
+            vpart_position const part_pos( cur.veh, cur.part );
             std::string res;
             if( auto label = part_pos.get_label() ) {
                 res = colorize( *label, c_light_blue ) + " ";
@@ -466,7 +466,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         item_location obtain( Character &ch, int qty ) override {
             ch.moves -= obtain_cost( ch, qty );
 
-            item obj = target()->split( qty );
+            item const obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
@@ -586,7 +586,7 @@ class item_location::impl::item_in_container : public item_location::impl
         item_location obtain( Character &ch, int qty ) override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
-            item obj = target()->split( qty );
+            item const obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
@@ -703,7 +703,7 @@ void item_location::deserialize( JsonIn &js )
 
     } else if( type == "vehicle" ) {
         vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
-        int part = obj.get_int( "part" );
+        int const part = obj.get_int( "part" );
         if( veh && part >= 0 && part < veh->part_count() ) {
             ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
         }

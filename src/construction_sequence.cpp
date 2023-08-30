@@ -36,7 +36,7 @@ void construction_sequence::check() const
         }
     }
     if( !report.is_empty() ) {
-        std::string s = report.format( "construction sequence", id.str() );
+        std::string const s = report.format( "construction sequence", id.str() );
         debugmsg( s );
     }
 }

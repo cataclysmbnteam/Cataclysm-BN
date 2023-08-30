@@ -212,9 +212,9 @@ void enchantment::load( const JsonObject &jo, const std::string & )
     jo.read( "emitter", emitter );
 
     if( jo.has_object( "intermittent_activation" ) ) {
-        JsonObject jobj = jo.get_object( "intermittent_activation" );
+        JsonObject const jobj = jo.get_object( "intermittent_activation" );
         for( const JsonObject effect_obj : jobj.get_array( "effects" ) ) {
-            time_duration freq = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
+            time_duration const freq = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
                                  time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
                 for( const JsonObject fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {
@@ -224,7 +224,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
                 }
             } else if( effect_obj.has_object( "spell_effects" ) ) {
                 fake_spell fake;
-                JsonObject fake_spell_obj = effect_obj.get_object( "spell_effects" );
+                JsonObject const fake_spell_obj = effect_obj.get_object( "spell_effects" );
                 fake.load( fake_spell_obj );
                 add_activation( freq, fake );
             }
@@ -235,7 +235,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
     active_conditions.second = io::string_to_enum<condition>( jo.get_string( "condition",
                                "ALWAYS" ) );
 
-    for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
+    for( JsonObject const jsobj : jo.get_array( "ench_effects" ) ) {
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
 
@@ -243,8 +243,8 @@ void enchantment::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
-            std::string value_raw = value_obj.get_string( "value" );
-            std::string value_new = migrate_ench_vals_enums( value_raw );
+            std::string const value_raw = value_obj.get_string( "value" );
+            std::string const value_new = migrate_ench_vals_enums( value_raw );
             if( json_report_strict && value_new != value_raw ) {
                 value_obj.show_warning(
                     string_format( "%s has been renamed to %s", value_raw, value_new ), "value" );
@@ -335,7 +335,7 @@ void enchantment::serialize( JsonOut &jsout ) const
     jsout.member( "values" );
     jsout.start_array();
     for( int value = 0; value < static_cast<int>( enchant_vals::mod::NUM_MOD ); value++ ) {
-        enchant_vals::mod enum_value = static_cast<enchant_vals::mod>( value );
+        enchant_vals::mod const enum_value = static_cast<enchant_vals::mod>( value );
         if( get_value_add( enum_value ) == 0 && get_value_multiply( enum_value ) == 0.0 ) {
             continue;
         }
@@ -434,8 +434,8 @@ double enchantment::calc_bonus( enchant_vals::mod value, double base, bool round
         default:
             break;
     }
-    double add = use_add ? get_value_add( value ) : 0.0;
-    double mul = get_value_multiply( value );
+    double const add = use_add ? get_value_add( value ) : 0.0;
+    double const mul = get_value_multiply( value );
     double ret = add + base * mul;
     if( round ) {
         ret = trunc( ret );

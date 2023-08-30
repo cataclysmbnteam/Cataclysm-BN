@@ -149,7 +149,7 @@ static void serialize( const weak_ptr_fast<monster> &obj, JsonOut &jsout )
 
 static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     tripoint temp_pos;
 
@@ -185,7 +185,7 @@ void item_contents::serialize( JsonOut &json ) const
 
 void item_contents::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "items", items );
 }
@@ -218,7 +218,7 @@ void player_activity::serialize( JsonOut &json ) const
 
 void player_activity::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "type", type );
 
@@ -275,7 +275,7 @@ void requirement_data::serialize( JsonOut &json ) const
 
 void requirement_data::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
 
     data.read( "blacklisted", blacklisted );
@@ -301,7 +301,7 @@ void SkillLevel::serialize( JsonOut &json ) const
 
 void SkillLevel::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "level", _level );
     data.read( "exercise", _exercise );
@@ -343,7 +343,7 @@ void char_trait_data::serialize( JsonOut &json ) const
 
 void char_trait_data::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "key", key );
     data.read( "charge", charge );
@@ -374,7 +374,7 @@ void consumption_event::serialize( JsonOut &json ) const
 
 void consumption_event::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     jo.allow_omitted_members();
     jo.read( "time", time );
     jo.read( "type_id", type_id );
@@ -457,11 +457,11 @@ void Character::load( const JsonObject &data )
         data.read( "martial_arts_data", martial_arts_data );
     }
 
-    JsonObject vits = data.get_object( "vitamin_levels" );
+    JsonObject const vits = data.get_object( "vitamin_levels" );
     vits.allow_omitted_members();
     for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
         if( vits.has_member( v.first.str() ) ) {
-            int lvl = vits.get_int( v.first.str() );
+            int const lvl = vits.get_int( v.first.str() );
             vitamin_levels[v.first] = clamp( lvl, v.first->min(), v.first->max() );
         }
     }
@@ -506,7 +506,7 @@ void Character::load( const JsonObject &data )
     data.read( "damage_bandaged", damage_bandaged );
     data.read( "damage_disinfected", damage_disinfected );
     data.read( "magic", magic );
-    JsonArray parray;
+    JsonArray const parray;
 
     data.read( "traits", my_traits );
     for( auto it = my_traits.begin(); it != my_traits.end(); ) {
@@ -639,7 +639,7 @@ void Character::load( const JsonObject &data )
     data.read( "automoveroute", auto_move_route );
 
     known_traps.clear();
-    for( JsonObject pmap : data.get_array( "known_traps" ) ) {
+    for( JsonObject const pmap : data.get_array( "known_traps" ) ) {
         pmap.allow_omitted_members();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
         const std::string t = pmap.get_string( "trap" );
@@ -720,7 +720,7 @@ void Character::store( JsonOut &json ) const
     if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
             activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) || ( destination_activity &&
                     destination_activity.id() == activity_id( "ACT_FETCH_REQUIRED" ) ) ) ) {
-        requirement_data things_to_fetch = requirement_id( backlog.front().str_values.back() ).obj();
+        requirement_data const things_to_fetch = requirement_id( backlog.front().str_values.back() ).obj();
         json.member( "fetch_data", things_to_fetch );
     }
 
@@ -867,7 +867,7 @@ void player::load( const JsonObject &data )
 {
     Character::load( data );
 
-    JsonArray parray;
+    JsonArray const parray;
     character_id tmpid;
 
     data.read( "tank_plut", tank_plut );
@@ -925,7 +925,7 @@ void player::load( const JsonObject &data )
     data.read( "destination_point", destination_point );
     // TODO: move to Character
     camps.clear();
-    for( JsonObject bcdata : data.get_array( "camps" ) ) {
+    for( JsonObject const bcdata : data.get_array( "camps" ) ) {
         bcdata.allow_omitted_members();
         tripoint_abs_omt bcpt;
         bcdata.read( "pos", bcpt );
@@ -1011,7 +1011,7 @@ void avatar::store( JsonOut &json ) const
 
 void avatar::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     load( data );
 }
@@ -1133,7 +1133,7 @@ void avatar::load( const JsonObject &data )
 
     data.read( "show_map_memory", show_map_memory );
 
-    for( JsonArray pair : data.get_array( "assigned_invlet" ) ) {
+    for( JsonArray const pair : data.get_array( "assigned_invlet" ) ) {
         inv.assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] =
             itype_id( pair.get_string( 1 ) );
     }
@@ -1146,10 +1146,10 @@ void avatar::load( const JsonObject &data )
     data.read( "preferred_aiming_mode", preferred_aiming_mode );
 
     if( data.has_array( "faction_warnings" ) ) {
-        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
+        for( JsonObject const warning_data : data.get_array( "faction_warnings" ) ) {
             warning_data.allow_omitted_members();
             std::string fac_id = warning_data.get_string( "fac_warning_id" );
-            int warning_num = warning_data.get_int( "fac_warning_num" );
+            int const warning_num = warning_data.get_int( "fac_warning_num" );
             time_point warning_time = calendar::before_time_starts;
             warning_data.read( "fac_warning_time", warning_time );
             warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
@@ -1186,7 +1186,7 @@ void npc_follower_rules::serialize( JsonOut &json ) const
 
 void npc_follower_rules::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     int tmpeng = 0;
     data.read( "engagement", tmpeng );
@@ -1277,7 +1277,7 @@ void npc_chatbin::serialize( JsonOut &json ) const
 
 void npc_chatbin::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
 
     if( data.has_int( "first_topic" ) ) {
@@ -1315,7 +1315,7 @@ void npc_chatbin::deserialize( JsonIn &jsin )
 
 void npc_personality::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     int tmpagg = 0;
     int tmpbrav = 0;
@@ -1346,7 +1346,7 @@ void npc_personality::serialize( JsonOut &json ) const
 
 void npc_opinion::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "trust", trust );
     data.read( "fear", fear );
@@ -1368,7 +1368,7 @@ void npc_opinion::serialize( JsonOut &json ) const
 
 void npc_favor::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     jo.allow_omitted_members();
     type = static_cast<npc_favor_type>( jo.get_int( "type" ) );
     jo.read( "value", value );
@@ -1401,7 +1401,7 @@ void job_data::serialize( JsonOut &json ) const
 void job_data::deserialize( JsonIn &jsin )
 {
     if( jsin.test_object() ) {
-        JsonObject jo = jsin.get_object();
+        JsonObject const jo = jsin.get_object();
         jo.allow_omitted_members();
         jo.read( "task_priorities", task_priorities );
     }
@@ -1412,7 +1412,7 @@ void job_data::deserialize( JsonIn &jsin )
  */
 void npc::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     load( data );
 }
 
@@ -1749,7 +1749,7 @@ void inventory::json_load_invcache( JsonIn &jsin )
 {
     try {
         std::unordered_map<itype_id, std::string> map;
-        for( JsonObject jo : jsin.get_array() ) {
+        for( JsonObject const jo : jsin.get_array() ) {
             jo.allow_omitted_members();
             for( const JsonMember member : jo ) {
                 std::string invlets;
@@ -1794,7 +1794,7 @@ void inventory::json_load_items( JsonIn &jsin )
 
 void monster::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     load( data );
 }
@@ -1876,7 +1876,7 @@ void monster::load( const JsonObject &data )
     // special_attacks indicates a save after the special_attacks refactor
     if( data.has_object( "special_attacks" ) ) {
         for( const JsonMember member : data.get_object( "special_attacks" ) ) {
-            JsonObject saobject = member.get_object();
+            JsonObject const saobject = member.get_object();
             saobject.allow_omitted_members();
             auto &entry = special_attacks[member.name()];
             entry.cooldown = saobject.get_int( "cooldown" );
@@ -2120,7 +2120,7 @@ const std::set<itype_id> &get()
 }
 void load( const JsonObject &jo )
 {
-    std::set<std::string> d = jo.get_tags( "list" );
+    std::set<std::string> const d = jo.get_tags( "list" );
     for( const std::string &s : d ) {
         removal_list.insert( itype_id( s ) );
     }
@@ -2137,7 +2137,7 @@ static std::set<itype_id> the_list;
 
 void load( const JsonObject &jo )
 {
-    std::set<std::string> d = jo.get_tags( "list" );
+    std::set<std::string> const d = jo.get_tags( "list" );
     for( const std::string &s : d ) {
         the_list.insert( itype_id( s ) );
     }
@@ -2405,7 +2405,7 @@ void item::serialize( JsonOut &json ) const
  */
 void vehicle_part::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     vpart_id pid;
     data.read( "id", pid );
@@ -2490,15 +2490,15 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
     if( data.has_int( "z_offset" ) ) {
-        int z_offset = data.get_int( "z_offset" );
+        int const z_offset = data.get_int( "z_offset" );
         if( std::abs( z_offset ) > 10 ) {
             data.throw_error( "z_offset out of range", "z_offset" );
         }
         precalc[0].z = z_offset;
         precalc[1].z = z_offset;
     }
-    JsonArray ja = data.get_array( "carry" );
-    size_t sz = ja.size();
+    JsonArray const ja = data.get_array( "carry" );
+    size_t const sz = ja.size();
     for( size_t index = 0; index < sz; index++ ) {
         carry_names.push( ja.get_string( sz - index - 1 ) );
     }
@@ -2595,7 +2595,7 @@ void vehicle_part::serialize( JsonOut &json ) const
  */
 void label::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "x", x );
     data.read( "y", y );
@@ -2649,7 +2649,7 @@ void vehicle::deserialize( JsonIn &jsin )
         last_update = calendar::turn;
     }
 
-    units::angle fdir_angle = units::from_degrees( fdir );
+    units::angle const fdir_angle = units::from_degrees( fdir );
     face.init( fdir_angle );
     move.init( units::from_degrees( mdir ) );
     data.read( "name", name );
@@ -2755,7 +2755,7 @@ void vehicle::deserialize( JsonIn &jsin )
 
     point p;
     zone_data zd;
-    for( JsonObject sdata : data.get_array( "zones" ) ) {
+    for( JsonObject const sdata : data.get_array( "zones" ) ) {
         sdata.allow_omitted_members();
         sdata.read( "point", p );
         sdata.read( "zone", zd );
@@ -2860,7 +2860,7 @@ void vehicle::serialize( JsonOut &json ) const
 ////
 void mission::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     jo.allow_omitted_members();
 
     if( jo.has_int( "type_id" ) ) {
@@ -2891,7 +2891,7 @@ void mission::deserialize( JsonIn &jsin )
     jo.read( "kill_count_to_reach", kill_count_to_reach );
     jo.read( "reward", reward );
     jo.read( "uid", uid );
-    JsonArray ja = jo.get_array( "target" );
+    JsonArray const ja = jo.get_array( "target" );
     if( ja.size() == 3 ) {
         target.x() = ja.get_int( 0 );
         target.y() = ja.get_int( 1 );
@@ -2979,7 +2979,7 @@ void mission::serialize( JsonOut &json ) const
 ////
 void faction::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     jo.allow_omitted_members();
 
     jo.read( "id", id );
@@ -3101,7 +3101,7 @@ void Creature::load( const JsonObject &jsin )
                     key_num = 0;
                 }
                 const bodypart_str_id &bp = convert_bp( static_cast<body_part>( key_num ) );
-                effect &e = i.second;
+                effect  const&e = i.second;
 
                 ( *effects )[id][bp] = e;
                 on_effect_int_change( id, e.get_intensity(), bp );
@@ -3156,7 +3156,7 @@ void player_morale::morale_subtype::serialize( JsonOut &json ) const
 
 void player_morale::morale_subtype::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     jo.allow_omitted_members();
     jo.read( "subtype_type", subtype_type );
     switch( subtype_type ) {
@@ -3177,7 +3177,7 @@ void player_morale::morale_subtype::deserialize( JsonIn &jsin )
 
 void player_morale::morale_point::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     jo.allow_omitted_members();
     jo.read( "type", type );
     if( !jo.read( "subtype", subtype ) && jo.has_string( "item_type" ) ) {
@@ -3244,7 +3244,7 @@ void mm_submap::serialize( JsonOut &jsout ) const
 
     for( size_t y = 0; y < SEEY; y++ ) {
         for( size_t x = 0; x < SEEX; x++ ) {
-            point p( x, y );
+            point const p( x, y );
             const mm_elem elem = { tile( p ), symbol( p ) };
             if( x == 0 && y == 0 ) {
                 last = elem;
@@ -3288,7 +3288,7 @@ void mm_submap::deserialize( JsonIn &jsin )
                 }
                 jsin.end_array();
             }
-            point p( x, y );
+            point const p( x, y );
             // Try to avoid assigning to save up on memory
             if( elem.tile != mm_submap::default_tile ) {
                 set_tile( p, elem.tile );
@@ -3373,7 +3373,7 @@ void map_memory::load_legacy( JsonIn &jsin )
     jsin.end_array();
 
     for( const std::pair<const tripoint, mig_elem> &elem : elems ) {
-        coord_pair cp( elem.first );
+        coord_pair const cp( elem.first );
         shared_ptr_fast<mm_submap> sm = find_submap( cp.sm );
         if( !sm ) {
             sm = allocate_submap( cp.sm );
@@ -3432,7 +3432,7 @@ void addiction::serialize( JsonOut &json ) const
 
 void addiction::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     jo.allow_omitted_members();
     type = static_cast<add_type>( jo.get_int( "type_enum" ) );
     intensity = jo.get_int( "intensity" );
@@ -3481,7 +3481,7 @@ static void serialize( const tool_comp &value, JsonOut &jsout )
 
 static void deserialize( item_comp &value, JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     jo.allow_omitted_members();
     jo.read( "type", value.type );
     jo.read( "count", value.count );
@@ -3490,7 +3490,7 @@ static void deserialize( item_comp &value, JsonIn &jsin )
 
 static void deserialize( tool_comp &value, JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     jo.allow_omitted_members();
     jo.read( "type", value.type );
     jo.read( "count", value.count );
@@ -3510,7 +3510,7 @@ static void serialize( const quality_requirement &value, JsonOut &jsout )
 
 static void deserialize( quality_requirement &value, JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     jo.allow_omitted_members();
     jo.read( "type", value.type );
     jo.read( "count", value.count );
@@ -3603,12 +3603,12 @@ void basecamp::serialize( JsonOut &json ) const
 
 void basecamp::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     data.read( "name", name );
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
-    for( JsonObject edata : data.get_array( "expansions" ) ) {
+    for( JsonObject const edata : data.get_array( "expansions" ) ) {
         edata.allow_omitted_members();
         expansion_data e;
         point dir;
@@ -3625,10 +3625,10 @@ void basecamp::deserialize( JsonIn &jsin )
         }
         if( edata.has_array( "provides" ) ) {
             e.cur_level = -1;
-            for( JsonObject provide_data : edata.get_array( "provides" ) ) {
+            for( JsonObject const provide_data : edata.get_array( "provides" ) ) {
                 provide_data.allow_omitted_members();
-                std::string id = provide_data.get_string( "id" );
-                int amount = provide_data.get_int( "amount" );
+                std::string const id = provide_data.get_string( "id" );
+                int const amount = provide_data.get_int( "amount" );
                 e.provides[ id ] = amount;
             }
         }
@@ -3637,10 +3637,10 @@ void basecamp::deserialize( JsonIn &jsin )
         if( e.provides.find( initial_provide ) == e.provides.end() ) {
             e.provides[ initial_provide ] = 1;
         }
-        for( JsonObject in_progress_data : edata.get_array( "in_progress" ) ) {
+        for( JsonObject const in_progress_data : edata.get_array( "in_progress" ) ) {
             in_progress_data.allow_omitted_members();
-            std::string id = in_progress_data.get_string( "id" );
-            int amount = in_progress_data.get_int( "amount" );
+            std::string const id = in_progress_data.get_string( "id" );
+            int const amount = in_progress_data.get_int( "amount" );
             e.in_progress[ id ] = amount;
         }
         edata.read( "pos", e.pos );
@@ -3649,7 +3649,7 @@ void basecamp::deserialize( JsonIn &jsin )
             directions.push_back( dir );
         }
     }
-    for( JsonObject edata : data.get_array( "fortifications" ) ) {
+    for( JsonObject const edata : data.get_array( "fortifications" ) ) {
         edata.allow_omitted_members();
         tripoint_abs_omt restore_pos;
         edata.read( "pos", restore_pos );
@@ -3678,7 +3678,7 @@ void kill_tracker::serialize( JsonOut &jsout ) const
 
 void kill_tracker::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.allow_omitted_members();
     for( const JsonMember member : data.get_object( "kills" ) ) {
         kills[mtype_id( member.name() )] = member.get_int();
@@ -3709,14 +3709,14 @@ void cata_variant::deserialize( JsonIn &jsin )
 void event_multiset::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-    std::vector<counts_type::value_type> copy( counts_.begin(), counts_.end() );
+    std::vector<counts_type::value_type> const copy( counts_.begin(), counts_.end() );
     jsout.member( "event_counts", copy );
     jsout.end_object();
 }
 
 void event_multiset::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     jo.allow_omitted_members();
     std::vector<std::pair<cata::event::data_type, int>> copy;
     jo.read( "event_counts", copy );
@@ -3733,7 +3733,7 @@ void stats_tracker::serialize( JsonOut &jsout ) const
 
 void stats_tracker::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     jo.allow_omitted_members();
     jo.read( "data", data );
     for( std::pair<const event_type, event_multiset> &d : data ) {
@@ -3799,7 +3799,7 @@ void submap::store( JsonOut &jsout ) const
         for( int i = 0; i < SEEX; i++ ) {
             const point p( i, j );
             // Save radiation, re-examine this because it doesn't look like it works right
-            int r = get_radiation( p );
+            int const r = get_radiation( p );
             if( r == lastrad ) {
                 count++;
             } else {
@@ -4009,8 +4009,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         int rad_cell = 0;
         jsin.start_array();
         while( !jsin.end_array() ) {
-            int rad_strength = jsin.get_int();
-            int rad_num = jsin.get_int();
+            int const rad_strength = jsin.get_int();
+            int const rad_num = jsin.get_int();
             for( int i = 0; i < rad_num; ++i ) {
                 if( rad_cell < SEEX * SEEY ) {
                     set_radiation( { 0 % SEEX, rad_cell / SEEX }, rad_strength );
@@ -4022,16 +4022,16 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         jsin.start_array();
         while( !jsin.end_array() ) {
             jsin.start_array();
-            int i = jsin.get_int();
-            int j = jsin.get_int();
+            int const i = jsin.get_int();
+            int const j = jsin.get_int();
             frn[i][j] = furn_id( jsin.get_string() );
             jsin.end_array();
         }
     } else if( member_name == "items" ) {
         jsin.start_array();
         while( !jsin.end_array() ) {
-            int i = jsin.get_int();
-            int j = jsin.get_int();
+            int const i = jsin.get_int();
+            int const j = jsin.get_int();
             const point p( i, j );
             jsin.start_array();
             while( !jsin.end_array() ) {
@@ -4061,8 +4061,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         jsin.start_array();
         while( !jsin.end_array() ) {
             jsin.start_array();
-            int i = jsin.get_int();
-            int j = jsin.get_int();
+            int const i = jsin.get_int();
+            int const j = jsin.get_int();
             const point p( i, j );
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             trp[p.x][p.y] = trap_str_id( jsin.get_string() ).id();
@@ -4072,8 +4072,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         jsin.start_array();
         while( !jsin.end_array() ) {
             // Coordinates loop
-            int i = jsin.get_int();
-            int j = jsin.get_int();
+            int const i = jsin.get_int();
+            int const j = jsin.get_int();
             jsin.start_array();
             while( !jsin.end_array() ) {
                 // TODO: Check enum->string migration below
@@ -4084,8 +4084,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 } else {
                     type_str = jsin.get_string();
                 }
-                int intensity = jsin.get_int();
-                int age = jsin.get_int();
+                int const intensity = jsin.get_int();
+                int const age = jsin.get_int();
                 field_type_id ft;
                 if( !type_str.empty() ) {
                     ft = field_type_id( type_str );
@@ -4102,8 +4102,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         jsin.start_array();
         while( !jsin.end_array() ) {
             jsin.start_array();
-            int i = jsin.get_int();
-            int j = jsin.get_int();
+            int const i = jsin.get_int();
+            int const j = jsin.get_int();
             const point p( i, j );
             set_graffiti( p, jsin.get_string() );
             jsin.end_array();
@@ -4114,8 +4114,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
 
         while( !jsin.end_array() ) {
             jsin.start_array();
-            int i = jsin.get_int();
-            int j = jsin.get_int();
+            int const i = jsin.get_int();
+            int const j = jsin.get_int();
             const point p( i, j );
             std::string type, str;
             // Try to read as current format
@@ -4140,16 +4140,16 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             jsin.start_array();
             // TODO: json should know how to read an string_id
             const mtype_id type = mtype_id( jsin.get_string() );
-            int count = jsin.get_int();
-            int i = jsin.get_int();
-            int j = jsin.get_int();
+            int const count = jsin.get_int();
+            int const i = jsin.get_int();
+            int const j = jsin.get_int();
             const point p( i, j );
-            int faction_id = jsin.get_int();
-            int mission_id = jsin.get_int();
-            bool friendly = jsin.get_bool();
-            std::string name = jsin.get_string();
+            int const faction_id = jsin.get_int();
+            int const mission_id = jsin.get_int();
+            bool const friendly = jsin.get_bool();
+            std::string const name = jsin.get_string();
             jsin.end_array();
-            spawn_point tmp( type, count, p, faction_id, mission_id, friendly, name );
+            spawn_point const tmp( type, count, p, faction_id, mission_id, friendly, name );
             spawns.push_back( tmp );
         }
     } else if( member_name == "vehicles" ) {
@@ -4163,10 +4163,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         jsin.start_array();
         while( !jsin.end_array() ) {
             partial_con pc;
-            int i = jsin.get_int();
-            int j = jsin.get_int();
-            int k = jsin.get_int();
-            tripoint pt = tripoint( i, j, k );
+            int const i = jsin.get_int();
+            int const j = jsin.get_int();
+            int const k = jsin.get_int();
+            tripoint const pt = tripoint( i, j, k );
             pc.counter = jsin.get_int();
             if( jsin.test_int() ) {
                 // Oops, int id incorrectly saved by legacy code, just load it and hope for the best

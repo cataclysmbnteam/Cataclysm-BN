@@ -257,7 +257,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     float kcal = comest.get_comestible()->default_nutrition.kcal;
 
     // Many raw foods give less calories, as your body has expends more energy digesting them.
-    bool cooked = comest.has_flag( flag_COOKED ) || extra_flags.count( flag_COOKED );
+    bool const cooked = comest.has_flag( flag_COOKED ) || extra_flags.count( flag_COOKED );
     if( comest.has_flag( flag_RAW ) && !cooked ) {
         kcal *= 0.75f;
     }
@@ -342,7 +342,7 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
     if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
         nutrients tally{};
         for( const item &component : comest.components ) {
-            nutrients component_value =
+            nutrients const component_value =
                 compute_effective_nutrients( component ) * component.charges;
             if( component.has_flag( flag_BYPRODUCT ) ) {
                 tally -= component_value;
@@ -368,7 +368,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
 
     // if item has components, will derive calories from that instead.
     if( comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
-        nutrients result = compute_default_effective_nutrients( comest, *this );
+        nutrients const result = compute_default_effective_nutrients( comest, *this );
         return { result, result };
     }
 
@@ -410,13 +410,13 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
     }
 
     for( const std::pair<const itype_id, int> &byproduct : rec.byproducts ) {
-        item byproduct_it( byproduct.first, calendar::turn, byproduct.second );
-        nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
+        item const byproduct_it( byproduct.first, calendar::turn, byproduct.second );
+        nutrients const byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
         tally_min -= byproduct_nutr;
         tally_max -= byproduct_nutr;
     }
 
-    int charges = comest.count();
+    int const charges = comest.count();
     return { tally_min / charges, tally_max / charges };
 }
 
@@ -430,7 +430,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         return {};
     }
 
-    item comest_it( comest, calendar::turn, 1 );
+    item const comest_it( comest, calendar::turn, 1 );
     // The default nutrients are always a possibility
     nutrients min_nutr = compute_default_effective_nutrients( comest_it, *this, extra_flags );
 
@@ -603,10 +603,10 @@ float Character::metabolic_rate_base() const
     static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
     static const std::string metabolism_modifier( "metabolism_modifier" );
 
-    float hunger_rate = get_option< float >( hunger_rate_string );
-    float mut_bonus = 1.0f + mutation_value( metabolism_modifier );
-    float with_mut = hunger_rate * mut_bonus;
-    float ench_bonus = bonus_from_enchantments( with_mut, enchant_vals::mod::METABOLISM );
+    float const hunger_rate = get_option< float >( hunger_rate_string );
+    float const mut_bonus = 1.0f + mutation_value( metabolism_modifier );
+    float const with_mut = hunger_rate * mut_bonus;
+    float const ench_bonus = bonus_from_enchantments( with_mut, enchant_vals::mod::METABOLISM );
 
     return std::max( 0.0f, with_mut + ench_bonus );
 }
@@ -762,7 +762,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     const bool edible = comest->comesttype == comesttype_FOOD || food.has_flag( flag_USE_EAT_VERB );
 
-    int food_kcal = compute_effective_nutrients( food ).kcal;
+    int const food_kcal = compute_effective_nutrients( food ).kcal;
     if( food_kcal > 0 && has_effect( effect_nausea ) ) {
         add_consequence( _( "You still feel nauseous and will probably puke it all up again." ),
                          edible_rating::nausea );
@@ -807,7 +807,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
 
         const bool eat_verb  = food.has_flag( flag_USE_EAT_VERB );
-        std::string food_tname = food.tname();
+        std::string const food_tname = food.tname();
         const nc_color food_color = food.color_in_inventory();
         if( eat_verb || comest->comesttype == comesttype_FOOD ) {
             req += string_format( _( "Eat your %s anyway?" ), colorize( food_tname, food_color ) );
@@ -881,8 +881,8 @@ bool Character::eat( item &food, bool force )
     }
     // Store the fact that the food was cold to later reapply it to the rest of the stack, to prevent rot.
     // Note: Implemented to fix display error when eating reheated food.
-    bool food_was_cold = food.has_flag( flag_COLD );
-    bool food_was_very_cold = food.has_flag( flag_VERY_COLD );
+    bool const food_was_cold = food.has_flag( flag_COLD );
+    bool const food_was_very_cold = food.has_flag( flag_VERY_COLD );
 
     if( !consume_effects( food ) ) {
         // Already consumed by using `food.type->invoke`?
@@ -1031,9 +1031,9 @@ void Character::modify_stimulation( const islot_comestible &comest )
     if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
         ( ( comest.add == add_type::CAFFEINE ) || ( comest.add == add_type::SPEED ) ||
           ( comest.add == add_type::COKE ) || ( comest.add == add_type::CRACK ) ) ) {
-        int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
+        int const hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
-        std::vector<std::string> stimboost_msg{ _( "The shadows are getting ever closer." ),
+        std::vector<std::string> const stimboost_msg{ _( "The shadows are getting ever closer." ),
                                                 _( "You have a bad feeling about this." ),
                                                 _( "A powerful sense of dread comes over you." ),
                                                 _( "Your skin starts crawling." ),
@@ -1083,12 +1083,12 @@ void Character::modify_morale( item &food, int nutr )
             food.unset_flag( flag_COLD );
             food.unset_flag( flag_VERY_COLD );
             morale_time = 3_hours;
-            int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
+            int const clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
             add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
         }
     }
 
-    std::pair<int, int> fun = fun_for( food );
+    std::pair<int, int> const fun = fun_for( food );
     if( fun.first < 0 ) {
         if( has_active_bionic( bio_taste_blocker ) &&
             get_power_level() > units::from_kilojoule( -fun.first ) ) {
@@ -1164,7 +1164,7 @@ void Character::modify_morale( item &food, int nutr )
             has_trait( trait_THRESH_URSINE ) ) &&
         mutation_category_level["URSINE"] > 40 ) {
         // Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
-        int honey_fun = has_trait( trait_THRESH_URSINE ) ?
+        int const honey_fun = has_trait( trait_THRESH_URSINE ) ?
                         std::min( mutation_category_level["URSINE"] / 8, 20 ) :
                         mutation_category_level["URSINE"] / 12;
         if( honey_fun < 10 ) {
@@ -1202,7 +1202,7 @@ bool Character::consume_effects( item &food )
         const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
         // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
-        int h_loss = -rottedness * comest.get_default_nutr();
+        int const h_loss = -rottedness * comest.get_default_nutr();
         mod_healthy_mod( h_loss, -200 );
         add_msg( m_debug, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
@@ -1227,7 +1227,7 @@ bool Character::consume_effects( item &food )
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );
-        int numslime = 1;
+        int const numslime = 1;
         for( int i = 0; i < numslime; i++ ) {
             if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
                 slime->friendly = -1;
@@ -1260,7 +1260,7 @@ bool Character::consume_effects( item &food )
         excess_kcal = 0;
     }
 
-    int excess_quench = -( get_thirst() - comest.quench );
+    int const excess_quench = -( get_thirst() - comest.quench );
     stomach.ingest( ingested );
     mod_thirst( -contained_food.type->comestible->quench );
 
@@ -1584,8 +1584,8 @@ void Character::consume( item_location loc )
                 add_msg( _( "You drop the empty %s." ), target.tname() );
                 put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { inv.remove_item( &target ) } );
             } else {
-                int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
-                char letter = target.invlet ? target.invlet : ' ';
+                int const quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
+                char const letter = target.invlet ? target.invlet : ' ';
                 add_msg( m_info, _( "%c - %d empty %s" ), letter, quantity, target.tname( quantity ) );
             }
         }

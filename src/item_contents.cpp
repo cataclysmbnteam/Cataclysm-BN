@@ -31,7 +31,7 @@ size_t item_contents::num_item_stacks() const
 
 bool item_contents::spill_contents( const tripoint &pos )
 {
-    for( item &it : items ) {
+    for( item  const&it : items ) {
         get_map().add_item_or_charges( pos, it );
     }
 
@@ -43,7 +43,7 @@ void item_contents::handle_liquid_or_spill( Character &guy )
 {
     for( auto iter = items.begin(); iter != items.end(); ) {
         if( iter->made_of( LIQUID ) ) {
-            item liquid( *iter );
+            item const liquid( *iter );
             iter = items.erase( iter );
             liquid_handler::handle_all_liquid( liquid, 1 );
         } else {

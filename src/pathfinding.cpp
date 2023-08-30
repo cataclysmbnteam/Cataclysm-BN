@@ -168,10 +168,10 @@ bool is_disjoint( const Set1 &set1, const Set2 &set2 )
     }
 
     typename Set1::const_iterator it1 = set1.begin();
-    typename Set1::const_iterator it1_end = set1.end();
+    typename Set1::const_iterator const it1_end = set1.end();
 
     typename Set2::const_iterator it2 = set2.begin();
-    typename Set2::const_iterator it2_end = set2.end();
+    typename Set2::const_iterator const it2_end = set2.end();
 
     if( *set2.rbegin() < *it1 || *set1.rbegin() < *it2 ) {
         return true;
@@ -233,13 +233,13 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         return ret;
     }
 
-    int max_length = settings.max_length;
-    int bash = settings.bash_strength;
-    int climb_cost = settings.climb_cost;
-    bool doors = settings.allow_open_doors;
-    bool trapavoid = settings.avoid_traps;
-    bool roughavoid = settings.avoid_rough_terrain;
-    bool sharpavoid = settings.avoid_sharp;
+    int const max_length = settings.max_length;
+    int const bash = settings.bash_strength;
+    int const climb_cost = settings.climb_cost;
+    bool const doors = settings.allow_open_doors;
+    bool const trapavoid = settings.avoid_traps;
+    bool const roughavoid = settings.avoid_rough_terrain;
+    bool const sharpavoid = settings.avoid_sharp;
 
     const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     int minx = std::min( f.x, t.x ) - pad;
@@ -427,7 +427,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                             // Special case - ledge in z-levels
                             // Warning: really expensive, needs a cache
                             if( valid_move( p, tripoint( p.xy(), p.z - 1 ), false, true ) ) {
-                                tripoint below( p.xy(), p.z - 1 );
+                                tripoint const below( p.xy(), p.z - 1 );
                                 if( !has_flag( TFLAG_NO_FLOOR, below ) ) {
                                     // Otherwise this would have been a huge fall
                                     auto &layer = pf.get_layer( p.z - 1 );

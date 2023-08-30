@@ -142,7 +142,7 @@ void show_lua_console_impl()
         werase( w_console );
         draw_border( w_console );
         std::string separator;
-        int separator_y = win_size.y - prompt_size.y - 2;
+        int const separator_y = win_size.y - prompt_size.y - 2;
         for( int i = 0; i < win_size.x - 2; i++ ) {
             separator += LINE_OXOX_S;
         }
@@ -184,11 +184,11 @@ void show_lua_console_impl()
         werase( w_log );
 
         int y_pos = log_size.y - 1;
-        int start_line = log_scroll_pos;
-        int end_line = std::min( static_cast<int>( log_folded.size() ), start_line + log_size.y );
+        int const start_line = log_scroll_pos;
+        int const end_line = std::min( static_cast<int>( log_folded.size() ), start_line + log_size.y );
         for( int log_line = start_line; log_line < end_line; log_line++ ) {
             const folded_log_msg &msg = log_folded[log_line];
-            nc_color col = get_log_level_color( msg.level );
+            nc_color const col = get_log_level_color( msg.level );
             int x_pos = 1;
             if( msg.level == LuaLogLevel::Input ) {
                 // User input is indented, and first line is highlighted
@@ -231,7 +231,7 @@ void show_lua_console_impl()
             // Close
             return;
         } else if( act == "HISTORY_UP" ) {
-            int sz = num_history_entries();
+            int const sz = num_history_entries();
             if( sz != 0 && history_cursor != 0 ) {
                 if( history_cursor == CURRENT_INPUT ) {
                     history_cursor = sz - 1;
@@ -242,7 +242,7 @@ void show_lua_console_impl()
             // Update input preview
             ui.invalidate_ui();
         } else if( act == "HISTORY_DOWN" ) {
-            int sz = num_history_entries();
+            int const sz = num_history_entries();
             if( sz != 0 && history_cursor != CURRENT_INPUT ) {
                 if( history_cursor == sz - 1 ) {
                     history_cursor = CURRENT_INPUT;
@@ -253,7 +253,7 @@ void show_lua_console_impl()
             // Update input preview
             ui.invalidate_ui();
         } else if( act == "SCROLL_UP" || act == "SCROLL_TOP" ) {
-            int limit = std::max( 0, static_cast<int>( log_folded.size() ) - log_size.y );
+            int const limit = std::max( 0, static_cast<int>( log_folded.size() ) - log_size.y );
             if( act == "SCROLL_TOP" ) {
                 log_scroll_pos = limit;
             } else {
@@ -274,7 +274,7 @@ void show_lua_console_impl()
                 create_string_editor,
                 history_cursor == CURRENT_INPUT ? current_input : get_input_history()[history_cursor]
             );
-            std::pair<bool, std::string> res = ew.query_string();
+            std::pair<bool, std::string> const res = ew.query_string();
             is_editing = false;
             history_cursor = CURRENT_INPUT;
             if( res.first ) {

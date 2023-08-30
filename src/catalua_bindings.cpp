@@ -148,13 +148,13 @@ void cata::detail::reg_creature_family( sol::state &lua )
 
         luna::set_fx( ut, "get_effect_dur", []( const Creature & cr, const efftype_id & eff,
         sol::optional<const bodypart_str_id &> bpid ) -> time_duration {
-            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
+            body_part const bp = bpid ? ( *bpid ) -> token : num_bp;
             return cr.get_effect_dur( eff, bp );
         } );
 
         luna::set_fx( ut, "get_effect_int", []( const Creature & cr, const efftype_id & eff,
         sol::optional<const bodypart_str_id &> bpid ) -> int {
-            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
+            body_part const bp = bpid ? ( *bpid ) -> token : num_bp;
             return cr.get_effect_int( eff, bp );
         } );
 
@@ -164,14 +164,14 @@ void cata::detail::reg_creature_family( sol::state &lua )
                                             sol::optional<const bodypart_str_id &> bpid,
                                             sol::optional<int> intensity
         ) {
-            int eint = intensity ? *intensity : 0;
-            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
+            int const eint = intensity ? *intensity : 0;
+            body_part const bp = bpid ? ( *bpid ) -> token : num_bp;
             cr.add_effect( eff, dur, bp, eint );
         } );
 
         luna::set_fx( ut, "remove_effect", []( Creature & cr, const efftype_id & eff,
         sol::optional<const bodypart_str_id &> bpid ) -> bool {
-            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
+            body_part const bp = bpid ? ( *bpid ) -> token : num_bp;
             return cr.remove_effect( eff, bp );
         } );
     }
@@ -489,7 +489,7 @@ static void add_msg_lua( game_message_type t, sol::variadic_args va )
         return;
     }
 
-    std::string msg = cata::detail::fmt_lua_va( va );
+    std::string const msg = cata::detail::fmt_lua_va( va );
     add_msg( t, msg );
 }
 
@@ -570,7 +570,7 @@ void reg_enum( sol::state &lua )
 
     for( Int i = 0; i < max; ++i ) {
         E e = static_cast<E>( i );
-        std::string key = io::enum_to_string<E>( e );
+        std::string const key = io::enum_to_string<E>( e );
         luna::add_val( et, key, e );
     }
 
@@ -586,8 +586,8 @@ void cata::detail::reg_colors( sol::state &lua )
     constexpr Int max = static_cast<Int>( color_id::num_colors );
 
     for( Int i = 0; i < max; ++i ) {
-        color_id e = static_cast<color_id>( i );
-        std::string key = get_all_colors().id_to_name( e );
+        color_id const e = static_cast<color_id>( i );
+        std::string const key = get_all_colors().id_to_name( e );
         luna::add_val( et, key, e );
     }
 

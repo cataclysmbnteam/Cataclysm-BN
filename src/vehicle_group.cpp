@@ -74,7 +74,7 @@ void VehicleGroup::load( const JsonObject &jo )
 {
     VehicleGroup &group = vgroups[vgroup_id( jo.get_string( "id" ) )];
 
-    for( JsonArray pair : jo.get_array( "vehicles" ) ) {
+    for( JsonArray const pair : jo.get_array( "vehicles" ) ) {
         group.add_vehicle( vproto_id( pair.get_string( 0 ) ), pair.get_int( 1 ) );
     }
 }
@@ -99,7 +99,7 @@ void VehiclePlacement::load( const JsonObject &jo )
 {
     VehiclePlacement &placement = vplacements[vplacement_id( jo.get_string( "id" ) )];
 
-    for( JsonObject jloc : jo.get_array( "locations" ) ) {
+    for( JsonObject const jloc : jo.get_array( "locations" ) ) {
         placement.add( jmapgen_int( jloc, "x" ), jmapgen_int( jloc, "y" ),
                        VehicleFacings( jloc, "facing" ) );
     }
@@ -128,7 +128,7 @@ VehicleFunction_json::VehicleFunction_json( const JsonObject &jo )
     if( jo.has_string( "placement" ) ) {
         placement = jo.get_string( "placement" );
     } else {
-        VehicleFacings facings( jo, "facing" );
+        VehicleFacings const facings( jo, "facing" );
         location.emplace( jmapgen_int( jo, "x" ), jmapgen_int( jo, "y" ), facings );
     }
 }
@@ -175,9 +175,9 @@ bool string_id<VehicleSpawn>::is_valid() const
 void VehicleSpawn::load( const JsonObject &jo )
 {
     VehicleSpawn &spawn = vspawns[vspawn_id( jo.get_string( "id" ) )];
-    for( JsonObject type : jo.get_array( "spawn_types" ) ) {
+    for( JsonObject const type : jo.get_array( "spawn_types" ) ) {
         if( type.has_object( "vehicle_json" ) ) {
-            JsonObject vjo = type.get_object( "vehicle_json" );
+            JsonObject const vjo = type.get_object( "vehicle_json" );
             spawn.add( type.get_float( "weight" ), make_shared_fast<VehicleFunction_json>( vjo ) );
         } else if( type.has_string( "vehicle_function" ) ) {
             if( builtin_functions.count( type.get_string( "vehicle_function" ) ) == 0 ) {
@@ -228,7 +228,7 @@ static void builtin_jackknifed_semi( map &m, const std::string &terrainid )
     }
 
     const units::angle facing = loc->pick_facing();
-    int facing_degrees = std::lround( to_degrees( facing ) );
+    int const facing_degrees = std::lround( to_degrees( facing ) );
     const point semi_p = loc->pick_point();
     point trailer_p;
 

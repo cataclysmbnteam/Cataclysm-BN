@@ -119,7 +119,7 @@ static bool z_is_valid( int z )
 bool monster::will_move_to( const tripoint &p ) const
 {
     if( g->m.impassable( p ) ) {
-        tripoint above_p( p.x, p.y, p.z + 1 );
+        tripoint const above_p( p.x, p.y, p.z + 1 );
         if( digging() ) {
             if( !g->m.has_flag( "BURROWABLE", p ) ) {
                 return false;
@@ -155,7 +155,7 @@ bool monster::will_move_to( const tripoint &p ) const
     bool avoid_fire = has_flag( MF_AVOID_FIRE );
     bool avoid_fall = has_flag( MF_AVOID_FALL );
     bool avoid_simple = has_flag( MF_AVOID_DANGER_1 );
-    bool avoid_complex = has_flag( MF_AVOID_DANGER_2 );
+    bool const avoid_complex = has_flag( MF_AVOID_DANGER_2 );
     /*
      * Because some avoidance behaviors are supersets of others,
      * we can cascade through the implications. Complex implies simple,
@@ -231,7 +231,7 @@ bool monster::will_move_to( const tripoint &p ) const
 
 bool monster::can_reach_to( const tripoint &p ) const
 {
-    map &here = get_map();
+    map  const&here = get_map();
     if( p.z > pos().z && z_is_valid( pos().z ) ) {
         if( here.has_flag( TFLAG_RAMP_UP, tripoint( p.xy(), p.z - 1 ) ) ) {
             return true;
@@ -252,7 +252,7 @@ bool monster::can_reach_to( const tripoint &p ) const
 
 bool monster::can_squeeze_to( const tripoint &p ) const
 {
-    map &m = get_map();
+    map  const&m = get_map();
 
     return !m.obstructed_by_vehicle_rotation( pos(), p );
 }
@@ -320,14 +320,14 @@ void monster::plan()
     const auto &factions = g->critter_tracker->factions();
 
     // Bots are more intelligent than most living stuff
-    bool smart_planning = has_flag( MF_PRIORITIZE_TARGETS );
+    bool const smart_planning = has_flag( MF_PRIORITIZE_TARGETS );
     Creature *target = nullptr;
-    int max_sight_range = std::max( type->vision_day, type->vision_night );
+    int const max_sight_range = std::max( type->vision_day, type->vision_night );
     // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
     float dist = !smart_planning ? max_sight_range : 8.6f;
     bool fleeing = false;
-    bool docile = friendly != 0 && has_effect( effect_docile );
-    bool waiting = has_effect( effect_ai_waiting );
+    bool const docile = friendly != 0 && has_effect( effect_docile );
+    bool const waiting = has_effect( effect_ai_waiting );
 
     const bool angers_hostile_weak = type->has_anger_trigger( mon_trigger::HOSTILE_WEAK );
     const int angers_hostile_near = type->has_anger_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
@@ -349,7 +349,7 @@ void monster::plan()
             morale -= fears_hostile_near;
             if( angers_mating_season > 0 ) {
                 bool mating_angry = false;
-                season_type season = season_of_year( calendar::turn );
+                season_type const season = season_of_year( calendar::turn );
                 for( auto &elem : type->baby_flags ) {
                     if( ( season == SUMMER && elem == "SUMMER" ) ||
                         ( season == WINTER && elem == "WINTER" ) ||
@@ -365,7 +365,7 @@ void monster::plan()
             }
         }
         if( angers_cub_threatened > 0 ) {
-            for( monster &tmp : g->all_monsters() ) {
+            for( monster  const&tmp : g->all_monsters() ) {
                 if( type->baby_monster == tmp.type->id ) {
                     // baby nearby; is the player too close?
                     dist = tmp.rate_target( g->u, dist, smart_planning );
@@ -380,7 +380,7 @@ void monster::plan()
     } else if( friendly != 0 && !docile && !waiting ) {
         for( monster &tmp : g->all_monsters() ) {
             if( tmp.friendly == 0 ) {
-                float rating = rate_target( tmp, dist, smart_planning );
+                float const rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {
                     target = &tmp;
                     dist = rating;
@@ -409,8 +409,8 @@ void monster::plan()
             continue;
         }
 
-        float rating = rate_target( who, dist, smart_planning );
-        bool fleeing_from = is_fleeing( who );
+        float const rating = rate_target( who, dist, smart_planning );
+        bool const fleeing_from = is_fleeing( who );
         if( rating == dist && ( fleeing || attitude( &who ) == MATT_ATTACK ) ) {
             ++valid_targets;
             if( one_in( valid_targets ) ) {
@@ -432,7 +432,7 @@ void monster::plan()
             morale -= fears_hostile_near;
             if( angers_mating_season > 0 ) {
                 bool mating_angry = false;
-                season_type season = season_of_year( calendar::turn );
+                season_type const season = season_of_year( calendar::turn );
                 for( auto &elem : type->baby_flags ) {
                     if( ( season == SUMMER && elem == "SUMMER" ) ||
                         ( season == WINTER && elem == "WINTER" ) ||
@@ -463,7 +463,7 @@ void monster::plan()
                     continue;
                 }
                 monster &mon = *shared;
-                float rating = rate_target( mon, dist, smart_planning );
+                float const rating = rate_target( mon, dist, smart_planning );
                 if( rating == dist ) {
                     ++valid_targets;
                     if( one_in( valid_targets ) ) {
@@ -502,7 +502,7 @@ void monster::plan()
                 continue;
             }
             monster &mon = *shared;
-            float rating = rate_target( mon, dist, smart_planning );
+            float const rating = rate_target( mon, dist, smart_planning );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;
             }
@@ -523,7 +523,7 @@ void monster::plan()
 
     // Operating monster keep you safe while they operate, how nice....
     if( type->has_special_attack( "OPERATE" ) ) {
-        int prev_friendlyness = friendly;
+        int const prev_friendlyness = friendly;
         if( has_effect( effect_operating ) ) {
             friendly = 100;
             for( auto critter : g->m.get_creatures_in_radius( pos(), 6 ) ) {
@@ -567,7 +567,7 @@ void monster::plan()
 
     } else if( target != nullptr ) {
 
-        tripoint dest = target->pos();
+        tripoint const dest = target->pos();
         auto att_to_target = attitude_to( *target );
         if( att_to_target == Attitude::A_HOSTILE && !fleeing ) {
             set_dest( dest );
@@ -575,7 +575,7 @@ void monster::plan()
             set_dest( tripoint( posx() * 2 - dest.x, posy() * 2 - dest.y, posz() ) );
         }
         if( angers_hostile_weak && att_to_target != Attitude::A_FRIENDLY ) {
-            int hp_per = target->hp_percentage();
+            int const hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
                 anger += 10 - static_cast<int>( hp_per / 10 );
             }
@@ -690,12 +690,12 @@ void monster::move()
         die( nullptr );
         return;
     }
-    map &here = get_map();
+    map  const&here = get_map();
 
     behavior::monster_oracle_t oracle( this );
     behavior::tree goals;
     goals.add( type->get_goals() );
-    std::string action = goals.tick( &oracle );
+    std::string const action = goals.tick( &oracle );
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
@@ -725,7 +725,7 @@ void monster::move()
         g->m.i_clear( pos() );
     }
     // record position before moving to put the player there if we're dragging
-    tripoint drag_to = g->m.getabs( pos() );
+    tripoint const drag_to = g->m.getabs( pos() );
 
     const bool pacified = has_effect( effect_pacified );
 
@@ -740,7 +740,7 @@ void monster::move()
         if( local_iter == special_attacks.end() ) {
             continue;
         }
-        mon_special_attack &local_attack_data = local_iter->second;
+        mon_special_attack  const&local_attack_data = local_iter->second;
         if( !local_attack_data.enabled ) {
             continue;
         }
@@ -785,7 +785,7 @@ void monster::move()
     }
 
     // TODO: Move this to attack_at/move_to/etc. functions
-    bool attacking = false;
+    bool const attacking = false;
     if( !move_effects( attacking ) ) {
         moves = 0;
         return;
@@ -809,7 +809,7 @@ void monster::move()
 
     // don't move if a passenger in a moving vehicle
     auto vp = g->m.veh_at( pos() );
-    bool harness_part = static_cast<bool>( g->m.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
+    bool const harness_part = static_cast<bool>( g->m.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
                                            true ) );
     if( vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
         moves = 0;
@@ -888,7 +888,7 @@ void monster::move()
         // No sight... or our plans are invalid (e.g. moving through a transparent, but
         //  solid, square of terrain).  Fall back to smell if we have it.
         unset_dest();
-        tripoint tmp = scent_move();
+        tripoint const tmp = scent_move();
         if( tmp.x != -1 ) {
             destination = tmp;
             moved = true;
@@ -907,7 +907,7 @@ void monster::move()
         destination.z = posz();
     }
 
-    point new_d( destination.xy() - pos().xy() );
+    point const new_d( destination.xy() - pos().xy() );
 
     // toggle facing direction for sdl flip
     if( !tile_iso ) {
@@ -950,7 +950,7 @@ void monster::move()
                 via_ramp = true;
                 candidate.z -= 1;
             }
-            tripoint candidate_abs = g->m.getabs( candidate );
+            tripoint const candidate_abs = g->m.getabs( candidate );
 
             bool can_z_move = true;
             if( candidate.z != posz() ) {
@@ -1213,7 +1213,7 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
-    int dist = rl_dist( p, g->u.pos() );
+    int const dist = rl_dist( p, g->u.pos() );
     sounds::add_footstep( p, volume, dist, this, type->get_footsteps() );
     return;
 }
@@ -1249,7 +1249,7 @@ tripoint monster::scent_move()
     }
     const bool can_bash = bash_skill() > 0;
     for( const auto &dest : g->m.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
-        int smell = g->scent.get( dest );
+        int const smell = g->scent.get( dest );
         const scenttype_id &type_scent = g->scent.get_type( dest );
 
         bool right_scent = false;
@@ -1382,8 +1382,8 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
     zone.reserve( 3 * maxdepth );
     tripoint previous = bashee;
     for( const tripoint &p : path ) {
-        std::vector<point> swath = squares_in_direction( previous.xy(), p.xy() );
-        for( point q : swath ) {
+        std::vector<point> const swath = squares_in_direction( previous.xy(), p.xy() );
+        for( point const q : swath ) {
             zone.push_back( tripoint( q, bashee.z ) );
         }
 
@@ -1410,26 +1410,26 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    bool try_bash = !can_move_to( p ) || one_in( 3 );
+    bool const try_bash = !can_move_to( p ) || one_in( 3 );
     if( !try_bash ) {
         return false;
     }
 
-    bool can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
+    bool const can_bash = g->m.is_bashable( p ) && bash_skill() > 0;
     if( !can_bash ) {
         return false;
     }
 
-    bool flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
+    bool const flat_ground = g->m.has_flag( "ROAD", p ) || g->m.has_flag( "FLAT", p );
     if( flat_ground && !g->m.is_bashable_furn( p ) ) {
-        bool can_bash_ter = g->m.is_bashable_ter( p );
-        bool try_bash_ter = one_in( 50 );
+        bool const can_bash_ter = g->m.is_bashable_ter( p );
+        bool const try_bash_ter = one_in( 50 );
         if( !( can_bash_ter && try_bash_ter ) ) {
             return false;
         }
     }
 
-    int bashskill = group_bash_skill( p );
+    int const bashskill = group_bash_skill( p );
     g->m.bash( p, bashskill );
     moves -= 100;
     return true;
@@ -1464,7 +1464,7 @@ int monster::group_bash_skill( const tripoint &target )
 
     for( const tripoint &candidate : bzone ) {
         // Drawing this line backwards excludes the target and includes the candidate.
-        std::vector<tripoint> path_to_target = line_to( target, candidate, 0, 0 );
+        std::vector<tripoint> const path_to_target = line_to( target, candidate, 0, 0 );
         bool connected = true;
         monster *mon = nullptr;
         for( const tripoint &in_path : path_to_target ) {
@@ -1475,7 +1475,7 @@ int monster::group_bash_skill( const tripoint &target )
                 connected = false;
                 break;
             }
-            monster &helpermon = *mon;
+            monster  const&helpermon = *mon;
             if( !helpermon.has_flag( MF_GROUP_BASH ) || helpermon.is_hallucination() ) {
                 connected = false;
                 break;
@@ -1547,7 +1547,7 @@ bool monster::attack_at( const tripoint &p )
 
 static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type )
 {
-    map &here = get_map();
+    map  const&here = get_map();
     for( const tripoint &candidate : closest_points_first( near_this, 10 ) ) {
         if( here.has_flag( stair_type, candidate ) ) {
             return candidate;
@@ -1582,7 +1582,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = g->critter_at( destination, is_hallucination() );
     if( g->m.has_flag( "CLIMBABLE", destination ) ) {
-        tripoint above_dest( destination.x, destination.y, destination.z + 1 );
+        tripoint const above_dest( destination.x, destination.y, destination.z + 1 );
         if( g->m.impassable( destination ) && critter == nullptr &&
             !g->m.has_floor_or_support( above_dest ) ) {
             if( flies() ) {
@@ -1635,8 +1635,8 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
 
     //Check for moving into/out of water
-    bool was_water = g->m.is_divable( pos() );
-    bool will_be_water = on_ground && can_submerge() && g->m.is_divable( destination );
+    bool const was_water = g->m.is_divable( pos() );
+    bool const will_be_water = on_ground && can_submerge() && g->m.is_divable( destination );
 
     // Attitude check is kinda slow, better gate it
     if( was_water != will_be_water && !flies() ) {
@@ -1823,7 +1823,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             continue;
         }
 
-        tripoint dest( p + d );
+        tripoint const dest( p + d );
         const int dest_movecost_from = 50 * g->m.move_cost( dest );
 
         // Pushing into cars/windows etc. is harder
@@ -1833,7 +1833,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             continue;
         }
 
-        int roll = attack - ( defend + direction_penalty + movecost_penalty );
+        int const roll = attack - ( defend + direction_penalty + movecost_penalty );
         if( roll < 0 ) {
             continue;
         }
@@ -1911,7 +1911,7 @@ void monster::stumble()
         return;
     }
 
-    map &here = get_map();
+    map  const&here = get_map();
 
     std::vector<tripoint> valid_stumbles;
     valid_stumbles.reserve( 11 );
@@ -1929,7 +1929,7 @@ void monster::stumble()
     }
 
     if( here.has_zlevels() ) {
-        tripoint below( posx(), posy(), posz() - 1 );
+        tripoint const below( posx(), posy(), posz() - 1 );
         if( here.valid_move( pos(), below, false, true ) ) {
             valid_stumbles.push_back( below );
         }
@@ -1962,7 +1962,7 @@ void monster::knock_back_to( const tripoint &to )
         return;
     }
 
-    bool u_see = g->u.sees( to );
+    bool const u_see = g->u.sees( to );
 
     // First, see if we hit another monster
     if( monster *const z = g->critter_at<monster>( to ) ) {
@@ -2034,7 +2034,7 @@ void monster::knock_back_to( const tripoint &to )
  */
 bool monster::will_reach( point p )
 {
-    monster_attitude att = attitude( &g->u );
+    monster_attitude const att = attitude( &g->u );
     if( att != MATT_FOLLOW && att != MATT_ATTACK && att != MATT_FRIEND && att != MATT_ZLAVE ) {
         return false;
     }

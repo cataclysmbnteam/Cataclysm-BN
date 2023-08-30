@@ -216,7 +216,7 @@ void distraction_manager_gui::load()
     }
 
     std::ifstream distr;
-    std::string file = PATH_INFO::distraction();
+    std::string const file = PATH_INFO::distraction();
 
     distr.open( file.c_str(), std::ifstream::in | std::ifstream::binary );
 
@@ -252,7 +252,7 @@ void distraction_manager_gui::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
     while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
+        JsonObject const jo = jsin.get_object();
 
         if( !jo.has_string( "Distraction Type" ) ) {
             continue;

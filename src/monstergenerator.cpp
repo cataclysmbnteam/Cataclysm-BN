@@ -319,12 +319,12 @@ void load_monster_adjustment( const JsonObject &jsobj )
     monster_adjustment adj;
     adj.species = species_id( jsobj.get_string( "species" ) );
     if( jsobj.has_member( "stat" ) ) {
-        JsonObject stat = jsobj.get_object( "stat" );
+        JsonObject const stat = jsobj.get_object( "stat" );
         stat.read( "name", adj.stat );
         stat.read( "modifier", adj.stat_adjust );
     }
     if( jsobj.has_member( "flag" ) ) {
-        JsonObject flag = jsobj.get_object( "flag" );
+        JsonObject const flag = jsobj.get_object( "flag" );
         flag.read( "name", adj.flag );
         flag.read( "value", adj.flag_val );
     }
@@ -654,7 +654,7 @@ void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &sr
 
 mon_effect_data load_mon_effect_data( const JsonObject &e )
 {
-    bool permanent = e.get_bool( "permanent", false );
+    bool const permanent = e.get_bool( "permanent", false );
     if( permanent && json_report_strict ) {
         try {
             e.throw_error( "Effect permanence has been moved to effect_type.  Set permanence there.",
@@ -674,7 +674,7 @@ class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_r
 {
     public:
         mon_effect_data get_next( JsonIn &jin ) const {
-            JsonObject e = jin.get_object();
+            JsonObject const e = jin.get_object();
             return load_mon_effect_data( e );
         }
         template<typename C>
@@ -762,12 +762,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         // Note: regeneration_modifiers left as is, new modifiers are added to it!
         // Note: member name prefixes are compatible with those used by generic_typed_reader
         if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
+            JsonObject const tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
             add_regeneration_modifiers( tmp, "regeneration_modifiers", src );
         }
         if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
+            JsonObject const tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
             remove_regeneration_modifiers( tmp, "regeneration_modifiers", src );
         }
@@ -828,7 +828,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             }
         } else {
             while( jar.has_more() ) {
-                JsonObject obj = jar.next_object();
+                JsonObject const obj = jar.next_object();
                 emit_fields.emplace( emit_id( obj.get_string( "emit_id" ) ),
                                      read_from_json_string<time_duration>( *obj.get_raw( "delay" ), time_duration::units ) );
             }
@@ -856,12 +856,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         // Note: special_attacks left as is, new attacks are added to it!
         // Note: member name prefixes are compatible with those used by generic_typed_reader
         if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
+            JsonObject const tmp = jo.get_object( "extend" );
             tmp.allow_omitted_members();
             add_special_attacks( tmp, "special_attacks", src );
         }
         if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
+            JsonObject const tmp = jo.get_object( "delete" );
             tmp.allow_omitted_members();
             remove_special_attacks( tmp, "special_attacks", src );
         }
@@ -874,7 +874,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         upgrade_into = mtype_id::NULL_ID();
         upgrades = false;
     } else if( jo.has_member( "upgrades" ) ) {
-        JsonObject up = jo.get_object( "upgrades" );
+        JsonObject const up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
         optional( up, was_loaded, "age_grow", age_grow, -1 );
         optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {},
@@ -886,7 +886,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     //Reproduction
     if( jo.has_member( "reproduction" ) ) {
-        JsonObject repro = jo.get_object( "reproduction" );
+        JsonObject const repro = jo.get_object( "reproduction" );
         optional( repro, was_loaded, "baby_count", baby_count, -1 );
         if( repro.has_int( "baby_timer" ) ) {
             baby_timer = time_duration::from_days( repro.get_int( "baby_timer" ) );

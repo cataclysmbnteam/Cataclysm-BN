@@ -76,7 +76,7 @@ int distribution_grid::mod_resource( int amt, bool recurse )
         for( const tile_location &loc : c.second ) {
             battery_tile *battery = active_tiles::furn_at<battery_tile>( loc.absolute );
             if( battery != nullptr ) {
-                int amt_before_battery = amt;
+                int const amt_before_battery = amt;
                 amt = battery->mod_resource( amt );
                 if( cached_amount_here ) {
                     cached_amount_here = *cached_amount_here + amt_before_battery - amt;
@@ -190,13 +190,13 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at(
     assert( !overmap_positions.empty() );
     std::vector<tripoint_abs_sm> submap_positions;
     for( const tripoint_abs_omt &omp : overmap_positions ) {
-        tripoint_abs_sm tp = project_to<coords::sm>( omp );
+        tripoint_abs_sm const tp = project_to<coords::sm>( omp );
         submap_positions.emplace_back( tp + point_zero );
         submap_positions.emplace_back( tp + point_east );
         submap_positions.emplace_back( tp + point_south );
         submap_positions.emplace_back( tp + point_south_east );
     }
-    shared_ptr_fast<distribution_grid> dist_grid = make_shared_fast<distribution_grid>
+    shared_ptr_fast<distribution_grid> const dist_grid = make_shared_fast<distribution_grid>
             ( submap_positions, mb );
     for( const tripoint_abs_sm &smp : submap_positions ) {
         shared_ptr_fast<distribution_grid> &old_grid = parent_distribution_grids[smp];
@@ -225,9 +225,9 @@ void distribution_grid_tracker::on_saved()
         world_generator->active_world == nullptr ) {
         return;
     }
-    tripoint_abs_sm min_bounds( bounds.p_min, -OVERMAP_DEPTH );
-    tripoint_abs_sm max_bounds( bounds.p_max, OVERMAP_HEIGHT );
-    tripoint_range<tripoint_abs_sm> bounds_range( min_bounds, max_bounds );
+    tripoint_abs_sm const min_bounds( bounds.p_min, -OVERMAP_DEPTH );
+    tripoint_abs_sm const max_bounds( bounds.p_max, OVERMAP_HEIGHT );
+    tripoint_range<tripoint_abs_sm> const bounds_range( min_bounds, max_bounds );
     // Remove all grids that are no longer in the bounds
     for( auto iter = parent_distribution_grids.begin(); iter != parent_distribution_grids.end(); ) {
         if( !bounds_range.is_point_inside( iter->first ) ) {
@@ -246,7 +246,7 @@ void distribution_grid_tracker::on_saved()
 
 void distribution_grid_tracker::on_changed( const tripoint_abs_ms &p )
 {
-    tripoint_abs_sm sm_pos = project_to<coords::sm>( p );
+    tripoint_abs_sm const sm_pos = project_to<coords::sm>( p );
     // TODO: If not in bounds, just drop the grid, rebuild lazily
     if( parent_distribution_grids.count( sm_pos ) > 0 ||
         bounds.contains( sm_pos.xy() ) ) {
@@ -262,7 +262,7 @@ void distribution_grid_tracker::on_options_changed()
 
 distribution_grid &distribution_grid_tracker::grid_at( const tripoint_abs_ms &p )
 {
-    tripoint_abs_sm sm_pos = project_to<coords::sm>( p );
+    tripoint_abs_sm const sm_pos = project_to<coords::sm>( p );
     auto iter = parent_distribution_grids.find( sm_pos );
     if( iter != parent_distribution_grids.end() ) {
         return *iter->second;
@@ -280,7 +280,7 @@ const distribution_grid &distribution_grid_tracker::grid_at( const tripoint_abs_
 
 std::uintptr_t distribution_grid_tracker::debug_grid_id( const tripoint_abs_omt &omp ) const
 {
-    tripoint_abs_sm sm_pos = project_to<coords::sm>( omp );
+    tripoint_abs_sm const sm_pos = project_to<coords::sm>( omp );
     auto iter = parent_distribution_grids.find( sm_pos );
     if( iter != parent_distribution_grids.end() ) {
         distribution_grid *ret = iter->second.get();
@@ -362,7 +362,7 @@ void distribution_grid_tracker::load( half_open_rectangle<point_abs_sm> area )
 
 void distribution_grid_tracker::load( const map &m )
 {
-    point_abs_sm p_min( m.get_abs_sub().xy() );
-    point_abs_sm p_max( p_min + point( m.getmapsize(), m.getmapsize() ) );
+    point_abs_sm const p_min( m.get_abs_sub().xy() );
+    point_abs_sm const p_max( p_min + point( m.getmapsize(), m.getmapsize() ) );
     load( half_open_rectangle<point_abs_sm>( p_min, p_max ) );
 }

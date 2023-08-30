@@ -130,7 +130,7 @@ void trap::load( const JsonObject &jo, const std::string & )
         int quantity = 0;
         int charges = 0;
         if( entry.test_object() ) {
-            JsonObject jc = entry.get_object();
+            JsonObject const jc = entry.get_object();
             jc.read( "item", item_type, true );
             quantity = jc.get_int( "quantity", 1 );
             charges = jc.get_int( "charges", 1 );
@@ -144,7 +144,7 @@ void trap::load( const JsonObject &jo, const std::string & )
         }
     }
     if( jo.has_object( "vehicle_data" ) ) {
-        JsonObject jv = jo.get_object( "vehicle_data" );
+        JsonObject const jv = jo.get_object( "vehicle_data" );
         vehicle_data.remove_trap = jv.get_bool( "remove_trap", false );
         vehicle_data.do_explosion = jv.get_bool( "do_explosion", false );
         vehicle_data.is_falling = jv.get_bool( "is_falling", false );
@@ -159,7 +159,7 @@ void trap::load( const JsonObject &jo, const std::string & )
         if( jv.has_array( "spawn_items" ) ) {
             for( const JsonValue entry : jv.get_array( "spawn_items" ) ) {
                 if( entry.test_object() ) {
-                    JsonObject joitm = entry.get_object();
+                    JsonObject const joitm = entry.get_object();
                     vehicle_data.spawn_items.emplace_back(
                         itype_id( joitm.get_string( "id" ) ), joitm.get_float( "chance" ) );
                 } else {
@@ -233,7 +233,7 @@ void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
 {
     const bool is_real_creature = creature != nullptr && !creature->is_hallucination();
     if( is_real_creature || item != nullptr ) {
-        bool triggered = act( pos, creature, item );
+        bool const triggered = act( pos, creature, item );
         if( triggered && is_real_creature ) {
             if( Character *ch = creature->as_character() ) {
                 get_event_bus().send<event_type::character_triggers_trap>( ch->getID(), id );

@@ -41,7 +41,7 @@ void snippet_library::add_snippets_from_json( const std::string &category, const
             }
             snippets_by_category[category].no_id.emplace_back( text );
         } else {
-            JsonObject jo = entry.get_object();
+            JsonObject const jo = entry.get_object();
             add_snippet_from_json( category, jo );
         }
     }
@@ -109,16 +109,16 @@ bool snippet_library::has_snippet_with_id( const snippet_id &id ) const
 
 std::string snippet_library::expand( const std::string &str ) const
 {
-    size_t tag_begin = str.find( '<' );
+    size_t const tag_begin = str.find( '<' );
     if( tag_begin == std::string::npos ) {
         return str;
     }
-    size_t tag_end = str.find( '>', tag_begin + 1 );
+    size_t const tag_end = str.find( '>', tag_begin + 1 );
     if( tag_end == std::string::npos ) {
         return str;
     }
 
-    std::string symbol = str.substr( tag_begin, tag_end - tag_begin + 1 );
+    std::string const symbol = str.substr( tag_begin, tag_end - tag_begin + 1 );
     std::optional<translation> replacement = random_from_category( symbol );
     if( !replacement.has_value() ) {
         return str.substr( 0, tag_end + 1 )
@@ -210,22 +210,22 @@ std::string get_random_tip_of_the_day()
 
     if( !did_load ) {
         did_load = true;
-        bool success = read_from_file_json( PATH_INFO::main_menu_tips(), [&]( JsonIn & jsin ) {
+        bool const success = read_from_file_json( PATH_INFO::main_menu_tips(), [&]( JsonIn & jsin ) {
             JsonArray jarr = jsin.get_array();
             if( jarr.size() != 1 ) {
                 jarr.throw_error( "expected 1 element in main array" );
             }
             all_tips.reserve( jarr.size() );
-            for( JsonValue jval : jarr ) {
-                JsonObject jobj = jval.get_object();
+            for( JsonValue const jval : jarr ) {
+                JsonObject const jobj = jval.get_object();
                 if( jobj.get_string( "type" ) != "snippet" ) {
                     jobj.throw_error( "expected 'snippet' type", "type" );
                 }
                 if( jobj.get_string( "category" ) != "tip" ) {
                     jobj.throw_error( "expected 'tip' category", "category" );
                 }
-                JsonArray text = jobj.get_array( "text" );
-                for( JsonValue entry : text ) {
+                JsonArray const text = jobj.get_array( "text" );
+                for( JsonValue const entry : text ) {
                     all_tips.push_back( entry.get_string() );
                 }
             }

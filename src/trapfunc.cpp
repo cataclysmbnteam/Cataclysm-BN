@@ -368,7 +368,7 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
                                           _( "<npcname> dodges the shot!" ) );
             }
         } else if( z != nullptr ) {
-            bool seen = g->u.sees( *z );
+            bool const seen = g->u.sees( *z );
             int chance = 0;
             // adapted from shotgun code - chance of getting hit depends on size
             switch( z->type->size ) {
@@ -469,7 +469,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                                           _( "<npcname> dodges the shot!" ) );
             }
         } else if( z != nullptr ) {
-            bool seen = g->u.sees( *z );
+            bool const seen = g->u.sees( *z );
             int chance = 0;
             switch( z->type->size ) {
                 case MS_TINY:
@@ -777,9 +777,9 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
             n->add_msg_if_player( m_info,
                                   _( "You hit the ground hard, but your shock absorbers handle the impact admirably!" ) );
         } else {
-            int dodge = n->get_dodge();
+            int const dodge = n->get_dodge();
             ///\EFFECT_DODGE reduces damage taken falling into a pit
-            int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
+            int const damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
             if( damage > 0 ) {
                 n->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
                 // like the message says \-:
@@ -817,8 +817,8 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     if( n != nullptr ) {
-        int dodge = n->get_dodge();
-        int damage = pit_effectiveness( p ) * rng( 20, 50 );
+        int const dodge = n->get_dodge();
+        int const damage = pit_effectiveness( p ) * rng( 20, 50 );
         if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
                 ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
@@ -896,8 +896,8 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     if( n != nullptr ) {
-        int dodge = n->get_dodge();
-        int damage = pit_effectiveness( p ) * rng( 15, 35 );
+        int const dodge = n->get_dodge();
+        int const damage = pit_effectiveness( p ) * rng( 15, 35 );
         if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
                 ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
@@ -1326,7 +1326,7 @@ bool trapfunc::glow( const tripoint &p, Creature *c, item * )
 
 bool trapfunc::hum( const tripoint &p, Creature *, item * )
 {
-    int volume = rng( 1, 200 );
+    int const volume = rng( 1, 200 );
     std::string sfx;
     if( volume <= 10 ) {
         //~ a quiet humming sound
@@ -1380,7 +1380,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
         if( n ) {
             map &here = get_map();
             n->add_msg_if_player( m_warning, _( "Your surroundings shift!" ) );
-            tripoint_abs_omt omt_pos = n->global_omt_location();
+            tripoint_abs_omt const omt_pos = n->global_omt_location();
             const std::string &regen_mapgen = here.tr_at( p ).map_regen_target();
             here.remove_trap( p );
             if( !run_mapgen_update_func( regen_mapgen, omt_pos, nullptr, false ) ) {

@@ -131,7 +131,7 @@ static std::string craft_progress_message( const avatar &u, const player_activit
     const recipe &rec = craft->get_making();
     const tripoint bench_pos = act.coords.front();
     // Ugly
-    bench_type bench_t = bench_type( act.values[1] );
+    bench_type const bench_t = bench_type( act.values[1] );
 
     const bench_location bench{bench_t, bench_pos};
 
@@ -146,8 +146,8 @@ static std::string craft_progress_message( const avatar &u, const player_activit
     const float total_mult = light_mult * bench_mult * morale_mult * assist_mult * speed_mult;
 
     const double remaining_percentage = 1.0 - craft->item_counter / 10'000'000.0;
-    int remaining_turns = remaining_percentage * base_total_moves / 100 / std::max( 0.01f, total_mult );
-    std::string time_desc = string_format( _( "Time left: %s" ),
+    int const remaining_turns = remaining_percentage * base_total_moves / 100 / std::max( 0.01f, total_mult );
+    std::string const time_desc = string_format( _( "Time left: %s" ),
                                            to_string( time_duration::from_turns( remaining_turns ) ) );
 
     const std::array<std::pair<float, std::string>, 6> mults_with_data = {{
@@ -163,10 +163,10 @@ static std::string craft_progress_message( const avatar &u, const player_activit
     // Hack to make sure total always shows
     bool first = true;
     for( const std::pair<float, std::string> &p : mults_with_data ) {
-        int percent = static_cast<int>( p.first * 100 );
+        int const percent = static_cast<int>( p.first * 100 );
         if( first || percent != 100 ) {
-            nc_color col = percent > 100 ? c_green : c_red;
-            std::string colorized = colorize( std::to_string( percent ) + '%', col );
+            nc_color const col = percent > 100 ? c_green : c_red;
+            std::string const colorized = colorize( std::to_string( percent ) + '%', col );
             mults_desc += string_format( _( "%s: %s\n" ), p.second, colorized );
         }
         first = false;
@@ -247,7 +247,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         if( type == activity_id( "ACT_BUILD" ) ) {
             partial_con *pc = get_map().partial_con_at( get_map().getlocal( u.activity.placement ) );
             if( pc ) {
-                int counter = std::min( pc->counter, 10000000 );
+                int const counter = std::min( pc->counter, 10000000 );
                 const int percentage = counter / 100000;
 
                 extra_info = string_format( "%d%%", percentage );
@@ -309,7 +309,7 @@ void player_activity::do_turn( player &p )
             moves_left = 0;
         }
     }
-    int previous_stamina = p.get_stamina();
+    int const previous_stamina = p.get_stamina();
     if( p.is_npc() && p.check_outbounds_activity( *this ) ) {
         // npc might be operating at the edge of the reality bubble.
         // or just now reloaded back into it, and their activity target might
@@ -418,7 +418,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( values.size() != other.values.size() ) {
             return false;
         }
-        for( int foo : other.values ) {
+        for( int const foo : other.values ) {
             if( std::find( values.begin(), values.end(), foo ) == values.end() ) {
                 return false;
             }

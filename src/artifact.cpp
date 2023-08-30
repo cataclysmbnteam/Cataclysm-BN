@@ -1100,8 +1100,8 @@ void load_artifacts( const std::string &path )
     read_from_file_optional_json( path, []( JsonIn & artifact_json ) {
         artifact_json.start_array();
         while( !artifact_json.end_array() ) {
-            JsonObject jo = artifact_json.get_object();
-            std::string type = jo.get_string( "type" );
+            JsonObject const jo = artifact_json.get_object();
+            std::string const type = jo.get_string( "type" );
             if( type == "artifact_tool" ) {
                 item_controller->add_item_type( static_cast<const itype &>( it_artifact_tool( jo ) ) );
             } else if( type == "artifact_armor" ) {

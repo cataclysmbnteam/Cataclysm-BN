@@ -304,7 +304,7 @@ void player_morale::add( morale_type type, const morale_subtype &subtype, int bo
                          bool capped )
 {
     if( ( duration == 0_turns ) && !type->is_permanent() ) {
-        std::string full_desc = subtype.has_description()
+        std::string const full_desc = subtype.has_description()
                                 ? type.obj().describe( subtype.describe() )
                                 : type.obj().describe();
         debugmsg( "Tried to set a non-permanent morale \"%s\" as permanent.", full_desc );
@@ -327,7 +327,7 @@ void player_morale::add( morale_type type, const morale_subtype &subtype, int bo
         }
     }
 
-    morale_point new_morale( type, subtype, bonus, max_bonus, duration, decay_start, capped );
+    morale_point const new_morale( type, subtype, bonus, max_bonus, duration, decay_start, capped );
 
     if( !new_morale.is_expired() ) {
         points.push_back( new_morale );
@@ -339,7 +339,7 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
                          const time_duration &duration, const time_duration &decay_start,
                          bool capped )
 {
-    morale_subtype subtype;
+    morale_subtype const subtype;
     add( type, subtype, bonus, max_bonus, duration, decay_start, capped );
 }
 
@@ -347,7 +347,7 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
                          const time_duration &duration, const time_duration &decay_start,
                          bool capped, const itype &item_type )
 {
-    morale_subtype subtype( item_type );
+    morale_subtype const subtype( item_type );
     add( type, subtype, bonus, max_bonus, duration, decay_start, capped );
 }
 
@@ -355,7 +355,7 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
                          const time_duration &duration, const time_duration &decay_start,
                          bool capped, const efftype_id &effect_type )
 {
-    morale_subtype subtype( effect_type );
+    morale_subtype const subtype( effect_type );
     add( type, subtype, bonus, max_bonus, duration, decay_start, capped );
 }
 
@@ -620,7 +620,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_cap )
             }
 
             void draw( catacurses::window &w, const int posy ) const {
-                int width = getmaxx( w );
+                int const width = getmaxx( w );
                 if( sep_line ) {
                     mvwhline( w, point( 0, posy ), LINE_XXXO, 1 );
                     mvwhline( w, point( 1, posy ), 0, width - 2 );
@@ -986,10 +986,10 @@ void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
 
     const morale_type &mt = eid->get_morale_type();
     if( mt ) {
-        morale_subtype subtype( eid );
+        morale_subtype const subtype( eid );
         if( intensity > 0 ) {
-            effect ugly_hack( &*eid, 1_turns, bp_id, intensity, calendar::turn_zero );
-            int value = ugly_hack.get_amount( "MORALE" );
+            effect const ugly_hack( &*eid, 1_turns, bp_id, intensity, calendar::turn_zero );
+            int const value = ugly_hack.get_amount( "MORALE" );
             set_permanent_typed( mt, value, subtype );
         } else {
             remove( mt, subtype );

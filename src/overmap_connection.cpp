@@ -60,7 +60,7 @@ void overmap_connection::subtype::load( const JsonObject &jo )
 
 void overmap_connection::subtype::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     load( jo );
 }
 

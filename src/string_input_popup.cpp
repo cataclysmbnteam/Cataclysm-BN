@@ -451,8 +451,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
                 ret.erase( _position, 1 );
             }
         } else if( ch == KEY_F( 2 ) ) {
-            std::string tmp = get_input_string_from_file();
-            int tmplen = utf8_width( tmp );
+            std::string const tmp = get_input_string_from_file();
+            int const tmplen = utf8_width( tmp );
             if( tmplen > 0 && ( tmplen + utf8_width( ret ) <= _max_length || _max_length == 0 ) ) {
                 ret.append( tmp );
             }

@@ -190,7 +190,7 @@ void options_manager::enable_json( const std::string &lvar )
 
 void options_manager::add_retry( const std::string &lvar, const::std::string &lval )
 {
-    std::map<std::string, std::string>::const_iterator it = post_json_verify.find( lvar );
+    std::map<std::string, std::string>::const_iterator const it = post_json_verify.find( lvar );
     if( it != post_json_verify.end() && it->second == blank_value ) {
         // initialized with impossible value: valid
         post_json_verify[ lvar ] = lval;
@@ -200,7 +200,7 @@ void options_manager::add_retry( const std::string &lvar, const::std::string &lv
 void options_manager::add_value( const std::string &lvar, const std::string &lval,
                                  const translation &lvalname )
 {
-    std::map<std::string, std::string>::const_iterator it = post_json_verify.find( lvar );
+    std::map<std::string, std::string>::const_iterator const it = post_json_verify.find( lvar );
     if( it != post_json_verify.end() ) {
         auto ot = options.find( lvar );
         if( ot != options.end() && ot->second.sType == "string_select" ) {
@@ -522,7 +522,7 @@ void options_manager::add_option_group( const std::string &page_id,
                   group.id_, adding_to_group_ );
         return;
     }
-    for( Group &g : groups_ ) {
+    for( Group  const&g : groups_ ) {
         if( g.id_ == group.id_ ) {
             debugmsg( "Option group with id '%s' already exists", group.id_ );
             return;
@@ -545,7 +545,7 @@ void options_manager::add_option_group( const std::string &page_id,
 
 const options_manager::Group &options_manager::find_group( const std::string &id ) const
 {
-    static Group null_group;
+    static Group const null_group;
     if( id.empty() ) {
         return null_group;
     }
@@ -858,7 +858,7 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
 std::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
     const int iSearch ) const
 {
-    int i = static_cast<int>( getIntPos( iSearch ) );
+    int const i = static_cast<int>( getIntPos( iSearch ) );
     if( i == -1 ) {
         return std::nullopt;
     }
@@ -886,7 +886,7 @@ void options_manager::cOpt::setNext()
         sSet = vItems[iNext].first;
 
     } else if( sType == "string_input" ) {
-        int iMenuTextLength = utf8_width( _( sMenuText ) );
+        int const iMenuTextLength = utf8_width( _( sMenuText ) );
         string_input_popup()
         .width( iMaxLength > 80 ? 80 : iMaxLength < iMenuTextLength ? iMenuTextLength : iMaxLength + 1 )
         .description( _( sMenuText ) )
@@ -1104,9 +1104,9 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     result.insert( result.end(), data_tilesets.begin(), data_tilesets.end() );
 
     // Load from user directory
-    std::vector<options_manager::id_and_option> user_tilesets = load_tilesets_from(
+    std::vector<options_manager::id_and_option> const user_tilesets = load_tilesets_from(
                 PATH_INFO::user_gfx() );
-    for( options_manager::id_and_option id : user_tilesets ) {
+    for( options_manager::id_and_option const id : user_tilesets ) {
         if( std::find( result.begin(), result.end(), id ) == result.end() ) {
             result.emplace_back( id );
         }
@@ -2025,7 +2025,7 @@ void options_manager::add_options_graphics()
     "software", COPT_CURSES_HIDE );
 #   else
     std::vector<options_manager::id_and_option> renderer_list = cata_tiles::build_renderer_list();
-    std::string default_renderer = renderer_list.front().first;
+    std::string const default_renderer = renderer_list.front().first;
 #   if defined(_WIN32)
     for( const id_and_option &renderer : renderer_list ) {
         if( renderer.first == "direct3d11" ) {
@@ -2653,11 +2653,11 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
 {
     if( used_tiles_changed ) {
         // Disable UIs below to avoid accessing the tile context during loading.
-        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
+        ui_adaptor const dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
-            std::vector<mod_id> dummy;
+            std::vector<mod_id> const dummy;
 
             tilecontext->load_tileset(
                 get_option<std::string>( "TILES" ),
@@ -2912,11 +2912,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             switch( it.type )
             {
                 case ItemType::BlankLine: {
-                    std::string name = it.group.empty() ? "" : IN_GROUP_PREFIX;
+                    std::string const name = it.group.empty() ? "" : IN_GROUP_PREFIX;
                     return { string_col( name, c_white ), string_col() };
                 }
                 case ItemType::GroupHeader: {
-                    bool expanded = groups_state[it.group];
+                    bool const expanded = groups_state[it.group];
                     std::string name = expanded ? "- " : "+ ";
                     name += find_group( it.group ).name_.translated();
                     return std::make_pair( string_col( name, c_white ), string_col() );
@@ -2926,8 +2926,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                     const bool hasPrerequisite = opt.hasPrerequisite();
                     const bool hasPrerequisiteFulfilled = opt.checkPrerequisite();
 
-                    std::string name_prefix = it.group.empty() ? "" : IN_GROUP_PREFIX;
-                    string_col name( name_prefix + opt.getMenuText(), !hasPrerequisite ||
+                    std::string const name_prefix = it.group.empty() ? "" : IN_GROUP_PREFIX;
+                    string_col const name( name_prefix + opt.getMenuText(), !hasPrerequisite ||
                                      hasPrerequisiteFulfilled ? c_white : c_light_gray );
 
                     nc_color cLineColor;
@@ -2939,7 +2939,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                         cLineColor = c_light_green;
                     }
 
-                    string_col value( opt.getValueName(), is_selected ? hilite( cLineColor ) : cLineColor );
+                    string_col const value( opt.getValueName(), is_selected ? hilite( cLineColor ) : cLineColor );
 
                     return std::make_pair( name, value );
                 }
@@ -2949,7 +2949,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         };
 
         // Draw separation lines
-        for( int x : vert_lines ) {
+        for( int const x : vert_lines ) {
             for( int y = 0; y < iContentHeight; y++ ) {
                 mvwputch( w_options, point( x, y ), BORDER_COLOR, LINE_XOXO );
             }
@@ -2971,11 +2971,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
              i < iStartPos + ( iContentHeight > static_cast<int>( visible_items.size() ) ?
                                static_cast<int>( visible_items.size() ) : iContentHeight ); i++ ) {
 
-            int line_pos = i - iStartPos; // Current line position in window.
+            int const line_pos = i - iStartPos; // Current line position in window.
 
             mvwprintz( w_options, point( 1, line_pos ), c_white, "%d", visible_items[i] + 1 );
 
-            bool is_selected = visible_items[i] == iCurrentLine;
+            bool const is_selected = visible_items[i] == iCurrentLine;
             if( is_selected ) {
                 mvwprintz( w_options, point( name_col, line_pos ), c_yellow, ">>" );
             }
@@ -3015,7 +3015,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         wnoutrefresh( w_options_header );
 
         const PageItem &curr_item = page_items[iCurrentLine];
-        std::string tooltip = curr_item.fmt_tooltip( find_group( curr_item.group ), cOPTIONS );
+        std::string const tooltip = curr_item.fmt_tooltip( find_group( curr_item.group ), cOPTIONS );
         fold_and_print( w_options_tooltip, point_zero, iMinScreenWidth - 2, c_white, tooltip );
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
@@ -3049,8 +3049,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         const auto on_select_option = [&]() {
             cOpt &current_opt = cOPTIONS[curr_item.data];
 
-            bool hasPrerequisite = current_opt.hasPrerequisite();
-            bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
+            bool const hasPrerequisite = current_opt.hasPrerequisite();
+            bool const hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
 
             if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
                 popup( _( "Prerequisite for this option not met!\n(%s)" ),
@@ -3246,7 +3246,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
 #if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {
-        int scaling_factor = get_scaling_factor();
+        int const scaling_factor = get_scaling_factor();
         int TERMX = ::get_option<int>( "TERMINAL_X" );
         int TERMY = ::get_option<int>( "TERMINAL_Y" );
         TERMX -= TERMX % scaling_factor;
@@ -3298,7 +3298,7 @@ void options_manager::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
     while( !jsin.end_array() ) {
-        JsonObject joOptions = jsin.get_object();
+        JsonObject const joOptions = jsin.get_object();
         joOptions.allow_omitted_members();
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );

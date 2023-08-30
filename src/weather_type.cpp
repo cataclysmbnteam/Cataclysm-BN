@@ -141,7 +141,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
 
     for( const JsonObject weather_effect : jo.get_array( "effects" ) ) {
 
-        std::pair<std::string, int> pair = std::make_pair( weather_effect.get_string( "name" ),
+        std::pair<std::string, int> const pair = std::make_pair( weather_effect.get_string( "name" ),
                                            weather_effect.get_int( "intensity" ) );
 
         static const std::map<std::string, weather_effect_fn> all_weather_effects = {
@@ -160,7 +160,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_member( "animation" ) ) {
         animation = {};
-        JsonObject j = jo.get_object( "animation" );
+        JsonObject const j = jo.get_object( "animation" );
 
         mandatory( j, was_loaded, "factor", animation.factor );
         mandatory( j, was_loaded, "tile", animation.tile );
@@ -170,7 +170,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_member( "requirements" ) ) {
         requirements = {};
-        JsonObject j = jo.get_object( "requirements" );
+        JsonObject const j = jo.get_object( "requirements" );
 
         optional( j, was_loaded, "pressure_min", requirements.pressure_min, INT_MIN );
         optional( j, was_loaded, "pressure_max", requirements.pressure_max, INT_MAX );

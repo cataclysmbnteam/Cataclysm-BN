@@ -119,7 +119,7 @@ void PATH_INFO::set_standard_filenames()
 std::string find_translated_file( const std::string &base_path, const std::string &extension,
                                   const std::string &fallback )
 {
-    std::vector<std::string> opts = get_lang_path_substring( get_language().id );
+    std::vector<std::string> const opts = get_lang_path_substring( get_language().id );
 
     for( const std::string &s : opts ) {
         const std::string local_path = base_path + s + extension;
@@ -329,9 +329,9 @@ std::string PATH_INFO::motd()
 
 std::string PATH_INFO::title( const holiday )
 {
-    std::string theme_basepath = datadir_value + "title/";
-    std::string theme_extension = ".title";
-    std::string theme_fallback = theme_basepath + "en.title";
+    std::string const theme_basepath = datadir_value + "title/";
+    std::string const theme_extension = ".title";
+    std::string const theme_fallback = theme_basepath + "en.title";
     return find_translated_file( theme_basepath, theme_extension, theme_fallback );
 }
 

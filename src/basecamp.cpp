@@ -79,7 +79,7 @@ std::string base_camps::faction_decode( const std::string &full_type )
     if( full_type.size() < ( prefix_len + 2 ) ) {
         return "camp";
     }
-    int last_bar = full_type.find_last_of( '_' );
+    int const last_bar = full_type.find_last_of( '_' );
 
     return full_type.substr( prefix_len, last_bar - prefix_len );
 }
@@ -89,8 +89,8 @@ time_duration base_camps::to_workdays( const time_duration &work_time )
     if( work_time < 11_hours ) {
         return work_time;
     }
-    int work_days = work_time / 10_hours;
-    time_duration excess_time = work_time - work_days * 10_hours;
+    int const work_days = work_time / 10_hours;
+    time_duration const excess_time = work_time - work_days * 10_hours;
     return excess_time + 24_hours * work_days;
 }
 
@@ -142,7 +142,7 @@ expansion_data basecamp::parse_expansion( const std::string &terrain,
         const tripoint_abs_omt &new_pos )
 {
     expansion_data e;
-    int last_bar = terrain.find_last_of( '_' );
+    int const last_bar = terrain.find_last_of( '_' );
     e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
     e.cur_level = std::stoi( terrain.substr( last_bar + 1 ) );
     e.pos = new_pos;
@@ -224,7 +224,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
                           making.description, making.required_all_skills_string(), comp );
     if( !trunc ) {
-        time_duration base_time = making.batch_duration();
+        time_duration const base_time = making.batch_duration();
         comp += string_format( _( "Risk: None\nTime: %s\n" ),
                                to_string( base_camps::to_workdays( base_time ) ) );
     }
@@ -310,7 +310,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( point dir )
                 continue;
             }
             // skip building that have unmet requirements
-            size_t needed_requires = recp.blueprint_requires().size();
+            size_t const needed_requires = recp.blueprint_requires().size();
             size_t met_requires = 0;
             for( const auto &bp_require : recp.blueprint_requires() ) {
                 if( e_data.provides.find( bp_require.first ) == e_data.provides.end() ) {
@@ -395,7 +395,7 @@ void basecamp::add_resource( const itype_id &camp_resource )
 {
     basecamp_resource bcp_r;
     bcp_r.fake_id = camp_resource;
-    item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
+    item const camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
     bcp_r.ammo_id = camp_item.ammo_default();
     resources.emplace_back( bcp_r );
     fuel_types.insert( bcp_r.ammo_id );
@@ -476,7 +476,7 @@ void basecamp::reset_camp_workers()
 {
     camp_workers.clear();
     for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
-        npc_companion_mission c_mission = elem->get_companion_mission();
+        npc_companion_mission const c_mission = elem->get_companion_mission();
         if( c_mission.position == omt_pos && c_mission.role_id == "FACTION_CAMP" ) {
             camp_workers.push_back( elem );
         }
@@ -485,7 +485,7 @@ void basecamp::reset_camp_workers()
 
 void basecamp::add_assignee( character_id id )
 {
-    npc_ptr npc_to_add = overmap_buffer.find_npc( id );
+    npc_ptr const npc_to_add = overmap_buffer.find_npc( id );
     if( !npc_to_add ) {
         debugmsg( "cant find npc to assign to basecamp, on the overmap_buffer" );
         return;
@@ -496,7 +496,7 @@ void basecamp::add_assignee( character_id id )
 
 void basecamp::remove_assignee( character_id id )
 {
-    npc_ptr npc_to_remove = overmap_buffer.find_npc( id );
+    npc_ptr const npc_to_remove = overmap_buffer.find_npc( id );
     if( !npc_to_remove ) {
         debugmsg( "cant find npc to remove from basecamp, on the overmap_buffer" );
         return;
@@ -516,8 +516,8 @@ void basecamp::validate_assignees()
             ++iter;
         }
     }
-    for( character_id elem : g->get_follower_list() ) {
-        npc_ptr npc_to_add = overmap_buffer.find_npc( elem );
+    for( character_id const elem : g->get_follower_list() ) {
+        npc_ptr const npc_to_add = overmap_buffer.find_npc( elem );
         if( !npc_to_add ) {
             continue;
         }
@@ -546,7 +546,7 @@ comp_list basecamp::get_mission_workers( const std::string &mission_id, bool con
 {
     comp_list available;
     for( const auto &elem : camp_workers ) {
-        npc_companion_mission c_mission = elem->get_companion_mission();
+        npc_companion_mission const c_mission = elem->get_companion_mission();
         if( ( c_mission.mission_id == mission_id ) ||
             ( contains && c_mission.mission_id.find( mission_id ) != std::string::npos ) ) {
             available.push_back( elem );
@@ -649,7 +649,7 @@ void basecamp::form_crafting_inventory( map &target_map )
         item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
         camp_item.set_flag( "PSEUDO" );
         if( !bcp_r.ammo_id.is_null() ) {
-            for( basecamp_fuel &bcp_f : fuels ) {
+            for( basecamp_fuel  const&bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
                     if( bcp_f.available > 0 ) {
                         bcp_r.available = bcp_f.available;
@@ -684,7 +684,7 @@ std::string basecamp::expansion_tab( point dir ) const
 
     const auto &e = expansions.find( dir );
     if( e != expansions.end() ) {
-        recipe_id id( base_camps::faction_encode_abs( e->second, 0 ) );
+        recipe_id const id( base_camps::faction_encode_abs( e->second, 0 ) );
         const auto e_type = expansion_types.find( id );
         if( e_type != expansion_types.end() ) {
             return e_type->second + _( "Expansion" );
@@ -723,7 +723,7 @@ bool basecamp_action_components::choose_components()
         return false;
     }
     for( const auto &it : req->get_components() ) {
-        comp_selection<item_comp> is =
+        comp_selection<item_comp> const is =
             g->u.select_item_component( it, batch_size_, base_._inv, true, filter,
                                         !base_.by_radio );
         if( is.use_from == cancel ) {
@@ -734,7 +734,7 @@ bool basecamp_action_components::choose_components()
     // this may consume pseudo-resources from fake items
     for( const auto &it : req->get_tools() ) {
         const Character *player_with_inventory = base_.by_radio ? nullptr : &get_avatar();
-        comp_selection<tool_comp> ts =
+        comp_selection<tool_comp> const ts =
             crafting::select_tool_component( it, batch_size_, base_._inv,
                                              player_with_inventory, true );
         if( ts.use_from == cancel ) {

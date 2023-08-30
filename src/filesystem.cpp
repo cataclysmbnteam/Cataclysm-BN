@@ -75,7 +75,7 @@ bool file_exist( const std::string &path )
 bool file_exist( const std::string &path )
 {
     struct stat buffer;
-    bool success = stat( path.c_str(), &buffer ) == 0;
+    bool const success = stat( path.c_str(), &buffer ) == 0;
     return success && S_ISREG( buffer.st_mode );
 }
 #endif
@@ -207,7 +207,7 @@ bool is_directory_stat( const std::string &full_path )
     int stat_ret = _wstat( utf8_to_wstr( full_path ).c_str(), &result );
 #else
     struct stat result;
-    int stat_ret = stat( full_path.c_str(), &result );
+    int const stat_ret = stat( full_path.c_str(), &result );
 #endif
     if( stat_ret != 0 ) {
         const auto e_str = strerror( errno );
@@ -440,7 +440,7 @@ bool copy_file( const std::string &source_path, const std::string &dest_path )
     if( !source_stream.is_open() ) {
         return false;
     }
-    bool res = write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
+    bool const res = write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
         dest_stream << source_stream->rdbuf();
     }, nullptr );
     return res && !source_stream.fail();

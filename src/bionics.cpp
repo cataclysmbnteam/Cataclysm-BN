@@ -479,7 +479,7 @@ std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
     std::vector<std::pair<bionic_id, item>> cbm_list;
     // Runs down full list of CBMs that qualify as weapons.
     // Need a way to make this less costly.
-    for( bionic bio : *who.my_bionics ) {
+    for( bionic const bio : *who.my_bionics ) {
         if( !bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
             continue;
         }
@@ -504,7 +504,7 @@ const std::map<item, bionic_id> npc::check_toggle_cbm()
     if( free_power <= 0_J ) {
         return res;
     }
-    for( bionic &bio : *my_bionics ) {
+    for( bionic  const&bio : *my_bionics ) {
         // I'm not checking if NPC_USABLE because if it isn't it shouldn't be in them.
         if( bio.powered || !bio.info().has_flag( flag_BIONIC_WEAPON ) ||
             free_power < bio.info().power_activate ) {
@@ -535,7 +535,7 @@ void npc::check_or_use_weapon_cbm()
     }
 
     int cbm_index = 0;
-    for( bionic &bio : *my_bionics ) {
+    for( bionic  const&bio : *my_bionics ) {
         // I'm not checking if NPC_USABLE because if it isn't it shouldn't be in them.
         if( free_power >= bio.info().power_activate && bio.info().has_flag( flag_BIONIC_GUN ) ) {
             avail_active_cbms.push_back( cbm_index );
@@ -545,16 +545,16 @@ void npc::check_or_use_weapon_cbm()
 
     if( !avail_active_cbms.empty() ) {
         Creature *critter = current_target();
-        int dist = rl_dist( pos(), critter->pos() );
+        int const dist = rl_dist( pos(), critter->pos() );
         int active_index = -1;
         int best_dps = -1;
-        bool wield_gun = primary_weapon().is_gun();
+        bool const wield_gun = primary_weapon().is_gun();
         item best_cbm_active = null_item_reference();
-        for( int i : avail_active_cbms ) {
-            bionic &bio = ( *my_bionics )[ i ];
+        for( int const i : avail_active_cbms ) {
+            bionic  const&bio = ( *my_bionics )[ i ];
             const item cbm_weapon = item( bio.info().fake_item );
 
-            bool not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
+            bool const not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
                                ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon.is_silent() );
             if( is_player_ally() && not_allowed ) {
                 continue;
@@ -642,7 +642,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         }
     };
 
-    item tmp_item;
+    item const tmp_item;
     const w_point &weatherPoint = get_weather().get_precise();
 
     map &here = get_map();
@@ -698,10 +698,10 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
     } else if( bio.id == bio_evap ) {
         add_msg_activate();
         const w_point &weatherPoint = get_weather().get_precise();
-        int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
+        int const humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                            g->is_sheltered( g->u.pos() ) );
         // thirst units = 5 mL
-        int water_available = std::lround( humidity * 3.0 / 100.0 );
+        int const water_available = std::lround( humidity * 3.0 / 100.0 );
         if( water_available == 0 ) {
             bio.powered = false;
             add_msg_if_player( m_bad, _( "There is not enough humidity in the air for your %s to function." ),
@@ -909,7 +909,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
                 proj.add_effect( eff );
             }
 
-            dealt_projectile_attack dealt = projectile_attack(
+            dealt_projectile_attack const dealt = projectile_attack(
                                                 proj, pr.second, pos(), dispersion_sources{ 0 }, this );
             here.add_item_or_charges( dealt.end_point, pr.first );
         }
@@ -922,11 +922,11 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         std::string open_message;
         if( pnt ) {
             tried_lockpick = true;
-            ter_id ter_type = g->m.ter( *pnt );
-            furn_id furn_type = g->m.furn( *pnt );
-            lockpicking_open_result lr = get_lockpicking_open_result( ter_type, furn_type );
-            ter_id new_ter_type = lr.new_ter_type;
-            furn_id new_furn_type = lr.new_furn_type;
+            ter_id const ter_type = g->m.ter( *pnt );
+            furn_id const furn_type = g->m.furn( *pnt );
+            lockpicking_open_result const lr = get_lockpicking_open_result( ter_type, furn_type );
+            ter_id const new_ter_type = lr.new_ter_type;
+            furn_id const new_furn_type = lr.new_furn_type;
             open_message = lr.open_message;
 
             if( new_ter_type != t_null || new_furn_type != f_null ) {
@@ -978,7 +978,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
         const auto player_local_temp = weather.get_temperature( g->u.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = 100.0f * get_local_windpower( weather.windspeed + vehwindspeed,
+        double const windpower = 100.0f * get_local_windpower( weather.windspeed + vehwindspeed,
                            cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
@@ -995,11 +995,11 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
                                get_local_windchill( units::to_fahrenheit( weatherPoint.temperature ),
                                        weatherPoint.humidity,
                                        windpower / 100 ) + player_local_temp ) );
-        std::string dirstring = get_dirstring( weather.winddirection );
+        std::string const dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {
         add_msg_activate();
-        int choice = uilist( _( "Perform which function:" ), {
+        int const choice = uilist( _( "Perform which function:" ), {
             _( "Control vehicle" ), _( "RC radio" )
         } );
         if( choice >= 0 && choice <= 1 ) {
@@ -1010,17 +1010,17 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
                 ctr = item( "radiocontrol", calendar::start_of_cataclysm );
             }
             ctr.charges = units::to_kilojoule( get_power_level() );
-            int power_use = invoke_item( &ctr );
+            int const power_use = invoke_item( &ctr );
             mod_power_level( units::from_kilojoule( -power_use ) );
             bio.powered = ctr.active;
         } else {
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
         }
     } else if( bio.info().is_remote_fueled ) {
-        std::vector<item *> cables = items_with( []( const item & it ) {
+        std::vector<item *> const cables = items_with( []( const item & it ) {
             return it.has_flag( flag_CABLE_SPOOL );
         } );
-        bool has_cable = !cables.empty();
+        bool const has_cable = !cables.empty();
         bool free_cable = false;
         bool success = false;
         if( !has_cable ) {
@@ -1400,7 +1400,7 @@ void Character::passive_power_gen( bionic &bio )
 itype_id Character::find_remote_fuel( bool look_only )
 {
     itype_id remote_fuel;
-    map &here = get_map();
+    map  const&here = get_map();
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
         return it.active && it.has_flag( flag_CABLE_SPOOL );
@@ -1458,7 +1458,7 @@ int Character::consume_remote_fuel( int amount )
         return it.active && it.has_flag( flag_CABLE_SPOOL );
     } );
 
-    map &here = get_map();
+    map  const&here = get_map();
     for( const item *cable : cables ) {
         const std::optional<tripoint> target = cable->get_cable_target( this, pos() );
         if( target ) {
@@ -1549,7 +1549,7 @@ static bool attempt_recharge( Character &p, bionic &bio, units::energy &amount, 
                               int rate = 1 )
 {
     const bionic_data &info = bio.info();
-    units::energy power_cost = info.power_over_time * factor;
+    units::energy const power_cost = info.power_over_time * factor;
     bool recharged = false;
 
     if( power_cost > 0_kJ ) {
@@ -1599,8 +1599,8 @@ void Character::process_bionic( bionic &bio )
     }
 
     // These might be affected by environmental conditions, status effects, faulty bionics, etc.
-    int discharge_factor = 1;
-    int discharge_rate = 1;
+    int const discharge_factor = 1;
+    int const discharge_rate = 1;
 
     if( bio.charge_timer > 0 ) {
         bio.charge_timer -= discharge_rate;
@@ -1614,7 +1614,7 @@ void Character::process_bionic( bionic &bio )
             } else {
                 // Try to recharge our bionic if it is made for it
                 units::energy cost = 0_J;
-                bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
+                bool const recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
                 if( !recharged ) {
                     // No power to recharge, so deactivate
                     bio.powered = false;
@@ -1642,7 +1642,7 @@ void Character::process_bionic( bionic &bio )
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
-        int threshold_kcal = bio.info().kcal_trigger > 0 ? 0.85f * max_stored_kcal() +
+        int const threshold_kcal = bio.info().kcal_trigger > 0 ? 0.85f * max_stored_kcal() +
                              bio.info().kcal_trigger : 0;
         const auto can_use_bionic = [this, &bio, threshold_kcal]() -> bool {
             const bool is_kcal_sufficient = get_stored_kcal() >= threshold_kcal;
@@ -1693,7 +1693,7 @@ void Character::process_bionic( bionic &bio )
                     [this]( const bodypart_id & a, const bodypart_id & b ) {
                         return ( get_part_hp_cur( a ) - a->essential * 10 ) < ( get_part_hp_cur( b ) - b->essential * 10 );
                     } );
-                    for( bodypart_id &bpid : damaged_hp_parts ) {
+                    for( bodypart_id  const&bpid : damaged_hp_parts ) {
                         if( !can_use_bionic() ) {
                             return;
                         }
@@ -1718,7 +1718,7 @@ void Character::process_bionic( bionic &bio )
         const int pkill = get_painkiller();
         const int pain = get_pain();
         const units::energy trigger_cost = bio.info().power_trigger;
-        int max_pkill = std::min( 150, pain );
+        int const max_pkill = std::min( 150, pain );
         if( pkill < max_pkill ) {
             mod_painkiller( 1 );
             mod_power_level( -trigger_cost );
@@ -1742,10 +1742,10 @@ void Character::process_bionic( bionic &bio )
         // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
         if( calendar::once_every( 5_minutes ) ) {
             const w_point &weatherPoint = get_weather().get_precise();
-            int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
+            int const humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                                g->is_sheltered( g->u.pos() ) );
             // in thirst units = 5 mL water
-            int water_available = std::lround( humidity * 3.0 / 100.0 );
+            int const water_available = std::lround( humidity * 3.0 / 100.0 );
             // At 50% relative humidity or more, the player will draw 10 mL
             // At 16% relative humidity or less, the bionic will give up
             if( water_available == 0 ) {
@@ -1779,7 +1779,7 @@ void Character::process_bionic( bionic &bio )
             if( bio.charge_timer > 2 ) {
                 max_rate /= 2;
             }
-            units::energy ads_recharge = std::min( max_rate, 150_kJ - bio.energy_stored );
+            units::energy const ads_recharge = std::min( max_rate, 150_kJ - bio.energy_stored );
             if( ads_recharge < get_power_level() ) {
                 mod_power_level( - ads_recharge );
                 bio.energy_stored += ads_recharge;
@@ -1829,7 +1829,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
     }
 
     add_msg( m_neutral, _( "The removal is a failure." ) );
-    std::set<body_part> bp_hurt;
+    std::set<body_part> const bp_hurt;
     switch( fail_type ) {
         case 2:
         case 3:
@@ -1860,7 +1860,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
                               adjusted_skill ) );
     const int fail_type = std::min( 5, failure_level );
 
-    bool u_see = sees( patient );
+    bool const u_see = sees( patient );
 
     if( u_see || patient.is_player() ) {
         if( fail_type <= 1 ) {
@@ -1923,7 +1923,7 @@ float Character::bionics_adjusted_skill( const skill_id &most_important_skill,
         const skill_id &least_important_skill,
         int skill_level )
 {
-    int pl_skill = bionics_pl_skill( most_important_skill, important_skill, least_important_skill,
+    int const pl_skill = bionics_pl_skill( most_important_skill, important_skill, least_important_skill,
                                      skill_level );
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -1970,7 +1970,7 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
     int chance_of_success = 0;
     // we will base chance_of_success on a ratio of skill and difficulty
     // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
-    float skill_difficulty_parameter = static_cast<float>( adjusted_skill /
+    float const skill_difficulty_parameter = static_cast<float>( adjusted_skill /
                                        ( 4.0 * bionic_difficulty ) );
 
     // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
@@ -2033,7 +2033,7 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
                          skill_mechanics,
                          skill_level );
     }
-    int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
+    int const chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
 
     if( chance_of_success >= 100 ) {
         if( !g->u.query_yn(
@@ -2087,7 +2087,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
                                                skill_level );
     }
 
-    int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
+    int const chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
 
     // Surgery is imminent, retract claws or blade if active
     for( bionic &bio : *installer.my_bionics ) {
@@ -2096,7 +2096,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
         }
     }
 
-    int success = chance_of_success - rng( 1, 100 );
+    int const success = chance_of_success - rng( 1, 100 );
     if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
         perform_uninstall( b_id, difficulty, success, b_id->capacity, pl_skill );
         return true;
@@ -2147,7 +2147,7 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
     } else {
         g->events().send<event_type::fails_to_remove_cbm>( getID(), bid );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-        float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
+        float const adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                                static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
                                ( 10.0 ) );
         bionics_uninstall_failure( difficulty, success, adjusted_skill );
@@ -2167,9 +2167,9 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     }
 
     const itype_id itemtype = target_cbm.info().itype();
-    int difficulty = itemtype.is_valid() ? itemtype->bionic->difficulty : BIONIC_NOITEM_DIFFICULTY;
-    int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
-    int success = chance_of_success - rng( 1, 100 );
+    int const difficulty = itemtype.is_valid() ? itemtype->bionic->difficulty : BIONIC_NOITEM_DIFFICULTY;
+    int const chance_of_success = bionic_manip_cos( adjusted_skill, difficulty + 2 );
+    int const success = chance_of_success - rng( 1, 100 );
 
     const time_duration duration = difficulty * 20_minutes;
     // don't stack up the effect
@@ -2252,7 +2252,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
                          skill_mechanics,
                          skill_level );
     }
-    int chance_of_success = bionic_manip_cos( adjusted_skill, difficult );
+    int const chance_of_success = bionic_manip_cos( adjusted_skill, difficult );
 
     std::vector<std::string> conflicting_muts;
     for( const trait_id &mid : bioid->canceled_mutations ) {
@@ -2310,7 +2310,7 @@ bool Character::can_install_bionics( const itype &type, player &installer, bool 
 float Character::env_surgery_bonus( int radius )
 {
     float bonus = 1.0;
-    map &here = get_map();
+    map  const&here = get_map();
     for( const tripoint &cell : here.points_in_radius( pos(), radius ) ) {
         if( here.furn( cell )->surgery_skill_multiplier ) {
             bonus = std::max( bonus, *here.furn( cell )->surgery_skill_multiplier );
@@ -2351,7 +2351,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
                                                skill_mechanics,
                                                skill_level );
     }
-    int chance_of_success = bionic_manip_cos( adjusted_skill, difficulty );
+    int const chance_of_success = bionic_manip_cos( adjusted_skill, difficulty );
 
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
@@ -2360,7 +2360,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
         installer.practice( skill_mechanics, static_cast<int>( ( 100 - chance_of_success ) * 0.5 ) );
     }
 
-    int success = chance_of_success - rng( 0, 99 );
+    int const success = chance_of_success - rng( 0, 99 );
     if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
         perform_install( bioid, upbioid, difficulty, success, pl_skill, "NOT_MED",
                          bioid->canceled_mutations );
@@ -2420,7 +2420,7 @@ void Character::perform_install( bionic_id bid, bionic_id upbid, int difficulty,
         g->events().send<event_type::fails_to_install_cbm>( getID(), bid );
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-        float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
+        float const adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                                static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
                                ( 10.0 ) );
         bionics_install_failure( installer_name, difficulty, success, adjusted_skill );
@@ -2448,7 +2448,7 @@ void Character::do_damage_for_bionic_failure( int min_damage, int max_damage )
 
     for( const bodypart_id &bp : bp_hurt ) {
         int damage = rng( min_damage, max_damage );
-        int hp = get_hp( bp );
+        int const hp = get_hp( bp );
         if( damage >= hp && ( bp == bodypart_str_id( "head" ) || bp == bodypart_str_id( "torso" ) ) ) {
             add_effect( effect_infected, 1_hours, bp->token );
             add_msg_player_or_npc( m_bad, _( "Your %s is infected." ), _( "<npcname>'s %s is infected." ),
@@ -2479,7 +2479,7 @@ void Character::bionics_install_failure( const std::string &installer,
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
-    int failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    int const failure_level = static_cast<int>( std::sqrt( success * 4.0 * difficulty / adjusted_skill ) );
     int fail_type = ( failure_level > 5 ? 5 : failure_level );
 
     if( installer != "NOT_MED" ) {
@@ -2513,7 +2513,7 @@ void Character::bionics_install_failure( const std::string &installer,
             // We've got all the bad bionics!
             if( valid.empty() ) {
                 if( has_max_power() ) {
-                    units::energy old_power = get_max_power_level();
+                    units::energy const old_power = get_max_power_level();
                     add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
                     set_max_power_level( units::from_kilojoule( rng( 0,
                                          units::to_kilojoule( get_max_power_level() ) - 25 ) ) );
@@ -2659,7 +2659,7 @@ void Character::remove_bionic( const bionic_id &b )
     bionic_collection new_my_bionics;
     // any spells you should not forget due to still having a bionic installed that has it.
     std::set<spell_id> cbm_spells;
-    for( bionic &i : *my_bionics ) {
+    for( bionic  const&i : *my_bionics ) {
         if( b == i.id ) {
             continue;
         }
@@ -2861,7 +2861,7 @@ void bionic::serialize( JsonOut &json ) const
 
 void bionic::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
     id = bionic_id( jo.get_string( "id" ) );
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );

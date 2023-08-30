@@ -151,7 +151,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
         } else if( sk.has_array( 0 ) ) {
             // multiple requirements
-            for( JsonArray arr : sk ) {
+            for( JsonArray const arr : sk ) {
                 required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
             }
 
@@ -167,7 +167,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     } else if( jo.has_array( "autolearn" ) ) {
         autolearn = true;
-        for( JsonArray arr : jo.get_array( "autolearn" ) ) {
+        for( JsonArray const arr : jo.get_array( "autolearn" ) ) {
             autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
     }
@@ -187,7 +187,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             assign( jo, "decomp_learn", learn_by_disassembly[skill_used] );
 
         } else if( jo.has_array( "decomp_learn" ) ) {
-            for( JsonArray arr : jo.get_array( "decomp_learn" ) ) {
+            for( JsonArray const arr : jo.get_array( "decomp_learn" ) ) {
                 learn_by_disassembly[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
             }
         }
@@ -214,7 +214,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     } else if( jo.has_array( "using" ) ) {
         reqs_external.clear();
-        for( JsonArray cur : jo.get_array( "using" ) ) {
+        for( JsonArray const cur : jo.get_array( "using" ) ) {
             reqs_external.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     }
@@ -249,8 +249,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 jo.throw_error( "Recipe cannot be reversible and have byproducts" );
             }
             byproducts.clear();
-            for( JsonArray arr : jo.get_array( "byproducts" ) ) {
-                itype_id byproduct( arr.get_string( 0 ) );
+            for( JsonArray const arr : jo.get_array( "byproducts" ) ) {
+                itype_id const byproduct( arr.get_string( 0 ) );
                 byproducts[ byproduct ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
@@ -261,19 +261,19 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             for( const std::string resource : jo.get_array( "blueprint_resources" ) ) {
                 bp_resources.emplace_back( resource );
             }
-            for( JsonObject provide : jo.get_array( "blueprint_provides" ) ) {
+            for( JsonObject const provide : jo.get_array( "blueprint_provides" ) ) {
                 bp_provides.emplace_back( std::make_pair( provide.get_string( "id" ),
                                           provide.get_int( "amount", 1 ) ) );
             }
             // all blueprints provide themselves with needing it written in JSON
             bp_provides.emplace_back( std::make_pair( result_.str(), 1 ) );
-            for( JsonObject require : jo.get_array( "blueprint_requires" ) ) {
+            for( JsonObject const require : jo.get_array( "blueprint_requires" ) ) {
                 bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
                                           require.get_int( "amount", 1 ) ) );
             }
             // all blueprints exclude themselves with needing it written in JSON
             bp_excludes.emplace_back( std::make_pair( result_.str(), 1 ) );
-            for( JsonObject exclude : jo.get_array( "blueprint_excludes" ) ) {
+            for( JsonObject const exclude : jo.get_array( "blueprint_excludes" ) ) {
                 bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
                                           exclude.get_int( "amount", 1 ) ) );
             }
@@ -291,7 +291,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                     time += time_blueprint;
                 }
                 if( jneeds.has_member( "skills" ) ) {
-                    for( JsonArray cur : jneeds.get_array( "skills" ) ) {
+                    for( JsonArray const cur : jneeds.get_array( "skills" ) ) {
                         skills_blueprint[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
                     }
                     for( const std::pair<const skill_id, int> &p : skills_blueprint ) {
@@ -492,7 +492,7 @@ std::vector<item> recipe::create_results( int batch ) const
         // by_charges items get their charges multiplied in create_result
         const int num_results = by_charges ? batch : batch * result_mult;
         for( int i = 0; i < num_results; i++ ) {
-            item newit = create_result();
+            item const newit = create_result();
             items.push_back( newit );
         }
     } else {
@@ -548,7 +548,7 @@ std::string required_skills_as_string( Iter first, Iter last, const Character *c
     return enumerate_as_string( first, last,
     [&]( const std::pair<skill_id, int> &skill ) {
         const int player_skill = c ? c->get_skill_level( skill.first ) : 0;
-        std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
+        std::string const difficulty_color = skill.second > player_skill ? "yellow" : "green";
         std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
         skill_level_string += std::to_string( skill.second );
         return string_format( "<color_cyan>%s</color> <color_%s>(%s)</color>",
@@ -766,7 +766,7 @@ void recipe::check_blueprint_requirements()
             = get_changed_ids_from_update( blueprint );
     get_build_reqs_for_furn_ter_ids( ident(), changed_ids, total_reqs );
 
-    requirement_data req_data_blueprint = std::accumulate(
+    requirement_data const req_data_blueprint = std::accumulate(
             reqs_blueprint.begin(), reqs_blueprint.end(), requirement_data(),
     []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
         return lhs + ( *rhs.first * rhs.second );
@@ -781,8 +781,8 @@ void recipe::check_blueprint_requirements()
     req_data_calc.consolidate();
     if( time_blueprint != total_reqs.time || skills_blueprint != total_reqs.skills
         || !req_data_blueprint.has_same_requirements_as( req_data_calc ) ) {
-        std::string calc_req_str = dump_requirements( req_data_calc, total_reqs.time, total_reqs.skills );
-        std::string got_req_str = dump_requirements( req_data_blueprint, time_blueprint, skills_blueprint );
+        std::string const calc_req_str = dump_requirements( req_data_calc, total_reqs.time, total_reqs.skills );
+        std::string const got_req_str = dump_requirements( req_data_blueprint, time_blueprint, skills_blueprint );
 
         std::stringstream ss;
         for( auto &id_count : changed_ids.first ) {

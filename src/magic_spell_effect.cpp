@@ -87,7 +87,7 @@ struct line_iterable {
 // Orientation of point C relative to line AB
 static int side_of( point a, point b, point c )
 {
-    int cross = ( ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) );
+    int const cross = ( ( b.x - a.x ) * ( c.y - a.y ) - ( b.y - a.y ) * ( c.x - a.x ) );
     return ( cross > 0 ) - ( cross < 0 );
 }
 // Tests if point c is between or on lines (a0, a0 + d) and (a1, a1 + d)
@@ -114,7 +114,7 @@ static void build_line( spell_detail::line_iterable line, const tripoint &source
 
 void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
 {
-    bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
+    bool const safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
     const int min_distance = sp.range();
     const int max_distance = sp.range() + sp.aoe();
     if( min_distance > max_distance || min_distance < 0 || max_distance < 0 ) {
@@ -164,7 +164,7 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
     if( ignore_walls ) {
         return true;
     }
-    map &here = get_map();
+    map  const&here = get_map();
     const std::vector<tripoint> trajectory = line_to( start, end );
     tripoint last_point = start;
     for( const tripoint &pt : trajectory ) {
@@ -206,9 +206,9 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
         calc_ray_end( angle, range, source, potential );
         end_points.emplace( potential );
     }
-    map &here = get_map();
+    map  const&here = get_map();
     for( const tripoint &ep : end_points ) {
-        std::vector<tripoint> trajectory = line_to( source, ep );
+        std::vector<tripoint> const trajectory = line_to( source, ep );
         tripoint last_point = source;
         for( const tripoint &tp : trajectory ) {
             if( ignore_walls || ( !here.obstructed_by_vehicle_rotation( tp, last_point ) &&
@@ -231,7 +231,7 @@ static bool test_always_true( const tripoint &, const tripoint & )
 }
 static bool test_passable( const tripoint &p, const tripoint &prev )
 {
-    map &here = get_map();
+    map  const&here = get_map();
     return ( !here.obstructed_by_vehicle_rotation( prev, p ) && ( here.passable( p ) ||
              here.has_flag( "THIN_OBSTACLE", p ) ) );
 }
@@ -264,7 +264,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     }
 
     // is delta aligned with, cw, or ccw of primary axis
-    int delta_side = spell_detail::side_of( point_zero, axis_delta, delta );
+    int const delta_side = spell_detail::side_of( point_zero, axis_delta, delta );
 
     bool ( *test )( const tripoint &,
                     const tripoint & ) = ignore_walls ? test_always_true : test_passable;
@@ -287,7 +287,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     if( delta_side == 0 ) { // delta is already axis aligned, only need straight lines
         // cw leg
         point prev_point;
-        for( point p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+        for( point const p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
             if( !test( source + p, source + prev_point ) ) {
                 break;
@@ -298,7 +298,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
         }
         // ccw leg
         prev_point = point_zero;
-        for( point p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( point const p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
             if( !test( source + p, source + prev_point ) ) {
                 break;
@@ -310,7 +310,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     } else if( delta_side == 1 ) { // delta is cw of primary axis
         // ccw leg is behind perp axis
         point prev_point;
-        for( point p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( point const p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
             // forward until in
@@ -325,7 +325,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
         }
         prev_point = point_zero;
         // cw leg is before perp axis
-        for( point p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+        for( point const p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
 
             // move back
@@ -342,7 +342,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
     } else if( delta_side == -1 ) { // delta is ccw of primary axis
         // ccw leg is before perp axis
         point prev_point;
-        for( point p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
+        for( point const p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
             base_line.reset( p );
 
             // move back
@@ -358,7 +358,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
         }
         prev_point = point_zero;
         // cw leg is behind perp axis
-        for( point p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
+        for( point const p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
             base_line.reset( p );
 
             // forward until in
@@ -431,13 +431,13 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
 {
     Creature *const critter = g->critter_at<Creature>( target );
     Character *const guy = g->critter_at<Character>( target );
-    efftype_id spell_effect( sp.effect_data() );
+    efftype_id const spell_effect( sp.effect_data() );
 
     // TODO: migrate duration from moves to time_duration
     const int dur_turns = sp.duration() / 100;
     // Ensure permanent effect has at last 1 second of duration,
     // so it won't be instantly removed as expired.
-    time_duration dur_td = ( spell_effect->is_permanent() && dur_turns == 0 )
+    time_duration const dur_td = ( spell_effect->is_permanent() && dur_turns == 0 )
                            ? 1_seconds
                            : 1_turns * dur_turns;
 
@@ -499,7 +499,7 @@ void spell_effect::projectile_attack( const spell &sp, Creature &caster,
 {
     std::vector<tripoint> trajectory = line_to( caster.pos(), target );
     tripoint prev_point = caster.pos();
-    map &here = get_map();
+    map  const&here = get_map();
     for( std::vector<tripoint>::iterator iter = trajectory.begin(); iter != trajectory.end(); iter++ ) {
         if( ( here.impassable( *iter ) && !here.has_flag( "THIN_OBSTACLE", *iter ) ) ||
             here.obstructed_by_vehicle_rotation( prev_point, *iter ) ) {
@@ -554,7 +554,7 @@ bool area_expander::enqueue( const tripoint &from, const tripoint &to, float cos
 {
     if( contains( to ) ) {
         // We will modify existing node if its cost is lower.
-        int index = area_search[to];
+        int const index = area_search[to];
         node &node = area[index];
         if( cost < node.cost ) {
             node.from = from;
@@ -562,7 +562,7 @@ bool area_expander::enqueue( const tripoint &from, const tripoint &to, float cos
         }
         return false;
     }
-    int index = area.size();
+    int const index = area.size();
     area.push_back( {to, from, cost} );
     frontier.push( index );
     area_search[to] = index;
@@ -580,22 +580,22 @@ int area_expander::run( const tripoint &center )
     // Number of nodes expanded.
     int expanded = 0;
 
-    map &here = get_map();
+    map  const&here = get_map();
 
     while( !frontier.empty() ) {
-        int best_index = frontier.top();
+        int const best_index = frontier.top();
         frontier.pop();
-        node &best = area[best_index];
+        node  const&best = area[best_index];
 
         for( size_t i = 0; i < 8; i++ ) {
-            tripoint pt = best.position + point( x_offset[ i ], y_offset[ i ] );
+            tripoint const pt = best.position + point( x_offset[ i ], y_offset[ i ] );
 
             if( ( here.impassable( pt ) && !here.has_flag( "THIN_OBSTACLE", pt ) ) ||
                 here.obstructed_by_vehicle_rotation( best.position, pt ) ) {
                 continue;
             }
 
-            float center_range = static_cast<float>( rl_dist( center, pt ) );
+            float const center_range = static_cast<float>( rl_dist( center, pt ) );
             if( max_range > 0 && center_range > max_range ) {
                 continue;
             }
@@ -604,7 +604,7 @@ int area_expander::run( const tripoint &center )
                 continue;
             }
 
-            float delta_range = trig_dist( best.position, pt );
+            float const delta_range = trig_dist( best.position, pt );
 
             if( enqueue( best.position, pt, best.cost + delta_range ) ) {
                 expanded++;
@@ -644,13 +644,13 @@ static void spell_move( const spell &sp, const Creature &caster,
     }
 
     // Moving creatures
-    bool can_target_creature = sp.is_valid_effect_target( target_self ) ||
+    bool const can_target_creature = sp.is_valid_effect_target( target_self ) ||
                                sp.is_valid_effect_target( target_ally ) ||
                                sp.is_valid_effect_target( target_hostile );
 
     if( can_target_creature ) {
         if( Creature *victim = g->critter_at<Creature>( from ) ) {
-            Creature::Attitude cr_att = victim->attitude_to( get_avatar() );
+            Creature::Attitude const cr_att = victim->attitude_to( get_avatar() );
             bool valid = cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( target_hostile );
             valid |= cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( target_ally );
             valid |= victim == &caster && sp.is_valid_effect_target( target_self );
@@ -678,7 +678,7 @@ static void spell_move( const spell &sp, const Creature &caster,
         }
         auto &src_field = here.field_at( from );
         if( field_entry *entry = src_field.find_field( fid ) ) {
-            int intensity = entry->get_field_intensity();
+            int const intensity = entry->get_field_intensity();
             here.remove_field( from, fid );
             here.set_field_intensity( to, fid, intensity );
         }
@@ -911,7 +911,7 @@ void spell_effect::none( const spell &sp, Creature &, const tripoint & )
 void spell_effect::transform_blast( const spell &sp, Creature &caster,
                                     const tripoint &target )
 {
-    ter_furn_transform_id transform( sp.effect_data() );
+    ter_furn_transform_id const transform( sp.effect_data() );
     const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), true );
     for( const tripoint &location : area ) {
         if( one_in( sp.damage() ) ) {

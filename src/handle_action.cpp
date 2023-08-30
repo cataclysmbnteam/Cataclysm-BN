@@ -165,7 +165,7 @@ class user_turn
                 return 0;
             }
             auto now = std::chrono::steady_clock::now();
-            std::chrono::milliseconds elapsed_ms =
+            std::chrono::milliseconds const elapsed_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
             return elapsed_ms.count() / ( 10.0 * turn_duration );
         }
@@ -186,8 +186,8 @@ static bool init_weather_anim( const weather_type_id &wtype, weather_printable &
 
 static void generate_weather_anim_frame( const weather_type_id &wtype, weather_printable &wPrint )
 {
-    map &m = get_map();
-    avatar &u = get_avatar();
+    map  const&m = get_map();
+    avatar  const&u = get_avatar();
 
     const visibility_variables &cache = m.get_visibility_variables_cache();
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
@@ -284,7 +284,7 @@ input_context game::get_player_input( std::string &action )
     weather_printable wPrint;
     bool animate_weather = false;
     bool animate_sct = false;
-    bool do_animations = [&]() {
+    bool const do_animations = [&]() {
         if( get_option<bool>( "ANIMATIONS" ) ) {
             const bool weather_has_anim = init_weather_anim( get_weather().weather_id, wPrint );
 
@@ -307,7 +307,7 @@ input_context game::get_player_input( std::string &action )
     if( do_animations ) {
         ctxt.set_timeout( 125 );
 
-        shared_ptr_fast<game::draw_callback_t> animation_cb =
+        shared_ptr_fast<game::draw_callback_t> const animation_cb =
         make_shared_fast<game::draw_callback_t>( [&]() {
             if( animate_weather ) {
                 draw_weather( wPrint );
@@ -335,7 +335,7 @@ input_context game::get_player_input( std::string &action )
                     const direction oCurDir = iter->getDirecton();
                     const int width = utf8_width( iter->getText() );
                     for( int i = 0; i < width; ++i ) {
-                        tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_levz() );
+                        tripoint const tmp( iter->getPosX() + i, iter->getPosY(), get_levz() );
                         const Creature *critter = critter_at( tmp, true );
 
                         if( critter != nullptr && u.sees( *critter ) ) {
@@ -401,7 +401,7 @@ inline static void rcdrive( point d )
 {
     player &u = g->u;
     map &here = get_map();
-    std::string car_location_string = u.get_value( "remote_controlling" );
+    std::string const car_location_string = u.get_value( "remote_controlling" );
 
     if( car_location_string.empty() ) {
         u.add_msg_if_player( m_warning, _( "No radio car connected." ) );
@@ -433,7 +433,7 @@ inline static void rcdrive( point d )
                        _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
     } else if( !here.add_item_or_charges( dest, *rc_car ).is_null() ) {
-        tripoint src( c );
+        tripoint const src( c );
         //~ Sound of moving a remote controlled car
         sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz…" ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
@@ -455,7 +455,7 @@ static void pldrive( const tripoint &p )
     vehicle *veh = g->remoteveh();
     bool remote = true;
     int part = -1;
-    map &here = get_map();
+    map  const&here = get_map();
     if( !veh ) {
         if( const optional_vpart_position vp = here.veh_at( u.pos() ) ) {
             veh = &vp->vehicle();
@@ -531,10 +531,10 @@ static void open()
 
     if( const optional_vpart_position vp = here.veh_at( openp ) ) {
         vehicle *const veh = &vp->vehicle();
-        int openable = veh->next_part_to_open( vp->part_index() );
+        int const openable = veh->next_part_to_open( vp->part_index() );
         if( openable >= 0 ) {
             const vehicle *player_veh = veh_pointer_or_null( here.veh_at( u.pos() ) );
-            bool outside = !player_veh || player_veh != veh;
+            bool const outside = !player_veh || player_veh != veh;
             if( !outside ) {
                 if( !veh->handle_potential_theft( get_avatar() ) ) {
                     u.moves += 100;
@@ -547,7 +547,7 @@ static void open()
                 // If there is, we open everything on tile. This means opening a closed,
                 // curtained door from outside is possible, but it will magically open the
                 // curtains as well.
-                int outside_openable = veh->next_part_to_open( vp->part_index(), true );
+                int const outside_openable = veh->next_part_to_open( vp->part_index(), true );
                 if( outside_openable == -1 ) {
                     const std::string name = veh->part_info( openable ).name();
                     add_msg( m_info, _( "That %s can only opened from the inside." ), name );
@@ -573,7 +573,7 @@ static void open()
         return;
     }
 
-    bool didit = here.open_door( openp, !here.is_outside( u.pos() ) );
+    bool const didit = here.open_door( openp, !here.is_outside( u.pos() ) );
 
     if( !didit ) {
         const ter_str_id tid = here.ter( openp ).id();
@@ -655,7 +655,7 @@ static void grab()
 static void haul()
 {
     player &u = g->u;
-    map &here = get_map();
+    map  const&here = get_map();
 
     if( u.is_hauling() ) {
         u.stop_hauling();
@@ -730,7 +730,7 @@ static void smash()
             crit->use_mech_power( -3 );
         }
     }
-    for( std::pair<const field_type_id, field_entry> &fd_to_smsh : here.field_at( smashp ) ) {
+    for( std::pair<const field_type_id, field_entry>  const&fd_to_smsh : here.field_at( smashp ) ) {
         const map_bash_info &bash_info = fd_to_smsh.first->bash_info;
         if( bash_info.str_min == -1 ) {
             continue;
@@ -831,8 +831,8 @@ static void smash()
                 }
 
                 if( to_safety ) {
-                    tripoint oldpos = u.pos();
-                    tripoint newpos = u.pos() + *to_safety;
+                    tripoint const oldpos = u.pos();
+                    tripoint const newpos = u.pos() + *to_safety;
                     // game::walk_move will return true even if you don't move
                     if( g->walk_move( newpos ) && u.pos() != oldpos ) {
                         break;
@@ -875,7 +875,7 @@ static void wait()
     uilist as_m;
     player &u = g->u;
     bool setting_alarm = false;
-    map &here = get_map();
+    map  const&here = get_map();
 
     if( u.controlling_vehicle && ( here.veh_at( u.pos() )->vehicle().velocity ||
                                    here.veh_at( u.pos() )->vehicle().cruise_velocity ) ) {
@@ -884,7 +884,7 @@ static void wait()
     }
 
     if( u.has_alarm_clock() ) {
-        int alarm_query = try_set_alarm();
+        int const alarm_query = try_set_alarm();
         if( alarm_query == UILIST_CANCEL ) {
             return;
         }
@@ -968,7 +968,7 @@ static void wait()
 
     time_duration time_to_wait;
     if( as_m.ret == 13 ) {
-        int minutes = string_input_popup()
+        int const minutes = string_input_popup()
                       .title( _( "How long?  (in minutes)" ) )
                       .identifier( "wait_duration" )
                       .query_int();
@@ -1003,7 +1003,7 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) ), 0 );
+        player_activity const new_act( actType, 100 * ( to_turns<int>( time_to_wait ) ), 0 );
 
         u.assign_activity( new_act, false );
     }
@@ -1101,7 +1101,7 @@ static void sleep()
     }
     if( u.has_alarm_clock() ) {
         /* Reuse menu to ask player whether they want to set an alarm. */
-        bool can_hibernate = u.get_kcal_percent() > 0.95 && u.has_active_mutation( trait_HIBERNATE );
+        bool const can_hibernate = u.get_kcal_percent() > 0.95 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
         as_m.text = can_hibernate ?
@@ -1371,14 +1371,14 @@ static void fire()
             }
         }
         if( !options.empty() ) {
-            int sel = uilist( _( "Draw what?" ), options );
+            int const sel = uilist( _( "Draw what?" ), options );
             if( sel >= 0 ) {
                 actions[sel]();
             }
         }
     }
 
-    item &weapon = u.primary_weapon();
+    item  const&weapon = u.primary_weapon();
     if( weapon.is_gun() && !weapon.gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( u );
     } else if( weapon.reach_range( u ) > 1 ) {
@@ -1423,7 +1423,7 @@ static void cast_spell()
 {
     player &u = g->u;
 
-    std::vector<spell_id> spells = u.magic->spells();
+    std::vector<spell_id> const spells = u.magic->spells();
 
     if( spells.empty() ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
@@ -1432,8 +1432,8 @@ static void cast_spell()
     }
 
     bool can_cast_spells = false;
-    for( spell_id sp : spells ) {
-        spell temp_spell = u.magic->get_spell( sp );
+    for( spell_id const sp : spells ) {
+        spell const temp_spell = u.magic->get_spell( sp );
         if( temp_spell.can_cast( u ) ) {
             can_cast_spells = true;
         }
@@ -1549,7 +1549,7 @@ bool game::handle_action()
     }
 
     const optional_vpart_position vp = m.veh_at( u.pos() );
-    bool veh_ctrl = !u.is_dead_state() &&
+    bool const veh_ctrl = !u.is_dead_state() &&
                     ( ( vp && vp->vehicle().player_in_control( u ) ) || remoteveh() != nullptr );
 
     // If performing an action with right mouse button, co-ordinates
@@ -1679,9 +1679,9 @@ bool game::handle_action()
     // This has no action unless we're in a special game mode.
     gamemode->pre_action( act );
 
-    int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
+    int const soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
 
-    int before_action_moves = u.moves;
+    int const before_action_moves = u.moves;
 
     // These actions are allowed while deathcam is active. Registered in game::get_player_input
     if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
@@ -1794,7 +1794,7 @@ bool game::handle_action()
                     point dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
                     if( auto_travel_mode && !u.is_auto_moving() ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            tripoint auto_travel_destination( u.posx() + dest_delta.x * ( SEEX - i ),
+                            tripoint const auto_travel_destination( u.posx() + dest_delta.x * ( SEEX - i ),
                                                               u.posy() + dest_delta.y * ( SEEX - i ),
                                                               u.posz() );
                             destination_preview = m.route( u.pos(),
@@ -2078,7 +2078,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_THROW: {
-                item_location loc;
+                item_location const loc;
                 avatar_action::plthrow( g->u, loc );
                 break;
             }

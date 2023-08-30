@@ -327,7 +327,7 @@ int sokoban_game::start_game()
                 if( vUndo[vUndo.size() - 1].sTileOld == "$" ||
                     vUndo[vUndo.size() - 1].sTileOld == "*" ) {
                     mLevel[pl.y][pl.x] = mLevel[pl.y][pl.x] == "." ? "*" : "$";
-                    point np = pl + dir;
+                    point const np = pl + dir;
                     mLevel[np.y][np.x] = mLevel[np.y][np.x] == "*" ?
                                          "." : " ";
 
@@ -359,14 +359,14 @@ int sokoban_game::start_game()
 
         if( bMoved ) {
             //check if we can move the player
-            std::string sMoveTo = mLevel[pl.y + dir.y][pl.x + dir.x];
+            std::string const sMoveTo = mLevel[pl.y + dir.y][pl.x + dir.x];
             bool bMovePlayer = false;
 
             if( sMoveTo != "#" ) {
                 if( sMoveTo == "$" || sMoveTo == "*" ) {
                     //Check if we can move the package
-                    point p_pack = pl + dir * 2;
-                    std::string sMovePackTo = mLevel[p_pack.y][p_pack.x];
+                    point const p_pack = pl + dir * 2;
+                    std::string const sMovePackTo = mLevel[p_pack.y][p_pack.x];
                     if( sMovePackTo == "." || sMovePackTo == " " ) {
                         //move both
                         bMovePlayer = true;

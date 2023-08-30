@@ -155,7 +155,7 @@ void character_martial_arts::serialize( JsonOut &json ) const
 
 void character_martial_arts::deserialize( JsonIn &jsin )
 {
-    JsonObject data = jsin.get_object();
+    JsonObject const data = jsin.get_object();
     data.read( "ma_styles", ma_styles );
     data.read( "keep_hands_free", keep_hands_free );
     data.read( "style_selected", style_selected );

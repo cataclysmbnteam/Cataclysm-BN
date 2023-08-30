@@ -131,8 +131,8 @@ void Character::toggle_trait( const trait_id &trait_ )
     const auto titer = my_traits.find( trait );
     const auto miter = my_mutations.find( trait );
     // These shouldn't be inlined, otherwise the sync check uses invalid iterators
-    bool no_trait = titer == my_traits.end();
-    bool no_mutation = miter == my_mutations.end();
+    bool const no_trait = titer == my_traits.end();
+    bool const no_mutation = miter == my_mutations.end();
     if( no_trait ) {
         my_traits.insert( trait );
     } else {
@@ -203,8 +203,8 @@ int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 
 void Character::apply_mods( const trait_id &mut, bool add_remove )
 {
-    int sign = add_remove ? 1 : -1;
-    int str_change = get_mod( mut, "STR" );
+    int const sign = add_remove ? 1 : -1;
+    int const str_change = get_mod( mut, "STR" );
     str_max += sign * str_change;
     per_max += sign * get_mod( mut, "PER" );
     dex_max += sign * get_mod( mut, "DEX" );
@@ -221,7 +221,7 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
         return false;
     }
 
-    for( body_part bp : restricts_gear ) {
+    for( body_part const bp : restricts_gear ) {
         if( it.covers( bp ) ) {
             return true;
         }
@@ -674,7 +674,7 @@ template<class T, class V = typename T::value_type>
 static T normalized_map( const T &ctn )
 {
     T ret;
-    float sum = std::accumulate( std::begin( ctn ), std::end( ctn ), 0.0f,
+    float const sum = std::accumulate( std::begin( ctn ), std::end( ctn ), 0.0f,
     []( float acc, const V & v ) {
         return acc + v.second;
     } );
@@ -699,9 +699,9 @@ static std::map<std::string, float> calc_category_weights( const std::map<std::s
     []( const auto & best, const auto & current ) {
         return current.second > best.second;
     } );
-    float h_lvl = std::max<float>( max_lvl_iter->second, 20.0f );
+    float const h_lvl = std::max<float>( max_lvl_iter->second, 20.0f );
     for( const auto &cat_lvl : mcl ) {
-        float weight = addition ? ( 1 + 4 * ( cat_lvl.second / h_lvl ) )
+        float const weight = addition ? ( 1 + 4 * ( cat_lvl.second / h_lvl ) )
                        : ( 5 - 4 * ( cat_lvl.second / h_lvl ) );
         category_weights[cat_lvl.first] = weight;
     }
@@ -732,10 +732,10 @@ std::map<trait_id, float> Character::mutation_chances() const
         force_bad = true;
     }
 
-    int current_score = genetic_score( *this );
+    int const current_score = genetic_score( *this );
     // 10/10/10/10 in stats, balanced traits, plus tip
-    int expected_score = 4 * 10 + 6;
-    int direction = expected_score - current_score;
+    int const expected_score = 4 * 10 + 6;
+    int const direction = expected_score - current_score;
 
     // Duplicates allowed - they'll increase chances of change
     std::vector<potential_mutation> potential;
@@ -743,10 +743,10 @@ std::map<trait_id, float> Character::mutation_chances() const
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         const trait_id &base_mutation = traits_iter.id;
         const mutation_branch &base_mdata = traits_iter;
-        bool thresh_save = base_mdata.threshold;
-        bool prof_save = base_mdata.profession;
-        bool purify_save = !base_mdata.purifiable;
-        bool can_remove = !thresh_save && !prof_save && !purify_save;
+        bool const thresh_save = base_mdata.threshold;
+        bool const prof_save = base_mdata.profession;
+        bool const purify_save = !base_mdata.purifiable;
+        bool const can_remove = !thresh_save && !prof_save && !purify_save;
 
         if( has_trait( base_mutation ) ) {
             for( const trait_id &mutation : base_mdata.replacements ) {
@@ -793,23 +793,23 @@ std::map<trait_id, float> Character::mutation_chances() const
 
     // Warning: has duplicates
     for( const potential_mutation &pm : potential ) {
-        int cost_from = pm.from.is_valid() ? pm.from->cost : 0;
-        int cost_to = pm.to.is_valid() ? pm.to->cost : 0;
-        int score_diff = cost_to - cost_from;
+        int const cost_from = pm.from.is_valid() ? pm.from->cost : 0;
+        int const cost_to = pm.to.is_valid() ? pm.to->cost : 0;
+        int const score_diff = cost_to - cost_from;
 
         if( pm.to.is_valid() ) {
-            float cat_mod = std::accumulate( pm.to->category.begin(), pm.to->category.end(), 0.0f,
+            float const cat_mod = std::accumulate( pm.to->category.begin(), pm.to->category.end(), 0.0f,
             [&add_weighs]( float m, const std::string & cat ) {
                 return std::max( m, add_weighs.at( cat ) );
             } );
-            float c = score_difference_to_chance( direction + score_diff );
+            float const c = score_difference_to_chance( direction + score_diff );
             chances[pm.to] += c * cat_mod;
         } else if( pm.from.is_valid() ) {
-            float cat_mod = std::accumulate( pm.from->category.begin(), pm.from->category.end(), 0.0f,
+            float const cat_mod = std::accumulate( pm.from->category.begin(), pm.from->category.end(), 0.0f,
             [&rem_weighs]( float m, const std::string & cat ) {
                 return std::min( m, rem_weighs.at( cat ) );
             } );
-            float c = score_difference_to_chance( direction - score_diff );
+            float const c = score_difference_to_chance( direction - score_diff );
             chances[pm.from] += c * cat_mod;
         }
     }
@@ -828,7 +828,7 @@ void Character::mutate()
                           ( mutagen.get_int_dur_factor() );
         add_msg_if_player( m_debug, "Mutation accumulation: %.1f", mut_power );
         while( mut_power > 1 || roll_remainder( mut_power ) > 0 ) {
-            std::map<trait_id, float> chances = mutation_chances();
+            std::map<trait_id, float> const chances = mutation_chances();
 
             weighted_float_list<trait_id> mutation_picker;
             for( const auto &p : chances ) {
@@ -891,16 +891,16 @@ void Character::old_mutate()
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         const trait_id &base_mutation = traits_iter.id;
         const mutation_branch &base_mdata = traits_iter;
-        bool thresh_save = base_mdata.threshold;
-        bool prof_save = base_mdata.profession;
+        bool const thresh_save = base_mdata.threshold;
+        bool const prof_save = base_mdata.profession;
         // are we unpurifiable? (saved from mutating away)
-        bool purify_save = !base_mdata.purifiable;
+        bool const purify_save = !base_mdata.purifiable;
 
         // ...that we have...
         if( has_trait( base_mutation ) ) {
             // ...consider the mutations that replace it.
             for( const trait_id &mutation : base_mdata.replacements ) {
-                bool valid_ok = mutation->valid;
+                bool const valid_ok = mutation->valid;
 
                 if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
                     ( valid_ok ) ) {
@@ -910,7 +910,7 @@ void Character::old_mutate()
 
             // ...consider the mutations that add to it.
             for( const trait_id &mutation : base_mdata.additions ) {
-                bool valid_ok = mutation->valid;
+                bool const valid_ok = mutation->valid;
 
                 if( ( mutation_ok( mutation, force_good, force_bad ) ) &&
                     ( valid_ok ) ) {
@@ -921,7 +921,7 @@ void Character::old_mutate()
             // ...consider whether its in our highest category
             if( has_trait( base_mutation ) && !has_base_trait( base_mutation ) ) {
                 // Starting traits don't count toward categories
-                std::vector<trait_id> group = mutations_category[cat];
+                std::vector<trait_id> const group = mutations_category[cat];
                 bool in_cat = false;
                 for( const trait_id &elem : group ) {
                     if( elem == base_mutation ) {
@@ -946,7 +946,7 @@ void Character::old_mutate()
     if( one_in( 2 ) ) {
         if( !upgrades.empty() ) {
             // (upgrade count) chances to pick an upgrade, 4 chances to pick something else.
-            size_t roll = rng( 0, upgrades.size() + 4 );
+            size_t const roll = rng( 0, upgrades.size() + 4 );
             if( roll < upgrades.size() ) {
                 // We got a valid upgrade index, so use it and return.
                 mutate_towards( upgrades[roll] );
@@ -956,7 +956,7 @@ void Character::old_mutate()
     } else {
         // Remove existing mutations that don't fit into our category
         if( !downgrades.empty() && !cat.empty() ) {
-            size_t roll = rng( 0, downgrades.size() + 4 );
+            size_t const roll = rng( 0, downgrades.size() + 4 );
             if( roll < downgrades.size() ) {
                 remove_mutation( downgrades[roll] );
                 return;
@@ -1072,7 +1072,7 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
 bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
 {
     while( !muts.empty() && num_tries > 0 ) {
-        int i = rng( 0, muts.size() - 1 );
+        int const i = rng( 0, muts.size() - 1 );
 
         if( mutate_towards( muts[i] ) ) {
             return true;
@@ -1100,7 +1100,7 @@ bool Character::mutate_towards( const trait_id &mut )
     std::vector<trait_id> prereq = mdata.prereqs;
     std::vector<trait_id> prereqs2 = mdata.prereqs2;
     std::vector<trait_id> cancel = mdata.cancels;
-    std::vector<trait_id> same_type = get_mutations_in_types( mdata.types );
+    std::vector<trait_id> const same_type = get_mutations_in_types( mdata.types );
     std::vector<trait_id> all_prereqs = get_all_mutation_prereqs( mut );
 
     // Check mutations of the same type - except for the ones we might need for pre-reqs
@@ -1124,7 +1124,7 @@ bool Character::mutate_towards( const trait_id &mut )
 
     for( size_t i = 0; i < cancel.size(); i++ ) {
         if( !cancel.empty() ) {
-            trait_id removed = cancel[i];
+            trait_id const removed = cancel[i];
             remove_mutation( removed );
             cancel.erase( cancel.begin() + i );
             i--;
@@ -1159,8 +1159,8 @@ bool Character::mutate_towards( const trait_id &mut )
     }
 
     // Check for threshold mutation, if needed
-    bool threshold = mdata.threshold;
-    bool profession = mdata.profession;
+    bool const threshold = mdata.threshold;
+    bool const profession = mdata.profession;
     bool has_threshreq = false;
     std::vector<trait_id> threshreq = mdata.threshreq;
 
@@ -1317,7 +1317,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     trait_id replacing = trait_id::NULL_ID();
     std::vector<trait_id> originals = mdata.prereqs;
     for( size_t i = 0; !replacing && i < originals.size(); i++ ) {
-        trait_id pre = originals[i];
+        trait_id const pre = originals[i];
         const auto &p = pre.obj();
         for( size_t j = 0; !replacing && j < p.replacements.size(); j++ ) {
             if( p.replacements[j] == mut ) {
@@ -1329,7 +1329,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     trait_id replacing2 = trait_id::NULL_ID();
     std::vector<trait_id> originals2 = mdata.prereqs2;
     for( size_t i = 0; !replacing2 && i < originals2.size(); i++ ) {
-        trait_id pre2 = originals2[i];
+        trait_id const pre2 = originals2[i];
         const auto &p = pre2.obj();
         for( size_t j = 0; !replacing2 && j < p.replacements.size(); j++ ) {
             if( p.replacements[j] == mut ) {
@@ -1566,7 +1566,7 @@ mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool stro
                                        const mutagen_technique technique )
 {
     g->events().send<event_type::administers_mutagen>( guy.getID(), technique );
-    mutagen_rejection status = try_reject_mutagen( guy, it, strong );
+    mutagen_rejection const status = try_reject_mutagen( guy, it, strong );
     if( status == mutagen_rejection::rejected ) {
         return mutagen_attempt( false, 0 );
     }
@@ -1590,14 +1590,14 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
         return;
     }
 
-    std::string mutation_category = m_category.id;
+    std::string const mutation_category = m_category.id;
     int total = 0;
     for( const auto &iter : mutation_category_trait::get_all() ) {
         total += guy.mutation_category_level[ iter.first ];
     }
     // Threshold-breaching
     const std::string &primary = guy.get_highest_category();
-    int breach_power = guy.mutation_category_level[primary];
+    int const breach_power = guy.mutation_category_level[primary];
     // Only if you were pushing for more in your primary category.
     // You wanted to be more like it and less human.
     // That said, you're required to have hit third-stage dreams first.
@@ -1610,7 +1610,7 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
         if( mutation_category == "URSINE"  || mutation_category == "ALPHA" ) {
             booster = 50;
         }
-        int breacher = breach_power + booster;
+        int const breacher = breach_power + booster;
         if( x_in_y( breacher, total ) ) {
             guy.add_msg_if_player( m_good,
                                    _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
@@ -1699,7 +1699,7 @@ void Character::mutation_spend_resources( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
     char_trait_data &tdata = my_mutations[mut];
-    int cost = mdata.cost;
+    int const cost = mdata.cost;
     if( tdata.powered && tdata.charge > 0 ) {
         // Already-on units just lose a bit of charge
         tdata.charge--;

@@ -224,7 +224,7 @@ bool Creature::sees( const Creature &critter ) const
         return ch == nullptr || !ch->is_invisible();
     };
 
-    map &here = get_map();
+    map  const&here = get_map();
     const Character *ch = critter.as_character();
     const int wanted_range = rl_dist( pos(), critter.pos() );
     // Can always see adjacent monsters on the same level, unless they're through a vehicle wall.
@@ -283,7 +283,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
         return false;
     }
 
-    map &here = get_map();
+    map  const&here = get_map();
     const int range_cur = sight_range( here.ambient_light_at( t ) );
     const int range_day = sight_range( default_daylight_level() );
     const int range_night = sight_range( 0 );
@@ -308,7 +308,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
         if( is_avatar ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
             const float player_visibility_factor = g->u.visibility() / 100.0f;
-            int adj_range = std::floor( range * player_visibility_factor );
+            int const adj_range = std::floor( range * player_visibility_factor );
             return adj_range >= wanted_range &&
                    here.get_cache_ref( pos().z ).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {
@@ -337,7 +337,7 @@ static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
 {
     Creature *target = nullptr;
-    player &u = g->u; // Could easily protect something that isn't the player
+    player  const&u = g->u; // Could easily protect something that isn't the player
     constexpr int hostile_adj = 2; // Priority bonus for hostile targets
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
     // iff safety margin (degrees). less accuracy, more paranoia
@@ -348,8 +348,8 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     bool self_area_iff = false; // Need to check if the target is near the vehicle we're a part of
     bool area_iff = false;      // Need to check distance from target to player
     bool angle_iff = true;      // Need to check if player is in a cone between us and target
-    int pldist = rl_dist( pos(), g->u.pos() );
-    map &here = get_map();
+    int const pldist = rl_dist( pos(), g->u.pos() );
+    map  const&here = get_map();
     vehicle *in_veh = is_fake() ? veh_pointer_or_null( here.veh_at( pos() ) ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;
@@ -370,7 +370,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         self_area_iff = true;
     }
 
-    std::vector<Creature *> targets = g->get_creatures_if( [&]( const Creature & critter ) {
+    std::vector<Creature *> const targets = g->get_creatures_if( [&]( const Creature & critter ) {
         if( critter.is_monster() ) {
             // friendly to the player, not a target for us
             return static_cast<const monster *>( &critter )->friendly == 0;
@@ -405,9 +405,9 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                     }
                 } while( continueFlag );
 
-                tripoint oldPos = pos();
+                tripoint const oldPos = pos();
                 setpos( path_to_target.back() ); //Temporary moving targeting npc on vehicle boundary postion
-                bool seesFromVehBound = sees( *m ); // And look from there
+                bool const seesFromVehBound = sees( *m ); // And look from there
                 setpos( oldPos );
                 if( !seesFromVehBound ) {
                     continue;
@@ -416,13 +416,13 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 continue;
             }
         }
-        int dist = rl_dist( pos(), m->pos() ) + 1; // rl_dist can be 0
+        int const dist = rl_dist( pos(), m->pos() ) + 1; // rl_dist can be 0
         if( dist > range + 1 || dist < area ) {
             // Too near or too far
             continue;
         }
         // Prioritize big, armed and hostile stuff
-        float mon_rating = m->power_rating();
+        float const mon_rating = m->power_rating();
         float target_rating = mon_rating / dist;
         if( mon_rating + hostile_adj <= 0 ) {
             // We wouldn't attack it even if it was hostile
@@ -442,8 +442,8 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // only when the target is actually "hostile enough"
         bool maybe_boo = false;
         if( angle_iff ) {
-            units::angle tangle = coord_to_angle( pos(), m->pos() );
-            units::angle diff = units::fabs( u_angle - tangle );
+            units::angle const tangle = coord_to_angle( pos(), m->pos() );
+            units::angle const diff = units::fabs( u_angle - tangle );
             // Player is in the angle and not too far behind the target
             if( ( diff + iff_hangle > 360_degrees || diff < iff_hangle ) &&
                 ( dist * 3 / 2 + 6 > pldist ) ) {
@@ -622,7 +622,7 @@ void print_dmg_msg( Creature &target, Creature *source, const dealt_damage_insta
 dealt_damage_instance hit_with_aoe( Creature &target, Creature *source, const damage_instance &di )
 {
     const auto all_body_parts = target.get_body();
-    float hit_size_sum = std::accumulate( all_body_parts.begin(), all_body_parts.end(), 0.0f,
+    float const hit_size_sum = std::accumulate( all_body_parts.begin(), all_body_parts.end(), 0.0f,
     []( float acc, const std::pair<bodypart_str_id, bodypart> &pr ) {
         return acc + pr.first->hit_size;
     } );
@@ -732,7 +732,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     bodypart_id bp_hit;
-    double hit_value = missed_by + rng_float( -0.5, 0.5 );
+    double const hit_value = missed_by + rng_float( -0.5, 0.5 );
     if( targetted_crit_allowed || magic ) { //default logic for selecting bodypart
         if( goodhit < accuracy_critical && hit_value <= 0.2 ) {
             bp_hit = bodypart_str_id( "head" );
@@ -796,7 +796,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     impact.mult_damage( damage_mult );
 
     if( proj.has_effect( ammo_effect_NOGIB ) ) {
-        float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( bp_hit );
+        float const dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( bp_hit );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
         }
@@ -1415,7 +1415,7 @@ int Creature::get_perceived_pain() const
 
 std::pair<std::string, nc_color> Creature::get_pain_description() const
 {
-    float scale = get_perceived_pain() / 10.f;
+    float const scale = get_perceived_pain() / 10.f;
     std::string pain_string;
     nc_color pain_color = c_yellow;
     if( scale > 7 ) {
@@ -1543,7 +1543,7 @@ int Creature::get_armor_bullet_bonus() const
 
 int Creature::get_speed() const
 {
-    int speed = round( ( get_speed_base() + get_speed_bonus() ) * ( 1 + get_speed_mult() ) );
+    int const speed = round( ( get_speed_base() + get_speed_bonus() ) * ( 1 + get_speed_mult() ) );
     return std::max( static_cast<int>( round( 0.25 * get_speed_base() ) ), speed );
 }
 float Creature::get_dodge() const
@@ -1868,7 +1868,7 @@ void Creature::draw( const catacurses::window &w, const tripoint &origin, bool i
         return;
     }
 
-    point draw( -origin.xy() + point( getmaxx( w ) / 2 + posx(), getmaxy( w ) / 2 + posy() ) );
+    point const draw( -origin.xy() + point( getmaxx( w ) / 2 + posx(), getmaxy( w ) / 2 + posy() ) );
     if( inverted ) {
         mvwputch_inv( w, draw, basic_symbol_color(), symbol() );
     } else if( is_symbol_highlighted() ) {
@@ -1885,7 +1885,7 @@ bool Creature::is_symbol_highlighted() const
 
 body_part Creature::select_body_part( Creature *source, int hit_roll ) const
 {
-    int szdif = source->get_size() - get_size();
+    int const szdif = source->get_size() - get_size();
 
     add_msg( m_debug, "hit roll = %d", hit_roll );
     add_msg( m_debug, "source size = %d", source->get_size() );

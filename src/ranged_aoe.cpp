@@ -58,7 +58,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
     std::set<tripoint> closed;
 
     for( const tripoint &child : here.points_in_radius( origin, 1 ) ) {
-        double coverage = sigdist_to_coverage( sh.distance_at( child ) );
+        double const coverage = sigdist_to_coverage( sh.distance_at( child ) );
         if( coverage > 0.0 && !get_map().obstructed_by_vehicle_rotation( origin, child ) ) {
             open[child] = aoe_flood_node( origin, 1.0 );
             queue.emplace( child, trig_dist_squared( origin, child ) );
@@ -69,13 +69,13 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
 
     std::map<tripoint, double> final_coverage;
     while( !queue.empty() ) {
-        tripoint p = queue.top().p;
+        tripoint const p = queue.top().p;
         queue.pop();
         if( closed.count( p ) != 0 || !here.inbounds( p ) ) {
             continue;
         }
         closed.insert( p );
-        double parent_coverage = open.at( p ).parent_coverage;
+        double const parent_coverage = open.at( p ).parent_coverage;
         if( parent_coverage <= 0.0 ) {
             continue;
         }
@@ -91,8 +91,8 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
                 continue;
             }
 
-            float total_dmg = proj_copy.impact.total_damage();
-            float old_total_dmg = proj.impact.total_damage();
+            float const total_dmg = proj_copy.impact.total_damage();
+            float const old_total_dmg = proj.impact.total_damage();
             if( old_total_dmg != total_dmg ) {
                 current_coverage *= std::min( 1.0f, old_total_dmg / total_dmg );
             }
@@ -100,7 +100,7 @@ void execute_shaped_attack( const shape &sh, const projectile &proj, Creature &a
 
         if( current_coverage > 0.0 ) {
             for( const tripoint &child : here.points_in_radius( p, 1 ) ) {
-                double coverage = sigdist_to_coverage( sh.distance_at( child ) );
+                double const coverage = sigdist_to_coverage( sh.distance_at( child ) );
                 if( coverage > 0.0 && !get_map().obstructed_by_vehicle_rotation( p, child ) &&
                     closed.count( child ) == 0 &&
                     ( open.count( child ) == 0 || open.at( child ).parent_coverage < current_coverage ) ) {
@@ -137,7 +137,7 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
     std::set<tripoint> closed;
 
     for( const tripoint &child : here.points_in_radius( origin, 1 ) ) {
-        double coverage = sigdist_to_coverage( sh.distance_at( child ) );
+        double const coverage = sigdist_to_coverage( sh.distance_at( child ) );
         if( coverage > 0.0 && !get_map().obstructed_by_vehicle_rotation( origin, child ) ) {
             open[child] = aoe_flood_node( origin, 1.0 );
             queue.emplace( child, trig_dist_squared( origin, child ) );
@@ -148,13 +148,13 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
 
     std::map<tripoint, double> final_coverage;
     while( !queue.empty() ) {
-        tripoint p = queue.top().p;
+        tripoint const p = queue.top().p;
         queue.pop();
         if( closed.count( p ) != 0 ) {
             continue;
         }
         closed.insert( p );
-        double parent_coverage = open.at( p ).parent_coverage;
+        double const parent_coverage = open.at( p ).parent_coverage;
         if( parent_coverage <= 0.0 ) {
             continue;
         }
@@ -165,14 +165,14 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
             ( here.is_transparent( p ) && here.has_flag_furn( TFLAG_PERMEABLE, p ) ) ) {
             // noop
         } else {
-            int bash_str = here.bash_strength( p );
-            int bash_res = here.bash_resistance( p );
+            int const bash_str = here.bash_strength( p );
+            int const bash_res = here.bash_resistance( p );
             if( bash_power < bash_res ) {
                 continue;
             }
-            int range_width = bash_str - bash_res + 1;
-            int fail_width = bash_str - bash_power;
-            double fail_chance = static_cast<double>( fail_width ) / ( range_width );
+            int const range_width = bash_str - bash_res + 1;
+            int const fail_width = bash_str - bash_power;
+            double const fail_chance = static_cast<double>( fail_width ) / ( range_width );
             current_coverage *= 1.0 - std::max( 0.0, fail_chance );
         }
 
@@ -183,7 +183,7 @@ std::map<tripoint, double> expected_coverage( const shape &sh, const map &here, 
 
         if( current_coverage > 0.0 ) {
             for( const tripoint &child : here.points_in_radius( p, 1 ) ) {
-                double coverage = sigdist_to_coverage( sh.distance_at( child ) );
+                double const coverage = sigdist_to_coverage( sh.distance_at( child ) );
                 if( coverage > 0.0 && !get_map().obstructed_by_vehicle_rotation( p, child ) &&
                     closed.count( child ) == 0 &&
                     ( open.count( child ) == 0 || open.at( child ).parent_coverage < current_coverage ) ) {

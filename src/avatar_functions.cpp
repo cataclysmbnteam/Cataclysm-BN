@@ -91,7 +91,7 @@ void try_to_sleep( avatar &you, const time_duration &dur )
         webforce = true;
     }
     if( websleep || webforce ) {
-        int web = here.get_field_intensity( you.pos(), fd_web );
+        int const web = here.get_field_intensity( you.pos(), fd_web );
         if( !webforce ) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
@@ -369,12 +369,12 @@ void gunmod_add( avatar &you, item &gun, item &mod )
     bool no_magazines = false;
     if( !modded.magazine_integral() && !mod.type->mod->ammo_modifier.empty() ) {
         no_magazines = true;
-        for( itype_id mags : modded.magazine_compatible() ) {
-            item mag = item( mags );
+        for( itype_id const mags : modded.magazine_compatible() ) {
+            item const mag = item( mags );
             if( !no_magazines ) {
                 break;
             }
-            for( ammotype at : modded.ammo_types() ) {
+            for( ammotype const at : modded.ammo_types() ) {
                 if( mag.can_reload_with( at ) ) {
                     no_magazines = false;
                     break;
@@ -463,7 +463,7 @@ bool gunmod_remove( avatar &you, item &gun, item &mod )
         return false;
     }
 
-    item_location loc = item_location( you, &mod );
+    item_location const loc = item_location( you, &mod );
     if( mod.ammo_remaining() && !avatar_funcs::unload_item( you, loc ) ) {
         return false;
     }
@@ -525,7 +525,7 @@ std::pair<int, int> gunmod_installation_odds( const avatar &you, const item &gun
 
     for( const auto &e : mod.type->min_skills ) {
         // gain an additional chance for every level above the minimum requirement
-        skill_id sk = e.first == skill_weapon ? gun.gun_skill() : e.first;
+        skill_id const sk = e.first == skill_weapon ? gun.gun_skill() : e.first;
         chances += std::max( you.get_skill_level( sk ) - e.second, 0 );
     }
     // cap success from skill alone to 1 in 5 (~83% chance)
@@ -611,7 +611,7 @@ void use_item( avatar &you, item_location loc )
     } else if( used.type->has_use() ) {
         you.invoke_item( &used, loc.position() );
     } else if( used.has_flag( flag_SPLINT ) ) {
-        ret_val<bool> need_splint = you.can_wear( used );
+        ret_val<bool> const need_splint = you.can_wear( used );
         if( need_splint.success() ) {
             you.wear_item( used );
             loc.remove_item();
@@ -666,7 +666,7 @@ bool unload_item( avatar &you, item_location loc )
 
         bool changed = false;
         for( item *contained : it.contents.all_items_top() ) {
-            int old_charges = contained->charges;
+            int const old_charges = contained->charges;
             const bool consumed = add_or_drop_with_msg( you, *contained, true );
             changed = changed || consumed || contained->charges != old_charges;
             if( consumed ) {
@@ -849,7 +849,7 @@ std::vector<npc *> list_potential_theft_witnesses( avatar &you, const faction_id
 
 bool handle_theft_witnesses( avatar &you, const faction_id &owners )
 {
-    std::vector<npc *> witnesses = list_potential_theft_witnesses( you, owners );
+    std::vector<npc *> const witnesses = list_potential_theft_witnesses( you, owners );
     for( npc *guy : witnesses ) {
         guy->say( "<witnessed_thievery>", 7 );
     }

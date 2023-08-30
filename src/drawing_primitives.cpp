@@ -11,7 +11,7 @@
 
 void draw_line( std::function<void( point )>set, point p1, point p2 )
 {
-    std::vector<point> line = line_to( p1, p2, 0 );
+    std::vector<point> const line = line_to( p1, p2, 0 );
     for( auto &i : line ) {
         set( i );
     }

@@ -298,9 +298,9 @@ void diary::kill_changes()
             add_to_change_list( _( "Kills:" ) );
             for( const std::pair<const string_id<mtype>, int> &elem : curr_page->kills ) {
                 const mtype &m = elem.first.obj();
-                nc_color color = m.color;
-                std::string symbol = m.sym;
-                std::string nname = m.nname( elem.second );
+                nc_color const color = m.color;
+                std::string const symbol = m.sym;
+                std::string const nname = m.nname( elem.second );
                 add_to_change_list( string_format( "%4d ", elem.second ) + colorize( symbol,
                                     color ) + " " + colorize( nname, c_light_gray ), m.get_description() );
             }
@@ -321,9 +321,9 @@ void diary::kill_changes()
             bool flag = true;
             for( const std::pair<const string_id<mtype>, int> &elem : curr_page->kills ) {
                 const mtype &m = elem.first.obj();
-                nc_color color = m.color;
-                std::string symbol = m.sym;
-                std::string nname = m.nname( elem.second );
+                nc_color const color = m.color;
+                std::string const symbol = m.sym;
+                std::string const nname = m.nname( elem.second );
                 int kills = elem.second;
                 if( prev_page->kills.count( elem.first ) > 0 ) {
                     const int prev_kills = prev_page->kills[elem.first];
@@ -393,7 +393,7 @@ void diary::skill_changes()
             for( const std::pair<const string_id<Skill>, int> &elem : curr_page->skill_levels ) {
 
                 if( elem.second > 0 ) {
-                    Skill s = elem.first.obj();
+                    Skill const s = elem.first.obj();
                     add_to_change_list( string_format( "<color_light_blue>%s: %d</color>", s.name(), elem.second ),
                                         s.description() );
                 }
@@ -410,7 +410,7 @@ void diary::skill_changes()
                         add_to_change_list( _( "Skills:" ) );
                         flag = false;
                     }
-                    Skill s = elem.first.obj();
+                    Skill const s = elem.first.obj();
                     add_to_change_list( string_format( _( "<color_light_blue>%s: %d -> %d</color>" ), s.name(),
                                                        prev_page->skill_levels[elem.first], elem.second ), s.description() );
                 }
@@ -650,11 +650,11 @@ std::vector<std::string> diary::get_head_text()
         //~ %1$d is the current page number, %2$d is the number of pages in total
         std::vector<std::string> head_text = { string_format( _( "Entry: %1$d/%2$d" ), opened_page + 1, pages.size() ) };
 
-        std::string complete_time_text = to_string( get_page_ptr()->turn ); // get complete time
+        std::string const complete_time_text = to_string( get_page_ptr()->turn ); // get complete time
         std::string day_and_time_text = complete_time_text.substr( complete_time_text.find_last_of( ',' ) +
                                         2 );
         day_and_time_text[0] = std::toupper( day_and_time_text[0] );
-        std::string year_and_season_text = complete_time_text.substr( 0,
+        std::string const year_and_season_text = complete_time_text.substr( 0,
                                            complete_time_text.find_last_of( ',' ) + 1 );
 
         head_text.insert( head_text.end(), year_and_season_text );
@@ -671,7 +671,7 @@ std::vector<std::string> diary::get_head_text()
 
 void diary::death_entry()
 {
-    bool last_time = query_yn( _( "Open your diary for the last time?" ) );
+    bool const last_time = query_yn( _( "Open your diary for the last time?" ) );
     if( last_time ) {
         show_diary_ui( this );
     }
@@ -712,8 +712,8 @@ void diary::new_page()
     }
     page->known_martial_arts = u->martial_arts_data->get_known_styles();
     page->bionics = u->get_bionics();
-    for( Skill &elem : Skill::skills ) {
-        int level = u->get_skill_level_object( elem.ident() ).level();
+    for( Skill  const&elem : Skill::skills ) {
+        int const level = u->get_skill_level_object( elem.ident() ).level();
         page->skill_levels.insert( { elem.ident(), level } );
     }
     page->max_power_level = u->get_max_power_level();
@@ -759,8 +759,8 @@ void diary::export_to_md( bool last_export )
 
 bool diary::store()
 {
-    std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    std::string path = g->get_world_base_save_path() + "/" + name + ".json";
+    std::string const name = base64_encode( get_avatar().get_save_id() + "_diary" );
+    std::string const path = g->get_world_base_save_path() + "/" + name + ".json";
     const bool is_writen = write_to_file( path, [&]( std::ostream & fout ) {
         serialize( fout );
     }, _( "diary data" ) );
@@ -809,8 +809,8 @@ void diary::serialize( JsonOut &jsout )
 
 void diary::load()
 {
-    std::string name = base64_encode( get_avatar().get_save_id() + "_diary" );
-    std::string path = g->get_world_base_save_path() + "/" + name + ".json";
+    std::string const name = base64_encode( get_avatar().get_save_id() + "_diary" );
+    std::string const path = g->get_world_base_save_path() + "/" + name + ".json";
     if( file_exist( path ) ) {
         read_from_file( path, [&]( std::istream & fin ) {
             deserialize( fin );
@@ -827,11 +827,11 @@ void diary::deserialize( std::istream &fin )
 void diary::deserialize( JsonIn &jsin )
 {
     try {
-        JsonObject data = jsin.get_object();
+        JsonObject const data = jsin.get_object();
 
         data.read( "owner", owner );
         pages.clear();
-        for( JsonObject elem : data.get_array( "pages" ) ) {
+        for( JsonObject const elem : data.get_array( "pages" ) ) {
             std::unique_ptr<diary_page> page( new diary_page() );
             page->m_text = elem.get_string( "text" );
             elem.read( "turn", page->turn );

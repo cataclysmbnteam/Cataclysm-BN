@@ -60,7 +60,7 @@ void furn_transform::serialize( JsonOut &jsout ) const
 
 void furn_transform::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
 
     jo.read( "id", id );
     jo.read( "msg", msg );
@@ -115,23 +115,23 @@ void solar_tile::update_internal( time_point to, const tripoint_abs_ms &p, distr
     constexpr time_point zero = time_point::from_turn( 0 );
     constexpr time_duration tick_length = 10_minutes;
     constexpr int tick_turns = to_turns<int>( tick_length );
-    time_duration till_then = get_last_updated() - zero;
-    time_duration till_now = to - zero;
+    time_duration const till_then = get_last_updated() - zero;
+    time_duration const till_now = to - zero;
     // This is just for rounding to nearest tick
-    time_duration ticks_then = till_then / tick_turns;
-    time_duration ticks_now = till_now / tick_turns;
+    time_duration const ticks_then = till_then / tick_turns;
+    time_duration const ticks_now = till_now / tick_turns;
     // This is to cut down on sum_conditions
     if( ticks_then == ticks_now ) {
         return;
     }
-    time_duration rounded_then = ticks_then * tick_turns;
-    time_duration rounded_now = ticks_now * tick_turns;
+    time_duration const rounded_then = ticks_then * tick_turns;
+    time_duration const rounded_now = ticks_now * tick_turns;
 
     // TODO: Use something that doesn't calc a ton of worthless crap
-    float sunlight = sum_conditions( zero + rounded_then, zero + rounded_now,
+    float const sunlight = sum_conditions( zero + rounded_then, zero + rounded_now,
                                      p.raw() ).sunlight / default_daylight_level();
     // int64 because we can have years in here
-    std::int64_t produced = power * static_cast<std::int64_t>( sunlight ) / 1000;
+    std::int64_t const produced = power * static_cast<std::int64_t>( sunlight ) / 1000;
     grid.mod_resource( static_cast<int>( std::min( static_cast<std::int64_t>( INT_MAX ), produced ) ) );
 }
 
@@ -197,7 +197,7 @@ int battery_tile::get_resource() const
 int battery_tile::mod_resource( int amt )
 {
     // TODO: Avoid int64 math if possible
-    std::int64_t sum = static_cast<std::int64_t>( stored ) + amt;
+    std::int64_t const sum = static_cast<std::int64_t>( stored ) + amt;
     if( sum >= max_stored ) {
         stored = max_stored;
         return sum - max_stored;
@@ -213,7 +213,7 @@ int battery_tile::mod_resource( int amt )
 void charge_watcher_tile::update_internal( time_point /*to*/, const tripoint_abs_ms &p,
         distribution_grid &grid )
 {
-    int amt_stored = grid.get_resource();
+    int const amt_stored = grid.get_resource();
 
     if( amt_stored >= min_power ) {
         get_distribution_grid_tracker().get_transform_queue().add( p, transform.id, transform.msg );
@@ -307,13 +307,13 @@ void charger_tile::load( JsonObject &jo )
 void steady_consumer_tile::update_internal( time_point to, const tripoint_abs_ms &p,
         distribution_grid &grid )
 {
-    int ticks = ticks_between( get_last_updated(), to, consume_every );
+    int const ticks = ticks_between( get_last_updated(), to, consume_every );
     if( ticks == 0 ) {
         return;
     }
 
-    std::int64_t power = this->power * ticks;
-    int missing = grid.mod_resource( -power );
+    std::int64_t const power = this->power * ticks;
+    int const missing = grid.mod_resource( -power );
 
     if( missing == 0 ) {
         return;

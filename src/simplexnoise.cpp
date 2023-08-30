@@ -189,18 +189,18 @@ float raw_noise_2d( const float x, const float y )
     // Skew the input space to determine which simplex cell we're in
     static const float F2 = 0.5f * ( std::sqrt( 3.0f ) - 1.0f );
     // Hairy factor for 2D
-    float s = ( x + y ) * F2;
-    int i = fastfloor( x + s );
-    int j = fastfloor( y + s );
+    float const s = ( x + y ) * F2;
+    int const i = fastfloor( x + s );
+    int const j = fastfloor( y + s );
 
     static const float G2 = ( 3.0f - std::sqrt( 3.0f ) ) / 6.0f;
-    float t = ( i + j ) * G2;
+    float const t = ( i + j ) * G2;
     // Unskew the cell origin back to (x,y) space
-    float X0 = i - t;
-    float Y0 = j - t;
+    float const X0 = i - t;
+    float const Y0 = j - t;
     // The x,y distances from the cell origin
-    float x0 = x - X0;
-    float y0 = y - Y0;
+    float const x0 = x - X0;
+    float const y0 = y - Y0;
 
     // For the 2D case, the simplex shape is an equilateral triangle.
     // Determine which simplex we are in.
@@ -216,17 +216,17 @@ float raw_noise_2d( const float x, const float y )
     // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
     // a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
     // c = (3-sqrt(3))/6
-    float x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coordinates
-    float y1 = y0 - j1 + G2;
-    float x2 = x0 - 1.0f + 2.0f * G2; // Offsets for last corner in (x,y) unskewed coordinates
-    float y2 = y0 - 1.0f + 2.0f * G2;
+    float const x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coordinates
+    float const y1 = y0 - j1 + G2;
+    float const x2 = x0 - 1.0f + 2.0f * G2; // Offsets for last corner in (x,y) unskewed coordinates
+    float const y2 = y0 - 1.0f + 2.0f * G2;
 
     // Work out the hashed gradient indices of the three simplex corners
-    int ii = i & 255;
-    int jj = j & 255;
-    int gi0 = perm[ii + perm[jj]] % 12;
-    int gi1 = perm[ii + i1 + perm[jj + j1]] % 12;
-    int gi2 = perm[ii + 1 + perm[jj + 1]] % 12;
+    int const ii = i & 255;
+    int const jj = j & 255;
+    int const gi0 = perm[ii + perm[jj]] % 12;
+    int const gi1 = perm[ii + i1 + perm[jj + j1]] % 12;
+    int const gi2 = perm[ii + 1 + perm[jj + 1]] % 12;
 
     // Calculate the contribution from the three corners
     float t0 = 0.5f - x0 * x0 - y0 * y0;
@@ -264,20 +264,20 @@ float raw_noise_3d( const float x, const float y, const float z )
     float n0, n1, n2, n3; // Noise contributions from the four corners
 
     // Skew the input space to determine which simplex cell we're in
-    float F3 = 1.0f / 3.0f;
-    float s = ( x + y + z ) * F3; // Very nice and simple skew factor for 3D
-    int i = fastfloor( x + s );
-    int j = fastfloor( y + s );
-    int k = fastfloor( z + s );
+    float const F3 = 1.0f / 3.0f;
+    float const s = ( x + y + z ) * F3; // Very nice and simple skew factor for 3D
+    int const i = fastfloor( x + s );
+    int const j = fastfloor( y + s );
+    int const k = fastfloor( z + s );
 
-    float G3 = 1.0f / 6.0f; // Very nice and simple unskew factor, too
-    float t = ( i + j + k ) * G3;
-    float X0 = i - t; // Unskew the cell origin back to (x,y,z) space
-    float Y0 = j - t;
-    float Z0 = k - t;
-    float x0 = x - X0; // The x,y,z distances from the cell origin
-    float y0 = y - Y0;
-    float z0 = z - Z0;
+    float const G3 = 1.0f / 6.0f; // Very nice and simple unskew factor, too
+    float const t = ( i + j + k ) * G3;
+    float const X0 = i - t; // Unskew the cell origin back to (x,y,z) space
+    float const Y0 = j - t;
+    float const Z0 = k - t;
+    float const x0 = x - X0; // The x,y,z distances from the cell origin
+    float const y0 = y - Y0;
+    float const z0 = z - Z0;
 
     // For the 3D case, the simplex shape is a slightly irregular tetrahedron.
     // Determine which simplex we are in.
@@ -336,24 +336,24 @@ float raw_noise_3d( const float x, const float y, const float z )
     // a step of (0,1,0) in (i,j,k) means a step of (-c,1-c,-c) in (x,y,z), and
     // a step of (0,0,1) in (i,j,k) means a step of (-c,-c,1-c) in (x,y,z), where
     // c = 1/6.
-    float x1 = x0 - i1 + G3; // Offsets for second corner in (x,y,z) coordinates
-    float y1 = y0 - j1 + G3;
-    float z1 = z0 - k1 + G3;
-    float x2 = x0 - i2 + 2.0f * G3; // Offsets for third corner in (x,y,z) coordinates
-    float y2 = y0 - j2 + 2.0f * G3;
-    float z2 = z0 - k2 + 2.0f * G3;
-    float x3 = x0 - 1.0f + 3.0f * G3; // Offsets for last corner in (x,y,z) coordinates
-    float y3 = y0 - 1.0f + 3.0f * G3;
-    float z3 = z0 - 1.0f + 3.0f * G3;
+    float const x1 = x0 - i1 + G3; // Offsets for second corner in (x,y,z) coordinates
+    float const y1 = y0 - j1 + G3;
+    float const z1 = z0 - k1 + G3;
+    float const x2 = x0 - i2 + 2.0f * G3; // Offsets for third corner in (x,y,z) coordinates
+    float const y2 = y0 - j2 + 2.0f * G3;
+    float const z2 = z0 - k2 + 2.0f * G3;
+    float const x3 = x0 - 1.0f + 3.0f * G3; // Offsets for last corner in (x,y,z) coordinates
+    float const y3 = y0 - 1.0f + 3.0f * G3;
+    float const z3 = z0 - 1.0f + 3.0f * G3;
 
     // Work out the hashed gradient indices of the four simplex corners
-    int ii = i & 255;
-    int jj = j & 255;
-    int kk = k & 255;
-    int gi0 = perm[ii + perm[jj + perm[kk]]] % 12;
-    int gi1 = perm[ii + i1 + perm[jj + j1 + perm[kk + k1]]] % 12;
-    int gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2]]] % 12;
-    int gi3 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1]]] % 12;
+    int const ii = i & 255;
+    int const jj = j & 255;
+    int const kk = k & 255;
+    int const gi0 = perm[ii + perm[jj + perm[kk]]] % 12;
+    int const gi1 = perm[ii + i1 + perm[jj + j1 + perm[kk + k1]]] % 12;
+    int const gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2]]] % 12;
+    int const gi3 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1]]] % 12;
 
     // Calculate the contribution from the four corners
     float t0 = 0.6f - x0 * x0 - y0 * y0 - z0 * z0;
@@ -402,21 +402,21 @@ float raw_noise_4d( const float x, const float y, const float z, const float w )
     float n0, n1, n2, n3, n4; // Noise contributions from the five corners
 
     // Skew the (x,y,z,w) space to determine which cell of 24 simplices we're in
-    float s = ( x + y + z + w ) * F4; // Factor for 4D skewing
-    int i = fastfloor( x + s );
-    int j = fastfloor( y + s );
-    int k = fastfloor( z + s );
-    int l = fastfloor( w + s );
-    float t = ( i + j + k + l ) * G4; // Factor for 4D unskewing
-    float X0 = i - t; // Unskew the cell origin back to (x,y,z,w) space
-    float Y0 = j - t;
-    float Z0 = k - t;
-    float W0 = l - t;
+    float const s = ( x + y + z + w ) * F4; // Factor for 4D skewing
+    int const i = fastfloor( x + s );
+    int const j = fastfloor( y + s );
+    int const k = fastfloor( z + s );
+    int const l = fastfloor( w + s );
+    float const t = ( i + j + k + l ) * G4; // Factor for 4D unskewing
+    float const X0 = i - t; // Unskew the cell origin back to (x,y,z,w) space
+    float const Y0 = j - t;
+    float const Z0 = k - t;
+    float const W0 = l - t;
 
-    float x0 = x - X0; // The x,y,z,w distances from the cell origin
-    float y0 = y - Y0;
-    float z0 = z - Z0;
-    float w0 = w - W0;
+    float const x0 = x - X0; // The x,y,z,w distances from the cell origin
+    float const y0 = y - Y0;
+    float const z0 = z - Z0;
+    float const w0 = w - W0;
 
     // For the 4D case, the simplex is a 4D shape I won't even try to describe.
     // To find out which of the 24 possible simplices we're in, we need to
@@ -426,13 +426,13 @@ float raw_noise_4d( const float x, const float y, const float z, const float w )
     // First, six pair-wise comparisons are performed between each possible pair
     // of the four coordinates, and the results are used to add up binary bits
     // for an integer index.
-    int c1 = ( x0 > y0 ) ? 32 : 0;
-    int c2 = ( x0 > z0 ) ? 16 : 0;
-    int c3 = ( y0 > z0 ) ? 8 : 0;
-    int c4 = ( x0 > w0 ) ? 4 : 0;
-    int c5 = ( y0 > w0 ) ? 2 : 0;
-    int c6 = ( z0 > w0 ) ? 1 : 0;
-    int c = c1 + c2 + c3 + c4 + c5 + c6;
+    int const c1 = ( x0 > y0 ) ? 32 : 0;
+    int const c2 = ( x0 > z0 ) ? 16 : 0;
+    int const c3 = ( y0 > z0 ) ? 8 : 0;
+    int const c4 = ( x0 > w0 ) ? 4 : 0;
+    int const c5 = ( y0 > w0 ) ? 2 : 0;
+    int const c6 = ( z0 > w0 ) ? 1 : 0;
+    int const c = c1 + c2 + c3 + c4 + c5 + c6;
 
     int i1, j1, k1, l1; // The integer offsets for the second simplex corner
     int i2, j2, k2, l2; // The integer offsets for the third simplex corner
@@ -459,33 +459,33 @@ float raw_noise_4d( const float x, const float y, const float z, const float w )
     l3 = simplex[c][3] >= 1 ? 1 : 0;
     // The fifth corner has all coordinate offsets = 1, so no need to look that up.
 
-    float x1 = x0 - i1 + G4; // Offsets for second corner in (x,y,z,w) coordinates
-    float y1 = y0 - j1 + G4;
-    float z1 = z0 - k1 + G4;
-    float w1 = w0 - l1 + G4;
-    float x2 = x0 - i2 + 2.0f * G4; // Offsets for third corner in (x,y,z,w) coordinates
-    float y2 = y0 - j2 + 2.0f * G4;
-    float z2 = z0 - k2 + 2.0f * G4;
-    float w2 = w0 - l2 + 2.0f * G4;
-    float x3 = x0 - i3 + 3.0f * G4; // Offsets for fourth corner in (x,y,z,w) coordinates
-    float y3 = y0 - j3 + 3.0f * G4;
-    float z3 = z0 - k3 + 3.0f * G4;
-    float w3 = w0 - l3 + 3.0f * G4;
-    float x4 = x0 - 1.0f + 4.0f * G4; // Offsets for last corner in (x,y,z,w) coordinates
-    float y4 = y0 - 1.0f + 4.0f * G4;
-    float z4 = z0 - 1.0f + 4.0f * G4;
-    float w4 = w0 - 1.0f + 4.0f * G4;
+    float const x1 = x0 - i1 + G4; // Offsets for second corner in (x,y,z,w) coordinates
+    float const y1 = y0 - j1 + G4;
+    float const z1 = z0 - k1 + G4;
+    float const w1 = w0 - l1 + G4;
+    float const x2 = x0 - i2 + 2.0f * G4; // Offsets for third corner in (x,y,z,w) coordinates
+    float const y2 = y0 - j2 + 2.0f * G4;
+    float const z2 = z0 - k2 + 2.0f * G4;
+    float const w2 = w0 - l2 + 2.0f * G4;
+    float const x3 = x0 - i3 + 3.0f * G4; // Offsets for fourth corner in (x,y,z,w) coordinates
+    float const y3 = y0 - j3 + 3.0f * G4;
+    float const z3 = z0 - k3 + 3.0f * G4;
+    float const w3 = w0 - l3 + 3.0f * G4;
+    float const x4 = x0 - 1.0f + 4.0f * G4; // Offsets for last corner in (x,y,z,w) coordinates
+    float const y4 = y0 - 1.0f + 4.0f * G4;
+    float const z4 = z0 - 1.0f + 4.0f * G4;
+    float const w4 = w0 - 1.0f + 4.0f * G4;
 
     // Work out the hashed gradient indices of the five simplex corners
-    int ii = i & 255;
-    int jj = j & 255;
-    int kk = k & 255;
-    int ll = l & 255;
-    int gi0 = perm[ii + perm[jj + perm[kk + perm[ll]]]] % 32;
-    int gi1 = perm[ii + i1 + perm[jj + j1 + perm[kk + k1 + perm[ll + l1]]]] % 32;
-    int gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2 + perm[ll + l2]]]] % 32;
-    int gi3 = perm[ii + i3 + perm[jj + j3 + perm[kk + k3 + perm[ll + l3]]]] % 32;
-    int gi4 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1 + perm[ll + 1]]]] % 32;
+    int const ii = i & 255;
+    int const jj = j & 255;
+    int const kk = k & 255;
+    int const ll = l & 255;
+    int const gi0 = perm[ii + perm[jj + perm[kk + perm[ll]]]] % 32;
+    int const gi1 = perm[ii + i1 + perm[jj + j1 + perm[kk + k1 + perm[ll + l1]]]] % 32;
+    int const gi2 = perm[ii + i2 + perm[jj + j2 + perm[kk + k2 + perm[ll + l2]]]] % 32;
+    int const gi3 = perm[ii + i3 + perm[jj + j3 + perm[kk + k3 + perm[ll + l3]]]] % 32;
+    int const gi4 = perm[ii + 1 + perm[jj + 1 + perm[kk + 1 + perm[ll + 1]]]] % 32;
 
     // Calculate the contribution from the five corners
     float t0 = 0.6f - x0 * x0 - y0 * y0 - z0 * z0 - w0 * w0;

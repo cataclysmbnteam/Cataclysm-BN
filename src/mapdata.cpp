@@ -210,7 +210,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
 
 void ranged_bash_info::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
 
     assign( jo, "reduction", reduction );
     assign( jo, "reduction_laser", reduction_laser );
@@ -243,7 +243,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
 
 void map_bash_info::deserialize( JsonIn &jsin )
 {
-    JsonObject jo = jsin.get_object();
+    JsonObject const jo = jsin.get_object();
 
     assign( jo, "str_min", str_min );
     assign( jo, "str_max", str_max );
@@ -345,7 +345,7 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     if( !jsobj.has_object( member ) ) {
         return false;
     }
-    JsonObject j = jsobj.get_object( member );
+    JsonObject const j = jsobj.get_object( member );
     furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
 
     if( !is_furniture ) {
@@ -363,7 +363,7 @@ furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( u
 
 void furn_workbench_info::deserialize( JsonIn &jsin )
 {
-    JsonObject j = jsin.get_object();
+    JsonObject const j = jsin.get_object();
 
     assign( j, "multiplier", multiplier );
     assign( j, "mass", allowed_mass );
@@ -375,7 +375,7 @@ plant_data::plant_data() : transform( furn_str_id::NULL_ID() ), base( furn_str_i
 
 void plant_data::deserialize( JsonIn &jsin )
 {
-    JsonObject j = jsin.get_object();
+    JsonObject const j = jsin.get_object();
 
     assign( j, "transform", transform );
     assign( j, "base", base );
@@ -397,7 +397,7 @@ bool pry_result::load( const JsonObject &jsobj, const std::string &member,
         return false;
     }
 
-    JsonObject j = jsobj.get_object( member );
+    JsonObject const j = jsobj.get_object( member );
     pry_quality = j.get_int( "pry_quality", -1 );
     pry_bonus_mult = j.get_int( "pry_bonus_mult", 1 );
     difficulty = j.get_int( "difficulty", 1 );
@@ -1292,7 +1292,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_array( "harvest_by_season" ) ) {
-        for( JsonObject harvest_jo : jo.get_array( "harvest_by_season" ) ) {
+        for( JsonObject const harvest_jo : jo.get_array( "harvest_by_season" ) ) {
             auto season_strings = harvest_jo.get_tags( "seasons" );
             std::set<season_type> seasons;
             std::transform( season_strings.begin(), season_strings.end(), std::inserter( seasons,
@@ -1311,7 +1311,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
                                 "harvest_by_season" );
             }
 
-            for( season_type s : seasons ) {
+            for( season_type const s : seasons ) {
                 harvest_by_season[ s ] = hl;
             }
         }

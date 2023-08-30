@@ -411,7 +411,7 @@ void recipe_dictionary::find_items_on_loops()
     }
 
     // Now check that graph for loops
-    std::vector<std::vector<itype_id>> loops = cata::find_cycles( potential_components_of );
+    std::vector<std::vector<itype_id>> const loops = cata::find_cycles( potential_components_of );
     for( const std::vector<itype_id> &loop : loops ) {
         std::string error_message =
             "loop in comestible recipes detected: " + loop.back().str();
@@ -447,8 +447,8 @@ void recipe_dictionary::finalize()
 
         for( const auto &bk : r.booksets ) {
             const itype *booktype = &*bk.first;
-            int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
-            islot_book::recipe_with_description_t desc{ &r, req, r.result_name(), false };
+            int const req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
+            islot_book::recipe_with_description_t const desc{ &r, req, r.result_name(), false };
             const_cast<islot_book &>( *booktype->book ).recipes.insert( desc );
         }
 
@@ -465,7 +465,7 @@ void recipe_dictionary::finalize()
 
         // books that don't already have an uncrafting recipe
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
-            int pages = e->volume / 12.5_ml;
+            int const pages = e->volume / 12.5_ml;
             auto &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;
             bk.result_ = id;

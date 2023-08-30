@@ -66,7 +66,7 @@ void vehicle_part::set_base( const item &new_base )
 
 item vehicle_part::properties_to_item() const
 {
-    map &here = get_map();
+    map  const&here = get_map();
     item tmp = base;
     tmp.unset_flag( "VEHICLE" );
 
@@ -323,7 +323,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
         } else {
             fuel.charges -= charges_to_use;
         }
-        item fuel_consumed( ftype, calendar::turn, charges_to_use );
+        item const fuel_consumed( ftype, calendar::turn, charges_to_use );
         return energy_p_mL * units::to_milliliter<int>( fuel_consumed.volume( true ) );
     }
     return 0.0;

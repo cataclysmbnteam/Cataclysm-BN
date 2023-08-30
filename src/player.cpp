@@ -247,7 +247,7 @@ bool character_martial_arts::pick_style( const avatar &you )    // Style selecti
     }
 
     kmenu.query();
-    int selection = kmenu.ret;
+    int const selection = kmenu.ret;
 
     if( selection >= STYLE_OFFSET ) {
         style_selected = selectable_styles[selection - STYLE_OFFSET];
@@ -282,7 +282,7 @@ recipe_subset player::get_recipes_from_books( const inventory &crafting_inv,
     for( const auto &stack : crafting_inv.const_slice() ) {
         const item &candidate = stack->front();
 
-        for( std::pair<const recipe *, int> recipe_entry :
+        for( std::pair<const recipe *, int> const recipe_entry :
              candidate.get_available_recipes( *this ) ) {
             if( filter && !filter( *recipe_entry.first ) ) {
                 continue;

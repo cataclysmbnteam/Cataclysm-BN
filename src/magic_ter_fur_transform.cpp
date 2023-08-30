@@ -66,7 +66,7 @@ static void load_transform_results( const JsonObject &jsi, const std::string &js
     }
     for( const JsonValue entry : jsi.get_array( json_key ) ) {
         if( entry.test_array() ) {
-            JsonArray inner = entry.get_array();
+            JsonArray const inner = entry.get_array();
             list.add( T( inner.get_string( 0 ) ), inner.get_int( 1 ) );
         } else {
             list.add( T( entry.get_string() ), 1 );
@@ -90,7 +90,7 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "fail_message", fail_message, "" );
 
     if( jo.has_member( "terrain" ) ) {
-        for( JsonObject ter_obj : jo.get_array( "terrain" ) ) {
+        for( JsonObject const ter_obj : jo.get_array( "terrain" ) ) {
             ter_furn_data<ter_str_id> cur_results = ter_furn_data<ter_str_id>();
             cur_results.load( ter_obj );
 
@@ -105,7 +105,7 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
     }
 
     if( jo.has_member( "furniture" ) ) {
-        for( JsonObject furn_obj : jo.get_array( "furniture" ) ) {
+        for( JsonObject const furn_obj : jo.get_array( "furniture" ) ) {
             ter_furn_data<furn_str_id> cur_results = ter_furn_data<furn_str_id>();
             cur_results.load( furn_obj );
 

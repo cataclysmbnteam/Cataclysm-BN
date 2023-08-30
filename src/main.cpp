@@ -555,7 +555,7 @@ int main( int argc, char *argv[] )
                     if( !strcmp( argv[0], arg_handler.flag ) ) {
                         argc--;
                         argv++;
-                        int args_consumed = arg_handler.handler( argc, const_cast<const char **>( argv ) );
+                        int const args_consumed = arg_handler.handler( argc, const_cast<const char **>( argv ) );
                         if( args_consumed < 0 ) {
                             cata_printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
                             exit( 1 );
@@ -580,7 +580,7 @@ int main( int argc, char *argv[] )
                 if( !strcmp( saved_argv[0], arg_handler.flag ) ) {
                     --saved_argc;
                     ++saved_argv;
-                    int args_consumed = arg_handler.handler( saved_argc, saved_argv );
+                    int const args_consumed = arg_handler.handler( saved_argc, saved_argv );
                     if( args_consumed < 0 ) {
                         cata_printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
                         exit( 1 );
@@ -600,7 +600,7 @@ int main( int argc, char *argv[] )
     }
 
     if( !dir_exist( PATH_INFO::datadir() ) ) {
-        std::string msg = string_format(
+        std::string const msg = string_format(
                               "Can't find directory \"%s\"\n"
                               "Please ensure the current working directory is correct.\n"
                               "Perhaps you meant to start \"cataclysm-launcher\"?\n",
@@ -612,7 +612,7 @@ int main( int argc, char *argv[] )
 
     const auto check_dir_good = []( const std::string & dir ) {
         if( !assure_dir_exist( dir ) ) {
-            std::string msg = string_format(
+            std::string const msg = string_format(
                                   "Can't open or create \"%s\"\n"
                                   "Please ensure you have write permission.\n",
                                   dir.c_str()
@@ -621,7 +621,7 @@ int main( int argc, char *argv[] )
             exit( 1 );
         }
         if( !can_write_to_dir( dir ) ) {
-            std::string msg = string_format(
+            std::string const msg = string_format(
                                   "Can't write to \"%s\"\n"
                                   "Please ensure you have write permission and free storage space.\n",
                                   dir.c_str()
@@ -759,7 +759,7 @@ int main( int argc, char *argv[] )
             }
         }
 
-        shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
+        shared_ptr_fast<ui_adaptor> const ui = g->create_or_get_main_ui_adaptor();
         while( !g->do_turn() );
     }
 

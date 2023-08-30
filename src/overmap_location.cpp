@@ -56,7 +56,7 @@ void overmap_location::load( const JsonObject &jo, const std::string & )
 std::vector<oter_type_id> overmap_location::get_all_terrains() const
 {
     std::vector<oter_type_id> ret;
-    for( oter_type_str_id elem : terrains ) {
+    for( oter_type_str_id const elem : terrains ) {
         ret.push_back( elem );
     }
     return ret;
@@ -78,7 +78,7 @@ void overmap_location::finalize()
         if( it == oter_flags_map.end() ) {
             continue;
         }
-        oter_flags check_flag = it->second;
+        oter_flags const check_flag = it->second;
         for( const oter_t &ter_elem : overmap_terrains::get_all() ) {
             if( ter_elem.has_flag( check_flag ) ) {
                 terrains.push_back( ter_elem.get_type_id() );

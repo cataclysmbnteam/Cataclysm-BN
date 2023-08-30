@@ -40,14 +40,14 @@ namespace character_effects
 stat_mod get_pain_penalty( const Character &ch )
 {
     stat_mod ret;
-    int pain = ch.get_perceived_pain();
+    int const pain = ch.get_perceived_pain();
     if( pain <= 0 ) {
         return ret;
     }
 
-    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
+    int const stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
 
-    bool ceno = ch.has_trait( trait_CENOBITE );
+    bool const ceno = ch.has_trait( trait_CENOBITE );
     if( !ceno ) {
         ret.strength = stat_penalty;
         ret.dexterity = stat_penalty;
@@ -147,7 +147,7 @@ int talk_skill( const Character &ch )
     /** @EFFECT_PER slightly increases talking skill */
 
     /** @EFFECT_SPEECH increases talking skill */
-    int ret = ch.get_int() + ch.get_per() + ch.get_skill_level( skill_id( "speech" ) ) * 3;
+    int const ret = ch.get_int() + ch.get_per() + ch.get_skill_level( skill_id( "speech" ) ) * 3;
     return ret;
 }
 

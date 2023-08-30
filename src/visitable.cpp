@@ -504,7 +504,7 @@ VisitResponse visitable<vehicle_cursor>::visit_items(
 {
     auto self = static_cast<vehicle_cursor *>( this );
 
-    int idx = self->veh.part_with_feature( self->part, "CARGO", true );
+    int const idx = self->veh.part_with_feature( self->part, "CARGO", true );
     if( idx >= 0 ) {
         for( auto &e : self->veh.get_items( idx ) ) {
             if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
@@ -788,7 +788,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
         return res;
     }
 
-    int idx = cur->veh.part_with_feature( cur->part, "CARGO", false );
+    int const idx = cur->veh.part_with_feature( cur->part, "CARGO", false );
     if( idx < 0 ) {
         return res;
     }

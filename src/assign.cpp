@@ -69,9 +69,9 @@ bool assign( const JsonObject &jo, const std::string &name, units::volume &val,
     // Object via which to report errors which differs for proportional/relative values
     JsonObject err = jo;
     err.allow_omitted_members();
-    JsonObject relative = jo.get_object( "relative" );
+    JsonObject const relative = jo.get_object( "relative" );
     relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
+    JsonObject const proportional = jo.get_object( "proportional" );
     proportional.allow_omitted_members();
 
     // Do not require strict parsing for relative and proportional values as rules
@@ -138,9 +138,9 @@ bool assign( const JsonObject &jo,
     // values
     JsonObject err = jo;
     err.allow_omitted_members();
-    JsonObject relative = jo.get_object( "relative" );
+    JsonObject const relative = jo.get_object( "relative" );
     relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
+    JsonObject const proportional = jo.get_object( "proportional" );
     proportional.allow_omitted_members();
 
     // Do not require strict parsing for relative and proportional values as
@@ -211,9 +211,9 @@ bool assign( const JsonObject &jo,
     // values
     JsonObject err = jo;
     err.allow_omitted_members();
-    JsonObject relative = jo.get_object( "relative" );
+    JsonObject const relative = jo.get_object( "relative" );
     relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
+    JsonObject const proportional = jo.get_object( "proportional" );
     proportional.allow_omitted_members();
 
     // Do not require strict parsing for relative and proportional values as
@@ -289,9 +289,9 @@ bool assign( const JsonObject &jo,
     // values
     JsonObject err = jo;
     err.allow_omitted_members();
-    JsonObject relative = jo.get_object( "relative" );
+    JsonObject const relative = jo.get_object( "relative" );
     relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
+    JsonObject const proportional = jo.get_object( "proportional" );
     proportional.allow_omitted_members();
 
     // Do not require strict parsing for relative and proportional values as
@@ -474,9 +474,9 @@ bool assign( const JsonObject &jo,
     // Object via which to report errors which differs for proportional/relative
     // values
     const JsonObject &err = jo;
-    JsonObject relative = jo.get_object( "relative" );
+    JsonObject const relative = jo.get_object( "relative" );
     relative.allow_omitted_members();
-    JsonObject proportional = jo.get_object( "proportional" );
+    JsonObject const proportional = jo.get_object( "proportional" );
     proportional.allow_omitted_members();
 
     // Currently, we load only either relative or proportional when loading

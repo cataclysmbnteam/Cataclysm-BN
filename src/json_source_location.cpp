@@ -8,7 +8,7 @@ void throw_error_at_json_loc( const json_source_location &loc, const std::string
     if( !loc.path ) {
         throw JsonError( string_format( "Json error: (unknown pos): %s", message ) );
     }
-    shared_ptr_fast<std::istream> stream = DynamicDataLoader::get_instance().get_cached_stream(
+    shared_ptr_fast<std::istream> const stream = DynamicDataLoader::get_instance().get_cached_stream(
             *loc.path );
     if( !stream ) {
         throw JsonError( string_format( "Json error: (%s:%d): %s", *loc.path, loc.offset, message ) );

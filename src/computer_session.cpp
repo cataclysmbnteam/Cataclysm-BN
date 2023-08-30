@@ -152,7 +152,7 @@ void computer_session::use()
     // Main computer loop
     int sel = 0;
     while( true ) {
-        size_t options_size = comp.options.size();
+        size_t const options_size = comp.options.size();
 
         uilist computer_menu;
         computer_menu.text = string_format( _( "%s - Root Menu" ), comp.name );
@@ -170,7 +170,7 @@ void computer_session::use()
         }
 
         sel = computer_menu.ret;
-        computer_option current = comp.options[sel];
+        computer_option const current = comp.options[sel];
         reset_terminal();
         // Once you trip the security, you have to roll every time you want to do something
         if( current.security + comp.alerts > 0 ) {
@@ -221,7 +221,7 @@ bool computer_session::hack_attempt( player &p, int Security )
     }
 
     ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
-    bool successful_attempt = ( dice( player_roll, 6 ) >= dice( Security, 6 ) );
+    bool const successful_attempt = ( dice( player_roll, 6 ) >= dice( Security, 6 ) );
     p.practice( skill_computer, successful_attempt ? ( 15 + Security * 3 ) : 7 );
     return successful_attempt;
 }
@@ -241,8 +241,8 @@ static item *pick_usb()
 
 static void remove_submap_turrets()
 {
-    map &here = get_map();
-    for( monster &critter : g->all_monsters() ) {
+    map  const&here = get_map();
+    for( monster  const&critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
         if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( g->u.pos() ) ) &&
             critter.has_flag( MF_CONSOLE_DESPAWN ) &&
@@ -370,7 +370,7 @@ void computer_session::action_sample()
                 continue;
             }
             bool found_item = false;
-            item sewage( itype_sewage, calendar::turn );
+            item const sewage( itype_sewage, calendar::turn );
             for( item &elem : here.i_at( n ) ) {
                 int capa = elem.get_remaining_capacity_for_liquid( sewage );
                 if( capa <= 0 ) {
@@ -419,7 +419,7 @@ void computer_session::action_release_bionics()
 void computer_session::action_terminate()
 {
     g->events().send<event_type::terminates_subspace_specimens>();
-    map &here = get_map();
+    map  const&here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
         monster *const mon = g->critter_at<monster>( p );
         if( !mon ) {
@@ -462,7 +462,7 @@ void computer_session::action_cascade()
         return;
     }
     g->events().send<event_type::causes_resonance_cascade>();
-    map &here = get_map();
+    map  const&here = get_map();
     std::vector<tripoint> cascade_points;
     for( const tripoint &dest : here.points_in_radius( g->u.pos(), 10 ) ) {
         if( here.ter( dest ) == t_radio_tower ) {
@@ -533,7 +533,7 @@ void computer_session::action_map_sewer()
     const tripoint_abs_omt center = player_character.global_omt_location();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
-            point offset( i, j );
+            point const offset( i, j );
             const oter_id &oter = overmap_buffer.ter( center + offset );
             if( is_ot_match( "sewer", oter, ot_match_type::type ) ||
                 is_ot_match( "sewage", oter, ot_match_type::prefix ) ) {
@@ -552,7 +552,7 @@ void computer_session::action_map_subway()
     const tripoint_abs_omt center = player_character.global_omt_location();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
-            point offset( i, j );
+            point const offset( i, j );
             const oter_id &oter = overmap_buffer.ter( center + offset );
             if( is_ot_match( "subway", oter, ot_match_type::type ) ||
                 is_ot_match( "lab_train_depot", oter, ot_match_type::contains ) ) {
@@ -586,7 +586,7 @@ void computer_session::action_list_bionics()
     int more = 0;
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
-        for( item &elem : here.i_at( p ) ) {
+        for( item  const&elem : here.i_at( p ) ) {
             if( elem.is_bionic() ) {
                 if( static_cast<int>( names.size() ) < TERMY - 8 ) {
                     names.push_back( elem.type_name() );
@@ -777,7 +777,7 @@ void computer_session::action_blood_anal()
                     print_line( _( "Pathogen bonded to erythrocytes and leukocytes." ) );
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
-                            item software( "software_blood_data", calendar::start_of_cataclysm );
+                            item const software( "software_blood_data", calendar::start_of_cataclysm );
                             usb->contents.clear_items();
                             usb->put_in( software );
                             print_line( _( "Software downloaded." ) );
@@ -815,7 +815,7 @@ void computer_session::action_data_anal()
             } else { // Success!
                 if( items.only_item().typeId() == itype_black_box ) {
                     print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
-                    item transcript( "black_box_transcript", calendar::turn );
+                    item const transcript( "black_box_transcript", calendar::turn );
                     here.add_item_or_charges( g->u.pos(), transcript );
                 } else {
                     print_line( _( "Memory Bank: Unencrypted\nNothing of interest.\n" ) );
@@ -1035,7 +1035,7 @@ void computer_session::action_irradiator()
                 g->u.moves -= 300;
                 for( auto it = here.i_at( dest ).begin(); it != here.i_at( dest ).end(); ++it ) {
                     // actual food processing
-                    itype_id irradiated_type( "irradiated_" + it->typeId().str() );
+                    itype_id const irradiated_type( "irradiated_" + it->typeId().str() );
                     if( !it->rotten() && irradiated_type.is_valid() ) {
                         it->convert( irradiated_type );
                     }
@@ -1106,7 +1106,7 @@ void computer_session::action_geiger()
     int sum_rads = 0;
     int peak_rad = 0;
     int tiles_counted = 0;
-    map &here = get_map();
+    map  const&here = get_map();
     print_error( _( "RADIATION MEASUREMENTS:" ) );
     for( const tripoint &dest : here.points_in_radius( g->u.pos(), 10 ) ) {
         if( here.ter( dest ) == t_rad_platform ) {
@@ -1327,7 +1327,7 @@ void computer_session::failure_alarm()
 
 void computer_session::failure_manhacks()
 {
-    int num_robots = rng( 4, 8 );
+    int const num_robots = rng( 4, 8 );
     const tripoint_range<tripoint> range =
         get_map().points_in_radius( get_player_character().pos(), 3 );
     for( int i = 0; i < num_robots; i++ ) {
@@ -1339,7 +1339,7 @@ void computer_session::failure_manhacks()
 
 void computer_session::failure_secubots()
 {
-    int num_robots = 1;
+    int const num_robots = 1;
     const tripoint_range<tripoint> range =
         get_map().points_in_radius( get_player_character().pos(), 3 );
     for( int i = 0; i < num_robots; i++ ) {
@@ -1477,7 +1477,7 @@ void computer_session::action_emerg_ref_center()
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
     tripoint_abs_omt mission_target;
-    avatar &player_character = get_avatar();
+    avatar  const&player_character = get_avatar();
     // Check completed missions too, so people can't repeatedly get the mission.
     const std::vector<mission *> completed_missions = g->u.get_completed_missions();
     std::vector<mission *> missions = g->u.get_active_missions();
@@ -1630,7 +1630,7 @@ void computer_session::print_text( const std::string &text, Args &&... args )
 void computer_session::print_gibberish_line()
 {
     std::string gibberish;
-    int length = rng( 50, 70 );
+    int const length = rng( 50, 70 );
     for( int i = 0; i < length; i++ ) {
         switch( rng( 0, 4 ) ) {
             case 0:

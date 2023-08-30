@@ -182,11 +182,11 @@ static void debug_error_prompt(
         return;
     }
 
-    std::string formatted_report = [&]() {
+    std::string const formatted_report = [&]() {
         const char *repetition_string =
             _( "Excessive error repetition detected.  Please file a bug report at https://github.com/cataclysmbnteam/Cataclysm-BN/issues" );
         // try to prepend repetition string if we are forcing the display. Right now that's the only reason for this prompt to display.
-        std::string pre = force ? string_format(
+        std::string const pre = force ? string_format(
                               "            %s\n",
                               repetition_string
                           ) : "";
@@ -203,7 +203,7 @@ static void debug_error_prompt(
     ();
 
 #if defined(BACKTRACE)
-    std::string backtrace_instructions =
+    std::string const backtrace_instructions =
         string_format(
             _( "See %s for a full stack backtrace" ),
             PATH_INFO::debug()
@@ -404,7 +404,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     }
 
     // Show excessive repetition prompt once per excessive set
-    bool excess_repetition = rep_folder.repeat_count == repetition_folder::repetition_threshold;
+    bool const excess_repetition = rep_folder.repeat_count == repetition_folder::repetition_threshold;
 
     if( buffering_debugmsgs ) {
         buffered_prompts().push_back( {filename, line, funcname, text, false } );
@@ -589,7 +589,7 @@ std::ostream &DebugFile::get_file()
 
 void DebugFile::init( DebugOutput output_mode, const std::string &filename )
 {
-    std::shared_ptr<std::ostringstream> str_buffer = std::dynamic_pointer_cast<std::ostringstream>
+    std::shared_ptr<std::ostringstream> const str_buffer = std::dynamic_pointer_cast<std::ostringstream>
             ( file );
 
     switch( output_mode ) {
@@ -757,8 +757,8 @@ static std::optional<uintptr_t> debug_compute_load_offset(
     // things (e.g. dladdr1 in GNU libdl) but this approach might
     // perhaps be more portable and adds no link-time dependencies.
 
-    uintptr_t offset_within_symbol = std::stoull( offset_within_symbol_s, nullptr, 0 );
-    std::string string_sought = " " + symbol;
+    uintptr_t const offset_within_symbol = std::stoull( offset_within_symbol_s, nullptr, 0 );
+    std::string const string_sought = " " + symbol;
 
     // We need to try calling nm in two different ways, because one
     // works for executables and the other for libraries.
@@ -1000,7 +1000,7 @@ void debug_write_backtrace( std::ostream &out )
     // BACKTRACE is not supported under CYGWIN!
     ( void ) out;
 #   else
-    int count = backtrace( bt, bt_cnt );
+    int const count = backtrace( bt, bt_cnt );
     char **funcNames = backtrace_symbols( bt, count );
     for( int i = 0; i < count; ++i ) {
         out << "\n    " << funcNames[i];
@@ -1028,7 +1028,7 @@ void debug_write_backtrace( std::ostream &out )
         std::ostringstream cmd;
         cmd.imbue( std::locale::classic() );
         cmd << "addr2line -i -e " << binary << " -f -C" << std::hex;
-        for( uintptr_t address : addresses ) {
+        for( uintptr_t const address : addresses ) {
             cmd << " 0x" << ( address - load_offset );
         }
         cmd << " 2>&1";
@@ -1097,8 +1097,8 @@ void debug_write_backtrace( std::ostream &out )
 
             if( symbolNameEnd < offsetEnd && offsetEnd < funcNameEnd ) {
                 const auto offsetStart = symbolNameEnd + 1;
-                std::string symbol_name( symbolNameStart, symbolNameEnd );
-                std::string offset_within_symbol( offsetStart, offsetEnd );
+                std::string const symbol_name( symbolNameStart, symbolNameEnd );
+                std::string const offset_within_symbol( offsetStart, offsetEnd );
 
                 std::optional<uintptr_t> offset =
                     debug_compute_load_offset( binary_name, symbol_name, offset_within_symbol,
@@ -1195,11 +1195,11 @@ detail::DebugLogGuard detail::realDebugLog( DL lev, DC cl, const char *filename,
 #if defined(BACKTRACE)
         // Push the first retrieved value back by a second so it won't match.
         static time_t next_backtrace = time( nullptr ) - 1;
-        time_t now = time( nullptr );
+        time_t const now = time( nullptr );
         if( lev == DL::Error && now >= next_backtrace ) {
             out << "(error message will follow backtrace)";
             debug_write_backtrace( out );
-            time_t after = time( nullptr );
+            time_t const after = time( nullptr );
             // Cool down for 60s between backtrace emissions.
             next_backtrace = after + 60;
             out << "Backtrace emission took " << after - now << " seconds." << std::endl;
@@ -1261,7 +1261,7 @@ static std::string shell_exec( const std::string &command )
     std::vector<char> buffer( 512 );
     std::string output;
     try {
-        std::unique_ptr<FILE, decltype( &pclose )> pipe( popen( command.c_str(), "r" ), pclose );
+        std::unique_ptr<FILE, decltype( &pclose )> const pipe( popen( command.c_str(), "r" ), pclose );
         if( pipe ) {
             while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {
                 output += buffer.data();
@@ -1541,7 +1541,7 @@ std::string game_info::game_report()
     }
     std::stringstream report;
 
-    std::string lang = get_option<std::string>( "USE_LANG" );
+    std::string const lang = get_option<std::string>( "USE_LANG" );
     std::string lang_translated;
     for( const language_info &info : list_available_languages() ) {
         if( lang == info.id ) {

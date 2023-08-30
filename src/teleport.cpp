@@ -31,7 +31,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     player *const p = critter.as_player();
     const bool c_is_u = p != nullptr && p->is_avatar();
     int tries = 0;
-    tripoint origin = critter.pos();
+    tripoint const origin = critter.pos();
     tripoint new_pos = origin;
     map &here = get_map();
     //The teleportee is dimensionally anchored so nothing happens
@@ -41,8 +41,8 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         return false;
     }
     do {
-        int rangle = rng( 0, 360 );
-        int rdistance = rng( min_distance, max_distance );
+        int const rangle = rng( 0, 360 );
+        int const rdistance = rng( min_distance, max_distance );
         new_pos.x = origin.x + rdistance * std::cos( rangle );
         new_pos.y = origin.y + rdistance * std::sin( rangle );
         tries++;
