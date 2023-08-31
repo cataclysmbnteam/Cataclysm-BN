@@ -344,9 +344,9 @@ void Item_modifier::modify( item &new_item ) const
 
     if( new_item.is_tool() || new_item.is_gun() || new_item.is_magazine() ) {
         bool const spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
-                          ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
+                                ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
         bool const spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() &&
-                          !new_item.magazine_current();
+                                !new_item.magazine_current();
 
         if( spawn_mag ) {
             new_item.put_in( item( new_item.magazine_default(), new_item.birthday() ) );

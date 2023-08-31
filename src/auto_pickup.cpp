@@ -381,7 +381,7 @@ void user_interface::show()
         return;
     }
 
-    for( tab  const&t : tabs ) {
+    for( tab  const &t : tabs ) {
         t.rules.get() = t.new_rules;
     }
 }

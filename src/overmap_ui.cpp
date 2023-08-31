@@ -335,7 +335,7 @@ static bool get_scent_glyph( const tripoint_abs_omt &pos, nc_color &ter_color,
 {
     auto possible_scent = overmap_buffer.scent_at( pos );
     if( possible_scent.creation_time != calendar::before_time_starts ) {
-        color_manager  const&color_list = get_all_colors();
+        color_manager  const &color_list = get_all_colors();
         int i = 0;
         time_duration scent_age = calendar::turn - possible_scent.creation_time;
         while( i < num_colors && scent_age > 0_turns ) {
@@ -541,11 +541,11 @@ class map_notes_callback : public uilist_callback
                         // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
                         const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
                         int const amount = string_input_popup()
-                                     .title( popupmsg )
-                                     .width( 20 )
-                                     .text( std::to_string( 0 ) )
-                                     .only_digits( true )
-                                     .query_int();
+                                           .title( popupmsg )
+                                           .width( 20 )
+                                           .text( std::to_string( 0 ) )
+                                           .only_digits( true )
+                                           .query_int();
                         if( amount > -1 && amount <= max_amount ) {
                             overmap_buffer.mark_note_dangerous( note_location(), amount, true );
                             menu->ret = UILIST_MAP_NOTE_EDITED;
@@ -1478,10 +1478,10 @@ static void create_note( const tripoint_abs_omt &curs )
     }
 
     std::string const helper_text = string_format( ".\n\n%s\n%s\n%s\n",
-                              _( "Type GLYPH:TEXT to set a custom glyph." ),
-                              _( "Type COLOR;TEXT to set a custom color." ),
-                              // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
-                              _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
+                                    _( "Type GLYPH:TEXT to set a custom glyph." ),
+                                    _( "Type COLOR;TEXT to set a custom color." ),
+                                    // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
+                                    _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
     color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(), helper_text );
     std::string const title = _( "Note:" );
 
@@ -1835,7 +1835,7 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         return {};
     }
     const Character &player_character = get_player_character();
-    map  const&here = get_map();
+    map  const &here = get_map();
     const tripoint_abs_omt player_omt_pos = player_character.global_omt_location();
     overmap_path_params params;
     vehicle *player_veh = nullptr;

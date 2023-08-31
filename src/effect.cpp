@@ -974,7 +974,7 @@ int effect::get_avg_mod( std::string arg, bool reduced ) const
 int effect::get_amount( std::string arg, bool reduced ) const
 {
     int const intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
-                               eff_type->max_effective_intensity, intensity ) : intensity;
+                                     eff_type->max_effective_intensity, intensity ) : intensity;
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "amount" ) );

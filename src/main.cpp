@@ -601,11 +601,11 @@ int main( int argc, char *argv[] )
 
     if( !dir_exist( PATH_INFO::datadir() ) ) {
         std::string const msg = string_format(
-                              "Can't find directory \"%s\"\n"
-                              "Please ensure the current working directory is correct.\n"
-                              "Perhaps you meant to start \"cataclysm-launcher\"?\n",
-                              PATH_INFO::datadir().c_str()
-                          );
+                                    "Can't find directory \"%s\"\n"
+                                    "Please ensure the current working directory is correct.\n"
+                                    "Perhaps you meant to start \"cataclysm-launcher\"?\n",
+                                    PATH_INFO::datadir().c_str()
+                                );
         report_fatal_error( msg );
         exit( 1 );
     }
@@ -613,19 +613,19 @@ int main( int argc, char *argv[] )
     const auto check_dir_good = []( const std::string & dir ) {
         if( !assure_dir_exist( dir ) ) {
             std::string const msg = string_format(
-                                  "Can't open or create \"%s\"\n"
-                                  "Please ensure you have write permission.\n",
-                                  dir.c_str()
-                              );
+                                        "Can't open or create \"%s\"\n"
+                                        "Please ensure you have write permission.\n",
+                                        dir.c_str()
+                                    );
             report_fatal_error( msg );
             exit( 1 );
         }
         if( !can_write_to_dir( dir ) ) {
             std::string const msg = string_format(
-                                  "Can't write to \"%s\"\n"
-                                  "Please ensure you have write permission and free storage space.\n",
-                                  dir.c_str()
-                              );
+                                        "Can't write to \"%s\"\n"
+                                        "Please ensure you have write permission and free storage space.\n",
+                                        dir.c_str()
+                                    );
             report_fatal_error( msg );
             exit( 1 );
         }

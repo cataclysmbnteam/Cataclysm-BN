@@ -893,7 +893,8 @@ int npc::time_to_read( const item &book, const player &reader ) const
     // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
     const bool try_understand = character_funcs::is_fun_to_read( reader, book ) ||
                                 reader.get_skill_level( skill ) < type->level;
-    int const reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
+    int const reading_speed = try_understand ? std::max( reader.read_speed(),
+                              read_speed() ) : read_speed();
 
     int retval = type->time * reading_speed;
     retval *= std::min(
@@ -1013,7 +1014,7 @@ void npc::finish_read( item_location loc )
 
 void npc::start_read( item_location loc, player *pl )
 {
-    item  const&chosen = *loc;
+    item  const &chosen = *loc;
     const int time_taken = time_to_read( chosen, *pl );
     const double penalty = static_cast<double>( time_taken ) / time_to_read( chosen, *pl );
     player_activity act( ACT_READ, time_taken, 0, pl->getID().get_value() );
@@ -1260,7 +1261,7 @@ void npc::form_opinion( const player &u )
     }
 
     int u_ugly = 0;
-    for( trait_id  const&mut : u.get_mutations() ) {
+    for( trait_id  const &mut : u.get_mutations() ) {
         u_ugly += mut.obj().ugliness;
     }
     op_of_u.fear += u_ugly / 2;
@@ -1383,7 +1384,7 @@ float npc::vehicle_danger( int radius ) const
 
             point const a( wrapped_veh.v->global_pos3().xy() );
             point const b( static_cast<int>( a.x + units::cos( facing ) * radius ),
-                     static_cast<int>( a.y + units::sin( facing ) * radius ) );
+                           static_cast<int>( a.y + units::sin( facing ) * radius ) );
 
             // fake size
             /* This will almost certainly give the wrong size/location on customized
@@ -1397,9 +1398,10 @@ float npc::vehicle_danger( int radius ) const
             int const size = std::max( last_part.mount.x, last_part.mount.y );
 
             double const normal = std::sqrt( static_cast<float>( ( b.x - a.x ) * ( b.x - a.x ) + ( b.y - a.y ) *
-                                       ( b.y - a.y ) ) );
-            int const closest = static_cast<int>( std::abs( ( posx() - a.x ) * ( b.y - a.y ) - ( posy() - a.y ) *
-                                            ( b.x - a.x ) ) / normal );
+                                             ( b.y - a.y ) ) );
+            int const closest = static_cast<int>( std::abs( ( posx() - a.x ) * ( b.y - a.y ) -
+                                                  ( posy() - a.y ) *
+                                                  ( b.x - a.x ) ) / normal );
 
             if( size > closest ) {
                 danger = i;
@@ -1489,7 +1491,7 @@ void npc::decide_needs()
         int const ups_drain = primary_weapon().get_gun_ups_drain();
         if( ups_drain > 0 ) {
             int const ups_charges = charges_of( itype_UPS_off, ups_drain ) +
-                              charges_of( itype_UPS_off, ups_drain );
+                                    charges_of( itype_UPS_off, ups_drain );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
             needrank[need_ammo] = character_funcs::get_ammo_items(
@@ -1753,7 +1755,7 @@ int npc::value( const item &it, int market_price ) const
 
     int ret = 0;
     double const weapon_val = npc_ai::weapon_value( *this, it, it.ammo_capacity() )
-                        - npc_ai::wielded_value( *this );
+                              - npc_ai::wielded_value( *this );
     if( weapon_val > 0 ) {
         ret += weapon_val;
     }
@@ -2837,11 +2839,11 @@ void npc::process_turn()
         // Penalize for bad impression
         // TODO: Penalize for traits and actions (especially murder, unless NPC is psycho)
         int const op_penalty = std::max( 0, op_of_u.anger ) +
-                         std::max( 0, -op_of_u.value ) +
-                         std::max( 0, op_of_u.fear );
+                               std::max( 0, -op_of_u.value ) +
+                               std::max( 0, op_of_u.fear );
         // Being barely hungry and thirsty, not in pain and not wounded means good care
         int const state_penalty = ( max_stored_kcal() - get_stored_kcal() ) / 10 + get_thirst()
-                            + ( 100 - hp_percentage() ) + get_pain();
+                                  + ( 100 - hp_percentage() ) + get_pain();
         if( x_in_y( trust_chance, 240 + 10 * op_penalty + state_penalty ) ) {
             op_of_u.trust++;
         }
@@ -2952,7 +2954,7 @@ const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) con
 std::set<tripoint> npc::get_path_avoid() const
 {
     std::set<tripoint> ret;
-    for( Creature  const&critter : g->all_creatures() ) {
+    for( Creature  const &critter : g->all_creatures() ) {
         // TODO: Cache this somewhere
         ret.insert( critter.pos() );
     }

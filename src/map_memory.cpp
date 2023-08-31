@@ -267,7 +267,7 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
             tripoint const pos = mmr_to_sm_copy( p.reg ) + tripoint( x, y, 0 );
-            shared_ptr_fast<mm_submap>  const&sm = mmr.submaps[x][y];
+            shared_ptr_fast<mm_submap>  const &sm = mmr.submaps[x][y];
             if( pos == sm_pos ) {
                 ret = sm;
             }
@@ -287,8 +287,8 @@ mm_submap &map_memory::get_submap( const tripoint &sm_pos )
     // If it's not in cache (or cache is absent), go the long way.
     if( cache_pos != tripoint_min ) {
         int const zoffset = get_map().has_zlevels()
-                      ? ( sm_pos.z + OVERMAP_DEPTH ) * cache_size.y * cache_size.x
-                      : 0;
+                            ? ( sm_pos.z + OVERMAP_DEPTH ) * cache_size.y * cache_size.x
+                            : 0;
         const point idx = ( sm_pos - cache_pos ).xy();
         if( idx.x > 0 && idx.y > 0 && idx.x < cache_size.x && idx.y < cache_size.y ) {
             return *cached[idx.y * cache_size.x + idx.x + zoffset];
@@ -350,7 +350,8 @@ bool map_memory::save( const tripoint &pos )
     submaps.clear();
 
     constexpr point MM_HSIZE_P = point( MM_SIZE / 2, MM_SIZE / 2 );
-    half_open_rectangle<point> const rect_keep( sm_center.xy() - MM_HSIZE_P, sm_center.xy() + MM_HSIZE_P );
+    half_open_rectangle<point> const rect_keep( sm_center.xy() - MM_HSIZE_P,
+            sm_center.xy() + MM_HSIZE_P );
 
     dbg( DL::Info ) << "[SAVE] Saving memory map around " << sm_center << ". Keeping submaps within "
                     << rect_keep.p_min << "->" << rect_keep.p_max;
@@ -388,7 +389,7 @@ bool map_memory::save( const tripoint &pos )
             for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
                 for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
                     tripoint const p = regp_sm + tripoint( x, y, 0 );
-                    shared_ptr_fast<mm_submap>  const&sm = reg.submaps[x][y];
+                    shared_ptr_fast<mm_submap>  const &sm = reg.submaps[x][y];
                     submaps.insert( std::make_pair( p, sm ) );
                 }
             }

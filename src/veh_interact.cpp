@@ -187,7 +187,8 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
     auto act = [&]( const vehicle_part & pt ) {
         res = const_cast<vehicle_part *>( &pt );
     };
-    std::function<bool( const vpart_reference & )> const sel_wrapper = [sel]( const vpart_reference & vpr ) {
+    std::function<bool( const vpart_reference & )> const sel_wrapper = [sel](
+    const vpart_reference & vpr ) {
         return sel( vpr.part() );
     };
 
@@ -863,7 +864,7 @@ bool veh_interact::update_part_requirements()
 
         //~ %1$s is quality name, %2$d is quality level
         std::string const aid_string = string_format( _( "1 tool with %1$s %2$d" ),
-                                                qual.obj().name, lvl );
+                                       qual.obj().name, lvl );
         additional_requirements += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
                                    colorize( aid_string, aid_color ),
                                    colorize( str_string, str_color ) ) + "\n";
@@ -942,7 +943,7 @@ void veh_interact::do_install()
                 install_info ) );
     install_info = std::make_unique<install_info_t>();
 
-    std::array<std::string, 8>  const&tab_list = install_info->tab_list = { {
+    std::array<std::string, 8>  const &tab_list = install_info->tab_list = { {
             pgettext( "Vehicle Parts|", "All" ),
             pgettext( "Vehicle Parts|", "Cargo" ),
             pgettext( "Vehicle Parts|", "Light" ),
@@ -1228,9 +1229,9 @@ void veh_interact::do_repair()
 
     restore_on_out_of_scope<int> const prev_hilight_part( highlight_part );
 
-    player  const&you = *get_player_character().as_player();
+    player  const &you = *get_player_character().as_player();
     while( true ) {
-        vehicle_part  const&pt = veh->part( parts_here[need_repair[pos]] );
+        vehicle_part  const &pt = veh->part( parts_here[need_repair[pos]] );
         const vpart_info &vp = pt.info();
 
         std::string nmsg;
@@ -1824,7 +1825,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         const auto helpers = character_funcs::get_crafting_helpers( p );
         //~ %1$s is quality name, %2$d is quality level
         std::string const aid_string = string_format( _( "1 tool with %1$s %2$d" ),
-                                                qual.obj().name, lvl );
+                                       qual.obj().name, lvl );
 
         std::string str_string;
         if( !helpers.empty() ) {
@@ -1867,7 +1868,7 @@ void veh_interact::do_remove()
     restore_on_out_of_scope<std::optional<std::string>> const prev_title( title );
     title = _( "Choose a part here to remove:" );
 
-    player  const&you = *get_player_character().as_player();
+    player  const &you = *get_player_character().as_player();
     int pos = 0;
     for( size_t i = 0; i < parts_here.size(); i++ ) {
         if( can_remove_part( parts_here[ i ], you ) ) {
@@ -2079,9 +2080,9 @@ void veh_interact::do_assign_crew()
 void veh_interact::do_rename()
 {
     std::string const name = string_input_popup()
-                       .title( _( "Enter new vehicle name:" ) )
-                       .width( 20 )
-                       .query_string();
+                             .title( _( "Enter new vehicle name:" ) )
+                             .width( 20 )
+                             .query_string();
     if( !name.empty() ) {
         veh->name = name;
         if( veh->tracking_on ) {
@@ -2101,10 +2102,10 @@ void veh_interact::do_relabel()
 
     const vpart_position vp( *veh, cpart );
     std::string const text = string_input_popup()
-                       .title( _( "New label:" ) )
-                       .width( 20 )
-                       .text( vp.get_label().value_or( "" ) )
-                       .query_string();
+                             .title( _( "New label:" ) )
+                             .width( 20 )
+                             .text( vp.get_label().value_or( "" ) )
+                             .query_string();
     // empty input removes the label
     vp.set_label( text );
 }
@@ -2520,7 +2521,7 @@ void veh_interact::display_stats() const
     if( veh->has_part( "ROTOR" ) ) {
         // convert newton to kg.
         units::mass const lift_as_mass = units::from_newton(
-                                       veh->lift_thrust_of_rotorcraft( true ) );
+                                             veh->lift_thrust_of_rotorcraft( true ) );
         print_stat(
             _( "Maximum Lift: <color_light_blue>%5.0f</color> %s" ),
             convert_weight( lift_as_mass ),
@@ -2529,7 +2530,7 @@ void veh_interact::display_stats() const
     if( is_boat ) {
         // convert newton to kg.
         units::mass const buoyancy_as_mass = units::from_newton(
-                                           veh->max_buoyancy() );
+                veh->max_buoyancy() );
         print_stat(
             _( "Maximum Buoyancy: <color_light_blue>%5.0f</color> %s" ),
             convert_weight( buoyancy_as_mass ),
@@ -2600,8 +2601,8 @@ void veh_interact::display_stats() const
 
         const double water_clearance = veh->water_hull_height() - veh->water_draft();
         std::string const draft_string = water_clearance > 0 ?
-                                   _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_blue>%4.2f</color>m" ) :
-                                   _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_red>%4.2f</color>m" );
+                                         _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_blue>%4.2f</color>m" ) :
+                                         _( "Draft/Clearance:<color_light_blue>%4.2f</color>m/<color_light_red>%4.2f</color>m" );
 
         print_stat(
             draft_string.c_str(),
@@ -2702,7 +2703,7 @@ void veh_interact::display_mode()
         }
         int const spacing = static_cast<int>( ( esc_pos - 1 - pos[actions.size()] ) / actions.size() );
         int const shift = static_cast<int>( ( esc_pos - pos[actions.size()] - spacing *
-                                        ( actions.size() - 1 ) ) / 2 ) - 1;
+                                              ( actions.size() - 1 ) ) / 2 ) - 1;
         for( size_t i = 0; i < actions.size(); i++ ) {
             shortcut_print( w_mode, point( pos[i] + spacing * i + shift, 0 ),
                             enabled[i] ? c_light_gray : c_dark_gray, enabled[i] ? c_light_green : c_green,
@@ -2750,7 +2751,8 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
         // draw tab menu
         int tab_x = 0;
         for( size_t i = 0; i < tab_list.size(); i++ ) {
-            std::string const tab_name = ( tab == i ) ? tab_list[i] : tab_list_short[i]; // full name for selected tab
+            std::string const tab_name = ( tab == i ) ? tab_list[i] :
+                                         tab_list_short[i]; // full name for selected tab
             tab_x += ( tab == i ); // add a space before selected tab
             draw_subtab( w_list, tab_x, tab_name, tab == i, false );
             tab_x += ( 1 + utf8_width( tab_name ) + ( tab ==
@@ -2967,7 +2969,7 @@ void act_vehicle_siphon( vehicle *veh )
     auto sel = []( const vehicle_part & pt ) {
         return pt.is_tank() && pt.get_base().contents_made_of( LIQUID );
     };
-    vehicle_part  const&tank = veh_interact::select_part( *veh, sel, title );
+    vehicle_part  const &tank = veh_interact::select_part( *veh, sel, title );
     if( tank ) {
         const item &base = tank.get_base();
         const int idx = veh->find_part( base );
@@ -3110,7 +3112,7 @@ void veh_interact::complete_vehicle( player &p )
             p.invalidate_crafting_inventory();
 
             int const partnum = !base.is_null() ? veh->install_part( d, part_id,
-                          std::move( base ) ) : -1;
+                                std::move( base ) ) : -1;
             if( partnum < 0 ) {
                 debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s", d.x, d.y, part_id.c_str() );
                 break;

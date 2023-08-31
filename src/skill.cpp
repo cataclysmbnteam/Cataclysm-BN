@@ -111,7 +111,8 @@ void Skill::load_skill( const JsonObject &jsobj )
         jso_tta.read( "base_time", time_to_attack.base_time );
         jso_tta.read( "time_reduction_per_level", time_to_attack.time_reduction_per_level );
     }
-    skill_displayType_id const display_type = skill_displayType_id( jsobj.get_string( "display_category" ) );
+    skill_displayType_id const display_type = skill_displayType_id(
+                jsobj.get_string( "display_category" ) );
     Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
 
     sk._time_to_attack = time_to_attack;

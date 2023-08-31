@@ -192,18 +192,18 @@ bool pickup::query_thief()
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
                             : input_context::allow_all_keys;
     std::string const answer = query_popup()
-                         .allow_cancel( false )
-                         .context( "YES_NO_ALWAYS_NEVER" )
-                         .message( "%s", force_uc
-                                   ? _( "Picking up this item will be considered stealing, continue?  (Case sensitive)" )
-                                   : _( "Picking up this item will be considered stealing, continue?" ) )
-                         .option( "YES", allow_key ) // yes, steal all items in this location that is selected
-                         .option( "NO", allow_key ) // no, pick up only what is free
-                         .option( "ALWAYS", allow_key ) // Yes, steal all items and stop asking me this question
-                         .option( "NEVER", allow_key ) // no, only grab free item and never ask me again
-                         .cursor( 1 ) // default to the second option `NO`
-                         .query()
-                         .action; // retrieve the input action
+                               .allow_cancel( false )
+                               .context( "YES_NO_ALWAYS_NEVER" )
+                               .message( "%s", force_uc
+                                         ? _( "Picking up this item will be considered stealing, continue?  (Case sensitive)" )
+                                         : _( "Picking up this item will be considered stealing, continue?" ) )
+                               .option( "YES", allow_key ) // yes, steal all items in this location that is selected
+                               .option( "NO", allow_key ) // no, pick up only what is free
+                               .option( "ALWAYS", allow_key ) // Yes, steal all items and stop asking me this question
+                               .option( "NEVER", allow_key ) // no, only grab free item and never ask me again
+                               .cursor( 1 ) // default to the second option `NO`
+                               .query()
+                               .action; // retrieve the input action
     if( answer == "YES" ) {
         u.set_value( "THIEF_MODE", "THIEF_STEAL" );
         u.set_value( "THIEF_MODE_KEEP", "NO" );
@@ -373,7 +373,7 @@ static bool pick_one_up( pickup::pick_drop_selection &selection, bool &got_water
         // Children have to be picked up first, since removing parent would re-index the stack
         if( option != EMPTY ) {
             for( item_location &child_loc : children ) {
-                item  const&added = u.i_add( *child_loc );
+                item  const &added = u.i_add( *child_loc );
                 auto &pickup_entry = map_pickup[added.tname()];
                 pickup_entry.first = added;
                 pickup_entry.second += added.count();
@@ -408,7 +408,7 @@ namespace pickup
 bool do_pickup( std::vector<pick_drop_selection> &targets, bool autopickup )
 {
     bool got_water = false;
-    Character  const&u = get_avatar();
+    Character  const &u = get_avatar();
     bool const weight_was_okay = ( u.weight_carried() <= u.weight_capacity() );
     bool const volume_was_okay = ( u.volume_carried() <= u.volume_capacity() );
     bool offered_swap = false;
@@ -488,21 +488,22 @@ std::vector<stacked_items> stack_for_pickup_ui( const
                 calendar::before_time_starts, 0 );
     std::map<std::pair<time_point, int>, parent_child_check_t> parent_child_check;
     // First, we need to check which parent-child groups exist
-    for( item_stack::iterator const& it : unstacked ) {
+    for( item_stack::iterator const &it : unstacked ) {
         const auto &token = *it->drop_token;
         if( token.drop_number > 0 ) {
             std::pair<time_point, int> const turn_and_drop = std::make_pair( token.turn, token.drop_number );
             parent_child_check[turn_and_drop].parent_exists = true;
         }
         if( token.parent_number != token.drop_number && token.parent_number > 0 ) {
-            std::pair<time_point, int> const turn_and_parent = std::make_pair( token.turn, token.parent_number );
+            std::pair<time_point, int> const turn_and_parent = std::make_pair( token.turn,
+                    token.parent_number );
             parent_child_check[turn_and_parent].child_exists = true;
         }
     }
 
     // Second pass: we group children and parents together, but only if both sides are known to exist
     std::map<std::pair<time_point, int>, unstacked_items> children_by_parent;
-    for( item_stack::iterator const& it : unstacked ) {
+    for( item_stack::iterator const &it : unstacked ) {
         const auto &token = *it->drop_token;
         std::pair<time_point, int> const turn_and_drop = std::make_pair( token.turn, token.drop_number );
         if( token.drop_number > 0 && parent_child_check[turn_and_drop].child_exists ) {
@@ -510,7 +511,8 @@ std::vector<stacked_items> stack_for_pickup_ui( const
             continue;
         }
 
-        std::pair<time_point, int> const turn_and_parent = std::make_pair( token.turn, token.parent_number );
+        std::pair<time_point, int> const turn_and_parent = std::make_pair( token.turn,
+                token.parent_number );
         if( token.parent_number > 0 && token.parent_number != token.drop_number &&
             parent_child_check[turn_and_parent].parent_exists ) {
             children_by_parent[turn_and_parent].unstacked_children.push_back( it );
@@ -522,7 +524,7 @@ std::vector<stacked_items> stack_for_pickup_ui( const
     std::vector<stacked_items> restacked_with_parents;
     for( const auto &pr : children_by_parent ) {
         std::vector<std::list<item_stack::iterator>> restacked_children;
-        for( item_stack::iterator const& it : pr.second.unstacked_children ) {
+        for( item_stack::iterator const &it : pr.second.unstacked_children ) {
             bool found_stack = false;
             for( std::list<item_stack::iterator> &stack : restacked_children ) {
                 const item &stack_top = *stack.front();
@@ -796,8 +798,8 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
             if( selected >= 0 && selected <= static_cast<int>( stacked_here.size() ) - 1 ) {
                 item_location const loc = from_vehicle
-                                    ? item_location( vehicle_cursor( *veh, cargo_part ), &*stacked_here[matches[selected]].front() )
-                                    : item_location( map_cursor( p ), &*stacked_here[matches[selected]].front() );
+                                          ? item_location( vehicle_cursor( *veh, cargo_part ), &*stacked_here[matches[selected]].front() )
+                                          : item_location( map_cursor( p ), &*stacked_here[matches[selected]].front() );
                 temperature_flag const temperature = rot::temperature_flag_for_location( get_map(), loc );
 
                 std::vector<iteminfo> const this_item = selected_item.info( temperature );
@@ -849,8 +851,8 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     if( getitem[true_it].parent ) {
                         const pickup_count &parent = getitem[*getitem[true_it].parent];
                         nc_color const color = parent.pick ?
-                                         ( parent.all_children_picked ? c_light_blue : c_yellow ) :
-                                         c_dark_gray;
+                                               ( parent.all_children_picked ? c_light_blue : c_yellow ) :
+                                               c_dark_gray;
                         // TODO: Cute symbol here
                         wprintz( w_pickup, color, "\\" );
                     } else {
@@ -1147,7 +1149,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                             temp.charges = *getitem[i].count;
                         }
                         int const num_picked = std::min( stacked_here[i].size(),
-                                                   getitem[i].count ? *getitem[i].count : stacked_here[i].size() );
+                                                         getitem[i].count ? *getitem[i].count : stacked_here[i].size() );
                         weight_picked_up += temp.weight() * num_picked;
                         volume_picked_up += temp.volume() * num_picked;
                     }
@@ -1208,7 +1210,7 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     std::vector<item_location> locations;
     std::vector<int> quantities;
 
-    for( std::pair<item_stack::iterator, int>  const&iter_qty : pick_values ) {
+    for( std::pair<item_stack::iterator, int>  const &iter_qty : pick_values ) {
         item_location loc;
         if( from_vehicle ) {
             loc = item_location( vehicle_cursor( *veh, cargo_part ), &*iter_qty.first );
@@ -1219,7 +1221,8 @@ void pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         quantities.push_back( iter_qty.second );
     }
 
-    std::vector<pickup::pick_drop_selection> const targets = pickup::optimize_pickup( locations, quantities );
+    std::vector<pickup::pick_drop_selection> const targets = pickup::optimize_pickup( locations,
+            quantities );
     g->u.assign_activity( player_activity( pickup_activity_actor( targets, g->u.pos() ) ) );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.

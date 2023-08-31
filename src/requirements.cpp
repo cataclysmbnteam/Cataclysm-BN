@@ -1452,7 +1452,7 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
             // Factor this requirement out into its own separate case
 
             alter_item_comp_vector const req_prefix( next.components.begin(),
-                                               next.components.begin() + next.index );
+                    next.components.begin() + next.index );
             std::vector<alter_item_comp_vector> result;
             expand_item_in_reqs( *comp_it, req_prefix, next.components, next.index, next.index + 1,
                                  result );

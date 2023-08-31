@@ -261,7 +261,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     // Print arrow to mission if we have one!
     if( !drew_mission ) {
         double const slope = curs.x() != targ.x() ?
-                       static_cast<double>( targ.y() - curs.y() ) / ( targ.x() - curs.x() ) : 4;
+                             static_cast<double>( targ.y() - curs.y() ) / ( targ.x() - curs.x() ) : 4;
 
         if( curs.x() == targ.x() || std::fabs( slope ) > 3.5 ) {  // Vertical slope
             const int arrowy = targ.y() > curs.y() ? 6 : 0;
@@ -1032,9 +1032,9 @@ static std::string carry_weight_string( const avatar &u )
 static std::string carry_volume_string( const avatar &u )
 {
     double const volume_carried = round_up( convert_volume( to_milliliter( u.volume_carried() ) ),
-                                      2 );
+                                            2 );
     double const volume_capacity = round_up( convert_volume( to_milliliter( u.volume_capacity() ) ),
-                                       2 ); // In liters/cups/wolf paws or whatever burger units
+                                   2 ); // In liters/cups/wolf paws or whatever burger units
     return string_format( "%.2f/%.2f", volume_carried, volume_capacity );
 }
 
@@ -1163,7 +1163,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         int const ny = offset / 45;
         int const nx = offset % 45;
         std::string const str = string_format( " %s: ",
-                                         left_justify( body_part_hp_bar_ui_text( parts[i].first ), 5 ) );
+                                               left_justify( body_part_hp_bar_ui_text( parts[i].first ), 5 ) );
         nc_color part_color = u.limb_color( parts[i].first, true, true, true );
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
         draw_limb_health( u, w, parts[i].second );
@@ -1525,7 +1525,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     double const windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
+                             u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
     mvwprintz( w, point( 8, 5 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( weather.winddirection ) );
 
@@ -1546,7 +1546,7 @@ static void render_wind( avatar &u, const catacurses::window &w, const std::stri
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
     const weather_manager &weather = get_weather();
     double const windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
+                             u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
     mvwprintz( w, point( 8, 0 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( weather.winddirection ) );
     wnoutrefresh( w );
@@ -1660,8 +1660,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         // target speed > current speed
         const float strain = veh->strain();
         nc_color const col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
+                                 ( strain <= 0.2 ? c_yellow :
+                                   ( strain <= 0.4 ? c_light_red : c_red ) );
         int const t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
         int const c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
         int const offset = get_int_digits( c_speed );
@@ -1774,8 +1774,8 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         // target speed > current speed
         const float strain = veh->strain();
         nc_color const col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
+                                 ( strain <= 0.2 ? c_yellow :
+                                   ( strain <= 0.4 ? c_light_red : c_red ) );
         int const t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
         int const c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
         int const offset = get_int_digits( c_speed );
@@ -1806,8 +1806,8 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         // target speed > current speed
         const float strain = veh->strain();
         nc_color const col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
+                                 ( strain <= 0.2 ? c_yellow :
+                                   ( strain <= 0.4 ? c_light_red : c_red ) );
         int const t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
         int const c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
         int const offset = get_int_digits( c_speed );

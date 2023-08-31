@@ -180,7 +180,8 @@ void map::generate( const tripoint &p, const time_point &when )
     if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
         int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
         for( ; pop > 0; pop-- ) {
-            MonsterGroupResult const spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
+            MonsterGroupResult const spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group,
+                    &pop );
             if( !spawn_details.name ) {
                 continue;
             }
@@ -377,7 +378,7 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
     oter_mapgen.setup();
     // Not really calculate weights, but let's keep it here for now
     for( auto &pr : nested_mapgen ) {
-        for( weighted_object<int, std::shared_ptr<mapgen_function_json_nested>>  const&ptr : pr.second ) {
+        for( weighted_object<int, std::shared_ptr<mapgen_function_json_nested>>  const &ptr : pr.second ) {
             ptr.obj->setup();
             inp_mngr.pump_events();
         }
@@ -791,8 +792,8 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         pjo.read( "fuel", tmp_fuel );
         pjo.read( "status", tmp_status );
         jmapgen_setmap const tmp( tmp_x, tmp_y, tmp_x2, tmp_y2,
-                            static_cast<jmapgen_setmap_op>( tmpop + setmap_optype ), tmp_i,
-                            tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
+                                  static_cast<jmapgen_setmap_op>( tmpop + setmap_optype ), tmp_i,
+                                  tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status );
 
         setmap_points.push_back( tmp );
         tmpval.clear();
@@ -1638,8 +1639,8 @@ class jmapgen_sealed_item : public jmapgen_piece
         void check( const std::string &oter_name ) const override {
             const furn_t &furn = furniture.obj();
             std::string const summary = string_format(
-                                      "sealed_item special in json mapgen for overmap terrain %s using furniture %s",
-                                      oter_name, furn.id.str() );
+                                            "sealed_item special in json mapgen for overmap terrain %s using furniture %s",
+                                            oter_name, furn.id.str() );
 
             if( !furniture.is_valid() ) {
                 debugmsg( "%s which is not valid furniture", summary );
@@ -2400,7 +2401,7 @@ void mapgen_function_json_base::setup_common()
         return;
     }
     shared_ptr_fast<std::istream> const stream = DynamicDataLoader::get_instance().get_cached_stream(
-            *jsrcloc->path );
+                *jsrcloc->path );
     JsonIn jsin( *stream, *jsrcloc );
     JsonObject const jo = jsin.get_object();
     mapgen_defer::defer = false;
@@ -3733,9 +3734,9 @@ void map::draw_lab( mapgendata &dat )
                         ter_id const lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
                         ter_id const tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
                         ter_id const rw_type = tower_lab && rw == 2 ? t_reinforced_glass :
-                                         t_concrete_wall;
+                                               t_concrete_wall;
                         ter_id const bw_type = tower_lab && bw == 2 ? t_reinforced_glass :
-                                         t_concrete_wall;
+                                               t_concrete_wall;
                         for( int i = 0; i < SEEX * 2; i++ ) {
                             ter_set( point( 23, i ), rw_type );
                             furn_set( point( 23, i ), f_null );
@@ -5837,7 +5838,7 @@ void science_room( map *m, point p1, point p2, int z, int rotate )
         case room_lobby:
             if( rotate % 2 == 0 ) { // Vertical
                 int const desk = p1.y + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
-                                       static_cast<int>( height / 2 ) + 1 );
+                                             static_cast<int>( height / 2 ) + 1 );
                 for( int x = p1.x + static_cast<int>( width / 4 ); x < p2.x - static_cast<int>( width / 4 ); x++ ) {
                     m->furn_set( point( x, desk ), f_counter );
                 }
@@ -5853,7 +5854,7 @@ void science_room( map *m, point p1, point p2, int z, int rotate )
                                  point( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ), 1, true );
             } else {
                 int const desk = p1.x + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
-                                       static_cast<int>( height / 2 ) + 1 );
+                                             static_cast<int>( height / 2 ) + 1 );
                 for( int y = p1.y + static_cast<int>( width / 4 ); y < p2.y - static_cast<int>( width / 4 ); y++ ) {
                     m->furn_set( point( desk, y ), f_counter );
                 }

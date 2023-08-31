@@ -498,9 +498,9 @@ std::optional<construction_id> construction_menu( const bool blueprint )
                 };
 
                 bool const pre_is_ter_or_furn = !current_con->pre_terrain.is_empty() ||
-                                          !current_con->pre_furniture.is_empty();
+                                                !current_con->pre_furniture.is_empty();
                 bool const post_is_ter_or_furn = !current_con->post_terrain.is_empty() ||
-                                           !current_con->post_furniture.is_empty();
+                                                 !current_con->post_furniture.is_empty();
 
                 // Display final product name only if more than one step.
                 // Assume single stage constructions should be clear
@@ -532,7 +532,7 @@ std::optional<construction_id> construction_menu( const bool blueprint )
                     add_line( _( "No skills required." ) );
                 } else {
                     std::string const current_line = _( "Required skills: " ) + enumerate_as_string(
-                                                   current_con->required_skills.begin(), current_con->required_skills.end(),
+                                                         current_con->required_skills.begin(), current_con->required_skills.end(),
                     []( const std::pair<skill_id, int> &skill ) {
                         nc_color col;
                         int const s_lvl = g->u.get_skill_level( skill.first );
@@ -1014,8 +1014,9 @@ void place_construction( const construction_group_str_id &group )
         }
     }
 
-    shared_ptr_fast<game::draw_callback_t> const draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
-        map  const&here = get_map();
+    shared_ptr_fast<game::draw_callback_t> const draw_valid =
+    make_shared_fast<game::draw_callback_t>( [&]() {
+        map  const &here = get_map();
         for( auto &elem : valid ) {
             here.drawsq( g->w_terrain, elem.first, drawsq_params().highlight( true ).show_items( true ) );
         }
@@ -1204,7 +1205,7 @@ inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
 
 bool construct::check_support( const tripoint &p )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     // need two or more orthogonally adjacent supports
     if( here.impassable( p ) ) {
         return false;
@@ -1220,7 +1221,7 @@ bool construct::check_support( const tripoint &p )
 
 bool construct::check_deconstruct( const tripoint &p )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( here.has_furn( p.xy() ) ) {
         return here.furn( p.xy() ).obj().deconstruct.can_do;
     }
@@ -1351,7 +1352,7 @@ void construct::done_vehicle( const tripoint &p )
     }
 
     map &m = get_map();
-    avatar  const&u = get_avatar();
+    avatar  const &u = get_avatar();
 
     vehicle *veh = m.add_vehicle( vproto_id( "none" ), p, 270_degrees, 0, 0 );
 
@@ -1444,7 +1445,8 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z - 1 ), false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
-    bool const dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
+    bool const dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) ||
+                          g->u.has_trait( trait_STOCKY_TROGLO );
 
     int const no_mut_penalty = dig_muts ? 10 : 0;
     int const mine_penalty = dig ? 0 : 10;
@@ -1518,7 +1520,8 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    bool const dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
+    bool const dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) ||
+                          g->u.has_trait( trait_STOCKY_TROGLO );
 
     int const no_mut_penalty = dig_muts ? 15 : 0;
     g->u.mod_stored_nutr( 20 + no_mut_penalty );
@@ -1782,7 +1785,7 @@ void construction::finalize()
         debugmsg( "Invalid construction category (%s) defined for construction (%s)", category, id );
     }
     requirement_data const requirements_ = std::accumulate( reqs_using.begin(), reqs_using.end(),
-                                     *requirements,
+                                           *requirements,
     []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
         return lhs + ( *rhs.first * rhs.second );
     } );

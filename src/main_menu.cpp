@@ -162,7 +162,7 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
                 for( int x2 = x; static_cast<size_t>( x2 ) < tmp_chars.size(); x2++ ) {
                     if( tmp_chars.at( x2 ) == "]" ) {
                         inclusive_rectangle<point> const rec( win_offset + offset + point( x, y_off ),
-                                                        win_offset + offset + point( x2, y_off ) );
+                                                              win_offset + offset + point( x2, y_off ) );
                         main_menu_button_map.emplace_back( rec, sel_opt++ );
                         break;
                     }
@@ -260,7 +260,8 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
         opt.append( padding, ' ' );
         nc_color const clr = sel2 == y ? hilite( c_light_gray ) : c_light_gray;
         trim_and_print( w_sub, point( 1, y + 1 ), xlen + 2, clr, opt );
-        inclusive_rectangle<point> const rec( top_left + point( 1, y + 1 ), top_left + point( xlen + 2, y + 1 ) );
+        inclusive_rectangle<point> const rec( top_left + point( 1, y + 1 ), top_left + point( xlen + 2,
+                                              y + 1 ) );
         main_menu_sub_button_map.emplace_back( rec, std::pair<int, int> { sel, y } );
     }
     wnoutrefresh( w_sub );
@@ -527,10 +528,10 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     const int vert_off = clamp( ( w_open_height - FULL_SCREEN_HEIGHT ) / 2, getbegy( w_open ), TERMY );
 
     catacurses::window const w_border = catacurses::newwin( b_height, FULL_SCREEN_WIDTH,
-                                  point( clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), vert_off ) );
+                                        point( clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), vert_off ) );
 
     catacurses::window const w_text = catacurses::newwin( b_height - 2, FULL_SCREEN_WIDTH - 2,
-                                point( 1 + clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), 1 + vert_off ) );
+                                      point( 1 + clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), 1 + vert_off ) );
 
     draw_border( w_border, BORDER_COLOR, title );
 
@@ -849,10 +850,10 @@ bool main_menu::new_character_tab()
             }
 
             std::string const res = query_popup()
-                              .context( "LOAD_DELETE_CANCEL" ).default_color( c_light_gray )
-                              .message( _( "What to do with template \"%s\"?" ), templates[opt_val] )
-                              .option( "LOAD" ).option( "DELETE" ).option( "CANCEL" ).cursor( 0 )
-                              .query().action;
+                                    .context( "LOAD_DELETE_CANCEL" ).default_color( c_light_gray )
+                                    .message( _( "What to do with template \"%s\"?" ), templates[opt_val] )
+                                    .option( "LOAD" ).option( "DELETE" ).option( "CANCEL" ).cursor( 0 )
+                                    .query().action;
             if( res == "DELETE" &&
                 query_yn( _( "Are you sure you want to delete %s?" ), templates[opt_val] ) ) {
                 const auto path = PATH_INFO::templatedir() + templates[opt_val] + ".template";

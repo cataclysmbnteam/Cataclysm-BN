@@ -224,7 +224,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
 void fungal_effects::spread_fungus( const tripoint &p )
 {
     int growth = 1;
-    map  const&here = get_map();
+    map  const &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 1 ) ) {
         if( tmp == p ) {
             continue;

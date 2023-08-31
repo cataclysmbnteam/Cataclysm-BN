@@ -187,9 +187,9 @@ static void debug_error_prompt(
             _( "Excessive error repetition detected.  Please file a bug report at https://github.com/cataclysmbnteam/Cataclysm-BN/issues" );
         // try to prepend repetition string if we are forcing the display. Right now that's the only reason for this prompt to display.
         std::string const pre = force ? string_format(
-                              "            %s\n",
-                              repetition_string
-                          ) : "";
+                                    "            %s\n",
+                                    repetition_string
+                                ) : "";
         return string_format(
                    "%s"
                    " DEBUG    : %s\n\n"

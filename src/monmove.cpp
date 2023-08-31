@@ -231,7 +231,7 @@ bool monster::will_move_to( const tripoint &p ) const
 
 bool monster::can_reach_to( const tripoint &p ) const
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( p.z > pos().z && z_is_valid( pos().z ) ) {
         if( here.has_flag( TFLAG_RAMP_UP, tripoint( p.xy(), p.z - 1 ) ) ) {
             return true;
@@ -252,7 +252,7 @@ bool monster::can_reach_to( const tripoint &p ) const
 
 bool monster::can_squeeze_to( const tripoint &p ) const
 {
-    map  const&m = get_map();
+    map  const &m = get_map();
 
     return !m.obstructed_by_vehicle_rotation( pos(), p );
 }
@@ -365,7 +365,7 @@ void monster::plan()
             }
         }
         if( angers_cub_threatened > 0 ) {
-            for( monster  const&tmp : g->all_monsters() ) {
+            for( monster  const &tmp : g->all_monsters() ) {
                 if( type->baby_monster == tmp.type->id ) {
                     // baby nearby; is the player too close?
                     dist = tmp.rate_target( g->u, dist, smart_planning );
@@ -690,7 +690,7 @@ void monster::move()
         die( nullptr );
         return;
     }
-    map  const&here = get_map();
+    map  const &here = get_map();
 
     behavior::monster_oracle_t oracle( this );
     behavior::tree goals;
@@ -740,7 +740,7 @@ void monster::move()
         if( local_iter == special_attacks.end() ) {
             continue;
         }
-        mon_special_attack  const&local_attack_data = local_iter->second;
+        mon_special_attack  const &local_attack_data = local_iter->second;
         if( !local_attack_data.enabled ) {
             continue;
         }
@@ -810,7 +810,7 @@ void monster::move()
     // don't move if a passenger in a moving vehicle
     auto vp = g->m.veh_at( pos() );
     bool const harness_part = static_cast<bool>( g->m.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
-                                           true ) );
+                              true ) );
     if( vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
         moves = 0;
         return;
@@ -1475,7 +1475,7 @@ int monster::group_bash_skill( const tripoint &target )
                 connected = false;
                 break;
             }
-            monster  const&helpermon = *mon;
+            monster  const &helpermon = *mon;
             if( !helpermon.has_flag( MF_GROUP_BASH ) || helpermon.is_hallucination() ) {
                 connected = false;
                 break;
@@ -1547,7 +1547,7 @@ bool monster::attack_at( const tripoint &p )
 
 static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     for( const tripoint &candidate : closest_points_first( near_this, 10 ) ) {
         if( here.has_flag( stair_type, candidate ) ) {
             return candidate;
@@ -1911,7 +1911,7 @@ void monster::stumble()
         return;
     }
 
-    map  const&here = get_map();
+    map  const &here = get_map();
 
     std::vector<tripoint> valid_stumbles;
     valid_stumbles.reserve( 11 );

@@ -384,7 +384,8 @@ trans_catalogue trans_catalogue::load_from_memory( std::string mo_file )
 u8 trans_catalogue::get_u8( u32 offs ) const
 {
     if( offs + 1 > buf_size() ) {
-        std::string const e = string_format( "tried get_u8() at offs %#x with file size %#x", offs, buf_size() );
+        std::string const e = string_format( "tried get_u8() at offs %#x with file size %#x", offs,
+                                             buf_size() );
         throw std::runtime_error( e );
     }
     return get_u8_unsafe( offs );
@@ -393,7 +394,8 @@ u8 trans_catalogue::get_u8( u32 offs ) const
 u32 trans_catalogue::get_u32( u32 offs ) const
 {
     if( offs + 4 > buf_size() ) {
-        std::string const e = string_format( "tried get_u32() at offs %#x with file size %#x", offs, buf_size() );
+        std::string const e = string_format( "tried get_u32() at offs %#x with file size %#x", offs,
+                                             buf_size() );
         throw std::runtime_error( e );
     }
     return get_u32_unsafe( offs );
@@ -425,9 +427,9 @@ std::string trans_catalogue::get_metadata() const
 
     if( k.length != METADATA_STRING_LEN ) {
         std::string const e = string_format(
-                            "invalid metadata entry (expected length %#x, got %#x)",
-                            METADATA_STRING_LEN, k.length
-                        );
+                                  "invalid metadata entry (expected length %#x, got %#x)",
+                                  METADATA_STRING_LEN, k.length
+                              );
         throw std::runtime_error( e );
     }
 
@@ -454,10 +456,10 @@ void trans_catalogue::process_file_header()
     this->is_little_endian = magic == MO_MAGIC_NUMBER_LE;
     if( get_u32( OFFS_REVISION ) != MO_SUPPORTED_REVISION ) {
         std::string const e = string_format(
-                            "expected revision %d, got %d",
-                            MO_SUPPORTED_REVISION,
-                            get_u32( OFFS_REVISION )
-                        );
+                                  "expected revision %d, got %d",
+                                  MO_SUPPORTED_REVISION,
+                                  get_u32( OFFS_REVISION )
+                              );
         throw std::runtime_error( e );
     }
 
@@ -474,18 +476,18 @@ void trans_catalogue::check_string_terminators()
         string_descr const s = get_string_descr( offs );
         if( s.offset + s.length + 1 > buf_size() ) {
             std::string const e = string_format(
-                                "string_descr at offs %#x: extends beyond EOF (len:%#x offs:%#x fsize:%#x)",
-                                offs, s.length, s.offset, buf_size()
-                            );
+                                      "string_descr at offs %#x: extends beyond EOF (len:%#x offs:%#x fsize:%#x)",
+                                      offs, s.length, s.offset, buf_size()
+                                  );
             throw std::runtime_error( e );
         }
         // Also check for existence of the null byte.
         u8 const terminator = get_u8( s.offset + s.length );
         if( terminator != 0 ) {
             std::string const e = string_format(
-                                "string_descr at offs %#x: missing null terminator",
-                                offs
-                            );
+                                      "string_descr at offs %#x: missing null terminator",
+                                      offs
+                                  );
             throw std::runtime_error( e );
         }
     };
@@ -527,9 +529,9 @@ void trans_catalogue::check_string_plurals()
         // Number of plural forms should match the number specified in metadata
         if( plural_forms != this->plurals.num ) {
             std::string const e = string_format(
-                                "string_descr at offs %#x: expected %d plural forms, got %d",
-                                offs_tr, this->plurals.num, plural_forms
-                            );
+                                      "string_descr at offs %#x: expected %d plural forms, got %d",
+                                      offs_tr, this->plurals.num, plural_forms
+                                  );
             throw std::runtime_error( e );
         }
     }
@@ -631,13 +633,14 @@ trans_catalogue::catalogue_plurals_info trans_catalogue::parse_plf_header(
         try {
             ret.num = std::stoul( plf_n_raw );
         } catch( const std::runtime_error &err ) {
-            std::string const e = string_format( "failed to parse Plural-Forms nplurals number '%s': %s", plf_n_raw,
-                                           err.what() );
+            std::string const e = string_format( "failed to parse Plural-Forms nplurals number '%s': %s",
+                                                 plf_n_raw,
+                                                 err.what() );
             throw std::runtime_error( e );
         }
         if( ret.num == 0 || ret.num > MAX_PLURAL_FORMS ) {
             std::string const e = string_format( "expected at most 1-%d plural forms, got %d", MAX_PLURAL_FORMS,
-                                           ret.num );
+                                                 ret.num );
             throw std::runtime_error( e );
         }
     }

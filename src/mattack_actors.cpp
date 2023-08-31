@@ -94,14 +94,14 @@ bool leap_actor::call( monster &z ) const
     if( !allow_no_target && z.attack_target() == nullptr ) {
         return false;
     }
-    map  const&here = get_map();
+    map  const &here = get_map();
     std::multimap<int, tripoint> candidates;
     for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
         if( candidate == z.pos() ) {
             continue;
         }
         float const leap_dist = trigdist ? trig_dist( z.pos(), candidate ) :
-                          square_dist( z.pos(), candidate );
+                                square_dist( z.pos(), candidate );
         if( leap_dist > max_range || leap_dist < min_range ) {
             continue;
         }
@@ -317,8 +317,8 @@ bool melee_actor::call( monster &z ) const
     damage.mult_damage( multiplier );
 
     body_part const bp_hit = body_parts.empty() ?
-                       target->select_body_part( &z, hitspread ) :
-                       *body_parts.pick();
+                             target->select_body_part( &z, hitspread ) :
+                             *body_parts.pick();
 
     target->on_hit( &z, convert_bp( bp_hit ).id() );
     dealt_damage_instance dealt_damage = target->deal_damage( &z, convert_bp( bp_hit ).id(), damage );
@@ -491,7 +491,7 @@ static std::optional<tripoint> find_target_vehicle( monster &z, int range )
     map &here = get_map();
     bool found = false;
     tripoint aim_at;
-    for( wrapped_vehicle  const&v : here.get_vehicles() ) {
+    for( wrapped_vehicle  const &v : here.get_vehicles() ) {
         if( ( !fov_3d && v.pos.z != z.pos().z ) || v.v->velocity == 0 ) {
             continue;
         }
@@ -514,7 +514,7 @@ static std::optional<tripoint> find_target_vehicle( monster &z, int range )
         if( !found_controls ) {
             std::vector<tripoint> const line = here.find_clear_path( z.pos(), v.v->global_pos3() );
             tripoint prev_point = z.pos();
-            for( tripoint  const&i : line ) {
+            for( tripoint  const &i : line ) {
                 if( here.floor_between( prev_point, i ) ) {
                     break;
                 }

@@ -240,7 +240,7 @@ void talk_function::dismount( npc &p )
 void talk_function::find_mount( npc &p )
 {
     // first find one nearby
-    for( monster  const&critter : g->all_monsters() ) {
+    for( monster  const &critter : g->all_monsters() ) {
         if( p.can_mount( critter ) ) {
             // keep the horse still for some time, so that NPC can catch up to it and mount it.
             p.assign_activity( ACT_FIND_MOUNT );
@@ -302,7 +302,7 @@ void talk_function::goto_location( npc &p )
     selection_menu.text = _( "Select a destination" );
     std::vector<basecamp *> camps;
     tripoint_abs_omt destination;
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     for( const auto &elem : player_character.camps ) {
         if( elem == p.global_omt_location() ) {
             continue;
@@ -499,7 +499,7 @@ void talk_function::bionic_remove( npc &p )
     }
     // Choose bionic if applicable
     int const bionic_index = uilist( _( "Which bionic do you wish to uninstall?" ),
-                               bionic_names );
+                                     bionic_names );
     // Did we cancel?
     if( bionic_index < 0 ) {
         popup( _( "You decide to hold off…" ) );

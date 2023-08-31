@@ -186,8 +186,8 @@ static bool init_weather_anim( const weather_type_id &wtype, weather_printable &
 
 static void generate_weather_anim_frame( const weather_type_id &wtype, weather_printable &wPrint )
 {
-    map  const&m = get_map();
-    avatar  const&u = get_avatar();
+    map  const &m = get_map();
+    avatar  const &u = get_avatar();
 
     const visibility_variables &cache = m.get_visibility_variables_cache();
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
@@ -455,7 +455,7 @@ static void pldrive( const tripoint &p )
     vehicle *veh = g->remoteveh();
     bool remote = true;
     int part = -1;
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( !veh ) {
         if( const optional_vpart_position vp = here.veh_at( u.pos() ) ) {
             veh = &vp->vehicle();
@@ -655,7 +655,7 @@ static void grab()
 static void haul()
 {
     player &u = g->u;
-    map  const&here = get_map();
+    map  const &here = get_map();
 
     if( u.is_hauling() ) {
         u.stop_hauling();
@@ -730,7 +730,7 @@ static void smash()
             crit->use_mech_power( -3 );
         }
     }
-    for( std::pair<const field_type_id, field_entry>  const&fd_to_smsh : here.field_at( smashp ) ) {
+    for( std::pair<const field_type_id, field_entry>  const &fd_to_smsh : here.field_at( smashp ) ) {
         const map_bash_info &bash_info = fd_to_smsh.first->bash_info;
         if( bash_info.str_min == -1 ) {
             continue;
@@ -875,7 +875,7 @@ static void wait()
     uilist as_m;
     player &u = g->u;
     bool setting_alarm = false;
-    map  const&here = get_map();
+    map  const &here = get_map();
 
     if( u.controlling_vehicle && ( here.veh_at( u.pos() )->vehicle().velocity ||
                                    here.veh_at( u.pos() )->vehicle().cruise_velocity ) ) {
@@ -969,9 +969,9 @@ static void wait()
     time_duration time_to_wait;
     if( as_m.ret == 13 ) {
         int const minutes = string_input_popup()
-                      .title( _( "How long?  (in minutes)" ) )
-                      .identifier( "wait_duration" )
-                      .query_int();
+                            .title( _( "How long?  (in minutes)" ) )
+                            .identifier( "wait_duration" )
+                            .query_int();
         time_to_wait = minutes * 1_minutes;
     } else {
 
@@ -1378,7 +1378,7 @@ static void fire()
         }
     }
 
-    item  const&weapon = u.primary_weapon();
+    item  const &weapon = u.primary_weapon();
     if( weapon.is_gun() && !weapon.gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( u );
     } else if( weapon.reach_range( u ) > 1 ) {
@@ -1550,7 +1550,7 @@ bool game::handle_action()
 
     const optional_vpart_position vp = m.veh_at( u.pos() );
     bool const veh_ctrl = !u.is_dead_state() &&
-                    ( ( vp && vp->vehicle().player_in_control( u ) ) || remoteveh() != nullptr );
+                          ( ( vp && vp->vehicle().player_in_control( u ) ) || remoteveh() != nullptr );
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
@@ -1795,8 +1795,8 @@ bool game::handle_action()
                     if( auto_travel_mode && !u.is_auto_moving() ) {
                         for( int i = 0; i < SEEX; i++ ) {
                             tripoint const auto_travel_destination( u.posx() + dest_delta.x * ( SEEX - i ),
-                                                              u.posy() + dest_delta.y * ( SEEX - i ),
-                                                              u.posz() );
+                                                                    u.posy() + dest_delta.y * ( SEEX - i ),
+                                                                    u.posz() );
                             destination_preview = m.route( u.pos(),
                                                            auto_travel_destination,
                                                            u.get_pathfinding_settings(),

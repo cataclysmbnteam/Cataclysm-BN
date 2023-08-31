@@ -593,7 +593,7 @@ std::string vehicle::tracking_toggle_string()
 
 void vehicle::autopilot_patrol_check()
 {
-    zone_manager  const&mgr = zone_manager::get_manager();
+    zone_manager  const &mgr = zone_manager::get_manager();
     if( mgr.has_near( zone_type_id( "VEHICLE_PATROL" ), global_square_location().raw(), 60 ) ) {
         enable_patrol();
     } else {
@@ -1796,7 +1796,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         if( mon_ptr == nullptr ) {
             return false;
         }
-        monster  const&f = *mon_ptr;
+        monster  const &f = *mon_ptr;
         return ( f.friendly != 0 && ( f.has_flag( MF_PET_MOUNTABLE ) ||
                                       f.has_flag( MF_PET_HARNESSABLE ) ) );
     };
@@ -1942,7 +1942,7 @@ void vehicle::use_bike_rack( int part )
 void vehicle::interact_with( const tripoint &pos, int interact_part )
 {
     avatar &you = get_avatar();
-    map  const&here = get_map();
+    map  const &here = get_map();
     std::vector<std::string> const menu_items;
     std::vector<uilist_entry> const options_message;
     const bool has_items_on_ground = here.sees_some_items( pos, g->u );
@@ -1972,11 +1972,11 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     const int washing_machine_part = avail_part_with_feature( interact_part, "WASHING_MACHINE", true );
     const bool has_washmachine = washing_machine_part >= 0;
     bool const washing_machine_on = ( washing_machine_part == -1 ) ? false :
-                              parts[washing_machine_part].enabled;
+                                    parts[washing_machine_part].enabled;
     const int dishwasher_part = avail_part_with_feature( interact_part, "DISHWASHER", true );
     const bool has_dishwasher = dishwasher_part >= 0;
     bool const dishwasher_on = ( dishwasher_part == -1 ) ? false :
-                         parts[dishwasher_part].enabled;
+                               parts[dishwasher_part].enabled;
     const int monster_capture_part = avail_part_with_feature( interact_part, "CAPTURE_MONSTER_VEH",
                                      true );
     const bool has_monster_capture = monster_capture_part >= 0;
@@ -2052,7 +2052,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     if( has_purify ) {
         bool const can_purify = fuel_left( itype_battery, true ) >=
-                          itype_water_purifier->charges_to_use();
+                                itype_water_purifier->charges_to_use();
         selectmenu.addentry( USE_PURIFIER, can_purify,
                              'p', _( "Purify water in carried container" ) );
         selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( itype_water ),

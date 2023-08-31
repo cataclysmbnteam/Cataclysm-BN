@@ -684,7 +684,7 @@ void basecamp::add_available_recipes( mission_data &mission_key, point dir,
         const std::string &entry = craft_description( recipe_data.first );
         const recipe &recp = recipe_data.first.obj();
         bool const craftable = recp.deduped_requirements().can_make_with_inventory(
-                             _inv, recp.get_component_filter() );
+                                   _inv, recp.get_component_filter() );
         mission_key.add_start( id, title_e, dir, entry, craftable );
     }
 }
@@ -713,7 +713,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, point d
         for( const basecamp_upgrade &upgrade : available_upgrades( dir ) ) {
             const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_exp_" ];
             comp_list const npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_exp_" +
-                                 dir_id );
+                                       dir_id );
             if( npc_list.empty() ) {
                 entry = om_upgrade_description( upgrade.bldg );
                 mission_key.add_start( dir_id + miss_info.miss_id + upgrade.bldg,
@@ -1629,7 +1629,7 @@ void basecamp::start_upgrade( const std::string &bldg, point dir,
 void basecamp::abandon_camp()
 {
     validate_assignees();
-    for( npc_ptr  const&guy : overmap_buffer.get_companion_mission_npcs( 10 ) ) {
+    for( npc_ptr  const &guy : overmap_buffer.get_companion_mission_npcs( 10 ) ) {
         npc_companion_mission const c_mission = guy->get_companion_mission();
         if( c_mission.role_id != base_camps::id ) {
             continue;
@@ -1637,7 +1637,7 @@ void basecamp::abandon_camp()
         const std::string return_msg = _( "responds to the emergency recall…" );
         finish_return( *guy, false, return_msg, "menial", 0, true );
     }
-    for( npc_ptr  const&guy : get_npcs_assigned() ) {
+    for( npc_ptr  const &guy : get_npcs_assigned() ) {
         talk_function::stop_guard( *guy );
     }
     overmap_buffer.remove_camp( *this );
@@ -1795,7 +1795,7 @@ void basecamp::job_assignment_ui()
                 int start_y = 3;
                 if( cur_npc ) {
                     if( cur_npc->has_job() ) {
-                        for( activity_id  const&elem : cur_npc->job.get_prioritised_vector() ) {
+                        for( activity_id  const &elem : cur_npc->job.get_prioritised_vector() ) {
                             const int priority = cur_npc->job.get_priority_of_job( elem );
                             player_activity const test_act = player_activity( elem );
                             mvwprintz( w_jobs, point( 46, start_y ), c_light_gray, string_format( _( "%s : %s" ),
@@ -1913,7 +1913,7 @@ void basecamp::start_cut_logs()
         sample_npc.set_fake( true );
         int const tree_est = om_cutdown_trees_est( forest, 50 );
         int const tree_young_est = om_harvest_ter_est( sample_npc, forest,
-                             ter_id( "t_tree_young" ), 50 );
+                                   ter_id( "t_tree_young" ), 50 );
         int const dist = rl_dist( forest.xy(), omt_pos.xy() );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
         time_duration const chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
@@ -1927,8 +1927,8 @@ void basecamp::start_cut_logs()
         }
 
         npc_ptr const comp = start_mission( "_faction_camp_cut_log", work_time, true,
-                                      _( "departs to cut logs…" ), false, {},
-                                      skill_fabrication, 2 );
+                                            _( "departs to cut logs…" ), false, {},
+                                            skill_fabrication, 2 );
         if( comp != nullptr ) {
             om_cutdown_trees_logs( forest, 50 );
             om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), 50 );
@@ -1960,7 +1960,7 @@ void basecamp::start_clearcut()
         sample_npc.set_fake( true );
         int const tree_est = om_cutdown_trees_est( forest, 95 );
         int const tree_young_est = om_harvest_ter_est( sample_npc, forest,
-                             ter_id( "t_tree_young" ), 95 );
+                                   ter_id( "t_tree_young" ), 95 );
         int const dist = rl_dist( forest.xy(), omt_pos.xy() );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
         time_duration const chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
@@ -1972,8 +1972,8 @@ void basecamp::start_clearcut()
         }
 
         npc_ptr const comp = start_mission( "_faction_camp_clearcut", work_time,
-                                      true, _( "departs to clear a forest…" ), false, {},
-                                      skill_fabrication, 1 );
+                                            true, _( "departs to clear a forest…" ), false, {},
+                                            skill_fabrication, 1 );
         if( comp != nullptr ) {
             om_cutdown_trees_trunks( forest, 95 );
             om_harvest_ter_break( *comp, forest, ter_id( "t_tree_young" ), 95 );
@@ -1988,11 +1988,11 @@ void basecamp::start_clearcut()
 void basecamp::start_setup_hide_site()
 {
     std::vector<std::string> const hide_locations = { "forest", "forest_thick", "forest_water",
-                                                "field"
-                                              };
+                                                      "field"
+                                                    };
     popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
     tripoint_abs_omt const forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true,
-                              omt_pos, true );
+                                    omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int const dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = g->u.inv;
@@ -2001,21 +2001,21 @@ void basecamp::start_setup_hide_site()
         } );
         if( !pos_inv.empty() ) {
             std::vector<item *> const losing_equipment = give_equipment( pos_inv,
-                                                   _( "Do you wish to give your companion "
-                                                           "additional items?" ) );
+                    _( "Do you wish to give your companion "
+                       "additional items?" ) );
             int trips = om_carry_weight_to_trips( losing_equipment );
             int haulage = trips <= 2 ? 0 : losing_equipment.size();
             time_duration const build_time = 6_hours;
             time_duration const travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes,
-                                        2, haulage );
+                                              2, haulage );
             time_duration work_time = travel_time + build_time;
             if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time,
                            build_time, travel_time, dist, trips, time_to_food( work_time ) ) ) ) {
                 return;
             }
             npc_ptr const comp = start_mission( "_faction_camp_hide_site", work_time, true,
-                                          _( "departs to build a hide site…" ), false, {},
-                                          skill_survival, 3 );
+                                                _( "departs to build a hide site…" ), false, {},
+                                                skill_survival, 3 );
             if( comp != nullptr ) {
                 trips = om_carry_weight_to_trips( losing_equipment, comp );
                 haulage = trips <= 2 ? 0 : losing_equipment.size();
@@ -2035,7 +2035,7 @@ void basecamp::start_relay_hide_site()
     std::vector<std::string> const hide_locations = { "faction_hide_site_0" };
     popup( _( "You must select an existing hide site." ) );
     tripoint_abs_omt const forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true,
-                              omt_pos, true );
+                                    omt_pos, true );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         int const dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = g->u.inv;
@@ -2064,10 +2064,10 @@ void basecamp::start_relay_hide_site()
             int trips = std::max( om_carry_weight_to_trips( gaining_equipment ),
                                   om_carry_weight_to_trips( losing_equipment ) );
             int const haulage = trips <= 2 ? 0 : std::max( gaining_equipment.size(),
-                          losing_equipment.size() );
+                                losing_equipment.size() );
             time_duration const build_time = 6_hours;
             time_duration const travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes,
-                                        trips, haulage );
+                                              trips, haulage );
             time_duration work_time = travel_time + build_time;
             if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time, build_time,
                            travel_time, dist, trips, time_to_food( work_time ) ) ) ) {
@@ -2075,14 +2075,14 @@ void basecamp::start_relay_hide_site()
             }
 
             npc_ptr const comp = start_mission( "_faction_camp_hide_trans", work_time, true,
-                                          _( "departs for the hide site…" ), false, {},
-                                          skill_survival, 3 );
+                                                _( "departs for the hide site…" ), false, {},
+                                                skill_survival, 3 );
             if( comp != nullptr ) {
                 // recalculate trips based on actual load
                 trips = std::max( om_carry_weight_to_trips( gaining_equipment, comp ),
                                   om_carry_weight_to_trips( losing_equipment, comp ) );
                 int const haulage = trips <= 2 ? 0 : std::max( gaining_equipment.size(),
-                              losing_equipment.size() );
+                                    losing_equipment.size() );
                 work_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips,
                                                         haulage ) + build_time;
                 comp->companion_mission_time_ret = calendar::turn + work_time;
@@ -2180,8 +2180,8 @@ void basecamp::start_fortifications( std::string &bldg_exp )
         }
 
         npc_ptr const comp = start_mission( "_faction_camp_om_fortifications", total_time, true,
-                                      _( "begins constructing fortifications…" ), false, {},
-                                      making.required_skills );
+                                            _( "begins constructing fortifications…" ), false, {},
+                                            making.required_skills );
         if( comp != nullptr ) {
             components.consume_components();
             comp->companion_mission_role_id = bldg_exp;
@@ -2209,7 +2209,7 @@ void basecamp::start_combat_mission( const std::string &miss )
         return;
     }
     npc_ptr const comp = start_mission( miss, travel_time, true, _( "departs on patrol…" ),
-                                  false, {}, skill_survival, 3 );
+                                        false, {}, skill_survival, 3 );
     if( comp != nullptr ) {
         comp->companion_mission_points = scout_points;
     }
@@ -2261,8 +2261,8 @@ void basecamp::start_crafting( const std::string &cur_id, point cur_dir,
 
         time_duration const work_days = base_camps::to_workdays( making.batch_duration( batch_size ) );
         npc_ptr const comp = start_mission( miss_id + cur_dir_id, work_days, true,
-                                      _( "begins to work…" ), false, {},
-                                      making.required_skills );
+                                            _( "begins to work…" ), false, {},
+                                            making.required_skills );
         if( comp != nullptr ) {
             components.consume_components();
             for( const item &results : making.create_results( batch_size ) ) {
@@ -2421,7 +2421,7 @@ void basecamp::start_farm_op( point dir, const tripoint_abs_omt &omt_tgt, farm_o
                 return;
             }
             std::vector<item *> const plant_these = give_equipment( seed_inv,
-                                              _( "Which seeds do you wish to have planted?" ) );
+                                                    _( "Which seeds do you wish to have planted?" ) );
             size_t seed_cnt = 0;
             for( item *seeds : plant_these ) {
                 seed_cnt += seeds->count();
@@ -2460,8 +2460,8 @@ bool basecamp::start_garage_chop( point dir, const tripoint_abs_omt &omt_tgt )
 
     const std::string dir_id = base_camps::all_directions.at( dir ).id;
     npc_ptr const comp = start_mission( "_faction_exp_chop_shop_" + dir_id, 5_days, true,
-                                  _( "begins working in the garage…" ), false, {},
-                                  skill_mechanics, 2 );
+                                        _( "begins working in the garage…" ), false, {},
+                                        skill_mechanics, 2 );
     if( comp == nullptr ) {
         return false;
     }
@@ -2738,7 +2738,7 @@ void basecamp::fortifications_return()
         std::string build_first = build_e;
         std::string build_second = build_w;
         bool const build_dir_NS = comp->companion_mission_points[0].y() !=
-                            comp->companion_mission_points[1].y();
+                                  comp->companion_mission_points[1].y();
         if( build_dir_NS ) {
             build_first = build_s;
             build_second = build_n;
@@ -3045,10 +3045,10 @@ int basecamp::recipe_batch_max( const recipe &making ) const
     for( size_t batch_size = 1000; batch_size > 0; batch_size /= 10 ) {
         for( int iter = 0; iter < max_checks; iter++ ) {
             time_duration const work_days = base_camps::to_workdays( making.batch_duration(
-                                          max_batch + batch_size ) );
+                                                max_batch + batch_size ) );
             int const food_req = time_to_food( work_days );
             bool const can_make = making.deduped_requirements().can_make_with_inventory(
-                                _inv, making.get_component_filter(), max_batch + batch_size );
+                                      _inv, making.get_component_filter(), max_batch + batch_size );
             if( can_make && camp_food_supply() > food_req ) {
                 max_batch += batch_size;
             } else {
@@ -3838,7 +3838,7 @@ std::string camp_car_description( vehicle *car )
     entry += _( "----  Fuel Storage & Battery   ----\n" );
     for( auto &fuel : fuels ) {
         std::string const fuel_entry = string_format( "%d/%d", car->fuel_left( fuel.first ),
-                                                car->fuel_capacity( fuel.first ) );
+                                       car->fuel_capacity( fuel.first ) );
         entry += string_format( ">%s:%s\n", item( fuel.first ).tname(),
                                 right_justify( fuel_entry, 33 - utf8_width( item( fuel.first ).tname() ) ) );
     }
@@ -4051,11 +4051,11 @@ bool survive_random_encounter( npc &comp, std::string &situation, int favor, int
     } else {
         popup( _( "%s didn't detect the ambush until it was too late!" ), comp.name );
         int const skill = comp.get_skill_level( skill_melee ) +
-                    0.5 * comp.get_skill_level( skill_survival ) +
-                    comp.get_skill_level( skill_bashing ) +
-                    comp.get_skill_level( skill_cutting ) +
-                    comp.get_skill_level( skill_stabbing ) +
-                    comp.get_skill_level( skill_unarmed ) + comp.get_skill_level( skill_dodge );
+                          0.5 * comp.get_skill_level( skill_survival ) +
+                          comp.get_skill_level( skill_bashing ) +
+                          comp.get_skill_level( skill_cutting ) +
+                          comp.get_skill_level( skill_stabbing ) +
+                          comp.get_skill_level( skill_unarmed ) + comp.get_skill_level( skill_dodge );
         int const monsters = rng( 0, threat );
         if( skill * rng( 8, 12 ) > ( monsters * rng( 8, 12 ) ) ) {
             if( one_in( 2 ) ) {

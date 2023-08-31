@@ -1151,7 +1151,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
         const auto draw_note_text = [&]( point  draw_pos, const std::string & name,
         nc_color & color ) {
             char const note_fg_color = color == c_yellow ? 11 :
-                                 cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
+                                       cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
             return draw_string( *font, renderer, geometry, name, draw_pos, note_fg_color );
         };
 
@@ -1202,7 +1202,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
                     }
                 }
 
-                nc_color  const&color = color_stack.empty() ? default_color : color_stack.top();
+                nc_color  const &color = color_stack.empty() ? default_color : color_stack.top();
                 colored_lines.emplace_back( color, seg );
                 line_length += utf8_width( seg );
             }
@@ -1218,7 +1218,7 @@ void cata_tiles::draw_om( point dest, const tripoint_abs_omt &center_abs_omt, bo
 
             // Draw colored text segments
             for( auto &colored_line : colored_lines ) {
-                std::string  const&text = std::get<1>( colored_line );
+                std::string  const &text = std::get<1>( colored_line );
                 draw_point.x = draw_note_text( draw_point, text, std::get<0>( colored_line ) ).x;
             }
 
@@ -1514,9 +1514,10 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 
         //calculate width differences between map_font and font
         int const partial_width = std::max( TERRAIN_WINDOW_TERM_WIDTH * fontwidth - TERRAIN_WINDOW_WIDTH *
-                                      map_font->width, 0 );
-        int const partial_height = std::max( TERRAIN_WINDOW_TERM_HEIGHT * fontheight - TERRAIN_WINDOW_HEIGHT *
-                                       map_font->height, 0 );
+                                            map_font->width, 0 );
+        int const partial_height = std::max( TERRAIN_WINDOW_TERM_HEIGHT * fontheight - TERRAIN_WINDOW_HEIGHT
+                                             *
+                                             map_font->height, 0 );
         //Gap between terrain and lower window edge
         if( partial_height > 0 ) {
             geometry->rect( renderer, point( win->pos.x * map_font->width,

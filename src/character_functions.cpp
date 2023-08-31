@@ -164,7 +164,8 @@ float fine_detail_vision_mod( const Character &who, const tripoint &p )
     float const own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - who.active_light() - 2.0f );
 
     // Same calculation as above, but with a result 3 lower.
-    float const ambient_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) + 1.0f );
+    float const ambient_light = std::max( 1.0f,
+                                          LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p ) + 1.0f );
 
     return std::min( own_light, ambient_light );
 }
@@ -192,8 +193,9 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
     bool const plantsleep = who.has_trait( trait_CHLOROMORPH );
     bool const fungaloid_cosplay = who.has_trait( trait_M_SKIN3 );
     bool const websleep = who.has_trait( trait_WEB_WALKER );
-    bool const webforce = who.has_trait( trait_THRESH_SPIDER ) && ( who.has_trait( trait_WEB_SPINNER ) ||
-                    ( who.has_trait( trait_WEB_WEAVER ) ) );
+    bool const webforce = who.has_trait( trait_THRESH_SPIDER ) &&
+                          ( who.has_trait( trait_WEB_SPINNER ) ||
+                            ( who.has_trait( trait_WEB_WEAVER ) ) );
     bool const in_shell = who.has_active_mutation( trait_SHELL2 );
     bool const watersleep = who.has_trait( trait_WATERSLEEP );
 
@@ -664,8 +666,8 @@ std::vector<npc *> get_crafting_helpers( const Character &who, int max )
             return false;
         }
         bool const ok = !guy.in_sleep_state() && guy.is_obeying( who ) &&
-                  rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
-                  get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+                        rl_dist( guy.pos(), who.pos() ) < PICKUP_RANGE &&
+                        get_map().clear_path( who.pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
         if( ok ) {
             n += 1;
         }

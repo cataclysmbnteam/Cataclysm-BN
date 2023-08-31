@@ -608,8 +608,10 @@ void input_context::clear_conflicting_keybindings( const input_event &event )
     for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
          registered_action != registered_actions.end();
          ++registered_action ) {
-        input_manager::t_actions::iterator const default_action = default_actions.find( *registered_action );
-        input_manager::t_actions::iterator const category_action = category_actions.find( *registered_action );
+        input_manager::t_actions::iterator const default_action = default_actions.find(
+                    *registered_action );
+        input_manager::t_actions::iterator const category_action = category_actions.find(
+                    *registered_action );
         if( default_action != default_actions.end() ) {
             std::vector<input_event> &events = default_action->second.input_events;
             events.erase( std::remove( events.begin(), events.end(), event ), events.end() );

@@ -306,7 +306,7 @@ void mission::wrap_up()
                 items, grp_type, matches,
                 container, itype_id::NULL_ID(), specific_container_required );
 
-            for( std::pair<const itype_id, int>  const&cnt : matches ) {
+            for( std::pair<const itype_id, int>  const &cnt : matches ) {
                 if( cnt.second >= type->item_count ) {
                     comps.push_back( item_comp( cnt.first, type->item_count ) );
                 }
@@ -373,7 +373,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                 items, grp_type, matches,
                 container, itype_id::NULL_ID(), specific_container_required );
 
-            for( std::pair<const itype_id, int>  const&pair : matches ) {
+            for( std::pair<const itype_id, int>  const &pair : matches ) {
                 if( pair.second >= type->item_count ) {
                     return true;
                 }
@@ -471,7 +471,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
 {
     for( item *itm : items ) {
         bool const correct_container = ( required_container == actual_container ) ||
-                                 !specific_container_required;
+                                       !specific_container_required;
 
         bool const item_in_group = item_group::group_contains_item( grp_type, itm->typeId() );
 

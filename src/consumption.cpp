@@ -1034,19 +1034,19 @@ void Character::modify_stimulation( const islot_comestible &comest )
         int const hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
         std::vector<std::string> const stimboost_msg{ _( "The shadows are getting ever closer." ),
-                                                _( "You have a bad feeling about this." ),
-                                                _( "A powerful sense of dread comes over you." ),
-                                                _( "Your skin starts crawling." ),
-                                                _( "They're coming to get you." ),
-                                                _( "This might've been a bad idea…" ),
-                                                _( "You've really done it this time, haven't you?" ),
-                                                _( "You have to stay vigilant.  They're always watching…" ),
-                                                _( "mistake mistake mistake mistake mistake" ),
-                                                _( "Just gotta stay calm, and you'll make it through this." ),
-                                                _( "You're starting to feel very jumpy." ),
-                                                _( "Something is twitching at the edge of your vision." ),
-                                                _( "They know what you've done…" ),
-                                                _( "You're feeling even more paranoid than usual." ) };
+                _( "You have a bad feeling about this." ),
+                _( "A powerful sense of dread comes over you." ),
+                _( "Your skin starts crawling." ),
+                _( "They're coming to get you." ),
+                _( "This might've been a bad idea…" ),
+                _( "You've really done it this time, haven't you?" ),
+                _( "You have to stay vigilant.  They're always watching…" ),
+                _( "mistake mistake mistake mistake mistake" ),
+                _( "Just gotta stay calm, and you'll make it through this." ),
+                _( "You're starting to feel very jumpy." ),
+                _( "Something is twitching at the edge of your vision." ),
+                _( "They know what you've done…" ),
+                _( "You're feeling even more paranoid than usual." ) };
         add_msg_if_player( m_bad, random_entry_ref( stimboost_msg ) );
     }
 }
@@ -1165,8 +1165,8 @@ void Character::modify_morale( item &food, int nutr )
         mutation_category_level["URSINE"] > 40 ) {
         // Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
         int const honey_fun = has_trait( trait_THRESH_URSINE ) ?
-                        std::min( mutation_category_level["URSINE"] / 8, 20 ) :
-                        mutation_category_level["URSINE"] / 12;
+                              std::min( mutation_category_level["URSINE"] / 8, 20 ) :
+                              mutation_category_level["URSINE"] / 12;
         if( honey_fun < 10 ) {
             add_msg_if_player( m_good, _( "You find the sweet taste of honey surprisingly palatable." ) );
         } else {

@@ -229,37 +229,37 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
 {
     if( !p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
         std::string const entry = _( "Cost: $1000\n\n\n"
-                               "                .........\n" // NOLINT(cata-text-style)
-                               "                .........\n" // NOLINT(cata-text-style)
-                               "                .........\n" // NOLINT(cata-text-style)
-                               "                .........\n" // NOLINT(cata-text-style)
-                               "                .........\n" // NOLINT(cata-text-style)
-                               "                .........\n" // NOLINT(cata-text-style)
-                               "                ..#....**\n" // NOLINT(cata-text-style)
-                               "                ..#Ov..**\n" // NOLINT(cata-text-style)
-                               "                ...O|....\n\n" // NOLINT(cata-text-style)
-                               "We're willing to let you purchase a field at a substantial "
-                               "discount to use for your own agricultural enterprises.  We'll "
-                               "plow it for you so you know exactly what is yours… after you "
-                               "have a field you can hire workers to plant or harvest crops for "
-                               "you.  If the crop is something we have a demand for, we'll be "
-                               "willing to liquidate it." );
+                                     "                .........\n" // NOLINT(cata-text-style)
+                                     "                .........\n" // NOLINT(cata-text-style)
+                                     "                .........\n" // NOLINT(cata-text-style)
+                                     "                .........\n" // NOLINT(cata-text-style)
+                                     "                .........\n" // NOLINT(cata-text-style)
+                                     "                .........\n" // NOLINT(cata-text-style)
+                                     "                ..#....**\n" // NOLINT(cata-text-style)
+                                     "                ..#Ov..**\n" // NOLINT(cata-text-style)
+                                     "                ...O|....\n\n" // NOLINT(cata-text-style)
+                                     "We're willing to let you purchase a field at a substantial "
+                                     "discount to use for your own agricultural enterprises.  We'll "
+                                     "plow it for you so you know exactly what is yours… after you "
+                                     "have a field you can hire workers to plant or harvest crops for "
+                                     "you.  If the crop is something we have a demand for, we'll be "
+                                     "willing to liquidate it." );
         mission_key.add( "Purchase East Field", _( "Purchase East Field" ), entry );
     }
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) && !p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
         std::string const entry = _( "Cost: $5500\n\n"
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ........." // NOLINT(cata-text-style)
-                               "\n              ..#....**" // NOLINT(cata-text-style)
-                               "\n              ..#Ov..**" // NOLINT(cata-text-style)
-                               "\n              ...O|....\n\n" // NOLINT(cata-text-style)
-                               "Protecting your field with a sturdy picket fence will keep most "
-                               "wildlife from nibbling your crops apart.  You can expect yields to "
-                               "increase." );
+                                     "\n              ........." // NOLINT(cata-text-style)
+                                     "\n              ........." // NOLINT(cata-text-style)
+                                     "\n              ........." // NOLINT(cata-text-style)
+                                     "\n              ........." // NOLINT(cata-text-style)
+                                     "\n              ........." // NOLINT(cata-text-style)
+                                     "\n              ........." // NOLINT(cata-text-style)
+                                     "\n              ..#....**" // NOLINT(cata-text-style)
+                                     "\n              ..#Ov..**" // NOLINT(cata-text-style)
+                                     "\n              ...O|....\n\n" // NOLINT(cata-text-style)
+                                     "Protecting your field with a sturdy picket fence will keep most "
+                                     "wildlife from nibbling your crops apart.  You can expect yields to "
+                                     "increase." );
         mission_key.add( "Upgrade East Field I", _( "Upgrade East Field I" ), entry );
     }
 
@@ -766,7 +766,7 @@ void talk_function::caravan_depart( npc &p, const std::string &dest, const std::
 //Could be expanded to actually path to the site, just returns the distance
 int talk_function::caravan_dist( const std::string &dest )
 {
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     const tripoint_abs_omt site =
         overmap_buffer.find_closest( player_character.global_omt_location(), dest, 0, false );
     int const distance = rl_dist( player_character.global_omt_location(), site );
@@ -1084,7 +1084,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
 
 void talk_function::field_harvest( npc &p, const std::string &place )
 {
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     //First we need a list of plants that can be harvested...
     const tripoint_abs_omt site = overmap_buffer.find_closest(
                                       player_character.global_omt_location(), place, 20, false );
@@ -1231,7 +1231,7 @@ static int scavenging_combat_skill( npc &p, int bonus, bool guns )
 bool talk_function::scavenging_patrol_return( npc &p )
 {
     npc_ptr const comp = companion_choose_return( p, "_scavenging_patrol",
-                                            calendar::turn - 10_hours );
+                         calendar::turn - 10_hours );
     if( comp == nullptr ) {
         return false;
     }
@@ -1280,7 +1280,7 @@ bool talk_function::scavenging_patrol_return( npc &p )
 bool talk_function::scavenging_raid_return( npc &p )
 {
     npc_ptr const comp = companion_choose_return( p, "_scavenging_raid",
-                                            calendar::turn - 10_hours );
+                         calendar::turn - 10_hours );
     if( comp == nullptr ) {
         return false;
     }
@@ -1370,7 +1370,7 @@ bool talk_function::labor_return( npc &p )
 bool talk_function::carpenter_return( npc &p )
 {
     npc_ptr const comp = companion_choose_return( p, "_carpenter",
-                                            calendar::turn - 1_hours );
+                         calendar::turn - 1_hours );
     if( comp == nullptr ) {
         return false;
     }
@@ -1573,7 +1573,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
 
     if( !monsters_fighting.empty() ) {
         bool const outcome = force_on_force( group, "Patrol", monsters_fighting, "attacking monsters",
-                                       rng( -1, 2 ) );
+                                             rng( -1, 2 ) );
         for( auto mons : monsters_fighting ) {
             mons->death_drops = true;
         }
@@ -1728,7 +1728,7 @@ void talk_function::companion_skill_trainer( npc &comp, const std::string &skill
             skill_practice.add( best_skill, 30 );
         }
     }
-    for( Skill  const&sk : Skill::skills ) {
+    for( Skill  const &sk : Skill::skills ) {
         skill_practice.add( sk.ident(), sk.get_companion_skill_practice( skill_tested ) );
     }
     if( skill_practice.empty() ) {
@@ -2013,7 +2013,7 @@ npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
         const bool by_mission )
 {
     std::vector<npc_ptr> available;
-    for( npc_ptr  const&guy : overmap_buffer.get_companion_mission_npcs() ) {
+    for( npc_ptr  const &guy : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission const c_mission = guy->get_companion_mission();
         if( c_mission.position != omt_pos ||
             ( by_mission && c_mission.mission_id != mission_id ) || c_mission.role_id != role_id ) {

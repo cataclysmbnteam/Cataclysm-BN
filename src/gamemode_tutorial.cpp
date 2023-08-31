@@ -258,7 +258,7 @@ void tutorial_game::post_action( action_id act )
             if( g->u.has_amount( itype_grenade_act, 1 ) ) {
                 add_message( tut_lesson::LESSON_ACT_GRENADE );
             }
-            map  const&here = get_map();
+            map  const &here = get_map();
             for( const tripoint &dest : here.points_in_radius( g->u.pos(), 1 ) ) {
                 if( here.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
                     add_message( tut_lesson::LESSON_ACT_BUBBLEWRAP );

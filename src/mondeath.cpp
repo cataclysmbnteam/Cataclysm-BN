@@ -475,8 +475,10 @@ void mdeath::guilt( monster &z )
 
     int moraleMalus = -50 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     int const maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
-    time_duration const duration = 30_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
-    time_duration const decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
+    time_duration const duration = 30_minutes * ( 1.0 - ( static_cast<float>
+                                   ( kill_count ) / maxKills ) );
+    time_duration const decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>
+                                     ( kill_count ) / maxKills ) );
     if( z.type->in_species( ZOMBIE ) ) {
         moraleMalus /= 10;
         if( g->u.has_trait( trait_PACIFIST ) ) {
@@ -620,10 +622,11 @@ void mdeath::focused_beam( monster &z )
             add_msg( m_warning, _( "As the final light is destroyed, it erupts in a blinding flare!" ) );
         }
 
-        item  const&settings = z.inv[0];
+        item  const &settings = z.inv[0];
 
-        point const p2( z.posx() + settings.get_var( "SL_SPOT_X", 0 ), z.posy() + settings.get_var( "SL_SPOT_Y",
-                  0 ) );
+        point const p2( z.posx() + settings.get_var( "SL_SPOT_X", 0 ),
+                        z.posy() + settings.get_var( "SL_SPOT_Y",
+                                0 ) );
         tripoint const p( p2, z.posz() );
 
         std::vector <tripoint> const traj = line_to( z.pos(), p, 0, 0 );
@@ -764,8 +767,8 @@ void mdeath::jabberwock( monster &z )
     player *ch = dynamic_cast<player *>( z.get_killer() );
 
     bool const vorpal = ch && ch->is_player() &&
-                  ch->primary_weapon().has_flag( "DIAMOND" ) &&
-                  ch->primary_weapon().volume() > 750_ml;
+                        ch->primary_weapon().has_flag( "DIAMOND" ) &&
+                        ch->primary_weapon().volume() > 750_ml;
 
     if( vorpal && !ch->primary_weapon().has_technique( matec_id( "VORPAL" ) ) ) {
         if( ch->sees( z ) ) {
@@ -957,7 +960,7 @@ void mdeath::fireball( monster &z )
     if( one_in( 10 ) ) {
         g->m.propagate_field( z.pos(), fd_fire, 15, 3 );
         std::string const explode = string_format( _( "an explosion of tank of the %s's flamethrower!" ),
-                                             z.name() );
+                                    z.name() );
         sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "default" );
         add_msg( m_good, _( "I love the smell of burning zed in the morning." ) );
     } else {

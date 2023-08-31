@@ -1254,8 +1254,8 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
             }
 
             bool const invis = ( temp_y < min_visible_y || temp_y > max_visible_y || temp_x < min_visible_x ||
-                           temp_x > max_visible_x ) &&
-                         ( has_memory_at( {temp_x, temp_y, center.z} ) || has_draw_override( {temp_x, temp_y, center.z} ) );
+                                 temp_x > max_visible_x ) &&
+                               ( has_memory_at( {temp_x, temp_y, center.z} ) || has_draw_override( {temp_x, temp_y, center.z} ) );
 
 
 
@@ -1375,7 +1375,7 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
             if( g->display_overlay_state( ACTION_DISPLAY_TRANSPARENCY ) ) {
                 const float tr = here.light_transparency( {temp_x, temp_y, center.z} );
                 int const intensity =  tr <= LIGHT_TRANSPARENCY_SOLID ? 10 :  static_cast<int>
-                                 ( ( tr - LIGHT_TRANSPARENCY_OPEN_AIR ) * 8 );
+                                       ( ( tr - LIGHT_TRANSPARENCY_OPEN_AIR ) * 8 );
                 draw_debug_tile( intensity, string_format( "%.2f", tr ) );
             }
 
@@ -1389,7 +1389,7 @@ void cata_tiles::draw( point dest, const tripoint &center, int width, int height
                 const int &y = pos.y;
 
                 bool const in_vis_bounds = ( y >= min_visible_y && y <= max_visible_y && x >= min_visible_x &&
-                                       x <= max_visible_x );
+                                             x <= max_visible_x );
 
                 bool const in_map_bounds = here.inbounds( pos );
 
@@ -1951,7 +1951,8 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
 
-    half_open_rectangle<point> const screen_bounds( o, o + point( screentile_width, screentile_height ) );
+    half_open_rectangle<point> const screen_bounds( o, o + point( screentile_width,
+            screentile_height ) );
     if( !tile_iso &&
         !screen_bounds.contains( pos.xy() ) ) {
         return false;
@@ -2171,7 +2172,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     // seed the PRNG to get a reproducible random int
     // TODO: faster solution here
     unsigned int seed = 0;
-    map  const&here = get_map();
+    map  const &here = get_map();
     // TODO: determine ways other than category to differentiate more types of sprites
     switch( category ) {
         case C_TERRAIN:
@@ -2967,7 +2968,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
 {
     const auto override = vpart_override.find( p );
     const bool overridden = override != vpart_override.end();
-    map  const&here = get_map();
+    map  const &here = get_map();
     // first memorize the actual vpart
     const optional_vpart_position vp = here.veh_at( p );
     if( vp && !invisible[0] ) {
@@ -3669,7 +3670,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
         for( int j = 0; j < 2; ++j ) {
             std::string const sText = iter->getText( ( j == 0 ) ? "first" : "second" );
             int const FG = msgtype_to_tilecolor( iter->getMsgType( ( j == 0 ) ? "first" : "second" ),
-                                           iter->getStep() >= SCT.iMaxSteps / 2 );
+                                                 iter->getStep() >= SCT.iMaxSteps / 2 );
 
             if( use_font ) {
                 const auto direction = iter->getDirecton();

@@ -693,7 +693,7 @@ void Item_factory::finalize_item_blacklist()
             return r.result() == candidate->first;
         } );
     }
-    for( vproto_id  const&vid : vehicle_prototype::get_all() ) {
+    for( vproto_id  const &vid : vehicle_prototype::get_all() ) {
         vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
             auto &vec = vis.item_ids;
@@ -751,7 +751,7 @@ void Item_factory::finalize_item_blacklist()
             }
         }
     }
-    for( vproto_id  const&vid : vehicle_prototype::get_all() ) {
+    for( vproto_id  const &vid : vehicle_prototype::get_all() ) {
         vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
             for( itype_id &type_to_spawn : vis.item_ids ) {
@@ -3187,7 +3187,7 @@ item_category_id calc_category( const itype &obj )
 std::vector<item_group_id> Item_factory::get_all_group_names()
 {
     std::vector<item_group_id> rval;
-    for( GroupMap::value_type  const&group_pair : m_template_groups ) {
+    for( GroupMap::value_type  const &group_pair : m_template_groups ) {
         rval.push_back( item_group_id( group_pair.first ) );
     }
     return rval;

@@ -396,7 +396,7 @@ void map::build_sunlight_cache( int pzlev )
                     int const prev_x = x + offset.x + cardinals[i].x;
                     int const prev_y = y + offset.y + cardinals[i].y;
                     bool const inbounds = prev_x >= 0 && prev_x < MAPSIZE_X &&
-                                    prev_y >= 0 && prev_y < MAPSIZE_Y;
+                                          prev_y >= 0 && prev_y < MAPSIZE_Y;
 
                     if( !inbounds ) {
                         continue;
@@ -538,7 +538,7 @@ void map::generate_lightmap( const int zlev )
         }
     }
 
-    for( monster  const&critter : g->all_monsters() ) {
+    for( monster  const &critter : g->all_monsters() ) {
         if( critter.is_hallucination() ) {
             continue;
         }
@@ -954,7 +954,7 @@ void cast_zlight_segment(
         int z_start = z_skip != -1 ? z_skip : std::max( 0,
                       static_cast<int>( std::ceil( ( ( distance - 0.5f ) * start_major ) - 0.5f ) ) );
         int const z_limit = std::min( distance,
-                                static_cast<int>( std::ceil( ( ( distance + 0.5f ) * end_major ) + 0.5f ) ) - 1 );
+                                      static_cast<int>( std::ceil( ( ( distance + 0.5f ) * end_major ) + 0.5f ) ) - 1 );
 
         for( delta.z = z_start; delta.z <= std::min( fov_3d_z_range, z_limit ); delta.z++ ) {
 
@@ -966,10 +966,10 @@ void cast_zlight_segment(
             const int z_index = current.z + OVERMAP_DEPTH;
 
             int const x_start = x_skip != -1 ? x_skip : std::max( 0,
-                          static_cast<int>( std::ceil( ( ( distance - 0.5f ) * start_minor ) - 0.5f ) ) );
+                                static_cast<int>( std::ceil( ( ( distance - 0.5f ) * start_minor ) - 0.5f ) ) );
 
             int const x_limit = std::min( distance,
-                                    static_cast<int>( std::ceil( ( ( distance + 0.5f ) * end_minor ) + 0.5f ) ) - 1 );
+                                          static_cast<int>( std::ceil( ( ( distance + 0.5f ) * end_minor ) + 0.5f ) ) - 1 );
 
             for( delta.x = x_start; delta.x <= x_limit; delta.x++ ) {
                 current.x = offset.x + delta.x * xx + delta.y * xy + delta.z * xz;
@@ -1254,11 +1254,12 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                                        ( ( -distance - 0.5f ) * start ) - 0.5f ) );
         //And a limit so that the commented end > trailingEdge is never true
         int const x_limit = std::floor( std::min( 0.0f,
-                                            ( ( -distance + 0.5f ) * end ) - 0.5f ) ) + 1;
+                                        ( ( -distance + 0.5f ) * end ) - 0.5f ) ) + 1;
 
         int last_dist = -1;
         for( ; delta.x <= x_limit; delta.x++ ) {
-            point const current( offset.x + delta.x * xx + delta.y * xy, offset.y + delta.x * yx + delta.y * yy );
+            point const current( offset.x + delta.x * xx + delta.y * xy,
+                                 offset.y + delta.x * yx + delta.y * yy );
 
             if( !( current.x >= 0 && current.y >= 0 && current.x < MAPSIZE_X &&
                    current.y < MAPSIZE_Y ) /* || start < leadingEdge */ ) {

@@ -481,7 +481,7 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
 {
     int y = 2;
     const nc_color col = c_white;
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     const tripoint_abs_omt player_abspos = player_character.global_omt_location();
     tripoint_abs_omt const camp_pos = camp_omt_pos();
     std::string const direction = direction_name( direction_from( player_abspos, camp_pos ) );
@@ -492,7 +492,7 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
     mvwprintz( fac_w, point( width, ++y ), col, _( "Location: %s" ), camp_pos.to_string() );
     faction *yours = player_character.get_faction();
     std::string const food_text = string_format( _( "Food Supply: %s %d calories" ),
-                                           yours->food_supply_text(), yours->food_supply );
+                                  yours->food_supply_text(), yours->food_supply );
     nc_color const food_col = yours->food_supply_color();
     mvwprintz( fac_w, point( width, ++y ), food_col, food_text );
     std::string const bldg = next_upgrade( base_camps::base_dir, 1 );
@@ -517,7 +517,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     int retval = 0;
     int y = 2;
     const nc_color col = c_white;
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     const tripoint_abs_omt player_abspos = player_character.global_omt_location();
 
     //get NPC followers, status, direction, location, needs, weapon, etc.
@@ -656,7 +656,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
                _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
     int const lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
-                                _( "Wielding: " ) + primary_weapon().tname() );
+                                      _( "Wielding: " ) + primary_weapon().tname() );
     y += lines;
 
     const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
@@ -670,14 +670,14 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     for( size_t i = 0; i < skillslist.size() && count < 3; i++ ) {
         if( !skillslist[ i ]->is_combat_skill() ) {
             std::string const skill_str = string_format( "%s: %d", skillslist[i]->name(),
-                                                   get_skill_level( skillslist[i]->ident() ) );
+                                          get_skill_level( skillslist[i]->ident() ) );
             skill_strs.push_back( skill_str );
             count += 1;
         }
     }
     std::string const best_three_noncombat = _( "Best other skills: " );
     std::string const best_skill_text = string_format( _( "Best combat skill: %s: %d" ),
-                                  best_skill().obj().name(), best_skill_level() );
+                                        best_skill().obj().name(), best_skill_level() );
     mvwprintz( fac_w, point( width, ++y ), col, best_skill_text );
     mvwprintz( fac_w, point( width, ++y ), col, best_three_noncombat + skill_strs[0] );
     mvwprintz( fac_w, point( width + 20, ++y ), col, skill_strs[1] );

@@ -175,13 +175,13 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                                worn_item_it->type_name( 1 ) ) - 1;
     std::vector<std::string> const props = clothing_properties( *worn_item_it, win_width - 3, c );
     nc_color color = c_light_gray;
-    for( std::string  const&iter : props ) {
+    for( std::string  const &iter : props ) {
         print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
     }
 
     std::vector<std::string> const prot = clothing_protection( *worn_item_it, win_width - 3 );
     if( i + prot.size() < win_height ) {
-        for( std::string  const&iter : prot ) {
+        for( std::string  const &iter : prot ) {
             print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
         }
     } else {
@@ -189,9 +189,10 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     }
 
     i++;
-    std::vector<std::string> const layer_desc = foldstring( clothing_layer( *worn_item_it ), win_width );
+    std::vector<std::string> const layer_desc = foldstring( clothing_layer( *worn_item_it ),
+            win_width );
     if( i + layer_desc.size() < win_height && !clothing_layer( *worn_item_it ).empty() ) {
-        for( std::string  const&iter : layer_desc ) {
+        for( std::string  const &iter : layer_desc ) {
             mvwprintz( w_sort_middle, point( 0, ++i ), c_light_blue, iter );
         }
     }
@@ -665,7 +666,7 @@ void show_armor_layers_ui( Character &who )
                 pos++;
             }
             curr++;
-            for( layering_item_info  const&elem : items_cover_bp( who, cover ) ) {
+            for( layering_item_info  const &elem : items_cover_bp( who, cover ) ) {
                 if( curr >= rightListOffset && pos <= rightListLines ) {
                     nc_color const color = elem.penalties.color_for_stacking_badness();
                     trim_and_print( w_sort_right, point( 2, pos ), right_w - 5, color,

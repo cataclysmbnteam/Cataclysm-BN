@@ -248,7 +248,8 @@ static void load_overmap_feature_flag_settings( const JsonObject &jo,
             jo.throw_error( "\"overmap_feature_flag_settings\": { … } required for default" );
         }
     } else {
-        JsonObject const overmap_feature_flag_settings_jo = jo.get_object( "overmap_feature_flag_settings" );
+        JsonObject const overmap_feature_flag_settings_jo =
+            jo.get_object( "overmap_feature_flag_settings" );
         read_and_set_or_throw<bool>( overmap_feature_flag_settings_jo, "clear_blacklist",
                                      overmap_feature_flag_settings.clear_blacklist, !overlay );
         read_and_set_or_throw<bool>( overmap_feature_flag_settings_jo, "clear_whitelist",
@@ -923,7 +924,8 @@ void overmap_lake_settings::finalize()
         shore_extendable_overmap_terrain.emplace_back( ot.id() );
     }
 
-    for( shore_extendable_overmap_terrain_alias  const&alias : shore_extendable_overmap_terrain_aliases ) {
+    for( shore_extendable_overmap_terrain_alias  const &alias :
+         shore_extendable_overmap_terrain_aliases ) {
         if( std::find( shore_extendable_overmap_terrain.begin(), shore_extendable_overmap_terrain.end(),
                        alias.alias ) == shore_extendable_overmap_terrain.end() ) {
             debugmsg( " %s was referenced as an alias in overmap_lake_settings shore_extendable_overmap_terrain_alises, but the value is not present in the shore_extendable_overmap_terrain.",

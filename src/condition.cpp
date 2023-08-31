@@ -796,7 +796,7 @@ void conditional_t<T>::set_has_stolen_item( bool /*is_npc*/ )
 {
     condition = []( const T & d ) {
         player *actor = d.alpha;
-        npc  const&p = *d.beta;
+        npc  const &p = *d.beta;
         bool found_in_inv = false;
         for( auto &elem : actor->inv_dump() ) {
             if( elem->is_old_owner( p, true ) ) {
@@ -819,7 +819,7 @@ template<class T>
 void conditional_t<T>::set_is_outside()
 {
     condition = []( const T & d ) {
-        map  const&here = get_map();
+        map  const &here = get_map();
         const tripoint pos = here.getabs( d.beta->pos() );
         return !here.has_flag( TFLAG_INDOORS, pos );
     };

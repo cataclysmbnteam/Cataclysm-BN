@@ -428,7 +428,7 @@ class ExplosionProcess
 
 void ExplosionProcess::fill_maps()
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
 
     const int shrapnel_range = shrapnel.has_value() ? shrapnel.value().range : 0;
     const int aoe_radius = std::max( blast_radius, shrapnel_range );
@@ -496,7 +496,7 @@ inline bool ExplosionProcess::is_occluded( const tripoint from, const tripoint t
         return false;
     }
 
-    map  const&here = get_map();
+    map  const &here = get_map();
     tripoint last_position = from;
 
     std::vector<tripoint> line_of_movement = line_to( from, to );
@@ -620,14 +620,14 @@ void ExplosionProcess::project_shrapnel( const tripoint position )
                 damage_instance half_impact = fragment.impact;
                 half_impact.mult_damage( 0.5f );
                 dealt_damage_instance const dealt = critter->deal_damage( emitter.value_or( nullptr ), bp,
-                                              fragment.impact );
+                                                    fragment.impact );
                 if( dealt.total_damage() > 0 ) {
                     damage_taken += dealt.total_damage();
                 }
             }
         } else {
             dealt_damage_instance const dealt = critter->deal_damage( emitter.value_or( nullptr ), bps[0],
-                                          fragment.impact );
+                                                fragment.impact );
             if( dealt.total_damage() > 0 ) {
                 damage_taken += dealt.total_damage();
             }
@@ -942,10 +942,10 @@ void ExplosionProcess::move_entity( const tripoint position,
             const float progress = static_cast<float>( step ) / static_cast<float>( intermediate_steps );
             const float cur_distance_travelled = distance_to_travel * progress;
             rl_vec2d const new_position_vec = datum.position +
-                                        rl_vec2d( cur_distance_travelled, 0.0 ).rotated( datum.angle );
+                                              rl_vec2d( cur_distance_travelled, 0.0 ).rotated( datum.angle );
             tripoint const maybe_new_position = tripoint( static_cast<int>( new_position_vec.x ),
-                                                    static_cast<int>( new_position_vec.y ),
-                                                    position.z );
+                                                static_cast<int>( new_position_vec.y ),
+                                                position.z );
             if( !here.inbounds( maybe_new_position ) ||
                 here.impassable( maybe_new_position ) ||
                 ( is_mob && maybe_new_position != position && g->critter_at( maybe_new_position ) ) ||
@@ -1066,11 +1066,11 @@ void ExplosionProcess::run()
 
     for( const auto &position : recombination_targets ) {
         std::vector<item> storage;
-        for( item  const&it : here.i_at( position ) ) {
+        for( item  const &it : here.i_at( position ) ) {
             storage.push_back( it );
         }
         here.i_clear( position );
-        for( item  const&it : storage ) {
+        for( item  const &it : storage ) {
             here.add_item_or_charges( position, it );
         }
     }
@@ -1511,11 +1511,11 @@ void explosion_funcs::regular( const queued_explosion &qe )
             bool const blasted = damaged_by_blast.find( critter ) != damaged_by_blast.end();
             bool const shredded = damaged_by_shrapnel.find( critter ) != damaged_by_shrapnel.end();
             std::string const cause_description = ( blasted && shredded ) ? _( "the explosion and shrapnel" ) :
-                                            blasted ? _( "the explosion" ) :
-                                            _( "the shrapnel" );
+                                                  blasted ? _( "the explosion" ) :
+                                                  _( "the shrapnel" );
             std::string const damage_description = ( pr.second > 0 ) ?
-                                             string_format( _( "taking %d damage" ), pr.second ) :
-                                             _( "but takes no damage" );
+                                                   string_format( _( "taking %d damage" ), pr.second ) :
+                                                   _( "but takes no damage" );
             if( critter->is_player() ) {
                 add_msg( _( "You are hit by %s, %s." ),
                          cause_description, damage_description );
@@ -1561,7 +1561,7 @@ void flashbang( const tripoint &p, bool player_immune, const std::string &exp_na
 void explosion_funcs::flashbang( const queued_explosion &qe )
 {
     const tripoint &p = qe.pos;
-    map  const&here = get_map();
+    map  const &here = get_map();
 
     draw_explosion( p, 8, c_white, qe.graphics_name );
     int dist = rl_dist( g->u.pos(), p );
@@ -1629,7 +1629,7 @@ void explosion_funcs::shockwave( const queued_explosion &qe )
                    false,
                    "misc", "shockwave" );
 
-    for( monster  const&critter : g->all_monsters() ) {
+    for( monster  const &critter : g->all_monsters() ) {
         if( critter.posz() != p.z ) {
             continue;
         }
@@ -1639,7 +1639,7 @@ void explosion_funcs::shockwave( const queued_explosion &qe )
         }
     }
     // TODO: combine the two loops and the case for g->u using all_creatures()
-    for( npc  const&guy : g->all_npcs() ) {
+    for( npc  const &guy : g->all_npcs() ) {
         if( guy.posz() != p.z ) {
             continue;
         }
@@ -1773,7 +1773,7 @@ void emp_blast( const tripoint &p )
         if( u.get_power_level() > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int const max_drain = ( u.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
-                                  u.get_power_level() ) );
+                                        u.get_power_level() ) );
             u.mod_power_level( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
         }
         // TODO: More effects?

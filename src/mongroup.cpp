@@ -389,7 +389,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
     g.freq_total = jo.get_int( "freq_total", ( extending ? g.freq_total : 1000 ) );
     if( jo.get_bool( "auto_total", false ) ) { //Fit the max size to the sum of all freqs
         int total = 0;
-        for( MonsterGroupEntry  const&mon : g.monsters ) {
+        for( MonsterGroupEntry  const &mon : g.monsters ) {
             total += mon.frequency;
         }
         g.freq_total = total;

@@ -177,7 +177,7 @@ void reload_lua_code()
 
 void debug_write_lua_backtrace( std::ostream &out )
 {
-    cata::lua_state  const&state = *DynamicDataLoader::get_instance().lua;
+    cata::lua_state  const &state = *DynamicDataLoader::get_instance().lua;
     sol::state const container;
 
     luaL_traceback( container.lua_state(), state.lua.lua_state(), "=== Lua backtrace report ===", 0 );
@@ -376,7 +376,7 @@ void reg_lua_iuse_actors( lua_state &state, Item_factory &ifactory )
 
 void run_on_every_x_hooks( lua_state &state )
 {
-    std::vector<cata::on_every_x_hooks>  const&master_table =
+    std::vector<cata::on_every_x_hooks>  const &master_table =
         state.lua["game"]["cata_internal"]["on_every_x_hooks"];
     for( const auto &entry : master_table ) {
         if( calendar::once_every( entry.interval ) ) {

@@ -522,7 +522,7 @@ void options_manager::add_option_group( const std::string &page_id,
                   group.id_, adding_to_group_ );
         return;
     }
-    for( Group  const&g : groups_ ) {
+    for( Group  const &g : groups_ ) {
         if( g.id_ == group.id_ ) {
             debugmsg( "Option group with id '%s' already exists", group.id_ );
             return;
@@ -1106,7 +1106,7 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     // Load from user directory
     std::vector<options_manager::id_and_option> const user_tilesets = load_tilesets_from(
                 PATH_INFO::user_gfx() );
-    for( options_manager::id_and_option const& id : user_tilesets ) {
+    for( options_manager::id_and_option const &id : user_tilesets ) {
         if( std::find( result.begin(), result.end(), id ) == result.end() ) {
             result.emplace_back( id );
         }
@@ -2928,7 +2928,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
                     std::string const name_prefix = it.group.empty() ? "" : IN_GROUP_PREFIX;
                     string_col const name( name_prefix + opt.getMenuText(), !hasPrerequisite ||
-                                     hasPrerequisiteFulfilled ? c_white : c_light_gray );
+                                           hasPrerequisiteFulfilled ? c_white : c_light_gray );
 
                     nc_color cLineColor;
                     if( hasPrerequisite && !hasPrerequisiteFulfilled ) {

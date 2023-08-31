@@ -298,7 +298,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
         } else {
             map &here = get_map();
             bool const is_in_vehicle = veh &&
-                                 ( uistate.adv_inv_container_in_vehicle || ( can_store_in_vehicle() && in_vehicle ) );
+                                       ( uistate.adv_inv_container_in_vehicle || ( can_store_in_vehicle() && in_vehicle ) );
 
             const itemstack &stacks = is_in_vehicle ?
                                       i_stacked( veh->get_items( vstor ) ) :

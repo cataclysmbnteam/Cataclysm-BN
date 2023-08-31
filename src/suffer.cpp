@@ -586,7 +586,7 @@ void Character::suffer_from_schizophrenia()
         bool does_talk = false;
         if( !mons.empty() && one_turn_in( 12_minutes ) ) {
             std::vector<std::string> seen_mons;
-            for( weak_ptr_fast<monster>  const&n : mons ) {
+            for( weak_ptr_fast<monster>  const &n : mons ) {
                 if( sees( *n.lock() ) ) {
                     seen_mons.emplace_back( n.lock()->get_name() );
                 }
@@ -634,7 +634,8 @@ void Character::suffer_from_asthma( const int current_stim )
     }
     bool auto_use = has_charges( itype_inhaler, 1 ) || has_charges( itype_oxygen_tank, 1 ) ||
                     has_charges( itype_smoxygen_tank, 1 );
-    bool const oxygenator = has_bionic( bio_gills ) && get_power_level() >= ( bio_gills->power_trigger / 8 );
+    bool const oxygenator = has_bionic( bio_gills ) &&
+                            get_power_level() >= ( bio_gills->power_trigger / 8 );
     if( is_underwater() ) {
         oxygen = oxygen / 2;
         auto_use = false;
@@ -648,8 +649,8 @@ void Character::suffer_from_asthma( const int current_stim )
         map_inv.form_from_map( g->u.pos(), 2, &g->u );
         // check if an inhaler is somewhere near
         bool const nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||
-                          map_inv.has_charges( itype_oxygen_tank, 1 ) ||
-                          map_inv.has_charges( itype_smoxygen_tank, 1 );
+                                map_inv.has_charges( itype_oxygen_tank, 1 ) ||
+                                map_inv.has_charges( itype_smoxygen_tank, 1 );
         // check if character has an oxygenator first
         if( oxygenator ) {
             mod_power_level( -bio_gills->power_trigger / 8 );

@@ -109,8 +109,10 @@ void craft_command::execute( const tripoint &new_loc )
     map_inv.form_from_map( crafter->pos(), PICKUP_RANGE, crafter );
 
     if( has_cached_selections() ) {
-        std::vector<comp_selection<item_comp>> const missing_items = check_item_components_missing( map_inv );
-        std::vector<comp_selection<tool_comp>> const missing_tools = check_tool_components_missing( map_inv );
+        std::vector<comp_selection<item_comp>> const missing_items = check_item_components_missing(
+                                                map_inv );
+        std::vector<comp_selection<tool_comp>> const missing_tools = check_tool_components_missing(
+                                                map_inv );
 
         if( missing_items.empty() && missing_tools.empty() ) {
             // All items we used previously are still there, so we don't need to do selection.
@@ -163,9 +165,9 @@ void craft_command::execute( const tripoint &new_loc )
         tool_selections.clear();
         for( const auto &it : needs->get_tools() ) {
             comp_selection<tool_comp> const ts = crafting::select_tool_component(
-                                               it, batch_size, map_inv, crafter, true,
-                                               DEFAULT_HOTKEYS,
-                                               cost_adjustment::start_only );
+                    it, batch_size, map_inv, crafter, true,
+                    DEFAULT_HOTKEYS,
+                    cost_adjustment::start_only );
             if( ts.use_from == cancel ) {
                 return;
             }

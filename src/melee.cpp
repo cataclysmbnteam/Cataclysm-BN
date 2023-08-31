@@ -1971,7 +1971,7 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
 
         /** @EFFECT_UNARMED increases number of hits with BEAK_PECK */
         int const num_hits = std::max( 1, std::min<int>( 6,
-                                 u.get_dex() + u.get_skill_level( skill_unarmed ) - rng( 4, 10 ) ) );
+                                       u.get_dex() + u.get_skill_level( skill_unarmed ) - rng( 4, 10 ) ) );
         return damage_instance::physical( 0, 0, num_hits * 10 );
     }
 
@@ -2398,7 +2398,7 @@ void avatar_funcs::try_disarm_npc( avatar &you, npc &target )
     their_roll += dice( 3, target.get_per() );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
-    item  const&it = target.primary_weapon();
+    item  const &it = target.primary_weapon();
 
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
     int const hitspread = target.deal_melee_attack( &you, you.hit_roll() );

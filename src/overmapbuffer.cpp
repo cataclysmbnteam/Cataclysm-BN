@@ -155,7 +155,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
     // accessed anymore!
     decltype( overmap::npcs ) to_relocate;
     for( auto it = new_overmap.npcs.begin(); it != new_overmap.npcs.end(); ) {
-        npc  const&np = **it;
+        npc  const &np = **it;
         const tripoint_abs_omt npc_omt_pos = np.global_omt_location();
         const point_abs_om npc_om_pos = project_to<coords::om>( npc_omt_pos.xy() );
         const point_abs_om loc = new_overmap.pos();
@@ -1465,7 +1465,7 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
     auto monster_bucket = om.monster_map->equal_range( current_submap_loc );
     std::for_each( monster_bucket.first, monster_bucket.second,
     [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
-        monster  const&this_monster = monster_entry.second;
+        monster  const &this_monster = monster_entry.second;
         // The absolute position in map squares, (x,y) is already global, but it's a
         // submap coordinate, so translate it and add the exact monster position on
         // the submap. modulo because the zombies position might be negative, as it

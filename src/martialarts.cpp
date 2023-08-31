@@ -1001,7 +1001,7 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform leg block
     int const unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
-                            skill_unarmed );
+                                  skill_unarmed );
 
     // Success conditions.
     if( owner.get_working_leg_count() >= 1 ) {
@@ -1020,7 +1020,7 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform arm block
     int const unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
-                            skill_unarmed );
+                                  skill_unarmed );
 
     // Success conditions.
     if( !owner.is_limb_broken( bodypart_id( "arm_l" ) ) ||
@@ -1553,8 +1553,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                                      itp->weapon_category.end(), cat_check ) ) {
                         // If so, add it to the categories it applies to.
                         std::string const weaponname = wielded ? colorize( item::nname( weap_id ) + _( " [wielded]" ),
-                                                 c_light_cyan ) :
-                                                 carried ? colorize( item::nname( weap_id ), c_yellow ) : item::nname( weap_id );
+                                                       c_light_cyan ) :
+                                                       carried ? colorize( item::nname( weap_id ), c_yellow ) : item::nname( weap_id );
                         weapons_by_category[cat].push_back( weaponname );
                     }
                 }
@@ -1569,7 +1569,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 std::sort( list.second.begin(), list.second.end(), localized_compare );
                 // If item factory somehow manages to crap out and it has no translation/name, use the ID.
                 std::string const cat_name = list.first.is_valid() ? list.first->name().translated()
-                                       : colorize( "ID: " + std::string( list.first ), c_red );
+                                             : colorize( "ID: " + std::string( list.first ), c_red );
                 buffer += std::string( "<header>" ) + cat_name + ": " +
                           std::string( "</header>" );
                 buffer += enumerate_as_string( list.second ) + std::string( "\n" );
@@ -1584,8 +1584,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                         return it.typeId() == weap_id;
                     } );
                     std::string const weaponname = wielded ? colorize( item::nname( wid ) + _( " [wielded]" ),
-                                             c_light_cyan ) :
-                                             carried ? colorize( item::nname( wid ), c_yellow ) : item::nname( wid );
+                                                   c_light_cyan ) :
+                                                   carried ? colorize( item::nname( wid ), c_yellow ) : item::nname( wid );
                     weapons.push_back( weaponname );
                 }
                 // Sorting alphabetically makes it easier to find a specific weapon

@@ -649,7 +649,7 @@ void basecamp::form_crafting_inventory( map &target_map )
         item camp_item( bcp_r.fake_id, calendar::start_of_cataclysm );
         camp_item.set_flag( "PSEUDO" );
         if( !bcp_r.ammo_id.is_null() ) {
-            for( basecamp_fuel  const&bcp_f : fuels ) {
+            for( basecamp_fuel  const &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
                     if( bcp_f.available > 0 ) {
                         bcp_r.available = bcp_f.available;

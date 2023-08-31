@@ -252,7 +252,7 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     proj.add_effect( ammo_effect_NO_OVERSHOOT );
 
     dealt_projectile_attack const atk = projectile_attack( proj, z->pos(), target->pos(),
-                                  dispersion_sources{ 500 }, z );
+                                        dispersion_sources{ 500 }, z );
     if( atk.dealt_dam.total_damage() > 0 ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name() );
         return true;
@@ -759,8 +759,8 @@ bool mattack::shockstorm( monster *z )
         sfx::play_variant_sound( "fire_gun", "bio_lightning", sfx::get_heard_volume( z->pos() ) );
     }
     tripoint const tarp( target->posx() + rng( -1, 1 ) + rng( -1, 1 ),
-                   target->posy() + rng( -1, 1 ) + rng( -1, 1 ),
-                   target->posz() );
+                         target->posy() + rng( -1, 1 ) + rng( -1, 1 ),
+                         target->posz() );
     std::vector<tripoint> const bolt = line_to( z->pos(), tarp, 0, 0 );
     // Fill the LOS with electricity
     for( auto &i : bolt ) {
@@ -2102,9 +2102,10 @@ bool mattack::impale( monster *z )
         return true;
     }
 
-    int const dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_STAB, rng( 10, 20 ),
-                                   rng( 5, 15 ),
-                                   .5 ) ).total_damage();
+    int const dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_STAB, rng( 10,
+                                         20 ),
+                                         rng( 5, 15 ),
+                                         .5 ) ).total_damage();
     if( dam > 0 ) {
         auto msg_type = target == &g->u ? m_bad : m_info;
         target->add_msg_player_or_npc( msg_type,
@@ -2172,7 +2173,7 @@ bool mattack::dermatik( monster *z )
 
     ///\EFFECT_UNARMED increases chance to deflect dermatik attack
     int const swat_skill = ( foe->get_skill_level( skill_melee ) + foe->get_skill_level(
-                           skill_unarmed ) * 2 ) / 3;
+                                 skill_unarmed ) * 2 ) / 3;
     int player_swat = dice( swat_skill, 10 );
     if( foe->has_trait( trait_TAIL_CATTLE ) ) {
         target->add_msg_if_player( _( "You swat at the %s with your tail!" ), z->name() );
@@ -2716,7 +2717,7 @@ bool mattack::grab( monster *z )
         return true;
     }
 
-    item  const&cur_weapon = pl->primary_weapon();
+    item  const &cur_weapon = pl->primary_weapon();
     ///\EFFECT_DEX increases chance to avoid being grabbed
     if( pl->can_use_grab_break_tec( cur_weapon ) &&
         rng( 0, pl->get_dex() ) > rng( 0, z->type->melee_sides + z->type->melee_dice ) ) {
@@ -3060,8 +3061,9 @@ bool mattack::nurse_operate( monster *z )
 
         z->friendly = 0;
         z->anger = 100;
-        std::list<tripoint> const couch_pos = g->m.find_furnitures_or_vparts_with_flag_in_radius( z->pos(), 10,
-                                        flag_AUTODOC_COUCH );
+        std::list<tripoint> const couch_pos = g->m.find_furnitures_or_vparts_with_flag_in_radius( z->pos(),
+                                              10,
+                                              flag_AUTODOC_COUCH );
 
         if( couch_pos.empty() ) {
             add_msg( m_info, _( "The %s looks for something but doesn't seem to find it." ), z->name() );
@@ -3294,8 +3296,9 @@ void mattack::taze( monster *z, Creature *target )
         return;
     }
 
-    int const dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_ELECTRIC, rng( 1,
-                                   5 ) ) ).total_damage();
+    int const dam = target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_ELECTRIC,
+                                         rng( 1,
+                                                 5 ) ) ).total_damage();
     if( dam == 0 ) {
         target->add_msg_player_or_npc( _( "The %s unsuccessfully attempts to shock you." ),
                                        _( "The %s unsuccessfully attempts to shock <npcname>." ),
@@ -4904,8 +4907,8 @@ bool mattack::riotbot( monster *z )
         }
 
         tripoint const dest( target->posx() + rng( 0, delta ) - rng( 0, delta ),
-                       target->posy() + rng( 0, delta ) - rng( 0, delta ),
-                       target->posz() );
+                             target->posy() + rng( 0, delta ) - rng( 0, delta ),
+                             target->posz() );
 
         //~ Sound of a riotbot using its blinding flash
         sounds::sound( z->pos(), 3, sounds::sound_t::combat, _( "fzzzzzt" ), false, "misc", "flash" );
@@ -5431,7 +5434,7 @@ bool mattack::bio_op_disarm( monster *z )
     their_roll += dice( 3, foe->get_per() );
     their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
 
-    item  const&it = foe->primary_weapon();
+    item  const &it = foe->primary_weapon();
 
     target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
 
@@ -5559,7 +5562,8 @@ bool mattack::kamikaze( monster *z )
     // We double target speed because if the player is walking and then start to run their effective speed doubles
     // .65 factor was determined experimentally to be about the factor required for players to be able to *just barely*
     // outrun the explosion if they drop everything and run.
-    float const factor = static_cast<float>( z->get_speed() ) / static_cast<float>( target->get_speed() * 2 );
+    float const factor = static_cast<float>( z->get_speed() ) / static_cast<float>
+                         ( target->get_speed() * 2 );
     int const range = std::max( 1, static_cast<int>( .65 * ( radius + 1 + factor * charges ) ) );
 
     // Check if we are in range to begin the countdown

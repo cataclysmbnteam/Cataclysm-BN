@@ -31,7 +31,7 @@ size_t item_contents::num_item_stacks() const
 
 bool item_contents::spill_contents( const tripoint &pos )
 {
-    for( item  const&it : items ) {
+    for( item  const &it : items ) {
         get_map().add_item_or_charges( pos, it );
     }
 

@@ -66,7 +66,7 @@ void vehicle_part::set_base( const item &new_base )
 
 item vehicle_part::properties_to_item() const
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     item tmp = base;
     tmp.unset_flag( "VEHICLE" );
 

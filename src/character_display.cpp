@@ -132,8 +132,8 @@ void character_display::print_encumbrance( const catacurses::window &win, const 
         // Two different highlighting schemes, highlight if the line is selected as per line being set.
         // Make the text green if this part is covered by the passed in item.
         nc_color const limb_color = thisline == line ?
-                              ( highlighted ? h_green : h_light_gray ) :
-                              ( highlighted ? c_green : c_light_gray );
+                                    ( highlighted ? h_green : h_light_gray ) :
+                                    ( highlighted ? c_green : c_light_gray );
         mvwprintz( win, point( 1, 1 + i ), limb_color, "%s", out );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
         mvwprintz( win, point( 8, 1 + i ), encumb_color( e.encumbrance ), "%3d",
@@ -827,7 +827,8 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         }
     }
 
-    int const quick_bonus = static_cast<int>( round( ( you.mutation_value( "speed_modifier" ) - 1 ) * 100 ) );
+    int const quick_bonus = static_cast<int>( round( ( you.mutation_value( "speed_modifier" ) - 1 ) *
+                            100 ) );
     int const bio_speed_bonus = 10;
     if( quick_bonus != 0 ) {
         std::string const pen_sign = quick_bonus >= 0 ? "+" : "-";
@@ -1234,8 +1235,8 @@ void character_display::disp_info( Character &ch )
 
     std::map<std::string, int> speed_effects;
     for( auto &elem : ch.get_all_effects() ) {
-        for( std::pair<const bodypart_str_id, effect>  const&_effect_it : elem.second ) {
-            effect  const&it = _effect_it.second;
+        for( std::pair<const bodypart_str_id, effect>  const &_effect_it : elem.second ) {
+            effect  const &it = _effect_it.second;
             bool const reduced = ch.resists_effect( it );
             int const move_adjust = it.get_mod( "SPEED", reduced );
             if( move_adjust != 0 ) {

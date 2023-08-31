@@ -421,7 +421,7 @@ activity_handlers::finish_functions = {
 bool activity_handlers::resume_for_multi_activities( player &p )
 {
     if( !p.backlog.empty() ) {
-        player_activity  const&back_act = p.backlog.front();
+        player_activity  const &back_act = p.backlog.front();
         if( back_act.is_multi_type() ) {
             p.assign_activity( p.backlog.front().id() );
             p.backlog.clear();
@@ -1289,7 +1289,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         int const level_cap = std::min<int>( MAX_SKILL, ( corpse->size + ( cbms.size() * 2 + 1 ) ) );
         int const size_mult = corpse->size > MS_MEDIUM ? ( corpse->size * corpse->size ) : 8;
         int const practice_amt = ( size_mult + 1 ) * ( ( time_to_cut / 150 ) + 1 ) *
-                           ( cbms.size() * cbms.size() / 2 + 1 );
+                                 ( cbms.size() * cbms.size() / 2 + 1 );
         p->practice( skill_firstaid, practice_amt, level_cap );
         add_msg( m_debug, "Experience: %d, Level cap: %d, Time to cut: %d", practice_amt, level_cap,
                  time_to_cut );
@@ -1477,7 +1477,7 @@ void activity_handlers::milk_finish( player_activity *act, player *p )
         debugmsg( "milking activity with no position of monster stored" );
         return;
     }
-    map  const&here = get_map();
+    map  const &here = get_map();
     const tripoint source_pos = here.getlocal( act->coords.at( 0 ) );
     monster *source_mon = g->critter_at<monster>( source_pos );
     if( source_mon == nullptr ) {
@@ -2111,7 +2111,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     }
 
     item &reloadable = *act->targets[ 0 ];
-    item  const&ammo = *act->targets[1];
+    item  const &ammo = *act->targets[1];
     std::string const ammo_name = ammo.tname();
     const int qty = act->index;
     const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
@@ -2196,7 +2196,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
         }
     }
 
-    item  const&firestarter = *act->targets.front();
+    item  const &firestarter = *act->targets.front();
     if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
         if( !here.tinder_at( act->placement ) ) {
             p->add_msg_if_player( m_info, _( "This item requires tinder to light." ) );
@@ -2388,7 +2388,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     act->set_to_null();
     // Find the vehicle by looking for a remote vehicle first, then by player relative coordinates
     vehicle *veh = g->remoteveh();
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( !veh ) {
         const tripoint pos = act->placement + g->u.pos();
         veh = veh_pointer_or_null( here.veh_at( pos ) );
@@ -2560,9 +2560,9 @@ void activity_handlers::lockpicking_finish( player_activity *act, player *p )
     /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
     int const pick_roll = 5 *
-                    ( std::pow( 1.3, p->get_skill_level( skill_mechanics ) ) +
-                      it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
-                    p->dex_cur / 4.0;
+                          ( std::pow( 1.3, p->get_skill_level( skill_mechanics ) ) +
+                            it->get_quality( qual_LOCKPICK ) - it->damage() / 2000.0 ) +
+                          p->dex_cur / 4.0;
     int const lock_roll = rng( 1, 120 );
     if( pick_roll >= lock_roll ) {
         g->m.has_furn( act->placement ) ?
@@ -3074,7 +3074,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     }
 
     item &gun = *act->targets.at( 0 );
-    item  const&mod = *act->targets.at( 1 );
+    item  const &mod = *act->targets.at( 1 );
 
     // chance of success (%)
     const int roll = act->values[1];
@@ -3213,7 +3213,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
                                                 ( p->global_omt_location() ) );
             waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
         }
-        map  const&here = get_map();
+        map  const &here = get_map();
         // TODO: fix point types
         tripoint centre_sub = here.getlocal( waypoint.raw() );
         if( !here.passable( centre_sub ) ) {
@@ -3284,7 +3284,7 @@ static void rod_fish( player *p, const std::vector<monster *> &fishables )
 
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
-    item  const&it = *act->targets.front();
+    item  const &it = *act->targets.front();
     int fish_chance = 1;
     int survival_skill = p->get_skill_level( skill_survival );
     if( it.has_flag( flag_FISH_POOR ) ) {
@@ -4169,7 +4169,7 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, player * )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
@@ -4359,7 +4359,7 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     sfx::play_activity_sound( "tool", "jackhammer",
                               sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
@@ -4472,7 +4472,7 @@ template<typename fn>
 static void cleanup_tiles( std::unordered_set<tripoint> &tiles, fn &cleanup )
 {
     auto it = tiles.begin();
-    map  const&here = get_map();
+    map  const &here = get_map();
     while( it != tiles.end() ) {
         auto current = it++;
 
@@ -4491,7 +4491,7 @@ static void perform_zone_activity_turn( player *p,
                                         const std::string &finished_msg )
 {
     const zone_manager &mgr = zone_manager::get_manager();
-    map  const&here = get_map();
+    map  const &here = get_map();
     const tripoint abspos = here.getabs( p->pos() );
     std::unordered_set<tripoint> unsorted_tiles = mgr.get_near( ztype, abspos );
 

@@ -315,7 +315,7 @@ bool aim_activity_actor::load_RAS_weapon()
         return true;
     };
     item_reload_option const opt = ammo_location_is_valid() ? item_reload_option( &you, weapon,
-                             weapon, you.ammo_location ) : character_funcs::select_ammo( you, *gun );
+                                   weapon, you.ammo_location ) : character_funcs::select_ammo( you, *gun );
     if( !opt ) {
         // Menu canceled
         return false;
@@ -434,8 +434,8 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             here.furn_set( location, f_coffin_c );
         }
         std::vector<item *> const dropped = g->m.place_items( item_group_id( "allclothes" ), 50, location,
-                                      location, false,
-                                      calendar::turn );
+                                            location, false,
+                                            calendar::turn );
         g->m.place_items( item_group_id( "grave" ), 25, location, location, false, calendar::turn );
         g->m.place_items( item_group_id( "jewelry_front" ), 20, location, location, false, calendar::turn );
         for( item * const &it : dropped ) {

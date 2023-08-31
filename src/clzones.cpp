@@ -664,7 +664,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
         int radius, bool npc_search, const faction_id &/*fac*/ ) const
 {
     std::unordered_set<tripoint> res;
-    map  const&here = get_map();
+    map  const &here = get_map();
     for( const tripoint elem : here.points_in_radius( here.getlocal( where ), radius ) ) {
         const zone_data *zone = get_zone_at( here.getabs( elem ) );
         // if not a LOOT zone
@@ -977,7 +977,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
 {
     zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
     //the start is a vehicle tile with cargo space
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( const std::optional<vpart_reference> vp = here.veh_at( here.getlocal(
                 start ) ).part_with_feature( "CARGO", false ) ) {
         // TODO:Allow for loot zones on vehicles to be larger than 1x1
@@ -1077,9 +1077,9 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
             point const new_z_start = target_map.getabs( z_l_start );
             point const new_z_end = target_map.getabs( z_l_end );
             tripoint const first = tripoint( std::min( new_z_start.x, new_z_end.x ),
-                                       std::min( new_z_start.y, new_z_end.y ), a_start.z );
+                                             std::min( new_z_start.y, new_z_end.y ), a_start.z );
             tripoint const second = tripoint( std::max( new_z_start.x, new_z_end.x ),
-                                        std::max( new_z_start.y, new_z_end.y ), a_end.z );
+                                              std::max( new_z_start.y, new_z_end.y ), a_end.z );
             zone.set_position( std::make_pair( first, second ), false );
         }
     }

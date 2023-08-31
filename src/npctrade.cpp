@@ -98,7 +98,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
     std::vector<item_pricing> result;
     invslice slice = np.inv.slice();
     for( auto &i : slice ) {
-        item  const&it = i->front();
+        item  const &it = i->front();
 
         const int price = it.price( true );
         int const val = np.value( it );
@@ -130,8 +130,8 @@ double npc_trading::net_price_adjustment( const player &buyer, const player &sel
 
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
     double const adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
-                    price_adjustment( seller.get_skill_level( skill_barter ) -
-                                      buyer.get_skill_level( skill_barter ) );
+                          price_adjustment( seller.get_skill_level( skill_barter ) -
+                                            buyer.get_skill_level( skill_barter ) );
     return( std::max( adjust, 1.0 ) );
 }
 
@@ -163,7 +163,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         if( it_ptr == nullptr || it_ptr->is_null() ) {
             return;
         }
-        item  const&it = *it_ptr;
+        item  const &it = *it_ptr;
 
         // Don't sell items we don't own.
         if( !it.is_owned_by( seller ) ) {
@@ -344,7 +344,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
         const size_t &offset = they ? them_off : you_off;
         const player &person = they ? static_cast<player &>( np ) :
                                static_cast<player &>( g->u );
-        catacurses::window  const&w_whose = they ? w_them : w_you;
+        catacurses::window  const &w_whose = they ? w_them : w_you;
         int win_w = getmaxx( w_whose );
         // Borders
         win_w -= 2;
@@ -387,8 +387,9 @@ void trading_window::update_win( npc &np, const std::string &deal )
 #endif
 
             std::string const price_str = format_money( ip.price );
-            nc_color const price_color = np.will_exchange_items_freely() ? c_dark_gray : ( ip.selected ? c_white :
-                                   c_light_gray );
+            nc_color const price_color = np.will_exchange_items_freely() ? c_dark_gray :
+                                         ( ip.selected ? c_white :
+                                           c_light_gray );
             mvwprintz( w_whose, point( win_w - utf8_width( price_str ), i - offset + 1 ),
                        price_color, price_str );
         }

@@ -734,7 +734,7 @@ void Character::hardcoded_effects( effect &it )
                         g->m.make_rubble( dest, f_rubble_rock );
                     }
                     MonsterGroupResult const spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                           GROUP_NETHER );
+                                GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
                     if( g->u.sees( dest ) ) {
                         g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,

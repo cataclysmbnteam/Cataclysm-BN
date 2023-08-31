@@ -355,7 +355,7 @@ void mission_start::ranch_nurse_1( mission *miss )
 {
     //Improvements to clinic...
     tripoint_abs_omt const site = mission_util::target_om_ter_random(
-                                "ranch_camp_59", 1, miss, false, RANCH_SIZE );
+                                      "ranch_camp_59", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( project_to<coords::sm>( site ), false );
     bay.draw_square_furn( f_rack, point( 16, 9 ), point( 17, 9 ) );
@@ -368,7 +368,7 @@ void mission_start::ranch_nurse_2( mission *miss )
 {
     //Improvements to clinic...
     tripoint_abs_omt const site = mission_util::target_om_ter_random(
-                                "ranch_camp_59", 1, miss, false, RANCH_SIZE );
+                                      "ranch_camp_59", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( project_to<coords::sm>( site ), false );
     bay.draw_square_furn( f_counter, point( 3, 7 ), point( 5, 7 ) );
@@ -519,7 +519,7 @@ void mission_start::ranch_nurse_9( mission *miss )
 {
     //Improvements to clinic...
     tripoint_abs_omt const site = mission_util::target_om_ter_random(
-                                "ranch_camp_50", 1, miss, false, RANCH_SIZE );
+                                      "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
     bay.load( project_to<coords::sm>( site ), false );
     bay.furn_set( point( 3, 22 ), f_dresser );
@@ -652,7 +652,7 @@ void static create_lab_consoles(
     // Drop four computers in nearby lab spaces so the player can stumble upon one of them.
     for( int i = 0; i < 4; ++i ) {
         tripoint_abs_omt const om_place = mission_util::target_om_ter_random(
-                                        otype, -1, miss, false, 4, place );
+                                              otype, -1, miss, false, 4, place );
 
         tinymap compmap;
         compmap.load( project_to<coords::sm>( om_place ), false );
@@ -672,7 +672,7 @@ void static create_lab_consoles(
 
 void mission_start::create_lab_console( mission *miss )
 {
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     // Pick a lab that has spaces on z = -1: e.g., in hidden labs.
     tripoint_abs_omt loc = player_character.global_omt_location();
     loc.z() = -1;
@@ -688,7 +688,7 @@ void mission_start::create_lab_console( mission *miss )
 
 void mission_start::create_hidden_lab_console( mission *miss )
 {
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     // Pick a hidden lab entrance.
     tripoint_abs_omt loc = player_character.global_omt_location();
     loc.z() = -1;
@@ -706,7 +706,7 @@ void mission_start::create_hidden_lab_console( mission *miss )
 
 void mission_start::create_ice_lab_console( mission *miss )
 {
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     // Pick an ice lab with spaces on z = -4.
     tripoint_abs_omt loc = player_character.global_omt_location();
     loc.z() = -4;
@@ -722,7 +722,7 @@ void mission_start::create_ice_lab_console( mission *miss )
 
 void mission_start::reveal_lab_train_depot( mission *miss )
 {
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     // Find and prepare lab location.
     tripoint_abs_omt loc = player_character.global_omt_location();
     loc.z() = -4;  // tunnels are at z = -4

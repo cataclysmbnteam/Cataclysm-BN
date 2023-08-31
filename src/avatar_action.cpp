@@ -614,7 +614,7 @@ void avatar_action::autoattack( avatar &you, map &m )
         return;
     }
 
-    Creature  const&best = **std::max_element( critters.begin(), critters.end(),
+    Creature  const &best = **std::max_element( critters.begin(), critters.end(),
     []( const Creature * l, const Creature * r ) {
         return rate_critter( *l ) > rate_critter( *r );
     } );
@@ -718,7 +718,7 @@ bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
 
 void avatar_action::fire_wielded_weapon( avatar &you )
 {
-    item  const&weapon = you.primary_weapon();
+    item  const &weapon = you.primary_weapon();
     if( weapon.is_gunmod() ) {
         add_msg( m_info,
                  _( "The %s must be attached to a gun, it can not be fired separately." ),
@@ -1270,7 +1270,7 @@ void avatar_action::reload_weapon( bool try_everything )
     // Reload other guns in inventory.
     // Reload misc magazines in inventory.
     avatar &u = get_avatar();
-    map  const&here = get_map();
+    map  const &here = get_map();
     std::set<itype_id> compatible_magazines;
     for( const item *gun : u.wielded_items() ) {
         const std::set<itype_id> &mags = gun->magazine_compatible();

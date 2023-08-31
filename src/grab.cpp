@@ -154,7 +154,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     // int str_req = grabbed_vehicle->total_mass() / 100_kilogram; //strength required to move vehicle.
     // for smaller vehicles, offroad_str_req_cap sanity-checks our results.
     int const str_req = std::min( get_vehicle_str_requirement( grabbed_vehicle ),
-                            offroad_str_req_cap( grabbed_vehicle ) );
+                                  offroad_str_req_cap( grabbed_vehicle ) );
     int str = u.get_str();
     if( u.is_mounted() ) {
         auto mons = u.mounted_creature.get();

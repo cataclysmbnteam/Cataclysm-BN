@@ -191,9 +191,9 @@ void diary::show_diary_ui( diary *c_diary )
     ui_diary.on_screen_resize( [&]( ui_adaptor & ui ) {
         const std::pair<point, point> beg_and_max = diary_window_position();
         point const beg = ( uis_padding() != 0 ) ? point( uis_padding() + MAX_DAIRY_UI_WIDTH / 4 - 3,
-                    beg_and_max.first.y - 1 ) : beg_and_max.first + point( uis_padding() - 3, -1 );
+                          beg_and_max.first.y - 1 ) : beg_and_max.first + point( uis_padding() - 3, -1 );
         point const max = point( TERMX - beg.x - 5,
-                           beg_and_max.second.y ) - point( uis_padding(), 0 );
+                                 beg_and_max.second.y ) - point( uis_padding(), 0 );
         const int midx = max.x / 2;
 
         w_changes = catacurses::newwin( max.y - 3, midx - 1, beg + point_south );
@@ -265,11 +265,11 @@ void diary::show_diary_ui( diary *c_diary )
         draw_border( w_desc );
         center_print( w_desc, 0, c_light_gray, string_format( _( "%s's Diary" ), c_diary->owner ) );
         std::string const desc = string_format( _( "%s, %s, %s, %s" ),
-                                          ctxt.get_desc( "NEW_PAGE", _( "New page" ), input_context::allow_all_keys ),
-                                          ctxt.get_desc( "CONFIRM", _( "Edit text" ), input_context::allow_all_keys ),
-                                          ctxt.get_desc( "DELETE PAGE", _( "Delete page" ), input_context::allow_all_keys ),
-                                          ctxt.get_desc( "EXPORT_DIARY", _( "Export diary" ), input_context::allow_all_keys )
-                                        );
+                                                ctxt.get_desc( "NEW_PAGE", _( "New page" ), input_context::allow_all_keys ),
+                                                ctxt.get_desc( "CONFIRM", _( "Edit text" ), input_context::allow_all_keys ),
+                                                ctxt.get_desc( "DELETE PAGE", _( "Delete page" ), input_context::allow_all_keys ),
+                                                ctxt.get_desc( "EXPORT_DIARY", _( "Export diary" ), input_context::allow_all_keys )
+                                              );
         center_print( w_desc, 1, c_white, desc );
 
         wnoutrefresh( w_desc );

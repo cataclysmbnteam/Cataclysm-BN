@@ -787,9 +787,9 @@ static double local_windchill_hightemp( double temperature_f, double humidity, d
     // model being designed for reasonable ambient temperature values,
     // rather than extremely high ones.
     double const windchill_c = 0.33 * std::min<float>( 150.00, humidity / 100.00 * 6.105 *
-                         std::exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) )
-                         - 0.70 * wind_meters_per_sec
-                         - 4.00;
+                               std::exp( 17.27 * temperature_c / ( 237.70 + temperature_c ) ) )
+                               - 0.70 * wind_meters_per_sec
+                               - 4.00;
     // Convert to Fahrenheit, but omit the '+ 32' because we are only dealing with a piece of the felt air temperature equation.
     return windchill_c * 9 / 5;
 }
@@ -805,8 +805,9 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
 
     // lerp-ing both functions results in a non-monotonous function
     double const windchill_f_hightemp = local_windchill_hightemp( high_temp, humidity, wind_mph );
-    double const windchill_f_lowtemp = std::min( windchill_f_hightemp, local_windchill_lowtemp( low_temp,
-                                           humidity, wind_mph ) );
+    double const windchill_f_lowtemp = std::min( windchill_f_hightemp,
+                                       local_windchill_lowtemp( low_temp,
+                                               humidity, wind_mph ) );
 
     double const t = ( temperature_f - low_temp ) / ( high_temp - low_temp );
     return std::ceil( lerp( std::min( windchill_f_lowtemp, windchill_f_hightemp ),

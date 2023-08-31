@@ -210,7 +210,7 @@ class wish_mutate_callback: public uilist_callback
                 line2 += 2;
 
                 std::vector<std::string> const desc = foldstring( mdata.desc(),
-                                                menu->pad_right - 1 );
+                                                      menu->pad_right - 1 );
                 for( auto &elem : desc ) {
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, elem );
                     line2++;
@@ -476,7 +476,7 @@ class wish_monster_callback: public uilist_callback
 
         void refresh( uilist *menu ) override {
             catacurses::window const w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
-                                        point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
+                                              point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
             const std::string padding = std::string( getmaxx( w_info ), ' ' );
 
             const int entnum = menu->selected;
@@ -498,7 +498,7 @@ class wish_monster_callback: public uilist_callback
                 tmp.print_info( w_info, 2, 5, 1 );
 
                 std::string const header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname(),
-                                                    group, hallucination ? _( " (hallucination)" ) : "" );
+                                           group, hallucination ? _( " (hallucination)" ) : "" );
                 mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
             }
 
@@ -862,7 +862,7 @@ void debug_menu::wishskill( player *p )
                 for( size_t skill_id = 0; skill_id < sorted_skills.size(); skill_id++ ) {
                     const Skill &skill = *sorted_skills[skill_id];
                     int const changeto = skmod != 0 ? p->get_skill_level( skill.ident() ) + skmod :
-                                   skset != -1 ? skset : origskills[skill_id];
+                                         skset != -1 ? skset : origskills[skill_id];
                     p->set_skill_level( skill.ident(), std::max( 0, changeto ) );
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                             p->get_skill_level( skill.ident() ),

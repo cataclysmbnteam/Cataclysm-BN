@@ -2845,7 +2845,7 @@ void mapgen_lake_shore( mapgendata &dat )
     bool did_extend_adjacent_terrain = false;
     if( !dat.region.overmap_lake.shore_extendable_overmap_terrain.empty() ) {
         std::map<oter_id, int> adjacent_type_count;
-        for( oter_id  const&adjacent : dat.t_nesw ) {
+        for( oter_id  const &adjacent : dat.t_nesw ) {
             // Define the terrain we'll look for a match on.
             oter_id match = adjacent;
 
@@ -3213,7 +3213,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
     const auto fill_deep_water = [&]( point  starting_point ) {
         std::vector<point> const water_points = ff::point_flood_fill_4_connected( starting_point, visited,
-                                          should_fill );
+                                                should_fill );
         for( auto &wp : water_points ) {
             m->ter_set( wp, t_water_dp );
             m->furn_set( wp, f_null );

@@ -241,8 +241,8 @@ static item *pick_usb()
 
 static void remove_submap_turrets()
 {
-    map  const&here = get_map();
-    for( monster  const&critter : g->all_monsters() ) {
+    map  const &here = get_map();
+    for( monster  const &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
         if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( g->u.pos() ) ) &&
             critter.has_flag( MF_CONSOLE_DESPAWN ) &&
@@ -419,7 +419,7 @@ void computer_session::action_release_bionics()
 void computer_session::action_terminate()
 {
     g->events().send<event_type::terminates_subspace_specimens>();
-    map  const&here = get_map();
+    map  const &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
         monster *const mon = g->critter_at<monster>( p );
         if( !mon ) {
@@ -462,7 +462,7 @@ void computer_session::action_cascade()
         return;
     }
     g->events().send<event_type::causes_resonance_cascade>();
-    map  const&here = get_map();
+    map  const &here = get_map();
     std::vector<tripoint> cascade_points;
     for( const tripoint &dest : here.points_in_radius( g->u.pos(), 10 ) ) {
         if( here.ter( dest ) == t_radio_tower ) {
@@ -586,7 +586,7 @@ void computer_session::action_list_bionics()
     int more = 0;
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
-        for( item  const&elem : here.i_at( p ) ) {
+        for( item  const &elem : here.i_at( p ) ) {
             if( elem.is_bionic() ) {
                 if( static_cast<int>( names.size() ) < TERMY - 8 ) {
                     names.push_back( elem.type_name() );
@@ -1106,7 +1106,7 @@ void computer_session::action_geiger()
     int sum_rads = 0;
     int peak_rad = 0;
     int tiles_counted = 0;
-    map  const&here = get_map();
+    map  const &here = get_map();
     print_error( _( "RADIATION MEASUREMENTS:" ) );
     for( const tripoint &dest : here.points_in_radius( g->u.pos(), 10 ) ) {
         if( here.ter( dest ) == t_rad_platform ) {
@@ -1477,7 +1477,7 @@ void computer_session::action_emerg_ref_center()
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
     tripoint_abs_omt mission_target;
-    avatar  const&player_character = get_avatar();
+    avatar  const &player_character = get_avatar();
     // Check completed missions too, so people can't repeatedly get the mission.
     const std::vector<mission *> completed_missions = g->u.get_completed_missions();
     std::vector<mission *> missions = g->u.get_active_missions();

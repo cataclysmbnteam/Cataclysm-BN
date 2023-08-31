@@ -767,7 +767,7 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
 void npc::pretend_fire( npc *source, int shots, item &gun )
 {
     int curshot = 0;
-    avatar  const&you = get_avatar();
+    avatar  const &you = get_avatar();
     if( you.sees( *source ) && one_in( 50 ) ) {
         add_msg( m_info, _( "%s shoots something." ), source->disp_name() );
     }
@@ -858,12 +858,12 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
 
     std::optional<shape_factory> shape = ranged::get_shape_factory( gun );
 
-    map  const&here = get_map();
+    map  const &here = get_map();
     // Shaped attacks don't allow aiming, so they don't suffer from lack of aim either
     int const character_recoil = shape ? recoil_vehicle( who ) : recoil_total( who );
     // Penalty is (intentionally) based off mode shots, not ammo-limited.
     dispersion_sources const dispersion = calculate_dispersion( here, who, gun, character_recoil,
-                                    max_shots > 1 );
+                                          max_shots > 1 );
 
     bool const aoe_attack = gun.gun_skill() == skill_launcher || shape;
     tripoint const aim = target;
@@ -1111,7 +1111,7 @@ int throwing_dispersion( const Character &c, const item &to_throw, Creature *cri
         // It's easier to dodge at close range (thrower needs to adjust more)
         // Dodge x10 at point blank, x5 at 1 dist, then flat
         float const effective_dodge = critter->get_dodge() * std::max( 1, 10 - 5 * rl_dist( c.pos(),
-                                critter->pos() ) );
+                                      critter->pos() ) );
         dispersion += throw_dispersion_per_dodge( c, true ) * effective_dodge;
     }
     // 1 perception per 1 eye encumbrance
@@ -1177,7 +1177,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, cons
     static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
     bool const do_railgun = who.has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
-                      !throw_assist;
+                            !throw_assist;
 
     // The damage dealt due to item's weight, player's strength, and skill level
     // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
@@ -1322,7 +1322,7 @@ static int print_steadiness( const catacurses::window &w, int line_number, doubl
 
     if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
         std::string const steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ),
-                                   static_cast<int>( 100.0 * steadiness ) );
+                                         static_cast<int>( 100.0 * steadiness ) );
         mvwprintw( w, point( 1, line_number++ ), steadiness_s );
     } else {
         const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
@@ -1423,7 +1423,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
         for( const confidence_rating &cr : confidence_config ) {
             std::string const label = pgettext( "aim_confidence", cr.label.c_str() );
             std::string const symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol,
-                                                 label );
+                                        label );
             int const line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
             if( ( window_width + bars_pad - column_number ) < line_len ) {
                 column_number = 1;
@@ -1436,7 +1436,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
     }
     if( ( panel_type == "compact" || panel_type == "labels-narrow" ) && display_type == "numbers" ) {
         std::string const symbols = _( " <color_green>Great</color> - <color_light_gray>Normal</color>"
-                                 " - <color_magenta>Graze</color> - <color_light_blue>Moves</color>" );
+                                       " - <color_magenta>Graze</color> - <color_light_blue>Moves</color>" );
         fold_and_print( w, point( 1, line_number++ ), window_width + bars_pad,
                         c_dark_gray, symbols );
         int const len = utf8_width( symbols ) - 96; // 96 to subtract color codes
@@ -1498,7 +1498,8 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
                 aim_iter++;
             } else {
                 int last_chance = 0;
-                std::string const confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
+                std::string const confidence_s = enumerate_as_string( confidence_config.begin(),
+                                                 confidence_config.end(),
                 [&]( const confidence_rating & config ) {
                     // TODO: Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
                     int const chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
@@ -1540,7 +1541,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
 // Whether player character knows creature's position and can roughly track it with the aim cursor
 static bool pl_sees( const Creature &cr )
 {
-    Character  const&u = get_player_character();
+    Character  const &u = get_player_character();
     return u.sees( cr ) || u.sees_with_infrared( cr ) || u.sees_with_specials( cr );
 }
 
@@ -2123,7 +2124,7 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
             return false;
         }
 
-        map  const&here = get_map();
+        map  const &here = get_map();
 
         // TODO: It should use projectile passability checks when finding path, not vision checks.
         std::vector<tripoint> const path = here.find_clear_path( c.pos(), critter.pos() );
@@ -2492,7 +2493,7 @@ void target_ui::init_window_and_input()
         ctxt.register_action( "AIM" );
 
         aim_types = ranged::get_aim_types( *you, *relevant );
-        for( ranged::aim_type  const&type : aim_types ) {
+        for( ranged::aim_type  const &type : aim_types ) {
             if( type.has_threshold ) {
                 ctxt.register_action( type.action );
             }
@@ -2545,10 +2546,10 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
     } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
         // Shift view/cursor up/down one z level
         tripoint const delta = tripoint(
-                             0,
-                             0,
-                             action == "LEVEL_UP" ? 1 : -1
-                         );
+                                   0,
+                                   0,
+                                   action == "LEVEL_UP" ? 1 : -1
+                               );
         shift_view_or_cursor( delta );
     } else if( action == "NEXT_TARGET" ) {
         cycle_targets( 1 );
@@ -2580,7 +2581,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     // Make sure new position is valid or find a closest valid position
     std::vector<tripoint> new_traj;
     tripoint valid_pos = new_pos;
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( new_pos != src ) {
         // On Z axis, make sure we do not exceed map boundaries
         valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
@@ -3167,8 +3168,9 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     // Also fire if we're at our best aim level already.
     // If no critter is at dst then sight dispersion does not apply,
     // so it would lock into an infinite loop.
-    bool const done_aiming = you->recoil <= aim_threshold || you->recoil - sight_dispersion == min_recoil ||
-                       ( !g->critter_at( dst ) && you->recoil == min_recoil );
+    bool const done_aiming = you->recoil <= aim_threshold ||
+                             you->recoil - sight_dispersion == min_recoil ||
+                             ( !g->critter_at( dst ) && you->recoil == min_recoil );
     return done_aiming;
 }
 
@@ -3359,7 +3361,8 @@ void target_ui::draw_help_notice()
     const std::string label_help = string_format(
                                        narrow ? _( "[%s] show help" ) : _( "[%s] show all controls" ),
                                        ctxt.get_desc( "HELP_KEYBINDINGS", 1 ) );
-    int const label_width = std::min( utf8_width( label_help ), width - 6 ); // 6 for borders and "< " + " >"
+    int const label_width = std::min( utf8_width( label_help ),
+                                      width - 6 ); // 6 for borders and "< " + " >"
     int const text_x = width - label_width - 6;
     mvwprintz( w_target, point( text_x + 1, text_y ), c_white, "< " );
     trim_and_print( w_target, point( text_x + 3, text_y ), label_width, c_white, label_help );
@@ -3407,13 +3410,14 @@ void target_ui::draw_controls_list( int text_y )
         lines.push_back( { 7, colored( col_move, move ) + " " + colored( col_fire, fire ) } );
     }
     {
-        std::string const cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
+        std::string const cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET",
+                                  1 ) );
         std::string const fire = string_format( _( "[%c] %s." ), bound_key( "FIRE" ), uitext_fire() );
         lines.push_back( { 0, colored( col_move, cycle ) + " " + colored( col_fire, fire ) } );
     }
     {
         std::string const text = string_format( _( "[%c] target self; [%c] toggle snap-to-target" ),
-                                          bound_key( "CENTER" ), bound_key( "TOGGLE_SNAP_TO_TARGET" ) );
+                                                bound_key( "CENTER" ), bound_key( "TOGGLE_SNAP_TO_TARGET" ) );
         lines.push_back( { 3, colored( col_enabled, text ) } );
     }
     if( mode == TargetMode::Fire ) {
@@ -3426,7 +3430,7 @@ void target_ui::draw_controls_list( int text_y )
         aim_and_fire += _( "to aim and fire." );
 
         std::string const aim = string_format( _( "[%c] to steady your aim.  (10 moves)" ),
-                                         bound_key( "AIM" ) );
+                                               bound_key( "AIM" ) );
 
         lines.push_back( { 2, colored( col_fire, aim ) } );
         lines.push_back( { 4, colored( col_fire, aim_and_fire ) } );

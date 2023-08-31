@@ -296,7 +296,7 @@ void ui_adaptor::redraw_invalidated()
         // Apply deferred resizing.
         bool needs_resize = false;
         for( auto it = first_enabled; !needs_resize && it != ui_stack_orig->end(); ++it ) {
-            ui_adaptor  const&ui = *it;
+            ui_adaptor  const &ui = *it;
             if( ui.deferred_resize && ui.screen_resized_cb ) {
                 needs_resize = true;
             }

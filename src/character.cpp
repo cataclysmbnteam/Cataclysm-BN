@@ -620,8 +620,8 @@ int Character::sight_range( int light_level ) const
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
     int const range = static_cast<int>( -std::log( get_vision_threshold( static_cast<int>
-                                  ( get_map().ambient_light_at( pos() ) ) ) / static_cast<float>( light_level ) ) *
-                                  ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
+                                        ( get_map().ambient_light_at( pos() ) ) ) / static_cast<float>( light_level ) ) *
+                                        ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
     // Clamp to [1, sight_max].
     return clamp( range, 1, sight_max );
@@ -721,7 +721,7 @@ bool Character::sight_impaired() const
 
 bool Character::has_alarm_clock() const
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     return ( has_item_with_flag( "ALARMCLOCK", true ) ||
              ( here.veh_at( pos() ) &&
                !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
@@ -730,7 +730,7 @@ bool Character::has_alarm_clock() const
 
 bool Character::has_watch() const
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     return ( has_item_with_flag( "WATCH", true ) ||
              ( here.veh_at( pos() ) &&
                !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
@@ -830,7 +830,7 @@ int Character::swim_speed() const
     }
     const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
     float const hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
-                            ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
+                                  ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
 
     // base swim speed.
     ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + weight_carried() /
@@ -930,7 +930,7 @@ void Character::assign_stashed_activity()
 
 bool Character::check_outbounds_activity( const player_activity &act, bool check_only )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( ( act.placement != tripoint_zero && act.placement != tripoint_min &&
           !here.inbounds( here.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
                   !here.inbounds( here.getlocal( act.coords.back() ) ) ) ) {
@@ -1399,7 +1399,7 @@ void static try_remove_crushed( Character &c )
 bool static try_remove_grab( Character &c )
 {
     int zed_number = 0;
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( c.is_mounted() ) {
         auto mon = c.mounted_creature.get();
         if( mon->has_effect( effect_grabbed ) ) {
@@ -1591,7 +1591,8 @@ void Character::recalc_hp()
         str_boost_val = str_boost->calc_bonus( skill_total );
     }
     // Mutated toughness stacks with starting, by design.
-    float const hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
+    float const hp_mod = 1.0f + mutation_value( "hp_modifier" ) +
+                         mutation_value( "hp_modifier_secondary" );
     float const hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base() );
 }
@@ -1607,7 +1608,7 @@ void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_ma
         }
 
         float const max_hp_ratio = static_cast<float>( new_max ) /
-                             static_cast<float>( bp.get_hp_max() );
+                                   static_cast<float>( bp.get_hp_max() );
 
         int const new_cur = std::ceil( static_cast<float>( bp.get_hp_cur() ) * max_hp_ratio );
 
@@ -2451,7 +2452,7 @@ std::list<item *> Character::get_dependent_worn_items( const item &it ) const
 
 void Character::drop( item_location loc, const tripoint &where )
 {
-    item  const&oThisItem = *loc;
+    item  const &oThisItem = *loc;
     if( is_wielding( oThisItem ) ) {
         const auto ret = can_unwield( *loc );
 
@@ -2886,12 +2887,12 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                     }
                 }
             }
-            for( std::pair< body_part, bool >  const&attachment : attachments ) {
+            for( std::pair< body_part, bool >  const &attachment : attachments ) {
                 if( !attachment.second ) {
                     return ret_val<bool>::make_failure( _( "Nothing to attach the mod to!" ) );
                 }
             }
-            for( std::pair< body_part, int >  const&mod_part : mod_parts ) {
+            for( std::pair< body_part, int >  const &mod_part : mod_parts ) {
                 bpid = convert_bp( mod_part.first );
                 if( static_cast< body_part >( mod_part.first ) == bp_torso ) {
                     max_layer = 3;
@@ -3176,7 +3177,7 @@ ret_val<bool> Character::can_swap( const item &it ) const
                 }
             }
         }
-        for( std::pair< body_part, int >  const&mod_part : mod_parts ) {
+        for( std::pair< body_part, int >  const &mod_part : mod_parts ) {
             bpid = convert_bp( mod_part.first );
             if( mod_part.second >= max_layer ) {
                 return ret_val<bool>::make_failure( _( "There is no space on the opposite side!" ) );
@@ -3414,7 +3415,7 @@ int Character::rust_rate() const
 
 void Character::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
-    SkillLevel  const&level = get_skill_level_object( id );
+    SkillLevel  const &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
     std::string const skill_name = skill.name();
 
@@ -3856,7 +3857,7 @@ bool Character::in_climate_control()
     if( has_active_bionic( bio_climate ) ) {
         return true;
     }
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( has_trait( trait_M_SKIN3 ) && here.has_flag_ter_or_furn( flag_FUNGUS, pos() ) &&
         in_sleep_state() ) {
         return true;
@@ -5108,7 +5109,7 @@ void Character::check_needs_extremes()
     // Sleep deprivation kicks in if lack of sleep is avoided with stimulants or otherwise for long periods of time
     int const sleep_deprivation = get_sleep_deprivation();
     float const sleep_deprivation_pct = sleep_deprivation / static_cast<float>
-                                  ( sleep_deprivation_levels::massive );
+                                        ( sleep_deprivation_levels::massive );
 
     if( sleep_deprivation >= sleep_deprivation_levels::harmless && !in_sleep_state() &&
         calendar::once_every( 60_minutes ) &&
@@ -5223,7 +5224,8 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     const auto player_local_temp = weather.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // In Celsius / 100
-    int const Ctemperature = static_cast<int>( 100 * units::fahrenheit_to_celsius( player_local_temp ) );
+    int const Ctemperature = static_cast<int>( 100 * units::fahrenheit_to_celsius(
+                                 player_local_temp ) );
     const w_point &weather_point = get_weather().get_precise();
     int vehwindspeed = 0;
     const optional_vpart_position vp = m.veh_at( pos() );
@@ -5233,10 +5235,10 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool const sheltered = weather::is_sheltered( m, pos() );
     double const total_windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
-                             pos(),
-                             weather.winddirection, sheltered );
+                                   pos(),
+                                   weather.winddirection, sheltered );
     int const air_humidity = get_local_humidity( weather_point.humidity, weather.weather_id,
-                                           sheltered );
+                             sheltered );
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
     const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( itype_rm13_armor_on ) ||
@@ -5381,20 +5383,21 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
 
         // Represents the fact that the body generates heat when it is cold.
         double const scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
-                                    temp_cur[bp->token] );
+                                          temp_cur[bp->token] );
         // Produces a smooth curve between 30.0 and 60.0.
         double const homeostasis_adjustment = 30.0 * ( 1.0 + scaled_temperature );
-        int const clothing_warmth_adjustment = static_cast<int>( homeostasis_adjustment * warmth_per_bp[bp] );
+        int const clothing_warmth_adjustment = static_cast<int>( homeostasis_adjustment *
+                                               warmth_per_bp[bp] );
         int const clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustment *
-                                             bonus_warmth_per_bp[bp] );
+                bonus_warmth_per_bp[bp] );
         // WINDCHILL
         double const bp_windpower = total_windpower * ( 1 - wind_res_per_bp[bp] / 100.0 );
         // Calculate windchill
         int const windchill = submerged_bp
-                        ? 0
-                        : get_local_windchill( player_local_temp,
-                                               air_humidity,
-                                               bp_windpower );
+                              ? 0
+                              : get_local_windchill( player_local_temp,
+                                      air_humidity,
+                                      bp_windpower );
 
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
@@ -5565,14 +5568,15 @@ void Character::update_bodytemp( const map &m, const weather_manager &weather )
             bp == body_part_foot_l || bp == body_part_hand_r || bp == body_part_hand_l ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int const wetness_percentage = 100 * body_wetness[bp->token] / drench_capacity[bp->token]; // 0 - 100
+            int const wetness_percentage = 100 * body_wetness[bp->token] /
+                                           drench_capacity[bp->token]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
             double const adjusted_warmth = warmth_per_bp.at( bp ) - wetness_percentage;
             int const Ftemperature = static_cast<int>( player_local_temp + 0.2 * adjusted_warmth );
             // Windchill reduced by your armor
             int const FBwindPower = static_cast<int>(
-                                  total_windpower * ( 1 - wind_res_per_bp[ bp ] / 100.0 ) );
+                                        total_windpower * ( 1 - wind_res_per_bp[ bp ] / 100.0 ) );
 
             int const intense = get_effect_int( effect_frostbite, bp->token );
 
@@ -6528,7 +6532,8 @@ std::string Character::extended_description() const
 
         const nc_color state_col = limb_color( bp, true, true, true );
         nc_color const name_color = state_col;
-        std::pair<std::string, nc_color> const hp_bar = get_hp_bar( get_part_hp_cur( bp ), get_part_hp_max( bp ),
+        std::pair<std::string, nc_color> const hp_bar = get_hp_bar( get_part_hp_cur( bp ),
+                get_part_hp_max( bp ),
                 false );
 
         ss += colorize( left_justify( bp_heading, longest ), name_color );
@@ -6793,7 +6798,7 @@ void Character::mod_base_age( int mod )
 int Character::age() const
 {
     int const years_since_cataclysm = to_turns<int>( calendar::turn - calendar::turn_zero ) /
-                                to_turns<int>( calendar::year_length() );
+                                      to_turns<int>( calendar::year_length() );
     return init_age + years_since_cataclysm;
 }
 
@@ -7173,8 +7178,8 @@ void Character::update_stamina( int turns )
     // Recover some stamina every turn.
     // max stamina modifers from mutation also affect stamina multi
     float const stamina_multiplier = 1.0f + mutation_value( stamina_regen_modifier ) +
-                               ( mutation_value( "max_stamina_modifier" ) - 1.0f ) +
-                               bonus_from_enchantments( 1.0, enchant_vals::mod::STAMINA_REGEN );
+                                     ( mutation_value( "max_stamina_modifier" ) - 1.0f ) +
+                                     bonus_from_enchantments( 1.0, enchant_vals::mod::STAMINA_REGEN );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         base_regen_rate - ( encumb( bp_mouth ) / 5.0f ) );
@@ -7244,7 +7249,8 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    int const charges_used = actually_used->type->invoke( *this->as_player(), *actually_used, pt, method );
+    int const charges_used = actually_used->type->invoke( *this->as_player(), *actually_used, pt,
+                             method );
     if( charges_used == 0 ) {
         return false;
     }
@@ -8147,7 +8153,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
         elem.amount = std::max( elem.amount, 0.0f );
     }
     map &here = get_map();
-    for( item  const&remain : worn_remains ) {
+    for( item  const &remain : worn_remains ) {
         here.add_item_or_charges( pos(), remain );
     }
     if( armor_destroyed ) {
@@ -8198,14 +8204,14 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
 
     const material_type &material = armor.get_random_material();
     std::string const damage_verb = ( du.type == DT_BASH ) ? material.bash_dmg_verb() :
-                              material.cut_dmg_verb();
+                                    material.cut_dmg_verb();
 
     const std::string pre_damage_name = armor.tname();
     const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level( 4 ) );
 
     // add "further" if the damage adjective and verb are the same
     std::string const format_string = ( pre_damage_adj == damage_verb ) ?
-                                _( "Your %1$s is %2$s further!" ) : _( "Your %1$s is %2$s!" );
+                                      _( "Your %1$s is %2$s further!" ) : _( "Your %1$s is %2$s!" );
     add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
     //item is damaged
     if( is_player() ) {
@@ -9389,7 +9395,8 @@ std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::v
             []( float best, const material_id & mat ) {
                 return std::max( best, mat->warmth_when_wet() );
             } );
-            float const wet_mult = 1.0f - max_wet_resistance * body_wetness[bp->token] / drench_capacity[bp->token];
+            float const wet_mult = 1.0f - max_wet_resistance * body_wetness[bp->token] /
+                                   drench_capacity[bp->token];
             ret[bp] += warmth * wet_mult;
         }
         ret[bp] += get_effect_int( effect_heating_bionic, bp->token );
@@ -9469,7 +9476,7 @@ bool Character::can_use_floor_warmth() const
 
 int Character::floor_bedding_warmth( const tripoint &pos )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     const trap &trap_at_pos = here.tr_at( pos );
     const ter_id ter_at_pos = here.ter( pos );
     const furn_id furn_at_pos = here.furn( pos );
@@ -9956,7 +9963,7 @@ int Character::adjust_for_focus( int amount ) const
 std::set<tripoint> Character::get_path_avoid() const
 {
     std::set<tripoint> ret;
-    for( npc  const&guy : g->all_npcs() ) {
+    for( npc  const &guy : g->all_npcs() ) {
         if( sees( guy ) ) {
             ret.insert( guy.pos() );
         }
@@ -9976,9 +9983,9 @@ float Character::power_rating() const
 {
     const item &weapon = primary_weapon();
     int const dmg = std::max( { weapon.damage_melee( DT_BASH ),
-                          weapon.damage_melee( DT_CUT ),
-                          weapon.damage_melee( DT_STAB )
-                        } );
+                                weapon.damage_melee( DT_CUT ),
+                                weapon.damage_melee( DT_STAB )
+                              } );
 
     int ret = 2;
     // Small guns can be easily hidden from view
@@ -10030,7 +10037,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         movecost *= 0.7071f; // because everything here assumes 100 is base
     }
     const bool flatground = movecost < 105;
-    map  const&here = get_map();
+    map  const &here = get_map();
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && here.has_flag( "ROAD", pos() );
     const bool on_fungus = here.has_flag_ter_or_furn( "FUNGUS", pos() );
@@ -10210,7 +10217,7 @@ bool Character::sees_with_infrared( const Creature &critter ) const
         return false;
     }
 
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( is_player() || critter.is_player() ) {
         // Players should not use map::sees
         // Likewise, players should not be "looked at" with map::sees, not to break symmetry

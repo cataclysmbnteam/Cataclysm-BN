@@ -56,7 +56,7 @@ shared_ptr_fast<monster> Creature_tracker::from_temporary_id( const int id )
 bool Creature_tracker::add( shared_ptr_fast<monster> critter_ptr )
 {
     assert( critter_ptr );
-    monster  const&critter = *critter_ptr;
+    monster  const &critter = *critter_ptr;
 
     if( critter.type->id.is_null() ) { // Don't want to spawn null monsters o.O
         return false;
@@ -94,7 +94,7 @@ bool Creature_tracker::add( shared_ptr_fast<monster> critter_ptr )
 void Creature_tracker::add_to_faction_map( shared_ptr_fast<monster> critter_ptr )
 {
     assert( critter_ptr );
-    monster  const&critter = *critter_ptr;
+    monster  const &critter = *critter_ptr;
 
     // Only 1 faction per mon at the moment.
     if( critter.friendly == 0 ) {

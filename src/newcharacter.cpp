@@ -215,7 +215,8 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     init_age = rng( 16, 55 );
     // if adjusting min and max height from 145 and 200, make sure to see set_description()
     init_height = rng( 145, 200 );
-    bool const cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
+    bool const cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() !=
+                                "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
         for( const auto &scen : scenario::get_all() ) {
@@ -1265,7 +1266,8 @@ tab_direction set_traits( avatar &u, points_left &points )
             const mutation_branch &mdata = cur_trait.obj();
 
             // Look through the profession bionics, and see if any of them conflict with this trait
-            std::vector<bionic_id> const cbms_blocking_trait = bionics_cancelling_trait( u.prof->CBMs(), cur_trait );
+            std::vector<bionic_id> const cbms_blocking_trait = bionics_cancelling_trait( u.prof->CBMs(),
+                    cur_trait );
 
             if( u.has_trait( cur_trait ) ) {
 
@@ -1616,12 +1618,12 @@ tab_direction set_profession( avatar &u, points_left &points,
             draw_sorting_indicator( w_sorting, ctxt, profession_sorter );
 
             std::string const g_switch_msg = u.male ?
-                                       //~ Gender switch message. 1s - change key name, 2s - profession name.
-                                       _( "Press <color_light_green>%1$s</color> to switch "
-                                          "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
-                                       //~ Gender switch message. 1s - change key name, 2s - profession name.
-                                       _( "Press <color_light_green>%1$s</color> to switch "
-                                          "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>)." );
+                                             //~ Gender switch message. 1s - change key name, 2s - profession name.
+                                             _( "Press <color_light_green>%1$s</color> to switch "
+                                                "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
+                                             //~ Gender switch message. 1s - change key name, 2s - profession name.
+                                             _( "Press <color_light_green>%1$s</color> to switch "
+                                                "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>)." );
             fold_and_print( w_genderswap, point_zero, ( TERMX / 2 ), c_light_gray, g_switch_msg.c_str(),
                             ctxt.get_desc( "CHANGE_GENDER" ),
                             sorted_profs[cur_id]->gender_appropriate_name( !u.male ) );
@@ -2448,7 +2450,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     for( const auto &loc : start_locations::get_all() ) {
         if( g->scen->allowed_start( loc.id ) ) {
             uilist_entry const entry( loc.id.id().to_i(), true, -1,
-                                string_format( START_LOC_TEXT_TEMPLATE, loc.name(), loc.targets_count() ) );
+                                      string_format( START_LOC_TEXT_TEMPLATE, loc.name(), loc.targets_count() ) );
 
             select_location.entries.emplace_back( entry );
 

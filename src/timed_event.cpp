@@ -62,7 +62,7 @@ void timed_event::actualize()
 
                 g->events().send<event_type::becomes_wanted>( g->u.getID() );
                 point const rob( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4,
-                           u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
+                                 u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
                 g->place_critter_at( robot_type, tripoint( rob, g->u.posz() ) );
             }
         }

@@ -209,7 +209,7 @@ float workbench_crafting_speed_multiplier( const item &craft, const bench_locati
     const units::volume &craft_volume = craft.volume();
 
     // The whole block below is so ugly because all the benches have different structs with same content
-    map  const&here = get_map();
+    map  const &here = get_map();
     switch( bench.type ) {
         case bench_type::hands: {
             const furn_t &f = string_id<furn_t>( "f_fake_bench_hands" ).obj();
@@ -421,7 +421,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
     all.insert( all.end(), res.begin(), res.end() );
     all.insert( all.end(), bps.begin(), bps.end() );
 
-    map  const&here = get_map();
+    map  const &here = get_map();
     for( const item &prod : all ) {
         if( !prod.made_of( LIQUID ) ) {
             continue;
@@ -673,7 +673,7 @@ static item_location set_item_map( const tripoint &loc, item &newit )
  */
 static item_location set_item_map_or_vehicle( const player &p, const tripoint &loc, item &newit )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( const std::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
             false ) ) {
 
@@ -1059,7 +1059,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
                 int const difficulty = p.has_recipe( &making, p.crafting_inventory(),
-                                               character_funcs::get_crafting_helpers( p ) );
+                                                     character_funcs::get_crafting_helpers( p ) );
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 const double learning_speed =
                     std::max( p.get_skill_level( making.skill_used ), 1 ) *
@@ -1408,33 +1408,33 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
             std::string const tmpStr = string_format( _( "%s (%d/%d nearby)" ),
-                                                item::nname( map_ha.type ),
-                                                ( map_ha.count * batch ),
-                                                item::count_by_charges( map_ha.type ) ?
-                                                map_inv.charges_of( map_ha.type, INT_MAX, filter ) :
-                                                map_inv.amount_of( map_ha.type, false, INT_MAX, filter ) );
+                                       item::nname( map_ha.type ),
+                                       ( map_ha.count * batch ),
+                                       item::count_by_charges( map_ha.type ) ?
+                                       map_inv.charges_of( map_ha.type, INT_MAX, filter ) :
+                                       map_inv.amount_of( map_ha.type, false, INT_MAX, filter ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
             std::string const tmpStr = string_format( _( "%s (%d/%d on person)" ),
-                                                item::nname( player_ha.type ),
-                                                ( player_ha.count * batch ),
-                                                item::count_by_charges( player_ha.type ) ?
-                                                charges_of( player_ha.type, INT_MAX, filter ) :
-                                                amount_of( player_ha.type, false, INT_MAX, filter ) );
+                                       item::nname( player_ha.type ),
+                                       ( player_ha.count * batch ),
+                                       item::count_by_charges( player_ha.type ) ?
+                                       charges_of( player_ha.type, INT_MAX, filter ) :
+                                       amount_of( player_ha.type, false, INT_MAX, filter ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &component : mixed ) {
             // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
             int const available = item::count_by_charges( component.type ) ?
-                            map_inv.charges_of( component.type, INT_MAX, filter ) +
-                            charges_of( component.type, INT_MAX, filter ) :
-                            map_inv.amount_of( component.type, false, INT_MAX, filter ) +
-                            amount_of( component.type, false, INT_MAX, filter );
+                                  map_inv.charges_of( component.type, INT_MAX, filter ) +
+                                  charges_of( component.type, INT_MAX, filter ) :
+                                  map_inv.amount_of( component.type, false, INT_MAX, filter ) +
+                                  amount_of( component.type, false, INT_MAX, filter );
             std::string const tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
-                                                item::nname( component.type ),
-                                                component.count * batch,
-                                                available );
+                                       item::nname( component.type ),
+                                       component.count * batch,
+                                       available );
             cmenu.addentry( tmpStr );
         }
 
@@ -1705,13 +1705,13 @@ query_tool_selection( const std::vector<avail_tool_comp> &available_tools,
                                  ? _( "%s (%d/%d charges nearby)" )
                                  : _( "%s (%d/%d charges on person)" );
             std::string const str = string_format( format,
-                                             item::nname( comp_type ), tool.ideal,
-                                             tool.charges );
+                                                   item::nname( comp_type ), tool.ideal,
+                                                   tool.charges );
             tmenu.addentry( str );
         } else {
             std::string const str = tool.comp.use_from == use_from_map
-                              ? item::nname( comp_type ) + _( " (nearby)" )
-                              : item::nname( comp_type );
+                                    ? item::nname( comp_type ) + _( " (nearby)" )
+                                    : item::nname( comp_type );
             tmenu.addentry( str );
         }
     }
@@ -1736,8 +1736,9 @@ select_tool_component( const std::vector<tool_comp> &tools, int batch, const inv
                        const std::string &hotkeys,
                        cost_adjustment adjustment )
 {
-    std::vector<avail_tool_comp> const options = find_tool_component( player_with_inv, tools, batch, map_inv,
-                                           adjustment );
+    std::vector<avail_tool_comp> const options = find_tool_component( player_with_inv, tools, batch,
+            map_inv,
+            adjustment );
     bool const is_npc = player_with_inv ? player_with_inv->is_npc() : false;
     return query_tool_selection( options, hotkeys, can_cancel, is_npc );
 }

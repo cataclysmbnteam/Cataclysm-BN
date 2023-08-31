@@ -164,7 +164,7 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
     if( ignore_walls ) {
         return true;
     }
-    map  const&here = get_map();
+    map  const &here = get_map();
     const std::vector<tripoint> trajectory = line_to( start, end );
     tripoint last_point = start;
     for( const tripoint &pt : trajectory ) {
@@ -206,7 +206,7 @@ std::set<tripoint> spell_effect::spell_effect_cone( const spell &sp, const tripo
         calc_ray_end( angle, range, source, potential );
         end_points.emplace( potential );
     }
-    map  const&here = get_map();
+    map  const &here = get_map();
     for( const tripoint &ep : end_points ) {
         std::vector<tripoint> const trajectory = line_to( source, ep );
         tripoint last_point = source;
@@ -231,7 +231,7 @@ static bool test_always_true( const tripoint &, const tripoint & )
 }
 static bool test_passable( const tripoint &p, const tripoint &prev )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     return ( !here.obstructed_by_vehicle_rotation( prev, p ) && ( here.passable( p ) ||
              here.has_flag( "THIN_OBSTACLE", p ) ) );
 }
@@ -438,8 +438,8 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     // Ensure permanent effect has at last 1 second of duration,
     // so it won't be instantly removed as expired.
     time_duration const dur_td = ( spell_effect->is_permanent() && dur_turns == 0 )
-                           ? 1_seconds
-                           : 1_turns * dur_turns;
+                                 ? 1_seconds
+                                 : 1_turns * dur_turns;
 
     bool bodypart_effected = false;
 
@@ -499,7 +499,7 @@ void spell_effect::projectile_attack( const spell &sp, Creature &caster,
 {
     std::vector<tripoint> trajectory = line_to( caster.pos(), target );
     tripoint prev_point = caster.pos();
-    map  const&here = get_map();
+    map  const &here = get_map();
     for( std::vector<tripoint>::iterator iter = trajectory.begin(); iter != trajectory.end(); iter++ ) {
         if( ( here.impassable( *iter ) && !here.has_flag( "THIN_OBSTACLE", *iter ) ) ||
             here.obstructed_by_vehicle_rotation( prev_point, *iter ) ) {
@@ -580,12 +580,12 @@ int area_expander::run( const tripoint &center )
     // Number of nodes expanded.
     int expanded = 0;
 
-    map  const&here = get_map();
+    map  const &here = get_map();
 
     while( !frontier.empty() ) {
         int const best_index = frontier.top();
         frontier.pop();
-        node  const&best = area[best_index];
+        node  const &best = area[best_index];
 
         for( size_t i = 0; i < 8; i++ ) {
             tripoint const pt = best.position + point( x_offset[ i ], y_offset[ i ] );
@@ -645,8 +645,8 @@ static void spell_move( const spell &sp, const Creature &caster,
 
     // Moving creatures
     bool const can_target_creature = sp.is_valid_effect_target( target_self ) ||
-                               sp.is_valid_effect_target( target_ally ) ||
-                               sp.is_valid_effect_target( target_hostile );
+                                     sp.is_valid_effect_target( target_ally ) ||
+                                     sp.is_valid_effect_target( target_hostile );
 
     if( can_target_creature ) {
         if( Creature *victim = g->critter_at<Creature>( from ) ) {

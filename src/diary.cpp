@@ -655,7 +655,7 @@ std::vector<std::string> diary::get_head_text()
                                         2 );
         day_and_time_text[0] = std::toupper( day_and_time_text[0] );
         std::string const year_and_season_text = complete_time_text.substr( 0,
-                                           complete_time_text.find_last_of( ',' ) + 1 );
+                complete_time_text.find_last_of( ',' ) + 1 );
 
         head_text.insert( head_text.end(), year_and_season_text );
         head_text.insert( head_text.end(), day_and_time_text );
@@ -712,7 +712,7 @@ void diary::new_page()
     }
     page->known_martial_arts = u->martial_arts_data->get_known_styles();
     page->bionics = u->get_bionics();
-    for( Skill  const&elem : Skill::skills ) {
+    for( Skill  const &elem : Skill::skills ) {
         int const level = u->get_skill_level_object( elem.ident() ).level();
         page->skill_levels.insert( { elem.ident(), level } );
     }

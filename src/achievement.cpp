@@ -325,7 +325,7 @@ achievement_completion kill_req_completed( const achievement &ach, const kill_tr
         }
         auto& [comp, count] = pair;
         int const kill_count = m_id == mtype_id::NULL_ID() ? kt.monster_kill_count() :
-                         kt.kill_count( m_id );
+                               kt.kill_count( m_id );
         if( !ach_compare( comp, count, kill_count ) ) {
             switch( comp ) {
                 case achievement_comparison::greater_equal:
@@ -372,7 +372,7 @@ achievement_completion skill_req_completed( const achievement &ach )
     if( skill_reqs.empty() ) {
         return achievement_completion::completed;
     }
-    Character  const&u = get_player_character();
+    Character  const &u = get_player_character();
 
     achievement_completion satisfied = achievement_completion::completed;
     for( const auto& [sk_id, pair] : skill_reqs ) {
@@ -449,7 +449,7 @@ std::string achievement::kill_ui_text( achievement_completion completion,
         auto& [comp, count] = pair;
         std::string cur_kills;
         std::string const mon_name = m_id == mtype_id::NULL_ID() ? count > 1 ? "monsters" : "monster" :
-                               m_id->nname( count );
+                                     m_id->nname( count );
         int kill_count = 0;
         std::string progress;
         bool comp_pass = false;
@@ -549,7 +549,7 @@ std::string achievement::kill_ui_text( achievement_completion completion,
 std::string achievement::skill_ui_text() const
 {
     std::string skill_string;
-    Character  const&u = get_player_character();
+    Character  const &u = get_player_character();
     for( const auto& [sk_id, pair] : skill_requirements() ) {
         auto& [comp, level] = pair;
         std::string cur_skill;
@@ -830,7 +830,7 @@ std::string achievement_state::ui_text( const achievement *ach, const kill_track
 
     if( completion == achievement_completion::completed ) {
         std::string const message = string_format(
-                                  _( "Completed %s" ), to_string( last_state_change ) );
+                                        _( "Completed %s" ), to_string( last_state_change ) );
         result += "  " + colorize( message, c ) + "\n";
     } else {
         // Next: time constraint, kill requirements & skill requirements if any
@@ -893,7 +893,7 @@ void achievement_tracker::set_requirement( requirement_watcher *watcher, bool is
     achievement_completion const skill_comp = skill_req_completed( *achievement_ );
     achievement_completion const kill_comp = kill_req_completed( *achievement_, *tracker_->kills() );
     bool const all_clear = time_comp == achievement_completion::completed &&
-                     skill_comp == achievement_completion::completed && kill_comp == achievement_completion::completed;
+                           skill_comp == achievement_completion::completed && kill_comp == achievement_completion::completed;
 
     if( sorted_watchers_[false].empty() && all_clear ) {
         // report_achievement can result in this being deleted, so it must be
@@ -913,8 +913,8 @@ void achievement_tracker::set_requirement( requirement_watcher *watcher, bool is
 bool achievement_tracker::has_failed() const
 {
     bool const failed = time_req_completed( *achievement_ ) == achievement_completion::failed ||
-                  skill_req_completed( *achievement_ ) == achievement_completion::failed ||
-                  kill_req_completed( *achievement_, *tracker_->kills() ) == achievement_completion::failed;
+                        skill_req_completed( *achievement_ ) == achievement_completion::failed ||
+                        kill_req_completed( *achievement_, *tracker_->kills() ) == achievement_completion::failed;
     return failed;
 }
 

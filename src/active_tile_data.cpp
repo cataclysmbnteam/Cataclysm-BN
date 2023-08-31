@@ -129,7 +129,7 @@ void solar_tile::update_internal( time_point to, const tripoint_abs_ms &p, distr
 
     // TODO: Use something that doesn't calc a ton of worthless crap
     float const sunlight = sum_conditions( zero + rounded_then, zero + rounded_now,
-                                     p.raw() ).sunlight / default_daylight_level();
+                                           p.raw() ).sunlight / default_daylight_level();
     // int64 because we can have years in here
     std::int64_t const produced = power * static_cast<std::int64_t>( sunlight ) / 1000;
     grid.mod_resource( static_cast<int>( std::min( static_cast<std::int64_t>( INT_MAX ), produced ) ) );

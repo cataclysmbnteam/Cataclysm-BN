@@ -495,7 +495,8 @@ static Character &pick_character( Character &preselected )
     auto iter = std::find_if( locations.begin(), locations.end(), [&preselected]( const tripoint & p ) {
         return p == preselected.pos();
     } );
-    size_t const preselect_index = iter != locations.end() ? std::distance( locations.begin(), iter ) : 0;
+    size_t const preselect_index = iter != locations.end() ? std::distance( locations.begin(),
+                                   iter ) : 0;
 
     pointmenu_cb callback( locations );
     charmenu.callback = &callback;
@@ -668,7 +669,7 @@ void character_edit_menu( Character &c )
             if( !loc ) {
                 break;
             }
-            item  const&to_wear = *loc;
+            item  const &to_wear = *loc;
             if( to_wear.is_armor() ) {
                 p.on_item_wear( to_wear );
                 p.worn.push_back( to_wear );
@@ -1189,7 +1190,7 @@ void mission_debug::edit( player &who )
 
 void mission_debug::edit_npc( npc &who )
 {
-    npc_chatbin  const&bin = who.chatbin;
+    npc_chatbin  const &bin = who.chatbin;
     std::vector<mission *> all_missions;
 
     uilist mmenu;
@@ -1580,8 +1581,9 @@ void debug()
 
         case DEBUG_SPAWN_ARTIFACT:
             if( const std::optional<tripoint> center = g->look_around( true ) ) {
-                artifact_natural_property const prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
-                                                 ARTPROP_MAX - 1 ) );
+                artifact_natural_property const prop = static_cast<artifact_natural_property>( rng(
+                        ARTPROP_NULL + 1,
+                        ARTPROP_MAX - 1 ) );
                 m.create_anomaly( *center, prop );
                 m.spawn_natural_artifact( *center, prop );
             }
@@ -1751,7 +1753,8 @@ void debug()
 #if defined(TILES)
             const auto &sounds_to_draw = sounds::get_monster_sounds();
 
-            shared_ptr_fast<game::draw_callback_t> const sound_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+            shared_ptr_fast<game::draw_callback_t> const sound_cb =
+            make_shared_fast<game::draw_callback_t>( [&]() {
                 const point offset {
                     u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
                 };
@@ -1860,8 +1863,8 @@ void debug()
                         if( calendar::eternal_season() ) {
                             // Can't use season_of_year because it checks for eternal
                             season_type const new_initial_season = static_cast<season_type>(
-                                                                 to_turn<int>( calendar::turn ) / to_turns<int>( calendar::season_length() ) % 4
-                                                             );
+                                    to_turn<int>( calendar::turn ) / to_turns<int>( calendar::season_length() ) % 4
+                                                                   );
                             season_of_year( calendar::before_time_starts );
                             calendar::set_calendar_config( {
                                 calendar::config.start_of_cataclysm(),

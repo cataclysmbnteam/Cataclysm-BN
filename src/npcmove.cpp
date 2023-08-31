@@ -492,7 +492,7 @@ void npc::assess_danger()
         float const scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float const hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
         float const critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
-                                         NPC_DANGER_VERY_LOW );
+                                               NPC_DANGER_VERY_LOW );
         ai_cache.total_danger += critter_danger / scaled_distance;
 
         // don't ignore monsters that are too close or too close to an ally if we can move
@@ -518,7 +518,7 @@ void npc::assess_danger()
         // us or an ally
         // critter danger is always at least NPC_DANGER_VERY_LOW
         float const priority = std::max( critter_danger - 2.0f * ( scaled_distance - 1.0f ),
-                                   is_too_close ? critter_danger : 0.0f );
+                                         is_too_close ? critter_danger : 0.0f );
         cur_threat_map[direction_from( pos(), critter.pos() )] += priority;
         if( priority > highest_priority ) {
             highest_priority = priority;
@@ -560,8 +560,8 @@ void npc::assess_danger()
 
         if( !is_player_ally() || is_too_close || ok_by_rules( foe, dist, scaled_distance ) ) {
             float const priority = std::max( foe_threat - 2.0f * ( scaled_distance - 1 ),
-                                       is_too_close ? std::max( foe_threat, NPC_DANGER_VERY_LOW ) :
-                                       0.0f );
+                                             is_too_close ? std::max( foe_threat, NPC_DANGER_VERY_LOW ) :
+                                             0.0f );
             cur_threat_map[direction_from( pos(), foe.pos() )] += priority;
             if( priority > highest_priority ) {
                 warn_about( warning, 1_minutes );
@@ -650,7 +650,7 @@ float npc::character_danger( const Character &u ) const
 
 void npc::regen_ai_cache()
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     auto i = std::begin( ai_cache.sound_alerts );
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( here.getlocal( i->abs_pos ) ) ) {
@@ -680,7 +680,7 @@ void npc::regen_ai_cache()
     }
     // Non-allied NPCs with a completed mission should move to the player
     if( !is_player_ally() && !is_stationary( true ) ) {
-        Character  const&player_character = get_player_character();
+        Character  const &player_character = get_player_character();
         for( auto &miss : chatbin.missions_assigned ) {
             if( miss->is_complete( getID() ) ) {
                 // unless the player found an item and already told the NPC he wanted to keep it
@@ -770,7 +770,7 @@ void npc::move()
         ai_cache.target = g->shared_from( player_character );
     }
 
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
     } else if( target == &player_character && attitude == NPCATT_FLEE_TEMP ) {
@@ -970,7 +970,7 @@ void npc::execute_action( npc_action action )
     */
 
     Character &player_character = get_player_character();
-    map  const&here = get_map();
+    map  const &here = get_map();
     switch( action ) {
         case npc_pause:
             move_pause();
@@ -1105,7 +1105,7 @@ void npc::execute_action( npc_action action )
 
             if( !mode ) {
                 std::string const error_weapon = cbm_active.is_null() ? primary_weapon().tname() :
-                                           cbm_fake_active.tname();
+                                                 cbm_fake_active.tname();
                 debugmsg( "NPC tried to shoot %s without valid mode.", error_weapon );
             }
 
@@ -1338,7 +1338,7 @@ npc_action npc::method_of_fleeing()
 
 npc_action npc::method_of_attack()
 {
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     Creature *critter = current_target();
     if( critter == nullptr ) {
         // This function shouldn't be called...
@@ -1358,7 +1358,7 @@ npc_action npc::method_of_attack()
     // NPCs engage in free fire can move to avoid allies, but not if they're in a vehicle
     const bool dont_move_ff = in_vehicle || rules.engagement == combat_engagement::NO_MOVE;
     bool const can_use_gun = ( ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) ) &&
-                         ( ai_cache.danger >= 3 || emergency() || dist < 0 ) );
+                               ( ai_cache.danger >= 3 || emergency() || dist < 0 ) );
     bool const use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
 
     // if there's enough of a threat to be here, power up the combat CBMs
@@ -1417,7 +1417,7 @@ npc_action npc::method_of_attack()
 
     // TODO: Needs a check for transparent but non-passable tiles on the way
     int const effective_range = g_mode ? confident_gun_mode_range( g_mode,
-                          ranged::get_most_accurate_sight( *this, *g_mode ) ) : 0;
+                                ranged::get_most_accurate_sight( *this, *g_mode ) ) : 0;
     if( g_mode && sees( *critter ) && ranged::aim_per_move( *this, *g_mode, recoil ) > 0 &&
         effective_range >= dist ) {
         add_msg( m_debug, "%s is aiming", disp_name() );
@@ -1459,7 +1459,7 @@ static bool wants_to_reload_with( const item &weap, const item &ammo, bool dange
     // To prevent them from constantly swapping magazines while entering range.
     // If not in danger, swap magazines if ammo is greater than current.
     bool const want_swap = ammo.ammo_remaining() > weap.ammo_remaining() && ( !danger ||
-                     ammo.ammo_remaining() > weap.ammo_required() );
+                           ammo.ammo_remaining() > weap.ammo_required() );
     return combat_reload || want_swap;
 }
 
@@ -1678,7 +1678,7 @@ bool npc::recharge_cbm()
         return true;
     }
 
-    for( bionic_id  const&bid : get_fueled_bionics() ) {
+    for( bionic_id  const &bid : get_fueled_bionics() ) {
         if( has_active_bionic( bid ) ) {
             continue;
         }
@@ -1834,7 +1834,7 @@ npc_action npc::address_needs( float danger )
 
     check_or_reload_cbm();
 
-    item  const&reloadable = find_reloadable();
+    item  const &reloadable = find_reloadable();
     if( !reloadable.is_null() ) {
         do_reload( reloadable );
         return npc_noop;
@@ -1920,7 +1920,7 @@ npc_action npc::address_needs( float danger )
 
 npc_action npc::address_player()
 {
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     if( ( attitude == NPCATT_TALK ) && sees( player_character ) ) {
         if( player_character.in_sleep_state() ) {
             // Leave sleeping characters alone.
@@ -2052,7 +2052,8 @@ int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
     // Doesn't use calculate_dispersion because that requires a map
     // TODO: Turn this into a common function.
     int const gun_recoil = gun->gun_recoil();
-    int const eff_recoil = at_recoil + ( gun.qty > 1 ? ranged::burst_penalty( *this, *gun, gun_recoil ) : 0 );
+    int const eff_recoil = at_recoil + ( gun.qty > 1 ? ranged::burst_penalty( *this, *gun,
+                                         gun_recoil ) : 0 );
     dispersion_sources mode_disp = ranged::get_weapon_dispersion( *this, *gun );
     mode_disp.add_range( eff_recoil );
     double max_dispersion = mode_disp.max();
@@ -2070,7 +2071,7 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
 {
     double const average_dispersion = ranged::throwing_dispersion( *this, thrown, target, false ) / 2.0;
     double const even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) /
-                               average_dispersion;
+                                     average_dispersion;
     double const confident_range = even_chance_range * confidence_mult();
     add_msg( m_debug, "confident_throw_range == %d", static_cast<int>( confident_range ) );
     return static_cast<int>( confident_range );
@@ -2121,8 +2122,8 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
 {
     // TODO: Get actual dispersion instead of extracting it (badly) from confident range
     int const confident = throwing ?
-                    confident_throw_range( it, nullptr ) :
-                    confident_shoot_range( it, ranged::recoil_total( *this ) );
+                          confident_throw_range( it, nullptr ) :
+                          confident_shoot_range( it, ranged::recoil_total( *this ) );
     // if there is no confidence at using weapon, it's not used at range
     // zero confidence leads to divide by zero otherwise
     if( confident < 1 ) {
@@ -2167,7 +2168,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
 bool npc::enough_time_to_reload( const item &gun ) const
 {
     int const rltime = item_reload_cost( gun, item( gun.ammo_default() ),
-                                   gun.ammo_capacity() );
+                                         gun.ammo_capacity() );
     const float turns_til_reloaded = static_cast<float>( rltime ) / get_speed();
 
     const Creature *target = current_target();
@@ -2255,7 +2256,7 @@ bool npc::can_open_door( const tripoint &p, const bool inside ) const
 
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     // Allow moving into any bashable spots, but penalize them during pathing
     // Doors are not passable for hallucinations
     return( rl_dist( pos(), p ) <= 1 && here.has_floor( p ) && !g->is_dangerous_tile( p ) &&
@@ -2576,7 +2577,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
     tripoint best_pos = pos();
     int best = -1;
     int chance = 2;
-    map  const&here = get_map();
+    map  const &here = get_map();
     for( const tripoint &p : here.points_in_radius( pos(), 1 ) ) {
         if( nomove != nullptr && nomove->find( p ) != nomove->end() ) {
             continue;
@@ -2613,7 +2614,7 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk, std::set<tripoin
 
 bool npc::find_job_to_perform()
 {
-    for( activity_id  const&elem : job.get_prioritised_vector() ) {
+    for( activity_id  const &elem : job.get_prioritised_vector() ) {
         if( job.get_priority_of_job( elem ) == 0 ) {
             continue;
         }
@@ -2630,7 +2631,7 @@ bool npc::find_job_to_perform()
 
 void npc::worker_downtime()
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     // are we already in a chair
     if( here.has_flag_furn( "CAN_SIT", pos() ) ) {
         // just chill here
@@ -2874,7 +2875,7 @@ void npc::find_item()
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
-        Character  const&player_character = get_player_character();
+        Character  const &player_character = get_player_character();
         for( auto &elem : followers ) {
             if( !it.is_owned_by( *this, true ) && ( player_character.sees( this->pos() ) ||
                                                     player_character.sees( wanted_item_pos ) ||
@@ -3049,7 +3050,7 @@ void npc::pick_up_item()
     const int dist_to_pickup = rl_dist( pos(), wanted_item_pos );
 
     bool const cant_reach = dist_to_pickup > 1 ||
-                      get_map().obstructed_by_vehicle_rotation( pos(), wanted_item_pos );
+                            get_map().obstructed_by_vehicle_rotation( pos(), wanted_item_pos );
     if( cant_reach && !path.empty() ) {
         add_msg( m_debug, "Moving; [%d, %d, %d] => [%d, %d, %d]",
                  posx(), posy(), posz(), path[0].x, path[0].y, path[0].z );
@@ -3081,7 +3082,7 @@ void npc::pick_up_item()
             return;
         }
     }
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     // Describe the pickup to the player
     bool const u_see = player_character.sees( *this ) || player_character.sees( wanted_item_pos );
     if( u_see ) {
@@ -3196,7 +3197,7 @@ void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int mi
     // First fill our ratio vectors, so we know which things to drop first
     invslice slice = inv.slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
-        item  const&it = slice[i]->front();
+        item  const &it = slice[i]->front();
         double wgt_ratio = 0.0;
         double vol_ratio = 0.0;
         if( value( it ) == 0 || value( it ) <= min_val ) {
@@ -3236,9 +3237,9 @@ void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int mi
         // weight and volume may be passed as 0 or a negative value, to indicate that
         // decreasing that variable is not important.
         int const dWeight = units::to_gram<int>( drop_weight ) <= 0 ? -1 :
-                      units::to_gram<int>( drop_weight - weight_dropped ) / 250;
+                            units::to_gram<int>( drop_weight - weight_dropped ) / 250;
         int const dVolume = units::to_milliliter<int>( drop_volume ) <= 0 ? -1 :
-                      units::to_milliliter<int>( drop_volume - volume_dropped ) / 250;
+                            units::to_milliliter<int>( drop_volume - volume_dropped ) / 250;
         int index;
         // Which is more important, weight or volume?
         if( dWeight > dVolume ) {
@@ -3291,7 +3292,7 @@ void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int mi
 
 bool npc::find_corpse_to_pulp()
 {
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     if( ( is_player_ally() && ( !rules.has_flag( ally_rule::allow_pulp ) ||
                                 player_character.in_vehicle ) ) ||
         is_hallucination() ) {
@@ -3455,7 +3456,7 @@ bool npc::wield_better_weapon()
 
     // TODO: Allow wielding weaker weapons against weaker targets
     bool const can_use_gun = ( ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) ) &&
-                         ( ai_cache.danger >= 3 || emergency() || dist < 0 ) );
+                               ( ai_cache.danger >= 3 || emergency() || dist < 0 ) );
     bool const use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
 
     // Check if there's something better to wield
@@ -3466,7 +3467,8 @@ bool npc::wield_better_weapon()
     const auto compare_weapon =
     [this, &best, &best_dps, can_use_gun, use_silent, dist, &mode_pairs ]( const item & it ) {
         // If dist is 1 then we're in melee range, so disallow shooting guns.
-        bool const gun_usable = can_use_gun && ( dist > 1 || dist == -1 ) && ( !use_silent || it.is_silent() );
+        bool const gun_usable = can_use_gun && ( dist > 1 || dist == -1 ) && ( !use_silent ||
+                                it.is_silent() );
         double dps = 0.0f;
         auto [mode_id, mode_] = npc_ai::best_mode_for_range( *this, it, dist );
 
@@ -3714,7 +3716,7 @@ bool npc::alt_attack()
         return true;
     }
 
-    map  const&here = get_map();
+    map  const &here = get_map();
     // We need to throw this live (grenade, etc) NOW! Pick another target?
     for( int dist = 2; dist <= conf; dist++ ) {
         for( const tripoint &pt : here.points_in_radius( pos(), dist ) ) {
@@ -3783,7 +3785,7 @@ void npc::heal_player( player &patient )
         return;
     }
 
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     // Close enough to heal!
     bool const u_see = player_character.sees( *this ) || player_character.sees( patient );
     if( u_see ) {
@@ -3961,7 +3963,7 @@ bool npc::consume_food_from_camp()
     if( !is_player_ally() ) {
         return false;
     }
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     std::optional<basecamp *> potential_bc;
     for( const tripoint_abs_omt &camp_pos : player_character.camps ) {
         if( rl_dist( camp_pos, global_omt_location() ) < 3 ) {
@@ -3982,7 +3984,7 @@ bool npc::consume_food_from_camp()
     }
     faction *yours = player_character.get_faction();
     int const camp_kcals = std::min( std::max( 0, 19 * max_stored_kcal() / 20 - get_stored_kcal() -
-                                         stomach.get_calories() ), yours->food_supply );
+                                     stomach.get_calories() ), yours->food_supply );
     if( camp_kcals > 0 ) {
         complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
         mod_stored_kcal( camp_kcals );
@@ -4047,7 +4049,7 @@ void npc::mug_player( Character &mark )
         return;
     }
 
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     const bool u_see = player_character.sees( *this ) || player_character.sees( mark );
     if( mark.cash > 0 ) {
         if( !is_hallucination() ) { // hallucinations can't take items
@@ -4172,12 +4174,12 @@ void npc::reach_omt_destination()
     if( !omt_path.empty() ) {
         omt_path.clear();
     }
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( is_travelling() ) {
         guard_pos = here.getabs( pos() );
         goal = no_goal_point;
         if( is_player_ally() ) {
-            Character  const&player_character = get_player_character();
+            Character  const &player_character = get_player_character();
             talk_function::assign_guard( *this );
             if( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) {
                 if( player_character.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
@@ -4315,7 +4317,7 @@ void npc::set_omt_destination()
 
 void npc::go_to_omt_destination()
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( ai_cache.guard_pos ) {
         if( here.getabs( pos() ) == *ai_cache.guard_pos ) {
             path.clear();
@@ -4698,8 +4700,8 @@ void npc::do_reload( const item &it )
     // If in danger, don't spend multiple turns reloading a weapon to full one by one.
     // Get enough to shoot the enemy once, then unload it on them.
     int const qty = ai_cache.danger > 0 ? std::max( 1, std::min( usable_ammo->charges,
-              it.ammo_required() - it.ammo_remaining() ) ) :
-              std::max( 1, std::min( usable_ammo->charges, it.ammo_capacity() - it.ammo_remaining() ) );
+                    it.ammo_required() - it.ammo_remaining() ) ) :
+                    std::max( 1, std::min( usable_ammo->charges, it.ammo_capacity() - it.ammo_remaining() ) );
     int const reload_time = item_reload_cost( it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();

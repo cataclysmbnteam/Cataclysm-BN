@@ -389,7 +389,8 @@ BitmapFont::BitmapFont(
         SDL_LockSurface( ascii_surf[a].get() );
         int const size = ascii_surf[a]->h * ascii_surf[a]->w;
         Uint32 *pixels = static_cast<Uint32 *>( ascii_surf[a]->pixels );
-        Uint32 const color = ( windowsPalette[a].r << 16 ) | ( windowsPalette[a].g << 8 ) | windowsPalette[a].b;
+        Uint32 const color = ( windowsPalette[a].r << 16 ) | ( windowsPalette[a].g << 8 ) |
+                             windowsPalette[a].b;
         for( int i = 0; i < size; i++ ) {
             if( pixels[i] == 0xFFFFFF ) {
                 pixels[i] = color;

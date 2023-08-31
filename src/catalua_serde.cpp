@@ -195,7 +195,8 @@ void deserialize_lua_table( sol::table t, JsonObject &obj )
                 JsonIn &data_raw = *jo.get_raw( "data" );
                 // Horrible hack ahead
                 std::string const script = string_format( "return %s.new()", kind );
-                sol::protected_function_result const res = lua.script( script, "deserialize_init", sol::load_mode::any );
+                sol::protected_function_result const res = lua.script( script, "deserialize_init",
+                        sol::load_mode::any );
                 if( res.status() != sol::call_status::ok ) {
                     debugmsg( "Failed to init container for deserializable type '%s'", kind );
                 } else {

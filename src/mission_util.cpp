@@ -118,7 +118,7 @@ static tripoint_abs_omt random_house_in_city( const city_reference &cref )
 
 tripoint_abs_omt mission_util::random_house_in_closest_city()
 {
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     // TODO: fix point types
     const tripoint_abs_sm center( player_character.global_sm_location() );
     const city_reference cref = overmap_buffer.closest_city( center );
@@ -136,7 +136,7 @@ tripoint_abs_omt mission_util::target_closest_lab_entrance(
     // Get the surface locations for labs and for spaces above hidden lab stairs.
     testpoint.z() = 0;
     tripoint_abs_omt const surface = overmap_buffer.find_closest( testpoint, "lab_stairs", 0, false,
-                               ot_match_type::contains );
+                                     ot_match_type::contains );
 
     testpoint.z() = -1;
     tripoint_abs_omt underground =
@@ -531,7 +531,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
         }
     };
 
-    for( talk_effect_fun_t  const&effect : talk_effects.effects ) {
+    for( talk_effect_fun_t  const &effect : talk_effects.effects ) {
         auto rewards = effect.get_likely_rewards();
         if( !rewards.empty() ) {
             likely_rewards.insert( likely_rewards.end(), rewards.begin(), rewards.end() );

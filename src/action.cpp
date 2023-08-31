@@ -562,7 +562,7 @@ bool can_butcher_at( const tripoint &p )
     bool has_corpse = false;
 
     const inventory &crafting_inv = you.crafting_inventory();
-    for( item  const&items_it : items ) {
+    for( item  const &items_it : items ) {
         if( items_it.is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
@@ -576,7 +576,7 @@ bool can_butcher_at( const tripoint &p )
 
 bool can_move_vertical_at( const tripoint &p, int movez )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     // TODO: unify this with game::move_vertical
     if( here.has_flag( flag_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
@@ -595,8 +595,8 @@ bool can_move_vertical_at( const tripoint &p, int movez )
 
 bool can_examine_at( const tripoint &p )
 {
-    map  const&here = get_map();
-    Character  const&u = get_player_character();
+    map  const &here = get_map();
+    Character  const &u = get_player_character();
     if( here.veh_at( p ) ) {
         return true;
     }
@@ -626,7 +626,7 @@ bool can_examine_at( const tripoint &p )
 static bool can_pickup_at( const tripoint &p )
 {
     bool veh_has_items = false;
-    map  const&here = get_map();
+    map  const &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
     if( vp ) {
         const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
@@ -720,7 +720,7 @@ action_id handle_action_menu()
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
-    map  const&here = get_map();
+    map  const &here = get_map();
     // Check if we're on a vehicle, if so, vehicle controls should be top.
     if( here.veh_at( g->u.pos() ) ) {
         // Make it 300 to prioritize it before examining the vehicle.

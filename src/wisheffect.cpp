@@ -180,7 +180,7 @@ class effect_select_callback : public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
-            wisheffect_state  const&last_val = uistate.debug_menu.effect;
+            wisheffect_state  const &last_val = uistate.debug_menu.effect;
             size_t const selected = clamp<size_t>( menu->selected, 0, all_effects.size() - 1 );
             input_context const ctxt( menu->input_category );
 
@@ -196,8 +196,8 @@ class effect_select_callback : public uilist_callback
                                  : "Global" );
 
             time_duration const dur = last_val.duration <= 0_seconds
-                                ? eff_type->get_max_duration()
-                                : last_val.duration;
+                                      ? eff_type->get_max_duration()
+                                      : last_val.duration;
             ss << string_format( "[%s] <bold>Duration</bold>: %10d (max: %d)\n",
                                  ctxt.get_desc( "CHANGE_DURATION" ),
                                  to_turns<int>( dur ),
@@ -325,7 +325,7 @@ class effect_edit_callback : public uilist_callback
                 const efftype_id eff_type = all_effects[static_cast<size_t>( submenu.ret )];
                 last_val.last_type_selected_index = submenu.ret;
                 time_duration const duration = last_val.duration <= 0_seconds ? eff_type->get_max_duration() :
-                                         last_val.duration;
+                                               last_val.duration;
                 c.add_effect( eff_type, duration, last_val.bodypart, last_val.intensity, last_val.force );
                 on_creature_changed();
             }
@@ -444,10 +444,10 @@ void effect_edit_menu( Creature &c )
         const auto add_effect_entry = [&menu, &i]( const effect & eff ) {
             // TODO: Columns
             std::string const effect_description = string_format(
-                                                 "- %s %d, %d s",
-                                                 eff.get_id().str(),
-                                                 eff.get_intensity(),
-                                                 to_seconds<int>( eff.get_duration() ) );
+                    "- %s %d, %d s",
+                    eff.get_id().str(),
+                    eff.get_intensity(),
+                    to_seconds<int>( eff.get_duration() ) );
             menu.addentry( i++, true, 0, effect_description );
         };
         menu.addentry( i++, true, -1, _( "Global" ) );

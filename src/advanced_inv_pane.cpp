@@ -41,12 +41,12 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     auto square = squares[location];
     // determine the square's vehicle/map item presence
     bool const has_veh_items = square.can_store_in_vehicle() ?
-                         !square.veh->get_items( square.vstor ).empty() : false;
+                               !square.veh->get_items( square.vstor ).empty() : false;
     bool const has_map_items = !get_map().i_at( square.pos ).empty();
     // determine based on map items and settings to show cargo
     bool const show_vehicle = is_re_enter ?
-                        save_state->in_vehicle : has_veh_items ? true :
-                        has_map_items ? false : square.can_store_in_vehicle();
+                              save_state->in_vehicle : has_veh_items ? true :
+                              has_map_items ? false : square.can_store_in_vehicle();
     set_area( square, show_vehicle );
     sortby = static_cast<advanced_inv_sortby>( save_state->sort_idx );
     index = save_state->selected_idx;

@@ -147,7 +147,7 @@ int calc_skill_training_cost( const npc &p, const skill_id &skill )
     if( p.is_player_ally() ) {
         return 0;
     }
-    avatar  const&you = get_avatar();
+    avatar  const &you = get_avatar();
     return 1000 * ( 1 + you.get_skill_level( skill ) ) * ( 1 + you.get_skill_level( skill ) );
 }
 
@@ -341,7 +341,7 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 static void tell_veh_stop_following()
 {
-    for( wrapped_vehicle  const&veh : get_map().get_vehicles() ) {
+    for( wrapped_vehicle  const &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( get_avatar() ) ) {
             v->is_following = false;
@@ -352,7 +352,7 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
-    for( wrapped_vehicle  const&veh : get_map().get_vehicles() ) {
+    for( wrapped_vehicle  const &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( get_avatar() ) ) {
             v->activate_animal_follow();
@@ -362,7 +362,7 @@ static void assign_veh_to_follow()
 
 static void tell_magic_veh_to_follow()
 {
-    for( wrapped_vehicle  const&veh : get_map().get_vehicles() ) {
+    for( wrapped_vehicle  const &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->magic ) {
             for( const vpart_reference &vp : v->get_all_parts() ) {
@@ -378,7 +378,7 @@ static void tell_magic_veh_to_follow()
 
 static void tell_magic_veh_stop_following()
 {
-    for( wrapped_vehicle  const&veh : get_map().get_vehicles() ) {
+    for( wrapped_vehicle  const &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->magic ) {
             for( const vpart_reference &vp : v->get_all_parts() ) {
@@ -552,7 +552,7 @@ void game::chat()
                 return;
             }
 
-            map  const&here = get_map();
+            map  const &here = get_map();
             std::optional<tripoint> p = look_around();
 
             if( !p ) {
@@ -662,7 +662,7 @@ void game::chat()
 void npc::handle_sound( const sounds::sound_t spriority, const std::string &description,
                         int heard_volume, const tripoint &spos )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     const tripoint s_abs_pos = here.getabs( spos );
     const tripoint my_abs_pos = here.getabs( pos() );
 
@@ -962,8 +962,9 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     }
     if( topic == "TALK_SEDATED" ) {
         int const firstaid_lvl = get_player_character().get_skill_level( skill_id( "firstaid" ) );
-        time_duration const dur = character_funcs::estimate_effect_dur( firstaid_lvl, effect_narcosis, 15_minutes,
-                            6, *beta );
+        time_duration const dur = character_funcs::estimate_effect_dur( firstaid_lvl, effect_narcosis,
+                                  15_minutes,
+                                  6, *beta );
         return string_format(
                    _( "%1$s is sedated and can't be moved or woken up until the medication or sedation wears off.\nYou estimate it will wear off in %2$s." ),
                    beta->name, to_string_approx( dur ) );
@@ -1123,7 +1124,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                 how_tired = _( "Not tired" );
                 if( ability >= 100 ) {
                     time_duration const sleep_at = 5_minutes * ( fatigue_levels::tired - p->get_fatigue() ) /
-                                             rates.fatigue;
+                                                   rates.fatigue;
                     how_tired += _( ".  Will need sleep in " ) + to_string_approx( sleep_at );
                 }
             }
@@ -1131,7 +1132,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
         if( ability >= 100 ) {
             if( p->get_thirst() < thirst_levels::thirsty ) {
-                time_duration const thirst_at = 5_minutes * ( thirst_levels::thirsty - p->get_thirst() ) / rates.thirst;
+                time_duration const thirst_at = 5_minutes * ( thirst_levels::thirsty - p->get_thirst() ) /
+                                                rates.thirst;
                 if( thirst_at > 1_hours ) {
                     info += _( "\nWill need water in " ) + to_string_approx( thirst_at );
                 }
@@ -1140,8 +1142,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             }
             if( p->max_stored_kcal() - p->get_stored_kcal() > 500 ) {
                 time_duration const hunger_at = 5_minutes
-                                          * ( 500 - p->max_stored_kcal() + p->get_stored_kcal() )
-                                          / p->bmr();
+                                                * ( 500 - p->max_stored_kcal() + p->get_stored_kcal() )
+                                                / p->bmr();
                 if( hunger_at > 1_hours ) {
                     info += _( "\nWill need food in " ) + to_string_approx( hunger_at );
                 }
@@ -1174,7 +1176,7 @@ void dialogue::apply_speaker_effects( const talk_topic &the_topic )
     if( iter == json_talk_topics.end() ) {
         return;
     }
-    for( json_dynamic_line_effect  const&npc_effect : iter->second.get_speaker_effects() ) {
+    for( json_dynamic_line_effect  const &npc_effect : iter->second.get_speaker_effects() ) {
         if( npc_effect.test_condition( *this ) ) {
             npc_effect.apply( *this );
         }
@@ -1281,7 +1283,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     ret.clear();
     const auto iter = json_talk_topics.find( topic );
     if( iter != json_talk_topics.end() ) {
-        json_talk_topic  const&jtt = iter->second;
+        json_talk_topic  const &jtt = iter->second;
         if( jtt.gen_responses( *this ) ) {
             return;
         }
@@ -1383,9 +1385,9 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
             //~Skill name: current level (exercise) -> next level (exercise) (cost in dollars)
             std::string const text = string_format( cost > 0 ? _( "%s: %d (%d%%) -> %d (%d%%) (cost $%d)" ) :
-                                              _( "%s: %d (%d%%) -> %d (%d%%)" ),
-                                              trained.obj().name(), cur_level, cur_level_exercise,
-                                              next_level, next_level_exercise, cost / 100 );
+                                                    _( "%s: %d (%d%%) -> %d (%d%%)" ),
+                                                    trained.obj().name(), cur_level, cur_level_exercise,
+                                                    next_level, next_level_exercise, cost / 100 );
             add_response( text, "TALK_TRAIN_START", trained );
         }
         add_response_none( _( "Eh, never mind." ) );
@@ -1406,7 +1408,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
 static int parse_mod( const dialogue &d, const std::string &attribute, const int factor )
 {
-    player  const&u = *d.alpha;
+    player  const &u = *d.alpha;
     npc &p = *d.beta;
     int modifier = 0;
     if( attribute == "ANGER" ) {
@@ -1440,13 +1442,13 @@ static int parse_mod( const dialogue &d, const std::string &attribute, const int
 
 int talk_trial::calc_chance( const dialogue &d ) const
 {
-    player  const&u = *d.alpha;
+    player  const &u = *d.alpha;
     if( u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return 100;
     }
     const social_modifiers &u_mods = u.get_mutation_social_mods();
 
-    npc  const&p = *d.beta;
+    npc  const &p = *d.beta;
     int chance = difficulty;
     switch( type ) {
         case NUM_TALK_TRIALS:
@@ -1863,7 +1865,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
 
     talk_response const chosen = responses[ch];
     std::string const response_printed = string_format( pgettext( "you say something", "You: %s" ),
-                                   response_lines[ch].text );
+                                         response_lines[ch].text );
     d_win.add_to_history( response_printed );
 
     if( chosen.mission_selected != nullptr ) {
@@ -2228,7 +2230,7 @@ void talk_effect_fun_t::set_npc_change_class( const std::string &class_name )
 void talk_effect_fun_t::set_change_faction_rep( int rep_change )
 {
     function = [rep_change]( const dialogue & d ) {
-        npc  const&p = *d.beta;
+        npc  const &p = *d.beta;
         if( p.get_faction()->id != faction_id( "no_faction" ) ) {
             p.get_faction()->likes_u += rep_change;
             p.get_faction()->respects_u += rep_change;
@@ -2426,7 +2428,7 @@ void talk_effect_fun_t::set_u_buy_monster( const std::string &monster_type_id, i
 {
     function = [monster_type_id, cost, count, pacified, name]( const dialogue & d ) {
         npc &p = *d.beta;
-        player  const&u = *d.alpha;
+        player  const &u = *d.alpha;
         if( !npc_trading::pay_npc( p, cost ) ) {
             popup( _( "You can't afford it!" ) );
             return;
@@ -2527,13 +2529,13 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
                   mission_opinion.value || mission_opinion.anger ) ) {
         int const m_value = npc_trading::cash_to_favor( *d.beta, miss->get_value() );
         npc_opinion const mod = npc_opinion( mission_opinion.trust ?
-                                       m_value / mission_opinion.trust : 0,
-                                       mission_opinion.fear ?
-                                       m_value / mission_opinion.fear : 0,
-                                       mission_opinion.value ?
-                                       m_value / mission_opinion.value : 0,
-                                       mission_opinion.anger ?
-                                       m_value / mission_opinion.anger : 0, 0 );
+                                             m_value / mission_opinion.trust : 0,
+                                             mission_opinion.fear ?
+                                             m_value / mission_opinion.fear : 0,
+                                             mission_opinion.value ?
+                                             m_value / mission_opinion.value : 0,
+                                             mission_opinion.anger ?
+                                             m_value / mission_opinion.anger : 0, 0 );
         d.beta->op_of_u += mod;
     }
     if( d.beta->turned_hostile() ) {

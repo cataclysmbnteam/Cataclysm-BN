@@ -175,7 +175,7 @@ class teleporter_callback : public uilist_callback
                 mvwputch( menu->window, point( start_x, i ), c_magenta, LINE_XOXO );
             }
             if( entnum >= 0 && static_cast<size_t>( entnum ) < index_pairs.size() ) {
-                avatar  const&player_character = get_avatar();
+                avatar  const &player_character = get_avatar();
                 overmap_ui::draw_overmap_chunk( menu->window, player_character, index_pairs[entnum],
                                                 point( start_x + 1, 1 ),
                                                 29, 21 );

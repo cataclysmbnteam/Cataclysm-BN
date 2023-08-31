@@ -393,7 +393,7 @@ void dependency_tree::check_for_strongly_connected_components()
         }
     }
 
-    for( std::vector<dependency_node *>  const&list : strongly_connected_components ) {
+    for( std::vector<dependency_node *>  const &list : strongly_connected_components ) {
         if( list.size() <= 1 ) {
             continue;
         }
@@ -470,7 +470,8 @@ void dependency_tree::check_for_conflicting_dependencies()
             for( const dependency_node *this_dep_conf : both ) {
                 //~ Single entry in list of conflicting dependencies, both %s are mod ids.
                 //~ Example of final string: "[aftershock] with [classic-zombies]"
-                std::string const msg = string_format( _( "[%1$s] with [%2$s]" ), this_dep->key, this_dep_conf->key );
+                std::string const msg = string_format( _( "[%1$s] with [%2$s]" ), this_dep->key,
+                                                       this_dep_conf->key );
                 this_node->all_errors[node_error_type::conflicting_deps].push_back( msg );
             }
         }

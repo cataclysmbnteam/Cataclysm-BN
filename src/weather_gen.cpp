@@ -143,10 +143,10 @@ w_point weather_generator::get_weather( const tripoint_abs_ms &location, const t
     double const mod_h = season_stats[static_cast<size_t>( season )].humidity_mod;
     // Relative humidity, a percentage.
     double const H = std::min( 100., std::max( 0.,
-                                         base_humidity + mod_h + 100 * (
-                                                 .15 * -cgyf +
-                                                 raw_noise_4d( x, y, z, modSEED + 101 ) *
-                                                 .2 * ( cgyf + 2 ) ) ) );
+                               base_humidity + mod_h + 100 * (
+                                   .15 * -cgyf +
+                                   raw_noise_4d( x, y, z, modSEED + 101 ) *
+                                   .2 * ( cgyf + 2 ) ) ) );
 
     // Pressure
     double const P =
@@ -343,7 +343,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
             const weather_type_id &conditions = get_weather_conditions( w );
 
             int const year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
-                       ( calendar::year_length() ) + 1;
+                             ( calendar::year_length() ) + 1;
             const int hour = hour_of_day<int>( i );
             const int minute = minute_of_hour<int>( i );
             int day;

@@ -356,8 +356,8 @@ void Character::process_one_effect( effect &it, bool is_new )
         mod = 1;
         if( is_new || it.activated( calendar::turn, "H_MOD", val, reduced, mod ) ) {
             int const bounded = bound_mod_to_vals(
-                              get_healthy_mod(), val, it.get_max_val( "H_MOD", reduced ),
-                              it.get_min_val( "H_MOD", reduced ) );
+                                    get_healthy_mod(), val, it.get_max_val( "H_MOD", reduced ),
+                                    it.get_min_val( "H_MOD", reduced ) );
             // This already applies bounds, so we pass them through.
             mod_healthy_mod( bounded, get_healthy_mod() + bounded );
         }
@@ -827,11 +827,11 @@ void Character::process_items()
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
     bool const weapon_active = weapon.has_flag( "USE_UPS" ) &&
-                         weapon.charges < weapon.type->maximum_charges();
+                               weapon.charges < weapon.type->maximum_charges();
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
     for( size_t index = 0; index < inv.size(); index++ ) {
-        item  const&it = inv.find_item( index );
+        item  const &it = inv.find_item( index );
         itype_id const identifier = it.type->get_id();
         if( identifier == itype_UPS_off ) {
             ch_UPS += it.ammo_remaining();
@@ -1046,7 +1046,7 @@ void do_pause( Character &who )
             veh = v.v;
             if( veh && veh->is_moving() && veh->player_in_control( who ) ) {
                 double const exp_temp = 1 + veh->total_mass() / 400.0_kilogram +
-                                  std::abs( veh->velocity / 3200.0 );
+                                        std::abs( veh->velocity / 3200.0 );
                 int experience = static_cast<int>( exp_temp );
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;

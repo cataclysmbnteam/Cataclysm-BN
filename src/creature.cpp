@@ -224,7 +224,7 @@ bool Creature::sees( const Creature &critter ) const
         return ch == nullptr || !ch->is_invisible();
     };
 
-    map  const&here = get_map();
+    map  const &here = get_map();
     const Character *ch = critter.as_character();
     const int wanted_range = rl_dist( pos(), critter.pos() );
     // Can always see adjacent monsters on the same level, unless they're through a vehicle wall.
@@ -283,7 +283,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
         return false;
     }
 
-    map  const&here = get_map();
+    map  const &here = get_map();
     const int range_cur = sight_range( here.ambient_light_at( t ) );
     const int range_day = sight_range( default_daylight_level() );
     const int range_night = sight_range( 0 );
@@ -337,7 +337,7 @@ static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint
 Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area )
 {
     Creature *target = nullptr;
-    player  const&u = g->u; // Could easily protect something that isn't the player
+    player  const &u = g->u; // Could easily protect something that isn't the player
     constexpr int hostile_adj = 2; // Priority bonus for hostile targets
     const int iff_dist = ( range + area ) * 3 / 2 + 6; // iff check triggers at this distance
     // iff safety margin (degrees). less accuracy, more paranoia
@@ -349,7 +349,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     bool area_iff = false;      // Need to check distance from target to player
     bool angle_iff = true;      // Need to check if player is in a cone between us and target
     int const pldist = rl_dist( pos(), g->u.pos() );
-    map  const&here = get_map();
+    map  const &here = get_map();
     vehicle *in_veh = is_fake() ? veh_pointer_or_null( here.veh_at( pos() ) ) : nullptr;
     if( pldist < iff_dist && sees( g->u ) ) {
         area_iff = area > 0;

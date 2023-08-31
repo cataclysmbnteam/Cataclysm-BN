@@ -501,7 +501,7 @@ std::unique_ptr<iuse_actor> explosion_iuse::clone() const
 // They must also be passable.
 static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     std::vector<tripoint> result;
     for( const auto &p : closest_points_first( center, radius ) ) {
         if( here.impassable( p ) ) {
@@ -1246,7 +1246,8 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
                            string_format( _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>)." ),
                                           furn_name ) );
     } else {
-        std::string const furn_usages = enumerate_as_string( can_function_as, enumeration_conjunction::or_ );
+        std::string const furn_usages = enumerate_as_string( can_function_as,
+                                        enumeration_conjunction::or_ );
         dump.emplace_back( "DESCRIPTION",
                            string_format(
                                _( "Can be <info>activated</info> to deploy as furniture (<stat>%s</stat>), which can then be used as %s." ),
@@ -1689,7 +1690,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // If the item being cut is not damaged, no additional losses will be incurred.
     if( count > 0 && cut.get_item()->damage() > 0 ) {
         float const component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level( 4 ) ),
-                                         1.0 );
+                                               1.0 );
         for( int i = count; i > 0; i-- ) {
             if( component_success_chance < rng_float( 0, 1 ) ) {
                 count--;
@@ -1812,10 +1813,11 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
     }
 
     const bool hasnote = cut.has_var( carving );
-    std::string const messageprefix = ( hasnote ? _( "(To delete, clear the text and confirm)\n" ) : "" ) +
-                                //~ %1$s: gerund (e.g. carved), %2$s: item name
-                                string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
-                                        gerund, cut.type_name() );
+    std::string const messageprefix = ( hasnote ? _( "(To delete, clear the text and confirm)\n" ) :
+                                        "" ) +
+                                      //~ %1$s: gerund (e.g. carved), %2$s: item name
+                                      string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
+                                              gerund, cut.type_name() );
 
     string_input_popup popup;
     popup.title( string_format( _( "%s what?" ), verb ) )
@@ -2033,7 +2035,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     map_stack const items = get_map().i_at( point( p.posx(), p.posy() ) );
     std::vector<const item *> corpses;
 
-    for( item  const&corpse_candidate : items ) {
+    for( item  const &corpse_candidate : items ) {
         const mtype *mt = corpse_candidate.get_mtype();
         if( corpse_candidate.is_corpse() && mt->in_species( ZOMBIE ) &&
             mt->made_of( material_id( "flesh" ) ) &&
@@ -2793,7 +2795,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 void holster_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     std::string const message = vgettext( "Can be activated to store a suitable item.",
-                                    "Can be activated to store suitable items.", multi );
+                                          "Can be activated to store suitable items.", multi );
     dump.emplace_back( "DESCRIPTION", message );
     dump.emplace_back( "TOOL", _( "Num items: " ), "<num>", iteminfo::no_flags, multi );
     dump.emplace_back( "TOOL", _( "Item volume: Min: " ),
@@ -3395,7 +3397,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_REFIT;
     }
 
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     const bool smol = player_character.get_size() == MS_TINY;
 
     const bool is_undersized = fix.has_flag( flag_UNDERSIZE );
@@ -3616,7 +3618,7 @@ void heal_actor::load( const JsonObject &obj )
 
     limb_scaling = obj.get_float( "limb_scaling", 0.25f * limb_power );
     double const scaling_ratio = limb_power < 0.0001f ? 0.0 :
-                           static_cast<double>( limb_scaling / limb_power );
+                                 static_cast<double>( limb_scaling / limb_power );
     head_scaling = obj.get_float( "head_scaling", scaling_ratio * head_power );
     torso_scaling = obj.get_float( "torso_scaling", scaling_ratio * torso_power );
 
@@ -3767,7 +3769,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
 
     const body_part bp_healed = player::hp_to_bp( healed );
 
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     const bool u_see = healer.is_player() || patient.is_player() ||
                        player_character.sees( healer ) || player_character.sees( patient );
     const bool player_healing_player = healer.is_player() && patient.is_player();
@@ -3889,8 +3891,8 @@ static hp_part pick_part_to_heal(
                          ( healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20 );
     while( true ) {
         hp_part const healed_part = patient.body_window( menu_header, force, precise,
-                              limb_power, head_bonus, torso_bonus,
-                              bleed_chance, bite_chance, infect_chance, bandage_power, disinfectant_power );
+                                    limb_power, head_bonus, torso_bonus,
+                                    bleed_chance, bite_chance, infect_chance, bandage_power, disinfectant_power );
         if( healed_part == num_hp_parts ) {
             return num_hp_parts;
         }
@@ -4005,7 +4007,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "HEAL", _( "<bold>Healing effects</bold> " ) );
     }
 
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     if( head_power > 0 || torso_power > 0 || limb_power > 0 ) {
         dump.emplace_back( "HEAL", _( "Base healing: " ) );
         dump.emplace_back( "HEAL_BASE", _( "Head: " ), "", iteminfo::no_newline, head_power );
@@ -4094,7 +4096,7 @@ std::unique_ptr<iuse_actor> place_trap_actor::clone() const
 
 static bool is_solid_neighbor( const tripoint &pos, point offset )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     const tripoint a = pos + offset;
     const tripoint b = pos - offset;
     return here.move_cost( a ) != 2 && here.move_cost( b ) != 2;
@@ -4102,7 +4104,7 @@ static bool is_solid_neighbor( const tripoint &pos, point offset )
 
 static bool has_neighbor( const tripoint &pos, const ter_id &terrain_id )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     for( const tripoint &t : here.points_in_radius( pos, 1, 0 ) ) {
         if( here.ter( t ) == terrain_id ) {
             return true;
@@ -4118,7 +4120,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
                              name );
         return false;
     }
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( here.move_cost( pos ) != 2 ) {
         p.add_msg_if_player( m_info, _( "You can't place a %s there." ), name );
         return false;
@@ -4181,9 +4183,9 @@ int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
         return 0;
     }
 
-    map  const&here = get_map();
+    map  const &here = get_map();
     int const distance_to_trap_center = unburied_data.trap.obj().get_trap_radius() +
-                                  outer_layer_trap.obj().get_trap_radius() + 1;
+                                        outer_layer_trap.obj().get_trap_radius() + 1;
     if( unburied_data.trap.obj().get_trap_radius() > 0 ) {
         // Math correction for multi-tile traps
         pos.x = ( pos.x - p.posx() ) * distance_to_trap_center + p.posx();
@@ -4733,7 +4735,7 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
 
 bool deploy_tent_actor::check_intact( const tripoint &center ) const
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
         const furn_id fid = here.furn( dest );
         if( dest == center && floor_center ) {

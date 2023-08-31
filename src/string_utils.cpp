@@ -126,7 +126,8 @@ int ci_find_substr( const std::string &str1, const std::string &str2 )
 {
     std::locale loc = std::locale();
 
-    std::string::const_iterator const it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
+    std::string::const_iterator const it = std::search( str1.begin(), str1.end(), str2.begin(),
+                                           str2.end(),
     [&]( const char str1_in, const char str2_in ) {
         return std::toupper( str1_in, loc ) == std::toupper( str2_in, loc );
     } );

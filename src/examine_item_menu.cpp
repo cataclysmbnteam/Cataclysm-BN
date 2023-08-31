@@ -58,8 +58,9 @@ bool run(
 
     int info_area_scroll_pos = 0;
     constexpr int info_area_scroll_step = 3;
-    temperature_flag const temperature = rot::temperature_flag_for_location( get_map(), item_location( you,
-                                   &itm ) );
+    temperature_flag const temperature = rot::temperature_flag_for_location( get_map(),
+                                         item_location( you,
+                                                 &itm ) );
     std::vector<iteminfo> const item_info_vals = itm.info( temperature );
     std::vector<iteminfo> const dummy_compare;
     item_info_data data( itm.tname(), itm.type_name(), item_info_vals, dummy_compare,
@@ -277,7 +278,7 @@ bool run(
             selected_action = ( selected_action + 1 + num_actions ) % num_actions;
             action_list.set_selected( selected_action );
         } else {
-            for( action_entry  const&entry : actions ) {
+            for( action_entry  const &entry : actions ) {
                 if( entry.action == action ) {
                     ret_val = entry.on_select();
                     exit = true;

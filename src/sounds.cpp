@@ -895,7 +895,7 @@ void sfx::do_ambient()
         return;
     }
 
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     if( player_character.in_sleep_state() && !audio_muted ) {
         fade_audio_channel( channel::any, 300 );
         audio_muted = true;
@@ -1235,7 +1235,7 @@ void sfx::do_danger_music()
         return;
     }
 
-    avatar  const&player_character = get_avatar();
+    avatar  const &player_character = get_avatar();
     if( player_character.in_sleep_state() && !audio_muted ) {
         fade_audio_channel( channel::any, 100 );
         audio_muted = true;
@@ -1290,7 +1290,7 @@ void sfx::do_fatigue()
         return;
     }
 
-    avatar  const&player_character = get_avatar();
+    avatar  const &player_character = get_avatar();
     /*15: Stamina 75%
     16: Stamina 50%
     17: Stamina 25%*/
@@ -1571,7 +1571,7 @@ void sfx::play_activity_sound( const std::string &id, const std::string &variant
         return;
     }
 
-    avatar  const&player_character = get_avatar();
+    avatar  const &player_character = get_avatar();
     if( act != player_character.activity.id() ) {
         act = player_character.activity.id();
         play_ambient_variant_sound( id, variant, volume, channel::player_activities, 0 );

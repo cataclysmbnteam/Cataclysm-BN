@@ -633,9 +633,9 @@ void monexamine::push( monster &z )
 void monexamine::rename_pet( monster &z )
 {
     std::string const unique_name = string_input_popup()
-                              .title( _( "Enter new pet name:" ) )
-                              .width( 20 )
-                              .query_string();
+                                    .title( _( "Enter new pet name:" ) )
+                                    .width( 20 )
+                                    .query_string();
     if( !unique_name.empty() ) {
         z.unique_name = unique_name;
     }
@@ -657,7 +657,7 @@ void monexamine::attach_bag_to( monster &z )
         return;
     }
 
-    item  const&it = *loc;
+    item  const &it = *loc;
     z.storage_item = cata::make_value<item>( it );
     add_msg( _( "You mount the %1$s on your %2$s." ), it.display_name(), pet_name );
     you.i_rem( &it );
@@ -706,7 +706,7 @@ bool monexamine::give_items_to( monster &z )
         return true;
     }
 
-    item  const&storage = *z.storage_item;
+    item  const &storage = *z.storage_item;
     units::mass max_weight = z.weight_capacity() - z.get_carried_weight();
     units::volume max_volume = storage.get_storage() - z.get_carried_volume();
     avatar &you = get_avatar();
@@ -749,7 +749,7 @@ void monexamine::take_items_from( monster &z )
     uilist selection_menu;
     selection_menu.text = string_format( _( "Select an item to remove from the %s." ), pet_name );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-    for( const auto& iter : monster_inv ) {
+    for( const auto &iter : monster_inv ) {
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Retrieve %s" ), iter.tname() );
     }
     selection_menu.selected = 1;

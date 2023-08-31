@@ -767,7 +767,7 @@ void recipe::check_blueprint_requirements()
     get_build_reqs_for_furn_ter_ids( ident(), changed_ids, total_reqs );
 
     requirement_data const req_data_blueprint = std::accumulate(
-            reqs_blueprint.begin(), reqs_blueprint.end(), requirement_data(),
+                reqs_blueprint.begin(), reqs_blueprint.end(), requirement_data(),
     []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
         return lhs + ( *rhs.first * rhs.second );
     } );
@@ -781,8 +781,10 @@ void recipe::check_blueprint_requirements()
     req_data_calc.consolidate();
     if( time_blueprint != total_reqs.time || skills_blueprint != total_reqs.skills
         || !req_data_blueprint.has_same_requirements_as( req_data_calc ) ) {
-        std::string const calc_req_str = dump_requirements( req_data_calc, total_reqs.time, total_reqs.skills );
-        std::string const got_req_str = dump_requirements( req_data_blueprint, time_blueprint, skills_blueprint );
+        std::string const calc_req_str = dump_requirements( req_data_calc, total_reqs.time,
+                                         total_reqs.skills );
+        std::string const got_req_str = dump_requirements( req_data_blueprint, time_blueprint,
+                                        skills_blueprint );
 
         std::stringstream ss;
         for( auto &id_count : changed_ids.first ) {

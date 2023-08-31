@@ -390,7 +390,7 @@ bool avatar::read( item_location loc, const bool continuous )
         add_msg( m_info, _( "Never mind." ) );
         return false;
     }
-    item  const&it = *loc;
+    item  const &it = *loc;
     if( !has_identified( it.typeId() ) ) {
         // We insta-identify the book, then try to read it
         items_identified.insert( it.typeId() );
@@ -1231,7 +1231,7 @@ bool avatar::wield( item &target )
 
     bool const worn = is_worn( target );
     int const mv = item_handling_cost( target, true,
-                                 worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
+                                       worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
 
     add_msg( m_debug, "wielding took %d moves", mv );
     moves -= mv;

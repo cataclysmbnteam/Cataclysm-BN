@@ -1407,7 +1407,8 @@ void scrollbar::apply( const catacurses::window &window )
 
         int const slot_size = viewport_size_v - 2;
         int const bar_size = std::max( 2, slot_size * viewport_size_v / content_size_v );
-        int const scrollable_size = scroll_to_last_v ? content_size_v : content_size_v - viewport_size_v + 1;
+        int const scrollable_size = scroll_to_last_v ? content_size_v : content_size_v - viewport_size_v +
+                                    1;
 
         int bar_start;
         if( viewport_pos_v == 0 ) {

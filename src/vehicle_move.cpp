@@ -95,7 +95,8 @@ int vehicle::slowdown( int at_velocity ) const
         // same with water resistance
         f_total_drag += coeff_water_drag() * mps * mps;
     } else if( !is_falling && !is_flying ) {
-        double const f_rolling_drag = coeff_rolling_drag() * ( vehicles::rolling_constant_to_variable + mps );
+        double const f_rolling_drag = coeff_rolling_drag() * ( vehicles::rolling_constant_to_variable +
+                                      mps );
         if( vehicle_movement::is_on_rails( get_map(), *this ) ) {
             // vehicles on rails don't skid
             f_total_drag += f_rolling_drag;
@@ -460,7 +461,7 @@ static void terrain_collision_data( const tripoint &p, bool bash_floor,
                                     float &mass, float &density, float &elastic )
 {
     elastic = 0.30;
-    map  const&here = get_map();
+    map  const &here = get_map();
     // Just a rough rescale for now to obtain approximately equal numbers
     const int bash_min = here.bash_resistance( p, bash_floor );
     const int bash_max = here.bash_strength( p, bash_floor );
@@ -1002,7 +1003,7 @@ bool vehicle::check_heli_descend( player &p )
     }
     int count = 0;
     int air_count = 0;
-    map  const&here = get_map();
+    map  const &here = get_map();
     for( const tripoint &pt : get_points( true ) ) {
         tripoint const below( pt.xy(), pt.z - 1 );
         if( here.has_zlevels() && ( pt.z < -OVERMAP_DEPTH ||
@@ -1120,7 +1121,7 @@ void vehicle::pldrive( Character &driver, point p, int z )
 
         ///\EFFECT_DRIVING reduces chance of losing control of vehicle when turning
         float const skill = std::min( 10.0f, driver.get_skill_level( skill_driving ) +
-                                ( driver.get_dex() + driver.get_per() ) / 10.0f );
+                                      ( driver.get_dex() + driver.get_per() ) / 10.0f );
         float const penalty = rng_float( 0.0f, handling_diff ) - skill;
         int cost;
         if( penalty > 0.0f ) {
@@ -1275,7 +1276,7 @@ vehicle *vehicle::act_on_map()
     if( decrement_summon_timer() ) {
         return nullptr;
     }
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     const bool pl_ctrl = player_in_control( player_character );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( is_floating && !can_float() ) {
@@ -1557,7 +1558,7 @@ void vehicle::check_falling_or_floating()
         return;
     }
 
-    map  const&here = get_map();
+    map  const &here = get_map();
     is_falling = here.has_zlevels();
 
     if( is_flying && is_rotorcraft() ) {
@@ -1885,11 +1886,12 @@ rail_processing_result process_movement_on_rails( const map &m, const vehicle &v
     tripoint shift_amount_left;
 
     bool const can_shift_right = scan_rails_at_shift( m, veh, vel_sign, dir_straight, vel_sign,
-                           &shift_amount_right );
+                                 &shift_amount_right );
     bool const can_shift_left = scan_rails_at_shift( m, veh, vel_sign, dir_straight, -vel_sign,
-                          &shift_amount_left );
+                                &shift_amount_left );
 
-    bool const is_on_rails = face_dir_degrees == face_dir_snapped && ( can_go_straight || can_go_backwards );
+    bool const is_on_rails = face_dir_degrees == face_dir_snapped && ( can_go_straight ||
+                             can_go_backwards );
 
     // Appraise possible vehicle orientations
     if( !is_on_rails ) {

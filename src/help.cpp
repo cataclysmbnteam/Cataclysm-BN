@@ -93,8 +93,8 @@ std::string help::get_dir_grid()
         for( size_t i = 0; i < 2; i++ ) {
             std::string const what = "<" + action_ident( dir ) + string_format( "_%d>", i );
             std::string const with = i < keys.size()
-                               ? string_format( "<color_light_blue>%s</color>", keys[i] )
-                               : "<color_red>?</color>";
+                                     ? string_format( "<color_light_blue>%s</color>", keys[i] )
+                                     : "<color_red>?</color>";
             movement = replace_all( movement, what, with );
         }
     }
@@ -107,8 +107,8 @@ void help::draw_menu( const catacurses::window &win )
     werase( win );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     int const y = fold_and_print( win, point( 1, 0 ), getmaxx( win ) - 2, c_white,
-                            _( "Please press one of the following for help on that topic:\n"
-                               "Press ESC to return to the game." ) ) + 1;
+                                  _( "Please press one of the following for help on that topic:\n"
+                                     "Press ESC to return to the game." ) ) + 1;
 
     size_t const half_size = help_texts.size() / 2 + 1;
     int second_column = divide_round_up( getmaxx( win ), 2 );

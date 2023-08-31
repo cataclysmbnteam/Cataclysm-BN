@@ -472,7 +472,7 @@ struct event_transformation_impl : public event_transformation::impl {
         for( const std::pair<const cata::event::data_type, int> &p : input ) {
             cata::event::data_type const event_data = p.first;
             EventVector const transformed = match_and_transform( event_data, stats );
-            for( cata::event::data_type  const&d : transformed ) {
+            for( cata::event::data_type  const &d : transformed ) {
                 result.add( { d, p.second } );
             }
         }

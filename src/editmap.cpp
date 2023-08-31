@@ -142,8 +142,8 @@ void edit_json( SAVEOBJ &it )
         } else if( tmret == 1 ) {
             string_input_popup popup;
             std::string const ret = popup
-                              .text( save1 )
-                              .query_string();
+                                    .text( save1 )
+                                    .query_string();
             if( popup.confirmed() ) {
                 fs1 = fld_string( ret, TERMX - 10 );
                 save1 = ret;
@@ -697,7 +697,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     // updating info
     werase( w_info );
 
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     map &here = get_map();
 
     const optional_vpart_position vp = here.veh_at( target );
@@ -749,7 +749,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
              );
     map::apparent_light_info const al = map::apparent_light_helper( map_cache, target );
     int const apparent_light = static_cast<int>(
-                             here.apparent_light_at( target, here.get_visibility_variables_cache() ) );
+                                   here.apparent_light_at( target, here.get_visibility_variables_cache() ) );
     mvwprintw( w_info, point( 1, off++ ), _( "outside: %d obstructed: %d floor: %d" ),
                static_cast<int>( here.is_outside( target ) ),
                static_cast<int>( al.obstructed ),
@@ -1473,10 +1473,10 @@ void editmap::edit_itm()
                     }
                     string_input_popup popup;
                     int const retval = popup
-                                 .title( "set:" )
-                                 .width( 20 )
-                                 .text( std::to_string( intval ) )
-                                 .query_int();
+                                       .title( "set:" )
+                                       .width( 20 )
+                                       .text( std::to_string( intval ) )
+                                       .query_int();
                     if( popup.confirmed() ) {
                         switch( imenu.ret ) {
                             case imenu_bday:
@@ -1538,7 +1538,7 @@ void editmap::recalc_target( shapetype shape )
     switch( shape ) {
         case editmap_circle: {
             int const radius = rl_dist( origin, target );
-            map  const&here = get_map();
+            map  const &here = get_map();
             for( const tripoint &p : here.points_in_radius( origin, radius ) ) {
                 if( rl_dist( p, origin ) <= radius ) {
                     if( editmap_boundaries.contains( p ) ) {
@@ -1609,7 +1609,7 @@ bool editmap::move_target( const std::string &action, int moveorigin )
 {
     tripoint mp;
     bool const move_origin = moveorigin == 1 ? true :
-                       moveorigin == 0 ? false : moveall;
+                             moveorigin == 0 ? false : moveall;
     if( eget_direction( mp, action ) ) {
         target.x = limited_shift( target.x, mp.x, 0, MAPSIZE_X );
         target.y = limited_shift( target.y, mp.y, 0, MAPSIZE_Y );
@@ -2098,7 +2098,7 @@ void editmap::edit_mapgen()
     } );
     restore_on_out_of_scope<std::string> const info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> const info_title_prev( info_title_curr );
-    map  const&here = get_map();
+    map  const &here = get_map();
 
     do {
         tc.fromabs( here.getabs( target.xy() ) );

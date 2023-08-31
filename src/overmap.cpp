@@ -1475,7 +1475,7 @@ void overmap::delete_note( const tripoint_om_omt &p )
 std::vector<point_abs_omt> overmap::find_notes( const int z, const std::string &text )
 {
     std::vector<point_abs_omt> note_locations;
-    map_layer  const&this_layer = layer[z + OVERMAP_DEPTH];
+    map_layer  const &this_layer = layer[z + OVERMAP_DEPTH];
     for( const auto &note : this_layer.notes ) {
         if( match_include_exclude( note.text, text ) ) {
             note_locations.push_back( project_combine( pos(), note.p ) );
@@ -1545,7 +1545,7 @@ void overmap::delete_extra( const tripoint_om_omt &p )
 std::vector<point_abs_omt> overmap::find_extras( const int z, const std::string &text )
 {
     std::vector<point_abs_omt> extra_locations;
-    map_layer  const&this_layer = layer[z + OVERMAP_DEPTH];
+    map_layer  const &this_layer = layer[z + OVERMAP_DEPTH];
     for( const auto &extra : this_layer.extras ) {
         const std::string extra_text = extra.id.c_str();
         if( match_include_exclude( extra_text, text ) ) {
@@ -1591,7 +1591,7 @@ static void fixup_labs( overmap &om )
     }
 
     bool has_endgame = false;
-    for( lab  const&l : om.labs ) {
+    for( lab  const &l : om.labs ) {
         if( l.type != lab_type::central ) {
             continue;
         }
@@ -1827,7 +1827,8 @@ bool overmap::generate_sub( const int z )
                           pos().to_string() );
                 continue;
             }
-            int const size = l->type == lab_type::central ? rng( std::max( 1, 7 + z ), 9 + z ) : rng( 1, 5 + z );
+            int const size = l->type == lab_type::central ? rng( std::max( 1, 7 + z ), 9 + z ) : rng( 1,
+                             5 + z );
             bool const goes_lower = build_lab( p, *l, size, lab_train_points, prefix, lab_train_odds );
             requires_sub |= goes_lower;
             if( !goes_lower && ter( p ) == oter_id( prefix + "lab_core" ) ) {
@@ -1950,7 +1951,7 @@ bool overmap::generate_sub( const int z )
             continue;
         }
         mongroup_id const ant_group( ter( p_loc + tripoint_above ) == "anthill" ?
-                               "GROUP_ANT" : "GROUP_ANT_ACID" );
+                                     "GROUP_ANT" : "GROUP_ANT_ACID" );
         add_mon_group(
             mongroup( ant_group, tripoint_om_sm( project_to<coords::sm>( i.pos ), z ),
                       ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
@@ -2178,7 +2179,7 @@ void mongroup::wander( const overmap &om )
         for( const city &check_city : om.cities ) {
             // Check if this is the nearest city so far.
             int const distance = rl_dist( project_to<coords::sm>( check_city.pos ),
-                                    pos.xy() );
+                                          pos.xy() );
             if( !target_city || distance < target_distance ) {
                 target_distance = distance;
                 target_city = &check_city;
@@ -2494,7 +2495,7 @@ void overmap::place_forest_trails()
             // calculating the actual centroid--it's not that important) to have another
             // good point to form the foundation of the trail system.
             point_om_omt const center( westmost.x() + ( eastmost.x() - westmost.x() ) / 2,
-                                 northmost.y() + ( southmost.y() - northmost.y() ) / 2 );
+                                       northmost.y() + ( southmost.y() - northmost.y() ) / 2 );
 
             point_om_omt center_point = center;
 
@@ -3232,9 +3233,9 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
     //Clamp at 1/2 radius to prevent houses from spawning in the city center.
     //Parks are nearly guaranteed to have a non-zero chance of spawning anywhere in the city.
     int const shop_normal = std::max( static_cast<int>( normal_roll( shop_radius, shop_sigma ) ),
-                                shop_radius );
+                                      shop_radius );
     int const park_normal = std::max( static_cast<int>( normal_roll( park_radius, park_sigma ) ),
-                                park_radius );
+                                      park_radius );
 
     if( shop_normal > town_dist ) {
         return city_spec.pick_shop();
@@ -3380,7 +3381,8 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
         }
         const int dist = manhattan_dist( p.xy(), cand.xy() );
         if( dist <= s * 2 ) { // increase radius to compensate for sparser new algorithm
-            int const dist_increment = s > 3 ? 3 : 2; // Determines at what distance the odds of placement decreases
+            int const dist_increment = s > 3 ? 3 :
+                                       2; // Determines at what distance the odds of placement decreases
             if( one_in( dist / dist_increment + 1 ) ) { // odds diminish farther away from the stairs
                 // make an ants lab if it's a basic lab and ants were there before.
                 if( prefix.empty() && check_ot( "ants", ot_match_type::type, cand ) ) {
@@ -3404,7 +3406,7 @@ bool overmap::build_lab( const tripoint_om_omt &p, lab &l, int s,
     }
 
     bool generate_stairs = true;
-    for( tripoint_om_omt  const&elem : generated_lab ) {
+    for( tripoint_om_omt  const &elem : generated_lab ) {
         // Use a check for "_stairs" to catch the hidden_lab_stairs tiles.
         if( is_ot_match( "_stairs", ter( elem + tripoint_above ), ot_match_type::contains ) ) {
             generate_stairs = false;

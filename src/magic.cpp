@@ -1261,7 +1261,7 @@ void known_magic::serialize( JsonOut &json ) const
 
     json.member( "spellbook" );
     json.start_array();
-    for( const auto& pair : spellbook ) {
+    for( const auto &pair : spellbook ) {
         json.start_object();
         json.member( "id", pair.second.id() );
         json.member( "xp", pair.second.xp() );
@@ -1436,7 +1436,8 @@ int known_magic::max_mana( const Character &guy ) const
     float const mut_add = guy.mutation_value( "mana_modifier" );
     int const natural_cap = std::max( 0.0f, ( ( mana_base + int_bonus ) * mut_mul ) + mut_add );
 
-    int const ench_bonus = guy.bonus_from_enchantments( natural_cap, enchant_vals::mod::MANA_CAP, true );
+    int const ench_bonus = guy.bonus_from_enchantments( natural_cap, enchant_vals::mod::MANA_CAP,
+                           true );
 
     return std::max( 0, natural_cap + ench_bonus );
 }
@@ -1449,7 +1450,8 @@ double known_magic::mana_regen_rate( const Character &guy ) const
     double const mut_mul = guy.mutation_value( "mana_regen_multiplier" );
     double const natural_regen = std::max( 0.0, capacity * mut_mul / full_replenish );
 
-    double const ench_bonus = guy.bonus_from_enchantments( natural_regen, enchant_vals::mod::MANA_REGEN );
+    double const ench_bonus = guy.bonus_from_enchantments( natural_regen,
+                              enchant_vals::mod::MANA_REGEN );
 
     return std::max( 0.0, natural_regen + ench_bonus );
 }
@@ -1462,7 +1464,7 @@ void known_magic::update_mana( const Character &guy, double turns )
 std::vector<spell_id> known_magic::spells() const
 {
     std::vector<spell_id> spell_ids;
-    for( const auto& pair : spellbook ) {
+    for( const auto &pair : spellbook ) {
         spell_ids.emplace_back( pair.first );
     }
     return spell_ids;
@@ -1564,7 +1566,7 @@ class spellcasting_callback : public uilist_callback
                 mvwputch( menu->window, point( menu->w_width - menu->pad_right, i ), c_magenta, LINE_XOXO );
             }
             std::string const ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
-                                        _( "Popup Distractions" );
+                                              _( "Popup Distractions" );
             mvwprintz( menu->window, point( menu->w_width - menu->pad_right + 2, 0 ),
                        casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );
             const std::string assign_letter = _( "Assign Hotkey [=]" );
@@ -2066,7 +2068,8 @@ spell fake_spell::get_spell( int min_level_override ) const
 {
     spell sp( id );
     // the max level this spell will be. can be optionally limited
-    int const spell_limiter = max_level ? std::min( *max_level, sp.get_max_level() ) : sp.get_max_level();
+    int const spell_limiter = max_level ? std::min( *max_level,
+                              sp.get_max_level() ) : sp.get_max_level();
     // level is the minimum level the fake_spell will output
     min_level_override = std::max( min_level_override, level );
     if( min_level_override > spell_limiter ) {
@@ -2075,7 +2078,7 @@ spell fake_spell::get_spell( int min_level_override ) const
     }
     // the "level" of the fake spell is the goal, but needs to be clamped to min and max
     int const level_of_spell = clamp( level, min_level_override,  std::min( sp.get_max_level(),
-                                spell_limiter ) );
+                                      spell_limiter ) );
     if( level > spell_limiter ) {
         debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
         return sp;

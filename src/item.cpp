@@ -388,7 +388,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
-        itype_id const nanofab_recipe = item_group::item_from( item_group_id( "nanofab_recipes" ) ).typeId();
+        itype_id const nanofab_recipe = item_group::item_from(
+                                            item_group_id( "nanofab_recipes" ) ).typeId();
         set_var( "NANOFAB_ITEM_ID", nanofab_recipe.str() );
     }
 
@@ -483,7 +484,7 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
         }
     }
 
-    for( item  const&component : components ) {
+    for( item  const &component : components ) {
         for( const std::string &f : component.item_tags ) {
             if( json_flag::get( f ).craft_inherit() ) {
                 set_flag( f );
@@ -1125,7 +1126,7 @@ static std::string get_freshness_description( const item &food_item )
     if( time_left > shelf_life ) {
         time_left = shelf_life;
     }
-    avatar  const&you = get_avatar();
+    avatar  const &you = get_avatar();
     if( food_item.is_fresh() ) {
         // Fresh food is assumed to be obviously so regardless of skill.
         if( you.can_estimate_rot() ) {
@@ -1354,7 +1355,7 @@ double item::effective_dps( const player &guy, const monster &mon ) const
     double total_moves = ( hit_trials - num_all_hits ) * moves_per_attack;
     double total_damage = 0.0;
     double const num_crits = std::min( num_low_hits * crit_chance + num_high_hits * double_crit_chance,
-                                 num_all_hits );
+                                       num_all_hits );
     // critical hits are counted separately
     double const num_hits = num_all_hits - num_crits;
     // sum average damage past armor and return the number of moves required to achieve
@@ -1556,7 +1557,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         // Display any minimal stat or skill requirements for the item
         std::vector<std::string> req;
         if( get_min_str() > 0 ) {
-            avatar  const&viewer = get_avatar();
+            avatar  const &viewer = get_avatar();
             if( has_flag( flag_STR_DRAW ) && ranged::get_str_draw_penalty( *this, viewer ) < 1.0f ) {
                 if( ranged::get_str_draw_penalty( *this, viewer ) < 0.5f ) {
                     req.push_back( string_format( _( "%s %d <color_magenta>(Can't use!)</color>" ), _( "strength" ),
@@ -1656,7 +1657,7 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
 
     if( med_com->stim != 0 && parts->test( iteminfo_parts::MED_STIMULATION ) ) {
         std::string const name = string_format( "%s <stat>%s</stat>", _( "Stimulation:" ),
-                                          med_com->stim > 0 ? _( "Upper" ) : _( "Downer" ) );
+                                                med_com->stim > 0 ? _( "Upper" ) : _( "Downer" ) );
         info.push_back( iteminfo( "MED", name ) );
     }
 
@@ -1687,7 +1688,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     }
 
     bool const show_nutr = parts->test( iteminfo_parts::FOOD_NUTRITION ) ||
-                     parts->test( iteminfo_parts::FOOD_VITAMINS );
+                           parts->test( iteminfo_parts::FOOD_VITAMINS );
     if( min_nutr != max_nutr && show_nutr ) {
         info.emplace_back(
             "FOOD", _( "Nutrition will <color_cyan>vary with chosen ingredients</color>." ) );
@@ -2023,7 +2024,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     const std::string space = "  ";
     const islot_gun &gun = *mod->type->gun;
     const Skill &skill = *mod->gun_skill();
-    avatar  const&viewer = get_avatar();
+    avatar  const &viewer = get_avatar();
 
     // many statistics are dependent upon loaded ammo
     // if item is unloaded (or is RELOAD_AND_SHOOT) shows approximate stats using default ammo
@@ -2347,7 +2348,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         std::map<gunmod_location, int> const mod_locations = get_mod_locations();
 
         int iternum = 0;
-        for( std::pair<const gunmod_location, int>  const&elem : mod_locations ) {
+        for( std::pair<const gunmod_location, int>  const &elem : mod_locations ) {
             if( iternum != 0 ) {
                 mod_str += "; ";
             }
@@ -2375,7 +2376,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( mod->casings_count() && parts->test( iteminfo_parts::DESCRIPTION_GUN_CASINGS ) ) {
         insert_separation_line( info );
         std::string const tmp = vgettext( "Contains <stat>%i</stat> casing",
-                                    "Contains <stat>%i</stat> casings", mod->casings_count() );
+                                          "Contains <stat>%i</stat> casings", mod->casings_count() );
         info.emplace_back( "DESCRIPTION", string_format( tmp, mod->casings_count() ) );
     }
 }
@@ -2447,7 +2448,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         std::map<gunmod_location, int> const mod_locations = mod.add_mod;
 
         int iternum = 0;
-        for( std::pair<const gunmod_location, int>  const&elem : mod_locations ) {
+        for( std::pair<const gunmod_location, int>  const &elem : mod_locations ) {
             if( iternum != 0 ) {
                 mod_loc_str += "; ";
             }
@@ -2556,7 +2557,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         return;
     }
 
-    avatar  const&you = get_avatar();
+    avatar  const &you = get_avatar();
     int const encumbrance = get_encumber( you );
     const sizing sizing_level = get_sizing( you, encumbrance != 0 );
     const std::string space = "  ";
@@ -2764,7 +2765,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         return;
     }
 
-    avatar  const&you = get_avatar();
+    avatar  const &you = get_avatar();
     int const encumbrance = get_encumber( you );
     const sizing sizing_level = get_sizing( you, encumbrance != 0 );
 
@@ -2878,7 +2879,7 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
                         break;
                 }
                 std::string const info_str = string_format( _( "* This clothing <info>can be "
-                                                      "refitted</info>%s." ), resize_str );
+                                             "refitted</info>%s." ), resize_str );
                 info.push_back( iteminfo( "DESCRIPTION", info_str ) );
             }
         } else {
@@ -2921,7 +2922,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         return;
     }
 
-    Character  const&character = get_player_character();
+    Character  const &character = get_player_character();
 
     insert_separation_line( info );
     const islot_book &book = *type->book;
@@ -3007,8 +3008,8 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     if( book.chapters > 0 && parts->test( iteminfo_parts::BOOK_NUMUNREADCHAPTERS ) ) {
         const int unread = get_remaining_chapters( you );
         std::string const fmt = vgettext( "This book has <num> <info>unread chapter</info>.",
-                                    "This book has <num> <info>unread chapters</info>.",
-                                    unread );
+                                          "This book has <num> <info>unread chapters</info>.",
+                                          unread );
         info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, unread ) );
     }
 
@@ -3958,7 +3959,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
                     std::back_inserter( result_names ),
                 [&crafting_inv]( const recipe * r ) {
                     bool const can_make = r->deduped_requirements().can_make_with_inventory(
-                                        crafting_inv, r->get_component_filter() );
+                                              crafting_inv, r->get_component_filter() );
                     return std::make_pair( r->result_name(), can_make );
                 } );
                 std::sort( result_names.begin(), result_names.end(), localized_compare );
@@ -4243,9 +4244,9 @@ nc_color item::color_in_inventory( const player &p ) const
         for( const ammotype &at : ammo_types() ) {
             // get_ammo finds uncontained ammo, find_ammo finds ammo in magazines
             bool const has_ammo = !character_funcs::get_ammo_items( p, at ).empty() ||
-                            !character_funcs::find_ammo_items_or_mags( p, *this, false, -1 ).empty();
+                                  !character_funcs::find_ammo_items_or_mags( p, *this, false, -1 ).empty();
             bool const has_mag = magazine_integral() ||
-                           !character_funcs::find_ammo_items_or_mags( p, *this, true, -1 ).empty();
+                                 !character_funcs::find_ammo_items_or_mags( p, *this, true, -1 ).empty();
             if( has_ammo && has_mag ) {
                 ret = c_green;
                 break;
@@ -4351,7 +4352,7 @@ void item::on_wear( Character &p )
                     }
                 }
             }
-            for( std::pair< body_part, int >  const&mod_part : mod_parts ) {
+            for( std::pair< body_part, int >  const &mod_part : mod_parts ) {
                 bpid = convert_bp( mod_part.first );
                 if( bpid->part_side == side::LEFT && mod_part.second > lhs ) {
                     add_msg( _( "left" ) );
@@ -4690,7 +4691,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         maintext = label( quantity );
     }
 
-    avatar  const&you = get_avatar();
+    avatar  const &you = get_avatar();
     std::string tagtext;
     if( is_food() ) {
         if( has_flag( flag_HIDDEN_POISON ) && you.get_skill_level( skill_survival ) >= 3 ) {
@@ -4859,7 +4860,7 @@ std::string item::display_name( unsigned int quantity ) const
             sidetxt = string_format( " (%s)", _( "right" ) );
             break;
     }
-    avatar  const&you = get_avatar();
+    avatar  const &you = get_avatar();
     int amount = 0;
     int max_amount = 0;
     bool const has_item = is_container() && contents.num_item_stacks() == 1;
@@ -5206,7 +5207,8 @@ int item::lift_strength() const
 int item::attack_cost() const
 {
     int const base = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
-    int const bonus = bonus_from_enchantments_wielded( base, enchant_vals::mod::ITEM_ATTACK_COST, true );
+    int const bonus = bonus_from_enchantments_wielded( base, enchant_vals::mod::ITEM_ATTACK_COST,
+                      true );
     return std::max( 0, base + bonus );
 }
 
@@ -5734,8 +5736,8 @@ time_duration item::minimum_freshness_duration( temperature_flag temperature ) c
     time_duration const remaining_rot = type->comestible->spoils - rot;
     // Has to be in int64 or it will overflow for long lasting food
     unsigned long long const duration = to_turns<unsigned long long>( remaining_rot )
-                                  * to_turns<unsigned long long>( 1_hours )
-                                  / rot_per_hour;
+                                        * to_turns<unsigned long long>( 1_hours )
+                                        / rot_per_hour;
     if( duration > to_turns<unsigned long long>( calendar::INDEFINITELY_LONG_DURATION ) ) {
         return calendar::INDEFINITELY_LONG_DURATION;
     }
@@ -8068,8 +8070,8 @@ void item_reload_option::qty( int val )
 {
     bool const ammo_in_container = ammo->is_ammo_container();
     bool const ammo_in_liquid_container = ammo->is_watertight_container();
-    item  const&ammo_obj = ( ammo_in_container || ammo_in_liquid_container ) ?
-                     ammo->contents.front() : *ammo;
+    item  const &ammo_obj = ( ammo_in_container || ammo_in_liquid_container ) ?
+                            ammo->contents.front() : *ammo;
 
     if( ( ammo_in_container && !ammo_obj.is_ammo() ) ||
         ( ammo_in_liquid_container && !ammo_obj.made_of( LIQUID ) ) ) {
@@ -8197,7 +8199,7 @@ bool item::reload( player &u, item_location loc, int qty )
         if( magazine_current() ) {
             //~ %1$s: magazine name, %2$s: weapon name
             std::string const prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
-                                                magazine_current()->tname(), tname() );
+                                       magazine_current()->tname(), tname() );
 
             // eject magazine to player inventory and try to dispose of it from there
             item &mag = u.i_add( *magazine_current() );
@@ -8940,7 +8942,7 @@ uint64_t item::make_component_hash() const
     }
 
     std::string concatenated_ids;
-    for( std::string const& id : id_set ) {
+    for( std::string const &id : id_set ) {
         concatenated_ids += id;
     }
 
@@ -9022,8 +9024,8 @@ bool item::process_rot( const bool seals, const tripoint &pos,
         const unsigned int seed = g->get_seed();
         // It's a modifier, so we need to subtract 0_f
         units::temperature const local_mod = units::from_fahrenheit( g->new_game
-                                       ? 0
-                                       : get_map().get_temperature( pos ) ) - 0_f;
+                                             ? 0
+                                             : get_map().get_temperature( pos ) ) - 0_f;
 
         // Process the past of this item since the last time it was processed
         while( now - time > 1_hours ) {
@@ -9042,11 +9044,13 @@ bool item::process_rot( const bool seals, const tripoint &pos,
                 env_temperature_raw = units::from_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE ) + local_mod;
             }
 
-            units::temperature const env_temperature_clipped = clip_by_temperature_flag( env_temperature_raw, flag );
+            units::temperature const env_temperature_clipped = clip_by_temperature_flag( env_temperature_raw,
+                    flag );
 
             // Lookup table is in F
-            int const final_temperature_in_fahrenheit = static_cast<int>( std::round( units::to_fahrenheit<float>
-                                                  ( env_temperature_clipped ) ) );
+            int const final_temperature_in_fahrenheit = static_cast<int>( std::round(
+                        units::to_fahrenheit<float>
+                        ( env_temperature_clipped ) ) );
 
             // Calculate item rot
             rot += calc_rot( time, final_temperature_in_fahrenheit );
@@ -9062,8 +9066,9 @@ bool item::process_rot( const bool seals, const tripoint &pos,
     // Remaining <1 h from above
     // and items that are held near the player
     if( now - time > smallest_interval ) {
-        int const final_temperature_in_fahrenheit = static_cast<int>( std::round( units::to_fahrenheit<float>
-                                              ( temp ) ) );
+        int const final_temperature_in_fahrenheit = static_cast<int>( std::round(
+                    units::to_fahrenheit<float>
+                    ( temp ) ) );
 
         rot += calc_rot( now, final_temperature_in_fahrenheit );
         last_rot_check = now;
@@ -9186,7 +9191,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
 
 bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
         here.furn( pos ) != furn_str_id( "f_water_mill_active" ) ) {
         item_counter = 0;
@@ -9203,7 +9208,7 @@ bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
 
 bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
         here.furn( pos ) != furn_str_id( "f_metal_smoking_rack_active" ) ) {
         item_counter = 0;
@@ -9316,7 +9321,7 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
         default:
             break;
     }
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( in_inv && !in_veh && here.has_flag( flag_DEEP_WATER, pos ) ) {
         extinguish = true;
         submerged = true;
@@ -9374,7 +9379,7 @@ std::optional<tripoint> item::get_cable_target( Character *p, const tripoint &po
     if( state != "pay_out_cable" && state != "cable_charger_link" ) {
         return std::nullopt;
     }
-    map  const&here = get_map();
+    map  const &here = get_map();
     const optional_vpart_position vp_pos = here.veh_at( pos );
     if( vp_pos ) {
         const std::optional<vpart_reference> seat = vp_pos.part_with_feature( "BOARDABLE", true );
@@ -9383,7 +9388,8 @@ std::optional<tripoint> item::get_cable_target( Character *p, const tripoint &po
         }
     }
 
-    tripoint const source( get_var( "source_x", 0 ), get_var( "source_y", 0 ), get_var( "source_z", 0 ) );
+    tripoint const source( get_var( "source_x", 0 ), get_var( "source_y", 0 ), get_var( "source_z",
+                           0 ) );
 
     return here.getlocal( source );
 }
@@ -9421,7 +9427,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     if( !source ) {
         return false;
     }
-    map  const&here = get_map();
+    map  const &here = get_map();
     if( !here.veh_at( *source ) || ( source->z != g->get_levz() && !here.has_zlevels() ) ) {
         if( carrier->has_item( *this ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );

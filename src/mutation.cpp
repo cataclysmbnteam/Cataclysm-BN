@@ -702,7 +702,7 @@ static std::map<std::string, float> calc_category_weights( const std::map<std::s
     float const h_lvl = std::max<float>( max_lvl_iter->second, 20.0f );
     for( const auto &cat_lvl : mcl ) {
         float const weight = addition ? ( 1 + 4 * ( cat_lvl.second / h_lvl ) )
-                       : ( 5 - 4 * ( cat_lvl.second / h_lvl ) );
+                             : ( 5 - 4 * ( cat_lvl.second / h_lvl ) );
         category_weights[cat_lvl.first] = weight;
     }
     category_weights[max_lvl_iter->first] *= 2;

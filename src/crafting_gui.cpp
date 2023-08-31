@@ -180,8 +180,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         }
         std::vector<iteminfo> const info = item_info_cache.dummy.info( count );
         item_info_data const data( item_info_cache.dummy.tname( count ),
-                             item_info_cache.dummy.type_name( count ),
-                             info, {}, scroll_pos );
+                                   item_info_cache.dummy.type_name( count ),
+                                   info, {}, scroll_pos );
         return data;
     };
 

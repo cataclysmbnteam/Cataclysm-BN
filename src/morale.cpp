@@ -305,8 +305,8 @@ void player_morale::add( morale_type type, const morale_subtype &subtype, int bo
 {
     if( ( duration == 0_turns ) && !type->is_permanent() ) {
         std::string const full_desc = subtype.has_description()
-                                ? type.obj().describe( subtype.describe() )
-                                : type.obj().describe();
+                                      ? type.obj().describe( subtype.describe() )
+                                      : type.obj().describe();
         debugmsg( "Tried to set a non-permanent morale \"%s\" as permanent.", full_desc );
         return;
     }

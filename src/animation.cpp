@@ -469,7 +469,8 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
         return;
     }
 
-    shared_ptr_fast<game::draw_callback_t> const bullet_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+    shared_ptr_fast<game::draw_callback_t> const bullet_cb =
+    make_shared_fast<game::draw_callback_t>( [&]() {
         if( p != nullptr && p->z == vp.z ) {
             m.drawsq( g->w_terrain, *p, drawsq_params().center( vp ) );
         }
@@ -592,7 +593,8 @@ void hit_animation( const player &u, const tripoint &center, nc_color cColor,
     const tripoint init_pos = relative_view_pos( u, center );
     // Only show animation if initially visible
     if( init_pos.z == 0 && is_valid_in_w_terrain( init_pos.xy() ) ) {
-        shared_ptr_fast<game::draw_callback_t> const hit_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+        shared_ptr_fast<game::draw_callback_t> const hit_cb =
+        make_shared_fast<game::draw_callback_t>( [&]() {
             // In case the window is resized during waiting, we always re-calculate the animation position
             const tripoint pos = relative_view_pos( u, center );
             if( pos.z == 0 && is_valid_in_w_terrain( pos.xy() ) ) {
@@ -749,7 +751,7 @@ namespace
 {
 void draw_line_curses( game &g, const std::vector<tripoint> &points )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     for( const tripoint &p : points ) {
         here.drawsq( g.w_terrain, p, drawsq_params().highlight( true ) );
     }

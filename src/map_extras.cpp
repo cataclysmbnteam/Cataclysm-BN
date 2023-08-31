@@ -3068,7 +3068,7 @@ void debug_spawn_test()
 {
     uilist mx_menu;
     std::vector<std::string> mx_names;
-    for( std::pair<const std::string, map_extras>  const&region_extra :
+    for( std::pair<const std::string, map_extras>  const &region_extra :
          region_settings_map["default"].region_extras ) {
         mx_menu.addentry( -1, true, -1, region_extra.first );
         mx_names.push_back( region_extra.first );
@@ -3098,12 +3098,12 @@ void debug_spawn_test()
         }
 
         std::multimap<int, std::string> sorted_results;
-        for( std::pair<const std::string, int>  const&e : results ) {
+        for( std::pair<const std::string, int>  const &e : results ) {
             sorted_results.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
         uilist results_menu;
         results_menu.text = _( "Result of 32400 selections:" );
-        for( std::pair<const int, std::string>  const&r : sorted_results ) {
+        for( std::pair<const int, std::string>  const &r : sorted_results ) {
             results_menu.entries.emplace_back( static_cast<int>( results_menu.entries.size() ), true, -2,
                                                string_format( "%d x %s", r.first, r.second ) );
         }

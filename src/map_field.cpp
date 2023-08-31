@@ -101,7 +101,7 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
     }
     // Items that are multiple materials are assumed to be equal parts each.
     const units::mass by_weight = burned_mass / all_mats.size();
-    for( material_id  const&mat : all_mats ) {
+    for( material_id  const &mat : all_mats ) {
         for( auto &bp : mat->burn_products() ) {
             itype_id const id = bp.first;
             // Spawning the same item as the one that was just burned is pointless
@@ -251,7 +251,7 @@ void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p )
 void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk )
 {
-    map  const&here = get_map();
+    map  const &here = get_map();
     // TODO: fix point types
     const oter_id &cur_om_ter =
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( p ) ) ) );
@@ -792,7 +792,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                                 continue;
                             }
 
-                            tripoint  const&dst_p = neighs[i].first;
+                            tripoint  const &dst_p = neighs[i].first;
                             maptile &dst = neighs[i].second;
                             // No bounds checking here: we'll treat the invalid neighbors as valid.
                             // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
@@ -970,7 +970,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 if( monster_spawn_count > 0 && monster_spawn_chance > 0 && one_in( monster_spawn_chance ) ) {
                     for( ; monster_spawn_count > 0; monster_spawn_count-- ) {
                         MonsterGroupResult const spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                               cur.monster_spawn_group(), &monster_spawn_count );
+                                    cur.monster_spawn_group(), &monster_spawn_count );
                         if( !spawn_details.name ) {
                             continue;
                         }

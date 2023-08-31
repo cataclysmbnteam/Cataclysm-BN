@@ -338,19 +338,23 @@ std::string base64_decode( const std::string &str )
 
     for( int i = 0, j = 0; i < input_length; ) {
 
-        unsigned const sextet_a = data[i] == '=' ? 0 & i++ : base64_decoding_table[static_cast<unsigned char>
-                            ( data[i++] )];
-        unsigned const sextet_b = data[i] == '=' ? 0 & i++ : base64_decoding_table[static_cast<unsigned char>
-                            ( data[i++] )];
-        unsigned const sextet_c = data[i] == '=' ? 0 & i++ : base64_decoding_table[static_cast<unsigned char>
-                            ( data[i++] )];
-        unsigned const sextet_d = data[i] == '=' ? 0 & i++ : base64_decoding_table[static_cast<unsigned char>
-                            ( data[i++] )];
+        unsigned const sextet_a = data[i] == '=' ? 0 & i++ :
+                                  base64_decoding_table[static_cast<unsigned char>
+                                                               ( data[i++] )];
+        unsigned const sextet_b = data[i] == '=' ? 0 & i++ :
+                                  base64_decoding_table[static_cast<unsigned char>
+                                                               ( data[i++] )];
+        unsigned const sextet_c = data[i] == '=' ? 0 & i++ :
+                                  base64_decoding_table[static_cast<unsigned char>
+                                                               ( data[i++] )];
+        unsigned const sextet_d = data[i] == '=' ? 0 & i++ :
+                                  base64_decoding_table[static_cast<unsigned char>
+                                                               ( data[i++] )];
 
         unsigned const triple = ( sextet_a << 3 * 6 )
-                          + ( sextet_b << 2 * 6 )
-                          + ( sextet_c << 1 * 6 )
-                          + ( sextet_d << 0 * 6 );
+                                + ( sextet_b << 2 * 6 )
+                                + ( sextet_c << 1 * 6 )
+                                + ( sextet_d << 0 * 6 );
 
         if( j < output_length ) {
             decoded_data[j++] = ( triple >> 2 * 8 ) & 0xFF;

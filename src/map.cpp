@@ -477,7 +477,7 @@ void map::vehmove()
     int const minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     int const maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache  const&cache = get_cache( zlev );
+        level_cache  const &cache = get_cache( zlev );
         for( vehicle *veh : cache.vehicle_list ) {
             veh->gain_moves();
             veh->slow_leak();
@@ -510,7 +510,7 @@ void map::vehmove()
     // The bool tracks whether the vehicles is on the map or not.
     std::map<vehicle *, bool> connected_vehicles;
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache  const&cache = get_cache( zlev );
+        level_cache  const &cache = get_cache( zlev );
         vehicle::enumerate_vehicles( connected_vehicles, cache.vehicle_list );
     }
     for( std::pair<vehicle *const, bool> &veh_pair : connected_vehicles ) {
@@ -732,7 +732,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         }
     }
 
-    Character  const&player_character = get_player_character();
+    Character  const &player_character = get_player_character();
     const bool seen = sees_veh( player_character, veh, false );
 
     if( can_move || ( vertical && veh.is_falling ) ) {
@@ -852,15 +852,15 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         const float m2 = to_kilogram( veh2.total_mass() );
         //Energy of vehicle1 and vehicle2 before collision
         float const E = 0.5 * m1 * velo_veh1.magnitude() * velo_veh1.magnitude() +
-                  0.5 * m2 * velo_veh2.magnitude() * velo_veh2.magnitude();
+                        0.5 * m2 * velo_veh2.magnitude() * velo_veh2.magnitude();
 
         // Collision_axis
         point const cof1 = veh .rotated_center_of_mass();
         point const cof2 = veh2.rotated_center_of_mass();
-        int  const&x_cof1 = cof1.x;
-        int  const&y_cof1 = cof1.y;
-        int  const&x_cof2 = cof2.x;
-        int  const&y_cof2 = cof2.y;
+        int  const &x_cof1 = cof1.x;
+        int  const &y_cof1 = cof1.y;
+        int  const &x_cof2 = cof2.x;
+        int  const &y_cof2 = cof2.y;
         rl_vec2d collision_axis_y;
 
         collision_axis_y.x = ( veh.global_pos3().x + x_cof1 ) - ( veh2.global_pos3().x + x_cof2 );
@@ -919,7 +919,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
         //Energy after collision
         float const E_a = 0.5 * m1 * final1.magnitude() * final1.magnitude() +
-                    0.5 * m2 * final2.magnitude() * final2.magnitude();
+                          0.5 * m2 * final2.magnitude() * final2.magnitude();
         float const d_E = E - E_a;  //Lost energy at collision -> deformation energy
         dmg = std::abs( d_E / 1000 / 2000 );  //adjust to balance damage
     } else {
@@ -4249,7 +4249,7 @@ void map::i_clear( const tripoint &p )
     point l;
     submap *const current_submap = get_submap_at( p, l );
 
-    for( item  const&it : current_submap->get_items( l ) ) {
+    for( item  const &it : current_submap->get_items( l ) ) {
         // remove from the active items cache (if it isn't there does nothing)
         current_submap->active_items.remove( &it );
     }
@@ -4553,7 +4553,7 @@ void map::make_active( item_location &loc )
     }
     point l;
     submap *const current_submap = get_submap_at( loc.position(), l );
-    cata::colony<item>  const&item_stack = current_submap->get_items( l );
+    cata::colony<item>  const &item_stack = current_submap->get_items( l );
     cata::colony<item>::iterator const iter = item_stack.get_iterator_from_pointer( target );
 
     if( current_submap->active_items.empty() ) {
@@ -4701,7 +4701,7 @@ void map::process_items()
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     for( int gz = minz; gz <= maxz; ++gz ) {
-        level_cache  const&cache = access_cache( gz );
+        level_cache  const &cache = access_cache( gz );
         std::set<tripoint> submaps_with_vehicles;
         for( vehicle *this_vehicle : cache.vehicle_list ) {
             tripoint const pos = this_vehicle->global_pos3();
@@ -7319,7 +7319,8 @@ void map::grow_plant( const tripoint &p )
             }
 
             // Remove fertilizer if any
-            map_stack::iterator const fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
+            map_stack::iterator const fertilizer = std::find_if( items.begin(),
+            items.end(), []( const item & it ) {
                 return it.has_flag( "FERTILIZER" );
             } );
             if( fertilizer != items.end() ) {
@@ -7334,7 +7335,8 @@ void map::grow_plant( const tripoint &p )
             }
 
             // Remove fertilizer if any
-            map_stack::iterator const fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
+            map_stack::iterator const fertilizer = std::find_if( items.begin(),
+            items.end(), []( const item & it ) {
                 return it.has_flag( "FERTILIZER" );
             } );
             if( fertilizer != items.end() ) {
@@ -7411,14 +7413,14 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
         const time_point last_actualize = calendar::turn - time_since_last_actualize;
         const time_duration last_actualize_tof = time_past_new_year( last_actualize );
         bool const last_producing = (
-                                  last_actualize_tof >= late_winter_start ||
-                                  last_actualize_tof < early_spring_end
-                              );
+                                        last_actualize_tof >= late_winter_start ||
+                                        last_actualize_tof < early_spring_end
+                                    );
         const time_duration current_tof = time_past_new_year( calendar::turn );
         bool const current_producing = (
-                                     current_tof >= late_winter_start ||
-                                     current_tof < early_spring_end
-                                 );
+                                           current_tof >= late_winter_start ||
+                                           current_tof < early_spring_end
+                                       );
 
         const time_duration non_producing_length = 3.25 * calendar::season_length();
 
@@ -7741,7 +7743,8 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
     if( pop ) {
         // Populate the group from its population variable.
         for( int m = 0; m < pop; m++ ) {
-            MonsterGroupResult const spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
+            MonsterGroupResult const spawn_details = MonsterGroupManager::GetResultFromGroup( group.type,
+                    &pop );
             if( !spawn_details.name ) {
                 continue;
             }
@@ -8224,8 +8227,9 @@ void map::update_suspension_cache( const int &z )
                         point const sp( sx, sy );
                         const ter_t &terrain = cur_submap->get_ter( sp ).obj();
                         if( terrain.has_flag( TFLAG_SUSPENDED ) ) {
-                            tripoint const loc( coords::project_combine( point_om_sm( point( smx, smy ) ), point_sm_ms( sp ) ).raw(),
-                                          z );
+                            tripoint const loc( coords::project_combine( point_om_sm( point( smx, smy ) ),
+                                                point_sm_ms( sp ) ).raw(),
+                                                z );
                             suspension_cache.emplace_back( getabs( loc ).xy() );
                         }
                     }
@@ -8343,7 +8347,7 @@ static void vehicle_caching_internal_above( level_cache &zch_above, const vpart_
 
 void map::do_vehicle_caching( int z )
 {
-    level_cache  const&ch = get_cache( z );
+    level_cache  const &ch = get_cache( z );
     for( vehicle *v : ch.vehicle_list ) {
         for( const vpart_reference &vp : v->get_all_parts() ) {
             const tripoint &part_pos = v->global_part_pos3( vp.part() );
@@ -8726,7 +8730,7 @@ void map::scent_blockers( std::array<std::array<char, MAPSIZE_X>, MAPSIZE_Y> &sc
 
     auto vehs = get_vehicles();
     for( auto &wrapped_veh : vehs ) {
-        vehicle  const&veh = *( wrapped_veh.v );
+        vehicle  const &veh = *( wrapped_veh.v );
         for( const vpart_reference &vp : veh.get_any_parts( VPFLAG_OBSTACLE ) ) {
             const tripoint part_pos = vp.pos();
             if( local_bounds.contains( part_pos.xy() ) && scent_transfer[part_pos.x][part_pos.y] == 5 ) {
@@ -8813,7 +8817,7 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
 
         submap *sm = get_submap_at_grid( submap_loc );
         std::vector<item_reference> const items = type == special_item_type::none ? sm->active_items.get() :
-                                            sm->active_items.get_special( type );
+                sm->active_items.get_special( type );
         for( const auto &elem : items ) {
             const tripoint pos( sm_offset + elem.location, submap_loc.z );
 

@@ -696,7 +696,8 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
             }
         }
 
-        int const larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>( iModNum ) : iMaxRows;
+        int const larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>
+                           ( iModNum ) : iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ) {
             if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start + larger ) ) {
                 if( !mSortCategory[iNum].empty() ) {
@@ -1130,15 +1131,15 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
         if( const MOD_INFORMATION *selmod = get_selected_mod() ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             int const num_lines = fold_and_print( w_description, point( 1, 0 ),
-                                            getmaxx( w_description ) - 1,
-                                            c_white, mman_ui->get_information( selmod ) );
+                                                  getmaxx( w_description ) - 1,
+                                                  c_white, mman_ui->get_information( selmod ) );
             auto window_height = catacurses::getmaxy( w_description );
             auto window_width = catacurses::getmaxx( w_description );
             if( num_lines > window_height ) {
                 // The description didn't fit in the window, so provide a
                 // hint for how to see the whole thing
                 std::string const message = string_format( _( "…%s = View full description " ),
-                                                     ctxt.get_desc( "VIEW_MOD_DESCRIPTION" ) );
+                                            ctxt.get_desc( "VIEW_MOD_DESCRIPTION" ) );
                 nc_color color = c_green;
                 print_colored_text( w_description, point( window_width - utf8_width( message ), window_height - 1 ),
                                     color, color, message );
@@ -1253,7 +1254,7 @@ int worldfactory::show_modselection_window( const catacurses::window &win,
                 ret_val<bool> const ret = mman_ui->try_add( to_add, active_mod_order );
                 if( !ret.success() ) {
                     std::string const msg = string_format( _( "Cannot add mod %s [%s].\n\n%s" ),
-                                                     to_add->name(), to_add, ret.str() );
+                                                           to_add->name(), to_add, ret.str() );
                     popup( msg );
                 }
             } else if( active_header == 1 && !active_mod_order.empty() ) {

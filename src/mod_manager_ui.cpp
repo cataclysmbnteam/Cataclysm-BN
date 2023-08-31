@@ -95,7 +95,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     info += colorize( _( "Mod info path" ), c_light_blue ) + ": " + mod->path_full + "\n";
 
     std::string const note = !mm_tree.is_available( mod->ident ) ? mm_tree.get_node(
-                           mod->ident )->s_errors() : "";
+                                 mod->ident )->s_errors() : "";
     if( !note.empty() ) {
         info += colorize( note, c_red );
     }
@@ -243,7 +243,7 @@ void mod_ui::try_rem( size_t selection, std::vector<mod_id> &active_list )
         }
     }
     std::vector<mod_id>::iterator const rem = std::find( active_list.begin(), active_list.end(),
-                                        sel_string );
+            sel_string );
     if( rem != active_list.end() ) {
         active_list.erase( rem );
     }

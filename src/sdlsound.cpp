@@ -120,7 +120,7 @@ bool init_sound()
         DebugLog( DL::Info, DC::Main ) << "Active audio driver: " << driver;
 
         int const open_code = Mix_OpenAudioDevice( audio_rate, audio_format, audio_channels,
-                                             chunksize, audio_device, flags );
+                              chunksize, audio_device, flags );
         if( open_code == 0 ) {
             int dev_rate = 0;
             Uint16 dev_format = 0;
@@ -531,7 +531,8 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     Mix_Chunk *effect_to_play = get_sfx_resource( selected_sound_effect.resource_id );
     Mix_VolumeChunk( effect_to_play,
                      selected_sound_effect.volume * get_option<int>( "SOUND_EFFECT_VOLUME" ) * volume / ( 100 * 100 ) );
-    bool const failed = ( Mix_PlayChannel( static_cast<int>( channel::any ), effect_to_play, 0 ) == -1 );
+    bool const failed = ( Mix_PlayChannel( static_cast<int>( channel::any ), effect_to_play,
+                                           0 ) == -1 );
     if( failed ) {
         dbg( DL::Warn ) << "Failed to play sound effect: " << Mix_GetError();
     }
