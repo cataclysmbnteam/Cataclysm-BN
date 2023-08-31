@@ -1372,7 +1372,6 @@ def extract_all_from_dir(state, dir):
 
 
 def extract_all_from_json_file(state, json_file):
-    return
     "Extract translatable strings from every object in the specified JSON file."
     state.current_source_file = json_file
     log_verbose("Loading {}".format(json_file))
