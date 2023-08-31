@@ -3367,7 +3367,7 @@ std::vector<activity_id> job_data::get_prioritised_vector() const
     const std::pair<activity_id, int> &b ) {
         return a.second > b.second;
     } );
-    for( std::pair<activity_id, int> const elem : pairs ) {
+    for( std::pair<activity_id, int> const &elem : pairs ) {
         ret.push_back( elem.first );
     }
     return ret;
