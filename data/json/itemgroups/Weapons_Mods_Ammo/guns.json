@@ -198,7 +198,7 @@
       { "group": "nested_usp_45", "prob": 15 },
       { "group": "nested_m1911_MEU", "prob": 5 },
       { "group": "nested_glock_19", "prob": 20 },
-      { "item": "needlepistol", "prob": 45, "charges-min": 0, "charges-max": 50 },
+      { "group": "nested_needlepistol", "prob": 45 },
       { "group": "nested_rm103a_pistol", "prob": 35 }
     ]
   },
@@ -213,7 +213,7 @@
       { "group": "everyday_usp_45", "prob": 15 },
       { "group": "everyday_m1911_MEU", "prob": 5 },
       { "group": "everyday_glock_19", "prob": 20 },
-      { "item": "needlepistol", "prob": 45, "charges-min": 0, "charges-max": 50 },
+      { "group": "everyday_needlepistol", "prob": 45 },
       { "group": "everyday_rm103a_pistol", "prob": 35 }
     ]
   },
@@ -232,7 +232,7 @@
       { "group": "nested_pistol_flintlock", "prob": 150 },
       { "group": "nested_raging_bull", "prob": 100 },
       { "group": "nested_raging_judge", "prob": 20 },
-      { "item": "rm99_pistol", "prob": 150, "charges-min": 0, "charges-max": 5 },
+      { "group": "nested_rm99_pistol", "prob": 150 },
       { "group": "nested_tokarev", "prob": 100 },
       { "group": "nested_walther_ppk", "prob": 100 },
       { "group": "nested_colt_saa", "prob": 150 }
@@ -253,7 +253,7 @@
       { "group": "everyday_pistol_flintlock", "prob": 150 },
       { "group": "everyday_raging_bull", "prob": 100 },
       { "group": "everyday_raging_judge", "prob": 20 },
-      { "item": "rm99_pistol", "prob": 150, "charges-min": 0, "charges-max": 5 },
+      { "group": "everyday_rm99_pistol", "prob": 150 },
       { "group": "everyday_tokarev", "prob": 100 },
       { "group": "everyday_walther_ppk", "prob": 100 },
       { "group": "everyday_colt_saa", "prob": 150 }
@@ -362,7 +362,7 @@
     "//": "Military specification SMGs only ever found at military sites.",
     "items": [
       { "group": "nested_hk_mp7", "prob": 100 },
-      { "item": "needlegun", "prob": 30, "charges-min": 0, "charges-max": 50 },
+      { "group": "nested_needlegun", "prob": 30 },
       { "group": "nested_rm2000_smg", "prob": 50 },
       { "group": "nested_hk_mp5", "prob": 100 },
       { "group": "nested_hk_mp5k", "prob": 10 },
@@ -375,7 +375,7 @@
     "//": "Military specification SMGs only ever carried by the military. Comes with mags or loose ammo.",
     "items": [
       { "group": "everyday_hk_mp7", "prob": 100 },
-      { "item": "needlegun", "prob": 30, "charges-min": 0, "charges-max": 50 },
+      { "group": "everyday_needlegun", "prob": 30 },
       { "group": "everyday_rm2000_smg", "prob": 50 },
       { "group": "everyday_hk_mp5", "prob": 100 },
       { "group": "everyday_hk_mp5k", "prob": 10 },
@@ -387,9 +387,19 @@
     "id": "guns_smg_obscure",
     "//": "Imported or otherwise very obscure SMGs.",
     "items": [
-      { "item": "ppsh", "prob": 150, "charges-min": 0, "charges-max": 35 },
-      { "item": "skorpion_61", "prob": 100, "charges-min": 0, "charges-max": 20 },
-      { "item": "skorpion_82", "prob": 100, "charges-min": 0, "charges-max": 20 }
+      { "group": "nested_ppsh", "prob": 150 },
+      { "group": "nested_skorpion_61", "prob": 100 },
+      { "group": "nested_skorpion_82", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "carried_guns_smg_obscure",
+    "//": "Imported or otherwise very obscure SMGs. Just mags, no loose ammo.",
+    "items": [
+      { "group": "everyday_ppsh", "prob": 150 },
+      { "group": "everyday_skorpion_61", "prob": 100 },
+      { "group": "everyday_skorpion_82", "prob": 100 }
     ]
   },
   {
@@ -477,7 +487,7 @@
     "id": "guns_rifle_rare",
     "//": "Less common rifles including those only used by police/paramilitary forces.",
     "items": [
-      { "item": "acr", "prob": 25, "charges-min": 0, "charges-max": 30 },
+      { "group": "nested_acr", "prob": 25 },
       { "group": "nested_colt_lightning", "prob": 15 },
       { "group": "nested_fn_fal", "prob": 40 },
       { "group": "nested_hk_g3", "prob": 40 },
@@ -495,7 +505,7 @@
       { "group": "nested_sharps", "prob": 15 },
       { "group": "nested_weatherby_5", "prob": 15 },
       { "group": "nested_hk417_13", "prob": 40 },
-      { "item": "ar15_retool_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 },
+      { "group": "nested_ar15_retool_300blk", "prob": 15 },
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 }
     ]
   },
@@ -504,7 +514,7 @@
     "id": "carried_guns_rifle_rare",
     "//": "Less common rifles including those only carried by police/paramilitary forces. Served with mags or a side of loose ammo.",
     "items": [
-      { "item": "acr", "prob": 25, "charges-min": 0, "charges-max": 30 },
+      { "group": "everyday_acr", "prob": 25 },
       { "group": "everyday_colt_lightning", "prob": 15 },
       { "group": "everyday_fn_fal", "prob": 40 },
       { "group": "everyday_hk_g3", "prob": 40 },
@@ -522,7 +532,7 @@
       { "group": "everyday_sharps", "prob": 15 },
       { "group": "everyday_weatherby_5", "prob": 15 },
       { "group": "everyday_hk417_13", "prob": 40 },
-      { "item": "ar15_retool_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 },
+      { "group": "everyday_ar15_retool_300blk", "prob": 15 },
       { "group": "everyday_iwi_tavor_x95_300blk", "prob": 10 }
     ]
   },
@@ -626,13 +636,13 @@
       { "group": "nested_rm88_battle_rifle", "prob": 10 },
       { "group": "nested_rm103a_pistol", "prob": 10 },
       { "group": "nested_m110a1", "prob": 10 },
-      { "item": "needlegun", "prob": 10, "charges-min": 0, "charges-max": 50 },
-      { "item": "needlepistol", "prob": 10, "charges-min": 0, "charges-max": 50 },
+      { "group": "nested_needlegun", "prob": 10 },
+      { "group": "nested_needlepistol", "prob": 10 },
       { "group": "nested_ksg-25", "prob": 10 },
       { "group": "nested_tavor_12", "prob": 10 },
       { "group": "nested_SPAS_12", "prob": 10 },
-      { "item": "rm120c", "prob": 10, "charges-min": 0, "charges-max": 5 },
-      { "item": "rm228", "prob": 10, "charges-min": 0, "charges-max": 10 },
+      { "group": "nested_rm120c", "prob": 10 },
+      { "group": "nested_rm228", "prob": 10 },
       { "group": "nested_deagle_44", "prob": 10 }
     ]
   },
@@ -654,7 +664,7 @@
     "items": [
       { "group": "nested_ak47", "prob": 100 },
       { "group": "nested_ak74", "prob": 60 },
-      { "item": "an94", "prob": 40, "charges-min": 0, "charges-max": 30 },
+      { "group": "nested_an94", "prob": 40 },
       { "group": "nested_bh_m89", "prob": 20 },
       { "group": "nested_bfg50", "prob": 5 },
       { "group": "nested_carbine_flintlock", "prob": 140 },
@@ -675,7 +685,7 @@
     "items": [
       { "group": "everyday_ak47", "prob": 100 },
       { "group": "everyday_ak74", "prob": 60 },
-      { "item": "an94", "prob": 40, "charges-min": 0, "charges-max": 30 },
+      { "group": "everyday_an94", "prob": 40 },
       { "group": "everyday_bh_m89", "prob": 20 },
       { "group": "everyday_bfg50", "prob": 5 },
       { "group": "everyday_carbine_flintlock", "prob": 140 },
@@ -762,8 +772,8 @@
       { "group": "nested_tavor_12", "prob": 5 },
       { "group": "nested_m1014", "prob": 10 },
       { "group": "nested_SPAS_12", "prob": 2 },
-      { "item": "rm120c", "prob": 5, "charges-min": 0, "charges-max": 5 },
-      { "item": "rm228", "prob": 5, "charges-min": 0, "charges-max": 10 }
+      { "group": "nested_rm120c", "prob": 5 },
+      { "group": "nested_rm228", "prob": 5 }
     ]
   },
   {
@@ -777,8 +787,8 @@
       { "group": "everyday_tavor_12", "prob": 5 },
       { "group": "everyday_m1014", "prob": 10 },
       { "group": "everyday_SPAS_12", "prob": 2 },
-      { "item": "rm120c", "prob": 5, "charges-min": 0, "charges-max": 5 },
-      { "item": "rm228", "prob": 5, "charges-min": 0, "charges-max": 10 }
+      { "group": "everyday_rm120c", "prob": 5 },
+      { "group": "everyday_rm228", "prob": 5 }
     ]
   },
   {
@@ -856,7 +866,7 @@
     "items": [
       { "group": "nested_saiga_12", "prob": 50 },
       { "group": "nested_streetsweeper", "prob": 4 },
-      { "item": "USAS_12", "prob": 1, "charges-min": 0, "charges-max": 10 },
+      { "group": "nested_USAS_12", "prob": 1 },
       { "group": "nested_saiga_410", "prob": 40 }
     ]
   },
@@ -867,7 +877,7 @@
     "items": [
       { "group": "everyday_saiga_12", "prob": 50 },
       { "group": "everyday_streetsweeper", "prob": 4 },
-      { "item": "USAS_12", "prob": 1, "charges-min": 0, "charges-max": 10 },
+      { "group": "everyday_USAS_12", "prob": 1 },
       { "group": "everyday_saiga_410", "prob": 40 }
     ]
   },
@@ -1090,8 +1100,8 @@
       { "group": "nested_hk_mp5sd", "prob": 5 },
       { "group": "nested_m1014", "prob": 10 },
       { "group": "nested_m4a1", "prob": 35 },
-      { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
-      { "item": "USAS_12", "prob": 1, "charges-min": 0, "charges-max": 10 },
+      { "group": "nested_as50", "prob": 5 },
+      { "group": "nested_USAS_12", "prob": 1 },
       { "group": "nested_hk417_13", "prob": 30 }
     ]
   },
@@ -1107,8 +1117,8 @@
       { "group": "everyday_hk_mp5sd", "prob": 5 },
       { "group": "everyday_m1014", "prob": 10 },
       { "group": "everyday_m4a1", "prob": 35 },
-      { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
-      { "item": "USAS_12", "prob": 1, "charges-min": 0, "charges-max": 10 },
+      { "group": "everyday_as50", "prob": 5 },
+      { "group": "everyday_USAS_12", "prob": 1 },
       { "group": "everyday_hk417_13", "prob": 30 }
     ]
   },
