@@ -1,11 +1,12 @@
 {
-    "tasks": {
-        "tools": "deno run --watch -A"
-    },
-    "test": { "files": { "include": ["./tools"] } },
-    "lint": { "files": { "include": ["./tools"] } },
-    "fmt": {
-        "files": { "include": ["./tools"] },
-        "options": { "semiColons": false, "lineWidth": 100 }
-    }
+  "tasks": {
+    "tools": "deno run --watch -A"
+  },
+  "test": { "include": ["./tools"] },
+  "lint": { "include": ["./tools"] },
+  "fmt": {
+    "include": ["./tools", "./doc", "*.md"],
+    "semiColons": false,
+    "lineWidth": 100
+  }
 }
