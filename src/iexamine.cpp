@@ -5934,7 +5934,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                     }
                     mill_list[it] += it.count();
                 }
-                for( auto it_mill : mill_list ) {
+                for( const auto& it_mill : mill_list ) {
                     pop += "-> " + item::nname( it_mill.first.typeId(),
                                                 it_mill.first.count() ) + ( ( it_mill.second > 1 ) ? " (" + std::to_string(
                                                             it_mill.second ) + ")\n" : "\n" );

@@ -479,7 +479,7 @@ std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
     std::vector<std::pair<bionic_id, item>> cbm_list;
     // Runs down full list of CBMs that qualify as weapons.
     // Need a way to make this less costly.
-    for( bionic const bio : *who.my_bionics ) {
+    for( bionic const& bio : *who.my_bionics ) {
         if( !bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
             continue;
         }

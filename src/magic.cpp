@@ -1261,7 +1261,7 @@ void known_magic::serialize( JsonOut &json ) const
 
     json.member( "spellbook" );
     json.start_array();
-    for( auto pair : spellbook ) {
+    for( const auto& pair : spellbook ) {
         json.start_object();
         json.member( "id", pair.second.id() );
         json.member( "xp", pair.second.xp() );
@@ -1462,7 +1462,7 @@ void known_magic::update_mana( const Character &guy, double turns )
 std::vector<spell_id> known_magic::spells() const
 {
     std::vector<spell_id> spell_ids;
-    for( auto pair : spellbook ) {
+    for( const auto& pair : spellbook ) {
         spell_ids.emplace_back( pair.first );
     }
     return spell_ids;
