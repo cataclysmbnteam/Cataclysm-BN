@@ -23,6 +23,7 @@
 #include "ranged.h"
 #include "state_helpers.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 
 extern bool can_fire_turret( avatar &you, const map &m, const turret_data &turret );
 

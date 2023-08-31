@@ -55,6 +55,7 @@
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"

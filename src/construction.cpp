@@ -62,6 +62,7 @@
 #include "units_serde.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
