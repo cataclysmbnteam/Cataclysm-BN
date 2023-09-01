@@ -15,6 +15,14 @@ FILE(GLOB CATACLYSM_BN_HEADERS
     ${CMAKE_SOURCE_DIR}/src/*.h
 )
 
+IF(LUA)
+    FILE(GLOB LUA_C_SOURCES
+        ${CMAKE_SOURCE_DIR}/src/lua/*.c
+    )
+ELSE(LUA)
+    SET(LUA_C_SOURCES "")
+ENDIF(LUA)
+
 # Get GIT version strings
 ADD_CUSTOM_TARGET(
     get_version
@@ -37,6 +45,7 @@ IF(TILES)
     add_library(cataclysm-tiles-common OBJECT
         ${CATACLYSM_BN_SOURCES}
         ${CATACLYSM_BN_HEADERS}
+        ${LUA_C_SOURCES}
     )
     target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
@@ -57,6 +66,12 @@ IF(TILES)
             ${MESSAGES_CPP}
         )
     ENDIF(WIN32)
+
+    IF(LUA)
+        target_compile_definitions(cataclysm-tiles-common PUBLIC LUA)
+        target_include_directories(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/src)
+        target_include_directories(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/src/lua)
+    ENDIF(LUA)
 
     ADD_DEPENDENCIES(cataclysm-tiles-common get_version)
 
@@ -138,6 +153,7 @@ IF(CURSES)
     add_library(cataclysm-common OBJECT
         ${CATACLYSM_BN_SOURCES}
         ${CATACLYSM_BN_HEADERS}
+        ${LUA_C_SOURCES}
     )
     target_include_directories(cataclysm-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
@@ -157,6 +173,12 @@ IF(CURSES)
             ${MESSAGES_CPP}
         )
     ENDIF(WIN32)
+
+    IF(LUA)
+        target_compile_definitions(cataclysm-common PUBLIC LUA)
+        target_include_directories(cataclysm-common PUBLIC ${CMAKE_SOURCE_DIR}/src)
+        target_include_directories(cataclysm-common PUBLIC ${CMAKE_SOURCE_DIR}/src/lua)
+    ENDIF(LUA)
 
     ADD_DEPENDENCIES(cataclysm-common get_version)
     target_link_libraries(cataclysm cataclysm-common)

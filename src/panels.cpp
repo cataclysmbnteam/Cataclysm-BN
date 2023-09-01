@@ -1659,16 +1659,16 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 35, 4 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_light_blue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 21, 5 ), c_light_gray, type );
+        mvwprintz( w, point( 26, 5 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            nc_color col_vel = strain <= 0 ? c_light_blue :
-                               ( strain <= 0.2 ? c_yellow :
-                                 ( strain <= 0.4 ? c_light_red : c_red ) );
-            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-            int offset = get_int_digits( t_speed );
-            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, point( 21, 5 ), c_light_gray, type );
-            mvwprintz( w, point( 26, 5 ), col_vel, "%d", c_speed );
             mvwprintz( w, point( 26 + offset, 5 ), c_light_gray, ">" );
             mvwprintz( w, point( 28 + offset, 5 ), c_light_green, "%d", t_speed );
         }
@@ -1773,18 +1773,18 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 6, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_light_blue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 12, 0 ), c_light_gray, "%s :", type );
+        mvwprintz( w, point( 19, 0 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            nc_color col_vel = strain <= 0 ? c_light_blue :
-                               ( strain <= 0.2 ? c_yellow :
-                                 ( strain <= 0.4 ? c_light_red : c_red ) );
-            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-            int offset = get_int_digits( t_speed );
-            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, point( 12, 0 ), c_light_gray, "%s :", type );
-            mvwprintz( w, point( 19, 0 ), c_light_green, "%d", t_speed );
             mvwprintz( w, point( 20 + offset, 0 ), c_light_gray, "%s", ">" );
-            mvwprintz( w, point( 22 + offset, 0 ), col_vel, "%d", c_speed );
+            mvwprintz( w, point( 22 + offset, 0 ), c_light_green, "%d", t_speed );
         }
     }
 
@@ -1808,15 +1808,15 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         nc_color col_vel = strain <= 0 ? c_light_blue :
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 13, 0 ), c_light_gray, "%s :", type );
+        mvwprintz( w, point( 20, 0 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-            int offset = get_int_digits( t_speed );
-            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, point( 13, 0 ), c_light_gray, "%s :", type );
-            mvwprintz( w, point( 20, 0 ), c_light_green, "%d", t_speed );
             mvwprintz( w, point( 21 + offset, 0 ), c_light_gray, "%s", ">" );
-            mvwprintz( w, point( 23 + offset, 0 ), col_vel, "%d", c_speed );
+            mvwprintz( w, point( 23 + offset, 0 ), c_light_green, "%d", t_speed );
         }
     }
 

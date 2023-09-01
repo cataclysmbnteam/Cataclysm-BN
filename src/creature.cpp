@@ -1673,6 +1673,7 @@ bodypart_id Creature::get_random_body_part( bool main ) const
 std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
 {
     std::vector<bodypart_id> all_bps;
+    all_bps.reserve( body.size() );
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( only_main && elem.first->main_part != elem.first ) {
             continue;

@@ -50,7 +50,7 @@ bool is_json_check_strict( const std::string &src )
 
 /** @relates int_id */
 template<>
-inline bool int_id<ter_t>::is_valid() const
+bool int_id<ter_t>::is_valid() const
 {
     return terrain_data.is_valid( *this );
 }

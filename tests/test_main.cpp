@@ -320,6 +320,9 @@ int main( int argc, const char *argv[] )
     }
     DebugLog( DL::Info, DC::Main ) << "Randomness seeded to: " << seed;
 
+    auto _on_out_of_scope = on_out_of_scope( []() {
+        DynamicDataLoader::get_instance().unload_data();
+    } );
     try {
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite, user_dir );

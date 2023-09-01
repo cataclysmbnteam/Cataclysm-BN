@@ -46,6 +46,7 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -300,7 +301,7 @@ static void achievement_attained( const achievement *a )
 game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
-    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained ),
+    achievements_tracker_ptr( *stats_tracker_ptr, *kill_tracker_ptr, achievement_attained ),
     grid_tracker_ptr( MAPBUFFER ),
     m( *map_ptr ),
     u( *u_ptr ),
@@ -322,8 +323,8 @@ game::game() :
 {
     first_redraw_since_waiting_started = true;
     reset_light_level();
-    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*kill_tracker_ptr );
+    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*memorial_logger_ptr );
     events().subscribe( &*achievements_tracker_ptr );
     events().subscribe( &*spell_events_ptr );
@@ -516,7 +517,7 @@ void game::setup()
 
     stats().clear();
     // reset kill counts
-    kill_tracker_ptr->clear();
+    get_kill_tracker().clear();
     achievements_tracker_ptr->clear();
     // reset follower list
     follower_ids.clear();
@@ -881,11 +882,6 @@ void game::reload_npcs()
     // and not invoke "on_load" for those NPCs that avoided unloading this way.
     unload_npcs();
     load_npcs();
-}
-
-const kill_tracker &game::get_kill_tracker() const
-{
-    return *kill_tracker_ptr;
 }
 
 void game::create_starting_npcs()
@@ -1521,6 +1517,8 @@ bool game::do_turn()
     update_stair_monsters();
     mon_info_update();
     u.process_turn();
+
+    cata::run_on_every_x_hooks( *DynamicDataLoader::get_instance().lua );
 
     explosion_handler::get_explosion_queue().execute();
     cleanup_dead();
@@ -2208,6 +2206,8 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_color" );
     ctxt.register_action( "open_world_mods" );
     ctxt.register_action( "debug" );
+    ctxt.register_action( "lua_console" );
+    ctxt.register_action( "lua_reload" );
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_scent_type" );
     ctxt.register_action( "debug_temp" );
@@ -2622,6 +2622,10 @@ bool game::load( const save_t &name )
 
     u.reset();
 
+    cata::load_world_lua_state( get_world_base_save_path() + "/lua_state.json" );
+
+    cata::run_on_game_load_hooks( *DynamicDataLoader::get_instance().lua );
+
     return true;
 }
 
@@ -2716,6 +2720,11 @@ stats_tracker &game::stats()
     return *stats_tracker_ptr;
 }
 
+kill_tracker &game::get_kill_tracker()
+{
+    return *kill_tracker_ptr;
+}
+
 memorial_logger &game::memorial()
 {
     return *memorial_logger_ptr;
@@ -2726,8 +2735,17 @@ spell_events &game::spell_events_subscriber()
     return *spell_events_ptr;
 }
 
+static bool save_uistate_data( const game &g )
+{
+    return write_to_file( g.get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
+        JsonOut jsout( fout );
+        uistate.serialize( jsout );
+    }, _( "uistate data" ) );
+}
+
 bool game::save()
 {
+    cata::run_on_game_save_hooks( *DynamicDataLoader::get_instance().lua );
     try {
         if( !save_player_data() ||
             !save_factions_missions_npcs() ||
@@ -2736,10 +2754,9 @@ bool game::save()
             !get_auto_pickup().save_character() ||
             !get_auto_notes_settings().save() ||
             !get_safemode().save_character() ||
-        !write_to_file( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
-        JsonOut jsout( fout );
-            uistate.serialize( jsout );
-        }, _( "uistate data" ) ) ) {
+            !cata::save_world_lua_state( g->get_world_base_save_path() + "/lua_state.json" ) ||
+            !save_uistate_data( *this )
+          ) {
             return false;
         } else {
             world_generator->last_world_name = world_generator->active_world->world_name;

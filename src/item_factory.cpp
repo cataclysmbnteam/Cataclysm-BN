@@ -2460,6 +2460,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         "GUNMOD",
         "MAGAZINE",
         "PET_ARMOR",
+        "SPECIES",
         "TOOL",
         "TOOLMOD",
         "TOOL_ARMOR",
