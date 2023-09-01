@@ -4,7 +4,6 @@
 "Use dedup_pot_file.py to resolve them."
 
 import time
-import polib
 import json
 import os
 import itertools
@@ -12,6 +11,21 @@ import subprocess
 from optparse import OptionParser
 from sys import platform
 from copy import deepcopy
+
+try:
+    import polib
+except:
+    print("You need 'polib' module installed for the script to work.")
+    exit(1)
+
+try:
+    import luaparser
+except:
+    print("You need 'luaparser' module installed for the script to work.")
+    exit(1)
+
+from luaparser import ast
+from luaparser import astnodes
 
 # Must parse command line arguments here
 # 'options' variable is referenced in our defined functions below
@@ -197,6 +211,7 @@ needs_plural = {
     "MAGAZINE",
     "MONSTER",
     "PET_ARMOR",
+    "SPECIES",
     "TOOL",
     "TOOLMOD",
     "TOOL_ARMOR",
@@ -868,6 +883,29 @@ def add_context(entry, ctxt):
         return {"str": entry, "ctxt": ctxt}
 
 
+def writestr_basic(state, msgid, msgid_plural, msgctxt, comment, check_c_format):
+    flags = []
+    if check_c_format and ("%" in msgid or (msgid_plural is not None and "%" in msgid_plural)):
+        flags.append('c-format')
+
+    # Using None here because we neither know nor care about exact line numbers
+    occurrences = [(state.current_source_file, None)]
+
+    if comment:
+        # Append `~ ` to help translators distinguish between comments
+        comment = '~ ' + comment
+
+    entry = polib.POEntry(
+        msgid=msgid,
+        msgid_plural=msgid_plural,
+        msgctxt=msgctxt,
+        comment=comment,
+        flags=flags,
+        occurrences=occurrences
+    )
+    state.po_entries.append(entry)
+
+
 def writestr(state, string, context=None, format_strings=False, comment=None, pl_fmt=False):
     "Write the string to POT."
     if type(string) is list:
@@ -913,26 +951,7 @@ def writestr(state, string, context=None, format_strings=False, comment=None, pl
     else:
         raise WrongJSONItem("ERROR: value is not a string, dict, list, or None", string)
 
-    flags = []
-    if format_strings and ("%" in str_singular or (str_pl is not None and "%" in str_pl)):
-        flags.append('c-format')
-
-    # Using None here because we neither know nor care about exact line numbers
-    occurrences = [(state.current_source_file, None)]
-
-    if comment:
-        # Append `~ ` to help translators distinguish between comments
-        comment = '~ ' + comment
-
-    entry = polib.POEntry(
-        msgid=str_singular,
-        msgid_plural=str_pl,
-        msgctxt=context,
-        comment=comment,
-        flags=flags,
-        occurrences=occurrences
-    )
-    state.po_entries.append(entry)
+    writestr_basic(state, str_singular, str_pl, context, comment, format_strings)
 
 
 use_action_msgs = {
@@ -990,9 +1009,9 @@ found_types = set();
 known_types = ignorable | extract_specials.keys() | automatically_convertible
 
 
-def extract(state, item):
+def extract_json(state, item):
     """Find any extractable strings in the given json object,
-    and write them to the appropriate file."""
+    and write them to the PO file provided by the state."""
     if not "type" in item:
         return
     object_type = item["type"]
@@ -1152,20 +1171,181 @@ def extract(state, item):
             print("WARNING: {}: nothing translatable found in item: {}".format(state.current_source_file, item))
 
 
+def assert_num_args(node, args, n):
+    if len(args) != n:
+        raise Exception("invalid amount of arguments in translation call (found {}, expected {}). Error source:   {}".format(len(args), n, ast.to_lua_source(node))) 
+
+
+def get_string_literal(node, args, pos):
+    if isinstance(args[pos], astnodes.String):
+        return args[pos].s
+    else:
+        raise Exception("argument to translation call should be string. Error source:   {}".format(ast.to_lua_source(node)))
+
+
+class LuaComment:
+    def __init__(self, source, comment_node):
+        first_char = comment_node.first_token.start
+        last_char = comment_node.first_token.stop
+        text = source[first_char:last_char+1]
+        line = comment_node.first_token.line
+        source = comment_node.first_token.source
+
+        self.is_trans_comment = self.__check_is_trans_comment(text)
+        self.text = self.__strip_comment(text)
+        self.line = line
+        self.source = source
+        self.used = False
+
+    def mark_used(self):
+        self.used = True
+
+    def __strip_comment(self, text):
+        if text.startswith("--[[") and text.endswith("]]"):
+            # Regular multiline comment
+            return text[4:len(text)-2].strip()
+        elif text.startswith("--~"):
+            # Translation comment
+            return text[3:].strip()
+        elif text.startswith("--"):
+            # Regular comment
+            return text[2:].strip()
+        else:
+            return text
+
+    def __check_is_trans_comment(self, text):
+        return text.startswith("--~")
+
+
+class LuaCallVisitor(ast.ASTVisitor):
+    def register_state(self, state):
+        self.state = state
+
+    def load_comments(self, comments):
+        self.trans_comments = []
+        self.regular_comments = []
+        for comment in comments:
+            if comment.is_trans_comment:
+                self.trans_comments.append(comment)
+            else:
+                self.regular_comments.append(comment) 
+
+    def report_unused_comments(self):
+        for comment in self.trans_comments:
+            if not comment.used:
+                print("WARNING: unused translator comment at {}:{}".format(self.state.current_source_file, comment.line ))
+
+    def __find_trans_comments_before(self, line):
+        for comment in self.trans_comments:
+            if comment.line == line - 1:
+                comment.mark_used()
+                ret = self.__find_trans_comments_before( line - 1 )
+                ret.append(comment.text)
+                return ret
+        return []
+
+    def __find_regular_comment_before(self, line):
+        for comment in self.regular_comments:
+            if comment.line == line - 1:
+                return comment
+        return None
+
+    def __find_comment(self, line):
+        comments = self.__find_trans_comments_before(line)
+        if len(comments) != 0:
+            return '\n'.join(comments)
+        else:
+            comment = self.__find_regular_comment_before(line)
+            if comment:
+                print("WARNING: regular comment used when translation comment may be intended. Error source: {}:{}".format(self.state.current_source_file, comment.line ))
+            return None
+
+    def visit_Call(self, node):
+        found = False
+        if isinstance(node.func, astnodes.Name):
+            func_id = node.func.id
+            func_line = node.func.first_token.line
+            func_args = node.args
+            found = True
+        elif isinstance(node.func, astnodes.Index):
+            if isinstance(node.func.idx, astnodes.Name):
+                func_id = node.func.idx.id
+                func_line = node.func.idx.first_token.line
+                func_args = node.args
+                found = True
+        if not found:
+            return
+        write = False
+        msgctxt = None
+        msgid = None
+        msgid_plural = None
+        try:
+            if func_id == "gettext":
+                assert_num_args(node, func_args, 1)
+                msgid = get_string_literal(node, func_args, 0)
+                write = True
+            elif func_id == "pgettext":
+                assert_num_args(node, func_args, 2)
+                msgctxt = get_string_literal(node, func_args, 0)
+                msgid = get_string_literal(node, func_args, 1)
+                write = True
+            elif func_id == "vgettext":
+                assert_num_args(node, func_args, 3)
+                msgid = get_string_literal(node, func_args, 0)
+                msgid_plural = get_string_literal(node, func_args, 1)
+                write = True
+            elif func_id == "vpgettext":
+                assert_num_args(node, func_args, 4)
+                msgctxt = get_string_literal(node, func_args, 0)
+                msgid = get_string_literal(node, func_args, 1)
+                msgid_plural = get_string_literal(node, func_args, 2)
+                write = True
+        except Exception as E:
+            print("WARNING: {}".format(E))
+        if write:
+            comment = self.__find_comment(func_line)
+            writestr_basic(self.state, msgid, msgid_plural, msgctxt, comment, check_c_format = True)
+
+
+def extract_lua(state, source):
+    """Find any extractable strings in the given Lua source code,
+    and write them to the PO file provided by the state."""
+
+    tree = ast.parse(source)
+
+    #print(ast.to_pretty_str(tree))
+
+    comments = []
+
+    for node in ast.walk(tree):
+        for comment_node in node.comments:
+            comments.append(LuaComment( source, comment_node ))
+
+    for comment in comments:
+        if comment.is_trans_comment:
+            print("Line {}: {}".format( comment.line, comment.text))
+
+    visitor = LuaCallVisitor()
+    visitor.register_state(state)
+    visitor.load_comments(comments)
+    visitor.visit(tree)
+    visitor.report_unused_comments()
+
+
 def log_verbose(msg):
     if options.verbose:
         print(msg)
 
 
-def extract_all_from_dir(state, json_dir):
-    """Extract strings from every json file in the specified directory,
+def extract_all_from_dir(state, dir):
+    """Extract strings from every applicable file in the specified directory,
     recursing into any subdirectories."""
-    allfiles = os.listdir(json_dir)
+    allfiles = os.listdir(dir)
     allfiles.sort()
     dirs = []
     skiplist = [ os.path.normpath(".gitkeep") ]
     for f in allfiles:
-        full_name = os.path.join(json_dir, f)
+        full_name = os.path.join(dir, f)
         if os.path.isdir(full_name):
             if os.path.normpath(full_name) in ignore_dirs:
                 log_verbose("Skipping dir (ignored): {}".format(f))
@@ -1177,17 +1357,22 @@ def extract_all_from_dir(state, json_dir):
             log_verbose("Skipping file (ignored): '{}'".format(f))
         elif f.endswith(".json"):
             if not options.tracked_only or full_name in git_files_list:
-                extract_all_from_file(state, full_name)
+                extract_all_from_json_file(state, full_name)
+            else:
+                log_verbose("Skipping file (untracked): '{}'".format(full_name))
+        elif f.endswith(".lua"):
+            if not options.tracked_only or full_name in git_files_list:
+                extract_all_from_lua_file(state, full_name)
             else:
                 log_verbose("Skipping file (untracked): '{}'".format(full_name))
         else:
-            log_verbose("Skipping file (not json): '{}'".format(f))
+            log_verbose("Skipping file (not applicable): '{}'".format(f))
     for d in dirs:
-        extract_all_from_dir(state, os.path.join(json_dir, d))
+        extract_all_from_dir(state, os.path.join(dir, d))
 
 
-def extract_all_from_file(state, json_file):
-    "Extract translatable strings from every object in the specified file."
+def extract_all_from_json_file(state, json_file):
+    "Extract translatable strings from every object in the specified JSON file."
     state.current_source_file = json_file
     log_verbose("Loading {}".format(json_file))
 
@@ -1196,12 +1381,28 @@ def extract_all_from_file(state, json_file):
     # it's either an array of objects, or a single object
     try:
         if hasattr(jsondata, "keys"):
-            extract(state, jsondata)
+            extract_json(state, jsondata)
         else:
             for jsonobject in jsondata:
-                extract(state, jsonobject)
+                extract_json(state, jsonobject)
     except WrongJSONItem as E:
         print("---\nFile: '{0}'".format(json_file))
+        print(E)
+        exit(1)
+
+
+def extract_all_from_lua_file(state, lua_file):
+    "Extract translatable strings from lua code in the specified file."
+    state.current_source_file = lua_file
+    log_verbose("Loading {}".format(lua_file))
+
+    with open(lua_file, encoding="utf-8") as fp:
+        luadata_raw = fp.read()
+
+    try:
+        extract_lua(state, luadata_raw)
+    except Exception as E:
+        print("---\nFile: '{0}'".format(lua_file))
         print(E)
         exit(1)
 

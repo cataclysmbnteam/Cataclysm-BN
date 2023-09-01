@@ -9,6 +9,7 @@
 #include <string>
 
 #include "int_id.h"
+#include "catalua_type_operators.h"
 #include "string_id.h"
 #include "translations.h"
 
@@ -133,6 +134,8 @@ struct body_part_type {
         int squeamish_penalty = 0;
 
         int base_hp = 60;
+
+        LUA_TYPE_OPS( body_part_type, id );
 
         void load( const JsonObject &jo, const std::string &src );
         void finalize();

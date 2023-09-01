@@ -316,6 +316,7 @@ static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_POISRESIST( "POISRESIST" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -1001,6 +1002,7 @@ int iuse::inhaler( player *p, item *it, bool, const tripoint & )
             p->add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
         }
     }
+    p->add_effect( effect_took_antiasthmatic, rng( 1_hours, 2_hours ) );
     p->remove_effect( effect_smoke );
     return it->type->charges_to_use();
 }
@@ -1322,7 +1324,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
     } else if( effect == 8 ) {
         p.add_msg_if_player( m_bad, _( "You take one bite, and immediately vomit!" ) );
         p.vomit();
-    } else if( p.crossed_threshold() ) {
+    } else if( p.crossed_threshold() || p.has_trait( trait_PROF_FERAL ) ) {
         // Mycus Rejection.  Goo already present fights off the fungus.
         p.add_msg_if_player( m_bad,
                              _( "You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out…" ) );
@@ -1592,6 +1594,15 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
             p.add_msg_if_player( _( "You try to feed the %s some %s, but it vanishes!" ),
                                  mon.type->nname(), it.tname() );
             mon.die( nullptr );
+            return 0;
+        }
+
+        // Feral survivors don't get to tame normal critters.
+        if( p.has_trait( trait_PROF_FERAL ) ) {
+            // TODO: Allow player ferals to tame zombie animals, but make sure non-feral players
+            // can't tame them, and for flavor possibly only allow taming with meat-based items.
+            p.add_msg_if_player( _( "You reach for the %s, but it recoils away from you!" ),
+                                 mon.type->nname() );
             return 0;
         }
 

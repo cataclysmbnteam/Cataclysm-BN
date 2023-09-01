@@ -1051,11 +1051,18 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             return A_FRIENDLY;
         }
 
+        static const string_id<monfaction> faction_zombie( "zombie" );
         auto faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
+            return A_FRIENDLY;
+        } else if( g->u.has_trait( trait_PROF_FERAL ) && ( faction == faction_zombie ||
+                   type->in_species( ZOMBIE ) ) && ( m->faction == faction_zombie ||
+                           m->type->in_species( ZOMBIE ) ) ) {
+            // Zombies ignoring a feral survivor aren't quite the same as friendly
+            // Ignore actually-friendly zombies/ferals but not other friendlies like reprogramed bots
             return A_FRIENDLY;
         } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
             // Stuff that hates a specific faction will always attack that faction
@@ -1151,12 +1158,11 @@ monster_attitude monster::attitude( const Character *u ) const
 
         if( has_flag( MF_ANIMAL ) ) {
             if( u->has_trait( trait_PROF_FERAL ) ) {
-                // We want wildlife to amp their normal fight-or-flight response up to eleven, so anger_relation won't cut it.
+                // We want all wildlife to amp their fight-or-flight response up to eleven, so anger adjustments in general won't cut it.
                 if( effective_anger >= -10 ) {
-                    effective_anger += 25;
-                }
-                if( effective_anger < -10 ) {
-                    effective_morale -= 100;
+                    return MATT_ATTACK;
+                } else {
+                    return MATT_FLEE;
                 }
             } else if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
@@ -2968,7 +2974,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     }
 
     static const string_id<monfaction> faction_zombie( "zombie" );
-    const bool feral_friend = ( faction == faction_zombie || !type->in_species( ZOMBIE ) ) &&
+    const bool feral_friend = ( faction == faction_zombie || type->in_species( ZOMBIE ) ) &&
                               g->u.has_trait( trait_PROF_FERAL ) && !g->u.has_effect( effect_feral_infighting_punishment );
 
     // Hackery: If player is currently a feral and you're a zombie, ignore any sounds close to their position.

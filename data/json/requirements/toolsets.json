@@ -91,6 +91,12 @@
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {
+    "id": "drawing_tool",
+    "type": "requirement",
+    "//": "Things suitable for drawing or writing something on paper, cardboard, cloth or similar materials.",
+    "tools": [ [ [ "permanent_marker", 1 ], [ "survival_marker", 1 ] ] ]
+  },
+  {
     "id": "coding_standard",
     "type": "requirement",
     "//": "For writing software",
@@ -154,11 +160,10 @@
     "//": "Tools for removing a normal wall / floor / glass",
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "CHISEL", "level": 2 },
-      { "id": "PRY", "level": 3 },
+      { "id": "CHISEL", "level": 1 },
+      { "id": "PRY", "level": 2 },
       { "id": "DIG", "level": 3 }
-    ],
-    "tools": [ [ [ "angle_grinder", 200 ] ] ]
+    ]
   },
   {
     "id": "linoleum_removal_standard",
