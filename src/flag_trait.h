@@ -1,5 +1,5 @@
 #pragma once
-#ifndef CATA_SRC_FLAG_H
+#ifndef CATA_SRC_FLAG_TRAIT_H
 #define CATA_SRC_FLAG_TRAIT_H
 
 #include <set>
