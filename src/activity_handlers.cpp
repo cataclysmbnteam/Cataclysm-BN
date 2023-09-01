@@ -4432,6 +4432,7 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 20_seconds ) ) );
     p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 3_minutes ) ) );
     p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 90_seconds ) ) );
+    p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
     act->set_to_null();
 }
 
