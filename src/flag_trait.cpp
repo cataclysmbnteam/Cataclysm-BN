@@ -1,5 +1,3 @@
-#include "flag.h"
-
 #include <unordered_map>
 
 #include "debug.h"

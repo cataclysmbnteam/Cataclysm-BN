@@ -1,6 +1,6 @@
 #pragma once
 #ifndef CATA_SRC_FLAG_H
-#define CATA_SRC_FLAG_H
+#define CATA_SRC_FLAG_TRAIT_H
 
 #include <set>
 #include <string>
@@ -57,4 +57,4 @@ class json_trait_flag
         static void reset();
 };
 
-#endif // CATA_SRC_FLAG_H
+#endif // CATA_SRC_FLAG_TRAIT_H
