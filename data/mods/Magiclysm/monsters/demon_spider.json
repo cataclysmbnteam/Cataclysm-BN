@@ -2,6 +2,7 @@
   {
     "type": "SPECIES",
     "id": "DEMON_SPIDER",
+    "name": { "str": "demon spider" },
     "anger_triggers": [ "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ]
   },
   {

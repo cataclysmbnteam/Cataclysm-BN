@@ -1430,7 +1430,11 @@ void advanced_inventory::display()
                advanced_inventory::side::left;
 
         if( ui ) {
-            ui_manager::redraw();
+            ui->invalidate_ui();
+            if( recalc ) {
+                g->invalidate_main_ui_adaptor();
+            }
+            ui_manager::redraw_invalidated();
         }
 
         recalc = false;

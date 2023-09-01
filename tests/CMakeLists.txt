@@ -7,6 +7,9 @@ IF(BUILD_TESTING)
 
   IF(TILES)
     add_executable(cata_test-tiles ${CATACLYSM_BN_TEST_SOURCES})
+    IF(LUA)
+      target_compile_definitions(cata_test-tiles PUBLIC LUA)
+    ENDIF(LUA)
     target_link_libraries(cata_test-tiles cataclysm-tiles-common)
     add_test(NAME test-tiles
       COMMAND sh -c
@@ -17,6 +20,9 @@ IF(BUILD_TESTING)
 
   IF(CURSES)
     add_executable(cata_test ${CATACLYSM_BN_TEST_SOURCES})
+    IF(LUA)
+      target_compile_definitions(cata_test PUBLIC LUA)
+    ENDIF(LUA)
     target_link_libraries(cata_test cataclysm-common)
     add_test(NAME test
       COMMAND sh -c

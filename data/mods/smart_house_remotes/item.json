@@ -1,0 +1,35 @@
+[
+  {
+    "id": "smart_house_remote",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "smart house remote" },
+    "description": "A small remote with lcd display used to control garage doors and window curtains.  Completely useless now, unless you manage to restore power to the house.",
+    "weight": "100 g",
+    "volume": "300 ml",
+    "price": 1000,
+    "price_postapoc": 1000,
+    "bashing": 1,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "light_blue",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": "SMART_HOUSE_REMOTE",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": "250 ml"
+  }
+]
