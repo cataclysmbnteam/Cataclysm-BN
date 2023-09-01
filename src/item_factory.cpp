@@ -148,12 +148,14 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     };
 
     if( jo.has_array( key ) ) {
+        parts.reset();
         for( const std::string line : jo.get_array( key ) ) {
             parse( line );
         }
         return true;
 
     } else if( jo.has_string( key ) ) {
+        parts.reset();
         parse( jo.get_string( key ) );
         return true;
 
@@ -341,7 +343,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // Migrate compataible magazines
-    for( auto kv : obj.magazines ) {
+    for( auto &kv : obj.magazines ) {
         for( auto mag_it = kv.second.begin(); mag_it != kv.second.end(); ) {
             auto maybe_migrated = migrated_magazines.find( *mag_it );
             if( maybe_migrated != migrated_magazines.end() ) {
@@ -354,7 +356,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // Migrate default magazines
-    for( auto kv : obj.magazine_default ) {
+    for( auto &kv : obj.magazine_default ) {
         auto maybe_migrated = migrated_magazines.find( kv.second );
         if( maybe_migrated != migrated_magazines.end() ) {
             kv.second = maybe_migrated->second;
@@ -481,7 +483,7 @@ void Item_factory::finalize_pre( itype &obj )
         } else if( vitamins.empty() && obj.comestible->healthy >= 0 ) {
             // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
             auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
-            auto mat = obj.materials;
+            auto &mat = obj.materials;
 
             // TODO: migrate inedible comestibles to appropriate alternative types.
             mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
@@ -938,6 +940,7 @@ void Item_factory::init()
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
+    add_iuse( "GUN_CLEAN", &iuse::gun_clean );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );
@@ -1333,45 +1336,38 @@ void Item_factory::check_definitions() const
             if( ( type->gunmod->sight_dispersion < 0 ) != ( type->gunmod->aim_speed < 0 ) ) {
                 msg += "gunmod must have both sight_dispersion and aim_speed set or neither of them set\n";
             }
-            for( const gun_type_type &t : type->gunmod->usable ) {
-                // TODO: Make gun_type_type not require horrid checks like this one
-                const skill_id gun_skill = skill_id( t.name_ );
-                bool is_skill = ( gun_skill.is_valid() && gun_skill->is_combat_skill() )
-                                || t.name_ == "bow"
-                                || t.name_ == "crossbow";
-                itype_id item_type( t.name_ );
-                bool is_item = item_type.is_valid();
-                if( !is_skill && !is_item ) {
-                    msg += string_format( "gunmod is usable for invalid item/gun type %s\n", t.name_ );
+            for( const itype_id &t : type->gunmod->usable ) {
+                if( !t.is_valid() ) {
+                    msg += string_format( "gunmod is usable for invalid item %s\n", t.c_str() );
                     continue;
                 }
 
-                if( json_report_strict && t.name_ == "bow" ) {
-                    msg += string_format( "'bow' location is deprecated, use 'archery' instead" );
+                const itype *target = &*t;
+                if( target->gun->valid_mod_locations.count( type->gunmod->location ) == 0 ) {
+                    msg += string_format( "gunmod is usable for gun %s which doesn't have a slot of type %s\n",
+                                          t.c_str(), type->gunmod->location.str() );
                 }
 
-                // We need to check is_skill because something can be both an item and a skill
-                if( !is_skill && is_item ) {
-                    const itype *target = &*item_type;
-                    if( target->gun->valid_mod_locations.count( type->gunmod->location ) == 0 ) {
-                        msg += string_format( "gunmod is usable for gun %s which doesn't have a slot of type %s\n",
-                                              t.name_, type->gunmod->location.str() );
+                if( type->mod != nullptr && !type->mod->ammo_modifier.empty() ) {
+                    auto &acceptable_ammo = type->mod->ammo_modifier;
+                    for( const auto &pr : type->mod->magazine_adaptor ) {
+                        acceptable_ammo.insert( pr.first );
                     }
-
-                    if( type->mod != nullptr && !type->mod->ammo_modifier.empty() ) {
-                        auto acceptable_ammo = type->mod->ammo_modifier;
-                        for( const auto &pr : type->mod->magazine_adaptor ) {
-                            acceptable_ammo.insert( pr.first );
+                    auto &acceptable_magazines = !type->mod->magazine_adaptor.empty()
+                                                 ? type->mod->magazine_adaptor
+                                                 : target->magazines;
+                    for( const ammotype &ammo : acceptable_ammo ) {
+                        if( acceptable_magazines.find( ammo ) == acceptable_magazines.end() ) {
+                            msg += string_format( "gunmod can be applied to %s, which has no magazines for ammo %s\n",
+                                                  t.c_str(), ammo.str() );
                         }
-                        auto acceptable_magazines = !type->mod->magazine_adaptor.empty()
-                                                    ? type->mod->magazine_adaptor
-                                                    : target->magazines;
-                        for( const ammotype &ammo : acceptable_ammo ) {
-                            if( acceptable_magazines.find( ammo ) == acceptable_magazines.end() ) {
-                                msg += string_format( "gunmod can be applied to %s, which has no magazines for ammo %s\n",
-                                                      t.name_, ammo.str() );
-                            }
-                        }
+                    }
+                }
+            }
+            for( const std::unordered_set<weapon_category_id> &wv : type->gunmod->usable_category ) {
+                for( const weapon_category_id &wid : wv ) {
+                    if( !wid.is_valid() ) {
+                        msg += string_format( "gunmod is usable for invalid weapon category %s\n", wid.c_str() );
                     }
                 }
             }
@@ -2212,12 +2208,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
                                              time_duration::units ) );
     }
 
-    if( jo.has_member( "mod_targets" ) ) {
-        slot.usable.clear();
-        for( const auto &t : jo.get_tags( "mod_targets" ) ) {
-            slot.usable.insert( gun_type_type( t ) );
-        }
-    }
+    assign( jo, "mod_targets", slot.usable );
+    assign( jo, "mod_target_category", slot.usable_category );
 
     assign( jo, "mode_modifier", slot.mode_modifier );
     assign( jo, "reload_modifier", slot.reload_modifier );
@@ -2444,9 +2436,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "repairs_like", def.repairs_like );
     }
 
-    if( jo.has_member( "weapon_category" ) ) {
-        optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<weapon_category_id> {} );
-    }
+    assign( jo, "weapon_category", def.weapon_category );
 
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
@@ -2470,6 +2460,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         "GUNMOD",
         "MAGAZINE",
         "PET_ARMOR",
+        "SPECIES",
         "TOOL",
         "TOOLMOD",
         "TOOL_ARMOR",

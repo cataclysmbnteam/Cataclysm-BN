@@ -97,8 +97,7 @@
     "difficulty": 3,
     "time": "100 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_intermediate", 16 ], [ "steel_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
@@ -111,9 +110,7 @@
     "difficulty": 3,
     "time": "180 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "using": [ [ "blacksmithing_advanced", 1 ], [ "steel_tiny", 1 ] ]
   },
   {
     "type": "recipe",
@@ -300,7 +297,7 @@
       [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [ [ [ "lead", 50 ] ] ]
+    "components": [ [ [ "lead", 50 ], [ "bismuth", 125 ] ] ]
   },
   {
     "result": "sling_bullet_small",
@@ -317,6 +314,6 @@
       [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
-    "components": [ [ [ "lead", 50 ] ] ]
+    "components": [ [ [ "lead", 50 ], [ "bismuth", 125 ] ] ]
   }
 ]

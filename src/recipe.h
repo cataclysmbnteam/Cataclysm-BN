@@ -178,6 +178,8 @@ class recipe
 
         bool hot_result() const;
 
+        bool dehydrate_result() const;
+
         /** Returns the amount or charges recipe will produce. */
         int makes_amount() const;
         /** Returns number of charges of the item needed for single disassembly. */

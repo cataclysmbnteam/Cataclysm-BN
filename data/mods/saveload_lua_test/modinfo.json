@@ -1,0 +1,14 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "saveload_lua_test",
+    "name": "SaveLoad Lua Test",
+    "authors": [ "Olanti" ],
+    "description": "Mod for testing Lua save/load API.",
+    "category": "content",
+    "lua_api_version": 1,
+    "//": "It's not really obsolete, but it's useful only for devs and modders, and not for player.",
+    "obsolete": true,
+    "dependencies": [ "bn" ]
+  }
+]

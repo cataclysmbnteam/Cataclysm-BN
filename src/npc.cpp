@@ -331,7 +331,8 @@ void npc::randomize( const npc_class_id &type )
         setID( g->assign_npc_id() );
     }
 
-    primary_weapon() = item( "null", calendar::start_of_cataclysm );
+    set_primary_weapon( item( "null", calendar::start_of_cataclysm ) );
+
     inv.clear();
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
@@ -814,7 +815,7 @@ int npc::best_skill_level() const
 void npc::starting_weapon( const npc_class_id &type )
 {
     if( item_group::group_is_defined( type->weapon_override ) ) {
-        primary_weapon() = item_group::item_from( type->weapon_override, calendar::turn );
+        set_primary_weapon( item_group::item_from( type->weapon_override, calendar::turn ) );
         return;
     }
 
@@ -822,23 +823,23 @@ void npc::starting_weapon( const npc_class_id &type )
 
     // if NPC has no suitable skills default to stabbing weapon
     if( !best || best == skill_stabbing ) {
-        primary_weapon() = random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) );
+        set_primary_weapon( random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) ) );
     } else if( best == skill_bashing ) {
-        primary_weapon() = random_item_from( type, "bashing",  item_group_id( "survivor_bashing" ) );
+        set_primary_weapon( random_item_from( type, "bashing",  item_group_id( "survivor_bashing" ) ) );
     } else if( best == skill_cutting ) {
-        primary_weapon() = random_item_from( type, "cutting",  item_group_id( "survivor_cutting" ) );
+        set_primary_weapon( random_item_from( type, "cutting",  item_group_id( "survivor_cutting" ) ) );
     } else if( best == skill_throw ) {
-        primary_weapon() = random_item_from( type, "throw" );
+        set_primary_weapon( random_item_from( type, "throw" ) );
     } else if( best == skill_archery ) {
-        primary_weapon() = random_item_from( type, "archery" );
+        set_primary_weapon( random_item_from( type, "archery" ) );
     } else if( best == skill_pistol ) {
-        primary_weapon() = random_item_from( type, "pistol",  item_group_id( "guns_pistol_common" ) );
+        set_primary_weapon( random_item_from( type, "pistol",  item_group_id( "guns_pistol_common" ) ) );
     } else if( best == skill_shotgun ) {
-        primary_weapon() = random_item_from( type, "shotgun",  item_group_id( "guns_shotgun_common" ) );
+        set_primary_weapon( random_item_from( type, "shotgun",  item_group_id( "guns_shotgun_common" ) ) );
     } else if( best == skill_smg ) {
-        primary_weapon() = random_item_from( type, "smg",  item_group_id( "guns_smg_common" ) );
+        set_primary_weapon( random_item_from( type, "smg",  item_group_id( "guns_smg_common" ) ) );
     } else if( best == skill_rifle ) {
-        primary_weapon() = random_item_from( type, "rifle",  item_group_id( "guns_rifle_common" ) );
+        set_primary_weapon( random_item_from( type, "rifle",  item_group_id( "guns_rifle_common" ) ) );
     }
 
     if( primary_weapon().is_gun() ) {
@@ -1167,33 +1168,15 @@ bool npc::wield( item &it )
     }
 
     if( it.is_null() ) {
-        primary_weapon() = item();
+        set_primary_weapon( item() );
         return true;
-    }
-
-    // check if the item is in a holster
-    int position = inv.position_by_item( &it );
-    if( position != INT_MIN ) {
-        item &maybe_holster = inv.find_item( position );
-        assert( !maybe_holster.is_null() );
-        if( &maybe_holster != &it && maybe_holster.is_holster() ) {
-            assert( !maybe_holster.contents.empty() );
-            const size_t old_size = maybe_holster.contents.num_item_stacks();
-            invoke_item( &maybe_holster );
-            // TODO: change invoke_item to somehow report this change
-            // HACK: test whether wielding the item from the holster has been done.
-            // (Wielding may be prevented by various reasons: see player::wield_contained)
-            if( old_size != maybe_holster.contents.num_item_stacks() ) {
-                return true;
-            }
-        }
     }
 
     moves -= 15;
     if( has_item( it ) ) {
-        primary_weapon() = remove_item( it );
+        set_primary_weapon( remove_item( it ) );
     } else {
-        primary_weapon() = it;
+        set_primary_weapon( it );
     }
 
     if( g->u.sees( pos() ) ) {
@@ -2992,11 +2975,8 @@ std::set<tripoint> npc::get_path_avoid() const
 
 mfaction_id npc::get_monster_faction() const
 {
-    if( my_fac ) {
-        string_id<monfaction> my_mon_fac = string_id<monfaction>( my_fac->mon_faction );
-        if( my_mon_fac.is_valid() ) {
-            return my_mon_fac;
-        }
+    if( my_fac && my_fac->mon_faction.is_valid() ) {
+        return my_fac->mon_faction;
     }
 
     // legacy checks

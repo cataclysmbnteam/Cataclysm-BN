@@ -24,7 +24,7 @@
     "type": "profession",
     "id": "crt_rotc",
     "name": "C.R.I.T. ROTC Member",
-    "description": "You were training ahead of time to become a C.R.I.T officer in the upcoming war.  Your call to arms arrived dead on arrival and already plastered in the all-too vibrant gore of your squadmates.  In the midst of panic, you bugged out lest you join the remnants of your friends.  Now it's up to your wits and short years of training to keep you alive in this Cataclysm.",
+    "description": "You were training ahead of time to become a Catastrophe Response and Investigation Team officer in the upcoming war.  Your call to arms arrived dead on arrival and already plastered in the all-too vibrant gore of your squadmates.  In the midst of panic, you bugged out lest you join the remnants of your friends.  Now it's up to your wits and short years of training to keep you alive in this Cataclysm.",
     "points": 7,
     "traits": [ "MARTIAL_CRT", "PROF_MILITARY" ],
     "skills": [
@@ -54,7 +54,7 @@
     "type": "profession",
     "id": "crt_dude",
     "name": "C.R.I.T. Janitor",
-    "description": "*Sigh* Your life has been a wreck.  Hopping place to place you finally found a job at C.R.I.T… as a janitor of sorts.  The pay was good and you got some sneak-peeks on some pretty cool stuff.  After all non-essential personnel were purged you found yourself stuck with nothing but the uniform they gave you and your job's sign-bonus equipment.",
+    "description": "*Sigh* Your life has been a wreck.  Hopping place to place you finally found a job at Catastrophe Response and Investigation Team… as a janitor of sorts.  The pay was good and you got some sneak-peeks on some pretty cool stuff.  After all non-essential personnel were purged you found yourself stuck with nothing but the uniform they gave you and your job's sign-bonus equipment.",
     "points": 6,
     "skills": [
       { "level": 2, "name": "tailor" },
@@ -89,7 +89,7 @@
     "type": "profession",
     "id": "crt_nco",
     "name": "C.R.I.T. NCO",
-    "description": "You were a senior NCO, relaying orders to your squad was an everyday task.  When the cataclysm struck, your expertise helped save everyone time and time again until it all fell apart.",
+    "description": "You were a senior NCO for the Catastrophe Response and Investigation Team, relaying orders to your squad was an everyday task.  When the cataclysm struck, your expertise helped save everyone time and time again until it all fell apart.",
     "points": 10,
     "traits": [ "MARTIAL_CRT", "PROF_MILITARY" ],
     "skills": [
@@ -491,7 +491,7 @@
     "type": "profession",
     "id": "crt_exile",
     "name": "C.R.I.T. Survivalist",
-    "description": "You were an elite recon of the C.R.I.T.  You were hailed as a top survivalist after being stuck for weeks behind enemy lines and having to survive with nothing but some rocks, sticks and plants.  However, after a few too many drinks (20) at the local bar and getting into a fight (knocking them out) with one of your commanding officers during a drunken bout you were stripped of your rank and sent off into the forests with your current gear to run a trial by survival.  After an hour of scouting about in the forest for a good shelter, your radio rang and you were briefed over the fact that the world was suddenly ending.  Of course, no one has time to pick your sorry ass up, so cheers.  Staying away from drinks might be a good idea; at least you got some real tools this time!",
+    "description": "You were an elite recon of the Catastrophe Response and Investigation Team.  You were hailed as a top survivalist after being stuck for weeks behind enemy lines and having to survive with nothing but some rocks, sticks and plants.  However, after a few too many drinks (20) at the local bar and getting into a fight (knocking them out) with one of your commanding officers during a drunken bout you were stripped of your rank and sent off into the forests with your current gear to run a trial by survival.  After an hour of scouting about in the forest for a good shelter, your radio rang and you were briefed over the fact that the world was suddenly ending.  Of course, no one has time to pick your sorry ass up, so cheers.  Staying away from drinks might be a good idea; at least you got some real tools this time!",
     "traits": [ "MARTIAL_CRT", "PROF_MILITARY", "LIGHTWEIGHT", "ADDICTIVE" ],
     "points": 12,
     "skills": [
@@ -594,7 +594,7 @@
     "type": "profession",
     "id": "crt_employee",
     "name": "C.R.I.T. Employee",
-    "description": "Like many others, you had requested to join the C.R.I.T organization's admin-offices to escape from bitter memories and past traumas after valiantly protecting your comrades for years.  After you completed the readjustment program, your skills may have rusted considerably since your last deployment to battle, but the drilled muscle memories have not worn away.  As your comrades' screams once again ring in your ears and repressed memories of abhorrent nature resurface, can you find it within yourself to overcome the looming terror which paralyzes you?",
+    "description": "Like many others, you had requested to join the Catastrophe Response and Investigation Team organization's admin-offices to escape from bitter memories and past traumas after valiantly protecting your comrades for years.  After you completed the readjustment program, your skills may have rusted considerably since your last deployment to battle, but the drilled muscle memories have not worn away.  As your comrades' screams once again ring in your ears and repressed memories of abhorrent nature resurface, can you find it within yourself to overcome the looming terror which paralyzes you?",
     "traits": [ "MARTIAL_CRT", "PROF_MILITARY", "SPIRITUAL", "SCHIZOPHRENIC", "JITTERY" ],
     "points": 6,
     "skills": [

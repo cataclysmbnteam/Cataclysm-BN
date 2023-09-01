@@ -31,5 +31,10 @@
       "mon_feral_militia",
       "mon_feral_soldier"
     ]
+  },
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "blacklist",
+    "scenarios": [ "assassination", "player_feral" ]
   }
 ]

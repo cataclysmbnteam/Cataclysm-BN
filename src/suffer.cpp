@@ -83,6 +83,7 @@ static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_cig( "cig" );
+static const efftype_id effect_cough_aggravated_asthma( "cough_aggravated_asthma" );
 static const efftype_id effect_datura( "datura" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disabled( "disabled" );
@@ -435,6 +436,7 @@ void Character::suffer_from_chemimbalance()
 void Character::suffer_from_schizophrenia()
 {
     std::string i_name_w;
+    item &weapon = primary_weapon();
     if( !weapon.is_null() ) {
         i_name_w = weapon.has_var( "item_label" ) ? weapon.get_var( "item_label" ) :
                    //~ %1$s: weapon name
@@ -623,8 +625,11 @@ void Character::suffer_from_asthma( const int current_stim )
         has_effect( effect_took_antiasthmatic ) ) {
         return;
     }
-    if( !one_in( ( to_turns<int>( 6_hours ) - current_stim * 300 ) *
-                 ( has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
+    // Cap effect of stimulants on asthma attacks to 1 per minute (or risk instantly killing players that rely on oxygen tanks)
+    if( !one_in( std::max( to_turns<int>( 1_minutes ),
+                           ( to_turns<int>( 6_hours ) - current_stim * 180 ) ) *
+                 ( has_effect( effect_sleep ) ? 10 : 1 ) * ( has_effect( effect_cough_aggravated_asthma ) ? 0.25 :
+                         1 ) ) ) {
         return;
     }
     bool auto_use = has_charges( itype_inhaler, 1 ) || has_charges( itype_oxygen_tank, 1 ) ||
@@ -653,6 +658,7 @@ void Character::suffer_from_asthma( const int current_stim )
         } else if( auto_use ) {
             if( use_charges_if_avail( itype_inhaler, 1 ) ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                add_effect( effect_took_antiasthmatic, rng( 1_hours, 2_hours ) );
             } else if( use_charges_if_avail( itype_oxygen_tank, 1 ) ||
                        use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
@@ -664,6 +670,7 @@ void Character::suffer_from_asthma( const int current_stim )
             map &here = get_map();
             if( !here.use_charges( g->u.pos(), 2, itype_inhaler, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
+                add_effect( effect_took_antiasthmatic, rng( 1_hours, 2_hours ) );
             } else if( !here.use_charges( g->u.pos(), 2, itype_oxygen_tank, amount ).empty() ||
                        !here.use_charges( g->u.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
@@ -694,6 +701,7 @@ void Character::suffer_from_asthma( const int current_stim )
                                                      "only %d charges left.", charges ),
                                    charges );
             }
+            add_effect( effect_took_antiasthmatic, rng( 1_hours, 2_hours ) );
         } else if( use_charges_if_avail( itype_oxygen_tank, 1 ) ||
                    use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
             moves -= 500; // synched with use action
@@ -924,7 +932,7 @@ void Character::suffer_from_sunburn()
         }
     }
     // Umbrellas can keep the sun off the skin
-    if( weapon.has_flag( "RAIN_PROTECT" ) ) {
+    if( primary_weapon().has_flag( "RAIN_PROTECT" ) ) {
         return;
     }
 
@@ -1289,6 +1297,7 @@ void Character::suffer_from_bad_bionics()
         moves -= 150;
         mod_power_level( -bio_dis_shock->power_trigger );
 
+        item &weapon = primary_weapon();
         if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
             weapon.charges -= rng( 1, 3 ) * 50;
             if( weapon.charges < 1 ) {
@@ -1926,9 +1935,9 @@ void Character::apply_wetness_morale( int temperature )
         }
 
         // For an unmutated human swimming in deep water, this will add up to:
-        // +51 when hot in 100% water friendly clothing
-        // -103 when cold/hot in 100% unfriendly clothing
-        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 2.0 );
+        // +26 when hot in 100% water friendly clothing
+        // -52 when cold/hot in 100% unfriendly clothing
+        total_morale += static_cast<int>( bp_morale * ( 1.0 + scaled_temperature ) / 4.0 );
     }
 
     if( total_morale == 0 ) {

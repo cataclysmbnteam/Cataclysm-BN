@@ -14,6 +14,7 @@
 
 #include "bodypart.h" // body_part::num_bp
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "color.h" // nc_color
 #include "damage.h"
 #include "enums.h" // point
@@ -543,45 +544,13 @@ struct islot_gun : common_ranged_data {
     int recoil = 0;
 };
 
-/// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
-class gun_type_type
-{
-    private:
-        std::string name_;
-
-    public:
-        /// @param name The untranslated name of the gun type. Must have been extracted
-        /// for translation with the context "gun_type_type".
-        gun_type_type( const std::string &name ) : name_( name ) {}
-        /// Translated name.
-        std::string name() const;
-
-        friend bool operator==( const gun_type_type &l, const gun_type_type &r ) {
-            return l.name_ == r.name_;
-        }
-
-        friend struct std::hash<gun_type_type>;
-        friend class Item_factory;
-};
-
-namespace std
-{
-
-template<>
-struct hash<gun_type_type> {
-    size_t operator()( const gun_type_type &t ) const {
-        return hash<std::string>()( t.name_ );
-    }
-};
-
-} // namespace std
-
 struct islot_gunmod : common_ranged_data {
     /** Where is this gunmod installed (e.g. "stock", "rail")? */
     gunmod_location location;
 
     /** What kind of weapons can this gunmod be used with (e.g. "rifle", "crossbow")? */
-    std::unordered_set<gun_type_type> usable;
+    std::unordered_set<itype_id> usable;
+    std::vector<std::unordered_set<weapon_category_id>> usable_category;
 
     /** If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current @ref Character::recoil is at or below this value. */
     int sight_dispersion = -1;
@@ -839,6 +808,8 @@ struct itype {
         using FlagsSetType = std::set<std::string>;
 
         std::vector<std::pair<itype_id, mod_id>> src;
+
+        LUA_TYPE_OPS( itype, id );
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check

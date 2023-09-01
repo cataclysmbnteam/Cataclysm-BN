@@ -1045,7 +1045,7 @@ class npc : public player
         npc_action address_player();
         npc_action long_term_goal_action();
         // Returns true if did something and we should end turn
-        bool scan_new_items();
+        void scan_new_items();
         // Returns true if did wield it
         bool wield_better_weapon();
 
@@ -1416,5 +1416,13 @@ double unarmed_value( const Character &who );
 void deactivate_weapon_cbm( npc &who );
 // returns list of reloadable cbms.
 std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who );
+
+namespace npc_overmap
+{
+/** Radius of the area in which we count NPCs for random spawn chance. */
+static constexpr int density_search_radius = 120;
+/** Chance that a random NPC spawns somewhere on overmap. */
+double spawn_chance_in_hour( int current_npc_count, double density );
+} // namespace npc_overmap
 
 #endif // CATA_SRC_NPC_H

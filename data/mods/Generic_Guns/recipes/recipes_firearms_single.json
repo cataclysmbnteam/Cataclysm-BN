@@ -124,8 +124,7 @@
     "autolearn": true,
     "book_learn": [ [ "manual_pistol", 2 ], [ "mag_pistol", 3 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_standard", 3 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 1 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -140,8 +139,7 @@
     "autolearn": true,
     "book_learn": [ [ "manual_rifle", 3 ], [ "mag_rifle", 4 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_standard", 1 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 2 ], [ "steel_standard", 1 ] ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   },
   {
@@ -156,8 +154,7 @@
     "autolearn": true,
     "book_learn": [ [ "manual_shotgun", 2 ], [ "mag_shotgun", 3 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_standard", 3 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "using": [ [ "blacksmithing_advanced", 1 ], [ "steel_standard", 3 ] ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
   }
 ]

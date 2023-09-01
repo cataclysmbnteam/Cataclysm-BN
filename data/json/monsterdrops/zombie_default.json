@@ -223,8 +223,8 @@
       [ "default_zombie_items_pockets", 20 ],
       [ "ammo_pistol_common", 2 ],
       [ "ammo_shotgun_common", 1 ],
-      [ "guns_pistol_common", 2 ],
-      [ "guns_shotgun_common", 1 ],
+      [ "carried_guns_pistol_common", 2 ],
+      [ "carried_guns_shotgun_common", 1 ],
       [ "postman_gear", 5 ],
       [ "hardware_plumbing", 5 ]
     ]

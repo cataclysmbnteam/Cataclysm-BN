@@ -389,7 +389,7 @@
     "dodge": 4,
     "harvest": "human",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "HUMAN", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS" ]
   },
   {
     "id": "mon_headless_dog_thing",

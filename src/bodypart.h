@@ -9,12 +9,14 @@
 #include <string>
 
 #include "int_id.h"
+#include "catalua_type_operators.h"
 #include "string_id.h"
 #include "translations.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
+class item;
 struct body_part_type;
 
 template <typename E> struct enum_traits;
@@ -133,6 +135,8 @@ struct body_part_type {
 
         int base_hp = 60;
 
+        LUA_TYPE_OPS( body_part_type, id );
+
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
@@ -153,6 +157,12 @@ struct body_part_type {
         int bionic_slots_ = 0;
 };
 
+class wield_status
+{
+    public:
+        std::shared_ptr<item> wielded;
+};
+
 class bodypart
 {
     private:
@@ -165,6 +175,10 @@ class bodypart
         /** Not used yet*/
         int damage_bandaged = 0;
         int damage_disinfected = 0;
+
+    public:
+        // TODO: private
+        wield_status wielding;
 
     public:
         bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
@@ -241,6 +255,9 @@ class body_part_set
         }
         void set( const body_part &bp ) {
             parts.set( bp );
+        }
+        void reset() {
+            parts.reset();
         }
         void reset( const body_part &bp ) {
             parts.reset( bp );
