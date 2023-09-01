@@ -411,6 +411,13 @@
     "move_cost": 0,
     "coverage": 50,
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE", "MINEABLE" ],
+    "deconstruct": {
+      "ter_set": "t_bridge",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "steel_plate", "count": [ 0, 2 ] }
+      ]
+    },
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -431,6 +438,14 @@
     "move_cost": 0,
     "coverage": 50,
     "flags": [ "NOITEM", "REDUCE_SCENT", "MOUNTABLE" ],
+    "deconstruct": {
+      "ter_set": "t_bridge",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 150,
