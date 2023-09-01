@@ -413,10 +413,7 @@
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE", "MINEABLE" ],
     "deconstruct": {
       "ter_set": "t_bridge",
-      "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "steel_plate", "count": [ 0, 2 ] }
-      ]
+      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "steel_plate", "count": [ 0, 2 ] } ]
     },
     "bash": {
       "str_min": 30,
