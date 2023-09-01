@@ -2453,10 +2453,12 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
     const ter_id ter = here.ter( src_loc );
     if( here.has_flag( flag_TREE, src_loc ) ) {
         p.assign_activity( ACT_CHOP_TREE, moves, -1, p.get_item_position( best_qual ) );
+        p.activity.targets.push_back( item_location( p, best_qual ) );
         p.activity.placement = here.getabs( src_loc );
         return true;
     } else if( ter == t_trunk || ter == t_stump ) {
         p.assign_activity( ACT_CHOP_LOGS, moves, -1, p.get_item_position( best_qual ) );
+        p.activity.targets.push_back( item_location( p, best_qual ) );
         p.activity.placement = here.getabs( src_loc );
         return true;
     }
@@ -3133,7 +3135,7 @@ static std::optional<tripoint> find_refuel_spot_trap( const std::vector<tripoint
     return {};
 }
 
-bool find_auto_consume( player &p, const bool food )
+bool find_auto_consume( player &p, const consume_type type )
 {
     // return false if there is no point searching again while the activity is still happening.
     if( p.is_npc() ) {
@@ -3145,12 +3147,7 @@ bool find_auto_consume( player &p, const bool food )
     const tripoint pos = p.pos();
     map &here = get_map();
     zone_manager &mgr = zone_manager::get_manager();
-    zone_type_id consume_type_zone( "" );
-    if( food ) {
-        consume_type_zone = zone_type_id( "AUTO_EAT" );
-    } else {
-        consume_type_zone = zone_type_id( "AUTO_DRINK" );
-    }
+    const zone_type_id consume_type_zone( type == consume_type::FOOD ? "AUTO_EAT" : "AUTO_DRINK" );
     if( here.check_vehicle_zones( g->get_levz() ) ) {
         mgr.cache_vzones();
     }
@@ -3159,73 +3156,116 @@ bool find_auto_consume( player &p, const bool food )
     if( dest_set.empty() ) {
         return false;
     }
+
+    const auto ok_to_consume = [&p, type]( item & it ) -> bool {
+        item &comest = p.get_consumable_from( it );
+        /* not food.              */
+        if( comest.is_null() || comest.is_craft() || !comest.is_food() )
+        {
+            return false;
+        }
+        /* not enjoyable.         */
+        if( p.fun_for( comest ).first < -5 )
+        {
+            return false;
+        }
+        /* cannot consume.        */
+        if( !p.can_consume( comest ) )
+        {
+            return false;
+        }
+        /* wont eat, e.g cannibal */
+        if( !p.will_eat( comest, false ).success() )
+        {
+            return false;
+        }
+        /* not ours               */
+        if( !it.is_owned_by( p, true ) )
+        {
+            return false;
+        }
+        /* not quenching enough   */
+        if( type == consume_type::DRINK && comest.get_comestible()->quench < 15 )
+        {
+            return false;
+        }
+        /* Unsafe to drink or eat */
+        if( comest.has_flag( flag_UNSAFE_CONSUME ) )
+        {
+            return false;
+        }
+        return true;
+    };
+
+    struct {
+        item *min_shelf_life = nullptr;
+        tripoint loc = tripoint_min;
+        item_location item_loc = item_location::nowhere;
+
+        bool longer_life_than( item &it ) {
+            return !min_shelf_life || it.spoilage_sort_order() < min_shelf_life->spoilage_sort_order();
+        };
+    } current;
+
+    const auto should_skip = [&]( item & it ) {
+        return !ok_to_consume( it ) || !current.longer_life_than( it );
+    };
+
     for( const tripoint loc : dest_set ) {
         if( loc.z != p.pos().z ) {
             continue;
         }
-
         const optional_vpart_position vp = here.veh_at( g->m.getlocal( loc ) );
-        std::vector<item *> items_here;
         if( vp ) {
             vehicle &veh = vp->vehicle();
-            int index = veh.part_with_feature( vp->part_index(), "CARGO", false );
-            if( index >= 0 ) {
-                vehicle_stack vehitems = veh.get_items( index );
-                for( item &it : vehitems ) {
-                    items_here.push_back( &it );
+            const int index = veh.part_with_feature( vp->part_index(), "CARGO", false );
+            if( index < 0 ) {
+                continue;
+            }
+            /**
+             * TODO: when we get to use ranges library, current should be replaced with:
+             *
+             * const auto shortest = vehitems | filter_view(ok_to_consume) | max_element(spoilage_sort_order)
+             *
+             * rationale:
+             * 1. much more readable (mandatory FP shilling)
+             * 2. filter_view does not create a new container (it's a view), so it's performant
+             *
+             * @see https://en.cppreference.com/w/cpp/ranges/filter_view
+             * @see https://en.cppreference.com/w/cpp/algorithm/ranges/max_element
+             */
+            vehicle_stack vehitems = veh.get_items( index );
+            for( item &it : vehitems ) {
+                if( should_skip( it ) ) {
+                    continue;
                 }
+                current = { &it, loc, item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &p.get_consumable_from( it ) ) };
             }
         } else {
             map_stack mapitems = here.i_at( here.getlocal( loc ) );
             for( item &it : mapitems ) {
-                items_here.push_back( &it );
+                if( should_skip( it ) ) {
+                    continue;
+                }
+                current = { &it, loc, item_location( map_cursor( here.getlocal( loc ) ), &p.get_consumable_from( it ) ) };
             }
-        }
-
-        for( item *it : items_here ) {
-            item &comest = p.get_consumable_from( *it );
-            if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
-                p.fun_for( comest ).first < -5 ) {
-                // not good eatings.
-                continue;
-            }
-            if( !p.can_consume( *it ) ) {
-                continue;
-            }
-            if( !p.will_eat( comest, false ).success() ) {
-                // wont like it, cannibal meat etc
-                continue;
-            }
-            if( !it->is_owned_by( p, true ) ) {
-                // it aint ours.
-                continue;
-            }
-            if( !food && comest.get_comestible()->quench < 15 ) {
-                // not quenching enough
-                continue;
-            }
-            if( comest.has_flag( flag_UNSAFE_CONSUME ) ) {
-                // Unsafe to drink or eat
-                continue;
-            }
-
-            p.mod_moves( -pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
-                         here.getlocal( loc ) ), 1 ) );
-            item_location item_loc;
-            if( vp ) {
-                item_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &comest );
-            } else {
-                item_loc = item_location( map_cursor( here.getlocal( loc ) ), &comest );
-            }
-            avatar_action::eat( g->u, item_loc );
-            // eat() may have removed the item, so check its still there.
-            if( item_loc.get_item() && item_loc->is_container() ) {
-                item_loc->on_contents_changed();
-            }
-            return true;
         }
     }
-    return false;
+    if( !current.min_shelf_life ) {
+        return false;
+    }
+
+    // actually eat
+    const auto cost = pickup::cost_to_move_item( p, *current.min_shelf_life );
+    const auto dist = std::max( rl_dist( p.pos(), here.getlocal( current.loc ) ), 1 );
+    p.mod_moves( -cost * dist );
+
+    avatar_action::eat( g->u, current.item_loc );
+    // eat() may have removed the item, so check its still there.
+    if( current.item_loc.get_item() && current.item_loc->is_container() ) {
+        current.item_loc->on_contents_changed();
+    }
+    return true;
 }
 
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )

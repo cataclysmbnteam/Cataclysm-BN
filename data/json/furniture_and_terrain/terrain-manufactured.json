@@ -646,31 +646,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_water_dispenser",
-    "name": "water dispenser",
-    "looks_like": "f_sink",
-    "description": "A machine with several taps that dispenses clean water.",
-    "symbol": "W",
-    "color": "light_blue",
-    "move_cost": 0,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT" ],
-    "bash": {
-      "str_min": 15,
-      "str_max": 80,
-      "sound": "whack!",
-      "sound_fail": "thunk.",
-      "ter_set": "t_concrete",
-      "items": [
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
-        { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "pipe", "count": [ 0, 2 ] }
-      ]
-    },
-    "examine_action": "clean_water_source"
-  },
-  {
-    "type": "terrain",
     "id": "t_plut_generator",
     "name": "plutonium generator",
     "description": "This imposing apparatus harnesses the power of the atom.  Refined nuclear fuel is 'burned' to provide nearly limitless electrical power.  It's not doing much good here though.  Perhaps it could be salvaged for other purposes.",

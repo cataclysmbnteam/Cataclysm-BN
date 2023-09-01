@@ -1391,6 +1391,24 @@ the achievement can be claimed. The `"skill"` field uses the id of a skill.
 Note that like `"time_constraint"` below achievements can only be captured when
 a statistic listed in `"requirements"` changes.
 
+
+```C++
+"kill_requirements": [ { "faction": "ZOMBIE", "is": ">=", "count": 1 }, { "monster": "mon_sludge_crawler", "is": ">=", "count": 1 } ],
+```
+
+This allows a kill requirement (either an upper or lower bound) on when
+the achievement can be claimed. Can be defined with either `"faction"` or
+`"monster"` as a target, using species ids from `species.json` or a
+specific monster id.
+
+Only one of the `"monster"`/`"faction"` fields can be used per entry. If neither
+are used, any monster will fulfill the requirements.
+
+NPCs cannot currently be defined as a target.
+
+Note that like `"time_constraint"` below achievements can only be captured when
+a statistic listed in `"requirements"` changes.
+
 ```C++
 "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" }
 ```
@@ -1695,7 +1713,7 @@ See also VEHICLE_JSON.md
 "rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
-"price_post": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"price_postapoc": "1 USD",                   // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
 "weapon_category": [ "WEAPON_CAT1" ],        // (Optional) Weapon categories this item is in for martial arts.
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
@@ -2097,7 +2115,8 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 | Weapon Category       | Description
 | ---                   | ---
 | BOWS                  | Elastic launching device for long-shafted projectiles.
-| CROSSBOWS             | Elastic launching device mounted on a frame to be triggered.
+| S_XBOWS               | Elastic launching device mounted on a frame to be triggered, pistol sized.
+| M_XBOWS               | Elastic launching device mounted on a frame to be triggered.
 | SLINGSHOTS            | Elastic, handheld launching device typically used for small round projectiles.
 | SLINGS                | Projectile weapon using a cradle connected to two retention cords, used to fling blunt projectiles.
 | ---                   | ---

@@ -203,6 +203,7 @@ static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
 static const std::string flag_SPLINT( "SPLINT" );
 
+static const flag_str_id flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
 static const flag_str_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const flag_str_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
@@ -669,7 +670,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only )
         }
 
         add_msg_activate();
-        primary_weapon() = item( bio.info().fake_item );
+        set_primary_weapon( item( bio.info().fake_item ) );
         primary_weapon().invlet = '#';
         if( is_player() && bio.ammo_count > 0 ) {
             primary_weapon().ammo_set( bio.ammo_loaded, bio.ammo_count );
@@ -1152,7 +1153,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
                 primary_weapon().ammo_data() != nullptr ? primary_weapon().ammo_data()->get_id() :
                 itype_id::NULL_ID();
             bio.ammo_count = static_cast<unsigned int>( primary_weapon().ammo_remaining() );
-            primary_weapon() = item();
+            set_primary_weapon( item() );
             invalidate_crafting_inventory();
         }
     } else if( bio.id == bio_cqb ) {
@@ -1281,11 +1282,13 @@ bool Character::burn_fuel( bionic &bio, bool start )
                         mod_stored_kcal( -kcal_consumed );
                         mod_power_level( power_gain );
                     } else if( is_perpetual_fuel ) {
-                        if( fuel == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
-                            const weather_type_id &wtype = current_weather( pos() );
-                            const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
-                            const double intensity = tick_sunlight / default_daylight_level();
-                            mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_efficiency );
+                        if( fuel == fuel_type_sun_light ) {
+                            if( g->is_in_sunlight( pos() ) ) {
+                                const weather_type_id &wtype = current_weather( pos() );
+                                const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
+                                const double intensity = tick_sunlight / default_daylight_level();
+                                mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_efficiency );
+                            }
                         } else if( fuel == fuel_type_wind ) {
                             int vehwindspeed = 0;
                             const optional_vpart_position vp = here.veh_at( pos() );
@@ -2136,10 +2139,10 @@ void Character::perform_uninstall( bionic_id bid, int difficulty, int success,
         mod_max_power_level( -power_lvl );
 
         item cbm( itype_burnt_out_bionic );
-        if( bid->itype().is_valid() ) {
+        if( bid->itype().is_valid() && !bid.obj().has_flag( flag_BIONIC_FAULTY ) ) {
             cbm = item( bid.c_str() );
+            cbm.faults.emplace( fault_bionic_nonsterile );
         }
-        cbm.faults.emplace( fault_bionic_nonsterile );
         here.add_item( pos(), cbm );
     } else {
         g->events().send<event_type::fails_to_remove_cbm>( getID(), bid );
@@ -2209,9 +2212,12 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         // remove power bank provided by bionic
         patient.mod_max_power_level( -target_cbm.info().capacity );
         patient.remove_bionic( target_cbm.id );
-        const itype_id iid = itemtype.is_valid() ? itemtype : itype_burnt_out_bionic;
+        const itype_id iid = itemtype.is_valid() &&
+                             !target_cbm.info().has_flag( flag_BIONIC_FAULTY ) ? itemtype : itype_burnt_out_bionic;
         item cbm( iid, calendar::start_of_cataclysm );
-        cbm.faults.emplace( fault_bionic_nonsterile );
+        if( itemtype.is_valid() ) {
+            cbm.faults.emplace( fault_bionic_nonsterile );
+        }
         get_map().add_item( patient.pos(), cbm );
     } else {
         bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );

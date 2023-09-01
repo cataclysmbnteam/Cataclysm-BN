@@ -19,6 +19,7 @@
 #include "bionics.h"
 #include "bionics_ui.h"
 #include "calendar.h"
+#include "catalua.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_display.h"
@@ -688,6 +689,10 @@ static void smash()
         }
     }
     item &weapon = u.primary_weapon();
+    if( weapon.made_of( material_id( "glass" ) ) &&
+        !query_yn( _( "Are you sure you want to smash with an item made of glass?" ) ) ) {
+        return;
+    }
     const int move_cost = !u.is_armed() ? 80 : weapon.attack_cost() * 0.8;
     bool didit = false;
     bool mech_smash = false;
@@ -1852,7 +1857,13 @@ bool game::handle_action()
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't open things while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
-                    add_msg( m_info, _( "You can't open things while you're riding." ) );
+                    auto mon = u.mounted_creature.get();
+                    if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( m_info, _( "You can't open things while you're riding." ) );
+                        break;
+                    } else {
+                        open();
+                    }
                 } else {
                     open();
                 }
@@ -1865,6 +1876,9 @@ bool game::handle_action()
                     auto mon = u.mounted_creature.get();
                     if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
                         add_msg( m_info, _( "You can't close things while you're riding." ) );
+                        break;
+                    } else {
+                        close();
                     }
                 } else if( mouse_target ) {
                     doors::close_door( m, u, *mouse_target );
@@ -1927,7 +1941,16 @@ bool game::handle_action()
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't grab things while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
-                    add_msg( m_info, _( "You can't grab things while you're riding." ) );
+                    auto mon = u.mounted_creature.get();
+                    if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( m_info, _( "You can't grab things while you're riding." ) );
+                        break;
+                    } else if( !mon->type->mech_weapon.is_empty() ) {
+                        add_msg( m_info, _( "Your mech doesn't have hands to grab with." ) );
+                        break;
+                    } else {
+                        grab();
+                    }
                 } else {
                     grab();
                 }
@@ -2355,6 +2378,14 @@ bool game::handle_action()
                     break;    //don't do anything when sharing and not debugger
                 }
                 debug_menu::debug();
+                break;
+
+            case ACTION_LUA_CONSOLE:
+                cata::show_lua_console();
+                break;
+
+            case ACTION_LUA_RELOAD:
+                cata::reload_lua_code();
                 break;
 
             case ACTION_TOGGLE_FULLSCREEN:

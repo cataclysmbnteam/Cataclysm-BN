@@ -179,6 +179,10 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
               to_translation( "%1$s casts %2$s at %3$s!" ) );
     spell_data = intermediate.get_spell();
     spell_data.set_message( monster_message );
+}
+
+void mon_spellcasting_actor::finalize()
+{
     avatar fake_player;
     move_cost = spell_data.casting_time( fake_player );
 }
@@ -577,6 +581,10 @@ bool gun_actor::call( monster &z ) const
         }
     }
 
+    // One last check to make sure we're not firing on a friendly
+    if( z.attitude_to( *target ) == Creature::A_FRIENDLY ) {
+        return false;
+    }
     int dist = rl_dist( z.pos(), aim_at );
     for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
@@ -669,7 +677,7 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         tmp.set_skill_level( pr.first, pr.second );
     }
 
-    tmp.primary_weapon() = gun;
+    tmp.set_primary_weapon( gun );
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
     if( g->u.sees( z ) ) {

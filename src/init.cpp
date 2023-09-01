@@ -21,6 +21,7 @@
 #include "behavior.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "catalua.h"
 #include "cata_utility.h"
 #include "clothing_mod.h"
 #include "clzones.h"
@@ -633,6 +634,10 @@ void DynamicDataLoader::unload_data()
 #if defined(TILES)
     reset_mod_tileset();
 #endif
+
+    // Has to be cleaned last in case one of the above data collections
+    // holds references to Lua functions or tables.
+    lua.reset();
 }
 
 void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
@@ -719,9 +724,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         e.second();
         ui.proceed();
     }
-
-    check_consistency( ui );
-    finalized = true;
 }
 
 void DynamicDataLoader::check_consistency( loading_ui &ui )
@@ -816,6 +818,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
         e.second();
         ui.proceed();
     }
+
+    finalized = true;
 }
 
 /**
@@ -846,13 +850,68 @@ static void load_and_finalize_packs( loading_ui &ui, const std::string &msg,
 
     DynamicDataLoader &loader = DynamicDataLoader::get_instance();
 
+    loader.lua = cata::make_wrapped_state();
+
+    cata::init_global_state_tables( *loader.lua, available );
+
     ui.show();
+    for( const mod_id &mod : available ) {
+        if( mod->lua_api_version ) {
+            if( !cata::has_lua() ) {
+                throw std::runtime_error(
+                    string_format(
+                        "You need game build with Lua support to load content pack %s [%s]",
+                        mod->name(), mod
+                    )
+                );
+            }
+            if( cata::get_lua_api_version() != *mod->lua_api_version ) {
+                // The mod may be broken, but let's be user-friendly and try to load it anyway
+                debugmsg(
+                    "Content pack uses outdated Lua API (current: %d, uses: %d) %s [%s]",
+                    cata::get_lua_api_version(), *mod->lua_api_version,
+                    mod->name(), mod
+                );
+            }
+            cata::set_mod_being_loaded( *loader.lua, mod );
+            cata::run_mod_preload_script( *loader.lua, mod );
+        }
+    }
+
+    cata::reg_lua_iuse_actors( *loader.lua, *item_controller );
+
     for( const mod_id &mod : available ) {
         loader.load_data_from_path( mod->path, mod.str(), ui );
         ui.proceed();
     }
 
     loader.finalize_loaded_data( ui );
+
+    if( cata::has_lua() ) {
+        for( const mod_id &mod : available ) {
+            if( mod->lua_api_version ) {
+                cata::set_mod_being_loaded( *loader.lua, mod );
+                cata::run_mod_finalize_script( *loader.lua, mod );
+            }
+        }
+    }
+
+    loader.check_consistency( ui );
+
+    if( cata::has_lua() ) {
+        init::load_main_lua_scripts( *loader.lua, packs );
+        cata::clear_mod_being_loaded( *loader.lua );
+    }
+}
+
+void init::load_main_lua_scripts( cata::lua_state &state, const std::vector<mod_id> &packs )
+{
+    for( const mod_id &mod : packs ) {
+        if( mod.is_valid() && mod->lua_api_version ) {
+            cata::set_mod_being_loaded( state, mod );
+            cata::run_mod_main_script( state, mod );
+        }
+    }
 }
 
 bool init::is_data_loaded()
@@ -932,14 +991,19 @@ bool init::check_mods_for_errors( loading_ui &ui, const std::vector<mod_id> &opt
             return false;
         }
 
+        if( id->lua_api_version && !cata::has_lua() ) {
+            std::cerr << string_format( "Mod requires Lua support: [%s]\n", id );
+            return false;
+        }
+
         to_check.emplace( id );
     }
 
     // If no specific mods specified check all non-obsolete mods
     if( to_check.empty() ) {
-        for( const mod_id &e : world_generator->get_mod_manager().all_mods() ) {
-            if( !e->obsolete ) {
-                to_check.emplace( e );
+        for( const mod_id &mod : world_generator->get_mod_manager().all_mods() ) {
+            if( !mod->obsolete && !( !cata::has_lua() && mod->lua_api_version ) ) {
+                to_check.emplace( mod );
             }
         }
     }

@@ -22,7 +22,7 @@
           [ [ "2x4", 59 ] ],
           [ [ "glass_sheet", 3 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "mortar_build", 12 ] ],
+          [ [ "mortar_adobe", 12 ], [ "mortar_build", 12 ] ],
           [ [ "nail", 126 ] ],
           [ [ "pebble", 300 ] ],
           [ [ "rock", 144 ] ],
@@ -54,7 +54,7 @@
           [ [ "2x4", 43 ] ],
           [ [ "glass_sheet", 1 ] ],
           [ [ "hinge", 4 ] ],
-          [ [ "mortar_build", 18 ] ],
+          [ [ "mortar_adobe", 18 ], [ "mortar_build", 18 ] ],
           [ [ "nail", 102 ] ],
           [ [ "pebble", 450 ] ],
           [ [ "rock", 216 ] ],
@@ -84,10 +84,10 @@
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
           [ [ "2x4", 180 ] ],
+          [ [ "mortar_adobe", 12 ], [ "mortar_build", 12 ] ],
           [ [ "nail", 448 ] ],
-          [ [ "rock", 144 ] ],
           [ [ "pebble", 300 ] ],
-          [ [ "mortar_build", 12 ] ],
+          [ [ "rock", 144 ] ],
           [ [ "wood_panel", 22 ] ]
         ]
       }
@@ -115,7 +115,7 @@
         "components": [
           [ [ "2x4", 30 ], [ "log", 4 ] ],
           [ [ "glass_sheet", 2 ] ],
-          [ [ "mortar_build", 30 ] ],
+          [ [ "mortar_adobe", 30 ], [ "mortar_build", 30 ] ],
           [ [ "nail", 60 ] ],
           [ [ "pebble", 750 ] ],
           [ [ "rock", 360 ] ]
@@ -146,7 +146,7 @@
           [ [ "2x4", 56 ] ],
           [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "mortar_build", 12 ] ],
+          [ [ "mortar_adobe", 12 ], [ "mortar_build", 12 ] ],
           [ [ "nail", 126 ] ],
           [ [ "pebble", 300 ] ],
           [ [ "rock", 144 ] ],
@@ -177,7 +177,7 @@
         "components": [
           [ [ "2x4", 57 ] ],
           [ [ "glass_sheet", 3 ] ],
-          [ [ "mortar_build", 14 ] ],
+          [ [ "mortar_adobe", 14 ], [ "mortar_build", 14 ] ],
           [ [ "nail", 120 ] ],
           [ [ "pebble", 350 ] ],
           [ [ "rock", 168 ] ]
@@ -208,7 +208,7 @@
           [ [ "2x4", 29 ] ],
           [ [ "glass_sheet", 1 ] ],
           [ [ "hinge", 2 ] ],
-          [ [ "mortar_build", 4 ] ],
+          [ [ "mortar_adobe", 4 ], [ "mortar_build", 4 ] ],
           [ [ "nail", 66 ] ],
           [ [ "pebble", 100 ] ],
           [ [ "rock", 48 ] ],

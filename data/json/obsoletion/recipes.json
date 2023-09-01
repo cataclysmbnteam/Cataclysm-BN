@@ -3167,5 +3167,11 @@
     "result": "chem_zinc_powder",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jug_plastic",
+    "id_suffix": "plastic-mod",
+    "obsolete": true
   }
 ]
