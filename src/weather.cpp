@@ -1061,44 +1061,47 @@ void weather_manager::update_weather()
     w_point &w = weather_precise;
     winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
     windspeed = windspeed_override ? *windspeed_override : w.windpower;
-    if( !weather_id || calendar::turn >= nextweather ) {
-        const weather_generator &weather_gen = get_cur_weather_gen();
-        w = weather_gen.get_weather( g->u.global_square_location(), calendar::turn, g->get_seed() );
-        weather_type_id old_weather = weather_id;
-        weather_id = weather_override ? weather_override : weather_gen.get_weather_conditions( w );
-        if( !g->u.has_artifact_with( AEP_BAD_WEATHER ) ) {
-            weather_override = weather_type_id::NULL_ID();
-        }
-        sfx::do_ambient();
-        temperature = units::to_fahrenheit( w.temperature );
-        lightning_active = false;
-        // Check weather every few turns, instead of every turn.
-        // TODO: predict when the weather changes and use that time.
-        nextweather = calendar::turn + 5_minutes;
-        if( weather_id != old_weather && weather_id->dangerous &&
-            g->get_levz() >= 0 && get_map().is_outside( g->u.pos() )
-            && !g->u.has_activity( ACT_WAIT_WEATHER ) ) {
-            g->cancel_activity_or_ignore_query( distraction_type::weather_change,
-                                                string_format( _( "The weather changed to %s!" ), weather_id->name ) );
-        }
-
-        if( weather_id != old_weather && g->u.has_activity( ACT_WAIT_WEATHER ) ) {
-            g->u.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
-        }
-
-        if( weather_id->sight_penalty !=
-            old_weather->sight_penalty ) {
-            for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
-                get_map().set_transparency_cache_dirty( i );
-            }
-            get_map().set_seen_cache_dirty( tripoint_zero );
-        }
-
-        water_temperature = units::to_fahrenheit(
-                                weather_gen.get_water_temperature(
-                                    tripoint_abs_ms( g->u.global_square_location() ),
-                                    calendar::turn, calendar::config, g->get_seed() ) );
+    if( weather_id && calendar::turn < nextweather ) {
+        return;
     }
+
+    const weather_generator &weather_gen = get_cur_weather_gen();
+    w = weather_gen.get_weather( g->u.global_square_location(), calendar::turn, g->get_seed() );
+    weather_type_id old_weather = weather_id;
+    weather_id = weather_override ? weather_override : weather_gen.get_weather_conditions( w );
+    if( !g->u.has_artifact_with( AEP_BAD_WEATHER ) ) {
+        weather_override = weather_type_id::NULL_ID();
+    }
+
+    sfx::do_ambient();
+    temperature = units::to_fahrenheit( w.temperature );
+    lightning_active = false;
+    // Check weather every few turns, instead of every turn.
+    // TODO: predict when the weather changes and use that time.
+    nextweather = calendar::turn + 5_minutes;
+    if( weather_id != old_weather && weather_id->dangerous &&
+        g->get_levz() >= 0 && get_map().is_outside( g->u.pos() )
+        && !g->u.has_activity( ACT_WAIT_WEATHER ) ) {
+        g->cancel_activity_or_ignore_query( distraction_type::weather_change,
+                                            string_format( _( "The weather changed to %s!" ), weather_id->name ) );
+    }
+
+    if( weather_id != old_weather && g->u.has_activity( ACT_WAIT_WEATHER ) ) {
+        g->u.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
+    }
+
+    if( weather_id->sight_penalty !=
+        old_weather->sight_penalty ) {
+        for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
+            get_map().set_transparency_cache_dirty( i );
+        }
+        get_map().set_seen_cache_dirty( tripoint_zero );
+    }
+
+    water_temperature = units::to_fahrenheit(
+                            weather_gen.get_water_temperature(
+                                tripoint_abs_ms( g->u.global_square_location() ),
+                                calendar::turn, calendar::config, g->get_seed() ) );
 }
 
 void weather_manager::set_nextweather( time_point t )
