@@ -660,6 +660,7 @@ int main( int argc, char *argv[] )
 #if !defined(TILES)
     get_options().init();
     get_options().load();
+    get_options().save();
     set_language(); // Have to set locale before initializing ncurses
 #endif
 
