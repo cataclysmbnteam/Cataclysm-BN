@@ -143,12 +143,6 @@ static constexpr int BIO_CQB_LEVEL = 5;
 static constexpr int HORDE_VISIBILITY_SIZE = 3;
 
 /**
- * Base starting spring temperature in F used for climate, weather and temperature calculation.
- * New England base spring temperature = 65F/18C rounded to int.
-*/
-static constexpr int SPRING_TEMPERATURE = 65;
-
-/**
  * Used to limit the random seed during noise calculation. A large value flattens the noise generator to zero.
  * Windows has a rand limit of 32768, other operating systems can have higher limits.
 */
