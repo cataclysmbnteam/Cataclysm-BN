@@ -27,18 +27,22 @@
 
 ## 다운로드
 
-[![안정판][stable-releases-badge]][stable-releases] [![최신 릴리즈][all-releases-badge]][all-releases]
+### 실행 파일
 
-[stable-releases]: https://github.com/cataclysmbnteam/cataclysm-BN/releases/tag/cbn-0.3
-[stable-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/cataclysm-BN?style=for-the-badge&color=success&label=stable
-[all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases?q=prerelease%3Atrue&expanded=true
-[all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/cataclysm-BN?style=for-the-badge&color=important&label=Latest%20Release&include_prereleases&sort=date
+[![Stable][stable-releases-badge]][stable-releases] [![Recent][all-releases-badge]][all-releases]
 
-| [소스 코드][source-zip-archive] | [저장소에서 클론하기][clone] |
-| :-----------------------------: | :--------------------------: |
+### 소스 코드
 
-[source-zip-archive]: https://github.com/cataclysmbnteam/cataclysm-BN/archive/master.zip "소스 코드를 .zip 아카이브로 다운로드할 수 있습니다"
-[clone]: https://github.com/cataclysmbnteam/cataclysm-BN/ "GitHub 저장소에서 클론할 수 있습니다"
+[![Source Code][source-badge]][source] [![Zip Archive][clone-badge]][clone]
+
+[stable-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/latest "안정판 실행 파일 내려받기"
+[stable-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=success&label=안정판
+[all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases?q=prerelease%3Atrue&expanded=true "실험판 실행 파일 내려받기"
+[all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=important&label=최신%20실험판&include_prereleases&sort=date
+[source]: https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip  "소스 코드를 .zip 아카이브로 다운로드할 수 있습니다"
+[source-badge]: https://img.shields.io/badge/ZIP%20아카이브로%20내려받기-black?style=for-the-badge&logo=github
+[clone]: https://github.com/cataclysmbnteam/Cataclysm-BN/ "GitHub 저장소에서 클론할 수 있습니다"
+[clone-badge]: https://img.shields.io/badge/저장소에서%20클론하기-black?style=for-the-badge&logo=github
 
 ## 빌드하기
 
@@ -59,10 +63,10 @@
 
 ## 커뮤니티
 
-| [저장소][repo] | [토론][discussion] | [공식 저장소][discord] | [BN 채널@모딩 커뮤니티][modding] |
-| :------------: | :----------------: | :--------------------: | :------------------------------: |
+[![Discussions](https://img.shields.io/badge/포럼에서%20토론하기-black?style=for-the-badge&logo=github)][discussion]
+[![Discord](https://img.shields.io/discord/830879262763909202?style=for-the-badge&logo=discord&label=공식%20디스코드%20서버)][discord]
+[![Discussions](https://img.shields.io/badge/CDDA%20모딩%20커뮤니티-green?style=for-the-badge&logo=discord)][modding]
 
-[repo]: https://github.com/cataclysmbnteam/cataclysm-BN
 [discussion]: https://github.com/cataclysmbnteam/cataclysm-BN/discussions
 [discord]: https://discord.gg/XW7XhXuZ89
 [modding]: https://discord.gg/B5q4XCa "비공식 DDA모딩 커뮤니티에도 BN 채널이 있습니다."

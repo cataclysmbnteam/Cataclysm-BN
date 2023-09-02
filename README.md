@@ -3,8 +3,8 @@
 <header align="center">
   <a><img src="doc/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
 
-  [![en][icon-en]][en]
-  [![ko][icon-ko]][ko]
+[![en][icon-en]][en]
+[![ko][icon-ko]][ko]
 
 </header>
 
@@ -12,7 +12,6 @@
 [icon-en]: https://img.shields.io/badge/lang-en-red?style=flat-square
 [ko]: ./README.ko.md
 [icon-ko]: https://img.shields.io/badge/lang-ko-orange?style=flat-square
-
 
 Cataclysm: Bright Nights is a roguelike with sci-fi elements set in a post-apocalyptic world.
 
@@ -27,18 +26,22 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 ## Downloads
 
+### Executables
+
 [![Stable][stable-releases-badge]][stable-releases] [![Recent][all-releases-badge]][all-releases]
 
-[stable-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/tag/cbn-0.3
-[stable-releases-badge]: <https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=success&label=stable>
+### Source Code
+
+[![Source Code][source-badge]][source] [![Zip Archive][clone-badge]][clone]
+
+[stable-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases/latest "Download stable executable"
+[stable-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=success&label=stable "Download experimental executable"
 [all-releases]: https://github.com/cataclysmbnteam/Cataclysm-BN/releases?q=prerelease%3Atrue&expanded=true
 [all-releases-badge]: https://img.shields.io/github/v/release/cataclysmbnteam/Cataclysm-BN?style=for-the-badge&color=important&label=Latest%20Release&include_prereleases&sort=date
-
-| [Source Code][source-zip-archive] | [Clone From Repo][clone] |
-| :-------------------------------: | :----------------------: |
-
-[source-zip-archive]: https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip "The source can be downloaded as a .zip archive"
+[source]: https://github.com/cataclysmbnteam/Cataclysm-BN/archive/master.zip "The source can be downloaded as a .zip archive"
+[source-badge]: https://img.shields.io/badge/Zip%20Archive-black?style=for-the-badge&logo=github
 [clone]: https://github.com/cataclysmbnteam/Cataclysm-BN/ "clone from our GitHub repo"
+[clone-badge]: https://img.shields.io/badge/Clone%20From%20Repo-black?style=for-the-badge&logo=github
 
 ## Compile
 
@@ -59,10 +62,10 @@ Please see [CONTRIBUTING.md](./doc/CONTRIBUTING.md) for details.
 
 ## Community
 
-| [Repository][repo] | [Discussions][discussion] | [Official Discord][discord] | [BN Channel@Modding Community][modding] |
-| :----------------: | :-----------------------: | :-------------------------: | :-------------------------------------: |
+[![Discussions](https://img.shields.io/badge/Discussions-black?style=for-the-badge&logo=github)][discussion]
+[![Discord](https://img.shields.io/discord/830879262763909202?style=for-the-badge&logo=discord)][discord]
+[![Discussions](https://img.shields.io/badge/CDDA%20Modding-green?style=for-the-badge&logo=discord)][modding]
 
-[repo]: https://github.com/cataclysmbnteam/Cataclysm-BN
 [discussion]: https://github.com/cataclysmbnteam/Cataclysm-BN/discussions
 [discord]: https://discord.gg/XW7XhXuZ89
 [modding]: https://discord.gg/B5q4XCa "Unofficial DDA modding community discord has a BN channel"
