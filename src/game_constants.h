@@ -76,12 +76,12 @@ static constexpr int VEHICLE_HANDLING_PENALTY = 80;
 static constexpr int PLUTONIUM_CHARGES = 500;
 
 // Temperature constants.
-
-/// Average annual temperature used for climate, weather and temperature calculation.
-constexpr units::temperature average_annual_termperature = 6_c;
-
 namespace temperatures
 {
+
+/// Average annual temperature used for climate, weather and temperature calculation.
+constexpr units::temperature annual_average = 6_c;
+
 // temperature at which something starts is considered HOT.
 constexpr units::temperature hot = 38_c;
 
@@ -101,7 +101,7 @@ constexpr units::temperature freezer = -5_c;
 constexpr units::temperature freezing = 0_c;
 
 // Arbitrary constant for root cellar temperature
-constexpr units::temperature root_cellar = average_annual_termperature;
+constexpr units::temperature root_cellar = annual_average;
 } // namespace temperatures
 
 // Weight per level of LIFT/JACK tool quality.

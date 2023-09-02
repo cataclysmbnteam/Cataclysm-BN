@@ -1122,7 +1122,7 @@ int weather_manager::get_temperature( const tripoint &location ) const
         temp_mod += get_convection_temperature( location );
     }
     //underground temperature = average New England temperature = 43F/6C rounded to int
-    const int temp = ( location.z < 0 ? units::to_fahrenheit( average_annual_termperature ) :
+    const int temp = ( location.z < 0 ? units::to_fahrenheit( temperatures::annual_average ) :
                        temperature ) +
                      ( g->new_game ? 0 : g->m.get_temperature( location ) + temp_mod );
 
@@ -1133,7 +1133,7 @@ int weather_manager::get_temperature( const tripoint &location ) const
 int weather_manager::get_temperature( const tripoint_abs_omt &location )
 {
     if( location.z() < 0 ) {
-        return units::to_fahrenheit( average_annual_termperature );
+        return units::to_fahrenheit( temperatures::annual_average );
     }
 
     tripoint abs_ms = project_to<coords::ms>( location ).raw();
