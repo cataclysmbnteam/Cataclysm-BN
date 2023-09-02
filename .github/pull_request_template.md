@@ -6,6 +6,16 @@ NOTE: Please grant permission for repository maintainers to edit your PR.  It is
 CODE STYLE: please follow below guide.
 JSON: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/JSON_STYLE.md
 C++: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/CODE_STYLE.md
+
+!!!!!!!!!! WARNING !!!!!!!!!!
+
+If you forget to format the PR, autofix.ci app will run automated format commit for you.
+When this happens, YOU MUST DO EITHER OF THE FOLLOWING:
+
+- Run `git pull` to merge the automated commit into your PR branch.
+- Format your code locally, and force push to your PR branch. 
+
+If you don't do this, your following work will be based on the old commit, and cause MERGE CONFLICT.
 -->
 
 #### Summary
