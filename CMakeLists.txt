@@ -31,6 +31,7 @@ set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING "Path to internal clang-tidy hea
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
 set(GIT_BINARY       "" CACHE STRING "Git binary name or path.")
 set(PREFIX           "" CACHE STRING "Location of Data & GFX directories")
+set(LINKER "" CACHE STRING "Custom Linker to use")
 
 include(CTest)
 
@@ -52,6 +53,10 @@ MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
 MESSAGE(STATUS "Build realm is                : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
+IF(LINKER)
+    add_link_options("-fuse-ld=${LINKER}")
+ENDIF()
+
 IF(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 ENDIF(NOT CMAKE_BUILD_TYPE)
@@ -62,7 +67,7 @@ if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
     FILE(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
         "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
-    MESSAGE(STATUS "${PROJECT_NAME} build version is : ${GIT_VERSION}\n")
+    MESSAGE(STATUS "${PROJECT_NAME} build version is  : ${GIT_VERSION}\n")
     ADD_DEFINITIONS(-DGIT_VERSION)
 ELSE (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     MESSAGE("")
@@ -196,22 +201,27 @@ ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
       ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
     ENDIF (PREFIX AND NOT WIN32)
 ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
-    MESSAGE(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
-    MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
 
-    MESSAGE(STATUS "TILES                         : ${TILES}")
-    MESSAGE(STATUS "CURSES                        : ${CURSES}")
-    MESSAGE(STATUS "SOUND                         : ${SOUND}")
-    MESSAGE(STATUS "LUA                           : ${LUA}")
-    MESSAGE(STATUS "BACKTRACE                     : ${BACKTRACE}")
-    MESSAGE(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
+MESSAGE(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
+MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
 
-    MESSAGE(STATUS "UNITY_BUILD                   : ${USE_UNITY_BUILD}")
-    MESSAGE(STATUS "PCH_HEADER                    : ${USE_PCH_HEADER}")
+MESSAGE(STATUS "TILES                         : ${TILES}")
+MESSAGE(STATUS "CURSES                        : ${CURSES}")
+MESSAGE(STATUS "SOUND                         : ${SOUND}")
+MESSAGE(STATUS "LUA                           : ${LUA}")
+MESSAGE(STATUS "BACKTRACE                     : ${BACKTRACE}")
+MESSAGE(STATUS "LIBBACKTRACE                  : ${LIBBACKTRACE}")
+MESSAGE(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
 
-    MESSAGE(STATUS "LANGUAGES                     : ${LANGUAGES}\n")
+MESSAGE(STATUS "UNITY_BUILD                   : ${USE_UNITY_BUILD}")
+MESSAGE(STATUS "PCH_HEADER                    : ${USE_PCH_HEADER}")
+MESSAGE(STATUS "LANGUAGES                     : ${LANGUAGES}\n")
 
-    MESSAGE(STATUS "See INSTALL file for details and more info --\n")
+IF(LINKER)
+    MESSAGE(STATUS "LINKER                        : ${LINKER}\n")
+ENDIF()
+
+MESSAGE(STATUS "See INSTALL file for details and more info --\n")
 
 IF(MSVC)
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
