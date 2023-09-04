@@ -148,17 +148,17 @@ TEST_CASE( "distribute_food" )
                  canned_status::canned_sealed, canned_status::canned_unsealed
              } ) {
             const int previous_kcal = yours->food_supply;
-            const item can_of_spam = make_food( itype_id( "can_spam" ), 1, status, false );
-            g->m.add_item_or_charges( origin, can_of_spam, false );
+            const item can_of_dogfood = make_food( itype_id( "dogfood" ), 1, status, false );
+            g->m.add_item_or_charges( origin, can_of_dogfood, false );
             bcp->distribute_food();
             CHECK( yours->food_supply == previous_kcal );
             const map_stack stack = g->m.i_at( origin );
             CHECK( stack.size() == 1 );
             CHECK( std::all_of( stack.begin(), stack.end(),
-            [&can_of_spam]( const item & it ) {
-                return it.typeId() == can_of_spam.typeId() && it.count() == 1
-                       && it.contents.front().typeId() == can_of_spam.contents.front().typeId()
-                       && it.contents.front().count() == can_of_spam.contents.front().count();
+            [&can_of_dogfood]( const item & it ) {
+                return it.typeId() == can_of_dogfood.typeId() && it.count() == 1
+                       && it.contents.front().typeId() == can_of_dogfood.contents.front().typeId()
+                       && it.contents.front().count() == can_of_dogfood.contents.front().count();
             } ) );
             g->m.i_clear( origin );
         }
