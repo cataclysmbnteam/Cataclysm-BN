@@ -1,31 +1,39 @@
 # Effect data
 
 ## How to give effects in-game?
+
 ### Comestibles
-The first way to give a player an effect in-game is through the drug system. To do this your item must have a use_action of type "consume_drug".
+
+The first way to give a player an effect in-game is through the drug system. To do this your item
+must have a use_action of type "consume_drug".
+
 ```C++
-    "use_action" : {
-        "type" : "consume_drug",
-        "activation_message" : "You take some oxycodone.",
-        "effects" : [
-            {
-                "id": "pkill3",
-                "duration": 20
-            },
-            {
-                "id": "pkill2",
-                "duration": 200
-            }
-        ]
-    },
+"use_action" : {
+    "type" : "consume_drug",
+    "activation_message" : "You take some oxycodone.",
+    "effects" : [
+        {
+            "id": "pkill3",
+            "duration": 20
+        },
+        {
+            "id": "pkill2",
+            "duration": 200
+        }
+    ]
+},
 ```
+
 Notice the "effects" field. Each effect has four potential fields:
+
 ```C++
 "id" - Required
 "duration" - Required
 "bp" - This will cause the effect to target this body part specifically
 ```
+
 Valid "bp" entries are (no entry means the effect is untargeted):
+
 ```C++
 "torso"
 "head"
@@ -42,120 +50,145 @@ Valid "bp" entries are (no entry means the effect is untargeted):
 ```
 
 ### Creature attacks
-Creatures have an effect field similar to the "consume_drug" entry for items. You can make a creature's attacks apply effects by adding an "attack_effs" entry for the creature.
+
+Creatures have an effect field similar to the "consume_drug" entry for items. You can make a
+creature's attacks apply effects by adding an "attack_effs" entry for the creature.
+
 ```C++
-    "attack_effs": [
-        {
-            "//": "applying this multiple times makes intensity go up by 3 instead of 1",
-            "id": "paralyzepoison",
-            "duration": 33
-        },
-        {
-            "id": "paralyzepoison",
-            "duration": 33
-        },
-        {
-            "id": "paralyzepoison",
-            "duration": 33
-        }
-    ],
+"attack_effs": [
+    {
+        "//": "applying this multiple times makes intensity go up by 3 instead of 1",
+        "id": "paralyzepoison",
+        "duration": 33
+    },
+    {
+        "id": "paralyzepoison",
+        "duration": 33
+    },
+    {
+        "id": "paralyzepoison",
+        "duration": 33
+    }
+],
 ```
-The fields for "attack_effs" function identically to the ones for "consume_drug". However, creatures have an additional field:
+
+The fields for "attack_effs" function identically to the ones for "consume_drug". However, creatures
+have an additional field:
+
 ```C++
 "chance" - The percentage chance of the effect being applied on a good hit, defaults to 100%
 ```
-If a creature successfully damages the player and their chance roll succeeds they will apply
-all of the listed effects to the player. The effects are added one after another.
+
+If a creature successfully damages the player and their chance roll succeeds they will apply all of
+the listed effects to the player. The effects are added one after another.
 
 ## Required fields
+
 ```C++
-    "type": "effect_type",      - Required
-    "id": "xxxx"                - Must be unique
+"type": "effect_type",      - Required
+"id": "xxxx"                - Must be unique
 ```
 
 ## Optional fields
 
 ### Max intensity
+
 ```C++
-    "max_intensity": 3          - Used for many later fields, defaults to 1
-    "max_effective_intensity"   - How many intensity levels will apply effects.
-                                  Other intensity levels will only increase duration.
+"max_intensity": 3          - Used for many later fields, defaults to 1
+"max_effective_intensity"   - How many intensity levels will apply effects.
+                              Other intensity levels will only increase duration.
 ```
 
 ### Name
+
 ```C++
-    "name": ["XYZ"]
-    or
-    "name": [
-        "ABC",
-        "XYZ",
-        "123"
-    ]
+"name": ["XYZ"]
+or
+"name": [
+    "ABC",
+    "XYZ",
+    "123"
+]
 ```
-If "max_intensity" > 1 and the number of entries in "name" >= "max_intensity" then
-it will attempt to use the proper intensity name. In this case that means an intensity
-of 1 would give the name "ABC", 2 would give "XYZ", and 3 would give "123". If "max_intensity" == 1
-or the number of entries in "name" is less than "max_intensity", it will use the first entry followed by
-the intensity in brackets if the current intensity > 1, i.e. "ABC", "ABC [2]", "ABC [3]". If the desired
-entry of "name" is the empty string ("") or "name" is missing then the effect will not display to the player
+
+If "max_intensity" > 1 and the number of entries in "name" >= "max_intensity" then it will attempt
+to use the proper intensity name. In this case that means an intensity of 1 would give the name
+"ABC", 2 would give "XYZ", and 3 would give "123". If "max_intensity" == 1 or the number of entries
+in "name" is less than "max_intensity", it will use the first entry followed by the intensity in
+brackets if the current intensity > 1, i.e. "ABC", "ABC [2]", "ABC [3]". If the desired entry of
+"name" is the empty string ("") or "name" is missing then the effect will not display to the player
 in the status screen.
 
 Each entry in "name" can also have an optional context:
+
 ```JSON
-    "name": [ { "ctxt": "ECIG", "str": "Smoke" } ]
+"name": [ { "ctxt": "ECIG", "str": "Smoke" } ]
 ```
-In this case, the game will translate the name with the given context "ECIG",
-which makes it possible to distinguish the verb "Smoke" from the noun "Smoke"
-in other languages.
+
+In this case, the game will translate the name with the given context "ECIG", which makes it
+possible to distinguish the verb "Smoke" from the noun "Smoke" in other languages.
 
 ```C++
-    "speed_name" : "XYZ"        - Defaults to the first name value
+"speed_name" : "XYZ"        - Defaults to the first name value
 ```
-This is the value used in the list of modifiers on a player's speed. It will default to the first entry in "name"
-if it doesn't exist, and if neither one exists or if "speed_name" is the empty string (""), then it will not
-appear in the list of modifiers on the players speed (though the effect might still have an effect).
+
+This is the value used in the list of modifiers on a player's speed. It will default to the first
+entry in "name" if it doesn't exist, and if neither one exists or if "speed_name" is the empty
+string (""), then it will not appear in the list of modifiers on the players speed (though the
+effect might still have an effect).
 
 ### Descriptions
+
 ```C++
-    "desc": ["XYZ"]
-    or
-    "desc": [
-        "ABC",
-        "XYZ",
-        "123"
-    ]
+"desc": ["XYZ"]
+or
+"desc": [
+    "ABC",
+    "XYZ",
+    "123"
+]
 ```
-Descriptions operate identically to the name field when picking which one to use. In general, descriptions
-should be only 1 line. Stats and effects do not need to be included, and will be automatically generated
-from the other effect data. Should a description line be the empty string ("") it will only display the
-stat changes in the effect description.
+
+Descriptions operate identically to the name field when picking which one to use. In general,
+descriptions should be only 1 line. Stats and effects do not need to be included, and will be
+automatically generated from the other effect data. Should a description line be the empty string
+("") it will only display the stat changes in the effect description.
 
 Descriptions also have a second field that can act as a modifier:
+
 ```C++
-    "part_descs": true      - Defaults to false if not present
+"part_descs": true      - Defaults to false if not present
 ```
-If "part_descs" == true then descriptions are preceded by "Your X", where X is the body part name, meaning
-the prior descriptions would appear as "Your left arm ABC".
+
+If "part_descs" == true then descriptions are preceded by "Your X", where X is the body part name,
+meaning the prior descriptions would appear as "Your left arm ABC".
 
 Descriptions can also have a reduced form:
+
 ```C++
-    "reduced_desc": ["XYZ"]
-    or
-    "reduced_desc": [
-        "ABC",
-        "XYZ",
-        "123"
-    ]
+"reduced_desc": ["XYZ"]
+or
+"reduced_desc": [
+    "ABC",
+    "XYZ",
+    "123"
+]
 ```
-This is the description that will be used if an effect is reduced. By default this will use the normal description
-if it doesn't exist.
+
+This is the description that will be used if an effect is reduced. By default this will use the
+normal description if it doesn't exist.
 
 ### Rating
+
 ```C++
-    "rating": "good"        - Defaults to "neutral" if missing
+"rating": "good"        - Defaults to "neutral" if missing
 ```
-This is used for how the messages when the effect is applied and removed are displayed. Also this affects "blood_analysis_description" (see below) field: effects with "good" rating will be colored green, effects with any other rating will be colored red when character conducts a blood analysis through some means.
-Valid entries are:
+
+This is used for how the messages when the effect is applied and removed are displayed. Also this
+affects "blood_analysis_description" (see below) field: effects with "good" rating will be colored
+green, effects with any other rating will be colored red when character conducts a blood analysis
+through some means. Valid entries are:
+
 ```C++
 "good"
 "neutral"
@@ -164,154 +197,195 @@ Valid entries are:
 ```
 
 ### Messages
+
 ```C++
-    "apply_message": "message",
-    "remove_message": "message"
+"apply_message": "message",
+"remove_message": "message"
 ```
-If the "apply_message" or "remove_message" fields exist, the respective message will be
-displayed upon the addition or removal of the effect. Note: "apply_message" will only display
-if the effect is being added, not if it is simply incrementing a current effect (so only new bites, etc.).
+
+If the "apply_message" or "remove_message" fields exist, the respective message will be displayed
+upon the addition or removal of the effect. Note: "apply_message" will only display if the effect is
+being added, not if it is simply incrementing a current effect (so only new bites, etc.).
 
 ### Memorial Log
+
 ```C++
-    "apply_memorial_log": "log",
-    "remove_memorial_log": "log"
+"apply_memorial_log": "log",
+"remove_memorial_log": "log"
 ```
-If the "apply_memorial_log" or "remove_memorial_log" fields exist, the game will add the
-respective message to the memorial log on addition or removal of the effect. Similar to
-the message fields the "apply_memorial_log" will only be added to the log for new effect additions.
+
+If the "apply_memorial_log" or "remove_memorial_log" fields exist, the game will add the respective
+message to the memorial log on addition or removal of the effect. Similar to the message fields the
+"apply_memorial_log" will only be added to the log for new effect additions.
 
 ### Resistances
+
 ```C++
-    "resist_trait": "NOPAIN",
-    "resist_effect": "flumed"
+"resist_trait": "NOPAIN",
+"resist_effect": "flumed"
 ```
+
 These fields are used to determine if an effect is being resisted or not. If the player has the
-matching trait or effect then they are "resisting" the effect, which changes its effects and description.
-Effects can only have one "resist_trait" and one "resist_effect" at a time.
+matching trait or effect then they are "resisting" the effect, which changes its effects and
+description. Effects can only have one "resist_trait" and one "resist_effect" at a time.
 
 ### Removes effects
+
 ```C++
-    "removes_effects": ["bite", "flu"]
+"removes_effects": ["bite", "flu"]
 ```
-This field will cause an effect to automatically remove any other copies of the listed effects if they are present.
-In the example above the placed effect would automatically cure any bite wounds or flu the player had. Any values here
-automatically count for "blocks_effects" as well, no need to duplicate them there.
+
+This field will cause an effect to automatically remove any other copies of the listed effects if
+they are present. In the example above the placed effect would automatically cure any bite wounds or
+flu the player had. Any values here automatically count for "blocks_effects" as well, no need to
+duplicate them there.
 
 ### Blocks effects
+
 ```C++
-    "blocks_effects": ["cold", "flu"]
+"blocks_effects": ["cold", "flu"]
 ```
-This field will cause an effect to prevent the placement of the listed effects. In the example above the effect would
-prevent the player from catching the cold or the flu (BUT WOULD NOT CURE ANY ONGOING COLDS OR FLUS). Any effects present
-in "removes_effects" are automatically added to "blocks_effects", no need for manual duplication.
+
+This field will cause an effect to prevent the placement of the listed effects. In the example above
+the effect would prevent the player from catching the cold or the flu (BUT WOULD NOT CURE ANY
+ONGOING COLDS OR FLUS). Any effects present in "removes_effects" are automatically added to
+"blocks_effects", no need for manual duplication.
 
 ### Effect limiters
+
 ```C++
-    "max_duration": 100,
-    "dur_add_perc": 150     - Defaults to 100%
+"max_duration": 100,
+"dur_add_perc": 150     - Defaults to 100%
 ```
-These are utilized when adding to currently existing effects. "max_duration" limits the overall duration of the effect.
-"dur_add_perc" is the percentage value of the normal duration for adding to an existing. An example:
-1) I add effect A to the player for 100 ticks.
-2) I add effect A to the player again for 100 ticks.
-Because the "dur_add_perc" = 150 in the example above, the second addition adds a total of 100 * 150% = 150 ticks, for
-a total value of 250 ticks from the two. This can also be below 100%, and should be able to even be negative, leading to
-future applications decreasing the overall time left.
+
+These are utilized when adding to currently existing effects. "max_duration" limits the overall
+duration of the effect. "dur_add_perc" is the percentage value of the normal duration for adding to
+an existing. An example:
+
+1. I add effect A to the player for 100 ticks.
+2. I add effect A to the player again for 100 ticks. Because the "dur_add_perc" = 150 in the example
+   above, the second addition adds a total of 100 * 150% = 150 ticks, for a total value of 250 ticks
+   from the two. This can also be below 100%, and should be able to even be negative, leading to
+   future applications decreasing the overall time left.
 
 ### Intensities
+
 Intensities are used to control effect effects, names, and descriptions. They are defined with:
+
 ```C++
-    "int_add_val": 2        - Defaults to 0! This means future applications will not increase intensity unless changed!
-    and/or
-    "int_decay_step": -2,    - Defaults to -1
-    "int_decay_tick": 10
-    or
-    "int_dur_factor": 700
+"int_add_val": 2        - Defaults to 0! This means future applications will not increase intensity unless changed!
+and/or
+"int_decay_step": -2,    - Defaults to -1
+"int_decay_tick": 10
+or
+"int_dur_factor": 700
 ```
-The first value is the amount an intensity will be incremented if adding to an already existing effect. As an example:
-1) I add effect A to the player
-2) I add effect A to the player again
-Because "int_add_val" = 2, the second addition will change the effect intensity from 1 to 1 + 2 = 3.
-NOTE: You must have at least one of the 3 intensity data sets for intensity to do anything!
 
-"int_decay_step" and "int_decay_tick" require one another to do anything. If both exist then the game will automatically
-increment the current effect intensities by "int_decay_step" every "int_decay_tick" ticks, capping the result at [1, "max_intensity"].
-This can be used to make effects automatically increase or decrease in intensity over time.
+The first value is the amount an intensity will be incremented if adding to an already existing
+effect. As an example:
 
-"int_dur_factor" overrides the other three intensities fields, and forces the intensity to be a number defined as
-intensity = duration / "int_dur_factor" rounded up (so from 0 to "int_dur_factor" is intensity 1).
+1. I add effect A to the player
+2. I add effect A to the player again Because "int_add_val" = 2, the second addition will change the
+   effect intensity from 1 to 1 + 2 = 3. NOTE: You must have at least one of the 3 intensity data
+   sets for intensity to do anything!
+
+"int_decay_step" and "int_decay_tick" require one another to do anything. If both exist then the
+game will automatically increment the current effect intensities by "int_decay_step" every
+"int_decay_tick" ticks, capping the result at [1, "max_intensity"]. This can be used to make effects
+automatically increase or decrease in intensity over time.
+
+"int_dur_factor" overrides the other three intensities fields, and forces the intensity to be a
+number defined as intensity = duration / "int_dur_factor" rounded up (so from 0 to "int_dur_factor"
+is intensity 1).
 
 ### Permanence
-An effect that is permanent does not lose duration with time.
-That is, even if its duration is 1 turn, it will last until removed.
+
+An effect that is permanent does not lose duration with time. That is, even if its duration is 1
+turn, it will last until removed.
+
 ```C++
-    "permanent": true
+"permanent": true
 ```
 
 ### Miss messages
+
 ```C++
-    "miss_messages": [["Your blisters distract you", 1]]
-    or
-    "miss_messages": [
-        ["Your blisters distract you", 1],
-        ["Your blisters don't like you", 10],
-    ]
+"miss_messages": [["Your blisters distract you", 1]]
+or
+"miss_messages": [
+    ["Your blisters distract you", 1],
+    ["Your blisters don't like you", 10],
+]
 ```
+
 This will add the following miss messages at the given chances while the effect is in effect.
 
 ### Decay messages
+
 ```C++
-    "decay_messages": [["The jet injector's chemicals wear off.  You feel AWFUL!", "bad"]]
-    or
-    "decay_messages": [
-        ["The jet injector's chemicals wear off.  You feel AWFUL!", "bad"],
-        ["OOGA-BOOGA.  You feel AWFUL!", "bad"],
-    ]
+"decay_messages": [["The jet injector's chemicals wear off.  You feel AWFUL!", "bad"]]
+or
+"decay_messages": [
+    ["The jet injector's chemicals wear off.  You feel AWFUL!", "bad"],
+    ["OOGA-BOOGA.  You feel AWFUL!", "bad"],
+]
 ```
-The messages are matched to intensities, so the first message is for intensity 1, the second for intensity 2, and
-so on. The messages will print whenever the intensity decreases to their matching intensity from a higher intensity,
-whether through decay ticks or through "int_dur_factor". So if it decayed to intensity 2 from 3+ it would display
-"OOGA-BOOGA.  You feel AWFUL!" as a bad message to the player.
+
+The messages are matched to intensities, so the first message is for intensity 1, the second for
+intensity 2, and so on. The messages will print whenever the intensity decreases to their matching
+intensity from a higher intensity, whether through decay ticks or through "int_dur_factor". So if it
+decayed to intensity 2 from 3+ it would display "OOGA-BOOGA. You feel AWFUL!" as a bad message to
+the player.
 
 ### Targeting modifiers
+
 ```C++
-    "main_parts_only": true     - Defaults to false
+"main_parts_only": true     - Defaults to false
 ```
+
 This automatically retargets any effect on a non-main part (hands, eyes, feet, etc.) to the matching
 main part (arms, head, legs, etc.).
 
 ### Effect modifiers
+
 ```C++
-    "pkill_addict_reduces": true,   - Defaults to false
-    "pain_sizing": true,            - Defaults to false
-    "hurt_sizing": true,            - Defaults to false
-    "harmful_cough": true           - Defaults to false
+"pkill_addict_reduces": true,   - Defaults to false
+"pain_sizing": true,            - Defaults to false
+"hurt_sizing": true,            - Defaults to false
+"harmful_cough": true           - Defaults to false
 ```
-"pkill_addict_reduces" makes a player's addiction to painkillers reduce the chance of the effect giving
-them more pkill. "pain_sizing" and "hurt_sizing" cause large/huge mutations to affect the chance of pain
-and hurt effects triggering. "harmful_cough" means that the coughs caused by this effect can hurt the player.
+
+"pkill_addict_reduces" makes a player's addiction to painkillers reduce the chance of the effect
+giving them more pkill. "pain_sizing" and "hurt_sizing" cause large/huge mutations to affect the
+chance of pain and hurt effects triggering. "harmful_cough" means that the coughs caused by this
+effect can hurt the player.
 
 ### Morale
+
 ```C++
-    "morale": "morale_high"
+"morale": "morale_high"
 ```
-Type of morale effect provided. Mandatory if there is a morale effect, must not be specified otherwise.
+
+Type of morale effect provided. Mandatory if there is a morale effect, must not be specified
+otherwise.
 
 ### Effect effects
+
 ```C++
-    "base_mods" : {
-        arguments
-    },
-    "scaling_mods": {
-        arguments
-    }
+"base_mods" : {
+    arguments
+},
+"scaling_mods": {
+    arguments
+}
 ```
-This is where the real meat of the effect JSON definition lies. Each one can take a variety of arguments.
-Decimals are valid but must be formatted as "0.X" or "-0.X". The game will round towards zero at the end
-when calculating actually applied values
+
+This is where the real meat of the effect JSON definition lies. Each one can take a variety of
+arguments. Decimals are valid but must be formatted as "0.X" or "-0.X". The game will round towards
+zero at the end when calculating actually applied values
 
 Basic definitions:
+
 ```C++
 "X_amount"      - Amount applied of X when effect is placed. Like apply messages it will only trigger on new effects
 "X_min"         - Minimum amount of X applied when roll triggers
@@ -324,6 +398,7 @@ Basic definitions:
 ```
 
 Valid arguments:
+
 ```C++
 "str_mod"           - Positive values raises stat, negative values lowers stat
 "dex_mod"           - Positive values raises stat, negative values lowers stat
@@ -445,73 +520,79 @@ Valid arguments:
 "healing_torso"     - Percentage of healing value for torso
 
 "morale"            - Amount of morale provided. Must be a single number (resistance not supported).
-
 ```
+
 Each argument can also take either one or two values.
-```C++
-    "thirst_min": [1]
-    or
-    "thirst_min": [1, 2]
-```
-If an effect is "resisted" (either through "resist_effect" or "resist_trait") then it will use the second
-value. If there is only one value given it will always use that amount.
 
-Base mods and Scaling mods:
-While on intensity = 1 an effect will only have the basic effects of its "base_mods". However for each
-additional intensity it gains it adds the value of each of its "scaling_mods" to the calculations. So:
+```C++
+"thirst_min": [1]
+or
+"thirst_min": [1, 2]
+```
+
+If an effect is "resisted" (either through "resist_effect" or "resist_trait") then it will use the
+second value. If there is only one value given it will always use that amount.
+
+Base mods and Scaling mods: While on intensity = 1 an effect will only have the basic effects of its
+"base_mods". However for each additional intensity it gains it adds the value of each of its
+"scaling_mods" to the calculations. So:
+
 ```C++
 Intensity 1 values = base_mods values
 Intensity 2 values = base_mods values + scaling_mods values
 Intensity 3 values = base_mods values + 2 * scaling_mods values
 Intensity 4 values = base_mods values + 3 * scaling_mods values
 ```
+
 and so on.
 
-Special case:
-The only special case is if base_mods' "X_chance_bot" + intensity * scaling_mods' "X_chance_bot" = 0 then it treats it
-as if it were equal to 1 (i.e. trigger every time)
+Special case: The only special case is if base_mods' "X_chance_bot" + intensity * scaling_mods'
+"X_chance_bot" = 0 then it treats it as if it were equal to 1 (i.e. trigger every time)
 
 ## Example Effect
+
 ```C++
-    "type": "effect_type",
-    "id": "drunk",
-    "name": [
-        "Tipsy",
-        "Drunk",
-        "Trashed",
-        "Wasted"
-    ],
-    "max_intensity": 4,
-    "apply_message": "You feel lightheaded.",
-    "int_dur_factor": 1000,
-    "miss_messages": [["You feel woozy.", 1]],
-    "morale": "morale_drunk",
-    "base_mods": {
-        "str_mod": [1],
-        "vomit_chance": [-43],
-        "sleep_chance": [-1003],
-        "sleep_min": [2500],
-        "sleep_max": [3500],
-        "morale": [ 5 ]
-    },
-    "scaling_mods": {
-        "str_mod": [-0.67],
-        "per_mod": [-1],
-        "dex_mod": [-1],
-        "int_mod": [-1.42],
-        "vomit_chance": [21],
-        "sleep_chance": [501],
-        "morale": [ 10 ]
-    }
+"type": "effect_type",
+"id": "drunk",
+"name": [
+    "Tipsy",
+    "Drunk",
+    "Trashed",
+    "Wasted"
+],
+"max_intensity": 4,
+"apply_message": "You feel lightheaded.",
+"int_dur_factor": 1000,
+"miss_messages": [["You feel woozy.", 1]],
+"morale": "morale_drunk",
+"base_mods": {
+    "str_mod": [1],
+    "vomit_chance": [-43],
+    "sleep_chance": [-1003],
+    "sleep_min": [2500],
+    "sleep_max": [3500],
+    "morale": [ 5 ]
+},
+"scaling_mods": {
+    "str_mod": [-0.67],
+    "per_mod": [-1],
+    "dex_mod": [-1],
+    "int_mod": [-1.42],
+    "vomit_chance": [21],
+    "sleep_chance": [501],
+    "morale": [ 10 ]
+}
 ```
-First when "drunk" is applied to the player if they aren't already drunk it prints the message,
-"You feel lightheaded". It also adds the "You feel woozy" miss message for as long as it is applied.
-It has "int_dur_factor": 1000, meaning that its intensity will always be equal to its duration / 1000 rounded up, and
-it has "max_intensity": 4 meaning the highest its intensity will go is 4 at a duration of 3000 or higher.
-As it moves up through the different intensities, its name will change. Its description will simply display the stat
-changes, with no additional description added.
+
+First when "drunk" is applied to the player if they aren't already drunk it prints the message, "You
+feel lightheaded". It also adds the "You feel woozy" miss message for as long as it is applied. It
+has "int_dur_factor": 1000, meaning that its intensity will always be equal to its duration / 1000
+rounded up, and it has "max_intensity": 4 meaning the highest its intensity will go is 4 at a
+duration of 3000 or higher. As it moves up through the different intensities, its name will change.
+Its description will simply display the stat changes, with no additional description added.
 
 As it moves up through the intensity levels its effects will be:
+
 ```C++
 Intensity 1
     +1 STR
@@ -544,7 +625,10 @@ Intensity 4
 ```
 
 ### Blood analysis description
+
 ```C++
-    "blood_analysis_description": "Minor Painkiller"
+"blood_analysis_description": "Minor Painkiller"
 ```
-This description will be displayed for every effect which has this field when character conducts a blood analysis (for example, through Blood Analysis CBM).
+
+This description will be displayed for every effect which has this field when character conducts a
+blood analysis (for example, through Blood Analysis CBM).

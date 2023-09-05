@@ -7,10 +7,11 @@
 
 Relics are regular items with special relic data attached to them.
 
-Relic data is defined in JSON in `relic_data` field of corresponding item type definition,
-and whenever the item is spawned a copy of relic data is attached to the item instance.
+Relic data is defined in JSON in `relic_data` field of corresponding item type definition, and
+whenever the item is spawned a copy of relic data is attached to the item instance.
 
 Relic data object can contain the following fields:
+
 ```c++
 {
 "name": "Boots of Haste",       // Overrides default item name
@@ -24,8 +25,9 @@ Relic data object can contain the following fields:
 
 ## Relic recharge
 
-Relics can recharge under certain conditions.
-Recharge method is defined as follows (all fields optional):
+Relics can recharge under certain conditions. Recharge method is defined as follows (all fields
+optional):
+
 ```c++
 {
 "type": "time",                 // Defines what resource is consumed. Default: time
@@ -42,24 +44,24 @@ Recharge method is defined as follows (all fields optional):
 
 ### Recharge type
 
-|       ID       | Description
-|----------------|--------------------------------
-|`time`          | Needs no additional resources
-|`solar`         | Consumes sunlight (character must be in sunlight)
-|`pain`          | Causes pain to recharge. Intensity controlled by `int_min` and `int_max`
-|`hp`            | Causes damage to all body parts. Intensity controlled by `int_min` and `int_max`
-|`fatigue`       | Causes fatigue and drains stamina. Fatigue drain controlled by `int_min` and `int_max`, stamina drain rolled as `[ int_min*100, int_max*100 ]`
-|`field`         | Consumes adjacent field. Allowed field intensity controlled by `int_min` and `int_max`
-|`trap`          | Consumes adjacent trap.
+| ID        | Description                                                                                                                                    |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `time`    | Needs no additional resources                                                                                                                  |
+| `solar`   | Consumes sunlight (character must be in sunlight)                                                                                              |
+| `pain`    | Causes pain to recharge. Intensity controlled by `int_min` and `int_max`                                                                       |
+| `hp`      | Causes damage to all body parts. Intensity controlled by `int_min` and `int_max`                                                               |
+| `fatigue` | Causes fatigue and drains stamina. Fatigue drain controlled by `int_min` and `int_max`, stamina drain rolled as `[ int_min*100, int_max*100 ]` |
+| `field`   | Consumes adjacent field. Allowed field intensity controlled by `int_min` and `int_max`                                                         |
+| `trap`    | Consumes adjacent trap.                                                                                                                        |
 
 ### Recharge requirements
 
-|       ID       | Description
-|----------------|--------------------------------
-|`none`          | No additional requirements (always works)
-|`equipped`      | Must be worn if armor, wielded if weapon.
-|`close_to_skin` | Must be worn underneath all other clothing, or be wielded with bare hands
-|`sleep`         | Character must be asleep
-|`rad`           | Character or map tile must be irradiated
-|`wet`           | Character must be wet, or it's raining
-|`sky`           | Character must be above z=0
+| ID              | Description                                                               |
+| --------------- | ------------------------------------------------------------------------- |
+| `none`          | No additional requirements (always works)                                 |
+| `equipped`      | Must be worn if armor, wielded if weapon.                                 |
+| `close_to_skin` | Must be worn underneath all other clothing, or be wielded with bare hands |
+| `sleep`         | Character must be asleep                                                  |
+| `rad`           | Character or map tile must be irradiated                                  |
+| `wet`           | Character must be wet, or it's raining                                    |
+| `sky`           | Character must be above z=0                                               |

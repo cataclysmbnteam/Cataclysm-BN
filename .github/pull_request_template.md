@@ -5,7 +5,7 @@ NOTE: Please grant permission for repository maintainers to edit your PR.  It is
 
 CODE STYLE: please follow below guide.
 JSON: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/JSON_STYLE.md
-C++: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/CODE_STYLE.md
+C++ and Markdown: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/CODE_STYLE.md
 
 !!!!!!!!!! WARNING !!!!!!!!!!
 

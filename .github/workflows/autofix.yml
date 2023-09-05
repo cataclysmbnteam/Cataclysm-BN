@@ -16,10 +16,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: astyle
-        run: |
-          sudo apt-get install astyle
-          make astyle
+      - run: sudo apt-get install astyle
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: format C++ files
+        run: make astyle
+
+      - name: format markdown files
+        run: deno fmt
 
       - name: json formatting
         run: make style-all-json-parallel RELEASE=1
