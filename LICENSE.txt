@@ -8,8 +8,6 @@ CATCH unit-test framework (tests/catch/catch.hpp) is licensed under the Boost So
 
 PLF List and PLF Colony (src/list.h, src/colony.h) are licensed under the zLib license (https://www.zlib.net/zlib_license.html).
 
-getpost (tools/json_tools/format/getpost.h) is licensed under the MIT license, see file for text of license.
-
 Lua (src/lua/*) is licensed under the MIT license, see src_lua/LICENSE.md for text of license.
 
 sol2 (src/sol/*) is licensed under the MIT license, see src/sol/sol.hpp for text of license.

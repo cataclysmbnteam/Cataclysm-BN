@@ -11,8 +11,6 @@
   - [가이드라인](#가이드라인)
   - [코드 스타일](#코드-스타일)
     - [C++](#c)
-    - [JSON 스타일](#json-스타일)
-    - [마크다운](#마크다운)
   - [번역](#번역)
   - [공식 문서](#공식-문서)
     - [독시젠(Doxygen) 주석](#독시젠doxygen-주석)
@@ -67,29 +65,8 @@
 
 ### C++
 
-`astyle`로 일관된 코드 스타일을 강제하고 있습니다. 자세한 내용은
+`astyle`과 `deno`로 일관된 코드 스타일을 강제하고 있습니다. 자세한 내용은
 [CODE_STYLE](../doc/CODE_STYLE.md)을 참고해주세요.
-
-### JSON 스타일
-
-`tools/format` 경로에 있는 포매터로 일관된 JSON 스타일을 강제하고 있습니다.
-[JSON Style Guide](../doc/JSON_STYLE.md) 을 참고해주세요.
-
-### 마크다운
-
-`doc/`같은 마크다운 파일들은 [`deno`](https://deno.com)를 사용해 포매팅하고 있습니다.
-[`deno fmt`](https://deno.land/manual/tools/formatter) 을 실행해 자동으로 마크다운 파일을
-포매팅하세요. VsCode를 사용중이라면 다음 설정으로 저장할 때마다 자동 포매팅을 실행할 수 있습니다:
-
-```json
-// .vscode/settings.json
-{
-  "[markdown]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "denoland.vscode-deno"
-  }
-}
-```
 
 ## 번역
 

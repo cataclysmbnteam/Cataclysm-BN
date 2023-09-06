@@ -172,31 +172,13 @@ class FailFastHandler(logging.StreamHandler):
 def write_to_json(
     pathname: str,
     data: Union[dict, list],
-    format_json: bool = False,
 ) -> None:
     """
     Write data to a JSON file
     """
-    kwargs = {
-        "ensure_ascii": False,
-    }
-    if format_json:
-        kwargs["indent"] = 2
 
     with open(pathname, "w", encoding="utf-8") as file:
-        json.dump(data, file, **kwargs)
-
-    if not format_json:
-        return
-
-    json_formatter = Path("tools/format/json_formatter.cgi")
-    if json_formatter.is_file():
-        cmd = [json_formatter, pathname]
-        subprocess.call(cmd)
-    else:
-        log.warning(
-            "%s not found, Python built-in formatter was used.", json_formatter
-        )
+        json.dump(data, file, ensure_ascii=False, indent=2)
 
 
 def list_or_first(iterable: list) -> Any:
@@ -239,7 +221,6 @@ class Tileset:
         obsolete_fillers: bool = False,
         palette_copies: bool = False,
         palette: bool = False,
-        format_json: bool = False,
         only_json: bool = False,
     ) -> None:
         self.source_dir = source_dir
@@ -248,7 +229,6 @@ class Tileset:
         self.obsolete_fillers = obsolete_fillers
         self.palette_copies = palette_copies
         self.palette = palette
-        self.format_json = format_json
         self.only_json = only_json
         self.output_conf_file = None
 
@@ -512,7 +492,7 @@ class Tileset:
         }
 
         # save the config
-        write_to_json(tileset_confpath, output_conf, self.format_json)
+        write_to_json(tileset_confpath, output_conf)
         if no_tqdm and not run_silent:
             print("done.", flush=True)
 
@@ -1001,13 +981,6 @@ def main() -> Union[int, ComposingException]:
         help="Quantize all tilesheets to 8bpp colormaps.",
     )
     arg_parser.add_argument(
-        "--format-json",
-        dest="format_json",
-        action="store_true",
-        help="Use either BN formatter or Python json.tool "
-        "to format the tile_config.json",
-    )
-    arg_parser.add_argument(
         "--only-json",
         dest="only_json",
         action="store_true",
@@ -1073,7 +1046,6 @@ def main() -> Union[int, ComposingException]:
             obsolete_fillers=args_dict.get("obsolete_fillers", False),
             palette_copies=args_dict.get("palette_copies", False),
             palette=args_dict.get("palette", False),
-            format_json=args_dict.get("format_json", False),
             only_json=args_dict.get("only_json", False),
         )
         tileset_worker.compose()

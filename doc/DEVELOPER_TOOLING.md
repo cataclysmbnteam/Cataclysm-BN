@@ -29,9 +29,7 @@ and json by adding these commands to your git pre-commit hook (typically at
 `.git/hooks/pre-commit`):
 
 ```BASH
-git diff --cached --name-only -z HEAD | grep -z 'data/.*\.json' | \
-    xargs -r -0 -L 1 ./tools/format/json_formatter.[ce]* || exit 1
-
+deno fmt --check
 make astyle-check || exit 1
 ```
 

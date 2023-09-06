@@ -15,7 +15,6 @@ on:
     - 'msvc-object_creator/**'
     - 'object_creator/**'
     - 'tools/**'
-    - '!tools/format/**'
     - 'utilities/**'
   pull_request:
     branches:
@@ -31,7 +30,6 @@ on:
     - 'msvc-object_creator/**'
     - 'object_creator/**'
     - 'tools/**'
-    - '!tools/format/**'
     - 'utilities/**'
 
 # We only care about the latest revision of a PR, so cancel previous instances.

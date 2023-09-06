@@ -21,7 +21,6 @@ then
 elif [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
-    make style-all-json-parallel RELEASE=1
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
     # Also build chkjson (even though we're not using it), to catch any

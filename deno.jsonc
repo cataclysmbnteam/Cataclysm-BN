@@ -2,10 +2,10 @@
   "tasks": {
     "tools": "deno run --watch -A"
   },
-  "test": { "include": ["./tools"] },
-  "lint": { "include": ["./tools"] },
+  "test": { "include": ["tools/"] },
+  "lint": { "include": ["tools/"] },
   "fmt": {
-    "include": ["./tools", "./doc", "*.md"],
+    "include": ["tools/", "doc/", "data/", "gfx/", "*.md", "*.json"],
     "semiColons": false,
     "lineWidth": 100
   }

@@ -28,4 +28,3 @@ for root, directories, filenames in os.walk(args_dict["dir"]):
             new = gen_new(path)
             with open(path, "w") as jf:
                 json.dump(new, jf)
-            os.system(f"../format/json_formatter.cgi {path}")

@@ -10,9 +10,6 @@
 - [Contribute](#contribute)
   - [Guidelines](#guidelines)
   - [Code Style](#code-style)
-    - [C++](#c)
-    - [JSON](#json)
-    - [Markdown](#markdown)
   - [Translations](#translations)
   - [Documentation](#documentation)
     - [Doxygen Comments](#doxygen-comments)
@@ -63,31 +60,8 @@ There are a couple of guidelines we suggest sticking to:
 
 ## Code Style
 
-### C++
-
-Code style is enforced across the codebase by `astyle`. See [CODE_STYLE](../doc/CODE_STYLE.md) for
-details.
-
-### JSON
-
-JSON files are formatted using custom formatter available in `tools/format`. Visit
-[JSON Style Guide](../doc/JSON_STYLE.md) for details.
-
-### Markdown
-
-Markdown files such as `doc/` are formatted using [`deno`](https://deno.com)'s built-in formatter.
-Run [`deno fmt`](https://deno.land/manual/tools/formatter) anywhere to format markdown files. On
-VSCode, you can set following configuration to auto-format markdown files on save:
-
-```json
-// .vscode/settings.json
-{
-  "[markdown]": {
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "denoland.vscode-deno"
-  }
-}
-```
+Code style is enforced across the codebase by `astyle` and `deno`. See
+[CODE_STYLE](../doc/CODE_STYLE.md) for details.
 
 ## Translations
 

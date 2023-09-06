@@ -28,8 +28,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 1
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
       - name: JSON style check
-        run: make style-all-json-parallel COMPILER=g++-11 RELEASE=1
+        run: deno fmt --check
+
       - name: Display Corrections
         if: failure()
         run: git diff

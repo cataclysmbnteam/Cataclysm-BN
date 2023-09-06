@@ -1,5 +1,25 @@
 # Code Style Guide
 
+## Markdown and JSON
+
+JSON files (e.g `data/`) and Markdown files (e.g `doc/`) are formatted using
+[`deno`](https://deno.com)'s built-in formatter. Run
+[`deno fmt`](https://deno.land/manual/tools/formatter) anywhere to format markdown files. On VSCode,
+[install deno extension](https://deno.land/manual@v1.36.4/references/vscode_deno#using-formatting)
+then add following configuration file to auto-format files on save:
+
+```json
+// .vscode/settings.json
+{
+  "[markdown][json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  }
+}
+```
+
+## C++
+
 All of the C++ code in the project is styled, you should run any changes you make through astyle
 before pushing a pull request.
 

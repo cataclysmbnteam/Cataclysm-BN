@@ -84,16 +84,8 @@
 #  make astyle
 # Check if source files are styled properly.
 #  make astyle-check
-# Style the whitelisted json files (maintain the current level of styling).
-#  make style-json
-# Style all json files using the current rules (don't PR this, it's too many changes at once).
-#  make style-all-json
-# Style all json files in parallel using all available CPU cores (don't make -jX on this, just make)
-#  make style-all-json-parallel
 # Disable astyle of source files.
 #  make ASTYLE=0
-# Disable format check of whitelisted json files.
-#  make LINTJSON=0
 # Disable building and running tests.
 #  make RUNTESTS=0
 # Make compiling object file and linking show full command.
@@ -177,11 +169,6 @@ ifndef ASTYLE
   ASTYLE = 1
 endif
 
-# Enable json format check by default
-ifndef LINTJSON
-  LINTJSON = 1
-endif
-
 # Enable running tests by default
 ifndef RUNTESTS
   RUNTESTS = 1
@@ -230,15 +217,6 @@ ifeq (clang, $(findstring clang, $(COMPILER)))
   CLANG = 1
 else
   CLANG = 0
-endif
-
-# Determine JSON formatter binary name
-JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
-ifeq ($(MSYS2), 1)
-  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
-endif
-ifneq (,$(findstring mingw32,$(CROSS)))
-  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
 endif
 
 # Enable backtrace by default
@@ -406,12 +384,9 @@ ifeq ($(RELEASE), 1)
     endif
   endif
   DEFINES += -DRELEASE
-  # Check for astyle or JSON regressions on release builds.
+  # Check for astyle regressions on release builds.
   ifeq ($(ASTYLE), 1)
     CHECKS += astyle-check
-  endif
-  ifeq ($(LINTJSON), 1)
-    CHECKS += style-json
   endif
 endif
 
@@ -474,7 +449,7 @@ endif
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
-BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt $(JSON_FORMATTER_BIN)
+BINDIST_EXTRAS += README.md data doc LICENSE.txt LICENSE-OFL-Terminus-Font.txt
 BINDIST    = $(BUILD_PREFIX)cataclysmbn-$(VERSION).tar.gz
 W32BINDIST = $(BUILD_PREFIX)cataclysmbn-$(VERSION).zip
 BINDIST_CMD    = tar --transform=s@^$(BINDIST_DIR)@cataclysmbn-$(VERSION)@ -czvf $(BINDIST) $(BINDIST_DIR)
@@ -801,7 +776,6 @@ SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
-JSON_FORMATTER_SOURCES := tools/format/format.cpp src/json.cpp
 CHKJSON_SOURCES := src/chkjson/chkjson.cpp src/json.cpp
 LUA_SOURCES := $(wildcard $(LUA_SRC_DIR)/*.c)
 CLANG_TIDY_PLUGIN_SOURCES := \
@@ -813,7 +787,6 @@ ASTYLE_SOURCES := $(sort \
   $(HEADERS) \
   $(TESTSRC) \
   $(TESTHDR) \
-  $(JSON_FORMATTER_SOURCES) \
   $(CHKJSON_SOURCES) \
   $(CLANG_TIDY_PLUGIN_SOURCES) \
   $(TOOLHDR))
@@ -1176,31 +1149,6 @@ ifdef ASTYLE_CHECK
 else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
-
-style-json: json_blacklist $(JSON_FORMATTER_BIN)
-ifndef CROSS
-	find data -name "*.json" -print0 | grep -v -z -F -f json_blacklist | \
-	  xargs -0 -L 1 $(JSON_FORMATTER_BIN)
-else
-	@echo Cannot run json formatter in cross compiles.
-endif
-
-ifeq ($(NATIVE), osx)
-  NUM_STYLE_JOBS = $$(sysctl -n hw.logicalcpu)
-else
-  NUM_STYLE_JOBS = $$(nproc)
-endif
-
-# /data/names work really terribly with the formatter, so we skip them
-style-all-json: $(JSON_FORMATTER_BIN)
-	find data -name "*.json" -print0 | grep -z -v '^data/names/' | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
-
-style-all-json-parallel: $(JSON_FORMATTER_BIN)
-	find data -name "*.json" -print0 | grep -z -v '^data/names/' | xargs -0 -L 1 -P $(NUM_STYLE_JOBS) $(JSON_FORMATTER_BIN)
-
-$(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
-	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
-	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests

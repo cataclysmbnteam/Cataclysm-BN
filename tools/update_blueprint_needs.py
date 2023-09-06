@@ -2,35 +2,27 @@
 
 import getopt
 import json
-import glob
 import os
 import re
-import subprocess
 import sys
+from typing import Any
 
-def print_help():
-    print("\n"
-          "Update faction camp blueprints with autocalculated requirements from unit test log.\n"
-          "This tool requires tools/format/json_formatter.\n"
-          "\n"
-          "    --help              prints this message\n"
-          "    --logfile=<logfile> specify the path to unit test log file\n"
-          "    --action=<value>    what to do with reported inconsistencies. (optional)\n"
-          "                            update: update with suggested requirements (default)\n"
-          "                            suppress: suppress inconsistency warnings\n")
+HELP = """\
+Update faction camp blueprints with autocalculated requirements from unit test log.
 
-def dump_json_and_lint(content, path):
-    with open(path, 'w', encoding='utf-8') as fs:
-        json.dump(content, fs, indent=2)
-    json_formatter_name = glob.glob(
-        'tools/format/json_formatter.[ec]*')
-    assert len(json_formatter_name) == 1
-    subprocess.run([json_formatter_name[0], path],
-                stdout=subprocess.DEVNULL)
+    --help              prints this message
+    --logfile=<logfile> specify the path to unit test log file
+    --action=<value>    what to do with reported inconsistencies. (optional)
+                            update: update with suggested requirements (default)
+                            suppress: suppress inconsistency warnings
+"""
 
-def main(argv):
+def print_help() -> None:
+    print(HELP)
+
+def main(argv: list[str]) -> None:
     try:
-        opts, args = getopt.getopt(argv, "", ["help", "logfile=", "action="])
+        opts, _ = getopt.getopt(argv, "", ["help", "logfile=", "action="])
     except getopt.GetoptError:
         print_help()
         return
@@ -49,7 +41,7 @@ def main(argv):
             elif arg == "suppress":
                 suppress = True
             else:
-                print_help();
+                print_help()
                 return
     if not test_log:
         print_help()
@@ -58,13 +50,13 @@ def main(argv):
     json_dirs = {
         "data/json",
         "data/mods",
-    };
+    }
 
     auto_update_blueprint = re.compile("~~~ auto-update-blueprint: (.+)")
     auto_update_blueprint_end = re.compile("~~~ end-auto-update")
     json_filename = re.compile(".+\\.json")
 
-    update_blueprints = dict()
+    update_blueprints: dict[str, Any] = {}
 
     with open(test_log, 'r', encoding='utf-8') as fs:
         while True:
@@ -87,7 +79,7 @@ def main(argv):
                     else:
                         reqs += line
                 if complete:
-                    update_blueprints[ident] = json.loads(reqs);
+                    update_blueprints[ident] = json.loads(reqs)
                     print(f"{ident} needs updating")
 
     if len(update_blueprints) == 0:
@@ -112,7 +104,7 @@ def main(argv):
                             continue
                         if "obsolete" in obj and obj["obsolete"] == True:
                             continue
-                        ident = None;
+                        ident = None
                         if "abstract" in obj:
                             ident = obj["abstract"]
                         else:
@@ -127,8 +119,6 @@ def main(argv):
                             if not changed:
                                 changed = True
                                 print(f"updating {json_path}")
-                if changed:
-                    dump_json_and_lint(content, json_path)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

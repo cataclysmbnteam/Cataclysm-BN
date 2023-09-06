@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # decompose.py
 # Split a gfx tile_config.json into 1000s of little directories, each with their own config
@@ -19,17 +19,12 @@ except ImportError:
     from gi.repository import Vips
 
 # stupid stinking Python 2 versus Python 3 syntax
-def write_to_json(pathname, data, prettify=False):
+def write_to_json(pathname, data):
     with open(pathname, "w") as fp:
         try:
             json.dump(data, fp)
         except ValueError:
             fp.write(json.dumps(data))
-
-    json_formatter = "./tools/format/json_formatter.cgi"
-    if prettify and os.path.isfile(json_formatter):
-        cmd = [json_formatter, pathname]
-        subprocess.call(cmd)
 
 
 def find_or_make_dir(pathname):
@@ -328,7 +323,7 @@ class PngRefs(object):
                         self.delete_pngnums.append(i)
 
         with open(tileset_confname) as conf_file:
-            return(json.load(conf_file))       
+            return(json.load(conf_file))
 
     def add_pngnum_to_tsfilepath(self, pngnum):
         if not isinstance(pngnum, int):
@@ -460,6 +455,6 @@ for ts_filename in ts_sequence:
 
 if tile_info:
     tile_info_pathname = refs.tileset_pathname + "/" + "tile_info.json"
-    write_to_json(tile_info_pathname, tile_info, True)
+    write_to_json(tile_info_pathname, tile_info)
 
 refs.report_missing()
