@@ -214,7 +214,7 @@
     "max_duration": 60000,
     "duration_increment": 2160
   },
-   {
+  {
     "id": "bless",
     "type": "SPELL",
     "name": { "str": "Bless" },
@@ -241,7 +241,7 @@
     "max_duration": 10000,
     "duration_increment": 400
   },
-    {
+  {
     "id": "holy_blade",
     "type": "SPELL",
     "name": "Holy Blade",
