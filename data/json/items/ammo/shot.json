@@ -61,7 +61,7 @@
     "ammo_type": "shot",
     "casing": "shot_hull",
     "range": 20,
-    "damage": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 2.0 },
+    "damage": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2.0 },
     "recoil": 2500,
     "loudness": 160,
     "effects": [ "COOKOFF", "SHOT" ]
@@ -96,10 +96,10 @@
     "price": 100,
     "price_postapoc": 400,
     "range": 0,
-    "damage": { "damage_type": "bullet", "amount": 100, "armor_multiplier": 3.0 },
+    "damage": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3.0 },
     "dispersion": 1000,
     "loudness": 80,
-    "shape": [ "cone", { "half_angle": 15, "length": 15 } ],
+    "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "extend": { "effects": [ "NOGIB" ] }
   },
   {
@@ -114,7 +114,7 @@
     "damage": { "damage_type": "heat", "amount": 30 },
     "proportional": { "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2 },
     "range": 0,
-    "shape": [ "cone", { "half_angle": 15, "length": 15 } ],
+    "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {
@@ -128,7 +128,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "//": "Balanced as standard AP.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -30, "armor_penetration": 30, "armor_multiplier": -1.0 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -20, "armor_penetration": 30, "armor_multiplier": -1.0 } }
   },
   {
     "id": "shot_he",
@@ -174,7 +174,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "dispersion": 80,
     "//": "Balanced as FMJ",
-    "relative": { "range": 12, "damage": { "damage_type": "bullet", "amount": -15, "armor_penetration": 18, "armor_multiplier": -1.0 } },
+    "relative": { "range": 12, "damage": { "damage_type": "bullet", "amount": -15, "armor_penetration": 18, "armor_multiplier": -0.5 } },
     "proportional": { "recoil": 1.4 },
     "delete": { "effects": [ "SHOT" ] }
   }
