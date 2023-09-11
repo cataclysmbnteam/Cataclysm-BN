@@ -758,7 +758,8 @@ float spell::spell_fail( const Character &guy ) const
         return 1.0f;
     }
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    if( has_flag( spell_flag::SOMATIC ) && !guy.has_trait_flag( trait_flag_str_id( "SUBTLE_SPELL" ) ) ) {
+    if( has_flag( spell_flag::SOMATIC ) &&
+        !guy.has_trait_flag( trait_flag_str_id( "SUBTLE_SPELL" ) ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0, guy.encumb( bp_arm_l ) + guy.encumb( bp_arm_r ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
