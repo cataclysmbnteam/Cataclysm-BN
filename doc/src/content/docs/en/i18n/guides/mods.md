@@ -1,30 +1,6 @@
-# Translating mods for Cataclysm: BN
-
-- [Translating mods for Cataclysm: BN](#translating-mods-for-cataclysm-bn)
-  - [Intro](#intro)
-  - [A short glossary](#a-short-glossary)
-    - [POT file](#pot-file)
-    - [PO file](#po-file)
-    - [MO file](#mo-file)
-  - [Workflow overview](#workflow-overview)
-  - [Setting up environment for string extraction](#setting-up-environment-for-string-extraction)
-  - [Extracting strings](#extracting-strings)
-  - [Creating new PO](#creating-new-po)
-    - [Poedit](#poedit)
-    - [msginit](#msginit)
-  - [Updating existing PO](#updating-existing-po)
-    - [Poedit](#poedit-1)
-    - [msgmerge](#msgmerge)
-  - [Compiling PO into MO](#compiling-po-into-mo)
-    - [Poedit](#poedit-2)
-    - [msgfmt](#msgfmt)
-  - [Adding MO file to the mod](#adding-mo-file-to-the-mod)
-  - [Miscellaneous notes](#miscellaneous-notes)
-    - [Is it possible to use arbitrary location or names for MO files, like with JSONs?](#is-it-possible-to-use-arbitrary-location-or-names-for-mo-files-like-with-jsons)
-    - [Reloading translations in a running game](#reloading-translations-in-a-running-game)
-    - [MO load order](#mo-load-order)
-    - [Dialects](#dialects)
-    - [What if 2 or more mods provide different translations for same string?](#what-if-2-or-more-mods-provide-different-translations-for-same-string)
+---
+title: Translate third-party mods
+---
 
 ## Intro
 
@@ -42,7 +18,7 @@ If you desire an in-depth explanation on PO/POT/MO files or how to work with the
 utilities, see [GNU gettext manual](https://www.gnu.org/software/gettext/manual/gettext.html).
 
 To get some generic tips on translating strings for Cataclysm: Bright Nights and its mods, see
-[TRANSLATING.md](TRANSLATING.md).
+[translation API](../reference/translation).
 
 ## A short glossary
 
@@ -264,4 +240,4 @@ Then the game selects which one to use according to this set of rules:
 
 If you want a different translation from the one in the base game, or don't want it to conflict with
 a string from some other mod, add a translation context to the string in the corresponding JSON
-object (see [TRANSLATING.md](TRANSLATING.md) for which fields support translation context).
+object (see [here](../reference/translation) for which fields support translation context).
