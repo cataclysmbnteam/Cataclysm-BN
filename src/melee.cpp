@@ -966,7 +966,8 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             for( const trait_id &mut : get_mutations() ) {
-                if( mut->flags.count( trait_flag_str_id( "NEED_ACTIVE_TO_MELEE" ) ) > 0 && !has_active_mutation( mut ) ) {
+                if( mut->flags.count( trait_flag_str_id( "NEED_ACTIVE_TO_MELEE" ) ) > 0 &&
+                    !has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
@@ -1054,7 +1055,8 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
             }
 
             for( const trait_id &mut : get_mutations() ) {
-                if( mut->flags.count( trait_flag_str_id( "NEED_ACTIVE_TO_MELEE" ) ) > 0 && !has_active_mutation( mut ) ) {
+                if( mut->flags.count( trait_flag_str_id( "NEED_ACTIVE_TO_MELEE" ) ) > 0 &&
+                    !has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
