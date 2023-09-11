@@ -782,7 +782,7 @@ successfully.
 
 For ncurses build add to `Makefile`, before `VERSION`:
 
-```Makefile
+```make
 OTHERS += -D_GLIBCXX_USE_C99
 CXX = g++48
 CXXFLAGS += -I/usr/local/lib/gcc48/include

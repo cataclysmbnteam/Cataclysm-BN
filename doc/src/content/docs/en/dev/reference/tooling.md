@@ -272,7 +272,7 @@ Currently, the CDDA source is still building the custom checks as a plugin, whic
 not supported on Windows, so the following patch needs to be applied before the custom checks can be
 built as an executable.
 
-```patch
+```diff
 diff --git a/tools/clang-tidy-plugin/CMakeLists.txt b/tools/clang-tidy-plugin/CMakeLists.txt
 index cf0c237645..540d3e29a5 100644
 --- a/tools/clang-tidy-plugin/CMakeLists.txt

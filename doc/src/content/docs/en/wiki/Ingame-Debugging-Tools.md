@@ -1,6 +1,7 @@
 ---
 title: In-game debugging tools
 ---
+
 The game features a number of inbuilt tools that aim to aid in debugging issues and testing fixes or
 new additions.
 
@@ -25,7 +26,7 @@ You can suppress (at your own risk) all debug messages by running the game execu
 
 In code, you can invoke a debug message like this:
 
-```c++
+```cpp
 #include "debug.h" // See this header for details
  . . .
 // 1st argument is a format string, see `string_formatter.h` for details
@@ -46,7 +47,7 @@ submenu).
 
 In code, you can print to the log like this:
 
-```c++
+```cpp
 #include "debug.h" // See this header for details
  . . .
 // 1st argument is severity level, 2nd argument is category
@@ -135,4 +136,3 @@ writes completeness report to the [debug log](#debug-log).
 To use the feature, you'll have to bind `Reload Tileset` action to any key and press it.
 
 ![image](https://user-images.githubusercontent.com/60584843/192119479-cba0d733-af66-4ae0-94d9-5af33b13cfe3.png)
-
