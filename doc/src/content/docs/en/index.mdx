@@ -1,0 +1,36 @@
+---
+title: "Welcome to Cataclysm: Bright Nights reference"
+description: Get started building your docs site with Starlight.
+template: splash
+hero:
+  tagline: Learn how to contribute to the project!
+  image:
+    file: ../../../assets/icon.svg
+  actions:
+    - text: Read the Guide
+      link: ./dev/guides/building/cmake
+      icon: right-arrow
+      variant: primary
+    - text: Join the official Discord
+      link: https://discord.gg/XW7XhXuZ89
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components'
+
+## Next steps
+
+<CardGrid stagger>
+  <Card title="Create custom mods" icon="pencil">
+    Learn to mod the game using [JSON](./json/reference/loading_order) and [Lua](./lua/guides/modding).
+  </Card>
+  <Card title="Translate the game" icon="translate">
+    Learn to translate the [base game](./i18n/tutorial/transifex) and [custom mods](./guides/mods).
+  </Card>
+  <Card title="Develop the game engine" icon="setting">
+  Learn to [build](./dev/guides/building/cmake) and update the game engine.
+  </Card>
+  <Card title="Join the community" icon="discord">
+    Join the [official Discord](https://discord.gg/XW7XhXuZ89) and [contribute](./contributing/contributing) with the community.
+  </Card>
+</CardGrid>
