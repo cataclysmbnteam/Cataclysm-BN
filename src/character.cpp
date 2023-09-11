@@ -7801,7 +7801,7 @@ void Character::set_highest_cat_level()
         // Then use the map to set the category levels
         for( const std::pair<const trait_id, int> &i : dependency_map ) {
             const mutation_branch &mdata = i.first.obj();
-            if( !mdata.flags.count( "NON_THRESH" ) ) {
+            if( !mdata.flags.count( trait_flag_str_id( "NON_THRESH" ) ) ) {
                 for( const std::string &cat : mdata.category ) {
                     // Decay category strength based on how far it is from the current mutation
                     mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
