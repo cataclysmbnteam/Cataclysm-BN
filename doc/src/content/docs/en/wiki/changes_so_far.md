@@ -249,4 +249,3 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
 - UnDeadPeople tileset included
 - Restored atomic cars
 - Restored MBR vests (with some rebalance). ESAPI vest removed
-

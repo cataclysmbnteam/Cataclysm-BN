@@ -15,4 +15,3 @@ TODO
 # *nix
 
 Run `make style-json` in main repo directory.
-

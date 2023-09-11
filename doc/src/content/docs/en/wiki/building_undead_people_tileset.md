@@ -3,6 +3,7 @@ title: UDP tileset
 ---
 
 Currently https://github.com/Theawesomeboophis working on UndeadPeople tileset.
+
 # His discord server: https://discord.gg/ftgMS5Rcsd
 
 > How do I set up compose.py and properly use unpacked?
@@ -34,4 +35,3 @@ time
 ![screenshot 2021-09-13 005](https://user-images.githubusercontent.com/17512620/133094858-e123f137-a8e9-4d69-bae4-d28c065d9a81.png)
 
 And here is packed tileset.
-

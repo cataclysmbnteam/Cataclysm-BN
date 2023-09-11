@@ -58,4 +58,3 @@ so keep your bags clear.
    to something reasonable. Safe mod will save you.
 4. If you want to change crafting range, skill training speed, or experimental 3D vision, you can
    find it in options under the Debug category.
-

@@ -99,4 +99,3 @@ kill?) How much cost do you take from a fight? How far/fast can I run vs. them (
 terrain nearby.(terrain speed slowdowns. damage terrain, chokepoints, etc.) other clusters of
 enemies. How much benefit is there to a fight? (zombie drops + nearby loot locations that are now
 safe)
-

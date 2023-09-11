@@ -1,7 +1,9 @@
 ---
 title: code styles
 ---
-List of conventions used in the project, plus just plain good practices. Not rules per se, most of the codebase doesn't meet those standards.
+
+List of conventions used in the project, plus just plain good practices. Not rules per se, most of
+the codebase doesn't meet those standards.
 
 TODO: This should be in
 [docs](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/CODE_STYLE.md) once
@@ -62,4 +64,3 @@ Some tips here:
 - Including common "utility" headers (`optional.h`, `calendar.h`, `coordinates.h`, etc.) is OK,
   those are already extensively used in many headers and source files, so not including them makes
   too little impact to warrant the inconvenience.
-

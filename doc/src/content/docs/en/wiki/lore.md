@@ -632,4 +632,3 @@ personnel replaced.
   is thus of much interest, it could contain incalculable knowledge, whether in regards to the blob,
   the nether, blueprints for weapons or the "magic" that the Triffid Queen wields, or perhaps other
   biological catalysts that could be of use to humanity.
-

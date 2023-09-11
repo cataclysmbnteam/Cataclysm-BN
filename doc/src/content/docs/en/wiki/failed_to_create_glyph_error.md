@@ -19,4 +19,3 @@ libraries of some specific version. Thus, you have two options:
 2. Open config/fonts.json and remove Terminus.ttf entries. I don't remember why we're not using
    unifont by default, but if you're not planning on working on i18n/fonts code, it shouldn't affect
    you beyond visually.
-

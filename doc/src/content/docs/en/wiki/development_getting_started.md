@@ -30,4 +30,3 @@ git pull
 
 5. Congratulations! You're good to go! You can now start committing and pushing changes to your
    fork. When you're done you can create pull request for the Coolthulhu repo.
-
