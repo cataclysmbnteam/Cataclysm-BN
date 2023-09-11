@@ -1,0 +1,7 @@
+[
+  {
+    "type": "item_action",
+    "id": "SMART_HOUSE_REMOTE",
+    "name": { "str": "Control doors and shutters" }
+  }
+]

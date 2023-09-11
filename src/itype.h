@@ -14,6 +14,7 @@
 
 #include "bodypart.h" // body_part::num_bp
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "color.h" // nc_color
 #include "damage.h"
 #include "enums.h" // point
@@ -807,6 +808,8 @@ struct itype {
         using FlagsSetType = std::set<std::string>;
 
         std::vector<std::pair<itype_id, mod_id>> src;
+
+        LUA_TYPE_OPS( itype, id );
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check

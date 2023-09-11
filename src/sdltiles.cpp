@@ -3520,6 +3520,7 @@ void catacurses::init_interface()
 
     get_options().init();
     get_options().load();
+    get_options().save();
 
     font_loader fl;
     fl.load();

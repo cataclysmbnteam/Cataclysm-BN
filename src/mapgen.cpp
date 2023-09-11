@@ -17,6 +17,7 @@
 #include "basecamp.h"
 #include "calendar.h"
 #include "catacharset.h"
+#include "catalua.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "numeric_interval.h"
@@ -191,6 +192,13 @@ void map::generate( const tripoint &p, const time_point &when )
             }
         }
     }
+
+    cata::run_on_mapgen_postprocess_hooks(
+        *DynamicDataLoader::get_instance().lua,
+        *this,
+        sm_to_omt_copy( p ),
+        when
+    );
 
     // Okay, we know who are neighbors are.  Let's draw!
     // And finally save used submaps and delete the rest.

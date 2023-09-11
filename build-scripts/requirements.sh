@@ -8,13 +8,24 @@ set -x
 echo "::add-matcher::build-scripts/problem-matchers/catch2.json"
 echo "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
 
+if [[ "$LIBBACKTRACE" == "1" ]]; then
+    git clone https://github.com/ianlancetaylor/libbacktrace.git
+    (
+        cd libbacktrace
+        git checkout 4d2dd0b172f2c9192f83ba93425f868f2a13c553
+        ./configure
+        make -j$(nproc)
+        sudo make install
+    )
+fi
+
 if [ -n "$CATA_CLANG_TIDY" ]; then
   pip install --user wheel --upgrade
   pip install --user 'lit==0.11.1' 'click==7.1.2'
 fi
 
 if [ -n "$LANGUAGES" ]; then
-  pip install --user polib
+  pip install --user polib luaparser
 fi
 
 # Influenced by https://github.com/zer0main/battleship/blob/master/build/windows/requirements.sh

@@ -1435,6 +1435,11 @@ class map
         int set_field_intensity( const tripoint &p, const field_type_id &type, int new_intensity,
                                  bool isoffset = false );
         /**
+         * @return true if there **might** be a field at `p`
+         * @return false there's no fields at `p`
+         */
+        bool has_field_at( const tripoint &p, bool check_bounds = true );
+        /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */

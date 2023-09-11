@@ -4,6 +4,7 @@
 
 #include <string>
 #include <type_traits>
+#include <utility>
 
 static constexpr int64_t INVALID_VERSION = -1;
 static constexpr int INVALID_CID = -1;
@@ -219,6 +220,13 @@ class string_id
          * to be special. Every string (including the empty one) may be a valid id.
          */
         string_id() : _id() {}
+        /**
+         * Constructor for converting from int_id.
+         */
+        explicit string_id( const int_id<T> &iid ) {
+            *this = std::move( iid.id() );
+        }
+
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key.
          * Guarantees total order, but DOESN'T guarantee the same order after process restart!

@@ -349,7 +349,7 @@ class overmap
         // TODO: Should have individual instances grouped by placement (ie. 2 adjacent houses aren't one house)
         std::unordered_map<tripoint_om_omt, overmap_special_id> overmap_special_placements;
 
-        pimpl<regional_settings> settings;
+        const regional_settings *settings;
 
         oter_id get_default_terrain( int z ) const;
 

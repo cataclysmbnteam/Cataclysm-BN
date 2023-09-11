@@ -112,7 +112,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     }
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
-    mon_faction = jsobj.get_string( "mon_faction", "human" );
+    mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
     for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
         epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
                                jao.get_int( "power_max", std::numeric_limits<int>::max() ),
@@ -457,6 +457,24 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
         debugmsg( "Requested non-existing faction '%s'", id.str() );
     }
     return nullptr;
+}
+
+template<>
+const faction &string_id<faction>::obj() const
+{
+    const faction *ptr = g->faction_manager_ptr->get( *this, true );
+    if( ptr ) {
+        return *ptr;
+    } else {
+        static faction null_fac;
+        return null_fac;
+    }
+}
+
+template<>
+bool string_id<faction>::is_valid() const
+{
+    return g->faction_manager_ptr->get( *this, false );
 }
 
 void basecamp::faction_display( const catacurses::window &fac_w, const int width ) const

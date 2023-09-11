@@ -1887,6 +1887,30 @@
     "components": [ [ [ "glass_shard", 18 ] ] ]
   },
   {
+    "result": "bottle_glass",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "glass_shard", 2 ] ] ]
+  },
+  {
+    "result": "jar_glass",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "glass_shard", 2 ] ] ]
+  },
+  {
+    "result": "flask_glass",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
+    "result": "jar_3l_glass",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "glass_shard", 3 ] ] ]
+  },
+  {
     "result": "game_watch",
     "type": "uncraft",
     "time": "10 m",

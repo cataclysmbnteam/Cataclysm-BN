@@ -151,5 +151,25 @@
     "intelligence": 10,
     "time": "25 m",
     "fun": -1
+  },
+  {
+    "id": "weapon_enchanting_guide",
+    "type": "BOOK",
+    "looks_like": "welding_book",
+    "name": { "str": "Enchanter's Guidebook", "str_pl": "copies of Enchanter's Guidebooks" },
+    "description": "A hefty textbook on the theory and practice of magically strengthening weapons and tools.",
+    "weight": "750 g",
+    "volume": "1250 ml",
+    "price": 9400,
+    "price_postapoc": 4250,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "fabrication",
+    "required_level": 5,
+    "max_level": 6,
+    "intelligence": 10,
+    "time": "60 m",
+    "fun": -1
   }
 ]

@@ -5,33 +5,33 @@ Use the `Home` key to return to the top.
 - [Introduction](#introduction)
 - [Navigating the JSON](#navigating-the-json)
 - [File descriptions](#file-descriptions)
-  * [`data/json/`](#datajson)
-  * [`data/json/items/`](#datajsonitems)
-    + [`data/json/items/comestibles`](#datajsonitemscomestibles)
-  * [`data/json/requirements/`](#datajsonrequirements)
-  * [`data/json/vehicles/`](#datajsonvehicles)
+  - [`data/json/`](#datajson)
+  - [`data/json/items/`](#datajsonitems)
+    - [`data/json/items/comestibles`](#datajsonitemscomestibles)
+  - [`data/json/requirements/`](#datajsonrequirements)
+  - [`data/json/vehicles/`](#datajsonvehicles)
 - [Generic properties and formatting](#generic-properties-and-formatting)
-  * [Generic properties](#generic-properties)
-  * [Formatting](#formatting)
-    + [Time duration](#time-duration)
-    + [Other formatting](#other-formatting)
+  - [Generic properties](#generic-properties)
+  - [Formatting](#formatting)
+    - [Time duration](#time-duration)
+    - [Other formatting](#other-formatting)
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
-  * [`data/json/` JSONs](#datajson-jsons)
-    + [Ascii_arts](#ascii_arts)
-    + [Body_parts](#body_parts)
-    + [Bionics](#bionics)
-    + [Dreams](#dreams)
-    + [Disease](#disease_type)
-    + [Item Groups](#item-groups)
-    + [Item Category](#item-category)
-    + [Materials](#materials)
-    + [Monster Groups](#monster-groups)
+  - [`data/json/` JSONs](#datajson-jsons)
+    - [Ascii_arts](#ascii_arts)
+    - [Body_parts](#body_parts)
+    - [Bionics](#bionics)
+    - [Dreams](#dreams)
+    - [Disease](#disease_type)
+    - [Item Groups](#item-groups)
+    - [Item Category](#item-category)
+    - [Materials](#materials)
+    - [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
       - [Monster definition](#monster-definition)
-    + [Monster Factions](#monster-factions)
-    + [Monsters](#monsters)
-    + [Names](#names)
-    + [Profession item substitution](#profession-item-substitution)
+    - [Monster Factions](#monster-factions)
+    - [Monsters](#monsters)
+    - [Names](#names)
+    - [Profession item substitution](#profession-item-substitution)
       - [`description`](#-description-)
       - [`name`](#-name-)
       - [`points`](#-points-)
@@ -42,223 +42,236 @@ Use the `Home` key to return to the top.
       - [`flags`](#-flags-)
       - [`cbms`](#-cbms-)
       - [`traits`](#-traits-)
-    + [Recipes](#recipes)
-    + [Constructions](#constructions)
-    + [Construction groups](#construction-groups)
-    + [Construction sequences](#construction-sequences)
-    + [Scent Types](#scent_types)
-    + [Scores and Achievements](#scores-and-achievements)
+    - [Recipes](#recipes)
+    - [Constructions](#constructions)
+    - [Construction groups](#construction-groups)
+    - [Construction sequences](#construction-sequences)
+    - [Scent Types](#scent_types)
+    - [Scores and Achievements](#scores-and-achievements)
       - [`event_transformation`](#event_transformation)
       - [`event_statistic`](#event_statistic)
       - [`score`](#score)
       - [`achievement`](#achievement)
-    + [Skills](#skills)
-    + [Traits/Mutations](#traits-mutations)
-    + [Vehicle Groups](#vehicle-groups)
-    + [Vehicle Parts](#vehicle-parts)
-    + [Part Resistance](#part-resistance)
-    + [Vehicle Placement](#vehicle-placement)
-    + [Vehicle Spawn](#vehicle-spawn)
-    + [Vehicles](#vehicles)
+    - [Skills](#skills)
+    - [Traits/Mutations](#traits-mutations)
+    - [Vehicle Groups](#vehicle-groups)
+    - [Vehicle Parts](#vehicle-parts)
+    - [Part Resistance](#part-resistance)
+    - [Vehicle Placement](#vehicle-placement)
+    - [Vehicle Spawn](#vehicle-spawn)
+    - [Vehicles](#vehicles)
 - [`data/json/items/` JSONs](#datajsonitems-jsons)
-    + [Generic Items](#generic-items)
-    + [Ammo](#ammo)
-    + [Magazine](#magazine)
-    + [Armor](#armor)
-    + [Pet Armor](#pet-armor)
-    + [Books](#books)
-      - [Color Key](#color-key)
-    + [Comestibles](#comestibles)
-    + [Containers](#containers)
-    + [Melee](#melee)
-      - [`Melee Weapon_category`](#melee-weapon_category)
-    + [Gun](#gun)
-      - [`Ranged Weapon_category`](#ranged-weapon_category)
-    + [Gunmod](#gunmod)
-    + [Batteries](#batteries)
-    + [Tools](#tools)
-    + [Seed Data](#seed-data)
-    + [Brewing Data](#brewing-data)
-    + [Relic Data](#relic-data)
-    + [Artifact Data](#artifact-data)
-      - [`Effects_carried`](#effects-carried)
-      - [`effects_worn`](#effects-worn)
-      - [`effects_wielded`](#effects-wielded)
-      - [`effects_activated`](#effects-activated)
-    + [Software Data](#software-data)
-    + [Fuel data](#fuel-data)
-    + [Use Actions](#use-actions)
+  - [Generic Items](#generic-items)
+  - [Ammo](#ammo)
+  - [Magazine](#magazine)
+  - [Armor](#armor)
+  - [Pet Armor](#pet-armor)
+  - [Books](#books)
+    - [Color Key](#color-key)
+  - [Comestibles](#comestibles)
+  - [Containers](#containers)
+  - [Melee](#melee)
+    - [`Melee Weapon_category`](#melee-weapon_category)
+  - [Gun](#gun)
+    - [`Ranged Weapon_category`](#ranged-weapon_category)
+  - [Gunmod](#gunmod)
+  - [Batteries](#batteries)
+  - [Tools](#tools)
+  - [Seed Data](#seed-data)
+  - [Brewing Data](#brewing-data)
+  - [Relic Data](#relic-data)
+  - [Artifact Data](#artifact-data)
+    - [`Effects_carried`](#effects-carried)
+    - [`effects_worn`](#effects-worn)
+    - [`effects_wielded`](#effects-wielded)
+    - [`effects_activated`](#effects-activated)
+  - [Software Data](#software-data)
+  - [Fuel data](#fuel-data)
+  - [Use Actions](#use-actions)
 - [`json/` JSONs](#json-jsons)
-    + [Harvest](#harvest)
-      - [`id`](#-id-)
-      - [`type`](#-type-)
-      - [`message`](#-message-)
-      - [`entries`](#-entries-)
-    + [Furniture](#furniture)
-      - [`type`](#-type--1)
-      - [`move_cost_mod`](#-move-cost-mod-)
-      - [`light_emitted`](#-light-emitted-)
-      - [`required_str`](#-required-str-)
-      - [`crafting_pseudo_item`](#-crafting-pseudo-item-)
-      - [`workbench`](#-workbench-)
-      - [`plant_data`](#-plant-data-)
-    + [Terrain](#terrain)
-      - [`type`](#-type--2)
-      - [`move_cost`](#-move-cost-)
-      - [`light_emitted`](#-light-emitted--1)
-      - [`trap`](#-trap-)
-      - [`harvestable`](#-harvestable-)
-      - [`transforms_into`](#-transforms-into-)
-      - [`harvest_season`](#-harvest-season-)
-      - [`roof`](#-roof-)
-    + [Common To Furniture And Terrain](#common-to-furniture-and-terrain)
-      - [`id`](#-id--1)
-      - [`name`](#-name--1)
-      - [`flags`](#-flags--1)
-      - [`connects_to`](#-connects-to-)
-      - [`symbol`](#-symbol-)
-      - [`looks_like`](#-looks-like-)
-      - [`color` or `bgcolor`](#-color--or--bgcolor-)
-      - [`max_volume`](#-max-volume-)
-      - [`examine_action`](#-examine-action-)
-      - [`close" And "open`](#-close--and--open-)
-      - [`bash`](#-bash-)
-      - [`deconstruct`](#-deconstruct-)
-      - [`pry`](#-pry-)
-      - [`map_bash_info`](#-map-bash-info-)
-      - [`str_min`, `str_max`, `str_min_blocked`, `str_max_blocked`, `str_min_supported`, `str_max_supported`](#-str-min----str-max----str-min-blocked----str-max-blocked----str-min-supported----str-max-supported-)
-      - [`sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`](#-sound----sound-fail----sound-vol----sound-fail-vol-)
-      - [`furn_set`, `ter_set`](#-furn-set----ter-set-)
-      - [`explosive`](#-explosive-)
-      - [`destroy_only`](#-destroy-only-)
-      - [`bash_below`](#-bash-below-)
-      - [`tent_centers`, `collapse_radius`](#-tent-centers----collapse-radius-)
-      - [`items`](#-items--1)
-      - [`map_deconstruct_info`](#-map-deconstruct-info-)
-      - [`furn_set`, `ter_set`](#-furn-set----ter-set--1)
-      - [`items`](#-items-2)
-      - [`prying_result`](#-prying-result-)
-      - [`new_ter_type`, `new_furn_type`](#-new-furn-type----new-ter-type-)
-      - [`success_message`, `fail_message`, `break_message`](#-success-message----fail-message----break-message-)
-      - [`pry_quality`, `pry_bonus_mult`, `difficulty`](#-pry-quality----pry-bonus-mult----difficulty-)
-      - [`noise`, `break_noise`, `sound`, `break_sound`](#-noise----break-noise----sound----break-sound-)
-      - [`breakable`, `break_ter_type`, `break_furn_type`](#-breakable----break-ter-type----break-furn-type-)
-      - [`break_items`](#-break-items-)
-    + [`plant_data`](#plant_data-1)
-      - [`transform`](#-transform-)
-      - [`base`](#-base-)
-      - [`growth_multiplier`](#-growth-multiplier-)
-      - [`harvest_multiplier`](#-harvest-multiplier-)
-    + [clothing_mod](#clothing_mod)
+  - [Harvest](#harvest)
+    - [`id`](#-id-)
+    - [`type`](#-type-)
+    - [`message`](#-message-)
+    - [`entries`](#-entries-)
+  - [Furniture](#furniture)
+    - [`type`](#-type--1)
+    - [`move_cost_mod`](#-move-cost-mod-)
+    - [`light_emitted`](#-light-emitted-)
+    - [`required_str`](#-required-str-)
+    - [`crafting_pseudo_item`](#-crafting-pseudo-item-)
+    - [`workbench`](#-workbench-)
+    - [`plant_data`](#-plant-data-)
+  - [Terrain](#terrain)
+    - [`type`](#-type--2)
+    - [`move_cost`](#-move-cost-)
+    - [`light_emitted`](#-light-emitted--1)
+    - [`trap`](#-trap-)
+    - [`harvestable`](#-harvestable-)
+    - [`transforms_into`](#-transforms-into-)
+    - [`harvest_season`](#-harvest-season-)
+    - [`roof`](#-roof-)
+  - [Common To Furniture And Terrain](#common-to-furniture-and-terrain)
+    - [`id`](#-id--1)
+    - [`name`](#-name--1)
+    - [`flags`](#-flags--1)
+    - [`connects_to`](#-connects-to-)
+    - [`symbol`](#-symbol-)
+    - [`looks_like`](#-looks-like-)
+    - [`color` or `bgcolor`](#-color--or--bgcolor-)
+    - [`max_volume`](#-max-volume-)
+    - [`examine_action`](#-examine-action-)
+    - [`close" And "open`](#-close--and--open-)
+    - [`bash`](#-bash-)
+    - [`deconstruct`](#-deconstruct-)
+    - [`pry`](#-pry-)
+    - [`map_bash_info`](#-map-bash-info-)
+    - [`str_min`, `str_max`, `str_min_blocked`, `str_max_blocked`, `str_min_supported`, `str_max_supported`](#-str-min----str-max----str-min-blocked----str-max-blocked----str-min-supported----str-max-supported-)
+    - [`sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`](#-sound----sound-fail----sound-vol----sound-fail-vol-)
+    - [`furn_set`, `ter_set`](#-furn-set----ter-set-)
+    - [`explosive`](#-explosive-)
+    - [`destroy_only`](#-destroy-only-)
+    - [`bash_below`](#-bash-below-)
+    - [`tent_centers`, `collapse_radius`](#-tent-centers----collapse-radius-)
+    - [`items`](#-items--1)
+    - [`map_deconstruct_info`](#-map-deconstruct-info-)
+    - [`furn_set`, `ter_set`](#-furn-set----ter-set--1)
+    - [`items`](#-items-2)
+    - [`prying_result`](#-prying-result-)
+    - [`new_ter_type`, `new_furn_type`](#-new-furn-type----new-ter-type-)
+    - [`success_message`, `fail_message`, `break_message`](#-success-message----fail-message----break-message-)
+    - [`pry_quality`, `pry_bonus_mult`, `difficulty`](#-pry-quality----pry-bonus-mult----difficulty-)
+    - [`noise`, `break_noise`, `sound`, `break_sound`](#-noise----break-noise----sound----break-sound-)
+    - [`breakable`, `break_ter_type`, `break_furn_type`](#-breakable----break-ter-type----break-furn-type-)
+    - [`break_items`](#-break-items-)
+  - [`plant_data`](#plant_data-1)
+    - [`transform`](#-transform-)
+    - [`base`](#-base-)
+    - [`growth_multiplier`](#-growth-multiplier-)
+    - [`harvest_multiplier`](#-harvest-multiplier-)
+  - [clothing_mod](#clothing_mod)
 - [Scenarios](#scenarios)
-  * [`description`](#-description--1)
-  * [`name`](#-name--2)
-  * [`points`](#-points--1)
-  * [`items`](#-items--3)
-  * [`flags`](#-flags--2)
-  * [`cbms`](#-cbms--1)
-  * [`traits", "forced_traits", "forbidden_traits`](#-traits----forced-traits----forbidden-traits-)
-  * [`allowed_locs`](#-allowed-locs-)
-  * [`start_name`](#-start-name-)
-  * [`professions`](#-professions-)
-  * [`map_special`](#-map-special-)
-  * [`missions`](#-missions-)
+  - [`description`](#-description--1)
+  - [`name`](#-name--2)
+  - [`points`](#-points--1)
+  - [`items`](#-items--3)
+  - [`flags`](#-flags--2)
+  - [`cbms`](#-cbms--1)
+  - [`traits", "forced_traits", "forbidden_traits`](#-traits----forced-traits----forbidden-traits-)
+  - [`allowed_locs`](#-allowed-locs-)
+  - [`start_name`](#-start-name-)
+  - [`professions`](#-professions-)
+  - [`map_special`](#-map-special-)
+  - [`missions`](#-missions-)
 - [Starting locations](#starting-locations)
-  * [`name`](#-name--3)
-  * [`target`](#-target-)
-  * [`flags`](#-flags--3)
-    + [`tile_config`](#-tile-config-)
+  - [`name`](#-name--3)
+  - [`target`](#-target-)
+  - [`flags`](#-flags--3)
+    - [`tile_config`](#-tile-config-)
 - [Mutation overlay ordering](#mutation-overlay-ordering)
-  * [`id`](#-id--2)
-  * [`order`](#-order-)
+  - [`id`](#-id--2)
+  - [`order`](#-order-)
 - [MOD_INFO](#mod_info)
 - [MOD tileset](#mod-tileset)
-  * [`compatibility`](#-compatibility-)
-  * [`tiles-new`](#-tiles-new-)
+  - [`compatibility`](#-compatibility-)
+  - [`tiles-new`](#-tiles-new-)
 - [Field types](#-field-types-)
 
 # Introduction
-This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
+
+This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are
+probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to
+learn more about what to find where and what each file and property does.
 
 # Navigating the JSON
-A lot of the JSON involves cross-references to other JSON entities.  To make it easier to navigate, we provide a script `tools/json_tools/cddatags.py` that can build a `tags` file for you.
 
-To run the script you'll need Python 3.  On Windows you'll probably need to install that, and associate `.py` files with Python.  Then open a command prompt, navigate to your CDDA folder, and run `tools\json_tools\cddatags.py`.
+A lot of the JSON involves cross-references to other JSON entities. To make it easier to navigate,
+we provide a script `tools/json_tools/cddatags.py` that can build a `tags` file for you.
 
-To use this feature your editor will need [ctags support](http://ctags.sourceforge.net/).  When that's working you should be able to easily jump to the definition of any entity.  For example, by positioning your cursor over an id and hitting the appropriate key combination.
+To run the script you'll need Python 3. On Windows you'll probably need to install that, and
+associate `.py` files with Python. Then open a command prompt, navigate to your CDDA folder, and run
+`tools\json_tools\cddatags.py`.
 
-* In Vim, this feature exists by default, and you can jump to a definition using [`^]`](http://vimdoc.sourceforge.net/htmldoc/tagsrch.html#tagsrch.txt).
-* In Notepad++ go to "Plugins" -> "Plugins Admin" and enable the "TagLEET" plugin.  Then select any id and press Alt+Space to open the references window.
+To use this feature your editor will need [ctags support](http://ctags.sourceforge.net/). When
+that's working you should be able to easily jump to the definition of any entity. For example, by
+positioning your cursor over an id and hitting the appropriate key combination.
+
+- In Vim, this feature exists by default, and you can jump to a definition using
+  [`^]`](http://vimdoc.sourceforge.net/htmldoc/tagsrch.html#tagsrch.txt).
+- In Notepad++ go to "Plugins" -> "Plugins Admin" and enable the "TagLEET" plugin. Then select any
+  id and press Alt+Space to open the references window.
 
 # File descriptions
-Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is not comprehensive, but covers the broad strokes.
+
+Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is
+not comprehensive, but covers the broad strokes.
 
 ## `data/json/`
 
-| Filename                    | Description
-|---                          |---
-| achievements.json           | achievements
-| anatomy.json                | a listing of player body parts - do not edit
-| ascii_arts.json             | ascii arts for item descriptions
-| bionics.json                | bionics, does NOT include bionic effects
-| body_parts.json             | an expansion of anatomy.json - do not edit
-| clothing_mods.json          | definition of clothing mods
-| construction.json           | definition of construction menu tasks
-| default_blacklist.json      | a standard blacklist of joke monsters
-| doll_speech.json            | talk doll speech messages
-| dreams.json                 | dream text and linked mutation categories
-| disease.json                | disease definitions
-| effects.json                | common effects and their effects
-| emit.json                   | smoke and gas emissions
-| flags.json                  | common flags and their descriptions
-| furniture.json              | furniture, and features treated like furniture
-| game_balance.json           | various options to tweak game balance
-| gates.json                  | gate terrain definitions
-| harvest.json                | item drops for butchering corpses
-| health_msgs.json            | messages displayed when the player wakes
-| item_actions.json           | descriptions of standard item actions
-| item_category.json          | item categories and their default sort
-| item_groups.json            | item spawn groups
-| lab_notes.json              | lab computer messages
-| martialarts.json            | martial arts styles and buffs
-| materials.json              | material types
-| monster_attacks.json        | monster attacks
-| monster_drops.json          | monster item drops on death
-| monster_factions.json       | monster factions
-| monstergroups.json          | monster spawn groups
-| monstergroups_egg.json      | monster spawn groups from eggs
-| monsters.json               | monster descriptions, mostly zombies
-| morale_types.json           | morale modifier messages
-| mutation_category.json      | messages for mutation categories
-| mutation_ordering.json      | draw order for mutation and CBM overlays in tiles mode
-| mutations.json              | traits/mutations
-| names.json                  | names used for NPC/player name generation
-| overmap_connections.json    | connections for roads and tunnels in the overmap
-| overmap_terrain.json        | overmap terrain
-| player_activities.json      | player activities
-| professions.json            | profession definitions
-| recipes.json                | crafting/disassembly recipes
-| regional_map_settings.json  | settings for the entire map generation
-| road_vehicles.json          | vehicle spawn information for roads
-| rotatable_symbols.json      | rotatable symbols - do not edit
-| scent_types.json            | type of scent available
-| scores.json                 | scores
-| skills.json                 | skill descriptions and ID's
-| snippets.json               | flier/poster descriptions
-| species.json                | monster species
-| speech.json                 | monster vocalizations
-| statistics.json             | statistics and transformations used to define scores and achievements
-| start_locations.json        | starting locations for scenarios
-| techniques.json             | generic for items and martial arts
-| terrain.json                | terrain types and definitions
-| test_regions.json           | test regions
-| tips.json                   | tips of the day
-| tool_qualities.json         | standard tool qualities and their actions
-| traps.json                  | standard traps
-| tutorial.json               | messages for the tutorial (that is out of date)
-| vehicle_groups.json         | vehicle spawn groups
-| vehicle_parts.json          | vehicle parts, does NOT affect flag effects
-| vitamin.json                | vitamins and their deficiencies
+| Filename                   | Description                                                           |
+| -------------------------- | --------------------------------------------------------------------- |
+| achievements.json          | achievements                                                          |
+| anatomy.json               | a listing of player body parts - do not edit                          |
+| ascii_arts.json            | ascii arts for item descriptions                                      |
+| bionics.json               | bionics, does NOT include bionic effects                              |
+| body_parts.json            | an expansion of anatomy.json - do not edit                            |
+| clothing_mods.json         | definition of clothing mods                                           |
+| construction.json          | definition of construction menu tasks                                 |
+| default_blacklist.json     | a standard blacklist of joke monsters                                 |
+| doll_speech.json           | talk doll speech messages                                             |
+| dreams.json                | dream text and linked mutation categories                             |
+| disease.json               | disease definitions                                                   |
+| effects.json               | common effects and their effects                                      |
+| emit.json                  | smoke and gas emissions                                               |
+| flags.json                 | common flags and their descriptions                                   |
+| furniture.json             | furniture, and features treated like furniture                        |
+| game_balance.json          | various options to tweak game balance                                 |
+| gates.json                 | gate terrain definitions                                              |
+| harvest.json               | item drops for butchering corpses                                     |
+| health_msgs.json           | messages displayed when the player wakes                              |
+| item_actions.json          | descriptions of standard item actions                                 |
+| item_category.json         | item categories and their default sort                                |
+| item_groups.json           | item spawn groups                                                     |
+| lab_notes.json             | lab computer messages                                                 |
+| martialarts.json           | martial arts styles and buffs                                         |
+| materials.json             | material types                                                        |
+| monster_attacks.json       | monster attacks                                                       |
+| monster_drops.json         | monster item drops on death                                           |
+| monster_factions.json      | monster factions                                                      |
+| monstergroups.json         | monster spawn groups                                                  |
+| monstergroups_egg.json     | monster spawn groups from eggs                                        |
+| monsters.json              | monster descriptions, mostly zombies                                  |
+| morale_types.json          | morale modifier messages                                              |
+| mutation_category.json     | messages for mutation categories                                      |
+| mutation_ordering.json     | draw order for mutation and CBM overlays in tiles mode                |
+| mutations.json             | traits/mutations                                                      |
+| names.json                 | names used for NPC/player name generation                             |
+| overmap_connections.json   | connections for roads and tunnels in the overmap                      |
+| overmap_terrain.json       | overmap terrain                                                       |
+| player_activities.json     | player activities                                                     |
+| professions.json           | profession definitions                                                |
+| recipes.json               | crafting/disassembly recipes                                          |
+| regional_map_settings.json | settings for the entire map generation                                |
+| road_vehicles.json         | vehicle spawn information for roads                                   |
+| rotatable_symbols.json     | rotatable symbols - do not edit                                       |
+| scent_types.json           | type of scent available                                               |
+| scores.json                | scores                                                                |
+| skills.json                | skill descriptions and ID's                                           |
+| snippets.json              | flier/poster descriptions                                             |
+| species.json               | monster species                                                       |
+| speech.json                | monster vocalizations                                                 |
+| statistics.json            | statistics and transformations used to define scores and achievements |
+| start_locations.json       | starting locations for scenarios                                      |
+| techniques.json            | generic for items and martial arts                                    |
+| terrain.json               | terrain types and definitions                                         |
+| test_regions.json          | test regions                                                          |
+| tips.json                  | tips of the day                                                       |
+| tool_qualities.json        | standard tool qualities and their actions                             |
+| traps.json                 | standard traps                                                        |
+| tutorial.json              | messages for the tutorial (that is out of date)                       |
+| vehicle_groups.json        | vehicle spawn groups                                                  |
+| vehicle_parts.json         | vehicle parts, does NOT affect flag effects                           |
+| vitamin.json               | vitamins and their deficiencies                                       |
 
 selected subfolders
 
@@ -266,33 +279,33 @@ selected subfolders
 
 See below for specifics on the various items
 
-| Filename           | Description
-|---                 |---
-| ammo.json          | common base components like batteries and marbles
-| ammo_types.json    | standard ammo types by gun
-| archery.json       | bows and arrows
-| armor.json         | armor and clothing
-| bionics.json       | Compact Bionic Modules (CBMs)
-| biosignatures.json | animal waste
-| books.json         | books
-| chemicals_and_resources.json   | chemical precursors
-| comestibles.json   | food/drinks
-| containers.json    | containers
-| crossbows.json     | crossbows and bolts
-| fake.json          | fake items for bionics or mutations
-| fuel.json          | liquid fuels
-| grenades.json      | grenades and throwable explosives
-| handloaded_bullets.json | random ammo
-| melee.json         | anything that doesn't go in the other item jsons, melee weapons
-| migration.json     | conversions of non-existent items from save games to current items
-| newspaper.json     | flyers, newspapers, and survivor notes. snippets.json for messages
-| obsolete.json      | items being removed from the game
-| ranged.json        | guns
-| software.json      | software for SD-cards and USB sticks
-| tool_armor.json    | clothes and armor that can be (a)ctivated
-| toolmod.json       | modifications of tools
-| tools.json         | tools and items that can be (a)ctivated
-| vehicle_parts.json | components of vehicles when they aren't on the vehicle
+| Filename                     | Description                                                        |
+| ---------------------------- | ------------------------------------------------------------------ |
+| ammo.json                    | common base components like batteries and marbles                  |
+| ammo_types.json              | standard ammo types by gun                                         |
+| archery.json                 | bows and arrows                                                    |
+| armor.json                   | armor and clothing                                                 |
+| bionics.json                 | Compact Bionic Modules (CBMs)                                      |
+| biosignatures.json           | animal waste                                                       |
+| books.json                   | books                                                              |
+| chemicals_and_resources.json | chemical precursors                                                |
+| comestibles.json             | food/drinks                                                        |
+| containers.json              | containers                                                         |
+| crossbows.json               | crossbows and bolts                                                |
+| fake.json                    | fake items for bionics or mutations                                |
+| fuel.json                    | liquid fuels                                                       |
+| grenades.json                | grenades and throwable explosives                                  |
+| handloaded_bullets.json      | random ammo                                                        |
+| melee.json                   | anything that doesn't go in the other item jsons, melee weapons    |
+| migration.json               | conversions of non-existent items from save games to current items |
+| newspaper.json               | flyers, newspapers, and survivor notes. snippets.json for messages |
+| obsolete.json                | items being removed from the game                                  |
+| ranged.json                  | guns                                                               |
+| software.json                | software for SD-cards and USB sticks                               |
+| tool_armor.json              | clothes and armor that can be (a)ctivated                          |
+| toolmod.json                 | modifications of tools                                             |
+| tools.json                   | tools and items that can be (a)ctivated                            |
+| vehicle_parts.json           | components of vehicles when they aren't on the vehicle             |
 
 ### `data/json/items/comestibles`
 
@@ -300,67 +313,70 @@ See below for specifics on the various items
 
 Standard components and tools for crafting
 
-| Filename                     | Description
-|---                           |---
-| ammo.json                    | ammo components
-| cooking_components.json      | common ingredient sets
-| cooking_requirements.json    | cooking tools and heat sources
-| materials.json               | thread, fabric, and other basic materials
-| toolsets.json                | sets of tools commonly used together
-| uncraft.json                 | common results of taking stuff apart
-| vehicle.json                 | tools to work on vehicles
-
+| Filename                  | Description                               |
+| ------------------------- | ----------------------------------------- |
+| ammo.json                 | ammo components                           |
+| cooking_components.json   | common ingredient sets                    |
+| cooking_requirements.json | cooking tools and heat sources            |
+| materials.json            | thread, fabric, and other basic materials |
+| toolsets.json             | sets of tools commonly used together      |
+| uncraft.json              | common results of taking stuff apart      |
+| vehicle.json              | tools to work on vehicles                 |
 
 ## `data/json/vehicles/`
 
 Groups of vehicle definitions with self-explanatory names of files:
 
-| Filename
-|---
-| bikes.json
-| boats.json
-| cars.json
-| carts.json
-| custom_vehicles.json
-| emergency.json
-| farm.json
-| helicopters.json
-| military.json
-| trains.json
-| trucks.json
-| utility.json
-| vans_busses.json
-| vehicles.json
+| Filename             |
+| -------------------- |
+| bikes.json           |
+| boats.json           |
+| cars.json            |
+| carts.json           |
+| custom_vehicles.json |
+| emergency.json       |
+| farm.json            |
+| helicopters.json     |
+| military.json        |
+| trains.json          |
+| trucks.json          |
+| utility.json         |
+| vans_busses.json     |
+| vehicles.json        |
 
 # Generic properties and formatting
+
 This section describes properties and formatting applied to all of the JSON files.
 
 ## Generic properties
-A few properties are applicable to most if not all json files and do not need to be described for each json file. These properties are:
 
-| Identifier               | Description
-|---                       |---
-| type                     | The type of object this json entry is describing. Setting this entry to 'armor' for example means the game will expect properties specific to armor in that entry. Also ties in with 'copy-from' (see below), if you want to inherit properties of another object, it must be of the same tipe.
-| [copy-from](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item __of the same type__ and only provide entries that should change from the item you copied from.
-| [extends](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                  | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.
-| [delete](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                   | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.
-| [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'.
+A few properties are applicable to most if not all json files and do not need to be described for
+each json file. These properties are:
 
-
+| Identifier                                                                                    | Description                                                                                                                                                                                                                                                                                     |
+| --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type                                                                                          | The type of object this json entry is describing. Setting this entry to 'armor' for example means the game will expect properties specific to armor in that entry. Also ties in with 'copy-from' (see below), if you want to inherit properties of another object, it must be of the same tipe. |
+| [copy-from](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md) | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item **of the same type** and only provide entries that should change from the item you copied from.                                                                                   |
+| [extends](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)   | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.                                                                                                                                                                       |
+| [delete](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)    | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.                                                                                                                                                                                   |
+| [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)  | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'.                                                                                                                                                 |
 
 ## Formatting
+
 When editing JSON files make sure you apply the correct formatting as shown below.
 
 ### Time duration
 
-A string containing one or more pairs of number and time duration unit. Number and unit, as well as each pair, can be separated by an arbitrary amount of spaces.
-Available units:
+A string containing one or more pairs of number and time duration unit. Number and unit, as well as
+each pair, can be separated by an arbitrary amount of spaces. Available units:
+
 - "hours", "hour", "h" - one hour
 - "days", "day", "d" - one day
 - "minutes", "minute", "m" - one minute
 - "turns", "turn", "t" - one turn,
 
 Examples:
+
 - " +1 day -23 hours 50m " `(1*24*60 - 23*60 + 50 == 110 minutes)`
 - "1 turn 1 minutes 9 turns" (1 minute and 10 seconds because 1 turn is 1 second)
 
@@ -370,7 +386,10 @@ Examples:
 "//" : "comment", // Preferred method of leaving comments inside json files.
 ```
 
-Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context (and sometimes a plural form), by writing it like:
+Some json strings are extracted for translation, for example item names, descriptions, etc. The
+exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing
+a string without translation context, the string can also have an optional translation context (and
+sometimes a plural form), by writing it like:
 
 ```JSON
 "name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
@@ -382,8 +401,8 @@ or, if the plural form is the same as the singular form:
 "name": { "ctxt": "foo", "str_sp": "foo" }
 ```
 
-You can also add comments for translators by adding a "//~" entry like below. The
-order of the entries does not matter.
+You can also add comments for translators by adding a "//~" entry like below. The order of the
+entries does not matter.
 
 ```JSON
 "name": {
@@ -392,134 +411,139 @@ order of the entries does not matter.
 }
 ```
 
-Currently, only some JSON values support this syntax (see [here](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
+Currently, only some JSON values support this syntax (see
+[here](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md#translation) for
+a list of supported values and more detailed explanation).
 
 # Description and content of each JSON file
-This section describes each json file and their contents. Each json has their own unique properties that are not shared with other Json files (for example 'chapters' property used in books does not apply to armor). This will make sure properties are only described and used within the context of the appropriate JSON file.
 
+This section describes each json file and their contents. Each json has their own unique properties
+that are not shared with other Json files (for example 'chapters' property used in books does not
+apply to armor). This will make sure properties are only described and used within the context of
+the appropriate JSON file.
 
 ## `data/json/` JSONs
 
 ### Ascii_arts
 
-| Identifier        | Description
-|---                |---
-| id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| picture           | Array of string, each entry is a line of an ascii picture and must be at most 42 columns long.
+| Identifier | Description                                                                                    |
+| ---------- | ---------------------------------------------------------------------------------------------- |
+| id         | Unique ID. Must be one continuous word, use underscores if necessary.                          |
+| picture    | Array of string, each entry is a line of an ascii picture and must be at most 42 columns long. |
 
 ```C++
-  {
-    "type": "ascii_art",
-    "id": "cashcard",
-    "picture": [
-      "",
-      "",
-      "",
-      "       <color_white>╔═══════════════════╗",
-      "       <color_white>║                   ║",
-      "       <color_white>║</color> <color_yellow>╔═   ╔═╔═╗╔═║ ║</color>   <color_white>║",
-      "       <color_white>║</color> <color_yellow>║═ ┼ ║ ║═║╚╗║═║</color>   <color_white>║",
-      "       <color_white>║</color> <color_yellow>╚═   ╚═║ ║═╝║ ║</color>   <color_white>║",
-      "       <color_white>║                   ║",
-      "       <color_white>║   RIVTECH TRUST   ║",
-      "       <color_white>║                   ║",
-      "       <color_white>║                   ║",
-      "       <color_white>║ 555 993 55221 066 ║",
-      "       <color_white>╚═══════════════════╝"
-    ]
-  }
+{
+  "type": "ascii_art",
+  "id": "cashcard",
+  "picture": [
+    "",
+    "",
+    "",
+    "       <color_white>╔═══════════════════╗",
+    "       <color_white>║                   ║",
+    "       <color_white>║</color> <color_yellow>╔═   ╔═╔═╗╔═║ ║</color>   <color_white>║",
+    "       <color_white>║</color> <color_yellow>║═ ┼ ║ ║═║╚╗║═║</color>   <color_white>║",
+    "       <color_white>║</color> <color_yellow>╚═   ╚═║ ║═╝║ ║</color>   <color_white>║",
+    "       <color_white>║                   ║",
+    "       <color_white>║   RIVTECH TRUST   ║",
+    "       <color_white>║                   ║",
+    "       <color_white>║                   ║",
+    "       <color_white>║ 555 993 55221 066 ║",
+    "       <color_white>╚═══════════════════╝"
+  ]
+}
 ```
 
 ### Body_parts
 
-| Identifier        | Description
-|---                |---
-| id                | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
-| name              | (_mandatory_) In-game name displayed.
-| accusative        | (_mandatory_) Accusative form for this bodypart.
-| heading           | (_mandatory_) How it's displayed in headings.
-| heading_multiple  | (_optional_) Plural form of heading. (default: heading value)
-| hp_bar_ui_text    | (_optional_) How it's displayed next to the hp bar in the panel. (default: empty string)
-| encumbrance_text  | (_optional_) Description of effect when encumbered. (default: empty string)
-| main_part         | (_optional_) What is the main part this one is attached to. (default: self)
-| base_hp           | (_optional_) The amount of hp this part has before any modification. (default: `60`)
-| opposite_part     | (_optional_) What is the opposite part ot this one in case of a pair. (default: self)
-| essential         | (_optional_) Whether the character dies if this part drops to `0` HP.
-| hit_size          | (_optional_) Float. Size of the body part when doing an unweighted selection. (default: `0.`)
-| hit_size_relative | (_optional_) Float. Hit sizes for attackers who are smaller, equal in size, and bigger. (default: `[ 0, 0, 0 ]`
-| hit_difficulty    | (_optional_) Float. How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)` (default: `0`)
-| side              | (_optional_) Which side this body part is on. Default both.
-| stylish_bonus     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
-| hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
-| cold_morale_mod   | (_optional_) Mood effect of being too cold on this part. (default: `0`)
-| squeamish_penalty | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
-| bionic_slots      | (_optional_) How many bionic slots does this part have.
+| Identifier        | Description                                                                                                                                                                                                                                                                             |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id                | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.                                                                                                                                                                                                     |
+| name              | (_mandatory_) In-game name displayed.                                                                                                                                                                                                                                                   |
+| accusative        | (_mandatory_) Accusative form for this bodypart.                                                                                                                                                                                                                                        |
+| heading           | (_mandatory_) How it's displayed in headings.                                                                                                                                                                                                                                           |
+| heading_multiple  | (_optional_) Plural form of heading. (default: heading value)                                                                                                                                                                                                                           |
+| hp_bar_ui_text    | (_optional_) How it's displayed next to the hp bar in the panel. (default: empty string)                                                                                                                                                                                                |
+| encumbrance_text  | (_optional_) Description of effect when encumbered. (default: empty string)                                                                                                                                                                                                             |
+| main_part         | (_optional_) What is the main part this one is attached to. (default: self)                                                                                                                                                                                                             |
+| base_hp           | (_optional_) The amount of hp this part has before any modification. (default: `60`)                                                                                                                                                                                                    |
+| opposite_part     | (_optional_) What is the opposite part ot this one in case of a pair. (default: self)                                                                                                                                                                                                   |
+| essential         | (_optional_) Whether the character dies if this part drops to `0` HP.                                                                                                                                                                                                                   |
+| hit_size          | (_optional_) Float. Size of the body part when doing an unweighted selection. (default: `0.`)                                                                                                                                                                                           |
+| hit_size_relative | (_optional_) Float. Hit sizes for attackers who are smaller, equal in size, and bigger. (default: `[ 0, 0, 0 ]`                                                                                                                                                                         |
+| hit_difficulty    | (_optional_) Float. How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)` (default: `0`) |
+| side              | (_optional_) Which side this body part is on. Default both.                                                                                                                                                                                                                             |
+| stylish_bonus     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)                                                                                                                                                                                             |
+| hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)                                                                                                                                                                                                                  |
+| cold_morale_mod   | (_optional_) Mood effect of being too cold on this part. (default: `0`)                                                                                                                                                                                                                 |
+| squeamish_penalty | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)                                                                                                                                                                                                        |
+| bionic_slots      | (_optional_) How many bionic slots does this part have.                                                                                                                                                                                                                                 |
 
 ```C++
-  {
-    "id": "torso",
-    "type": "body_part",
-    "name": "torso",
-    "accusative": { "ctxt": "bodypart_accusative", "str": "torso" },
-    "heading": "Torso",
-    "heading_multiple": "Torso",
-    "hp_bar_ui_text": "TORSO",
-    "encumbrance_text": "Dodging and melee is hampered.",
-    "main_part": "torso",
-    "opposite_part": "torso",
-    "hit_size": 45,
-    "hit_size_relative": [ 20, 33.33, 36.57 ],
-    "hit_difficulty": 1,
-    "side": "both",
-    "legacy_id": "TORSO",
-    "stylish_bonus": 6,
-    "hot_morale_mod": 2,
-    "cold_morale_mod": 2,
-    "squeamish_penalty": 6,
-    "base_hp": 60,
-    "bionic_slots": 80
-  }
+{
+  "id": "torso",
+  "type": "body_part",
+  "name": "torso",
+  "accusative": { "ctxt": "bodypart_accusative", "str": "torso" },
+  "heading": "Torso",
+  "heading_multiple": "Torso",
+  "hp_bar_ui_text": "TORSO",
+  "encumbrance_text": "Dodging and melee is hampered.",
+  "main_part": "torso",
+  "opposite_part": "torso",
+  "hit_size": 45,
+  "hit_size_relative": [ 20, 33.33, 36.57 ],
+  "hit_difficulty": 1,
+  "side": "both",
+  "legacy_id": "TORSO",
+  "stylish_bonus": 6,
+  "hot_morale_mod": 2,
+  "cold_morale_mod": 2,
+  "squeamish_penalty": 6,
+  "base_hp": 60,
+  "bionic_slots": 80
+}
 ```
 
 ### Bionics
 
-| Identifier                  | Description
-|---                          |---
-| id                          | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
-| name                        | (_mandatory_) In-game name displayed.
-| description                 | (_mandatory_) In-game description.
-| flags                       | (_optional_) A list of flags. See JSON_FLAGS.md for supported values.
-| act_cost                    | (_optional_) How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| deact_cost                  | (_optional_) How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| react_cost                  | (_optional_) How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| time                        | (_optional_) How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
-| upgraded_bionic             | (_optional_) Bionic that can be upgraded by installing this one.
-| available_upgrades          | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
-| encumbrance                 | (_optional_) A list of body parts and how much this bionic encumber them.
-| weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
-| weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
-| canceled_mutations          | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
-| included_bionics            | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
-| included                    | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
-| env_protec                  | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
-| bash_protec                 | (_optional_) How much bash protection does this bionic provide on the specified body parts.
-| cut_protec                  | (_optional_) How much cut protection does this bionic provide on the specified body parts.
-| bullet_protect              | (_optional_) How much bullet protect does this bionic provide on the specified body parts.
-| occupied_bodyparts          | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
-| capacity                    | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| fuel_options                | (_optional_) A list of fuel that this bionic can use to produce bionic power.
-| is_remote_fueled            | (_optional_) If true this bionic allows you to plug your power banks to an external power source (solar backpack, UPS, vehicle etc) via a cable. (default: `false`)
-| fuel_capacity               | (_optional_) Volume of fuel this bionic can store.
-| fuel_efficiency             | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
-| fuel_multiplier             | (_optional_) Multiplies the amount of fuel when loading into the bionic (default: `1`)
-| passive_fuel_efficiency     | (_optional_) Fraction of fuel energy passively converted into power. Useful for CBM using PERPETUAL fuel like `muscle`, `wind` or `sun_light`. (default: `0`)
-| exothermic_power_gen        | (_optional_) If true this bionic emits heat when producing power. (default: `false`)
-| coverage_power_gen_penalty  | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)
-| power_gen_emission          | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
-| stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
-| enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
-| learned_spells              | (_optional_) List of spells (with levels) you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
-| fake_item                   | (_optional_) ID of fake item used by this bionic. Mandatory for gun and weapon bionics.
+| Identifier                 | Description                                                                                                                                                                                                                     |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id                         | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.                                                                                                                                             |
+| name                       | (_mandatory_) In-game name displayed.                                                                                                                                                                                           |
+| description                | (_mandatory_) In-game description.                                                                                                                                                                                              |
+| flags                      | (_optional_) A list of flags. See JSON_FLAGS.md for supported values.                                                                                                                                                           |
+| act_cost                   | (_optional_) How many kJ it costs to activate the bionic. Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)                                                                                                       |
+| deact_cost                 | (_optional_) How many kJ it costs to deactivate the bionic. Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)                                                                                                     |
+| react_cost                 | (_optional_) How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time". Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)                                                 |
+| time                       | (_optional_) How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)                                                                                                                          |
+| upgraded_bionic            | (_optional_) Bionic that can be upgraded by installing this one.                                                                                                                                                                |
+| available_upgrades         | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.                                                                                                      |
+| encumbrance                | (_optional_) A list of body parts and how much this bionic encumber them.                                                                                                                                                       |
+| weight_capacity_bonus      | (_optional_) Bonus to weight carrying capacity in grams, can be negative. Strings can be used - "5000 g" or "5 kg" (default: `0`)                                                                                               |
+| weight_capacity_modifier   | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)                                                                                                                                                     |
+| canceled_mutations         | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).                                                                                    |
+| included_bionics           | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently. |
+| included                   | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)                                                                                    |
+| env_protec                 | (_optional_) How much environmental protection does this bionic provide on the specified body parts.                                                                                                                            |
+| bash_protec                | (_optional_) How much bash protection does this bionic provide on the specified body parts.                                                                                                                                     |
+| cut_protec                 | (_optional_) How much cut protection does this bionic provide on the specified body parts.                                                                                                                                      |
+| bullet_protect             | (_optional_) How much bullet protect does this bionic provide on the specified body parts.                                                                                                                                      |
+| occupied_bodyparts         | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.                                                                                                               |
+| capacity                   | (_optional_) Amount of power storage added by this bionic. Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)                                                                                                      |
+| fuel_options               | (_optional_) A list of fuel that this bionic can use to produce bionic power.                                                                                                                                                   |
+| is_remote_fueled           | (_optional_) If true this bionic allows you to plug your power banks to an external power source (solar backpack, UPS, vehicle etc) via a cable. (default: `false`)                                                             |
+| fuel_capacity              | (_optional_) Volume of fuel this bionic can store.                                                                                                                                                                              |
+| fuel_efficiency            | (_optional_) Fraction of fuel energy converted into power. (default: `0`)                                                                                                                                                       |
+| fuel_multiplier            | (_optional_) Multiplies the amount of fuel when loading into the bionic (default: `1`)                                                                                                                                          |
+| passive_fuel_efficiency    | (_optional_) Fraction of fuel energy passively converted into power. Useful for CBM using PERPETUAL fuel like `muscle`, `wind` or `sun_light`. (default: `0`)                                                                   |
+| exothermic_power_gen       | (_optional_) If true this bionic emits heat when producing power. (default: `false`)                                                                                                                                            |
+| coverage_power_gen_penalty | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)                                                                                                                  |
+| power_gen_emission         | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.                                                                                                        |
+| stat_bonus                 | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".                                                                                                                             |
+| enchantments               | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)                                                                               |
+| learned_spells             | (_optional_) List of spells (with levels) you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.                                                                      |
+| fake_item                  | (_optional_) ID of fake item used by this bionic. Mandatory for gun and weapon bionics.                                                                                                                                         |
 
 ```C++
 {
@@ -552,16 +576,17 @@ This section describes each json file and their contents. Each json has their ow
 }
 ```
 
-Bionics effects are defined in the code and new effects cannot be created through JSON alone.
-When adding a new bionic, if it's not included with another one, you must also add the corresponding CBM item in `data/json/items/bionics.json`. Even for a faulty bionic.
+Bionics effects are defined in the code and new effects cannot be created through JSON alone. When
+adding a new bionic, if it's not included with another one, you must also add the corresponding CBM
+item in `data/json/items/bionics.json`. Even for a faulty bionic.
 
 ### Dreams
 
-| Identifier | Description
-|---         |---
-| messages   | List of potential dreams.
-| category   | Mutation category needed to dream.
-| strength   | Mutation category strength required (1 = 20-34, 2 = 35-49, 3 = 50+).
+| Identifier | Description                                                          |
+| ---------- | -------------------------------------------------------------------- |
+| messages   | List of potential dreams.                                            |
+| category   | Mutation category needed to dream.                                   |
+| strength   | Mutation category strength required (1 = 20-34, 2 = 35-49, 3 = 50+). |
 
 ```C++
 {
@@ -576,30 +601,29 @@ When adding a new bionic, if it's not included with another one, you must also a
 
 ### Disease
 
-| Identifier         | Description
-|---                 |---
-| id                 | Unique ID. Must be one continuous word, use underscores if necessary.
-| min_duration       | The minimum duration the disease can last. Uses strings "x m", "x s","x d".
-| max_duration       | The maximum duration the disease can last.
-| min_intensity      | The minimum intensity of the effect applied by the disease
-| max_intensity      | The maximum intensity of the effect.
-| health_threshold   | The amount of health above which one is immune to the disease. Must be between -200 and 200. (optional )
-| symptoms           | The effect applied by the disease.
-| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to num_bp)
-
+| Identifier         | Description                                                                                              |
+| ------------------ | -------------------------------------------------------------------------------------------------------- |
+| id                 | Unique ID. Must be one continuous word, use underscores if necessary.                                    |
+| min_duration       | The minimum duration the disease can last. Uses strings "x m", "x s","x d".                              |
+| max_duration       | The maximum duration the disease can last.                                                               |
+| min_intensity      | The minimum intensity of the effect applied by the disease                                               |
+| max_intensity      | The maximum intensity of the effect.                                                                     |
+| health_threshold   | The amount of health above which one is immune to the disease. Must be between -200 and 200. (optional ) |
+| symptoms           | The effect applied by the disease.                                                                       |
+| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to num_bp)                      |
 
 ```json
-  {
-    "type": "disease_type",
-    "id": "bad_food",
-    "min_duration": "6 m",
-    "max_duration": "1 h",
-    "min_intensity": 1,
-    "max_intensity": 1,
-    "affected_bodyparts": [ "TORSO" ],
-    "health_threshold": 100,
-    "symptoms": "foodpoison"
-  }
+{
+  "type": "disease_type",
+  "id": "bad_food",
+  "min_duration": "6 m",
+  "max_duration": "1 h",
+  "min_intensity": 1,
+  "max_intensity": 1,
+  "affected_bodyparts": ["TORSO"],
+  "health_threshold": 100,
+  "symptoms": "foodpoison"
+}
 ```
 
 ### Item Groups
@@ -607,11 +631,11 @@ When adding a new bionic, if it's not included with another one, you must also a
 Item groups have been expanded, look at [the detailed docs](ITEM_SPAWN.md) to their new description.
 The syntax listed here is still valid.
 
-| Identifier | Description
-|---         |---
-| id         | Unique ID. Must be one continuous word, use underscores if necessary
-| items      | List of potential item ID's. Chance of an item spawning is x/T, where X is the value linked to the specific item and T is the total of all item values in a group.
-| groups     | ??
+| Identifier | Description                                                                                                                                                        |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| id         | Unique ID. Must be one continuous word, use underscores if necessary                                                                                               |
+| items      | List of potential item ID's. Chance of an item spawning is x/T, where X is the value linked to the specific item and T is the total of all item values in a group. |
+| groups     | ??                                                                                                                                                                 |
 
 ```C++
 {
@@ -632,13 +656,13 @@ The syntax listed here is still valid.
 
 When you sort your inventory by category, these are the categories that are displayed.
 
-| Identifier      | Description
-|---              |---
-| id              | Unique ID. Must be one continuous word, use underscores if necessary
-| name            | The name of the category. This is what shows up in-game when you open the inventory.
-| zone            | The corresponding loot_zone (see loot_zones.json)
-| sort_rank       | Used to sort categories when displaying.  Lower values are shown first
-| priority_zones  | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
+| Identifier     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| id             | Unique ID. Must be one continuous word, use underscores if necessary                                                                                                                                                                                                                                                                                                                                                                                             |
+| name           | The name of the category. This is what shows up in-game when you open the inventory.                                                                                                                                                                                                                                                                                                                                                                             |
+| zone           | The corresponding loot_zone (see loot_zones.json)                                                                                                                                                                                                                                                                                                                                                                                                                |
+| sort_rank      | Used to sort categories when displaying. Lower values are shown first                                                                                                                                                                                                                                                                                                                                                                                            |
+| priority_zones | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags |
 
 ```C++
 {
@@ -652,35 +676,36 @@ When you sort your inventory by category, these are the categories that are disp
 
 ### Materials
 
-| Identifier       | Description
-|---               |---
-| `id`             | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
-| `name`           | In-game name displayed.
-| `bash_resist`    | How well a material resists bashing damage.
-| `cut_resist`     | How well a material resists cutting damage.
-| `bullet_resist`  | How well a material resists bullet damage.
-| `acid_resist`    | Ability of a material to resist acid.
-| `elec_resist`    | Ability of a material to resist electricity.
-| `fire_resist`    | Ability of a material to resist fire.
-| `chip_resist`    | Returns resistance to being damaged by attacks against the item itself.
-| `bash_dmg_verb`  | Verb used when material takes bashing damage.
-| `cut_dmg_verb`   | Verb used when material takes cutting damage.
-| `dmg_adj`        | Description added to damaged item in ascending severity.
-| `dmg_adj`        | Adjectives used to describe damage states of a material.
-| `density`        | Density of a material.
-| `vitamins`       | Vitamins in a material. Usually overridden by item specific values.
-| `wind_resist`    | Percentage 0-100. How effective this material is at stopping wind from getting through. Higher values are better. If none of the materials an item is made of specify a value, a default of 99 is assumed.
-| `warmth_when_wet`      | Percentage of warmth retained when fully drenched. Default is 0.2.
-| `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
-| `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
-| `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
-| `freeze_point`   | Freezing point of this material (F). Default 32 F ( 0 C ).
-| `edible`   | Optional boolean. Default is false.
-| `rotting`   | Optional boolean. Default is false.
-| `soft`   | Optional boolean. Default is false.
-| `reinforces`   | Optional boolean. Default is false.
+| Identifier             | Description                                                                                                                                                                                                |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                   | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.                                                                                                                |
+| `name`                 | In-game name displayed.                                                                                                                                                                                    |
+| `bash_resist`          | How well a material resists bashing damage.                                                                                                                                                                |
+| `cut_resist`           | How well a material resists cutting damage.                                                                                                                                                                |
+| `bullet_resist`        | How well a material resists bullet damage.                                                                                                                                                                 |
+| `acid_resist`          | Ability of a material to resist acid.                                                                                                                                                                      |
+| `elec_resist`          | Ability of a material to resist electricity.                                                                                                                                                               |
+| `fire_resist`          | Ability of a material to resist fire.                                                                                                                                                                      |
+| `chip_resist`          | Returns resistance to being damaged by attacks against the item itself.                                                                                                                                    |
+| `bash_dmg_verb`        | Verb used when material takes bashing damage.                                                                                                                                                              |
+| `cut_dmg_verb`         | Verb used when material takes cutting damage.                                                                                                                                                              |
+| `dmg_adj`              | Description added to damaged item in ascending severity.                                                                                                                                                   |
+| `dmg_adj`              | Adjectives used to describe damage states of a material.                                                                                                                                                   |
+| `density`              | Density of a material.                                                                                                                                                                                     |
+| `vitamins`             | Vitamins in a material. Usually overridden by item specific values.                                                                                                                                        |
+| `wind_resist`          | Percentage 0-100. How effective this material is at stopping wind from getting through. Higher values are better. If none of the materials an item is made of specify a value, a default of 99 is assumed. |
+| `warmth_when_wet`      | Percentage of warmth retained when fully drenched. Default is 0.2.                                                                                                                                         |
+| `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.                                                                                                                                      |
+| `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.                                                                                                                                          |
+| `latent_heat`          | Latent heat of fusion for a material (J/g). Default 334.                                                                                                                                                   |
+| `freeze_point`         | Freezing point of this material (F). Default 32 F ( 0 C ).                                                                                                                                                 |
+| `edible`               | Optional boolean. Default is false.                                                                                                                                                                        |
+| `rotting`              | Optional boolean. Default is false.                                                                                                                                                                        |
+| `soft`                 | Optional boolean. Default is false.                                                                                                                                                                        |
+| `reinforces`           | Optional boolean. Default is false.                                                                                                                                                                        |
 
-There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These are integer values; the default is 0 and they can be negative to take more damage.
+There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These are integer values;
+the default is 0 and they can be negative to take more damage.
 
 ```C++
 {
@@ -716,25 +741,25 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 
 #### Group definition
 
-| Identifier  | Description
-|---          |---
-| `name`      | Unique ID. Must be one continuous word, use underscores if necessary.
-| `default`   | Default monster, automatically fills in any remaining spawn chances.
-| `monsters`  | To choose a monster for spawning, the game creates 1000 entries and picks one. Each monster will have a number of entries equal to it's "freq" and the default monster will fill in the remaining. See the table below for how to build the single monster definitions.
-| `is_safe`   | (bool) Check to not trigger safe-mode warning.
-| `is_animal` | (bool) Check if that group has only normal animals.
+| Identifier  | Description                                                                                                                                                                                                                                                             |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`      | Unique ID. Must be one continuous word, use underscores if necessary.                                                                                                                                                                                                   |
+| `default`   | Default monster, automatically fills in any remaining spawn chances.                                                                                                                                                                                                    |
+| `monsters`  | To choose a monster for spawning, the game creates 1000 entries and picks one. Each monster will have a number of entries equal to it's "freq" and the default monster will fill in the remaining. See the table below for how to build the single monster definitions. |
+| `is_safe`   | (bool) Check to not trigger safe-mode warning.                                                                                                                                                                                                                          |
+| `is_animal` | (bool) Check if that group has only normal animals.                                                                                                                                                                                                                     |
 
 #### Monster definition
 
-| Identifier        | Description
-|---                |---
-| `monster`         | The monster's unique ID, eg. `"mon_zombie"`.
-| `freq`            | Chance of occurrence, x/1000.
-| `cost_multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.
-| `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together.  (default: `[1,1]`)
-| `conditions`      | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid.
-| `starts`          | (_optional_) This entry becomes active after this time. (Measured in hours)
-| `ends`            | (_optional_) This entry becomes inactive after this time. (Measured in hours)
+| Identifier        | Description                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `monster`         | The monster's unique ID, eg. `"mon_zombie"`.                                                                                                                                                                                                                                                                                                                                                                                        |
+| `freq`            | Chance of occurrence, x/1000.                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `cost_multiplier` | How many monsters each monster in this definition should count as, if spawning a limited number of monsters.                                                                                                                                                                                                                                                                                                                        |
+| `pack_size`       | (_optional_) The minimum and maximum number of monsters in this group that should spawn together. (default: `[1,1]`)                                                                                                                                                                                                                                                                                                                |
+| `conditions`      | Conditions limit when monsters spawn. Valid options: `SUMMER`, `WINTER`, `AUTUMN`, `SPRING`, `DAY`, `NIGHT`, `DUSK`, `DAWN`. Multiple Time-of-day conditions (`DAY`, `NIGHT`, `DUSK`, `DAWN`) will be combined together so that any of those conditions makes the spawn valid. Multiple Season conditions (`SUMMER`, `WINTER`, `AUTUMN`, `SPRING`) will be combined together so that any of those conditions makes the spawn valid. |
+| `starts`          | (_optional_) This entry becomes active after this time. (Measured in hours)                                                                                                                                                                                                                                                                                                                                                         |
+| `ends`            | (_optional_) This entry becomes inactive after this time. (Measured in hours)                                                                                                                                                                                                                                                                                                                                                       |
 
 ```C++
 {
@@ -751,14 +776,14 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 
 ### Monster Factions
 
-| Identifier      | Description
-|---              |---
-| `name`          | Unique ID. Must be one continuous word, use underscores when necessary.
-| `base_faction`  | Optional base faction. Relations to other factions are inherited from it and relations of other factions to this one check this.
-| `by_mood`       | Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions.
-| `neutral`       | Always be neutral towards this faction.
-| `friendly`      | Always be friendly towards this faction. By default a faction is friendly towards itself.
-| `hate`          | Always be hostile towards this faction. Will change target to monsters of this faction if available.
+| Identifier     | Description                                                                                                                      |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `name`         | Unique ID. Must be one continuous word, use underscores when necessary.                                                          |
+| `base_faction` | Optional base faction. Relations to other factions are inherited from it and relations of other factions to this one check this. |
+| `by_mood`      | Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions.                           |
+| `neutral`      | Always be neutral towards this faction.                                                                                          |
+| `friendly`     | Always be friendly towards this faction. By default a faction is friendly towards itself.                                        |
+| `hate`         | Always be hostile towards this faction. Will change target to monsters of this faction if available.                             |
 
 ```C++
 {
@@ -784,9 +809,12 @@ See MONSTERS.md
 
 ### Profession item substitution
 
-Defines item replacements that are applied to the starting items based upon the starting traits. This allows for example to replace wool items with non-wool items when the characters starts with the wool allergy trait.
+Defines item replacements that are applied to the starting items based upon the starting traits.
+This allows for example to replace wool items with non-wool items when the characters starts with
+the wool allergy trait.
 
-If the JSON objects contains a "item" member, it defines a replacement for the given item, like this:
+If the JSON objects contains a "item" member, it defines a replacement for the given item, like
+this:
 
 ```C++
 {
@@ -798,12 +826,16 @@ If the JSON objects contains a "item" member, it defines a replacement for the g
   ]
 }
 ```
+
 This defines each item of type "sunglasses" shall be replaced with:
+
 - an item "fitover_sunglasses" if the character has the "HYPEROPIC" trait,
 - two items "fitover_sunglasses" if the character has the "MYOPIC" trait.
 
-If the JSON objects contains a "trait" member, it defines a replacement for multiple items that applies when the character has the given trait:
-```C++
+If the JSON objects contains a "trait" member, it defines a replacement for multiple items that
+applies when the character has the given trait:
+
+````C++
 {
   "type": "profession_item_substitutions",
   "trait": "WOOLALLERGY",
@@ -827,21 +859,25 @@ Professions are specified as JSON object with "type" member set to "profession":
     "id": "hunter",
     ...
 }
-```
+````
 
 The id member should be the unique id of the profession.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 
 #### `description`
+
 (string)
 
 The in-game description.
 
 #### `name`
+
 (string or object with members "male" and "female")
 
-The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
+The in-game name, either one gender-neutral string, or an object with gender specific names.
+Example:
+
 ```C++
 "name": {
     "male": "Groom",
@@ -850,25 +886,31 @@ The in-game name, either one gender-neutral string, or an object with gender spe
 ```
 
 #### `points`
+
 (integer)
 
 Point cost of profession. Positive values cost points and negative values grant points.
 
 #### `addictions`
+
 (optional, array of addictions)
 
 List of starting addictions. Each entry in the list should be an object with the following members:
+
 - "type": the string id of the addiction (see JSON_FLAGS.md),
 - "intensity": intensity (integer) of the addiction.
 
 Example:
+
 ```C++
 "addictions": [
     { "type": "nicotine", "intensity": 10 }
 ]
 ```
 
-Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:addictions" and "remove:addictions", removing requires only the addiction type. Example:
+Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:addictions" and
+"remove:addictions", removing requires only the addiction type. Example:
+
 ```C++
 {
     "type": "profession",
@@ -888,17 +930,22 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
 (optional, array of skill levels)
 
 List of starting skills. Each entry in the list should be an object with the following members:
+
 - "name": the string id of the skill (see skills.json),
-- "level": level (integer) of the skill. This is added to the skill level that can be chosen in the character creation.
+- "level": level (integer) of the skill. This is added to the skill level that can be chosen in the
+  character creation.
 
 Example:
+
 ```C++
 "skills": [
     { "name": "archery", "level": 2 }
 ]
 ```
 
-Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:skills" and "remove:skills", removing requires only the skill id. Example:
+Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:skills" and
+"remove:skills", removing requires only the skill id. Example:
+
 ```C++
 {
     "type": "profession",
@@ -911,16 +958,19 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
         { "name": "computer", "level": 2 }
     ]
 }
-
 ```
 
 #### `items`
 
 (optional, object with optional members "both", "male" and "female")
 
-Items the player starts with when selecting this profession. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids, or pairs of item ids and snippet ids. Item ids may appear multiple times, in which case the item is created multiple times. The syntax for each of the three lists is identical.
+Items the player starts with when selecting this profession. One can specify different items based
+on the gender of the character. Each lists of items should be an array of items ids, or pairs of
+item ids and snippet ids. Item ids may appear multiple times, in which case the item is created
+multiple times. The syntax for each of the three lists is identical.
 
 Example:
+
 ```C++
 "items": {
     "both": [
@@ -939,9 +989,13 @@ Example:
 }
 ```
 
-This gives the player pants, two rocks, a t-shirt with the snippet id "allyourbase" (giving it a special description), socks and (depending on the gender) briefs or panties.
+This gives the player pants, two rocks, a t-shirt with the snippet id "allyourbase" (giving it a
+special description), socks and (depending on the gender) briefs or panties.
 
-Mods can modify the lists of existing professions. This requires the "edit-mode" member with value "modify" (see example). Adding items to the lists can be done with via "add:both" / "add:male" / "add:female". It allows the same content (it allows adding items with snippet ids). Removing items is done via "remove:both" / "remove:male" / "remove:female", which may only contain items ids.
+Mods can modify the lists of existing professions. This requires the "edit-mode" member with value
+"modify" (see example). Adding items to the lists can be done with via "add:both" / "add:male" /
+"add:female". It allows the same content (it allows adding items with snippet ids). Removing items
+is done via "remove:both" / "remove:male" / "remove:female", which may only contain items ids.
 
 Example for mods:
 
@@ -963,22 +1017,22 @@ Example for mods:
 }
 ```
 
-This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the special snippet id.
+This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item
+and gives female characters a t-shirt with the special snippet id.
 
 #### `pets`
 
 (optional, array of string mtype_ids )
 
-A list of strings, each is the same as a monster id
-player will start with these as tamed pets.
+A list of strings, each is the same as a monster id player will start with these as tamed pets.
 
 #### `vehicle`
 
 (optional, string vproto_id )
 
-A  string, which is the same as a vehicle ( vproto_id )
-player will start with this as a nearby vehicle.
-( it will find the nearest road and place it there, then mark it as "remembered" on the overmap )
+A string, which is the same as a vehicle ( vproto_id ) player will start with this as a nearby
+vehicle. ( it will find the nearest road and place it there, then mark it as "remembered" on the
+overmap )
 
 #### `flags`
 
@@ -1080,12 +1134,10 @@ Recipes represent both craft and uncraft (disassembly) recipes.
 
 #### Overlapping recipe component requirements
 
-If recipes have requirements which overlap, this makes it more
-difficult for the game to calculate whether it is possible to craft a recipe at
-all.
+If recipes have requirements which overlap, this makes it more difficult for the game to calculate
+whether it is possible to craft a recipe at all.
 
-For example, the survivor telescope recipe has the following requirements
-(amongst others):
+For example, the survivor telescope recipe has the following requirements (amongst others):
 
 ```
 1 high-quality lens
@@ -1095,24 +1147,22 @@ AND
 
 These overlap because both list the high-quality lens.
 
-A small amount of overlap (such as the above) can be handled, but if you have
-too many component lists which overlap in too many ways, then you may see an
-error during recipe finalization that your recipe is too complex.  In this
-case, the game may not be able to corectly predict whether it can be crafted.
+A small amount of overlap (such as the above) can be handled, but if you have too many component
+lists which overlap in too many ways, then you may see an error during recipe finalization that your
+recipe is too complex. In this case, the game may not be able to corectly predict whether it can be
+crafted.
 
-To work around this issue, if you do not wish to simplify the recipe
-requirements, then you can split your recipe into multiple steps.  For
-example, if we wanted to simplify the above survivor telescope recipe we could
-introduce an intermediate item "survivor eyepiece", which requires one of
-either lens, and then the telescope would require a high-quality lens and an
-eyepiece.  Overall, the requirements are the same, but neither recipe has any
-overlap.
+To work around this issue, if you do not wish to simplify the recipe requirements, then you can
+split your recipe into multiple steps. For example, if we wanted to simplify the above survivor
+telescope recipe we could introduce an intermediate item "survivor eyepiece", which requires one of
+either lens, and then the telescope would require a high-quality lens and an eyepiece. Overall, the
+requirements are the same, but neither recipe has any overlap.
 
-For more details, see [this pull
-request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
-[related issue](https://github.com/CleverRaven/Cataclysm-DDA/issues/32311).
+For more details, see [this pull request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657)
+and the [related issue](https://github.com/CleverRaven/Cataclysm-DDA/issues/32311).
 
 ### Constructions
+
 ```C++
 "id": "constr_pit_spiked",                                          // Identifier of the construction
 "group": "spike_pit",                                               // Construction group, used to provide description and group related constructions in UI (e.g. different stages of some construction).
@@ -1134,24 +1184,24 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 "vehicle_start": false,                                             // (Optional, default false) Whether it will create a vehicle (for hardcode purposes)
 "on_display": false,                                                // (Optional, default true) Whether it will show in player's UI
 "dark_craftable": true,                                             // (Optional, default false) Whether it can be constructed in dark
-
 ```
 
 ### Construction groups
+
 ```C++
 "id": "build_wooden_door",            // Group identifier
 "name": "Build Wooden Door",          // Description string displayed in the construction menu
 ```
 
 ### Construction sequences
-Constuction sequences are needed for automatic calculation of basecamp blueprint requirements.
-Each construction sequence describes steps needed to construct specified terrain
-or furniture on an empty dirt tile.
-At any moment, only 1 construction sequence may be defined for any terrain or furniture.
+
+Constuction sequences are needed for automatic calculation of basecamp blueprint requirements. Each
+construction sequence describes steps needed to construct specified terrain or furniture on an empty
+dirt tile. At any moment, only 1 construction sequence may be defined for any terrain or furniture.
 For convenience, each non-blacklisted construction recipe that starts from an empty dirt tile
-automatically generates a one-element-long construction sequence, but only as long as
-there are no other such construction recipes that would produce the same sequence
-and there isn't an explicitly defined sequence with same results.
+automatically generates a one-element-long construction sequence, but only as long as there are no
+other such construction recipes that would produce the same sequence and there isn't an explicitly
+defined sequence with same results.
 
 ```C++
 "id": "f_workbench",                // Sequence identifier
@@ -1167,30 +1217,29 @@ and there isn't an explicitly defined sequence with same results.
 
 ### Scent_types
 
-| Identifier               | Description
-|---                       |---
-| id                       | Unique ID. Must be one continuous word, use underscores if necessary.
-| receptive_species        | Species able to track this scent. Must use valid ids defined in `species.json`
+| Identifier        | Description                                                                    |
+| ----------------- | ------------------------------------------------------------------------------ |
+| id                | Unique ID. Must be one continuous word, use underscores if necessary.          |
+| receptive_species | Species able to track this scent. Must use valid ids defined in `species.json` |
 
 ```json
-  {
-    "type": "scent_type",
-    "id": "sc_flower",
-    "receptive_species": [ "MAMMAL", "INSECT", "MOLLUSK", "BIRD" ]
-  }
+{
+  "type": "scent_type",
+  "id": "sc_flower",
+  "receptive_species": ["MAMMAL", "INSECT", "MOLLUSK", "BIRD"]
+}
 ```
 
 ### Scores and Achievements
 
-Scores are defined in two or three steps based on *events*.  To see what events
-exist and what data they contain, read [`event.h`](../src/event.h).
+Scores are defined in two or three steps based on _events_. To see what events exist and what data
+they contain, read [`event.h`](../src/event.h).
 
-Each event contains a certain set of fields.  Each field has a string key and a
-`cata_variant` value.  The fields should provide all the relevant information
-about the event.
+Each event contains a certain set of fields. Each field has a string key and a `cata_variant` value.
+The fields should provide all the relevant information about the event.
 
-For example, consider the `gains_skill_level` event.  You can see this
-specification for it in `event.h`:
+For example, consider the `gains_skill_level` event. You can see this specification for it in
+`event.h`:
 
 ```C++
 template<>
@@ -1205,39 +1254,37 @@ struct event_spec<event_type::gains_skill_level> {
 ```
 
 From this, you can see that this event type has three fields:
-* `character`, with the id of the character gaining the level.
-* `skill`, with the id of the skill gained.
-* `new_level`, with the integer level newly acquired in that skill.
 
-Events are generated by the game when in-game circumstances dictate.  These
-events can be transformed and summarized in various ways.  There are three
-concepts involved: event streams, event statistics, and scores.
+- `character`, with the id of the character gaining the level.
+- `skill`, with the id of the skill gained.
+- `new_level`, with the integer level newly acquired in that skill.
 
-* Each `event_type` defined by the game generates an event stream.
-* Further event streams can be defined in json by applying an
-  `event_transformation` to an existing event stream.
-* An `event_statistic` summarizes an event stream into a single value (usually
-  a number, but other types of value are possible).
-* A `score` uses such a statistic to define an in-game score which players can
-  see.
+Events are generated by the game when in-game circumstances dictate. These events can be transformed
+and summarized in various ways. There are three concepts involved: event streams, event statistics,
+and scores.
+
+- Each `event_type` defined by the game generates an event stream.
+- Further event streams can be defined in json by applying an `event_transformation` to an existing
+  event stream.
+- An `event_statistic` summarizes an event stream into a single value (usually a number, but other
+  types of value are possible).
+- A `score` uses such a statistic to define an in-game score which players can see.
 
 #### `event_transformation`
 
-An `event_transformation` can modify an event stream, producing another event
-stream.
+An `event_transformation` can modify an event stream, producing another event stream.
 
-The input stream to be transformed is specified either as an `"event_type"`, to
-use one of the built-in event type streams, or an `"event_transformation"`,
-to use another json-defined transformed event stream.
+The input stream to be transformed is specified either as an `"event_type"`, to use one of the
+built-in event type streams, or an `"event_transformation"`, to use another json-defined transformed
+event stream.
 
 Any or all of the following alterations can be made to the event stream:
 
-* Add new fields to each event based on event field transformations.  The event
-  field transformations can be found in
-  [`event_field_transformation.cpp`](../src/event_field_transformation.cpp).
-* Filter events based on the values they contain to produce a stream containing
-  some subset of the input stream.
-* Drop some fields which are not of interest in the output stream.
+- Add new fields to each event based on event field transformations. The event field transformations
+  can be found in [`event_field_transformation.cpp`](../src/event_field_transformation.cpp).
+- Filter events based on the values they contain to produce a stream containing some subset of the
+  input stream.
+- Drop some fields which are not of interest in the output stream.
 
 Here are examples of each modification:
 
@@ -1275,49 +1322,54 @@ Here are examples of each modification:
 
 #### `event_statistic`
 
-As with `event_transformation`, an `event_statistic` requires an input event
-stream.  That input stream can be specified in the same was as for
-`event_transformation`, via one of the following two entries:
+As with `event_transformation`, an `event_statistic` requires an input event stream. That input
+stream can be specified in the same was as for `event_transformation`, via one of the following two
+entries:
 
 ```C++
 "event_type" : "avatar_moves" // Events of this built-in type
 "event_transformation" : "moves_on_horse" // Events resulting from this json-defined transformation
 ```
 
-Then it specifies a particular `stat_type` and potentially additional details
-as follows:
+Then it specifies a particular `stat_type` and potentially additional details as follows:
 
 The number of events:
+
 ```C++
 "stat_type" : "count"
 ```
 
 The sum of the numeric value in the specified field across all events:
+
 ```C++
 "stat_type" : "total"
 "field" : "damage"
 ```
 
 The maximum of the numeric value in the specified field across all events:
+
 ```C++
 "stat_type" : "maximum"
 "field" : "damage"
 ```
 
 The minimum of the numeric value in the specified field across all events:
+
 ```C++
 "stat_type" : "minimum"
 "field" : "damage"
 ```
 
-Assume there is only a single event to consider, and take the value of the
-given field for that unique event:
+Assume there is only a single event to consider, and take the value of the given field for that
+unique event:
+
 ```C++
 "stat_type": "unique_value",
 "field": "avatar_id"
 ```
 
 Regardless of `stat_type`, each `event_statistic` can also have:
+
 ```C++
 // Intended for use in describing scores and achievement requirements.
 "description": "Number of things"
@@ -1325,15 +1377,14 @@ Regardless of `stat_type`, each `event_statistic` can also have:
 
 #### `score`
 
-Scores simply associate a description to an event for formatting in tabulations
-of scores.  The `description` specifies a string which is expected to contain a
-`%s` format specifier where the value of the statistic will be inserted.
+Scores simply associate a description to an event for formatting in tabulations of scores. The
+`description` specifies a string which is expected to contain a `%s` format specifier where the
+value of the statistic will be inserted.
 
-Note that even though most statistics yield an integer, you should still use
-`%s`.
+Note that even though most statistics yield an integer, you should still use `%s`.
 
-If the underlying statistic has a description, then the score description is
-optional.  It defaults to "<statistic description>: <value>".
+If the underlying statistic has a description, then the score description is optional. It defaults
+to "<statistic description>: <value>".
 
 ```C++
 "id": "score_headshots",
@@ -1344,11 +1395,11 @@ optional.  It defaults to "<statistic description>: <value>".
 
 #### `achievement`
 
-Achievements are goals for the player to aspire to, in the usual sense of the
-term as popularised in other games.
+Achievements are goals for the player to aspire to, in the usual sense of the term as popularised in
+other games.
 
-An achievement is specified via requirements, each of which is a constraint on
-an `event_statistic`.  For example:
+An achievement is specified via requirements, each of which is a constraint on an `event_statistic`.
+For example:
 
 ```C++
 {
@@ -1366,8 +1417,8 @@ an `event_statistic`.  For example:
 },
 ```
 
-The `"is"` field must be `">="`, `"<="` or `"anything"`.  When it is not
-`"anything"` the `"target"` must be present, and must be an integer.
+The `"is"` field must be `">="`, `"<="` or `"anything"`. When it is not `"anything"` the `"target"`
+must be present, and must be an integer.
 
 There are further optional fields:
 
@@ -1375,9 +1426,8 @@ There are further optional fields:
 "hidden_by": [ "other_achievement_id" ]
 ```
 
-Give a list of other achievement ids.  This achievement will be hidden (i.e.
-not appear in the achievements UI) until all of the achievements listed have
-been completed.
+Give a list of other achievement ids. This achievement will be hidden (i.e. not appear in the
+achievements UI) until all of the achievements listed have been completed.
 
 Use this to prevent spoilers or to reduce clutter in the list of achievements.
 
@@ -1385,45 +1435,41 @@ Use this to prevent spoilers or to reduce clutter in the list of achievements.
 "skill_requirements": [ { "skill": "archery", "is": ">=", "level": 5 } ]
 ```
 
-This allows a skill level requirement (either an upper or lower bound) on when
-the achievement can be claimed. The `"skill"` field uses the id of a skill.
+This allows a skill level requirement (either an upper or lower bound) on when the achievement can
+be claimed. The `"skill"` field uses the id of a skill.
 
-Note that like `"time_constraint"` below achievements can only be captured when
-a statistic listed in `"requirements"` changes.
-
+Note that like `"time_constraint"` below achievements can only be captured when a statistic listed
+in `"requirements"` changes.
 
 ```C++
 "kill_requirements": [ { "faction": "ZOMBIE", "is": ">=", "count": 1 }, { "monster": "mon_sludge_crawler", "is": ">=", "count": 1 } ],
 ```
 
-This allows a kill requirement (either an upper or lower bound) on when
-the achievement can be claimed. Can be defined with either `"faction"` or
-`"monster"` as a target, using species ids from `species.json` or a
-specific monster id.
+This allows a kill requirement (either an upper or lower bound) on when the achievement can be
+claimed. Can be defined with either `"faction"` or `"monster"` as a target, using species ids from
+`species.json` or a specific monster id.
 
-Only one of the `"monster"`/`"faction"` fields can be used per entry. If neither
-are used, any monster will fulfill the requirements.
+Only one of the `"monster"`/`"faction"` fields can be used per entry. If neither are used, any
+monster will fulfill the requirements.
 
 NPCs cannot currently be defined as a target.
 
-Note that like `"time_constraint"` below achievements can only be captured when
-a statistic listed in `"requirements"` changes.
+Note that like `"time_constraint"` below achievements can only be captured when a statistic listed
+in `"requirements"` changes.
 
 ```C++
 "time_constraint": { "since": "game_start", "is": "<=", "target": "1 minute" }
 ```
 
-This allows putting a time limit (either a lower or upper bound) on when the
-achievement can be claimed.  The `"since"` field can be either `"game_start"`
-or `"cataclysm"`.  The `"target"` describes an amount of time since that
-reference point.
+This allows putting a time limit (either a lower or upper bound) on when the achievement can be
+claimed. The `"since"` field can be either `"game_start"` or `"cataclysm"`. The `"target"` describes
+an amount of time since that reference point.
 
-Note that achievements can only be captured when a statistic listed in their
-requirements changes.  So, if you want an achievement which would normally be
-triggered by reaching some time threshold (such as "survived a certain amount
-of time") then you must place some requirement alongside it to trigger it after
-that time has passed.  Pick some statistic which is likely to change often, and
-add an `"anything"` constraint on it.  For example:
+Note that achievements can only be captured when a statistic listed in their requirements changes.
+So, if you want an achievement which would normally be triggered by reaching some time threshold
+(such as "survived a certain amount of time") then you must place some requirement alongside it to
+trigger it after that time has passed. Pick some statistic which is likely to change often, and add
+an `"anything"` constraint on it. For example:
 
 ```C++
 {
@@ -1435,8 +1481,8 @@ add an `"anything"` constraint on it.  For example:
 },
 ```
 
-This is a simple "survive a day" but is triggered by waking up, so it will be
-completed when you wake up for the first time after 24 hours into the game.
+This is a simple "survive a day" but is triggered by waking up, so it will be completed when you
+wake up for the first time after 24 hours into the game.
 
 ### Skills
 
@@ -1552,7 +1598,6 @@ completed when you wake up for the first time after 24 hours into the game.
 
 ### Vehicle Groups
 
-
 ```C++
 "id":"city_parked",            // Unique ID. Must be one continuous word, use underscores if necessary
 "vehicles":[                 // List of potential vehicle ID's. Chance of a vehicle spawning is X/T, where
@@ -1635,6 +1680,7 @@ Vehicle components when installed on a vehicle.
 ```
 
 ### Vehicle Placement
+
 ```C++
 "id":"road_straight_wrecks",  // Unique ID. Must be one continuous word, use underscores if necessary
 "locations":[ {               // List of potential vehicle locations. When this placement is used, one of those locations will be chosen at random.
@@ -1665,6 +1711,7 @@ Vehicle components when installed on a vehicle.
 ```
 
 ### Vehicles
+
 See also VEHICLE_JSON.md
 
 ```C++
@@ -1713,7 +1760,7 @@ See also VEHICLE_JSON.md
 "rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
-"price_post": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
+"price_postapoc": "1 USD",                   // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
 "weapon_category": [ "WEAPON_CAT1" ],        // (Optional) Weapon categories this item is in for martial arts.
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
@@ -1801,7 +1848,9 @@ Armor can be defined like this:
 "power_armor" : false, // If this is a power armor item (those are special).
 "valid_mods" : ["steel_padded"] // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
 ```
+
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
+
 ```C++
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
@@ -1818,6 +1867,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 ```
 
 ### Pet Armor
+
 Pet armor can be defined like this:
 
 ```C++
@@ -1832,7 +1882,9 @@ Pet armor can be defined like this:
 "min_pet_vol:          // the minimum volume of the pet that will fit into this armor. Volume in ml and L can be used - "50 ml" or "2 L".
 "power_armor" : false, // If this is a power armor item (those are special).
 ```
+
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
+
 ```C++
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
@@ -1863,7 +1915,9 @@ Books can be defined like this:
 "chapters" : 4,       // Number of chapters (for fun only books), each reading "consumes" a chapter. Books with no chapters left are less fun (because the content is already known to the character).
 "required_level" : 2  // Minimum skill level required to learn
 ```
+
 Alternately, every item (tool, gun, even food) can be used as book if it has book_data:
+
 ```C++
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
@@ -1879,22 +1933,32 @@ Alternately, every item (tool, gun, even food) can be used as book if it has boo
 }
 ```
 
-Since many book names are proper names, it's often necessary to explicitly specify
-the plural forms. The following is the game's convention on plural names of books:
+Since many book names are proper names, it's often necessary to explicitly specify the plural forms.
+The following is the game's convention on plural names of books:
 
 1. For non-periodical books (textbooks, manuals, spellbooks, etc.),
-    1. If the book's singular name is a proper name, then the plural name is `copies of (singular name)`. For example, the plural name of `Lessons for the Novice Bowhunter` is `copies of Lessons for the Novice Bowhunter`.
-    2. Otherwise, the plural name is the usual plural of the singular name. For example, the plural name of `tactical baton defense manual` is `tactical baton defense manuals`
+   1. If the book's singular name is a proper name, then the plural name is
+      `copies of (singular name)`. For example, the plural name of
+      `Lessons for the Novice Bowhunter` is `copies of Lessons for the Novice Bowhunter`.
+   2. Otherwise, the plural name is the usual plural of the singular name. For example, the plural
+      name of `tactical baton defense manual` is `tactical baton defense manuals`
 2. For periodicals (magazines and journals),
-    1. If the periodical's singular name is a proper name, and doesn't end with "Magazine", "Weekly", "Monthly", etc., the plural name is `issues of (singular name)`. For example, the plural name of `Archery for Kids` is `issues of Archery for Kids`.
-    2. Otherwise, the periodical's plural name is the usual plural of the singular name. For example, the plural name of `Crafty Crafter's Quarterly` is `Crafty Crafter's Quarterlies`.
+   1. If the periodical's singular name is a proper name, and doesn't end with "Magazine", "Weekly",
+      "Monthly", etc., the plural name is `issues of (singular name)`. For example, the plural name
+      of `Archery for Kids` is `issues of Archery for Kids`.
+   2. Otherwise, the periodical's plural name is the usual plural of the singular name. For example,
+      the plural name of `Crafty Crafter's Quarterly` is `Crafty Crafter's Quarterlies`.
 3. For board games (represented internally as book items),
-    1. If the board game's singular name is a proper name, the plural is `sets of (singular name)`. For example, the plural name of `Picturesque` is `sets of Picturesque`.
-    2. Otherwise the plural name is the usual plural. For example, the plural of `deck of cards` is `decks of cards`.
+   1. If the board game's singular name is a proper name, the plural is `sets of (singular name)`.
+      For example, the plural name of `Picturesque` is `sets of Picturesque`.
+   2. Otherwise the plural name is the usual plural. For example, the plural of `deck of cards` is
+      `decks of cards`.
 
 #### Conditional Naming
 
-The `conditional_names` field allows defining alternate names for items that will be displayed instead of (or in addition to) the default name, when specific conditions are met. Take the following (incomplete) definition for `sausage` as an example of the syntax:
+The `conditional_names` field allows defining alternate names for items that will be displayed
+instead of (or in addition to) the default name, when specific conditions are met. Take the
+following (incomplete) definition for `sausage` as an example of the syntax:
 
 ```json
 {
@@ -1914,35 +1978,49 @@ The `conditional_names` field allows defining alternate names for items that wil
 }
 ```
 
-You can list as many conditional names for a given item as you want. Each conditional name must consist of 3 elements:
+You can list as many conditional names for a given item as you want. Each conditional name must
+consist of 3 elements:
+
 1. The condition type:
-    - `COMPONENT_ID` searches all the components of the item (and all of *their* components, and so on) for an item with the condition string in their ID. The ID only needs to *contain* the condition, not match it perfectly (though it is case sensitive). For example, supplying a condition `mutant` would match `mutant_meat`.
-    - `FLAG` which checks if an item has the specified flag (exact match).
+   - `COMPONENT_ID` searches all the components of the item (and all of _their_ components, and so
+     on) for an item with the condition string in their ID. The ID only needs to _contain_ the
+     condition, not match it perfectly (though it is case sensitive). For example, supplying a
+     condition `mutant` would match `mutant_meat`.
+   - `FLAG` which checks if an item has the specified flag (exact match).
 2. The condition you want to look for.
-3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name of the item. Conditional names defined prior to this one are taken into account.
+3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid
+   keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name
+   of the item. Conditional names defined prior to this one are taken into account.
 
-So, in the above example, if the sausage is made from mutant humanoid meat, and therefore both has the `CANNIBALISM` flag, *and* has a component with `mutant` in its ID:
-1. First, the item name is entirely replaced with "Mannwurst" if singular, or "Mannwursts" if plural.
-2. Next, it is replaced by "sinister %s", but %s is replaced with the name as it was before this step, resulting in "sinister Mannwurst" or "sinister Mannwursts".
+So, in the above example, if the sausage is made from mutant humanoid meat, and therefore both has
+the `CANNIBALISM` flag, _and_ has a component with `mutant` in its ID:
 
-NB: If `"str": "sinister %s"` was specified instead of `"str_sp": "sinister %s"`, the plural form would be automatically created as "sinister %ss", which would become "sinister Mannwurstss" which is of course one S too far. Rule of thumb: If you are using %s in the name, always specify an identical plural form unless you know exactly what you're doing!
+1. First, the item name is entirely replaced with "Mannwurst" if singular, or "Mannwursts" if
+   plural.
+2. Next, it is replaced by "sinister %s", but %s is replaced with the name as it was before this
+   step, resulting in "sinister Mannwurst" or "sinister Mannwursts".
 
+NB: If `"str": "sinister %s"` was specified instead of `"str_sp": "sinister %s"`, the plural form
+would be automatically created as "sinister %ss", which would become "sinister Mannwurstss" which is
+of course one S too far. Rule of thumb: If you are using %s in the name, always specify an identical
+plural form unless you know exactly what you're doing!
 
 #### Color Key
 
 When adding a new book, please use this color key:
 
-* Magazines: `pink`
-* “Paperbacks” Short enjoyment books (including novels): `light_cyan`
-* “Hardbacks” Long enjoyment books (including novels): `light_blue`
-* “Small textbook” Beginner level textbooks, guides and martial arts books: `green`
-* “Large textbook” Advanced level textbooks and advanced guides: `blue`
-* Religious books: `dark_gray`
-* “Printouts” (including spiral-bound, binders, and similar) Technical documents, (technical?) protocols, (lab) journals, personal diaries: `light_green`
-* Other reading material/non-books (use only if every other category does not apply): `light_gray`
+- Magazines: `pink`
+- “Paperbacks” Short enjoyment books (including novels): `light_cyan`
+- “Hardbacks” Long enjoyment books (including novels): `light_blue`
+- “Small textbook” Beginner level textbooks, guides and martial arts books: `green`
+- “Large textbook” Advanced level textbooks and advanced guides: `blue`
+- Religious books: `dark_gray`
+- “Printouts” (including spiral-bound, binders, and similar) Technical documents, (technical?)
+  protocols, (lab) journals, personal diaries: `light_green`
+- Other reading material/non-books (use only if every other category does not apply): `light_gray`
 
-A few exceptions to this color key may apply, for example for books that don’t are what they seem to be.
-Never use `yellow` and `red`, those colors are reserved for sounds and infrared vision.
+A few exceptions to this color key may apply, for example for books that don’t are what they seem to
+be. Never use `yellow` and `red`, those colors are reserved for sounds and infrared vision.
 
 ####CBMs
 
@@ -1998,7 +2076,9 @@ CBMs can be defined like this:
 "watertight": false,  // Can hold liquids, this is a required for it to be used for liquids. (optional, default: false)
 "preserves": false,   // Contents do not spoil. (optional, default: false)
 ```
+
 Alternately, every item can be used as container:
+
 ```C++
 "type": "ARMOR",      // Any type is allowed here
 ...                   // same data as for the type
@@ -2006,8 +2086,10 @@ Alternately, every item can be used as container:
     "contains": 200,
 }
 ```
-This defines a armor (you need to add all the armor specific entries), but makes it usable as container.
-It could also be written as a generic item ("type": "GENERIC") with "armor_data" and "container_data" entries.
+
+This defines a armor (you need to add all the armor specific entries), but makes it usable as
+container. It could also be written as a generic item ("type": "GENERIC") with "armor_data" and
+"container_data" entries.
 
 ### Melee
 
@@ -2029,44 +2111,44 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 
 #### Melee `Weapon_category`
 
-| Weapon Category       | Description
-| ---                   | ---
-| FIST_WEAPONS          | Handheld weapons used to supplement fists in martial arts.
-| ---                   | ---
-| KNIVES                | Short blade fixed onto a handle, for cutting or as weapon.
-| SHORT_SWORDS          | One handed sword of length between a large knife and a 'proper' sword.
-| 1H_SWORDS             | Sword meant to be wielded with one hand.
-| 2H_SWORDS             | Sword meant to be wielded with both hands.
-| DUELING_SWORDS        | Swords with thin profiles typically meant for stabbing.
-| BIONIC_SWORDS         | Swords integrated into the body via bionics.
-| ---                   | ---
-| SAPS                  | Very short length of typically flexible material, with a weighted tip.
-| BATONS                | Thin, balanced rod of strong material.
-| TONFAS                | Unique looking T-shaped baton believed to originate from China.
-| CLUBS                 | Rod with a thicker striking head. May be one or two-handed.
-| QUARTERSTAVES         | Long pole wielded with both hands.
-| MACES                 | Short one-handed weapon with a striking head firmly attached to a short handle.
-| MORNINGSTARS          | Typically two-handed weapon with a striking head firmly attached to a long handle.
-| FLAILS                | Striking head attached to handle by flexible rope/chain.
-| 1H_HAMMERS            | Hammers meant to be wielded with a single hand.
-| 2H_HAMMERS            | Hammers meant to be wielded with both hands.
-| ---                   | ---
-| HAND_AXES             | Axe with a short handle, typically wielded in one hand, ocassionally thrown.
-| 1H_AXES               | Axes meant to be wielded with one hand, typically with a handle longer than the handaxe.
-| 2H_AXES               | Axes meant to be wielded with two hands.
-| ---                   | ---
-| WHIPS                 | Flexible tool used to strike at range.
-| ---                   | ---
-| HOOKED_POLES          | Polearm with hooked end (Like a shepherd's crook)
-| SPEARS                | Polearm with a long shaft and a sharp tip made of hard material.
-| PIKES                 | Very long spear that can only be wielded in two hands, very unwieldy.
-| GLAIVES               | Polearm with a single-edged blade mounted on the end.
+| Weapon Category | Description                                                                              |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| FIST_WEAPONS    | Handheld weapons used to supplement fists in martial arts.                               |
+| ---             | ---                                                                                      |
+| KNIVES          | Short blade fixed onto a handle, for cutting or as weapon.                               |
+| SHORT_SWORDS    | One handed sword of length between a large knife and a 'proper' sword.                   |
+| 1H_SWORDS       | Sword meant to be wielded with one hand.                                                 |
+| 2H_SWORDS       | Sword meant to be wielded with both hands.                                               |
+| DUELING_SWORDS  | Swords with thin profiles typically meant for stabbing.                                  |
+| BIONIC_SWORDS   | Swords integrated into the body via bionics.                                             |
+| ---             | ---                                                                                      |
+| SAPS            | Very short length of typically flexible material, with a weighted tip.                   |
+| BATONS          | Thin, balanced rod of strong material.                                                   |
+| TONFAS          | Unique looking T-shaped baton believed to originate from China.                          |
+| CLUBS           | Rod with a thicker striking head. May be one or two-handed.                              |
+| QUARTERSTAVES   | Long pole wielded with both hands.                                                       |
+| MACES           | Short one-handed weapon with a striking head firmly attached to a short handle.          |
+| MORNINGSTARS    | Typically two-handed weapon with a striking head firmly attached to a long handle.       |
+| FLAILS          | Striking head attached to handle by flexible rope/chain.                                 |
+| 1H_HAMMERS      | Hammers meant to be wielded with a single hand.                                          |
+| 2H_HAMMERS      | Hammers meant to be wielded with both hands.                                             |
+| ---             | ---                                                                                      |
+| HAND_AXES       | Axe with a short handle, typically wielded in one hand, ocassionally thrown.             |
+| 1H_AXES         | Axes meant to be wielded with one hand, typically with a handle longer than the handaxe. |
+| 2H_AXES         | Axes meant to be wielded with two hands.                                                 |
+| ---             | ---                                                                                      |
+| WHIPS           | Flexible tool used to strike at range.                                                   |
+| ---             | ---                                                                                      |
+| HOOKED_POLES    | Polearm with hooked end (Like a shepherd's crook)                                        |
+| SPEARS          | Polearm with a long shaft and a sharp tip made of hard material.                         |
+| PIKES           | Very long spear that can only be wielded in two hands, very unwieldy.                    |
+| GLAIVES         | Polearm with a single-edged blade mounted on the end.                                    |
 
-| Weapon Styles         | Description
-| ---                   | ---
-| MEDIEVAL_SWORDS       | Swords associated with European culture.
-| JAPANESE_SWORDS       | Swords associated with Japanese culture.
-| BIONIC_WEAPONRY       | Weapons integrated into the body via bionics.
+| Weapon Styles   | Description                                   |
+| --------------- | --------------------------------------------- |
+| MEDIEVAL_SWORDS | Swords associated with European culture.      |
+| JAPANESE_SWORDS | Swords associated with Japanese culture.      |
+| BIONIC_WEAPONRY | Weapons integrated into the body via bionics. |
 
 ### Gun
 
@@ -2099,7 +2181,9 @@ Guns can be defined like this:
 "barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
 "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 ```
+
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
+
 ```json
 "type": "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
@@ -2112,38 +2196,38 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 
 #### Ranged `Weapon_category`
 
-| Weapon Category       | Description
-| ---                   | ---
-| BOWS                  | Elastic launching device for long-shafted projectiles.
-| S_XBOWS               | Elastic launching device mounted on a frame to be triggered, pistol sized.
-| M_XBOWS               | Elastic launching device mounted on a frame to be triggered.
-| SLINGSHOTS            | Elastic, handheld launching device typically used for small round projectiles.
-| SLINGS                | Projectile weapon using a cradle connected to two retention cords, used to fling blunt projectiles.
-| ---                   | ---
-| PISTOLS               | Handgun with a chamber integral to the gun barrel. In-game, any handgun that isn't a revolver goes here.
-| REVOLVERS             | Repeating handgun with a revolving cylinder containing multiple chambers.
-| SUBMACHINE_GUNS       | Magazine fed automatic carbine designed to fire handgun cartridges.
-| RIFLES                | Long barrelled firearms designed for more accurate shooting.
-| MACHINE_GUNS          | Fully automatic autoloading firearm designed for sustained fire.
-| GATLING_GUNS          | Rapid firing multi barrel firearm.
-| SHOTGUNS              | Long barreled firearm generally designed to fire shotshells.
-| ---                   | ---
-| GRENADE_LAUNCHERS     | Firearm designed to propel large caliber projectile typically loaded with warhead of some kind (smoke, gas, explosive, etc)
-| ROCKET_LAUNCHERS      | Firearm that propels unguided, rocket-propelled projectile.
-| ---                   | ---
-| FLAMETHROWERS         | Ranged incendiary device designed to propel a controllable jet of fire.
-| WATER_CANNONS         | It fires water at your enemies.
-| SPRAY_GUNS            | It spews chemicals at your enemies.
+| Weapon Category   | Description                                                                                                                 |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| BOWS              | Elastic launching device for long-shafted projectiles.                                                                      |
+| S_XBOWS           | Elastic launching device mounted on a frame to be triggered, pistol sized.                                                  |
+| M_XBOWS           | Elastic launching device mounted on a frame to be triggered.                                                                |
+| SLINGSHOTS        | Elastic, handheld launching device typically used for small round projectiles.                                              |
+| SLINGS            | Projectile weapon using a cradle connected to two retention cords, used to fling blunt projectiles.                         |
+| ---               | ---                                                                                                                         |
+| PISTOLS           | Handgun with a chamber integral to the gun barrel. In-game, any handgun that isn't a revolver goes here.                    |
+| REVOLVERS         | Repeating handgun with a revolving cylinder containing multiple chambers.                                                   |
+| SUBMACHINE_GUNS   | Magazine fed automatic carbine designed to fire handgun cartridges.                                                         |
+| RIFLES            | Long barrelled firearms designed for more accurate shooting.                                                                |
+| MACHINE_GUNS      | Fully automatic autoloading firearm designed for sustained fire.                                                            |
+| GATLING_GUNS      | Rapid firing multi barrel firearm.                                                                                          |
+| SHOTGUNS          | Long barreled firearm generally designed to fire shotshells.                                                                |
+| ---               | ---                                                                                                                         |
+| GRENADE_LAUNCHERS | Firearm designed to propel large caliber projectile typically loaded with warhead of some kind (smoke, gas, explosive, etc) |
+| ROCKET_LAUNCHERS  | Firearm that propels unguided, rocket-propelled projectile.                                                                 |
+| ---               | ---                                                                                                                         |
+| FLAMETHROWERS     | Ranged incendiary device designed to propel a controllable jet of fire.                                                     |
+| WATER_CANNONS     | It fires water at your enemies.                                                                                             |
+| SPRAY_GUNS        | It spews chemicals at your enemies.                                                                                         |
 
-| Action category       | Description
-| ---                   | ---
-| 1SHOT                 | Ranged weapon with at least one barrel but no loading system/magazine.
-| AUTOLOADING           | Ranged weapon with autoloading mechanisms like blowback, gas-operated, or recoil operated systems.
-| MANUAL_ACTION         | Ranged weapon using manual actions like bolt/pump/lever.
-| ENERGY_WEAPONS        | Weapon designed to utilize focused energy (sonic, electromagnetic waves, particle beams, etc). Both Ranged/Melee.
-| MAGNETIC              | Weapon that propels payload via electromagnetism.
-| PNEUMATIC             | Ranged weapon that propels payload via compressed air.
-| ELASTIC               | Ranged weapon that propels payload via elastic band.
+| Action category | Description                                                                                                       |
+| --------------- | ----------------------------------------------------------------------------------------------------------------- |
+| 1SHOT           | Ranged weapon with at least one barrel but no loading system/magazine.                                            |
+| AUTOLOADING     | Ranged weapon with autoloading mechanisms like blowback, gas-operated, or recoil operated systems.                |
+| MANUAL_ACTION   | Ranged weapon using manual actions like bolt/pump/lever.                                                          |
+| ENERGY_WEAPONS  | Weapon designed to utilize focused energy (sonic, electromagnetic waves, particle beams, etc). Both Ranged/Melee. |
+| MAGNETIC        | Weapon that propels payload via electromagnetism.                                                                 |
+| PNEUMATIC       | Ranged weapon that propels payload via compressed air.                                                            |
+| ELASTIC         | Ranged weapon that propels payload via elastic band.                                                              |
 
 ### Gunmod
 
@@ -2170,7 +2254,10 @@ Gun mods can be defined like this:
 "reload_modifier": -10,        // Optional field increasing or decreasing base gun reload time in percent
 "min_str_required_mod": 14,    // Optional field increasing or decreasing minimum strength required to use gun
 ```
-Alternately, every item (book, tool, armor, even food) can be used as a gunmod if it has gunmod_data:
+
+Alternately, every item (book, tool, armor, even food) can be used as a gunmod if it has
+gunmod_data:
+
 ```
 "type": "TOOL",       // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
@@ -2182,6 +2269,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 ```
 
 ### Batteries
+
 ```C++
 "type": "BATTERY",    // Defines this as a BATTERY
 ...                   // Same entries as above for the generic item
@@ -2222,7 +2310,8 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 
 ### Seed Data
 
-Every item type can have optional seed data, if the item has seed data, it's considered a seed and can be planted:
+Every item type can have optional seed data, if the item has seed data, it's considered a seed and
+can be planted:
 
 ```C++
 "seed_data" : {
@@ -2239,7 +2328,8 @@ Every item type can have optional seed data, if the item has seed data, it's con
 
 ### Brewing Data
 
-Every item type can have optional brewing data, if the item has brewing data, it can be placed in a vat and will ferment into a different item type.
+Every item type can have optional brewing data, if the item has brewing data, it can be placed in a
+vat and will ferment into a different item type.
 
 Currently only vats can only accept and produce liquid items.
 
@@ -2252,8 +2342,7 @@ Currently only vats can only accept and produce liquid items.
 
 ### Relic Data
 
-Defines various (semi-)magical properties of items.
-See RELICS.md for
+Defines various (semi-)magical properties of items. See RELICS.md for
 
 ### Artifact Data
 
@@ -2305,6 +2394,7 @@ Possible values (see src/enums.h for an up-to-date list):
 - `AEP_SICK` Decreases health over time
 
 #### `effects_worn`
+
 (optional, default: empty list)
 
 Effects of the artifact when it's worn (it must be an armor item to be worn).
@@ -2323,7 +2413,8 @@ Possible values are the same as for effects_carried.
 
 (optional, default: empty list)
 
-Effects of the artifact when it's activated (which require it to have a `"use_action": "ARTIFACT"` and it must have a non-zero max_charges value).
+Effects of the artifact when it's activated (which require it to have a `"use_action": "ARTIFACT"`
+and it must have a non-zero max_charges value).
 
 Possible values (see src/artifact.h for an up-to-date list):
 
@@ -2373,9 +2464,12 @@ Every item type can have software data, it does not have any behavior:
 
 ### Fuel data
 
-Every item type can have fuel data that determines how much horse power it produces per unit consumed. Currently, gasses and plasmas cannot really be fuels.
+Every item type can have fuel data that determines how much horse power it produces per unit
+consumed. Currently, gasses and plasmas cannot really be fuels.
 
-If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  This is primarily intended for the muscle pseudo-fuel, but mods may take advantage of it to make perpetual motion machines.
+If a fuel has the PERPETUAL flag, engines powered by it never use any fuel. This is primarily
+intended for the muscle pseudo-fuel, but mods may take advantage of it to make perpetual motion
+machines.
 
 ```C++
 "fuel" : {
@@ -2397,7 +2491,9 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 
 ### Use Actions
 
-The contents of use_action fields can either be a string indicating a built-in function to call when the item is activated (defined in iuse.cpp), or one of several special definitions that invoke a more structured function.
+The contents of use_action fields can either be a string indicating a built-in function to call when
+the item is activated (defined in iuse.cpp), or one of several special definitions that invoke a
+more structured function.
 
 ```C++
 "use_action": {
@@ -2650,11 +2746,16 @@ The contents of use_action fields can either be a string indicating a built-in f
 
 ### Random Descriptions
 
-Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
+Any item with a "snippet_category" entry will have random descriptions, based on that snippet
+category:
+
 ```
 "snippet_category": "newspaper",
 ```
-The item descriptions are taken from snippets, which can be specified like this (the value of category must match the snippet_category in the item definition):
+
+The item descriptions are taken from snippets, which can be specified like this (the value of
+category must match the snippet_category in the item definition):
+
 ```C++
 {
     "type" : "snippet",
@@ -2663,7 +2764,9 @@ The item descriptions are taken from snippets, which can be specified like this 
     "text": "your flavor text"
 }
 ```
+
 or several snippets at once:
+
 ```C++
 {
     "type" : "snippet",
@@ -2677,14 +2780,18 @@ or several snippets at once:
     "text": [ "your flavor text", "another flavor text", "more flavor" ]
 }
 ```
-Multiple snippets for the same category are possible and actually recommended. The game will select a random one for each item of that type.
+
+Multiple snippets for the same category are possible and actually recommended. The game will select
+a random one for each item of that type.
 
 One can also put the snippets directly in the item definition:
+
 ```
 "snippet_category": [ "text 1", "text 2", "text 3" ],
 ```
-This will automatically create a snippet category specific to that item and populate that category with the given snippets.
-The format also support snippet ids like above.
+
+This will automatically create a snippet category specific to that item and populate that category
+with the given snippets. The format also support snippet ids like above.
 
 # `json/` JSONs
 
@@ -2747,35 +2854,41 @@ Should always be `harvest` to mark the object as a harvest definition.
 
 #### `message`
 
-Optional message to be printed when a creature using the harvest definition is butchered. May be omitted from definition.
+Optional message to be printed when a creature using the harvest definition is butchered. May be
+omitted from definition.
 
 #### `entries`
 
-Array of dictionaries defining possible items produced on butchering and their likelihood of being produced.
-`drop` value should be the `id` string of the item to be produced.
+Array of dictionaries defining possible items produced on butchering and their likelihood of being
+produced. `drop` value should be the `id` string of the item to be produced.
 
-`type` value should be a string with the associated body part the item comes from.
-    Acceptable values are as follows:
-    `flesh`: the "meat" of the creature.
-    `offal`: the "organs" of the creature. these are removed when field dressing.
-    `skin`: the "skin" of the creature. this is what is ruined while quartering.
-    `bone`: the "bones" of the creature. you will get some amount of these from field dressing, and the rest of them from butchering the carcass.
-    `bionic`: an item gained by dissecting the creature. not restricted to CBMs.
-    `bionic_group`: an item group that will give an item by dissecting a creature. not restricted to groups containing CBMs.
+`type` value should be a string with the associated body part the item comes from. Acceptable values
+are as follows: `flesh`: the "meat" of the creature. `offal`: the "organs" of the creature. these
+are removed when field dressing. `skin`: the "skin" of the creature. this is what is ruined while
+quartering. `bone`: the "bones" of the creature. you will get some amount of these from field
+dressing, and the rest of them from butchering the carcass. `bionic`: an item gained by dissecting
+the creature. not restricted to CBMs. `bionic_group`: an item group that will give an item by
+dissecting a creature. not restricted to groups containing CBMs.
 
-`flags` value should be an array of strings.  It's the flags that will be added to te items of that entry upon harvesting.
+`flags` value should be an array of strings. It's the flags that will be added to te items of that
+entry upon harvesting.
 
-`faults` value should be an array of `fault_id` strings.  It's the faults that will be added to te items of that entry upon harvesting.
+`faults` value should be an array of `fault_id` strings. It's the faults that will be added to te
+items of that entry upon harvesting.
 
 For every `type` other then `bionic` and `bionic_group` following entries scale the results:
-    `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
-    `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
-    `max` upper limit after `bas_num` and `scale_num` are calculated using
-    `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`
+`base_num` value should be an array with two elements in which the first defines the minimum number
+of the corresponding item produced and the second defines the maximum number. `scale_num` value
+should be an array with two elements, increasing the minimum and maximum drop numbers respectively
+by element value * survival skill. `max` upper limit after `bas_num` and `scale_num` are calculated
+using `mass_ratio` value is a multiplier of how much of the monster's weight comprises the
+associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides
+`base_num`, `scale_num` and `max`
 
-
-For `type`s: `bionic` and `bionic_group` following enrties can scale the results:
-    `max` this value (in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding distribution chances for roll values passed to that function
+For `type`s: `bionic` and `bionic_group` following enrties can scale the results: `max` this value
+(in contrary to `max` for other `type`s) corresponds to maximum butchery roll that will be passed to
+check_butcher_cbm() in activity_handlers.cpp; view check_butcher_cbm() to see corresponding
+distribution chances for roll values passed to that function
 
 ### Weapon Category
 
@@ -2789,7 +2902,8 @@ Used to classify weapons (guns or melee) into groups, mainly for use in martial 
 }
 ```
 
-`"name"` is a translatable string used for UI display in martial arts UI, while ID is used for JSON entries.
+`"name"` is a translatable string used for UI display in martial arts UI, while ID is used for JSON
+entries.
 
 ### Furniture
 
@@ -2827,12 +2941,14 @@ Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
 #### `move_cost_mod`
 
-Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
+Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the
+underlying terrain.
 
 #### `light_emitted`
 
-How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
-For examples: An overhead light is 120, a utility light, 240, and a console, 10.
+How much light the furniture produces. 10 will light the tile it's on brightly, 15 will light that
+tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from
+the source. For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `required_str`
 
@@ -2840,21 +2956,25 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 #### `crafting_pseudo_item`
 
-(Optional) Id of an item (tool) that will be available for crafting when this furniture is range (the furniture acts as an item of that type). Can be made into an array.
-Example: `"crafting_pseudo_item": [ "fake_gridwelder", "fake_gridsolderingiron" ],`
+(Optional) Id of an item (tool) that will be available for crafting when this furniture is range
+(the furniture acts as an item of that type). Can be made into an array. Example:
+`"crafting_pseudo_item": [ "fake_gridwelder", "fake_gridsolderingiron" ],`
 
 #### `workbench`
 
-(Optional) Can craft here.  Must specify a speed multiplier, allowed mass, and allowed volume.  Mass/volume over these limits incur a speed penalty.  Must be paired with a `"workbench"` `examine_action` to function.
+(Optional) Can craft here. Must specify a speed multiplier, allowed mass, and allowed volume.
+Mass/volume over these limits incur a speed penalty. Must be paired with a `"workbench"`
+`examine_action` to function.
 
 #### `plant_data`
 
-(Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag.
+(Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can
+also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag.
 
 #### `surgery_skill_multiplier`
 
-(Optional) Surgery skill multiplier (float) applied by this furniture to survivor standing next to it for the purpose of surgery.
-
+(Optional) Surgery skill multiplier (float) applied by this furniture to survivor standing next to
+it for the purpose of surgery.
 
 ### Terrain
 
@@ -2894,35 +3014,46 @@ Same as for furniture, see below in the chapter "Common to furniture and terrain
 
 #### `move_cost`
 
-Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2\*50 = 100 move points when moving across the terrain.
+Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use
+negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player
+uses 2\*50 = 100 move points when moving across the terrain.
 
 #### `light_emitted`
 
-How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
-For examples: An overhead light is 120, a utility light, 240, and a console, 10.
+How much light the terrain emits. 10 will light the tile it's on brightly, 15 will light that tile
+and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the
+source. For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
 #### `trap`
 
 (Optional) Id of the build-in trap of that terrain.
 
-For example the terrain `t_pit` has the built-in trap `tr_pit`. Every tile in the game that has the terrain `t_pit` also has, therefore, an implicit trap `tr_pit` on it. The two are inseparable (the player can not deactivate the built-in trap, and changing the terrain will also deactivate the built-in trap).
+For example the terrain `t_pit` has the built-in trap `tr_pit`. Every tile in the game that has the
+terrain `t_pit` also has, therefore, an implicit trap `tr_pit` on it. The two are inseparable (the
+player can not deactivate the built-in trap, and changing the terrain will also deactivate the
+built-in trap).
 
 A built-in trap prevents adding any other trap explicitly (by the player and through mapgen).
 
 #### `harvestable`
 
-(Optional) If defined, the terrain is harvestable. This entry defines the item type of the harvested fruits (or similar). To make this work, you also have to set one of the `harvest_*` `examine_action` functions.
+(Optional) If defined, the terrain is harvestable. This entry defines the item type of the harvested
+fruits (or similar). To make this work, you also have to set one of the `harvest_*` `examine_action`
+functions.
 
 #### `transforms_into`
 
-(Optional) Used for various transformation of the terrain. If defined, it must be a valid terrain id. Used for example:
+(Optional) Used for various transformation of the terrain. If defined, it must be a valid terrain
+id. Used for example:
 
 - When harvesting fruits (to change into the harvested form of the terrain).
-- In combination with the `HARVESTED` flag and `harvest_season` to change the harvested terrain back into a terrain with fruits.
+- In combination with the `HARVESTED` flag and `harvest_season` to change the harvested terrain back
+  into a terrain with fruits.
 
 #### `harvest_season`
 
-(Optional) On of "SUMMER", "AUTUMN", "WINTER", "SPRING", used in combination with the "HARVESTED" flag to revert the terrain back into a terrain that can be harvested.
+(Optional) On of "SUMMER", "AUTUMN", "WINTER", "SPRING", used in combination with the "HARVESTED"
+flag to revert the terrain back into a terrain that can be harvested.
 
 #### `roof`
 
@@ -2934,7 +3065,10 @@ Some values can/must be set for terrain and furniture. They have the same meanin
 
 #### `id`
 
-Id of the object, this should be unique among all object of that type (all terrain or all furniture types). By convention (but technically not needed), the id should have the "f_" prefix for furniture and the "t_" prefix for terrain. This is not translated. It must not be changed later as that would break save compatibility.
+Id of the object, this should be unique among all object of that type (all terrain or all furniture
+types). By convention (but technically not needed), the id should have the "f_" prefix for furniture
+and the "t_" prefix for terrain. This is not translated. It must not be changed later as that would
+break save compatibility.
 
 #### `name`
 
@@ -2946,16 +3080,21 @@ Displayed name of the object. This will be translated.
 
 #### `connects_to`
 
-(Optional) The group of terrains to which this terrain connects. This affects tile rotation and connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL".
+(Optional) The group of terrains to which this terrain connects. This affects tile rotation and
+connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL".
 
 Current values:
+
 - `CHAINFENCE`
 - `RAILING`
 - `WALL`
 - `WATER`
 - `WOODFENCE`
 
-Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` value. `O` does not have it. `X` and `Y` also have the `AUTO_WALL_SYMBOL` flag. `X` will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as a horizontal line (going from west to east, no connection to south).
+Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` value. `O` does not
+have it. `X` and `Y` also have the `AUTO_WALL_SYMBOL` flag. `X` will be drawn as a T-intersection
+(connected to west, south and east), `Y` will be drawn as a horizontal line (going from west to
+east, no connection to south).
 
 ```
 -X-    -Y-
@@ -2964,16 +3103,15 @@ Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` 
 
 #### `symbol`
 
-ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long. This can also be an array of 4 strings, which define the symbol during the different seasons. The first entry defines the symbol during spring. If it's not an array, the same symbol is used all year round.
+ASCII symbol of the object as it appears in the game. The symbol string must be exactly one
+character long. This can also be an array of 4 strings, which define the symbol during the different
+seasons. The first entry defines the symbol during spring. If it's not an array, the same symbol is
+used all year round.
 
 #### `comfort`
 
-How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
-    uncomfortable = -999,
-    neutral = 0,
-    slightly_comfortable = 3,
-    comfortable = 5,
-    very_comfortable = 10
+How comfortable this terrain/furniture is. Impact ability to fall asleep on it. uncomfortable =
+-999, neutral = 0, slightly_comfortable = 3, comfortable = 5, very_comfortable = 10
 
 #### `floor_bedding_warmth`
 
@@ -2981,21 +3119,28 @@ Bonus warmth offered by this terrain/furniture when used to sleep.
 
 #### `bonus_fire_warmth_feet`
 
-Increase warmth received on feet from nearby fire  (default = 300)
+Increase warmth received on feet from nearby fire (default = 300)
 
 #### `looks_like`
 
-id of a similar item that this item looks like. The tileset loader will try to load the tile for that item if this item doesn't have a tile. looks_like entries are implicitly chained, so if 'throne' has looks_like 'big_chair' and 'big_chair' has looks_like 'chair', a throne will be displayed using the chair tile if tiles for throne and big_chair do not exist. If a tileset can't find a tile for any item in the looks_like chain, it will default to the ascii symbol.
+id of a similar item that this item looks like. The tileset loader will try to load the tile for
+that item if this item doesn't have a tile. looks_like entries are implicitly chained, so if
+'throne' has looks_like 'big_chair' and 'big_chair' has looks_like 'chair', a throne will be
+displayed using the chair tile if tiles for throne and big_chair do not exist. If a tileset can't
+find a tile for any item in the looks_like chain, it will default to the ascii symbol.
 
 #### `color` or `bgcolor`
 
-Color of the object as it appears in the game. "color" defines the foreground color (no background color), "bgcolor" defines a solid background color. As with the "symbol" value, this can be an array with 4 entries, each entry being the color during the different seasons.
+Color of the object as it appears in the game. "color" defines the foreground color (no background
+color), "bgcolor" defines a solid background color. As with the "symbol" value, this can be an array
+with 4 entries, each entry being the color during the different seasons.
 
 > **NOTE**: You must use ONLY ONE of "color" or "bgcolor"
 
 #### `max_volume`
 
-(Optional) Maximal volume that can be used to store items here. Volume in ml and L can be used - "50 ml" or "2 L"
+(Optional) Maximal volume that can be used to store items here. Volume in ml and L can be used - "50
+ml" or "2 L"
 
 #### `examine_action`
 
@@ -3003,7 +3148,11 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 #### `close" And "open`
 
-(Optional) The value should be a terrain id (inside a terrain entry) or a furniture id (in a furniture entry). If either is defined, the player can open / close the object. Opening / closing will change the object at the affected tile to the given one. For example one could have object "safe_c", which "open"s to "safe_o" and "safe_o" in turn "close"s to "safe_c". Here "safe_c" and "safe_o" are two different terrain (or furniture) types that have different properties.
+(Optional) The value should be a terrain id (inside a terrain entry) or a furniture id (in a
+furniture entry). If either is defined, the player can open / close the object. Opening / closing
+will change the object at the affected tile to the given one. For example one could have object
+"safe_c", which "open"s to "safe_o" and "safe_o" in turn "close"s to "safe_c". Here "safe_c" and
+"safe_o" are two different terrain (or furniture) types that have different properties.
 
 #### `bash`
 
@@ -3011,15 +3160,18 @@ Color of the object as it appears in the game. "color" defines the foreground co
 
 #### `deconstruct`
 
-(Optional) Defines whether the object can be deconstructed and if so, what the results shall be. See "map_deconstruct_info".
+(Optional) Defines whether the object can be deconstructed and if so, what the results shall be. See
+"map_deconstruct_info".
 
 #### `pry`
 
-(Optional) Defines whether the object can be pried open and if so, what happens. See "prying_result".
+(Optional) Defines whether the object can be pried open and if so, what happens. See
+"prying_result".
 
 #### `map_bash_info`
 
-Defines the various things that happen when the player or something else bashes terrain or furniture.
+Defines the various things that happen when the player or something else bashes terrain or
+furniture.
 
 ```C++
 {
@@ -3049,27 +3201,38 @@ Defines the various things that happen when the player or something else bashes 
 TODO
 
 #### `sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`
-(Optional) Sound and volume of the sound that appears upon destroying the bashed object or upon unsuccessfully bashing it (failing). The sound strings are translated (and displayed to the player).
+
+(Optional) Sound and volume of the sound that appears upon destroying the bashed object or upon
+unsuccessfully bashing it (failing). The sound strings are translated (and displayed to the player).
 
 #### `furn_set`, `ter_set`
 
-The terrain / furniture that will be set when the original is destroyed. This is mandatory for bash entries in terrain, but optional for entries in furniture (it defaults to no furniture).
+The terrain / furniture that will be set when the original is destroyed. This is mandatory for bash
+entries in terrain, but optional for entries in furniture (it defaults to no furniture).
 
 #### `explosive`
-(Optional) If greater than 0, destroying the object causes an explosion with this strength (see `game::explosion`).
+
+(Optional) If greater than 0, destroying the object causes an explosion with this strength (see
+`game::explosion`).
 
 #### `destroy_only`
+
 TODO
 
 #### `bash_below`
+
 TODO
 
 #### `tent_centers`, `collapse_radius`
-(Optional) For furniture that is part of tents, this defines the id of the center part, which will be destroyed as well when other parts of the tent get bashed. The center is searched for in the given "collapse_radius" radius, it should match the size of the tent.
+
+(Optional) For furniture that is part of tents, this defines the id of the center part, which will
+be destroyed as well when other parts of the tent get bashed. The center is searched for in the
+given "collapse_radius" radius, it should match the size of the tent.
 
 #### `items`
 
-(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon successful bashing, items from that group will be spawned.
+(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default
+subtype is "collection". Upon successful bashing, items from that group will be spawned.
 
 #### `map_deconstruct_info`
 
@@ -3083,77 +3246,97 @@ TODO
 
 #### `furn_set`, `ter_set`
 
-The terrain / furniture that will be set after the original has been deconstructed. "furn_set" is optional (it defaults to no furniture), "ter_set" is only used upon "deconstruct" entries in terrain and is mandatory there.
+The terrain / furniture that will be set after the original has been deconstructed. "furn_set" is
+optional (it defaults to no furniture), "ter_set" is only used upon "deconstruct" entries in terrain
+and is mandatory there.
 
 #### `items`
 
-(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
+(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default
+subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
 
 #### `prying_result`
 
 ```JSON
 {
-      "success_message": "You pry open the door.",
-      "fail_message": "You pry, but cannot pry open the door.",
-      "break_message": "You damage the door!",
-      "pry_quality": 2,
-      "pry_bonus_mult": 3,
-      "noise": 12,
-      "break_noise": 10,
-      "sound": "crunch!",
-      "break_sound": "crack!",
-      "breakable": true,
-      "difficulty": 8,
-      "new_ter_type": "t_door_o",
-      "new_furn_type": "f_crate_o",
-      "break_ter_type": "t_door_b",
-      "break_furn_type": "f_null",
-      "break_items": [
-        { "item": "2x4", "prob": 25 },
-        { "item": "wood_panel", "prob": 10 },
-        { "item": "splinter", "count": [ 1, 2 ] },
-        { "item": "nail", "charges": [ 0, 2 ] }
-      ]
+  "success_message": "You pry open the door.",
+  "fail_message": "You pry, but cannot pry open the door.",
+  "break_message": "You damage the door!",
+  "pry_quality": 2,
+  "pry_bonus_mult": 3,
+  "noise": 12,
+  "break_noise": 10,
+  "sound": "crunch!",
+  "break_sound": "crack!",
+  "breakable": true,
+  "difficulty": 8,
+  "new_ter_type": "t_door_o",
+  "new_furn_type": "f_crate_o",
+  "break_ter_type": "t_door_b",
+  "break_furn_type": "f_null",
+  "break_items": [
+    { "item": "2x4", "prob": 25 },
+    { "item": "wood_panel", "prob": 10 },
+    { "item": "splinter", "count": [1, 2] },
+    { "item": "nail", "charges": [0, 2] }
+  ]
 }
 ```
 
 #### `new_ter_type`, `new_furn_type`
 
-The terrain / furniture that will be set after the original has been pried open. "furn_set" is optional (it defaults to no furniture), "ter_set" is only used upon "pry" entries in terrain and is mandatory there.
+The terrain / furniture that will be set after the original has been pried open. "furn_set" is
+optional (it defaults to no furniture), "ter_set" is only used upon "pry" entries in terrain and is
+mandatory there.
 
 #### `success_message`, `fail_message`, `break_message`
 
-Messages displayed on successfully prying open the terrain / furniture, on failure, or should the terrain / furniture break into something else from a failed pry attempt. `break_message` is only required if `breakable` is set to true and `break_ter_type` is defined.
+Messages displayed on successfully prying open the terrain / furniture, on failure, or should the
+terrain / furniture break into something else from a failed pry attempt. `break_message` is only
+required if `breakable` is set to true and `break_ter_type` is defined.
 
 #### `pry_quality`, `pry_bonus_mult`, `difficulty`
 
-This determines the minimum prying quality needed to attempt to pry open the terrain / furniture, and the chance of successfully prying it open. From iuse.cpp:
+This determines the minimum prying quality needed to attempt to pry open the terrain / furniture,
+and the chance of successfully prying it open. From iuse.cpp:
 
 ```C++
-    int diff = pry->difficulty;
-    diff -= ( ( pry_level - pry->pry_quality ) * pry->pry_bonus_mult );
+int diff = pry->difficulty;
+diff -= ( ( pry_level - pry->pry_quality ) * pry->pry_bonus_mult );
 ```
 
 ```C++
-    if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
-        p->add_msg_if_player( m_good, pry->success_message );
+if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
+    p->add_msg_if_player( m_good, pry->success_message );
 ```
 
-`difficulty` is compared to the character's current strength during the prying attempt. If the available prying quality of your tool is above the required `pry_quality`, effective difficulty is reduced at a rate determined by `pry_bonus_mult`. `pry_bonus_mult` is optional, and defaults to 1 (meaning for every level of prying quality your tool has beyond the minimum, `diff` will be reduced by 1).
+`difficulty` is compared to the character's current strength during the prying attempt. If the
+available prying quality of your tool is above the required `pry_quality`, effective difficulty is
+reduced at a rate determined by `pry_bonus_mult`. `pry_bonus_mult` is optional, and defaults to 1
+(meaning for every level of prying quality your tool has beyond the minimum, `diff` will be reduced
+by 1).
 
 #### `noise`, `break_noise`, 'sound', 'break_sound'
 
-If `noise` is specified, successfully prying the terrain / furniture open will play `sound` at the specified volume. If `breakable` is true and `break_noise` is specified, breaking the terrain / furniture on a failed prying attempt will play `break_noise` at the specified volume.
+If `noise` is specified, successfully prying the terrain / furniture open will play `sound` at the
+specified volume. If `breakable` is true and `break_noise` is specified, breaking the terrain /
+furniture on a failed prying attempt will play `break_noise` at the specified volume.
 
-If `noise` or `break_noise` are not specified then prying or breaking the terrain / furniture in question will simply be silent and make no sound, making them optional. `sound` and `break_sound` are also optional, with default messages of "crunch!" and "crack!" respectively.
+If `noise` or `break_noise` are not specified then prying or breaking the terrain / furniture in
+question will simply be silent and make no sound, making them optional. `sound` and `break_sound`
+are also optional, with default messages of "crunch!" and "crack!" respectively.
 
 #### `breakable`, `break_ter_type`, `break_furn_type`
 
-If `breakable` is set to true, then failed pry attempts have a chance of breaking the terrain / furniture instead. For terrain, `break_ter_type` is mandatory if `breakable` is set to true, `break_furn_type` is optional and defaults to null.
+If `breakable` is set to true, then failed pry attempts have a chance of breaking the terrain /
+furniture instead. For terrain, `break_ter_type` is mandatory if `breakable` is set to true,
+`break_furn_type` is optional and defaults to null.
 
 #### `break_items`
 
-(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". If `breakable` is set to true, breaking the object from a failed pry attempt will spawn items from that group.
+(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default
+subtype is "collection". If `breakable` is set to true, breaking the object from a failed pry
+attempt will spawn items from that group.
 
 ### `plant_data`
 
@@ -3168,19 +3351,23 @@ If `breakable` is set to true, then failed pry attempts have a chance of breakin
 
 #### `transform`
 
-What the `PLANT` furniture turn into when it grows a stage, or what a `PLANTABLE` furniture turns into when it is planted on.
+What the `PLANT` furniture turn into when it grows a stage, or what a `PLANTABLE` furniture turns
+into when it is planted on.
 
 #### `base`
 
-What the 'base' furniture of the `PLANT` furniture is - what it would be if there was not a plant growing there. Used when monsters 'eat' the plant to preserve what furniture it is.
+What the 'base' furniture of the `PLANT` furniture is - what it would be if there was not a plant
+growing there. Used when monsters 'eat' the plant to preserve what furniture it is.
 
 #### `growth_multiplier`
 
-A flat multiplier on the growth speed on the plant. For numbers greater than one, it will take longer to grow, and for numbers less than one it will take less time to grow.
+A flat multiplier on the growth speed on the plant. For numbers greater than one, it will take
+longer to grow, and for numbers less than one it will take less time to grow.
 
 #### `harvest_multiplier`
 
-A flat multiplier on the harvest count of the plant. For numbers greater than one, the plant will give more produce from harvest, for numbers less than one it will give less produce from harvest.
+A flat multiplier on the harvest count of the plant. For numbers greater than one, the plant will
+give more produce from harvest, for numbers less than one it will give less produce from harvest.
 
 ### clothing_mod
 
@@ -3221,16 +3408,19 @@ The id member should be the unique id of the scenario.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 
-
 ## `description`
+
 (string)
 
 The in-game description.
 
 ## `name`
+
 (string or object with members "male" and "female")
 
-The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
+The in-game name, either one gender-neutral string, or an object with gender specific names.
+Example:
+
 ```C++
 "name": {
     "male": "Runaway groom",
@@ -3239,16 +3429,21 @@ The in-game name, either one gender-neutral string, or an object with gender spe
 ```
 
 ## `points`
+
 (integer)
 
 Point cost of scenario. Positive values cost points and negative values grant points.
 
 ## `items`
+
 (optional, object with optional members "both", "male" and "female")
 
-Items the player starts with when selecting this scenario. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids. Ids may appear multiple times, in which case the item is created multiple times.
+Items the player starts with when selecting this scenario. One can specify different items based on
+the gender of the character. Each lists of items should be an array of items ids. Ids may appear
+multiple times, in which case the item is created multiple times.
 
 Example:
+
 ```C++
 "items": {
     "both": [
@@ -3260,11 +3455,14 @@ Example:
     "female": [ "panties" ]
 }
 ```
+
 This gives the player pants, two rocks and (depending on the gender) briefs or panties.
 
-Mods can modify the lists of an existing scenario via "add:both" / "add:male" / "add:female" and "remove:both" / "remove:male" / "remove:female".
+Mods can modify the lists of an existing scenario via "add:both" / "add:male" / "add:female" and
+"remove:both" / "remove:male" / "remove:female".
 
 Example for mods:
+
 ```C++
 {
     "type": "scenario",
@@ -3278,6 +3476,7 @@ Example for mods:
 ```
 
 ## `flags`
+
 (optional, array of strings)
 
 A list of flags. TODO: document those flags here.
@@ -3285,6 +3484,7 @@ A list of flags. TODO: document those flags here.
 Mods can modify this via "add:flags" and "remove:flags".
 
 ## `cbms`
+
 (optional, array of strings)
 
 A list of CBM ids that are implanted in the character.
@@ -3292,40 +3492,57 @@ A list of CBM ids that are implanted in the character.
 Mods can modify this via "add:CBMs" and "remove:CBMs".
 
 ## `traits", "forced_traits", "forbidden_traits`
+
 (optional, array of strings)
 
-Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during the character creation. Traits in "forced_traits" are automatically added to character. Traits in "traits" enables them to be chosen, even if they are not starting traits.
+Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during
+the character creation. Traits in "forced_traits" are automatically added to character. Traits in
+"traits" enables them to be chosen, even if they are not starting traits.
 
-Mods can modify this via "add:traits" / "add:forced_traits" / "add:forbidden_traits" and "remove:traits" / "remove:forced_traits" / "remove:forbidden_traits".
+Mods can modify this via "add:traits" / "add:forced_traits" / "add:forbidden_traits" and
+"remove:traits" / "remove:forced_traits" / "remove:forbidden_traits".
 
 ## `allowed_locs`
+
 (optional, array of strings)
 
-A list of starting location ids (see start_locations.json) that can be chosen when using this scenario.
+A list of starting location ids (see start_locations.json) that can be chosen when using this
+scenario.
 
 ## `start_name`
+
 (string)
 
-The name that is shown for the starting location. This is useful if the scenario allows several starting locations, but the game can not list them all at once in the scenario description. Example: if the scenario allows to start somewhere in the wilderness, the starting locations would contain forest and fields, but its "start_name" may simply be "wilderness".
+The name that is shown for the starting location. This is useful if the scenario allows several
+starting locations, but the game can not list them all at once in the scenario description. Example:
+if the scenario allows to start somewhere in the wilderness, the starting locations would contain
+forest and fields, but its "start_name" may simply be "wilderness".
 
 ## `professions`
+
 (optional, array of strings)
 
-A list of allowed professions that can be chosen when using this scenario. The first entry is the default profession. If this is empty, all professions are allowed.
+A list of allowed professions that can be chosen when using this scenario. The first entry is the
+default profession. If this is empty, all professions are allowed.
 
 ## `map_special`
+
 (optional, string)
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
 
 ## `missions`
+
 (optional, array of strings)
 
-A list of mission ids that will be started and assigned to the player at the start of the game. Only missions with the ORIGIN_GAME_START origin are allowed. The last mission in the list will be the active mission, if multiple missions are assigned.
+A list of mission ids that will be started and assigned to the player at the start of the game. Only
+missions with the ORIGIN_GAME_START origin are allowed. The last mission in the list will be the
+active mission, if multiple missions are assigned.
 
 # Starting locations
 
 Starting locations are specified as JSON object with "type" member set to "start_location":
+
 ```C++
 {
     "type": "start_location",
@@ -3341,138 +3558,148 @@ The id member should be the unique id of the location.
 The following properties (mandatory, except if noted otherwise) are supported:
 
 ## `name`
+
 (string)
 
 The in-game name of the location.
 
 ## `target`
+
 (string)
 
-The id of an overmap terrain type (see overmap_terrain.json) of the starting location. The game will chose a random place with that terrain.
+The id of an overmap terrain type (see overmap_terrain.json) of the starting location. The game will
+chose a random place with that terrain.
 
 ## `flags`
+
 (optional, array of strings)
 
 Arbitrary flags. Mods can modify this via "add:flags" / "remove:flags". TODO: document them.
 
 ### `tile_config`
-Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. The ordering of the overlays used for displaying mutations can be controlled as well. The ordering can be used to override the default ordering provided in `mutation_ordering.json`. Example:
+
+Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various
+tile identifiers, different orientations, etc. The ordering of the overlays used for displaying
+mutations can be controlled as well. The ordering can be used to override the default ordering
+provided in `mutation_ordering.json`. Example:
 
 ```C++
-  {                                             // whole file is a single object
-    "tile_info": [                              // tile_info is mandatory
-      {
-        "height": 32,
-        "width": 32,
-        "iso" : true,                             //  Optional. Indicates an isometric tileset. Defaults to false.
-        "pixelscale" : 2                          //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
-      }
-    ],
-    "tiles-new": [                              // tiles-new is an array of sprite sheets
-      {                                           //   alternately, just one "tiles" array
-        "file": "tiles.png",                      // file containing sprites in a grid
-        "tiles": [                                // array with one entry per tile
-          {
-            "id": "10mm",                         // id is how the game maps things to sprites
-            "fg": 1,                              //   lack of prefix mostly indicates items
-            "bg": 632,                            // fg and bg can be sprite indexes in the image
-            "rotates": false
-          },
-          {
-            "id": "t_wall",                       // "t_" indicates terrain
-            "fg": [2918, 2919, 2918, 2919],       // 2 or 4 sprite numbers indicates pre-rotated
-            "bg": 633,
-            "rotates": true,
-            "multitile": true,
-            "additional_tiles": [                 // connected/combined versions of sprite
-              {                                   //   or variations, see below
-                "id": "center",
-                "fg": [2919, 2918, 2919, 2918]
-              },
-              {
-                "id": "corner",
-                "fg": [2924, 2922, 2922, 2923]
-              },
-              {
-                "id": "end_piece",
-                "fg": [2918, 2919, 2918, 2919]
-              },
-              {
-                "id": "t_connection",
-                "fg": [2919, 2918, 2919, 2918]
-              },
-              {
-                "id": "unconnected",
-                "fg": 2235
-              }
-            ]
-          },
-          {
-            "id": "vp_atomic_lamp",               // "vp_" vehicle part
-            "fg": 3019,
-            "bg": 632,
-            "rotates": false,
-            "multitile": true,
-            "additional_tiles": [
-              {
-                "id": "broken",                   // variant sprite
-                "fg": 3021
-              }
-            ]
-          },
-          {
-            "id": "t_dirt",
-            "rotates": false,
-            "fg": [
-              { "weight":50, "sprite":640},       // weighted random variants
-              { "weight":1, "sprite":3620},
-              { "weight":1, "sprite":3621},
-              { "weight":1, "sprite":3622}
-            ]
-          },
-          {
-            "id": [
-              "overlay_mutation_GOURMAND",        // character overlay for mutation
-              "overlay_mutation_male_GOURMAND",   // overlay for specified gender
-              "overlay_mutation_active_GOURMAND"  // overlay for activated mutation
-            ],
-            "fg": 4040
-          }
-        ]
-      },
-      {                                           // second entry in tiles-new
-        "file": "moretiles.png",                  // another sprite sheet
-        "tiles": [
-          {
-            "id": ["xxx","yyy"],                  // define two ids at once
-            "fg": 1,
-            "bg": 234
-          }
-        ]
-      }
-    ],
-    "overlay_ordering": [
-      {
-        "id" : "WINGS_BAT",                         // mutation name, in a string or array of strings
-        "order" : 1000                              // range from 0 - 9999, 9999 being the topmost layer
-      },
-      {
-        "id" : [ "PLANTSKIN", "BARK" ],             // mutation name, in a string or array of strings
-        "order" : 3500                              // order is applied to all items in the array
-      },
-      {
-        "id" : "bio_armor_torso",                   // Overlay order of bionics is controlled in the same way
-        "order" : 500
-      }
-    ]
-  }
+{                                             // whole file is a single object
+  "tile_info": [                              // tile_info is mandatory
+    {
+      "height": 32,
+      "width": 32,
+      "iso" : true,                             //  Optional. Indicates an isometric tileset. Defaults to false.
+      "pixelscale" : 2                          //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
+    }
+  ],
+  "tiles-new": [                              // tiles-new is an array of sprite sheets
+    {                                           //   alternately, just one "tiles" array
+      "file": "tiles.png",                      // file containing sprites in a grid
+      "tiles": [                                // array with one entry per tile
+        {
+          "id": "10mm",                         // id is how the game maps things to sprites
+          "fg": 1,                              //   lack of prefix mostly indicates items
+          "bg": 632,                            // fg and bg can be sprite indexes in the image
+          "rotates": false
+        },
+        {
+          "id": "t_wall",                       // "t_" indicates terrain
+          "fg": [2918, 2919, 2918, 2919],       // 2 or 4 sprite numbers indicates pre-rotated
+          "bg": 633,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [                 // connected/combined versions of sprite
+            {                                   //   or variations, see below
+              "id": "center",
+              "fg": [2919, 2918, 2919, 2918]
+            },
+            {
+              "id": "corner",
+              "fg": [2924, 2922, 2922, 2923]
+            },
+            {
+              "id": "end_piece",
+              "fg": [2918, 2919, 2918, 2919]
+            },
+            {
+              "id": "t_connection",
+              "fg": [2919, 2918, 2919, 2918]
+            },
+            {
+              "id": "unconnected",
+              "fg": 2235
+            }
+          ]
+        },
+        {
+          "id": "vp_atomic_lamp",               // "vp_" vehicle part
+          "fg": 3019,
+          "bg": 632,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",                   // variant sprite
+              "fg": 3021
+            }
+          ]
+        },
+        {
+          "id": "t_dirt",
+          "rotates": false,
+          "fg": [
+            { "weight":50, "sprite":640},       // weighted random variants
+            { "weight":1, "sprite":3620},
+            { "weight":1, "sprite":3621},
+            { "weight":1, "sprite":3622}
+          ]
+        },
+        {
+          "id": [
+            "overlay_mutation_GOURMAND",        // character overlay for mutation
+            "overlay_mutation_male_GOURMAND",   // overlay for specified gender
+            "overlay_mutation_active_GOURMAND"  // overlay for activated mutation
+          ],
+          "fg": 4040
+        }
+      ]
+    },
+    {                                           // second entry in tiles-new
+      "file": "moretiles.png",                  // another sprite sheet
+      "tiles": [
+        {
+          "id": ["xxx","yyy"],                  // define two ids at once
+          "fg": 1,
+          "bg": 234
+        }
+      ]
+    }
+  ],
+  "overlay_ordering": [
+    {
+      "id" : "WINGS_BAT",                         // mutation name, in a string or array of strings
+      "order" : 1000                              // range from 0 - 9999, 9999 being the topmost layer
+    },
+    {
+      "id" : [ "PLANTSKIN", "BARK" ],             // mutation name, in a string or array of strings
+      "order" : 3500                              // order is applied to all items in the array
+    },
+    {
+      "id" : "bio_armor_torso",                   // Overlay order of bionics is controlled in the same way
+      "order" : 500
+    }
+  ]
+}
 ```
 
 # Mutation overlay ordering
 
-The file `mutation_ordering.json` defines the order that visual mutation and bionic overlays are rendered on a character ingame. The layering value from 0 (bottom) - 9999 (top) sets the order.
+The file `mutation_ordering.json` defines the order that visual mutation and bionic overlays are
+rendered on a character ingame. The layering value from 0 (bottom) - 9999 (top) sets the order.
 
 Example:
+
 ```C++
 [
     {
@@ -3501,26 +3728,32 @@ Example:
 ```
 
 ## `id`
+
 (string)
 
-The internal ID of the mutation. Can be provided as a single string, or an array of strings. The order value provided will be applied to all items in the array.
+The internal ID of the mutation. Can be provided as a single string, or an array of strings. The
+order value provided will be applied to all items in the array.
 
 ## `order`
+
 (integer)
 
-The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 being the topmost drawn layer. Mutations that are not in any list will default to 9999.
+The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 being the topmost drawn
+layer. Mutations that are not in any list will default to 9999.
 
 # MOD_INFO
 
 Also see [MODDING.md](MODDING.md).
 
-Object with `MOD_INFO` type describes the mod itself.
-Each mod must have exactly one `MOD_INFO`, and unlike other types of objects from mods it is loaded on game launch,
-before the title screen shows up. As such, any and all errors related to it will show up before the title screen shows up.
+Object with `MOD_INFO` type describes the mod itself. Each mod must have exactly one `MOD_INFO`, and
+unlike other types of objects from mods it is loaded on game launch, before the title screen shows
+up. As such, any and all errors related to it will show up before the title screen shows up.
 
-Current convention is to put your `MOD_INFO` in `mod_info.json` file within the root directory of the mod.
+Current convention is to put your `MOD_INFO` in `mod_info.json` file within the root directory of
+the mod.
 
 Example:
+
 ```C++
 [
   {
@@ -3559,9 +3792,11 @@ Example:
 
 # MOD tileset
 
-MOD tileset defines additional sprite sheets. It is specified as JSON object with `type` member set to `mod_tileset`.
+MOD tileset defines additional sprite sheets. It is specified as JSON object with `type` member set
+to `mod_tileset`.
 
 Example:
+
 ```C++
 [
     {
@@ -3589,39 +3824,28 @@ Example:
 ```
 
 ## `compatibility`
+
 (string)
 
-The internal ID of the compatible tilesets. MOD tileset is only applied when base tileset's ID exists in this field.
+The internal ID of the compatible tilesets. MOD tileset is only applied when base tileset's ID
+exists in this field.
 
 ## `tiles-new`
 
-Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from the same folder json file exists.
+Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from
+the same folder json file exists.
 
 # Field types
 
-  {
-    "type": "field_type", // this is a field type
-    "id": "fd_gum_web", // id of the field
-    "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
-    "intensity_levels": [ 
-      { "name": "shadow",  // name of this level of intensity
-        "light_override": 3.7 } //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
-     ],
-    "bash": {
-      "str_min": 1, // lower bracket of bashing damage required to bash
-      "str_max": 3, // higher bracket
-      "sound_vol": 2, // noise made when succesfully bashing the field
-      "sound_fail_vol": 2, // noise made when failing to bash the field
-      "sound": "shwip", // sound on success
-      "sound_fail": "shwomp", // sound on failure
-      "msg_success": "You brush the gum web aside.", // message on success
-      "move_cost": 120, // how many moves it costs to succesfully bash that field (default: 100)
-      "items": [                                   // item dropped upon succesful bashing
-        { "item": "2x4", "count": [ 5, 8 ] },
-        { "item": "nail", "charges": [ 6, 8 ] },
-        { "item": "splinter", "count": [ 3, 6 ] },
-        { "item": "rag", "count": [ 40, 55 ] },
-        { "item": "scrap", "count": [ 10, 20 ] }
-      ]
-    }
-  }
+{ "type": "field_type", // this is a field type "id": "fd_gum_web", // id of the field
+"immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field "intensity_levels": [
+{ "name": "shadow", // name of this level of intensity "light_override": 3.7 } //light level on the
+tile occupied by this field will be set at 3.7 not matter the ambient light. ], "bash": { "str_min":
+1, // lower bracket of bashing damage required to bash "str_max": 3, // higher bracket "sound_vol":
+2, // noise made when succesfully bashing the field "sound_fail_vol": 2, // noise made when failing
+to bash the field "sound": "shwip", // sound on success "sound_fail": "shwomp", // sound on failure
+"msg_success": "You brush the gum web aside.", // message on success "move_cost": 120, // how many
+moves it costs to succesfully bash that field (default: 100) "items": [ // item dropped upon
+succesful bashing { "item": "2x4", "count": [ 5, 8 ] }, { "item": "nail", "charges": [ 6, 8 ] }, {
+"item": "splinter", "count": [ 3, 6 ] }, { "item": "rag", "count": [ 40, 55 ] }, { "item": "scrap",
+"count": [ 10, 20 ] } ] } }

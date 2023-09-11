@@ -9,6 +9,7 @@
 #include <vector>
 #include <utility>
 
+#include "catalua.h"
 #include "json.h"
 #include "memory_fast.h"
 #include "type_id.h"
@@ -67,6 +68,8 @@ class DynamicDataLoader
          */
         using deferred_json = std::vector<std::pair<json_source_location, std::string>>;
 
+        std::unique_ptr<cata::lua_state, cata::lua_state_deleter> lua;
+
     private:
         bool finalized = false;
 
@@ -111,6 +114,8 @@ class DynamicDataLoader
          * Initializes @ref type_function_map
          */
         void initialize();
+
+    public:
         /**
          * Check the consistency of all the loaded data.
          * May print a debugmsg if something seems wrong.
@@ -118,7 +123,6 @@ class DynamicDataLoader
          */
         void check_consistency( loading_ui &ui );
 
-    public:
         /**
          * Returns the single instance of this class.
          */
@@ -176,6 +180,9 @@ class DynamicDataLoader
 
 namespace init
 {
+
+/** Load (or reload) mods' main Lua scripts. */
+void load_main_lua_scripts( cata::lua_state &state, const std::vector<mod_id> &packs );
 
 /** Returns whether the game data is currently loaded. */
 bool is_data_loaded();

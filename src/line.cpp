@@ -553,6 +553,7 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
 {
     std::vector<tripoint> adjacent_closer_squares;
+    adjacent_closer_squares.reserve( 5 );
     const tripoint d( -from + to );
     const point a( std::abs( d.x ), std::abs( d.y ) );
     if( d.z != 0 ) {
@@ -591,6 +592,7 @@ std::vector<point> squares_in_direction( point p1, point p2 )
     int junk = 0;
     point center_square = line_to( p1, p2, junk )[0];
     std::vector<point> adjacent_squares;
+    adjacent_squares.reserve( 3 );
     adjacent_squares.push_back( center_square );
     if( p1.x == center_square.x ) {
         // Horizontally adjacent.

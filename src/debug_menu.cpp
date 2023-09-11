@@ -30,6 +30,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "catalua.h"
 #include "character.h"
 #include "character_display.h"
 #include "character_id.h"
@@ -51,6 +52,8 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
+#include "json.h"
+#include "json_export.h"
 #include "language.h"
 #include "magic.h"
 #include "map.h"
@@ -162,6 +165,7 @@ enum debug_menu_index {
     DEBUG_PRINT_FACTION_INFO,
     DEBUG_PRINT_NPC_MAGIC,
     DEBUG_QUIT_NOSAVE,
+    DEBUG_LUA_CONSOLE,
     DEBUG_TEST_WEATHER,
     DEBUG_SAVE_SCREENSHOT,
     DEBUG_BUG_REPORT,
@@ -177,6 +181,7 @@ enum debug_menu_index {
     DEBUG_DISPLAY_SUBMAP_GRID,
     DEBUG_TEST_MAP_EXTRA_DISTRIBUTION,
     DEBUG_VEHICLE_BATTERY_CHARGE,
+    DEBUG_VEHICLE_EXPORT_JSON,
     DEBUG_HOUR_TIMER,
     DEBUG_NESTED_MAPGEN,
     DEBUG_RESET_IGNORED_MESSAGES,
@@ -253,6 +258,7 @@ static int vehicle_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( DEBUG_VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change [b]attery charge" ) ) },
+        { uilist_entry( DEBUG_VEHICLE_EXPORT_JSON, true, 'j', _( "Export [j]son template" ) ) },
     };
 
     return uilist( _( "Vehicle…" ), uilist_initializer );
@@ -329,6 +335,10 @@ static int debug_menu_uilist( bool display_all_entries = true )
 
         // insert debug-only menu right after "Info".
         menu.insert( menu.begin() + 1, debug_menu.begin(), debug_menu.end() );
+
+        if( cata::has_lua() ) {
+            menu.push_back( uilist_entry( 7, true, 'l', _( "Lua console" ) ) );
+        }
     }
 
     std::string msg;
@@ -366,7 +376,9 @@ static int debug_menu_uilist( bool display_all_entries = true )
             case 6:
                 action = vehicle_uilist();
                 break;
-
+            case 7:
+                action = DEBUG_LUA_CONSOLE;
+                break;
             default:
                 return group;
         }
@@ -2004,6 +2016,10 @@ void debug()
                 g->uquit = QUIT_NOSAVED;
             }
             break;
+        case DEBUG_LUA_CONSOLE: {
+            cata::show_lua_console();
+            break;
+        }
         case DEBUG_TEST_WEATHER: {
             get_weather().get_cur_weather_gen().test_weather( g->get_seed() );
         }
@@ -2067,6 +2083,31 @@ void debug()
                     veh.discharge_battery( -amount, false );
                 }
             }
+            break;
+        }
+        case DEBUG_VEHICLE_EXPORT_JSON: {
+            const optional_vpart_position v_part_pos = g->m.veh_at( u.pos() );
+            if( !v_part_pos ) {
+                add_msg( m_bad, _( "There's no vehicle there." ) );
+                break;
+            }
+            const vehicle &veh = v_part_pos->vehicle();
+            std::stringstream ss;
+            JsonOut json( ss, true );
+            json_export::vehicle( json, veh );
+
+            // write to log
+            DebugLog( DL::Info, DC::Main ) << " JSON TEMPLATE EXPORT:\n" << ss.str();
+            std::string popup_msg = _( "JSON template written to debug.log" );
+#if defined(TILES)
+            // copy to clipboard
+            const int clipboard_result = SDL_SetClipboardText( ss.str().c_str() );
+            printErrorIf( clipboard_result != 0, "Error while exporting JSON to the clipboard." );
+            if( clipboard_result == 0 ) {
+                popup_msg += _( " and to the clipboard." );
+            }
+#endif
+            popup( popup_msg );
             break;
         }
 
