@@ -8,7 +8,7 @@
 void open_url( const std::string &url )
 {
     static const std::string executable =
-#if defined(_WIN32) || defined(_WIN64)
+#if defined(_WIN32)
         "start \"\"";
 #elif defined(__linux__)
         "xdg-open";
