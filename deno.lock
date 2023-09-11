@@ -1,0 +1,6 @@
+{
+  "version": "2",
+  "remote": {
+    "https://deno.land/std@0.201.0/collections/chunk.ts": "f82c52a82ad9338018570c42f6de0fb132fcb14914c31a444e360ac104d7b55b"
+  }
+}
