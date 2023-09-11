@@ -86,6 +86,14 @@ export default defineConfig({
             },
           ],
         },
+        wiki: {
+          label: "Wiki",
+          link: "/wiki/design-document",
+          translations: { "ko-KR": "위키" },
+          items: [
+            { label: "Wiki", autogenerate: { directory: "wiki" } },
+          ]
+        }
       },
     }),
   ],
