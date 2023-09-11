@@ -9,9 +9,7 @@ void open_url( const std::string &url )
 {
     static const std::string executable =
 #if defined(_WIN32)
-        "explorer";
-#elif defined(_WIN64)
-        "start";
+        "start \"\"";
 #elif defined(__linux__)
         "xdg-open";
 #elif defined(__APPLE__)
