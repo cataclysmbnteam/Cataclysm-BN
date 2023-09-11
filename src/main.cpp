@@ -423,6 +423,7 @@ int main( int argc, char *argv[] )
                     "If set, will generate Lua docs and exit",
                     section_default,
                     [&]( int, const char ** ) -> int {
+                        test_mode = true;
                         lua_doc_mode = true;
                         return 0;
                     }
@@ -734,6 +735,7 @@ int main( int argc, char *argv[] )
     cata::startup_lua_test();
 
     if( lua_doc_mode ) {
+        init_colors();
         if( cata::generate_lua_docs() ) {
             cata_printf( "Lua doc: Done!\n" );
             return 0;
