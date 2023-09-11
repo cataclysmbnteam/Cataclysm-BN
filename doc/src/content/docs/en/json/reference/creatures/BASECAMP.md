@@ -1,13 +1,12 @@
 ---
-title: Recommended reading
+title: Basecamps
 ---
 
 Basecamps leverage many existing aspects of JSON data such as recipes and mapgen. It's recommended
 to be familiar with those:
 
-- [JSON info](src/content/docs/en/json/reference/JSON_INFO) has information on common fields for
-  recipes
-- [mapgen](MAPGEN.md), see section 3 about `update_mapgen`
+- [JSON info](../JSON_INFO) has information on common fields for recipes
+- [mapgen](../map/mapgen), see section 3 about `update_mapgen`
 
 # Adding alternate basecamp upgrade paths
 

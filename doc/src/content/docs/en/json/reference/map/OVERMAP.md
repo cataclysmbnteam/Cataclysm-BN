@@ -198,7 +198,7 @@ referenced overmap terrains (e.g. the `_north` version for all).
 | `id`              | Unique id.                                                                                                                                                                                  |
 | `name`            | Name for the location shown in game.                                                                                                                                                        |
 | `sym`             | Symbol used when drawing the location, like `"F"` (or you may use an ASCII value like `70`).                                                                                                |
-| `color`           | Color to draw the symbol in. See [COLOR.md](COLOR.md).                                                                                                                                      |
+| `color`           | Color to draw the symbol in. See [COLOR.md](../graphics/COLOR).                                                                                                                                      |
 | `looks_like`      | Id of another overmap terrain to be used for the graphical tile, if this doesn't have one.                                                                                                  |
 | `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbours, should a tileset wish to. It will connect to any other `overmap_terrain` with the same `connect_group`. |
 | `see_cost`        | Affects player vision on overmap. Higher values obstruct vision more.                                                                                                                       |
@@ -206,7 +206,7 @@ referenced overmap terrains (e.g. the `_north` version for all).
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.                                                                                              |
 | `mondensity`      | Summed with values for adjacent overmap terrains to influence density of monsters spawned here.                                                                                             |
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                                                                                                           |
-| `flags`           | See `Overmap terrains` in [JSON_FLAGS.md](src/content/docs/en/json/reference/JSON_FLAGS).                                                                                                   |
+| `flags`           | See `Overmap terrains` in [JSON_FLAGS.md](../JSON_FLAGS).                                                                                                                                   |
 | `mapgen`          | Specify a C++ mapgen function. Don't do this--use JSON.                                                                                                                                     |
 | `mapgen_straight` | Specify a C++ mapgen function for a LINEAR feature variation.                                                                                                                               |
 | `mapgen_curved`   | Specify a C++ mapgen function for a LINEAR feature variation.                                                                                                                               |
@@ -290,7 +290,7 @@ level value and then only specify it for individual entries that differ.
 | `city_distance` | Min/max distance from a city that the special may be placed. Use -1 for unbounded.                    |
 | `city_sizes`    | Min/max city size for a city that the special may be placed near. Use -1 for unbounded.               |
 | `occurrences`   | Min/max number of occurrences when placing the special. If UNIQUE flag is set, becomes X of Y chance. |
-| `flags`         | See `Overmap specials` in [JSON_FLAGS.md](src/content/docs/en/json/reference/JSON_FLAGS).             |
+| `flags`         | See `Overmap specials` in [JSON_FLAGS.md](../JSON_FLAGS).                                             |
 | `rotate`        | Whether the special can rotate. True if not specified.                                                |
 
 ### Example
@@ -344,7 +344,7 @@ subset of that for an overmap special, and consequently will not be repeated in 
 City buildings are not subject to the same quantity limitations as overmap specials, and in fact the
 occurrences attribute does not apply at all. Instead, the placement of city buildings is driven by
 the frequency assigned to the city building within the `region_settings`. Consult
-[REGION_SETTINGS.md](REGION_SETTINGS.md) for more details.
+[REGION_SETTINGS.md](./REGION_SETTINGS) for more details.
 
 ### Fields
 
@@ -426,7 +426,7 @@ the frequency assigned to the city building within the `region_settings`. Consul
 | `terrain`    | `overmap_terrain` to be placed when the placement location matches `locations`.                            |
 | `locations`  | List of `overmap_location` that this subtype applies to. Can be empty; signifies `terrain` is valid as is. |
 | `basic_cost` | Cost of this subtype when pathfinding a route. Default 0.                                                  |
-| `flags`      | See `Overmap connections` in [JSON_FLAGS.md](src/content/docs/en/json/reference/JSON_FLAGS).               |
+| `flags`      | See `Overmap connections` in [JSON_FLAGS.md](../JSON_FLAGS).                                               |
 
 ## Overmap Location
 

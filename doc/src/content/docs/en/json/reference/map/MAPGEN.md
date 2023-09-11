@@ -104,7 +104,7 @@ However, the following variables impact where and how often stuff gets applied:
 
 **required** Values: _json_ - required
 
-```
+```json
 "object": { (more json here) }
 ```
 
@@ -117,13 +117,13 @@ a list of IDs, or with a nested list (of lists) of IDs.
 
 With the first form, simply give the ID of an overmap terrain from `overmap_terrain.json`:
 
-```
+```json
 "om_terrain": "oter_id"
 ```
 
 In the second form, provide a list of IDs:
 
-```
+```json
 "om_terrain": [ "house", "house_base" ]
 ```
 
@@ -213,7 +213,7 @@ by "terrain" and optionally "furniture" or other entries below.
 
 Usage:
 
-```
+```json
 "rows": [ "row1...", "row2...", ..., "row24..." ]
 ```
 

@@ -1,5 +1,5 @@
 ---
-title: Effect data
+title: Effects
 ---
 
 ## How to give effects in-game?

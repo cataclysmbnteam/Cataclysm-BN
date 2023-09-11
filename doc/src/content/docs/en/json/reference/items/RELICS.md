@@ -11,7 +11,7 @@ whenever the item is spawned a copy of relic data is attached to the item instan
 
 Relic data object can contain the following fields:
 
-```cpp
+```json
 {
 "name": "Boots of Haste",       // Overrides default item name
 "moves": 100,                   // (optional) Activation move cost (default 100)
@@ -27,7 +27,7 @@ Relic data object can contain the following fields:
 Relics can recharge under certain conditions. Recharge method is defined as follows (all fields
 optional):
 
-```cpp
+```json
 {
 "type": "time",                 // Defines what resource is consumed. Default: time
 "req": "none",                  // Defines under what conditions recharge works. Default: none (no special requirements)

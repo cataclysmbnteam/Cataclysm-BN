@@ -110,7 +110,7 @@ List of scenttype_id ignored by this monster. scent_types are defined in scent_t
 (string)
 
 Symbol and color representing monster in-game. The symbol must be a UTF-8 string, that is exactly
-one console cell width (may be several Unicode characters). See [COLOR.md](./COLOR.md) for details.
+one console cell width (may be several Unicode characters). See [COLOR.md](../graphics/COLOR) for details.
 
 ## "size"
 

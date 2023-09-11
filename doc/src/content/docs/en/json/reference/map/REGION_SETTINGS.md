@@ -499,7 +499,7 @@ The **weather** section defines the base weather attributes used for the region.
 | `base_wind`                  | Base wind for the region in mph units. Roughly the yearly average.                                                                                                                                  |
 | `base_wind_distrib_peaks`    | How high the wind peaks can go. Higher values produce windier days.                                                                                                                                 |
 | `base_wind_season_variation` | How the wind varies with season. Lower values produce more variation                                                                                                                                |
-| `weather_types`              | Ids of the weather types allowed in this region. First value will be the default weather type. Declaration order will affect weather selection, see [WEATHER_TYPE.md](WEATHER_TYPE.md) for details. |
+| `weather_types`              | Ids of the weather types allowed in this region. First value will be the default weather type. Declaration order will affect weather selection, see [WEATHER_TYPE.md](WEATHER_TYPE) for details. |
 
 ### Example
 

@@ -5,7 +5,7 @@ title: Guide for basic mapgen
 This guide will cover the basics of mapgen, which files you need to edit, the tags in each file and
 the differences in creating specials or regular city buildings.
 
-[For full technical information about mapgen entries, visit here](./MAPGEN.md)
+[For full technical information about mapgen entries, visit here](../reference/map/mapgen)
 
 First, lets cover some basic concepts and the files you'll add or edit.
 
@@ -86,7 +86,7 @@ Before beginning you’ll want to make some decisions:
 #### The mapgen map:
 
 This covers the mapgen file map flags and what they do in layman’s terms. You can get more extensive
-information from [MAPGEN](./MAPGEN.md).
+information from [MAPGEN](../reference/map/mapgen).
 
 the mapgen file has some meta data tags and the `"object"` data which defines everything to make the
 map.
@@ -289,7 +289,7 @@ can put any item_group into the machines, like those bullet ones_.
 
 6. Item spawns: There are many ways to place items. This tutorial will only cover explicit symbol
    placement which is the easiest. There is documentation all about loot spawns you can read for
-   further information. See: [ITEM_SPAWN.md](./ITEM_SPAWN.md).
+   further information. See: [ITEM_SPAWN.md](../reference/items/ITEM_SPAWN).
 
 our sample uses "items": for its tag. others include: "place_item", "place_items", "place_loot".
 Some of these allow for individual item placement and others groups, or both. This will be covered
@@ -494,7 +494,7 @@ sample roof:
    "t_shingle_flat_roof" in this mapgen which will override the palettes entry for
    `".": "t_flat_roof"`. (more on this in advanced mapgen).
 
-I have a separate roof document at: [JSON_ROOF_MAPGEN](./JSON_ROOF_MAPGEN.md).
+I have a separate roof document at: [JSON_ROOF_MAPGEN](./JSON_ROOF_MAPGEN).
 
 #### Linking various mapgen maps using multitile_city_buildings.json
 
@@ -596,9 +596,9 @@ Example:
    percentage so `[ 1, 10 ]` wouldn't be 1 to 10 times per overmap but a 1 in 10% chance to spawn on
    the overmap. So 10% chance to spawn once per overmap.
 8. `"flags"`: These are flags you can use to further define the special. For a list of flags see:
-   [JSON_FLAGS](./JSON_FLAGS.md).
+   [JSON_FLAGS](../reference/JSON_FLAGS).
 
-Read: [OVERMAP](./OVERMAP.md) for more details.
+Read: [OVERMAP](../reference/map/OVERMAP) for more details.
 
 #### Overmap_terrain entries:
 
@@ -643,7 +643,8 @@ You need one entry per mapgen ID:
 8. `"extend"` many of these flags will be used by NPCs in the future for their AI, try to add flags
    appropriate for your location. Others further define the mapgen, like having sidewalks generate.
 
-For further information see: [Overmap Terrain section of OVERMAP](./OVERMAP.md#overmap-terrain).
+For further information see:
+[Overmap Terrain section of OVERMAP](../reference/map/OVERMAP#overmap-terrain).
 
 #### Palettes:
 

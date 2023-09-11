@@ -4,7 +4,7 @@ title: Martial arts and techniques JSON file contents
 
 ### Martial arts
 
-```cpp
+```json
 "type" : "martial_art",
 "id" : "style_debug",       // Unique ID. Must be one continuous word,
                             // use underscores if necessary.
@@ -37,7 +37,7 @@ title: Martial arts and techniques JSON file contents
 
 ### Techniques
 
-```cpp
+```json
 "id" : "tec_debug_arpen",   // Unique ID. Must be one continuous word
 "name" : "phasing strike",  // In-game name displayed
 "unarmed_allowed" : true,   // Can an unarmed character use this technique
@@ -75,7 +75,7 @@ title: Martial arts and techniques JSON file contents
 
 ### Buffs
 
-```cpp
+```json
 "id" : "debug_elem_resist",         // Unique ID. Must be one continuous word
 "name" : "Elemental resistance",    // In-game name displayed
 "description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",    // In-game description
@@ -96,7 +96,7 @@ title: Martial arts and techniques JSON file contents
 
 The bonuses arrays contain any number of bonus entries like this:
 
-```cpp
+```json
 {
   "stat": "damage",
   "type": "bash",

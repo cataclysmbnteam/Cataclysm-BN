@@ -108,7 +108,7 @@ player's current kill count that must be killed to complete the mission.
 ### goal_condition
 
 For "MGOAL_CONDITION", defines the condition that must be satisified for the mission to be
-considered complete. Conditions are explained in more detail in [NPCs.md](./NPCs.md), and are used
+considered complete. Conditions are explained in more detail in [NPCs.md](./NPCs), and are used
 here in exactly the same way.
 
 ### dialogue
@@ -144,7 +144,7 @@ If any of these optional fields are present they can be objects with the followi
 
 #### effect
 
-This is an effects array, exactly as defined in [NPCs.md](./NPCs.md), and can use any of the values
+This is an effects array, exactly as defined in [NPCs.md](./NPCs), and can use any of the values
 from effects. In all cases, the NPC involved is the quest giver.
 
 #### reveal_om_ter
