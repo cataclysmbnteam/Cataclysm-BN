@@ -1,5 +1,5 @@
 ---
-title: Vehicle prototypes JSON file contents
+title: Vehicle prototypes
 ---
 
 Vehicle prototypes are used to spawn stock vehicles. After a vehicle has been spawned, it is saved

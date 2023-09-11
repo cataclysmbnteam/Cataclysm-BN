@@ -75,8 +75,8 @@ coordinates do. The z coordinate is relative to the vehicle origin.
 ## Point types
 
 To work with these coordinate systems we have a variety of types. These are defined in
-[`coordinates.h`](../../json/src/coordinates.h). For example, we have `point_abs_ms` for absolute map-square
-coordinates. The three parts of the type name are _dimension_ `_` _origin_ `_` _scale_.
+[`coordinates.h`](../../json/src/coordinates.h). For example, we have `point_abs_ms` for absolute
+map-square coordinates. The three parts of the type name are _dimension_ `_` _origin_ `_` _scale_.
 
 - **dimension** is either `point` for two-dimensional or `tripoint` for three-dimensional.
 - **origin** specifies what the value is relative to, and can be:

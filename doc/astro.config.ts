@@ -49,7 +49,7 @@ export default defineConfig({
       navbar: {
         json: {
           label: "JSON",
-          link: "/json/explanation/json_style",
+          link: "/json/tutorial/modding",
           translations: { "ko-KR": "JSON 모딩" },
           items: docModes("json"),
         },
@@ -61,7 +61,7 @@ export default defineConfig({
         },
         dev: {
           label: "Engine",
-          link: "/dev/guides/building/building",
+          link: "/dev/guides/building/cmake",
           translations: { "ko-KR": "게임 엔진" },
           items: docModes("dev"),
         },

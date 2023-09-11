@@ -6,7 +6,7 @@ Basecamps leverage many existing aspects of JSON data such as recipes and mapgen
 to be familiar with those:
 
 - [JSON info](../JSON_INFO) has information on common fields for recipes
-- [mapgen](../map/mapgen), see section 3 about `update_mapgen`
+- [mapgen](../../reference/map/mapgen), see section 3 about `update_mapgen`
 
 # Adding alternate basecamp upgrade paths
 

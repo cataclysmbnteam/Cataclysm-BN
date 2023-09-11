@@ -24,7 +24,7 @@ that's working you should be able to easily jump to the definition of any entity
 positioning your cursor over an id and hitting the appropriate key combination.
 
 - In Vim, this feature exists by default, and you can jump to a definition using
-  [`\^\]`](http://vimdoc.sourceforge.net/htmldoc/tagsrch.html#tagsrch.txt).
+  [`^\]`](http://vimdoc.sourceforge.net/htmldoc/tagsrch.html#tagsrch.txt).
 - In Notepad++ go to "Plugins" -> "Plugins Admin" and enable the "TagLEET" plugin. Then select any
   id and press Alt+Space to open the references window.
 
@@ -180,9 +180,9 @@ This section describes properties and formatting applied to all of the JSON file
 A few properties are applicable to most if not all json files and do not need to be described for
 each json file. These properties are:
 
-| Identifier                         | Description                                                                                                                                                                                                                                                                                     |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type                               | The type of object this json entry is describing. Setting this entry to 'armor' for example means the game will expect properties specific to armor in that entry. Also ties in with 'copy-from' (see below), if you want to inherit properties of another object, it must be of the same tipe. |
+| Identifier                            | Description                                                                                                                                                                                                                                                                                     |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type                                  | The type of object this json entry is describing. Setting this entry to 'armor' for example means the game will expect properties specific to armor in that entry. Also ties in with 'copy-from' (see below), if you want to inherit properties of another object, it must be of the same tipe. |
 | [copy-from](./items/JSON_INHERITANCE) | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item **of the same type** and only provide entries that should change from the item you copied from.                                                                                   |
 | [extends](./items/JSON_INHERITANCE)   | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.                                                                                                                                                                       |
 | [delete](./items/JSON_INHERITANCE)    | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.                                                                                                                                                                                   |

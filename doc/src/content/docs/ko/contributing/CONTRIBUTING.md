@@ -12,7 +12,7 @@ title: 기여하기
 
 1. GitHub에서 저장소를 포크해주세요.
 2. 변경사항을 만들어주세요.
-3. 풀 리퀘스트[Pull request][pr]를 열어주세요.
+3. [풀 리퀘스트][pr]를 열어주세요.
 
 [pr]: https://docs.github.com/ko/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
 
@@ -38,12 +38,12 @@ title: 기여하기
 ### C++
 
 `astyle`로 일관된 코드 스타일을 강제하고 있습니다. 자세한 내용은
-[CODE_STYLE](../../../../doc/CODE_STYLE.md)을 참고해주세요.
+[CODE_STYLE](../dev/explanation/code_style)을 참고해주세요.
 
 ### JSON 스타일
 
 `tools/format` 경로에 있는 포매터로 일관된 JSON 스타일을 강제하고 있습니다.
-[JSON Style Guide](../../../../doc/JSON_STYLE.md) 을 참고해주세요.
+[JSON Style Guide](../json/explanation/json_style) 을 참고해주세요.
 
 ### 마크다운
 
@@ -67,18 +67,16 @@ title: 기여하기
 [번역 프로젝트](https://app.transifex.com/bn-team/cataclysm-bright-nights/)에서 지원되는 언어를
 실시간으로 확인할 수 있습니다.
 
-[TRANSLATING](../../../../doc/TRANSLATING.md)에서 더 자세한 내용을 확인할 수 있습니다:
-
-- [번역자를 위한 내용](../../../../doc/TRANSLATING.md#translators)
-- [개발자를 위한 내용](../../../../doc/TRANSLATING.md#developers)
-- [관리자를 위한 내용](../../../../doc/TRANSLATING.md#maintainers)
+- [번역자를 위한 내용](../i18n/tutorial/transifex)
+- [개발자를 위한 내용](../i18n/reference/translation)
+- [관리자를 위한 내용](../i18n/guides/maintain)
 
 ## 공식 문서
 
-<p align="middle">
-    <img src="/doc/img/contributing-doxy1.png" width="48%">
-    <img src="/doc/img/contributing-doxy2.png" width="48%">
-</p>
+<!-- <p align="middle">
+    <img src="/doc/src/content/docs/en/contributing/img/contributing-doxy1.png" width="48%">
+    <img src="/doc/src/content/docs/en/contributing/img/contributing-doxy2.png" width="48%">
+</p> -->
 
 자동 생성된 문서를 [깃허브 페이지](https://cataclysmbnteam.github.io/Cataclysm-BN)에서 읽을 수
 있습니다.
@@ -279,7 +277,7 @@ Infrastructure, Build, I18N이 있습니다.
 ## 개발 도구 지원
 
 코딩 스타일을 지키도록 도와주는 여러 도구들이 있습니다. 자세한 내용은
-[DEVELOPER_TOOLING](../../../../doc/DEVELOPER_TOOLING.md)을 참고해주세요.
+[DEVELOPER_TOOLING](../dev/reference/tooling)을 참고해주세요.
 
 ## 고급
 
@@ -417,4 +415,4 @@ $ git pull --ff-only upstream upload
 $ git checkout new_branch
 ```
 
-더 자주 묻는 질문은 [개발자 FAQ](../../../../doc/DEVELOPER_FAQ.md)를 참고해주세요.
+더 자주 묻는 질문은 [개발자 FAQ](../dev/reference/FAQ)를 참고해주세요.

@@ -29,15 +29,15 @@ optional):
 
 ```json
 {
-"type": "time",                 // Defines what resource is consumed. Default: time
-"req": "none",                  // Defines under what conditions recharge works. Default: none (no special requirements)
-"field": "fd_blood",            // Field type to be consumed with 'field' recharge type
-"trap": "tr_portal",            // Trap type to be consumed with 'trap' recharge type
-"interval": "5 minutes",        // Interval at which the recharge check is done. Default: 1 second
-"int_min": 1,                   // Min intensity of related 'type' effect. Default: 0
-"int_min": 5,                   // Max intensity of related 'type' effect. Default: 0
-"rate": 2,                      // Amount of charges restored when recharge operation succeeds. Default: 0
-"message": "Your body decays!", // Optional message to print on success
+  "type": "time", // Defines what resource is consumed. Default: time
+  "req": "none", // Defines under what conditions recharge works. Default: none (no special requirements)
+  "field": "fd_blood", // Field type to be consumed with 'field' recharge type
+  "trap": "tr_portal", // Trap type to be consumed with 'trap' recharge type
+  "interval": "5 minutes", // Interval at which the recharge check is done. Default: 1 second
+  "int_min": 1, // Min intensity of related 'type' effect. Default: 0
+  "int_min": 5, // Max intensity of related 'type' effect. Default: 0
+  "rate": 2, // Amount of charges restored when recharge operation succeeds. Default: 0
+  "message": "Your body decays!" // Optional message to print on success
 }
 ```
 

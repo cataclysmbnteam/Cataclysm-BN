@@ -15,7 +15,7 @@ const removeSuffix = (url: string) => url.replace(suffix, "")
 
 export const fixRelativeLinks = () => (tree: Root) =>
   visit(tree, "link", (node) => {
-    node.url = relativeUrl(removeSuffix(node.url))
+    node.url = relativeUrl(removeSuffix(node.url)).toLowerCase()
   })
 
 /**

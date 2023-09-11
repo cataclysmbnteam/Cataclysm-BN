@@ -1,7 +1,7 @@
 # Cataclysm: Bright Nights
 
 <header align="center">
-  <a><img src="doc/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
+  <a><img src="doc/src/content/docs/en/contributing/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
 
 [![en][icon-en]][en] [![ko][icon-ko]][ko]
 
@@ -47,20 +47,12 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 [clone]: https://github.com/cataclysmbnteam/Cataclysm-BN/ "clone from our GitHub repo"
 [clone-badge]: https://img.shields.io/badge/Clone%20From%20Repo-black?style=for-the-badge&logo=github
 
-## Compile
+## Building
 
-Please read [COMPILING.md](doc/COMPILING/COMPILING.md) - it covers general information and more
-specific recipes for Linux, OS X, Windows and BSD. See
-[COMPILER_SUPPORT.md](doc/COMPILING/COMPILER_SUPPORT.md) for details on which compilers we support.
-And you can always dig for more information in
-[doc/](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/upload/doc).
+Please read the [official docs](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/) for
+details.
 
-We also have the following build guides:
-
-- Building on Windows with `MSYS2` at [COMPILING-MSYS.md](doc/COMPILING/COMPILING-MSYS.md)
-- Building on Windows with `vcpkg` at [COMPILING-VS-VCPKG.md](doc/COMPILING/COMPILING-VS-VCPKG.md)
-- Building with `cmake` at [COMPILING-CMAKE.md](doc/COMPILING/COMPILING-CMAKE.md) (_unofficial
-  guide_)
+- [which compilers we support](doc/src/content/docs/en/dev/reference/compiler_support.md)
 
 ## Contribute
 
@@ -70,10 +62,11 @@ We also have the following build guides:
 > project is not part of the project and is released under different software licenses, the files
 > covered by different software licenses have their own license notices.
 
-Please see [CONTRIBUTING.md](./doc/CONTRIBUTING.md) for details.
+Please check the [official docs](https://docs.cataclysmbn.org/en/contributing/contributing/) for details.
 
 ## Community
 
+[![Official Docs](https://img.shields.io/badge/Docs-LightGray?style=for-the-badge&logo=astro)][docs]
 [![Discussions](https://img.shields.io/badge/Discussions-black?style=for-the-badge&logo=github)][discussion]
 [![Discord](https://img.shields.io/discord/830879262763909202?style=for-the-badge&logo=discord)][discord]
 [![Discussions](https://img.shields.io/badge/CDDA%20Modding-green?style=for-the-badge&logo=discord)][modding]
@@ -81,6 +74,7 @@ Please see [CONTRIBUTING.md](./doc/CONTRIBUTING.md) for details.
 [discussion]: https://github.com/cataclysmbnteam/Cataclysm-BN/discussions
 [discord]: https://discord.gg/XW7XhXuZ89
 [modding]: https://discord.gg/B5q4XCa "Unofficial DDA modding community discord has a BN channel"
+[docs]: https://docs.cataclysmbn.org "Official BN documentation"
 
 ## Frequently Asked Questions
 
@@ -107,11 +101,11 @@ be submitted via debug menu.
 
 Run `Submit a bug report on github` inside the game to submit an issue.
 
-| 1. open Options (ESC) -> Debug Menu (a) |         2. open Info (i)         |
-| :-------------------------------------: | :------------------------------: |
-|      ![](doc/img/readme-bug1.png)       |   ![](doc/img/readme-bug2.png)   |
-|  3. Submit a bug report on github (U)   | 4. An link to issue is generated |
-|      ![](doc/img/readme-bug3.png)       |   ![](doc/img/readme-bug4.png)   |
+|            1. open Options (ESC) -> Debug Menu (a)            |                       2. open Info (i)                        |
+| :-----------------------------------------------------------: | :-----------------------------------------------------------: |
+| ![](doc/src/content/docs/en/contributing/img/readme-bug1.png) | ![](doc/src/content/docs/en/contributing/img/readme-bug2.png) |
+|             3. Submit a bug report on github (U)              |               4. An link to issue is generated                |
+| ![](doc/src/content/docs/en/contributing/img/readme-bug3.png) | ![](doc/src/content/docs/en/contributing/img/readme-bug4.png) |
 
 It will open a bug report on browser with `Version and configuration` filled in.
 

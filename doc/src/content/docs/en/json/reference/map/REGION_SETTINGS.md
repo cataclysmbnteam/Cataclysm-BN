@@ -487,18 +487,18 @@ The **weather** section defines the base weather attributes used for the region.
 
 ### Fields
 
-| Identifier                   | Description                                                                                                                                                                                         |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `spring_temp`                | Mid spring temperature for the region in degrees Celsius                                                                                                                                            |
-| `summer_temp`                | Mid summer temperature for the region in degrees Celsius                                                                                                                                            |
-| `autumn_temp`                | Mid autumn temperature for the region in degrees Celsius                                                                                                                                            |
-| `winter_temp`                | Mid winter temperature for the region in degrees Celsius                                                                                                                                            |
-| `base_humidity`              | Base humidity for the region in relative humidity %                                                                                                                                                 |
-| `base_pressure`              | Base pressure for the region in millibars.                                                                                                                                                          |
-| `base_acid`                  | Base acid for the region in ? units. Value >= 1 is considered acidic.                                                                                                                               |
-| `base_wind`                  | Base wind for the region in mph units. Roughly the yearly average.                                                                                                                                  |
-| `base_wind_distrib_peaks`    | How high the wind peaks can go. Higher values produce windier days.                                                                                                                                 |
-| `base_wind_season_variation` | How the wind varies with season. Lower values produce more variation                                                                                                                                |
+| Identifier                   | Description                                                                                                                                                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `spring_temp`                | Mid spring temperature for the region in degrees Celsius                                                                                                                                         |
+| `summer_temp`                | Mid summer temperature for the region in degrees Celsius                                                                                                                                         |
+| `autumn_temp`                | Mid autumn temperature for the region in degrees Celsius                                                                                                                                         |
+| `winter_temp`                | Mid winter temperature for the region in degrees Celsius                                                                                                                                         |
+| `base_humidity`              | Base humidity for the region in relative humidity %                                                                                                                                              |
+| `base_pressure`              | Base pressure for the region in millibars.                                                                                                                                                       |
+| `base_acid`                  | Base acid for the region in ? units. Value >= 1 is considered acidic.                                                                                                                            |
+| `base_wind`                  | Base wind for the region in mph units. Roughly the yearly average.                                                                                                                               |
+| `base_wind_distrib_peaks`    | How high the wind peaks can go. Higher values produce windier days.                                                                                                                              |
+| `base_wind_season_variation` | How the wind varies with season. Lower values produce more variation                                                                                                                             |
 | `weather_types`              | Ids of the weather types allowed in this region. First value will be the default weather type. Declaration order will affect weather selection, see [WEATHER_TYPE.md](WEATHER_TYPE) for details. |
 
 ### Example

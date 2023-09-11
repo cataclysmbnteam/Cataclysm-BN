@@ -1,5 +1,5 @@
 ---
-title: Guide to add Comestibles
+title: File location for Comestibles
 ---
 
 There are a large number of files in `json/items/comestibles`, and this guide will help you decide

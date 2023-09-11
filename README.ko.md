@@ -1,7 +1,7 @@
 # 카타클리즘: 밝은 밤
 
 <header align="center">
-  <a><img src="doc/img/readme-title.png" title="우측 위부터 시계방향으로 Chaosvolt (x2), ExecutorBill, scarf005의 스크린샷"></a>
+  <a><img src="doc/src/content/docs/en/contributing/img/readme-title.png" title="우측 위부터 시계방향으로 Chaosvolt (x2), ExecutorBill, scarf005의 스크린샷"></a>
 
 [![en][icon-en]][en] [![ko][icon-ko]][ko]
 
@@ -49,17 +49,8 @@
 
 ## 빌드하기
 
-[COMPILING.md](doc/COMPILING/COMPILING.md)를 참고하세요 - 리눅스, OS X, 윈도우즈와 BSD에서 빌드하기
-위한 일반적인 정보부터 보다 자세한 레시피가 담겨있습니다.
-[COMPILER_SUPPORT.md](doc/COMPILING/COMPILER_SUPPORT.md)에서 지원하는 컴파일러를 확인할 수 있습니다.
-더 자세한 정보는 [doc/](https://github.com/cataclysmbnteam/cataclysm-BN/tree/upload/doc)에서도
-찾아볼 수 있습니다.
-
-또한 다음 빌드 가이드도 있습니다.
-
-- 윈도우즈에서 `MSYS2`로 빌드하기 [COMPILING-MSYS.md](doc/COMPILING/COMPILING-MSYS.md)
-- 윈도우즈에서 `vcpkg`로 빌드하기 [COMPILING-VS-VCPKG.md](doc/COMPILING/COMPILING-VS-VCPKG.md)
-- `cmake`로 빌드하기 [COMPILING-CMAKE.md](doc/COMPILING/COMPILING-CMAKE.md) (_비공식 가이드_)
+[공식 문서](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/)를 참고해주세요.
+- [지원하는 컴파일러 목록](doc/src/content/docs/en/dev/reference/compiler_support.md)
 
 ## 기여하기
 
@@ -69,10 +60,11 @@
 > 배포되지만, 다른 소프트웨어 라이선스에 따라 배포됩니다. 다른 소프트웨어 라이선스에 따라 배포되는
 > 파일들은 각 파일에 라이선스 공지가 포함되어 있습니다.
 
-[CONTRIBUTING.ko.md](./doc/CONTRIBUTING.ko.md)에서 자세한 내용을 확인할 수 있습니다.
+[CONTRIBUTING.ko.md](https://docs.cataclysmbn.org/ko/contributing/contributing/)에서 자세한 내용을 확인할 수 있습니다.
 
 ## 커뮤니티
 
+[![공식 문서](https://img.shields.io/badge/Docs-LightGray?style=for-the-badge&logo=astro)][docs]
 [![Discussions](https://img.shields.io/badge/포럼에서%20토론하기-black?style=for-the-badge&logo=github)][discussion]
 [![Discord](https://img.shields.io/discord/830879262763909202?style=for-the-badge&logo=discord&label=공식%20디스코드%20서버)][discord]
 [![Discussions](https://img.shields.io/badge/CDDA%20모딩%20커뮤니티-green?style=for-the-badge&logo=discord)][modding]
@@ -80,6 +72,7 @@
 [discussion]: https://github.com/cataclysmbnteam/cataclysm-BN/discussions
 [discord]: https://discord.gg/XW7XhXuZ89
 [modding]: https://discord.gg/B5q4XCa "비공식 DDA모딩 커뮤니티에도 BN 채널이 있습니다."
+[docs]: https://docs.cataclysmbn.org "공식 BN 개발문서"
 
 ## 자주 묻는 질문
 
@@ -105,11 +98,11 @@
 
 게임 내에서 `Submit a bug report on github`를 실행하여 이슈를 제출할 수 있습니다.
 
-| 1. 옵션 (ESC) -> 디버그 메뉴 (a) |         2. 정보 (i)          |
-| :------------------------------: | :--------------------------: |
-|   ![](doc/img/readme-bug1.png)   | ![](doc/img/readme-bug2.png) |
-|     3. 버그 리포트 제출 (U)      |  4. 이슈 링크가 생성됩니다   |
-|   ![](doc/img/readme-bug3.png)   | ![](doc/img/readme-bug4.png) |
+|               1. 옵션 (ESC) -> 디버그 메뉴 (a)                |                          2. 정보 (i)                          |
+| :-----------------------------------------------------------: | :-----------------------------------------------------------: |
+| ![](doc/src/content/docs/en/contributing/img/readme-bug1.png) | ![](doc/src/content/docs/en/contributing/img/readme-bug2.png) |
+|                    3. 버그 리포트 제출 (U)                    |                   4. 이슈 링크가 생성됩니다                   |
+| ![](doc/src/content/docs/en/contributing/img/readme-bug3.png) | ![](doc/src/content/docs/en/contributing/img/readme-bug4.png) |
 
 `버전 및 환경 설정(Version and configuration)` 항목이 채워진 이슈가 브라우저에서 열립니다.
 

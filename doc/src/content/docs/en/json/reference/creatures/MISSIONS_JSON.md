@@ -108,8 +108,8 @@ player's current kill count that must be killed to complete the mission.
 ### goal_condition
 
 For "MGOAL_CONDITION", defines the condition that must be satisified for the mission to be
-considered complete. Conditions are explained in more detail in [NPCs.md](./NPCs), and are used
-here in exactly the same way.
+considered complete. Conditions are explained in more detail in [NPCs.md](./NPCs), and are used here
+in exactly the same way.
 
 ### dialogue
 
