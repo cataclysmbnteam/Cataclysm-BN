@@ -8,8 +8,8 @@ This guide contains instructions for compiling Cataclysm-BN on 64bit Windows und
 
 These instructions _are not intended_ to produce a redistributable copy of CBN. Please download the
 official builds from the website or
-[cross-compile from Linux](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/master/doc/COMPILING/COMPILING.md#cross-compile-to-windows-from-linux)
-if that is your intention.
+[cross-compile from Linux](./makefile#cross-compile-to-windows-from-linux) if that is your
+intention.
 
 :::
 

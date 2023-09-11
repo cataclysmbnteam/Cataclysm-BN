@@ -294,7 +294,7 @@ The procedure is very much similar to cross-compilation to Windows from Linux. T
 Please note that due to historical difficulties with cross-compilation errors, run-time
 optimizations are disabled for cross-compilation to Mac OS X targets. (`-O0` is specified as a
 compilation flag.) See
-[Pull Request #26564](https://github.com/CleverRaven/Cataclysm-DDA/pull/26564) for details.
+[Pull Request #26564](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/26564) for details.
 
 ### Dependencies
 

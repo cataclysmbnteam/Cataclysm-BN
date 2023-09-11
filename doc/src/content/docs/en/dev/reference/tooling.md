@@ -82,7 +82,7 @@ manager and then configure it the same way.
 1. Go to `Tools` - `Options` - `AStyle Formatter` - `General`.
 
 2. Import
-   `https://github.com/CleverRaven/Cataclysm-DDA/blob/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg`
+   `https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/msvc-full-features/AStyleExtension-Cataclysm-BN.cfg`
    on `Export/Import` tab using `Import` button:
 
 ![image](./img/VS_Astyle_Step_1.png)
