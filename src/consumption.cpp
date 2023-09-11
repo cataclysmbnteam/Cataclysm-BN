@@ -755,7 +755,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( "CANNIBAL" ) ) {
+    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( trait_flag_str_id( "CANNIBAL" ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ),
                          edible_rating::cannibalism );
     }

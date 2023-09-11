@@ -2050,9 +2050,9 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int tolerance_level = 9;
     if( p.has_trait( trait_PSYCHOPATH ) || p.has_trait( trait_SAPIOVORE ) ) {
         tolerance_level = 0;
-    } else if( p.has_trait_flag( "PRED4" ) ) {
+    } else if( p.has_trait_flag( trait_flag_str_id( "PRED4" ) ) ) {
         tolerance_level = 5;
-    } else if( p.has_trait_flag( "PRED3" ) ) {
+    } else if( p.has_trait_flag( trait_flag_str_id( "PRED3" ) ) ) {
         tolerance_level = 7;
     }
 
@@ -2096,9 +2096,9 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         if( p.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
             maxMalus *= 3;
-        } else if( p.has_trait_flag( "PRED1" ) ) {
+        } else if( p.has_trait_flag( trait_flag_str_id( "PRED1" ) ) ) {
             moraleMalus /= 4;
-        } else if( p.has_trait_flag( "PRED2" ) ) {
+        } else if( p.has_trait_flag( trait_flag_str_id( "PRED2" ) ) ) {
             moraleMalus /= 5;
         }
 
