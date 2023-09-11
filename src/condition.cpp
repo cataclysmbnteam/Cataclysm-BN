@@ -134,7 +134,7 @@ void conditional_t<T>::set_has_trait_flag( const JsonObject &jo, const std::stri
         if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
             return actor->crossed_threshold();
         }
-        return actor->has_trait_flag( trait_flag_to_check );
+        return actor->has_trait_flag( trait_flag_str_id( trait_flag_to_check ) );
     };
 }
 
