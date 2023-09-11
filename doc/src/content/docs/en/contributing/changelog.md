@@ -1,7 +1,9 @@
-# Changelog Guidelines
+---
+title: Changelog Guidelines
+---
 
 - categories used by `Pull Request Summary` in the
-  [PR Template](../.github/pull_request_template.md).
+  [PR Template](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/.github/pull_request_template.md).
 - these are only guidelines, not rules. choose the best category for your PR freely.
 
 ## Features

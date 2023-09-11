@@ -1,18 +1,31 @@
-# Getting Mods Into The Repository
+---
+title: In-Repo Mods
+sidebar:
+  badge:
+    text: Outdated
+    variant: caution
+---
 
-Cataclysm: Dark Days Ahead is not only moddable, but ships with a number of mods available for users
-to select from even without having to obtain mods from a third party source.
+:::caution
+
+Current guideline is in favor of removing
+[in-repo mods](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3026). This page is kept for
+historical purposes.
+
+:::
+
+BN is not only moddable, but ships with a number of mods available for users to select from even
+without having to obtain mods from a third party source.
 
 ## Why have in-repo mods?
 
 The benefits of having mods in the repository include:
 
 - Visibility to a large number of users and potential contributors
-- The ability to use the CleverRaven issue tracker to report problems, as well as manage pull
-  requests for adding to or fixing mods in the repository
-- Mods in the CleverRaven repository that demonstrate usage of a game feature which exists only for
-  mods (i.e. not used by the core DDA game itself) help ensure that feature stays present in the
-  game.
+- The ability to use the BN issue tracker to report problems, as well as manage pull requests for
+  adding to or fixing mods in the repository
+- Mods in the BN repository that demonstrate usage of a game feature which exists only for mods
+  (i.e. not used by the core DDA game itself) help ensure that feature stays present in the game.
 
 There are however things that might be expected but are not guaranteed:
 
@@ -25,12 +38,12 @@ There are however things that might be expected but are not guaranteed:
   While the developers might defer to an active curator of a mod, if they become inactive anyone
   else can step forward.
 
-## What kind of mods can be in the CleverRaven repository?
+## What kind of mods can be in the BN repository?
 
 There are three primary categories of mods:
 
-- Content mods, which provide some kind of distinct experience from the core Dark Days Ahead game.
-  This could be a change to lore, a change to a specific part of gameplay.
+- Content mods, which provide some kind of distinct experience from the core BN game. This could be
+  a change to lore, a change to a specific part of gameplay.
 - User Experience (UX) mods, which alter the look and feel of the game interface itself.
 - Development mods, which aren't "mods" in the typical sense but are instead there to ease the
   transition between "incomplete feature" and "complete feature", when a feature in the core game is
@@ -39,10 +52,10 @@ There are three primary categories of mods:
 
 ## What is necessary for a mod to be included in the repository?
 
-The most crucial criteria for a mod to be in the CleverRaven repository is that it has someone
-acting as a curator. This ensures that there is someone who is keeping an eye out for possible
-problems with the mod, and helping steer its development so that it continues to develop in
-accordance with its design purpose.
+The most crucial criteria for a mod to be in the BN repository is that it has someone acting as a
+curator. This ensures that there is someone who is keeping an eye out for possible problems with the
+mod, and helping steer its development so that it continues to develop in accordance with its design
+purpose.
 
 Furthermore, there are additional criteria:
 
@@ -95,4 +108,4 @@ If the mod otherwise meets inclusion criteria but lacks a curator (ie. has been 
 it's as simple as having someone else step forward as the new curator.
 
 Otherwise, it needs to either be made to meet the criteria, or it simply isn't going to be staying
-in the CleverRaven repository.
+in the BN repository.

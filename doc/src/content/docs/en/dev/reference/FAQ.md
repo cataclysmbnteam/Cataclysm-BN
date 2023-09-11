@@ -1,3 +1,7 @@
+---
+title: Frequently Asked Questions
+---
+
 # Adding stuff
 
 ## Adding a monster
@@ -37,7 +41,7 @@ In the same file in structure `const oter_t oterlist[num_ter_types]` we should d
 buildings will be displayed, how much they obscure vision and which extras set they have. For
 example:
 
-```C++
+```cpp
 {"mil. surplus", '^', c_white, 5, build_extras, false, false},
 {"mil. surplus", '>', c_white, 5, build_extras, false, false},
 {"mil. surplus", 'v', c_white, 5, build_extras, false, false},
@@ -57,7 +61,7 @@ These structures are also commented in source code. Add new identifier in enum `
 before `NUM_OMSPECS` and then add a record in `const overmap_special overmap_specials[NUM_OMSPECS]`
 array. For example:
 
-```C++
+```cpp
 {ot_toxic_dump,   0,  5, 15, -1, mcat_null, 0, 0, 0, 0, &omspec_place::wilderness,0}
 ```
 

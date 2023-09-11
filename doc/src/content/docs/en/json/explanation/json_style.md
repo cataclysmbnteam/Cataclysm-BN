@@ -1,7 +1,21 @@
-# JSON Style Guide
+---
+title: JSON Style Guide
+sidebar:
+  badge:
+    text: Unstable
+    variant: caution
+---
 
-Like in `doc/CODE_STYLE.md`, the JSON styling policy is to update JSON as it is added or edited, and
-in relatively small chunks otherwise in order to prevent undue disruption to development.
+:::caution
+
+[A PR may change current JSON style](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3118) in
+favor of better tooling.
+
+:::
+
+Like in [C++ Code Style](./code_style), the JSON styling policy is to update JSON as it is added or
+edited, and in relatively small chunks otherwise in order to prevent undue disruption to
+development.
 
 We haven't been able to find a decent JSON styling tool, so we wrote our own. It lives in
 tools/format/format.cpp and it leverages src/json.cpp to parse and emit JSON.

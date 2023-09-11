@@ -1,3 +1,7 @@
+---
+title: Developer Tooling
+---
+
 ## Code style (astyle)
 
 Automatic formatting of the source code is performed by
@@ -10,7 +14,7 @@ preferences.
 
 If you only have `astyle` installed, use:
 
-```BASH
+```sh
 astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h tools/*.cpp,*.h
 ```
 
@@ -18,7 +22,7 @@ astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h tools/*.cpp
 
 If you have both `make` and `astyle` installed, use:
 
-```BASH
+```sh
 make astyle
 ```
 
@@ -28,7 +32,7 @@ If you have all the relevant tools installed, you can have git automatically che
 and json by adding these commands to your git pre-commit hook (typically at
 `.git/hooks/pre-commit`):
 
-```BASH
+```sh
 git diff --cached --name-only -z HEAD | grep -z 'data/.*\.json' | \
     xargs -r -0 -L 1 ./tools/format/json_formatter.[ce]* || exit 1
 
@@ -42,7 +46,7 @@ There are astyle extensions in the Visual Studio Marketplace, but none of them h
 
 #### Visual Studio 2022
 
-Head over to https://github.com/olanti-p/BN_Astyle and follow instructions in the
+Head over to <https://github.com/olanti-p/BN_Astyle> and follow instructions in the
 [README.md](https://github.com/olanti-p/BN_Astyle/blob/master/README.md). You may compile and
 install the extension from source, or take advantage of the pre-built version in
 [releases section](https://github.com/olanti-p/BN_Astyle/releases).
@@ -81,25 +85,25 @@ manager and then configure it the same way.
    `https://github.com/CleverRaven/Cataclysm-DDA/blob/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg`
    on `Export/Import` tab using `Import` button:
 
-![image](img/VS_Astyle_Step_1.png)
+![image](./img/VS_Astyle_Step_1.png)
 
 3. After import is successful you can see imported rules on `C/C++` tab:
 
-![image](img/VS_Astyle_Step_2.png)
+![image](./img/VS_Astyle_Step_2.png)
 
 4. Close `Options` menu, open file to be astyled and use `Format Document (Astyle)` or
    `Format Selection (Astyle)` commands from `Edit` - `Advanced` menu.
 
-![image](img/VS_Astyle_Step_3.png)
+![image](./img/VS_Astyle_Step_3.png)
 
 _Note:_ You can also configure keybindings for aforementioned commands in `Tools` - `Options` -
 `Environment` - `Keybindings` menu:
 
-![image](img/VS_Astyle_Step_4.png)
+![image](./img/VS_Astyle_Step_4.png)
 
 ## JSON style
 
-See the [JSON style guide](JSON_STYLE.md).
+See the [JSON style guide](../../json/explanation/json_style).
 
 ## ctags
 
@@ -112,9 +116,10 @@ rule in the `Makefile` to do this for you; just run `make ctags` or `make etags`
 
 ## clang-tidy
 
-Cataclysm has a [clang-tidy configuration file](../.clang-tidy) and if you have `clang-tidy`
-available you can run it to perform static analysis of the codebase. We test with `clang-tidy` from
-LLVM 12.0.0 with CI, so for the most consistent results, you might want to use that version.
+Cataclysm has a [clang-tidy configuration file](../../../../../../../.clang-tidy) and if you have
+`clang-tidy` available you can run it to perform static analysis of the codebase. We test with
+`clang-tidy` from LLVM 12.0.0 with CI, so for the most consistent results, you might want to use
+that version.
 
 To run it, you have a few options.
 

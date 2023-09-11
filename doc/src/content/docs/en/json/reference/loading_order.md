@@ -1,4 +1,6 @@
-# JSON Loading Order
+---
+title: Loading Order
+---
 
 All files here in data/json are read eventually, but the order in which they're read can be
 important for objects with dependencies on other kinds of objects (e.g. recipes depend on skills).
