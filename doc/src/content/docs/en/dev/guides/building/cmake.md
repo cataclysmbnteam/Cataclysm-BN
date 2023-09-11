@@ -1,14 +1,28 @@
-# Disclaimer
+---
+title: CMake
+sidebar:
+  badge:
+    text: Recommended
+    variant: success
+---
 
-**WARNING**: CMake build is **NOT** official and should be used for _dev purposes ONLY_.
+:::caution
 
-For official way to build CataclysmBN See:
+CMake build is unofficial.
 
-- [COMPILING.md](COMPILING.md)
+:::
 
-# Contents
+:::tip{title="future plans"}
 
-# Prerequisites
+in the future,
+[other compilation method will be deprecated in favor of CMake](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/3113)
+to simplify the build process.
+
+:::
+
+For official way to build CataclysmBN see [Compiler Support](../../reference/compiler_support.md).
+
+## Prerequisites
 
 You'll need to have these libraries and their development headers installed in order to build
 CataclysmBN:
@@ -34,16 +48,16 @@ CataclysmBN:
 
 In order to compile localization files, you'll also need `gettext` package.
 
-# Build Environment
+## Build Environment
 
 You can obtain the source code tarball for the latest version from
 [git](https://github.com/cataclysmbnteam/Cataclysm-BN).
 
-## UNIX Environment
+### UNIX Environment
 
 Obtain packages specified above with your system package manager.
 
-## Windows Environment (MSYS2)
+### Windows Environment (MSYS2)
 
 1. Follow steps from here: https://msys2.github.io/
 2. Install CataclysmBN build deps:
@@ -58,10 +72,11 @@ pacman -S mingw-w64-i686-toolchain msys/git \
 
 This should get your environment set up to build console and tiles version of windows.
 
-**NOTE**: This is only for 32bit builds. 64bit requires the x86_64 instead of the i686 packages
-listed above:
+:::caution
 
-```
+This is only for 32bit builds. 64bit requires the x86_64 instead of the i686 packages listed above:
+
+```sh
 pacman -S mingw-w64-x86_64-toolchain msys/git \
    	  mingw-w64-x86_64-cmake \
    	  mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
@@ -69,11 +84,16 @@ pacman -S mingw-w64-x86_64-toolchain msys/git \
      gettext
 ```
 
-**NOTE**: If you're trying to test with Jetbrains CLion, point to the cmake version in the
-msys32/mingw32 path instead of using the built in. This will let cmake detect the installed
-packages.
+:::
 
-# CMake Build
+:::note
+
+If you're trying to test with Jetbrains CLion, point to the cmake version in the `msys32/mingw32`
+path instead of using the built in. This will let cmake detect the installed packages.
+
+:::
+
+### CMake Build
 
 CMake has separate configuration and build steps. Configuration is done using CMake itself, and the
 actual build is done using either `make` (for Makefiles generator) or build-system agnostic
@@ -83,14 +103,18 @@ There are two ways to build CataclysmBN with CMake: inside the source tree or ou
 Out-of-source builds have the advantage that you can have multiple builds with different options
 from one source directory.
 
-**WARNING**: Inside the source tree build is **NOT** supported.
+:::danger
+
+Inside the source tree build is **NOT** supported.
+
+:::
 
 To build CataclysmBN out of source:
 
-```
+```sh
 $ mkdir build && cd build
-   $ cmake .. -DCMAKE_BUILD_TYPE=Release
-   $ make
+$ cmake .. -DCMAKE_BUILD_TYPE=Release
+$ make
 ```
 
 The above example creates a build directory inside the source directory, but that's not required -
@@ -98,25 +122,25 @@ you can just as easily create it in a completely different location.
 
 To install CataclysmBN after building (as root using su or sudo if necessary):
 
-```
+```sh
 # make install
 ```
 
 To change build options, you can either pass the options on the command line:
 
-```
+```sh
 $ cmake .. -DOPTION_NAME=option_value
 ```
 
 Or use either the `ccmake` or `cmake-gui` front-ends, which display all options and their cached
 values on a console and graphical UI, respectively.
 
-```
+```sh
 $ ccmake ..
-   $ cmake-gui ..
+$ cmake-gui ..
 ```
 
-## CMake Build for MSYS2 (MinGW)
+## build for MSYS2 (MinGW)
 
 **NOTE**: For development purposes it is preferred to use `MinGW Win64 Shell` or `MinGW Win32 Shell`
 instead of `MSYS2 Shell`. In other case, you will need to set `PATH` variable manually.
@@ -128,12 +152,12 @@ hackery.
 
 Example:
 
-```
+```sh
 $ cd <Path-to-CataclysmBN-Sources>
-   $ mkdir build
-   $ cd build
-   $ cmake .. -G "MSYS Makefiles"
-   $ make  # or $ cmake --build .
+$ mkdir build
+$ cd build
+$ cmake .. -G "MSYS Makefiles"
+$ make  # or $ cmake --build .
 ```
 
 The resulting binary will be placed inside the source code directory.
@@ -187,7 +211,7 @@ Currently known depends (Maybe outdated use ldd.exe to correct it for Your syste
   - `smpeg2.dll`
   - `libvorbisfile-3.dll`
 
-## CMake Build for Visual Studio / MSBuild
+## build for Visual Studio / MSBuild
 
 CMake can generate `.sln` and `.vcxproj` files used either by Visual Studio itself or by MSBuild
 command line compiler (if you don't want a full fledged IDE) and have more "native" binaries than
@@ -219,28 +243,28 @@ Unpack the archives with the libraries.
 Open windows command line (or powershell), set the environment variables to point to the libs above
 as follows (adjusting the paths as appropriate):
 
-```
-> set SDL2DIR=C:\path\to\SDL2-devel-2.0.9-VC
-> set SDL2TTFDIR=C:\path\to\SDL2_ttf-devel-2.0.15-VC
-> set SDL2IMAGEDIR=C:\path\to\SDL2_image-devel-2.0.4-VC
-> set SDL2MIXERDIR=C:\path\to\SDL2_mixer-devel-2.0.4-VC
+```sh
+$ set SDL2DIR=C:\path\to\SDL2-devel-2.0.9-VC
+$ set SDL2TTFDIR=C:\path\to\SDL2_ttf-devel-2.0.15-VC
+$ set SDL2IMAGEDIR=C:\path\to\SDL2_image-devel-2.0.4-VC
+$ set SDL2MIXERDIR=C:\path\to\SDL2_mixer-devel-2.0.4-VC
 ```
 
 (for powershell the syntax is `$env:SDL2DIR="C:\path\to\SDL2-devel-2.0.9-VC"`).
 
 Make a build directory and run cmake configuration step
 
-```
-> cd <path to cbn sources>
-> mkdir build
-> cd build
-> cmake .. -DTILES=ON -DLANGUAGES=none -DBACKTRACE=OFF -DSOUND=ON
+```sh
+$ cd <path to cbn sources>
+$ mkdir build
+$ cd build
+$ cmake .. -DTILES=ON -DLANGUAGES=none -DBACKTRACE=OFF -DSOUND=ON
 ```
 
 Build!
 
 ```
-> cmake --build . -j 2 -- /p:Configuration=Release
+$ cmake --build . -j 2 -- /p:Configuration=Release
 ```
 
 The `-j 2` flag controls build parallelism - you can omit it if you wish. The

@@ -1,57 +1,6 @@
-- [General Linux Guide](#general-linux-guide)
-  - [Compiler](#compiler)
-  - [Tools](#tools)
-  - [Dependencies](#dependencies)
-  - [Make flags](#make-flags)
-  - [Compiling localization files](#compiling-localization-files)
-- [Debian](#debian)
-  - [Linux (native) ncurses builds](#linux-native-ncurses-builds)
-    - [Building](#building)
-  - [Linux (native) SDL builds](#linux-native-sdl-builds)
-    - [Building](#building-1)
-  - [Cross-compiling to linux 32-bit from linux 64-bit](#cross-compiling-to-linux-32-bit-from-linux-64-bit)
-    - [Building](#building-2)
-  - [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
-    - [Installing MXE from binary distribution](#installing-mxe-from-binary-distribution)
-    - [Installing MXE from source](#installing-mxe-from-source)
-    - [Building (SDL)](#building-sdl)
-  - [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
-    - [Dependencies](#dependencies-1)
-    - [Setup](#setup)
-    - [Building (SDL)](#building-sdl-1)
-    - [Building (ncurses)](#building-ncurses)
-  - [Cross-compile to Android from Linux](#cross-compile-to-android-from-linux)
-    - [Dependencies](#dependencies-2)
-    - [Setup](#setup-1)
-    - [Android device setup](#android-device-setup)
-    - [Building](#building-3)
-    - [Additional notes](#additional-notes)
-  - [Linux Troubleshooting](#linux-troubleshooting)
-- [Mac OS X](#mac-os-x)
-  - [Simple build using Homebrew](#simple-build-using-homebrew)
-  - [Advanced info for Developers](#advanced-info-for-developers)
-    - [SDL](#sdl)
-    - [ncurses](#ncurses)
-    - [gcc](#gcc)
-    - [Compiling](#compiling)
-    - [Make options](#make-options)
-    - [Make examples](#make-examples)
-    - [Running](#running)
-    - [Test suite](#test-suite)
-    - [dmg distribution](#dmg-distribution)
-  - [Mac OS X Troubleshooting](#mac-os-x-troubleshooting)
-    - [ISSUE: Colors don't show up correctly](#issue-colors-dont-show-up-correctly)
-- [Windows](#windows)
-  - [Building with MSYS2](#building-with-msys2)
-  - [Building with CYGWIN](#building-with-cygwin)
-  - [Building with Clang and MinGW64](#building-with-clang-and-mingw64)
-- [BSDs](#bsds)
-  - [Building on FreeBSD/amd64 10.1 with the system compiler](#building-on-freebsdamd64-101-with-the-system-compiler)
-  - [Building ncurses version on FreeBSD/amd64 9.3 with GCC 4.8.4 from ports](#building-ncurses-version-on-freebsdamd64-93-with-gcc-484-from-ports)
-  - [Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages](#building-on-openbsdamd64-58-with-gcc-492-from-portspackages)
-  - [Building on NetBSD/amd64 7.0RC1 with the system compiler](#building-on-netbsdamd64-70rc1-with-the-system-compiler)
-
-# General Linux Guide
+---
+title: Makefile
+---
 
 To build Cataclysm from source you will need at least a C++ compiler, some basic developer tools,
 and necessary build dependencies. The exact package names vary greatly from distro to distro, so
@@ -70,16 +19,20 @@ You have three major choices here: GCC, Clang and MXE.
 (Note that your distro may have separate packages e.g. `gcc` only includes the C compiler and for
 C++ you'll need to install `g++`.)
 
-Cataclysm is targeting C++14 standard and that means you'll need a compiler that supports it. You
-can easily check if your version of `g++` supports C++14 by running:
+Cataclysm is targeting C++17 standard and that means you'll need a compiler that supports it. You
+can easily check if your version of `g++` supports C++17 by running:
 
-    $ g++ --std=c++14
-    g++: fatal error: no input files
-    compilation terminated.
+```sh
+$ g++ --std=c++17
+g++: fatal error: no input files
+compilation terminated.
+```
 
 If you get a line like:
 
-    g++: error: unrecognized command line option ‘--std=c++14’
+```sh
+g++: error: unrecognized command line option ‘--std=c++17’
+```
 
 This means you'll need a newer version of GCC (`g++`).
 
@@ -159,7 +112,9 @@ By default, only English language is available, and it does not require localiza
 If you want to compile files for specific languages, you should add
 `LANGUAGES="<lang_id_1> [lang_id_2] [...]"` option to make command:
 
-    make LANGUAGES="zh_CN zh_TW"
+```sh
+make LANGUAGES="zh_CN zh_TW"
+```
 
 You can get the language ID from the filenames of `*.po` in `lang/po` directory or use
 `LANGUAGES="all"` to compile all available localizations.
@@ -181,13 +136,17 @@ Dependencies:
 
 Install:
 
-    sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle
+```sh
+sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle
+```
 
 ### Building
 
 Run:
 
-    make
+```sh
+make
+```
 
 ## Linux (native) SDL builds
 
@@ -201,7 +160,9 @@ Dependencies:
 
 Install:
 
-    sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential
+```sh
+sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential
+```
 
 check correct version of SDL2 is installed by running:
 
@@ -217,11 +178,15 @@ using old version of SDL could result in
 
 A simple installation could be done by simply running:
 
-    make TILES=1
+```sh
+make TILES=1
+```
 
 A more comprehensive alternative is:
 
-    make -j2 TILES=1 SOUND=1 RELEASE=1 USE_HOME_DIR=1
+```sh
+make -j2 TILES=1 SOUND=1 RELEASE=1 USE_HOME_DIR=1
+```
 
 The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4
 in a more modern processor. If there is no desire to have sound, those flags can also be omitted.
@@ -237,13 +202,17 @@ Dependencies:
 
 Install:
 
-    sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncursesw5-dev
+```sh
+sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncursesw5-dev
+```
 
 ### Building
 
 Run:
 
-    make NATIVE=linux32
+```sh
+make NATIVE=linux32
+```
 
 ## Cross-compile to Windows from Linux
 
@@ -256,18 +225,22 @@ MXE can be either installed from MXE apt repository (much faster) or compiled fr
 
 ### Installing MXE from binary distribution
 
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86B72ED9
-    sudo add-apt-repository "deb [arch=amd64] https://pkg.mxe.cc/repos/apt `lsb_release -sc` main"
-    sudo apt-get update
-    sudo apt-get install astyle bzip2 git make mxe-{i686,x86-64}-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer}
+```sh
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 86B72ED9
+sudo add-apt-repository "deb [arch=amd64] https://pkg.mxe.cc/repos/apt `lsb_release -sc` main"
+sudo apt-get update
+sudo apt-get install astyle bzip2 git make mxe-{i686,x86-64}-w64-mingw32.static-{sdl2,sdl2-ttf,sdl2-image,sdl2-mixer}
+```
 
 If you are not planning on building for both 32-bit and 64-bit, you might want to adjust the last
 apt-get invocation to install only `i686` or `x86-64` packages.
 
 Edit your `~/.profile` as follows:
 
-    export PLATFORM_32="/usr/lib/mxe/usr/bin/i686-w64-mingw32.static-"
-    export PLATFORM_64="/usr/lib/mxe/usr/bin/x86_64-w64-mingw32.static-"
+```sh
+export PLATFORM_32="/usr/lib/mxe/usr/bin/i686-w64-mingw32.static-"
+export PLATFORM_64="/usr/lib/mxe/usr/bin/x86_64-w64-mingw32.static-"
+```
 
 This is to ensure that the variables for the `make` command will not get reset after a power cycle.
 
@@ -275,15 +248,19 @@ This is to ensure that the variables for the `make` command will not get reset a
 
 Install [MXE requirements](http://mxe.cc/#requirements) and build dependencies:
 
-    sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+```sh
+sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+```
 
 Clone MXE repo and build packages required for CBN:
 
-    mkdir -p ~/src
-    cd ~/src
-    git clone https://github.com/mxe/mxe.git
-    cd mxe
-    make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer
+```sh
+mkdir -p ~/src
+cd ~/src
+git clone https://github.com/mxe/mxe.git
+cd mxe
+make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer
+```
 
 Building all these packages from MXE might take a while, even on a fast computer. Be patient; the
 `-j` flag will take advantage of all your processor cores.
@@ -293,8 +270,10 @@ MXE_TARGETS.
 
 Edit your `~/.profile` as follows:
 
-    export PLATFORM_32="~/src/mxe/usr/bin/i686-w64-mingw32.static-"
-    export PLATFORM_64="~/src/mxe/usr/bin/x86_64-w64-mingw32.static-"
+```sh
+export PLATFORM_32="~/src/mxe/usr/bin/i686-w64-mingw32.static-"
+export PLATFORM_64="~/src/mxe/usr/bin/x86_64-w64-mingw32.static-"
+```
 
 This is to ensure that the variables for the `make` command will not get reset after a power cycle.
 
@@ -302,8 +281,10 @@ This is to ensure that the variables for the `make` command will not get reset a
 
 Run one of the following commands based on your targeted environment:
 
-    make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 BACKTRACE=0 PCH=0 bindist
-    make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 BACKTRACE=0 PCH=0 bindist
+```sh
+make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 BACKTRACE=0 PCH=0 bindist
+make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 BACKTRACE=0 PCH=0 bindist
+```
 
 ## Cross-compile to Mac OS X from Linux
 
@@ -336,16 +317,18 @@ OSX.
 Have a prepackaged set of libs and frameworks in place, since compiling with `osxcross` built-in
 MacPorts is rather difficult and not supported at the moment. Your directory tree should look like:
 
-    ~/
-    ├── Frameworks
-    │   ├── SDL2.framework
-    │   ├── SDL2_image.framework
-    │   ├── SDL2_mixer.framework
-    │   └── SDL2_ttf.framework
-    └── libs
-        └── ncurses
-            ├── include
-            └── lib
+```
+~/
+├── Frameworks
+│   ├── SDL2.framework
+│   ├── SDL2_image.framework
+│   ├── SDL2_mixer.framework
+│   └── SDL2_ttf.framework
+└── libs
+    └── ncurses
+        ├── include
+        └── lib
+```
 
 Populated with respective frameworks, dylibs and headers. Tested with lib version
 libncurses.5.4.dylib for ncurses. These libs were obtained from `homebrew` binary distribution at OS
@@ -355,9 +338,11 @@ X 10.11 Frameworks were obtained from SDL official website as described in the n
 
 To build full feature tiles and sound enabled version with localizations enabled:
 
-    make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1
-      RELEASE=1 LANGUAGES=all TILES=1 SOUND=1 FRAMEWORK=1
-      OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
+```sh
+make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1
+  RELEASE=1 LANGUAGES=all TILES=1 SOUND=1 FRAMEWORK=1
+  OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
+```
 
 Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
 
@@ -365,8 +350,10 @@ Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable
 
 To build full curses version with localizations enabled:
 
-    make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1
-      RELEASE=1 LANGUAGES=all OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
+```sh
+make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1
+  RELEASE=1 LANGUAGES=all OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
+```
 
 Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable.
 
@@ -391,36 +378,45 @@ builds the SDL version with all features enabled, including tiles, sound and loc
 - SDL2_mixer (tested with 2.0.2)
 - SDL2_image (tested with 2.0.3)
 
-The Gradle build process automatically installs dependencies from [deps.zip](android/app/deps.zip).
+The Gradle build process automatically installs dependencies from
+[deps.zip](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/android/app/deps.zip).
 
 ### Setup
 
 Install Linux dependencies. For a desktop Ubuntu installation:
 
-    sudo apt-get install openjdk-8-jdk-headless
+```sh
+sudo apt-get install openjdk-8-jdk-headless
+```
 
 Install Android SDK and NDK:
 
-    wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-    unzip sdk-tools-linux-4333796.zip -d ~/android-sdk
-    rm sdk-tools-linux-4333796.zip
-    ~/android-sdk/tools/bin/sdkmanager --update
-    ~/android-sdk/tools/bin/sdkmanager "tools" "platform-tools" "ndk-bundle"
-    ~/android-sdk/tools/bin/sdkmanager --licenses
+```sh
+wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+unzip sdk-tools-linux-4333796.zip -d ~/android-sdk
+rm sdk-tools-linux-4333796.zip
+~/android-sdk/tools/bin/sdkmanager --update
+~/android-sdk/tools/bin/sdkmanager "tools" "platform-tools" "ndk-bundle"
+~/android-sdk/tools/bin/sdkmanager --licenses
+```
 
 Export Android environment variables (you can add these to the end of `~/.bashrc`):
 
-    export ANDROID_SDK_ROOT=~/android-sdk
-    export ANDROID_HOME=~/android-sdk
-    export ANDROID_NDK_ROOT=~/android-sdk/ndk-bundle
-    export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
-    export PATH=$PATH:$ANDROID_SDK_ROOT/tools
-    export PATH=$PATH:$ANDROID_NDK_ROOT
+```sh
+export ANDROID_SDK_ROOT=~/android-sdk
+export ANDROID_HOME=~/android-sdk
+export ANDROID_NDK_ROOT=~/android-sdk/ndk-bundle
+export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+export PATH=$PATH:$ANDROID_SDK_ROOT/tools
+export PATH=$PATH:$ANDROID_NDK_ROOT
+```
 
 You can also use this additional variables if you want to use `ccache` to speed up subsequnt builds:
 
-    export USE_CCACHE=1
-    export NDK_CCACHE=/usr/local/bin/ccache
+```sh
+export USE_CCACHE=1
+export NDK_CCACHE=/usr/local/bin/ccache
+```
 
 **Note:** Path to `ccache` can be different on your system.
 
@@ -430,8 +426,10 @@ Enable
 [Developer options on your Android device](https://developer.android.com/studio/debug/dev-options).
 Connect your device to your PC via USB cable and run:
 
-    adb devices
-    adb connect <devicename>
+```sh
+adb devices
+adb connect <devicename>
+```
 
 ### Building
 
@@ -441,13 +439,17 @@ documentation provides a good summary of how to
 
 To build a debug APK, from the `android/` subfolder of the repository run:
 
-    ./gradlew assembleDebug
+```sh
+./gradlew assembleDebug
+```
 
 This creates a debug APK in `./android/app/build/outputs/apk/` ready to be installed on your device.
 
 To build a debug APK and immediately deploy to your connected device over adb run:
 
-    ./gradlew installDebug
+```sh
+./gradlew installDebug
+```
 
 To build a signed release APK (ie. one that can be installed on a device),
 [build an unsigned release APK and sign it manually](https://developer.android.com/studio/publish/app-signing#signing-manually).
@@ -473,12 +475,16 @@ Once you have Homebrew installed, open Terminal and run one of the following com
 
 For a stable tiles build:
 
-    brew install cataclysm
+```sh
+brew install cataclysm
+```
 
 For an experimental tiles build built from the current HEAD of
 [upload](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/upload/):
 
-    brew install cataclysm --HEAD
+```sh
+brew install cataclysm --HEAD
+```
 
 Whichever build you choose, Homebrew will install the appropriate dependencies as needed. The
 installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in
@@ -488,13 +494,17 @@ To launch Cataclysm, just open Terminal and run `cataclysm`.
 
 To update a stable tiles build simply run:
 
-    brew upgrade cataclysm
+```sh
+brew upgrade cataclysm
+```
 
 To update an experimental build, you must uninstall Cataclysm then reinstall with `--HEAD`,
 triggering a new build from source.
 
-    brew uninstall cataclysm
-    brew install cataclysm --HEAD
+```sh
+brew uninstall cataclysm
+brew install cataclysm --HEAD
+```
 
 ## Advanced info for Developers
 
@@ -526,19 +536,27 @@ Alternatively, SDL shared libraries can be installed using a package manager:
 
 For Homebrew:
 
-    brew install sdl2 sdl2_image sdl2_ttf
+```sh
+brew install sdl2 sdl2_image sdl2_ttf
+```
 
 with sound:
 
-    brew install sdl2_mixer libvorbis libogg
+```sh
+brew install sdl2_mixer libvorbis libogg
+```
 
 For MacPorts:
 
-    sudo port install libsdl2 libsdl2_image libsdl2_ttf
+```sh
+sudo port install libsdl2 libsdl2_image libsdl2_ttf
+```
 
 with sound:
 
-    sudo port install libsdl2_mixer libvorbis libogg
+```sh
+sudo port install libsdl2_mixer libvorbis libogg
+```
 
 ### ncurses
 
@@ -547,12 +565,16 @@ characters
 
 For Homebrew:
 
-    brew install ncurses
+```sh
+brew install ncurses
+```
 
 For MacPorts:
 
-    sudo port install ncurses
-    hash -r
+```sh
+sudo port install ncurses
+hash -r
+```
 
 ### gcc
 
@@ -562,20 +584,26 @@ for the same Apple LLVM as clang. This doesn't necessarily cause issues, but thi
 will have clang error messages and essentially produce the same results as if using clang. To
 compile with the "real" gcc/g++, install it with homebrew:
 
-    brew install gcc
+```sh
+brew install gcc
+```
 
 However, homebrew installs gcc as gcc-{version} (where {version} is the version) to avoid conflicts.
 The simplest way to use the homebrew version at `/usr/local/bin/gcc-{version}` instead of the Apple
 LLVM version at `/usr/bin/gcc` is to symlink the necessary.
 
-    cd /usr/local/bin
-    ln -s gcc-12 gcc
-    ln -s g++-12 g++
-    ln -s c++-12 c++
+```sh
+cd /usr/local/bin
+ln -s gcc-12 gcc
+ln -s g++-12 g++
+ln -s c++-12 c++
+```
 
 Or, to do this for everything in `/usr/local/bin/` ending with `-12`,
 
-    find /usr/local/bin -name "*-12" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;
+```sh
+find /usr/local/bin -name "*-12" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;
+```
 
 Also, you need to make sure that `/usr/local/bin` appears before `/usr/bin` in your `$PATH`, or else
 this will not work.
@@ -617,26 +645,36 @@ For more info, see the comments in the `Makefile`.
 
 Build a release SDL version using Clang:
 
-    make NATIVE=osx RELEASE=1 TILES=1 CLANG=1
+```sh
+make NATIVE=osx RELEASE=1 TILES=1 CLANG=1
+```
 
 Build a release SDL version using Clang, link to libraries in the OS X Frameworks folders, build all
 language files, and package it into `Cataclysm.app`:
 
-    make app NATIVE=osx RELEASE=1 TILES=1 FRAMEWORK=1 LANGUAGES=all CLANG=1
+```sh
+make app NATIVE=osx RELEASE=1 TILES=1 FRAMEWORK=1 LANGUAGES=all CLANG=1
+```
 
 Build a release curses version with curses supplied by Macports:
 
-    make NATIVE=osx RELEASE=1 MACPORTS=1 CLANG=1
+```sh
+make NATIVE=osx RELEASE=1 MACPORTS=1 CLANG=1
+```
 
 ### Running
 
 For curses builds:
 
-    ./cataclysm
+```sh
+./cataclysm
+```
 
 For SDL:
 
-    ./cataclysm-tiles
+```sh
+./cataclysm-tiles
+```
 
 For `app` builds, launch Cataclysm.app from Finder.
 
@@ -654,10 +692,12 @@ version of OS X, you can download Python
 [on their official website](https://www.python.org/downloads/) or install it with homebrew
 `brew install python`. Once you have Python, you should be able to install `dmgbuild` by running:
 
-    # This install pip. It might not be required if it is already installed.
-    curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | sudo python
-    # dmgbuild install
-    sudo pip install dmgbuild pyobjc-framework-Quartz
+```sh
+# This install pip. It might not be required if it is already installed.
+curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | sudo python
+# dmgbuild install
+sudo pip install dmgbuild pyobjc-framework-Quartz
+```
 
 Once `dmgbuild` is installed, you will be able to use the `dmgdist` target like this. The use of
 `USE_HOME_DIR=1` is important here because it will allow for an easy upgrade of the game while
@@ -671,12 +711,12 @@ You should see a `Cataclysm.dmg` file.
 
 ### ISSUE: Colors don't show up correctly
 
-Open Terminal's preferences, turn on "Use bright colors for bold text" in "Preferences -> Settings
--> Text"
+Open Terminal's preferences, turn on `Use bright colors for bold text` in
+`Preferences -> Settings -> Text`
 
 # Windows
 
-See [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md) for instructions on how to set up and use a build
+See [COMPILING-VS-VCPKG.md](./vs_vcpkg.md) for instructions on how to set up and use a build
 environment using Visual Studio on windows.
 
 This is probably the easiest solution for someone used to working with Visual Studio and similar
@@ -684,8 +724,8 @@ IDEs. -->
 
 ## Building with MSYS2
 
-See [COMPILING-MSYS.md](COMPILING-MSYS.md) for instructions on how to set up and use a build
-environment using MSYS2 on windows.
+See [COMPILING-MSYS.md](./msys.md) for instructions on how to set up and use a build environment
+using MSYS2 on windows.
 
 MSYS2 strikes a balance between a native Windows application and a UNIX-like environment. There's
 some command-line tools that our project uses (notably our JSON linter) that are harder to use
@@ -693,8 +733,8 @@ without a command-line environment such as what MSYS2 or CYGWIN provide.
 
 ## Building with CYGWIN
 
-See [COMPILING-CYGWIN.md](COMPILING-CYGWIN.md) for instructions on how to set up and use a build
-environment using CYGWIN on windows.
+See [COMPILING-CYGWIN.md](./cygwin.md) for instructions on how to set up and use a build environment
+using CYGWIN on windows.
 
 CYGWIN attempts to more fully emulate a POSIX environment, to be "more unix" than MSYS2. It is a
 little less modern in some respects, and lacks the convenience of the MSYS2 package manager.
@@ -717,7 +757,7 @@ architectures shouldn't work, in principle.
 
 ### Building on FreeBSD/amd64 10.1 with the system compiler
 
-FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++14
+FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++17
 support out of the box. You will however need gmake (examples for binary packages):
 
 `pkg install gmake`
@@ -729,7 +769,7 @@ Tiles builds will also require SDL2:
 Then you should be able to build with something like this (you can of course set CXXFLAGS and
 LDFLAGS in your .profile or something):
 
-```
+```sh
 export CXXFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib"
 gmake # ncurses builds
 gmake TILES=1 # tiles builds
@@ -784,7 +824,7 @@ Then you should be able to build with something like this (LDFLAGS for ncurses b
 of by the ncurses configuration script; you can of course set CXXFLAGS/LDFLAGS in your .profile or
 something):
 
-```
+```sh
 export CXXFLAGS="-I/usr/pkg/include"
 gmake # ncurses builds
 LDFLAGS="-L/usr/pkg/lib" gmake TILES=1 # tiles builds

@@ -1,4 +1,6 @@
-# Compilation guide for Windows (using Visual Studio and vcpkg)
+---
+title: Visual Studio + vcpkg
+---
 
 This guide contains steps required to allow compilation of Cataclysm-BN on Windows using Visual
 Studio and vcpkg.
@@ -118,7 +120,7 @@ If you have enough experience with C++ to know:
 Then you might want to use `Release` build all the time to speed up dev process, and disable
 optimizations on a file-by-file basis by adding
 
-```c++
+```cpp
 #pragma optimize("", off)
 ```
 
@@ -139,7 +141,7 @@ We use `Artistic Style` source code formatter to keep the style of our C++ code 
 it's available as pre-built Windows executables, which you could install and run or configure to
 automatically format the code before commit, a much more convenient option for Visual Studio users
 is to install a specific extension, see
-["Astyle extensions for Visual Studio" in doc/DEVELOPER_TOOLING.md](../DEVELOPER_TOOLING.md#astyle-extensions-for-visual-studio)
+["Astyle extensions for Visual Studio" in tooling](../../reference/tooling.md#astyle-extensions-for-visual-studio)
 for more info.
 
 As of October 2022, the code style check is run automatically on each PR on GitHub, so if you forgot
