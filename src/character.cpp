@@ -3488,8 +3488,9 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         focus_pool -= chance_to_drop / 100;
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) && ( !( has_trait_flag( trait_flag_str_id( "PRED4" ) ) &&
-                skill.is_combat_skill() ) ) ) {
+        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) &&
+            ( !( has_trait_flag( trait_flag_str_id( "PRED4" ) ) &&
+                 skill.is_combat_skill() ) ) ) {
             focus_pool--;
         }
     }

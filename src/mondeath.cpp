@@ -439,27 +439,28 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
     if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait_flag( trait_flag_str_id( "PRED3" ) ||
-        g->u.has_trait_flag( trait_flag_str_id( "PRED4" ) || g->u.has_trait( trait_KILLER ) ) {
-        return;
-    }
-    if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {
-        // Too far away, we can deal with it.
-        return;
-    }
-    if( z.get_hp() >= 0 ) {
-        // We probably didn't kill it
-        return;
-    }
-    if( kill_count >= maxKills ) {
-        // player no longer cares
-        if( kill_count == maxKills ) {
+    g->u.has_trait_flag( trait_flag_str_id( "PRED4" ) || g->u.has_trait( trait_KILLER ) ) {
+    return;
+}
+if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {
+    // Too far away, we can deal with it.
+    return;
+}
+if( z.get_hp() >= 0 ) {
+    // We probably didn't kill it
+    return;
+}
+if( kill_count >= maxKills ) {
+    // player no longer cares
+    if( kill_count == maxKills ) {
             //~ Message after killing a lot of monsters which would normally affect the morale negatively. %s is the monster name, it will be pluralized with a number of 100.
             add_msg( m_good, _( "After killing so many bloody %s you no longer care "
                                 "about their deaths anymore." ), z.name( maxKills ) );
         }
         return;
-    } else if( ( g->u.has_trait_flag( trait_flag_str_id( "PRED1" ) ) || ( g->u.has_trait_flag( trait_flag_str_id( "PRED2" ) ) ) {
-        msg = ( _( "Culling the weak is distasteful, but necessary." ) );
+    } else if( ( g->u.has_trait_flag( trait_flag_str_id( "PRED1" ) ) ||
+    ( g->u.has_trait_flag( trait_flag_str_id( "PRED2" ) ) ) {
+    msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
         msgtype = m_bad;
@@ -474,20 +475,20 @@ void mdeath::guilt( monster &z )
     add_msg( msgtype, msg, z.name() );
 
     int moraleMalus = -50 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
-    int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
-    time_duration duration = 30_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
-    time_duration decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
+                      int maxMalus = -250 * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
+                      time_duration duration = 30_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
+                      time_duration decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     if( z.type->in_species( ZOMBIE ) ) {
-        moraleMalus /= 10;
-        if( g->u.has_trait( trait_PACIFIST ) ) {
+    moraleMalus /= 10;
+    if( g->u.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
         } else if( g->u.has_trait_flag( trait_flag_str_id( "PRED1" ) ) {
-            moraleMalus /= 4;
-        } else if( g->u.has_trait_flag( trait_flag_str_id( "PRED2" ) ) {
-            moraleMalus /= 5;
-        }
+        moraleMalus /= 4;
+    } else if( g->u.has_trait_flag( trait_flag_str_id( "PRED2" ) ) {
+        moraleMalus /= 5;
     }
-    g->u.add_morale( MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay );
+}
+g->u.add_morale( MORALE_KILLED_MONSTER, moraleMalus, maxMalus, duration, decayDelay );
 
 }
 
