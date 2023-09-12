@@ -1,0 +1,54 @@
+[
+  {
+    "id": "CANNIBAL",
+    "type": "mutation_flag"
+  },
+  {
+    "id": "NO_THIRST",
+    "type": "mutation_flag"
+  },
+  {
+    "id": "NO_RADIATION",
+    "type": "mutation_flag"
+  },
+  {
+    "id": "NON_THRESH",
+    "type": "mutation_flag"
+  },
+  {
+    "id": "PSYCHOPATH",
+    "type": "mutation_flag"
+  },
+  {
+    "id": "PRED1",
+    "type": "mutation_flag",
+    "conflicts": [ "PRED2", "PRED3", "PRED4" ]
+  },
+  {
+    "id": "PRED2",
+    "type": "mutation_flag",
+    "conflicts": [ "PRED1", "PRED3", "PRED4" ]
+  },
+  {
+    "id": "PRED3",
+    "type": "mutation_flag",
+    "conflicts": [ "PRED1", "PRED2", "PRED4" ]
+  },
+  {
+    "id": "PRED4",
+    "type": "mutation_flag",
+    "conflicts": [ "PRED1", "PRED2", "PRED3" ]
+  },
+  {
+    "id": "SAPIOVORE",
+    "type": "mutation_flag"
+  },
+  {
+    "id": "SILENT_SPELL",
+    "type": "mutation_flag"
+  },
+  {
+    "id": "SUBTLE_SPELL",
+    "type": "mutation_flag"
+  }
+]

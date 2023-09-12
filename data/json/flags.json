@@ -1048,12 +1048,6 @@
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
   },
   {
-    "id": "NON_THRESH",
-    "type": "json_flag",
-    "context": [ "mutation" ],
-    "//": "This mutation does not count toward thresholds at all."
-  },
-  {
     "id": "EFFECT_FEATHER_FALL",
     "context": [  ],
     "type": "json_flag"

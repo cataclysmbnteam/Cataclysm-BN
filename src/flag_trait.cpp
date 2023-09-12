@@ -75,11 +75,6 @@ const json_trait_flag &json_trait_flag::get( const std::string &id )
 
 void json_trait_flag::load( const JsonObject &jo, const std::string & )
 {
-    // Remember these for conversion of the other shit.
-    // optional( jo, was_loaded, "inherit", inherit_, true );
-    // optional( jo, was_loaded, "craft_inherit", craft_inherit_, false );
-    // optional( jo, was_loaded, "taste_mod", taste_mod_ );
-    // jo.get_member( "context" );
     optional( jo, was_loaded, "conflicts", conflicts_ );
     optional( jo, was_loaded, "restriction", restriction_ );
 }
