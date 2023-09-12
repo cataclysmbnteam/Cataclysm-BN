@@ -1,5 +1,10 @@
 [
   {
+    "id": "BG_SURVIVAL_STORY",
+    "//": "This trait flag is used in dialogue JSON, with no hardcode usage at present.",
+    "type": "mutation_flag"
+  },
+  {
     "id": "CANNIBAL",
     "type": "mutation_flag"
   },
