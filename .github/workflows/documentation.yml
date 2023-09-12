@@ -5,6 +5,7 @@ on:
     branches: [upload]
   workflow_dispatch:
 
+
 defaults:
   run:
     working-directory: doc
@@ -17,6 +18,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    environment: github-pages
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v3
@@ -27,6 +29,9 @@ jobs:
           node-version: 20
           package-manager: pnpm
           pnpm-version: 8.7.x
+        env:
+          CUSTOM_SITE_URL: ${{ vars.CUSTOM_SITE_URL }}
+          CUSTOM_REPO_URL: ${{ vars.CUSTOM_REPO_URL }}
 
   deploy:
     needs: build
