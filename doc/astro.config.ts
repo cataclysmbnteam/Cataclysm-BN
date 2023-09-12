@@ -48,27 +48,24 @@ export default defineConfig({
       lastUpdated: true,
       navbar: {
         game: {
-          label: "Gameplay",
+          label: "Play",
           link: "/game/new_player_guide",
           translations: { "ko-KR": "게임 가이드" },
           items: [{ label: "Game Guides", autogenerate: { directory: "game" } }],
         },
-        json: {
-          label: "JSON",
-          link: "/json/tutorial/modding",
-          translations: { "ko-KR": "JSON 모딩" },
-          items: docModes("json"),
-        },
-        lua: {
-          label: "Lua",
-          link: "/lua/guides/modding",
-          translations: { "ko-KR": "Lua 모딩" },
-          items: docModes("lua"),
+        mod: {
+          label: "Mod",
+          link: "/mod/json/tutorial/modding",
+          translations: { "ko-KR": "모딩" },
+          items: [
+            { label: "JSON", items: docModes("mod/json") },
+            { label: "Lua", items: docModes("mod/lua") },
+          ],
         },
         dev: {
-          label: "Engine",
+          label: "Develop",
           link: "/dev/guides/building/cmake",
-          translations: { "ko-KR": "게임 엔진" },
+          translations: { "ko-KR": "게임 개발" },
           items: docModes("dev"),
         },
         "i18n": {
@@ -77,12 +74,12 @@ export default defineConfig({
           translations: { "ko-KR": "번역" },
           items: docModes("i18n"),
         },
-        contributing: {
-          label: "Contributing",
-          link: "/contributing/contributing",
+        contribute: {
+          label: "Contribute",
+          link: "/contribute/contributing",
           translations: { "ko-KR": "기여하기" },
           items: [
-            { label: "Contributing", autogenerate: { directory: "contributing" } },
+            { label: "Contributing", autogenerate: { directory: "contribute" } },
           ],
         },
       },

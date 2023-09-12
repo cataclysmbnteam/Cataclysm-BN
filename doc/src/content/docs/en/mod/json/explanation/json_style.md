@@ -13,9 +13,9 @@ favor of better tooling.
 
 :::
 
-Like in [C++ Code Style](../../dev/explanation/code_style), the JSON styling policy is to update JSON as it is added or
-edited, and in relatively small chunks otherwise in order to prevent undue disruption to
-development.
+Like in [C++ Code Style](../../../dev/explanation/code_style.md), the JSON styling policy is to
+update JSON as it is added or edited, and in relatively small chunks otherwise in order to prevent
+undue disruption to development.
 
 We haven't been able to find a decent JSON styling tool, so we wrote our own. It lives in
 tools/format/format.cpp and it leverages src/json.cpp to parse and emit JSON.

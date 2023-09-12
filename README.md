@@ -1,7 +1,7 @@
 # Cataclysm: Bright Nights
 
 <header align="center">
-  <a><img src="doc/src/content/docs/en/contributing/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
+  <a><img src="doc/src/content/docs/en/contribute/img/readme-title.png" title="screenshots of (clockwise from upper-right: Chaosvolt (x2), ExecutorBill, scarf005"></a>
 
 [![en][icon-en]][en] [![ko][icon-ko]][ko]
 
@@ -49,12 +49,17 @@ Find a way to stop the Cataclysm ... or become one of its strongest monsters.
 
 ## Building
 
+- [with makefile](doc/src/content/docs/en/dev/guides/building/makefile.md): supports Linux, macOS,
+  and BSD.
+- [with MSYS2](doc/src/content/docs/en/dev/guides/building/msys.md)
+- [with vcpkjg](doc/src/content/docs/en/dev/guides/building/vs_vcpkg.md)
+- [with cmake](doc/src/content/docs/en/dev/guides/building/cmake.md)
+- [which compilers we support](doc/src/content/docs/en/dev/reference/compiler_support.md)
+
 Please read the [official docs](https://docs.cataclysmbn.org/en/dev/guides/building/cmake/) for
 details.
 
-- [which compilers we support](doc/src/content/docs/en/dev/reference/compiler_support.md)
-
-## Contribute
+## Contributing
 
 > Cataclysm: Bright Nights developed under Creative Commons Attribution ShareAlike 3.0 license. The
 > code and content of the game is free to use, modify, and redistribute for any purpose whatsoever.
@@ -62,7 +67,16 @@ details.
 > project is not part of the project and is released under different software licenses, the files
 > covered by different software licenses have their own license notices.
 
-Please check the [official docs](https://docs.cataclysmbn.org/en/contributing/contributing/) for details.
+Please check the [official docs](https://docs.cataclysmbn.org/en/contribute/contributing/) for
+details.
+
+## Documentation
+
+Gameplay and developing documentation is available in the [doc](./doc/src/content/docs/) directory
+in markdown format. You can also
+
+- visit the [official docs](https://docs.cataclysmbn.org/en/) site
+- [build and serve the documentation locally](./doc/src/content/docs/en/contribute/docs.md)
 
 ## Community
 
@@ -101,11 +115,11 @@ be submitted via debug menu.
 
 Run `Submit a bug report on github` inside the game to submit an issue.
 
-|            1. open Options (ESC) -> Debug Menu (a)            |                       2. open Info (i)                        |
-| :-----------------------------------------------------------: | :-----------------------------------------------------------: |
-| ![](doc/src/content/docs/en/contributing/img/readme-bug1.png) | ![](doc/src/content/docs/en/contributing/img/readme-bug2.png) |
-|             3. Submit a bug report on github (U)              |               4. An link to issue is generated                |
-| ![](doc/src/content/docs/en/contributing/img/readme-bug3.png) | ![](doc/src/content/docs/en/contributing/img/readme-bug4.png) |
+|           1. open Options (ESC) -> Debug Menu (a)           |                      2. open Info (i)                       |
+| :---------------------------------------------------------: | :---------------------------------------------------------: |
+| ![](doc/src/content/docs/en/contribute/img/readme-bug1.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug2.png) |
+|            3. Submit a bug report on github (U)             |              4. An link to issue is generated               |
+| ![](doc/src/content/docs/en/contribute/img/readme-bug3.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug4.png) |
 
 It will open a bug report on browser with `Version and configuration` filled in.
 

@@ -12,7 +12,6 @@ Check [how to open a issue](./issues).
 
 Help is appreciated, especially with:
 
-
 - Reporting bugs. Including ones inherited from DDA.
 - Identifying problems that aren't bugs. Misleading descriptions, values that are clearly off
   compared to similar cases, grammar mistakes, UI wonkiness that has an obvious solution.
@@ -57,12 +56,12 @@ There are a couple of guidelines we suggest sticking to:
 ### C++
 
 Code style is enforced across the codebase by `astyle`. See
-[CODE_STYLE](../dev/explanation/code_style) for details.
+[CODE_STYLE](../dev/explanation/code_style.md) for details.
 
 ### JSON
 
 JSON files are formatted using custom formatter available in `tools/format`. Visit
-[JSON Style Guide](../json/explanation/json_style) for details.
+[JSON Style Guide](../mod/json/explanation/json_style.md) for details.
 
 ### Markdown
 

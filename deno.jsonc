@@ -4,7 +4,7 @@
 
     "doc": "deno task docs:cli & deno task doc:lua && deno fmt",
     "doc:cli": "deno run -A ./tools/gen_cli_docs.ts",
-    "doc:lua": "./cataclysm-tiles --lua-doc && cp config/lua_doc.md doc/src/content/docs/en/lua/reference/lua.md"
+    "doc:lua": "./cataclysm-tiles --lua-doc && cp config/lua_doc.md doc/src/content/docs/en/mod/lua/reference/lua.md"
   },
   "test": { "include": ["./tools"] },
   "lint": { "include": ["./tools"] },
