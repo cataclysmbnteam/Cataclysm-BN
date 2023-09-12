@@ -1,13 +1,9 @@
 ---
-title: code styles
+title: best practices
 ---
 
 List of conventions used in the project, plus just plain good practices. Not rules per se, most of
 the codebase doesn't meet those standards.
-
-TODO: This should be in
-[docs](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/CODE_STYLE.md) once
-finalized.
 
 # Naming
 

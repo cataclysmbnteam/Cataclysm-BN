@@ -1,5 +1,5 @@
 ---
-title: UDP tileset
+title: building UDP tileset
 ---
 
 Currently https://github.com/Theawesomeboophis working on UndeadPeople tileset.
@@ -14,7 +14,7 @@ Currently https://github.com/Theawesomeboophis working on UndeadPeople tileset.
    in installer settings.
 3. Install Libvips. Download it here: https://github.com/libvips/build-win64-mxe/releases . Grab
    vips-dev-w64-all-8.11.3.zip (or different version of it). Extract it to some directory (For
-   example C:\vips) and add C:\vips\bin to Windows PATH. Instruction on how to add things to path
+   example `C:\vips`) and add `C:\vips\bin` to Windows PATH. Instruction on how to add things to path
    look here: https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/ (I am using
    different directory for Libvips)
    ![screenshot 2021-09-13 001](https://user-images.githubusercontent.com/17512620/133093842-ef200cef-898a-4b5b-8a8e-23588e768483.png)
@@ -26,8 +26,8 @@ And you are done. Now compose.py will work.
 
 Final:
 
-After that run \UndeadPeopleUnpacked\!COMPOSE_MAIN.bat to see if it is packing tileset. You will
-find packed files in UndeadPeopleUnpacked\!dda\ if everything was setup right. It will take some
+After that run `\UndeadPeopleUnpacked\!COMPOSE_MAIN.bat` to see if it is packing tileset. You will
+find packed files in `UndeadPeopleUnpacked\!dda\` if everything was setup right. It will take some
 time
 
 ![screenshot 2021-09-13 004](https://user-images.githubusercontent.com/17512620/133094442-30e28aad-4304-4710-8674-7314f2987473.png)

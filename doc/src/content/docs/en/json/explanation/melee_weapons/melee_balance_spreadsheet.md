@@ -1,6 +1,10 @@
+---
+title: Melee balance spreadsheet
+---
+
 ## Overview
 
-This is documentation for the 'Melee Weapons Evaluation.md' spreadsheet. This is the spreadsheet
+This is documentation for the 'Melee Weapons Evaluation.ods' spreadsheet. This is the spreadsheet
 that drove the 0.E experimental melee weapon rebalance project. The original spreadsheet is
 available as a
 [google doc](https://docs.google.com/spreadsheets/d/14eQIe4AO_f6OxCt1XcB4NLAs6-5R1wQW-ydZG0orYdY/edit#gid=1787713396)

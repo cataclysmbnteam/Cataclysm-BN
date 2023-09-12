@@ -241,3 +241,9 @@ Then the game selects which one to use according to this set of rules:
 If you want a different translation from the one in the base game, or don't want it to conflict with
 a string from some other mod, add a translation context to the string in the corresponding JSON
 object (see [here](../reference/translation) for which fields support translation context).
+
+### PR that implements mod translations, for reference
+
+https://github.com/cataclysmbnteam/Cataclysm-BN/pull/505
+
+### [Example of the mod translation](https://github.com/Kenan2000/Bright-Nights-Kenan-Mod-Pack/pull/36)

@@ -13,7 +13,7 @@ favor of better tooling.
 
 :::
 
-Like in [C++ Code Style](./code_style), the JSON styling policy is to update JSON as it is added or
+Like in [C++ Code Style](../../dev/explanation/code_style), the JSON styling policy is to update JSON as it is added or
 edited, and in relatively small chunks otherwise in order to prevent undue disruption to
 development.
 
@@ -82,3 +82,13 @@ this command by navigating to `Tools` > `Options` > `Environment` > `Keyboard`, 
 commands containing `Tools.ExternalCommand` and pick the one that corresponds to the position of
 your command in the list (e.g. `Tools.ExternalCommand1` if it's the top item in the list) and then
 assign shortcut keys to it.
+
+### For Single file
+
+To style one JSON file you can run `json_formatter.exe path/to/file.json`. This will style that one
+file. If it prints "needs linting", the file wasn't styled, but now should be. You can use
+drag&drop: drag the json file onto the `json_formatter` icon, then wait a few seconds.
+
+### On *nix
+
+Run `make style-json` in main repo directory.

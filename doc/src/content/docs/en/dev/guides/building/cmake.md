@@ -12,14 +12,6 @@ CMake build is unofficial.
 
 :::
 
-:::tip{title="future plans"}
-
-in the future,
-[other compilation method will be deprecated in favor of CMake](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/3113)
-to simplify the build process.
-
-:::
-
 For official way to build CataclysmBN see [Compiler Support](../../reference/compiler_support.md).
 
 ## Prerequisites

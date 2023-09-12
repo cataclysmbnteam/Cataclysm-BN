@@ -2,7 +2,7 @@
 title: Electric grids
 ---
 
-title: are electric connections within a building, similar to how all parts of a vehicle share
+Electric grids are electric connections within a building, similar to how all parts of a vehicle share
 battery power.
 
 # Features
@@ -50,7 +50,7 @@ To create a furniture that uses the grid to power a fake item, create the fake i
 `"USES_GRID_POWER"` and then set furniture's `"crafting_pseudo_item"` to that item's ID. For
 example, the oven item is:
 
-```
+```json
 {
   "id": "fake_oven",
   "copy-from": "fake_item",
@@ -64,7 +64,7 @@ example, the oven item is:
 
 And the oven furniture uses it as:
 
-```
+```json
 "crafting_pseudo_item": "fake_oven"
 ```
 
@@ -73,23 +73,23 @@ Currently, the grid can only power fake items used as a part of a furniture.
 # Manually Adding Grids (for map design)
 
 **Warning: it is for map design. You can built grid in game without editing files. You just have to
-build the solars and battery. Jumper cable and connector can connect grid with vehicles.**\
+build the solars and battery. Jumper cable and connector can connect grid with vehicles.**
 If you build a new house, you'll find the new house doesn't have any electric grid. To use electric
 grid in your new house, you should get and edit the overmap file, which is stored in your game's
 save folder. It's name is o.0.1 or similar. What you need is:
 
-```
+```json
 "electric_grid_connections":[[[0,0,0]], ... ... ... ]}
 ```
 
-Add your coordinate in this place. If your home is at 0'113, 2'56, then your overmap file is o.0.2
-and your coordinate to add is [113,56,0] (or your z-coordinate) To connect different floors, add
+Add your coordinate in this place. If your home is at `0'113, 2'56`, then your overmap file is `o.0.2`
+and your coordinate to add is `[113,56,0]` (or your z-coordinate) To connect different floors, add
 coordinate as like this:
 
-```
+```json
 "electric_grid_connections":[[[113,56,0],[0,0,1]],[[113,56,1],[0,0,-1]]... ... ... ]}
 ```
 
-[0,0,1] means this coordinate shares electricity with the upper stair, and [0,0,-1] means the
-opposite one. If your house is as big as an office tower or city hall, [0,1,0] or [1,0,0] will also
+`[0,0,1]` means this coordinate shares electricity with the upper stair, and `[0,0,-1]` means the
+opposite one. If your house is as big as an office tower or city hall, `[0,1,0]` or `[1,0,0]` will also
 work. It's actually how the large building's electric grid works.

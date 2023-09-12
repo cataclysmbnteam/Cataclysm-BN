@@ -47,6 +47,12 @@ export default defineConfig({
       editLink: { baseUrl: `${github}/edit/upload/doc` },
       lastUpdated: true,
       navbar: {
+        game: {
+          label: "Gameplay",
+          link: "/game/new_player_guide",
+          translations: { "ko-KR": "게임 가이드" },
+          items: [{ label: "Game Guides", autogenerate: { directory: "game" } }],
+        },
         json: {
           label: "JSON",
           link: "/json/tutorial/modding",
@@ -77,23 +83,8 @@ export default defineConfig({
           translations: { "ko-KR": "기여하기" },
           items: [
             { label: "Contributing", autogenerate: { directory: "contributing" } },
-            {
-              label: "Style Guide",
-              items: [
-                { label: "Code Style", link: "/dev/explanation/code_style" },
-                { label: "JSON Style", link: "/json/explanation/json_style" },
-              ],
-            },
           ],
         },
-        wiki: {
-          label: "Wiki",
-          link: "/wiki/design-document",
-          translations: { "ko-KR": "위키" },
-          items: [
-            { label: "Wiki", autogenerate: { directory: "wiki" } },
-          ]
-        }
       },
     }),
   ],
