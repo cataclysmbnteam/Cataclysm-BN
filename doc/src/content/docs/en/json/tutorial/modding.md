@@ -2,6 +2,14 @@
 title: Modding guide
 ---
 
+:::danger{title="Most of the documentations are not up-to date"}
+
+Most of the documentations are outdated (unchanged since fork from CDDA) and may not work as expected.
+Updates are welcome.
+
+:::
+
+
 Certain features of the game can be modified without rebuilding the game from source code. This
 includes professions, monsters, npcs, and more. Just modify the pertinent files and run the game to
 see your changes.
