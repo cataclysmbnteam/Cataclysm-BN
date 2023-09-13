@@ -685,7 +685,8 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
                        filename.c_str(), std::ios::out | std::ios::app );
             *file << "\n\n-----------------------------------------\n";
             *file << get_time() << " : Starting log.\n";
-            DebugLog( DL::Info, DC::Main ) << "Cataclysm BN version " << getVersionString();
+            DebugLog( DL::Info, DC::Main ) << "Cataclysm BN version " << getVersionString() << " " <<
+                                           game_info::bitness_string();
             if( rename_failed ) {
                 DebugLog( DL::Info, DC::Main ) << "Moving the previous log file to "
                                                << oldfile << " failed.\n"
