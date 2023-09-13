@@ -582,7 +582,7 @@ bool gun_actor::call( monster &z ) const
     }
 
     // One last check to make sure we're not firing on a friendly
-    if( z.attitude_to( *target ) == Creature::A_FRIENDLY ) {
+    if( target && z.attitude_to( *target ) == Creature::A_FRIENDLY ) {
         return false;
     }
     int dist = rl_dist( z.pos(), aim_at );
