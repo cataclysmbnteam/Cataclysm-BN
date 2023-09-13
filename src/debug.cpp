@@ -114,7 +114,7 @@ static bool capturing = false;
 static std::string captured;
 
 
-#if defined(_WIN32) and defined(LIBBACKTRACE)
+#if defined(_WIN32) && defined(LIBBACKTRACE)
 // Get the image base of a module from its PE header
 static uintptr_t get_image_base( const char *const path )
 {
