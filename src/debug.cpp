@@ -1837,7 +1837,7 @@ std::optional<int> get_os_bitness()
             // FIXME: other architectures?
             break;
     }
-#elif defined(__linux__)
+#elif defined(__linux__) && !defined(__ANDROID__)
     std::string output;
     output = shell_exec( "getconf LONG_BIT" );
 
