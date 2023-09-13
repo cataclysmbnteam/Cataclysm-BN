@@ -604,6 +604,21 @@ bool main_menu::opening_screen()
         return false;
     }
 
+    std::optional<int> os_bitness = get_os_bitness();
+    std::optional<int> game_bitness = game_info::bitness();
+    if( os_bitness && *os_bitness == 64 && game_bitness && *game_bitness == 32 ) {
+        popup( _(
+                   "You are running x32 build of the game on a x64 operating system.  "
+                   "This means the game will NOT be able to access all memory, "
+                   "and you may experience random out-of-memory crashes.  "
+                   "Consider obtaining a x64 build of the game to avoid that, "
+                   "but if you *really* want to be running x32 build of the game "
+                   "for some reason (or don't have a choice), you may want to lower "
+                   "your memory usage by disabling tileset, soundpack and mods "
+                   "and increasing autosave frequency."
+               ) );
+    }
+
     load_char_templates();
 
     ctxt.register_cardinal();
