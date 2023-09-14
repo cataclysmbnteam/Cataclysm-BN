@@ -166,4 +166,99 @@ std::optional<std::string> get_luna_type( sol::object val )
     return std::nullopt;
 }
 
+bool compare_values( sol::object a, sol::object b )
+{
+    sol::state_view lua( a.lua_state() );
+    sol::type type = a.get_type();
+    if( type != b.get_type() ) {
+        return false;
+    }
+    if( type == sol::type::table ) {
+        return compare_tables( a, b );
+    }
+    if( type == sol::type::function ) {
+        throw std::runtime_error( "Can't compare functions" );
+    }
+    if( type == sol::type::thread ) {
+        throw std::runtime_error( "Can't compare threads" );
+    }
+    if( type == sol::type::number &&
+        is_number_integer( lua, a ) != is_number_integer( lua, b )
+      ) {
+        return false;
+    }
+    if( type == sol::type::userdata ) {
+        std::optional<std::string> luna_a = get_luna_type( a );
+        std::optional<std::string> luna_b = get_luna_type( b );
+        if( luna_a != luna_b ) {
+            return false;
+        }
+    }
+    // HACK: We depend on presumption that type implements eq operator.
+    //       If not, Lua WILL compare by reference, and not by value.
+    sol::protected_function cmp_func = lua.script( "return function(a, b) return a == b end" );
+    sol::protected_function_result res = cmp_func( a, b );
+    if( res.status() != sol::call_status::ok ) {
+        sol::error err = res;
+        throw std::runtime_error( string_format( "compare_values - lua error: %s", err.what() ) );
+    }
+    sol::object retval = res;
+    return retval.as<bool>();
+}
+
+sol::object find_equivalent_key( sol::table t, sol::object desired_key )
+{
+    sol::object ret = sol::nil;
+    t.for_each( [&]( sol::object key, sol::object ) {
+        if( ret != sol::nil ) {
+            return;
+        }
+        if( compare_values( desired_key, key ) ) {
+            ret = key;
+        }
+    } );
+    return ret;
+}
+
+bool compare_tables( sol::table a, sol::table b )
+{
+    if( a.size() != b.size() ) {
+        return false;
+    }
+
+    bool are_equal = true;
+    a.for_each( [&]( sol::object a_key, sol::object a_val ) {
+        if( !are_equal ) {
+            // Short-circuit
+            return;
+        }
+        sol::object b_key = find_equivalent_key( b, a_key );
+        if( b_key == sol::nil ) {
+            are_equal = false;
+            return;
+        } else {
+            sol::object b_val = b[b_key];
+            if( b_val == sol::nil ) {
+                are_equal = false;
+            } else if( !compare_values( a_val, b_val ) ) {
+                are_equal = false;
+            }
+        }
+    } );
+    if( are_equal ) {
+        b.for_each( [&]( sol::object b_key, sol::object /*b_val*/ ) {
+            sol::object a_key = find_equivalent_key( a, b_key );
+            if( a_key == sol::nil ) {
+                are_equal = false;
+            } else {
+                sol::object a_val = a[a_key];
+                if( a_val == sol::nil ) {
+                    are_equal = false;
+                }
+            }
+        } );
+    }
+    return are_equal;
+}
+
 #endif

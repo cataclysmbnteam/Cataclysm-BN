@@ -473,110 +473,6 @@ TEST_CASE( "catalua_regression_sol_1444", "[lua]" )
     run_lua_test_script( lua, "regression_sol_1444.lua" );
 }
 
-static bool compare_values( sol::object a, sol::object b );
-static bool compare_tables( sol::table a, sol::table b );
-
-static bool compare_values( sol::object a, sol::object b )
-{
-    sol::state_view lua( a.lua_state() );
-    sol::type type = a.get_type();
-    if( type != b.get_type() ) {
-        return false;
-    }
-    if( type == sol::type::table ) {
-        return compare_tables( a, b );
-    }
-    if( type == sol::type::function ) {
-        throw std::runtime_error( "Can't compare functions" );
-    }
-    if( type == sol::type::thread ) {
-        throw std::runtime_error( "Can't compare threads" );
-    }
-    if( type == sol::type::number &&
-        is_number_integer( lua, a ) != is_number_integer( lua, b )
-      ) {
-        return false;
-    }
-    if( type == sol::type::userdata ) {
-        sol::protected_function cmp_luna =
-            lua.script( "return function(a, b) return a:get_luna_type() == b:get_luna_type() end" );
-        sol::protected_function_result res = cmp_luna( a, b );
-        REQUIRE( res.status() == sol::call_status::ok );
-        sol::object retval = res;
-        if( !retval.as<bool>() ) {
-            return false;
-        }
-    }
-    // HACK: We depend on presumption that type implements eq operator.
-    //       If not, Lua WILL compare by reference, and not by value.
-    sol::protected_function cmp_func = lua.script( "return function(a, b) return a == b end" );
-    sol::protected_function_result res = cmp_func( a, b );
-    if( res.status() != sol::call_status::ok ) {
-        sol::error err = res;
-        throw std::runtime_error( string_format( "compare_values - lua error: %s", err.what() ) );
-    }
-    sol::object retval = res;
-    return retval.as<bool>();
-}
-
-// Since userdata and etc. are compared by their reference when used as keys,
-// if we want to find value with a different userdata instance
-// we first need to find a key that is equal (by value) to the provided one.
-static sol::object find_equivalent_key( sol::table t, sol::object desired_key )
-{
-    sol::object ret = sol::nil;
-    t.for_each( [&]( sol::object key, sol::object ) {
-        if( ret != sol::nil ) {
-            return;
-        }
-        if( compare_values( desired_key, key ) ) {
-            ret = key;
-        }
-    } );
-    return ret;
-}
-
-static bool compare_tables( sol::table a, sol::table b )
-{
-    if( a.size() != b.size() ) {
-        return false;
-    }
-
-    bool are_equal = true;
-    a.for_each( [&]( sol::object a_key, sol::object a_val ) {
-        if( !are_equal ) {
-            // Short-circuit
-            return;
-        }
-        sol::object b_key = find_equivalent_key( b, a_key );
-        if( b_key == sol::nil ) {
-            are_equal = false;
-            return;
-        } else {
-            sol::object b_val = b[b_key];
-            if( b_val == sol::nil ) {
-                are_equal = false;
-            } else if( !compare_values( a_val, b_val ) ) {
-                are_equal = false;
-            }
-        }
-    } );
-    if( are_equal ) {
-        b.for_each( [&]( sol::object b_key, sol::object /*b_val*/ ) {
-            sol::object a_key = find_equivalent_key( a, b_key );
-            if( a_key == sol::nil ) {
-                are_equal = false;
-            } else {
-                sol::object a_val = a[a_key];
-                if( a_val == sol::nil ) {
-                    are_equal = false;
-                }
-            }
-        } );
-    }
-    return are_equal;
-}
-
 TEST_CASE( "catalua_table_compare", "[lua]" )
 {
     sol::state lua = make_lua_state();
@@ -711,6 +607,26 @@ TEST_CASE( "catalua_table_compare", "[lua]" )
         CHECK_FALSE( compare_tables( a, b ) );
         CHECK_FALSE( compare_tables( b, a ) );
     }
+    SECTION( "tables have equivalent tables as keys" ) {
+        sol::table key_a = lua.create_table();
+        key_a["hello"] = "world";
+        sol::table key_b = lua.create_table();
+        key_b["hello"] = "world";
+        a[key_a] = "my_val";
+        b[key_b] = "my_val";
+        CHECK( compare_tables( a, b ) );
+        CHECK( compare_tables( b, a ) );
+    }
+    SECTION( "tables have different tables as keys" ) {
+        sol::table key_a = lua.create_table();
+        key_a["hello"] = "world";
+        sol::table key_b = lua.create_table();
+        key_b["hello"] = "BRIGHT NIGHTS";
+        a[key_a] = "my_val";
+        b[key_b] = "my_val";
+        CHECK_FALSE( compare_tables( a, b ) );
+        CHECK_FALSE( compare_tables( b, a ) );
+    }
 }
 
 static std::string serialize_table( sol::table t )
@@ -749,6 +665,17 @@ TEST_CASE( "catalua_table_serde", "[lua]" )
     SECTION( "empty table" ) {
         run_serde_test( lua, t );
     }
+    SECTION( "empty table from JSON" ) {
+        // This is a short notation for an empty table
+        std::string data = "{}";
+        sol::table got = deserialize_table( lua, data );
+        bool eq = compare_tables( t, got );
+        if( !eq ) {
+            std::string data2 = serialize_table( got );
+            CHECK( data == data2 );
+        }
+        REQUIRE( eq );
+    }
     SECTION( "table with string keys and values" ) {
         t["my_key"] = "my_val";
         t["another_key"] = "another_val";
@@ -782,6 +709,15 @@ TEST_CASE( "catalua_table_serde", "[lua]" )
     SECTION( "table with userdata keys and values" ) {
         t[point( 13, 37 )] = tripoint( 1, 3, 37 );
         t[tripoint( 12, 34, 56 )] = point( 98765, 43210 );
+        run_serde_test( lua, t );
+    }
+    SECTION( "table with tables as keys" ) {
+        sol::table key1 = lua.create_table();
+        key1["my_key"] = "my_val";
+        sol::table key2 = lua.create_table();
+        key2[13] = 37;
+        t[key1] = "hello";
+        t[key2] = "world";
         run_serde_test( lua, t );
     }
 }
