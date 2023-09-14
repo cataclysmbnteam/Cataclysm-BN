@@ -7,6 +7,9 @@
 #include "debug.h"
 #include "string_formatter.h"
 
+#include <optional>
+#include <stdexcept>
+
 sol::state make_lua_state()
 {
     sol::state lua;
@@ -115,6 +118,52 @@ void check_func_result( sol::protected_function_result &res )
             string_format( "Script runtime error: %s", err.what() )
         );
     }
+}
+
+bool is_number_integer( sol::state_view lua, sol::object val )
+{
+    if( val.get_type() != sol::type::number ) {
+        throw std::runtime_error( "is_number_integer: called on a non-number type" );
+    }
+    // HACK: get_type() does not report precise number type, so we have to improvise
+    sol::protected_function math_type = lua.script( "return math.type" );
+    if( !math_type ) {
+        throw std::runtime_error( "is_number_integer: failed to obtain math.type" );
+    }
+    sol::protected_function_result res = math_type( val );
+    if( res.status() != sol::call_status::ok ) {
+        sol::error err = res;
+        std::string msg = string_format( "is_number_integer runtime error: %s", err.what() );
+        throw std::runtime_error( msg );
+    }
+    std::string mtype = res;
+    if( mtype == "integer" ) {
+        return true;
+    } else if( mtype == "float" ) {
+        return false;
+    } else {
+        std::string msg = string_format( "is_number_integer runtime error: unexpected return value %s",
+                                         mtype );
+        throw std::runtime_error( msg );
+    }
+}
+
+std::optional<std::string> get_luna_type( sol::object val )
+{
+    sol::state_view lua( val.lua_state() );
+    if( val.get_type() == sol::type::userdata ) {
+        sol::protected_function glt = lua.script( "return function(a) return a:get_luna_type() end" );
+        if( glt ) {
+            sol::protected_function_result res = glt( val );
+            if( res.status() == sol::call_status::ok ) {
+                sol::object retval = res;
+                return retval.as<std::string>();
+            }
+        } else {
+            throw std::runtime_error( "get_luna_type: failed to obtain lua type getter function" );
+        }
+    }
+    return std::nullopt;
 }
 
 #endif

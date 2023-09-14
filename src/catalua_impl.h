@@ -31,4 +31,12 @@ void run_lua_script( sol::state &lua, const std::string &script_name );
 void run_console_input( sol::state &lua, const std::string &chunk );
 void check_func_result( sol::protected_function_result &res );
 
+// Numbers in Lua can be either integers or floating-point,
+// but you can't determine that with simple get_type()
+bool is_number_integer( sol::state_view lua, sol::object val );
+
+// Returns type name as registered with luna.
+// If type was not registered with luna, or the value is not a userdata, returns nullopt.
+std::optional<std::string> get_luna_type( sol::object val );
+
 #endif // CATA_SRC_CATALUA_IMPL_H
