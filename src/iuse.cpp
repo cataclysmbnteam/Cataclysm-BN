@@ -3437,7 +3437,6 @@ int iuse::teleport( player *p, item *it, bool, const tripoint & )
 
 int iuse::can_goo( player *p, item *it, bool, const tripoint & )
 {
-    it->convert( itype_canister_empty );
     int tries = 0;
     tripoint goop;
     goop.z = p->posz();
@@ -3447,6 +3446,7 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
         tries++;
     } while( g->m.impassable( goop ) && tries < 10 );
     if( tries == 10 ) {
+        add_msg( _( "Nothing happens." ) );
         return 0;
     }
     if( monster *const mon_ptr = g->critter_at<monster>( goop ) ) {
@@ -3481,9 +3481,12 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
                 add_msg( m_warning, _( "A nearby splatter of goo forms into a goo pit." ) );
             }
             g->m.trap_set( goop, tr_goo );
-        } else {
-            return 0;
         }
+    }
+    if( it->charges <= it->type->charges_to_use() ) {
+        it->charges = 0;
+        it->convert( itype_canister_empty );
+        return 0;
     }
     return it->type->charges_to_use();
 }
