@@ -7,6 +7,8 @@
 #include "debug.h"
 #include "string_formatter.h"
 
+#include <cmath>
+#include <limits>
 #include <optional>
 #include <stdexcept>
 
@@ -182,9 +184,20 @@ bool compare_values( sol::object a, sol::object b )
     if( type == sol::type::thread ) {
         throw std::runtime_error( "Can't compare threads" );
     }
-    if( type == sol::type::number &&
-        is_number_integer( lua, a ) != is_number_integer( lua, b )
-      ) {
+    if( type == sol::type::number ) {
+        if( is_number_integer( lua, a ) != is_number_integer( lua, b ) ) {
+            return false;
+        }
+        if( is_number_integer( lua, a ) ) {
+            int num_a = a.as<int>();
+            int num_b = b.as<int>();
+            return num_a == num_b;
+        } else {
+            double num_a = a.as<double>();
+            double num_b = b.as<double>();
+            // FIXME: not suitable for all cases
+            return std::fabs( num_a - num_b ) < 0.0001;
+        }
         return false;
     }
     if( type == sol::type::userdata ) {
