@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <map>
+#include <sstream>
 #include <utility>
 
 #include "creature.h"
@@ -10,78 +11,119 @@
 #include "test_statistics.h"
 #include "bodypart.h"
 #include "rng.h"
+namespace
+{
 
-float expected_weights_base[][12] = {
-    { 20, 0, 0, 0, 15, 15, 0, 0, 25, 25, 0, 0 },
-    { 33.33, 2.33, 0.33, 0, 20, 20, 0, 0, 12, 12, 0, 0 },
-    { 36.57, 5.71, 0.57, 0, 22.86, 22.86, 0, 0, 5.71, 5.71, 0, 0 }
+using Weights = std::map<body_part, float>;
+struct Expected {
+    Weights base, max;
 };
 
-float expected_weights_max[][12] = {
-    { 2000, 0, 0, 0, 1191.49, 1191.49, 0, 0, 2228.12, 2228.12, 0, 0 },
-    { 3333, 1516.92, 78.99, 0, 465.08, 465.08, 0, 0, 625.41, 625.41, 0, 0 },
-    { 3657, 3842.91, 139.72, 0, 374.07, 374.07, 0, 0, 315.09, 315.09, 0, 0 }
+
+const auto expected_smaller = Expected
+{
+    Weights{
+        { bp_torso, 20 }, { bp_head, 0 }, { bp_eyes, 0 }, { bp_mouth, 0 }, { bp_arm_l, 15 }, { bp_arm_r, 15 },
+        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 25 }, { bp_leg_r, 25 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+    },
+    Weights{
+        { bp_torso, 4960 }, { bp_head, 0 }, { bp_eyes, 0 }, { bp_mouth, 0 }, { bp_arm_l, 1143 }, { bp_arm_r, 1186 },
+        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 3844 }, { bp_leg_r, 3867 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+    }
 };
 
-static void calculate_bodypart_distribution( const enum m_size asize, const enum m_size dsize,
-        const int hit_roll, float ( &expected )[12] )
+
+const auto expected_same = Expected
+{
+    Weights{
+        { bp_torso, 33.33 }, { bp_head, 2.33 }, { bp_eyes, 0.33 }, { bp_mouth, 0 }, { bp_arm_l, 20 }, { bp_arm_r, 20 },
+        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 12 }, { bp_leg_r, 12 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+    },
+    Weights{
+        { bp_torso, 6513 }, { bp_head, 2928 }, { bp_eyes, 150 }, { bp_mouth, 0 }, { bp_arm_l, 1224 }, { bp_arm_r, 1235 },
+        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 1458 }, { bp_leg_r, 1492 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+    }
+};
+
+const auto expected_larger = Expected
+{
+    Weights{
+        { bp_torso, 36.57 }, { bp_head, 5.71 }, { bp_eyes, 0.57 }, { bp_mouth, 0 }, { bp_arm_l, 22.86 }, { bp_arm_r, 22.86 },
+        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 5.71 }, { bp_leg_r, 5.71 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+    },
+    Weights{
+        { bp_torso, 5689 }, { bp_head, 5682 }, { bp_eyes, 221 }, { bp_mouth, 0 }, { bp_arm_l, 1185 }, { bp_arm_r, 1089 },
+        { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 578 }, { bp_leg_r, 556 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
+    }
+};
+
+
+void calculate_bodypart_distribution( const enum m_size attacker_size,
+                                      const enum m_size defender_size,
+                                      const int hit_roll, const Weights &expected )
 {
     INFO( "hit roll = " << hit_roll );
-    std::map<body_part, int> selected_part_histogram = {
+    auto selected_part_histogram = Weights{
         { bp_torso, 0 }, { bp_head, 0 }, { bp_eyes, 0 }, { bp_mouth, 0 }, { bp_arm_l, 0 }, { bp_arm_r, 0 },
         { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 0 }, { bp_leg_r, 0 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
     };
 
     mtype atype;
-    atype.size = asize;
+    atype.size = attacker_size;
     monster attacker;
     attacker.type = &atype;
     mtype dtype;
-    dtype.size = dsize;
+    dtype.size = defender_size;
     monster defender;
     defender.type = &dtype;
 
     const int num_tests = 15000;
 
     for( int i = 0; i < num_tests; ++i ) {
-        selected_part_histogram[defender.select_body_part( &attacker, hit_roll )]++;
+        const auto bp = defender.select_body_part( &attacker, hit_roll );
+        selected_part_histogram.at( bp )++;
     }
 
-    float total_weight = 0.0;
-    for( float w : expected ) {
-        total_weight += w;
-    }
+    const float total_weight = std::accumulate( expected.begin(), expected.end(), 0.0f,
+    []( float acc, const auto & p ) {
+        return acc + p.second;
+    } );
 
-    for( auto weight : selected_part_histogram ) {
-        INFO( body_part_name( weight.first ) );
-        const double expected_proportion = expected[weight.first] / total_weight;
-        CHECK_THAT( weight.second, IsBinomialObservation( num_tests, expected_proportion ) );
+    std::stringstream ss;
+    for( const auto &[bp, weight] : selected_part_histogram ) {
+        ss << body_part_name( bp ) << ": " << weight << ", ";
+    }
+    INFO( '{' << ss.str() << "}\n" );
+    for( const auto &[bp, weight] : selected_part_histogram ) {
+        const double expected_proportion = expected.at( bp ) / total_weight;
+        CHECK_THAT( weight, IsBinomialObservation( num_tests, expected_proportion ) );
     }
 }
+} // namespace
 
 TEST_CASE( "Check distribution of attacks to body parts for same sized opponents." )
 {
     rng_set_engine_seed( 4242424242 );
 
-    calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 0, expected_weights_base[1] );
-    calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 1, expected_weights_base[1] );
-    calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 100, expected_weights_max[1] );
+    calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 0, expected_same.base );
+    calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 1, expected_same.base );
+    calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 100, expected_same.max );
 }
 
 TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." )
 {
     rng_set_engine_seed( 4242424242 );
 
-    calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 0, expected_weights_base[0] );
-    calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 1, expected_weights_base[0] );
-    calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 100, expected_weights_max[0] );
+    calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 0, expected_smaller.base );
+    calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 1, expected_smaller.base );
+    calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 100, expected_smaller.max );
 }
 
 TEST_CASE( "Check distribution of attacks to body parts for larger attacker." )
 {
     rng_set_engine_seed( 4242424242 );
 
-    calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 0, expected_weights_base[2] );
-    calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 1, expected_weights_base[2] );
-    calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 100, expected_weights_max[2] );
+    calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 0, expected_larger.base );
+    calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 1, expected_larger.base );
+    calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 100, expected_larger.max );
 }
