@@ -115,6 +115,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         // Well that sure was easy
         return true;
     }
+
+    const bool auto_features = get_option<bool>( "AUTO_FEATURES" );
+    const bool auto_mine = auto_features && get_option<bool>( "AUTO_MINING" );
+
     bool via_ramp = false;
     if( m.has_flag( TFLAG_RAMP_UP, dest_loc ) ) {
         dest_loc.z += 1;
@@ -125,8 +129,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
-        get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
-        !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
+        auto_mine && !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !is_riding ) {
         item &digging_tool = you.primary_weapon();
         if( digging_tool.has_flag( flag_DIG_TOOL ) ) {
@@ -394,6 +397,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( g->walk_move( dest_loc, via_ramp ) ) {
         return true;
     }
+
     if( veh_closed_door ) {
         if( !veh1->handle_potential_theft( you ) ) {
             return true;
