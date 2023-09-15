@@ -898,17 +898,23 @@ void iexamine::elevator( player &p, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
             continue;
-        } else if( here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
-            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
-            if( critter_omt == new_floor_omt ) {
-                for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
-                    if( !here.has_flag( flag_ELEVATOR, candidate ) &&
-                        here.passable( candidate ) &&
-                        !g->critter_at( candidate ) ) {
-                        critter.setpos( candidate );
-                        break;
-                    }
-                }
+        }
+
+        if( !here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
+            continue;
+        }
+
+        tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
+        if( critter_omt != new_floor_omt ) {
+            continue;
+        }
+
+        for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
+            if( !here.has_flag( flag_ELEVATOR, candidate ) &&
+                here.passable( candidate ) &&
+                !g->critter_at( candidate ) ) {
+                critter.setpos( candidate );
+                break;
             }
         }
     }
@@ -947,18 +953,22 @@ void iexamine::elevator( player &p, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_player() ) {
             continue;
-        } else if( here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
-            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
+        }
 
-            if( critter_omt == original_floor_omt ) {
-                for( const tripoint &candidate : closest_points_first( p.pos(), 10 ) ) {
-                    if( here.has_flag( flag_ELEVATOR, candidate ) &&
-                        candidate != p.pos() &&
-                        !g->critter_at( candidate ) ) {
-                        critter.setpos( candidate );
-                        break;
-                    }
-                }
+        if( !here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
+            continue;
+        }
+
+        tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
+        if( critter_omt != original_floor_omt ) {
+            continue;
+        }
+
+        for( const tripoint &candidate : closest_points_first( p.pos(), 10 ) ) {
+            if( here.has_flag( flag_ELEVATOR, candidate ) && candidate != p.pos() &&
+                !g->critter_at( candidate ) ) {
+                critter.setpos( candidate );
+                break;
             }
         }
     }
