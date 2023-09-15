@@ -88,6 +88,7 @@ static const std::string flag_DIG_TOOL( "DIG_TOOL" );
 static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_RAMP_END( "RAMP_END" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
+static const std::string flag_LADDER( "LADDER" );
 
 #define dbg(x) DebugLog((x), DC::SDL)
 
@@ -123,7 +124,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( m.has_flag( TFLAG_RAMP_UP, dest_loc ) ) {
         dest_loc.z += 1;
         via_ramp = true;
-    } else if( m.has_flag( TFLAG_RAMP_DOWN, dest_loc ) ) {
+    } else if( m.has_flag( TFLAG_RAMP_DOWN, dest_loc ) ||
+               ( !is_riding && m.has_flag( flag_LADDER, dest_loc + tripoint_below ) ) ) {
         dest_loc.z -= 1;
         via_ramp = true;
     }
@@ -433,6 +435,11 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
+        return true;
+    }
+
+    if( !is_riding && m.has_flag( flag_LADDER, you.pos() ) &&
+        g->walk_move( dest_loc + tripoint_above ) ) {
         return true;
     }
 
