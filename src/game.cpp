@@ -8896,24 +8896,26 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
         const auto dangerous_terrain_opt = get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" );
         const auto harmful_text = enumerate_as_string( harmful_stuff );
-        const auto warn_msg = [&]( const char *const msg ) {
-            add_msg( m_warning, msg, harmful_text );
+        const auto looks_risky = _( "Stepping into that %1$s looks risky.  %2$s" );
+
+        const auto warn_msg = [&]( std::string_view action ) {
+            add_msg( m_warning, looks_risky, harmful_text, action.data() );
         };
 
         if( dangerous_terrain_opt == "IGNORE" ) {
-            warn_msg( _( "Stepping into that %1$s looks risky, but you enter anyway." ) );
+            warn_msg( _( "But you enter anyway." ) );
         } else if( dangerous_terrain_opt == "ALWAYS" && !prompt_dangerous_tile( dest_loc ) ) {
             return true;
         } else if( dangerous_terrain_opt == "RUNNING" &&
                    ( !u.movement_mode_is( CMM_RUN ) || !prompt_dangerous_tile( dest_loc ) ) ) {
-            warn_msg( _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ) );
+            warn_msg( _( "Run into it if you wish to enter anyway." ) );
             return true;
         } else if( dangerous_terrain_opt == "CROUCHING" &&
                    ( !u.movement_mode_is( CMM_CROUCH ) || !prompt_dangerous_tile( dest_loc ) ) ) {
-            warn_msg( _( "Stepping into that %1$s looks risky.  Crouch and move into it if you wish to enter anyway." ) );
+            warn_msg( _( "Crouch and move into it if you wish to enter anyway." ) );
             return true;
         } else if( dangerous_terrain_opt == "NEVER" && !u.movement_mode_is( CMM_RUN ) ) {
-            warn_msg( _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ) );
+            warn_msg( _( "Run into it if you wish to enter anyway." ) );
             return true;
         }
     }
