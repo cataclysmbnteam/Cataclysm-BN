@@ -27,7 +27,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_NURSE_JOB",
     "dynamic_line": "I was a practicing nurse so I've taken over the medical responsibilities of the outpost till we can locate a physician.",
-    "responses": [ { "text": "OK.", "topic": "TALK_RANCH_NURSE" } ]
+    "responses": [{ "text": "OK.", "topic": "TALK_RANCH_NURSE" }]
   },
   {
     "type": "talk_topic",
@@ -76,13 +76,13 @@
         "text": "[80 Merch, 30m] I need you to patch me up.",
         "topic": "TALK_RANCH_NURSE_AID_DONE",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 80 } },
-        "effect": [ { "u_sell_item": "FMCNote", "count": 80 }, "give_aid" ]
+        "effect": [{ "u_sell_item": "FMCNote", "count": 80 }, "give_aid"]
       },
       {
         "text": "[200 Merch, 1h] I need you to patch up me and my companions.",
         "topic": "TALK_RANCH_NURSE_AID_DONE",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 200 } },
-        "effect": [ { "u_sell_item": "FMCNote", "count": 200 }, "give_all_aid" ]
+        "effect": [{ "u_sell_item": "FMCNote", "count": 200 }, "give_all_aid"]
       },
       { "text": "On second thought, I should be fine.", "topic": "TALK_RANCH_NURSE" }
     ]
@@ -91,7 +91,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_NURSE_AID_DONE",
     "dynamic_line": "Hold still then.  It's the best I can do on short notice.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "…", "topic": "TALK_DONE" }]
   },
   {
     "id": "MISSION_RANCH_NURSE_1",
@@ -102,7 +102,7 @@
     "value": 50000,
     "item": "aspirin",
     "count": 100,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_NURSE_2",
     "dialogue": {
       "describe": "We need help…",
@@ -126,7 +126,7 @@
     "item": "hotplate",
     "count": 3,
     "start": "ranch_nurse_1",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_NURSE_3",
     "dialogue": {
       "describe": "We need help…",
@@ -150,7 +150,7 @@
     "item": "vitamins",
     "count": 200,
     "start": "ranch_nurse_2",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_NURSE_4",
     "dialogue": {
       "describe": "We need help…",
@@ -174,7 +174,7 @@
     "item": "char_purifier",
     "count": 4,
     "start": "ranch_nurse_3",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_NURSE_5",
     "dialogue": {
       "describe": "We need help…",
@@ -197,7 +197,7 @@
     "value": 50000,
     "item": "chemistry_set",
     "start": "ranch_nurse_4",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_NURSE_6",
     "dialogue": {
       "describe": "We need help…",
@@ -221,7 +221,7 @@
     "item": "mask_filter",
     "count": 10,
     "start": "ranch_nurse_5",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_NURSE_7",
     "dialogue": {
       "describe": "We need help…",
@@ -245,7 +245,7 @@
     "item": "gloves_rubber",
     "count": 4,
     "start": "ranch_nurse_6",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_NURSE_8",
     "dialogue": {
       "describe": "We need help…",
@@ -269,7 +269,7 @@
     "item": "scalpel",
     "count": 2,
     "start": "ranch_nurse_7",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_NURSE_9",
     "dialogue": {
       "describe": "We need help…",
@@ -292,7 +292,7 @@
     "value": 50000,
     "item": "emergency_book",
     "start": "ranch_nurse_8",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_NURSE_11",
     "dialogue": {
       "describe": "We need help…",
@@ -316,7 +316,7 @@
     "item": "syringe",
     "count": 3,
     "start": "ranch_nurse_9",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_NULL",
     "dialogue": {
       "describe": "We need help…",

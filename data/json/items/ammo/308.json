@@ -8,8 +8,8 @@
     "volume": "250 ml",
     "price": 180,
     "price_postapoc": 800,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "powder" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
+    "material": ["brass", "powder"],
     "symbol": "=",
     "color": "yellow",
     "count": 20,
@@ -21,7 +21,7 @@
     "damage": { "damage_type": "bullet", "amount": 55, "armor_penetration": 24 },
     "dispersion": 15,
     "recoil": 3000,
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "id": "762_51",
@@ -30,9 +30,12 @@
     "name": { "str": "7.62x51mm NATO M80" },
     "casing": "762_51_casing",
     "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -7, "armor_penetration": 17 }, "dispersion": -10 },
+    "relative": {
+      "damage": { "damage_type": "bullet", "amount": -7, "armor_penetration": 17 },
+      "dispersion": -10
+    },
     "proportional": { "recoil": 1.1 },
-    "extend": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": ["NEVER_MISFIRES"] }
   },
   {
     "id": "762_51_incendiary",
@@ -40,7 +43,7 @@
     "type": "AMMO",
     "name": { "str": "7.62x51mm NATO tracer" },
     "description": "This ammunition is a one-in-five mix of M80 and M62 tracer rounds to help keep the weapon they are fired from on target.",
-    "extend": { "effects": [ "INCENDIARY" ] }
+    "extend": { "effects": ["INCENDIARY"] }
   },
   {
     "id": "bp_308",
@@ -53,8 +56,8 @@
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": ["RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   },
   {
     "id": "bp_762_51",
@@ -67,8 +70,8 @@
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": ["RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   },
   {
     "id": "bp_762_51_incendiary",
@@ -81,7 +84,7 @@
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": ["RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   }
 ]

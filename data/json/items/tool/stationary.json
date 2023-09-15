@@ -31,7 +31,7 @@
     "id": "scissors",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "pair of scissors", "str_pl": "pairs of scissors" },
     "description": "These are a long pair of heavy-duty scissors.  Use scissors to cut items made from cotton (like clothing) into rags.",
     "weight": "113 g",
@@ -40,11 +40,11 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "cutting": 6,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ",",
     "color": "light_red",
-    "qualities": [ [ "CUT", 1 ] ],
-    "flags": [ "STAB" ]
+    "qualities": [["CUT", 1]],
+    "flags": ["STAB"]
   },
   {
     "type": "GENERIC",

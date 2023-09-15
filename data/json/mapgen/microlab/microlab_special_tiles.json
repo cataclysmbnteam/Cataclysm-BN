@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "om_terrain": [["microlab_generic"]],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -31,16 +31,18 @@
         "  c      6|  ||22|||||  ",
         "  c c|c   |22|    |cc   "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": { "G": "t_card_science" },
-      "items": { "f": { "item": "mutagens", "chance": 60, "repeat": [ 1, 4 ] } },
+      "items": { "f": { "item": "mutagens", "chance": 60, "repeat": [1, 4] } },
       "monster": { "M": { "monster": "mon_mutant_experimental" } },
-      "place_monsters": [ { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
+      "place_monsters": [
+        { "monster": "GROUP_LAB", "chance": 2, "x": [2, 21], "y": [2, 21], "repeat": [1, 5] }
+      ]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "om_terrain": [["microlab_generic"]],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -70,17 +72,19 @@
         " c        2  ||22||  cc ",
         "     (    |  |    |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": { "0": "t_vat" },
       "monster": { "T": { "monster": "mon_mutant_experimental" } },
-      "place_items": [  ],
+      "place_items": [],
       "monsters": { "m": { "monster": "GROUP_NETHER" } },
-      "place_monsters": [ { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
+      "place_monsters": [
+        { "monster": "GROUP_LAB", "chance": 2, "x": [2, 21], "y": [2, 21], "repeat": [1, 5] }
+      ]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "om_terrain": [["microlab_generic"]],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -110,17 +114,19 @@
         " cccc|c   |^^|    |  cc ",
         "    c|c   2  2    |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": { "0": "t_vat", "G": "t_card_science" },
       "furniture": { "t": "f_counter", "p": "f_counter" },
       "monster": { "T": { "monster": "mon_turret_light" } },
       "item": { "0": { "item": "fetus" }, "t": { "item": "iv_mutagen_alpha" } },
-      "place_monsters": [ { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
+      "place_monsters": [
+        { "monster": "GROUP_LAB", "chance": 2, "x": [2, 21], "y": [2, 21], "repeat": [1, 5] }
+      ]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "om_terrain": [["microlab_generic"]],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -150,20 +156,22 @@
         "  c      6|  ||22|||||  ",
         "  c c|c   |  |    |cc   "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": { "A": "t_plut_generator" },
-      "place_loot": [ { "item": "corpse", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 5, 10 ] } ],
+      "place_loot": [{ "item": "corpse", "x": [2, 21], "y": [2, 21], "repeat": [5, 10] }],
       "place_monster": [
         { "monster": "mon_leech_blossom", "x": 12, "y": 11 },
-        { "monster": "mon_leech_pod_cluster", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 5, 10 ] },
-        { "monster": "mon_leech_stalk", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 5, 10 ] }
+        { "monster": "mon_leech_pod_cluster", "x": [2, 21], "y": [2, 21], "repeat": [5, 10] },
+        { "monster": "mon_leech_stalk", "x": [2, 21], "y": [2, 21], "repeat": [5, 10] }
       ],
-      "place_monsters": [ { "monster": "GROUP_LAB", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ]
+      "place_monsters": [
+        { "monster": "GROUP_LAB", "chance": 2, "x": [2, 21], "y": [2, 21], "repeat": [1, 5] }
+      ]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "om_terrain": [["microlab_generic"]],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -193,20 +201,20 @@
         " |||||||||||||||||||||| ",
         "     |ttt |^^| cc |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": { "G": "t_card_science" },
       "furniture": { "7": "f_autodoc", "/": "f_autodoc_couch", "T": "f_counter", "p": "f_counter" },
       "items": {
         "p": { "item": "bionics", "chance": 20 },
         "T": [
-          { "item": "bionics_sci", "chance": 100, "repeat": [ 1, 2 ] },
-          { "item": "bionics", "chance": 100, "repeat": [ 1, 2 ] },
+          { "item": "bionics_sci", "chance": 100, "repeat": [1, 2] },
+          { "item": "bionics", "chance": 100, "repeat": [1, 2] },
           { "item": "bionic_power_storage_mil", "chance": 100 }
         ],
         "7": { "item": "autodoc_supplies", "chance": 100 }
       },
-      "place_loot": [ { "item": "anesthetic_kit", "x": 20, "y": 15 } ],
-      "place_monsters": [ { "monster": "GROUP_LAB", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 5 ] } ],
+      "place_loot": [{ "item": "anesthetic_kit", "x": 20, "y": 15 }],
+      "place_monsters": [{ "monster": "GROUP_LAB", "x": [2, 21], "y": [2, 21], "repeat": [1, 5] }],
       "monster": { "T": { "monster": "mon_prototype_cyborg" } },
       "computers": {
         "6": {
@@ -217,14 +225,14 @@
             { "name": "Open Storage Chambers", "security": 5, "action": "release_bionics" },
             { "name": "Manifest", "action": "list_bionics" }
           ],
-          "failures": [ { "action": "manhacks" }, { "action": "secubots" } ]
+          "failures": [{ "action": "manhacks" }, { "action": "secubots" }]
         }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "om_terrain": [["microlab_generic"]],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -254,7 +262,7 @@
         " i   2 66 2  2  Y  2    ",
         "     |    |  |     |    "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": { "+": "t_door_metal_c", "7": "t_console" },
       "furniture": { "S": "f_utility_shelf" },
       "mapping": {
@@ -265,15 +273,15 @@
         "7": {
           "name": "Hydrocarbon Materials Storage Control",
           "security": 5,
-          "options": [ { "name": "UNLOCK STORAGE", "action": "unlock" } ],
-          "failures": [ { "action": "alarm" }, { "action": "damage" } ]
+          "options": [{ "name": "UNLOCK STORAGE", "action": "unlock" }],
+          "failures": [{ "action": "alarm" }, { "action": "damage" }]
         }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "om_terrain": [["microlab_generic"]],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -303,9 +311,9 @@
         "     | 66 2  2     (6h  ",
         "     |    |  |     |    "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "furniture": { "S": "f_utility_shelf" },
-      "set": [ { "square": "radiation", "amount": [ 10, 30 ], "x": 12, "y": 10, "x2": 18, "y2": 16 } ],
+      "set": [{ "square": "radiation", "amount": [10, 30], "x": 12, "y": 10, "x2": 18, "y2": 16 }],
       "mapping": {
         "S": { "items": { "item": "microlab_storage_plutonium_special" } },
         "l": { "items": { "item": "rad_gear", "chance": 50, "repeat": 2 } },
@@ -319,15 +327,17 @@
           "name": "Nuclear Materials Storage Control",
           "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 5,
-          "options": [ { "name": "UNLOCK STORAGE - CAUTION: RADIATION LEAK DETECTED", "action": "unlock" } ],
-          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
+          "options": [
+            { "name": "UNLOCK STORAGE - CAUTION: RADIATION LEAK DETECTED", "action": "unlock" }
+          ],
+          "failures": [{ "action": "alarm" }, { "action": "damage" }, { "action": "secubots" }]
         }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic" ] ],
+    "om_terrain": [["microlab_generic"]],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -357,18 +367,18 @@
         "    c( YY |  | BB |  FF ",
         "     |    |  |    |     "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "mapping": {
         "r": { "item": { "item": "nanomaterial", "chance": 50, "repeat": 2 } },
-        "x": { "item": { "item": "standard_template_construct", "repeat": [ 1, 2 ] } }
+        "x": { "item": { "item": "standard_template_construct", "repeat": [1, 2] } }
       },
       "computers": {
         "7": {
           "name": "Nanomaterial Storage Control",
           "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 5,
-          "options": [ { "name": "UNLOCK STORAGE", "action": "unlock" } ],
-          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
+          "options": [{ "name": "UNLOCK STORAGE", "action": "unlock" }],
+          "failures": [{ "action": "alarm" }, { "action": "damage" }, { "action": "secubots" }]
         }
       }
     }

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "microlab_sub_connector" ],
+    "om_terrain": ["microlab_sub_connector"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_concrete",
@@ -32,13 +32,13 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "microlab" ]
+      "palettes": ["microlab"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "microlab_rock_border" ],
+    "om_terrain": ["microlab_rock_border"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_concrete",
@@ -68,13 +68,13 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "microlab" ]
+      "palettes": ["microlab"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "microlab_sub_station" ],
+    "om_terrain": ["microlab_sub_station"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_concrete",
@@ -104,10 +104,10 @@
         "##########|22|##########",
         "##########|  |##########"
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": { "G": "t_card_science" },
       "items": {
-        "l": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
+        "l": [{ "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 }],
         "t": { "item": "magazines", "chance": 90 }
       }
     }
@@ -115,7 +115,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "microlab_generic_sub_entry" ],
+    "om_terrain": ["microlab_generic_sub_entry"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_concrete",
@@ -145,17 +145,17 @@
         "   cc  cc 2  |c  ccccc  ",
         "          |  |          "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": { "G": "t_card_science" },
       "items": {
-        "l": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
+        "l": [{ "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 }],
         "t": { "item": "magazines", "chance": 90 }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_surface_connector" ] ],
+    "om_terrain": [["microlab_generic_surface_connector"]],
     "method": "json",
     "object": {
       "fill_ter": "t_concrete",
@@ -185,10 +185,10 @@
         " cc r|B   [  ^|eeeeee|#|",
         "     |    |22|||||||||||"
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": { "e": "t_elevator", "E": "t_elevator_control" },
       "items": {
-        "l": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
+        "l": [{ "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 }],
         "t": { "item": "magazines", "chance": 90 }
       },
       "monster": { "T": { "monster": "mon_turret_light" } }
@@ -196,7 +196,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_vent_shaft_connector" ] ],
+    "om_terrain": [["microlab_generic_vent_shaft_connector"]],
     "method": "json",
     "object": {
       "fill_ter": "t_concrete",
@@ -226,14 +226,19 @@
         " cc r|B   [  [      ^|#|",
         "     ||||||  |||||||||||"
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "p": "t_sewage_pipe", "w": "t_water_pool_shallow", "%": "t_machinery_heavy", "S": "t_sewage_pump" },
+      "palettes": ["microlab"],
+      "terrain": {
+        "p": "t_sewage_pipe",
+        "w": "t_water_pool_shallow",
+        "%": "t_machinery_heavy",
+        "S": "t_sewage_pump"
+      },
       "items": { "l": { "item": "sewage_plant", "chance": 75 } }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_surface" ] ],
+    "om_terrain": [["microlab_generic_surface"]],
     "method": "json",
     "object": {
       "fill_ter": "t_concrete",
@@ -263,7 +268,7 @@
         " |   |B...[..^|eeeeee|  ",
         " |||||||||||||||||||||  "
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": {
         "e": "t_elevator",
         "E": "t_elevator_control",
@@ -277,7 +282,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_surface_roof" ] ],
+    "om_terrain": [["microlab_generic_surface_roof"]],
     "method": "json",
     "object": {
       "fill_ter": "t_concrete",

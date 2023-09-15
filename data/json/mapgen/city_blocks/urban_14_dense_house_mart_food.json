@@ -1,7 +1,7 @@
 [
   {
     "method": "json",
-    "om_terrain": [ [ "urban_14_1", "urban_14_2" ] ],
+    "om_terrain": [["urban_14_1", "urban_14_2"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -32,7 +32,7 @@
         "%%%%%%%%%%%%#####################%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "%": "t_rock",
         "=": "t_carpet_yellow",
@@ -54,19 +54,29 @@
         "-": "t_thconc_floor"
       },
       "furniture": { "!": "f_counter", "]": "f_treadmill", ")": "f_exercise", "}": "f_ergometer" },
-      "vendingmachines": { "[": { "item_group": "vending_drink" }, "(": { "item_group": "vending_food" } },
+      "vendingmachines": {
+        "[": { "item_group": "vending_drink" },
+        "(": { "item_group": "vending_food" }
+      },
       "set": [
-        { "point": "trap", "id": "tr_rollmat", "x": [ 9, 11 ], "y": 11 },
-        { "point": "trap", "id": "tr_rollmat", "x": [ 9, 11 ], "y": 12 }
+        { "point": "trap", "id": "tr_rollmat", "x": [9, 11], "y": 11 },
+        { "point": "trap", "id": "tr_rollmat", "x": [9, 11], "y": 12 }
       ],
-      "place_item": [ { "item": "television", "x": 6, "y": 3 } ],
-      "items": { "!": [ { "item": "laundry", "chance": 20, "repeat": [ 1, 3 ] }, { "item": "cleaning", "chance": 10 } ] },
-      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 2, 6 ], "y": [ 10, 15 ], "chance": 50, "repeat": 2 } ]
+      "place_item": [{ "item": "television", "x": 6, "y": 3 }],
+      "items": {
+        "!": [
+          { "item": "laundry", "chance": 20, "repeat": [1, 3] },
+          { "item": "cleaning", "chance": 10 }
+        ]
+      },
+      "place_vehicles": [
+        { "vehicle": "laundry_cart", "x": [2, 6], "y": [10, 15], "chance": 50, "repeat": 2 }
+      ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_14_3", "urban_14_4" ] ],
+    "om_terrain": [["urban_14_3", "urban_14_4"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -97,7 +107,7 @@
         "____________|||||||||||||||||||||_______________",
         "________________________________________________"
       ],
-      "palettes": [ "city_block_foundation_palette" ],
+      "palettes": ["city_block_foundation_palette"],
       "terrain": {
         "`": "t_linoleum_white",
         "F": "t_concrete",
@@ -123,57 +133,60 @@
         "m": "f_glass_fridge",
         "0": "f_table"
       },
-      "vendingmachines": { "[": { "item_group": "vending_drink" }, "(": { "item_group": "vending_food" } },
+      "vendingmachines": {
+        "[": { "item_group": "vending_drink" },
+        "(": { "item_group": "vending_food" }
+      },
       "items": {
-        "1": [ { "item": "beauty", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "2": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "5": [ { "item": "cannedfood", "chance": 30, "repeat": [ 1, 2 ] } ],
-        "6": [ { "item": "groce_ingredient", "chance": 30, "repeat": [ 0, 4 ] } ],
-        "7": [ { "item": "alcohol", "chance": 30, "repeat": [ 0, 4 ] } ],
+        "1": [{ "item": "beauty", "chance": 30, "repeat": [1, 2] }],
+        "2": [{ "item": "vitamin_shop", "chance": 30, "repeat": [1, 2] }],
+        "5": [{ "item": "cannedfood", "chance": 30, "repeat": [1, 2] }],
+        "6": [{ "item": "groce_ingredient", "chance": 30, "repeat": [0, 4] }],
+        "7": [{ "item": "alcohol", "chance": 30, "repeat": [0, 4] }],
         "3": [
-          { "item": "groce_cereal", "chance": 30, "repeat": [ 0, 4 ] },
-          { "item": "groce_bread", "chance": 30, "repeat": [ 1, 2 ] }
+          { "item": "groce_cereal", "chance": 30, "repeat": [0, 4] },
+          { "item": "groce_bread", "chance": 30, "repeat": [1, 2] }
         ],
         "4": [
-          { "item": "cannedfood", "chance": 30, "repeat": [ 0, 4 ] },
-          { "item": "groce_pasta", "chance": 30, "repeat": [ 1, 2 ] }
+          { "item": "cannedfood", "chance": 30, "repeat": [0, 4] },
+          { "item": "groce_pasta", "chance": 30, "repeat": [1, 2] }
         ],
-        "8": [ { "item": "groce_frozen", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "8": [{ "item": "groce_frozen", "chance": 30, "repeat": [1, 2] }],
         "9": [
-          { "item": "snacks", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "groce_softdrink", "chance": 30, "repeat": [ 1, 2 ] }
+          { "item": "snacks", "chance": 30, "repeat": [1, 2] },
+          { "item": "groce_softdrink", "chance": 30, "repeat": [1, 2] }
         ],
         "0": [
-          { "item": "produce", "chance": 30, "repeat": [ 0, 4 ] },
-          { "item": "groce_premade", "chance": 30, "repeat": [ 1, 2 ] }
+          { "item": "produce", "chance": 30, "repeat": [0, 4] },
+          { "item": "groce_premade", "chance": 30, "repeat": [1, 2] }
         ],
         "m": [
-          { "item": "groce_meat", "chance": 30, "repeat": [ 0, 4 ] },
-          { "item": "groce_dairyegg", "chance": 30, "repeat": [ 1, 2 ] }
+          { "item": "groce_meat", "chance": 30, "repeat": [0, 4] },
+          { "item": "groce_dairyegg", "chance": 30, "repeat": [1, 2] }
         ]
       },
       "place_nested": [
         {
           "chunks": [
-            [ "city_block_2_candy_shop", 20 ],
-            [ "city_block_2_beauty_shop", 20 ],
-            [ "city_block_2_vitamin_shop", 20 ],
-            [ "city_block_2_cellphone_shop", 20 ],
-            [ "city_block_2_music_shop", 20 ],
-            [ "city_block_2_electronics_shop", 20 ],
-            [ "city_block_2_pizza_shop", 20 ]
+            ["city_block_2_candy_shop", 20],
+            ["city_block_2_beauty_shop", 20],
+            ["city_block_2_vitamin_shop", 20],
+            ["city_block_2_cellphone_shop", 20],
+            ["city_block_2_music_shop", 20],
+            ["city_block_2_electronics_shop", 20],
+            ["city_block_2_pizza_shop", 20]
           ],
           "x": 1,
           "y": 3
         },
-        { "chunks": [ [ "city_block_5x5_backroom_shop", 100 ] ], "x": 1, "y": 13 },
-        { "chunks": [ [ "city_block_14x14_restaurant", 100 ] ], "x": 33, "y": 4 }
+        { "chunks": [["city_block_5x5_backroom_shop", 100]], "x": 1, "y": 13 },
+        { "chunks": [["city_block_14x14_restaurant", 100]], "x": 33, "y": 4 }
       ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_14_5", "urban_14_6" ] ],
+    "om_terrain": [["urban_14_5", "urban_14_6"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -204,7 +217,7 @@
         "============#####o#######o#######===============",
         "================================================"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "=": "t_open_air",
         "~": "t_carpet_yellow",
@@ -232,7 +245,11 @@
         "-": "t_linoleum_gray",
         "Y": "t_linoleum_gray"
       },
-      "furniture": { "!": [ "f_indoor_plant_y", "f_indoor_plant" ], "&": "f_stool", ")": "f_beaded_door" },
+      "furniture": {
+        "!": ["f_indoor_plant_y", "f_indoor_plant"],
+        "&": "f_stool",
+        ")": "f_beaded_door"
+      },
       "place_item": [
         { "item": "stereo", "x": 1, "y": 6 },
         { "item": "television", "x": 1, "y": 5 },
@@ -244,7 +261,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_14_7", "urban_14_8" ] ],
+    "om_terrain": [["urban_14_7", "urban_14_8"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -275,7 +292,7 @@
         "============#####o#######o#######===============",
         "================================================"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "=": "t_open_air",
         "~": "t_carpet_yellow",
@@ -306,7 +323,11 @@
         "-": "t_linoleum_gray",
         "Y": "t_linoleum_gray"
       },
-      "furniture": { "!": [ "f_indoor_plant_y", "f_indoor_plant" ], "&": "f_stool", ")": "f_beaded_door" },
+      "furniture": {
+        "!": ["f_indoor_plant_y", "f_indoor_plant"],
+        "&": "f_stool",
+        ")": "f_beaded_door"
+      },
       "place_item": [
         { "item": "stereo", "x": 1, "y": 4 },
         { "item": "television", "x": 1, "y": 5 },
@@ -317,7 +338,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_14_9", "urban_14_10" ] ],
+    "om_terrain": [["urban_14_9", "urban_14_10"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -348,7 +369,7 @@
         "============#####o#######o#######===============",
         "================================================"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "=": "t_open_air",
         "~": "t_carpet_yellow",
@@ -379,7 +400,11 @@
         "-": "t_linoleum_gray",
         "Y": "t_linoleum_gray"
       },
-      "furniture": { "!": [ "f_indoor_plant_y", "f_indoor_plant" ], "&": "f_stool", ")": "f_beaded_door" },
+      "furniture": {
+        "!": ["f_indoor_plant_y", "f_indoor_plant"],
+        "&": "f_stool",
+        ")": "f_beaded_door"
+      },
       "place_item": [
         { "item": "television", "x": 1, "y": 4 },
         { "item": "stereo", "x": 1, "y": 5 },
@@ -390,7 +415,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_14_11", "urban_14_12" ] ],
+    "om_terrain": [["urban_14_11", "urban_14_12"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -421,7 +446,7 @@
         "            |-------------------3               ",
         "                                                "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": {
         ">": "t_stairs_down",
         "{": "t_ladder_down",
@@ -438,7 +463,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_14_13", "urban_14_14" ] ],
+    "om_terrain": [["urban_14_13", "urban_14_14"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -469,7 +494,7 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "roof_palette" ]
+      "palettes": ["roof_palette"]
     }
   }
 ]

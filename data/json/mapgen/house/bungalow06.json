@@ -53,7 +53,7 @@
       },
       "furniture": { "$": "f_exercise", "&": "f_table" },
       "items": { "&": { "item": "table_foyer", "chance": 50 } },
-      "place_loot": [ { "item": "television", "x": 6, "y": 17 } ]
+      "place_loot": [{ "item": "television", "x": 6, "y": 17 }]
     }
   },
   {
@@ -62,7 +62,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",

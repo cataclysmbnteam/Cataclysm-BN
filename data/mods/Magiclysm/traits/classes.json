@@ -8,8 +8,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "ANIMIST" ],
-    "spells_learned": [ [ "create_rune_magus", 1 ] ]
+    "cancels": ["ANIMIST"],
+    "spells_learned": [["create_rune_magus", 1]]
   },
   {
     "type": "mutation",
@@ -20,8 +20,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "MAGUS" ],
-    "spells_learned": [ [ "create_rune_animist", 1 ] ]
+    "cancels": ["MAGUS"],
+    "spells_learned": [["create_rune_animist", 1]]
   },
   {
     "type": "mutation",
@@ -32,8 +32,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "STORMSHAPER" ],
-    "spells_learned": [ [ "create_rune_kelvinist", 1 ] ]
+    "cancels": ["STORMSHAPER"],
+    "spells_learned": [["create_rune_kelvinist", 1]]
   },
   {
     "type": "mutation",
@@ -44,8 +44,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "KELVINIST" ],
-    "spells_learned": [ [ "create_rune_stormshaper", 1 ] ]
+    "cancels": ["KELVINIST"],
+    "spells_learned": [["create_rune_stormshaper", 1]]
   },
   {
     "type": "mutation",
@@ -56,8 +56,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "EARTHSHAPER" ],
-    "spells_learned": [ [ "create_rune_technomancer", 1 ] ]
+    "cancels": ["EARTHSHAPER"],
+    "spells_learned": [["create_rune_technomancer", 1]]
   },
   {
     "type": "mutation",
@@ -68,8 +68,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "TECHNOMANCER" ],
-    "spells_learned": [ [ "create_rune_earthshaper", 1 ] ]
+    "cancels": ["TECHNOMANCER"],
+    "spells_learned": [["create_rune_earthshaper", 1]]
   },
   {
     "type": "mutation",
@@ -80,8 +80,8 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "DRUID" ],
-    "spells_learned": [ [ "create_rune_biomancer", 1 ] ]
+    "cancels": ["DRUID"],
+    "spells_learned": [["create_rune_biomancer", 1]]
   },
   {
     "type": "mutation",
@@ -92,7 +92,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "cancels": [ "BIOMANCER" ],
-    "spells_learned": [ [ "create_rune_druid", 1 ] ]
+    "cancels": ["BIOMANCER"],
+    "spells_learned": [["create_rune_druid", 1]]
   }
 ]

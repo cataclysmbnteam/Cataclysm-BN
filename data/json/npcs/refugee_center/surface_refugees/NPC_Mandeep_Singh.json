@@ -18,19 +18,22 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Mandeep is the father of a small family.  They've made it through this unscathed and have a lot of survivor's guilt as a result.",
-    "bonus_str": { "rng": [ -2, 2 ] },
-    "bonus_dex": { "rng": [ -2, 2 ] },
-    "bonus_int": { "rng": [ -2, 2 ] },
-    "bonus_per": { "rng": [ -2, 2 ] },
+    "bonus_str": { "rng": [-2, 2] },
+    "bonus_dex": { "rng": [-2, 2] },
+    "bonus_int": { "rng": [-2, 2] },
+    "bonus_per": { "rng": [-2, 2] },
     "worn_override": "REFUGEE_Mandeep_worn",
     "carry_override": "REFUGEE_Mandeep_carried",
     "weapon_override": "EMPTY_GROUP",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "traits": [{ "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" }],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
-      { "skill": "driving", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "computer", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "firstaid", "bonus": { "rng": [ 0, 2 ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [2, 2] }, { "rng": [0, -4] }] }] }
+      },
+      { "skill": "driving", "bonus": { "rng": [0, 2] } },
+      { "skill": "computer", "bonus": { "rng": [0, 2] } },
+      { "skill": "firstaid", "bonus": { "rng": [0, 2] } }
     ]
   },
   {
@@ -51,7 +54,7 @@
     "type": "item_group",
     "id": "REFUGEE_Mandeep_carried",
     "subtype": "collection",
-    "entries": [ { "item": "1st_aid" } ]
+    "entries": [{ "item": "1st_aid" }]
   },
   {
     "type": "item_group",
@@ -67,7 +70,11 @@
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [ "TALK_REFUGEE_Mandeep_2", "TALK_REFUGEE_Mandeep_Background", "TALK_REFUGEE_Mandeep_Situation" ],
+    "id": [
+      "TALK_REFUGEE_Mandeep_2",
+      "TALK_REFUGEE_Mandeep_Background",
+      "TALK_REFUGEE_Mandeep_Situation"
+    ],
     "responses": [
       {
         "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
@@ -75,7 +82,12 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+              "not": {
+                "npc_has_var": "cleanup_asked",
+                "type": "mission",
+                "context": "Boris_mission_1",
+                "value": "yes"
+              }
             }
           ]
         },
@@ -94,29 +106,67 @@
       "context": "meeting",
       "value": "yes",
       "yes": "Hello again.",
-      "no": { "u_male": true, "yes": "Hello sir.  I am Mandeep Singh.", "no": "Hello ma'am.  I am Mandeep Singh." }
+      "no": {
+        "u_male": true,
+        "yes": "Hello sir.  I am Mandeep Singh.",
+        "no": "Hello ma'am.  I am Mandeep Singh."
+      }
     },
     "responses": [
       {
         "text": "Nice to meet you, Mandeep.",
-        "effect": { "u_add_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_Mandeep_Singh",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Mandeep_Singh",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_REFUGEE_Mandeep_1_firstmeet"
       },
       {
         "text": "Hi, Mandeep.  What's up?",
         "topic": "TALK_REFUGEE_Mandeep_2",
-        "condition": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": {
+          "u_has_var": "u_met_Mandeep_Singh",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       },
       {
         "text": "Hi Mandeep, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_Mandeep_Singh",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Mandeep_Singh",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Hi Mandeep.  I can't stay to talk.",
-        "condition": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_Mandeep_Singh",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -134,7 +184,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mandeep_2",
     "dynamic_line": "I understand.  I don't know if I have many answers for you.",
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "I'd better get going.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",

@@ -168,35 +168,35 @@
     "id": "ammo_smg_common",
     "//": "SMG ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
-    "entries": [ { "group": "ammo_pistol_common", "prob": 100 } ]
+    "entries": [{ "group": "ammo_pistol_common", "prob": 100 }]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_rare",
     "//": "Less common SMGs including that only used by police/paramilitary forces.",
     "subtype": "distribution",
-    "entries": [ { "group": "ammo_pistol_rare", "prob": 100 } ]
+    "entries": [{ "group": "ammo_pistol_rare", "prob": 100 }]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_milspec",
     "//": "Military specification SMG ammo found at military sites.",
     "subtype": "distribution",
-    "entries": [ { "group": "ammo_pistol_milspec", "prob": 100 } ]
+    "entries": [{ "group": "ammo_pistol_milspec", "prob": 100 }]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_obscure",
     "//": "Imported or otherwise very obscure SMG ammo.",
     "subtype": "distribution",
-    "entries": [ { "group": "ammo_pistol_obscure", "prob": 100 } ]
+    "entries": [{ "group": "ammo_pistol_obscure", "prob": 100 }]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_reloaded",
     "//": "Reloaded SMG ammo balanced according to rarity.",
     "subtype": "distribution",
-    "entries": [ { "group": "ammo_pistol_reloaded", "prob": 100 } ]
+    "entries": [{ "group": "ammo_pistol_reloaded", "prob": 100 }]
   },
   {
     "type": "item_group",
@@ -265,14 +265,21 @@
     "id": "ammo_rifle_obscure",
     "//": "Imported or otherwise very obscure rifle ammo.",
     "subtype": "distribution",
-    "entries": [ { "item": "545", "prob": 150 }, { "item": "545_ap", "prob": 100 }, { "item": "700nx", "prob": 70 } ]
+    "entries": [
+      { "item": "545", "prob": 150 },
+      { "item": "545_ap", "prob": 100 },
+      { "item": "700nx", "prob": 70 }
+    ]
   },
   {
     "type": "item_group",
     "id": "ammo_rifle_reloaded",
     "//": "Reloaded rifle ammo, black powder loads roughly half of the time.",
     "subtype": "distribution",
-    "entries": [ { "group": "ammo_rifle_modern_handloads", "prob": 50 }, { "group": "ammo_rifle_blackpowder_handloads", "prob": 50 } ]
+    "entries": [
+      { "group": "ammo_rifle_modern_handloads", "prob": 50 },
+      { "group": "ammo_rifle_blackpowder_handloads", "prob": 50 }
+    ]
   },
   {
     "type": "item_group",
@@ -368,7 +375,7 @@
     "id": "ammo_shotgun_obscure",
     "//": "Imported or otherwise very obscure shotgun ammo.",
     "subtype": "distribution",
-    "entries": [  ]
+    "entries": []
   },
   {
     "type": "item_group",
@@ -576,34 +583,34 @@
     "//": "casings list for shooting range.",
     "type": "item_group",
     "items": [
-      [ "9mm_casing", 100 ],
-      [ "22_casing", 95 ],
-      [ "38_casing", 75 ],
-      [ "40_casing", 80 ],
-      [ "44_casing", 35 ],
-      [ "45_casing", 65 ],
-      [ "45colt_casing", 40 ],
-      [ "454_casing", 10 ],
-      [ "500_casing", 10 ],
-      [ "57mm_casing", 10 ],
-      [ "46mm_casing", 10 ],
-      [ "762_casing", 85 ],
-      [ "762_51_casing", 50 ],
-      [ "223_casing", 85 ],
-      [ "3006_casing", 40 ],
-      [ "308_casing", 50 ],
-      [ "50_casing", 30 ],
-      [ "700nx_casing", 10 ],
-      [ "300_casing", 60 ],
-      [ "762R_casing", 10 ],
-      [ "32_casing", 70 ]
+      ["9mm_casing", 100],
+      ["22_casing", 95],
+      ["38_casing", 75],
+      ["40_casing", 80],
+      ["44_casing", 35],
+      ["45_casing", 65],
+      ["45colt_casing", 40],
+      ["454_casing", 10],
+      ["500_casing", 10],
+      ["57mm_casing", 10],
+      ["46mm_casing", 10],
+      ["762_casing", 85],
+      ["762_51_casing", 50],
+      ["223_casing", 85],
+      ["3006_casing", 40],
+      ["308_casing", 50],
+      ["50_casing", 30],
+      ["700nx_casing", 10],
+      ["300_casing", 60],
+      ["762R_casing", 10],
+      ["32_casing", 70]
     ]
   },
   {
     "id": "ammo_casings_bulk",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "group": "ammo_casings", "charges-min": 10, "charges-max": 20 } ]
+    "entries": [{ "group": "ammo_casings", "charges-min": 10, "charges-max": 20 }]
   },
   {
     "type": "item_group",
@@ -690,22 +697,28 @@
     "type": "item_group",
     "id": "ammo_pocket_batteries",
     "subtype": "distribution",
-    "entries": [ { "group": "ammo_light_batteries", "prob": 10 }, { "group": "ammo_medium_batteries", "prob": 1 } ]
+    "entries": [
+      { "group": "ammo_light_batteries", "prob": 10 },
+      { "group": "ammo_medium_batteries", "prob": 1 }
+    ]
   },
   {
     "type": "item_group",
     "id": "ammo_pocket_batteries_full",
     "subtype": "distribution",
-    "entries": [ { "group": "ammo_light_batteries_full", "prob": 5 }, { "group": "ammo_medium_batteries_full", "prob": 5 } ]
+    "entries": [
+      { "group": "ammo_light_batteries_full", "prob": 5 },
+      { "group": "ammo_medium_batteries_full", "prob": 5 }
+    ]
   },
   {
     "id": "ammo_atomic_batteries",
     "type": "item_group",
     "items": [
-      { "item": "light_atomic_battery_cell", "prob": 4, "charges": [ 500, 1000 ] },
-      { "item": "light_minus_atomic_battery_cell", "prob": 3, "charges": [ 250, 500 ] },
-      { "item": "medium_atomic_battery_cell", "prob": 2, "charges": [ 2500, 5000 ] },
-      { "item": "heavy_atomic_battery_cell", "prob": 1, "charges": [ 5000, 10000 ] }
+      { "item": "light_atomic_battery_cell", "prob": 4, "charges": [500, 1000] },
+      { "item": "light_minus_atomic_battery_cell", "prob": 3, "charges": [250, 500] },
+      { "item": "medium_atomic_battery_cell", "prob": 2, "charges": [2500, 5000] },
+      { "item": "heavy_atomic_battery_cell", "prob": 1, "charges": [5000, 10000] }
     ]
   },
   {
@@ -721,6 +734,6 @@
   {
     "id": "mech_power_cell_spawn",
     "type": "item_group",
-    "items": [ { "item": "huge_atomic_battery_cell", "prob": 10, "charges": [ 0, 100000 ] } ]
+    "items": [{ "item": "huge_atomic_battery_cell", "prob": 10, "charges": [0, 100000] }]
   }
 ]

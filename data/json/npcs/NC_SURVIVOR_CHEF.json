@@ -3,31 +3,35 @@
     "type": "item_group",
     "id": "NC_SURVIVOR_CHEF_head",
     "subtype": "distribution",
-    "entries": [ { "item": "hat_chef", "prob": 10 }, { "item": "pot_helmet", "prob": 80 }, { "item": "hat_ball", "prob": 10 } ]
+    "entries": [
+      { "item": "hat_chef", "prob": 10 },
+      { "item": "pot_helmet", "prob": 80 },
+      { "item": "hat_ball", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_SURVIVOR_CHEF_pants_male",
     "subtype": "distribution",
-    "entries": [ { "item": "pants_checkered", "prob": 90 }, { "item": "pants", "prob": 10 } ]
+    "entries": [{ "item": "pants_checkered", "prob": 90 }, { "item": "pants", "prob": 10 }]
   },
   {
     "type": "item_group",
     "id": "NC_SURVIVOR_CHEF_pants_female",
     "subtype": "distribution",
-    "entries": [ { "item": "pants_checkered", "prob": 90 }, { "item": "jeans", "prob": 10 } ]
+    "entries": [{ "item": "pants_checkered", "prob": 90 }, { "item": "jeans", "prob": 10 }]
   },
   {
     "type": "item_group",
     "id": "NC_SURVIVOR_CHEF_shirt_male",
     "subtype": "distribution",
-    "entries": [ { "item": "tshirt", "prob": 90 }, { "item": "longshirt", "prob": 10 } ]
+    "entries": [{ "item": "tshirt", "prob": 90 }, { "item": "longshirt", "prob": 10 }]
   },
   {
     "type": "item_group",
     "id": "NC_SURVIVOR_CHEF_shirt_female",
     "subtype": "distribution",
-    "entries": [ { "item": "tshirt", "prob": 90 }, { "item": "longshirt", "prob": 10 } ]
+    "entries": [{ "item": "tshirt", "prob": 90 }, { "item": "longshirt", "prob": 10 }]
   },
   {
     "type": "item_group",
@@ -55,13 +59,13 @@
     "type": "item_group",
     "id": "NC_SURVIVOR_CHEF_masks",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 80 }, { "item": "bandana", "prob": 20 } ]
+    "entries": [{ "item": "null", "prob": 80 }, { "item": "bandana", "prob": 20 }]
   },
   {
     "type": "item_group",
     "id": "NC_SURVIVOR_CHEF_eyes",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 80 }, { "item": "sunglasses", "prob": 20 } ]
+    "entries": [{ "item": "null", "prob": 80 }, { "item": "sunglasses", "prob": 20 }]
   },
   {
     "type": "item_group",

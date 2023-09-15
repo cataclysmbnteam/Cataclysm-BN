@@ -15,18 +15,28 @@
       {
         "text": "It might help to get it off your chest.",
         "condition": {
-          "and": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
+          "and": [
+            { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
+            { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
+          ]
         },
-        "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "TRUST", 2 ], [ "VALUE", 3 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [["TRUST", 2], ["VALUE", 3]] },
         "success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
         "failure": { "topic": "BGSS_LOST_PARTNER_2_NOTYET" }
       },
       {
         "text": "Suck it up.  If we're going to work together I need to know you.",
         "condition": {
-          "and": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
+          "and": [
+            { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
+            { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
+          ]
         },
-        "trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "BRAVERY", 2 ], [ "TRUST", 1 ], [ "ANGER", -2 ] ] },
+        "trial": {
+          "type": "INTIMIDATE",
+          "difficulty": 50,
+          "mod": [["BRAVERY", 2], ["TRUST", 1], ["ANGER", -2]]
+        },
         "success": { "topic": "BGSS_LOST_PARTNER_2_STORY2" },
         "failure": { "topic": "BGSS_LOST_PARTNER_2_FUCKOFF" }
       },
@@ -43,7 +53,11 @@
     "type": "talk_topic",
     "dynamic_line": "I appreciate the sentiment, but I don't think it would.  Drop it.",
     "responses": [
-      { "text": "OK.", "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 7000 }, "topic": "TALK_FRIEND" },
+      {
+        "text": "OK.",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 7000 },
+        "topic": "TALK_FRIEND"
+      },
       {
         "text": "<end_talking>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 7000 },
@@ -55,7 +69,13 @@
     "id": "BGSS_LOST_PARTNER_2_FUCKOFF",
     "type": "talk_topic",
     "dynamic_line": "Oh, <fuck_you>.  This doesn't have anything to do with you, or with us.",
-    "responses": [ { "text": "…", "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 14000 }, "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "…",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 14000 },
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "id": "BGSS_LOST_PARTNER_2_STORY2",
@@ -78,7 +98,11 @@
         "effect": { "npc_add_effect": "player_BGSS_SAIDYES" },
         "topic": "TALK_FRIEND"
       },
-      { "text": "<end_talking>", "effect": { "npc_add_effect": "player_BGSS_SAIDYES" }, "topic": "TALK_DONE" }
+      {
+        "text": "<end_talking>",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -113,7 +137,10 @@
     "type": "talk_topic",
     "dynamic_line": "The first warning was that I had to move from the preserved parts of the city to the burnt out ones to get home.  It only got worse.  There was a police barricade right outside my house, with a totally useless pair of automated turrets sitting in front just idly watching the zombies lurch by.  That was before someone switched them to kill everybody, back when it only killed trespassing humans.  Good times, you can always trust bureaucracy to fuck things up in the most spectacular way possible.  Anyway, the house itself was half collapsed, a SWAT van had plowed into it.  I think I knew what I was going to see in there, but I had made it that far and I wasn't going to turn back.",
     "responses": [
-      { "text": "You must have seen some shit on the way there.", "topic": "BGSS_LOST_PARTNER_2_SOMESHIT" },
+      {
+        "text": "You must have seen some shit on the way there.",
+        "topic": "BGSS_LOST_PARTNER_2_SOMESHIT"
+      },
       { "text": "Did you make it into the house?", "topic": "BGSS_LOST_PARTNER_2_HOME2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -130,7 +157,10 @@
       }
     ],
     "responses": [
-      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      {
+        "text": "Thanks for telling me that.  <done_conversation_section>",
+        "topic": "TALK_FRIEND"
+      },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }

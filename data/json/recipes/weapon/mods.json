@@ -6,12 +6,12 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 2 ],
+    "skills_required": ["mechanics", 2],
     "difficulty": 6,
     "time": "30 m",
-    "book_learn": [ [ "manual_launcher", 3 ], [ "mag_launcher", 4 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "duct_tape", 50 ] ], [ [ "nail", 1 ] ] ]
+    "book_learn": [["manual_launcher", 3], ["mag_launcher", 4]],
+    "qualities": [{ "id": "SAW_M", "level": 1 }],
+    "components": [[["pipe", 1]], [["duct_tape", 50]], [["nail", 1]]]
   },
   {
     "type": "recipe",
@@ -19,12 +19,12 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
-    "skills_required": [ "shotgun", 3 ],
+    "skills_required": ["shotgun", 3],
     "difficulty": 6,
     "time": "20 m",
-    "book_learn": [ [ "manual_shotgun", 4 ], [ "mag_shotgun", 5 ] ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "duct_tape", 75 ] ], [ [ "nail", 2 ] ] ]
+    "book_learn": [["manual_shotgun", 4], ["mag_shotgun", 5]],
+    "qualities": [{ "id": "SAW_M_FINE", "level": 1 }],
+    "components": [[["pipe", 2]], [["duct_tape", 75]], [["nail", 2]]]
   },
   {
     "type": "recipe",
@@ -35,8 +35,10 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rope_natural_short", 1, "LIST" ], [ "fabric_standard", 3, "LIST" ], [ "cordage", 6, "LIST" ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [
+      [["rope_natural_short", 1, "LIST"], ["fabric_standard", 3, "LIST"], ["cordage", 6, "LIST"]]
+    ]
   },
   {
     "type": "recipe",
@@ -48,8 +50,8 @@
     "time": "30 s",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "spike", 1 ] ] ]
+    "using": [["cordage", 1]],
+    "components": [[["spike", 1]]]
   },
   {
     "type": "recipe",
@@ -61,8 +63,8 @@
     "time": "30 s",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage_short", 2 ] ],
-    "components": [ [ [ "spike", 1 ] ] ]
+    "using": [["cordage_short", 2]],
+    "components": [[["spike", 1]]]
   },
   {
     "type": "recipe",
@@ -70,14 +72,19 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "difficulty": 1,
     "time": "39 s",
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+    "qualities": [{ "id": "SAW_M_FINE", "level": 1 }],
     "components": [
-      [ [ "fabric_standard", 4, "LIST" ], [ "plastic_chunk", 4 ], [ "felt_patch", 4 ], [ "fabric_hides_any", 4, "LIST" ] ],
-      [ [ "pipe", 1 ] ]
+      [
+        ["fabric_standard", 4, "LIST"],
+        ["plastic_chunk", 4],
+        ["felt_patch", 4],
+        ["fabric_hides_any", 4, "LIST"]
+      ],
+      [["pipe", 1]]
     ]
   },
   {
@@ -86,12 +93,12 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "difficulty": 8,
     "time": "1 h",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 250 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "pipe", 2 ] ] ]
+    "tools": [[["large_repairkit", 250]]],
+    "components": [[["scrap", 1]], [["pipe", 2]]]
   },
   {
     "type": "recipe",
@@ -99,13 +106,13 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "tailor",
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "difficulty": 3,
     "time": "1 h 5 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 4 ] ],
-    "components": [ [ [ "fabric_standard", 4, "LIST" ] ] ]
+    "using": [["sewing_standard", 4]],
+    "components": [[["fabric_standard", 4, "LIST"]]]
   },
   {
     "type": "recipe",
@@ -113,16 +120,16 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "gun", 3 ] ],
+    "skills_required": [["gun", 3]],
     "difficulty": 5,
     "time": "25 m",
     "autolearn": true,
     "book_learn": [
-      [ "manual_fabrication", 3 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ],
-      [ "manual_launcher", 4 ]
+      ["manual_fabrication", 3],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4],
+      ["manual_launcher", 4]
     ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
@@ -132,15 +139,15 @@
     ],
     "tools": [
       [
-        [ "oxy_torch", 3 ],
-        [ "welder", 15 ],
-        [ "welder_crude", 25 ],
-        [ "toolset", 25 ],
-        [ "small_repairkit", 15 ],
-        [ "large_repairkit", 15 ]
+        ["oxy_torch", 3],
+        ["welder", 15],
+        ["welder_crude", 25],
+        ["toolset", 25],
+        ["small_repairkit", 15],
+        ["large_repairkit", 15]
       ]
     ],
-    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "components": [[["scrap", 6], ["pipe", 1], ["steel_chunk", 2]], [["plastic_chunk", 3]]]
   },
   {
     "type": "recipe",
@@ -148,11 +155,16 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "gun", 3 ] ],
+    "skills_required": [["gun", 3]],
     "difficulty": 4,
     "time": "25 m",
     "autolearn": true,
-    "book_learn": [ [ "manual_fabrication", 3 ], [ "manual_shotgun", 4 ], [ "manual_smg", 4 ], [ "manual_rifle", 4 ] ],
+    "book_learn": [
+      ["manual_fabrication", 3],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4]
+    ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 },
@@ -161,15 +173,19 @@
     ],
     "tools": [
       [
-        [ "oxy_torch", 3 ],
-        [ "welder", 15 ],
-        [ "welder_crude", 25 ],
-        [ "toolset", 25 ],
-        [ "small_repairkit", 15 ],
-        [ "large_repairkit", 15 ]
+        ["oxy_torch", 3],
+        ["welder", 15],
+        ["welder_crude", 25],
+        ["toolset", 25],
+        ["small_repairkit", 15],
+        ["large_repairkit", 15]
       ]
     ],
-    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "spring", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "components": [
+      [["scrap", 6], ["pipe", 1], ["steel_chunk", 2]],
+      [["spring", 1]],
+      [["plastic_chunk", 3]]
+    ]
   },
   {
     "type": "recipe",
@@ -177,18 +193,18 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 3 ] ],
+    "skills_required": [["gun", 3]],
     "difficulty": 6,
     "time": "30 m",
     "book_learn": [
-      [ "textbook_mechanics", 3 ],
-      [ "manual_pistol", 4 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ]
+      ["textbook_mechanics", 3],
+      ["manual_pistol", 4],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4]
     ],
-    "tools": [ [ [ "large_repairkit", 75 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "pipe", 1 ] ] ]
+    "tools": [[["large_repairkit", 75]], [["swage", -1]]],
+    "components": [[["pipe", 1]]]
   },
   {
     "type": "recipe",
@@ -196,11 +212,11 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "gun", 2 ] ],
+    "skills_required": [["gun", 2]],
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
-    "book_learn": [ [ "manual_fabrication", 2 ], [ "manual_rifle", 3 ], [ "manual_launcher", 3 ] ],
+    "book_learn": [["manual_fabrication", 2], ["manual_rifle", 3], ["manual_launcher", 3]],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 },
@@ -209,15 +225,15 @@
     ],
     "tools": [
       [
-        [ "oxy_torch", 2 ],
-        [ "welder", 10 ],
-        [ "welder_crude", 20 ],
-        [ "toolset", 20 ],
-        [ "small_repairkit", 10 ],
-        [ "large_repairkit", 10 ]
+        ["oxy_torch", 2],
+        ["welder", 10],
+        ["welder_crude", 20],
+        ["toolset", 20],
+        ["small_repairkit", 10],
+        ["large_repairkit", 10]
       ]
     ],
-    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "components": [[["scrap", 6], ["pipe", 1], ["steel_chunk", 2]], [["plastic_chunk", 3]]]
   },
   {
     "type": "recipe",
@@ -225,21 +241,27 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "gun", 3 ] ],
+    "skills_required": [["gun", 3]],
     "difficulty": 5,
     "time": "15 m",
     "autolearn": true,
     "book_learn": [
-      [ "manual_fabrication", 3 ],
-      [ "manual_pistol", 3 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ],
-      [ "manual_launcher", 4 ]
+      ["manual_fabrication", 3],
+      ["manual_pistol", 3],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4],
+      ["manual_launcher", 4]
     ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "small_repairkit", 10 ], [ "large_repairkit", 10 ] ] ],
-    "components": [ [ [ "scrap", 3 ], [ "steel_chunk", 1 ] ], [ [ "plastic_chunk", 2 ] ] ]
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "tools": [
+      [["soldering_standard", 10, "LIST"], ["small_repairkit", 10], ["large_repairkit", 10]]
+    ],
+    "components": [[["scrap", 3], ["steel_chunk", 1]], [["plastic_chunk", 2]]]
   },
   {
     "type": "recipe",
@@ -247,12 +269,12 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 4 ] ],
+    "skills_required": [["gun", 4]],
     "difficulty": 8,
     "time": "1 h",
-    "book_learn": [ [ "textbook_mechanics", 4 ], [ "manual_shotgun", 5 ], [ "manual_rifle", 5 ] ],
-    "tools": [ [ [ "large_repairkit", 150 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "pipe", 1 ] ] ]
+    "book_learn": [["textbook_mechanics", 4], ["manual_shotgun", 5], ["manual_rifle", 5]],
+    "tools": [[["large_repairkit", 150]], [["swage", -1]]],
+    "components": [[["pipe", 1]]]
   },
   {
     "type": "recipe",
@@ -260,21 +282,21 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "gun", 3 ] ],
+    "skills_required": [["gun", 3]],
     "difficulty": 6,
     "time": "15 m",
     "autolearn": true,
     "book_learn": [
-      [ "textbook_mechanics", 3 ],
-      [ "manual_pistol", 4 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ]
+      ["textbook_mechanics", 3],
+      ["manual_pistol", 4],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4]
     ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 10 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ] ]
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }],
+    "tools": [[["small_repairkit", 10], ["large_repairkit", 10]]],
+    "components": [[["scrap", 1]]]
   },
   {
     "type": "recipe",
@@ -282,11 +304,11 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "gun", 3 ] ],
+    "skills_required": [["gun", 3]],
     "difficulty": 6,
     "time": "30 m",
     "autolearn": true,
-    "book_learn": [ [ "manual_fabrication", 3 ], [ "manual_pistol", 4 ] ],
+    "book_learn": [["manual_fabrication", 3], ["manual_pistol", 4]],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 },
@@ -295,15 +317,15 @@
     ],
     "tools": [
       [
-        [ "oxy_torch", 3 ],
-        [ "welder", 15 ],
-        [ "welder_crude", 25 ],
-        [ "toolset", 25 ],
-        [ "small_repairkit", 15 ],
-        [ "large_repairkit", 15 ]
+        ["oxy_torch", 3],
+        ["welder", 15],
+        ["welder_crude", 25],
+        ["toolset", 25],
+        ["small_repairkit", 15],
+        ["large_repairkit", 15]
       ]
     ],
-    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 3 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "components": [[["scrap", 6], ["pipe", 1], ["steel_chunk", 3]], [["plastic_chunk", 3]]]
   },
   {
     "type": "recipe",
@@ -311,16 +333,16 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "gun", 3 ] ],
+    "skills_required": [["gun", 3]],
     "difficulty": 6,
     "time": "30 m",
     "autolearn": true,
     "book_learn": [
-      [ "manual_fabrication", 3 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ],
-      [ "manual_launcher", 4 ]
+      ["manual_fabrication", 3],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4],
+      ["manual_launcher", 4]
     ],
     "qualities": [
       { "id": "HAMMER_FINE", "level": 1 },
@@ -330,15 +352,19 @@
     ],
     "tools": [
       [
-        [ "oxy_torch", 3 ],
-        [ "welder", 15 ],
-        [ "welder_crude", 25 ],
-        [ "toolset", 25 ],
-        [ "small_repairkit", 15 ],
-        [ "large_repairkit", 15 ]
+        ["oxy_torch", 3],
+        ["welder", 15],
+        ["welder_crude", 25],
+        ["toolset", 25],
+        ["small_repairkit", 15],
+        ["large_repairkit", 15]
       ]
     ],
-    "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "spring", 2 ] ] ]
+    "components": [
+      [["scrap", 6], ["pipe", 1], ["steel_chunk", 2]],
+      [["plastic_chunk", 3]],
+      [["spring", 2]]
+    ]
   },
   {
     "type": "recipe",
@@ -346,20 +372,20 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
-    "skills_required": [ [ "gun", 3 ] ],
+    "skills_required": [["gun", 3]],
     "difficulty": 6,
     "time": "20 m",
     "autolearn": true,
     "book_learn": [
-      [ "textbook_mechanics", 3 ],
-      [ "manual_pistol", 4 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ]
+      ["textbook_mechanics", 3],
+      ["manual_pistol", 4],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4]
     ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 3 ] ] ]
+    "using": [["soldering_standard", 15]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["plastic_chunk", 3]]]
   },
   {
     "type": "recipe",
@@ -367,18 +393,26 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "rifle", 3 ] ],
+    "skills_required": [["rifle", 3]],
     "difficulty": 5,
     "time": "2 h 20 m",
     "//": "Pipe/sheet metal is to add trip to non M16-style carriers, since both types are in civilian AR's.",
-    "book_learn": [ [ "manual_rifle", 5 ], [ "textbook_anarch", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "tools": [
-      [ [ "ar15", -1 ], [ "h&k416a5", -1 ], [ "m27iar", -1 ], [ "m4a1", -1 ], [ "m16a4", -1 ] ],
-      [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ],
-      [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
+    "book_learn": [["manual_rifle", 5], ["textbook_anarch", 5]],
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 }
     ],
-    "components": [ [ [ "steel_plate", 1 ], [ "steel_lump", 2 ] ], [ [ "pipe", 1 ], [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "tools": [
+      [["ar15", -1], ["h&k416a5", -1], ["m27iar", -1], ["m4a1", -1], ["m16a4", -1]],
+      [["oxy_torch", 4], ["welder", 20], ["welder_crude", 40], ["toolset", 40]],
+      [["small_repairkit", 40], ["large_repairkit", 40]]
+    ],
+    "components": [
+      [["steel_plate", 1], ["steel_lump", 2]],
+      [["pipe", 1], ["sheet_metal_small", 1]],
+      [["scrap", 1]]
+    ]
   },
   {
     "type": "recipe",
@@ -386,14 +420,14 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "rifle", 3 ] ],
+    "skills_required": [["rifle", 3]],
     "difficulty": 4,
     "time": "1 h",
     "//": "Simple to manufacture, hence it's not gonna be in published in too much detail in gun-mags.",
-    "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "ar15", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
-    "components": [ [ [ "sheet_metal_small", 2 ] ] ]
+    "book_learn": [["manual_rifle", 6], ["textbook_anarch", 3]],
+    "qualities": [{ "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }],
+    "tools": [[["ar15", -1]], [["small_repairkit", 40], ["large_repairkit", 40]]],
+    "components": [[["sheet_metal_small", 2]]]
   },
   {
     "type": "recipe",
@@ -401,14 +435,14 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 2 ] ],
+    "skills_required": [["archery", 2]],
     "difficulty": 3,
     "time": "10 m",
     "autolearn": true,
-    "book_learn": [ [ "manual_gun", 3 ], [ "mag_archery", 2 ], [ "manual_archery", 1 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "book_learn": [["manual_gun", 3], ["mag_archery", 2], ["manual_archery", 1]],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }],
+    "components": [[["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "type": "recipe",
@@ -416,14 +450,14 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 3 ] ],
+    "skills_required": [["archery", 3]],
     "difficulty": 3,
     "time": "5 m",
     "autolearn": true,
-    "book_learn": [ [ "mag_archery", 3 ], [ "manual_archery", 2 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 2 ] ] ]
+    "book_learn": [["mag_archery", 3], ["manual_archery", 2]],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["plastic_chunk", 2]]]
   },
   {
     "type": "recipe",
@@ -431,14 +465,14 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 1 ] ],
+    "skills_required": [["archery", 1]],
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
-    "book_learn": [ [ "mag_archery", 2 ], [ "manual_archery", 1 ] ],
-    "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+    "book_learn": [["mag_archery", 2], ["manual_archery", 1]],
+    "using": [["soldering_standard", 5]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["plastic_chunk", 1]]]
   },
   {
     "type": "recipe",
@@ -448,7 +482,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "35 m",
-    "book_learn": [ [ "recipe_bows", 3 ], [ "manual_archery", 5 ], [ "book_archery", 4 ] ],
+    "book_learn": [["recipe_bows", 3], ["manual_archery", 5], ["book_archery", 4]],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "HAMMER", "level": 2 },
@@ -456,12 +490,12 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
-      [ [ "cordage_superior_short", 1, "LIST" ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "nail", 10 ] ],
-      [ [ "plastic_chunk", 2 ] ]
+      [["2x4", 1], ["stick", 2]],
+      [["cordage_superior_short", 1, "LIST"]],
+      [["spring", 1]],
+      [["scrap", 4]],
+      [["nail", 10]],
+      [["plastic_chunk", 2]]
     ]
   },
   {
@@ -470,12 +504,12 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ "launcher", 3 ],
+    "skills_required": ["launcher", 3],
     "difficulty": 3,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ], [ [ "scrap", 1 ] ] ]
+    "qualities": [{ "id": "SAW_W", "level": 1 }, { "id": "SCREW", "level": 1 }],
+    "components": [[["2x4", 2], ["stick", 2]], [["scrap", 1]]]
   },
   {
     "result": "arredondo_chute",
@@ -484,12 +518,16 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
     "difficulty": 4,
-    "skills_required": [ [ "fabrication", 4 ], [ "gun", 2 ] ],
+    "skills_required": [["fabrication", 4], ["gun", 2]],
     "time": "30 m",
-    "book_learn": [ [ "mag_guns", 4 ], [ "mag_pistol", 4 ], [ "mag_shotgun", 4 ], [ "mag_rifle", 4 ] ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "scrap", 4 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+    "book_learn": [["mag_guns", 4], ["mag_pistol", 4], ["mag_shotgun", 4], ["mag_rifle", 4]],
+    "using": [["soldering_standard", 15]],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "components": [[["scrap", 4]], [["sheet_metal_small", 4]]]
   },
   {
     "result": "bipod_mod",
@@ -498,11 +536,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ] ],
+    "skills_required": [["gun", 2]],
     "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "bipod", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 25], ["small_repairkit", 45]]],
+    "components": [[["bipod", 1]], [["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "grip_mod",
@@ -511,11 +549,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ] ],
+    "skills_required": [["gun", 2]],
     "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "grip", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 25], ["small_repairkit", 45]]],
+    "components": [[["grip", 1]], [["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "m203_mod",
@@ -524,11 +562,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "skills_required": [ [ "gun", 2 ], [ "launcher", 1 ] ],
+    "skills_required": [["gun", 2], ["launcher", 1]],
     "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 50 ], [ "small_repairkit", 100 ] ] ],
-    "components": [ [ [ "m203", 1 ] ], [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 50], ["small_repairkit", 100]]],
+    "components": [[["m203", 1]], [["scrap", 3]], [["plastic_chunk", 1]]]
   },
   {
     "result": "m320_mod_mod",
@@ -537,11 +575,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "skills_required": [ [ "gun", 2 ], [ "launcher", 1 ] ],
+    "skills_required": [["gun", 2], ["launcher", 1]],
     "time": "90 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 50 ], [ "small_repairkit", 100 ] ] ],
-    "components": [ [ [ "m320_mod", 1 ] ], [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 50], ["small_repairkit", 100]]],
+    "components": [[["m320_mod", 1]], [["scrap", 3]], [["plastic_chunk", 1]]]
   },
   {
     "result": "masterkey_mod",
@@ -550,11 +588,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "skills_required": [ [ "gun", 2 ], [ "shotgun", 1 ] ],
+    "skills_required": [["gun", 2], ["shotgun", 1]],
     "time": "90 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 50 ], [ "small_repairkit", 100 ] ] ],
-    "components": [ [ [ "masterkey", 1 ] ], [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 50], ["small_repairkit", 100]]],
+    "components": [[["masterkey", 1]], [["scrap", 3]], [["plastic_chunk", 1]]]
   },
   {
     "result": "rm121aux_mod",
@@ -563,11 +601,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "skills_required": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
+    "skills_required": [["gun", 2], ["shotgun", 2]],
     "time": "90 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 50 ], [ "small_repairkit", 100 ] ] ],
-    "components": [ [ [ "rm121aux", 1 ] ], [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 50], ["small_repairkit", 100]]],
+    "components": [[["rm121aux", 1]], [["scrap", 3]], [["plastic_chunk", 1]]]
   },
   {
     "result": "u_shotgun_mod",
@@ -576,11 +614,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "skills_required": [ [ "gun", 2 ], [ "shotgun", 1 ] ],
+    "skills_required": [["gun", 2], ["shotgun", 1]],
     "time": "90 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 50 ], [ "small_repairkit", 100 ] ] ],
-    "components": [ [ [ "u_shotgun", 1 ] ], [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 50], ["small_repairkit", 100]]],
+    "components": [[["u_shotgun", 1]], [["scrap", 3]], [["plastic_chunk", 1]]]
   },
   {
     "result": "knife_combat_mod",
@@ -589,11 +627,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ], [ "melee", 1 ] ],
+    "skills_required": [["gun", 2], ["melee", 1]],
     "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "knife_combat", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 25], ["small_repairkit", 45]]],
+    "components": [[["knife_combat", 1]], [["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "sword_bayonet_mod",
@@ -602,11 +640,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ], [ "melee", 2 ] ],
+    "skills_required": [["gun", 2], ["melee", 2]],
     "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "sword_bayonet", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 25], ["small_repairkit", 45]]],
+    "components": [[["sword_bayonet", 1]], [["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "offset_sight_rail_mod",
@@ -615,11 +653,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "gun", 4 ] ],
+    "skills_required": [["gun", 4]],
     "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "offset_sight_rail", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 25], ["small_repairkit", 45]]],
+    "components": [[["offset_sight_rail", 1]], [["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "stabilizer_mod",
@@ -628,11 +666,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "gun", 6 ] ],
+    "skills_required": [["gun", 6]],
     "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "stabilizer", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 25], ["small_repairkit", 45]]],
+    "components": [[["stabilizer", 1]], [["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "muzzle_brake_mod",
@@ -641,11 +679,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ] ],
+    "skills_required": [["gun", 2]],
     "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "muzzle_brake", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "tools": [[["large_repairkit", 25], ["small_repairkit", 45]]],
+    "components": [[["muzzle_brake", 1]], [["scrap", 2]]]
   },
   {
     "result": "rifle_scope_mod",
@@ -654,11 +692,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "gun", 4 ] ],
+    "skills_required": [["gun", 4]],
     "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "rifle_scope", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 25], ["small_repairkit", 45]]],
+    "components": [[["rifle_scope", 1]], [["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "acog_scope_mod",
@@ -667,11 +705,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "gun", 4 ] ],
+    "skills_required": [["gun", 4]],
     "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "acog_scope", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 25], ["small_repairkit", 45]]],
+    "components": [[["acog_scope", 1]], [["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "improve_sights",
@@ -680,24 +718,24 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ [ "gun", 3 ] ],
+    "skills_required": [["gun", 3]],
     "time": "30 m",
     "book_learn": [
-      [ "mag_guns", 3 ],
-      [ "mag_pistol", 3 ],
-      [ "mag_shotgun", 3 ],
-      [ "mag_smg", 3 ],
-      [ "mag_rifle", 3 ],
-      [ "manual_gun", 3 ],
-      [ "manual_pistol", 3 ],
-      [ "manual_shotgun", 3 ],
-      [ "manual_smg", 3 ],
-      [ "manual_rifle", 3 ]
+      ["mag_guns", 3],
+      ["mag_pistol", 3],
+      ["mag_shotgun", 3],
+      ["mag_smg", 3],
+      ["mag_rifle", 3],
+      ["manual_gun", 3],
+      ["manual_pistol", 3],
+      ["manual_shotgun", 3],
+      ["manual_smg", 3],
+      ["manual_rifle", 3]
     ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [ [ [ "large_repairkit", 10 ], [ "small_repairkit", 30 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "using": [["soldering_standard", 15]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }],
+    "tools": [[["large_repairkit", 10], ["small_repairkit", 30]]],
+    "components": [[["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "offset_sights",
@@ -706,24 +744,24 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 4 ] ],
+    "skills_required": [["gun", 4]],
     "time": "30 m",
     "book_learn": [
-      [ "mag_guns", 4 ],
-      [ "mag_pistol", 4 ],
-      [ "mag_shotgun", 4 ],
-      [ "mag_smg", 4 ],
-      [ "mag_rifle", 4 ],
-      [ "manual_gun", 4 ],
-      [ "manual_pistol", 4 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ]
+      ["mag_guns", 4],
+      ["mag_pistol", 4],
+      ["mag_shotgun", 4],
+      ["mag_smg", 4],
+      ["mag_rifle", 4],
+      ["manual_gun", 4],
+      ["manual_pistol", 4],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4]
     ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [ [ [ "large_repairkit", 10 ], [ "small_repairkit", 30 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "using": [["soldering_standard", 15]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }],
+    "tools": [[["large_repairkit", 10], ["small_repairkit", 30]]],
+    "components": [[["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "offset_sights_mod",
@@ -732,11 +770,11 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ], [ "rifle", 1 ] ],
+    "skills_required": [["gun", 2], ["rifle", 1]],
     "time": "30 m",
     "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "offset_sights", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [[["large_repairkit", 25], ["small_repairkit", 45]]],
+    "components": [[["offset_sights", 1]], [["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "sights_mount",
@@ -745,24 +783,24 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 4 ] ],
+    "skills_required": [["gun", 4]],
     "time": "30 m",
     "book_learn": [
-      [ "mag_guns", 4 ],
-      [ "mag_pistol", 4 ],
-      [ "mag_shotgun", 4 ],
-      [ "mag_smg", 4 ],
-      [ "mag_rifle", 4 ],
-      [ "manual_gun", 4 ],
-      [ "manual_pistol", 4 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ]
+      ["mag_guns", 4],
+      ["mag_pistol", 4],
+      ["mag_shotgun", 4],
+      ["mag_smg", 4],
+      ["mag_rifle", 4],
+      ["manual_gun", 4],
+      ["manual_pistol", 4],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4]
     ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [ [ [ "large_repairkit", 10 ], [ "small_repairkit", 30 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "using": [["soldering_standard", 15]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }],
+    "tools": [[["large_repairkit", 10], ["small_repairkit", 30]]],
+    "components": [[["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "sights_mount_launcher",
@@ -771,24 +809,24 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 4 ] ],
+    "skills_required": [["gun", 4]],
     "time": "30 m",
     "book_learn": [
-      [ "mag_guns", 4 ],
-      [ "mag_pistol", 4 ],
-      [ "mag_shotgun", 4 ],
-      [ "mag_smg", 4 ],
-      [ "mag_rifle", 4 ],
-      [ "manual_gun", 4 ],
-      [ "manual_pistol", 4 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ]
+      ["mag_guns", 4],
+      ["mag_pistol", 4],
+      ["mag_shotgun", 4],
+      ["mag_smg", 4],
+      ["mag_rifle", 4],
+      ["manual_gun", 4],
+      ["manual_pistol", 4],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4]
     ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [ [ [ "large_repairkit", 10 ], [ "small_repairkit", 30 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "using": [["soldering_standard", 15]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }],
+    "tools": [[["large_repairkit", 10], ["small_repairkit", 30]]],
+    "components": [[["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "sights_mount_pistol",
@@ -797,24 +835,24 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 4 ] ],
+    "skills_required": [["gun", 4]],
     "time": "30 m",
     "book_learn": [
-      [ "mag_guns", 4 ],
-      [ "mag_pistol", 4 ],
-      [ "mag_shotgun", 4 ],
-      [ "mag_smg", 4 ],
-      [ "mag_rifle", 4 ],
-      [ "manual_gun", 4 ],
-      [ "manual_pistol", 4 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ]
+      ["mag_guns", 4],
+      ["mag_pistol", 4],
+      ["mag_shotgun", 4],
+      ["mag_smg", 4],
+      ["mag_rifle", 4],
+      ["manual_gun", 4],
+      ["manual_pistol", 4],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4]
     ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [ [ [ "large_repairkit", 10 ], [ "small_repairkit", 30 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "using": [["soldering_standard", 15]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }],
+    "tools": [[["large_repairkit", 10], ["small_repairkit", 30]]],
+    "components": [[["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "rail_mount",
@@ -823,24 +861,24 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 4 ] ],
+    "skills_required": [["gun", 4]],
     "time": "30 m",
     "book_learn": [
-      [ "mag_guns", 4 ],
-      [ "mag_pistol", 4 ],
-      [ "mag_shotgun", 4 ],
-      [ "mag_smg", 4 ],
-      [ "mag_rifle", 4 ],
-      [ "manual_gun", 4 ],
-      [ "manual_pistol", 4 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ]
+      ["mag_guns", 4],
+      ["mag_pistol", 4],
+      ["mag_shotgun", 4],
+      ["mag_smg", 4],
+      ["mag_rifle", 4],
+      ["manual_gun", 4],
+      ["manual_pistol", 4],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4]
     ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [ [ [ "large_repairkit", 10 ], [ "small_repairkit", 30 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "using": [["soldering_standard", 15]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }],
+    "tools": [[["large_repairkit", 10], ["small_repairkit", 30]]],
+    "components": [[["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "underbarrel_mount",
@@ -849,24 +887,24 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 4 ] ],
+    "skills_required": [["gun", 4]],
     "time": "30 m",
     "book_learn": [
-      [ "mag_guns", 4 ],
-      [ "mag_pistol", 4 ],
-      [ "mag_shotgun", 4 ],
-      [ "mag_smg", 4 ],
-      [ "mag_rifle", 4 ],
-      [ "manual_gun", 4 ],
-      [ "manual_pistol", 4 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ]
+      ["mag_guns", 4],
+      ["mag_pistol", 4],
+      ["mag_shotgun", 4],
+      ["mag_smg", 4],
+      ["mag_rifle", 4],
+      ["manual_gun", 4],
+      ["manual_pistol", 4],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4]
     ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [ [ [ "large_repairkit", 10 ], [ "small_repairkit", 30 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "using": [["soldering_standard", 15]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }],
+    "tools": [[["large_repairkit", 10], ["small_repairkit", 30]]],
+    "components": [[["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "result": "stock_mount",
@@ -875,24 +913,24 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 5 ] ],
+    "skills_required": [["gun", 5]],
     "time": "30 m",
     "book_learn": [
-      [ "mag_guns", 4 ],
-      [ "mag_pistol", 4 ],
-      [ "mag_shotgun", 4 ],
-      [ "mag_smg", 4 ],
-      [ "mag_rifle", 4 ],
-      [ "manual_gun", 4 ],
-      [ "manual_pistol", 4 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ]
+      ["mag_guns", 4],
+      ["mag_pistol", 4],
+      ["mag_shotgun", 4],
+      ["mag_smg", 4],
+      ["mag_rifle", 4],
+      ["manual_gun", 4],
+      ["manual_pistol", 4],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4]
     ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [ [ [ "large_repairkit", 10 ], [ "small_repairkit", 30 ] ] ],
-    "components": [ [ [ "scrap", 3 ] ] ]
+    "using": [["soldering_standard", 15]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }],
+    "tools": [[["large_repairkit", 10], ["small_repairkit", 30]]],
+    "components": [[["scrap", 3]]]
   },
   {
     "result": "grip_mount",
@@ -901,24 +939,24 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 5 ] ],
+    "skills_required": [["gun", 5]],
     "time": "30 m",
     "book_learn": [
-      [ "mag_guns", 4 ],
-      [ "mag_pistol", 4 ],
-      [ "mag_shotgun", 4 ],
-      [ "mag_smg", 4 ],
-      [ "mag_rifle", 4 ],
-      [ "manual_gun", 4 ],
-      [ "manual_pistol", 4 ],
-      [ "manual_shotgun", 4 ],
-      [ "manual_smg", 4 ],
-      [ "manual_rifle", 4 ]
+      ["mag_guns", 4],
+      ["mag_pistol", 4],
+      ["mag_shotgun", 4],
+      ["mag_smg", 4],
+      ["mag_rifle", 4],
+      ["manual_gun", 4],
+      ["manual_pistol", 4],
+      ["manual_shotgun", 4],
+      ["manual_smg", 4],
+      ["manual_rifle", 4]
     ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [ [ [ "large_repairkit", 10 ], [ "small_repairkit", 30 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
+    "using": [["soldering_standard", 15]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }],
+    "tools": [[["large_repairkit", 10], ["small_repairkit", 30]]],
+    "components": [[["scrap", 1]], [["plastic_chunk", 3]]]
   },
   {
     "type": "recipe",
@@ -927,23 +965,23 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ [ "gun", 4 ] ],
+    "skills_required": [["gun", 4]],
     "time": "15 m",
     "decomp_learn": 3,
-    "book_learn": [ [ "manual_rifle", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "book_learn": [["manual_rifle", 2], ["manual_fabrication", 3], ["textbook_fabrication", 3]],
+    "using": [["soldering_standard", 10], ["surface_heat", 10]],
+    "qualities": [{ "id": "SCREW_FINE", "level": 1 }],
+    "tools": [[["mold_plastic", -1]]],
     "components": [
       [
-        [ "scrap", 1 ],
-        [ "can_drink_unsealed", 1 ],
-        [ "can_food_unsealed", 1 ],
-        [ "canister_empty", 1 ],
-        [ "plastic_chunk", 1 ]
+        ["scrap", 1],
+        ["can_drink_unsealed", 1],
+        ["can_food_unsealed", 1],
+        ["canister_empty", 1],
+        ["plastic_chunk", 1]
       ],
-      [ [ "lens", 2 ] ],
-      [ [ "lens", 1 ], [ "lens_small", 1 ] ]
+      [["lens", 2]],
+      [["lens", 1], ["lens_small", 1]]
     ]
   },
   {
@@ -953,23 +991,23 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ [ "pistol", 5 ] ],
+    "skills_required": [["pistol", 5]],
     "time": "15 m",
     "decomp_learn": 4,
-    "book_learn": [ [ "manual_pistol", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "book_learn": [["manual_pistol", 2], ["manual_fabrication", 3], ["textbook_fabrication", 3]],
+    "using": [["soldering_standard", 10], ["surface_heat", 10]],
+    "qualities": [{ "id": "SCREW_FINE", "level": 1 }],
+    "tools": [[["mold_plastic", -1]]],
     "components": [
       [
-        [ "scrap", 1 ],
-        [ "can_drink_unsealed", 1 ],
-        [ "can_food_unsealed", 1 ],
-        [ "canister_empty", 1 ],
-        [ "plastic_chunk", 1 ]
+        ["scrap", 1],
+        ["can_drink_unsealed", 1],
+        ["can_food_unsealed", 1],
+        ["canister_empty", 1],
+        ["plastic_chunk", 1]
       ],
-      [ [ "lens", 2 ] ],
-      [ [ "lens", 1 ], [ "lens_small", 1 ] ]
+      [["lens", 2]],
+      [["lens", 1], ["lens_small", 1]]
     ]
   },
   {
@@ -979,14 +1017,18 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "skills_required": [ [ "pistol", 3 ] ],
+    "skills_required": [["pistol", 3]],
     "time": "15 m",
     "decomp_learn": 4,
-    "book_learn": [ [ "manual_pistol", 3 ], [ "manual_fabrication", 4 ], [ "textbook_fabrication", 4 ] ],
-    "using": [ [ "welding_standard", 15 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "scrap", 3 ], [ "steel_chunk", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "spring", 1 ] ] ]
+    "book_learn": [["manual_pistol", 3], ["manual_fabrication", 4], ["textbook_fabrication", 4]],
+    "using": [["welding_standard", 15]],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "tools": [[["mold_plastic", -1]]],
+    "components": [[["scrap", 3], ["steel_chunk", 1]], [["plastic_chunk", 1]], [["spring", 1]]]
   },
   {
     "type": "recipe",
@@ -994,14 +1036,14 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 2 ] ],
+    "skills_required": [["archery", 2]],
     "difficulty": 2,
     "time": "6 m",
     "autolearn": true,
-    "book_learn": [ [ "manual_gun", 3 ], [ "mag_archery", 2 ], [ "manual_archery", 1 ] ],
-    "using": [ [ "soldering_standard", 8 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "book_learn": [["manual_gun", 3], ["mag_archery", 2], ["manual_archery", 1]],
+    "using": [["soldering_standard", 8]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }],
+    "components": [[["scrap", 1]], [["plastic_chunk", 1]]]
   },
   {
     "type": "recipe",
@@ -1009,13 +1051,18 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 3 ] ],
+    "skills_required": [["archery", 3]],
     "difficulty": 4,
     "time": "15 m",
-    "book_learn": [ [ "manual_gun", 3 ], [ "mag_archery", 2 ], [ "manual_archery", 1 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "lens", 2 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ] ]
+    "book_learn": [["manual_gun", 3], ["mag_archery", 2], ["manual_archery", 1]],
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }],
+    "components": [
+      [["scrap", 2]],
+      [["plastic_chunk", 2]],
+      [["lens", 2]],
+      [["lens", 1], ["lens_small", 1]]
+    ]
   },
   {
     "type": "recipe",
@@ -1023,18 +1070,18 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 3 ] ],
+    "skills_required": [["archery", 3]],
     "difficulty": 4,
     "time": "15 m",
-    "book_learn": [ [ "mag_archery", 3 ], [ "manual_archery", 2 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "book_learn": [["mag_archery", 3], ["manual_archery", 2]],
+    "using": [["soldering_standard", 20]],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 }
     ],
-    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [[["plastic_chunk", 2]], [["scrap", 4]]]
   },
   {
     "type": "recipe",
@@ -1042,12 +1089,12 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 2 ] ],
+    "skills_required": [["mechanics", 2]],
     "difficulty": 2,
     "time": "2 m 36 s",
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "filter_liquid", 1 ], [ "muffler", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "qualities": [{ "id": "SAW_M_FINE", "level": 1 }],
+    "components": [[["filter_liquid", 1], ["muffler", 1]], [["pipe", 1]], [["scrap", 2]]]
   },
   {
     "type": "recipe",
@@ -1058,8 +1105,12 @@
     "difficulty": 1,
     "time": "6 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "duct_tape", 75 ] ], [ [ "bottle_twoliter", 1 ] ], [ [ "bottle_plastic", 4 ], [ "bottle_plastic_small", 4 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [
+      [["duct_tape", 75]],
+      [["bottle_twoliter", 1]],
+      [["bottle_plastic", 4], ["bottle_plastic_small", 4]]
+    ]
   },
   {
     "type": "recipe",
@@ -1067,11 +1118,11 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 2 ] ],
+    "skills_required": [["archery", 2]],
     "difficulty": 2,
     "time": "1 m 30 s",
-    "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ], [ "fur", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "book_learn": [["mag_archery", 1], ["manual_archery", 1]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["plastic_chunk", 1], ["fur", 1]], [["superglue", 1], ["bone_glue", 1]]]
   }
 ]

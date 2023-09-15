@@ -64,7 +64,7 @@
     "type": "monstergroup",
     "name": "GROUP_BOOMER_UPGRADE",
     "default": "mon_boomer_huge",
-    "monsters": [ { "monster": "mon_gas_zombie", "freq": 50, "cost_multiplier": 10 } ]
+    "monsters": [{ "monster": "mon_gas_zombie", "freq": 50, "cost_multiplier": 10 }]
   },
   {
     "type": "monstergroup",
@@ -94,7 +94,7 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_DOG_UPGRADE",
     "default": "mon_dog_skeleton",
-    "monsters": [ { "monster": "mon_dog_zombie_rot", "freq": 100, "cost_multiplier": 2 } ]
+    "monsters": [{ "monster": "mon_dog_zombie_rot", "freq": 100, "cost_multiplier": 2 }]
   },
   {
     "type": "monstergroup",

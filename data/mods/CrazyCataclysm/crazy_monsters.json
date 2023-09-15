@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "fungaloid" },
     "copy-from": "mon_fungaloid",
-    "special_attacks": [ [ "FUNGUS_CORPORATE", 30 ] ]
+    "special_attacks": [["FUNGUS_CORPORATE", 30]]
   },
   {
     "id": "mon_zombie_electric",
@@ -12,7 +12,7 @@
     "name": { "str": "shocker zombie" },
     "description": "A human body with pale blue flesh, crackling with electrical energy.  It seems eager to tell you something.",
     "copy-from": "mon_zombie_electric",
-    "special_attacks": [ [ "SHOCKING_REVEAL", 25 ] ]
+    "special_attacks": [["SHOCKING_REVEAL", 25]]
   },
   {
     "id": "mon_zombie_skeltal",
@@ -20,12 +20,12 @@
     "name": { "str": "mr skeltal" },
     "description": "Devoid entirely of flesh and organs, this walking skeleton rattles you to the bone.  In its bony hand, it holds a pristine trumpet, unmarred by the end of the world.",
     "default_faction": "zombie",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 50,
     "speed": 60,
-    "material": [ "bone" ],
+    "material": ["bone"],
     "symbol": "Z",
     "color": "i_light_gray",
     "aggression": 100,
@@ -41,10 +41,10 @@
     "vision_day": 30,
     "vision_night": 3,
     "death_drops": "skeltal_drops",
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "FILTHY" ],
+    "death_function": ["NORMAL"],
+    "flags": ["SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "FILTHY"],
     "harvest": "mr_bones",
-    "special_attacks": [ [ "DOOT", 50 ] ]
+    "special_attacks": [["DOOT", 50]]
   },
   {
     "id": "mon_zombie_skeltal_minion",
@@ -52,12 +52,12 @@
     "name": { "str": "minion of skeltal", "str_pl": "minions of skeltal" },
     "description": "A lesser skeleton, raised by the forlorn dooting of a trumpet.",
     "default_faction": "zombie",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 10,
     "speed": 80,
-    "material": [ "bone" ],
+    "material": ["bone"],
     "symbol": "Z",
     "color": "white",
     "aggression": 100,
@@ -69,9 +69,9 @@
     "dodge": 0,
     "vision_day": 30,
     "vision_night": 3,
-    "death_function": [ "MELT" ],
+    "death_function": ["MELT"],
     "harvest": "mr_bones",
-    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY" ]
+    "flags": ["SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY"]
   },
   {
     "id": "mon_bear_smoky",
@@ -79,12 +79,12 @@
     "name": { "str": "Smoky bear" },
     "description": "A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice… and hunger.",
     "default_faction": "bear",
-    "species": [ "ZOMBIE" ],
+    "species": ["ZOMBIE"],
     "volume": "92500 ml",
     "weight": "120 kg",
     "hp": 100,
     "speed": 90,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "B",
     "color": "light_gray",
     "aggression": 100,
@@ -98,11 +98,11 @@
     "armor_cut": 4,
     "vision_day": 30,
     "vision_night": 10,
-    "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
-    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
-    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "SMOKEBURST" ],
+    "emit_fields": [{ "emit_id": "emit_smoke_stream", "delay": "1 s" }],
+    "special_attacks": [{ "type": "bite", "cooldown": 5 }],
+    "anger_triggers": ["HURT", "PLAYER_CLOSE"],
+    "placate_triggers": ["MEAT"],
+    "death_function": ["SMOKEBURST"],
     "harvest": "zombie_fur",
     "flags": [
       "SEES",

@@ -117,8 +117,8 @@
     "price": 4500,
     "price_postapoc": 10,
     "use_action": "HEAT_FOOD",
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
+    "flags": ["ALLOWS_REMOTE_USE"]
   },
   {
     "copy-from": "base_ceramic_dish",
@@ -128,7 +128,7 @@
     "name": { "str": "ceramic plate" },
     "symbol": ",",
     "description": "A ceramic dinner plate, unremarkable in every way.",
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [["CONTAIN", 1]]
   },
   {
     "type": "GENERIC",
@@ -139,7 +139,7 @@
     "description": "A perfectly ordinary ceramic soup bowl.",
     "copy-from": "base_ceramic_dish",
     "container_data": { "contains": "500 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "type": "GENERIC",
@@ -151,7 +151,7 @@
     "copy-from": "base_ceramic_dish",
     "proportional": { "weight": 0.6 },
     "container_data": { "contains": "250 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "type": "GENERIC",
@@ -163,24 +163,42 @@
     "copy-from": "base_ceramic_dish",
     "proportional": { "weight": 0.8 },
     "container_data": { "contains": "250 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]],
     "snippet_category": [
       { "id": "mug1", "text": "The side of the mug reads 'World's Greatest Dad'." },
       { "id": "mug2", "text": "The side of the mug reads 'World's Greatest Mom'." },
-      { "id": "mug3", "text": "The side of the mug has a picture of a happy looking family printed on'." },
+      {
+        "id": "mug3",
+        "text": "The side of the mug has a picture of a happy looking family printed on'."
+      },
       {
         "id": "mug4",
         "text": "The side of the mug has a comical green face on it and says 'I'm a zombie without my coffee!'."
       },
-      { "id": "mug5", "text": "The side of the mug reads 'I'd rather be playing open source games'." },
-      { "id": "mug6", "text": "The side of the mug reads 'If you think I'm bad, look in a mirror'." },
+      {
+        "id": "mug5",
+        "text": "The side of the mug reads 'I'd rather be playing open source games'."
+      },
+      {
+        "id": "mug6",
+        "text": "The side of the mug reads 'If you think I'm bad, look in a mirror'."
+      },
       { "id": "mug7", "text": "The side of the mug has a diagram of a caffeine molecule." },
       { "id": "mug8", "text": "The side of the mug has a cute picture of a sleeping cat." },
       { "id": "mug9", "text": "The mug is printed in leopard spots." },
       { "id": "mug10", "text": "The mug is blue and looks like a TARDIS." },
-      { "id": "mug11", "text": "The side of the mug reads 'STAR WARS' over a picture of a lightsaber." },
-      { "id": "mug12", "text": "The side of the mug reads 'House Stark' and depicts a fictional crest." },
-      { "id": "mug13", "text": "The side of the mug reads 'My fandom could beat up your fandom'. " },
+      {
+        "id": "mug11",
+        "text": "The side of the mug reads 'STAR WARS' over a picture of a lightsaber."
+      },
+      {
+        "id": "mug12",
+        "text": "The side of the mug reads 'House Stark' and depicts a fictional crest."
+      },
+      {
+        "id": "mug13",
+        "text": "The side of the mug reads 'My fandom could beat up your fandom'. "
+      },
       {
         "id": "mug14",
         "text": "The side of the mug reads 'Do you even linux, bro?' and has a picture of a muscular penguin."
@@ -198,7 +216,7 @@
     "description": "A tin dinner plate, lightweight and clanky.",
     "looks_like": "ceramic_plate",
     "copy-from": "base_tin_dish",
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [["CONTAIN", 1]]
   },
   {
     "type": "GENERIC",
@@ -211,7 +229,7 @@
     "proportional": { "weight": 0.8 },
     "copy-from": "base_tin_dish",
     "container_data": { "contains": "250 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "type": "GENERIC",
@@ -222,7 +240,7 @@
     "copy-from": "base_tin_dish",
     "symbol": "u",
     "container_data": { "contains": "250 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "type": "GENERIC",
@@ -233,7 +251,7 @@
     "description": "A tall drinking glass.",
     "copy-from": "base_glass_dish",
     "container_data": { "contains": "500 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 1], ["CONTAIN", 1]]
   },
   {
     "type": "GENERIC",
@@ -245,7 +263,7 @@
     "description": "A stemmed drinking glass that makes you feel very fancy when you drink from it.",
     "copy-from": "base_glass_dish",
     "container_data": { "contains": "250 ml", "watertight": true },
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [["CONTAIN", 1]]
   },
   {
     "type": "GENERIC",
@@ -256,7 +274,7 @@
     "description": "A glass bowl for soup or dessert.",
     "copy-from": "base_glass_dish",
     "container_data": { "contains": "500 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 1], ["CONTAIN", 1]]
   },
   {
     "type": "GENERIC",
@@ -267,7 +285,7 @@
     "description": "A durable plastic drinking vessel.  This one is made of clear acrylic and looks almost like glass.",
     "copy-from": "base_plastic_dish",
     "container_data": { "contains": "250 ml", "watertight": true },
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [["CONTAIN", 1]]
   },
   {
     "id": "bowl_plastic",
@@ -279,7 +297,7 @@
     "copy-from": "base_plastic_dish",
     "volume": "750 ml",
     "container_data": { "contains": "750 ml", "seals": true, "watertight": true },
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [["CONTAIN", 1]]
   },
   {
     "id": "plastic_bowl_kids",
@@ -291,15 +309,21 @@
     "description": "A plastic bowl designed for use by children.",
     "copy-from": "base_plastic_dish",
     "container_data": { "contains": "250 ml", "watertight": true },
-    "qualities": [ [ "CONTAIN", 1 ] ],
+    "qualities": [["CONTAIN", 1]],
     "snippet_category": [
       { "id": "kbowl1", "text": "This bowl is decorated with cartoon bears." },
       {
         "id": "kbowl2",
         "text": "There is a drawing of Yoda at the bottom of this bowl, and the words 'Eaten it all, you have'."
       },
-      { "id": "kbowl3", "text": "This bowl is covered in cartoon dogs and a logo that reads 'Paw Patrol'." },
-      { "id": "kbowl4", "text": "There are orange and blue fish chasing each other around the rim of this bowl." },
+      {
+        "id": "kbowl3",
+        "text": "This bowl is covered in cartoon dogs and a logo that reads 'Paw Patrol'."
+      },
+      {
+        "id": "kbowl4",
+        "text": "There are orange and blue fish chasing each other around the rim of this bowl."
+      },
       {
         "id": "kbowl5",
         "text": "This bowl is shaped like the head of a silly frog with the opening forming the mouth."
@@ -317,15 +341,24 @@
     "description": "A plastic cup with a spill-proof lid, designed for use by children.",
     "copy-from": "base_plastic_dish",
     "container_data": { "contains": "250 ml", "watertight": true, "seals": true },
-    "qualities": [ [ "CONTAIN", 1 ] ],
+    "qualities": [["CONTAIN", 1]],
     "snippet_category": [
       { "id": "sippycup1", "text": "This cup is decorated with cartoon bears." },
-      { "id": "sippycup2", "text": "This cup has a cartoony picture of the Avengers wrapped around the side." },
+      {
+        "id": "sippycup2",
+        "text": "This cup has a cartoony picture of the Avengers wrapped around the side."
+      },
       { "id": "sippycup3", "text": "This sippy cup is made of plastic in bright clashing colors." },
-      { "id": "sippycup4", "text": "This is a simple blue sippy cup with tooth marks around the spout." },
+      {
+        "id": "sippycup4",
+        "text": "This is a simple blue sippy cup with tooth marks around the spout."
+      },
       { "id": "sippycup5", "text": "This cup is decorated to look like a pokeball." },
       { "id": "sippycup6", "text": "There are cute anthropomorphic fruits decorating this cup." },
-      { "id": "sippycup7", "text": "This sippy cup is decorated with crayon-like text that reads 'I love you'." }
+      {
+        "id": "sippycup7",
+        "text": "This sippy cup is decorated with crayon-like text that reads 'I love you'."
+      }
     ]
   },
   {
@@ -414,9 +447,9 @@
     "symbol": ")",
     "color": "dark_gray",
     "container_data": { "contains": "25 L", "watertight": true },
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
     "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": ["ALLOWS_REMOTE_USE"]
   },
   {
     "type": "GENERIC",
@@ -432,8 +465,8 @@
     "bashing": 12,
     "to_hit": 0,
     "container_data": { "contains": "1 L", "watertight": true },
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] }
+    "delete": { "qualities": [["COOK", 3]] },
+    "extend": { "qualities": [["HAMMER", 1], ["COOK", 2]] }
   },
   {
     "type": "GENERIC",
@@ -449,8 +482,8 @@
     "volume": "1 L",
     "bashing": 8,
     "container_data": { "contains": "2 L", "watertight": true },
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] }
+    "delete": { "qualities": [["COOK", 3]] },
+    "extend": { "qualities": [["COOK", 2]] }
   },
   {
     "type": "GENERIC",
@@ -466,8 +499,8 @@
     "volume": "1 L",
     "bashing": 7,
     "container_data": { "contains": "1 L", "watertight": true },
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] }
+    "delete": { "qualities": [["COOK", 3]] },
+    "extend": { "qualities": [["COOK", 2]] }
   },
   {
     "id": "pot_makeshift",
@@ -485,7 +518,7 @@
     "symbol": ")",
     "color": "light_gray",
     "container_data": { "contains": "1 L", "watertight": true },
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],
     "use_action": "HEAT_FOOD"
   },
   {
@@ -504,7 +537,7 @@
     "symbol": ")",
     "color": "light_red",
     "container_data": { "contains": "1 L", "watertight": true },
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],
     "use_action": "HEAT_FOOD"
   },
   {
@@ -520,6 +553,6 @@
     "volume": "1500 ml",
     "bashing": 5,
     "container_data": { "contains": "1500 ml", "watertight": true },
-    "delete": { "qualities": [ [ "COOK", 3 ] ] }
+    "delete": { "qualities": [["COOK", 3]] }
   }
 ]

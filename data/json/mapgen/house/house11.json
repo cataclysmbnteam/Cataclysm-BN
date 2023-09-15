@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "house_11" ],
+    "om_terrain": ["house_11"],
     "weight": 300,
     "object": {
       "fill_ter": "t_floor",
@@ -32,9 +32,9 @@
         "$......................$",
         "$$$$$$$$$$$$$$$$$$$$$$$$"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
         "=": "t_door_metal_locked",
         "!": "t_wall_glass",
         "_": "t_pavement",
@@ -47,11 +47,20 @@
       },
       "furniture": { "?": "f_rack" },
       "place_loot": [
-        { "group": "livingroom", "x": [ 6, 12 ], "y": [ 10, 15 ], "chance": 90, "repeat": [ 1, 4 ] },
-        { "group": "guns_pistol_common", "x": [ 3, 3 ], "y": [ 8, 8 ], "chance": 5, "ammo": 90, "magazine": 100 }
+        { "group": "livingroom", "x": [6, 12], "y": [10, 15], "chance": 90, "repeat": [1, 4] },
+        {
+          "group": "guns_pistol_common",
+          "x": [3, 3],
+          "y": [8, 8],
+          "chance": 5,
+          "ammo": 90,
+          "magazine": 100
+        }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
-      "place_vehicles": [ { "vehicle": "suburban_home", "x": 17, "y": 10, "chance": 15, "rotation": 270 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [2, 21], "y": [2, 21], "chance": 2 }],
+      "place_vehicles": [
+        { "vehicle": "suburban_home", "x": 17, "y": 10, "chance": 15, "rotation": 270 }
+      ]
     }
   },
   {
@@ -86,7 +95,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -122,19 +131,26 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "nested": {
         "1": {
           "chunks": [
-            [ "null", 60 ],
-            [ "room_7x7_wine_cellar_S", 10 ],
-            [ "room_7x7_recroom_S", 30 ],
-            [ "7x7_tent_indoors", 5 ],
-            [ "6x6_sewing_open", 20 ],
-            [ "6x6_electronics_open", 10 ]
+            ["null", 60],
+            ["room_7x7_wine_cellar_S", 10],
+            ["room_7x7_recroom_S", 30],
+            ["7x7_tent_indoors", 5],
+            ["6x6_sewing_open", 20],
+            ["6x6_electronics_open", 10]
           ]
         },
-        "2": { "chunks": [ [ "null", 80 ], [ "room_9x9_cellar_E", 20 ], [ "room_9x9_weed_E", 5 ], [ "room_9x9_recroom_E", 20 ] ] }
+        "2": {
+          "chunks": [
+            ["null", 80],
+            ["room_9x9_cellar_E", 20],
+            ["room_9x9_weed_E", 5],
+            ["room_9x9_recroom_E", 20]
+          ]
+        }
       }
     }
   }

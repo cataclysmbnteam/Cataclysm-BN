@@ -3,7 +3,12 @@
     "id": "mana_potion_lesser",
     "name": { "str": "lesser mana potion" },
     "description": "You can't buy these, so you need to save them until the last boss!  Actually, don't even use them there!",
-    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 0 },
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "potion_recover_mana",
+      "no_fail": true,
+      "level": 0
+    },
     "type": "COMESTIBLE",
     "weight": "265 g",
     "quench": 10,
@@ -16,7 +21,7 @@
     "container": "flask_glass",
     "color": "light_blue",
     "comestible_type": "DRINK",
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "flags": ["EATEN_COLD", "NUTRIENT_OVERRIDE"],
     "phase": "liquid",
     "price": 2500,
     "freezing_point": 40
@@ -26,7 +31,12 @@
     "type": "COMESTIBLE",
     "name": { "str": "mana potion" },
     "copy-from": "mana_potion_lesser",
-    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 5 },
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "potion_recover_mana",
+      "no_fail": true,
+      "level": 5
+    },
     "price": 10000
   },
   {
@@ -34,7 +44,12 @@
     "type": "COMESTIBLE",
     "name": { "str": "greater mana potion" },
     "copy-from": "mana_potion_lesser",
-    "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 15 },
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "potion_recover_mana",
+      "no_fail": true,
+      "level": 15
+    },
     "price": 30000
   },
   {
@@ -53,7 +68,7 @@
     "container": "flask_glass",
     "color": "yellow",
     "comestible_type": "DRINK",
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
+    "flags": ["EATEN_COLD", "NUTRIENT_OVERRIDE"],
     "phase": "liquid",
     "price": 3000,
     "freezing_point": 40
@@ -62,7 +77,12 @@
     "id": "ogres_strength_potion",
     "name": { "str": "potion of Ogre's Strength", "str_pl": "potions of Ogre's Strength" },
     "description": "This is a potion of Ogre's Strength.  It will increase your strength for 10 minutes.",
-    "use_action": { "type": "cast_spell", "spell_id": "ogres_strength", "no_fail": true, "level": 9 },
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "ogres_strength",
+      "no_fail": true,
+      "level": 9
+    },
     "type": "COMESTIBLE",
     "copy-from": "cats_grace_potion"
   },
@@ -86,24 +106,34 @@
     "id": "animist_doll_zombie",
     "name": "zombie voodoo doll",
     "description": "A remarkably accurate effigy of an undead human, including pieces of bone and organs.  Necromantic magic delays immediate rot, but it won't last forever.  Piercing it with the attached needle could compel it to serve you.",
-    "use_action": { "type": "cast_spell", "spell_id": "summon_zombie", "no_fail": true, "level": 12 },
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "summon_zombie",
+      "no_fail": true,
+      "level": 12
+    },
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "category": "weapons",
-    "material": [ "leather", "flesh", "bone" ],
+    "material": ["leather", "flesh", "bone"],
     "weight": "225 g",
     "volume": "700ml",
     "symbol": "t",
     "color": "pink",
     "stack_size": 1,
     "spoils_in": "4 days",
-    "flags": [ "TRADER_AVOID", "INEDIBLE", "NUTRIENT_OVERRIDE" ]
+    "flags": ["TRADER_AVOID", "INEDIBLE", "NUTRIENT_OVERRIDE"]
   },
   {
     "id": "animist_doll_skeleton",
     "name": "ossified voodoo doll",
     "description": "A remarkably accurate effigy of an undead human covered with bone, including pieces of organs.  Necromantic magic delays immediate rot, but it won't last forever.  Piercing it with the attached needle could compel it to serve you.",
-    "use_action": { "type": "cast_spell", "spell_id": "summon_skeleton", "no_fail": true, "level": 10 },
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "summon_skeleton",
+      "no_fail": true,
+      "level": 10
+    },
     "type": "COMESTIBLE",
     "category": "weapons",
     "copy-from": "animist_doll_zombie"
@@ -112,17 +142,27 @@
     "id": "animist_doll_decayed_pouncer",
     "name": "cougar voodoo doll",
     "description": "A remarkably accurate effigy of an undead cougar, complete with fur, bones, and organs.  Necromantic magic delays immediate rot, but it won't last forever.  Piercing it with the attached needle could compel it to serve you.",
-    "use_action": { "type": "cast_spell", "spell_id": "summon_decayed_pouncer", "no_fail": true, "level": 13 },
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "summon_decayed_pouncer",
+      "no_fail": true,
+      "level": 13
+    },
     "type": "COMESTIBLE",
     "category": "weapons",
-    "material": [ "fur", "flesh", "bone" ],
+    "material": ["fur", "flesh", "bone"],
     "copy-from": "animist_doll_skeleton"
   },
   {
     "id": "twisted_restore_potion",
     "name": { "str": "potion of Twisted Restoration", "str_pl": "potions of Twisted Restoration" },
     "description": "This foul-smelling liquid simulates undead regeneration by accelerating your heart to dangerous levels.  Drinking this in danger or at critical condition may be lethal.",
-    "use_action": { "type": "cast_spell", "spell_id": "twisted_restore", "no_fail": true, "level": 1 },
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "twisted_restore",
+      "no_fail": true,
+      "level": 1
+    },
     "type": "COMESTIBLE",
     "weight": "265 g",
     "quench": -30,
@@ -136,16 +176,24 @@
     "color": "brown",
     "spoils_in": "5 days",
     "comestible_type": "DRINK",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": ["TRADER_AVOID", "NUTRIENT_OVERRIDE"],
     "phase": "liquid",
     "price": 2500,
     "freezing_point": 10
   },
   {
     "id": "twisted_restore_potion_improved",
-    "name": { "str": "potion of Improved Twisted Restoration", "str_pl": "potions of Improved Twisted Restoration" },
+    "name": {
+      "str": "potion of Improved Twisted Restoration",
+      "str_pl": "potions of Improved Twisted Restoration"
+    },
     "description": "This foul-smelling liquid simulates undead regeneration by accelerating your heart to dangerous levels.  Drinking this in danger or at critical condition may be lethal.  Improved infusion techniques lessen the strain of the process.",
-    "use_action": { "type": "cast_spell", "spell_id": "twisted_restore_improved", "no_fail": true, "level": 1 },
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "twisted_restore_improved",
+      "no_fail": true,
+      "level": 1
+    },
     "type": "COMESTIBLE",
     "copy-from": "twisted_restore_potion"
   }

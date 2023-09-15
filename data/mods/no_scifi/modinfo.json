@@ -3,11 +3,11 @@
     "type": "MOD_INFO",
     "id": "no_scifi",
     "name": "No Sci-Fi Equipment",
-    "authors": [ "Rivet-the-Zombie" ],
-    "maintainers": [ "mugling" ],
+    "authors": ["Rivet-the-Zombie"],
+    "maintainers": ["mugling"],
     "description": "Removes far-future Sci-Fi items such as powered armor and energy weapons.",
     "category": "item_exclude",
-    "dependencies": [ "bn" ],
+    "dependencies": ["bn"],
     "obsolete": true
   },
   {

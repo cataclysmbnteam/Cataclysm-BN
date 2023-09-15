@@ -1,7 +1,7 @@
 [
   {
     "method": "json",
-    "om_terrain": [ [ "urban_1_1", "urban_1_2" ] ],
+    "om_terrain": [["urban_1_1", "urban_1_2"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -32,10 +32,10 @@
         "..[....%%%.%%%.%%%.%%%.%%%.%%%.%%%.________.....",
         "...................................________pp..."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "=": "t_door_metal_locked",
         "_": "t_pavement",
@@ -70,13 +70,18 @@
         "0": "t_linoleum_white"
       },
       "furniture": { "!": "f_region_flower", "$": "f_sofa", "0": "f_stool", ")": "f_table" },
-      "place_loot": [ { "item": "television", "x": 14, "y": 9, "chance": 100 }, { "item": "stereo", "x": 14, "y": 10, "chance": 60 } ],
-      "place_vehicles": [ { "vehicle": "suburban_home", "x": 39, "y": 12, "chance": 30, "rotation": 270 } ]
+      "place_loot": [
+        { "item": "television", "x": 14, "y": 9, "chance": 100 },
+        { "item": "stereo", "x": 14, "y": 10, "chance": 60 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "suburban_home", "x": 39, "y": 12, "chance": 30, "rotation": 270 }
+      ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_1_3", "urban_1_4" ] ],
+    "om_terrain": [["urban_1_3", "urban_1_4"]],
     "type": "mapgen",
     "object": {
       "fill_ter": "t_floor",
@@ -106,7 +111,7 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "~": "t_open_air",
         "=": "t_shingle_flat_roof",
@@ -127,7 +132,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_1_1_basement", "urban_1_2_basement" ] ],
+    "om_terrain": [["urban_1_1_basement", "urban_1_2_basement"]],
     "type": "mapgen",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -157,8 +162,10 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "basement_empty" ],
-      "nested": { "1": { "chunks": [ [ "recroom_12x12", 33 ], [ "tvroom_12x12", 33 ], [ "workoutroom_12x12", 33 ] ] } }
+      "palettes": ["basement_empty"],
+      "nested": {
+        "1": { "chunks": [["recroom_12x12", 33], ["tvroom_12x12", 33], ["workoutroom_12x12", 33]] }
+      }
     }
   },
   {
@@ -193,7 +200,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

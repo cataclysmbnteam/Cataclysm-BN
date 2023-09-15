@@ -12,7 +12,7 @@
     "material": "alien_resin",
     "symbol": ",",
     "color": "light_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": ["NO_SALVAGE"]
   },
   {
     "id": "alien_pod_resin",
@@ -27,6 +27,6 @@
     "material": "alien_resin",
     "symbol": "0",
     "color": "light_blue",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": ["NO_SALVAGE"]
   }
 ]

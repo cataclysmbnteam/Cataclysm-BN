@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_electronics" ],
+    "om_terrain": ["s_electronics"],
     "weight": 150,
     "//": "It's not as valuable as the gunsmithing shops are, but it's based on the same model and should be a figurative silver mine, if not a gold mine.",
     "object": {
@@ -62,9 +62,9 @@
         "E": "f_desk",
         "F": "f_fridge",
         "S": "f_sink",
-        "^": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "^": ["f_indoor_plant_y", "f_indoor_plant"],
         "c": "f_chair",
-        "d": [ "f_dumpster", "f_recycle_bin" ],
+        "d": ["f_dumpster", "f_recycle_bin"],
         "l": "f_locker",
         "q": "f_stool",
         "r": "f_rack",
@@ -72,32 +72,38 @@
         "w": "f_washer",
         "y": "f_dryer"
       },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "place_items": [
-        { "item": "fridgesnacks", "x": 21, "y": 15, "chance": 80, "repeat": [ 1, 12 ] },
-        { "item": "elecsto_cameras", "x": [ 3, 6 ], "y": 8, "chance": 80, "repeat": [ 1, 2 ] },
-        { "item": "bionic_power_storage_civ", "x": [ 9, 12 ], "y": 8, "chance": 60 },
-        { "item": "bionics_common", "x": [ 9, 12 ], "y": 8, "chance": 60 },
-        { "item": "elecsto_lights", "x": 2, "y": [ 9, 12 ], "chance": 80, "repeat": [ 2, 6 ] },
-        { "item": "elecsto_pcs", "x": [ 5, 8 ], "y": 10, "chance": 85, "repeat": [ 1, 4 ] },
-        { "item": "electronics", "x": [ 9, 10 ], "y": 10, "chance": 75, "repeat": [ 1, 4 ] },
-        { "item": "elecsto_entapl", "x": [ 5, 7 ], "y": 11, "chance": 70, "repeat": [ 2, 4 ] },
-        { "item": "elecsto_persele", "x": [ 8, 9 ], "y": 11, "chance": 70, "repeat": [ 1, 6 ] },
-        { "item": "elecsto_homapl", "x": [ 5, 10 ], "y": [ 13, 14 ], "chance": 90, "repeat": [ 1, 4 ] },
-        { "item": "elecsto_books", "x": 2, "y": 14, "chance": 75, "repeat": [ 1, 3 ] },
-        { "item": "elecsto_diy", "x": 2, "y": [ 15, 17 ], "chance": 70, "repeat": [ 2, 6 ] },
-        { "item": "bionics_common", "x": [ 18, 21 ], "y": 8, "chance": 60 },
-        { "item": "bionic_power_storage_civ", "x": [ 18, 21 ], "y": 8, "chance": 60 },
-        { "item": "elecsto_displ", "x": [ 18, 21 ], "y": 8, "chance": 70, "repeat": [ 2, 6 ] },
-        { "item": "electronics", "x": 21, "y": [ 16, 17 ], "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "elecsto_diy", "x": [ 15, 20 ], "y": 18, "chance": 65, "repeat": [ 1, 4 ] },
-        { "item": "electronics", "x": [ 17, 20 ], "y": 18, "chance": 85, "repeat": [ 1, 4 ] },
-        { "item": "electronics", "x": [ 14, 17 ], "y": 14, "chance": 85, "repeat": [ 1, 4 ] },
+        { "item": "fridgesnacks", "x": 21, "y": 15, "chance": 80, "repeat": [1, 12] },
+        { "item": "elecsto_cameras", "x": [3, 6], "y": 8, "chance": 80, "repeat": [1, 2] },
+        { "item": "bionic_power_storage_civ", "x": [9, 12], "y": 8, "chance": 60 },
+        { "item": "bionics_common", "x": [9, 12], "y": 8, "chance": 60 },
+        { "item": "elecsto_lights", "x": 2, "y": [9, 12], "chance": 80, "repeat": [2, 6] },
+        { "item": "elecsto_pcs", "x": [5, 8], "y": 10, "chance": 85, "repeat": [1, 4] },
+        { "item": "electronics", "x": [9, 10], "y": 10, "chance": 75, "repeat": [1, 4] },
+        { "item": "elecsto_entapl", "x": [5, 7], "y": 11, "chance": 70, "repeat": [2, 4] },
+        { "item": "elecsto_persele", "x": [8, 9], "y": 11, "chance": 70, "repeat": [1, 6] },
+        { "item": "elecsto_homapl", "x": [5, 10], "y": [13, 14], "chance": 90, "repeat": [1, 4] },
+        { "item": "elecsto_books", "x": 2, "y": 14, "chance": 75, "repeat": [1, 3] },
+        { "item": "elecsto_diy", "x": 2, "y": [15, 17], "chance": 70, "repeat": [2, 6] },
+        { "item": "bionics_common", "x": [18, 21], "y": 8, "chance": 60 },
+        { "item": "bionic_power_storage_civ", "x": [18, 21], "y": 8, "chance": 60 },
+        { "item": "elecsto_displ", "x": [18, 21], "y": 8, "chance": 70, "repeat": [2, 6] },
+        { "item": "electronics", "x": 21, "y": [16, 17], "chance": 70, "repeat": [1, 4] },
+        { "item": "elecsto_diy", "x": [15, 20], "y": 18, "chance": 65, "repeat": [1, 4] },
+        { "item": "electronics", "x": [17, 20], "y": 18, "chance": 85, "repeat": [1, 4] },
+        { "item": "electronics", "x": [14, 17], "y": 14, "chance": 85, "repeat": [1, 4] },
         { "item": "snacks", "x": 16, "y": 9, "chance": 85 },
-        { "item": "magazines", "x": 16, "y": 9, "chance": 60, "repeat": [ 1, 8 ] },
-        { "item": "autodoc_installation_programs", "x": 21, "y": [ 12, 13 ], "chance": 85, "repeat": [ 1, 4 ] },
+        { "item": "magazines", "x": 16, "y": 9, "chance": 60, "repeat": [1, 8] },
+        {
+          "item": "autodoc_installation_programs",
+          "x": 21,
+          "y": [12, 13],
+          "chance": 85,
+          "repeat": [1, 4]
+        },
         { "item": "trash", "x": 18, "y": 15, "chance": 65 },
-        { "item": "trash", "x": [ 15, 17 ], "y": [ 20, 21 ], "chance": 80 }
+        { "item": "trash", "x": [15, 17], "y": [20, 21], "chance": 80 }
       ],
       "place_item": [
         { "item": "television", "x": 16, "y": 14, "chance": 30 },
@@ -138,22 +144,22 @@
         " |-----3                ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ">": "t_ladder_down" },
       "furniture": { "%": "f_TV_antenna" },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 40 ],
-            [ "roof_6x6_survivor", 3 ],
-            [ "roof_3x3_wine", 5 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 40],
+            ["roof_6x6_survivor", 3],
+            ["roof_3x3_wine", 5]
           ],
-          "x": [ 5, 15 ],
-          "y": [ 9, 11 ]
+          "x": [5, 15],
+          "y": [9, 11]
         }
       ]
     }
@@ -161,7 +167,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_electronics_1" ],
+    "om_terrain": ["s_electronics_1"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -192,7 +198,7 @@
         "         xUUxxxxxxx     "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": ["t_grass", "t_grass", "t_grass", "t_dirt"],
         ".": "t_floor",
         "p": "t_grass",
         "J": "t_grass",
@@ -236,9 +242,9 @@
         "{": "f_rack",
         "S": "f_stool",
         "s": "f_sink",
-        "U": [ "f_dumpster", "f_recycle_bin" ],
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
-        "M": [ "f_crate_c", "f_cardboard_box" ],
+        "U": ["f_dumpster", "f_recycle_bin"],
+        "y": ["f_indoor_plant_y", "f_indoor_plant"],
+        "M": ["f_crate_c", "f_cardboard_box"],
         "t": "f_table",
         "Y": "f_trashcan",
         "H": "f_displaycase",
@@ -249,23 +255,34 @@
         "F": "f_filing_cabinet",
         "@": "f_sofa",
         "G": "f_workbench",
-        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ]
+        "p": [
+          "f_datura",
+          "f_bluebell",
+          "f_mutpoppy",
+          "f_dahlia",
+          "f_flower_tulip",
+          "f_chamomile",
+          "f_flower_spurge",
+          "f_lily"
+        ]
       },
-      "toilets": { "&": {  } },
+      "toilets": { "&": {} },
       "items": {
         "I": { "item": "office", "chance": 30 },
         "F": { "item": "office_paper", "chance": 30 },
-        "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
-        "M": { "item": "consumer_electronics", "chance": 70, "repeat": [ 1, 4 ] },
-        "#": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
-        "{": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
-        "H": { "item": "elecsto_persele", "chance": 75, "repeat": [ 1, 4 ] },
-        "G": { "item": "elecsto_diy", "chance": 75, "repeat": [ 1, 4 ] },
-        "t": { "item": "elecsto_homapl", "chance": 75, "repeat": [ 1, 4 ] },
-        "L": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
-        "U": { "item": "trash", "chance": 25, "repeat": [ 1, 4 ] }
+        "Y": { "item": "trash", "chance": 20, "repeat": [1, 2] },
+        "M": { "item": "consumer_electronics", "chance": 70, "repeat": [1, 4] },
+        "#": { "item": "consumer_electronics", "chance": 75, "repeat": [1, 4] },
+        "{": { "item": "consumer_electronics", "chance": 75, "repeat": [1, 4] },
+        "H": { "item": "elecsto_persele", "chance": 75, "repeat": [1, 4] },
+        "G": { "item": "elecsto_diy", "chance": 75, "repeat": [1, 4] },
+        "t": { "item": "elecsto_homapl", "chance": 75, "repeat": [1, 4] },
+        "L": [{ "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 }],
+        "U": { "item": "trash", "chance": 25, "repeat": [1, 4] }
       },
-      "place_monsters": [ { "monster": "GROUP_ELECTRO", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
+      "place_monsters": [
+        { "monster": "GROUP_ELECTRO", "x": [0, 0], "y": [23, 23], "chance": 2, "repeat": [2, 3] }
+      ]
     }
   },
   {
@@ -300,25 +317,33 @@
         "          #>#           ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ">": "t_ladder_down" },
-      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "nested": {
+        "U": { "chunks": ["roof_2x2_infrastructure"] },
+        "R": { "chunks": ["roof_2x2_infrastructure_1"] }
+      },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 5, 15 ],
-          "y": [ 5, 7 ]
+          "x": [5, 15],
+          "y": [5, 7]
         },
         {
-          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ], [ "roof_6x6_survivor", 10 ] ],
-          "x": [ 5, 13 ],
-          "y": [ 9, 11 ]
+          "chunks": [
+            ["null", 20],
+            ["roof_4x4_utility", 40],
+            ["roof_6x6_utility", 20],
+            ["roof_6x6_survivor", 10]
+          ],
+          "x": [5, 13],
+          "y": [9, 11]
         }
       ]
     }
@@ -326,7 +351,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_electronics_2" ],
+    "om_terrain": ["s_electronics_2"],
     "weight": 300,
     "object": {
       "fill_ter": "t_region_groundcover_urban",
@@ -383,18 +408,21 @@
         "<": "t_ladder_up",
         "4": "t_gutter_downspout"
       },
-      "toilets": { "&": {  } },
+      "toilets": { "&": {} },
       "items": {
-        "J": { "item": "cleaning", "chance": 50, "repeat": [ 1, 4 ] },
-        "D": { "item": "elecsto_diy", "chance": 75, "repeat": [ 1, 4 ] },
-        "C": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
-        "H": { "item": "elecsto_homapl", "chance": 75, "repeat": [ 1, 4 ] },
-        "R": { "item": "elecsto_books", "chance": 50, "repeat": [ 1, 2 ] },
-        "B": [ { "item": "bionics_common", "chance": 40 }, { "item": "bionic_power_storage_civ", "chance": 20 } ],
-        "G": [ { "item": "bionics_common", "chance": 20 }, { "item": "bionics", "chance": 10 } ],
+        "J": { "item": "cleaning", "chance": 50, "repeat": [1, 4] },
+        "D": { "item": "elecsto_diy", "chance": 75, "repeat": [1, 4] },
+        "C": { "item": "consumer_electronics", "chance": 75, "repeat": [1, 4] },
+        "H": { "item": "elecsto_homapl", "chance": 75, "repeat": [1, 4] },
+        "R": { "item": "elecsto_books", "chance": 50, "repeat": [1, 2] },
+        "B": [
+          { "item": "bionics_common", "chance": 40 },
+          { "item": "bionic_power_storage_civ", "chance": 20 }
+        ],
+        "G": [{ "item": "bionics_common", "chance": 20 }, { "item": "bionics", "chance": 10 }],
         "M": [
-          { "item": "surgery", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "drugs_pharmacy", "chance": 10, "repeat": [ 1, 2 ] }
+          { "item": "surgery", "chance": 40, "repeat": [1, 2] },
+          { "item": "drugs_pharmacy", "chance": 10, "repeat": [1, 2] }
         ]
       },
       "furniture": {
@@ -412,7 +440,7 @@
         "A": "f_autodoc",
         "?": "f_autodoc_couch"
       },
-      "place_monster": [ { "monster": "mon_turret_light", "x": 13, "y": 17 } ]
+      "place_monster": [{ "monster": "mon_turret_light", "x": 13, "y": 17 }]
     }
   },
   {
@@ -447,34 +475,34 @@
         "  |..................3  ",
         "  |------------------3  "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": {  },
+      "palettes": ["roof_palette"],
+      "terrain": {},
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 30 ],
-            [ "roof_2x2_utilities", 30 ],
-            [ "roof_2x2_golf", 10 ],
-            [ "roof_3x3_wine", 10 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 30],
+            ["roof_2x2_utilities", 30],
+            ["roof_2x2_golf", 10],
+            ["roof_3x3_wine", 10]
           ],
-          "x": [ 4, 15 ],
-          "y": [ 8, 9 ]
+          "x": [4, 15],
+          "y": [8, 9]
         },
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_4x4_party", 5 ],
-            [ "roof_4x4_holdout", 15 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_4x4_utility_1", 10 ],
-            [ "roof_6x6_survivor", 20 ],
-            [ "roof_6x6_utility", 20 ]
+            ["null", 20],
+            ["roof_4x4_party", 5],
+            ["roof_4x4_holdout", 15],
+            ["roof_4x4_utility", 40],
+            ["roof_4x4_utility_1", 10],
+            ["roof_6x6_survivor", 20],
+            ["roof_6x6_utility", 20]
           ],
-          "x": [ 4, 13 ],
-          "y": [ 11, 16 ]
+          "x": [4, 13],
+          "y": [11, 16]
         }
       ]
     }

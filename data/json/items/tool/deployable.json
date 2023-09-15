@@ -11,11 +11,11 @@
     "price_postapoc": 10,
     "to_hit": -4,
     "bashing": 7,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_brazier" },
-    "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["COOK", 1], ["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "hobo_stove",
@@ -28,7 +28,7 @@
     "to_hit": -1,
     "bashing": 2,
     "looks_like": "can_medium_unsealed",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ",",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_hobo_stove" }
@@ -46,7 +46,7 @@
     "to_hit": -5,
     "bashing": 8,
     "looks_like": "55gal_drum",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "0",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_55gal_firebarrel" }
@@ -64,7 +64,7 @@
     "to_hit": -4,
     "bashing": 7,
     "looks_like": "30gal_drum",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "0",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_30gal_firebarrel" }
@@ -82,7 +82,7 @@
     "to_hit": -4,
     "bashing": 3,
     "looks_like": "rollmat",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "#",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_camp_chair" }
@@ -99,7 +99,7 @@
     "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "aluminum", "cotton" ],
+    "material": ["aluminum", "cotton"],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -158,10 +158,10 @@
     "price_postapoc": 250,
     "to_hit": -4,
     "bashing": 7,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "=",
     "color": "light_gray",
-    "flags": [ "BUTCHER_RACK" ],
+    "flags": ["BUTCHER_RACK"],
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_butcher_rack" }
   },
   {
@@ -199,7 +199,7 @@
     "price_postapoc": 750,
     "to_hit": -4,
     "bashing": 7,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "=",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_smoking_rack" }
@@ -216,8 +216,8 @@
     "price_postapoc": 100,
     "to_hit": -3,
     "bashing": 5,
-    "material": [ "steel" ],
-    "flags": [ "FLAT_SURFACE" ],
+    "material": ["steel"],
+    "flags": ["FLAT_SURFACE"],
     "symbol": "=",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_tourist_table" }
@@ -234,8 +234,8 @@
     "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 2,
-    "material": [ "leather" ],
-    "flags": [ "FLAT_SURFACE" ],
+    "material": ["leather"],
+    "flags": ["FLAT_SURFACE"],
     "symbol": "*",
     "color": "brown",
     "use_action": { "type": "deploy_furn", "furn_type": "f_leather_tarp" }
@@ -252,8 +252,8 @@
     "price_postapoc": 100,
     "to_hit": -3,
     "bashing": 1,
-    "material": [ "veggy" ],
-    "flags": [ "FLAT_SURFACE" ],
+    "material": ["veggy"],
+    "flags": ["FLAT_SURFACE"],
     "symbol": "*",
     "color": "yellow",
     "use_action": { "type": "deploy_furn", "furn_type": "f_fiber_mat" }
@@ -270,12 +270,12 @@
     "price_postapoc": 1000,
     "to_hit": -4,
     "bashing": 7,
-    "material": [ "wood" ],
+    "material": ["wood"],
     "looks_like": "f_wood_keg",
     "symbol": "u",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_butter_churn" },
-    "qualities": [ [ "CONTAIN", 1 ], [ "CHURN", 1 ] ]
+    "qualities": [["CONTAIN", 1], ["CHURN", 1]]
   },
   {
     "id": "water_mill",
@@ -292,7 +292,7 @@
     "material": "wood",
     "symbol": "*",
     "color": "red",
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": ["DURABLE_MELEE"]
   },
   {
     "id": "wind_mill",
@@ -309,6 +309,6 @@
     "material": "steel",
     "symbol": "T",
     "color": "red",
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": ["DURABLE_MELEE"]
   }
 ]

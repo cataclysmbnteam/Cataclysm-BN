@@ -18,19 +18,22 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Mangalpreet is the mother of a small family.  They've made it through this unscathed and have a lot of survivor's guilt.",
-    "bonus_str": { "rng": [ -2, 2 ] },
-    "bonus_dex": { "rng": [ -2, 2 ] },
-    "bonus_int": { "rng": [ -2, 2 ] },
-    "bonus_per": { "rng": [ -2, 2 ] },
+    "bonus_str": { "rng": [-2, 2] },
+    "bonus_dex": { "rng": [-2, 2] },
+    "bonus_int": { "rng": [-2, 2] },
+    "bonus_per": { "rng": [-2, 2] },
     "worn_override": "REFUGEE_Mangalpreet_worn",
     "carry_override": "REFUGEE_Mangalpreet_carried",
     "weapon_override": "EMPTY_GROUP",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "traits": [{ "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" }],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
-      { "skill": "cooking", "bonus": { "rng": [ 3, 4 ] } },
-      { "skill": "tailor", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "fabrication", "bonus": { "rng": [ 1, 2 ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [2, 2] }, { "rng": [0, -4] }] }] }
+      },
+      { "skill": "cooking", "bonus": { "rng": [3, 4] } },
+      { "skill": "tailor", "bonus": { "rng": [2, 4] } },
+      { "skill": "fabrication", "bonus": { "rng": [1, 2] } }
     ]
   },
   {
@@ -52,7 +55,7 @@
     "type": "item_group",
     "id": "REFUGEE_Mangalpreet_carried",
     "subtype": "collection",
-    "entries": [ { "item": "holybook_granth" } ]
+    "entries": [{ "item": "holybook_granth" }]
   },
   {
     "type": "item_group",
@@ -67,7 +70,11 @@
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [ "TALK_REFUGEE_Mangalpreet_2", "TALK_REFUGEE_Mangalpreet_Background", "TALK_REFUGEE_Mangalpreet_Situation" ],
+    "id": [
+      "TALK_REFUGEE_Mangalpreet_2",
+      "TALK_REFUGEE_Mangalpreet_Background",
+      "TALK_REFUGEE_Mangalpreet_Situation"
+    ],
     "responses": [
       {
         "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
@@ -75,7 +82,12 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+              "not": {
+                "npc_has_var": "cleanup_asked",
+                "type": "mission",
+                "context": "Boris_mission_1",
+                "value": "yes"
+              }
             }
           ]
         },
@@ -93,30 +105,64 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hello again.", "Hi there.", "Oh, hello there." ],
+      "yes": ["Hello again.", "Hi there.", "Oh, hello there."],
       "no": "Ah!  You are new.  I'm sorry, I'm Mangalpreet."
     },
     "responses": [
       {
         "text": "Nice to meet you, Mangalpreet.",
-        "effect": { "u_add_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_Mangalpreet_Singh",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Mangalpreet_Singh",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_REFUGEE_Mangalpreet_1_firstmeet"
       },
       {
         "text": "Hi, Mangalpreet.",
         "topic": "TALK_REFUGEE_Mangalpreet_2",
-        "condition": { "u_has_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": {
+          "u_has_var": "u_met_Mangalpreet_Singh",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       },
       {
         "text": "Hi Mangalpreet, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_Mangalpreet_Singh",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Mangalpreet_Singh",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Hi Mangalpreet.  I can't stay to talk.",
-        "condition": { "u_has_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_Mangalpreet_Singh",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -126,7 +172,10 @@
     "id": "TALK_REFUGEE_Mangalpreet_1_firstmeet",
     "dynamic_line": "Yes, I'm glad to meet you too.  Will you be staying with us?  I thought they were taking no more refugees.",
     "responses": [
-      { "text": "I'm a traveler actually.  Just saying hello.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
+      {
+        "text": "I'm a traveler actually.  Just saying hello.",
+        "topic": "TALK_REFUGEE_Mangalpreet_2"
+      },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
     ]
   },
@@ -134,7 +183,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_2",
     "dynamic_line": "Is there anything you'd like to talk about?",
-    "responses": [ { "text": "Not really.  I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "Not really.  I'd better get going.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",

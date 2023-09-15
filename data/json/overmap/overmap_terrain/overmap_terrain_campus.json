@@ -19,7 +19,7 @@
     "sym": "A",
     "color": "red",
     "see_cost": 5,
-    "flags": [ "SOURCE_CHEMISTRY", "RISK_HIGH" ]
+    "flags": ["SOURCE_CHEMISTRY", "RISK_HIGH"]
   },
   {
     "type": "overmap_terrain",
@@ -97,7 +97,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "campus_media_0_0_4", "campus_media_0_1_4", "campus_media_1_0_4", "campus_media_1_1_4" ],
+    "id": ["campus_media_0_0_4", "campus_media_0_1_4", "campus_media_1_0_4", "campus_media_1_1_4"],
     "name": "campus media building roof",
     "color": "blue",
     "copy-from": "campus_media_0_0_0"
@@ -122,7 +122,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "campus_health_0_0_3", "campus_health_0_1_3", "campus_health_0_2_3" ],
+    "id": ["campus_health_0_0_3", "campus_health_0_1_3", "campus_health_0_2_3"],
     "name": "campus health building roof",
     "copy-from": "campus_health_0_0_0"
   },
@@ -149,7 +149,12 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "campus_lecture_0_0_3", "campus_lecture_0_1_3", "campus_lecture_0_2_3", "campus_lecture_0_3_3" ],
+    "id": [
+      "campus_lecture_0_0_3",
+      "campus_lecture_0_1_3",
+      "campus_lecture_0_2_3",
+      "campus_lecture_0_3_3"
+    ],
     "name": "campus lecture hall roof",
     "color": "blue",
     "copy-from": "campus_lecture_0_0_0"

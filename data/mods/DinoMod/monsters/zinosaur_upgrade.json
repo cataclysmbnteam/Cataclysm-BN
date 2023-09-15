@@ -8,11 +8,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -24,11 +31,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -39,11 +53,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -54,11 +75,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -69,11 +97,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -84,11 +119,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -99,11 +141,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zallosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -115,11 +164,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30], ["GRAB", 7]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -131,11 +187,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30], ["GRAB", 7]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -147,11 +210,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30], ["GRAB", 7]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -163,11 +233,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30], ["GRAB", 7]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -179,11 +256,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30], ["GRAB", 7]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -193,11 +277,18 @@
     "description": "Massive jaws with long, sharp teeth lifted by an undead body bulging with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30], ["GRAB", 7]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -209,11 +300,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], [ "GRAB", 7 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30], ["GRAB", 7]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -225,11 +323,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zyrannosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -241,11 +346,18 @@
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
     "attack_cost": 202,
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -272,7 +384,7 @@
     "attack_cost": 185,
     "burn_into": "mon_zornithomimus_scorched",
     "fungalize_into": "mon_zornithomimus_fungus",
-    "extend": { "flags": [ "CLIMBS" ] }
+    "extend": { "flags": ["CLIMBS"] }
   },
   {
     "type": "MONSTER",
@@ -283,11 +395,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -298,11 +417,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -313,11 +439,18 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -329,11 +462,18 @@
     "color": "red",
     "proportional": { "hp": 1.5 },
     "speed": 150,
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -347,15 +487,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -369,15 +509,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -391,15 +531,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -413,15 +553,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -435,15 +575,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -457,15 +597,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -479,15 +619,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -501,15 +641,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -523,15 +663,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -545,15 +685,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -567,15 +707,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -589,15 +729,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -611,15 +751,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -633,15 +773,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -655,15 +795,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -677,15 +817,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -699,15 +839,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -721,15 +861,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -743,15 +883,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -765,15 +905,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -787,15 +927,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -809,15 +949,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -831,15 +971,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -853,15 +993,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -875,15 +1015,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zankylosaurus_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -897,15 +1037,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -919,15 +1059,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -941,15 +1081,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -963,15 +1103,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -985,15 +1125,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1007,15 +1147,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1029,15 +1169,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1051,15 +1191,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1073,15 +1213,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1095,15 +1235,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1117,15 +1257,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1139,15 +1279,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1161,15 +1301,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1183,15 +1323,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1205,15 +1345,18 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ], { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true } ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [
+      ["SMASH", 30],
+      { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
+    ],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1227,15 +1370,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1249,15 +1392,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1271,15 +1414,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1293,15 +1436,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1315,15 +1458,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1337,15 +1480,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1359,15 +1502,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1381,15 +1524,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1403,15 +1546,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1425,15 +1568,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1447,15 +1590,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
     "upgrades": { "half_life": 42, "into_group": "GROUP_zriceratops_BRUTE" },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1470,15 +1613,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1492,15 +1635,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "cut", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "categories": [ "DINOSAUR" ]
+    "upgrades": {},
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1523,7 +1666,7 @@
     "hp": 120,
     "burn_into": "mon_zilophosaurus_scorched",
     "fungalize_into": "mon_zilophosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1552,13 +1695,13 @@
     "vision_day": 3,
     "vision_night": 30,
     "looks_like": "mon_spinosaurus",
-    "species": [ "ZOMBIE" ],
+    "species": ["ZOMBIE"],
     "default_faction": "zombie",
     "symbol": "Z",
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "aggression": 100,
     "morale": 100,
     "speed": 40,
@@ -1570,7 +1713,7 @@
     "armor_bash": 6,
     "armor_cut": 8,
     "hp": 430,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [["scratch", 10], ["GRAB", 10], { "type": "bite", "cooldown": 5 }],
     "burn_into": "mon_zpinosaurus_scorched",
     "fungalize_into": "mon_zpinosaurus_fungus",
     "flags": [
@@ -1589,7 +1732,7 @@
       "NIGHT_INVISIBILITY"
     ],
     "harvest": "zed_dino_leather",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1601,13 +1744,13 @@
     "vision_day": 3,
     "vision_night": 30,
     "looks_like": "mon_torvosaurus",
-    "species": [ "ZOMBIE" ],
+    "species": ["ZOMBIE"],
     "default_faction": "zombie",
     "symbol": "Z",
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "ostrich",
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "aggression": 100,
     "morale": 100,
     "speed": 40,
@@ -1619,7 +1762,7 @@
     "armor_bash": 4,
     "armor_cut": 3,
     "hp": 260,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [["scratch", 10], ["GRAB", 10], { "type": "bite", "cooldown": 5 }],
     "burn_into": "mon_zorvosaurus_scorched",
     "fungalize_into": "mon_zorvosaurus_fungus",
     "flags": [
@@ -1637,7 +1780,7 @@
       "NIGHT_INVISIBILITY"
     ],
     "harvest": "zed_dino_leather",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1655,7 +1798,7 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "hp": 190,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [["scratch", 10], ["GRAB", 10], { "type": "bite", "cooldown": 5 }],
     "burn_into": "mon_zallosaurus_scorched",
     "fungalize_into": "mon_zallosaurus_fungus",
     "flags": [
@@ -1686,7 +1829,7 @@
     "melee_cut": 4,
     "armor_bash": 11,
     "hp": 270,
-    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 20 ] ],
+    "special_attacks": [["GRAB", 10], { "type": "bite", "cooldown": 10 }, ["LUNGE", 20]],
     "burn_into": "mon_zacrocanthosaurus_scorched",
     "fungalize_into": "mon_zacrocanthosaurus_fungus"
   },
@@ -1700,10 +1843,10 @@
     "speed": 60,
     "attack_cost": 60,
     "hp": 365,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
+    "special_attacks": [["BIO_OP_TAKEDOWN", 20], ["RANGED_PULL", 20], ["GRAB_DRAG", 10]],
     "burn_into": "mon_ziats_scorched",
     "fungalize_into": "mon_ziats_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1713,10 +1856,14 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with feathery edges.  The head looks big and the claws look long.",
     "upgrades": { "half_life": 15, "into": "mon_zryptosaurus_nightstalker" },
     "hp": 200,
-    "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "GRAB", 15 ], { "type": "leap", "cooldown": 20, "max_range": 5 } ],
+    "special_attacks": [
+      { "type": "bite", "cooldown": 15 },
+      ["GRAB", 15],
+      { "type": "leap", "cooldown": 20, "max_range": 5 }
+    ],
     "burn_into": "mon_zryptosaurus_scorched",
     "fungalize_into": "mon_zryptosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1728,10 +1875,15 @@
     "speed": 100,
     "melee_cut": 14,
     "hp": 220,
-    "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ],
+    "special_attacks": [
+      { "type": "bite", "cooldown": 15 },
+      ["GRAB", 15],
+      ["scratch", 20],
+      ["LUNGE", 20]
+    ],
     "burn_into": "mon_zappalachiosaurus_scorched",
     "fungalize_into": "mon_zappalachiosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1744,10 +1896,15 @@
     "attack_cost": 50,
     "melee_cut": 13,
     "hp": 250,
-    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 15 ] ],
+    "special_attacks": [
+      { "type": "bite", "cooldown": 10 },
+      ["GRAB", 15],
+      ["scratch", 20],
+      ["LUNGE", 15]
+    ],
     "burn_into": "mon_zorgosaurus_scorched",
     "fungalize_into": "mon_zorgosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1762,10 +1919,16 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "hp": 270,
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ], [ "LONGSWIPE", 25 ] ],
+    "special_attacks": [
+      { "type": "bite", "cooldown": 5 },
+      ["GRAB", 7],
+      ["scratch", 20],
+      ["LUNGE", 5],
+      ["LONGSWIPE", 25]
+    ],
     "burn_into": "mon_zalbertosaurus_scorched",
     "fungalize_into": "mon_zalbertosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1786,7 +1949,7 @@
     "hp": 160,
     "burn_into": "mon_zianzhousaurus_scorched",
     "fungalize_into": "mon_zianzhousaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1800,7 +1963,7 @@
     "hp": 270,
     "burn_into": "mon_zanuqsaurus_scorched",
     "fungalize_into": "mon_zanuqsaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1815,7 +1978,7 @@
     "hp": 300,
     "burn_into": "mon_zaspletosaurus_scorched",
     "fungalize_into": "mon_zaspletosaurus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1827,13 +1990,13 @@
     "upgrades": { "half_life": 15, "into": "mon_zyrannosaurus_nightstalker" },
     "vision_day": 3,
     "vision_night": 30,
-    "species": [ "ZOMBIE" ],
+    "species": ["ZOMBIE"],
     "default_faction": "zombie",
     "symbol": "Z",
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "ostrich",
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "aggression": 100,
     "morale": 100,
     "speed": 40,
@@ -1845,7 +2008,7 @@
     "armor_bash": 6,
     "armor_cut": 8,
     "hp": 400,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [["scratch", 10], ["GRAB", 7], { "type": "bite", "cooldown": 5 }],
     "burn_into": "mon_zyrannosaurus_scorched",
     "fungalize_into": "mon_zyrannosaurus_fungus",
     "flags": [
@@ -1864,7 +2027,7 @@
       "NIGHT_INVISIBILITY"
     ],
     "harvest": "zed_dino_feather",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1876,13 +2039,13 @@
     "vision_day": 3,
     "vision_night": 40,
     "looks_like": "mon_gallimimus",
-    "species": [ "ZOMBIE" ],
+    "species": ["ZOMBIE"],
     "default_faction": "zombie",
     "symbol": "Z",
     "volume": "440 L",
     "weight": "440 kg",
     "bodytype": "ostrich",
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "aggression": 100,
     "morale": 100,
     "speed": 135,
@@ -1894,7 +2057,7 @@
     "armor_bash": 2,
     "armor_cut": 4,
     "hp": 120,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [["scratch", 10], ["GRAB", 10], { "type": "bite", "cooldown": 5 }],
     "burn_into": "mon_zallimimus_scorched",
     "fungalize_into": "mon_zallimimus_fungus",
     "flags": [
@@ -1911,7 +2074,7 @@
       "NIGHT_INVISIBILITY"
     ],
     "harvest": "zed_dino_feather",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1926,7 +2089,7 @@
     "attack_cost": 140,
     "burn_into": "mon_ztruthiomimus_scorched",
     "fungalize_into": "mon_ztruthiomimus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1941,8 +2104,8 @@
     "attack_cost": 125,
     "burn_into": "mon_zornithomimus_scorched",
     "fungalize_into": "mon_zornithomimus_fungus",
-    "extend": { "flags": [ "CLIMBS" ] },
-    "categories": [ "DINOSAUR" ]
+    "extend": { "flags": ["CLIMBS"] },
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1961,10 +2124,15 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "hp": 160,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "LONGSWIPE", 30 ] ],
+    "special_attacks": [
+      ["scratch", 10],
+      ["GRAB", 10],
+      { "type": "bite", "cooldown": 5 },
+      ["LONGSWIPE", 30]
+    ],
     "burn_into": "mon_zothronychus_scorched",
     "fungalize_into": "mon_zothronychus_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1982,10 +2150,15 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "hp": 120,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "LONGSWIPE", 30 ] ],
+    "special_attacks": [
+      ["scratch", 10],
+      ["GRAB", 10],
+      { "type": "bite", "cooldown": 5 },
+      ["LONGSWIPE", 30]
+    ],
     "burn_into": "mon_zanzu_scorched",
     "fungalize_into": "mon_zanzu_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -1996,13 +2169,13 @@
     "upgrades": { "half_life": 15, "into": "mon_zeinonychus_nightstalker" },
     "vision_day": 3,
     "vision_night": 40,
-    "species": [ "ZOMBIE" ],
+    "species": ["ZOMBIE"],
     "default_faction": "zombie",
     "symbol": "Z",
     "volume": "70 L",
     "weight": "70 kg",
     "bodytype": "ostrich",
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "aggression": 100,
     "morale": 100,
     "speed": 65,
@@ -2016,8 +2189,8 @@
     "hp": 45,
     "special_attacks": [
       { "type": "leap", "cooldown": 5, "max_range": 5 },
-      [ "scratch", 10 ],
-      [ "GRAB", 10 ],
+      ["scratch", 10],
+      ["GRAB", 10],
       { "type": "bite", "cooldown": 5 }
     ],
     "burn_into": "mon_zeinonychus_scorched",
@@ -2036,7 +2209,7 @@
       "NIGHT_INVISIBILITY"
     ],
     "harvest": "zed_dino_feather",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2058,7 +2231,7 @@
     "hp": 130,
     "burn_into": "mon_zutahraptor_scorched",
     "fungalize_into": "mon_zutahraptor_fungus",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2069,29 +2242,45 @@
     "upgrades": { "half_life": 15, "into": "mon_zankylosaurus_nightstalker" },
     "vision_day": 3,
     "vision_night": 40,
-    "species": [ "ZOMBIE" ],
+    "species": ["ZOMBIE"],
     "default_faction": "zombie",
     "symbol": "Z",
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "aggression": 100,
     "morale": 100,
     "speed": 20,
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "stab", "amount": 1 } ],
+    "melee_damage": [{ "damage_type": "stab", "amount": 1 }],
     "armor_bash": 16,
     "armor_cut": 21,
     "hp": 375,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "tailsmash_DinoMod", 30 ] ],
+    "special_attacks": [
+      ["scratch", 10],
+      ["GRAB", 10],
+      { "type": "bite", "cooldown": 5 },
+      ["tailsmash_DinoMod", 30]
+    ],
     "burn_into": "mon_zankylosaurus_scorched",
     "fungalize_into": "mon_zankylosaurus_fungus",
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "BASHES", "NIGHT_INVISIBILITY" ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "POISON",
+      "STUMBLES",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "BASHES",
+      "NIGHT_INVISIBILITY"
+    ],
     "harvest": "zed_dino_leather",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2106,7 +2295,7 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "stab", "amount": 1 } ],
+    "melee_damage": [{ "damage_type": "stab", "amount": 1 }],
     "armor_bash": 5,
     "armor_cut": 7,
     "hp": 135,
@@ -2122,11 +2311,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with sharp teeth and bulges on the head.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2137,11 +2333,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of an enormous, bulky bipedal dinosaur with horns, spikes, and big sharp teeth.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2152,11 +2355,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with a tattered sail.  The head is long and narrow, with a V-shaped snout.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2167,11 +2377,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with a large head and a tail.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2182,11 +2399,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with big, sharp teeth.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2197,11 +2421,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bipedal dinosaur with big, sharp teeth.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2212,11 +2443,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with big, sharp teeth.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2227,11 +2465,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with feathery edges.  The head looks big and the claws look long.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2242,11 +2487,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges.  The head looks big, like it could hold many enormous sharp teeth.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2257,11 +2509,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges.  The head looks big, like it could hold many enormous sharp teeth.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2272,11 +2531,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges.  The head looks big, and below are long, grasping claws.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2287,11 +2553,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges and a large head.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2302,11 +2575,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges and a large head.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2317,11 +2597,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges and a large head.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2332,11 +2619,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a huge, bulky bipedal dinosaur with feathery edges.  The head looks large - lots of big teeth would fit in it.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2347,11 +2641,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges and a beak",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2362,11 +2663,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges and a beak",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2377,11 +2685,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges and a beak",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2392,11 +2707,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Long curved claws protrude from its hands.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2407,11 +2729,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, bulky bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2422,11 +2751,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2437,11 +2773,18 @@
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a big, bulky bipedal dinosaur with feathery edges.  Both feet brandish a large, sickle-shaped claw.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "vision_night": 1
+    },
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2455,15 +2798,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2477,15 +2820,15 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 2 }],
       "armor_bash": 4,
       "armor_cut": 6,
       "vision_night": 1
     },
-    "special_attacks": [ [ "SMASH", 30 ] ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
-    "upgrades": {  },
-    "categories": [ "DINOSAUR" ]
+    "special_attacks": [["SMASH", 30]],
+    "extend": { "flags": ["GROUP_BASH", "PUSH_MON", "PUSH_VEH"] },
+    "upgrades": {},
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2496,8 +2839,8 @@
     "default_faction": "zombie",
     "symbol": "Z",
     "color": "white",
-    "material": [ "bone" ],
-    "species": [ "ZOMBIE", "DINOSAUR" ],
+    "material": ["bone"],
+    "species": ["ZOMBIE", "DINOSAUR"],
     "volume": "400 L",
     "weight": "400 kg",
     "bodytype": "ostrich",
@@ -2516,10 +2859,19 @@
     "vision_day": 30,
     "vision_night": 3,
     "upgrades": { "half_life": 15, "into": "mon_silophosaurus_brute" },
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "flags": [ "SEES", "HEARS", "PET_MOUNTABLE", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "HARDTOSHOOT" ],
+    "special_attacks": [["scratch", 10], { "type": "bite", "cooldown": 5 }],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "PET_MOUNTABLE",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "HARDTOSHOOT"
+    ],
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2551,7 +2903,7 @@
     "melee_dice_sides": 8,
     "melee_cut": 8,
     "upgrades": { "half_life": 15, "into": "mon_skinosaurus_brute" },
-    "extend": { "flags": [ "DESTROYS" ] }
+    "extend": { "flags": ["DESTROYS"] }
   },
   {
     "type": "MONSTER",
@@ -2564,7 +2916,7 @@
     "melee_dice_sides": 10,
     "melee_cut": 16,
     "upgrades": { "half_life": 15, "into": "mon_sorvosaurus_brute" },
-    "flags": [ "SEES", "HEARS", "POISON", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "HARDTOSHOOT" ]
+    "flags": ["SEES", "HEARS", "POISON", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "HARDTOSHOOT"]
   },
   {
     "type": "MONSTER",
@@ -2604,7 +2956,7 @@
     "melee_dice": 3,
     "melee_dice_sides": 5,
     "melee_cut": 6,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
+    "special_attacks": [["BIO_OP_TAKEDOWN", 20], ["RANGED_PULL", 20], ["GRAB_DRAG", 10]],
     "upgrades": { "half_life": 15, "into": "mon_sallosaurus_brute" }
   },
   {
@@ -2618,7 +2970,11 @@
     "melee_dice": 4,
     "melee_dice_sides": 7,
     "melee_cut": 18,
-    "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "GRAB", 15 ], { "type": "leap", "cooldown": 20, "max_range": 5 } ],
+    "special_attacks": [
+      { "type": "bite", "cooldown": 15 },
+      ["GRAB", 15],
+      { "type": "leap", "cooldown": 20, "max_range": 5 }
+    ],
     "upgrades": { "half_life": 15, "into": "mon_syrannosaurus_brute" }
   },
   {
@@ -2628,7 +2984,12 @@
     "copy-from": "mon_sryptosaurus",
     "description": "Monstrous columns of dense bone lifting sharp, pointed teeth dripping with black goo.",
     "hp": 88,
-    "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "GRAB", 15 ], [ "scratch", 20 ], [ "LUNGE", 20 ] ]
+    "special_attacks": [
+      { "type": "bite", "cooldown": 15 },
+      ["GRAB", 15],
+      ["scratch", 20],
+      ["LUNGE", 20]
+    ]
   },
   {
     "type": "MONSTER",
@@ -2652,7 +3013,13 @@
     "melee_dice": 4,
     "melee_dice_sides": 7,
     "melee_cut": 18,
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ], [ "LONGSWIPE", 25 ] ]
+    "special_attacks": [
+      { "type": "bite", "cooldown": 5 },
+      ["GRAB", 7],
+      ["scratch", 20],
+      ["LUNGE", 5],
+      ["LONGSWIPE", 25]
+    ]
   },
   {
     "type": "MONSTER",
@@ -2700,7 +3067,7 @@
     "melee_dice": 5,
     "melee_dice_sides": 5,
     "melee_cut": 25,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 } ]
+    "special_attacks": [["scratch", 10], ["GRAB", 7], { "type": "bite", "cooldown": 5 }]
   },
   {
     "type": "MONSTER",
@@ -2740,7 +3107,7 @@
     "weight": "170 kg",
     "speed": 109,
     "attack_cost": 109,
-    "extend": { "flags": [ "CLIMBS" ] }
+    "extend": { "flags": ["CLIMBS"] }
   },
   {
     "type": "MONSTER",
@@ -2786,8 +3153,8 @@
     "upgrades": { "half_life": 15, "into": "mon_sutahraptor_brute" },
     "special_attacks": [
       { "type": "leap", "cooldown": 5, "max_range": 5 },
-      [ "scratch", 10 ],
-      [ "GRAB", 10 ],
+      ["scratch", 10],
+      ["GRAB", 10],
       { "type": "bite", "cooldown": 5 }
     ],
     "vision_day": 20,
@@ -2813,23 +3180,23 @@
     "name": { "str_sp": "armored sarahsaurus" },
     "copy-from": "mon_zarahsaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This zombified sauropod has grown dense bone armor, completely covering the large, two-legged body and long neck.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2837,23 +3204,23 @@
     "name": { "str_sp": "armored anchisaurus" },
     "copy-from": "mon_zanchisaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This zombified sauropod has grown dense bone armor, completely covering the large, four-legged body and long neck.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2861,23 +3228,23 @@
     "name": { "str_sp": "armored issi" },
     "copy-from": "mon_zissi",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This zombified sauropod has grown dense bone armor, completely covering the large, two-legged body and long neck.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2885,23 +3252,23 @@
     "name": { "str_sp": "armored haplocanthosaurus" },
     "copy-from": "mon_zaplocanthosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This zombified sauropod has grown dense bone armor, completely covering the huge, four-legged body and long neck and tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2909,23 +3276,23 @@
     "name": { "str_sp": "armored amargasaurus" },
     "copy-from": "mon_zamargasaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified amargasaurus has grown even more spikes and denser bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2933,23 +3300,23 @@
     "name": { "str_sp": "armored apatosaurus" },
     "copy-from": "mon_zapatosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This zombified apatosaurus has grown dense bone armor, completely covering the massive, four-legged body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2965,23 +3332,23 @@
     "name": { "str_sp": "armored diplodocus" },
     "copy-from": "mon_ziplodocus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This zombified diplodocus has grown dense bone armor, completely covering the massive, four-legged body and small head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -2989,23 +3356,23 @@
     "name": { "str_sp": "boneplate barosaurus" },
     "copy-from": "mon_zarosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This zombified sauropod has grown dense bone armor, completely covering the massive, four-legged body and small head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3029,23 +3396,23 @@
     "name": { "str_sp": "armored alamosaurus" },
     "copy-from": "mon_zalamosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This zombified alamosaurus has grown denser bone armor, completely covering the gigantic, four-legged body and spiked tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3053,23 +3420,23 @@
     "name": { "str_sp": "skeletal stegosaurus" },
     "copy-from": "mon_ztegosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified stegosaurus has grown thick bone armor below its back plates as well as a larger and spikier bony tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3077,23 +3444,23 @@
     "name": { "str_sp": "skeletal hesperosaurus" },
     "copy-from": "mon_zesperosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified hesperosaurus has grown thick bone armor below its back plates as well as a larger and spikier bony tail.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3101,23 +3468,23 @@
     "name": { "str_sp": "armored gastonia" },
     "copy-from": "mon_zastonia",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor and spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3125,23 +3492,23 @@
     "name": { "str_sp": "armored gargoyleosaurus" },
     "copy-from": "mon_zargoyleosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor and spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3149,23 +3516,23 @@
     "name": { "str_sp": "armored sauropelta" },
     "copy-from": "mon_zauropelta",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor and spikes; it must also be even slower, which is hard to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3173,23 +3540,23 @@
     "name": { "str_sp": "armored nodosaurus" },
     "copy-from": "mon_zodosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor; it must also be even slower, which is hard to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3197,23 +3564,23 @@
     "name": { "str_sp": "protected panoplosaurus" },
     "copy-from": "mon_zanoplosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor, while keeping the long, bony spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3221,23 +3588,23 @@
     "name": { "str_sp": "armored edmontonia" },
     "copy-from": "mon_zedmontonia",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor, while keeping the long, bony spikes.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3245,23 +3612,23 @@
     "name": { "str_sp": "skeletal zuul" },
     "copy-from": "mon_zzuul",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser spiked bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3269,23 +3636,23 @@
     "name": { "str_sp": "skeletal dyoplosaurus" },
     "copy-from": "mon_zyoplosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3294,23 +3661,23 @@
     "copy-from": "mon_zankylosaurus",
     "looks_like": "mon_ankylosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3318,23 +3685,23 @@
     "name": { "str_sp": "armored euoplocephalus" },
     "copy-from": "mon_zuoplocephalus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3342,23 +3709,23 @@
     "name": { "str_sp": "boneplate scolosaurus" },
     "copy-from": "mon_zcolosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "Already heavily protected, this zombified four legged dinosaur with a beak and tail has grown even denser bone armor as well as a larger and spikier bony tail.  It must be even slower, which is difficult to imagine.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3366,23 +3733,23 @@
     "name": { "str_sp": "armored camptosaurus" },
     "copy-from": "mon_zamptosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with strong legs, broad shoulders, and a pointed beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3390,23 +3757,23 @@
     "name": { "str_sp": "armored tenontosaurus" },
     "copy-from": "mon_zenontosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This four-legged dinosaur corpse with a beak and large long tail has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3414,23 +3781,23 @@
     "name": { "str_sp": "armored dryosaurus" },
     "copy-from": "mon_zryosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This two-legged dinosaur corpse with a long neck and beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3438,23 +3805,23 @@
     "name": { "str_sp": "armored hadrosaurus" },
     "copy-from": "mon_zadrosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This bulky, four-legged dinosaur corpse with a beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3462,23 +3829,23 @@
     "name": { "str_sp": "armored maiasaura" },
     "copy-from": "mon_zaiasaura",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a flat beak, thick nose, and small, spiky head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3486,23 +3853,23 @@
     "name": { "str_sp": "armored gryposaurus" },
     "copy-from": "mon_zryposaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a toothless beak and powerful nasal arch has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3510,23 +3877,23 @@
     "name": { "str_sp": "protected prosaurolophus" },
     "copy-from": "mon_zrosaurolophus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with hooves, a short beak and a tall head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3534,23 +3901,23 @@
     "name": { "str_sp": "boneplate saurolophus" },
     "copy-from": "mon_zaurolophus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with hooves, a broad beak and a spiky head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3558,23 +3925,23 @@
     "name": { "str_sp": "armored edmontosaurus" },
     "copy-from": "mon_zedmontosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a broad, toothless beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3582,23 +3949,23 @@
     "name": { "str_sp": "armored parasaurolophus" },
     "copy-from": "mon_zarasaurolophus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a blunt head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3606,23 +3973,23 @@
     "name": { "str_sp": "boneplate lambeosaurus" },
     "copy-from": "mon_zambeosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a long stiff tail, hooves, a narrow beak and a tall head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3630,23 +3997,23 @@
     "name": { "str_sp": "armored corythosaurus" },
     "copy-from": "mon_zorythosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a short beak and a tall head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3654,23 +4021,23 @@
     "name": { "str_sp": "armored hypacrosaurus" },
     "copy-from": "mon_zypacrosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a tall ridge down the back, a tail, hooves, a short beak and a wide, rounded head crest has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3678,23 +4045,23 @@
     "name": { "str_sp": "protected pachycephalosaurus" },
     "copy-from": "mon_zachycephalosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This bipedal dinosaur corpse with a hard-looking, domed head has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3702,23 +4069,23 @@
     "name": { "str_sp": "boneplate leptoceratops" },
     "copy-from": "mon_zeptoceratops",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This dinosaur corpse with a bony crest and sharp beak has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3726,23 +4093,23 @@
     "name": { "str_sp": "boneplate zuniceratops" },
     "copy-from": "mon_zzuniceratops",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This four-legged dinosaur with a tall thin bony head crest, two long brow horns, and a beak has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3750,23 +4117,23 @@
     "name": { "str_sp": "shielded styracosaurus" },
     "copy-from": "mon_ztyracosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a spiked frill, a hooked beak and long horn above the nose has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3774,23 +4141,23 @@
     "name": { "str_sp": "armored centrosaurus" },
     "copy-from": "mon_zentrosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a hooked beak and long horn above the nose has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3798,23 +4165,23 @@
     "name": { "str_sp": "armored einiosaurus" },
     "copy-from": "mon_zeiniosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a tall bony crest and one large horn curving forward towards the beak has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3822,23 +4189,23 @@
     "name": { "str_sp": "armored achelousaurus" },
     "copy-from": "mon_zachelousaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a tall bony crest with two long curved spikes and three rough bosses above the eyes and nose has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3846,23 +4213,23 @@
     "name": { "str_sp": "protected pachyrhinosaurus" },
     "copy-from": "mon_zachyrhinosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with massive bony bosses on its nose and brow has grown dense bone armor over the rest of its body.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3870,23 +4237,23 @@
     "name": { "str_sp": "boneplate chasmosaurus" },
     "copy-from": "mon_zasmosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a tall bony crest from which three short horns emerge above the eyes and beak has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3894,23 +4261,23 @@
     "name": { "str_sp": "protected pentaceratops" },
     "copy-from": "mon_zentaceratops",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a tall bony crest, four long horns, and a short nose horn has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3918,23 +4285,23 @@
     "name": { "str_sp": "armored kosmoceratops" },
     "copy-from": "mon_zosmoceratops",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a bony crest and two wavy side horns has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3942,23 +4309,23 @@
     "name": { "str_sp": "armored torosaurus" },
     "copy-from": "mon_zorosaurus",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This large, four-legged dinosaur corpse with a tall bony crest and two wicked-looking horns has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3966,23 +4333,23 @@
     "name": { "str_sp": "armored triceratops" },
     "copy-from": "mon_zriceratops",
     "color": "white",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "armor_bash": 0,
     "description": "This massive, four-legged dinosaur corpse with a tall bony crest and three wicked-looking horns has grown dense bone armor.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
       "melee_dice_sides": 5,
-      "melee_damage": [ { "damage_type": "stab", "amount": 7 } ],
+      "melee_damage": [{ "damage_type": "stab", "amount": 7 }],
       "armor_cut": 22,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
     },
-    "upgrades": {  },
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "upgrades": {},
+    "extend": { "flags": ["HARDTOSHOOT"] },
     "harvest": "mr_bones",
-    "categories": [ "DINOSAUR" ]
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -3998,7 +4365,7 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 7,
-    "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
+    "melee_damage": [{ "damage_type": "bash", "amount": 6 }],
     "upgrades": { "half_life": 15, "into": "mon_sescelosaurus_brute" }
   },
   {
@@ -4013,17 +4380,17 @@
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
     "relative": { "armor_bash": 30, "armor_cut": 37 },
-    "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
-    "special_attacks": [ [ "GRAB", 30 ], [ "FLAMETHROWER", 30 ] ],
-    "upgrades": {  },
+    "extend": { "flags": ["DRIPS_GASOLINE", "LOUDMOVES"] },
+    "special_attacks": [["GRAB", 30], ["FLAMETHROWER", 30]],
+    "upgrades": {},
     "death_drops": [
       { "item": "wheel", "count": 4 },
       { "group": "supplies_spares_vehicle", "count": 10 },
       { "group": "supplies_mechanics", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": [ "FIREBALL" ],
-    "categories": [ "DINOSAUR", "MAN_MADE" ]
+    "death_function": ["FIREBALL"],
+    "categories": ["DINOSAUR", "MAN_MADE"]
   },
   {
     "type": "MONSTER",
@@ -4037,17 +4404,17 @@
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
     "relative": { "armor_bash": 30, "armor_cut": 37 },
-    "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
-    "special_attacks": [ [ "GRAB", 30 ], [ "FLAMETHROWER", 30 ] ],
-    "upgrades": {  },
+    "extend": { "flags": ["DRIPS_GASOLINE", "LOUDMOVES"] },
+    "special_attacks": [["GRAB", 30], ["FLAMETHROWER", 30]],
+    "upgrades": {},
     "death_drops": [
       { "item": "wheel", "count": 4 },
       { "group": "supplies_spares_vehicle", "count": 10 },
       { "group": "supplies_mechanics", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": [ "FIREBALL" ],
-    "categories": [ "DINOSAUR", "MAN_MADE" ]
+    "death_function": ["FIREBALL"],
+    "categories": ["DINOSAUR", "MAN_MADE"]
   },
   {
     "type": "MONSTER",
@@ -4061,20 +4428,20 @@
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
     "relative": { "armor_bash": 30, "armor_cut": 37, "armor_stab": 30, "armor_acid": 3 },
-    "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
+    "extend": { "flags": ["DRIPS_GASOLINE", "LOUDMOVES"] },
     "starting_ammo": { "50bmg": 400 },
-    "special_when_hit": [ "RETURN_FIRE", 100 ],
+    "special_when_hit": ["RETURN_FIRE", 100],
     "special_attacks": [
-      [ "MULTI_ROBOT", 1000 ],
+      ["MULTI_ROBOT", 1000],
       {
         "type": "gun",
         "cooldown": 1,
         "move_cost": 150,
         "gun_type": "m2browning",
         "ammo_type": "50bmg",
-        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_skills": [["gun", 8], ["rifle", 8]],
         "fake_dex": 12,
-        "ranges": [ [ 0, 40, "AUTO" ], [ 41, 110, "DEFAULT" ] ],
+        "ranges": [[0, 40, "AUTO"], [41, 110, "DEFAULT"]],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "laser_lock": false,
@@ -4085,15 +4452,15 @@
         "no_ammo_sound": "a chk!"
       }
     ],
-    "upgrades": {  },
+    "upgrades": {},
     "death_drops": [
       { "item": "mil_plate", "count": 4 },
       { "group": "helicopter", "count": 10 },
       { "group": "mil_hw", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": [ "FIREBALL" ],
-    "categories": [ "DINOSAUR" ]
+    "death_function": ["FIREBALL"],
+    "categories": ["DINOSAUR"]
   },
   {
     "type": "MONSTER",
@@ -4107,16 +4474,16 @@
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
     "relative": { "armor_bash": 30, "armor_cut": 37, "armor_stab": 30, "armor_acid": 3 },
-    "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
-    "special_attacks": [ [ "MULTI_ROBOT", 300 ] ],
-    "upgrades": {  },
+    "extend": { "flags": ["DRIPS_GASOLINE", "LOUDMOVES"] },
+    "special_attacks": [["MULTI_ROBOT", 300]],
+    "upgrades": {},
     "death_drops": [
       { "item": "mil_plate", "count": 4 },
       { "group": "helicopter", "count": 10 },
       { "group": "mil_hw", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": [ "FIREBALL" ]
+    "death_function": ["FIREBALL"]
   },
   {
     "type": "MONSTER",
@@ -4130,18 +4497,18 @@
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
     "relative": { "armor_bash": 30, "armor_cut": 37, "armor_stab": 30, "armor_acid": 3 },
-    "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
+    "extend": { "flags": ["DRIPS_GASOLINE", "LOUDMOVES"] },
     "starting_ammo": { "50bmg": 400 },
-    "special_when_hit": [ "RETURN_FIRE", 100 ],
-    "special_attacks": [ [ "MULTI_ROBOT", 300 ] ],
-    "upgrades": {  },
+    "special_when_hit": ["RETURN_FIRE", 100],
+    "special_attacks": [["MULTI_ROBOT", 300]],
+    "upgrades": {},
     "death_drops": [
       { "item": "mil_plate", "count": 4 },
       { "group": "helicopter", "count": 10 },
       { "group": "mil_hw", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": [ "FIREBALL" ]
+    "death_function": ["FIREBALL"]
   },
   {
     "type": "MONSTER",
@@ -4154,8 +4521,8 @@
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6 },
-    "special_attacks": [ [ "SMASH", 20 ] ],
-    "upgrades": {  }
+    "special_attacks": [["SMASH", 20]],
+    "upgrades": {}
   },
   {
     "type": "MONSTER",
@@ -4168,8 +4535,8 @@
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6 },
-    "special_attacks": [ [ "SMASH", 20 ] ],
-    "upgrades": {  }
+    "special_attacks": [["SMASH", 20]],
+    "upgrades": {}
   },
   {
     "type": "MONSTER",
@@ -4182,8 +4549,8 @@
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6 },
-    "special_attacks": [ [ "SMASH", 20 ] ],
-    "upgrades": {  }
+    "special_attacks": [["SMASH", 20]],
+    "upgrades": {}
   },
   {
     "type": "MONSTER",
@@ -4196,7 +4563,7 @@
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6 },
-    "special_attacks": [ [ "SMASH", 20 ] ]
+    "special_attacks": [["SMASH", 20]]
   },
   {
     "type": "MONSTER",
@@ -4209,8 +4576,8 @@
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6 },
-    "special_attacks": [ [ "SMASH", 20 ] ],
-    "upgrades": {  }
+    "special_attacks": [["SMASH", 20]],
+    "upgrades": {}
   },
   {
     "type": "MONSTER",
@@ -4230,8 +4597,11 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_silophosaurus_hulk" },
     "special_attacks": [
-      [ "SMASH", 45 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      ["SMASH", 45],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 }]
+      }
     ]
   },
   {
@@ -4244,10 +4614,13 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15 },
     "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+      ["SMASH", 20],
+      ["STRETCH_ATTACK", 20],
+      ["LONGSWIPE", 20],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 }]
+      }
     ],
     "volume": "1000 L",
     "weight": "1000 kg"
@@ -4270,8 +4643,11 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_skinosaurus_hulk" },
     "special_attacks": [
-      [ "SMASH", 45 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      ["SMASH", 45],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 }]
+      }
     ]
   },
   {
@@ -4284,10 +4660,13 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15 },
     "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+      ["SMASH", 20],
+      ["STRETCH_ATTACK", 20],
+      ["LONGSWIPE", 20],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 }]
+      }
     ]
   },
   {
@@ -4308,8 +4687,11 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sorvosaurus_hulk" },
     "special_attacks": [
-      [ "SMASH", 45 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      ["SMASH", 45],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 }]
+      }
     ]
   },
   {
@@ -4322,10 +4704,13 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15 },
     "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+      ["SMASH", 20],
+      ["STRETCH_ATTACK", 20],
+      ["LONGSWIPE", 20],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 }]
+      }
     ]
   },
   {
@@ -4346,8 +4731,11 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sallosaurus_hulk" },
     "special_attacks": [
-      [ "SMASH", 45 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      ["SMASH", 45],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 }]
+      }
     ]
   },
   {
@@ -4360,10 +4748,13 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 6, "armor_bash": 8, "armor_cut": 15 },
     "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+      ["SMASH", 20],
+      ["STRETCH_ATTACK", 20],
+      ["LONGSWIPE", 20],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 }]
+      }
     ]
   },
   {
@@ -4379,8 +4770,11 @@
     "relative": { "armor_bash": 12, "armor_cut": 15, "vision_day": 35, "vision_night": 3 },
     "upgrades": { "half_life": 12, "into": "mon_syrannosaurus_hulk" },
     "special_attacks": [
-      [ "SMASH", 45 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      ["SMASH", 45],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 }]
+      }
     ]
   },
   {
@@ -4396,10 +4790,13 @@
     "melee_cut": 6,
     "relative": { "armor_bash": 8, "armor_cut": 15 },
     "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+      ["SMASH", 20],
+      ["STRETCH_ATTACK", 20],
+      ["LONGSWIPE", 20],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 }]
+      }
     ]
   },
   {
@@ -4420,8 +4817,11 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sallimimus_hulk" },
     "special_attacks": [
-      [ "SMASH", 45 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      ["SMASH", 45],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 }]
+      }
     ]
   },
   {
@@ -4434,10 +4834,13 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15 },
     "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+      ["SMASH", 20],
+      ["STRETCH_ATTACK", 20],
+      ["LONGSWIPE", 20],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 }]
+      }
     ],
     "volume": "1000 L",
     "weight": "1000 kg"
@@ -4460,8 +4863,11 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sothronychus_hulk" },
     "special_attacks": [
-      [ "SMASH", 45 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      ["SMASH", 45],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 }]
+      }
     ]
   },
   {
@@ -4474,10 +4880,13 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15 },
     "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+      ["SMASH", 20],
+      ["STRETCH_ATTACK", 20],
+      ["LONGSWIPE", 20],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 }]
+      }
     ],
     "volume": "1000 L",
     "weight": "1000 kg"
@@ -4500,8 +4909,11 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sanzu_hulk" },
     "special_attacks": [
-      [ "SMASH", 45 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      ["SMASH", 45],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 }]
+      }
     ]
   },
   {
@@ -4514,10 +4926,13 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15 },
     "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+      ["SMASH", 20],
+      ["STRETCH_ATTACK", 20],
+      ["LONGSWIPE", 20],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 }]
+      }
     ],
     "volume": "1000 L",
     "weight": "1000 kg"
@@ -4540,8 +4955,11 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sutahraptor_hulk" },
     "special_attacks": [
-      [ "SMASH", 45 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      ["SMASH", 45],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 }]
+      }
     ]
   },
   {
@@ -4554,10 +4972,13 @@
     "proportional": { "hp": 2.5 },
     "relative": { "melee_dice": 1, "melee_cut": 5, "armor_bash": 8, "armor_cut": 15 },
     "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+      ["SMASH", 20],
+      ["STRETCH_ATTACK", 20],
+      ["LONGSWIPE", 20],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 }]
+      }
     ],
     "volume": "1000 L",
     "weight": "1000 kg"
@@ -4572,7 +4993,7 @@
     "relative": {
       "melee_dice": -1,
       "melee_dice_sides": 2,
-      "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
+      "melee_damage": [{ "damage_type": "bash", "amount": 6 }],
       "armor_bash": 12,
       "armor_cut": 15,
       "vision_day": 35,
@@ -4580,8 +5001,11 @@
     },
     "upgrades": { "half_life": 12, "into": "mon_sescelosaurus_hulk" },
     "special_attacks": [
-      [ "SMASH", 30 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+      ["SMASH", 30],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 }]
+      }
     ]
   },
   {
@@ -4592,12 +5016,20 @@
     "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting pointed beak suggest some kind of beaked, two legged dinosaur.",
     "diff": 5,
     "proportional": { "hp": 2.5 },
-    "relative": { "melee_dice": 1, "melee_damage": [ { "damage_type": "stab", "amount": 5 } ], "armor_bash": 8, "armor_cut": 15 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [{ "damage_type": "stab", "amount": 5 }],
+      "armor_bash": 8,
+      "armor_cut": 15
+    },
     "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "STRETCH_ATTACK", 20 ],
-      [ "LONGSWIPE", 20 ],
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+      ["SMASH", 20],
+      ["STRETCH_ATTACK", 20],
+      ["LONGSWIPE", 20],
+      {
+        "id": "scratch",
+        "damage_max_instance": [{ "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 }]
+      }
     ],
     "volume": "1000 L",
     "weight": "1000 kg"
@@ -4606,19 +5038,19 @@
     "type": "MONSTER",
     "id": "mon_zilophosaurus_acid",
     "name": { "str": "dilophosaurus acidic zombie" },
-    "species": [ "ZOMBIE" ],
+    "species": ["ZOMBIE"],
     "default_faction": "zombie",
     "symbol": "Z",
     "diff": 5,
     "color": "light_gray_yellow",
     "bodytype": "ostrich",
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "aggression": 100,
     "morale": 100,
-    "special_attacks": [ [ "ACID_BARF", 10 ] ],
+    "special_attacks": [["ACID_BARF", 10]],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
-    "categories": [ "DINOSAUR" ],
+    "categories": ["DINOSAUR"],
     "looks_like": "mon_dilophosaurus",
     "volume": "400 L",
     "weight": "400 kg",
@@ -4634,7 +5066,7 @@
     "description": "The shuffling corpse of a dinosaur with sharp teeth and two prominent bony crests on its head, with ragged strips of ripped flesh hanging down like a frill.  Sticky yellow fluid oozes out from sores in the scales.",
     "burn_into": "mon_zilophosaurus_scorched",
     "fungalize_into": "mon_zilophosaurus_fungus",
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": ["ACID", "NORMAL"],
     "flags": [
       "SEES",
       "SMELLS",
@@ -4656,19 +5088,19 @@
     "type": "MONSTER",
     "id": "mon_zeratosaurus_acid",
     "name": { "str": "ceratosaurus acidic zombie" },
-    "species": [ "ZOMBIE" ],
+    "species": ["ZOMBIE"],
     "default_faction": "zombie",
     "symbol": "Z",
     "diff": 5,
     "color": "light_gray_yellow",
     "bodytype": "ostrich",
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "aggression": 100,
     "morale": 100,
-    "special_attacks": [ [ "ACID_BARF", 10 ] ],
+    "special_attacks": [["ACID_BARF", 10]],
     "vision_night": 3,
     "harvest": "zed_dino_feather",
-    "categories": [ "DINOSAUR" ],
+    "categories": ["DINOSAUR"],
     "looks_like": "mon_zyrannosaurus",
     "volume": "540 L",
     "weight": "540 kg",
@@ -4684,7 +5116,7 @@
     "description": "This zombie is enormous, scaly, and studded with bony spikes.  Sticky yellow fluid oozes out from sores in the scales.",
     "burn_into": "mon_zeratosaurus_scorched",
     "fungalize_into": "mon_zeratosaurus_fungus",
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": ["ACID", "NORMAL"],
     "flags": [
       "SEES",
       "SMELLS",

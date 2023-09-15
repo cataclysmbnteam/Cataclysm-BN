@@ -3,7 +3,7 @@
     "id": "bullwhip",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "WHIPS" ],
+    "weapon_category": ["WHIPS"],
     "symbol": "/",
     "color": "brown",
     "name": { "str": "bullwhip" },
@@ -12,8 +12,8 @@
     "volume": "2 L",
     "price": 3500,
     "price_postapoc": 500,
-    "material": [ "leather" ],
-    "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
+    "material": ["leather"],
+    "flags": ["REACH_ATTACK", "REACH3", "WHIP"],
     "cutting": 14
   },
   {
@@ -29,13 +29,13 @@
     "to_hit": 2,
     "//": "There's no way you can swing this thing without hitting SOMETHING.",
     "cutting": 18,
-    "material": [ "leather", "steel" ],
-    "flags": [ "REACH_ATTACK", "WHIP", "NONCONDUCTIVE" ]
+    "material": ["leather", "steel"],
+    "flags": ["REACH_ATTACK", "WHIP", "NONCONDUCTIVE"]
   },
   {
     "id": "lobotomizer",
     "type": "TOOL",
-    "weapon_category": [ "HOOKED_POLES" ],
+    "weapon_category": ["HOOKED_POLES"],
     "name": { "str": "lobotomizer" },
     "description": "This is a hand-forged collapsible tool that has two axe heads and sharp shovel-like tip on one end.  It can be used as a shovel, or you could chop some zombies with it instead.",
     "weight": "2722 g",
@@ -45,48 +45,48 @@
     "to_hit": -1,
     "bashing": 19,
     "cutting": 39,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
-    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP", "SHEATH_AXE" ]
+    "qualities": [["DIG", 2], ["AXE", 1], ["CUT", 1], ["BUTCHER", -11], ["COOK", 1]],
+    "techniques": ["WBLOCK_1", "BRUTAL", "SWEEP"],
+    "flags": ["NEEDS_UNFOLD", "BELT_CLIP", "SHEATH_AXE"]
   },
   {
     "id": "glass_shiv",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "symbol": ",",
     "color": "light_cyan",
     "name": { "str": "glass shiv" },
     "description": "A glass shard with wrapping at one end so it can be safely wielded.",
-    "material": [ "glass", "cotton" ],
+    "material": ["glass", "cotton"],
     "weight": "115 g",
     "price_postapoc": 10,
     "volume": "250 ml",
     "cutting": 6,
-    "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
-    "qualities": [ [ "BUTCHER", -18 ] ]
+    "flags": ["SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE"],
+    "qualities": [["BUTCHER", -18]]
   },
   {
     "id": "sharp_toothbrush",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "symbol": ",",
     "color": "light_blue",
     "name": { "str": "plastic shank" },
     "description": "An oblong plastic trinket with the far end ground down into a stabbing point.",
     "price": 400,
     "price_postapoc": 0,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "weight": "49 g",
     "volume": "250 ml",
     "bashing": 1,
     "cutting": 3,
     "to_hit": -3,
-    "flags": [ "STAB", "SHEATH_KNIFE", "CONDUCTIVE" ]
+    "flags": ["STAB", "SHEATH_KNIFE", "CONDUCTIVE"]
   },
   {
     "id": "tazer",
@@ -101,7 +101,7 @@
     "to_hit": -1,
     "bashing": 6,
     "//": "Yes, this is smaller than its magazine well. Go with it.",
-    "material": [ "plastic", "aluminum" ],
+    "material": ["plastic", "aluminum"],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "battery",
@@ -110,7 +110,12 @@
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"

@@ -5,7 +5,7 @@
     "terrain": {
       " ": "t_region_groundcover_urban",
       "#": "t_wall_wood",
-      "$": [ "t_region_shrub_decorative", "t_region_shrub_fruit" ],
+      "$": ["t_region_shrub_decorative", "t_region_shrub_fruit"],
       "&": "t_water_pump",
       "+": "t_door_c",
       "~": "t_door_glass_c",
@@ -64,13 +64,16 @@
       "5": "f_sink",
       "6": "f_cupboard"
     },
-    "toilets": { "T": {  } },
+    "toilets": { "T": {} },
     "items": {
       "B": { "item": "bed", "chance": 60 },
       "b": { "item": "shower", "chance": 70 },
-      "d": [ { "item": "dresser", "chance": 80, "repeat": [ 1, 6 ] }, { "item": "homeguns", "chance": 20 } ],
-      "e": { "item": "fridge", "chance": 65, "repeat": [ 1, 15 ] },
-      "o": { "item": "oven", "chance": 65, "repeat": [ 1, 3 ] },
+      "d": [
+        { "item": "dresser", "chance": 80, "repeat": [1, 6] },
+        { "item": "homeguns", "chance": 20 }
+      ],
+      "e": { "item": "fridge", "chance": 65, "repeat": [1, 15] },
+      "o": { "item": "oven", "chance": 65, "repeat": [1, 3] },
       "h": { "item": "bedroom", "chance": 10 },
       "H": { "item": "livingroom", "chance": 15 },
       "k": { "item": "bedroom", "chance": 65 },
@@ -80,18 +83,18 @@
         { "item": "home_hw", "chance": 50 },
         { "item": "tools_common", "chance": 50 }
       ],
-      "P": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
+      "P": { "item": "mail", "chance": 30, "repeat": [2, 5] },
       "Q": { "item": "farming_tools", "chance": 15 },
       "S": { "item": "softdrugs", "chance": 70 },
       "u": [
-        { "item": "kitchen", "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "cannedfood", "chance": 65, "repeat": [ 1, 10 ] },
+        { "item": "kitchen", "chance": 70, "repeat": [1, 4] },
+        { "item": "cannedfood", "chance": 65, "repeat": [1, 10] },
         { "item": "moonshine_brew", "chance": 65 }
       ],
-      "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-      "4": [ { "item": "SUS_dishes" }, { "item": "SUS_silverware" }, { "item": "SUS_knife_drawer" } ],
-      "5": [ { "item": "SUS_junk_drawer" }, { "item": "SUS_kitchen_sink" } ],
-      "6": [ { "item": "SUS_cookware" }, { "item": "SUS_utensils" } ]
+      "Y": { "item": "coat_rack", "chance": 35, "repeat": [1, 4] },
+      "4": [{ "item": "SUS_dishes" }, { "item": "SUS_silverware" }, { "item": "SUS_knife_drawer" }],
+      "5": [{ "item": "SUS_junk_drawer" }, { "item": "SUS_kitchen_sink" }],
+      "6": [{ "item": "SUS_cookware" }, { "item": "SUS_utensils" }]
     }
   }
 ]

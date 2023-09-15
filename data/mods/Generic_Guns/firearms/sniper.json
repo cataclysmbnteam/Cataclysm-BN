@@ -6,8 +6,8 @@
     "name": "7.62mm rifle",
     "ammo": "ammo_sniper",
     "description": "Sniper rifles fill military, police and civilian needs for precise, accurate fire.  Modern examples feature detachable magazines and various mounting interfaces for optics and supports.  With care and practice, all should be quite capable of eliminating bipedal threats from very safe ranges. ",
-    "magazines": [ [ "ammo_sniper", [ "rifle_sniper_mag", "rifle_sniper_mag_hc" ] ] ],
-    "built_in_mods": [  ],
+    "magazines": [["ammo_sniper", ["rifle_sniper_mag", "rifle_sniper_mag_hc"]]],
+    "built_in_mods": [],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 120
   },
@@ -18,9 +18,9 @@
     "name": "7.62mm bolt action rifle",
     "ammo": "ammo_sniper",
     "description": "Sniper rifles fill military, police and civilian needs for precise, accurate fire.  This is a bolt action rifle.  With care and practice, all should be quite capable of eliminating bipedal threats from very safe ranges. ",
-    "magazines": [  ],
+    "magazines": [],
     "clip_size": 4,
-    "built_in_mods": [  ],
+    "built_in_mods": [],
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "dispersion": 90
   },
@@ -31,6 +31,6 @@
     "name": "sniper rifle",
     "description": "You shouldn't see this! ",
     "clip_size": 300,
-    "magazines": [  ]
+    "magazines": []
   }
 ]

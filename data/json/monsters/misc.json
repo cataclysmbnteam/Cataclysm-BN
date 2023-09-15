@@ -5,12 +5,12 @@
     "name": { "str": "debug monster" },
     "description": "This monster exists only for testing purposes.",
     "default_faction": "",
-    "species": [ "ZOMBIE" ],
+    "species": ["ZOMBIE"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 10000,
     "speed": 100,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "X",
     "color": "white",
     "aggression": 100,
@@ -18,10 +18,13 @@
     "melee_cut": 0,
     "vision_day": 1,
     "harvest": "exempt",
-    "death_function": [ "MELT" ],
+    "death_function": ["MELT"],
     "regenerates": 50,
-    "regeneration_modifiers": [ { "effect": "onfire", "base_mod": -0.3, "scaling_mod": -0.15 }, { "effect": "corroding", "base_mod": -0.8 } ],
-    "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
+    "regeneration_modifiers": [
+      { "effect": "onfire", "base_mod": -0.3, "scaling_mod": -0.15 },
+      { "effect": "corroding", "base_mod": -0.8 }
+    ],
+    "flags": ["IMMOBILE", "NOT_HALLUCINATION", "FILTHY"]
   },
   {
     "id": "debug_mon_threat",
@@ -43,7 +46,7 @@
     "volume": "875000 ml",
     "weight": "4535 g",
     "hp": 1,
-    "material": [ "paper" ],
+    "material": ["paper"],
     "symbol": "D",
     "color": "red",
     "luminance": 8,
@@ -53,9 +56,9 @@
     "vision_day": 50,
     "vision_night": 50,
     "harvest": "exempt",
-    "death_function": [ "DISINTEGRATE" ],
+    "death_function": ["DISINTEGRATE"],
     "death_drops": "mon_dragon_dummy_drops",
-    "flags": [ "SEES" ]
+    "flags": ["SEES"]
   },
   {
     "id": "mon_generator",
@@ -63,12 +66,12 @@
     "name": { "str": "generator" },
     "description": "Your precious generator, noisily humming away.  Defend it at all costs!",
     "default_faction": "player",
-    "species": [ "UNKNOWN" ],
+    "species": ["UNKNOWN"],
     "volume": "92500 ml",
     "weight": "120 kg",
     "hp": 500,
     "speed": 100,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "4",
     "color": "white",
     "melee_cut": 0,
@@ -76,9 +79,9 @@
     "armor_cut": 2,
     "armor_bullet": 2,
     "harvest": "exempt",
-    "special_attacks": [ [ "GENERATOR", 1 ] ],
-    "death_function": [ "GAMEOVER" ],
-    "flags": [ "NOHEAD", "ACIDPROOF", "IMMOBILE" ]
+    "special_attacks": [["GENERATOR", 1]],
+    "death_function": ["GAMEOVER"],
+    "flags": ["NOHEAD", "ACIDPROOF", "IMMOBILE"]
   },
   {
     "id": "mon_hallu_mom",
@@ -87,12 +90,12 @@
     "description": "Mom?",
     "default_faction": "factionless",
     "bodytype": "human",
-    "species": [ "HALLUCINATION" ],
+    "species": ["HALLUCINATION"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 5,
     "speed": 100,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "@",
     "color": "white",
     "aggression": 100,
@@ -100,9 +103,9 @@
     "melee_skill": 3,
     "melee_cut": 0,
     "harvest": "exempt",
-    "special_attacks": [ [ "DISAPPEAR", 20 ] ],
-    "death_function": [ "DISAPPEAR" ],
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "SMELLS", "GUILT" ]
+    "special_attacks": [["DISAPPEAR", 20]],
+    "death_function": ["DISAPPEAR"],
+    "flags": ["SEES", "HEARS", "NO_BREATHE", "SMELLS", "GUILT"]
   },
   {
     "id": "mon_hallu_multicooker",
@@ -110,12 +113,12 @@
     "name": { "str": "evil multi-cooker" },
     "description": "The multi-cooker's got a mind of its own!  Look out!",
     "default_faction": "factionless",
-    "species": [ "HALLUCINATION" ],
+    "species": ["HALLUCINATION"],
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 5,
     "speed": 50,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "red",
     "aggression": 100,
@@ -123,9 +126,9 @@
     "melee_skill": 1,
     "melee_cut": 0,
     "harvest": "exempt",
-    "special_attacks": [ [ "DISAPPEAR", 20 ] ],
-    "death_function": [ "DISAPPEAR" ],
-    "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
+    "special_attacks": [["DISAPPEAR", 20]],
+    "death_function": ["DISAPPEAR"],
+    "flags": ["SEES", "HEARS", "NO_BREATHE"]
   },
   {
     "id": "mon_hologram",
@@ -133,7 +136,7 @@
     "name": { "str": "hologram" },
     "description": "An image made from light, nearly identical to the real deal.",
     "default_faction": "factionless",
-    "species": [ "UNKNOWN" ],
+    "species": ["UNKNOWN"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 1,
@@ -145,9 +148,9 @@
     "luminance": 16,
     "dodge": 10,
     "harvest": "exempt",
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "DISAPPEAR" ],
+    "fear_triggers": ["PLAYER_CLOSE"],
+    "death_function": ["DISAPPEAR"],
     "path_settings": { "max_dist": 30 },
-    "flags": [ "FLIES", "NO_BREATHE", "HARDTOSHOOT", "PET_WONT_FOLLOW" ]
+    "flags": ["FLIES", "NO_BREATHE", "HARDTOSHOOT", "PET_WONT_FOLLOW"]
   }
 ]

@@ -17,7 +17,7 @@
     "id": "NC_ISHERWOOD_JACK",
     "name": { "str": "Jack Isherwood" },
     "job_description": "I'm the patriarch of the Isherwood family",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [{ "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }],
     "common": false,
     "bonus_per": { "one_in": 4 },
     "worn_override": "NC_Isherwood_male_worn",
@@ -27,14 +27,19 @@
     "skills": [
       {
         "skill": "ALL",
-        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+        "level": {
+          "mul": [
+            { "one_in": 3 },
+            { "sum": [{ "dice": [2, 2] }, { "constant": -2 }, { "one_in": 4 }] }
+          ]
+        }
       },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "rifle", "bonus": { "rng": [ 4, 8 ] } }
+      { "skill": "barter", "bonus": { "rng": [2, 4] } },
+      { "skill": "gun", "bonus": { "rng": [4, 8] } },
+      { "skill": "melee", "bonus": { "rng": [3, 6] } },
+      { "skill": "survival", "bonus": { "rng": [3, 6] } },
+      { "skill": "pistol", "bonus": { "rng": [3, 6] } },
+      { "skill": "rifle", "bonus": { "rng": [4, 8] } }
     ]
   },
   {
@@ -45,7 +50,11 @@
       { "item": "boxer_shorts" },
       { "item": "jeans" },
       {
-        "distribution": [ { "item": "tshirt", "prob": 50 }, { "item": "longshirt", "prob": 25 }, { "item": "dress_shirt", "prob": 25 } ]
+        "distribution": [
+          { "item": "tshirt", "prob": 50 },
+          { "item": "longshirt", "prob": 25 },
+          { "item": "dress_shirt", "prob": 25 }
+        ]
       },
       {
         "distribution": [
@@ -65,8 +74,15 @@
       },
       { "item": "socks" },
       { "item": "boots" },
-      { "distribution": [ { "item": "cowboy_hat", "prob": 75 }, { "item": "straw_hat", "prob": 25 } ] },
-      { "distribution": [ { "item": "backpack_leather", "prob": 75 }, { "item": "backpack", "prob": 25 } ] }
+      {
+        "distribution": [{ "item": "cowboy_hat", "prob": 75 }, { "item": "straw_hat", "prob": 25 }]
+      },
+      {
+        "distribution": [
+          { "item": "backpack_leather", "prob": 75 },
+          { "item": "backpack", "prob": 25 }
+        ]
+      }
     ]
   },
   {
@@ -78,7 +94,11 @@
       { "item": "jeans" },
       { "item": "bra" },
       {
-        "distribution": [ { "item": "tshirt", "prob": 50 }, { "item": "longshirt", "prob": 25 }, { "item": "dress_shirt", "prob": 25 } ]
+        "distribution": [
+          { "item": "tshirt", "prob": 50 },
+          { "item": "longshirt", "prob": 25 },
+          { "item": "dress_shirt", "prob": 25 }
+        ]
       },
       {
         "distribution": [
@@ -98,8 +118,15 @@
       },
       { "item": "socks" },
       { "item": "boots" },
-      { "distribution": [ { "item": "cowboy_hat", "prob": 75 }, { "item": "straw_hat", "prob": 25 } ] },
-      { "distribution": [ { "item": "backpack_leather", "prob": 75 }, { "item": "backpack", "prob": 25 } ] }
+      {
+        "distribution": [{ "item": "cowboy_hat", "prob": 75 }, { "item": "straw_hat", "prob": 25 }]
+      },
+      {
+        "distribution": [
+          { "item": "backpack_leather", "prob": 75 },
+          { "item": "backpack", "prob": 25 }
+        ]
+      }
     ]
   },
   {
@@ -108,46 +135,73 @@
     "subtype": "distribution",
     "entries": [
       {
-        "collection": [ { "item": "crossbow", "ammo-item": "bolt_steel", "charges": 1 }, { "item": "bolt_steel", "charges": [ 15, 30 ] } ],
+        "collection": [
+          { "item": "crossbow", "ammo-item": "bolt_steel", "charges": 1 },
+          { "item": "bolt_steel", "charges": [15, 30] }
+        ],
         "prob": 20
       },
       {
-        "collection": [ { "item": "shortbow", "ammo-item": "arrow_metal" }, { "item": "arrow_metal", "charges": [ 15, 30 ] } ],
+        "collection": [
+          { "item": "shortbow", "ammo-item": "arrow_metal" },
+          { "item": "arrow_metal", "charges": [15, 30] }
+        ],
         "prob": 5
       },
       {
-        "collection": [ { "item": "compbow", "ammo-item": "arrow_metal" }, { "item": "arrow_metal", "charges": [ 15, 30 ] } ],
+        "collection": [
+          { "item": "compbow", "ammo-item": "arrow_metal" },
+          { "item": "arrow_metal", "charges": [15, 30] }
+        ],
         "prob": 15
       },
       {
-        "collection": [ { "item": "compositebow", "ammo-item": "arrow_metal" }, { "item": "arrow_metal", "charges": [ 15, 30 ] } ],
+        "collection": [
+          { "item": "compositebow", "ammo-item": "arrow_metal" },
+          { "item": "arrow_metal", "charges": [15, 30] }
+        ],
         "prob": 15
       },
       {
-        "collection": [ { "item": "longbow", "ammo-item": "arrow_metal" }, { "item": "arrow_metal", "charges": [ 15, 30 ] } ],
+        "collection": [
+          { "item": "longbow", "ammo-item": "arrow_metal" },
+          { "item": "arrow_metal", "charges": [15, 30] }
+        ],
         "prob": 10
       },
       {
         "collection": [
           { "item": "hand_crossbow", "ammo-item": "bolt_steel", "charges": 1 },
-          { "item": "bolt_steel", "charges": [ 15, 30 ] }
+          { "item": "bolt_steel", "charges": [15, 30] }
         ],
         "prob": 15
       },
       {
-        "collection": [ { "item": "selfbow", "ammo-item": "arrow_metal" }, { "item": "arrow_metal", "charges": [ 15, 30 ] } ],
+        "collection": [
+          { "item": "selfbow", "ammo-item": "arrow_metal" },
+          { "item": "arrow_metal", "charges": [15, 30] }
+        ],
         "prob": 5
       },
       {
-        "collection": [ { "item": "rifle_22", "ammo-item": "22_cphp", "charges": 1 }, { "item": "22_cphp", "charges": [ 20, 40 ] } ],
+        "collection": [
+          { "item": "rifle_22", "ammo-item": "22_cphp", "charges": 1 },
+          { "item": "22_cphp", "charges": [20, 40] }
+        ],
         "prob": 5
       },
-      { "collection": [ { "item": "rifle_9mm", "charges": 1 }, { "item": "9mm", "charges": [ 20, 40 ] } ], "prob": 5 },
+      {
+        "collection": [
+          { "item": "rifle_9mm", "charges": 1 },
+          { "item": "9mm", "charges": [20, 40] }
+        ],
+        "prob": 5
+      },
       {
         "collection": [
           { "item": "ruger_1022", "ammo-item": "22_cphp", "charges": 10 },
           { "item": "ruger1022mag", "ammo-item": "22_cphp", "charges": 10 },
-          { "item": "22_cphp", "charges": [ 10, 20 ] }
+          { "item": "22_cphp", "charges": [10, 20] }
         ],
         "prob": 10
       },
@@ -155,23 +209,35 @@
         "collection": [
           { "item": "browning_blr", "charges": 4 },
           { "item": "blrmag", "charges": 4 },
-          { "item": "3006", "charges": [ 10, 20 ] }
+          { "item": "3006", "charges": [10, 20] }
         ],
         "prob": 10
       },
       {
-        "collection": [ { "item": "remington_700", "charges": 4 }, { "item": "3006", "charges": [ 10, 20 ] } ],
+        "collection": [
+          { "item": "remington_700", "charges": 4 },
+          { "item": "3006", "charges": [10, 20] }
+        ],
         "prob": 10
       },
       {
-        "collection": [ { "item": "savage_111f", "ammo-item": "308", "charges": 3 }, { "item": "308", "charges": [ 10, 20 ] } ],
+        "collection": [
+          { "item": "savage_111f", "ammo-item": "308", "charges": 3 },
+          { "item": "308", "charges": [10, 20] }
+        ],
         "prob": 5
       },
       {
-        "collection": [ { "item": "rifle_22", "ammo-item": "22_cphp", "charges": 19 }, { "item": "22_cphp", "charges": [ 10, 20 ] } ],
+        "collection": [
+          { "item": "rifle_22", "ammo-item": "22_cphp", "charges": 19 },
+          { "item": "22_cphp", "charges": [10, 20] }
+        ],
         "prob": 25
       },
-      { "collection": [ { "item": "m1903", "charges": 5 }, { "item": "3006", "charges": [ 10, 20 ] } ], "prob": 5 }
+      {
+        "collection": [{ "item": "m1903", "charges": 5 }, { "item": "3006", "charges": [10, 20] }],
+        "prob": 5
+      }
     ]
   },
   {
@@ -186,13 +252,43 @@
       { "item": "meat_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "fish_pickled", "prob": 60, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "veggy_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "apple_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      {
+        "item": "veggy_canned",
+        "prob": 40,
+        "charges": 12,
+        "container-item": "jar_3l_glass_sealed"
+      },
+      {
+        "item": "apple_canned",
+        "prob": 40,
+        "charges": 12,
+        "container-item": "jar_3l_glass_sealed"
+      },
       { "item": "can_tomato", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "meat_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "veggy_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      {
+        "item": "fish_pickled",
+        "prob": 40,
+        "charges": 12,
+        "container-item": "jar_3l_glass_sealed"
+      },
+      {
+        "item": "meat_pickled",
+        "prob": 40,
+        "charges": 12,
+        "container-item": "jar_3l_glass_sealed"
+      },
+      {
+        "item": "veggy_pickled",
+        "prob": 40,
+        "charges": 12,
+        "container-item": "jar_3l_glass_sealed"
+      },
+      {
+        "item": "fish_pickled",
+        "prob": 40,
+        "charges": 12,
+        "container-item": "jar_3l_glass_sealed"
+      },
       { "item": "sauce_red", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" }
     ]
@@ -203,7 +299,11 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Is that a U.S. Marshal's badge you're wearing?",
-      "no": { "u_male": true, "yes": "Hello traveler, what brings you here?", "no": "Hello traveler, what brings you here?" }
+      "no": {
+        "u_male": true,
+        "yes": "Hello traveler, what brings you here?",
+        "no": "Hello traveler, what brings you here?"
+      }
     },
     "responses": [
       {
@@ -225,14 +325,24 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            {
+              "u_has_var": "u_scavenge_for_Jack_Isherwood",
+              "type": "general",
+              "context": "meeting",
+              "value": "yes"
+            }
           ]
         }
       },
       {
         "text": "This is a lot of land, you been here since the collapse?",
         "topic": "TALK_ISHERWOOD_JACK_TALK1",
-        "effect": { "u_add_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": {
+          "u_add_var": "u_met_Jack_Isherwood",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       },
       {
         "text": "Hey, good to see you again.",
@@ -240,7 +350,12 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            {
+              "u_has_var": "u_met_Jack_Isherwood",
+              "type": "general",
+              "context": "meeting",
+              "value": "yes"
+            }
           ]
         }
       },
@@ -299,7 +414,12 @@
       {
         "text": "Sounds reasonable, I'll see what I can do.",
         "topic": "TALK_NONE",
-        "effect": { "u_add_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": {
+          "u_add_var": "u_scavenge_for_Jack_Isherwood",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       },
       { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -308,7 +428,14 @@
     "type": "talk_topic",
     "id": "TALK_JACK_WIFE",
     "dynamic_line": "Claire and I have been together for 40 years now, couldn't run this place without her.  She's quite the herbalist too, been real useful lately.  She is probably in the house, you should stop in.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_claire_herbalist", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": {
+      "effect": {
+        "u_add_var": "u_learned_claire_herbalist",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes"
+      }
+    },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -318,7 +445,14 @@
     "type": "talk_topic",
     "id": "TALK_JACK_DAUGHTER",
     "dynamic_line": "Jesse and her family live up at the horse farm.  Her husband, Carlos, may have some jobs for you.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_jesse", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": {
+      "effect": {
+        "u_add_var": "u_learned_about_jesse",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes"
+      }
+    },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -328,7 +462,14 @@
     "type": "talk_topic",
     "id": "TALK_JACK_BROTHER",
     "dynamic_line": "Eddie's dairy is at the end of the road.  It's just him and his son since Barry was taken by that thing in the woods.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_eddie", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": {
+      "effect": {
+        "u_add_var": "u_learned_about_eddie",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes"
+      }
+    },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -338,7 +479,7 @@
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
     "dynamic_line": "You should get off my land, the government proved its incompetence with this catastrophe.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "…", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
@@ -351,7 +492,12 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            {
+              "u_has_var": "u_scavenge_for_Jack_Isherwood",
+              "type": "general",
+              "context": "meeting",
+              "value": "yes"
+            }
           ]
         }
       },
@@ -398,7 +544,7 @@
     "value": 20000,
     "item": "jar_3l_glass",
     "count": 20,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "has_generic_rewards": false,
     "followup": "MISSION_ISHERWOOD_JACK_2",
     "end": {
@@ -432,10 +578,15 @@
         { "u_buy_item": "tomato", "count": 25 },
         { "u_buy_item": "onion", "count": 25 },
         { "u_buy_item": "cucumber", "count": 25 },
-        { "u_add_var": "u_did_jack_missions", "type": "general", "context": "recruit", "value": "yes" }
+        {
+          "u_add_var": "u_did_jack_missions",
+          "type": "general",
+          "context": "recruit",
+          "value": "yes"
+        }
       ]
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "I do have some more scavenging for you.",

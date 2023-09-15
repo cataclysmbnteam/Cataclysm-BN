@@ -34,7 +34,7 @@
         "........................"
       ],
       "rotation": 3,
-      "palettes": [ "FEMA_camp" ],
+      "palettes": ["FEMA_camp"],
       "terrain": { "!": "t_door_bar_locked", "%": "t_bars" },
       "items": {
         "r": { "item": "drugs_emergency", "chance": 30 },
@@ -42,8 +42,11 @@
         "L": { "item": "surgery", "chance": 30 },
         "X": { "item": "hospital_lab", "chance": 80 }
       },
-      "item": { "B": { "item": "rag_bloody", "amount": [ 0, 5 ] } },
-      "monster": { "Z": { "monster": "mon_zombie_brute" }, "z": { "monster": "mon_zombie_scientist" } }
+      "item": { "B": { "item": "rag_bloody", "amount": [0, 5] } },
+      "monster": {
+        "Z": { "monster": "mon_zombie_brute" },
+        "z": { "monster": "mon_zombie_scientist" }
+      }
     }
   }
 ]

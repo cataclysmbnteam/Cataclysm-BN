@@ -3,7 +3,7 @@
     "id": "sword_wood",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_SWORDS" ],
+    "weapon_category": ["1H_SWORDS"],
     "symbol": "!",
     "color": "brown",
     "name": { "str": "2-by-sword" },
@@ -15,8 +15,8 @@
     "cutting": 10,
     "to_hit": 1,
     "price_postapoc": 50,
-    "flags": [ "SHEATH_SWORD", "STAB" ],
-    "techniques": [ "WBLOCK_1" ]
+    "flags": ["SHEATH_SWORD", "STAB"],
+    "techniques": ["WBLOCK_1"]
   },
   {
     "id": "sword_nail",
@@ -42,35 +42,35 @@
     "bashing": 6,
     "cutting": 18,
     "price_postapoc": 250,
-    "qualities": [ [ "BUTCHER", -50 ] ],
-    "delete": { "flags": [ "STAB" ] }
+    "qualities": [["BUTCHER", -50]],
+    "delete": { "flags": ["STAB"] }
   },
   {
     "id": "sword_metal",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "2H_SWORDS", "MEDIEVAL_SWORDS" ],
+    "weapon_category": ["2H_SWORDS", "MEDIEVAL_SWORDS"],
     "symbol": "!",
     "color": "light_gray",
     "name": { "str": "hand-forged sword" },
     "description": "A simple, no-frills handmade sword.  Not accurate to any historical style, and the blade profile isn't as well-balanced as the real deal, but it's more than serviceable in the right hands.  It's just hefty enough to require a larger baldric or scabbard, compared to smaller swords.",
     "looks_like": "longsword",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "volume": "2500 ml",
     "weight": "1500 g",
     "bashing": 14,
     "cutting": 28,
     "to_hit": 1,
     "price_postapoc": 2500,
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
-    "techniques": [ "WBLOCK_2" ]
+    "flags": ["SHEATH_SWORD", "NONCONDUCTIVE"],
+    "qualities": [["CUT", 1], ["BUTCHER", 7]],
+    "techniques": ["WBLOCK_2"]
   },
   {
     "id": "switchblade",
     "type": "TOOL",
     "category": "tools",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "switchblade" },
     "description": "This is a long and thin knife with a spring-loaded blade that rests inside the handle while not in use.",
     "weight": "100 g",
@@ -79,18 +79,18 @@
     "price_postapoc": 50,
     "to_hit": -2,
     "cutting": 16,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
-    "techniques": [ "RAPID" ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "qualities": [["CUT", 1], ["CUT_FINE", 1], ["BUTCHER", 14]],
+    "techniques": ["RAPID"],
+    "flags": ["STAB", "SHEATH_KNIFE"]
   },
   {
     "id": "knife_folding",
     "type": "TOOL",
     "category": "tools",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "folding knife", "str_pl": "folding knives" },
     "description": "This is a small folding knife, with a locking blade and a pocket clip.  Not as good a weapon as a solid fixed-blade knife, but better than a penknife.",
     "weight": "80 g",
@@ -99,17 +99,17 @@
     "price_postapoc": 50,
     "bashing": 1,
     "cutting": 12,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ]
+    "qualities": [["CUT", 1], ["CUT_FINE", 1], ["BUTCHER", 12]],
+    "flags": ["STAB", "BELT_CLIP", "SHEATH_KNIFE"]
   },
   {
     "id": "knife_combat",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "combat knife", "str_pl": "combat knives" },
     "description": "This is a military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.",
     "weight": "558 g",
@@ -119,19 +119,26 @@
     "to_hit": 1,
     "bashing": 2,
     "cutting": 18,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "dark_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ], [ "M_XBOWS" ] ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mod_target_category": [
+        ["SUBMACHINE_GUNS"],
+        ["RIFLES"],
+        ["MACHINE_GUNS"],
+        ["GATLING_GUNS"],
+        ["SHOTGUNS"],
+        ["M_XBOWS"]
+      ],
+      "mode_modifier": [["REACH", "bayonet", 2, ["MELEE", "REACH_ATTACK"]]]
     },
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
+    "min_skills": [["weapon", 2], ["melee", 1]],
     "techniques": "RAPID",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ]
+    "qualities": [["CUT", 1], ["CUT_FINE", 1], ["BUTCHER", 19]],
+    "thrown_damage": [{ "damage_type": "stab", "amount": 14 }],
+    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN"]
   },
   {
     "id": "knife_combat_mod",
@@ -142,25 +149,25 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_target_category": [
-        [ "SUBMACHINE_GUNS" ],
-        [ "RIFLES" ],
-        [ "MACHINE_GUNS" ],
-        [ "GATLING_GUNS" ],
-        [ "SHOTGUNS" ],
-        [ "M_XBOWS" ],
-        [ "GRENADE_LAUNCHERS" ],
-        [ "ROCKET_LAUNCHERS" ],
-        [ "FLAMETHROWERS" ]
+        ["SUBMACHINE_GUNS"],
+        ["RIFLES"],
+        ["MACHINE_GUNS"],
+        ["GATLING_GUNS"],
+        ["SHOTGUNS"],
+        ["M_XBOWS"],
+        ["GRENADE_LAUNCHERS"],
+        ["ROCKET_LAUNCHERS"],
+        ["FLAMETHROWERS"]
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mode_modifier": [["REACH", "bayonet", 2, ["MELEE", "REACH_ATTACK"]]]
     },
-    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
+    "extend": { "flags": ["PUMP_RAIL_COMPATIBLE"] }
   },
   {
     "id": "knife_hunting",
     "type": "TOOL",
     "category": "tools",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "hunting knife", "str_pl": "hunting knives" },
     "//": "Highest non-powertool butchering quality.  It's made for skinning and butchering game, which is what you're generally doing.",
     "description": "Commonly used by hunters, this single-edge sheath knife is designed for cutting and skinning game rather than combat.",
@@ -169,17 +176,17 @@
     "price": 4000,
     "price_postapoc": 750,
     "cutting": 16,
-    "material": [ "steel", "leather" ],
+    "material": ["steel", "leather"],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
-    "flags": [ "SHEATH_KNIFE" ]
+    "qualities": [["CUT", 1], ["CUT_FINE", 1], ["BUTCHER", 30]],
+    "flags": ["SHEATH_KNIFE"]
   },
   {
     "id": "knife_rambo",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "survival knife", "str_pl": "survival knives" },
     "//": "This isn't really supposed to be a very good knife, or a very good saw.  It's more for looking scary.",
     "description": "This massive knife features a hollow handle with a compass built into the pommel and a row of fearsome looking saw teeth along the back of its blade.",
@@ -189,18 +196,18 @@
     "price_postapoc": 500,
     "bashing": 4,
     "cutting": 15,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "techniques": ["WBLOCK_1"],
+    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 7]],
+    "flags": ["STAB", "SHEATH_SWORD"]
   },
   {
     "id": "knife_rm42",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "RM42 fighting knife", "str_pl": "RM42 fighting knives" },
     "description": "This sturdy matte black Rivtech combat dagger features a long and slim double-edged blade with a spear-point and a distinctive slip-resistant grip which can also be used to affix it to a suitable firearm.  Originally manufactured for the military, it was very popular in films and among collectors due to its fearsome appearance.",
     "weight": "188 g",
@@ -210,19 +217,19 @@
     "to_hit": 2,
     "bashing": 2,
     "cutting": 20,
-    "material": [ "ceramic", "plastic" ],
+    "material": ["ceramic", "plastic"],
     "symbol": "/",
     "color": "dark_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_target_category": [ [ "SHOTGUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mod_target_category": [["SHOTGUNS"], ["RIFLES"], ["MACHINE_GUNS"], ["GATLING_GUNS"]],
+      "mode_modifier": [["REACH", "bayonet", 2, ["MELEE", "REACH_ATTACK"]]]
     },
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "RAPID", "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ]
+    "min_skills": [["weapon", 2], ["melee", 1]],
+    "techniques": ["RAPID", "WBLOCK_1"],
+    "qualities": [["CUT", 1], ["CUT_FINE", 1], ["BUTCHER", 19]],
+    "thrown_damage": [{ "damage_type": "stab", "amount": 14 }],
+    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD"]
   },
   {
     "id": "knife_swissarmy",
@@ -237,17 +244,17 @@
     "price_postapoc": 500,
     "to_hit": -2,
     "cutting": 6,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "red",
-    "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB" ]
+    "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]],
+    "flags": ["STAB"]
   },
   {
     "id": "knife_trench",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "trench knife", "str_pl": "trench knives" },
     "description": "This stout combat knife features a steel guard to protect the user's knuckles.  The guard can also be used for striking or blocking, and the knife can also be used to butcher corpses.",
     "weight": "608 g",
@@ -257,18 +264,18 @@
     "to_hit": 1,
     "bashing": 6,
     "cutting": 14,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": ";",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE" ]
+    "techniques": ["WBLOCK_1"],
+    "qualities": [["CUT", 1], ["CUT_FINE", 1], ["BUTCHER", 19]],
+    "flags": ["DURABLE_MELEE", "STAB", "SHEATH_KNIFE"]
   },
   {
     "id": "makeshift_knife",
     "type": "TOOL",
     "category": "tools",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "makeshift knife", "str_pl": "makeshift knives" },
     "description": "A knife consisting of a long, somewhat sharpened, spike and a tightly wrapped rag as a handle.  It makes a good melee weapon.",
     "weight": "550 g",
@@ -278,18 +285,18 @@
     "to_hit": -1,
     "bashing": 2,
     "cutting": 10,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 11]],
+    "flags": ["STAB", "SHEATH_KNIFE"]
   },
   {
     "id": "bone_knife",
     "name": { "str": "bone shiv" },
     "type": "TOOL",
     "category": "tools",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "description": "A femur or other bone, at least 30 cm long, which has been broken at one end and sharpened into a cutting tool.  Its jagged edge is wicked but fragile.",
     "symbol": "/",
     "color": "white",
@@ -301,14 +308,14 @@
     "bashing": 4,
     "cutting": 20,
     "material": "bone",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 12]],
+    "flags": ["STAB", "SHEATH_KNIFE", "FRAGILE_MELEE"]
   },
   {
     "id": "knife_baselard",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "crude dagger" },
     "description": "A medieval dagger forged from rough iron.  It is not the sharpest tool in the shed, but it is certainly one of the largest.",
     "weight": "420 g",
@@ -317,17 +324,17 @@
     "to_hit": 1,
     "bashing": 2,
     "cutting": 18,
-    "material": [ "iron" ],
+    "material": ["iron"],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 15]],
+    "flags": ["STAB", "SHEATH_KNIFE"]
   },
   {
     "id": "machete",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "SHORT_SWORDS" ],
+    "weapon_category": ["SHORT_SWORDS"],
     "name": { "str": "machete" },
     "description": "This huge steel knife makes an excellent tool for cutting down large vegetation or other 'obstacles.'",
     "weight": "538 g",
@@ -341,8 +348,8 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": "WBLOCK_2",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 15]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE"]
   },
   {
     "id": "makeshift_machete",
@@ -357,16 +364,16 @@
     "bashing": 5,
     "cutting": 16,
     "color": "light_gray",
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -27 ] ],
-    "flags": [ "SHEATH_SWORD" ]
+    "techniques": ["WBLOCK_1"],
+    "qualities": [["CUT", 1], ["BUTCHER", -27]],
+    "flags": ["SHEATH_SWORD"]
   },
   {
     "id": "machete_gimmick",
     "name": { "str": "machete multitool" },
     "type": "TOOL",
     "category": "tools",
-    "weapon_category": [ "SHORT_SWORDS" ],
+    "weapon_category": ["SHORT_SWORDS"],
     "description": "A thin, wobbly steel blade with sawteeth on one side and a flat chisel tip for digging.  A jack of many trades and a master of none.",
     "symbol": "/",
     "color": "green",
@@ -378,14 +385,14 @@
     "bashing": 8,
     "cutting": 15,
     "material": "steel",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ], [ "SAW_W", 1 ], [ "DIG", 1 ], [ "PRY", 1 ] ],
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 8], ["SAW_W", 1], ["DIG", 1], ["PRY", 1]],
+    "flags": ["SHEATH_SWORD", "FRAGILE_MELEE"]
   },
   {
     "id": "cavalry_sabre",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_SWORDS", "MEDIEVAL_SWORDS", "DUELING_SWORDS" ],
+    "weapon_category": ["1H_SWORDS", "MEDIEVAL_SWORDS", "DUELING_SWORDS"],
     "name": { "str": "cavalry saber" },
     "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight but a deadly slashing weapon.",
     "weight": "910 g",
@@ -398,9 +405,9 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_2", "RAPID" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
+    "techniques": ["WBLOCK_2", "RAPID"],
+    "qualities": [["CUT", 1], ["BUTCHER", 8]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE"]
   },
   {
     "id": "cavalry_sabre_fake",
@@ -414,14 +421,14 @@
     "bashing": 9,
     "cutting": 2,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "qualities": [  ]
+    "flags": ["SHEATH_SWORD", "FRAGILE_MELEE"],
+    "qualities": []
   },
   {
     "id": "kris",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "kris", "str_pl": "krises" },
     "description": "This wavy bladed dagger comes from Southeast Asia.  The design of the blade causes it to make broad, painful wounds.",
     "weight": "558 g",
@@ -434,9 +441,9 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_1", "RAPID" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "techniques": ["WBLOCK_1", "RAPID"],
+    "qualities": [["CUT", 1], ["BUTCHER", 12]],
+    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_SWORD"]
   },
   {
     "id": "kris_fake",
@@ -449,14 +456,14 @@
     "material": "aluminum",
     "bashing": 2,
     "cutting": 2,
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
-    "qualities": [  ]
+    "flags": ["SHEATH_SWORD", "FRAGILE_MELEE"],
+    "qualities": []
   },
   {
     "id": "kukri",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "kukri" },
     "description": "This versatile implement is a modern take on a traditional weapon that originated in Nepal.  Featuring a heavy blade with an inwardly curved edge, it is used as both a tool and as a weapon.",
     "weight": "450 g",
@@ -465,18 +472,18 @@
     "price_postapoc": 1250,
     "bashing": 7,
     "cutting": 26,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_1", "RAPID" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ]
+    "techniques": ["WBLOCK_1", "RAPID"],
+    "qualities": [["CUT", 1], ["CUT_FINE", 1], ["BUTCHER", 18]],
+    "flags": ["DURABLE_MELEE", "SHEATH_KNIFE"]
   },
   {
     "id": "jian",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_SWORDS" ],
+    "weapon_category": ["1H_SWORDS"],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str_sp": "jian" },
@@ -484,14 +491,14 @@
     "price": 100000,
     "price_postapoc": 4000,
     "material": "steel",
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "techniques": [ "WBLOCK_2" ],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE"],
+    "techniques": ["WBLOCK_2"],
     "weight": "800 g",
     "volume": "2 L",
     "bashing": 8,
     "cutting": 30,
     "to_hit": 2,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },
   {
     "id": "jian_inferior",
@@ -501,7 +508,7 @@
     "description": "This is an ancient Chinese doubled-edged straight sword.  The sword is quite worn, and bent at an odd angle.",
     "price_postapoc": 750,
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
+    "flags": ["SHEATH_SWORD"],
     "bashing": 7,
     "cutting": 24
   },
@@ -514,16 +521,16 @@
     "price": 10000,
     "price_postapoc": 50,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "flags": ["SHEATH_SWORD", "FRAGILE_MELEE"],
     "weight": "414 g",
     "cutting": 2,
-    "qualities": [  ]
+    "qualities": []
   },
   {
     "id": "scimitar",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_SWORDS" ],
+    "weapon_category": ["1H_SWORDS"],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "scimitar" },
@@ -531,14 +538,14 @@
     "price": 93000,
     "price_postapoc": 3500,
     "material": "iron",
-    "techniques": [ "WBLOCK_2" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "techniques": ["WBLOCK_2"],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE"],
     "weight": "1133 g",
     "volume": "2 L",
     "bashing": 6,
     "cutting": 30,
     "to_hit": 1,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },
   {
     "id": "scimitar_inferior",
@@ -548,7 +555,7 @@
     "description": "This is a curved sword associated with various Middle Eastern and Central Asian countries.  This one seems oddly dull and worn.",
     "price_postapoc": 500,
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
+    "flags": ["SHEATH_SWORD"],
     "bashing": 5,
     "cutting": 24
   },
@@ -561,17 +568,17 @@
     "price": 9300,
     "price_postapoc": 50,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "flags": ["SHEATH_SWORD", "FRAGILE_MELEE"],
     "weight": "586 g",
     "volume": "2 L",
     "cutting": 2,
-    "qualities": [  ]
+    "qualities": []
   },
   {
     "id": "estoc",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "2H_SWORDS", "MEDIEVAL_SWORDS", "DUELING_SWORDS" ],
+    "weapon_category": ["2H_SWORDS", "MEDIEVAL_SWORDS", "DUELING_SWORDS"],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "estoc" },
@@ -579,8 +586,8 @@
     "price": 135000,
     "price_postapoc": 5000,
     "material": "steel",
-    "techniques": [ "WBLOCK_2", "PRECISE" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "techniques": ["WBLOCK_2", "PRECISE"],
+    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE"],
     "weight": "1814 g",
     "volume": "2750 ml",
     "bashing": 9,
@@ -595,7 +602,7 @@
     "description": "This is a thin, edgeless thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.  It seems a bit too bendy.",
     "price_postapoc": 750,
     "material": "budget_steel",
-    "flags": [ "STAB", "SHEATH_SWORD" ],
+    "flags": ["STAB", "SHEATH_SWORD"],
     "bashing": 29,
     "cutting": 10
   },
@@ -608,7 +615,7 @@
     "price": 13500,
     "price_postapoc": 50,
     "material": "aluminum",
-    "flags": [ "STAB", "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "flags": ["STAB", "SHEATH_SWORD", "FRAGILE_MELEE"],
     "weight": "939 g",
     "bashing": 13,
     "cutting": 2,
@@ -618,7 +625,7 @@
     "id": "longsword",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "MEDIEVAL_SWORDS", "2H_SWORDS" ],
+    "weapon_category": ["MEDIEVAL_SWORDS", "2H_SWORDS"],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "longsword" },
@@ -626,14 +633,14 @@
     "price": 130000,
     "price_postapoc": 6000,
     "material": "steel",
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "techniques": [ "WBLOCK_2" ],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE"],
+    "techniques": ["WBLOCK_2"],
     "weight": "1814 g",
     "volume": "2750 ml",
     "bashing": 13,
     "cutting": 34,
     "to_hit": 2,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },
   {
     "id": "longsword_inferior",
@@ -643,7 +650,7 @@
     "description": "This is a classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  You feel like the pommel could just snap off if you used it.",
     "price_postapoc": 750,
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
+    "flags": ["SHEATH_SWORD"],
     "bashing": 30,
     "cutting": 9
   },
@@ -656,18 +663,18 @@
     "price": 13000,
     "price_postapoc": 100,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "flags": ["SHEATH_SWORD", "FRAGILE_MELEE"],
     "weight": "939 g",
     "bashing": 15,
     "cutting": 2,
     "to_hit": 1,
-    "qualities": [  ]
+    "qualities": []
   },
   {
     "id": "arming_sword",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "MEDIEVAL_SWORDS", "1H_SWORDS" ],
+    "weapon_category": ["MEDIEVAL_SWORDS", "1H_SWORDS"],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "arming sword" },
@@ -675,14 +682,14 @@
     "price": 100000,
     "price_postapoc": 4500,
     "material": "steel",
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "techniques": [ "WBLOCK_2" ],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE"],
+    "techniques": ["WBLOCK_2"],
     "weight": "1360 g",
     "volume": "2 L",
     "bashing": 14,
     "cutting": 31,
     "to_hit": 1,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },
   {
     "id": "arming_sword_inferior",
@@ -693,7 +700,7 @@
     "description": "This is a classic medieval sword, just the right size to use one-handed.  This one doesn't seem to have been made right.",
     "price_postapoc": 750,
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
+    "flags": ["SHEATH_SWORD"],
     "weight": "2721 g",
     "bashing": 12,
     "cutting": 25
@@ -708,17 +715,17 @@
     "price": 10000,
     "price_postapoc": 50,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "flags": ["SHEATH_SWORD", "FRAGILE_MELEE"],
     "weight": "704 g",
     "cutting": 2,
     "to_hit": 2,
-    "qualities": [  ]
+    "qualities": []
   },
   {
     "id": "sword_xiphos",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "SHORT_SWORDS" ],
+    "weapon_category": ["SHORT_SWORDS"],
     "name": { "str": "xiphos", "str_pl": "xiphoses" },
     "description": "A bronze sword of ancient Greek origin, wielded as a sidearm to the dory spear.",
     "weight": "800 g",
@@ -731,15 +738,15 @@
     "material": "bronze",
     "symbol": "!",
     "color": "yellow",
-    "techniques": [ "WBLOCK_2" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "SHEATH_SWORD", "DURABLE_MELEE" ]
+    "techniques": ["WBLOCK_2"],
+    "qualities": [["CUT", 1], ["BUTCHER", 8]],
+    "flags": ["SHEATH_SWORD", "DURABLE_MELEE"]
   },
   {
     "id": "khopesh",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_SWORDS" ],
+    "weapon_category": ["1H_SWORDS"],
     "name": { "str": "khopesh", "str_pl": "khopeshes" },
     "description": "This ancient bronze weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of Ancient Egypt, it was designed mainly to hack through the light armor common to the region.",
     "weight": "750 g",
@@ -752,15 +759,15 @@
     "material": "bronze",
     "symbol": "/",
     "color": "yellow",
-    "techniques": [ "WBLOCK_2", "DEF_DISARM" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "techniques": ["WBLOCK_2", "DEF_DISARM"],
+    "qualities": [["CUT", 1], ["BUTCHER", 8]],
+    "flags": ["DURABLE_MELEE"]
   },
   {
     "id": "dao",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_SWORDS" ],
+    "weapon_category": ["1H_SWORDS"],
     "name": { "str_sp": "dao" },
     "description": "An ancient Chinese sword consisting of a curved blade and a guard with a cupped design.  Existing since the Shang dynasty, this one is made of bronze.  One of the four major weapons in folklore, alongside the jian sword, qiang spear, and gun staff.",
     "weight": "850 g",
@@ -772,15 +779,15 @@
     "material": "bronze",
     "symbol": "/",
     "color": "yellow",
-    "techniques": [ "WBLOCK_2" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "techniques": ["WBLOCK_2"],
+    "qualities": [["CUT", 1], ["BUTCHER", 8]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD"]
   },
   {
     "id": "survivor_machete",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "SHORT_SWORDS" ],
+    "weapon_category": ["SHORT_SWORDS"],
     "name": { "str": "survivor machete" },
     "description": "This common gardening tool has been customized and rebalanced to improve its performance as a weapon.",
     "weight": "565 g",
@@ -793,15 +800,15 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_2", "RAPID" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "techniques": ["WBLOCK_2", "RAPID"],
+    "qualities": [["CUT", 1], ["BUTCHER", 10]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD"]
   },
   {
     "id": "sword_bayonet",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "sword bayonet" },
     "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a firearm or crossbow converting it into a pike.",
     "weight": "923 g",
@@ -811,27 +818,27 @@
     "to_hit": 1,
     "bashing": 7,
     "cutting": 29,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "/",
     "color": "light_gray",
     "gunmod_data": {
       "location": "underbarrel",
       "mod_target_category": [
-        [ "RIFLES" ],
-        [ "MACHINE_GUNS" ],
-        [ "GATLING_GUNS" ],
-        [ "SHOTGUNS" ],
-        [ "M_XBOWS" ],
-        [ "GRENADE_LAUNCHERS" ],
-        [ "ROCKET_LAUNCHERS" ],
-        [ "FLAMETHROWERS" ]
+        ["RIFLES"],
+        ["MACHINE_GUNS"],
+        ["GATLING_GUNS"],
+        ["SHOTGUNS"],
+        ["M_XBOWS"],
+        ["GRENADE_LAUNCHERS"],
+        ["ROCKET_LAUNCHERS"],
+        ["FLAMETHROWERS"]
       ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mode_modifier": [["REACH", "bayonet", 2, ["MELEE", "REACH_ATTACK"]]]
     },
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
-    "techniques": [ "WBLOCK_1", "RAPID" ],
-    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "min_skills": [["weapon", 2], ["melee", 2]],
+    "techniques": ["WBLOCK_1", "RAPID"],
+    "qualities": [["CUT", 1], ["COOK", 1], ["BUTCHER", 7]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD"]
   },
   {
     "id": "sword_bayonet_mod",
@@ -839,13 +846,13 @@
     "type": "GENERIC",
     "name": { "str": "modified sword bayonet" },
     "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a firearm or crossbow converting it into a pike.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
-    "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
+    "extend": { "flags": ["PUMP_RAIL_COMPATIBLE"] }
   },
   {
     "id": "tanto",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "tanto" },
     "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  It's still a deadly blade, even if it's smaller than its more famous relatives.",
     "weight": "558 g",
@@ -859,8 +866,8 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": "RAPID",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ]
+    "qualities": [["CUT", 1], ["CUT_FINE", 1], ["BUTCHER", 18]],
+    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE"]
   },
   {
     "id": "tanto_inferior",
@@ -873,8 +880,8 @@
     "price_postapoc": 25,
     "cutting": 12,
     "material": "budget_steel",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 7 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "qualities": [["CUT", 1], ["CUT_FINE", 1], ["BUTCHER", 7]],
+    "flags": ["STAB", "SHEATH_KNIFE"]
   },
   {
     "id": "tanto_fake",
@@ -889,14 +896,14 @@
     "to_hit": 1,
     "cutting": 7,
     "material": "aluminum",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 5]],
+    "flags": ["STAB", "SHEATH_KNIFE", "FRAGILE_MELEE"]
   },
   {
     "id": "wakizashi",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "SHORT_SWORDS", "JAPANESE_SWORDS" ],
+    "weapon_category": ["SHORT_SWORDS", "JAPANESE_SWORDS"],
     "name": { "str_sp": "wakizashi" },
     "description": "This is a comparatively-common Japanese short sword.  Smaller and lighter than a katana, but still effective in combat.",
     "weight": "835 g",
@@ -909,9 +916,9 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "RAPID", "WBLOCK_2" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 13 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
+    "techniques": ["RAPID", "WBLOCK_2"],
+    "qualities": [["CUT", 1], ["BUTCHER", 13]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE"]
   },
   {
     "id": "wakizashi_inferior",
@@ -922,7 +929,7 @@
     "price": 17800,
     "price_postapoc": 500,
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
+    "flags": ["SHEATH_SWORD"],
     "bashing": 17,
     "cutting": 7
   },
@@ -935,17 +942,17 @@
     "price": 7800,
     "price_postapoc": 50,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "flags": ["SHEATH_SWORD", "FRAGILE_MELEE"],
     "weight": "557 g",
     "bashing": 8,
     "cutting": 2,
-    "qualities": [  ]
+    "qualities": []
   },
   {
     "id": "zweihander",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "2H_SWORDS", "MEDIEVAL_SWORDS" ],
+    "weapon_category": ["2H_SWORDS", "MEDIEVAL_SWORDS"],
     "name": { "str": "zweihaender" },
     "description": "This is a huge two-handed sword from Germany.  It packs a real wallop.",
     "weight": "3176 g",
@@ -958,9 +965,9 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
+    "techniques": ["WBLOCK_1", "WIDE", "BRUTAL", "SWEEP"],
+    "qualities": [["CUT", 1], ["BUTCHER", 4]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "NONCONDUCTIVE"]
   },
   {
     "id": "zweihander_inferior",
@@ -970,7 +977,7 @@
     "description": "This is a huge two-handed sword from Germany.  You're not quite sure it's supposed to be that bendy.",
     "price_postapoc": 750,
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
+    "flags": ["SHEATH_SWORD", "ALWAYS_TWOHAND"],
     "bashing": 38,
     "cutting": 10
   },
@@ -983,17 +990,17 @@
     "price": 8000,
     "price_postapoc": 50,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
+    "flags": ["SHEATH_SWORD", "ALWAYS_TWOHAND", "FRAGILE_MELEE"],
     "bashing": 19,
     "cutting": 3,
     "to_hit": 1,
-    "qualities": [  ]
+    "qualities": []
   },
   {
     "id": "kirpan",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "kirpan" },
     "description": "A ceremonial dagger carried by Sikh men.  This one is sharp and could be an effective weapon.",
     "looks_like": "kukri",
@@ -1008,8 +1015,8 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": "RAPID",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 8]],
+    "flags": ["STAB", "SHEATH_KNIFE"]
   },
   {
     "id": "kirpan_cheap",
@@ -1022,13 +1029,13 @@
     "price_postapoc": 50,
     "cutting": 9,
     "material": "budget_steel",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ]
+    "qualities": [["CUT", 1], ["BUTCHER", 4]]
   },
   {
     "id": "nodachi",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "2H_SWORDS", "JAPANESE_SWORDS" ],
+    "weapon_category": ["2H_SWORDS", "JAPANESE_SWORDS"],
     "name": { "str_sp": "nodachi" },
     "description": "This is a huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.",
     "weight": "2822 g",
@@ -1041,9 +1048,9 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "WBLOCK_1", "RAPID", "WIDE", "BRUTAL" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
+    "techniques": ["WBLOCK_1", "RAPID", "WIDE", "BRUTAL"],
+    "qualities": [["CUT", 1], ["BUTCHER", 10]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "NONCONDUCTIVE"]
   },
   {
     "id": "nodachi_inferior",
@@ -1054,8 +1061,8 @@
     "price": 15000,
     "price_postapoc": 500,
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
-    "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ],
+    "flags": ["SHEATH_SWORD", "ALWAYS_TWOHAND"],
+    "techniques": ["WBLOCK_1", "RAPID", "WIDE"],
     "weight": "1882 g",
     "bashing": 30,
     "cutting": 12
@@ -1069,19 +1076,19 @@
     "price": 15000,
     "price_postapoc": 250,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
-    "techniques": [ "WBLOCK_1", "RAPID", "WIDE" ],
+    "flags": ["SHEATH_SWORD", "ALWAYS_TWOHAND", "FRAGILE_MELEE"],
+    "techniques": ["WBLOCK_1", "RAPID", "WIDE"],
     "weight": "1882 g",
     "to_hit": 1,
     "bashing": 15,
     "cutting": 3,
-    "qualities": [  ]
+    "qualities": []
   },
   {
     "id": "fencing_foil",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "DUELING_SWORDS" ],
+    "weapon_category": ["DUELING_SWORDS"],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "fencing foil" },
@@ -1093,8 +1100,8 @@
     "volume": "1250 ml",
     "bashing": 1,
     "cutting": 2,
-    "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD" ]
+    "techniques": ["PRECISE", "RAPID", "WBLOCK_2"],
+    "flags": ["STAB", "SHEATH_SWORD"]
   },
   {
     "id": "fencing_foil_sharpened",
@@ -1115,12 +1122,17 @@
     "charges_per_use": 100,
     "price_postapoc": 1250,
     "use_action": "TAZER",
-    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "extend": { "flags": ["NONCONDUCTIVE"] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -1155,12 +1167,17 @@
     "price_postapoc": 1250,
     "charges_per_use": 100,
     "use_action": "TAZER",
-    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "extend": { "flags": ["NONCONDUCTIVE"] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -1194,12 +1211,17 @@
     "price_postapoc": 1250,
     "charges_per_use": 100,
     "use_action": "TAZER",
-    "extend": { "flags": [ "NONCONDUCTIVE" ] },
+    "extend": { "flags": ["NONCONDUCTIVE"] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -1208,27 +1230,27 @@
     "id": "sword_cane",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "DUELING_SWORDS" ],
+    "weapon_category": ["DUELING_SWORDS"],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "sword cane" },
     "description": "A sword with a thin blade designed to be hidden inside a hollow cane.",
     "price": 2000,
     "price_postapoc": 3000,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "weight": "650 g",
     "volume": "1200 ml",
     "bashing": 2,
     "cutting": 25,
     "looks_like": "rapier",
-    "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
-    "flags": [ "STAB", "SHEATH_SWORD", "NONCONDUCTIVE" ]
+    "techniques": ["PRECISE", "RAPID", "WBLOCK_2"],
+    "flags": ["STAB", "SHEATH_SWORD", "NONCONDUCTIVE"]
   },
   {
     "id": "broadsword",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_SWORDS", "MEDIEVAL_SWORDS", "DUELING_SWORDS" ],
+    "weapon_category": ["1H_SWORDS", "MEDIEVAL_SWORDS", "DUELING_SWORDS"],
     "name": { "str": "broadsword" },
     "description": "This is an early modern sword seeing use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.",
     "weight": "1133 g",
@@ -1241,9 +1263,9 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "WBLOCK_2" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
+    "techniques": ["WBLOCK_2"],
+    "qualities": [["CUT", 1], ["BUTCHER", 9]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE"]
   },
   {
     "id": "broadsword_inferior",
@@ -1253,7 +1275,7 @@
     "description": "This is an early modern sword seeing use in the 16th, 17th, and 18th centuries.  This sword appears to be made very poorly, but it should still stand up to a few swings.",
     "price_postapoc": 750,
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
+    "flags": ["SHEATH_SWORD"],
     "bashing": 7,
     "cutting": 29
   },
@@ -1266,7 +1288,7 @@
     "price": 12000,
     "price_postapoc": 50,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "flags": ["SHEATH_SWORD", "FRAGILE_MELEE"],
     "weight": "753 g",
     "bashing": 10,
     "cutting": 2,
@@ -1276,7 +1298,7 @@
     "id": "rapier",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "DUELING_SWORDS" ],
+    "weapon_category": ["DUELING_SWORDS"],
     "name": { "str": "rapier" },
     "description": "This is a thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.",
     "weight": "1000 g",
@@ -1289,9 +1311,9 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "RAPID", "WBLOCK_2", "PRECISE" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
+    "techniques": ["RAPID", "WBLOCK_2", "PRECISE"],
+    "qualities": [["CUT", 1], ["BUTCHER", 9]],
+    "flags": ["STAB", "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE"]
   },
   {
     "id": "rapier_fake",
@@ -1302,7 +1324,7 @@
     "price": 9800,
     "price_postapoc": 50,
     "material": "aluminum",
-    "flags": [ "STAB", "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "flags": ["STAB", "SHEATH_SWORD", "FRAGILE_MELEE"],
     "weight": "660 g",
     "bashing": 4,
     "cutting": 2,
@@ -1312,7 +1334,7 @@
     "id": "katana",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_SWORDS", "JAPANESE_SWORDS" ],
+    "weapon_category": ["1H_SWORDS", "JAPANESE_SWORDS"],
     "name": { "str": "katana" },
     "description": "This is a rare sword from Japan.  Deadly against unarmored targets, and still very effective against armor.",
     "weight": "1133 g",
@@ -1325,9 +1347,9 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "RAPID", "WBLOCK_2" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
+    "techniques": ["RAPID", "WBLOCK_2"],
+    "qualities": [["CUT", 1], ["BUTCHER", 9]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE"]
   },
   {
     "id": "katana_inferior",
@@ -1338,7 +1360,7 @@
     "price": 98000,
     "price_postapoc": 250,
     "material": "budget_steel",
-    "flags": [ "SHEATH_SWORD" ],
+    "flags": ["SHEATH_SWORD"],
     "bashing": 22,
     "cutting": 9
   },
@@ -1351,18 +1373,18 @@
     "price": 5000,
     "price_postapoc": 50,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "flags": ["SHEATH_SWORD", "FRAGILE_MELEE"],
     "weight": "753 g",
     "bashing": 11,
     "cutting": 2,
     "to_hit": 1,
-    "qualities": [  ]
+    "qualities": []
   },
   {
     "id": "butterfly_swords",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "pair of butterfly swords", "str_pl": "pairs of butterfly swords" },
@@ -1371,20 +1393,20 @@
     "price": 50000,
     "price_postapoc": 6000,
     "material": "steel",
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "NONCONDUCTIVE" ],
-    "techniques": [ "WBLOCK_2" ],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND", "NONCONDUCTIVE"],
+    "techniques": ["WBLOCK_2"],
     "weight": "1766 g",
     "volume": "1500 ml",
     "to_hit": 1,
     "bashing": 7,
     "cutting": 32,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },
   {
     "id": "cs_lajatang_off",
     "type": "TOOL",
     "category": "weapons",
-    "weapon_category": [ "GLAIVES" ],
+    "weapon_category": ["GLAIVES"],
     "name": { "str": "chainsaw lajatang (off)", "str_pl": "chainsaw lajatangs (off)" },
     "description": "A long wooden pole with chainsaws impractically attached to both ends.  The product of either genius or insanity, but not both; the weight ensures that only someone both strong and very skilled could possibly hope to use it.",
     "weight": "14254 g",
@@ -1393,16 +1415,16 @@
     "price_postapoc": 2000,
     "to_hit": -3,
     "bashing": 20,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": "/",
     "color": "red",
     "ammo": "gasoline",
     "max_charges": 800,
     "charges_per_use": 75,
-    "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
-    "qualities": [ [ "AXE", 3 ] ],
+    "techniques": ["WBLOCK_1", "SPIN", "SWEEP"],
+    "qualities": [["AXE", 3]],
     "use_action": "CS_LAJATANG_OFF",
-    "flags": [ "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND" ]
+    "flags": ["NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND"]
   },
   {
     "id": "cs_lajatang_on",
@@ -1415,17 +1437,20 @@
     "to_hit": -1,
     "revert_to": "cs_lajatang_off",
     "use_action": "CS_LAJATANG_ON",
-    "qualities": [ [ "BUTCHER", -250 ] ],
+    "qualities": [["BUTCHER", -250]],
     "turns_per_charge": 1,
     "charges_per_use": 0,
-    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": ["MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND"]
   },
   {
     "id": "ecs_lajatang_off",
     "type": "TOOL",
     "category": "weapons",
-    "weapon_category": [ "GLAIVES" ],
-    "name": { "str": "electric chainsaw lajatang (off)", "str_pl": "electric chainsaw lajatangs (off)" },
+    "weapon_category": ["GLAIVES"],
+    "name": {
+      "str": "electric chainsaw lajatang (off)",
+      "str_pl": "electric chainsaw lajatangs (off)"
+    },
     "description": "A long wooden pole with electric chainsaws impractically attached to both ends.  The product of either genius or insanity, but not both; the weight ensures that only someone both strong and very skilled could possibly hope to use it.",
     "weight": "14254 g",
     "volume": "7500 ml",
@@ -1433,17 +1458,25 @@
     "price_postapoc": 2000,
     "to_hit": -3,
     "bashing": 20,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": "/",
     "color": "red",
     "ammo": "battery",
     "charges_per_use": 375,
-    "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
-    "qualities": [ [ "AXE", 3 ] ],
+    "techniques": ["WBLOCK_1", "SPIN", "SWEEP"],
+    "qualities": [["AXE", 3]],
     "use_action": "ECS_LAJATANG_OFF",
-    "flags": [ "NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND" ],
+    "flags": ["NONCONDUCTIVE", "POWERED", "ALWAYS_TWOHAND"],
     "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+      [
+        "battery",
+        [
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_atomic_battery_cell",
+          "heavy_disposable_cell"
+        ]
+      ]
     ],
     "magazine_well": "1000 ml"
   },
@@ -1451,7 +1484,10 @@
     "id": "ecs_lajatang_on",
     "copy-from": "ecs_lajatang_off",
     "type": "TOOL",
-    "name": { "str": "electric chainsaw lajatang (on)", "str_pl": "electric chainsaw lajatangs (on)" },
+    "name": {
+      "str": "electric chainsaw lajatang (on)",
+      "str_pl": "electric chainsaw lajatangs (on)"
+    },
     "description": "A long wooden pole with electric chainsaws impractically attached to both ends.  They are currently on and draining power; use this item to turn them off.",
     "to_hit": -1,
     "bashing": 4,
@@ -1460,15 +1496,15 @@
     "charges_per_use": 0,
     "revert_to": "ecs_lajatang_off",
     "use_action": "ECS_LAJATANG_ON",
-    "qualities": [ [ "BUTCHER", -250 ] ],
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "qualities": [["BUTCHER", -250]],
+    "flags": ["MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND"],
     "magazine_well": "1000 ml"
   },
   {
     "id": "cutlass",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "SHORT_SWORDS", "MEDIEVAL_SWORDS" ],
+    "weapon_category": ["SHORT_SWORDS", "MEDIEVAL_SWORDS"],
     "name": { "str": "cutlass", "str_pl": "cutlasses" },
     "description": "This is a broad saber known for its use by sailors and pirates, as its short blade is easy to handle in close quarters.",
     "weight": "955 g",
@@ -1482,8 +1518,8 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": "WBLOCK_2",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 9]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE"]
   },
   {
     "id": "cutlass_inferior",
@@ -1495,7 +1531,7 @@
     "material": "budget_steel",
     "bashing": 23,
     "cutting": 7,
-    "flags": [ "SHEATH_SWORD" ]
+    "flags": ["SHEATH_SWORD"]
   },
   {
     "id": "cutlass_fake",
@@ -1506,19 +1542,19 @@
     "price": 9600,
     "price_postapoc": 50,
     "material": "aluminum",
-    "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "flags": ["SHEATH_SWORD", "FRAGILE_MELEE"],
     "weight": "634 g",
     "bashing": 12,
     "cutting": 1,
     "to_hit": 1,
-    "qualities": [  ]
+    "qualities": []
   },
   {
     "//": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
     "id": "glass_macuahuitl",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "1H_SWORDS" ],
+    "weapon_category": ["1H_SWORDS"],
     "name": { "str": "makeshift macuahuitl" },
     "description": "A flat wooden club with sharpened pieces of stone sticking to both of its sides.",
     "weight": "955 g",
@@ -1526,8 +1562,8 @@
     "price_postapoc": 250,
     "color": "dark_gray",
     "symbol": "/",
-    "material": [ "wood", "stone" ],
-    "techniques": [ "WBLOCK_1" ],
+    "material": ["wood", "stone"],
+    "techniques": ["WBLOCK_1"],
     "volume": "2250 ml",
     "bashing": 7,
     "cutting": 14,
@@ -1539,20 +1575,20 @@
     "id": "lajatang",
     "symbol": "/",
     "color": "brown",
-    "weapon_category": [ "GLAIVES" ],
+    "weapon_category": ["GLAIVES"],
     "name": { "str": "lajatang" },
     "description": "An exotic weapon comprised of a long pole of wood with curved blades on each end.  It can be deadly in skilled hands.",
     "price": 12000,
     "price_postapoc": 1250,
-    "material": [ "wood", "iron" ],
-    "techniques": [ "WBLOCK_1", "SPIN" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "material": ["wood", "iron"],
+    "techniques": ["WBLOCK_1", "SPIN"],
+    "flags": ["DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND"],
     "weight": "2500 g",
     "volume": "6500 ml",
     "bashing": 4,
     "cutting": 26,
     "to_hit": -1,
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -18 ] ]
+    "qualities": [["CUT", 1], ["BUTCHER", -18]]
   },
   {
     "id": "combatsaw_off",
@@ -1566,16 +1602,16 @@
     "price_postapoc": 3000,
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "steel", "aluminum" ],
+    "material": ["steel", "aluminum"],
     "symbol": "/",
     "color": "light_gray",
     "ammo": "gasoline",
     "charges_per_use": 75,
     "max_charges": 450,
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [["AXE", 3]],
     "use_action": "COMBATSAW_OFF",
-    "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND", "POWERED" ]
+    "techniques": ["WBLOCK_1", "SWEEP"],
+    "flags": ["ALWAYS_TWOHAND", "POWERED"]
   },
   {
     "id": "combatsaw_on",
@@ -1588,15 +1624,18 @@
     "turns_per_charge": 4,
     "charges_per_use": 0,
     "revert_to": "combatsaw_off",
-    "qualities": [ [ "BUTCHER", -120 ] ],
+    "qualities": [["BUTCHER", -120]],
     "use_action": "COMBATSAW_ON",
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND" ]
+    "flags": ["MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND"]
   },
   {
     "id": "e_combatsaw_off",
     "type": "TOOL",
     "category": "weapons",
-    "name": { "str": "electric combat chainsaw (off)", "str_pl": "electric combat chainsaws (off)" },
+    "name": {
+      "str": "electric combat chainsaw (off)",
+      "str_pl": "electric combat chainsaws (off)"
+    },
     "description": "This is an electric chainsaw that has been lightened, tuned, and extensively modified to be a more effective weapon.  Unfortunately these modifications have rendered it much less effective as a woodcutting tool.",
     "weight": "5122 g",
     "volume": "2250 ml",
@@ -1604,19 +1643,24 @@
     "price_postapoc": 3000,
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "steel", "aluminum" ],
+    "material": ["steel", "aluminum"],
     "symbol": "/",
     "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 375,
-    "qualities": [ [ "AXE", 3 ] ],
+    "qualities": [["AXE", 3]],
     "use_action": "E_COMBATSAW_OFF",
-    "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND", "POWERED" ],
+    "techniques": ["WBLOCK_1", "SWEEP"],
+    "flags": ["ALWAYS_TWOHAND", "POWERED"],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -1632,16 +1676,16 @@
     "power_draw": 2000000,
     "charges_per_use": 0,
     "revert_to": "e_combatsaw_off",
-    "qualities": [ [ "BUTCHER", -120 ] ],
+    "qualities": [["BUTCHER", -120]],
     "use_action": "E_COMBATSAW_ON",
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND" ],
+    "flags": ["MESSY", "DURABLE_MELEE", "TRADER_AVOID", "ALWAYS_TWOHAND"],
     "magazine_well": "500 ml"
   },
   {
     "id": "dagger_medieval",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "dagger" },
     "description": "A medieval dagger, more finely crafted than a baselard.",
     "weight": "420 g",
@@ -1650,11 +1694,11 @@
     "to_hit": 1,
     "bashing": 2,
     "cutting": 18,
-    "material": [ "iron" ],
+    "material": ["iron"],
     "looks_like": "knife_baselard",
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 20 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "NONCONDUCTIVE", "DURABLE_MELEE" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 20]],
+    "flags": ["STAB", "SHEATH_KNIFE", "NONCONDUCTIVE", "DURABLE_MELEE"]
   }
 ]

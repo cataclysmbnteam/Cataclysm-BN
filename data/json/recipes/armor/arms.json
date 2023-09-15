@@ -8,9 +8,9 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "using": [ [ "cordage_short", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "fabric_standard", 1, "LIST" ] ] ]
+    "using": [["cordage_short", 2]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["2x4", 1]], [["fabric_standard", 1, "LIST"]]]
   },
   {
     "result": "arm_warmers",
@@ -21,8 +21,8 @@
     "difficulty": 1,
     "time": "15 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "rag", 4 ] ] ]
+    "using": [["sewing_standard", 10]],
+    "components": [[["rag", 4]]]
   },
   {
     "result": "armguard_chitin",
@@ -33,8 +33,12 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 4 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
+    "book_learn": [["textbook_tailor", 3], ["tailor_portfolio", 3]],
+    "components": [
+      [["string_36", 1], ["string_6", 4]],
+      [["chitin_piece", 4]],
+      [["fabric_hides_proper", 4, "LIST"]]
+    ]
   },
   {
     "result": "armguard_acidchitin",
@@ -45,9 +49,13 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "acidchitin_piece", 4 ] ], [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
+    "book_learn": [["textbook_tailor", 3], ["tailor_portfolio", 3]],
+    "qualities": [{ "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 }],
+    "components": [
+      [["string_36", 1], ["string_6", 4]],
+      [["acidchitin_piece", 4]],
+      [["fabric_hides_proper", 4, "LIST"]]
+    ]
   },
   {
     "result": "armguard_hard",
@@ -56,11 +64,11 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "tailor", 2 ] ],
+    "skills_required": [["tailor", 2]],
     "time": "20 m",
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
-    "tools": [ [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ] ],
-    "components": [ [ [ "neoprene", 6 ] ], [ [ "plastic_chunk", 8 ] ] ]
+    "book_learn": [["textbook_tailor", 3], ["manual_tailor", 4], ["tailor_portfolio", 3]],
+    "tools": [[["soldering_iron", 15], ["welder", 15], ["hotplate", 15], ["toolset", 15]]],
+    "components": [[["neoprene", 6]], [["plastic_chunk", 8]]]
   },
   {
     "result": "armguard_larmor",
@@ -71,8 +79,8 @@
     "difficulty": 3,
     "time": "40 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 16 ] ],
-    "components": [ [ [ "fabric_hides_proper", 12, "LIST" ] ] ]
+    "using": [["sewing_standard", 16]],
+    "components": [[["fabric_hides_proper", 12, "LIST"]]]
   },
   {
     "result": "armguard_lightplate",
@@ -81,12 +89,12 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "skills_required": [ [ "tailor", 3 ] ],
+    "skills_required": [["tailor", 3]],
     "time": "50 m",
-    "book_learn": [ [ "textbook_armwest", 6 ] ],
-    "components": [ [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "book_learn": [["textbook_armwest", 6]],
+    "components": [[["steel_lump", 6], ["steel_chunk", 24]], [["fabric_hides_proper", 6, "LIST"]]],
+    "qualities": [{ "id": "CHISEL", "level": 3 }],
+    "tools": [[["swage", -1]]]
   },
   {
     "result": "armguard_metal",
@@ -97,10 +105,10 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "book_learn": [ [ "recipe_melee", 3 ] ],
-    "using": [ [ "cordage", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 4 ] ] ]
+    "book_learn": [["recipe_melee", 3]],
+    "using": [["cordage", 1]],
+    "qualities": [{ "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }],
+    "components": [[["sheet_metal_small", 4]]]
   },
   {
     "result": "armguard_paper",
@@ -110,8 +118,8 @@
     "skill_used": "fabrication",
     "time": "30 m",
     "autolearn": true,
-    "components": [ [ [ "paper", 60 ] ], [ [ "duct_tape", 10 ] ] ],
-    "flags": [ "BLIND_HARD" ]
+    "components": [[["paper", 60]], [["duct_tape", 10]]],
+    "flags": ["BLIND_HARD"]
   },
   {
     "result": "armguard_scrap",
@@ -122,10 +130,10 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": true,
-    "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "cordage", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 60 ], [ "sheet_metal_small", 12 ] ] ]
+    "book_learn": [["recipe_melee", 2]],
+    "using": [["cordage", 1]],
+    "qualities": [{ "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 }],
+    "components": [[["scrap", 60], ["sheet_metal_small", 12]]]
   },
   {
     "result": "armguard_soft",
@@ -135,10 +143,10 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "20 m",
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "welder", 10 ], [ "hotplate", 10 ], [ "toolset", 10 ] ] ],
-    "components": [ [ [ "neoprene", 4 ] ], [ [ "rag", 2 ] ] ]
+    "book_learn": [["textbook_tailor", 3], ["manual_tailor", 4], ["tailor_portfolio", 3]],
+    "using": [["sewing_standard", 20]],
+    "tools": [[["soldering_iron", 10], ["welder", 10], ["hotplate", 10], ["toolset", 10]]],
+    "components": [[["neoprene", 4]], [["rag", 2]]]
   },
   {
     "result": "elbow_pads",
@@ -147,12 +155,15 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "tailor", 1 ] ],
+    "skills_required": [["tailor", 1]],
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "fabric_standard", 2, "LIST" ], [ "fabric_hides_proper", 2, "LIST" ] ] ]
+    "using": [["sewing_standard", 10]],
+    "tools": [[["mold_plastic", -1]], [["surface_heat", 15, "LIST"]]],
+    "components": [
+      [["plastic_chunk", 4]],
+      [["fabric_standard", 2, "LIST"], ["fabric_hides_proper", 2, "LIST"]]
+    ]
   },
   {
     "result": "stockings_tent_arms",
@@ -163,8 +174,8 @@
     "difficulty": 1,
     "time": "60 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 32 ] ],
-    "components": [ [ [ "rag", 40 ] ] ]
+    "using": [["sewing_standard", 32]],
+    "components": [[["rag", 40]]]
   },
   {
     "result": "stockings_tent_arms",
@@ -176,8 +187,8 @@
     "difficulty": 1,
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "stockings", 4 ] ], [ [ "rag", 8 ] ] ]
+    "using": [["sewing_standard", 8]],
+    "components": [[["stockings", 4]], [["rag", 8]]]
   },
   {
     "result": "vambrace_larmor",
@@ -188,8 +199,8 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "fabric_hides_proper", 4, "LIST" ] ] ]
+    "using": [["sewing_standard", 8]],
+    "components": [[["fabric_hides_proper", 4, "LIST"]]]
   },
   {
     "result": "chainmail_arms",
@@ -198,10 +209,15 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "skills_required": [ [ "tailor", 2 ] ],
+    "skills_required": [["tailor", 2]],
     "time": "40 m",
-    "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 3 ] ],
-    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 1 ] ], [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
+    "book_learn": [["textbook_armwest", 6], ["textbook_fabrication", 6], ["recipe_melee", 6]],
+    "using": [["chainmail_standard", 3]],
+    "components": [
+      [["link_sheet", 3]],
+      [["chain_link", 75]],
+      [["wire", 1]],
+      [["fabric_hides_proper", 6, "LIST"]]
+    ]
   }
 ]

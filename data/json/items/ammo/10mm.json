@@ -8,8 +8,8 @@
     "volume": "250 ml",
     "price": 400,
     "price_postapoc": 800,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "powder" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
+    "material": ["brass", "powder"],
     "symbol": "=",
     "color": "yellow",
     "count": 40,
@@ -21,7 +21,7 @@
     "damage": { "damage_type": "bullet", "amount": 34, "armor_penetration": 19 },
     "dispersion": 50,
     "recoil": 750,
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "id": "bp_10mm_fmj",
@@ -34,7 +34,7 @@
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": ["RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   }
 ]

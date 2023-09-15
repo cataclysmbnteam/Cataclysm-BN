@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "mine_wyrms_west", "mine_wyrms_central", "mine_wyrms_east" ] ],
+    "om_terrain": [["mine_wyrms_west", "mine_wyrms_central", "mine_wyrms_east"]],
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
@@ -32,8 +32,8 @@
         "#@@@@@@@@@@###@@@@######@@@@@@@@@@#######@@@@@@@@@@@@@@@@@@#############"
       ],
       "terrain": {
-        " ": [ [ "t_water_sh_underground", 1 ], [ "t_rock_floor", 10 ] ],
-        "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ],
+        " ": [["t_water_sh_underground", 1], ["t_rock_floor", 10]],
+        "@": [["t_rock", 4], ["t_rock_floor", 1]],
         "#": "t_rock",
         ">": "t_slope_down",
         "&": "t_buffer_stop",
@@ -45,20 +45,20 @@
             "item": {
               "subtype": "distribution",
               "entries": [
-                { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
-                { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
-                { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
-                { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] },
-                { "item": "material_niter", "prob": 5, "count": [ 1, 10 ] },
-                { "item": "material_sand", "prob": 50, "charges": [ 10, 500 ] },
-                { "item": "material_soil", "prob": 50, "charges": [ 10, 500 ] },
-                { "item": "chunk_sulfur", "prob": 5, "count": [ 1, 10 ] },
-                { "item": "material_rocksalt", "prob": 5, "count": [ 1, 10 ] },
-                { "item": "material_rhodonite", "prob": 5, "count": [ 1, 10 ] },
-                { "item": "material_zincite", "prob": 5, "count": [ 1, 10 ] }
+                { "item": "coal_lump", "prob": 20, "count": [1, 10] },
+                { "item": "rock", "prob": 40, "count": [1, 10] },
+                { "item": "material_shrd_limestone", "prob": 40, "count": [1, 10] },
+                { "item": "material_limestone", "prob": 40, "count": [1, 10] },
+                { "item": "material_niter", "prob": 5, "count": [1, 10] },
+                { "item": "material_sand", "prob": 50, "charges": [10, 500] },
+                { "item": "material_soil", "prob": 50, "charges": [10, 500] },
+                { "item": "chunk_sulfur", "prob": 5, "count": [1, 10] },
+                { "item": "material_rocksalt", "prob": 5, "count": [1, 10] },
+                { "item": "material_rhodonite", "prob": 5, "count": [1, 10] },
+                { "item": "material_zincite", "prob": 5, "count": [1, 10] }
               ]
             },
-            "repeat": [ 1, 3 ],
+            "repeat": [1, 3],
             "chance": 1
           },
           { "item": "mine_equipment", "chance": 1 }
@@ -100,7 +100,7 @@
         "###########@@@@@@@@@@@##"
       ],
       "terrain": {
-        "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ],
+        "@": [["t_rock", 4], ["t_rock_floor", 1]],
         "#": "t_rock",
         "$": "t_pedestal_wyrm",
         "<": "t_slope_up",

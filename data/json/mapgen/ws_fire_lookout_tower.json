@@ -13,79 +13,79 @@
     "type": "item_group",
     "id": "flt_loot_books",
     "items": [
-      [ "survivormap", 40 ],
-      [ "pocket_survival", 30 ],
-      [ "pocket_firstaid", 30 ],
-      [ "manual_first_aid", 30 ],
-      [ "textbook_firstaid", 30 ],
-      [ "manual_gun", 30 ],
-      [ "essay_book", 20 ],
-      [ "plays_book", 20 ],
-      [ "philosophy_book", 20 ],
-      [ "poetry_book", 20 ],
-      [ "guidebook", 30 ],
-      [ "holybook_slack", 20 ],
-      [ "mag_electronics", 20 ],
-      [ "mag_cutting", 20 ],
-      [ "mag_porn", 40 ]
+      ["survivormap", 40],
+      ["pocket_survival", 30],
+      ["pocket_firstaid", 30],
+      ["manual_first_aid", 30],
+      ["textbook_firstaid", 30],
+      ["manual_gun", 30],
+      ["essay_book", 20],
+      ["plays_book", 20],
+      ["philosophy_book", 20],
+      ["poetry_book", 20],
+      ["guidebook", 30],
+      ["holybook_slack", 20],
+      ["mag_electronics", 20],
+      ["mag_cutting", 20],
+      ["mag_porn", 40]
     ]
   },
   {
     "type": "item_group",
     "id": "flt_loot_food",
     "items": [
-      [ "syrup", 20 ],
-      [ "dry_meat", 20 ],
-      [ "dry_veggy", 20 ],
-      [ "dry_fish", 20 ],
-      [ "dry_fruit", 20 ],
-      [ "water", 20 ],
-      [ "water_clean", 20 ],
-      [ "coffee", 20 ],
-      [ "atomic_coffee", 20 ],
-      [ "coffee_raw", 20 ],
-      [ "coffee_syrup", 20 ],
-      [ "water_mineral", 20 ]
+      ["syrup", 20],
+      ["dry_meat", 20],
+      ["dry_veggy", 20],
+      ["dry_fish", 20],
+      ["dry_fruit", 20],
+      ["water", 20],
+      ["water_clean", 20],
+      ["coffee", 20],
+      ["atomic_coffee", 20],
+      ["coffee_raw", 20],
+      ["coffee_syrup", 20],
+      ["water_mineral", 20]
     ]
   },
   {
     "type": "item_group",
     "id": "flt_loot_clothes",
     "items": [
-      [ "leg_warmers", 20 ],
-      [ "arm_warmers", 20 ],
-      [ "cowboy_hat", 20 ],
-      [ "straw_hat", 20 ],
-      [ "hat_knit", 20 ],
-      [ "boots_hiking", 20 ],
-      [ "pants", 20 ],
-      [ "technician_pants_gray", 20 ],
-      [ "wool_hoodie", 20 ],
-      [ "duster", 20 ],
-      [ "gloves_leather", 20 ],
-      [ "gloves_light", 20 ],
-      [ "gloves_work", 20 ]
+      ["leg_warmers", 20],
+      ["arm_warmers", 20],
+      ["cowboy_hat", 20],
+      ["straw_hat", 20],
+      ["hat_knit", 20],
+      ["boots_hiking", 20],
+      ["pants", 20],
+      ["technician_pants_gray", 20],
+      ["wool_hoodie", 20],
+      ["duster", 20],
+      ["gloves_leather", 20],
+      ["gloves_light", 20],
+      ["gloves_work", 20]
     ]
   },
   {
     "type": "item_group",
     "id": "flt_loot_vehicle",
-    "items": [ [ "solar_panel", 20 ], [ "jumper_cable", 20 ], [ "jumper_cable_heavy", 20 ] ]
+    "items": [["solar_panel", 20], ["jumper_cable", 20], ["jumper_cable_heavy", 20]]
   },
   {
     "type": "item_group",
     "id": "flt_loot_rare",
     "items": [
-      [ "dehydrator", 20 ],
-      [ "popcan_stove", 20 ],
-      [ "fire_ax", 20 ],
-      [ "hatchet", 20 ],
-      [ "ax", 20 ],
-      [ "tazer", 20 ],
-      [ "bio_flashlight", 20 ],
-      [ "back_holster", 20 ],
-      [ "lemat_revolver", 20 ],
-      [ "remington_870", 20 ]
+      ["dehydrator", 20],
+      ["popcan_stove", 20],
+      ["fire_ax", 20],
+      ["hatchet", 20],
+      ["ax", 20],
+      ["tazer", 20],
+      ["bio_flashlight", 20],
+      ["back_holster", 20],
+      ["lemat_revolver", 20],
+      ["remington_870", 20]
     ]
   },
   {
@@ -93,28 +93,28 @@
     "id": "flt_loot_misc",
     "items": [
       { "group": "ammo_pocket_batteries_full", "prob": 20 },
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 20 ],
-      [ "crowbar", 20 ],
-      [ "shovel", 20 ],
-      [ "e_tool", 20 ],
-      [ "cell_phone", 1 ],
-      [ "radio", 20 ],
-      [ "two_way_radio", 20 ],
-      [ "handflare", 20 ],
-      [ "signal_flare", 20 ],
-      [ "flaregun", 20 ],
-      [ "holster", 20 ],
-      [ "sholster", 20 ],
-      [ "shot_slug", 20 ],
-      [ "shot_bird", 20 ],
-      [ "44fmj", 20 ]
+      ["flashlight", 20],
+      ["heavy_flashlight", 20],
+      ["crowbar", 20],
+      ["shovel", 20],
+      ["e_tool", 20],
+      ["cell_phone", 1],
+      ["radio", 20],
+      ["two_way_radio", 20],
+      ["handflare", 20],
+      ["signal_flare", 20],
+      ["flaregun", 20],
+      ["holster", 20],
+      ["sholster", 20],
+      ["shot_slug", 20],
+      ["shot_bird", 20],
+      ["44fmj", 20]
     ]
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ws_fire_lookout_tower_base" ],
+    "om_terrain": ["ws_fire_lookout_tower_base"],
     "weight": 1000,
     "object": {
       "rows": [
@@ -160,17 +160,22 @@
         { "vehicle": "bicycle", "x": 19, "y": 10, "rotation": 90, "chance": 25 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": 12, "y": 9, "repeat": [ 2, 4 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9, "repeat": [ 2, 3 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 3, 2 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 7, 6 ], "y": [ 9, 15 ], "repeat": [ 3, 2 ] }
+        { "monster": "GROUP_ZOMBIE", "x": 12, "y": 9, "repeat": [2, 4] },
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9, "repeat": [2, 3] },
+        {
+          "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER",
+          "x": [15, 16],
+          "y": [10, 13],
+          "repeat": [3, 2]
+        },
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [7, 6], "y": [9, 15], "repeat": [3, 2] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ws_fire_lookout_tower_f1" ],
+    "om_terrain": ["ws_fire_lookout_tower_f1"],
     "weight": 1000,
     "object": {
       "rows": [
@@ -237,7 +242,7 @@
         "d": "f_desk",
         "c": "f_trashcan"
       },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "items": {
         "C": { "item": "flt_loot_rare", "chance": 50 },
         "d": { "item": "flt_loot_misc", "chance": 70 },
@@ -250,8 +255,8 @@
         "c": { "item": "trash", "chance": 100 }
       },
       "add": [
-        { "item": "coffeemaker", "x": 14, "y": [ 8, 9 ], "chance": 2 },
-        { "item": "binoculars", "x": 9, "y": [ 10, 12 ], "chance": 2 },
+        { "item": "coffeemaker", "x": 14, "y": [8, 9], "chance": 2 },
+        { "item": "binoculars", "x": 9, "y": [10, 12], "chance": 2 },
         { "item": "pan", "x": 14, "y": 10, "chance": 1 },
         { "item": "jug_plastic", "x": 14, "y": 12, "chance": 3 },
         { "item": "water_clean", "x": 14, "y": 12, "chance": 2 },
@@ -259,15 +264,20 @@
       ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9 },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 7, 6 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
+        {
+          "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER",
+          "x": [15, 16],
+          "y": [10, 13],
+          "repeat": [1, 2]
+        },
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [7, 6], "y": [9, 15], "repeat": [1, 2] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ws_fire_lookout_tower_f2" ],
+    "om_terrain": ["ws_fire_lookout_tower_f2"],
     "weight": 1000,
     "object": {
       "rows": [
@@ -311,18 +321,26 @@
         "h": "t_flat_roof"
       },
       "furniture": { "h": "f_chair" },
-      "items": { "s": { "item": "flt_loot_vehicle", "chance": 50 }, "f": { "item": "trash_forest", "chance": 80 } },
+      "items": {
+        "s": { "item": "flt_loot_vehicle", "chance": 50 },
+        "f": { "item": "trash_forest", "chance": 80 }
+      },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9 },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 7, 6 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
+        {
+          "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER",
+          "x": [15, 16],
+          "y": [10, 13],
+          "repeat": [1, 2]
+        },
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [7, 6], "y": [9, 15], "repeat": [1, 2] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ws_fire_lookout_tower_f3" ],
+    "om_terrain": ["ws_fire_lookout_tower_f3"],
     "weight": 1000,
     "object": {
       "rows": [

@@ -3,16 +3,26 @@
     "type": "region_settings",
     "id": "default",
     "default_oter": "desert",
-    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "default_groundcover": [["t_region_groundcover", 1]],
     "region_terrain_and_furniture": {
       "terrain": {
         "t_region_groundcover": { "t_searth_test": 4, "t_sand": 1 },
         "t_region_shrub": { "t_shrub": 1 },
         "t_region_groundcover_urban": { "t_searth_test": 20, "t_grass_dead": 2 },
-        "t_region_groundcover_forest": { "t_shrub": 5, "t_tree_dead": 5, "t_grass_dead": 3, "t_dirt": 1 },
+        "t_region_groundcover_forest": {
+          "t_shrub": 5,
+          "t_tree_dead": 5,
+          "t_grass_dead": 3,
+          "t_dirt": 1
+        },
         "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_dirt": 1 },
         "t_region_tree": { "t_tree_willow": 1, "t_tree_dead": 1 },
-        "t_region_groundcover_barren": { "t_searth_test": 30, "t_sand": 5, "t_grass_dead": 2, "t_railroad_rubble": 1 }
+        "t_region_groundcover_barren": {
+          "t_searth_test": 30,
+          "t_sand": 5,
+          "t_grass_dead": 2,
+          "t_railroad_rubble": 1
+        }
       },
       "furniture": { "f_region_flower": { "f_mutcactus_test": 1 } }
     },
@@ -124,8 +134,8 @@
       "noise_threshold_lake": 0.5,
       "lake_size_min": 10,
       "lake_depth": -5,
-      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
-      "shore_extendable_overmap_terrain_aliases": [  ]
+      "shore_extendable_overmap_terrain": ["forest", "forest_thick", "forest_water", "field"],
+      "shore_extendable_overmap_terrain_aliases": []
     },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.5,
@@ -142,7 +152,13 @@
         "item_group_chance": 60,
         "item_spawn_iterations": 1,
         "clear_groundcover": false,
-        "groundcover": { "t_grass_long": 1, "t_grass_tall": 1, "t_dirt": 1, "t_search_test": 2, "t_sand": 1 },
+        "groundcover": {
+          "t_grass_long": 1,
+          "t_grass_tall": 1,
+          "t_dirt": 1,
+          "t_search_test": 2,
+          "t_sand": 1
+        },
         "clear_components": false,
         "components": {
           "trees": {
@@ -221,10 +237,15 @@
               "t_pit_shallow": 1
             }
           },
-          "water": { "sequence": 3, "chance": 512, "clear_types": false, "types": { "t_water_sh": 1 } }
+          "water": {
+            "sequence": 3,
+            "chance": 512,
+            "clear_types": false,
+            "types": { "t_water_sh": 1 }
+          }
         },
         "clear_terrain_furniture": false,
-        "terrain_furniture": {  }
+        "terrain_furniture": {}
       },
       "forest_thick": {
         "sparseness_adjacency_factor": 4,
@@ -311,10 +332,15 @@
               "t_pit_shallow": 1
             }
           },
-          "water": { "sequence": 3, "chance": 512, "clear_types": false, "types": { "t_water_sh": 1 } }
+          "water": {
+            "sequence": 3,
+            "chance": 512,
+            "clear_types": false,
+            "types": { "t_water_sh": 1 }
+          }
         },
         "clear_terrain_furniture": false,
-        "terrain_furniture": {  }
+        "terrain_furniture": {}
       },
       "forest_water": {
         "sparseness_adjacency_factor": 2,
@@ -389,11 +415,20 @@
             "clear_types": false,
             "types": { "t_trunk": 1, "f_boulder_small": 2, "f_boulder_medium": 1 }
           },
-          "water": { "sequence": 3, "chance": 2, "clear_types": false, "types": { "t_swater_sh": 12, "t_swater_dp": 1, "t_water_sh": 6 } }
+          "water": {
+            "sequence": 3,
+            "chance": 2,
+            "clear_types": false,
+            "types": { "t_swater_sh": 12, "t_swater_dp": 1, "t_water_sh": 6 }
+          }
         },
         "clear_terrain_furniture": false,
         "terrain_furniture": {
-          "t_water_sh": { "chance": 2, "clear_furniture": false, "furniture": { "f_cattails": 15, "f_lotus": 1, "f_lilypad": 5 } }
+          "t_water_sh": {
+            "chance": 2,
+            "clear_furniture": false,
+            "furniture": { "f_cattails": 15, "f_lotus": 1, "f_lilypad": 5 }
+          }
         }
       }
     },
@@ -513,11 +548,24 @@
       },
       "build": {
         "chance": 90,
-        "extras": { "mx_military": 5, "mx_science": 12, "mx_collegekids": 15, "mx_portal": 5, "mx_crater": 60, "mx_portal_in": 1 }
+        "extras": {
+          "mx_military": 5,
+          "mx_science": 12,
+          "mx_collegekids": 15,
+          "mx_portal": 5,
+          "mx_crater": 60,
+          "mx_portal_in": 1
+        }
       },
       "subway": {
         "chance": 75,
-        "extras": { "mx_military": 5, "mx_science": 12, "mx_collegekids": 15, "mx_portal": 7, "mx_portal_in": 1 }
+        "extras": {
+          "mx_military": 5,
+          "mx_science": 12,
+          "mx_collegekids": 15,
+          "mx_portal": 7,
+          "mx_portal_in": 1
+        }
       }
     },
     "city": {
@@ -725,6 +773,11 @@
         "snowstorm"
       ]
     },
-    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
+    "overmap_feature_flag_settings": {
+      "clear_blacklist": false,
+      "blacklist": [],
+      "clear_whitelist": false,
+      "whitelist": []
+    }
   }
 ]

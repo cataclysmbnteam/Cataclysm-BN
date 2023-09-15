@@ -15,7 +15,7 @@
     "type": "item_group",
     "id": "NC_SCAVENGER_archery",
     "subtype": "distribution",
-    "entries": [ { "item": "shortbow", "prob": 5 }, { "item": "crossbow", "prob": 25 } ]
+    "entries": [{ "item": "shortbow", "prob": 5 }, { "item": "crossbow", "prob": 25 }]
   },
   {
     "type": "item_group",

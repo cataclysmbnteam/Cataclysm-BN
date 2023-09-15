@@ -26,7 +26,7 @@
     "ammo_type": "308",
     "capacity": 30,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "falmag",
@@ -44,7 +44,7 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "fal_makeshiftmag",
@@ -63,7 +63,7 @@
     "capacity": 5,
     "reliability": 1,
     "reload_time": 150,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "g3bigmag",
@@ -82,7 +82,7 @@
     "capacity": 50,
     "reliability": 7,
     "reload_time": 160,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "g3mag",
@@ -100,7 +100,7 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "g3_makeshiftmag",
@@ -125,7 +125,7 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "m14smallmag",
@@ -144,7 +144,7 @@
     "capacity": 5,
     "reliability": 10,
     "reload_time": 50,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "m14_makeshiftmag",
@@ -171,7 +171,7 @@
     "capacity": 50,
     "reliability": 7,
     "reload_time": 160,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "scarhmag_30rd",
@@ -197,7 +197,7 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "scarh_makeshiftmag",
@@ -223,7 +223,7 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "hk417mag_10rd",
@@ -241,7 +241,7 @@
     "ammo_type": "308",
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "hk417_makeshiftmag",
@@ -267,7 +267,7 @@
     "ammo_type": "308",
     "capacity": 20,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "ar10_makeshiftmag",

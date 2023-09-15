@@ -8,14 +8,14 @@
     "to_hit": -5,
     "color": "cyan",
     "symbol": "]",
-    "material": [ "steel" ],
-    "techniques": [ "DEF_DISARM" ],
+    "material": ["steel"],
+    "techniques": ["DEF_DISARM"],
     "volume": "22500 ml",
     "bashing": 20,
     "category": "veh_parts",
     "price": 10000,
     "price_postapoc": 50,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [["COOK", 1]]
   },
   {
     "id": "bike_rack",
@@ -27,11 +27,11 @@
     "price": 16000,
     "price_postapoc": 50,
     "category": "veh_parts",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "]",
     "color": "light_gray",
     "looks_like": "foldframe",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "cargo_lock",
@@ -40,7 +40,7 @@
     "description": "A set of locks designed to be installed on a vehicle.",
     "symbol": "+",
     "color": "dark_gray",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "category": "veh_parts",
     "weight": "500 g",
     "volume": "250 ml",
@@ -75,7 +75,7 @@
     "to_hit": -4,
     "color": "cyan",
     "symbol": "]",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "volume": "50 L",
     "bashing": 2,
     "category": "veh_parts",
@@ -92,7 +92,7 @@
     "symbol": "]",
     "volume": "50 L",
     "bashing": 2,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "category": "veh_parts",
     "price": 20000,
     "price_postapoc": 500
@@ -107,13 +107,13 @@
     "price": 48000,
     "price_postapoc": 750,
     "category": "veh_parts",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "]",
     "color": "light_gray",
     "looks_like": "cargo_rack",
-    "properties": [ [ "monster_size_capacity", "HUGE" ] ],
+    "properties": [["monster_size_capacity", "HUGE"]],
     "use_action": "CAPTURE_MONSTER_VEH",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "mounted_spare_tire",

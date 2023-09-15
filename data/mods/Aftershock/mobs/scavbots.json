@@ -9,11 +9,11 @@
     "speed": 0,
     "aggression": 0,
     "morale": 20,
-    "fear_triggers": [ "HURT" ],
+    "fear_triggers": ["HURT"],
     "revert_to_itype": "bot_utilibot_beehive",
-    "//": [ "emit_bee_field" ],
-    "special_attacks": [ [ "PARROT", 10 ] ],
-    "death_drops": { "groups": [ [ "broken_robots", 1 ], [ "beehive", 1 ] ] }
+    "//": ["emit_bee_field"],
+    "special_attacks": [["PARROT", 10]],
+    "death_drops": { "groups": [["broken_robots", 1], ["beehive", 1]] }
   },
   {
     "id": "mon_light_hack",
@@ -31,7 +31,7 @@
     "armor_cut": 4,
     "armor_bullet": 3,
     "revert_to_itype": "bot_light_hack",
-    "extend": { "flags": [ "STUMBLES", "HARDTOSHOOT" ] }
+    "extend": { "flags": ["STUMBLES", "HARDTOSHOOT"] }
   },
   {
     "id": "mon_eyebot_heater",
@@ -43,8 +43,8 @@
     "armor_fire": 10,
     "description": "A salvaged eyebot repurposed into a floating space heater.  It emits a constant jet of warm air to heat an enclosed space.",
     "revert_to_itype": "bot_eyebot_heater",
-    "fear_triggers": [ "HURT" ],
-    "emit_fields": [ { "emit_id": "emit_hot_air2_stream", "delay": "1 s" } ],
-    "extend": { "flags": [ "PET_WONT_FOLLOW", "WARM" ] }
+    "fear_triggers": ["HURT"],
+    "emit_fields": [{ "emit_id": "emit_hot_air2_stream", "delay": "1 s" }],
+    "extend": { "flags": ["PET_WONT_FOLLOW", "WARM"] }
   }
 ]

@@ -29,7 +29,7 @@
   {
     "type": "scent_type",
     "id": "sc_flower",
-    "receptive_species": [ "MAMMAL", "INSECT", "MOLLUSK", "BIRD" ]
+    "receptive_species": ["MAMMAL", "INSECT", "MOLLUSK", "BIRD"]
   },
   {
     "type": "scent_type",

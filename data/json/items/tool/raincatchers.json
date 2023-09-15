@@ -126,7 +126,7 @@
     "volume": "4 L",
     "price": 6000,
     "price_postapoc": 100,
-    "material": [ "wood", "plastic" ],
+    "material": ["wood", "plastic"],
     "symbol": ";",
     "color": "yellow",
     "use_action": {

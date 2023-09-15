@@ -11,34 +11,66 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hey there.", "Hello.", "How are you?", "Welcome!", "How's the weather?" ],
+      "yes": ["Hey there.", "Hello.", "How are you?", "Welcome!", "How's the weather?"],
       "no": "Howdy!  You seem new, what brings you here?"
     },
     "responses": [
       {
         "text": "Who are you?",
-        "effect": { "u_add_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_prepnet_gardener",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_prepnet_gardener",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_PrepNet_gardener_firstmeet"
       },
       {
         "text": "What is this place?",
-        "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_prepnet_gardener",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_PrepNet_gardener_place"
       },
       {
         "text": "What's your story?",
-        "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_prepnet_gardener",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_PrepNet_gardener_ask_past"
       },
       {
         "text": "How are things here?",
-        "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_prepnet_gardener",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_PrepNet_gardener_ask_mood"
       },
       {
         "text": "Can I do anything for you?",
-        "condition": { "u_has_var": "u_met_prepnet_gardener", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_prepnet_gardener",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "How do I join the phyle?", "topic": "TALK_PrepNet_gardener_ask_membership" },
@@ -50,7 +82,10 @@
     "id": "TALK_PrepNet_gardener_firstmeet",
     "dynamic_line": "I'm a gardener for PrepNet Phyle.  Who are you?",
     "responses": [
-      { "text": "I am a beggar who really needs something to eat.", "topic": "TALK_PrepNet_gardener_food" },
+      {
+        "text": "I am a beggar who really needs something to eat.",
+        "topic": "TALK_PrepNet_gardener_food"
+      },
       { "text": "I am just a fellow survivor.", "topic": "TALK_PrepNet_gardener_1" },
       { "text": "I'm bringing order back to the land.", "topic": "TALK_PrepNet_gardener_1" }
     ]
@@ -89,7 +124,9 @@
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_ask_membership",
     "dynamic_line": "This is just an outpost, you'd have to find our main camp and currently we don't want you to.",
-    "responses": [ { "text": "I didn't want to join your club anyway.", "topic": "TALK_PrepNet_gardener_1" } ]
+    "responses": [
+      { "text": "I didn't want to join your club anyway.", "topic": "TALK_PrepNet_gardener_1" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -101,20 +138,26 @@
         "text": "Crypto coins?  Are you insane, there isn't any global internet now.",
         "topic": "TALK_PrepNet_gardener_currency"
       },
-      { "text": "What can I buy here?", "effect": "start_trade", "topic": "TALK_PrepNet_gardener_1" }
+      {
+        "text": "What can I buy here?",
+        "effect": "start_trade",
+        "topic": "TALK_PrepNet_gardener_1"
+      }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_ask_past",
     "dynamic_line": "I got introduced to the movement through Mutual Aid Society.  From there it became an all consuming part of my life to prepare for a post consumption world.  It seems to have worked better for us than for many others.",
-    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_PrepNet_gardener_1" } ]
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_PrepNet_gardener_1" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_ask_mood",
     "dynamic_line": "It can get lonely out here between caravans.  But there's plenty of work and my Cyber Mastiffs.  If a horde comes through we hunker down in a nearby shelter if it's too large for us.",
-    "responses": [ { "text": "I'm glad you stay busy.", "topic": "TALK_PrepNet_gardener_1" } ]
+    "responses": [{ "text": "I'm glad you stay busy.", "topic": "TALK_PrepNet_gardener_1" }]
   },
   {
     "type": "talk_topic",
@@ -122,7 +165,11 @@
     "dynamic_line": "We use so-called crypto coins for money here.  They were a pre-Cataclysm attempt to abstract money even further and create electronic cash.  Now it's a joke because we use physical coins.  Barter only gets you so far.  And one day we'll have the Net back up.",
     "responses": [
       { "text": "Oh, okay.", "topic": "TALK_PrepNet_gardener_1" },
-      { "text": "What can I buy here?", "effect": "start_trade", "topic": "TALK_PrepNet_gardener_1" }
+      {
+        "text": "What can I buy here?",
+        "effect": "start_trade",
+        "topic": "TALK_PrepNet_gardener_1"
+      }
     ]
   },
   {
@@ -135,7 +182,7 @@
     "value": 0,
     "item": "fur",
     "count": 50,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_PrepNet_gardener_FOOD_2",
     "dialogue": {
       "describe": "I need 50 fur pelts.",
@@ -148,7 +195,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 6 } ] }
+    "end": { "effect": [{ "u_buy_item": "crypto_coin", "count": 6 }] }
   },
   {
     "id": "MISSION_PrepNet_gardener_FOOD_2",
@@ -160,7 +207,7 @@
     "value": 0,
     "item": "flour",
     "count": 50,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_PrepNet_gardener_FOOD_3",
     "dialogue": {
       "describe": "I need 50 flour.",
@@ -173,7 +220,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
-    "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 5 } ] }
+    "end": { "effect": [{ "u_buy_item": "crypto_coin", "count": 5 }] }
   },
   {
     "id": "MISSION_PrepNet_gardener_FOOD_3",
@@ -185,7 +232,7 @@
     "value": 0,
     "item": "jug_plastic",
     "count": 5,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_PrepNet_gardener_QUEST_4",
     "dialogue": {
       "describe": "I need storage for various liquid products when the fruits come in.",
@@ -198,7 +245,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 3 } ] }
+    "end": { "effect": [{ "u_buy_item": "crypto_coin", "count": 3 }] }
   },
   {
     "id": "MISSION_PrepNet_gardener_QUEST_4",
@@ -210,7 +257,7 @@
     "value": 0,
     "item": "burnt_out_bionic",
     "count": 5,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "We have the ability to manufacture CBMs but lack resources.",
       "offer": "If you can bring me burnt out CBMs we can recycle them into new ones.",
@@ -222,6 +269,6 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 12 } ] }
+    "end": { "effect": [{ "u_buy_item": "crypto_coin", "count": 12 }] }
   }
 ]

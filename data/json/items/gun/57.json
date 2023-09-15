@@ -10,25 +10,25 @@
     "price": 124900,
     "price_postapoc": 2750,
     "ascii_picture": "FN_five_seven",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "ammo": "57",
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 440,
     "min_cycle_recoil": 81,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "57", [ "fn57mag" ] ] ]
+    "magazines": [["57", ["fn57mag"]]]
   },
   {
     "id": "fn_p90",
@@ -42,26 +42,26 @@
     "price": 350000,
     "price_postapoc": 3500,
     "to_hit": -2,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "light_gray",
     "ammo": "57",
     "dispersion": 260,
     "min_cycle_recoil": 81,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 5]],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 3],
+      ["barrel", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
     "magazine_well": "500 ml",
-    "magazines": [ [ "57", [ "fnp90mag" ] ] ]
+    "magazines": [["57", ["fnp90mag"]]]
   }
 ]

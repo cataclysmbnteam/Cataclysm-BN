@@ -2,7 +2,7 @@
   {
     "//": "Pred nests in forest_water same freq as dermatik nest",
     "type": "region_overlay",
-    "regions": [ "all" ],
+    "regions": ["all"],
     "map_extras": {
       "forest_water": {
         "chance": 20,

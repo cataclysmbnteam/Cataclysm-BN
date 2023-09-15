@@ -4,10 +4,13 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "clothing_work_set", "damage": [ 1, 4 ] },
-      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "clothing_work_set", "damage": [1, 4] },
+      { "group": "underwear", "damage": [1, 4] },
       {
-        "distribution": [ { "group": "tools_carpentry", "prob": 30 }, { "group": "tools_common", "prob": 70 } ],
+        "distribution": [
+          { "group": "tools_carpentry", "prob": 30 },
+          { "group": "tools_common", "prob": 70 }
+        ],
         "prob": 30
       },
       { "group": "supplies_electronics", "prob": 50 },
@@ -19,25 +22,31 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "clothing_work_boots", "damage": [ 1, 4 ] },
-      { "group": "clothing_work_glasses", "prob": 60, "damage": [ 1, 4 ] },
-      { "group": "clothing_work_gloves", "prob": 75, "damage": [ 1, 4 ] },
-      { "group": "clothing_work_mask", "prob": 40, "damage": [ 1, 4 ] },
-      { "item": "ear_plugs", "prob": 15, "damage": [ 1, 4 ] },
-      { "item": "tool_belt", "prob": 25, "damage": [ 1, 4 ] },
+      { "group": "clothing_work_boots", "damage": [1, 4] },
+      { "group": "clothing_work_glasses", "prob": 60, "damage": [1, 4] },
+      { "group": "clothing_work_gloves", "prob": 75, "damage": [1, 4] },
+      { "group": "clothing_work_mask", "prob": 40, "damage": [1, 4] },
+      { "item": "ear_plugs", "prob": 15, "damage": [1, 4] },
+      { "item": "tool_belt", "prob": 25, "damage": [1, 4] },
       {
         "distribution": [
           {
-            "collection": [ { "group": "clothing_work_pants", "damage": [ 1, 4 ] }, { "group": "clothing_work_torso", "damage": [ 1, 4 ] } ],
+            "collection": [
+              { "group": "clothing_work_pants", "damage": [1, 4] },
+              { "group": "clothing_work_torso", "damage": [1, 4] }
+            ],
             "prob": 75
           },
-          { "item": "jumpsuit", "prob": 25, "damage": [ 1, 4 ] }
+          { "item": "jumpsuit", "prob": 25, "damage": [1, 4] }
         ]
       },
-      { "group": "underwear", "damage": [ 1, 4 ] },
-      { "item": "miner_hat", "prob": 90, "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [1, 4] },
+      { "item": "miner_hat", "prob": 90, "damage": [1, 4] },
       {
-        "distribution": [ { "group": "mine_equipment", "prob": 50 }, { "group": "mine_materials", "prob": 50 } ],
+        "distribution": [
+          { "group": "mine_equipment", "prob": 50 },
+          { "group": "mine_materials", "prob": 50 }
+        ],
         "prob": 60
       }
     ]

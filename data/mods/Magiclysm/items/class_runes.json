@@ -9,7 +9,7 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "rune_technomancer",
@@ -21,7 +21,7 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "rune_magus",
@@ -33,7 +33,7 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "rune_earthshaper",
@@ -45,7 +45,7 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "rune_kelvinist",
@@ -57,7 +57,7 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "rune_stormshaper",
@@ -69,7 +69,7 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "rune_druid",
@@ -81,7 +81,7 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "rune_animist",
@@ -93,7 +93,7 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "rune_alchemist",
@@ -105,6 +105,6 @@
     "volume": "5ml",
     "weight": "1 g",
     "material": "stone",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   }
 ]

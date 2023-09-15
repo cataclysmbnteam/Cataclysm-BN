@@ -15,15 +15,17 @@
     "copy-from": "pistol_magnum_ball",
     "name": { "str_sp": ".44, JHP" },
     "description": "Magnum ammunition, developed from early handgun hunting efforts and popularized by law enforcement usage.  It is more powerful than common pistol ammo.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.",
-    "proportional": { "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 } }
+    "proportional": {
+      "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 }
+    }
   },
   {
     "id": "bp_pistol_magnum_ball",
     "copy-from": "pistol_magnum_ball",
     "type": "AMMO",
     "name": { "str_sp": ".44, FMJ (black powder)" },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "extend": { "effects": ["RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] },
     "description": "Magnum ammuniton, developed from early handgun hunting efforts and popularized by law enforcement usage.  It is more powerful than common pistol ammo. Full metal jacketed bullets offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.  This was however handloaded with black powder.",
     "proportional": {
       "price": 0.3,
@@ -38,6 +40,8 @@
     "type": "AMMO",
     "name": { "str_sp": ".44, JHP (black powder)" },
     "description": "Magnum ammunition, developed from early handgun hunting efforts and popularized by law enforcement usage.  It is more powerful than common pistol ammo.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.  This was however handloaded with black powder.",
-    "proportional": { "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 } }
+    "proportional": {
+      "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 }
+    }
   }
 ]

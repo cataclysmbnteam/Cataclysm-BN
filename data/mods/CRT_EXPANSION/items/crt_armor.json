@@ -9,18 +9,18 @@
     "volume": "1 L",
     "price": 2500000,
     "to_hit": 1,
-    "material": [ "neoprene", "kevlar" ],
+    "material": ["neoprene", "kevlar"],
     "symbol": "[",
     "color": "dark_gray",
     "looks_like": "mask_bal",
-    "covers": [ "eyes", "mouth" ],
+    "covers": ["eyes", "mouth"],
     "coverage": 100,
     "encumbrance": 20,
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 10,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATERPROOF", "STURDY", "SUN_GLASSES", "VARSIZE", "WATCH", "THERMOMETER" ]
+    "qualities": [["GLARE", 1]],
+    "flags": ["WATERPROOF", "STURDY", "SUN_GLASSES", "VARSIZE", "WATCH", "THERMOMETER"]
   },
   {
     "id": "crt_boots",
@@ -40,50 +40,59 @@
     "id": "crt_la_boots",
     "repairs_like": "boots_combat",
     "type": "ARMOR",
-    "name": { "str": "pair of C.R.I.T. light-armor boots", "str_pl": "pairs of C.R.I.T. light-armor boots" },
+    "name": {
+      "str": "pair of C.R.I.T. light-armor boots",
+      "str_pl": "pairs of C.R.I.T. light-armor boots"
+    },
     "description": "C.R.I.T. skeletonized boots.  Based off of C.R.I.T. boots, the light-armor variant was created for missions in warmer climates.  The light-armor boots keep most of the old features of the standard issue boots but trade in protection for easier movement.",
     "weight": "1060 g",
     "volume": "1500 ml",
     "price": 100000,
     "to_hit": -1,
     "bashing": 2,
-    "material": [ "rubber", "superalloy", "nomex" ],
+    "material": ["rubber", "superalloy", "nomex"],
     "symbol": "[",
     "color": "dark_gray",
     "looks_like": "boots_combat",
-    "covers": [ "feet" ],
+    "covers": ["feet"],
     "coverage": 100,
     "encumbrance": 10,
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "crt_gloves",
     "copy-from": "gloves_tactical",
     "type": "ARMOR",
-    "name": { "str": "pair of C.R.I.T. fingertip-less gloves", "str_pl": "pairs of C.R.I.T. fingertip-less gloves" },
+    "name": {
+      "str": "pair of C.R.I.T. fingertip-less gloves",
+      "str_pl": "pairs of C.R.I.T. fingertip-less gloves"
+    },
     "description": "C.R.I.T. standard-issue gloves.  Made with superalloy mesh for those with gene-modding and/or mutations while still allowing greater manipulation of items and moderate protection.",
     "encumbrance": 12,
     "coverage": 85,
     "warmth": 20,
-    "material": [ "kevlar", "superalloy" ],
+    "material": ["kevlar", "superalloy"],
     "material_thickness": 2,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF" ]
+    "flags": ["ALLOWS_NATURAL_ATTACKS", "STURDY", "WATERPROOF"]
   },
   {
     "id": "crt_gloves_liner",
     "copy-from": "crt_gloves",
     "type": "ARMOR",
-    "name": { "str": "pair of C.R.I.T. fingertip-less liners", "str_pl": "pairs of C.R.I.T. fingertip-less liners" },
+    "name": {
+      "str": "pair of C.R.I.T. fingertip-less liners",
+      "str_pl": "pairs of C.R.I.T. fingertip-less liners"
+    },
     "description": "C.R.I.T. standard-issue glove liners.  Made with neoprene and rubber mesh for warmth and fingertip-less for those with gene-modding and/or mutations while still allowing greater manipulation of items and moderate protection.",
     "encumbrance": 3,
     "coverage": 85,
     "warmth": 15,
-    "material": [ "neoprene", "rubber" ],
+    "material": ["neoprene", "rubber"],
     "material_thickness": 1,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "SKINTIGHT" ]
+    "flags": ["ALLOWS_NATURAL_ATTACKS", "SKINTIGHT"]
   },
   {
     "id": "crt_backpack",
@@ -96,9 +105,14 @@
     "encumbrance": 3,
     "max_encumbrance": 7,
     "material_thickness": 2,
-    "material": [ "leather", "kevlar" ],
-    "use_action": { "type": "holster", "max_volume": 13, "draw_cost": 150, "skills": [ "smg", "shotgun", "rifle" ] },
-    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "STURDY", "WATERPROOF" ]
+    "material": ["leather", "kevlar"],
+    "use_action": {
+      "type": "holster",
+      "max_volume": 13,
+      "draw_cost": 150,
+      "skills": ["smg", "shotgun", "rifle"]
+    },
+    "flags": ["BELTED", "OVERSIZE", "NO_QUICKDRAW", "STURDY", "WATERPROOF"]
   },
   {
     "id": "crt_chestrig",
@@ -107,8 +121,8 @@
     "name": "C.R.I.T. chestrig",
     "description": "C.R.I.T. standard-issue chestrig, has mesh and MOLLE loops for gear and slots with light-armor padding.",
     "color": "dark_gray",
-    "material": [ "kevlar", "plastic" ],
-    "flags": [ "STURDY", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
+    "material": ["kevlar", "plastic"],
+    "flags": ["STURDY", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS"]
   },
   {
     "id": "crt_legguard",
@@ -117,13 +131,13 @@
     "name": { "str": "pair of C.R.I.T. leg guards", "str_pl": "pairs of C.R.I.T. leg guards" },
     "description": "C.R.I.T. standard-issue leg armor.  Simple design and durable material allows for easy movement and the padding keeps the legs safe and warm in colder conditions.",
     "color": "dark_gray",
-    "material": [ "superalloy", "rubber", "neoprene" ],
+    "material": ["superalloy", "rubber", "neoprene"],
     "weight": "1300 g",
     "volume": "1500 ml",
     "price": 20000,
     "warmth": 17,
     "symbol": ":",
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": ["STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY"]
   },
   {
     "id": "crt_armguard",
@@ -135,17 +149,17 @@
     "volume": "3 L",
     "price": 200000,
     "to_hit": 1,
-    "material": [ "superalloy", "neoprene", "rubber" ],
+    "material": ["superalloy", "neoprene", "rubber"],
     "symbol": "[",
     "color": "white",
     "looks_like": "armguard_hard",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 100,
     "encumbrance": 20,
     "warmth": 17,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": ["STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY"]
   },
   {
     "id": "crt_belt",
@@ -154,8 +168,8 @@
     "name": "C.R.I.T. web belt",
     "description": "C.R.I.T. standard-issue belt.  Keeps your trousers up and your weapons on your hip.",
     "color": "dark_gray",
-    "material": [ "leather", "brass" ],
-    "flags": [ "WATER_FRIENDLY" ]
+    "material": ["leather", "brass"],
+    "flags": ["WATER_FRIENDLY"]
   },
   {
     "id": "crt_iduster",
@@ -167,18 +181,18 @@
     "volume": "5750 ml",
     "price": 25500,
     "to_hit": -1,
-    "material": [ "neoprene", "rubber", "kevlar" ],
+    "material": ["neoprene", "rubber", "kevlar"],
     "symbol": "[",
     "color": "black_green",
     "looks_like": "duster_survivor",
-    "covers": [ "torso", "arms", "legs" ],
+    "covers": ["torso", "arms", "legs"],
     "coverage": 100,
     "encumbrance": 20,
     "storage": "4500 ml",
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 9,
-    "flags": [ "POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF" ]
+    "flags": ["POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF"]
   },
   {
     "id": "ds_monitor",
@@ -189,7 +203,7 @@
     "volume": 0,
     "price": 25000000,
     "to_hit": -3,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": "[",
     "color": "light_green",
     "coverage": 0,
@@ -211,7 +225,7 @@
     },
     "material_thickness": 10,
     "environmental_protection": 0,
-    "flags": [ "ONLY_ONE", "TRADER_AVOID", "BELTED", "NO_TAKEOFF" ]
+    "flags": ["ONLY_ONE", "TRADER_AVOID", "BELTED", "NO_TAKEOFF"]
   },
   {
     "id": "ds_armor",
@@ -223,10 +237,10 @@
     "price": 900000000,
     "to_hit": -5,
     "bashing": 8,
-    "material": [ "superalloy", "nomex", "kevlar" ],
+    "material": ["superalloy", "nomex", "kevlar"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "head", "eyes", "mouth", "torso", "legs", "arms", "hands", "feet" ],
+    "covers": ["head", "eyes", "mouth", "torso", "legs", "arms", "hands", "feet"],
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 15,
@@ -234,7 +248,16 @@
     "material_thickness": 3,
     "environmental_protection": 18,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "ELECTRIC_IMMUNE", "GAS_PROOF", "VARSIZE", "OVERSIZE", "STURDY", "ONLY_ONE", "WATERPROOF", "CLIMATE_CONTROL" ]
+    "flags": [
+      "ELECTRIC_IMMUNE",
+      "GAS_PROOF",
+      "VARSIZE",
+      "OVERSIZE",
+      "STURDY",
+      "ONLY_ONE",
+      "WATERPROOF",
+      "CLIMATE_CONTROL"
+    ]
   },
   {
     "id": "crt_aarmor",
@@ -246,17 +269,26 @@
     "price": 900000000,
     "to_hit": -5,
     "bashing": 8,
-    "material": [ "kevlar", "nomex", "plastic" ],
+    "material": ["kevlar", "nomex", "plastic"],
     "symbol": "[",
     "color": "light_green",
-    "covers": [ "torso", "legs", "arms" ],
+    "covers": ["torso", "legs", "arms"],
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 25,
     "storage": "1250 ml",
     "material_thickness": 5,
     "environmental_protection": 25,
-    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "COLLAR", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
+    "flags": [
+      "VARSIZE",
+      "WATERPROOF",
+      "HOOD",
+      "COLLAR",
+      "RAINPROOF",
+      "STURDY",
+      "RAD_RESIST",
+      "OUTER"
+    ]
   },
   {
     "id": "crt_legrig",
@@ -267,59 +299,65 @@
     "weight": "255 g",
     "volume": "500 ml",
     "price": 3000,
-    "material": [ "plastic", "cotton", "rubber" ],
+    "material": ["plastic", "cotton", "rubber"],
     "symbol": "[",
     "color": "dark_gray",
     "looks_like": "legrig",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 30,
     "encumbrance": 3,
     "storage": "1500 ml",
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "RAINPROOF" ]
+    "flags": ["VARSIZE", "WATER_FRIENDLY", "BELTED", "RAINPROOF"]
   },
   {
     "id": "crt_earmor",
     "type": "ARMOR",
-    "name": { "str": "C.R.I.T. Enforcer armor assembly", "str_pl": "C.R.I.T. Enforcer armor assemblies" },
+    "name": {
+      "str": "C.R.I.T. Enforcer armor assembly",
+      "str_pl": "C.R.I.T. Enforcer armor assemblies"
+    },
     "description": "A series of plates, guards and buckles which assemble into a suit of sturdy body-armor which usually goes over other armor.  Overlapping steel plates on top of Kevlar plates cover vast expanses as the armor juts off in places so it can deflect attacks.  Built with the idea that comfort is less important than safety, this heavy suit is difficult to move about in but highly protective.  Various adjustable connectors such as straps and clips hold it together.",
     "weight": "21460 g",
     "volume": "11250 ml",
     "price": 900000000,
     "to_hit": -5,
     "bashing": 8,
-    "material": [ "steel", "kevlar" ],
+    "material": ["steel", "kevlar"],
     "symbol": "[",
     "color": "cyan",
-    "covers": [ "torso", "legs", "arms" ],
+    "covers": ["torso", "legs", "arms"],
     "coverage": 90,
     "encumbrance": 35,
     "warmth": 20,
     "storage": "1750 ml",
     "material_thickness": 4,
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "STURDY", "BELTED" ]
+    "flags": ["VARSIZE", "STURDY", "BELTED"]
   },
   {
     "id": "crt_earmor_boots",
     "type": "ARMOR",
-    "name": { "str": "pair of C.R.I.T. Enforcer boots", "str_pl": "pairs of C.R.I.T. Enforcer boots" },
+    "name": {
+      "str": "pair of C.R.I.T. Enforcer boots",
+      "str_pl": "pairs of C.R.I.T. Enforcer boots"
+    },
     "description": "C.R.I.T. Enforcer boots.  Metal plates vaguely molded into the shape of oversized feet which clamp down onto your own footwear keep your feet out of harms way.  It looks terrible and feels clunky unlike most of C.R.I.T.'s designs, but they do seem to be worth using if you were to be in the middle of a warzone.",
     "weight": "2060 g",
     "volume": "1500 ml",
     "price": 100000,
     "to_hit": -1,
     "bashing": 2,
-    "material": [ "kevlar", "superalloy" ],
+    "material": ["kevlar", "superalloy"],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "feet" ],
+    "covers": ["feet"],
     "coverage": 100,
     "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 3,
     "environmental_protection": 4,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "BELTED", "OVERSIZE" ]
+    "flags": ["VARSIZE", "WATERPROOF", "STURDY", "BELTED", "OVERSIZE"]
   },
   {
     "id": "crt_sarmor",
@@ -329,17 +367,17 @@
     "weight": "5439 g",
     "volume": "6250 ml",
     "price": 900000000,
-    "material": [ "neoprene", "kevlar", "superalloy" ],
+    "material": ["neoprene", "kevlar", "superalloy"],
     "symbol": "[",
     "color": "light_blue",
-    "covers": [ "torso", "legs", "arms" ],
+    "covers": ["torso", "legs", "arms"],
     "coverage": 100,
     "encumbrance": 7,
     "warmth": 20,
     "storage": "2500 ml",
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": ["VARSIZE", "STURDY"]
   },
   {
     "id": "crt_warmor",
@@ -349,17 +387,22 @@
     "weight": "42563 g",
     "volume": "12500 ml",
     "price": 100000000,
-    "material": [ "hardsteel", "steel", "kevlar" ],
+    "material": ["hardsteel", "steel", "kevlar"],
     "symbol": "[",
     "color": "light_green",
-    "covers": [ "torso", "legs", "arms" ],
+    "covers": ["torso", "legs", "arms"],
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 25,
     "storage": "4 L",
     "material_thickness": 3,
     "environmental_protection": 10,
-    "use_action": { "type": "holster", "max_volume": 15, "draw_cost": 155, "skills": [ "smg", "shotgun", "rifle", "launcher" ] },
-    "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "OVERSIZE", "COLLAR", "STURDY", "NO_QUICKDRAW" ]
+    "use_action": {
+      "type": "holster",
+      "max_volume": 15,
+      "draw_cost": 155,
+      "skills": ["smg", "shotgun", "rifle", "launcher"]
+    },
+    "flags": ["VARSIZE", "WATERPROOF", "OUTER", "OVERSIZE", "COLLAR", "STURDY", "NO_QUICKDRAW"]
   }
 ]

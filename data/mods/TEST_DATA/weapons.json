@@ -24,6 +24,6 @@
     "weight": "1 kg",
     "volume": "1 L",
     "symbol": ";",
-    "weapon_category": [ "TEST_CAT1" ]
+    "weapon_category": ["TEST_CAT1"]
   }
 ]

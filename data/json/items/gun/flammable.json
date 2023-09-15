@@ -12,17 +12,17 @@
     "material": "steel",
     "range": 6,
     "dispersion": 300,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 4]],
     "valid_mod_locations": [
-      [ "accessories", 1 ],
-      [ "grip", 1 ],
-      [ "sling", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 1],
+      ["grip", 1],
+      ["sling", 1],
+      ["rail mount", 1],
+      ["stock mount", 1],
+      ["sights mount", 1],
+      ["underbarrel mount", 1]
     ],
-    "magazines": [ [ "flammable", [ "pressurized_tank" ] ] ]
+    "magazines": [["flammable", ["pressurized_tank"]]]
   },
   {
     "id": "rm451_flamethrower",
@@ -34,15 +34,22 @@
     "volume": "3500 ml",
     "price": 970000,
     "price_postapoc": 10000,
-    "material": [ "superalloy", "ceramic" ],
+    "material": ["superalloy", "ceramic"],
     "range": 10,
     "ranged_damage": { "damage_type": "heat", "amount": 10 },
     "dispersion": 240,
     "durability": 9,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "extend": { "flags": [ "FIRE_20", "MODE_BURST", "NON-FOULING" ] },
-    "delete": { "flags": [ "FIRE_100" ] },
-    "magazines": [ [ "flammable", [ "rm4502", "rm4504" ] ] ]
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 4]],
+    "valid_mod_locations": [
+      ["accessories", 4],
+      ["rail", 1],
+      ["grip", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
+    ],
+    "extend": { "flags": ["FIRE_20", "MODE_BURST", "NON-FOULING"] },
+    "delete": { "flags": ["FIRE_100"] },
+    "magazines": [["flammable", ["rm4502", "rm4504"]]]
   }
 ]

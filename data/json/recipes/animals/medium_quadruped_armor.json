@@ -5,10 +5,10 @@
     "copy-from": "armor_acidchitin",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
-    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ], [ "fabrication", 4 ] ],
+    "skills_required": [["survival", 4], ["firstaid", 2], ["fabrication", 4]],
     "time": "600 m",
-    "using": [ [ "cordage", 7 ] ],
-    "components": [ [ [ "acidchitin_piece", 84 ] ] ]
+    "using": [["cordage", 7]],
+    "components": [[["acidchitin_piece", 84]]]
   },
   {
     "result": "chitin_armor_medium_quadruped",
@@ -17,10 +17,10 @@
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "time": "525 m",
-    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "skills_required": [ [ "fabrication", 4 ] ],
-    "using": [ [ "cordage", 7 ] ],
-    "components": [ [ [ "chitin_piece", 84 ] ] ]
+    "book_learn": [["textbook_tailor", 5], ["tailor_portfolio", 5]],
+    "skills_required": [["fabrication", 4]],
+    "using": [["cordage", 7]],
+    "components": [[["chitin_piece", 84]]]
   },
   {
     "result": "chainmail_armor_medium_quadruped",
@@ -29,8 +29,13 @@
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "time": "364 m",
-    "using": [ [ "chainmail_standard", 7 ] ],
-    "components": [ [ [ "link_sheet", 35 ] ], [ [ "chain_link", 917 ] ], [ [ "wire", 7 ] ], [ [ "fur", 42 ], [ "leather", 42 ] ] ]
+    "using": [["chainmail_standard", 7]],
+    "components": [
+      [["link_sheet", 35]],
+      [["chain_link", 917]],
+      [["wire", 7]],
+      [["fur", 42], ["leather", 42]]
+    ]
   },
   {
     "result": "kevlar_armor_medium_quadruped",
@@ -41,8 +46,12 @@
     "difficulty": 6,
     "time": "210 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 190 ] ],
-    "components": [ [ [ "kevlar_plate", 56 ] ], [ [ "fabric_standard", 42, "LIST" ] ], [ [ "fabric_hides_proper", 24, "LIST" ] ] ]
+    "using": [["sewing_standard", 190]],
+    "components": [
+      [["kevlar_plate", 56]],
+      [["fabric_standard", 42, "LIST"]],
+      [["fabric_hides_proper", 24, "LIST"]]
+    ]
   },
   {
     "result": "leather_armor_medium_quadruped",
@@ -52,9 +61,9 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "105 m",
-    "byproducts": [ [ "leather", 21 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "armor_blarmor", 3 ] ], [ [ "fabric_standard", 18, "LIST" ] ] ]
+    "byproducts": [["leather", 21]],
+    "using": [["sewing_standard", 30]],
+    "components": [[["armor_blarmor", 3]], [["fabric_standard", 18, "LIST"]]]
   },
   {
     "result": "leather_armor_medium_quadruped",
@@ -63,28 +72,28 @@
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
-    "skills_required": [ "tailor", 6 ],
+    "skills_required": ["tailor", 6],
     "time": "420 m",
-    "using": [ [ "sewing_standard", 190 ], [ "surface_heat", 60, "LIST" ] ],
+    "using": [["sewing_standard", 190], ["surface_heat", 60, "LIST"]],
     "components": [
-      [ [ "water", 30 ], [ "water_clean", 30 ] ],
+      [["water", 30], ["water_clean", 30]],
       [
-        [ "wax", 6 ],
-        [ "tallow", 24 ],
-        [ "mutant_tallow", 24 ],
-        [ "tallow_tainted", 24 ],
-        [ "vinegar", 30 ],
-        [ "pine_bough", 60 ]
+        ["wax", 6],
+        ["tallow", 24],
+        ["mutant_tallow", 24],
+        ["tallow_tainted", 24],
+        ["vinegar", 30],
+        ["pine_bough", 60]
       ],
-      [ [ "salt", 150 ] ],
-      [ [ "leather", 105 ] ],
+      [["salt", 150]],
+      [["leather", 105]],
       [
-        [ "rag", 18 ],
-        [ "lycra_patch", 18 ],
-        [ "nylon", 18 ],
-        [ "leather", 18 ],
-        [ "nomex", 18 ],
-        [ "neoprene", 18 ]
+        ["rag", 18],
+        ["lycra_patch", 18],
+        ["nylon", 18],
+        ["leather", 18],
+        ["nomex", 18],
+        ["neoprene", 18]
       ]
     ]
   },
@@ -94,8 +103,8 @@
     "copy-from": "leather_armor_medium_quadruped",
     "difficulty": 4,
     "time": "210 m",
-    "using": [ [ "sewing_standard", 75 ] ],
-    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ], [ [ "armor_blarmor", 3 ] ] ]
+    "using": [["sewing_standard", 75]],
+    "components": [[["bone", 39], ["bone_human", 39], ["bone_tainted", 75]], [["armor_blarmor", 3]]]
   },
   {
     "result": "leatherbone_armor_medium_quadruped",
@@ -107,9 +116,12 @@
     "difficulty": 4,
     "time": "105 m",
     "autolearn": true,
-    "byproducts": [ [ "rag", 6 ] ],
-    "using": [ [ "sewing_standard", 35 ] ],
-    "components": [ [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ], [ [ "leather_armor_medium_quadruped", 1 ] ] ]
+    "byproducts": [["rag", 6]],
+    "using": [["sewing_standard", 35]],
+    "components": [
+      [["bone", 39], ["bone_human", 39], ["bone_tainted", 75]],
+      [["leather_armor_medium_quadruped", 1]]
+    ]
   },
   {
     "result": "leatherbone_armor_medium_quadruped",
@@ -119,25 +131,25 @@
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "skill_used": "cooking",
     "difficulty": 3,
-    "skills_required": [ "tailor", 6 ],
+    "skills_required": ["tailor", 6],
     "time": "525 m",
     "book_learn": [
-      [ "textbook_tailor", 4 ],
-      [ "tailor_portfolio", 5 ],
-      [ "textbook_survival", 3 ],
-      [ "trappers_companion", 3 ],
-      [ "survival_book", 3 ],
-      [ "textbook_armwest", 6 ],
-      [ "textbook_armschina", 6 ]
+      ["textbook_tailor", 4],
+      ["tailor_portfolio", 5],
+      ["textbook_survival", 3],
+      ["trappers_companion", 3],
+      ["survival_book", 3],
+      ["textbook_armwest", 6],
+      ["textbook_armschina", 6]
     ],
-    "using": [ [ "sewing_standard", 225 ] ],
-    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
+    "using": [["sewing_standard", 225]],
+    "tools": [[["surface_heat", 60, "LIST"]]],
     "components": [
-      [ [ "water", 30 ], [ "water_clean", 30 ] ],
-      [ [ "wax", 6 ], [ "any_tallow", 24, "LIST" ], [ "vinegar", 30 ], [ "pine_bough", 60 ] ],
-      [ [ "salt", 150 ] ],
-      [ [ "bone", 39 ], [ "bone_human", 39 ], [ "bone_tainted", 75 ] ],
-      [ [ "leather", 105 ] ]
+      [["water", 30], ["water_clean", 30]],
+      [["wax", 6], ["any_tallow", 24, "LIST"], ["vinegar", 30], ["pine_bough", 60]],
+      [["salt", 150]],
+      [["bone", 39], ["bone_human", 39], ["bone_tainted", 75]],
+      [["leather", 105]]
     ]
   },
   {
@@ -147,11 +159,11 @@
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "skill_used": "tailor",
     "difficulty": 4,
-    "skills_required": [ "fabrication", 3 ],
+    "skills_required": ["fabrication", 3],
     "time": "112 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "duct_tape", 175 ] ], [ [ "coat_rain", 7 ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "components": [[["duct_tape", 175]], [["coat_rain", 7]]]
   },
   {
     "result": "rubber_armor_medium_quadruped",
@@ -161,10 +173,10 @@
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ "fabrication", 3 ],
+    "skills_required": ["fabrication", 3],
     "time": "210 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "duct_tape", 350 ] ], [ [ "bag_plastic", 70 ] ], [ [ "fabric_standard", 70, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "components": [[["duct_tape", 350]], [["bag_plastic", 70]], [["fabric_standard", 70, "LIST"]]]
   }
 ]

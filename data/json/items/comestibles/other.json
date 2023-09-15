@@ -84,11 +84,11 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You feel warm inside after eating the royal jelly.",
-      "effects": [ { "id": "antitoxin", "duration": "20 m" }, { "id": "cureall_lesser" } ]
+      "effects": [{ "id": "antitoxin", "duration": "20 m" }, { "id": "cureall_lesser" }]
     },
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": ["NUTRIENT_OVERRIDE"],
     "fun": 7,
-    "vitamins": [ [ "mutant_toxin", 100 ] ]
+    "vitamins": [["mutant_toxin", 100]]
   },
   {
     "type": "COMESTIBLE",
@@ -110,7 +110,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "stack_size": 4,
-    "flags": [ "MYCUS_OK", "NO_BLOAT" ],
+    "flags": ["MYCUS_OK", "NO_BLOAT"],
     "fun": 30
   },
   {
@@ -153,7 +153,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "stack_size": 4,
-    "flags": [ "MYCUS_OK", "NO_BLOAT" ],
+    "flags": ["MYCUS_OK", "NO_BLOAT"],
     "fun": 30
   },
   {
@@ -224,7 +224,7 @@
     "price_postapoc": 10,
     "material": "powder",
     "volume": "250 ml",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": ["NUTRIENT_OVERRIDE"],
     "charges": 4,
     "fun": -10
   },
@@ -265,8 +265,8 @@
     "material": "bean",
     "volume": "500 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 24 ] ]
+    "flags": ["EATEN_HOT"],
+    "vitamins": [["calcium", 9], ["iron", 24]]
   },
   {
     "type": "COMESTIBLE",
@@ -288,7 +288,7 @@
     "volume": "250 ml",
     "cooks_like": "beans_cooked",
     "charges": 6,
-    "vitamins": [ [ "calcium", 56 ], [ "iron", 22 ] ],
+    "vitamins": [["calcium", 56], ["iron", 22]],
     "fun": -6
   },
   {
@@ -308,9 +308,9 @@
     "price_postapoc": 100,
     "material": "bean",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": ["EATEN_HOT", "NUTRIENT_OVERRIDE"],
     "fun": 1,
-    "vitamins": [ [ "calcium", 8 ], [ "vitB", 32 ] ]
+    "vitamins": [["calcium", 8], ["vitB", 32]]
   },
   {
     "type": "COMESTIBLE",
@@ -329,9 +329,9 @@
     "fun": -4,
     "material": "veggy",
     "volume": "85 ml",
-    "flags": [ "SMOKABLE", "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": ["SMOKABLE", "EATEN_HOT", "NUTRIENT_OVERRIDE"],
     "smoking_result": "dry_tofu",
-    "vitamins": [ [ "calcium", 20 ], [ "iron", 4 ] ]
+    "vitamins": [["calcium", 20], ["iron", 4]]
   },
   {
     "type": "COMESTIBLE",
@@ -350,8 +350,8 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "85 ml",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
+    "flags": ["EATEN_HOT", "NUTRIENT_OVERRIDE"],
+    "vitamins": [["calcium", 16], ["iron", 4]]
   },
   {
     "type": "COMESTIBLE",
@@ -369,7 +369,7 @@
     "price_postapoc": 75,
     "material": "veggy",
     "volume": "85 ml",
-    "vitamins": [ [ "calcium", 16 ], [ "iron", 4 ] ]
+    "vitamins": [["calcium", 16], ["iron", 4]]
   },
   {
     "type": "COMESTIBLE",
@@ -390,8 +390,8 @@
     "stack_size": 100,
     "material": "bean",
     "fun": -5,
-    "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
-    "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
+    "vitamins": [["iron", 25], ["vitC", 1], ["calcium", 3]],
+    "flags": ["SMOKABLE", "NUTRIENT_OVERRIDE", "RAW"],
     "smoking_result": "soy_nuts"
   },
   {
@@ -413,8 +413,8 @@
     "stack_size": 100,
     "material": "bean",
     "fun": 1,
-    "vitamins": [ [ "iron", 26 ], [ "vitC", 16 ], [ "calcium", 6 ] ],
-    "flags": [ "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
+    "vitamins": [["iron", 26], ["vitC", 16], ["calcium", 6]],
+    "flags": ["SMOKABLE", "NUTRIENT_OVERRIDE", "RAW"],
     "smoking_result": "edamame_roasted"
   },
   {
@@ -435,7 +435,7 @@
     "material": "veggy",
     "volume": "250 ml",
     "charges": 2,
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 47 ], [ "vitC", 7 ] ],
+    "vitamins": [["calcium", 4], ["iron", 47], ["vitC", 7]],
     "fun": -10
   },
   {
@@ -453,7 +453,7 @@
     "price_postapoc": 1000,
     "material": "foodplace_foodstuff",
     "volume": "500 ml",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
     "addiction_potential": 1,
     "charges": 4,
     "fun": 2
@@ -472,7 +472,7 @@
     "price_postapoc": 100,
     "volume": "250 ml",
     "fun": 1,
-    "flags": [ "EATEN_HOT" ]
+    "flags": ["EATEN_HOT"]
   },
   {
     "type": "COMESTIBLE",
@@ -492,7 +492,7 @@
     "price_postapoc": 500,
     "material": "powder",
     "volume": "250 ml",
-    "flags": [ "RAW", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": ["RAW", "IRREPLACEABLE_CONSUMABLE"],
     "calories": 23,
     "charges": 20,
     "fun": -5
@@ -504,7 +504,7 @@
     "name": { "str_sp": "Kentucky coffee grounds" },
     "container": "bag_plastic",
     "description": "Coffee grounds created through washing, cleaning, and roasting the pods from a Kentucky coffeetree.  They can be used to create coffee.",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": ["NUTRIENT_OVERRIDE"],
     "charges": 5,
     "stack_size": 20
   },
@@ -547,8 +547,8 @@
     "material": "tomato",
     "volume": "250 ml",
     "stack_size": 2,
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ],
-    "flags": [ "RAW" ]
+    "vitamins": [["vitA", 3], ["vitC", 26], ["calcium", 9], ["iron", 18]],
+    "flags": ["RAW"]
   },
   {
     "type": "COMESTIBLE",
@@ -563,12 +563,12 @@
     "healthy": -20,
     "quench": -47,
     "calories": 78,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 8 ], [ "vitB", 54 ] ],
+    "vitamins": [["vitA", 0], ["vitC", 2], ["calcium", 1], ["iron", 8], ["vitB", 54]],
     "description": "This is a human brain soaked in a solution of highly toxic formaldehyde.  Eating this would be a terrible idea.",
     "price": 80,
     "price_postapoc": 0,
     "material": "hflesh",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": ["TRADER_AVOID"],
     "volume": "250 ml",
     "fun": -30
   },
@@ -588,11 +588,11 @@
     "healthy": 2,
     "quench": 1,
     "calories": 170,
-    "vitamins": [ [ "vitA", 20 ], [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
+    "vitamins": [["vitA", 20], ["vitC", 45], ["calcium", 5], ["iron", 5]],
     "fun": 5,
     "color": "brown",
     "spoils_in": "730 days",
-    "flags": [ "INEDIBLE", "CATTLE" ],
+    "flags": ["INEDIBLE", "CATTLE"],
     "use_action": "CATTLEFODDER"
   },
   {
@@ -610,10 +610,10 @@
     "symbol": ";",
     "healthy": 1,
     "calories": 400,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
+    "vitamins": [["calcium", 1], ["iron", 7]],
     "fun": 5,
     "color": "brown",
-    "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
+    "flags": ["INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE"],
     "use_action": "BIRDFOOD"
   },
   {
@@ -634,10 +634,10 @@
     "healthy": 2,
     "quench": 2,
     "calories": 450,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
+    "vitamins": [["vitC", 4], ["iron", 17], ["vitB", 187], ["calcium", 0]],
     "fun": -15,
     "color": "brown",
-    "flags": [ "LUPINE" ],
+    "flags": ["LUPINE"],
     "use_action": "DOGFOOD"
   },
   {
@@ -658,10 +658,10 @@
     "healthy": 2,
     "quench": 2,
     "calories": 800,
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
+    "vitamins": [["vitC", 4], ["iron", 17], ["vitB", 187], ["calcium", 0]],
     "fun": -15,
     "color": "brown",
-    "flags": [ "FELINE" ],
+    "flags": ["FELINE"],
     "use_action": "CATFOOD"
   },
   {
@@ -673,12 +673,12 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 70,
-    "vitamins": [  ],
+    "vitamins": [],
     "description": "Some grass, edible by grazers and ruminants only.  Seeing this item is a bug.",
     "price": 0,
     "price_postapoc": 0,
     "material": "veggy",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": ["TRADER_AVOID"],
     "volume": "250 ml"
   },
   {
@@ -690,12 +690,12 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 174,
-    "vitamins": [  ],
+    "vitamins": [],
     "description": "Some underbrush, edible by ruminants only.  Seeing this item is a bug.",
     "price": 0,
     "price_postapoc": 0,
     "material": "veggy",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": ["TRADER_AVOID"],
     "volume": "250 ml"
   },
   {
@@ -707,11 +707,11 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 130,
-    "vitamins": [  ],
+    "vitamins": [],
     "description": "Some nectar.  Seeing this item is a bug.",
     "price": 0,
     "price_postapoc": 0,
-    "flags": [ "TRADER_AVOID" ],
+    "flags": ["TRADER_AVOID"],
     "volume": "250 ml"
   }
 ]

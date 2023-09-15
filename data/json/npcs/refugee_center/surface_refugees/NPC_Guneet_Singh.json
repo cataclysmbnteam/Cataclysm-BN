@@ -18,16 +18,19 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Guneet is the Singhs' sixteen year old son.  Like his parents, he is wracked with survivor's guilt for his family having made it out intact.",
-    "bonus_str": { "rng": [ -2, 2 ] },
-    "bonus_dex": { "rng": [ -2, 2 ] },
-    "bonus_int": { "rng": [ -2, 2 ] },
-    "bonus_per": { "rng": [ -2, 2 ] },
+    "bonus_str": { "rng": [-2, 2] },
+    "bonus_dex": { "rng": [-2, 2] },
+    "bonus_int": { "rng": [-2, 2] },
+    "bonus_per": { "rng": [-2, 2] },
     "worn_override": "REFUGEE_Guneet_worn",
     "carry_override": "REFUGEE_Guneet_carried",
     "weapon_override": "EMPTY_GROUP",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "traits": [{ "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" }],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -5 ] } ] } ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [2, 2] }, { "rng": [0, -5] }] }] }
+      }
     ]
   },
   {
@@ -48,7 +51,7 @@
     "type": "item_group",
     "id": "REFUGEE_Guneet_carried",
     "subtype": "collection",
-    "entries": [ { "item": "portable_game" } ]
+    "entries": [{ "item": "portable_game" }]
   },
   {
     "type": "item_group",
@@ -62,7 +65,11 @@
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [ "TALK_REFUGEE_Guneet_2", "TALK_REFUGEE_Guneet_Background", "TALK_REFUGEE_Guneet_Situation" ],
+    "id": [
+      "TALK_REFUGEE_Guneet_2",
+      "TALK_REFUGEE_Guneet_Background",
+      "TALK_REFUGEE_Guneet_Situation"
+    ],
     "responses": [
       {
         "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
@@ -70,7 +77,12 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+              "not": {
+                "npc_has_var": "cleanup_asked",
+                "type": "mission",
+                "context": "Boris_mission_1",
+                "value": "yes"
+              }
             }
           ]
         },
@@ -90,30 +102,64 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hey there.", "Hi.", "Hey again.", "Oh, hi." ],
+      "yes": ["Hey there.", "Hi.", "Hey again.", "Oh, hi."],
       "no": "Oh, hello.  I don't think I've seen you around before.  I'm Guneet, people call me Gunny."
     },
     "responses": [
       {
         "text": "Nice to meet you, Gunny.",
-        "effect": { "u_add_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_Guneet_Singh",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Guneet_Singh",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_REFUGEE_Guneet_1_firstmeet"
       },
       {
         "text": "Hi, Gunny.  What's up?",
         "topic": "TALK_REFUGEE_Guneet_2",
-        "condition": { "u_has_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": {
+          "u_has_var": "u_met_Guneet_Singh",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       },
       {
         "text": "Hi Gunny, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_Guneet_Singh",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Guneet_Singh",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Hi Gunny.  I can't stay to talk.",
-        "condition": { "u_has_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_Guneet_Singh",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -131,7 +177,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_2",
     "dynamic_line": ".",
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "I'd better get going.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",

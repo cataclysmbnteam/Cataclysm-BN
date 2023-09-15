@@ -11,21 +11,21 @@
     "price": 64100,
     "price_postapoc": 2500,
     "bashing": 12,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "light_gray",
-    "ammo": [ "454", "410shot", "45colt" ],
+    "ammo": ["454", "410shot", "45colt"],
     "dispersion": 280,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "magazines": [ [ "454", [ "454_speedloader5" ] ] ],
+    "magazines": [["454", ["454_speedloader5"]]],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 2],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock mount", 1],
+      ["underbarrel mount", 1]
     ]
   },
   {
@@ -37,6 +37,6 @@
     "weight": "2070 g",
     "volume": "1175 ml",
     "clip_size": 6,
-    "magazines": [ [ "454", [ "454_speedloader6" ] ] ]
+    "magazines": [["454", ["454_speedloader6"]]]
   }
 ]

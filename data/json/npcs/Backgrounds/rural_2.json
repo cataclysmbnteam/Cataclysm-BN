@@ -16,7 +16,10 @@
     "//": "TK: In a future version this NPC might give you directions to the ranch.",
     "responses": [
       { "text": "Where's Buck now?", "topic": "BGSS_RURAL_2_STORY3" },
-      { "text": "I see where this is headed.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      {
+        "text": "I see where this is headed.  <done_conversation_section>",
+        "topic": "TALK_FRIEND"
+      },
       { "text": "I see where this is headed.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },

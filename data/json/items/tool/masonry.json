@@ -11,16 +11,16 @@
     "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 4,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "/",
     "color": "blue",
-    "ammo": [ "gasoline" ],
+    "ammo": ["gasoline"],
     "charges_per_use": 75,
     "max_charges": 450,
-    "techniques": [ "SWEEP" ],
-    "qualities": [ [ "AXE", 3 ] ],
-    "use_action": [ "CHAINSAW_OFF" ],
-    "flags": [ "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ]
+    "techniques": ["SWEEP"],
+    "qualities": [["AXE", 3]],
+    "use_action": ["CHAINSAW_OFF"],
+    "flags": ["NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE"]
   },
   {
     "id": "masonrysaw_on",
@@ -33,10 +33,10 @@
     "turns_per_charge": 4,
     "charges_per_use": 0,
     "revert_to": "masonrysaw_off",
-    "techniques": [ "SWEEP" ],
-    "qualities": [ [ "BUTCHER", -100 ] ],
-    "use_action": [ "CIRCSAW_ON" ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "FRAGILE_MELEE" ]
+    "techniques": ["SWEEP"],
+    "qualities": [["BUTCHER", -100]],
+    "use_action": ["CIRCSAW_ON"],
+    "flags": ["MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "FRAGILE_MELEE"]
   },
   {
     "id": "grinder_blade",
@@ -48,11 +48,11 @@
     "description": "A 125mm angle grinder blade.  You could make a powertool with it, or throw it.  Wielding it without sturdy gloves is a bad idea.",
     "price": 20,
     "price_postapoc": 500,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "weight": "349 g",
     "volume": "250 ml",
     "cutting": 14,
-    "flags": [ "HURT_WHEN_WIELDED" ],
+    "flags": ["HURT_WHEN_WIELDED"],
     "to_hit": -4
   }
 ]

@@ -3,22 +3,22 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "farm_isherwood_3", "farm_isherwood_2", "farm_isherwood_1" ],
-      [ "farm_isherwood_6", "farm_isherwood_5", "farm_isherwood_4" ],
-      [ "farm_isherwood_9", "farm_isherwood_8", "farm_isherwood_7" ]
+      ["farm_isherwood_3", "farm_isherwood_2", "farm_isherwood_1"],
+      ["farm_isherwood_6", "farm_isherwood_5", "farm_isherwood_4"],
+      ["farm_isherwood_9", "farm_isherwood_8", "farm_isherwood_7"]
     ],
     "weight": 250,
     "object": {
       "faction_owner": [
-        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 0, 23 ] },
-        { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 0, 23 ] },
-        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 24, 47 ] },
-        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 24, 47 ] },
-        { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 24, 47 ] },
-        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 48, 71 ] },
-        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 48, 71 ] },
-        { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 48, 71 ] }
+        { "id": "isherwood_family", "x": [0, 23], "y": [0, 23] },
+        { "id": "isherwood_family", "x": [24, 47], "y": [0, 23] },
+        { "id": "isherwood_family", "x": [48, 71], "y": [0, 23] },
+        { "id": "isherwood_family", "x": [0, 23], "y": [24, 47] },
+        { "id": "isherwood_family", "x": [24, 47], "y": [24, 47] },
+        { "id": "isherwood_family", "x": [48, 71], "y": [24, 47] },
+        { "id": "isherwood_family", "x": [0, 23], "y": [48, 71] },
+        { "id": "isherwood_family", "x": [24, 47], "y": [48, 71] },
+        { "id": "isherwood_family", "x": [48, 71], "y": [48, 71] }
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -122,42 +122,54 @@
         "L": "f_table",
         "X": "f_birdbath",
         "J": "f_stool",
-        "*": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "*": ["f_indoor_plant_y", "f_indoor_plant"],
         "z": "f_trashcan",
-        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+        "p": [
+          "f_datura",
+          "f_bluebell",
+          "f_mutpoppy",
+          "f_dahlia",
+          "f_flower_tulip",
+          "f_chamomile",
+          "f_flower_spurge",
+          "f_lily"
+        ],
         "0": "f_drill_press",
         "@": "f_tablesaw",
-        "^": [ "f_mitresaw", "f_bandsaw" ],
+        "^": ["f_mitresaw", "f_bandsaw"],
         "v": "f_glass_cabinet"
       },
       "items": {
-        "s": { "item": "preserved_food", "chance": 100, "repeat": [ 8, 20 ] },
-        "v": { "item": "NC_ISHERWOOD_CLAIRE_misc", "chance": 100, "repeat": [ 4, 8 ] }
+        "s": { "item": "preserved_food", "chance": 100, "repeat": [8, 20] },
+        "v": { "item": "NC_ISHERWOOD_CLAIRE_misc", "chance": 100, "repeat": [4, 8] }
       },
       "place_item": [
-        { "item": "straw_pile", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 8 ] },
-        { "item": "cattlefodder", "x": [ 3, 5 ], "y": [ 5, 7 ], "amount": [ 0, 4 ] },
-        { "item": "straw_pile", "x": [ 3, 3 ], "y": [ 10, 15 ], "amount": [ 2, 7 ] },
-        { "item": "cattlefodder", "x": [ 3, 3 ], "y": [ 10, 15 ], "amount": [ 2, 7 ] },
-        { "item": "straw_pile", "x": [ 19, 19 ], "y": [ 10, 15 ], "amount": [ 2, 7 ] },
-        { "item": "cattlefodder", "x": [ 19, 19 ], "y": [ 10, 15 ], "amount": [ 2, 7 ] }
+        { "item": "straw_pile", "x": [3, 5], "y": [5, 7], "amount": [0, 8] },
+        { "item": "cattlefodder", "x": [3, 5], "y": [5, 7], "amount": [0, 4] },
+        { "item": "straw_pile", "x": [3, 3], "y": [10, 15], "amount": [2, 7] },
+        { "item": "cattlefodder", "x": [3, 3], "y": [10, 15], "amount": [2, 7] },
+        { "item": "straw_pile", "x": [19, 19], "y": [10, 15], "amount": [2, 7] },
+        { "item": "cattlefodder", "x": [19, 19], "y": [10, 15], "amount": [2, 7] }
       ],
       "place_monster": [
-        { "monster": "mon_pig", "x": 4, "y": 14, "repeat": [ 2, 4 ] },
-        { "monster": "mon_sheep", "x": 17, "y": 14, "repeat": [ 2, 4 ] }
+        { "monster": "mon_pig", "x": 4, "y": 14, "repeat": [2, 4] },
+        { "monster": "mon_sheep", "x": 17, "y": 14, "repeat": [2, 4] }
       ],
-      "place_npcs": [ { "class": "isherwood_jack", "x": 28, "y": 15 }, { "class": "isherwood_claire", "x": 38, "y": 12 } ],
-      "palettes": [ "farm" ]
+      "place_npcs": [
+        { "class": "isherwood_jack", "x": 28, "y": 15 },
+        { "class": "isherwood_claire", "x": 38, "y": 12 }
+      ],
+      "palettes": ["farm"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "farm_isherwood_1" ] ],
+    "om_terrain": [["farm_isherwood_1"]],
     "//": "Chicken Coop",
     "weight": 100,
     "object": {
-      "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "isherwood_family", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_dirtfloor",
       "rows": [
         "                        ",
@@ -198,20 +210,20 @@
         { "item": "straw_pile", "x": 16, "y": 7, "chance": 75 },
         { "item": "straw_pile", "x": 18, "y": 7, "chance": 75 },
         { "item": "straw_pile", "x": 20, "y": 7, "chance": 75 },
-        { "item": "birdfood", "x": [ 3, 7 ], "y": [ 5, 11 ], "chance": 75, "repeat": [ 4, 7 ] },
+        { "item": "birdfood", "x": [3, 7], "y": [5, 11], "chance": 75, "repeat": [4, 7] },
         { "item": "straw_pile", "x": 20, "y": 7, "chance": 75 }
       ],
-      "palettes": [ "farm" ]
+      "palettes": ["farm"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "farm_isherwood_1" ] ],
+    "om_terrain": [["farm_isherwood_1"]],
     "//": "Greenhouse",
     "weight": 500,
     "object": {
-      "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "isherwood_family", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_dirtfloor",
       "rows": [
         "                        ",
@@ -253,7 +265,7 @@
         "$": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" }
       },
       "items": { "r": { "item": "tools_earthworking", "chance": 20 } },
-      "palettes": [ "farm" ]
+      "palettes": ["farm"]
     }
   },
   {
@@ -261,7 +273,7 @@
     "method": "json",
     "om_terrain": "farm_isherwood_2_cellar",
     "object": {
-      "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "isherwood_family", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_rock_floor",
       "rows": [
         "                        ",
@@ -300,24 +312,27 @@
         "X": "f_wood_keg",
         "W": "f_wood_keg"
       },
-      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 1000 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 1000 ] } },
+      "liquids": {
+        "X": { "liquid": "hb_beer", "amount": [100, 1000] },
+        "W": { "liquid": "dandelion_wine", "amount": [100, 1000] }
+      },
       "items": {
-        "a": { "item": "dry_goods", "chance": 50, "repeat": [ 2, 8 ] },
-        "r": { "item": "preserved_food", "chance": 50, "repeat": [ 2, 8 ] },
-        "c": { "item": "condiments", "chance": 50, "repeat": [ 2, 8 ] },
-        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [ 2, 8 ] }
+        "a": { "item": "dry_goods", "chance": 50, "repeat": [2, 8] },
+        "r": { "item": "preserved_food", "chance": 50, "repeat": [2, 8] },
+        "c": { "item": "condiments", "chance": 50, "repeat": [2, 8] },
+        "e": { "item": "pantry_liquids", "chance": 50, "repeat": [2, 8] }
       }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "farm_isherwood_3_hayloft", "farm_isherwood_2_roof" ] ],
+    "om_terrain": [["farm_isherwood_3_hayloft", "farm_isherwood_2_roof"]],
     "weight": 250,
     "object": {
       "faction_owner": [
-        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 0, 23 ] }
+        { "id": "isherwood_family", "x": [0, 23], "y": [0, 23] },
+        { "id": "isherwood_family", "x": [24, 47], "y": [0, 23] }
       ],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -346,7 +361,7 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": {
         ".": "t_shingle_flat_roof",
         "6": "t_floor",
@@ -392,7 +407,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

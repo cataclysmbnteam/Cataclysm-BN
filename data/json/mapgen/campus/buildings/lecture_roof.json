@@ -1,7 +1,12 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ [ "campus_lecture_0_0_3" ], [ "campus_lecture_0_1_3" ], [ "campus_lecture_0_2_3" ], [ "campus_lecture_0_3_3" ] ],
+    "om_terrain": [
+      ["campus_lecture_0_0_3"],
+      ["campus_lecture_0_1_3"],
+      ["campus_lecture_0_2_3"],
+      ["campus_lecture_0_3_3"]
+    ],
     "method": "json",
     "weight": 250,
     "object": {
@@ -104,9 +109,9 @@
         "                        ",
         "                        "
       ],
-      "terrain": {  },
-      "furniture": {  },
-      "palettes": [ "campus_common" ]
+      "terrain": {},
+      "furniture": {},
+      "palettes": ["campus_common"]
     }
   }
 ]

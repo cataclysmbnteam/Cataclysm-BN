@@ -70,7 +70,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",

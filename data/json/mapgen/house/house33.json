@@ -31,10 +31,10 @@
         ".X..````............[...",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
         "#": "t_brick_wall",
@@ -104,7 +104,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -140,43 +140,43 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "nested": {
         "1": {
           "chunks": [
-            [ "null", 70 ],
-            [ "room_6x6_office_E", 40 ],
-            [ "room_6x6_brewer_E", 20 ],
-            [ "room_6x6_junk_E", 50 ],
-            [ "6x6_sewing_open", 20 ]
+            ["null", 70],
+            ["room_6x6_office_E", 40],
+            ["room_6x6_brewer_E", 20],
+            ["room_6x6_junk_E", 50],
+            ["6x6_sewing_open", 20]
           ]
         },
         "2": {
           "chunks": [
-            [ "null", 70 ],
-            [ "room_6x6_guns_W", 5 ],
-            [ "room_6x6_brewer_W", 10 ],
-            [ "6x6_electronics_open", 20 ],
-            [ "room_6x6_junk_W", 20 ]
+            ["null", 70],
+            ["room_6x6_guns_W", 5],
+            ["room_6x6_brewer_W", 10],
+            ["6x6_electronics_open", 20],
+            ["room_6x6_junk_W", 20]
           ]
         },
         "3": {
           "chunks": [
-            [ "null", 80 ],
-            [ "5x5_gym_N", 20 ],
-            [ "5x5_gym_S", 20 ],
-            [ "5x5_gym_E", 20 ],
-            [ "5x5_gym_W", 20 ],
-            [ "livingroom_5x5_S_1", 30 ],
-            [ "livingroom_5x5_E_1", 30 ],
-            [ "livingroom_5x5_N_1", 30 ],
-            [ "livingroom_5x5_W_1", 30 ],
-            [ "livingroom_5x5_S_2", 30 ],
-            [ "livingroom_5x5_E_2", 30 ],
-            [ "livingroom_5x5_N_2", 30 ],
-            [ "livingroom_5x5_W_2", 30 ],
-            [ "home_office_4x4_N", 20 ],
-            [ "home_office_4x4_S", 20 ]
+            ["null", 80],
+            ["5x5_gym_N", 20],
+            ["5x5_gym_S", 20],
+            ["5x5_gym_E", 20],
+            ["5x5_gym_W", 20],
+            ["livingroom_5x5_S_1", 30],
+            ["livingroom_5x5_E_1", 30],
+            ["livingroom_5x5_N_1", 30],
+            ["livingroom_5x5_W_1", 30],
+            ["livingroom_5x5_S_2", 30],
+            ["livingroom_5x5_E_2", 30],
+            ["livingroom_5x5_N_2", 30],
+            ["livingroom_5x5_W_2", 30],
+            ["home_office_4x4_N", 20],
+            ["home_office_4x4_S", 20]
           ]
         }
       }

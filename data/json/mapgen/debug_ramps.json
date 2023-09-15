@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "debug_ramps" ],
+    "om_terrain": ["debug_ramps"],
     "object": {
       "rows": [
         "########................",
@@ -30,7 +30,14 @@
         "........................",
         "........................"
       ],
-      "terrain": { "#": "t_rock", ".": "t_grass", "<": "t_low_stairs_begin", "E": "t_low_stairs_end", "H": "t_grass", "~": "t_water_dp" },
+      "terrain": {
+        "#": "t_rock",
+        ".": "t_grass",
+        "<": "t_low_stairs_begin",
+        "E": "t_low_stairs_end",
+        "H": "t_grass",
+        "~": "t_water_dp"
+      },
       "furniture": { "H": "f_ladder" },
       "place_monster": [
         { "monster": "debug_mon", "x": 1, "y": 1 },

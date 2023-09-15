@@ -9,11 +9,11 @@
     "integral_volume": "0 ml",
     "price": 5000,
     "price_postapoc": 500,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_target_category": [ [ "BOWS" ] ],
+    "mod_target_category": [["BOWS"]],
     "sight_dispersion": 10,
     "aim_speed": 5
   },
@@ -27,11 +27,11 @@
     "integral_volume": "0 ml",
     "price": 3000,
     "price_postapoc": 100,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_target_category": [ [ "BOWS" ] ],
+    "mod_target_category": [["BOWS"]],
     "sight_dispersion": 25,
     "aim_speed": 8
   },
@@ -45,14 +45,14 @@
     "integral_volume": "0 ml",
     "price": 20000,
     "price_postapoc": 750,
-    "material": [ "aluminum", "plastic", "glass" ],
+    "material": ["aluminum", "plastic", "glass"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_target_category": [ [ "BOWS" ] ],
+    "mod_target_category": [["BOWS"]],
     "sight_dispersion": 5,
     "aim_speed": 2,
-    "flags": [ "ZOOM" ]
+    "flags": ["ZOOM"]
   },
   {
     "id": "holo_sight",
@@ -64,27 +64,27 @@
     "volume": "335 ml",
     "price": 68000,
     "price_postapoc": 750,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
     "mod_target_category": [
-      [ "PISTOLS" ],
-      [ "REVOLVERS" ],
-      [ "SUBMACHINE_GUNS" ],
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "SHOTGUNS" ],
-      [ "S_XBOWS" ],
-      [ "M_XBOWS" ],
-      [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ],
-      [ "FLAMETHROWERS" ]
+      ["PISTOLS"],
+      ["REVOLVERS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"],
+      ["S_XBOWS"],
+      ["M_XBOWS"],
+      ["GRENADE_LAUNCHERS"],
+      ["ROCKET_LAUNCHERS"],
+      ["FLAMETHROWERS"]
     ],
     "sight_dispersion": 13,
     "aim_speed": 6,
-    "flags": [ "DISABLE_SIGHTS" ]
+    "flags": ["DISABLE_SIGHTS"]
   },
   {
     "id": "improve_sights",
@@ -97,27 +97,27 @@
     "integral_weight": 0,
     "price": 72000,
     "price_postapoc": 250,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
     "mod_target_category": [
-      [ "PISTOLS" ],
-      [ "REVOLVERS" ],
-      [ "SUBMACHINE_GUNS" ],
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "SHOTGUNS" ],
-      [ "S_XBOWS" ],
-      [ "M_XBOWS" ],
-      [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ],
-      [ "FLAMETHROWERS" ]
+      ["PISTOLS"],
+      ["REVOLVERS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"],
+      ["S_XBOWS"],
+      ["M_XBOWS"],
+      ["GRENADE_LAUNCHERS"],
+      ["ROCKET_LAUNCHERS"],
+      ["FLAMETHROWERS"]
     ],
     "sight_dispersion": 30,
     "aim_speed": 6,
-    "flags": [ "DISABLE_SIGHTS" ]
+    "flags": ["DISABLE_SIGHTS"]
   },
   {
     "id": "pistol_scope",
@@ -128,14 +128,14 @@
     "volume": "250 ml",
     "price": 54000,
     "price_postapoc": 500,
-    "material": [ "aluminum", "glass" ],
+    "material": ["aluminum", "glass"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_target_category": [ [ "PISTOLS" ], [ "REVOLVERS" ], [ "SUBMACHINE_GUNS" ] ],
+    "mod_target_category": [["PISTOLS"], ["REVOLVERS"], ["SUBMACHINE_GUNS"]],
     "sight_dispersion": 8,
     "aim_speed": 2,
-    "flags": [ "DISABLE_SIGHTS" ]
+    "flags": ["DISABLE_SIGHTS"]
   },
   {
     "id": "red_dot_sight",
@@ -147,27 +147,27 @@
     "integral_volume": "0 ml",
     "price": 68000,
     "price_postapoc": 500,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
     "mod_target_category": [
-      [ "PISTOLS" ],
-      [ "REVOLVERS" ],
-      [ "SUBMACHINE_GUNS" ],
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "SHOTGUNS" ],
-      [ "S_XBOWS" ],
-      [ "M_XBOWS" ],
-      [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ],
-      [ "FLAMETHROWERS" ]
+      ["PISTOLS"],
+      ["REVOLVERS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"],
+      ["S_XBOWS"],
+      ["M_XBOWS"],
+      ["GRENADE_LAUNCHERS"],
+      ["ROCKET_LAUNCHERS"],
+      ["FLAMETHROWERS"]
     ],
     "sight_dispersion": 23,
     "aim_speed": 6,
-    "flags": [ "DISABLE_SIGHTS" ]
+    "flags": ["DISABLE_SIGHTS"]
   },
   {
     "id": "rifle_scope",
@@ -179,23 +179,23 @@
     "volume": "435 ml",
     "price": 68000,
     "price_postapoc": 750,
-    "material": [ "aluminum", "glass" ],
+    "material": ["aluminum", "glass"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
     "mod_target_category": [
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "M_XBOWS" ],
-      [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ],
-      [ "FLAMETHROWERS" ]
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["M_XBOWS"],
+      ["GRENADE_LAUNCHERS"],
+      ["ROCKET_LAUNCHERS"],
+      ["FLAMETHROWERS"]
     ],
     "install_time": "30 m",
     "sight_dispersion": 0,
     "aim_speed": 0,
-    "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
+    "flags": ["DISABLE_SIGHTS", "ZOOM"]
   },
   {
     "id": "rifle_scope_mod",
@@ -204,14 +204,14 @@
     "name": { "str": "modified rifle scope" },
     "description": "A 3-18x44 rifle scope.  It is adjustable for windage and elevation in 1/10th mrad increments and is remarkably small and light for its magnification.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
     "mod_target_category": [
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "SHOTGUNS" ],
-      [ "M_XBOWS" ],
-      [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ],
-      [ "FLAMETHROWERS" ]
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"],
+      ["M_XBOWS"],
+      ["GRENADE_LAUNCHERS"],
+      ["ROCKET_LAUNCHERS"],
+      ["FLAMETHROWERS"]
     ]
   },
   {
@@ -223,23 +223,23 @@
     "volume": "112 ml",
     "price": 68000,
     "price_postapoc": 750,
-    "material": [ "aluminum", "glass" ],
+    "material": ["aluminum", "glass"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
     "mod_target_category": [
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "M_XBOWS" ],
-      [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ],
-      [ "FLAMETHROWERS" ]
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["M_XBOWS"],
+      ["GRENADE_LAUNCHERS"],
+      ["ROCKET_LAUNCHERS"],
+      ["FLAMETHROWERS"]
     ],
     "install_time": "30 m",
     "sight_dispersion": 8,
     "aim_speed": 2,
-    "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
+    "flags": ["DISABLE_SIGHTS", "ZOOM"]
   },
   {
     "id": "acog_scope_mod",
@@ -248,15 +248,15 @@
     "name": { "str": "modified ACOG scope" },
     "description": "A 4x32 TA01 Advanced Combat Optical Gunsight with a tritium illuminated crosshair.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "mod_target_category": [
-      [ "SUBMACHINE_GUNS" ],
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "SHOTGUNS" ],
-      [ "M_XBOWS" ],
-      [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ],
-      [ "FLAMETHROWERS" ]
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"],
+      ["M_XBOWS"],
+      ["GRENADE_LAUNCHERS"],
+      ["ROCKET_LAUNCHERS"],
+      ["FLAMETHROWERS"]
     ]
   },
   {
@@ -268,9 +268,9 @@
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
-    "material": [ "superalloy", "ceramic" ],
+    "material": ["superalloy", "ceramic"],
     "aim_speed": 2,
-    "flags": [ "ZOOM", "IRREMOVABLE" ]
+    "flags": ["ZOOM", "IRREMOVABLE"]
   },
   {
     "id": "tele_sight",
@@ -281,24 +281,24 @@
     "volume": "250 ml",
     "price": 30000,
     "price_postapoc": 250,
-    "material": [ "plastic", "steel", "glass" ],
+    "material": ["plastic", "steel", "glass"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
     "mod_target_category": [
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "SHOTGUNS" ],
-      [ "M_XBOWS" ],
-      [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ],
-      [ "FLAMETHROWERS" ]
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"],
+      ["M_XBOWS"],
+      ["GRENADE_LAUNCHERS"],
+      ["ROCKET_LAUNCHERS"],
+      ["FLAMETHROWERS"]
     ],
     "install_time": "30 m",
     "sight_dispersion": 15,
     "aim_speed": 1,
-    "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
+    "flags": ["DISABLE_SIGHTS", "ZOOM"]
   },
   {
     "id": "tele_sight_pistol",
@@ -309,13 +309,13 @@
     "volume": "250 ml",
     "price": 27000,
     "price_postapoc": 500,
-    "material": [ "plastic", "steel", "glass" ],
+    "material": ["plastic", "steel", "glass"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "sights",
-    "mod_target_category": [ [ "PISTOLS" ], [ "REVOLVERS" ], [ "SUBMACHINE_GUNS" ] ],
+    "mod_target_category": [["PISTOLS"], ["REVOLVERS"], ["SUBMACHINE_GUNS"]],
     "sight_dispersion": 20,
     "aim_speed": 1,
-    "flags": [ "DISABLE_SIGHTS", "ZOOM" ]
+    "flags": ["DISABLE_SIGHTS", "ZOOM"]
   }
 ]

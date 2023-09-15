@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "haz_sar_1_2", "haz_sar_1_1" ], [ "haz_sar_1_4", "haz_sar_1_3" ] ],
+    "om_terrain": [["haz_sar_1_2", "haz_sar_1_1"], ["haz_sar_1_4", "haz_sar_1_3"]],
     "weight": 10,
     "object": {
       "rows": [
@@ -57,13 +57,13 @@
       ],
       "terrain": {
         " ": [
-          [ "t_grass", 20 ],
-          [ "t_grass_dead", 3 ],
-          [ "t_grass_tall", 5 ],
-          [ "t_grass_long", 3 ],
-          [ "t_dirt", 5 ],
-          [ "t_shrub", 2 ],
-          [ "t_tree", 1 ]
+          ["t_grass", 20],
+          ["t_grass_dead", 3],
+          ["t_grass_tall", 5],
+          ["t_grass_long", 3],
+          ["t_dirt", 5],
+          ["t_shrub", 2],
+          ["t_tree", 1]
         ],
         "f": "t_chainfence",
         "|": "t_wall",
@@ -73,7 +73,7 @@
         "*": "t_door_c",
         "?": "t_door_locked_alarm",
         "w": "t_window_alarm",
-        "0": [ [ "t_curtains", 10 ], [ "t_window_open", 3 ], [ "t_window_domestic", 5 ] ],
+        "0": [["t_curtains", 10], ["t_window_open", 3], ["t_window_domestic", 5]],
         ",": "t_sidewalk",
         ":": "t_pavement",
         ";": "t_pavement_y",
@@ -129,19 +129,19 @@
         "C": "f_chair",
         "d": "f_desk",
         "l": "f_locker",
-        "p": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "p": ["f_indoor_plant", "f_indoor_plant_y"],
         "s": "f_sink",
         "W": "f_water_dispenser",
         "v": "f_vent_pipe"
       },
-      "toilets": { "&": {  } },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 75 ] } },
+      "toilets": { "&": {} },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [0, 75] } },
       "items": {
         "2": { "item": "coat_rack", "chance": 60, "repeat": 2 },
-        "4": { "item": "toxic_dump_equipment", "chance": 85, "repeat": [ 1, 2 ] },
-        "7": { "item": "tools_common", "chance": 85, "repeat": [ 1, 2 ] },
-        "8": { "item": "tools_common", "chance": 85, "repeat": [ 1, 2 ] },
-        "9": { "item": "cleaning", "chance": 85, "repeat": [ 1, 2 ] },
+        "4": { "item": "toxic_dump_equipment", "chance": 85, "repeat": [1, 2] },
+        "7": { "item": "tools_common", "chance": 85, "repeat": [1, 2] },
+        "8": { "item": "tools_common", "chance": 85, "repeat": [1, 2] },
+        "9": { "item": "cleaning", "chance": 85, "repeat": [1, 2] },
         "r": { "item": "trash_cart", "chance": 50 },
         "d": { "item": "office", "chance": 50 },
         "c": { "item": "office_supplies", "chance": 60 },
@@ -155,10 +155,10 @@
         { "item": "cleansuit", "x": 28, "y": 24 }
       ],
       "set": [
-        { "square": "radiation", "amount": [ 10, 30 ], "x": 0, "y": 0, "x2": 23, "y2": 23 },
-        { "square": "radiation", "amount": [ 10, 30 ], "x": 0, "y": 24, "x2": 23, "y2": 47 },
-        { "square": "radiation", "amount": [ 10, 30 ], "x": 24, "y": 0, "x2": 47, "y2": 23 },
-        { "square": "radiation", "amount": [ 10, 30 ], "x": 24, "y": 24, "x2": 47, "y2": 47 }
+        { "square": "radiation", "amount": [10, 30], "x": 0, "y": 0, "x2": 23, "y2": 23 },
+        { "square": "radiation", "amount": [10, 30], "x": 0, "y": 24, "x2": 23, "y2": 47 },
+        { "square": "radiation", "amount": [10, 30], "x": 24, "y": 0, "x2": 47, "y2": 23 },
+        { "square": "radiation", "amount": [10, 30], "x": 24, "y": 24, "x2": 47, "y2": 47 }
       ],
       "place_monster": [
         { "monster": "mon_hazmatbot", "x": 36, "y": 20 },
@@ -175,23 +175,36 @@
             { "name": "Security Reminder [1056]", "action": "sr2_mess" },
             { "name": "Security Reminder [1057]", "action": "sr3_mess" },
             { "name": "Security Reminder [1058]", "action": "sr4_mess" },
-            { "name": "EPA: Report All Potential Containment Breaches [3873643]", "action": "srcf_1_mess" },
+            {
+              "name": "EPA: Report All Potential Containment Breaches [3873643]",
+              "action": "srcf_1_mess"
+            },
             { "name": "SRCF: Internal Memo, EPA [2918024]", "action": "srcf_2_mess" },
             { "name": "CDC: Internal Memo, Standby [2918115]", "action": "srcf_3_mess" },
             { "name": "USARMY: SEAL SRCF [987167]", "action": "srcf_seal_order" },
             { "name": "COMMAND: REACTIVATE ELEVATOR", "action": "srcf_elevator" },
             { "name": "COMMAND: SEAL SRCF [4423]", "action": "srcf_seal" }
           ],
-          "failures": [ { "action": "alarm" } ]
+          "failures": [{ "action": "alarm" }]
         }
       },
-      "place_vehicles": [ { "vehicle": "military_cargo_truck", "x": 37, "y": 35, "chance": 25, "status": 1, "rotation": 90, "fuel": 40 } ]
+      "place_vehicles": [
+        {
+          "vehicle": "military_cargo_truck",
+          "x": 37,
+          "y": 35,
+          "chance": 25,
+          "status": 1,
+          "rotation": 90,
+          "fuel": 40
+        }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "haz_sar_b_2", "haz_sar_b_1" ], [ "haz_sar_b_4", "haz_sar_b_3" ] ],
+    "om_terrain": [["haz_sar_b_2", "haz_sar_b_1"], ["haz_sar_b_4", "haz_sar_b_3"]],
     "weight": 10,
     "object": {
       "rows": [
@@ -270,7 +283,7 @@
         "e": "t_elevator_control_off",
         "5": "t_console",
         "W": "t_metal_floor",
-        "~": [ [ "t_sewage", 55 ], [ "t_dirtfloor", 25 ], [ "t_dirtmound", 20 ] ]
+        "~": [["t_sewage", 55], ["t_dirtfloor", 25], ["t_dirtmound", 20]]
       },
       "furniture": {
         "s": "f_sink",
@@ -284,27 +297,31 @@
         "a": "f_air_conditioner",
         "F": "f_filing_cabinet",
         "W": "f_water_dispenser",
-        "~": [ [ "f_null", 50 ], [ "f_wreckage", 50 ] ]
+        "~": [["f_null", 50], ["f_wreckage", 50]]
       },
-      "toilets": { "&": {  } },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 75 ] } },
+      "toilets": { "&": {} },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [0, 75] } },
       "items": {
-        "8": { "item": "mechanics", "chance": 60, "repeat": [ 1, 2 ] },
-        "9": { "item": "sewage_plant", "chance": 60, "repeat": [ 1, 2 ] },
+        "8": { "item": "mechanics", "chance": 60, "repeat": [1, 2] },
+        "9": { "item": "sewage_plant", "chance": 60, "repeat": [1, 2] },
         "r": { "item": "trash_cart", "chance": 50 },
         "d": { "item": "office", "chance": 50 },
         "c": { "item": "office_supplies", "chance": 60 },
         "l": { "item": "cleaning", "chance": 60, "repeat": 2 },
         "F": { "item": "office_paper", "chance": 50 },
         " ": { "item": "corpse_and_science", "chance": 1 },
-        "~": [ { "item": "trash", "chance": 50 }, { "item": "sewer", "chance": 50 }, { "item": "nanomaterials", "chance": 3 } ]
+        "~": [
+          { "item": "trash", "chance": 50 },
+          { "item": "sewer", "chance": 50 },
+          { "item": "nanomaterials", "chance": 3 }
+        ]
       },
-      "place_item": [ { "item": "sarcophagus_access_code", "x": 20, "y": 31 } ],
+      "place_item": [{ "item": "sarcophagus_access_code", "x": 20, "y": 31 }],
       "set": [
-        { "square": "radiation", "amount": [ 10, 30 ], "x": 0, "y": 0, "x2": 23, "y2": 23 },
-        { "square": "radiation", "amount": [ 10, 30 ], "x": 0, "y": 24, "x2": 23, "y2": 47 },
-        { "square": "radiation", "amount": [ 10, 30 ], "x": 24, "y": 0, "x2": 47, "y2": 23 },
-        { "square": "radiation", "amount": [ 10, 30 ], "x": 24, "y": 24, "x2": 47, "y2": 47 }
+        { "square": "radiation", "amount": [10, 30], "x": 0, "y": 0, "x2": 23, "y2": 23 },
+        { "square": "radiation", "amount": [10, 30], "x": 0, "y": 24, "x2": 23, "y2": 47 },
+        { "square": "radiation", "amount": [10, 30], "x": 24, "y": 0, "x2": 47, "y2": 23 },
+        { "square": "radiation", "amount": [10, 30], "x": 24, "y": 24, "x2": 47, "y2": 47 }
       ],
       "monster": { " ": { "monster": "mon_zombie", "chance": 10 } },
       "monsters": { "~": { "monster": "GROUP_VANILLA", "chance": 20, "density": 0.1 } },
@@ -317,13 +334,16 @@
             { "name": "Security Reminder [1056]", "action": "sr2_mess" },
             { "name": "Security Reminder [1057]", "action": "sr3_mess" },
             { "name": "Security Reminder [1058]", "action": "sr4_mess" },
-            { "name": "EPA: Report All Potential Containment Breaches [3873643]", "action": "srcf_1_mess" },
+            {
+              "name": "EPA: Report All Potential Containment Breaches [3873643]",
+              "action": "srcf_1_mess"
+            },
             { "name": "SRCF: Internal Memo, EPA [2918024]", "action": "srcf_2_mess" },
             { "name": "CDC: Internal Memo, Standby [2918115]", "action": "srcf_3_mess" },
             { "name": "USARMY: SEAL SRCF [987167]", "action": "srcf_seal_order" },
             { "name": "COMMAND: REACTIVATE ELEVATOR", "action": "srcf_elevator" }
           ],
-          "failures": [ { "action": "alarm" } ]
+          "failures": [{ "action": "alarm" }]
         }
       }
     }
@@ -332,12 +352,15 @@
     "id": "corpse_and_science",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "corpse_generic_human", "prob": 100 }, { "group": "science", "prob": 100 } ]
+    "entries": [
+      { "item": "corpse_generic_human", "prob": 100 },
+      { "group": "science", "prob": 100 }
+    ]
   },
   {
     "id": "nanomaterials",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "nanomaterial", "prob": 100 } ]
+    "entries": [{ "item": "nanomaterial", "prob": 100 }]
   }
 ]

@@ -4,13 +4,13 @@
     "id": "84x246mm_he",
     "price": 70000,
     "price_postapoc": 12000,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
     "//": "Milspec ammo such as grenades and rockets: not available to the general public, so Expensive.",
     "name": { "str": "84x246mm HE rocket" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "A 84x246mm High Explosive anti-personnel round for the Carl Gustav M3 recoilless rifle.  Designed to be highly effective against personnel.",
-    "material": [ "steel", "powder" ],
+    "material": ["steel", "powder"],
     "volume": "1250 ml",
     "weight": "3200 g",
     "ammo_type": "84x246mm",
@@ -20,7 +20,7 @@
     "recoil": 45,
     "count": 4,
     "stack_size": 1,
-    "effects": [ "COOKOFF", "EXPLOSIVE_BIG", "FRAG", "NEVER_MISFIRES" ]
+    "effects": ["COOKOFF", "EXPLOSIVE_BIG", "FRAG", "NEVER_MISFIRES"]
   },
   {
     "type": "AMMO",
@@ -36,7 +36,7 @@
     "range": 100,
     "dispersion": 75,
     "recoil": 60,
-    "effects": [ "COOKOFF", "EXPLOSIVE_HUGE", "NEVER_MISFIRES" ]
+    "effects": ["COOKOFF", "EXPLOSIVE_HUGE", "NEVER_MISFIRES"]
   },
   {
     "type": "AMMO",
@@ -50,7 +50,7 @@
     "weight": "3100 g",
     "range": 140,
     "dispersion": 30,
-    "extend": { "effects": [ "SMOKE_BIG" ] },
-    "delete": { "effects": [ "EXPLOSIVE_BIG", "FRAG" ] }
+    "extend": { "effects": ["SMOKE_BIG"] },
+    "delete": { "effects": ["EXPLOSIVE_BIG", "FRAG"] }
   }
 ]

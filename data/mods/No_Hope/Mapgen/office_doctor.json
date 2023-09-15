@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "office_doctor" ],
+    "om_terrain": ["office_doctor"],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -32,32 +32,37 @@
         "   ###################  ",
         "                        "
       ],
-      "palettes": [ "office_doctor" ],
+      "palettes": ["office_doctor"],
       "items": {
-        "C": { "item": "cleaning", "chance": 70, "repeat": [ 2, 4 ] },
-        "H": { "item": "harddrugs", "chance": 80, "repeat": [ 2, 6 ] },
-        "I": { "item": "dissection", "chance": 60, "repeat": [ 2, 4 ] },
-        "O": { "item": "softdrugs", "chance": 80, "repeat": [ 2, 6 ] },
-        "S": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
-        "c": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
-        "e": { "item": "fridge", "chance": 80, "repeat": [ 2, 4 ] },
-        "t": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
-        "f": { "item": "office_paper", "chance": 70, "repeat": [ 1, 3 ] }
+        "C": { "item": "cleaning", "chance": 70, "repeat": [2, 4] },
+        "H": { "item": "harddrugs", "chance": 80, "repeat": [2, 6] },
+        "I": { "item": "dissection", "chance": 60, "repeat": [2, 4] },
+        "O": { "item": "softdrugs", "chance": 80, "repeat": [2, 6] },
+        "S": { "item": "gear_medical", "chance": 60, "repeat": [2, 4] },
+        "c": { "item": "gear_medical", "chance": 60, "repeat": [2, 4] },
+        "e": { "item": "fridge", "chance": 80, "repeat": [2, 4] },
+        "t": { "item": "gear_medical", "chance": 60, "repeat": [2, 4] },
+        "f": { "item": "office_paper", "chance": 70, "repeat": [1, 3] }
       },
-      "place_items": [ { "item": "record_patient", "x": 7, "y": 6, "chance": 50 } ],
-      "place_loot": [ { "item": "anesthetic_kit", "x": 16, "y": [ 14, 17 ], "chance": 75, "ammo": 100 } ],
+      "place_items": [{ "item": "record_patient", "x": 7, "y": 6, "chance": 50 }],
+      "place_loot": [
+        { "item": "anesthetic_kit", "x": 16, "y": [14, 17], "chance": 75, "ammo": 100 }
+      ],
       "computers": {
         "5": {
           "name": "Medical Supply Access",
           "security": 2,
-          "options": [ { "name": "Unlock Door", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+          "options": [{ "name": "Unlock Door", "action": "unlock" }],
+          "failures": [{ "action": "shutdown" }, { "action": "alarm" }]
         },
         "6": {
           "name": "Medical Supply Access",
           "security": 2,
-          "options": [ { "name": "Lock Door", "action": "lock" }, { "name": "Unlock Door", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+          "options": [
+            { "name": "Lock Door", "action": "lock" },
+            { "name": "Unlock Door", "action": "unlock" }
+          ],
+          "failures": [{ "action": "shutdown" }, { "action": "alarm" }]
         }
       }
     }
@@ -109,25 +114,27 @@
         "5": "t_gutter_drop"
       },
       "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe" },
-      "place_items": [ { "item": "roof_trash", "x": [ 5, 18 ], "y": [ 4, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [5, 18], "y": [4, 18], "chance": 50, "repeat": [1, 3] }
+      ],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ],
-            [ "roof_2x2_golf", 10 ],
-            [ "roof_3x3_wine", 5 ],
-            [ "roof_4x4_utility_1", 30 ],
-            [ "roof_4x4_party", 5 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_4x4_survivor", 5 ],
-            [ "roof_6x6_utility", 20 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50],
+            ["roof_2x2_golf", 10],
+            ["roof_3x3_wine", 5],
+            ["roof_4x4_utility_1", 30],
+            ["roof_4x4_party", 5],
+            ["roof_4x4_utility", 40],
+            ["roof_4x4_survivor", 5],
+            ["roof_6x6_utility", 20]
           ],
-          "x": [ 5, 15 ],
-          "y": [ 8, 14 ]
+          "x": [5, 15],
+          "y": [8, 14]
         }
       ]
     }
@@ -135,7 +142,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "office_doctor_1" ],
+    "om_terrain": ["office_doctor_1"],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -165,24 +172,24 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "office_doctor" ],
+      "palettes": ["office_doctor"],
       "place_loot": [
-        { "group": "waitingroom", "x": 14, "y": 3, "chance": 70, "repeat": [ 1, 3 ] },
-        { "group": "waitingroom", "x": 19, "y": 3, "chance": 70, "repeat": [ 1, 3 ] },
-        { "group": "waitingroom", "x": 19, "y": 6, "chance": 70, "repeat": [ 1, 3 ] },
-        { "group": "gear_medical", "x": 19, "y": [ 9, 10 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "gear_medical", "x": 19, "y": [ 13, 14 ], "chance": 60, "repeat": [ 2, 4 ] },
-        { "group": "cleaning", "x": [ 16, 19 ], "y": 20, "chance": 70, "repeat": [ 1, 5 ] },
-        { "group": "gear_medical", "x": 10, "y": 12, "chance": 60, "repeat": [ 2, 5 ] },
-        { "group": "softdrugs", "x": [ 4, 5 ], "y": 17, "chance": 60, "repeat": [ 3, 6 ] },
+        { "group": "waitingroom", "x": 14, "y": 3, "chance": 70, "repeat": [1, 3] },
+        { "group": "waitingroom", "x": 19, "y": 3, "chance": 70, "repeat": [1, 3] },
+        { "group": "waitingroom", "x": 19, "y": 6, "chance": 70, "repeat": [1, 3] },
+        { "group": "gear_medical", "x": 19, "y": [9, 10], "chance": 60, "repeat": [2, 4] },
+        { "group": "gear_medical", "x": 19, "y": [13, 14], "chance": 60, "repeat": [2, 4] },
+        { "group": "cleaning", "x": [16, 19], "y": 20, "chance": 70, "repeat": [1, 5] },
+        { "group": "gear_medical", "x": 10, "y": 12, "chance": 60, "repeat": [2, 5] },
+        { "group": "softdrugs", "x": [4, 5], "y": 17, "chance": 60, "repeat": [3, 6] },
         { "group": "office", "x": 4, "y": 19, "chance": 70 },
-        { "group": "office", "x": 4, "y": [ 3, 4 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "office", "x": 4, "y": [3, 4], "chance": 70, "repeat": [1, 2] },
         { "group": "doctors_books", "x": 9, "y": 3, "chance": 70 },
         { "group": "doctors_books", "x": 7, "y": 20, "chance": 70 },
-        { "group": "gear_medical", "x": [ 4, 5 ], "y": 10, "chance": 60, "repeat": [ 2, 5 ] },
-        { "group": "drugs_analgesic", "x": [ 4, 5 ], "y": 12, "chance": 75, "repeat": [ 1, 3 ] },
-        { "group": "drugs_rare", "x": [ 4, 5 ], "y": 14, "chance": 75 },
-        { "item": "anesthetic_kit", "x": [ 4, 5 ], "y": 14, "chance": 75, "ammo": 100 }
+        { "group": "gear_medical", "x": [4, 5], "y": 10, "chance": 60, "repeat": [2, 5] },
+        { "group": "drugs_analgesic", "x": [4, 5], "y": 12, "chance": 75, "repeat": [1, 3] },
+        { "group": "drugs_rare", "x": [4, 5], "y": 14, "chance": 75 },
+        { "item": "anesthetic_kit", "x": [4, 5], "y": 14, "chance": 75, "ammo": 100 }
       ]
     }
   },
@@ -239,24 +246,26 @@
         "=": "f_vent_pipe",
         "A": "f_air_conditioner"
       },
-      "place_items": [ { "item": "roof_trash", "x": [ 5, 18 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [5, 18], "y": [7, 18], "chance": 50, "repeat": [1, 3] }
+      ],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ],
-            [ "roof_2x2_golf", 5 ],
-            [ "roof_3x3_wine", 5 ],
-            [ "roof_4x4_utility_1", 30 ],
-            [ "roof_4x4_party", 5 ],
-            [ "roof_4x4_holdout", 5 ],
-            [ "roof_4x4_utility", 40 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50],
+            ["roof_2x2_golf", 5],
+            ["roof_3x3_wine", 5],
+            ["roof_4x4_utility_1", 30],
+            ["roof_4x4_party", 5],
+            ["roof_4x4_holdout", 5],
+            ["roof_4x4_utility", 40]
           ],
-          "x": [ 5, 14 ],
-          "y": [ 7, 13 ]
+          "x": [5, 14],
+          "y": [7, 13]
         }
       ]
     }
@@ -264,7 +273,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "office_doctor_2" ],
+    "om_terrain": ["office_doctor_2"],
     "weight": 200,
     "object": {
       "fill_ter": "t_dirt",
@@ -294,44 +303,61 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "office_doctor" ],
-      "terrain": { "?": "t_floor", "/": "t_floor", "Y": "t_floor", "A": "t_floor", "R": "t_floor", "'": "t_door_glass_o" },
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "Y": "f_sofa", "T": "f_table", "A": "f_armchair", "R": "f_trashcan" },
+      "palettes": ["office_doctor"],
+      "terrain": {
+        "?": "t_floor",
+        "/": "t_floor",
+        "Y": "t_floor",
+        "A": "t_floor",
+        "R": "t_floor",
+        "'": "t_door_glass_o"
+      },
+      "furniture": {
+        "?": "f_autodoc",
+        "/": "f_autodoc_couch",
+        "Y": "f_sofa",
+        "T": "f_table",
+        "A": "f_armchair",
+        "R": "f_trashcan"
+      },
       "computers": {
         "5": {
           "name": "Medical Supply Access",
           "security": 2,
-          "options": [ { "name": "Unlock Door", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+          "options": [{ "name": "Unlock Door", "action": "unlock" }],
+          "failures": [{ "action": "shutdown" }, { "action": "alarm" }]
         }
       },
       "items": {
         "B": { "item": "hospital_bed", "chance": 60 },
         "R": { "item": "trash", "chance": 50 },
         "o": { "item": "doctors_books", "chance": 60 },
-        "e": { "item": "fridge", "chance": 80, "repeat": [ 1, 3 ] },
+        "e": { "item": "fridge", "chance": 80, "repeat": [1, 3] },
         "C": { "item": "dresser", "chance": 75 },
-        "O": [ { "item": "bionics", "chance": 40 }, { "item": "bionic_power_storage_civ", "chance": 20 } ],
+        "O": [
+          { "item": "bionics", "chance": 40 },
+          { "item": "bionic_power_storage_civ", "chance": 20 }
+        ],
         "T": { "item": "office_breakroom", "chance": 80 },
         "f": { "item": "office_paper", "chance": 90 },
         "H": [
           { "item": "harddrugs", "chance": 60 },
-          { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
-          { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "gear_medical", "chance": 60, "repeat": [1, 3] },
+          { "item": "drugs_analgesic", "chance": 60, "repeat": [1, 3] },
           { "item": "drugs_rare", "chance": 60 },
           { "item": "surgery", "chance": 60 }
         ]
       },
       "place_loot": [
-        { "group": "waitingroom", "x": 12, "y": 3, "chance": 70, "repeat": [ 1, 3 ] },
-        { "group": "waitingroom", "x": 10, "y": 5, "chance": 70, "repeat": [ 1, 3 ] },
-        { "group": "dining", "x": 21, "y": [ 5, 6 ], "chance": 65, "repeat": [ 1, 3 ] },
-        { "group": "office", "x": [ 17, 19 ], "y": 13, "chance": 80, "repeat": [ 1, 2 ] },
-        { "group": "cleaning", "x": 21, "y": [ 8, 9 ], "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "surgery", "x": 14, "y": [ 19, 20 ], "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "gear_medical", "x": 14, "y": [ 19, 20 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "waitingroom", "x": 12, "y": 3, "chance": 70, "repeat": [1, 3] },
+        { "group": "waitingroom", "x": 10, "y": 5, "chance": 70, "repeat": [1, 3] },
+        { "group": "dining", "x": 21, "y": [5, 6], "chance": 65, "repeat": [1, 3] },
+        { "group": "office", "x": [17, 19], "y": 13, "chance": 80, "repeat": [1, 2] },
+        { "group": "cleaning", "x": 21, "y": [8, 9], "chance": 70, "repeat": [1, 2] },
+        { "group": "surgery", "x": 14, "y": [19, 20], "chance": 70, "repeat": [1, 2] },
+        { "group": "gear_medical", "x": 14, "y": [19, 20], "chance": 70, "repeat": [1, 2] },
         { "group": "alcohol", "x": 21, "y": 11, "chance": 70 },
-        { "group": "magazines", "x": 17, "y": 3, "chance": 90, "repeat": [ 2, 8 ] },
+        { "group": "magazines", "x": 17, "y": 3, "chance": 90, "repeat": [2, 8] },
         { "item": "microwave", "x": 21, "y": 4, "chance": 85 },
         { "item": "laptop", "x": 4, "y": 4, "chance": 85 },
         { "item": "television", "x": 15, "y": 6, "chance": 95 },
@@ -402,16 +428,16 @@
         "?": "f_autodoc",
         "L": "f_locker",
         "/": "f_autodoc_couch",
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "y": ["f_indoor_plant_y", "f_indoor_plant"],
         "A": "f_air_conditioner"
       },
       "items": {
         "b": { "item": "hospital_bed", "chance": 60 },
         "f": { "item": "office_paper", "chance": 70 },
         "L": [
-          { "item": "harddrugs", "chance": 60, "repeat": [ 1, 3 ] },
-          { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
-          { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "harddrugs", "chance": 60, "repeat": [1, 3] },
+          { "item": "gear_medical", "chance": 60, "repeat": [1, 3] },
+          { "item": "drugs_analgesic", "chance": 60, "repeat": [1, 3] },
           { "item": "drugs_rare", "chance": 60 },
           { "item": "surgery", "chance": 60 }
         ]

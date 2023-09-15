@@ -126,7 +126,7 @@
       "}": "t_manhole_cover",
       "U": "t_sidewalk"
     },
-    "toilets": { "t": {  } },
+    "toilets": { "t": {} },
     "items": {
       "(": { "item": "pantry", "chance": 50, "repeat": 3 },
       "@": { "item": "bed", "chance": 50, "repeat": 2 },

@@ -10,17 +10,17 @@
     "price_postapoc": 6000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "lightceramic", "kevlar" ],
+    "material": ["lightceramic", "kevlar"],
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_red",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 95,
     "encumbrance": 12,
     "warmth": 12,
     "material_thickness": 5,
     "//": "Ceramic disks inside block addition of steel plating modification",
-    "flags": [ "OUTER", "NO_REPAIR" ]
+    "flags": ["OUTER", "NO_REPAIR"]
   },
   {
     "id": "dragonskinempty",
@@ -34,15 +34,15 @@
     "price_postapoc": 2000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar" ],
+    "material": ["kevlar"],
     "symbol": "[",
     "looks_like": "dragonskin",
     "color": "light_red",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 25,
     "encumbrance": 6,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": ["STURDY", "OUTER"]
   }
 ]

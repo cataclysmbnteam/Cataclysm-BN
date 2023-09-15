@@ -10,7 +10,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_nw",
     "object": {
-      "mapgensize": [ 11, 11 ],
+      "mapgensize": [11, 11],
       "rows": [
         "...........",
         "     ...  .",
@@ -24,7 +24,7 @@
         ".....      ",
         ".....      "
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -32,7 +32,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_nw",
     "object": {
-      "mapgensize": [ 11, 11 ],
+      "mapgensize": [11, 11],
       "rows": [
         "...........",
         "..   ......",
@@ -46,7 +46,7 @@
         ".        ..",
         ".          "
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -54,7 +54,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_nw",
     "object": {
-      "mapgensize": [ 11, 11 ],
+      "mapgensize": [11, 11],
       "rows": [
         "...........",
         "  .........",
@@ -68,7 +68,7 @@
         "........  .",
         "........   "
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -76,7 +76,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_nw",
     "object": {
-      "mapgensize": [ 11, 11 ],
+      "mapgensize": [11, 11],
       "rows": [
         "...........",
         "...........",
@@ -90,7 +90,7 @@
         ".......... ",
         "......     "
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -98,7 +98,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_ne",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "............",
         "..      ....",
@@ -113,7 +113,7 @@
         "        ....",
         "        ...."
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -121,7 +121,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_ne",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "............",
         "............",
@@ -136,7 +136,7 @@
         "............",
         "        ...."
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -144,7 +144,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_ne",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "............",
         "....    ....",
@@ -159,7 +159,7 @@
         ".....     ..",
         "        ...."
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -167,7 +167,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_ne",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "............",
         "..        ..",
@@ -182,7 +182,7 @@
         ".. .........",
         "        ...."
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -190,7 +190,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_se",
     "object": {
-      "mapgensize": [ 11, 11 ],
+      "mapgensize": [11, 11],
       "rows": [
         "           ",
         "           ",
@@ -204,7 +204,7 @@
         "...       .",
         "...        "
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -212,7 +212,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_se",
     "object": {
-      "mapgensize": [ 11, 11 ],
+      "mapgensize": [11, 11],
       "rows": [
         "     ......",
         "..   .... .",
@@ -226,7 +226,7 @@
         "...  ....  ",
         ".........  "
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -234,7 +234,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_se",
     "object": {
-      "mapgensize": [ 11, 11 ],
+      "mapgensize": [11, 11],
       "rows": [
         "           ",
         "....       ",
@@ -248,7 +248,7 @@
         ".......    ",
         ".......    "
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -256,7 +256,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_se",
     "object": {
-      "mapgensize": [ 11, 11 ],
+      "mapgensize": [11, 11],
       "rows": [
         "           ",
         ".....      ",
@@ -270,7 +270,7 @@
         ".........  ",
         ".........  "
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -278,7 +278,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_sw",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "...         ",
         "..        ..",
@@ -293,7 +293,7 @@
         "............",
         "............"
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -301,7 +301,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_sw",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "...         ",
         "...       ..",
@@ -316,7 +316,7 @@
         "...       ..",
         "............"
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -324,7 +324,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_sw",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "...         ",
         "............",
@@ -339,7 +339,7 @@
         "............",
         "............"
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   },
   {
@@ -347,7 +347,7 @@
     "method": "json",
     "nested_mapgen_id": "cave_sw",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "...         ",
         "...    .....",
@@ -362,7 +362,7 @@
         "............",
         "............"
       ],
-      "palettes": [ "cave_palette" ]
+      "palettes": ["cave_palette"]
     }
   }
 ]

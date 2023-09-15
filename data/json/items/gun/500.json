@@ -9,7 +9,7 @@
     "volume": "3 L",
     "price": 329900,
     "price_postapoc": 4000,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "dark_gray",
     "ammo": "500",
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
@@ -17,18 +17,18 @@
     "blackpowder_tolerance": 32,
     "clip_size": 7,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["rail mount", 1],
+      ["underbarrel mount", 1]
     ]
   },
   {
@@ -43,21 +43,21 @@
     "price": 90000,
     "price_postapoc": 3500,
     "bashing": 12,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "light_gray",
     "ammo": "500",
     "dispersion": 280,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "magazines": [ [ "500", [ "500_speedloader5" ] ] ],
+    "magazines": [["500", ["500_speedloader5"]]],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 2],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock mount", 1],
+      ["underbarrel mount", 1]
     ]
   }
 ]

@@ -21,8 +21,8 @@
     "material": "milk",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 12 ] ],
-    "flags": [ "MELTS" ]
+    "vitamins": [["vitA", 1], ["calcium", 12]],
+    "flags": ["MELTS"]
   },
   {
     "type": "COMESTIBLE",
@@ -35,7 +35,7 @@
     "healthy": -3,
     "price": 275,
     "price_postapoc": 100,
-    "material": [ "milk", "junk" ],
+    "material": ["milk", "junk"],
     "primary_material": "milk"
   },
   {
@@ -50,7 +50,7 @@
     "healthy": -6,
     "price": 400,
     "price_postapoc": 150,
-    "material": [ "milk", "junk" ],
+    "material": ["milk", "junk"],
     "primary_material": "milk"
   },
   {
@@ -75,8 +75,8 @@
     "phase": "liquid",
     "//": "not technically a drink, but is quasi-liquid enough that it'd get all over everything if you carried it",
     "charges": 2,
-    "vitamins": [ [ "vitA", 9 ], [ "calcium", 9 ], [ "vitB", 11 ] ],
-    "flags": [ "MELTS" ]
+    "vitamins": [["vitA", 9], ["calcium", 9], ["vitB", 11]],
+    "flags": ["MELTS"]
   },
   {
     "type": "COMESTIBLE",
@@ -88,7 +88,7 @@
     "price": 200,
     "price_postapoc": 100,
     "primary_material": "ice_cream",
-    "material": [ "milk", "junk" ]
+    "material": ["milk", "junk"]
   },
   {
     "type": "COMESTIBLE",
@@ -102,8 +102,8 @@
     "price_postapoc": 300,
     "calories": 330,
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 9 ], [ "calcium", 8 ], [ "iron", 4 ], [ "vitB", 8 ] ],
-    "material": [ "milk", "junk" ]
+    "vitamins": [["vitA", 9], ["calcium", 8], ["iron", 4], ["vitB", 8]],
+    "material": ["milk", "junk"]
   },
   {
     "type": "COMESTIBLE",
@@ -117,8 +117,8 @@
     "price": 300,
     "price_postapoc": 300,
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ], [ "vitB", 9 ] ],
-    "material": [ "milk", "fruit" ]
+    "vitamins": [["vitA", 8], ["vitC", 6], ["calcium", 8], ["iron", 1], ["vitB", 9]],
+    "material": ["milk", "fruit"]
   },
   {
     "type": "COMESTIBLE",
@@ -131,8 +131,8 @@
     "price": 300,
     "price_postapoc": 300,
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "vitB", 10 ] ],
-    "material": [ "milk", "egg" ]
+    "vitamins": [["vitA", 1], ["calcium", 8], ["vitB", 10]],
+    "material": ["milk", "egg"]
   },
   {
     "type": "COMESTIBLE",
@@ -145,8 +145,8 @@
     "price_postapoc": 100,
     "weight": "80 g",
     "primary_material": "ice_cream",
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 10 ] ],
-    "material": [ "milk" ]
+    "vitamins": [["vitC", 4], ["calcium", 10]],
+    "material": ["milk"]
   },
   {
     "type": "COMESTIBLE",
@@ -161,8 +161,8 @@
     "price": 175,
     "price_postapoc": 100,
     "weight": "106 g",
-    "vitamins": [  ],
-    "material": [ "water", "fruit" ]
+    "vitamins": [],
+    "material": ["water", "fruit"]
   },
   {
     "type": "COMESTIBLE",
@@ -175,7 +175,7 @@
     "price_postapoc": 200,
     "weight": "90 g",
     "primary_material": "ice_cream",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ],
-    "material": [ "milk" ]
+    "vitamins": [["calcium", 2], ["iron", 2]],
+    "material": ["milk"]
   }
 ]

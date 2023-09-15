@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "basement_chem" ],
+    "om_terrain": ["basement_chem"],
     "//": "matches house_29",
     "weight": 250,
     "object": {
@@ -53,7 +53,7 @@
         "T": "t_linoleum_gray",
         "F": "t_linoleum_gray"
       },
-      "liquids": { "E": { "liquid": "water", "amount": [ 0, 100 ] } },
+      "liquids": { "E": { "liquid": "water", "amount": [0, 100] } },
       "furniture": {
         "T": "f_workbench",
         "c": "f_counter",
@@ -61,7 +61,7 @@
         "R": "f_rack",
         "E": "f_water_heater",
         "W": "f_water_purifier",
-        "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
+        "X": ["f_crate_c", "f_crate_o", "f_cardboard_box"],
         "U": "f_utility_shelf",
         "H": "f_bookcase",
         "F": "f_fridge",
@@ -69,21 +69,24 @@
         "?": "f_sofa"
       },
       "items": {
-        "U": [ { "item": "cleaning", "chance": 30 }, { "item": "home_hw", "chance": 50 } ],
-        "c": [ { "item": "home_hw", "chance": 70 } ],
-        "R": [ { "item": "supplies_hardware", "chance": 30 } ],
+        "U": [{ "item": "cleaning", "chance": 30 }, { "item": "home_hw", "chance": 50 }],
+        "c": [{ "item": "home_hw", "chance": 70 }],
+        "R": [{ "item": "supplies_hardware", "chance": 30 }],
         "X": [
           { "item": "electronics", "chance": 30 },
           { "item": "supplies_electronics", "chance": 30 },
           { "item": "supplies_reagents_lab", "chance": 10 }
         ],
-        "i": [ { "item": "trash", "chance": 60 } ],
-        "F": [ { "item": "fridgesnacks", "chance": 60 } ],
-        "T": [ { "item": "chem_home", "chance": 10 }, { "item": "electronics", "chance": 30 } ],
-        "H": [ { "item": "magazines", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "hardware_books", "chance": 30 } ]
+        "i": [{ "item": "trash", "chance": 60 }],
+        "F": [{ "item": "fridgesnacks", "chance": 60 }],
+        "T": [{ "item": "chem_home", "chance": 10 }, { "item": "electronics", "chance": 30 }],
+        "H": [
+          { "item": "magazines", "chance": 30, "repeat": [1, 2] },
+          { "item": "hardware_books", "chance": 30 }
+        ]
       },
-      "toilets": { "&": {  } },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 9, 16 ], "y": [ 9, 14 ], "chance": 4 } ]
+      "toilets": { "&": {} },
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [9, 16], "y": [9, 14], "chance": 4 }]
     }
   },
   {
@@ -149,7 +152,7 @@
         "T": "t_linoleum_white",
         "8": "t_console_broken"
       },
-      "liquids": { "E": { "liquid": "water", "amount": [ 0, 100 ] } },
+      "liquids": { "E": { "liquid": "water", "amount": [0, 100] } },
       "furniture": {
         "T": "f_workbench",
         "G": "f_glass_cabinet",
@@ -158,8 +161,8 @@
         "A": "f_air_filter",
         "C": "f_air_conditioner",
         "E": "f_water_heater",
-        "W": [ "f_water_purifier", "f_home_furnace" ],
-        "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
+        "W": ["f_water_purifier", "f_home_furnace"],
+        "X": ["f_crate_c", "f_crate_o", "f_cardboard_box"],
         "U": "f_utility_shelf",
         "H": "f_bookcase",
         "F": "f_glass_fridge",
@@ -178,19 +181,25 @@
           { "item": "home_hw", "chance": 50 },
           { "item": "supplies_electronics", "chance": 50 }
         ],
-        "c": [ { "item": "home_hw", "chance": 70 } ],
-        "X": [ { "item": "electronics", "chance": 70 } ],
-        "b": [ { "item": "chem_home", "chance": 30 } ],
-        "D": [ { "item": "chem_home", "chance": 60 } ],
-        "i": [ { "item": "trash", "chance": 60 } ],
-        "F": [ { "item": "chem_home", "chance": 50 }, { "item": "supplies_reagents_lab", "chance": 20 } ],
-        "T": [ { "item": "chem_home", "chance": 30 }, { "item": "electronics", "chance": 50 } ],
-        "f": [ { "item": "file_room", "chance": 70, "repeat": [ 1, 5 ] } ],
-        "G": [ { "item": "office_paper", "chance": 30 } ],
-        "H": [ { "item": "magazines", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "lab_bookshelves", "chance": 20 } ]
+        "c": [{ "item": "home_hw", "chance": 70 }],
+        "X": [{ "item": "electronics", "chance": 70 }],
+        "b": [{ "item": "chem_home", "chance": 30 }],
+        "D": [{ "item": "chem_home", "chance": 60 }],
+        "i": [{ "item": "trash", "chance": 60 }],
+        "F": [
+          { "item": "chem_home", "chance": 50 },
+          { "item": "supplies_reagents_lab", "chance": 20 }
+        ],
+        "T": [{ "item": "chem_home", "chance": 30 }, { "item": "electronics", "chance": 50 }],
+        "f": [{ "item": "file_room", "chance": 70, "repeat": [1, 5] }],
+        "G": [{ "item": "office_paper", "chance": 30 }],
+        "H": [
+          { "item": "magazines", "chance": 40, "repeat": [1, 2] },
+          { "item": "lab_bookshelves", "chance": 20 }
+        ]
       },
-      "toilets": { "&": {  } },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 9, 16 ], "y": [ 9, 14 ] } ]
+      "toilets": { "&": {} },
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [9, 16], "y": [9, 14] }]
     }
   }
 ]

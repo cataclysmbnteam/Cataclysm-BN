@@ -34,6 +34,9 @@
     "type": "talk_topic",
     "dynamic_line": "There was, yeah, but it was cryptic.  If I had a copy of Pat's notes, I could probably decipher it, but I'm sure those burned up in <the_cataclysm>.  They bombed those labs, you know.",
     "//": "TK, give player the option to give this guy a copy of the Dionne report, in return for some special info about XE037…  probably gated over time, giving the NPC a few days to read further.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

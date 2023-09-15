@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_apt_2" ],
+    "om_terrain": ["s_apt_2"],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -31,14 +31,14 @@
         ".-.B.-..BB-ss-o..t-.B.-.",
         ".--w---ww--ss--ww---w--."
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "terrain": { "^": "t_linoleum_gray" }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_apt_2_2ndfloor" ],
+    "om_terrain": ["s_apt_2_2ndfloor"],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -67,14 +67,14 @@
         "*-...-..BB-**-o.tt-BBd-*",
         "*--w---ww--**--ww---w--*"
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "terrain": { "^": "t_linoleum_gray" }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_apt_2_roof" ],
+    "om_terrain": ["s_apt_2_roof"],
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -103,7 +103,7 @@
         " |........3  |.........3",
         " |--------3  |--------.3"
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "$": "t_wall", "+": "t_door_c", ">": "t_stairs_down" }
     }
   }

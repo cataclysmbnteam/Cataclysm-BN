@@ -51,10 +51,10 @@
         "+": "t_fencegate_c",
         "-": "t_wall_wood",
         "D": "t_dirtmound",
-        ".": [ "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt" ],
+        ".": ["t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt"],
         "O": "t_dirt",
         "P": "t_fence",
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "_": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "d": "t_dirtfloor",
         "t": "t_dirtfloor",
         "|": "t_fence"
@@ -73,8 +73,14 @@
   {
     "method": "json",
     "object": {
-      "place_item": [ { "item": "hose", "x": 11, "y": 13 } ],
-      "furniture": { "#": "f_null", ".": "f_null", "O": "f_standing_tank", "P": "f_sign", "_": "f_null" },
+      "place_item": [{ "item": "hose", "x": 11, "y": 13 }],
+      "furniture": {
+        "#": "f_null",
+        ".": "f_null",
+        "O": "f_standing_tank",
+        "P": "f_sign",
+        "_": "f_null"
+      },
       "items": { "#": { "item": "hydro", "chance": 15 } },
       "rows": [
         "________________________",
@@ -104,10 +110,10 @@
       ],
       "terrain": {
         "#": "t_dirtmound",
-        ".": [ "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt" ],
+        ".": ["t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt"],
         "O": "t_dirt",
         "P": "t_grass",
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ]
+        "_": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"]
       },
       "place_signs": [
         { "signage": "<city> Community Garden. Grow your own food!", "x": 2, "y": 2 },
@@ -141,10 +147,10 @@
         "|": "f_null"
       },
       "place_liquids": [
-        { "liquid": "fertilizer_liquid", "chance": 1, "amount": [ 2, 3 ], "x": 4, "y": 4 },
-        { "liquid": "fertilizer_liquid", "chance": 1, "amount": [ 2, 3 ], "x": 4, "y": 5 },
-        { "liquid": "fertilizer_liquid", "chance": 1, "amount": [ 2, 3 ], "x": 5, "y": 4 },
-        { "liquid": "fertilizer_liquid", "chance": 1, "amount": [ 2, 3 ], "x": 5, "y": 5 }
+        { "liquid": "fertilizer_liquid", "chance": 1, "amount": [2, 3], "x": 4, "y": 4 },
+        { "liquid": "fertilizer_liquid", "chance": 1, "amount": [2, 3], "x": 4, "y": 5 },
+        { "liquid": "fertilizer_liquid", "chance": 1, "amount": [2, 3], "x": 5, "y": 4 },
+        { "liquid": "fertilizer_liquid", "chance": 1, "amount": [2, 3], "x": 5, "y": 5 }
       ],
       "items": { "D": { "item": "hydro", "chance": 15 }, "#": { "item": "hydro", "chance": 15 } },
       "place_items": [
@@ -183,13 +189,13 @@
         "#": "t_dirtmoundfloor",
         "+": "t_reinforced_door_glass_c",
         "-": "t_wall_glass",
-        ".": [ "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt" ],
+        ".": ["t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt"],
         "0": "t_pit_shallow",
         "D": "t_dirtmound",
         "O": "t_dirt",
         "P": "t_grass",
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "a": [ "t_door_c", "t_door_o" ],
+        "_": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
+        "a": ["t_door_c", "t_door_o"],
         "d": "t_dirtfloor",
         "s": "t_sidewalk",
         "t": "t_dirt",

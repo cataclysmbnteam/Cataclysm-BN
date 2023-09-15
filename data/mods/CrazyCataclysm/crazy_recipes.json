@@ -3,7 +3,7 @@
     "result": "battletorch_done",
     "type": "uncraft",
     "time": "2 m",
-    "components": [ [ [ "bat", 1 ] ], [ [ "nomex", 5 ] ] ]
+    "components": [[["bat", 1]], [["nomex", 5]]]
   },
   {
     "type": "recipe",
@@ -15,14 +15,14 @@
     "time": "30 m",
     "reversible": true,
     "decomp_learn": 4,
-    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "book_learn": [["welding_book", 8], ["book_icef", 4]],
+    "using": [["welding_standard", 2]],
     "components": [
-      [ [ "leather", 5 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "katana", 1 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "aux_pressurized_tank", 1 ] ]
+      [["leather", 5]],
+      [["pipe", 1]],
+      [["katana", 1]],
+      [["pilot_light", 1]],
+      [["aux_pressurized_tank", 1]]
     ]
   },
   {
@@ -35,14 +35,14 @@
     "time": "30 m",
     "reversible": true,
     "decomp_learn": 4,
-    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "book_learn": [["welding_book", 8], ["book_icef", 4]],
+    "using": [["welding_standard", 2]],
     "components": [
-      [ [ "leather", 5 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "zweihander", 1 ] ],
-      [ [ "pilot_light", 1 ] ],
-      [ [ "aux_pressurized_tank", 1 ] ]
+      [["leather", 5]],
+      [["pipe", 1]],
+      [["zweihander", 1]],
+      [["pilot_light", 1]],
+      [["aux_pressurized_tank", 1]]
     ]
   },
   {
@@ -55,17 +55,17 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "rag", 1 ] ],
-      [ [ "bat", 1 ] ],
-      [ [ "nomex", 5 ] ],
+      [["rag", 1]],
+      [["bat", 1]],
+      [["nomex", 5]],
       [
-        [ "lamp_oil", 50 ],
-        [ "motor_oil", 50 ],
-        [ "chem_ethanol", 100 ],
-        [ "denat_alcohol", 100 ],
-        [ "gasoline", 250 ],
-        [ "diesel", 250 ],
-        [ "biodiesel", 250 ]
+        ["lamp_oil", 50],
+        ["motor_oil", 50],
+        ["chem_ethanol", 100],
+        ["denat_alcohol", 100],
+        ["gasoline", 250],
+        ["diesel", 250],
+        ["biodiesel", 250]
       ]
     ]
   }

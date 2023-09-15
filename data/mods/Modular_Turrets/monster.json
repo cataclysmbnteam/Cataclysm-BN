@@ -4,12 +4,12 @@
     "type": "MONSTER",
     "name": "automated turret",
     "default_faction": "defense_bot",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 30,
     "speed": 100,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "t",
     "looks_like": "mon_turret",
     "aggression": 100,
@@ -17,9 +17,9 @@
     "armor_bash": 14,
     "armor_cut": 16,
     "armor_acid": 14,
-    "death_function": [ "BROKEN" ],
+    "death_function": ["BROKEN"],
     "death_drops": "broken_robots",
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+    "flags": ["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
   },
   {
     "id": "mon_turret_disarmed",
@@ -72,13 +72,13 @@
         "cooldown": 2,
         "gun_type": "robogun_9mm",
         "ammo_type": "9mm",
-        "fake_skills": [ [ "gun", 2 ], [ "smg", 2 ] ],
+        "fake_skills": [["gun", 2], ["smg", 2]],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
-        "ranges": [ [ 0, 2, "BURST" ], [ 3, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ]
+        "ranges": [[0, 2, "BURST"], [3, 6, "AUTO"], [7, 12, "DEFAULT"]]
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_turret_shot",
@@ -98,13 +98,13 @@
         "cooldown": 2,
         "gun_type": "robogun_shot",
         "ammo_type": "shot",
-        "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
+        "fake_skills": [["gun", 2], ["shotgun", 2]],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
-        "ranges": [ [ 0, 8, "DEFAULT" ] ]
+        "ranges": [[0, 8, "DEFAULT"]]
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_turret_teargas",
@@ -124,13 +124,13 @@
         "cooldown": 2,
         "gun_type": "robogun_teargas",
         "ammo_type": "40x46mm_m651",
-        "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
+        "fake_skills": [["gun", 2], ["launcher", 2]],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
-        "ranges": [ [ 0, 6, "DEFAULT" ], [ 7, 12, "BURST" ] ]
+        "ranges": [[0, 6, "DEFAULT"], [7, 12, "BURST"]]
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_turret_beanbag",
@@ -150,13 +150,13 @@
         "cooldown": 1,
         "gun_type": "robogun_beanbag",
         "ammo_type": "40x46mm_m1006",
-        "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
+        "fake_skills": [["gun", 2], ["launcher", 2]],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
-        "ranges": [ [ 0, 8, "DEFAULT" ] ]
+        "ranges": [[0, 8, "DEFAULT"]]
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_milturret_556",
@@ -176,10 +176,10 @@
         "cooldown": 2,
         "gun_type": "robogun_556",
         "ammo_type": "556",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 0, 4, "BURST" ], [ 4, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ],
+        "ranges": [[0, 4, "BURST"], [4, 8, "AUTO"], [9, 16, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -189,7 +189,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_milturret_308",
@@ -209,10 +209,10 @@
         "cooldown": 2,
         "gun_type": "robogun_308",
         "ammo_type": "762_51",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 0, 4, "BURST" ], [ 4, 8, "AUTO" ], [ 9, 18, "DEFAULT" ] ],
+        "ranges": [[0, 4, "BURST"], [4, 8, "AUTO"], [9, 18, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -222,7 +222,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_milturret_50bmg",
@@ -243,10 +243,10 @@
         "move_cost": 150,
         "gun_type": "robogun_50bmg",
         "ammo_type": "50bmg",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 0, 5, "DEFAULT" ], [ 6, 10, "BURST" ], [ 11, 20, "DEFAULT" ] ],
+        "ranges": [[0, 5, "DEFAULT"], [6, 10, "BURST"], [11, 20, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -256,7 +256,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_milturret_8x40mm",
@@ -276,10 +276,10 @@
         "cooldown": 2,
         "gun_type": "robogun_8x40mm",
         "ammo_type": "8mm_caseless",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 6 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 6]],
         "fake_dex": 10,
         "no_ammo_sound": "whirrrr!",
-        "ranges": [ [ 0, 5, "BURST" ], [ 6, 10, "AUTO" ], [ 11, 24, "DEFAULT" ] ],
+        "ranges": [[0, 5, "BURST"], [6, 10, "AUTO"], [11, 24, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -289,7 +289,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_milturret_needle",
@@ -309,10 +309,10 @@
         "cooldown": 1,
         "gun_type": "robogun_needle",
         "ammo_type": "5x50dart",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 0, 4, "BURST" ], [ 4, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ],
+        "ranges": [[0, 4, "BURST"], [4, 8, "AUTO"], [9, 16, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -322,7 +322,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_milturret_40mm",
@@ -342,10 +342,10 @@
         "cooldown": 3,
         "gun_type": "robogun_40mm",
         "ammo_type": "40x46mm_m433",
-        "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
+        "fake_skills": [["gun", 4], ["launcher", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 6, 30, "DEFAULT" ] ],
+        "ranges": [[6, 30, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -355,7 +355,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_milturret_flame",
@@ -375,10 +375,10 @@
         "cooldown": 1,
         "gun_type": "robogun_flame",
         "ammo_type": "napalm",
-        "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
+        "fake_skills": [["gun", 4], ["launcher", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "hiss!",
-        "ranges": [ [ 0, 10, "DEFAULT" ] ],
+        "ranges": [[0, 10, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -388,7 +388,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "FIREPROOF" ] }
+    "extend": { "flags": ["FIREPROOF"] }
   },
   {
     "id": "mon_advturret_laser",
@@ -406,9 +406,9 @@
         "type": "gun",
         "cooldown": 4,
         "gun_type": "robogun_laser",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
-        "ranges": [ [ 0, 8, "AUTO" ], [ 8, 16, "BURST" ] ],
+        "ranges": [[0, 8, "AUTO"], [8, 16, "BURST"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -436,11 +436,11 @@
         "cooldown": 1,
         "move_cost": 50,
         "gun_type": "robogun_acid",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
         "fake_per": 10,
         "require_targeting_player": false,
-        "ranges": [ [ 0, 20, "DEFAULT" ] ]
+        "ranges": [[0, 20, "DEFAULT"]]
       }
     ]
   },
@@ -460,9 +460,9 @@
         "type": "gun",
         "cooldown": 3,
         "gun_type": "robogun_plasma",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
-        "ranges": [ [ 4, 16, "DEFAULT" ] ],
+        "ranges": [[4, 16, "DEFAULT"]],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "targeting_cost": 100,
@@ -472,7 +472,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "FIREPROOF" ] }
+    "extend": { "flags": ["FIREPROOF"] }
   },
   {
     "id": "mon_advturret_rail",
@@ -492,10 +492,10 @@
         "cooldown": 4,
         "gun_type": "robogun_rail",
         "ammo_type": "steel_rail",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "buzz!",
-        "ranges": [ [ 0, 18, "DEFAULT" ] ],
+        "ranges": [[0, 18, "DEFAULT"]],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "laser_lock": true,
@@ -505,7 +505,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_advturret_lightning",
@@ -523,9 +523,9 @@
         "type": "gun",
         "cooldown": 1,
         "gun_type": "robogun_lightning",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
-        "ranges": [ [ 0, 12, "DEFAULT" ] ],
+        "ranges": [[0, 12, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -535,7 +535,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "ELECTRIC" ] }
+    "extend": { "flags": ["ELECTRIC"] }
   },
   {
     "id": "mon_advturret_emp",
@@ -553,9 +553,9 @@
         "type": "gun",
         "cooldown": 2,
         "gun_type": "robogun_emp",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
-        "ranges": [ [ 0, 4, "BURST" ], [ 4, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ],
+        "ranges": [[0, 4, "BURST"], [4, 8, "AUTO"], [9, 16, "DEFAULT"]],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "targeting_cost": 10,
@@ -564,7 +564,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "ELECTRIC" ] }
+    "extend": { "flags": ["ELECTRIC"] }
   },
   {
     "id": "mon_turret_gnome",
@@ -585,13 +585,13 @@
         "cooldown": 2,
         "gun_type": "robogun_9mm",
         "ammo_type": "9mm",
-        "fake_skills": [ [ "gun", 2 ], [ "smg", 2 ] ],
+        "fake_skills": [["gun", 2], ["smg", 2]],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
-        "ranges": [ [ 0, 2, "BURST" ], [ 3, 6, "AUTO" ], [ 7, 12, "DEFAULT" ] ]
+        "ranges": [[0, 2, "BURST"], [3, 6, "AUTO"], [7, 12, "DEFAULT"]]
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] },
-    "death_drops": { "groups": [ [ "broken_robots", 10 ], [ "broken_ceramics", 10 ] ] }
+    "extend": { "flags": ["DROPS_AMMO"] },
+    "death_drops": { "groups": [["broken_robots", 10], ["broken_ceramics", 10]] }
   }
 ]

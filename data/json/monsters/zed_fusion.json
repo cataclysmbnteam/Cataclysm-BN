@@ -5,12 +5,12 @@
     "name": { "str": "crawler" },
     "description": "A conglomeration of human parts fused together in a horrible mishmash of function, slowly dragging its eldritch body across the ground.",
     "default_faction": "mutant",
-    "species": [ "ABERRATION" ],
+    "species": ["ABERRATION"],
     "volume": "92500 ml",
     "weight": "120 kg",
     "hp": 180,
     "speed": 80,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "H",
     "color": "red",
     "aggression": 40,
@@ -22,9 +22,9 @@
     "dodge": 1,
     "armor_bash": 8,
     "harvest": "zombie_leather",
-    "fear_triggers": [ "HURT", "FIRE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN" ]
+    "fear_triggers": ["HURT", "FIRE"],
+    "death_function": ["NORMAL"],
+    "flags": ["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN"]
   },
   {
     "id": "mon_devourer",
@@ -33,13 +33,13 @@
     "description": "Human bodies fused together into a colossus with heads and limbs sticking out of its bloated body.  You may have trouble estimating its healthiness and its capabilities might change.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "diff": 8,
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 112,
     "speed": 60,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "Z",
     "color": "dark_gray_yellow",
     "aggression": 100,
@@ -53,14 +53,21 @@
     "armor_bullet": 4,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "ZOMBIE_FUSE", 80 ] ],
+    "special_attacks": [["GRAB", 7], ["scratch", 20], ["ZOMBIE_FUSE", 80]],
     "death_drops": {
       "subtype": "collection",
-      "groups": [ "default_zombie_death_drops", "default_zombie_death_drops", "default_zombie_death_drops" ]
+      "groups": [
+        "default_zombie_death_drops",
+        "default_zombie_death_drops",
+        "default_zombie_death_drops"
+      ]
     },
-    "death_function": [ "NORMAL" ],
+    "death_function": ["NORMAL"],
     "regenerates": 1,
-    "regeneration_modifiers": [ { "effect": "onfire", "base_mod": -1.0 }, { "effect": "corroding", "base_mod": -1.0 } ],
+    "regeneration_modifiers": [
+      { "effect": "onfire", "base_mod": -1.0 },
+      { "effect": "corroding", "base_mod": -1.0 }
+    ],
     "flags": [
       "SEES",
       "HEARS",
@@ -86,11 +93,11 @@
     "default_faction": "zombie",
     "volume": "875000 ml",
     "weight": "200 kg",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "diff": 35,
     "hp": 500,
     "speed": 100,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "S",
     "color": "red_yellow",
     "aggression": 100,
@@ -105,9 +112,19 @@
     "armor_cut": 20,
     "armor_bullet": 16,
     "harvest": "exempt",
-    "special_attacks": [ [ "FLESH_TENDRIL", 1 ] ],
-    "death_function": [ "GAS" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ]
+    "special_attacks": [["FLESH_TENDRIL", 1]],
+    "death_function": ["GAS"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "IMMOBILE",
+      "WARM",
+      "POISON",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "FILTHY"
+    ]
   },
   {
     "id": "mon_zombie_gasbag_immobile",
@@ -116,13 +133,13 @@
     "description": "Immobile from grievous wounds, its gray skin has bloated to near rupture with putrid gas.  Between lumps of unrecognizable gore, a human head lamely follows your walking with empty, black eyes.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "diff": 5,
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 5,
     "speed": 80,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "o",
     "color": "magenta_yellow",
     "aggression": 100,
@@ -133,11 +150,11 @@
     "melee_cut": 0,
     "vision_night": 3,
     "harvest": "exempt",
-    "special_attacks": [ [ "SUICIDE", 20 ] ],
+    "special_attacks": [["SUICIDE", 20]],
     "death_drops": "default_zombie_items",
     "upgrades": { "half_life": 8, "into": "mon_zombie_gasbag_crawler" },
-    "death_function": [ "GAS" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ]
+    "death_function": ["GAS"],
+    "flags": ["SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY"]
   },
   {
     "id": "mon_zombie_gasbag_crawler",
@@ -146,13 +163,13 @@
     "description": "A nightmarish spidery abomination, born from human gore.  It deftly crawls between walls and ceiling with limbs grown from its own disjointed ribs.",
     "default_faction": "zombie",
     "bodytype": "spider",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "diff": 5,
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 15,
     "speed": 90,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "W",
     "color": "magenta_yellow",
     "aggression": 100,
@@ -166,9 +183,22 @@
     "armor_bullet": 5,
     "vision_night": 50,
     "harvest": "exempt",
-    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "scratch", 5 ] ],
-    "death_function": [ "GAS" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT" ]
+    "special_attacks": [
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      ["scratch", 5]
+    ],
+    "death_function": ["GAS"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "POISON",
+      "CLIMBS",
+      "NO_BREATHE",
+      "CLIMBS",
+      "HARDTOSHOOT"
+    ]
   },
   {
     "id": "mon_zombie_gasbag_impaler",
@@ -177,13 +207,13 @@
     "description": "A corpse hideously twisted into an insect-like form.  A hollow tendril reaches out from its open thorax.",
     "default_faction": "zombie",
     "bodytype": "spider",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "diff": 14,
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 30,
     "speed": 12,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "w",
     "color": "yellow_yellow",
     "aggression": 100,
@@ -203,14 +233,24 @@
         "type": "gun",
         "cooldown": 2,
         "gun_type": "barb_launcher",
-        "ranges": [ [ 2, 12, "DEFAULT" ] ],
+        "ranges": [[2, 12, "DEFAULT"]],
         "description": "The impaler launches a barb!"
       },
       { "type": "leap", "cooldown": 15, "max_range": 2, "allow_no_target": true },
-      [ "scratch", 5 ]
+      ["scratch", 5]
     ],
-    "death_function": [ "GAS" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT" ]
+    "death_function": ["GAS"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "POISON",
+      "CLIMBS",
+      "NO_BREATHE",
+      "CLIMBS",
+      "HARDTOSHOOT"
+    ]
   },
   {
     "id": "mon_zombie_living_wall",
@@ -220,11 +260,11 @@
     "default_faction": "zombie",
     "volume": "875000 ml",
     "weight": "200 kg",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "diff": 1,
     "hp": 3,
     "speed": 100,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "#",
     "color": "red_yellow",
     "morale": 10,
@@ -234,7 +274,17 @@
     "armor_cut": 25,
     "armor_bullet": 20,
     "harvest": "exempt",
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ]
+    "death_function": ["NORMAL"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "IMMOBILE",
+      "WARM",
+      "POISON",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "FILTHY"
+    ]
   }
 ]

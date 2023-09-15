@@ -406,7 +406,7 @@
     "type": "item_group",
     "id": "guns_smg_improvised",
     "//": "Makeshift or otherwise poor quality SMGs.",
-    "items": [ [ "smg_40", 40 ], [ "smg_45", 40 ], [ "smg_9mm", 100 ] ]
+    "items": [["smg_40", 40], ["smg_45", 40], ["smg_9mm", 100]]
   },
   {
     "type": "item_group",
@@ -830,7 +830,11 @@
     "id": "guns_shotgun_rare_static_display",
     "subtype": "distribution",
     "entries": [
-      { "group": "guns_shotgun_rare_display", "prob": 22, "contents-group": "sights_shotgun_static" },
+      {
+        "group": "guns_shotgun_rare_display",
+        "prob": 22,
+        "contents-group": "sights_shotgun_static"
+      },
       { "item": "winchester_1887", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "winchester_1897", "prob": 7, "charges-min": 0, "charges-max": 0 }
     ]
@@ -919,14 +923,14 @@
     "id": "guns_launcher_rocket",
     "//": "Factory manufactured rocket launchers (excludes improvised weapons)",
     "items": [
-      [ "LAW_Packed", 200 ],
-      [ "m202_flash", 100 ],
-      [ "m74_clip", 150 ],
+      ["LAW_Packed", 200],
+      ["m202_flash", 100],
+      ["m74_clip", 150],
       { "item": "m3_carlgustav", "prob": 50, "charges-min": 1, "charges-max": 1 },
       { "item": "AT4", "prob": 50, "charges-min": 1, "charges-max": 1 },
-      [ "84x246mm_he", 100 ],
-      [ "84x246mm_hedp", 80 ],
-      [ "84x246mm_smoke", 100 ]
+      ["84x246mm_he", 100],
+      ["84x246mm_hedp", 80],
+      ["84x246mm_smoke", 100]
     ]
   },
   {

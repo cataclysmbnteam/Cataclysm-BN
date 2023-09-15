@@ -10,14 +10,14 @@
     "price": 1000,
     "price_postapoc": 10000,
     "to_hit": -1,
-    "material": [ "glass" ],
+    "material": ["glass"],
     "symbol": "!",
     "color": "cyan",
     "ammo": "anesthetic",
     "initial_charges": 3000,
     "max_charges": 3000,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "qualities": [ [ "ANESTHESIA", 1 ] ]
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
+    "qualities": [["ANESTHESIA", 1]]
   },
   {
     "id": "autoclave",
@@ -35,10 +35,12 @@
     "symbol": "A",
     "color": "yellow",
     "use_action": "AUTOCLAVE",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": ["ALLOWS_REMOTE_USE"],
     "looks_like": "microwave",
     "ammo": "battery",
-    "magazines": [ [ "battery", [ "medium_storage_battery", "storage_battery", "large_storage_battery" ] ] ],
+    "magazines": [
+      ["battery", ["medium_storage_battery", "storage_battery", "large_storage_battery"]]
+    ],
     "magazine_well": "1000 ml"
   },
   {
@@ -57,7 +59,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
     "use_action": "INHALER"
   },
   {
@@ -70,7 +72,7 @@
     "volume": "500 ml",
     "price": 100000,
     "price_postapoc": 1500,
-    "material": [ "ceramic", "superalloy" ],
+    "material": ["ceramic", "superalloy"],
     "symbol": ",",
     "color": "light_gray",
     "ammo": "ampoule",
@@ -83,7 +85,7 @@
     "id": "scalpel",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "scalpel" },
     "description": "This is a very sharp knife designed for surgical cutting.  Its small, sharp blade allows for precision strikes in the hands of the skilled.",
     "weight": "23 g",
@@ -96,8 +98,8 @@
     "symbol": ",",
     "color": "light_gray",
     "techniques": "PRECISE",
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ] ],
-    "flags": [ "SPEAR", "SHEATH_KNIFE" ]
+    "qualities": [["CUT", 1], ["CUT_FINE", 3]],
+    "flags": ["SPEAR", "SHEATH_KNIFE"]
   },
   {
     "id": "smoxygen_tank",
@@ -111,7 +113,7 @@
     "price_postapoc": 250,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 12,
@@ -148,7 +150,7 @@
     "symbol": ";",
     "color": "red",
     "use_action": "WEATHER_TOOL",
-    "flags": [ "THERMOMETER" ]
+    "flags": ["THERMOMETER"]
   },
   {
     "id": "oxygen_tank",
@@ -162,7 +164,7 @@
     "price_postapoc": 500,
     "to_hit": -4,
     "bashing": 10,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 24,
@@ -189,7 +191,7 @@
     "seals": true,
     "watertight": true,
     "use_action": "BLOOD_DRAW",
-    "flags": [ "SPEAR" ]
+    "flags": ["SPEAR"]
   },
   {
     "id": "wrapped_rad_badge",
@@ -201,7 +203,7 @@
     "volume": "15 ml",
     "price": 1000,
     "price_postapoc": 100,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": ",",
     "color": "light_blue",
     "use_action": {
@@ -225,7 +227,7 @@
     "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "wood" ]
+    "material": ["wood"]
   },
   {
     "type": "TOOL",
@@ -237,7 +239,7 @@
     "looks_like": "f_robotic_arm",
     "weight": "120000 g",
     "volume": "50 L",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "bashing": 8,
     "price": 40000
   }

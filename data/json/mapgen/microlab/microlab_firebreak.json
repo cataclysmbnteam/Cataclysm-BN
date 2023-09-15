@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_firebreak" ] ],
+    "om_terrain": [["microlab_generic_firebreak"]],
     "method": "json",
     "weight": 500,
     "object": {
@@ -32,21 +32,21 @@
         "|####| PP  PP  PP |####|",
         "|||||| PP  PP  PP ||||||"
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
       "computers": {
         "6": {
           "name": "Security Terminal",
           "security": 5,
-          "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+          "options": [{ "name": "UNLOCK SECURITY DOORS", "action": "unlock" }],
+          "failures": [{ "action": "shutdown" }, { "action": "alarm" }]
         }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_firebreak" ] ],
+    "om_terrain": [["microlab_generic_firebreak"]],
     "method": "json",
     "weight": 500,
     "object": {
@@ -77,21 +77,21 @@
         "|####| PP  PP  PP |####|",
         "|||||| PP  PP  PP ||||||"
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
       "computers": {
         "6": {
           "name": "Security Terminal",
           "security": 5,
-          "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+          "options": [{ "name": "UNLOCK SECURITY DOORS", "action": "unlock" }],
+          "failures": [{ "action": "shutdown" }, { "action": "alarm" }]
         }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_firebreak" ] ],
+    "om_terrain": [["microlab_generic_firebreak"]],
     "method": "json",
     "weight": 75,
     "object": {
@@ -122,23 +122,26 @@
         "|####| PP  PP  PP |####|",
         "|||||| PP  PP  PP ||||||"
       ],
-      "set": [ { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] } ],
-      "palettes": [ "microlab" ],
+      "set": [{ "point": "bash", "x": [6, 18], "y": [6, 18], "repeat": [30, 100] }],
+      "palettes": ["microlab"],
       "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
-      "monster": { "M": { "monster": "mon_mutant_experimental" }, "ü": { "monster": "mon_mutant_evolved" } },
+      "monster": {
+        "M": { "monster": "mon_mutant_experimental" },
+        "ü": { "monster": "mon_mutant_evolved" }
+      },
       "computers": {
         "6": {
           "name": "Security Terminal",
           "security": 5,
-          "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+          "options": [{ "name": "UNLOCK SECURITY DOORS", "action": "unlock" }],
+          "failures": [{ "action": "shutdown" }, { "action": "alarm" }]
         }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_firebreak" ] ],
+    "om_terrain": [["microlab_generic_firebreak"]],
     "method": "json",
     "weight": 75,
     "object": {
@@ -169,16 +172,19 @@
         "|####| PP  PP  PP |####|",
         "|||||| PP  PP  PP ||||||"
       ],
-      "set": [ { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] } ],
-      "palettes": [ "microlab" ],
+      "set": [{ "point": "bash", "x": [6, 18], "y": [6, 18], "repeat": [30, 100] }],
+      "palettes": ["microlab"],
       "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
-      "monster": { "M": { "monster": "mon_hunting_horror" }, "ü": { "monster": "mon_breather_hub" } },
+      "monster": {
+        "M": { "monster": "mon_hunting_horror" },
+        "ü": { "monster": "mon_breather_hub" }
+      },
       "computers": {
         "6": {
           "name": "Security Terminal",
           "security": 5,
-          "options": [ { "name": "UNLOCK SECURITY DOORS", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+          "options": [{ "name": "UNLOCK SECURITY DOORS", "action": "unlock" }],
+          "failures": [{ "action": "shutdown" }, { "action": "alarm" }]
         }
       }
     }

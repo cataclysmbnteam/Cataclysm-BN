@@ -8,11 +8,11 @@
     "volume": "600 ml",
     "price": 3000,
     "price_postapoc": 250,
-    "material": [ "leather", "steel" ],
+    "material": ["leather", "steel"],
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 5,
     "encumbrance": 2,
     "material_thickness": 1,
@@ -22,9 +22,9 @@
       "holster_msg": "You sheath your %s",
       "max_volume": "3250 ml",
       "draw_cost": 10,
-      "flags": [ "SHEATH_AXE" ]
+      "flags": ["SHEATH_AXE"]
     },
-    "flags": [ "NONCONDUCTIVE", "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": ["NONCONDUCTIVE", "WAIST", "OVERSIZE", "WATER_FRIENDLY"]
   },
   {
     "id": "baldric",
@@ -36,11 +36,11 @@
     "price": 7500,
     "price_postapoc": 500,
     "bashing": 4,
-    "material": [ "leather", "wood" ],
+    "material": ["leather", "wood"],
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 10,
     "rigid": false,
     "max_encumbrance": 2,
@@ -51,9 +51,9 @@
       "holster_msg": "You sheath your %s",
       "max_volume": "3 L",
       "draw_cost": 10,
-      "flags": [ "SHEATH_SWORD" ]
+      "flags": ["SHEATH_SWORD"]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": ["WAIST", "OVERSIZE", "WATER_FRIENDLY"]
   },
   {
     "id": "bootsheath",
@@ -65,11 +65,11 @@
     "price": 5200,
     "price_postapoc": 250,
     "to_hit": -1,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "foot_either" ],
+    "covers": ["foot_either"],
     "coverage": 5,
     "encumbrance": 3,
     "material_thickness": 1,
@@ -80,9 +80,9 @@
       "min_volume": "15 ml",
       "max_volume": "500 ml",
       "draw_cost": 30,
-      "flags": [ "SHEATH_KNIFE" ]
+      "flags": ["SHEATH_KNIFE"]
     },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": ["BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY"]
   },
   {
     "id": "bscabbard",
@@ -94,11 +94,11 @@
     "price": 9000,
     "price_postapoc": 750,
     "bashing": 4,
-    "material": [ "leather", "wood" ],
+    "material": ["leather", "wood"],
     "symbol": "[",
     "looks_like": "baldric",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 10,
     "rigid": false,
     "max_encumbrance": 2,
@@ -109,9 +109,9 @@
       "holster_msg": "You sheath your %s",
       "max_volume": "3750 ml",
       "draw_cost": 20,
-      "flags": [ "SHEATH_SWORD" ]
+      "flags": ["SHEATH_SWORD"]
     },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": ["BELTED", "OVERSIZE", "WATER_FRIENDLY"]
   },
   {
     "id": "scabbard",
@@ -123,11 +123,11 @@
     "price": 6000,
     "price_postapoc": 500,
     "bashing": 4,
-    "material": [ "leather", "wood" ],
+    "material": ["leather", "wood"],
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "leg_either" ],
+    "covers": ["leg_either"],
     "coverage": 15,
     "rigid": false,
     "encumbrance": 2,
@@ -138,9 +138,9 @@
       "holster_prompt": "Sheath sword",
       "holster_msg": "You sheath your %s",
       "max_volume": "2750 ml",
-      "flags": [ "SHEATH_SWORD" ]
+      "flags": ["SHEATH_SWORD"]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": ["WAIST", "OVERSIZE", "WATER_FRIENDLY"]
   },
   {
     "id": "sheath",
@@ -151,11 +151,11 @@
     "volume": "500 ml",
     "price": 3500,
     "price_postapoc": 250,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "|",
     "looks_like": "scabbard",
     "color": "brown",
-    "covers": [ "leg_either" ],
+    "covers": ["leg_either"],
     "encumbrance": 1,
     "coverage": 5,
     "material_thickness": 1,
@@ -165,9 +165,9 @@
       "holster_msg": "You sheath your %s",
       "max_volume": "750 ml",
       "draw_cost": 3,
-      "flags": [ "SHEATH_KNIFE" ]
+      "flags": ["SHEATH_KNIFE"]
     },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": ["WAIST", "OVERSIZE", "WATER_FRIENDLY"]
   },
   {
     "id": "spearsling",
@@ -179,11 +179,11 @@
     "price": 5200,
     "price_postapoc": 250,
     "to_hit": -1,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "bscabbard",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 5,
     "encumbrance": 3,
     "material_thickness": 1,
@@ -193,8 +193,8 @@
       "holster_msg": "You holster your %s.",
       "max_volume": "3500 ml",
       "draw_cost": 50,
-      "flags": [ "SHEATH_SPEAR" ]
+      "flags": ["SHEATH_SPEAR"]
     },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": ["BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY"]
   }
 ]

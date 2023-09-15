@@ -32,14 +32,14 @@
     "type": "mapgen",
     "update_mapgen_id": "faction_base_saltworks_0",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_0" ], "x": 15, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmsw_0"], "x": 15, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmsw_saltpan_log",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [7, 7],
       "rows": [
         "wwwowww",
         "w.....w",
@@ -49,21 +49,21 @@
         "w.....w",
         "www+www"
       ],
-      "palettes": [ "fbmsw_log_palette" ]
+      "palettes": ["fbmsw_log_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_saltpan_log_northeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_saltpan_log" ], "x": 14, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmsw_saltpan_log"], "x": 14, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmsw_shack_log",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "      ",
         "  woww",
@@ -72,21 +72,21 @@
         " orrrw",
         " wwoww"
       ],
-      "palettes": [ "fbmsw_log_palette" ]
+      "palettes": ["fbmsw_log_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_shack_log_southeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_shack_log" ], "x": 15, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmsw_shack_log"], "x": 15, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmsw_brewery0_log",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [7, 7],
       "rows": [
         "wwwwwww",
         "w.rrr.w",
@@ -96,13 +96,13 @@
         "w.....w",
         "wwwwwww"
       ],
-      "palettes": [ "fbmsw_log_palette" ]
+      "palettes": ["fbmsw_log_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_brewery0_log_southwest",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery0_log" ], "x": 3, "y": 14 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmsw_brewery0_log"], "x": 3, "y": 14 }] }
   }
 ]

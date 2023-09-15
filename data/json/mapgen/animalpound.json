@@ -29,7 +29,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "animalpound" ],
+    "om_terrain": ["animalpound"],
     "weight": 400,
     "object": {
       "fill_ter": "t_floor",
@@ -59,7 +59,9 @@
         "'~~~~~~~~~~~~~~~~~~~~ff~",
         "''''''''''''''''''''''''"
       ],
-      "place_vehicles": [ { "vehicle": "animalshelter", "x": 18, "y": 2, "chance": 25, "rotation": 270 } ],
+      "place_vehicles": [
+        { "vehicle": "animalshelter", "x": 18, "y": 2, "chance": 25, "rotation": 270 }
+      ],
       "terrain": {
         " ": "t_pavement",
         ",": "t_pavement_y",
@@ -103,34 +105,40 @@
         "s": "f_sink",
         "y": "f_indoor_plant"
       },
-      "toilets": { "t": {  } },
+      "toilets": { "t": {} },
       "place_items": [
-        { "item": "trash", "x": 14, "y": 4, "chance": 35, "repeat": [ 1, 3 ] },
-        { "item": "trash", "x": 14, "y": 15, "chance": 35, "repeat": [ 1, 3 ] },
-        { "item": "trash", "x": 22, "y": [ 15, 16 ], "chance": 35, "repeat": [ 2, 6 ] },
-        { "item": "cleaning", "x": 3, "y": 13, "chance": 45, "repeat": [ 1, 3 ] },
-        { "item": "cleaning", "x": 9, "y": 17, "chance": 45, "repeat": [ 1, 3 ] },
-        { "item": "cleaning", "x": 7, "y": 6, "chance": 45, "repeat": [ 1, 3 ] },
-        { "item": "cleaning", "x": 14, "y": 13, "chance": 45, "repeat": [ 1, 3 ] },
-        { "item": "animalshelter_softdrug", "x": 3, "y": 5, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_softdrug", "x": 3, "y": 13, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_softdrug", "x": 9, "y": 17, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_softdrug", "x": 7, "y": 5, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_softdrug", "x": [ 18, 20 ], "y": 13, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_softdrug", "x": 16, "y": 16, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_softdrug", "x": 19, "y": 16, "chance": 45, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_hardrug", "x": 15, "y": 13, "chance": 75, "repeat": [ 1, 3 ] },
-        { "item": "waitingroom", "x": 3, "y": 5, "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "waitingroom", "x": 9, "y": [ 5, 6 ], "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "animalshelter_utility", "x": 3, "y": 13, "chance": 45, "repeat": [ 2, 3 ] },
-        { "item": "animalshelter_utility", "x": 17, "y": 17, "chance": 35, "repeat": [ 1, 3 ] },
-        { "item": "animalshelter_utility", "x": 14, "y": 13, "chance": 35, "repeat": [ 2, 5 ] },
-        { "item": "animalshelter_utility", "x": 15, "y": 13, "chance": 35, "repeat": [ 2, 5 ] },
-        { "item": "cubical_office", "x": 3, "y": 4, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "cubical_office", "x": 3, "y": 5, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "office", "x": 7, "y": 4, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "doctors_books", "x": 3, "y": 4, "chance": 15, "repeat": [ 1, 2 ] },
-        { "item": "doctors_books", "x": 15, "y": 13, "chance": 15, "repeat": [ 1, 2 ] }
+        { "item": "trash", "x": 14, "y": 4, "chance": 35, "repeat": [1, 3] },
+        { "item": "trash", "x": 14, "y": 15, "chance": 35, "repeat": [1, 3] },
+        { "item": "trash", "x": 22, "y": [15, 16], "chance": 35, "repeat": [2, 6] },
+        { "item": "cleaning", "x": 3, "y": 13, "chance": 45, "repeat": [1, 3] },
+        { "item": "cleaning", "x": 9, "y": 17, "chance": 45, "repeat": [1, 3] },
+        { "item": "cleaning", "x": 7, "y": 6, "chance": 45, "repeat": [1, 3] },
+        { "item": "cleaning", "x": 14, "y": 13, "chance": 45, "repeat": [1, 3] },
+        { "item": "animalshelter_softdrug", "x": 3, "y": 5, "chance": 45, "repeat": [1, 2] },
+        { "item": "animalshelter_softdrug", "x": 3, "y": 13, "chance": 45, "repeat": [1, 2] },
+        { "item": "animalshelter_softdrug", "x": 9, "y": 17, "chance": 45, "repeat": [1, 2] },
+        { "item": "animalshelter_softdrug", "x": 7, "y": 5, "chance": 45, "repeat": [1, 2] },
+        {
+          "item": "animalshelter_softdrug",
+          "x": [18, 20],
+          "y": 13,
+          "chance": 45,
+          "repeat": [1, 2]
+        },
+        { "item": "animalshelter_softdrug", "x": 16, "y": 16, "chance": 45, "repeat": [1, 2] },
+        { "item": "animalshelter_softdrug", "x": 19, "y": 16, "chance": 45, "repeat": [1, 2] },
+        { "item": "animalshelter_hardrug", "x": 15, "y": 13, "chance": 75, "repeat": [1, 3] },
+        { "item": "waitingroom", "x": 3, "y": 5, "chance": 30, "repeat": [1, 2] },
+        { "item": "waitingroom", "x": 9, "y": [5, 6], "chance": 30, "repeat": [1, 2] },
+        { "item": "animalshelter_utility", "x": 3, "y": 13, "chance": 45, "repeat": [2, 3] },
+        { "item": "animalshelter_utility", "x": 17, "y": 17, "chance": 35, "repeat": [1, 3] },
+        { "item": "animalshelter_utility", "x": 14, "y": 13, "chance": 35, "repeat": [2, 5] },
+        { "item": "animalshelter_utility", "x": 15, "y": 13, "chance": 35, "repeat": [2, 5] },
+        { "item": "cubical_office", "x": 3, "y": 4, "chance": 25, "repeat": [1, 2] },
+        { "item": "cubical_office", "x": 3, "y": 5, "chance": 25, "repeat": [1, 2] },
+        { "item": "office", "x": 7, "y": 4, "chance": 25, "repeat": [1, 2] },
+        { "item": "doctors_books", "x": 3, "y": 4, "chance": 15, "repeat": [1, 2] },
+        { "item": "doctors_books", "x": 15, "y": 13, "chance": 15, "repeat": [1, 2] }
       ],
       "place_monsters": [
         { "monster": "GROUP_ANIMALPOUND_CATS", "x": 14, "y": 10, "chance": 10, "density": 0.05 },
@@ -147,7 +155,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "animalpound_roof" ],
+    "om_terrain": ["animalpound_roof"],
     "weight": 400,
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -188,14 +196,21 @@
         "5": "t_gutter_drop"
       },
       "furniture": { "&": "f_roof_turbine_vent", "c": "f_cellphone_booster" },
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 6 ], "y": 9, "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [4, 6], "y": 9, "chance": 50, "repeat": [1, 3] }
+      ],
       "place_nested": [
-        { "chunks": [ [ "roof_2x2_golf", 15 ], [ "null", 80 ] ], "x": 7, "y": 9 },
-        { "chunks": [ [ "roof_2x2_utilities", 50 ], [ "null", 50 ] ], "x": 5, "y": 9 },
+        { "chunks": [["roof_2x2_golf", 15], ["null", 80]], "x": 7, "y": 9 },
+        { "chunks": [["roof_2x2_utilities", 50], ["null", 50]], "x": 5, "y": 9 },
         {
-          "chunks": [ [ "null", 40 ], [ "roof_4x4_party", 5 ], [ "roof_4x4_utility", 45 ], [ "roof_5x5_coop", 10 ] ],
-          "x": [ 9, 12 ],
-          "y": [ 9, 12 ]
+          "chunks": [
+            ["null", 40],
+            ["roof_4x4_party", 5],
+            ["roof_4x4_utility", 45],
+            ["roof_5x5_coop", 10]
+          ],
+          "x": [9, 12],
+          "y": [9, 12]
         }
       ]
     }

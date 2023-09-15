@@ -9,13 +9,13 @@
     "description": "The irreparably broken remains of a Sentinel-lx.  Could be gutted for valuable parts.",
     "price": 30000,
     "price_postapoc": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "140000 g",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "type": "GENERIC",
@@ -26,13 +26,13 @@
     "category": "other",
     "description": "This bloodhound won't be chasing anyone anymore.  Could be gutted for parts.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "31520 g",
     "volume": "15 L",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": ["TRADER_AVOID", "NO_REPAIR"]
   },
   {
     "type": "GENERIC",
@@ -43,13 +43,13 @@
     "name": "broken utility robot",
     "category": "other",
     "description": "A broken utility robot, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "140 kg",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "type": "GENERIC",
@@ -203,13 +203,13 @@
     "description": "A broken advanced robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
     "price": 30000,
     "price_postapoc": 1000,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "weight": "140 kg",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "type": "GENERIC",
@@ -254,13 +254,13 @@
     "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
     "price": 30000,
     "price_postapoc": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "140 kg",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "type": "GENERIC",
@@ -273,13 +273,13 @@
     "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
     "price": 30000,
     "price_postapoc": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "140 kg",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "type": "GENERIC",
@@ -292,12 +292,12 @@
     "description": "A broken medical robot, now crumpled and inert.  Could be stripped down for parts.",
     "price": 30000,
     "price_postapoc": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "140 kg",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   }
 ]

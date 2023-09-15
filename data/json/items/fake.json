@@ -19,32 +19,32 @@
     "type": "TOOL",
     "name": { "str_sp": "teeth and claws" },
     "flags": "TRADER_AVOID",
-    "use_action": [ "BURROW" ],
-    "qualities": [ [ "DIG", 3 ] ]
+    "use_action": ["BURROW"],
+    "qualities": [["DIG", 3]]
   },
   {
     "id": "toolset",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "integrated toolset" },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": ["TRADER_AVOID"],
     "max_charges": 10000,
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": ["HAMMER", "CROWBAR"],
     "qualities": [
-      [ "HAMMER", 3 ],
-      [ "HAMMER_FINE", 1 ],
-      [ "SAW_W", 1 ],
-      [ "SAW_M", 2 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "WRENCH", 2 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "PULL", 1 ],
-      [ "SCREW", 1 ],
-      [ "SCREW_FINE", 1 ],
-      [ "CUT", 1 ],
-      [ "PRY", 1 ],
-      [ "DRILL", 3 ],
-      [ "BUTCHER", -38 ]
+      ["HAMMER", 3],
+      ["HAMMER_FINE", 1],
+      ["SAW_W", 1],
+      ["SAW_M", 2],
+      ["SAW_M_FINE", 1],
+      ["WRENCH", 2],
+      ["WRENCH_FINE", 1],
+      ["PULL", 1],
+      ["SCREW", 1],
+      ["SCREW_FINE", 1],
+      ["CUT", 1],
+      ["PRY", 1],
+      ["DRILL", 3],
+      ["BUTCHER", -38]
     ]
   },
   {
@@ -52,7 +52,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "bionic goggles" },
-    "qualities": [ [ "GLARE", 2 ] ]
+    "qualities": [["GLARE", 2]]
   },
   {
     "id": "bio_scalpel",
@@ -63,15 +63,15 @@
     "to_hit": 2,
     "cutting": 8,
     "techniques": "PRECISE",
-    "flags": [ "TRADER_AVOID", "NO_DROP", "UNBREAKABLE_MELEE", "SPEAR" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
+    "flags": ["TRADER_AVOID", "NO_DROP", "UNBREAKABLE_MELEE", "SPEAR"],
+    "qualities": [["CUT", 1], ["CUT_FINE", 5], ["BUTCHER", 50]]
   },
   {
     "id": "fake_razor",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic razor" },
-    "qualities": [ [ "BUTCHER", 8 ] ]
+    "qualities": [["BUTCHER", 8]]
   },
   {
     "id": "clairvoyance_plus_rod",
@@ -81,12 +81,12 @@
     "name": { "str": "clairvoyance rod" },
     "description": "Item to test aep_clairvoyance_plus flag.  If this spawns randomly, then it's a bug.",
     "price": 5000,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "weight": "150 g",
     "volume": "750 ml",
     "bashing": 1,
     "to_hit": -1,
-    "artifact_data": { "effects_wielded": [ "AEP_CLAIRVOYANCE_PLUS" ] }
+    "artifact_data": { "effects_wielded": ["AEP_CLAIRVOYANCE_PLUS"] }
   },
   {
     "id": "acid_spit",
@@ -94,8 +94,8 @@
     "copy-from": "fake_item",
     "name": { "str": "acid spit gun" },
     "description": "Fake gun that fires acid globs.",
-    "flags": [ "NEVER_JAMS" ],
-    "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
+    "flags": ["NEVER_JAMS"],
+    "ammo_effects": ["BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING"],
     "skill": "rifle",
     "durability": 10,
     "range": 100,
@@ -111,7 +111,7 @@
     "description": "A test item that is both a ranged weapon and a reach weapon",
     "price": 16000,
     "material": "steel",
-    "flags": [ "REACH_ATTACK" ],
+    "flags": ["REACH_ATTACK"],
     "weight": "340 g",
     "volume": "1500 ml",
     "bashing": 6,
@@ -120,14 +120,14 @@
     "dispersion": 210,
     "durability": 6,
     "reload": 60,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ] ]
+    "valid_mod_locations": [["underbarrel", 1], ["sights", 1], ["accessories", 2]]
   },
   {
     "id": "boulder_anvil",
     "type": "TOOL",
     "copy-from": "fake_item",
     "name": { "str": "boulder anvil" },
-    "qualities": [ [ "ANVIL", 1 ] ]
+    "qualities": [["ANVIL", 1]]
   },
   {
     "id": "fake_milling_item",
@@ -135,7 +135,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "semi ground grains" },
     "description": "A paste of half-finished milled grains, not yet flour.",
-    "flags": [ "TRADER_AVOID", "FAKE_MILL" ]
+    "flags": ["TRADER_AVOID", "FAKE_MILL"]
   },
   {
     "id": "fake_smoke_plume",
@@ -143,15 +143,15 @@
     "type": "GENERIC",
     "name": { "str_sp": "smoldering embers" },
     "description": "A handful of smoldering embers emitting smoke.  They are fading away even when you look at them.",
-    "emits": [ "emit_small_smoke_plume" ],
-    "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]
+    "emits": ["emit_small_smoke_plume"],
+    "flags": ["TRADER_AVOID", "FAKE_SMOKE"]
   },
   {
     "id": "fake_firestarter",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic firestarter" },
-    "flags": [ "FIRESTARTER" ],
+    "flags": ["FIRESTARTER"],
     "use_action": { "type": "firestarter", "moves": 200 }
   },
   {
@@ -160,8 +160,8 @@
     "copy-from": "fake_item",
     "name": { "str": "mi-go bio-gun" },
     "description": "Fake gun that fires some sort of solidified organic matter at very high speed by unknown means of propulsion.",
-    "flags": [ "NEVER_JAMS" ],
-    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "flags": ["NEVER_JAMS"],
+    "ammo_effects": ["NEVER_MISFIRES"],
     "skill": "rifle",
     "durability": 10,
     "range": 100,
@@ -179,7 +179,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": "centrifuge",
-    "qualities": [ [ "CONCENTRATE", 1 ], [ "SEPARATE", 1 ], [ "ANALYSIS", 1 ] ]
+    "qualities": [["CONCENTRATE", 1], ["SEPARATE", 1], ["ANALYSIS", 1]]
   },
   {
     "id": "fake_oven",
@@ -189,7 +189,7 @@
     "sub": "hotplate",
     "max_charges": 2500,
     "charges_per_use": 5,
-    "flags": [ "USES_GRID_POWER", "HEATS_FOOD_USING_CHARGES", "HEATS_FOOD_USING_FIRE", "HEATS_FOOD" ]
+    "flags": ["USES_GRID_POWER", "HEATS_FOOD_USING_CHARGES", "HEATS_FOOD_USING_FIRE", "HEATS_FOOD"]
   },
   {
     "id": "fake_gridwelder",
@@ -203,14 +203,26 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy", "glass" ],
+        "materials": [
+          "iron",
+          "steel",
+          "hardsteel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "silver",
+          "gold",
+          "platinum",
+          "superalloy",
+          "glass"
+        ],
         "skill": "fabrication",
         "tool_quality": 10,
         "cost_scaling": 0.1,
         "move_cost": 500
       }
     ],
-    "flags": [ "USES_GRID_POWER" ]
+    "flags": ["USES_GRID_POWER"]
   },
   {
     "id": "fake_gridsolderingiron",
@@ -224,14 +236,14 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "materials": ["plastic", "lead", "tin", "zinc"],
         "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "USES_GRID_POWER" ]
+    "flags": ["USES_GRID_POWER"]
   },
   {
     "id": "fake_gridforge",
@@ -266,7 +278,7 @@
         "move_cost": 500
       }
     ],
-    "flags": [ "USES_GRID_POWER" ]
+    "flags": ["USES_GRID_POWER"]
   },
   {
     "id": "fake_gridkiln",
@@ -275,7 +287,7 @@
     "name": { "str": "grid kiln" },
     "sub": "kiln",
     "max_charges": 2500,
-    "flags": [ "USES_GRID_POWER" ]
+    "flags": ["USES_GRID_POWER"]
   },
   {
     "id": "fake_griddehydrator",
@@ -284,7 +296,7 @@
     "name": { "str": "grid food dehydrator" },
     "sub": "dehydrator",
     "max_charges": 2500,
-    "flags": [ "USES_GRID_POWER" ]
+    "flags": ["USES_GRID_POWER"]
   },
   {
     "id": "fake_gridfood_processor",
@@ -293,7 +305,7 @@
     "name": { "str": "grid food processor" },
     "sub": "food_processor",
     "max_charges": 2500,
-    "flags": [ "USES_GRID_POWER" ]
+    "flags": ["USES_GRID_POWER"]
   },
   {
     "id": "fake_gridvac_sealer",
@@ -302,7 +314,7 @@
     "name": { "str": "grid vacuum sealer" },
     "sub": "vac_sealer",
     "max_charges": 2500,
-    "flags": [ "USES_GRID_POWER" ]
+    "flags": ["USES_GRID_POWER"]
   },
   {
     "id": "fake_gridwater_purifier",
@@ -311,7 +323,7 @@
     "name": { "str": "grid water purifier" },
     "sub": "water_purifier",
     "max_charges": 2500,
-    "flags": [ "USES_GRID_POWER" ]
+    "flags": ["USES_GRID_POWER"]
   },
   {
     "id": "fake_gridelectrolysis_kit",
@@ -320,7 +332,7 @@
     "name": { "str": "grid electrolysis kit" },
     "sub": "electrolysis_kit",
     "max_charges": 2500,
-    "flags": [ "USES_GRID_POWER" ]
+    "flags": ["USES_GRID_POWER"]
   },
   {
     "id": "fake_chemistry_set",
@@ -328,9 +340,9 @@
     "type": "TOOL",
     "name": { "str": "grid chemistry set" },
     "sub": "chemistry_set_basic",
-    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
+    "qualities": [["DISTILL", 1], ["CHEM", 3], ["BOIL", 1]],
     "max_charges": 2500,
-    "flags": [ "USES_GRID_POWER" ]
+    "flags": ["USES_GRID_POWER"]
   },
   {
     "id": "gridautoclave",
@@ -339,6 +351,6 @@
     "name": { "str": "grid autoclave" },
     "sub": "autoclave",
     "max_charges": 1000,
-    "flags": [ "USES_GRID_POWER" ]
+    "flags": ["USES_GRID_POWER"]
   }
 ]

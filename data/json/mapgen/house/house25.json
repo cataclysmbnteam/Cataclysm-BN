@@ -32,7 +32,7 @@
         "...........```````......",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "`": "t_concrete",
         "~": "t_carpet_yellow",
@@ -91,7 +91,7 @@
         "...........```````......",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "`": "t_concrete",
         "~": "t_carpet_yellow",
@@ -150,7 +150,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

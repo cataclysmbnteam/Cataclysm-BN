@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "name": { "str": "vehicle alternator" },
     "category": "veh_parts",
-    "material": [ "steel", "copper" ],
+    "material": ["steel", "copper"],
     "symbol": ",",
     "color": "light_cyan"
   },

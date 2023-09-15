@@ -2,28 +2,38 @@
   {
     "id": "stonefist",
     "type": "GENERIC",
-    "weapon_category": [ "FIST_WEAPONS" ],
-    "name": { "str": "pair of magical armored stone gauntlets", "str_pl": "pairs of magical armored stone gauntlets" },
+    "weapon_category": ["FIST_WEAPONS"],
+    "name": {
+      "str": "pair of magical armored stone gauntlets",
+      "str_pl": "pairs of magical armored stone gauntlets"
+    },
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 1,
     "to_hit": 2,
     "bashing": 20,
-    "material": [ "superalloy" ],
+    "material": ["superalloy"],
     "symbol": "[",
     "color": "light_gray",
     "armor_data": {
-      "covers": [ "hands", "arms" ],
+      "covers": ["hands", "arms"],
       "coverage": 100,
       "encumbrance": 0,
       "warmth": 20,
       "material_thickness": 4,
       "environmental_protection": 10
     },
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
-    "techniques": [ "WBLOCK_3" ]
+    "qualities": [["HAMMER", 1]],
+    "flags": [
+      "VARSIZE",
+      "STURDY",
+      "UNARMED_WEAPON",
+      "DURABLE_MELEE",
+      "NONCONDUCTIVE",
+      "MAGIC_FOCUS"
+    ],
+    "techniques": ["WBLOCK_3"]
   },
   {
     "id": "finger_firelighter",
@@ -35,32 +45,42 @@
     "price": 0,
     "symbol": ",",
     "color": "yellow",
-    "use_action": [ { "type": "firestarter", "moves": 20 } ],
-    "flags": [ "TRADER_AVOID", "FIRESTARTER", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
+    "use_action": [{ "type": "firestarter", "moves": 20 }],
+    "flags": ["TRADER_AVOID", "FIRESTARTER", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH"]
   },
   {
     "id": "armor_stonefist",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of magical armored stone gauntlets", "str_pl": "pairs of magical armored stone gauntlets" },
+    "name": {
+      "str": "pair of magical armored stone gauntlets",
+      "str_pl": "pairs of magical armored stone gauntlets"
+    },
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 1,
     "to_hit": 2,
     "bashing": 20,
-    "material": [ "superalloy" ],
+    "material": ["superalloy"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "hands", "arms" ],
+    "covers": ["hands", "arms"],
     "coverage": 100,
     "encumbrance": 0,
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 10,
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
-    "techniques": [ "WBLOCK_3" ]
+    "qualities": [["HAMMER", 1]],
+    "flags": [
+      "VARSIZE",
+      "STURDY",
+      "UNARMED_WEAPON",
+      "DURABLE_MELEE",
+      "NONCONDUCTIVE",
+      "MAGIC_FOCUS"
+    ],
+    "techniques": ["WBLOCK_3"]
   },
   {
     "id": "magic_lamp",
@@ -75,8 +95,8 @@
     "bashing": 8,
     "symbol": ",",
     "color": "light_green",
-    "covers": [ "head" ],
-    "flags": [ "LIGHT_15", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
+    "covers": ["head"],
+    "flags": ["LIGHT_15", "LEAK_DAM", "AURA", "SEMITANGIBLE"]
   },
   {
     "id": "magic_light",
@@ -89,8 +109,8 @@
     "price": 0,
     "symbol": ",",
     "color": "light_green",
-    "covers": [ "head" ],
-    "flags": [ "LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
+    "covers": ["head"],
+    "flags": ["LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE"]
   },
   {
     "id": "shield_ice",
@@ -103,15 +123,15 @@
     "price": 1,
     "to_hit": 1,
     "bashing": 14,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "arm_either", "hand_either" ],
+    "covers": ["arm_either", "hand_either"],
     "coverage": 70,
     "encumbrance": 15,
     "material_thickness": 3,
-    "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+    "techniques": ["WBLOCK_3"],
+    "flags": ["OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN"]
   },
   {
     "id": "ice_gliders",
@@ -123,30 +143,34 @@
     "price": 1,
     "to_hit": -2,
     "bashing": 6,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "feet" ],
+    "covers": ["feet"],
     "coverage": 100,
     "encumbrance": 0,
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED" ]
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [{ "value": "MOVE_COST", "add": -5 }] }
+      ]
+    },
+    "flags": ["WATERPROOF", "ROLLER_QUAD", "BELTED"]
   },
   {
     "type": "GENERIC",
     "id": "stormhammer",
     "name": { "str": "The Stormhammer" },
-    "weapon_category": [ "1H_HAMMERS" ],
+    "weapon_category": ["1H_HAMMERS"],
     "description": "A crackling magical warhammer full of lightning to smite your foes with, and of course, smash things to bits!",
     "weight": "1337 g",
     "to_hit": 2,
     "color": "brown",
     "symbol": "/",
-    "material": [ "superalloy" ],
-    "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
+    "material": ["superalloy"],
+    "techniques": ["WBLOCK_2", "BRUTAL", "SWEEP"],
     "flags": [
       "NONCONDUCTIVE",
       "BELT_CLIP",
@@ -161,14 +185,14 @@
     "bashing": 30,
     "//electric": 15,
     "price": 0,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [["HAMMER", 1]]
   },
   {
     "id": "stormfist",
     "type": "SPELL",
     "name": "Stormfist",
     "description": "Encases your arm and hand in a sheath of crackling magical lightning, you can punch and defend yourself with it in melee combat.",
-    "valid_targets": [ "self" ],
+    "valid_targets": ["self"],
     "min_damage": 0,
     "max_damage": 0,
     "effect": "spawn_item",
@@ -190,7 +214,7 @@
     "color": "light_gray",
     "name": { "str": "Stormfist" },
     "description": "Encases your arm and hand in a sheath of crackling magical lightning, you can punch and defend yourself with it in melee combat.",
-    "material": [ "superalloy" ],
+    "material": ["superalloy"],
     "volume": "250 ml",
     "weight": "1 g",
     "bashing": 10,
@@ -209,15 +233,15 @@
   {
     "id": "tentacle_whip",
     "type": "GENERIC",
-    "weapon_category": [ "WHIPS" ],
+    "weapon_category": ["WHIPS"],
     "symbol": "/",
     "color": "brown",
     "name": "vicious tentacle whip",
     "description": "A long, writhing, tentacle covered in sharp bonelike blades and spikey protrusions.",
     "weight": "2460 g",
     "volume": "1500 ml",
-    "material": [ "iron", "leather" ],
-    "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
+    "material": ["iron", "leather"],
+    "techniques": ["PRECISE", "RAPID", "WBLOCK_2"],
     "flags": [
       "REACH_ATTACK",
       "REACH3",
@@ -241,25 +265,34 @@
     "weight": 0,
     "volume": 0,
     "price": 0,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "[",
     "color": "green",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 40,
     "encumbrance": 10,
     "storage": "25 L",
     "material_thickness": 3,
-    "flags": [ "BELTED", "TRADER_AVOID", "WATERPROOF", "STURDY", "NO_UNWIELD", "ONLY_ONE", "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": [
+      "BELTED",
+      "TRADER_AVOID",
+      "WATERPROOF",
+      "STURDY",
+      "NO_UNWIELD",
+      "ONLY_ONE",
+      "NO_REPAIR",
+      "NO_SALVAGE"
+    ]
   },
   {
     "id": "bonespear",
     "type": "GENERIC",
-    "weapon_category": [ "SPEARS" ],
+    "weapon_category": ["SPEARS"],
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "Wicked Bonespear" },
     "description": "This is a wicked spear/halberd hybrid entirely created of bone.",
-    "material": [ "bone" ],
+    "material": ["bone"],
     "flags": [
       "UNBREAKABLE_MELEE",
       "REACH_ATTACK",
@@ -271,7 +304,7 @@
       "NO_SALVAGE",
       "MAGIC_FOCUS"
     ],
-    "techniques": [ "WBLOCK_2", "WIDE", "SWEEP", "BRUTAL" ],
+    "techniques": ["WBLOCK_2", "WIDE", "SWEEP", "BRUTAL"],
     "weight": "2175 g",
     "volume": "2500 ml",
     "bashing": 16,
@@ -282,7 +315,7 @@
     "id": "druid_recurve",
     "//": "Not using copy-from 'reflexbow', since wearability causes druid bow not to be wielded, and ammo / clip type causes it to require real arrows",
     "type": "GUN",
-    "weapon_category": [ "BOWS", "ELASTIC" ],
+    "weapon_category": ["BOWS", "ELASTIC"],
     "symbol": "(",
     "color": "yellow",
     "looks_like": "longbow",
@@ -329,7 +362,7 @@
     "symbol": "!",
     "description": "A magical seed that can be squeezed to release purifying dust, which can then be used to purify up to a gallon of water",
     "volume": "250 ml",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "druid_dust",
@@ -355,9 +388,21 @@
     "price": 3646,
     "symbol": "o",
     "color": "white",
-    "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] }
+    "covers": ["legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes"],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE"
+    ],
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [{ "value": "BONUS_DODGE", "add": 2 }] }
+      ]
+    }
   },
   {
     "id": "acid_res_aura",
@@ -369,10 +414,24 @@
     "price": 3646,
     "symbol": "o",
     "color": "green",
-    "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "covers": ["legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes"],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE"
+    ],
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [{ "value": "ARMOR_ACID", "multiply": -0.25 }]
+        }
+      ]
     }
   },
   {
@@ -385,10 +444,24 @@
     "price": 3646,
     "symbol": "o",
     "color": "green",
-    "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "covers": ["legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes"],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE"
+    ],
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [{ "value": "ARMOR_ACID", "multiply": -0.6 }]
+        }
+      ]
     }
   },
   {
@@ -399,16 +472,16 @@
     "description": "A thin layer of magical ice, covering the entire body.",
     "weight": "5000 g",
     "volume": "5 L",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet" ],
+    "covers": ["head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet"],
     "coverage": 100,
     "encumbrance": 10,
     "warmth": 0,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+    "flags": ["ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY"]
   },
   {
     "id": "aura_stoneskin",
@@ -418,29 +491,29 @@
     "description": "A thin layer of shifting, almost fluid living rock, covering the entire body.",
     "weight": "10200 g",
     "volume": "25 L",
-    "material": [ "stone" ],
+    "material": ["stone"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet" ],
+    "covers": ["head", "mouth", "eyes", "torso", "arms", "hands", "legs", "feet"],
     "coverage": 100,
     "encumbrance": 20,
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+    "flags": ["ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY"]
   },
   {
     "id": "burn_scar",
     "type": "effect_type",
-    "desc": [ "This burn really hurts!" ],
+    "desc": ["This burn really hurts!"],
     "max_duration": "10 second",
     "rating": "bad",
-    "base_mods": { "pain_amount": [ 20 ] }
+    "base_mods": { "pain_amount": [20] }
   },
   {
     "id": "ench_overcharge_burn_scar",
     "type": "enchantment",
-    "ench_effects": [ { "effect": "burn_scar", "intensity": 1 } ]
+    "ench_effects": [{ "effect": "burn_scar", "intensity": 1 }]
   },
   {
     "id": "overcharge_burn_scar",
@@ -451,10 +524,10 @@
     "volume": "1 ml",
     "symbol": "~",
     "color": "light_red",
-    "covers": [ "eyes", "mouth" ],
+    "covers": ["eyes", "mouth"],
     "encumbrance": 18,
-    "relic_data": { "passive_effects": [ { "id": "ench_overcharge_burn_scar" } ] },
-    "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND" ]
+    "relic_data": { "passive_effects": [{ "id": "ench_overcharge_burn_scar" }] },
+    "flags": ["NO_TAKEOFF", "TRADER_AVOID", "BLIND"]
   },
   {
     "id": "protect_env",
@@ -466,7 +539,15 @@
     "symbol": "o",
     "color": "blue",
     "environmental_protection": 15,
-    "covers": [ "legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ]
+    "covers": ["legs", "torso", "arms", "hands", "head", "feet", "mouth", "eyes"],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE"
+    ]
   }
 ]

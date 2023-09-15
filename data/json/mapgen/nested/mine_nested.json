@@ -10,8 +10,8 @@
     "method": "json",
     "nested_mapgen_id": "spiral_cw",
     "object": {
-      "palettes": [ "mine_palette" ],
-      "mapgensize": [ 6, 6 ],
+      "palettes": ["mine_palette"],
+      "mapgensize": [6, 6],
       "rows": [
         "######",
         "     #",
@@ -27,8 +27,8 @@
     "method": "json",
     "nested_mapgen_id": "spiral_ccw",
     "object": {
-      "palettes": [ "mine_palette" ],
-      "mapgensize": [ 6, 6 ],
+      "palettes": ["mine_palette"],
+      "mapgensize": [6, 6],
       "rows": [
         "######",
         "#     ",
@@ -44,8 +44,8 @@
     "method": "json",
     "nested_mapgen_id": "spiral_boulder_cw",
     "object": {
-      "palettes": [ "mine_palette" ],
-      "mapgensize": [ 6, 6 ],
+      "palettes": ["mine_palette"],
+      "mapgensize": [6, 6],
       "rows": [
         "$$$$$$",
         "     $",
@@ -61,8 +61,8 @@
     "method": "json",
     "nested_mapgen_id": "spiral_boulder_ccw",
     "object": {
-      "palettes": [ "mine_palette" ],
-      "mapgensize": [ 6, 6 ],
+      "palettes": ["mine_palette"],
+      "mapgensize": [6, 6],
       "rows": [
         "$$$$$$",
         "$     ",

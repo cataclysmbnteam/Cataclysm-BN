@@ -5,9 +5,9 @@
     "name": "Stego Mutant",
     "job_description": "I'm looking for stego mutagen… I'm going to become a thunder lizard.",
     "skills": [
-      { "skill": "bashing", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+      { "skill": "bashing", "bonus": { "rng": [3, 6] } },
+      { "skill": "melee", "bonus": { "rng": [3, 6] } },
+      { "skill": "unarmed", "bonus": { "rng": [3, 6] } }
     ],
     "bonus_str": 2,
     "bonus_per": 2,
@@ -16,7 +16,12 @@
       { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
       { "group": "trait_group_dino" },
-      { "distribution": [ { "group": "trait_group_stego_nonthres" }, { "group": "trait_group_stego_postthres" } ] }
+      {
+        "distribution": [
+          { "group": "trait_group_stego_nonthres" },
+          { "group": "trait_group_stego_postthres" }
+        ]
+      }
     ]
   },
   {
@@ -25,9 +30,9 @@
     "name": "Tyrant Mutant",
     "job_description": "I'm looking for tyrant mutagen… I'm going to be a king.",
     "skills": [
-      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+      { "skill": "dodge", "bonus": { "rng": [3, 6] } },
+      { "skill": "melee", "bonus": { "rng": [3, 6] } },
+      { "skill": "unarmed", "bonus": { "rng": [3, 6] } }
     ],
     "bonus_str": 2,
     "bonus_dex": 2,
@@ -36,7 +41,12 @@
       { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
       { "group": "trait_group_dino" },
-      { "distribution": [ { "group": "trait_group_tyrant_nonthres" }, { "group": "trait_group_tyrant_postthres" } ] }
+      {
+        "distribution": [
+          { "group": "trait_group_tyrant_nonthres" },
+          { "group": "trait_group_tyrant_postthres" }
+        ]
+      }
     ]
   }
 ]

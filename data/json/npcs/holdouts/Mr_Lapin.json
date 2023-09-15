@@ -23,24 +23,33 @@
     "skills": [
       {
         "skill": "ALL",
-        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+        "level": {
+          "mul": [
+            { "one_in": 3 },
+            { "sum": [{ "dice": [2, 2] }, { "constant": -2 }, { "one_in": 4 }] }
+          ]
+        }
       },
-      { "skill": "survival", "bonus": { "rng": [ 1, 5 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } }
+      { "skill": "survival", "bonus": { "rng": [1, 5] } },
+      { "skill": "melee", "bonus": { "rng": [2, 4] } }
     ],
     "traits": [
-      [ "FLEET2", 100 ],
-      [ "GOODHEARING", 100 ],
-      [ "DEFT", 100 ],
-      [ "ANIMALEMPATH2", 100 ],
-      [ "LIGHTFUR", 100 ],
-      [ "HOOVES", 100 ]
+      ["FLEET2", 100],
+      ["GOODHEARING", 100],
+      ["DEFT", 100],
+      ["ANIMALEMPATH2", 100],
+      ["LIGHTFUR", 100],
+      ["HOOVES", 100]
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_WARRENER",
-    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Are you here to protect us?", "no": "Pleased to meet you." },
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "Are you here to protect us?",
+      "no": "Pleased to meet you."
+    },
     "responses": [
       { "text": "I'm just trying to get by.", "topic": "TALK_WARRENER_TRYING" },
       { "text": "What are you doing here?", "topic": "TALK_WARRENER_DOING" },
@@ -54,13 +63,13 @@
     "type": "talk_topic",
     "id": "TALK_WARRENER_TRYING",
     "dynamic_line": "Getting by will do for now.",
-    "responses": [ { "text": "I guess it has to.", "topic": "TALK_WARRENER" } ]
+    "responses": [{ "text": "I guess it has to.", "topic": "TALK_WARRENER" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_WARRENER_DOING",
     "dynamic_line": "I raise my rabbits, I seem to have more in common with them every day.",
-    "responses": [ { "text": "Well, then…", "topic": "TALK_WARRENER" } ]
+    "responses": [{ "text": "Well, then…", "topic": "TALK_WARRENER" }]
   },
   {
     "type": "talk_topic",
@@ -75,13 +84,22 @@
     "type": "talk_topic",
     "id": "TALK_WARRENER_WORLD_OPTIMISTIC",
     "dynamic_line": "If I teach one hundred people how to raise rabbits, that's potentially a hundred communities given food and fur before those people teach anyone else.",
-    "responses": [ { "text": "That's the most hopeful thing I've heard so far.", "topic": "TALK_WARRENER" } ]
+    "responses": [
+      { "text": "That's the most hopeful thing I've heard so far.", "topic": "TALK_WARRENER" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_WARRENER_MUTATION",
     "dynamic_line": {
-      "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS", "LIGHTFUR" ],
+      "u_has_any_trait": [
+        "CANINE_EARS",
+        "LUPINE_EARS",
+        "FELINE_EARS",
+        "URSINE_EARS",
+        "ELFA_EARS",
+        "LIGHTFUR"
+      ],
       "yes": "Same way you got yours, I bet.",
       "no": "CRISPR?  Radiation?  Something in the water?  Maybe it was bunnies."
     },
@@ -94,14 +112,25 @@
     "type": "talk_topic",
     "id": "TALK_WARRENER_MUTATION_INSULT",
     "dynamic_line": {
-      "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS", "LIGHTFUR" ],
+      "u_has_any_trait": [
+        "CANINE_EARS",
+        "LUPINE_EARS",
+        "FELINE_EARS",
+        "URSINE_EARS",
+        "ELFA_EARS",
+        "LIGHTFUR"
+      ],
       "yes": "I'm very sorry to tell you this, but you should look in a mirror.",
       "no": "Insulting people who could help you is unlikely to aid survival."
     },
     "responses": [
       {
         "text": "…",
-        "success": { "effect": "end_conversation", "opinion": { "trust": -1, "fear": -2, "value": -1, "anger": 1 }, "topic": "TALK_DONE" }
+        "success": {
+          "effect": "end_conversation",
+          "opinion": { "trust": -1, "fear": -2, "value": -1, "anger": 1 },
+          "topic": "TALK_DONE"
+        }
       }
     ]
   },
@@ -115,7 +144,7 @@
     "value": 0,
     "item": "log",
     "count": 5,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_Warrener_FOOD_2",
     "dialogue": {
       "describe": "I need 5 logs for fences.",
@@ -128,7 +157,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "cattlefodder", "count": 2 } ] }
+    "end": { "effect": [{ "u_buy_item": "cattlefodder", "count": 2 }] }
   },
   {
     "id": "MISSION_Warrener_FOOD_2",
@@ -140,7 +169,7 @@
     "value": 0,
     "item": "blackberries",
     "count": 25,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "I need 25 blackberries.",
       "offer": "Fruits would let me break the monotony of grains and meats.",
@@ -152,6 +181,6 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
-    "end": { "effect": [ { "u_buy_item": "petpack", "count": 2 } ] }
+    "end": { "effect": [{ "u_buy_item": "petpack", "count": 2 }] }
   }
 ]

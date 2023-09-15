@@ -3,13 +3,13 @@
     "type": "tool_quality",
     "id": "CUT",
     "name": { "str": "cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+    "usages": [[1, ["salvage", "inscribe", "cauterize"]]]
   },
   {
     "type": "tool_quality",
     "id": "CUT_FINE",
     "name": { "str": "fine cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize", "enzlave" ] ] ]
+    "usages": [[1, ["salvage", "inscribe", "cauterize", "enzlave"]]]
   },
   {
     "type": "tool_quality",
@@ -70,13 +70,13 @@
     "type": "tool_quality",
     "id": "SAW_W",
     "name": { "str": "wood sawing" },
-    "usages": [ [ 2, [ "LUMBER", "saw_stock" ] ] ]
+    "usages": [[2, ["LUMBER", "saw_stock"]]]
   },
   {
     "type": "tool_quality",
     "id": "SAW_M",
     "name": { "str": "metal sawing" },
-    "usages": [ [ 2, [ "HACKSAW", "saw_barrel" ] ] ]
+    "usages": [[2, ["HACKSAW", "saw_barrel"]]]
   },
   {
     "type": "tool_quality",
@@ -117,13 +117,13 @@
     "type": "tool_quality",
     "id": "AXE",
     "name": { "str": "tree cutting" },
-    "usages": [ [ 1, [ "CHOP_TREE", "CHOP_LOGS" ] ], [ 2, [ "LUMBER" ] ] ]
+    "usages": [[1, ["CHOP_TREE", "CHOP_LOGS"]], [2, ["LUMBER"]]]
   },
   {
     "type": "tool_quality",
     "id": "DIG",
     "name": { "str": "digging" },
-    "usages": [ [ 1, [ "MAKEMOUND", "DIG", "FILL_PIT", "DIG_CHANNEL" ] ], [ 2, [ "CLEAR_RUBBLE" ] ] ]
+    "usages": [[1, ["MAKEMOUND", "DIG", "FILL_PIT", "DIG_CHANNEL"]], [2, ["CLEAR_RUBBLE"]]]
   },
   {
     "type": "tool_quality",
@@ -139,7 +139,7 @@
     "type": "tool_quality",
     "id": "SCREW",
     "name": "screw driving",
-    "usages": [ [ 1, [ "REMOVE_ALL_MODS" ] ] ]
+    "usages": [[1, ["REMOVE_ALL_MODS"]]]
   },
   {
     "type": "tool_quality",
@@ -180,7 +180,7 @@
     "type": "tool_quality",
     "id": "HOSE",
     "name": { "str": "siphoning" },
-    "usages": [ [ 1, [ "SIPHON" ] ] ]
+    "usages": [[1, ["SIPHON"]]]
   },
   {
     "type": "tool_quality",

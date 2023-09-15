@@ -9,12 +9,12 @@
     "volume": "250 ml",
     "price": 1500,
     "price_postapoc": 0,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "yellow",
     "max_capacity": "30 kJ",
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "RECHARGE"]
   },
   {
     "id": "light_minus_battery_cell",
@@ -27,13 +27,13 @@
     "volume": "1 ml",
     "price": 1500,
     "price_postapoc": 50,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 50,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "RECHARGE"]
   },
   {
     "id": "light_minus_atomic_battery_cell",
@@ -46,33 +46,36 @@
     "volume": "1 ml",
     "price": 15000,
     "price_postapoc": 200,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "green",
     "ammo_type": "battery",
     "count": 500,
     "capacity": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "id": "light_minus_disposable_cell",
     "type": "MAGAZINE",
     "category": "battery",
-    "name": { "str": "ultra-light disposable battery", "str_pl": "ultra-light disposable batteries" },
+    "name": {
+      "str": "ultra-light disposable battery",
+      "str_pl": "ultra-light disposable batteries"
+    },
     "description": "This is a light battery cell designed for small size over everything else.  It retains its universal compatibility, though.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
     "weight": "5 g",
     "volume": "1 ml",
     "price": 3000,
     "price_postapoc": 100,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "count": 100,
     "capacity": 100,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD"]
   },
   {
     "id": "light_battery_cell",
@@ -85,13 +88,13 @@
     "volume": "25ml",
     "price": 3500,
     "price_postapoc": 100,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 100,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT"]
   },
   {
     "id": "light_plus_battery_cell",
@@ -103,13 +106,13 @@
     "volume": "35ml",
     "price": 5000,
     "price_postapoc": 150,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 150,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT"]
   },
   {
     "id": "light_atomic_battery_cell",
@@ -122,14 +125,14 @@
     "volume": "35ml",
     "price": 50000,
     "price_postapoc": 400,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "green",
     "ammo_type": "battery",
     "count": 1000,
     "capacity": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_COMPACT" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_COMPACT"]
   },
   {
     "id": "light_disposable_cell",
@@ -141,14 +144,14 @@
     "volume": "35ml",
     "price": 10000,
     "price_postapoc": 200,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "count": 300,
     "capacity": 300,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_COMPACT" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "MAG_COMPACT"]
   },
   {
     "id": "medium_battery_cell",
@@ -161,31 +164,34 @@
     "volume": "450ml",
     "price": 10000,
     "price_postapoc": 300,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT"]
   },
   {
     "id": "medium_plus_battery_cell",
     "type": "MAGAZINE",
     "category": "battery",
-    "name": { "str": "medium battery (high-capacity)", "str_pl": "medium batteries (high-capacity)" },
+    "name": {
+      "str": "medium battery (high-capacity)",
+      "str_pl": "medium batteries (high-capacity)"
+    },
     "description": "This is a high-capacity medium battery cell, universally compatible with all kinds of appliances and power tools.",
     "weight": "725 g",
     "volume": "525ml",
     "price": 12500,
     "price_postapoc": 400,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 600,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_COMPACT"]
   },
   {
     "id": "medium_atomic_battery_cell",
@@ -198,14 +204,14 @@
     "volume": "525ml",
     "price": 100000,
     "price_postapoc": 1000,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "green",
     "ammo_type": "battery",
     "count": 5000,
     "capacity": 5000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_COMPACT" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_COMPACT"]
   },
   {
     "id": "medium_disposable_cell",
@@ -217,14 +223,14 @@
     "volume": "525ml",
     "price": 10000,
     "price_postapoc": 500,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "count": 1200,
     "capacity": 1200,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_COMPACT" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "MAG_COMPACT"]
   },
   {
     "id": "heavy_battery_cell",
@@ -237,13 +243,13 @@
     "volume": "1225ml",
     "price": 10000,
     "price_postapoc": 500,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_BULKY" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_BULKY"]
   },
   {
     "id": "heavy_plus_battery_cell",
@@ -255,13 +261,13 @@
     "volume": "1500ml",
     "price": 12500,
     "price_postapoc": 600,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 1250,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_BULKY" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "MAG_BULKY"]
   },
   {
     "id": "heavy_atomic_battery_cell",
@@ -274,14 +280,14 @@
     "volume": "1500ml",
     "price": 100000,
     "price_postapoc": 1500,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "green",
     "ammo_type": "battery",
     "count": 10000,
     "capacity": 10000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_BULKY" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "MAG_BULKY"]
   },
   {
     "id": "huge_atomic_battery_cell",
@@ -293,14 +299,14 @@
     "volume": "30 L",
     "price": 100000,
     "price_postapoc": 5000,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "=",
     "color": "red",
     "ammo_type": "battery",
     "count": 100000,
     "capacity": 100000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MECH_BAT", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "MECH_BAT", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "id": "heavy_disposable_cell",
@@ -312,13 +318,13 @@
     "volume": "1500ml",
     "price": 10000,
     "price_postapoc": 750,
-    "material": [ "iron", "plastic" ],
+    "material": ["iron", "plastic"],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "count": 2500,
     "capacity": 2500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "MAG_BULKY" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "MAG_BULKY"]
   }
 ]

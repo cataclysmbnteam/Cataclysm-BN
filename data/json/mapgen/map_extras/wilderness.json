@@ -4,16 +4,40 @@
     "id": "long_grass_meadow_palette",
     "terrain": {
       " ": "t_null",
-      ".": [ [ "t_region_groundcover", 10 ], "t_grass_long" ],
-      ",": [ [ "t_region_groundcover", 4 ], "t_grass_long" ],
-      ";": [ "t_region_groundcover", [ "t_grass_long", 2 ] ],
-      "|": [ "t_region_groundcover", [ "t_grass_long", 10 ] ]
+      ".": [["t_region_groundcover", 10], "t_grass_long"],
+      ",": [["t_region_groundcover", 4], "t_grass_long"],
+      ";": ["t_region_groundcover", ["t_grass_long", 2]],
+      "|": ["t_region_groundcover", ["t_grass_long", 10]]
     },
     "furniture": {
-      ".": [ [ "f_null", 2000 ], [ "f_region_weed", 20 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
-      ",": [ [ "f_null", 2000 ], [ "f_region_weed", 40 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
-      ";": [ [ "f_null", 2000 ], [ "f_region_weed", 50 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
-      "|": [ [ "f_null", 2000 ], [ "f_region_weed", 60 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ]
+      ".": [
+        ["f_null", 2000],
+        ["f_region_weed", 20],
+        ["f_boulder_small", 6],
+        "f_boulder_medium",
+        "f_boulder_large"
+      ],
+      ",": [
+        ["f_null", 2000],
+        ["f_region_weed", 40],
+        ["f_boulder_small", 6],
+        "f_boulder_medium",
+        "f_boulder_large"
+      ],
+      ";": [
+        ["f_null", 2000],
+        ["f_region_weed", 50],
+        ["f_boulder_small", 6],
+        "f_boulder_medium",
+        "f_boulder_large"
+      ],
+      "|": [
+        ["f_null", 2000],
+        ["f_region_weed", 60],
+        ["f_boulder_small", 6],
+        "f_boulder_medium",
+        "f_boulder_large"
+      ]
     }
   },
   {
@@ -21,15 +45,43 @@
     "id": "copse_trees_palette",
     "terrain": {
       " ": "t_null",
-      ".": [ [ "t_region_groundcover", 60 ], "t_region_tree", "t_region_shrub" ],
-      ",": [ [ "t_region_groundcover", 30 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 2 ], "t_region_shrub" ],
-      ";": [ [ "t_region_groundcover", 10 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 6 ], "t_region_shrub" ],
-      "|": [ [ "t_region_groundcover_forest", 7 ], "t_water_sh" ]
+      ".": [["t_region_groundcover", 60], "t_region_tree", "t_region_shrub"],
+      ",": [
+        ["t_region_groundcover", 30],
+        ["t_region_groundcover_forest", 8],
+        ["t_region_tree", 2],
+        "t_region_shrub"
+      ],
+      ";": [
+        ["t_region_groundcover", 10],
+        ["t_region_groundcover_forest", 8],
+        ["t_region_tree", 6],
+        "t_region_shrub"
+      ],
+      "|": [["t_region_groundcover_forest", 7], "t_water_sh"]
     },
     "furniture": {
-      ".": [ [ "f_null", 2000 ], [ "f_region_weed", 20 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
-      ",": [ [ "f_null", 2000 ], [ "f_region_weed", 40 ], [ "f_boulder_small", 6 ], [ "f_boulder_medium", 2 ], "f_boulder_large" ],
-      ";": [ [ "f_null", 2000 ], [ "f_region_weed", 60 ], [ "f_boulder_small", 6 ], [ "f_boulder_medium", 2 ], "f_boulder_large" ]
+      ".": [
+        ["f_null", 2000],
+        ["f_region_weed", 20],
+        ["f_boulder_small", 6],
+        "f_boulder_medium",
+        "f_boulder_large"
+      ],
+      ",": [
+        ["f_null", 2000],
+        ["f_region_weed", 40],
+        ["f_boulder_small", 6],
+        ["f_boulder_medium", 2],
+        "f_boulder_large"
+      ],
+      ";": [
+        ["f_null", 2000],
+        ["f_region_weed", 60],
+        ["f_boulder_small", 6],
+        ["f_boulder_medium", 2],
+        "f_boulder_large"
+      ]
     }
   },
   {
@@ -63,21 +115,25 @@
         "    ................    ",
         "       ..........       "
       ],
-      "palettes": [ "long_grass_meadow_palette" ]
+      "palettes": ["long_grass_meadow_palette"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_grass_map",
-    "object": { "place_nested": [ { "chunks": [ [ "mx_grass_nested", 100 ] ], "x": [ 0, 17 ], "y": [ 0, 17 ], "repeat": [ 1, 6 ] } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [["mx_grass_nested", 100]], "x": [0, 17], "y": [0, 17], "repeat": [1, 6] }
+      ]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "mx_grass_nested",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         " .... ",
         ".,,,,.",
@@ -86,7 +142,7 @@
         ".,,,,.",
         " .... "
       ],
-      "palettes": [ "long_grass_meadow_palette" ]
+      "palettes": ["long_grass_meadow_palette"]
     }
   },
   {
@@ -94,7 +150,7 @@
     "method": "json",
     "nested_mapgen_id": "mx_grass_nested",
     "object": {
-      "mapgensize": [ 8, 8 ],
+      "mapgensize": [8, 8],
       "rows": [
         " ...... ",
         "..,,,,..",
@@ -105,7 +161,7 @@
         "..,,,,..",
         " ...... "
       ],
-      "palettes": [ "long_grass_meadow_palette" ]
+      "palettes": ["long_grass_meadow_palette"]
     }
   },
   {
@@ -139,21 +195,25 @@
         "    ................    ",
         "       ..........       "
       ],
-      "palettes": [ "copse_trees_palette" ]
+      "palettes": ["copse_trees_palette"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "mx_trees_map",
-    "object": { "place_nested": [ { "chunks": [ [ "mx_trees_nested", 100 ] ], "x": [ 0, 17 ], "y": [ 0, 17 ], "repeat": [ 1, 6 ] } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [["mx_trees_nested", 100]], "x": [0, 17], "y": [0, 17], "repeat": [1, 6] }
+      ]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "mx_trees_nested",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         " .... ",
         ".,,,,.",
@@ -162,7 +222,7 @@
         ".,,,,.",
         " .... "
       ],
-      "palettes": [ "copse_trees_palette" ]
+      "palettes": ["copse_trees_palette"]
     }
   },
   {
@@ -170,7 +230,7 @@
     "method": "json",
     "nested_mapgen_id": "mx_trees_nested",
     "object": {
-      "mapgensize": [ 8, 8 ],
+      "mapgensize": [8, 8],
       "rows": [
         " ...... ",
         "..,,,,..",
@@ -181,7 +241,7 @@
         "..,,,,..",
         " ...... "
       ],
-      "palettes": [ "copse_trees_palette" ]
+      "palettes": ["copse_trees_palette"]
     }
   },
   {
@@ -191,12 +251,12 @@
     "object": {
       "place_nested": [
         {
-          "chunks": [ [ "mx_grass_nested", 70 ], [ "mx_trees_nested", 30 ] ],
-          "x": [ 0, 17 ],
-          "y": [ 0, 17 ],
-          "repeat": [ 2, 6 ]
+          "chunks": [["mx_grass_nested", 70], ["mx_trees_nested", 30]],
+          "x": [0, 17],
+          "y": [0, 17],
+          "repeat": [2, 6]
         },
-        { "chunks": [ [ "mx_fallen_shed_nested", 100 ] ], "x": [ 0, 11 ], "y": [ 0, 11 ] }
+        { "chunks": [["mx_fallen_shed_nested", 100]], "x": [0, 11], "y": [0, 11] }
       ]
     }
   },
@@ -205,7 +265,7 @@
     "method": "json",
     "nested_mapgen_id": "mx_fallen_shed_nested",
     "object": {
-      "mapgensize": [ 11, 11 ],
+      "mapgensize": [11, 11],
       "rows": [
         "--++++--||-",
         "-______?RR|",
@@ -219,13 +279,16 @@
         "-_________|",
         "--||||||-||"
       ],
-      "palettes": [ "desolatebarn_palette" ],
-      "terrain": { "?": [ "t_dirtfloor", "t_dirt" ], "R": "t_dirt" },
-      "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ], "?": [ [ "f_null", 3 ], "f_rubble", "f_rubble_rock" ] },
+      "palettes": ["desolatebarn_palette"],
+      "terrain": { "?": ["t_dirtfloor", "t_dirt"], "R": "t_dirt" },
+      "furniture": {
+        "_": [["f_null", 30], "f_rubble", "f_rubble_rock"],
+        "?": [["f_null", 3], "f_rubble", "f_rubble_rock"]
+      },
       "items": {
         "_": { "item": "wood_workshop", "chance": 1 },
-        "?": [ { "item": "wood_workshop", "chance": 2 }, { "item": "mischw", "chance": 2 } ],
-        "R": [ { "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 } ]
+        "?": [{ "item": "wood_workshop", "chance": 2 }, { "item": "mischw", "chance": 2 }],
+        "R": [{ "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 }]
       }
     }
   },
@@ -234,7 +297,7 @@
     "method": "json",
     "nested_mapgen_id": "mx_fallen_shed_nested",
     "object": {
-      "mapgensize": [ 8, 8 ],
+      "mapgensize": [8, 8],
       "rows": [
         "--w_-||-",
         "-______|",
@@ -245,13 +308,16 @@
         "-_?RRR?w",
         "--w||-||"
       ],
-      "palettes": [ "desolatebarn_palette" ],
-      "terrain": { "?": [ "t_dirtfloor", "t_dirt" ], "R": "t_dirt" },
-      "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ], "?": [ [ "f_null", 3 ], "f_rubble", "f_rubble_rock" ] },
+      "palettes": ["desolatebarn_palette"],
+      "terrain": { "?": ["t_dirtfloor", "t_dirt"], "R": "t_dirt" },
+      "furniture": {
+        "_": [["f_null", 30], "f_rubble", "f_rubble_rock"],
+        "?": [["f_null", 3], "f_rubble", "f_rubble_rock"]
+      },
       "items": {
         "_": { "item": "wood_workshop", "chance": 1 },
-        "?": [ { "item": "wood_workshop", "chance": 2 }, { "item": "mischw", "chance": 2 } ],
-        "R": [ { "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 } ]
+        "?": [{ "item": "wood_workshop", "chance": 2 }, { "item": "mischw", "chance": 2 }],
+        "R": [{ "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 }]
       }
     }
   }

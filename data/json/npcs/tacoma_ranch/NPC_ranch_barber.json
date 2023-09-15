@@ -21,13 +21,13 @@
         "text": "[3 Merch] I'll have a shave",
         "topic": "TALK_RANCH_BARBER_CUT",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
-        "effect": [ "buy_shave", { "u_sell_item": "FMCNote", "count": 3 }, "barber_beard" ]
+        "effect": ["buy_shave", { "u_sell_item": "FMCNote", "count": 3 }, "barber_beard"]
       },
       {
         "text": "[6 Merch] I'll get a haircut",
         "topic": "TALK_RANCH_BARBER_CUT",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
-        "effect": [ "buy_haircut", { "u_sell_item": "FMCNote", "count": 6 }, "barber_hair" ]
+        "effect": ["buy_haircut", { "u_sell_item": "FMCNote", "count": 6 }, "barber_hair"]
       },
       { "text": "Maybe another time…", "topic": "TALK_DONE" }
     ]
@@ -36,18 +36,18 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_BARBER_JOB",
     "dynamic_line": "What?  I'm a barber… I cut hair.  There's demand for cheap cuts and a shave out here.",
-    "responses": [ { "text": "Sorry.", "topic": "TALK_RANCH_BARBER" } ]
+    "responses": [{ "text": "Sorry.", "topic": "TALK_RANCH_BARBER" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_BARBER_HIRE",
     "dynamic_line": "I can't imagine what I'd need your assistance with.",
-    "responses": [ { "text": "Fine.", "topic": "TALK_RANCH_BARBER" } ]
+    "responses": [{ "text": "Fine.", "topic": "TALK_RANCH_BARBER" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_BARBER_CUT",
     "dynamic_line": "Stand still while I get my clippers...",
-    "responses": [ { "text": "Thanks…", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "Thanks…", "topic": "TALK_DONE" }]
   }
 ]

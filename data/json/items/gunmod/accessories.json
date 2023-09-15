@@ -9,11 +9,11 @@
     "integral_volume": "0 ml",
     "price": 4000,
     "price_postapoc": 250,
-    "material": [ "plastic", "aluminum" ],
+    "material": ["plastic", "aluminum"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "accessories",
-    "mod_target_category": [ [ "BOWS" ] ],
+    "mod_target_category": [["BOWS"]],
     "dispersion_modifier": -100
   },
   {
@@ -25,11 +25,11 @@
     "volume": "500 ml",
     "price": 4000,
     "price_postapoc": 500,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ":",
     "color": "brown",
     "location": "stabilizer",
-    "mod_target_category": [ [ "BOWS" ] ],
+    "mod_target_category": [["BOWS"]],
     "dispersion_modifier": -100
   },
   {
@@ -41,13 +41,13 @@
     "volume": "500 ml",
     "price": 15000,
     "price_postapoc": 750,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ":",
     "color": "brown",
     "location": "stabilizer",
-    "mod_target_category": [ [ "BOWS" ] ],
+    "mod_target_category": [["BOWS"]],
     "dispersion_modifier": -150,
-    "flags": [ "NEEDS_UNFOLD" ]
+    "flags": ["NEEDS_UNFOLD"]
   },
   {
     "id": "bow_silencer",
@@ -58,11 +58,11 @@
     "volume": "250 ml",
     "price": 500,
     "price_postapoc": 250,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": ":",
     "color": "brown",
     "location": "dampening",
-    "mod_target_category": [ [ "BOWS" ], [ "S_XBOWS" ], [ "M_XBOWS" ] ],
+    "mod_target_category": [["BOWS"], ["S_XBOWS"], ["M_XBOWS"]],
     "dispersion_modifier": -50,
     "loudness_modifier": -8
   },
@@ -80,7 +80,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "accessories",
-    "mod_targets": [ "rugerlcp", "kp32", "kp3at", "kpf9", "cop_38", "moss_brownie" ],
-    "flags": [ "IS_ARMOR", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "mod_targets": ["rugerlcp", "kp32", "kp3at", "kpf9", "cop_38", "moss_brownie"],
+    "flags": ["IS_ARMOR", "SKINTIGHT", "WATER_FRIENDLY"]
   }
 ]

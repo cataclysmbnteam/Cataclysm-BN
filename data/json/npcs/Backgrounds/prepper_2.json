@@ -39,7 +39,10 @@
         "topic": "BGSS_PREPPER_2_MAPS",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
       },
-      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      {
+        "text": "Thanks for telling me that.  <done_conversation_section>",
+        "topic": "TALK_FRIEND"
+      },
       { "text": "Thanks for telling me that.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -61,7 +64,12 @@
         "condition": {
           "and": [
             { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
-            { "npc_has_var": "proving_worth", "type": "generic", "context": "BGSS_PREPPER_2", "value": "yes" }
+            {
+              "npc_has_var": "proving_worth",
+              "type": "generic",
+              "context": "BGSS_PREPPER_2",
+              "value": "yes"
+            }
           ]
         },
         "topic": "BGSS_PREPPER_2_PERSUADED"
@@ -71,18 +79,21 @@
         "default": true,
         "text": "Whatever's in that map benefits both of us.",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
-        "trial": { "type": "PERSUADE", "difficulty": 40, "mod": [ [ "VALUE", 3 ], [ "TRUST", 1 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 40, "mod": [["VALUE", 3], ["TRUST", 1]] },
         "success": { "topic": "BGSS_PREPPER_2_PERSUADED" },
         "failure": { "topic": "BGSS_PREPPER_2_PERSUADE_FAILED" }
       },
       {
         "text": "How 'bout you <swear> hand it over and I don't get <swear> pissed off?",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
-        "trial": { "type": "INTIMIDATE", "difficulty": 30, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
+        "trial": { "type": "INTIMIDATE", "difficulty": 30, "mod": [["BRAVERY", -1], ["FEAR", 3]] },
         "success": { "topic": "BGSS_PREPPER_2_BULLIED" },
         "failure": { "topic": "BGSS_PREPPER_2_BULLY_FAILED" }
       },
-      { "text": "Sorry for changing the subject.  What was it you were saying?", "topic": "TALK_NONE" },
+      {
+        "text": "Sorry for changing the subject.  What was it you were saying?",
+        "topic": "TALK_NONE"
+      },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -94,12 +105,12 @@
     "responses": [
       {
         "text": "Thanks!  <done_conversation_section>",
-        "effect": [ { "npc_add_effect": "player_BGSS_SAIDYES" }, { "u_buy_item": "survivormap" } ],
+        "effect": [{ "npc_add_effect": "player_BGSS_SAIDYES" }, { "u_buy_item": "survivormap" }],
         "topic": "TALK_FRIEND"
       },
       {
         "text": "Thanks!  <end_talking>",
-        "effect": [ { "npc_add_effect": "player_BGSS_SAIDYES" }, { "u_buy_item": "survivormap" } ],
+        "effect": [{ "npc_add_effect": "player_BGSS_SAIDYES" }, { "u_buy_item": "survivormap" }],
         "topic": "TALK_DONE"
       }
     ]
@@ -114,7 +125,12 @@
         "//": "Player can try again in a week",
         "effect": [
           { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 604800 },
-          { "npc_add_var": "proving_worth", "type": "generic", "context": "BGSS_PREPPER_2", "value": "yes" }
+          {
+            "npc_add_var": "proving_worth",
+            "type": "generic",
+            "context": "BGSS_PREPPER_2",
+            "value": "yes"
+          }
         ],
         "topic": "TALK_NONE"
       }
@@ -130,7 +146,12 @@
         "text": "<end_talking>",
         "effect": [
           { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 31536000 },
-          { "npc_add_var": "failed_to_bully", "type": "generic", "context": "BGSS_PREPPER_2", "value": "yes" }
+          {
+            "npc_add_var": "failed_to_bully",
+            "type": "generic",
+            "context": "BGSS_PREPPER_2",
+            "value": "yes"
+          }
         ],
         "topic": "TALK_DONE"
       }
@@ -143,7 +164,7 @@
     "responses": [
       {
         "text": "<end_talking>",
-        "effect": [ { "npc_add_effect": "player_BGSS_SAIDYES" }, { "u_buy_item": "survivormap" } ],
+        "effect": [{ "npc_add_effect": "player_BGSS_SAIDYES" }, { "u_buy_item": "survivormap" }],
         "topic": "TALK_DONE"
       }
     ]

@@ -128,92 +128,92 @@
         "[                          J_______::_______J                                                  [",
         "[[[[[[[[[[[[[[[[[[[[[[[[[[[|_______::_______|[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[["
       ],
-      "palettes": [ "industrial_center_palette" ],
+      "palettes": ["industrial_center_palette"],
       "place_loot": [
-        { "group": "office_breakroom", "x": 20, "y": [ 3, 4 ], "chance": 25, "repeat": 4 },
-        { "group": "tools_common", "x": 22, "y": [ 5, 7 ], "chance": 30, "repeat": 6 },
-        { "group": "tools_lighting_industrial", "x": [ 24, 25 ], "y": 5, "chance": 50, "repeat": 3 },
-        { "group": "tools_mechanic", "x": 27, "y": [ 5, 7 ], "chance": 30, "repeat": 6 },
-        { "group": "supplies_electronics", "x": 29, "y": [ 3, 5 ], "chance": 40, "repeat": 4 },
-        { "group": "supplies_metal", "x": [ 33, 36 ], "y": 3, "chance": 40, "repeat": 4 },
-        { "item": "acetylene_machine", "x": [ 35, 36 ], "y": 10, "chance": 100 },
-        { "group": "power_tools", "x": [ 35, 36 ], "y": 10, "chance": 50, "repeat": 3 },
-        { "group": "hazmat_suits", "x": 38, "y": [ 6, 8 ], "chance": 50, "repeat": 2 },
+        { "group": "office_breakroom", "x": 20, "y": [3, 4], "chance": 25, "repeat": 4 },
+        { "group": "tools_common", "x": 22, "y": [5, 7], "chance": 30, "repeat": 6 },
+        { "group": "tools_lighting_industrial", "x": [24, 25], "y": 5, "chance": 50, "repeat": 3 },
+        { "group": "tools_mechanic", "x": 27, "y": [5, 7], "chance": 30, "repeat": 6 },
+        { "group": "supplies_electronics", "x": 29, "y": [3, 5], "chance": 40, "repeat": 4 },
+        { "group": "supplies_metal", "x": [33, 36], "y": 3, "chance": 40, "repeat": 4 },
+        { "item": "acetylene_machine", "x": [35, 36], "y": 10, "chance": 100 },
+        { "group": "power_tools", "x": [35, 36], "y": 10, "chance": 50, "repeat": 3 },
+        { "group": "hazmat_suits", "x": 38, "y": [6, 8], "chance": 50, "repeat": 2 },
         { "item": "eyedrops", "x": 42, "y": 8, "chance": 50, "repeat": 2 },
-        { "group": "manuals", "x": 64, "y": [ 17, 18 ], "chance": 75, "repeat": 2 },
-        { "group": "rad_gear", "x": [ 64, 66 ], "y": 20, "chance": 25, "repeat": 6 },
-        { "group": "fireman_gear", "x": 68, "y": [ 17, 20 ], "chance": 50, "repeat": 3 },
-        { "group": "sewage_plant", "x": [ 67, 68 ], "y": 3, "chance": 70, "repeat": 2 },
-        { "group": "sewage_plant", "x": [ 67, 68 ], "y": 7, "chance": 70, "repeat": 2 },
-        { "group": "sewage_plant", "x": [ 67, 68 ], "y": 9, "chance": 70, "repeat": 2 },
-        { "group": "sewage_plant", "x": [ 67, 68 ], "y": 11, "chance": 70, "repeat": 2 },
-        { "group": "sewage_plant", "x": [ 67, 68 ], "y": 13, "chance": 70, "repeat": 2 },
-        { "group": "sewage_plant", "x": [ 67, 68 ], "y": 15, "chance": 70, "repeat": 2 },
-        { "group": "supplies_metal", "x": 51, "y": [ 3, 5 ], "chance": 60, "repeat": 5 },
+        { "group": "manuals", "x": 64, "y": [17, 18], "chance": 75, "repeat": 2 },
+        { "group": "rad_gear", "x": [64, 66], "y": 20, "chance": 25, "repeat": 6 },
+        { "group": "fireman_gear", "x": 68, "y": [17, 20], "chance": 50, "repeat": 3 },
+        { "group": "sewage_plant", "x": [67, 68], "y": 3, "chance": 70, "repeat": 2 },
+        { "group": "sewage_plant", "x": [67, 68], "y": 7, "chance": 70, "repeat": 2 },
+        { "group": "sewage_plant", "x": [67, 68], "y": 9, "chance": 70, "repeat": 2 },
+        { "group": "sewage_plant", "x": [67, 68], "y": 11, "chance": 70, "repeat": 2 },
+        { "group": "sewage_plant", "x": [67, 68], "y": 13, "chance": 70, "repeat": 2 },
+        { "group": "sewage_plant", "x": [67, 68], "y": 15, "chance": 70, "repeat": 2 },
+        { "group": "supplies_metal", "x": 51, "y": [3, 5], "chance": 60, "repeat": 5 },
         { "group": "tools_plumbing", "x": 52, "y": 3, "chance": 40, "repeat": 3 },
-        { "group": "clothing_work_set", "x": [ 63, 65 ], "y": 3, "chance": 40, "repeat": 4 },
-        { "group": "supplies_electronics", "x": 79, "y": [ 6, 7 ], "chance": 40, "repeat": 3 },
-        { "group": "tools_lighting_industrial", "x": 79, "y": [ 6, 7 ], "chance": 30, "repeat": 2 },
-        { "group": "tools_common", "x": 79, "y": [ 6, 7 ], "chance": 40, "repeat": 2 },
-        { "group": "clothing_work_set", "x": 79, "y": [ 6, 7 ], "chance": 25 },
-        { "group": "supplies_electronics", "x": 79, "y": [ 11, 12 ], "chance": 40, "repeat": 3 },
-        { "group": "tools_lighting_industrial", "x": 79, "y": [ 11, 12 ], "chance": 30, "repeat": 2 },
-        { "group": "tools_common", "x": 79, "y": [ 11, 12 ], "chance": 40, "repeat": 2 },
-        { "group": "clothing_work_set", "x": 79, "y": [ 11, 12 ], "chance": 25 },
+        { "group": "clothing_work_set", "x": [63, 65], "y": 3, "chance": 40, "repeat": 4 },
+        { "group": "supplies_electronics", "x": 79, "y": [6, 7], "chance": 40, "repeat": 3 },
+        { "group": "tools_lighting_industrial", "x": 79, "y": [6, 7], "chance": 30, "repeat": 2 },
+        { "group": "tools_common", "x": 79, "y": [6, 7], "chance": 40, "repeat": 2 },
+        { "group": "clothing_work_set", "x": 79, "y": [6, 7], "chance": 25 },
+        { "group": "supplies_electronics", "x": 79, "y": [11, 12], "chance": 40, "repeat": 3 },
+        { "group": "tools_lighting_industrial", "x": 79, "y": [11, 12], "chance": 30, "repeat": 2 },
+        { "group": "tools_common", "x": 79, "y": [11, 12], "chance": 40, "repeat": 2 },
+        { "group": "clothing_work_set", "x": 79, "y": [11, 12], "chance": 25 },
         { "item": "stepladder", "x": 79, "y": 14, "chance": 100 },
         { "item": "eyedrops", "x": 75, "y": 32, "chance": 50, "repeat": 2 },
-        { "group": "waitingroom", "x": 77, "y": [ 40, 41 ], "chance": 70, "repeat": 3 },
-        { "group": "gear_medical", "x": 84, "y": [ 33, 34 ], "chance": 70, "repeat": 2 },
-        { "group": "gear_medical", "x": 81, "y": [ 41, 42 ], "chance": 70, "repeat": 2 },
-        { "group": "softdrugs", "x": [ 82, 84 ], "y": 44, "chance": 70, "repeat": 2 },
-        { "group": "doctors_books", "x": 88, "y": [ 27, 30 ], "chance": 60, "repeat": 4 },
+        { "group": "waitingroom", "x": 77, "y": [40, 41], "chance": 70, "repeat": 3 },
+        { "group": "gear_medical", "x": 84, "y": [33, 34], "chance": 70, "repeat": 2 },
+        { "group": "gear_medical", "x": 81, "y": [41, 42], "chance": 70, "repeat": 2 },
+        { "group": "softdrugs", "x": [82, 84], "y": 44, "chance": 70, "repeat": 2 },
+        { "group": "doctors_books", "x": 88, "y": [27, 30], "chance": 60, "repeat": 4 },
         { "item": "soap", "x": 92, "y": 27, "chance": 95 },
-        { "item": "anesthetic_kit", "x": 92, "y": [ 30, 31 ], "chance": 75 },
-        { "group": "bionics_tech", "x": [ 86, 88 ], "y": 40, "chance": 50, "repeat": 4 },
-        { "group": "bionic_power_storage_civ", "x": [ 86, 88 ], "y": 40, "chance": 50, "repeat": 2 },
-        { "group": "harddrugs", "x": 86, "y": [ 42, 44 ], "chance": 50, "repeat": 3 },
-        { "group": "gear_medical", "x": 86, "y": [ 42, 44 ], "chance": 50, "repeat": 4 },
-        { "group": "drugs_analgesic", "x": 86, "y": [ 42, 44 ], "chance": 50, "repeat": 4 },
-        { "group": "drugs_rare", "x": 86, "y": [ 42, 44 ], "chance": 50, "repeat": 3 },
-        { "group": "surgery", "x": 86, "y": [ 42, 44 ], "chance": 50, "repeat": 2 },
-        { "group": "tools_electronics", "x": 81, "y": [ 53, 54 ], "chance": 50, "repeat": 3 },
-        { "group": "office_breakroom", "x": [ 80, 81 ], "y": [ 66, 67 ], "chance": 25, "repeat": 6 },
-        { "item": "microwave", "x": [ 84, 85 ], "y": 69, "chance": 80 },
-        { "group": "construction_worker", "x": 78, "y": [ 77, 80 ], "chance": 60, "repeat": 5 },
-        { "group": "construction_worker", "x": 82, "y": [ 77, 78 ], "chance": 60, "repeat": 2 },
+        { "item": "anesthetic_kit", "x": 92, "y": [30, 31], "chance": 75 },
+        { "group": "bionics_tech", "x": [86, 88], "y": 40, "chance": 50, "repeat": 4 },
+        { "group": "bionic_power_storage_civ", "x": [86, 88], "y": 40, "chance": 50, "repeat": 2 },
+        { "group": "harddrugs", "x": 86, "y": [42, 44], "chance": 50, "repeat": 3 },
+        { "group": "gear_medical", "x": 86, "y": [42, 44], "chance": 50, "repeat": 4 },
+        { "group": "drugs_analgesic", "x": 86, "y": [42, 44], "chance": 50, "repeat": 4 },
+        { "group": "drugs_rare", "x": 86, "y": [42, 44], "chance": 50, "repeat": 3 },
+        { "group": "surgery", "x": 86, "y": [42, 44], "chance": 50, "repeat": 2 },
+        { "group": "tools_electronics", "x": 81, "y": [53, 54], "chance": 50, "repeat": 3 },
+        { "group": "office_breakroom", "x": [80, 81], "y": [66, 67], "chance": 25, "repeat": 6 },
+        { "item": "microwave", "x": [84, 85], "y": 69, "chance": 80 },
+        { "group": "construction_worker", "x": 78, "y": [77, 80], "chance": 60, "repeat": 5 },
+        { "group": "construction_worker", "x": 82, "y": [77, 78], "chance": 60, "repeat": 2 },
         { "group": "cleaning", "x": 75, "y": 89, "chance": 80, "repeat": 2 },
-        { "group": "office", "x": 88, "y": [ 75, 77 ], "chance": 80, "repeat": 2 },
-        { "group": "tools_construction", "x": 75, "y": [ 90, 91 ], "chance": 60, "repeat": 4 },
+        { "group": "office", "x": 88, "y": [75, 77], "chance": 80, "repeat": 2 },
+        { "group": "tools_construction", "x": 75, "y": [90, 91], "chance": 60, "repeat": 4 },
         { "group": "tools_earthworking", "x": 75, "y": 92, "chance": 80, "repeat": 2 },
-        { "group": "office_breakroom", "x": 73, "y": [ 78, 79 ], "chance": 40, "repeat": 3 },
+        { "group": "office_breakroom", "x": 73, "y": [78, 79], "chance": 40, "repeat": 3 },
         { "item": "microwave", "x": 76, "y": 79, "chance": 80 },
         { "item": "american_flag", "x": 90, "y": 91, "chance": 25 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 3, 21 ], "y": [ 3, 23 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 24, 36 ], "y": [ 5, 18 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 51, 68 ], "y": [ 3, 20 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 73, 94 ], "y": [ 1, 21 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 2, 21 ], "y": [ 26, 45 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 26, 45 ], "y": [ 26, 45 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 50, 69 ], "y": [ 26, 45 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 75, 84 ], "y": [ 27, 44 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 2, 21 ], "y": [ 50, 69 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 26, 45 ], "y": [ 50, 69 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 50, 69 ], "y": [ 50, 69 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 78, 88 ], "y": [ 50, 69 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 2, 21 ], "y": [ 72, 93 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 26, 45 ], "y": [ 72, 93 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 50, 69 ], "y": [ 72, 93 ], "density": 1 },
-        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [ 73, 92 ], "y": [ 72, 93 ], "density": 1 }
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [3, 21], "y": [3, 23], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [24, 36], "y": [5, 18], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [51, 68], "y": [3, 20], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [73, 94], "y": [1, 21], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [2, 21], "y": [26, 45], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [26, 45], "y": [26, 45], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [50, 69], "y": [26, 45], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [75, 84], "y": [27, 44], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [2, 21], "y": [50, 69], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [26, 45], "y": [50, 69], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [50, 69], "y": [50, 69], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [78, 88], "y": [50, 69], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [2, 21], "y": [72, 93], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [26, 45], "y": [72, 93], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [50, 69], "y": [72, 93], "density": 1 },
+        { "monster": "GROUP_INDUSTRIAL_CENTER", "x": [73, 92], "y": [72, 93], "density": 1 }
       ],
       "place_monster": [
-        { "monster": "mon_zombie_technician", "x": [ 29, 36 ], "y": [ 3, 8 ], "repeat": [ 1, 3 ] },
-        { "monster": "mon_zombie_hazmat", "x": [ 39, 42 ], "y": [ 6, 8 ], "repeat": [ 1, 2 ] },
-        { "monster": "mon_zombie_fireman", "x": [ 52, 63 ], "y": [ 22, 23 ], "repeat": [ 1, 3 ] },
-        { "monster": "mon_zombie_technician", "x": [ 73, 79 ], "y": [ 6, 12 ], "repeat": [ 1, 3 ] },
-        { "monster": "mon_zombie_nurse", "x": [ 86, 88 ], "y": [ 27, 35 ], "repeat": [ 1, 2 ] },
-        { "monster": "mon_zombie_static", "x": [ 75, 90 ], "y": [ 50, 55 ], "repeat": [ 1, 3 ] }
+        { "monster": "mon_zombie_technician", "x": [29, 36], "y": [3, 8], "repeat": [1, 3] },
+        { "monster": "mon_zombie_hazmat", "x": [39, 42], "y": [6, 8], "repeat": [1, 2] },
+        { "monster": "mon_zombie_fireman", "x": [52, 63], "y": [22, 23], "repeat": [1, 3] },
+        { "monster": "mon_zombie_technician", "x": [73, 79], "y": [6, 12], "repeat": [1, 3] },
+        { "monster": "mon_zombie_nurse", "x": [86, 88], "y": [27, 35], "repeat": [1, 2] },
+        { "monster": "mon_zombie_static", "x": [75, 90], "y": [50, 55], "repeat": [1, 3] }
       ],
       "place_vehicles": [
         { "vehicle": "warehouse_vehicles", "x": 14, "y": 20, "chance": 80, "rotation": 270 },
@@ -240,7 +240,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "industrial_center_warehouse_roof" ],
+    "om_terrain": ["industrial_center_warehouse_roof"],
     "weight": 250,
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -270,15 +270,15 @@
         "  |..................3  ",
         "  ||................33  "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_tar_flat_roof" },
-      "nested": { "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } }
+      "nested": { "R": { "chunks": ["roof_2x2_infrastructure_1"] } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "industrial_center_light_industry_roof" ],
+    "om_terrain": ["industrial_center_light_industry_roof"],
     "weight": 250,
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -308,30 +308,30 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_tar_flat_roof" },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
           "x": 6,
           "y": 4
         },
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 8, 18 ],
-          "y": [ 11, 15 ]
+          "x": [8, 18],
+          "y": [11, 15]
         }
       ]
     }
@@ -339,7 +339,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "industrial_center_pump_station_roof" ],
+    "om_terrain": ["industrial_center_pump_station_roof"],
     "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -369,21 +369,24 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ">": "t_ladder_down" },
-      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] } },
+      "nested": {
+        "U": { "chunks": ["roof_2x2_infrastructure"] },
+        "Z": { "chunks": ["roof_2x2_infrastructure_2"] }
+      },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_4x4_party", 15 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_4x4_utility_1", 30 ],
-            [ "roof_6x6_survivor", 20 ],
-            [ "roof_6x6_utility", 20 ]
+            ["null", 20],
+            ["roof_4x4_party", 15],
+            ["roof_4x4_utility", 40],
+            ["roof_4x4_utility_1", 30],
+            ["roof_6x6_survivor", 20],
+            ["roof_6x6_utility", 20]
           ],
-          "x": [ 5, 12 ],
-          "y": [ 4, 6 ]
+          "x": [5, 12],
+          "y": [4, 6]
         }
       ]
     }
@@ -391,7 +394,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "industrial_center_substation_roof" ],
+    "om_terrain": ["industrial_center_substation_roof"],
     "weight": 250,
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -421,14 +424,14 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_tar_flat_roof" }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "industrial_center_loading_bay_roof" ],
+    "om_terrain": ["industrial_center_loading_bay_roof"],
     "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -458,14 +461,14 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_tar_flat_roof", "_": "t_metal_flat_roof" }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "industrial_center_medical_center_roof" ],
+    "om_terrain": ["industrial_center_medical_center_roof"],
     "weight": 250,
     "object": {
       "fill_ter": "t_tar_flat_roof",
@@ -495,27 +498,29 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_tar_flat_roof" },
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 18 ], "y": [ 5, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [4, 18], "y": [5, 18], "chance": 50, "repeat": [1, 3] }
+      ],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ],
-            [ "roof_2x2_golf", 10 ],
-            [ "roof_3x3_wine", 5 ],
-            [ "roof_4x4_utility_1", 30 ],
-            [ "roof_4x4_party", 5 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_4x4_survivor", 5 ],
-            [ "roof_6x6_utility", 20 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50],
+            ["roof_2x2_golf", 10],
+            ["roof_3x3_wine", 5],
+            ["roof_4x4_utility_1", 30],
+            ["roof_4x4_party", 5],
+            ["roof_4x4_utility", 40],
+            ["roof_4x4_survivor", 5],
+            ["roof_6x6_utility", 20]
           ],
-          "x": [ 8, 14 ],
-          "y": [ 5, 15 ]
+          "x": [8, 14],
+          "y": [5, 15]
         }
       ]
     }
@@ -523,7 +528,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "industrial_center_data_center_roof" ],
+    "om_terrain": ["industrial_center_data_center_roof"],
     "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -553,15 +558,21 @@
         "|2222|...............3  ",
         "|....................3  "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "#": "t_wall", "_": "t_floor", "+": "t_door_locked", ">": "t_ladder_down" },
-      "place_nested": [ { "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ] ], "x": [ 7, 9 ], "y": 17 } ]
+      "place_nested": [
+        {
+          "chunks": [["null", 20], ["roof_4x4_utility", 40], ["roof_6x6_utility", 20]],
+          "x": [7, 9],
+          "y": 17
+        }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "industrial_center_admin_roof" ],
+    "om_terrain": ["industrial_center_admin_roof"],
     "weight": 250,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -591,19 +602,22 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "palettes": ["roof_palette"],
+      "nested": {
+        "U": { "chunks": ["roof_2x2_infrastructure"] },
+        "R": { "chunks": ["roof_2x2_infrastructure_1"] }
+      },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 2, 7 ],
-          "y": [ 17, 18 ]
+          "x": [2, 7],
+          "y": [17, 18]
         }
       ]
     }
@@ -611,7 +625,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "industrial_center_pump_station_basement" ],
+    "om_terrain": ["industrial_center_pump_station_basement"],
     "weight": 250,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -641,7 +655,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "industrial_center_palette" ],
+      "palettes": ["industrial_center_palette"],
       "terrain": {
         " ": "t_rock",
         "_": "t_bridge",
@@ -655,7 +669,7 @@
         "l": { "item": "sewage_plant", "chance": 50, "repeat": 2 },
         "c": { "item": "plumbing_clothing", "chance": 50, "repeat": 2 }
       },
-      "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_SEWER", "x": [1, 22], "y": [1, 22], "density": 0.1 }]
     }
   }
 ]

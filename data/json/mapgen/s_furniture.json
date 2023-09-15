@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "furniture" ],
+    "om_terrain": ["furniture"],
     "weight": 300,
     "object": {
       "fill_ter": "t_floor",
@@ -49,7 +49,7 @@
         "C": "f_cupboard",
         "E": "f_bookcase",
         "H": "f_armchair",
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "y": ["f_indoor_plant_y", "f_indoor_plant"],
         "O": "f_oven",
         "b": "f_bed",
         "S": "f_sink",
@@ -69,13 +69,13 @@
         "u": "f_glass_cabinet",
         "v": "f_floor_lamp"
       },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "place_items": [
-        { "item": "tools_carpentry", "x": 21, "y": [ 5, 8 ], "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "hardware", "x": 21, "y": [ 10, 13 ], "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "hardware", "x": [ 8, 21 ], "y": 15, "chance": 75, "repeat": [ 1, 4 ] },
-        { "item": "tools_carpentry", "x": [ 2, 5 ], "y": 18, "chance": 75, "repeat": [ 1, 8 ] },
-        { "item": "magazines", "x": 2, "y": [ 3, 4 ], "chance": 75, "repeat": [ 1, 4 ] }
+        { "item": "tools_carpentry", "x": 21, "y": [5, 8], "chance": 70, "repeat": [1, 4] },
+        { "item": "hardware", "x": 21, "y": [10, 13], "chance": 70, "repeat": [1, 4] },
+        { "item": "hardware", "x": [8, 21], "y": 15, "chance": 75, "repeat": [1, 4] },
+        { "item": "tools_carpentry", "x": [2, 5], "y": 18, "chance": 75, "repeat": [1, 8] },
+        { "item": "magazines", "x": 2, "y": [3, 4], "chance": 75, "repeat": [1, 4] }
       ]
     }
   },
@@ -111,31 +111,37 @@
         " |........#p>vp#.3      ",
         " |--------######-3      "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_wall_w", "p": "t_floor", "v": "t_floor", ">": "t_ladder_down", "D": "t_door_locked" },
+      "palettes": ["roof_palette"],
+      "terrain": {
+        "#": "t_wall_w",
+        "p": "t_floor",
+        "v": "t_floor",
+        ">": "t_ladder_down",
+        "D": "t_door_locked"
+      },
       "furniture": { "v": "f_floor_lamp", "p": "f_rack_coat" },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ],
-            [ "roof_3x3_wine", 5 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50],
+            ["roof_3x3_wine", 5]
           ],
-          "x": [ 3, 15 ],
-          "y": [ 10, 12 ]
+          "x": [3, 15],
+          "y": [10, 12]
         },
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_4x4_party", 5 ],
-            [ "roof_4x4_holdout", 5 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_4x4_utility_1", 30 ]
+            ["null", 20],
+            ["roof_4x4_party", 5],
+            ["roof_4x4_holdout", 5],
+            ["roof_4x4_utility", 40],
+            ["roof_4x4_utility_1", 30]
           ],
-          "x": [ 3, 15 ],
+          "x": [3, 15],
           "y": 3
         }
       ]
@@ -173,7 +179,7 @@
         "          ......        ",
         "          ......        "
       ],
-      "palettes": [ "roof_palette" ]
+      "palettes": ["roof_palette"]
     }
   }
 ]

@@ -52,7 +52,7 @@
     "dirty_transparency_cache": true,
     "percent_spread": 40,
     "outdoor_age_speedup": "0 turns",
-    "immunity_data": { "body_part_env_resistance": [ [ "eyes", 12 ] ] },
+    "immunity_data": { "body_part_env_resistance": [["eyes", 12]] },
     "priority": 8,
     "half_life": "2 minutes",
     "phase": "gas",
@@ -73,12 +73,12 @@
     "description": "This is a small black dragon, less than five years old.  Its scales are glossy, and its horns barely peek out of its head.  Even from one so young, you see the glint of sadism in its eyes.",
     "default_faction": "dragon_black",
     "bodytype": "angel",
-    "species": [ "DRAGON" ],
+    "species": ["DRAGON"],
     "volume": "80 L",
     "weight": "65 kg",
     "hp": 180,
     "speed": 150,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "D",
     "color": "black_white",
     "aggression": 100,
@@ -96,11 +96,15 @@
     "vision_night": 20,
     "path_settings": { "//min_dist": 8 },
     "harvest": "dragon_black",
-    "death_function": [ "NORMAL" ],
+    "death_function": ["NORMAL"],
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
-      [ "scratch", 7 ],
-      { "type": "spell", "spell_data": { "id": "dragon_breath_black", "min_level": 4 }, "cooldown": 20 }
+      ["scratch", 7],
+      {
+        "type": "spell",
+        "spell_data": { "id": "dragon_breath_black", "min_level": 4 },
+        "cooldown": 20
+      }
     ],
     "flags": [
       "SEES",
@@ -135,8 +139,12 @@
     "armor_bullet": 16,
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
-      [ "scratch", 3 ],
-      { "type": "spell", "spell_data": { "id": "dragon_breath_black", "min_level": 12 }, "cooldown": 20 }
+      ["scratch", 3],
+      {
+        "type": "spell",
+        "spell_data": { "id": "dragon_breath_black", "min_level": 12 },
+        "cooldown": 20
+      }
     ]
   },
   {
@@ -157,12 +165,16 @@
     "dodge": 3,
     "//2": "Large means powerful, but it does not mean fast.",
     "speed": 100,
-    "delete": { "flags": [ "PATH_AVOID_DANGER_2" ] },
-    "emit_fields": [ { "emit_id": "emit_dragon_adult_fright", "delay": "1 s" } ],
+    "delete": { "flags": ["PATH_AVOID_DANGER_2"] },
+    "emit_fields": [{ "emit_id": "emit_dragon_adult_fright", "delay": "1 s" }],
     "special_attacks": [
       { "type": "bite", "cooldown": 10 },
-      [ "scratch", 3 ],
-      { "type": "spell", "spell_data": { "id": "dragon_breath_black", "min_level": 22 }, "cooldown": 30 }
+      ["scratch", 3],
+      {
+        "type": "spell",
+        "spell_data": { "id": "dragon_breath_black", "min_level": 22 },
+        "cooldown": 30
+      }
     ]
   }
 ]

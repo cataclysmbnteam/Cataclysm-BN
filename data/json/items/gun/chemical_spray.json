@@ -10,9 +10,9 @@
     "volume": "4250 ml",
     "price": 10000,
     "price_postapoc": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "dispersion": 300,
     "durability": 6,
-    "magazines": [ [ "chemical_spray", [ "pressurized_tank_chem" ] ] ]
+    "magazines": [["chemical_spray", ["pressurized_tank_chem"]]]
   }
 ]

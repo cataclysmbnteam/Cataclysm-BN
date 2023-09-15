@@ -3,9 +3,9 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "farm_dairy_twd_1", "farm_dairy_twd_2", "farm_dairy_twd_3", "farm_dairy_twd_4" ],
-      [ "farm_dairy_twd_5", "farm_dairy_twd_6", "farm_dairy_twd_7", "farm_dairy_twd_8" ],
-      [ "farm_dairy_twd_9", "farm_dairy_twd_10", "farm_dairy_twd_11", "farm_dairy_twd_12" ]
+      ["farm_dairy_twd_1", "farm_dairy_twd_2", "farm_dairy_twd_3", "farm_dairy_twd_4"],
+      ["farm_dairy_twd_5", "farm_dairy_twd_6", "farm_dairy_twd_7", "farm_dairy_twd_8"],
+      ["farm_dairy_twd_9", "farm_dairy_twd_10", "farm_dairy_twd_11", "farm_dairy_twd_12"]
     ],
     "weight": 250,
     "object": {
@@ -86,10 +86,10 @@
       ],
       "sealed_item": { "#": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling" } },
       "terrain": {
-        ".": [ [ "t_region_groundcover", 99 ], [ "t_shrub", 1 ] ],
-        ",": [ [ "t_dirt", 200 ], [ "t_railroad_rubble", 15 ], [ "t_region_groundcover", 55 ] ],
+        ".": [["t_region_groundcover", 99], ["t_shrub", 1]],
+        ",": [["t_dirt", 200], ["t_railroad_rubble", 15], ["t_region_groundcover", 55]],
         "'": "t_dirtfloor",
-        ";": [ [ "t_dirtfloor_no_roof", 80 ], [ "t_dirt", 20 ] ],
+        ";": [["t_dirtfloor_no_roof", 80], ["t_dirt", 20]],
         "b": "t_dirt",
         "@": "t_dirt",
         "s": "t_dirt",
@@ -158,7 +158,7 @@
         "n": "t_fence_metal",
         "N": "t_metal_floor",
         "O": "t_floor",
-        "p": [ [ "t_region_tree", 50 ], [ "t_region_groundcover", 50 ] ],
+        "p": [["t_region_tree", 50], ["t_region_groundcover", 50]],
         "P": "t_bulk_tank",
         "q": "t_dirtfloor",
         "Q": "t_region_groundcover",
@@ -194,7 +194,7 @@
         "]": "f_coffee_table",
         "1": "f_sofa",
         "2": "f_bookcase",
-        "3": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "3": ["f_indoor_plant_y", "f_indoor_plant"],
         "4": "f_wardrobe",
         "5": "f_sink",
         "6": "f_fridge",
@@ -227,13 +227,13 @@
           { "item": "human_cooked", "chance": 100 }
         ],
         "?": { "item": "bottle_glass", "chance": 70, "repeat": 6 },
-        "^": [ { "item": "bucket", "chance": 100 }, { "item": "mop", "chance": 100 } ],
+        "^": [{ "item": "bucket", "chance": 100 }, { "item": "mop", "chance": 100 }],
         "8": { "item": "rennet", "chance": 50, "repeat": 5 },
         "A": { "item": "wheel_wood", "chance": 100 },
         "C": { "item": "bucket", "chance": 100 },
         "j": { "item": "jerrycan", "chance": 100 },
         "h": { "item": "2x4", "chance": 100, "repeat": 2 },
-        "o": { "item": "straw_pile", "chance": 100, "repeat": [ 5, 10 ] },
+        "o": { "item": "straw_pile", "chance": 100, "repeat": [5, 10] },
         "q": { "item": "pitchfork", "chance": 100 },
         "U": { "item": "salt_lick", "chance": 100 },
         "W": { "item": "box_medium", "chance": 100 }
@@ -242,17 +242,29 @@
         "e": { "item": "tools_home", "chance": 100 },
         "m": { "item": "SUS_junk_drawer", "chance": 100 },
         ")": { "item": "SUS_bathroom_sink", "chance": 70, "repeat": 2 },
-        "_": [ { "item": "SUS_toilet", "chance": 90 }, { "item": "SUS_bathroom_cabinet", "chance": 90 } ],
-        "`": [ { "item": "SUS_utensils", "chance": 70 }, { "item": "SUS_dishes", "chance": 70 } ],
-        "/": [ { "item": "SUS_knife_drawer", "chance": 70 }, { "item": "SUS_silverware", "chance": 70 } ],
+        "_": [
+          { "item": "SUS_toilet", "chance": 90 },
+          { "item": "SUS_bathroom_cabinet", "chance": 90 }
+        ],
+        "`": [{ "item": "SUS_utensils", "chance": 70 }, { "item": "SUS_dishes", "chance": 70 }],
+        "/": [
+          { "item": "SUS_knife_drawer", "chance": 70 },
+          { "item": "SUS_silverware", "chance": 70 }
+        ],
         "2": { "item": "ranch_homebooks", "chance": 70 },
         "5": { "item": "SUS_kitchen_sink", "chance": 70 },
         "6": { "item": "SUS_fridge", "chance": 70 },
         "7": { "item": "SUS_oven", "chance": 70 },
-        "8": [ { "item": "SUS_spice_collection", "chance": 70 }, { "item": "SUS_breakfast_cupboard", "chance": 70 } ],
+        "8": [
+          { "item": "SUS_spice_collection", "chance": 70 },
+          { "item": "SUS_breakfast_cupboard", "chance": 70 }
+        ],
         "9": { "item": "SUS_appliances_cupboard", "chance": 70 },
         "0": { "item": "SUS_pantry", "chance": 70 },
-        "]": [ { "item": "smokelounge_items", "chance": 70 }, { "item": "alcohol_bottled_canned", "chance": 70 } ],
+        "]": [
+          { "item": "smokelounge_items", "chance": 70 },
+          { "item": "alcohol_bottled_canned", "chance": 70 }
+        ],
         "O": [
           { "item": "tools_earthworking", "chance": 65 },
           { "item": "mechanics", "chance": 40 },
@@ -262,7 +274,7 @@
         ],
         "Z": { "item": "coat_rack", "chance": 70 }
       },
-      "place_item": [ { "item": "beartrap", "x": 15, "y": [ 40, 42 ], "chance": 100, "repeat": 3 } ],
+      "place_item": [{ "item": "beartrap", "x": 15, "y": [40, 42], "chance": 100, "repeat": 3 }],
       "signs": { "s": { "signage": "St. John Dairy.  555-0199 Daily Farm Tours" } },
       "traps": { "q": "tr_beartrap" },
       "monster": {
@@ -279,18 +291,20 @@
         "M": { "field": "fd_blood", "intensity": 1, "age": 10 },
         "q": { "field": "fd_blood", "intensity": 1, "age": 10 }
       },
-      "place_fields": [ { "field": "fd_bile", "x": 10, "y": 35, "intensity": 2, "age": 20 } ],
-      "toilets": { "<": {  } },
-      "vehicles": { "J": { "vehicle": "portable_generator", "chance": 100, "fuel": 40, "status": 1 } }
+      "place_fields": [{ "field": "fd_bile", "x": 10, "y": 35, "intensity": 2, "age": 20 }],
+      "toilets": { "<": {} },
+      "vehicles": {
+        "J": { "vehicle": "portable_generator", "chance": 100, "fuel": 40, "status": 1 }
+      }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "null", "null", "farm_dairy_twd_second_floor_3", "farm_dairy_twd_second_floor_4" ],
-      [ "farm_dairy_twd_second_floor_5", "farm_dairy_twd_second_floor_6", "null", "null" ],
-      [ "null", "null", "null", "farm_dairy_twd_second_floor_12" ]
+      ["null", "null", "farm_dairy_twd_second_floor_3", "farm_dairy_twd_second_floor_4"],
+      ["farm_dairy_twd_second_floor_5", "farm_dairy_twd_second_floor_6", "null", "null"],
+      ["null", "null", "null", "farm_dairy_twd_second_floor_12"]
     ],
     "weight": 250,
     "object": {
@@ -407,7 +421,7 @@
         "D": "f_dresser",
         "_": "f_cupboard",
         "[": "f_coffee_table",
-        "3": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "3": ["f_indoor_plant_y", "f_indoor_plant"],
         "4": "f_wardrobe"
       },
       "items": {
@@ -415,21 +429,30 @@
         "b": { "item": "bed", "chance": 70 },
         "d": { "item": "SUS_dresser_mens", "chance": 70 },
         "D": { "item": "SUS_dresser_womens", "chance": 70 },
-        "4": [ { "item": "SUS_wardrobe_mens", "chance": 70 }, { "item": "SUS_wardrobe_womens", "chance": 70 } ],
+        "4": [
+          { "item": "SUS_wardrobe_mens", "chance": 70 },
+          { "item": "SUS_wardrobe_womens", "chance": 70 }
+        ],
         "!": { "item": "ranch_homebooks", "chance": 70, "repeat": 2 },
         "%": { "item": "SUS_bathroom_sink", "chance": 70 },
         "[": { "item": "SUS_desks_bedroom_unisex", "chance": 70 },
-        "_": [ { "item": "SUS_toilet", "chance": 90 }, { "item": "SUS_bathroom_cabinet", "chance": 90 } ]
+        "_": [
+          { "item": "SUS_toilet", "chance": 90 },
+          { "item": "SUS_bathroom_cabinet", "chance": 90 }
+        ]
       },
-      "fields": { "`": { "field": "fd_blood", "intensity": 1, "age": 10 }, "(": { "field": "fd_blood", "intensity": 1, "age": 10 } },
+      "fields": {
+        "`": { "field": "fd_blood", "intensity": 1, "age": 10 },
+        "(": { "field": "fd_blood", "intensity": 1, "age": 10 }
+      },
       "monster": { "Y": { "monster": "mon_zombie_crawler", "name": "Mark" } },
-      "toilets": { "&": {  } }
+      "toilets": { "&": {} }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "farm_dairy_twd_3_roof", "farm_dairy_twd_4_roof" ] ],
+    "om_terrain": [["farm_dairy_twd_3_roof", "farm_dairy_twd_4_roof"]],
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -458,7 +481,7 @@
         "           |------------------------3           ",
         "                                                "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

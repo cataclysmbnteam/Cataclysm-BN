@@ -1,7 +1,7 @@
 [
   {
     "method": "json",
-    "om_terrain": [ [ "urban_3_1", "urban_3_2" ] ],
+    "om_terrain": [["urban_3_1", "urban_3_2"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -32,10 +32,10 @@
         ".................................________.......",
         ".................................________.p....."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "=": "t_door_metal_locked",
         "_": "t_pavement",
@@ -73,12 +73,14 @@
         { "item": "lawnmower", "x": 41, "y": 14, "chance": 100 },
         { "item": "stepladder", "x": 41, "y": 15, "chance": 100 }
       ],
-      "place_vehicles": [ { "vehicle": "suburban_home", "x": 36, "y": 11, "chance": 30, "rotation": 270 } ]
+      "place_vehicles": [
+        { "vehicle": "suburban_home", "x": 36, "y": 11, "chance": 30, "rotation": 270 }
+      ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_3_3", "urban_3_4" ] ],
+    "om_terrain": [["urban_3_3", "urban_3_4"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -109,7 +111,7 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "~": "t_open_air",
         "=": "t_shingle_flat_roof",
@@ -128,7 +130,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_3_5", "urban_3_6" ] ],
+    "om_terrain": [["urban_3_5", "urban_3_6"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -159,13 +161,13 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_3_1_basement", "urban_3_2_basement" ] ],
+    "om_terrain": [["urban_3_1_basement", "urban_3_2_basement"]],
     "type": "mapgen",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -195,38 +197,38 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "nested": {
         "1": {
           "chunks": [
-            [ "null", 70 ],
-            [ "room_6x6_guns_E", 2 ],
-            [ "room_6x6_junk_E", 30 ],
-            [ "room_6x6_office_E", 30 ],
-            [ "room_6x6_brewer_E", 10 ]
+            ["null", 70],
+            ["room_6x6_guns_E", 2],
+            ["room_6x6_junk_E", 30],
+            ["room_6x6_office_E", 30],
+            ["room_6x6_brewer_E", 10]
           ]
         },
         "2": {
           "chunks": [
-            [ "null", 70 ],
-            [ "room_10x10_woodworker_W", 20 ],
-            [ "room_10x10_guns_W", 7 ],
-            [ "room_10x10_junk_W", 30 ],
-            [ "room_10x10_recording_studio_W", 20 ]
+            ["null", 70],
+            ["room_10x10_woodworker_W", 20],
+            ["room_10x10_guns_W", 7],
+            ["room_10x10_junk_W", 30],
+            ["room_10x10_recording_studio_W", 20]
           ]
         },
         "3": {
           "chunks": [
-            [ "null", 10 ],
-            [ "livingroom_5x5_S_1", 30 ],
-            [ "livingroom_5x5_N_1", 30 ],
-            [ "livingroom_5x5_W_1", 30 ],
-            [ "livingroom_5x5_S_2", 30 ],
-            [ "livingroom_5x5_E_2", 30 ],
-            [ "livingroom_5x5_N_2", 30 ],
-            [ "livingroom_5x5_W_2", 30 ],
-            [ "home_office_4x4_N", 20 ],
-            [ "home_office_4x4_S", 20 ]
+            ["null", 10],
+            ["livingroom_5x5_S_1", 30],
+            ["livingroom_5x5_N_1", 30],
+            ["livingroom_5x5_W_1", 30],
+            ["livingroom_5x5_S_2", 30],
+            ["livingroom_5x5_E_2", 30],
+            ["livingroom_5x5_N_2", 30],
+            ["livingroom_5x5_W_2", 30],
+            ["home_office_4x4_N", 20],
+            ["home_office_4x4_S", 20]
           ]
         }
       }

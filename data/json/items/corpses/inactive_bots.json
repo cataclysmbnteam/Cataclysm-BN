@@ -11,7 +11,7 @@
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ",",
     "color": "cyan",
     "use_action": {
@@ -22,7 +22,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -37,7 +37,7 @@
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ",",
     "color": "light_gray",
     "use_action": {
@@ -48,7 +48,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -63,7 +63,7 @@
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ",",
     "color": "dark_gray",
     "use_action": {
@@ -74,7 +74,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -89,7 +89,7 @@
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ",",
     "color": "dark_gray",
     "use_action": {
@@ -100,7 +100,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -115,7 +115,7 @@
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ",",
     "color": "green",
     "use_action": {
@@ -126,7 +126,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -140,7 +140,7 @@
     "price_postapoc": 12000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "white",
     "use_action": {
@@ -148,7 +148,7 @@
       "monster_id": "mon_laserturret",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -163,7 +163,7 @@
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ",",
     "color": "light_green",
     "use_action": {
@@ -174,7 +174,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -189,7 +189,7 @@
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ",",
     "color": "magenta",
     "use_action": {
@@ -200,7 +200,7 @@
       "difficulty": 5,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -214,7 +214,7 @@
     "price_postapoc": 2000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "red",
     "use_action": {
@@ -222,7 +222,7 @@
       "monster_id": "mon_turret_riot",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -236,7 +236,7 @@
     "price_postapoc": 4000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -246,7 +246,7 @@
       "hostile_msg": "You misprogram the security bot and it trains its gun on you. RUN!",
       "difficulty": 6,
       "moves": 150,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -260,7 +260,7 @@
     "price_postapoc": 3000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -270,7 +270,7 @@
       "hostile_msg": "You misprogram the security bot and it trains its gun on you. RUN!",
       "difficulty": 6,
       "moves": 150,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -284,7 +284,7 @@
     "price_postapoc": 2000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_blue",
     "use_action": {
@@ -294,7 +294,7 @@
       "hostile_msg": "You misprogram the nurse bot. It's looking at you funny.",
       "difficulty": 6,
       "moves": 150,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -308,7 +308,7 @@
     "price_postapoc": 250,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "white",
     "use_action": {
@@ -318,7 +318,7 @@
       "hostile_msg": "You misprogram the grocery bot. It's looking at you funny.",
       "difficulty": 6,
       "moves": 150,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -332,7 +332,7 @@
     "price_postapoc": 100,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "white",
     "use_action": {
@@ -342,7 +342,7 @@
       "hostile_msg": "You misprogram the grocery bot. It's looking at you funny.",
       "difficulty": 4,
       "moves": 150,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -357,7 +357,7 @@
     "price_postapoc": 0,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "flesh" ],
+    "material": ["steel", "flesh"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -368,7 +368,7 @@
       "//": "Very difficult due to organic interference and failed components",
       "difficulty": 9,
       "moves": 250,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -383,7 +383,7 @@
     "price_postapoc": 0,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "flesh" ],
+    "material": ["steel", "flesh"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -394,7 +394,7 @@
       "//": "Very difficult due to organic interference and failed components",
       "difficulty": 9,
       "moves": 250,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -409,7 +409,7 @@
     "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -420,7 +420,7 @@
       "//": "Wheeled and must be easy-to-use for police deployment",
       "difficulty": 3,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -435,7 +435,7 @@
     "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -446,7 +446,7 @@
       "//": "Like most surveillance tech these likely have poor security. Secure the wifi!",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -460,7 +460,7 @@
     "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -471,7 +471,7 @@
       "//": "Currently has no higher functions",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -485,7 +485,7 @@
     "price_postapoc": 1000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "yellow",
     "use_action": {
@@ -497,7 +497,7 @@
       "difficulty": 3,
       "moves": 100,
       "is_pet": true,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -512,7 +512,7 @@
     "price_postapoc": 1000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -523,7 +523,7 @@
       "//": "Digging parameters need special attention but no (intentional) lethal weapons",
       "difficulty": 3,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -538,7 +538,7 @@
     "price_postapoc": 1500,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -549,7 +549,7 @@
       "//": "Pretty easy but you want to be careful with the gas",
       "difficulty": 4,
       "moves": 150,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -564,7 +564,7 @@
     "price_postapoc": 1000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -575,7 +575,7 @@
       "//": "Same as hacks",
       "difficulty": 4,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -590,7 +590,7 @@
     "price_postapoc": 1500,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -601,7 +601,7 @@
       "//": "Not as lethal as a secubot but far more fiddly and complex with its implied assembly and sub-deployment systems",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -615,7 +615,7 @@
     "price_postapoc": 1000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -626,7 +626,7 @@
       "//": "Milspec but immobile and no lethal weaponry",
       "difficulty": 4,
       "moves": 150,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -640,7 +640,7 @@
     "price_postapoc": 10000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "yellow",
     "use_action": {
@@ -650,7 +650,7 @@
       "hostile_msg": "The dispatch turns on you, whacking at you with its arms!",
       "difficulty": 1,
       "moves": 300,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -664,7 +664,7 @@
     "price_postapoc": 25000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -674,7 +674,7 @@
       "hostile_msg": "The dispatch turns on you, slashing at you with its arms!",
       "difficulty": 1,
       "moves": 300,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -688,7 +688,7 @@
     "price_postapoc": 3000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -696,7 +696,7 @@
       "monster_id": "mon_turret_light",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -710,7 +710,7 @@
     "price_postapoc": 6000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -718,7 +718,7 @@
       "monster_id": "mon_turret_medium",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -732,7 +732,7 @@
     "price_postapoc": 6000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -740,7 +740,7 @@
       "monster_id": "mon_turret_longrange",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   }
 ]

@@ -10,16 +10,16 @@
     "price": 2500,
     "price_postapoc": 10,
     "to_hit": -3,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "color": "pink",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "coverage": 60,
     "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": ["VARSIZE", "FANCY"]
   },
   {
     "id": "clown_nose",
@@ -30,10 +30,10 @@
     "volume": "100 ml",
     "price": 800,
     "price_postapoc": 10,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": ".",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "crown_golden",
@@ -44,15 +44,15 @@
     "volume": "1 L",
     "price": 30000,
     "price_postapoc": 100,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "yellow",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "coverage": 30,
     "encumbrance": 20,
     "material_thickness": 2,
-    "flags": [ "SUPER_FANCY" ]
+    "flags": ["SUPER_FANCY"]
   },
   {
     "id": "crown_golden_survivor",
@@ -63,15 +63,15 @@
     "volume": "1 L",
     "price": 30000,
     "price_postapoc": 150,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "looks_like": "crown_golden",
     "color": "yellow",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "coverage": 30,
     "encumbrance": 20,
     "material_thickness": 2,
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "mouthpiece",
@@ -84,13 +84,13 @@
     "price": 800,
     "price_postapoc": 50,
     "bashing": 2,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "mouth" ],
+    "covers": ["mouth"],
     "coverage": 50,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "flags": ["VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE"]
   },
   {
     "id": "tie_skinny",
@@ -101,10 +101,10 @@
     "volume": "50 ml",
     "price": 750,
     "price_postapoc": 10,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "sleeping_bag_roll",
@@ -116,16 +116,21 @@
     "price": 20500,
     "price_postapoc": 1500,
     "to_hit": -1,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "(",
     "looks_like": "duffelbag",
     "color": "light_red",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 10,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "OVERSIZE", "BELTED" ],
-    "use_action": { "menu_text": "Unroll", "type": "transform", "target": "sleeping_bag", "msg": "You unroll the sleeping bag." }
+    "flags": ["OVERSIZE", "BELTED"],
+    "use_action": {
+      "menu_text": "Unroll",
+      "type": "transform",
+      "target": "sleeping_bag",
+      "msg": "You unroll the sleeping bag."
+    }
   },
   {
     "id": "sleeping_bag_fur",
@@ -137,17 +142,17 @@
     "price": 32500,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "cotton", "fur" ],
+    "material": ["cotton", "fur"],
     "symbol": "[",
     "looks_like": "sleeping_bag",
     "color": "brown",
-    "covers": [ "torso", "head", "mouth", "arms", "hands", "legs", "feet" ],
+    "covers": ["torso", "head", "mouth", "arms", "hands", "legs", "feet"],
     "coverage": 100,
     "encumbrance": 80,
     "warmth": 100,
     "material_thickness": 5,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": ["OVERSIZE", "OUTER"],
     "use_action": {
       "menu_text": "Roll up",
       "type": "transform",
@@ -165,15 +170,15 @@
     "price": 32500,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "cotton", "fur" ],
+    "material": ["cotton", "fur"],
     "symbol": "(",
     "looks_like": "sleeping_bag_roll",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 10,
     "encumbrance": 20,
     "material_thickness": 5,
-    "flags": [ "OVERSIZE", "BELTED" ],
+    "flags": ["OVERSIZE", "BELTED"],
     "use_action": {
       "menu_text": "Unroll",
       "type": "transform",
@@ -190,10 +195,10 @@
     "volume": "5 ml",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "color": "black",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "tie_clipon",
@@ -204,10 +209,10 @@
     "volume": "20 ml",
     "price": 500,
     "price_postapoc": 10,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "color": "blue",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "tie_necktie",
@@ -218,10 +223,10 @@
     "volume": "25 ml",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "color": "green",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "veil_wedding",
@@ -234,16 +239,16 @@
     "price": 8000,
     "price_postapoc": 10,
     "to_hit": -1,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
-    "covers": [ "mouth", "eyes" ],
+    "covers": ["mouth", "eyes"],
     "coverage": 100,
     "encumbrance": 5,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "SUPER_FANCY", "OUTER", "OVERSIZE" ]
+    "flags": ["SUPER_FANCY", "OUTER", "OVERSIZE"]
   },
   {
     "id": "tarp",
@@ -255,16 +260,16 @@
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": "[",
     "looks_like": "blanket",
     "color": "light_blue",
-    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
+    "covers": ["torso", "arms", "hands", "legs", "feet"],
     "coverage": 90,
     "encumbrance": 30,
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": ["OVERSIZE", "OUTER", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS"]
   }
 ]

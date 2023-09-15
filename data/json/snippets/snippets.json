@@ -67,7 +67,10 @@
     "type": "snippet",
     "category": "charsheet",
     "text": [
-      { "id": "charsheet_1", "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a fighter." },
+      {
+        "id": "charsheet_1",
+        "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a fighter."
+      },
       {
         "id": "charsheet_2",
         "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a bard."
@@ -205,7 +208,7 @@
   {
     "type": "snippet",
     "category": "headshop_graffiti",
-    "text": [ "(~);}", "<given_name> + <given_name> forever", "Be Kind", "Save the whales!" ]
+    "text": ["(~);}", "<given_name> + <given_name> forever", "Be Kind", "Save the whales!"]
   },
   {
     "type": "snippet",

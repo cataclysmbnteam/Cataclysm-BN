@@ -15,7 +15,10 @@
     "id": "TALK_RANCH_DOCTOR",
     "dynamic_line": "I'm sorry, I don't have time to see you at the moment.",
     "responses": [
-      { "text": "For the right price could I borrow your services?", "topic": "TALK_RANCH_DOCTOR_BIONICS" },
+      {
+        "text": "For the right price could I borrow your services?",
+        "topic": "TALK_RANCH_DOCTOR_BIONICS"
+      },
       { "text": "…", "topic": "TALK_DONE" }
     ]
   },
@@ -29,7 +32,11 @@
         "topic": "TALK_DONE",
         "effect": "bionic_install"
       },
-      { "text": "I need help removing an implant…", "topic": "TALK_DONE", "effect": "bionic_remove" }
+      {
+        "text": "I need help removing an implant…",
+        "topic": "TALK_DONE",
+        "effect": "bionic_remove"
+      }
     ]
   }
 ]

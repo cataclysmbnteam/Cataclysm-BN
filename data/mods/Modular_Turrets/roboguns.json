@@ -5,7 +5,7 @@
     "reload_noise_volume": 10,
     "name": "base robogun",
     "description": "This is a pseudo item for monster attacks.  If you see this, it's a bug.",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "magenta",
     "weight": "5 kg",
@@ -13,7 +13,7 @@
     "price": 0,
     "durability": 10,
     "reload": 100,
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+    "flags": ["NEVER_JAMS", "TRADER_AVOID"]
   },
   {
     "id": "robogun_9mm",
@@ -25,7 +25,7 @@
     "clip_size": 100,
     "ranged_damage": 1,
     "dispersion": 240,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 13 ] ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "3 rd.", 3], ["AUTO", "auto", 13]]
   },
   {
     "id": "robogun_shot",
@@ -47,7 +47,7 @@
     "ammo": "40x46mm",
     "clip_size": 50,
     "dispersion": 270,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "2 rd.", 2]]
   },
   {
     "id": "robogun_beanbag",
@@ -58,7 +58,7 @@
     "ammo": "40x46mm",
     "clip_size": 50,
     "dispersion": 270,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "2 rd.", 2]]
   },
   {
     "id": "robogun_556",
@@ -69,7 +69,7 @@
     "ammo": "223",
     "clip_size": 100,
     "dispersion": 150,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 13 ] ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "3 rd.", 3], ["AUTO", "auto", 13]]
   },
   {
     "id": "robogun_308",
@@ -80,7 +80,7 @@
     "ammo": "308",
     "clip_size": 100,
     "dispersion": 150,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 13 ] ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "3 rd.", 3], ["AUTO", "auto", 13]]
   },
   {
     "id": "robogun_50bmg",
@@ -95,7 +95,7 @@
     "durability": 8,
     "reload": 400,
     "barrel_length": 5,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "", 3 ] ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "", 3]]
   },
   {
     "id": "robogun_40mm",
@@ -105,7 +105,7 @@
     "skill": "launcher",
     "ammo": "40x46mm",
     "dispersion": 270,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "modes": [["DEFAULT", "semi-auto", 1]],
     "clip_size": 50
   },
   {
@@ -121,7 +121,7 @@
     "dispersion": 260,
     "durability": 9,
     "barrel_length": 1,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "auto", 10 ] ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "5 rd.", 5], ["AUTO", "auto", 10]]
   },
   {
     "id": "robogun_8x40mm",
@@ -133,7 +133,7 @@
     "skill": "rifle",
     "ranged_damage": 5,
     "dispersion": 90,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "auto", 10 ] ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "5 rd.", 5], ["AUTO", "auto", 10]]
   },
   {
     "id": "robogun_flame",
@@ -143,10 +143,10 @@
     "skill": "launcher",
     "ammo": "flammable",
     "clip_size": 200,
-    "ammo_effects": [ "FIRE_20", "WIDE" ],
+    "ammo_effects": ["FIRE_20", "WIDE"],
     "range": 4,
     "dispersion": 300,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "4 rd.", 4 ] ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "4 rd.", 4]]
   },
   {
     "id": "robogun_laser",
@@ -159,8 +159,8 @@
     "dispersion": 10,
     "durability": 8,
     "loudness": 12,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "4 rd.", 4 ], [ "AUTO", "auto", 6 ] ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "4 rd.", 4], ["AUTO", "auto", 6]],
+    "ammo_effects": ["LASER", "INCENDIARY"]
   },
   {
     "id": "robogun_plasma",
@@ -173,8 +173,8 @@
     "pierce": 15,
     "dispersion": 30,
     "loudness": 12,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],
-    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "STREAM_BIG", "WIDE", "FLAME" ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "2 rd.", 2]],
+    "ammo_effects": ["PLASMA", "EXPLOSIVE", "STREAM_BIG", "WIDE", "FLAME"]
   },
   {
     "id": "robogun_rail",
@@ -187,8 +187,8 @@
     "ranged_damage": 40,
     "dispersion": 100,
     "loudness": 34,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "2 rd.", 2]],
+    "ammo_effects": ["INCENDIARY", "TRAIL"]
   },
   {
     "id": "robogun_acid",
@@ -200,7 +200,7 @@
     "ranged_damage": { "damage_type": "acid", "amount": 12 },
     "dispersion": 10,
     "loudness": 10,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "3 rd.", 3]]
   },
   {
     "id": "robogun_lightning",
@@ -212,8 +212,8 @@
     "ranged_damage": 16,
     "dispersion": 10,
     "loudness": 10,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "ammo_effects": [ "LIGHTNING", "BOUNCE" ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "3 rd.", 3]],
+    "ammo_effects": ["LIGHTNING", "BOUNCE"]
   },
   {
     "id": "robogun_emp",
@@ -227,7 +227,7 @@
     "dispersion": 10,
     "durability": 10,
     "loudness": 23,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "3 rd.", 3]],
+    "ammo_effects": ["DRAW_LASER_BEAM", "EMP"]
   }
 ]

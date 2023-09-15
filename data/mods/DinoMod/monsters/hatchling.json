@@ -35,7 +35,7 @@
     "weight": "4 kg",
     "volume": "4 L",
     "upgrades": { "age_grow": 30, "into": "mon_spinosaurus_juvenile" },
-    "extend": { "flags": [ "SWIMS" ] }
+    "extend": { "flags": ["SWIMS"] }
   },
   {
     "id": "mon_torvosaurus_hatchling",
@@ -131,13 +131,13 @@
     "name": "greenish yellow hatchling",
     "description": "A tiny dinosaur hatchling with huge shiny eyes, it could be from a number of different species.",
     "default_faction": "compsognathus_hatchling",
-    "categories": [ "DINOSAUR", "WILDLIFE" ],
-    "species": [ "DINOSAUR" ],
+    "categories": ["DINOSAUR", "WILDLIFE"],
+    "species": ["DINOSAUR"],
     "volume": "50 ml",
     "weight": "57 g",
     "hp": 2,
     "speed": 40,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "v",
     "color": "green_yellow",
     "looks_like": "mon_compsognathus",
@@ -146,7 +146,7 @@
     "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
+    "melee_damage": [{ "damage_type": "cut", "amount": 1 }],
     "dodge": 1,
     "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
     "flags": [
@@ -404,7 +404,7 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "green and magenta hatchling",
     "default_faction": "herbivore_young",
-    "extend": { "flags": [ "CATTLEFODDER" ] },
+    "extend": { "flags": ["CATTLEFODDER"] },
     "upgrades": { "age_grow": 30, "into": "mon_scutellosaurus" }
   },
   {
@@ -412,7 +412,7 @@
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_hatchling",
     "name": "green and magenta hatchling",
-    "extend": { "flags": [ "CATTLEFODDER" ] },
+    "extend": { "flags": ["CATTLEFODDER"] },
     "upgrades": { "age_grow": 30, "into": "mon_stegosaurus_juvenile" }
   },
   {
@@ -420,7 +420,7 @@
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_hatchling",
     "name": "green and magenta hatchling",
-    "extend": { "flags": [ "CATTLEFODDER" ] },
+    "extend": { "flags": ["CATTLEFODDER"] },
     "upgrades": { "age_grow": 30, "into": "mon_hesperosaurus_juvenile" }
   },
   {
@@ -672,7 +672,7 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "green and purple hatchling",
     "default_faction": "herbivore_young",
-    "extend": { "flags": [ "CATTLEFODDER" ] },
+    "extend": { "flags": ["CATTLEFODDER"] },
     "upgrades": { "age_grow": 10, "into": "mon_nanosaurus" }
   },
   {
@@ -681,7 +681,7 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "green and purple hatchling",
     "default_faction": "herbivore_young",
-    "extend": { "flags": [ "CATTLEFODDER" ] },
+    "extend": { "flags": ["CATTLEFODDER"] },
     "upgrades": { "age_grow": 30, "into": "mon_oryctodromeus" }
   },
   {
@@ -745,6 +745,6 @@
     "default_faction": "mosasaurus_hatchling",
     "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
-    "extend": { "flags": [ "AQUATIC", "CATFOOD" ] }
+    "extend": { "flags": ["AQUATIC", "CATFOOD"] }
   }
 ]

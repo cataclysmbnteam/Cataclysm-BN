@@ -9,18 +9,18 @@
     "volume": "0 ml",
     "price": 72000,
     "price_postapoc": 500,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ":",
     "color": "light_gray",
     "location": "muzzle",
     "mod_target_category": [
-      [ "PISTOLS" ],
-      [ "REVOLVERS" ],
-      [ "SUBMACHINE_GUNS" ],
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "SHOTGUNS" ]
+      ["PISTOLS"],
+      ["REVOLVERS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"]
     ],
     "dispersion_modifier": 15,
     "handling_modifier": 10,
@@ -35,11 +35,11 @@
     "volume": "250 ml",
     "price": 84000,
     "price_postapoc": 500,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ":",
     "color": "light_gray",
     "location": "muzzle",
-    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ],
+    "mod_target_category": [["RIFLES"], ["MACHINE_GUNS"], ["GATLING_GUNS"], ["SHOTGUNS"]],
     "dispersion_modifier": 15,
     "handling_modifier": 12,
     "loudness_modifier": 14
@@ -51,13 +51,13 @@
     "name": { "str": "modified muzzle brake" },
     "description": "A muzzle brake redirects exhaust gases to compensate for muzzle climb, improving recoil but increasing bulk, noise, and reducing accuracy slightly.  This one was modified and customized to mount on pretty much any firearm other than launchers, if you so want.",
     "mod_target_category": [
-      [ "PISTOLS" ],
-      [ "REVOLVERS" ],
-      [ "SUBMACHINE_GUNS" ],
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "SHOTGUNS" ]
+      ["PISTOLS"],
+      ["REVOLVERS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"]
     ]
   },
   {
@@ -71,18 +71,24 @@
     "price_postapoc": 250,
     "to_hit": 1,
     "bashing": 3,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
+    "mod_target_category": [
+      ["PISTOLS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"]
+    ],
     "consume_chance": 20,
     "consume_divisor": 110,
     "damage_modifier": { "damage_type": "bullet", "amount": -5 },
     "dispersion_modifier": 40,
     "handling_modifier": 3,
     "loudness_modifier": -30,
-    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
+    "flags": ["DISABLE_SIGHTS", "CONSUMABLE"]
   },
   {
     "id": "filter_suppressor",
@@ -95,17 +101,23 @@
     "price_postapoc": 250,
     "to_hit": 1,
     "bashing": 3,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
+    "mod_target_category": [
+      ["PISTOLS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"]
+    ],
     "consume_chance": 100,
     "consume_divisor": 40,
     "dispersion_modifier": 10,
     "handling_modifier": 3,
     "loudness_modifier": -20,
-    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
+    "flags": ["DISABLE_SIGHTS", "CONSUMABLE"]
   },
   {
     "id": "bottle_suppressor",
@@ -116,17 +128,23 @@
     "volume": "2 L",
     "price": 480,
     "price_postapoc": 10,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": ":",
     "color": "cyan",
     "location": "muzzle",
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
+    "mod_target_category": [
+      ["PISTOLS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"]
+    ],
     "consume_chance": 1,
     "consume_divisor": 1,
     "damage_modifier": { "damage_type": "bullet", "amount": -5 },
     "dispersion_modifier": 125,
     "loudness_modifier": -10,
-    "flags": [ "DISABLE_SIGHTS", "TRADER_AVOID", "CONSUMABLE" ]
+    "flags": ["DISABLE_SIGHTS", "TRADER_AVOID", "CONSUMABLE"]
   },
   {
     "id": "riv_suppressor",
@@ -138,11 +156,11 @@
     "volume": "0 ml",
     "price": 0,
     "price_postapoc": 1500,
-    "material": [ "superalloy", "ceramic" ],
-    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
+    "material": ["superalloy", "ceramic"],
+    "mod_target_category": [["RIFLES"], ["MACHINE_GUNS"], ["GATLING_GUNS"]],
     "handling_modifier": 0,
     "proportional": { "loudness_modifier": 2 },
-    "flags": [ "IRREMOVABLE" ]
+    "flags": ["IRREMOVABLE"]
   },
   {
     "id": "shot_suppressor",
@@ -156,11 +174,11 @@
     "price_postapoc": 2000,
     "to_hit": 1,
     "bashing": 3,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
-    "mod_target_category": [ [ "SHOTGUNS" ] ],
+    "mod_target_category": [["SHOTGUNS"]],
     "damage_modifier": { "damage_type": "bullet", "amount": -4 },
     "handling_modifier": 6,
     "loudness_modifier": -30
@@ -177,11 +195,17 @@
     "price_postapoc": 1500,
     "to_hit": 1,
     "bashing": 3,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
+    "mod_target_category": [
+      ["PISTOLS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"]
+    ],
     "install_time": "0 m",
     "handling_modifier": 4,
     "loudness_modifier": -50
@@ -201,7 +225,7 @@
     "range_modifier": -1,
     "dispersion_modifier": 0,
     "location": "barrel",
-    "flags": [ "IRREMOVABLE" ]
+    "flags": ["IRREMOVABLE"]
   },
   {
     "id": "suppressor_compact",
@@ -217,7 +241,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",
-    "mod_target_category": [ [ "PISTOLS" ], [ "SUBMACHINE_GUNS" ] ],
+    "mod_target_category": [["PISTOLS"], ["SUBMACHINE_GUNS"]],
     "install_time": "0 m",
     "handling_modifier": 3,
     "loudness_modifier": -30

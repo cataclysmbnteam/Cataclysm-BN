@@ -4,7 +4,7 @@
     "id": "industrial_center_palette",
     "terrain": {
       " ": "t_region_groundcover",
-      ",": [ [ "t_region_groundcover", 7 ], [ "t_region_shrub", 2 ], "t_region_tree" ],
+      ",": [["t_region_groundcover", 7], ["t_region_shrub", 2], "t_region_tree"],
       "~": "t_sewage",
       "_": "t_pavement",
       ":": "t_pavement_y",
@@ -94,7 +94,7 @@
       ")": "f_autodoc_couch",
       "/": "f_workbench",
       "B": "f_bookcase",
-      "C": [ [ "f_crate_c", 3 ], "f_crate_o", "f_cardboard_box" ],
+      "C": [["f_crate_c", 3], "f_crate_o", "f_cardboard_box"],
       "E": "f_table",
       "F": "f_fridge",
       "H": "f_hydraulic_press",
@@ -125,15 +125,24 @@
     "items": {
       "*": { "item": "trash_cart", "chance": 30, "repeat": 3 },
       "/": { "item": "metal_workshop", "chance": 50 },
-      "B": [ { "item": "hardware_books", "chance": 50, "repeat": 2 }, { "item": "magazines", "chance": 50, "repeat": 3 } ],
+      "B": [
+        { "item": "hardware_books", "chance": 50, "repeat": 2 },
+        { "item": "magazines", "chance": 50, "repeat": 3 }
+      ],
       "C": { "item": "hardware", "chance": 25, "repeat": 3 },
       "E": { "item": "acetylene_production", "chance": 50, "repeat": 3 },
       "F": { "item": "fridgesnacks", "chance": 50, "repeat": 10 },
       "P": { "item": "pool_table", "chance": 75 },
-      "U": [ { "item": "sewage_plant", "chance": 25 }, { "item": "supplies_plumbing", "chance": 50, "repeat": 2 } ],
+      "U": [
+        { "item": "sewage_plant", "chance": 25 },
+        { "item": "supplies_plumbing", "chance": 50, "repeat": 2 }
+      ],
       "d": { "item": "office", "chance": 25, "repeat": 2 },
       "f": { "item": "hospital_samples", "chance": 25, "repeat": 3 },
-      "i": [ { "item": "file_room", "chance": 50, "repeat": 5 }, { "item": "office_supplies", "chance": 50 } ],
+      "i": [
+        { "item": "file_room", "chance": 50, "repeat": 5 },
+        { "item": "office_supplies", "chance": 50 }
+      ],
       "s": { "item": "SUS_bathroom_cabinet", "chance": 100 },
       "t": { "item": "trash_cart", "chance": 30, "repeat": 3 }
     },
@@ -141,11 +150,14 @@
       "A": {
         "name": "Medical Supply Access",
         "security": 2,
-        "options": [ { "name": "Unlock Door", "action": "unlock" } ],
-        "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        "options": [{ "name": "Unlock Door", "action": "unlock" }],
+        "failures": [{ "action": "shutdown" }, { "action": "alarm" }]
       }
     },
-    "toilets": { "T": {  } },
-    "vendingmachines": { "v": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } }
+    "toilets": { "T": {} },
+    "vendingmachines": {
+      "v": { "item_group": "vending_drink" },
+      "V": { "item_group": "vending_food" }
+    }
   }
 ]

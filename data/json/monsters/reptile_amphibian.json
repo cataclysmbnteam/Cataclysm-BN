@@ -6,12 +6,12 @@
     "description": "A mutated bullfrog taller than you are.  It stares with amber eyes as it considers the easiest way to swallow you whole.",
     "default_faction": "frog",
     "bodytype": "frog",
-    "species": [ "AMPHIBIAN" ],
+    "species": ["AMPHIBIAN"],
     "volume": "92500 ml",
     "weight": "120 kg",
     "hp": 70,
     "speed": 90,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "M",
     "color": "light_green",
     "aggression": 10,
@@ -24,10 +24,12 @@
     "armor_bash": 4,
     "harvest": "mutant_animal_large_noskin",
     "path_settings": { "max_dist": 5 },
-    "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 } ],
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
+    "special_attacks": [
+      { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 }
+    ],
+    "anger_triggers": ["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"],
+    "death_function": ["NORMAL"],
+    "flags": ["SEES", "SMELLS", "HEARS", "SWIMS"]
   },
   {
     "id": "mon_gator",
@@ -36,13 +38,13 @@
     "description": "In the late 20th century, there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like it sees humans as anything other than a meal.",
     "default_faction": "gator",
     "bodytype": "gator",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "REPTILE" ],
+    "categories": ["WILDLIFE"],
+    "species": ["REPTILE"],
     "volume": "92500 ml",
     "weight": "120 kg",
     "hp": 90,
     "speed": 90,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "A",
     "color": "light_green",
     "aggression": 30,
@@ -68,15 +70,26 @@
           { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
           { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
         ],
-        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "torso" } ],
+        "effects": [{ "id": "grabbed", "duration": 1000, "bp": "torso" }],
         "no_infection_chance": 2
       }
     ],
-    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "fear_triggers": [ "FIRE", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "BLEED", "ATTACKMON", "SWIMS" ]
+    "anger_triggers": ["PLAYER_CLOSE", "PLAYER_WEAK"],
+    "fear_triggers": ["FIRE", "HURT"],
+    "placate_triggers": ["MEAT"],
+    "death_function": ["NORMAL"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "ANIMAL",
+      "BLEED",
+      "ATTACKMON",
+      "SWIMS"
+    ]
   },
   {
     "id": "mon_rattlesnake",
@@ -85,14 +98,14 @@
     "description": "The timber rattlesnake is the most venomous viper native to New England.  Climatic changes have extended its range far into the north.",
     "default_faction": "small_animal",
     "bodytype": "snake",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "REPTILE" ],
+    "categories": ["WILDLIFE"],
+    "species": ["REPTILE"],
     "diff": 2,
     "volume": "750 ml",
     "weight": "1 kg",
     "hp": 12,
     "speed": 90,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "s",
     "color": "brown",
     "aggression": -50,
@@ -105,12 +118,12 @@
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "mammal_tiny",
-    "special_attacks": [ [ "RATTLE", 6 ] ],
-    "anger_triggers": [ "HURT" ],
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS", "ANIMAL" ]
+    "special_attacks": [["RATTLE", 6]],
+    "anger_triggers": ["HURT"],
+    "fear_triggers": ["PLAYER_CLOSE"],
+    "placate_triggers": ["PLAYER_WEAK"],
+    "death_function": ["NORMAL"],
+    "flags": ["SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS", "ANIMAL"]
   },
   {
     "id": "mon_rattlesnake_giant",
@@ -119,14 +132,14 @@
     "description": "A mutated timber rattlesnake, about three times as large as the norm.  While it isn't big enough to regard humans as potential prey, it is more aggressive and dangerous compared to a normal rattler.",
     "default_faction": "animal",
     "bodytype": "snake",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "REPTILE" ],
+    "categories": ["WILDLIFE"],
+    "species": ["REPTILE"],
     "diff": 2,
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 48,
     "speed": 100,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "s",
     "color": "brown",
     "aggression": -10,
@@ -143,19 +156,19 @@
     "vision_night": 5,
     "harvest": "mutant_animal_large_noskin",
     "special_attacks": [
-      [ "RATTLE", 6 ],
+      ["RATTLE", 6],
       {
         "type": "bite",
         "cooldown": 5,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 } ]
+        "damage_max_instance": [{ "damage_type": "stab", "amount": 10, "armor_multiplier": 0.7 }]
       }
     ],
-    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
+    "anger_triggers": ["HURT", "PLAYER_CLOSE"],
+    "placate_triggers": ["PLAYER_WEAK"],
+    "death_function": ["NORMAL"],
     "reproduction": { "baby_egg": "egg_reptile", "baby_count": 3, "baby_timer": 10 },
-    "baby_flags": [ "SPRING" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
+    "baby_flags": ["SPRING"],
+    "flags": ["SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS"]
   },
   {
     "id": "mon_sewer_snake",
@@ -164,13 +177,13 @@
     "description": "An aggressive mutant variety of the worm snake, turned pale yellow from its underground life.  It swarms beneath the ground and is named for its habit of infesting sewer lines.",
     "default_faction": "mutant",
     "bodytype": "snake",
-    "species": [ "REPTILE" ],
+    "species": ["REPTILE"],
     "diff": 2,
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 10,
     "speed": 90,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "s",
     "color": "yellow",
     "aggression": 20,
@@ -184,7 +197,7 @@
     "vision_night": 30,
     "harvest": "mutant_animal_large_noskin",
     "path_settings": { "max_dist": 5 },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "WARM", "VENOM", "SWIMS" ]
+    "death_function": ["NORMAL"],
+    "flags": ["SEES", "SMELLS", "WARM", "VENOM", "SWIMS"]
   }
 ]

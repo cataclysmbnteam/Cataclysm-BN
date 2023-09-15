@@ -18,20 +18,27 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Pablo is a young professional who survived with his wife, but she was pregnant and lost the baby.",
-    "bonus_str": { "rng": [ -1, 3 ] },
-    "bonus_dex": { "rng": [ -2, 2 ] },
-    "bonus_int": { "rng": [ -2, 2 ] },
-    "bonus_per": { "rng": [ -2, 2 ] },
+    "bonus_str": { "rng": [-1, 3] },
+    "bonus_dex": { "rng": [-2, 2] },
+    "bonus_int": { "rng": [-2, 2] },
+    "bonus_per": { "rng": [-2, 2] },
     "worn_override": "REFUGEE_Pablo_worn",
     "carry_override": "REFUGEE_Pablo_carried",
     "weapon_override": "REFUGEE_Pablo_wield",
-    "traits": [ { "trait": "QUICK" }, { "trait": "Exp_Bookkeeping1" }, { "group": "Appearance_Latin" } ],
+    "traits": [
+      { "trait": "QUICK" },
+      { "trait": "Exp_Bookkeeping1" },
+      { "group": "Appearance_Latin" }
+    ],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -5 ] } ] } ] } },
-      { "skill": "computer", "bonus": { "rng": [ 1, 2 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 1, 2 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 0, 1 ] } },
-      { "skill": "cooking", "bonus": { "rng": [ 0, 2 ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [2, 2] }, { "rng": [0, -5] }] }] }
+      },
+      { "skill": "computer", "bonus": { "rng": [1, 2] } },
+      { "skill": "speech", "bonus": { "rng": [1, 2] } },
+      { "skill": "barter", "bonus": { "rng": [0, 1] } },
+      { "skill": "cooking", "bonus": { "rng": [0, 2] } }
     ]
   },
   {
@@ -53,13 +60,13 @@
     "type": "item_group",
     "id": "REFUGEE_Pablo_carried",
     "subtype": "collection",
-    "entries": [ { "item": "knife_swissarmy" } ]
+    "entries": [{ "item": "knife_swissarmy" }]
   },
   {
     "type": "item_group",
     "id": "REFUGEE_Pablo_wield",
     "subtype": "collection",
-    "entries": [ { "item": "heavy_flashlight", "ammo-item": "battery", "charges": 200 } ]
+    "entries": [{ "item": "heavy_flashlight", "ammo-item": "battery", "charges": 200 }]
   },
   {
     "type": "talk_topic",
@@ -84,7 +91,12 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+              "not": {
+                "npc_has_var": "cleanup_asked",
+                "type": "mission",
+                "context": "Boris_mission_1",
+                "value": "yes"
+              }
             }
           ]
         },
@@ -95,7 +107,12 @@
       {
         "text": "Dana wanted me to be the one to let you know: they've got work for you over at the ranch.  You could get out of here if you want.",
         "topic": "TALK_REFUGEE_Pablo_Tacoma2",
-        "condition": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_3" }
+        "condition": {
+          "u_has_var": "Nunez_Tacoma",
+          "type": "recruit",
+          "context": "general",
+          "value": "phase_3"
+        }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.  Bye, Pablo.", "topic": "TALK_DONE" }
@@ -109,30 +126,64 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hello, nice to see you again.", "It's good to see you're still around." ],
+      "yes": ["Hello, nice to see you again.", "It's good to see you're still around."],
       "no": "Hi there.  I'm Pablo, nice to see a new face."
     },
     "responses": [
       {
         "text": "Pablo, hey?  Nice to meet you.",
-        "effect": { "u_add_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_Pablo_Nunez",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Pablo_Nunez",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_REFUGEE_Pablo_1_firstmeet"
       },
       {
         "text": "Hi, Pablo.  What's up?",
         "topic": "TALK_REFUGEE_Pablo_2",
-        "condition": { "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": {
+          "u_has_var": "u_met_Pablo_Nunez",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       },
       {
         "text": "Hi Pablo, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_Pablo_Nunez",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Pablo_Nunez",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Hi Pablo, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_Pablo_Nunez",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -151,7 +202,9 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Background1",
     "dynamic_line": "I was an accountant before.  Just finished my CPA last year and I already had a position as a manager at my firm.  Everything was looking good.  We decided we were ready for a baby.  Hindsight makes us idiots, hey?",
-    "responses": [ { "text": "How did you wind up in this place?", "topic": "TALK_REFUGEE_Pablo_Background2" } ]
+    "responses": [
+      { "text": "How did you wind up in this place?", "topic": "TALK_REFUGEE_Pablo_Background2" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -159,7 +212,10 @@
     "dynamic_line": "Dana and I were evacuated early, because of her pregnancy.  They took us to a concentration center, and then we got on a bus to come here.  The bus though, it was rolled over by a giant monster, and many died.  We made it out along with a few others, and we kept going until we made it here.  It wasn't much farther, and for some reason the monster didn't chase us, just kept tearing at the bus.",
     "responses": [
       { "text": "What about the pregnancy?", "topic": "TALK_REFUGEE_Pablo_Background2_pregnancy" },
-      { "text": "What happened to the other crash survivors?", "topic": "TALK_REFUGEE_Pablo_Background2_survivors" },
+      {
+        "text": "What happened to the other crash survivors?",
+        "topic": "TALK_REFUGEE_Pablo_Background2_survivors"
+      },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.  Bye, Pablo.", "topic": "TALK_DONE" }
     ]
@@ -168,7 +224,9 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Background2_pregnancy",
     "dynamic_line": "The doctor did what she could but after the accident and the stress of the attack… No.",
-    "responses": [ { "text": "I'm sorry for your loss.", "topic": "TALK_REFUGEE_Pablo_Background2_sorry" } ]
+    "responses": [
+      { "text": "I'm sorry for your loss.", "topic": "TALK_REFUGEE_Pablo_Background2_sorry" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -183,7 +241,12 @@
       {
         "text": "I've been back to the quarantined area, cleared it out.  It was ugly back there.",
         "topic": "TALK_REFUGEE_Pablo_Background2_cleared",
-        "condition": { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+        "condition": {
+          "u_has_var": "FMShopkeep_Mission1",
+          "type": "mission",
+          "context": "flag",
+          "value": "yes"
+        }
       }
     ]
   },
@@ -200,13 +263,28 @@
       {
         "text": "Why not move to the Tacoma Commune?",
         "topic": "TALK_REFUGEE_Pablo_Tacoma",
-        "effect": { "u_add_var": "Pablo_ask_tacoma", "type": "recruit", "context": "general", "value": "yes" },
-        "condition": { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" }
+        "effect": {
+          "u_add_var": "Pablo_ask_tacoma",
+          "type": "recruit",
+          "context": "general",
+          "value": "yes"
+        },
+        "condition": {
+          "u_has_var": "tacoma_started",
+          "type": "knowledge",
+          "context": "flag",
+          "value": "yes"
+        }
       },
       {
         "text": "I've got a secure base.  You and your wife could come with me.",
         "topic": "TALK_REFUGEE_Pablo_Recruit",
-        "effect": { "u_add_var": "Pablo_ask_recruit", "type": "recruit", "context": "general", "value": "yes" },
+        "effect": {
+          "u_add_var": "Pablo_ask_recruit",
+          "type": "recruit",
+          "context": "general",
+          "value": "yes"
+        },
         "condition": "u_has_camp"
       }
     ]

@@ -12,12 +12,22 @@
     "symbol": ":",
     "color": "green",
     "location": "magazine",
-    "mod_target_category": [ [ "PISTOLS" ], [ "REVOLVERS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
-    "acceptable_ammo": [ "9mm", "460", "223" ],
+    "mod_target_category": [
+      ["PISTOLS"],
+      ["REVOLVERS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"]
+    ],
+    "acceptable_ammo": ["9mm", "460", "223"],
     "install_time": "60 m",
-    "magazine_adaptor": [ [ "9mm", [ "lw21mag" ] ], [ "460", [ "lw12mag" ] ], [ "223", [ "lw223mag", "lw223bigmag" ] ] ],
-    "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ] ],
-    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "magazine_adaptor": [
+      ["9mm", ["lw21mag"]],
+      ["460", ["lw12mag"]],
+      ["223", ["lw223mag", "lw223bigmag"]]
+    ],
+    "min_skills": [["weapon", 4], ["mechanics", 3]],
+    "flags": ["INSTALL_DIFFICULT", "IRREMOVABLE"]
   },
   {
     "id": "lead_stabilizer",
@@ -28,7 +38,7 @@
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
-    "flags": [ "IRREMOVABLE" ]
+    "flags": ["IRREMOVABLE"]
   },
   {
     "id": "lead_red_dot_sight",
@@ -39,7 +49,7 @@
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
-    "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
+    "flags": ["DISABLE_SIGHTS", "IRREMOVABLE"]
   },
   {
     "id": "lead_rifle_scope",
@@ -50,7 +60,7 @@
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
-    "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
+    "flags": ["DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE"]
   },
   {
     "id": "lead_acog_scope",
@@ -61,7 +71,7 @@
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
-    "flags": [ "DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE" ]
+    "flags": ["DISABLE_SIGHTS", "ZOOM", "IRREMOVABLE"]
   },
   {
     "id": "lead_holo_sight",
@@ -71,7 +81,7 @@
     "description": "Leadworks built-in holographic sight.",
     "weight": "0 g",
     "price": 0,
-    "flags": [ "DISABLE_SIGHTS", "IRREMOVABLE" ]
+    "flags": ["DISABLE_SIGHTS", "IRREMOVABLE"]
   },
   {
     "id": "lead_laser_sight",
@@ -82,7 +92,7 @@
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
-    "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
+    "flags": ["PUMP_RAIL_COMPATIBLE", "IRREMOVABLE"]
   },
   {
     "id": "lead_grip",
@@ -93,7 +103,7 @@
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
-    "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
+    "flags": ["PUMP_RAIL_COMPATIBLE", "IRREMOVABLE"]
   },
   {
     "id": "lead_bipod",
@@ -104,7 +114,7 @@
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
-    "flags": [ "BIPOD", "SLOW_WIELD", "IRREMOVABLE" ]
+    "flags": ["BIPOD", "SLOW_WIELD", "IRREMOVABLE"]
   },
   {
     "id": "lead_u_shotgun",
@@ -115,7 +125,7 @@
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": ["RELOAD_ONE", "IRREMOVABLE"]
   },
   {
     "id": "lead_glm",
@@ -126,7 +136,7 @@
     "weight": "0 g",
     "volume": "0 ml",
     "price": 0,
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "IRREMOVABLE" ]
+    "flags": ["NEVER_JAMS", "RELOAD_EJECT", "IRREMOVABLE"]
   },
   {
     "id": "lead_barrel_big",
@@ -135,25 +145,25 @@
     "description": "A Leadworks built in longer barrel increases the muzzle velocity of a firearm, contributing to both accuracy and damage.",
     "to_hit": 2,
     "bashing": 5,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ":",
     "color": "light_gray",
     "location": "barrel",
     "install_time": "0 s",
     "mod_target_category": [
-      [ "PISTOLS" ],
-      [ "REVOLVERS" ],
-      [ "SUBMACHINE_GUNS" ],
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "SHOTGUNS" ]
+      ["PISTOLS"],
+      ["REVOLVERS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"]
     ],
     "damage_modifier": { "damage_type": "stab", "amount": 3 },
     "dispersion_modifier": -45,
     "range_modifier": 3,
-    "min_skills": [ [ "weapon", 4 ] ],
-    "flags": [ "IRREMOVABLE" ]
+    "min_skills": [["weapon", 4]],
+    "flags": ["IRREMOVABLE"]
   },
   {
     "id": "lead_barrel_small",
@@ -166,7 +176,7 @@
     "dispersion_modifier": 0,
     "install_time": "0 s",
     "range_modifier": -6,
-    "flags": [ "IRREMOVABLE" ]
+    "flags": ["IRREMOVABLE"]
   },
   {
     "id": "lead_barrel_heavy_duty",
@@ -175,7 +185,7 @@
     "name": { "str": "LW heavy duty barrel" },
     "description": "A Leadworks built-in heavy-duty barrel especially designed for prolonged shooting.  Increases damage output and weapon range.",
     "dispersion_modifier": 0,
-    "flags": [ "IRREMOVABLE" ]
+    "flags": ["IRREMOVABLE"]
   },
   {
     "id": "gun_crossbow",
@@ -185,12 +195,18 @@
     "weight": "1450 g",
     "volume": "500 ml",
     "price": 50000,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": ":",
     "color": "light_red",
     "location": "rail",
     "install_time": "60 s",
-    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ], [ "M_XBOWS" ] ],
+    "mod_target_category": [
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"],
+      ["M_XBOWS"]
+    ],
     "gun_data": {
       "ammo": "bolt",
       "skill": "rifle",
@@ -201,7 +217,7 @@
       "clip_size": 1
     },
     "dispersion_modifier": 60,
-    "min_skills": [ [ "weapon", 2 ], [ "rifle", 1 ] ],
-    "flags": [ "STR_RELOAD", "NON-FOULING" ]
+    "min_skills": [["weapon", 2], ["rifle", 1]],
+    "flags": ["STR_RELOAD", "NON-FOULING"]
   }
 ]

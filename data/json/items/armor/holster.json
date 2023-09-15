@@ -8,11 +8,11 @@
     "volume": "1250 ml",
     "price": 10000,
     "price_postapoc": 1250,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 5,
     "encumbrance": 5,
     "material_thickness": 1,
@@ -21,9 +21,9 @@
       "max_volume": "9 L",
       "min_volume": "1500 ml",
       "draw_cost": 150,
-      "skills": [ "smg", "shotgun", "rifle", "launcher" ]
+      "skills": ["smg", "shotgun", "rifle", "launcher"]
     },
-    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW" ]
+    "flags": ["BELTED", "OVERSIZE", "NO_QUICKDRAW"]
   },
   {
     "id": "bootstrap",
@@ -34,22 +34,22 @@
     "volume": "250 ml",
     "price": 7400,
     "price_postapoc": 500,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "foot_either" ],
+    "covers": ["foot_either"],
     "coverage": 5,
     "encumbrance": 2,
     "material_thickness": 1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": ["BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
     "use_action": {
       "type": "holster",
       "max_volume": "400 ml",
       "min_volume": "100 ml",
       "max_weight": 1000,
       "draw_cost": 150,
-      "skills": [ "pistol" ]
+      "skills": ["pistol"]
     }
   },
   {
@@ -61,16 +61,21 @@
     "volume": "500 ml",
     "price": 8000,
     "price_postapoc": 500,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 5,
     "encumbrance": 4,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "WAIST" ],
-    "use_action": { "type": "holster", "max_volume": "5 L", "min_volume": "500 ml", "skills": [ "archery" ] }
+    "flags": ["OVERSIZE", "WAIST"],
+    "use_action": {
+      "type": "holster",
+      "max_volume": "5 L",
+      "min_volume": "500 ml",
+      "skills": ["archery"]
+    }
   },
   {
     "id": "holster",
@@ -81,16 +86,21 @@
     "volume": "500 ml",
     "price": 9000,
     "price_postapoc": 500,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "sheath",
     "color": "light_gray",
-    "covers": [ "leg_either" ],
+    "covers": ["leg_either"],
     "coverage": 2,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "max_volume": "800 ml", "min_volume": "300 ml", "skills": [ "pistol", "smg", "shotgun" ] },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "use_action": {
+      "type": "holster",
+      "max_volume": "800 ml",
+      "min_volume": "300 ml",
+      "skills": ["pistol", "smg", "shotgun"]
+    },
+    "flags": ["WAIST", "OVERSIZE"]
   },
   {
     "id": "sholster",
@@ -100,7 +110,13 @@
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
     "encumbrance": 1,
-    "use_action": { "type": "holster", "max_volume": "500 ml", "min_volume": "100 ml", "draw_cost": 80, "skills": [ "pistol" ] }
+    "use_action": {
+      "type": "holster",
+      "max_volume": "500 ml",
+      "min_volume": "100 ml",
+      "draw_cost": 80,
+      "skills": ["pistol"]
+    }
   },
   {
     "id": "bholster",
@@ -112,8 +128,8 @@
     "volume": "250 ml",
     "price": 3000,
     "price_postapoc": 500,
-    "material": [ "nylon" ],
-    "covers": [ "torso" ],
+    "material": ["nylon"],
+    "covers": ["torso"],
     "encumbrance": 0,
     "use_action": {
       "type": "holster",
@@ -121,9 +137,9 @@
       "min_volume": "100 ml",
       "max_weight": 1000,
       "draw_cost": 210,
-      "skills": [ "pistol" ]
+      "skills": ["pistol"]
     },
-    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": ["SKINTIGHT", "WATER_FRIENDLY"]
   },
   {
     "id": "survivor_vest",
@@ -134,17 +150,22 @@
     "volume": "1250 ml",
     "price": 20000,
     "price_postapoc": 4000,
-    "material": [ "leather", "cotton" ],
+    "material": ["leather", "cotton"],
     "symbol": "[",
     "looks_like": "tacvest",
     "color": "green",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 20,
     "encumbrance": 4,
     "storage": "3 L",
     "material_thickness": 2,
-    "use_action": { "type": "holster", "max_volume": "3750 ml", "min_volume": "1250 ml", "skills": [ "smg", "shotgun", "rifle" ] },
-    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ]
+    "use_action": {
+      "type": "holster",
+      "max_volume": "3750 ml",
+      "min_volume": "1250 ml",
+      "skills": ["smg", "shotgun", "rifle"]
+    },
+    "flags": ["WATER_FRIENDLY", "STURDY", "WAIST"]
   },
   {
     "id": "XL_holster",
@@ -155,15 +176,20 @@
     "volume": "250 ml",
     "price": 9000,
     "price_postapoc": 750,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
-    "covers": [ "leg_either" ],
+    "covers": ["leg_either"],
     "coverage": 10,
     "encumbrance": 4,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "min_volume": "750 ml", "max_volume": "1250 ml", "skills": [ "pistol", "smg", "shotgun" ] },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "use_action": {
+      "type": "holster",
+      "min_volume": "750 ml",
+      "max_volume": "1250 ml",
+      "skills": ["pistol", "smg", "shotgun"]
+    },
+    "flags": ["WAIST", "OVERSIZE"]
   }
 ]

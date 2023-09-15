@@ -33,10 +33,10 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "]": "t_wall_glass",
@@ -212,7 +212,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -248,24 +248,31 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "nested": {
-        "1": { "chunks": [ [ "null", 25 ], [ "recroom_12x12", 25 ], [ "tvroom_12x12", 25 ], [ "workoutroom_12x12", 25 ] ] },
+        "1": {
+          "chunks": [
+            ["null", 25],
+            ["recroom_12x12", 25],
+            ["tvroom_12x12", 25],
+            ["workoutroom_12x12", 25]
+          ]
+        },
         "2": {
           "chunks": [
-            [ "null", 40 ],
-            [ "room_6x6_woodworker", 20 ],
-            [ "room_6x6_bike", 20 ],
-            [ "livingroom_5x5_S_1", 10 ],
-            [ "livingroom_5x5_E_1", 10 ],
-            [ "livingroom_5x5_N_1", 10 ],
-            [ "livingroom_5x5_W_1", 10 ],
-            [ "livingroom_5x5_S_2", 10 ],
-            [ "livingroom_5x5_E_2", 10 ],
-            [ "livingroom_5x5_N_2", 10 ],
-            [ "livingroom_5x5_W_2", 10 ],
-            [ "home_office_4x4_N", 10 ],
-            [ "home_office_4x4_S", 10 ]
+            ["null", 40],
+            ["room_6x6_woodworker", 20],
+            ["room_6x6_bike", 20],
+            ["livingroom_5x5_S_1", 10],
+            ["livingroom_5x5_E_1", 10],
+            ["livingroom_5x5_N_1", 10],
+            ["livingroom_5x5_W_1", 10],
+            ["livingroom_5x5_S_2", 10],
+            ["livingroom_5x5_E_2", 10],
+            ["livingroom_5x5_N_2", 10],
+            ["livingroom_5x5_W_2", 10],
+            ["home_office_4x4_N", 10],
+            ["home_office_4x4_S", 10]
           ]
         }
       }

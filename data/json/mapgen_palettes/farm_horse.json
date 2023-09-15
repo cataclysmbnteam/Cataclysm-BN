@@ -9,9 +9,9 @@
       "H": "t_splitrail_fencegate_c",
       "K": "t_chickenwire_gate_o",
       "+": "t_door_c",
-      ",": [ [ "t_railroad_rubble", 20 ], [ "t_region_groundcover", 7 ] ],
+      ",": [["t_railroad_rubble", 20], ["t_region_groundcover", 7]],
       "-": "t_wall_w",
-      ".": [ [ "t_region_groundcover", 45 ], [ "t_region_shrub", 2 ] ],
+      ".": [["t_region_groundcover", 45], ["t_region_shrub", 2]],
       "/": "t_region_groundcover_barren",
       "5": "t_barndoor",
       ";": "t_dirtfloor",
@@ -27,14 +27,14 @@
       "`": "t_water_dp",
       "b": "t_region_groundcover_barren",
       "7": "t_dirtfloor",
-      "v": [ "t_window_domestic", "t_curtains" ],
+      "v": ["t_window_domestic", "t_curtains"],
       "|": "t_wall_w",
       "~": "t_water_sh",
       "4": "t_gutter_downspout",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "#": "t_ladder_up",
-      "9": [ "t_region_tree", "t_region_tree_fruit", "t_region_tree_nut" ]
+      "9": ["t_region_tree", "t_region_tree_fruit", "t_region_tree_nut"]
     },
     "furniture": {
       "@": "f_bed",
@@ -61,9 +61,9 @@
       "a": "f_rack_coat",
       "g": "f_floor_lamp",
       "i": "f_beaded_door",
-      "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+      "y": ["f_indoor_plant_y", "f_indoor_plant"],
       "b": "f_rotary_clothesline",
-      "p": [ "f_region_flower", "f_region_weed" ]
+      "p": ["f_region_flower", "f_region_weed"]
     }
   }
 ]

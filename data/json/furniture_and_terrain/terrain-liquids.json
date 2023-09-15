@@ -7,7 +7,7 @@
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE"],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -22,7 +22,7 @@
     "color": "light_blue",
     "move_cost": 5,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS"],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -35,7 +35,7 @@
     "looks_like": "t_water_sh",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -50,7 +50,15 @@
     "color": "blue",
     "move_cost": 8,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "INDOORS" ],
+    "flags": [
+      "TRANSPARENT",
+      "LIQUID",
+      "NO_SCENT",
+      "SWIMMABLE",
+      "DEEP_WATER",
+      "FISHABLE",
+      "INDOORS"
+    ],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -63,7 +71,7 @@
     "color": "light_blue",
     "looks_like": "t_water_sh",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE"],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -78,7 +86,7 @@
     "looks_like": "t_water_sh",
     "move_cost": 5,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "INDOORS"],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -91,7 +99,7 @@
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CURRENT" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CURRENT"],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -106,7 +114,7 @@
     "color": "light_blue",
     "move_cost": 6,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CURRENT", "INDOORS" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "FISHABLE", "CURRENT", "INDOORS"],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -119,7 +127,15 @@
     "symbol": "~",
     "color": "blue",
     "move_cost": 10,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "CURRENT" ],
+    "flags": [
+      "TRANSPARENT",
+      "LIQUID",
+      "NO_SCENT",
+      "SWIMMABLE",
+      "DEEP_WATER",
+      "FISHABLE",
+      "CURRENT"
+    ],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -134,7 +150,16 @@
     "color": "blue",
     "move_cost": 10,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "FISHABLE", "CURRENT", "INDOORS" ],
+    "flags": [
+      "TRANSPARENT",
+      "LIQUID",
+      "NO_SCENT",
+      "SWIMMABLE",
+      "DEEP_WATER",
+      "FISHABLE",
+      "CURRENT",
+      "INDOORS"
+    ],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -147,7 +172,7 @@
     "looks_like": "t_water_sh",
     "color": "light_blue",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "FISHABLE" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "FISHABLE"],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -162,7 +187,15 @@
     "looks_like": "t_swater_sh",
     "move_cost": 5,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "FISHABLE", "INDOORS" ],
+    "flags": [
+      "TRANSPARENT",
+      "LIQUID",
+      "NO_SCENT",
+      "SWIMMABLE",
+      "SALT_WATER",
+      "FISHABLE",
+      "INDOORS"
+    ],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -175,7 +208,15 @@
     "looks_like": "t_water_dp",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "LIQUID",
+      "NO_SCENT",
+      "SWIMMABLE",
+      "SALT_WATER",
+      "DEEP_WATER",
+      "FISHABLE"
+    ],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -190,7 +231,16 @@
     "looks_like": "t_swater_dp",
     "move_cost": 8,
     "roof": "t_rock_roof",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE", "INDOORS" ],
+    "flags": [
+      "TRANSPARENT",
+      "LIQUID",
+      "NO_SCENT",
+      "SWIMMABLE",
+      "SALT_WATER",
+      "DEEP_WATER",
+      "FISHABLE",
+      "INDOORS"
+    ],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -203,7 +253,7 @@
     "looks_like": "t_water_dp",
     "color": "light_blue",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS", "DEEP_WATER" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS", "DEEP_WATER"],
     "examine_action": "water_source"
   },
   {
@@ -215,7 +265,7 @@
     "looks_like": "t_water_pool",
     "color": "light_blue",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS"],
     "examine_action": "water_source"
   },
   {
@@ -227,7 +277,7 @@
     "looks_like": "t_water_pool",
     "color": "light_blue",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER"],
     "examine_action": "water_source"
   },
   {
@@ -239,7 +289,7 @@
     "looks_like": "t_water_pool",
     "color": "light_blue",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE"],
     "examine_action": "water_source"
   },
   {
@@ -251,7 +301,7 @@
     "looks_like": "t_water_murky",
     "color": "light_green",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "SWIMMABLE" ],
+    "flags": ["TRANSPARENT", "SWIMMABLE"],
     "examine_action": "water_source"
   },
   {
@@ -265,7 +315,7 @@
     "light_emitted": 50,
     "heat_radiation": 3,
     "trap": "tr_lava",
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "DESTROY_ITEM", "USABLE_FIRE" ]
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "DESTROY_ITEM", "USABLE_FIRE"]
   },
   {
     "type": "terrain",
@@ -276,7 +326,15 @@
     "symbol": "~",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_DOWN", "GOES_UP" ],
+    "flags": [
+      "TRANSPARENT",
+      "LIQUID",
+      "NO_SCENT",
+      "SWIMMABLE",
+      "DEEP_WATER",
+      "GOES_DOWN",
+      "GOES_UP"
+    ],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -290,7 +348,7 @@
     "looks_like": "t_sand",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP"],
     "connects_to": "WATER",
     "examine_action": "water_source"
   },
@@ -304,7 +362,7 @@
     "looks_like": "t_sand",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP" ],
+    "flags": ["TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP"],
     "connects_to": "WATER",
     "examine_action": "water_source"
   }

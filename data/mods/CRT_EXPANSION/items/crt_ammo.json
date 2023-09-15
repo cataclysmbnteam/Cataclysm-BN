@@ -17,7 +17,7 @@
     "stack_size": 200,
     "loudness": 15,
     "recoil": 26,
-    "effects": [ "NOGIB", "NEVER_MISFIRES" ]
+    "effects": ["NOGIB", "NEVER_MISFIRES"]
   },
   {
     "id": "dhp_pellet",
@@ -28,7 +28,11 @@
     "material": "steel",
     "symbol": "=",
     "color": "dark_gray",
-    "relative": { "price": 300, "damage": { "damage_type": "bullet", "amount": 6, "armor_penetration": 1 }, "dispersion": -20 }
+    "relative": {
+      "price": 300,
+      "damage": { "damage_type": "bullet", "amount": 6, "armor_penetration": 1 },
+      "dispersion": -20
+    }
   },
   {
     "id": "hp_pellet",
@@ -40,7 +44,10 @@
     "material": "steel",
     "symbol": "=",
     "color": "dark_gray",
-    "relative": { "price": 200, "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": 3 } }
+    "relative": {
+      "price": 200,
+      "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": 3 }
+    }
   },
   {
     "id": "alloy_pellet",
@@ -51,7 +58,12 @@
     "material": "steel",
     "symbol": "=",
     "color": "dark_gray",
-    "relative": { "price": 500, "damage": { "damage_type": "bullet", "armor_penetration": 2 }, "loudness": 25, "dispersion": 20 }
+    "relative": {
+      "price": 500,
+      "damage": { "damage_type": "bullet", "armor_penetration": 2 },
+      "loudness": 25,
+      "dispersion": 20
+    }
   },
   {
     "type": "AMMO",
@@ -61,7 +73,7 @@
     "symbol": "=",
     "color": "light_blue",
     "description": "A helical magazine of hollow-point alloy bullets propelled by pockets of primer.  Not the most lethal thing out there, but it still packs a punch without the worry of having a stray shot seriously damaging the environment.",
-    "material": [ "steel", "powder" ],
+    "material": ["steel", "powder"],
     "volume": "250ml",
     "weight": "2 g",
     "ammo_type": "pulsesb",
@@ -71,6 +83,6 @@
     "stack_size": 200,
     "loudness": 20,
     "recoil": 100,
-    "effects": [ "NOGIB" ]
+    "effects": ["NOGIB"]
   }
 ]

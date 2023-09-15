@@ -3,7 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_TEST_START",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "This is a basic test response.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
@@ -11,14 +11,26 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       { "text": "This is a basic test response.", "topic": "TALK_DONE" },
-      { "text": "This is a strength test response.", "topic": "TALK_DONE", "condition": { "u_has_strength": 7 } },
-      { "text": "This is a dexterity test response.", "topic": "TALK_DONE", "condition": { "u_has_dexterity": 7 } },
+      {
+        "text": "This is a strength test response.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_strength": 7 }
+      },
+      {
+        "text": "This is a dexterity test response.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_dexterity": 7 }
+      },
       {
         "text": "This is an intelligence test response.",
         "topic": "TALK_DONE",
         "condition": { "u_has_intelligence": 7 }
       },
-      { "text": "This is a perception test response.", "topic": "TALK_DONE", "condition": { "u_has_perception": 7 } }
+      {
+        "text": "This is a perception test response.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_perception": 7 }
+      }
     ]
   },
   {
@@ -58,7 +70,15 @@
       {
         "text": "This is a trait test response.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ] }
+        "condition": {
+          "u_has_any_trait": [
+            "CANINE_EARS",
+            "LUPINE_EARS",
+            "FELINE_EARS",
+            "URSINE_EARS",
+            "ELFA_EARS"
+          ]
+        }
       },
       {
         "text": "This is a short trait test response.",
@@ -73,7 +93,15 @@
       {
         "text": "This is a npc trait test response.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ] }
+        "condition": {
+          "npc_has_any_trait": [
+            "CANINE_EARS",
+            "LUPINE_EARS",
+            "FELINE_EARS",
+            "URSINE_EARS",
+            "ELFA_EARS"
+          ]
+        }
       },
       {
         "text": "This is a npc short trait test response.",
@@ -116,8 +144,16 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       { "text": "This is a basic test response.", "topic": "TALK_DONE" },
-      { "text": "This is a cash test response.", "topic": "TALK_DONE", "condition": { "u_has_ecash": 500 } },
-      { "text": "This is an npc available test response.", "topic": "TALK_DONE", "condition": "npc_available" }
+      {
+        "text": "This is a cash test response.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_ecash": 500 }
+      },
+      {
+        "text": "This is an npc available test response.",
+        "topic": "TALK_DONE",
+        "condition": "npc_available"
+      }
     ]
   },
   {
@@ -170,7 +206,11 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       { "text": "This is a basic test response.", "topic": "TALK_DONE" },
-      { "text": "This is a npc allies 1 test response.", "topic": "TALK_DONE", "condition": { "npc_allies": 1 } },
+      {
+        "text": "This is a npc allies 1 test response.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_allies": 1 }
+      },
       {
         "text": "This an error!  npc allies 2 test response.",
         "topic": "TALK_DONE",
@@ -194,7 +234,11 @@
         "topic": "TALK_DONE",
         "condition": { "npc_aim_rule": "AIM_SPRAY" }
       },
-      { "text": "This is a npc rule test response.", "topic": "TALK_DONE", "condition": { "npc_rule": "use_silent" } }
+      {
+        "text": "This is a npc rule test response.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_rule": "use_silent" }
+      }
     ]
   },
   {
@@ -288,7 +332,11 @@
     "responses": [
       { "text": "This is a basic test response.", "topic": "TALK_DONE" },
       { "text": "This is a is day test response.", "topic": "TALK_DONE", "condition": "is_day" },
-      { "text": "This is a is night test response.", "topic": "TALK_DONE", "condition": { "not": "is_day" } }
+      {
+        "text": "This is a is night test response.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "is_day" }
+      }
     ]
   },
   {
@@ -316,7 +364,12 @@
         "switch": true,
         "default": true
       },
-      { "text": "This is an switch default 2 test response.", "topic": "TALK_DONE", "switch": true, "default": true },
+      {
+        "text": "This is an switch default 2 test response.",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "default": true
+      },
       { "text": "This is another basic test response.", "topic": "TALK_DONE" }
     ]
   },
@@ -331,7 +384,15 @@
         "topic": "TALK_DONE",
         "condition": {
           "or": [
-            { "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ] },
+            {
+              "u_has_any_trait": [
+                "CANINE_EARS",
+                "LUPINE_EARS",
+                "FELINE_EARS",
+                "URSINE_EARS",
+                "ELFA_EARS"
+              ]
+            },
             "npc_available",
             { "u_has_ecash": 500 }
           ]
@@ -350,7 +411,15 @@
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ] },
+            {
+              "u_has_any_trait": [
+                "CANINE_EARS",
+                "LUPINE_EARS",
+                "FELINE_EARS",
+                "URSINE_EARS",
+                "ELFA_EARS"
+              ]
+            },
             "npc_available",
             { "u_has_ecash": 500 }
           ]
@@ -369,8 +438,8 @@
         "topic": "TALK_DONE",
         "condition": {
           "and": [
-            { "not": { "or": [ { "u_has_strength": 10 }, { "u_has_dexterity": 10 } ] } },
-            { "or": [ { "not": "npc_available" }, { "u_has_intelligence": 10 } ] },
+            { "not": { "or": [{ "u_has_strength": 10 }, { "u_has_dexterity": 10 }] } },
+            { "or": [{ "not": "npc_available" }, { "u_has_intelligence": 10 }] },
             { "u_has_ecash": 500 }
           ]
         }
@@ -471,7 +540,11 @@
         "topic": "TALK_DONE",
         "effect": { "u_buy_item": "bottle_plastic" }
       },
-      { "text": "This is a u_spend_ecash response", "topic": "TALK_DONE", "effect": { "u_spend_ecash": 500 } }
+      {
+        "text": "This is a u_spend_ecash response",
+        "topic": "TALK_DONE",
+        "effect": { "u_spend_ecash": 500 }
+      }
     ]
   },
   {
@@ -518,14 +591,18 @@
       {
         "text": "This is a u_sell_item plastic bottle response",
         "topic": "TALK_DONE",
-        "effect": [ { "u_sell_item": "bottle_plastic" }, { "u_sell_item": "beer", "count": 2 } ]
+        "effect": [{ "u_sell_item": "bottle_plastic" }, { "u_sell_item": "beer", "count": 2 }]
       },
       {
         "text": "This is a npc_consume_item beer response",
         "topic": "TALK_DONE",
         "effect": { "npc_consume_item": "beer", "count": 1 }
       },
-      { "text": "This is a u_buy_item beer response again", "topic": "TALK_DONE", "effect": { "u_buy_item": "beer" } },
+      {
+        "text": "This is a u_buy_item beer response again",
+        "topic": "TALK_DONE",
+        "effect": { "u_buy_item": "beer" }
+      },
       {
         "text": "This is a u_consume_item beer response",
         "topic": "TALK_DONE",
@@ -590,26 +667,38 @@
     ],
     "repeat_responses": {
       "for_item": "manual_speech",
-      "response": { "text": "This is a repeated item manual_speech test response", "topic": "TALK_DONE" }
+      "response": {
+        "text": "This is a repeated item manual_speech test response",
+        "topic": "TALK_DONE"
+      }
     }
   },
   {
     "type": "talk_topic",
     "id": "TALK_TEST_ITEM_REPEAT",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ],
+    "responses": [{ "text": "This is a basic test response.", "topic": "TALK_DONE" }],
     "repeat_responses": [
       {
-        "for_item": [ "beer", "bottle_glass" ],
-        "response": { "text": "This is a repeated item beer, bottle_glass test response", "topic": "TALK_DONE" }
+        "for_item": ["beer", "bottle_glass"],
+        "response": {
+          "text": "This is a repeated item beer, bottle_glass test response",
+          "topic": "TALK_DONE"
+        }
       },
       {
         "for_category": "books",
-        "response": { "text": "This is a repeated category books test response", "topic": "TALK_DONE" }
+        "response": {
+          "text": "This is a repeated category books test response",
+          "topic": "TALK_DONE"
+        }
       },
       {
-        "for_category": [ "books", "food" ],
-        "response": { "text": "This is a repeated category books, food test response", "topic": "TALK_DONE" }
+        "for_category": ["books", "food"],
+        "response": {
+          "text": "This is a repeated category books, food test response",
+          "topic": "TALK_DONE"
+        }
       }
     ]
   },
@@ -623,24 +712,38 @@
         "text": "This is a u_add_var test response.",
         "topic": "TALK_DONE",
         "effect": { "u_add_var": "test", "type": "test", "context": "var_test", "value": "beer" },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" } }
+        "condition": {
+          "not": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" }
+        }
       },
       {
         "text": "This is a npc_add_var test response.",
         "topic": "TALK_DONE",
         "effect": { "npc_add_var": "test", "type": "test", "context": "var_test", "value": "reeb" },
-        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" } }
+        "condition": {
+          "not": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" }
+        }
       },
       {
         "text": "This is a u_has_var, u_remove_var test response.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" },
+        "condition": {
+          "u_has_var": "test",
+          "type": "test",
+          "context": "var_test",
+          "value": "beer"
+        },
         "effect": { "u_lose_var": "test", "type": "test", "context": "var_test" }
       },
       {
         "text": "This is a npc_has_var, npc_remove_var test response.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "test", "type": "test", "context": "var_test", "value": "reeb" },
+        "condition": {
+          "npc_has_var": "test",
+          "type": "test",
+          "context": "var_test",
+          "value": "reeb"
+        },
         "effect": { "npc_lose_var": "test", "type": "test", "context": "var_test" }
       }
     ]
@@ -654,82 +757,174 @@
       {
         "text": "This is a u_adjust_var test response that increments by 1.",
         "topic": "TALK_DONE",
-        "effect": { "u_adjust_var": "test", "type": "test", "context": "var_adjust_test", "adjustment": 1 }
+        "effect": {
+          "u_adjust_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "adjustment": 1
+        }
       },
       {
         "text": "This is a u_adjust_var test response that decrements by 1.",
         "topic": "TALK_DONE",
-        "effect": { "u_adjust_var": "test", "type": "test", "context": "var_adjust_test", "adjustment": -1 }
+        "effect": {
+          "u_adjust_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "adjustment": -1
+        }
       },
       {
         "text": "This is a npc_adjust_var test response that increments by 1.",
         "topic": "TALK_DONE",
-        "effect": { "npc_adjust_var": "test", "type": "test", "context": "var_adjust_test", "adjustment": 1 }
+        "effect": {
+          "npc_adjust_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "adjustment": 1
+        }
       },
       {
         "text": "This is a npc_adjust_var test response that decrements by 1.",
         "topic": "TALK_DONE",
-        "effect": { "npc_adjust_var": "test", "type": "test", "context": "var_adjust_test", "adjustment": -1 }
+        "effect": {
+          "npc_adjust_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "adjustment": -1
+        }
       },
       {
         "text": "This is a u_compare_var test response for == 0.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "==", "value": 0 }
+        "condition": {
+          "u_compare_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "op": "==",
+          "value": 0
+        }
       },
       {
         "text": "This is a u_compare_var test response for != 0.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "!=", "value": 0 }
+        "condition": {
+          "u_compare_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "op": "!=",
+          "value": 0
+        }
       },
       {
         "text": "This is a u_compare_var test response for <= 0.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "<=", "value": 0 }
+        "condition": {
+          "u_compare_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "op": "<=",
+          "value": 0
+        }
       },
       {
         "text": "This is a u_compare_var test response for >= 0.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": ">=", "value": 0 }
+        "condition": {
+          "u_compare_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "op": ">=",
+          "value": 0
+        }
       },
       {
         "text": "This is a u_compare_var test response for < 0.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "<", "value": 0 }
+        "condition": {
+          "u_compare_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "op": "<",
+          "value": 0
+        }
       },
       {
         "text": "This is a u_compare_var test response for > 0.",
         "topic": "TALK_DONE",
-        "condition": { "u_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": ">", "value": 0 }
+        "condition": {
+          "u_compare_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "op": ">",
+          "value": 0
+        }
       },
       {
         "text": "This is a npc_compare_var test response for == 0.",
         "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "==", "value": 0 }
+        "condition": {
+          "npc_compare_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "op": "==",
+          "value": 0
+        }
       },
       {
         "text": "This is a npc_compare_var test response for != 0.",
         "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "!=", "value": 0 }
+        "condition": {
+          "npc_compare_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "op": "!=",
+          "value": 0
+        }
       },
       {
         "text": "This is a npc_compare_var test response for <= 0.",
         "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "<=", "value": 0 }
+        "condition": {
+          "npc_compare_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "op": "<=",
+          "value": 0
+        }
       },
       {
         "text": "This is a npc_compare_var test response for >= 0.",
         "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": ">=", "value": 0 }
+        "condition": {
+          "npc_compare_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "op": ">=",
+          "value": 0
+        }
       },
       {
         "text": "This is a npc_compare_var test response for < 0.",
         "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": "<", "value": 0 }
+        "condition": {
+          "npc_compare_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "op": "<",
+          "value": 0
+        }
       },
       {
         "text": "This is a npc_compare_var test response for > 0.",
         "topic": "TALK_DONE",
-        "condition": { "npc_compare_var": "test", "type": "test", "context": "var_adjust_test", "op": ">", "value": 0 }
+        "condition": {
+          "npc_compare_var": "test",
+          "type": "test",
+          "context": "var_adjust_test",
+          "op": ">",
+          "value": 0
+        }
       }
     ]
   },
@@ -761,35 +956,42 @@
     "id": "TALK_TEST_SPEAKER_EFFECT_SIMPLE",
     "speaker_effect": { "effect": { "u_spend_ecash": 500 } },
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "This is a basic test response.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_SIMPLE_CONDITIONAL",
     "speaker_effect": { "condition": { "u_has_ecash": 8750 }, "effect": { "u_spend_ecash": 500 } },
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "This is a basic test response.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_SENTINEL",
     "speaker_effect": { "sentinel": "spend500", "effect": { "u_spend_ecash": 500 } },
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "This is a basic test response.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_SENTINEL_CONDITIONAL",
-    "speaker_effect": { "sentinel": "spend500", "condition": { "u_has_ecash": 9500 }, "effect": { "u_spend_ecash": 500 } },
+    "speaker_effect": {
+      "sentinel": "spend500",
+      "condition": { "u_has_ecash": 9500 },
+      "effect": { "u_spend_ecash": 500 }
+    },
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "This is a basic test response.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND",
-    "speaker_effect": [ { "effect": { "u_spend_ecash": 500 } }, { "effect": { "u_spend_ecash": 500 } } ],
+    "speaker_effect": [
+      { "effect": { "u_spend_ecash": 500 } },
+      { "effect": { "u_spend_ecash": 500 } }
+    ],
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "This is a basic test response.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
@@ -799,29 +1001,40 @@
       { "condition": { "u_has_ecash": 6000 }, "effect": { "u_spend_ecash": 500 } }
     ],
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "This is a basic test response.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL",
-    "speaker_effect": [ { "sentinel": "spend250", "effect": { "u_spend_ecash": 250 } }, { "effect": { "u_spend_ecash": 500 } } ],
+    "speaker_effect": [
+      { "sentinel": "spend250", "effect": { "u_spend_ecash": 250 } },
+      { "effect": { "u_spend_ecash": 500 } }
+    ],
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "This is a basic test response.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_COMPOUND_SENTINEL_CONDITIONAL",
     "speaker_effect": [
-      { "sentinel": "spend250", "condition": { "u_has_ecash": 2000 }, "effect": { "u_spend_ecash": 250 } },
-      { "sentinel": "spend500", "condition": { "u_has_ecash": 2000 }, "effect": { "u_spend_ecash": 500 } }
+      {
+        "sentinel": "spend250",
+        "condition": { "u_has_ecash": 2000 },
+        "effect": { "u_spend_ecash": 250 }
+      },
+      {
+        "sentinel": "spend500",
+        "condition": { "u_has_ecash": 2000 },
+        "effect": { "u_spend_ecash": 500 }
+      }
     ],
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
-    "responses": [ { "text": "This is a basic test response.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "This is a basic test response.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_TEST_SPEAKER_EFFECT_MAPGEN_UPDATE",
-    "dynamic_line": [ "This is an example of mapgen_update effect variations" ],
+    "dynamic_line": ["This is an example of mapgen_update effect variations"],
     "responses": [
       {
         "text": "Please test some simple remote mapgen",
@@ -839,7 +1052,11 @@
       {
         "text": "Please test mapgen_update linked",
         "topic": "TALK_DONE",
-        "effect": { "mapgen_update": [ "faction_wall_level_S_1", "faction_wall_level_N_1" ], "origin_npc": true, "offset_y": -1 }
+        "effect": {
+          "mapgen_update": ["faction_wall_level_S_1", "faction_wall_level_N_1"],
+          "origin_npc": true,
+          "offset_y": -1
+        }
       }
     ]
   },

@@ -14,7 +14,7 @@
     "calories": 2600,
     "description": "Pale, round egg laid by a dinosaur.",
     "price": 500,
-    "material": [ "egg" ],
+    "material": ["egg"],
     "volume": "6800 ml",
     "stack_size": 4,
     "fun": -6,
@@ -34,7 +34,7 @@
     "healthy": 1,
     "calories": 80,
     "description": "Pale, round egg laid by a smaller dinosaur.",
-    "material": [ "egg" ],
+    "material": ["egg"],
     "volume": "50 ml",
     "rot_spawn": "GROUP_EGG_DINO_SMALL"
   },
@@ -49,7 +49,7 @@
     "comestible_type": "FOOD",
     "calories": 5200,
     "description": "Pale, round egg laid by a larger dinosaur.",
-    "material": [ "egg" ],
+    "material": ["egg"],
     "volume": "13600 ml",
     "rot_spawn": "GROUP_EGG_DINO_LARGE"
   },
@@ -68,7 +68,7 @@
     "calories": 2600,
     "description": "Pale, football-shaped egg laid by a dinosaur.",
     "price": 500,
-    "material": [ "egg" ],
+    "material": ["egg"],
     "volume": "6800 ml",
     "stack_size": 4,
     "fun": -6,
@@ -83,7 +83,7 @@
     "looks_like": "egg_bird",
     "comestible_type": "FOOD",
     "description": "Pale, football-shaped egg laid by a smaller dinosaur.",
-    "material": [ "egg" ],
+    "material": ["egg"],
     "rot_spawn": "GROUP_EGG_THEROPOD_SMALL"
   },
   {
@@ -96,7 +96,7 @@
     "comestible_type": "FOOD",
     "calories": 5200,
     "description": "Pale, football-shaped egg laid by a larger dinosaur.",
-    "material": [ "egg" ],
+    "material": ["egg"],
     "volume": "13600 ml",
     "rot_spawn": "GROUP_EGG_THEROPOD_LARGE"
   },
@@ -741,7 +741,7 @@
     "description": "A smaller hard-boiled dinosaur egg, still in its shell.  Portable and nutritious!",
     "price": 95,
     "price_postapoc": 50,
-    "material": [ "egg" ],
+    "material": ["egg"],
     "fun": 2,
     "rot_spawn": "GROUP_NULL",
     "rot_spawn_chance": 0
@@ -757,7 +757,7 @@
     "description": "A hard-boiled dinosaur egg, still in its shell.  Portable and nutritious!",
     "price": 395,
     "price_postapoc": 200,
-    "material": [ "egg" ],
+    "material": ["egg"],
     "fun": 10,
     "rot_spawn": "GROUP_NULL",
     "rot_spawn_chance": 0
@@ -773,7 +773,7 @@
     "description": "A large hard-boiled dinosaur egg, still in its shell.  It may be wise to disassemble it into two pieces to eat.",
     "price": 595,
     "price_postapoc": 300,
-    "material": [ "egg" ],
+    "material": ["egg"],
     "fun": 20,
     "rot_spawn": "GROUP_NULL",
     "rot_spawn_chance": 0

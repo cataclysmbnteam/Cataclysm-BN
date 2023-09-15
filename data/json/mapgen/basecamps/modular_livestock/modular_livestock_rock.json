@@ -22,7 +22,7 @@
     "method": "json",
     "nested_mapgen_id": "fbml_coop_rock",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwwwww",
         "w....w",
@@ -31,21 +31,21 @@
         "w....w",
         "wwdfww"
       ],
-      "palettes": [ "fbml_rock_palette" ]
+      "palettes": ["fbml_rock_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_coop_rock_northeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_coop_rock" ], "x": 15, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbml_coop_rock"], "x": 15, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbml_shack_rock",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "      ",
         "  woww",
@@ -54,21 +54,21 @@
         " orrrw",
         " wwoww"
       ],
-      "palettes": [ "fbml_rock_palette" ]
+      "palettes": ["fbml_rock_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_shack_rock_southeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_shack_rock" ], "x": 15, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbml_shack_rock"], "x": 15, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbml_stable0_rock",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwww.w",
         "w..D..",
@@ -77,21 +77,21 @@
         "w..Fbb",
         "wwwwww"
       ],
-      "palettes": [ "fbml_rock_palette" ]
+      "palettes": ["fbml_rock_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_stable0_rock_southwest",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_stable0_rock" ], "x": 3, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbml_stable0_rock"], "x": 3, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbml_stable1_rock",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwww.w",
         "w..F..",
@@ -100,21 +100,21 @@
         "w..Fb.",
         "w..D.."
       ],
-      "palettes": [ "fbml_rock_palette" ]
+      "palettes": ["fbml_rock_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_stable1_rock_west",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_stable1_rock" ], "x": 3, "y": 9 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbml_stable1_rock"], "x": 3, "y": 9 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbml_stable2_rock",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwwwww",
         "w..F..",
@@ -123,13 +123,13 @@
         "w..Fb.",
         "w..D.."
       ],
-      "palettes": [ "fbml_rock_palette" ]
+      "palettes": ["fbml_rock_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_stable2_rock_northwest",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_stable2_rock" ], "x": 3, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbml_stable2_rock"], "x": 3, "y": 3 }] }
   }
 ]

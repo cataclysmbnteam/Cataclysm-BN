@@ -7,10 +7,10 @@
     "skill_used": "cooking",
     "time": "5 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 3, "LIST"]]],
+    "components": [[["water", 1]]]
   },
   {
     "type": "recipe",
@@ -21,9 +21,9 @@
     "skill_used": "cooking",
     "time": "9 s",
     "autolearn": true,
-    "tools": [ [ [ "water_purifier", 1 ], [ "pur_tablets", 1 ], [ "char_purifier", 1 ] ] ],
-    "components": [ [ [ "water", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "tools": [[["water_purifier", 1], ["pur_tablets", 1], ["char_purifier", 1]]],
+    "components": [[["water", 1]]],
+    "flags": ["BLIND_EASY"]
   },
   {
     "type": "recipe",
@@ -33,8 +33,8 @@
     "skill_used": "cooking",
     "time": "4 m",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "protein_powder", 1 ] ], [ [ "water_clean", 1 ] ] ]
+    "flags": ["BLIND_HARD"],
+    "components": [[["protein_powder", 1]], [["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -44,11 +44,11 @@
     "skill_used": "cooking",
     "time": "4 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [{ "id": "CUT", "level": 1 }],
     "components": [
-      [ [ "protein_powder", 1 ] ],
-      [ [ "water_clean", 1 ] ],
-      [ [ "lemonade_powder", 1 ], [ "sweet_fruit_like", 1, "LIST" ], [ "coconut", 1 ] ]
+      [["protein_powder", 1]],
+      [["water_clean", 1]],
+      [["lemonade_powder", 1], ["sweet_fruit_like", 1, "LIST"], ["coconut", 1]]
     ]
   },
   {
@@ -59,10 +59,10 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "tea_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
+    "components": [[["tea_raw", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -73,10 +73,10 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wild_herbs", 10 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
+    "components": [[["wild_herbs", 10]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -85,20 +85,20 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 2,
-    "skills_required": [ "survival", 2 ],
+    "skills_required": ["survival", 2],
     "time": "10 m",
-    "batch_time_factors": [ 80, 5 ],
+    "batch_time_factors": [80, 5],
     "book_learn": [
-      [ "pocket_survival", 1 ],
-      [ "survival_book", 1 ],
-      [ "textbook_survival", 1 ],
-      [ "manual_survival", 1 ],
-      [ "mag_survival", 1 ],
-      [ "family_cookbook", 1 ]
+      ["pocket_survival", 1],
+      ["survival_book", 1],
+      ["textbook_survival", 1],
+      ["manual_survival", 1],
+      ["mag_survival", 1],
+      ["family_cookbook", 1]
     ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "pine_bough", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
+    "components": [[["pine_bough", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -108,19 +108,19 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "12 m",
-    "batch_time_factors": [ 80, 5 ],
+    "batch_time_factors": [80, 5],
     "book_learn": [
-      [ "pocket_survival", 1 ],
-      [ "survival_book", 1 ],
-      [ "textbook_survival", 1 ],
-      [ "manual_survival", 1 ],
-      [ "mag_survival", 1 ],
-      [ "family_cookbook", 1 ],
-      [ "cookbook_daintydishes", 2, "Royal Penny Tea" ]
+      ["pocket_survival", 1],
+      ["survival_book", 1],
+      ["textbook_survival", 1],
+      ["manual_survival", 1],
+      ["mag_survival", 1],
+      ["family_cookbook", 1],
+      ["cookbook_daintydishes", 2, "Royal Penny Tea"]
     ],
-    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "qualities": [{ "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
+    "components": [[["raw_dandelion", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -130,19 +130,19 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "12 m",
-    "batch_time_factors": [ 80, 5 ],
+    "batch_time_factors": [80, 5],
     "book_learn": [
-      [ "pocket_survival", 1 ],
-      [ "survival_book", 1 ],
-      [ "textbook_survival", 1 ],
-      [ "manual_survival", 1 ],
-      [ "mag_survival", 1 ],
-      [ "family_cookbook", 1 ],
-      [ "cookbook_daintydishes", 2, "Royal Penny Tea" ]
+      ["pocket_survival", 1],
+      ["survival_book", 1],
+      ["textbook_survival", 1],
+      ["manual_survival", 1],
+      ["mag_survival", 1],
+      ["family_cookbook", 1],
+      ["cookbook_daintydishes", 2, "Royal Penny Tea"]
     ],
-    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "raw_dandelion", 1 ] ], [ [ "raw_burdock", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "qualities": [{ "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
+    "components": [[["raw_dandelion", 1]], [["raw_burdock", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -152,18 +152,18 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "12 m",
-    "batch_time_factors": [ 80, 5 ],
+    "batch_time_factors": [80, 5],
     "book_learn": [
-      [ "pocket_survival", 1 ],
-      [ "survival_book", 1 ],
-      [ "textbook_survival", 1 ],
-      [ "manual_survival", 1 ],
-      [ "mag_survival", 1 ],
-      [ "family_cookbook", 1 ]
+      ["pocket_survival", 1],
+      ["survival_book", 1],
+      ["textbook_survival", 1],
+      ["manual_survival", 1],
+      ["mag_survival", 1],
+      ["family_cookbook", 1]
     ],
-    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "chicory_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "qualities": [{ "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
+    "components": [[["chicory_raw", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -172,20 +172,20 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "skills_required": [ "survival", 1 ],
+    "skills_required": ["survival", 1],
     "time": "10 m",
-    "batch_time_factors": [ 80, 5 ],
+    "batch_time_factors": [80, 5],
     "book_learn": [
-      [ "pocket_survival", 1 ],
-      [ "survival_book", 1 ],
-      [ "textbook_survival", 1 ],
-      [ "manual_survival", 1 ],
-      [ "mag_survival", 1 ],
-      [ "family_cookbook", 1 ]
+      ["pocket_survival", 1],
+      ["survival_book", 1],
+      ["textbook_survival", 1],
+      ["manual_survival", 1],
+      ["mag_survival", 1],
+      ["family_cookbook", 1]
     ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "chamomile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
+    "components": [[["chamomile", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -194,20 +194,20 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "skills_required": [ "survival", 1 ],
+    "skills_required": ["survival", 1],
     "time": "10 m",
-    "batch_time_factors": [ 80, 5 ],
+    "batch_time_factors": [80, 5],
     "book_learn": [
-      [ "pocket_survival", 1 ],
-      [ "survival_book", 1 ],
-      [ "textbook_survival", 1 ],
-      [ "manual_survival", 1 ],
-      [ "mag_survival", 1 ],
-      [ "family_cookbook", 1 ]
+      ["pocket_survival", 1],
+      ["survival_book", 1],
+      ["textbook_survival", 1],
+      ["manual_survival", 1],
+      ["mag_survival", 1],
+      ["family_cookbook", 1]
     ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "lotus", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
+    "components": [[["lotus", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -216,20 +216,20 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
-    "skills_required": [ "survival", 1 ],
+    "skills_required": ["survival", 1],
     "time": "10 m",
-    "batch_time_factors": [ 80, 5 ],
+    "batch_time_factors": [80, 5],
     "book_learn": [
-      [ "pocket_survival", 1 ],
-      [ "survival_book", 1 ],
-      [ "textbook_survival", 1 ],
-      [ "manual_survival", 1 ],
-      [ "mag_survival", 1 ],
-      [ "family_cookbook", 1 ]
+      ["pocket_survival", 1],
+      ["survival_book", 1],
+      ["textbook_survival", 1],
+      ["manual_survival", 1],
+      ["mag_survival", 1],
+      ["family_cookbook", 1]
     ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "spurge", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
+    "components": [[["spurge", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -241,10 +241,14 @@
     "result_mult": 2,
     "time": "20 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "sweet_fruit_like", 1, "LIST" ] ], [ [ "sugar", 5 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "COOK", "level": 3 }],
+    "tools": [[["surface_heat", 10, "LIST"]]],
+    "components": [
+      [["sweet_fruit_like", 1, "LIST"]],
+      [["sugar", 5]],
+      [["water", 2], ["water_clean", 2]]
+    ]
   },
   {
     "type": "recipe",
@@ -254,10 +258,10 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 3, "LIST"]]],
+    "components": [[["coffee_raw", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -267,9 +271,9 @@
     "skill_used": "cooking",
     "time": "6 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
-    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "batch_time_factors": [80, 5],
+    "tools": [[["atomic_coffeepot", -1]]],
+    "components": [[["coffee_raw", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -279,43 +283,43 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "coffee_raw_kentucky", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 3, "LIST"]]],
+    "components": [[["coffee_raw_kentucky", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
     "result": "almond_milk",
     "result_mult": 3,
-    "byproducts": [ [ "almond_pulp" ] ],
+    "byproducts": [["almond_pulp"]],
     "id_suffix": "mortar",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "15 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "rag", -1 ] ], [ [ "mortar_pestle", -1 ] ] ],
+    "qualities": [{ "id": "CONTAIN", "level": 1 }],
+    "tools": [[["rag", -1]], [["mortar_pestle", -1]]],
     "autolearn": true,
-    "batch_time_factors": [ 50, 3 ],
-    "components": [ [ [ "almond", 2 ] ], [ [ "water_clean", 3 ] ] ]
+    "batch_time_factors": [50, 3],
+    "components": [[["almond", 2]], [["water_clean", 3]]]
   },
   {
     "type": "recipe",
     "result": "almond_milk",
     "result_mult": 3,
-    "byproducts": [ [ "almond_pulp" ] ],
+    "byproducts": [["almond_pulp"]],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "9 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [ "rag", -1 ] ] ],
+    "qualities": [{ "id": "CONTAIN", "level": 1 }],
+    "tools": [[["food_processor", 20]], [["rag", -1]]],
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "components": [ [ [ "almond", 2 ] ], [ [ "water_clean", 3 ] ] ]
+    "batch_time_factors": [80, 5],
+    "components": [[["almond", 2]], [["water_clean", 3]]]
   },
   {
     "type": "recipe",
@@ -325,11 +329,11 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "13 m",
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [ "rag", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "qualities": [{ "id": "CONTAIN", "level": 1 }],
+    "tools": [[["food_processor", 20]], [["rag", -1]], [["surface_heat", 10, "LIST"]]],
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "components": [ [ [ "soybean", 2 ] ], [ [ "water_clean", 2 ] ] ]
+    "batch_time_factors": [80, 5],
+    "components": [[["soybean", 2]], [["water_clean", 2]]]
   },
   {
     "type": "recipe",
@@ -339,10 +343,10 @@
     "skill_used": "cooking",
     "time": "5 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "milk_raw", 1 ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 3, "LIST"]]],
+    "components": [[["milk_raw", 1]]]
   },
   {
     "type": "recipe",
@@ -353,7 +357,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "milk_powder", 1 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [[["milk_powder", 1]], [["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -365,22 +369,22 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "con_milk", 5 ] ], [ [ "water_clean", 3 ] ] ]
+    "components": [[["con_milk", 5]], [["water_clean", 3]]]
   },
   {
     "type": "recipe",
     "result": "can_coconut",
     "charges": 1,
-    "byproducts": [ [ "juice_pulp", 2 ] ],
+    "byproducts": [["juice_pulp", 2]],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "15 m",
-    "book_learn": [ [ "manual_sealing", 1 ] ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "coconut", 2 ] ], [ [ "water_clean", 2 ] ] ]
+    "book_learn": [["manual_sealing", 1]],
+    "qualities": [{ "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "tools": [[["rag", -1]]],
+    "components": [[["coconut", 2]], [["water_clean", 2]]]
   },
   {
     "type": "recipe",
@@ -391,56 +395,56 @@
     "difficulty": 1,
     "time": "12 m",
     "autolearn": true,
-    "batch_time_factors": [ 50, 3 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "batch_time_factors": [50, 3],
+    "qualities": [{ "id": "COOK", "level": 3 }],
+    "tools": [[["surface_heat", 2, "LIST"]]],
     "components": [
-      [ [ "coffee_raw", 4 ] ],
-      [ [ "honeycomb", 1 ], [ "beverage_sweetener", 8, "LIST" ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [["coffee_raw", 4]],
+      [["honeycomb", 1], ["beverage_sweetener", 8, "LIST"]],
+      [["water", 1], ["water_clean", 1]]
     ]
   },
   {
     "type": "recipe",
     "result": "oj",
-    "byproducts": [ [ "juice_pulp", 2 ] ],
+    "byproducts": [["juice_pulp", 2]],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "irradiated_orange", 2 ], [ "orange", 2 ] ] ]
+    "qualities": [{ "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }],
+    "tools": [[["rag", -1]]],
+    "components": [[["irradiated_orange", 2], ["orange", 2]]]
   },
   {
     "type": "recipe",
     "result": "cranberry_juice",
-    "byproducts": [ [ "juice_pulp", 2 ] ],
+    "byproducts": [["juice_pulp", 2]],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "cranberries", 3 ], [ "irradiated_cranberries", 3 ] ], [ [ "water_clean", 1 ] ] ]
+    "qualities": [{ "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }],
+    "tools": [[["rag", -1]]],
+    "components": [[["cranberries", 3], ["irradiated_cranberries", 3]], [["water_clean", 1]]]
   },
   {
     "type": "recipe",
     "result": "apple_cider",
-    "byproducts": [ [ "juice_pulp", 2 ] ],
+    "byproducts": [["juice_pulp", 2]],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "7 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "irradiated_apple", 2 ], [ "apple", 2 ] ] ]
+    "qualities": [{ "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }],
+    "tools": [[["rag", -1]]],
+    "components": [[["irradiated_apple", 2], ["apple", 2]]]
   },
   {
     "type": "recipe",
@@ -452,8 +456,8 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "irradiated_lemon", 1 ], [ "lemon", 1 ] ], [ [ "sugar", 10 ] ], [ [ "water_clean", 1 ] ] ]
+    "qualities": [{ "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }],
+    "components": [[["irradiated_lemon", 1], ["lemon", 1]], [["sugar", 10]], [["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -464,7 +468,7 @@
     "skill_used": "cooking",
     "time": "30 s",
     "autolearn": true,
-    "components": [ [ [ "lemonade_powder", 1 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [[["lemonade_powder", 1]], [["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -476,8 +480,8 @@
     "difficulty": 1,
     "time": "30 s",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "orangesoda", 1 ] ], [ [ "cola", 1 ] ] ]
+    "flags": ["BLIND_HARD"],
+    "components": [[["orangesoda", 1]], [["cola", 1]]]
   },
   {
     "type": "recipe",
@@ -489,8 +493,8 @@
     "difficulty": 1,
     "time": "30 s",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "lemonlime", 1 ] ], [ [ "cranberry_juice", 1 ] ] ]
+    "flags": ["BLIND_HARD"],
+    "components": [[["lemonlime", 1]], [["cranberry_juice", 1]]]
   },
   {
     "type": "recipe",
@@ -501,15 +505,20 @@
     "skill_used": "cooking",
     "time": "14 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 3, "LIST"]]],
     "components": [
-      [ [ "beverage_sweetener", 1, "LIST" ] ],
-      [ [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ], [ "single_pot_whiskey", 1 ], [ "canadian_whiskey", 1 ] ],
-      [ [ "coffee_raw", 1 ] ],
-      [ [ "milk_standard", 1, "LIST" ] ],
-      [ [ "water_clean", 1 ], [ "water", 1 ] ]
+      [["beverage_sweetener", 1, "LIST"]],
+      [
+        ["whiskey", 1],
+        ["single_malt_whiskey", 1],
+        ["single_pot_whiskey", 1],
+        ["canadian_whiskey", 1]
+      ],
+      [["coffee_raw", 1]],
+      [["milk_standard", 1, "LIST"]],
+      [["water_clean", 1], ["water", 1]]
     ]
   },
   {
@@ -521,14 +530,14 @@
     "difficulty": 1,
     "time": "7 m",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
+    "flags": ["BLIND_HARD"],
     "components": [
-      [ [ "cola", 1 ] ],
-      [ [ "vodka", 1 ] ],
-      [ [ "gin", 1 ] ],
-      [ [ "rum", 1 ] ],
-      [ [ "tequila", 1 ] ],
-      [ [ "triple_sec", 1 ] ]
+      [["cola", 1]],
+      [["vodka", 1]],
+      [["gin", 1]],
+      [["rum", 1]],
+      [["tequila", 1]],
+      [["triple_sec", 1]]
     ]
   },
   {
@@ -540,8 +549,8 @@
     "difficulty": 1,
     "time": "30 s",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "oj", 1 ] ], [ [ "vodka", 1 ] ] ]
+    "flags": ["BLIND_HARD"],
+    "components": [[["oj", 1]], [["vodka", 1]]]
   },
   {
     "type": "recipe",
@@ -552,8 +561,8 @@
     "difficulty": 1,
     "time": "30 s",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "apple_cider", 1 ] ], [ [ "vodka", 1 ] ] ]
+    "flags": ["BLIND_HARD"],
+    "components": [[["apple_cider", 1]], [["vodka", 1]]]
   },
   {
     "type": "recipe",
@@ -564,8 +573,8 @@
     "difficulty": 1,
     "time": "30 s",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "rum", 1 ] ], [ [ "cola", 1 ] ] ]
+    "flags": ["BLIND_HARD"],
+    "components": [[["rum", 1]], [["cola", 1]]]
   },
   {
     "type": "recipe",
@@ -578,10 +587,10 @@
     "time": "5 m",
     "autolearn": true,
     "components": [
-      [ [ "water_clean", 2 ] ],
-      [ [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ], [ "tomato", 1 ] ],
-      [ [ "irradiated_broccoli", 1 ], [ "broccoli", 1 ] ],
-      [ [ "irradiated_zucchini", 1 ], [ "zucchini", 1 ] ]
+      [["water_clean", 2]],
+      [["irradiated_tomato", 1], ["can_tomato", 1], ["tomato", 1]],
+      [["irradiated_broccoli", 1], ["broccoli", 1]],
+      [["irradiated_zucchini", 1], ["zucchini", 1]]
     ]
   },
   {
@@ -594,10 +603,10 @@
     "time": "10 m",
     "charges": 2,
     "autolearn": true,
-    "batch_time_factors": [ 60, 3 ],
-    "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "maple_sap", 5 ] ] ]
+    "batch_time_factors": [60, 3],
+    "qualities": [{ "id": "BOIL", "level": 2 }],
+    "tools": [[["surface_heat", 2, "LIST"]], [["rag", -1]]],
+    "components": [[["maple_sap", 5]]]
   },
   {
     "type": "recipe",
@@ -607,28 +616,28 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "48 m",
-    "batch_time_factors": [ 80, 5 ],
+    "batch_time_factors": [80, 5],
     "charges": 10,
     "book_learn": [
-      [ "family_cookbook", 5 ],
-      [ "survival_book", 3 ],
-      [ "textbook_survival", 3 ],
-      [ "cookbook_foodfashions", 6, "Shagbark Nut Ambrosia" ]
+      ["family_cookbook", 5],
+      ["survival_book", 3],
+      ["textbook_survival", 3],
+      ["cookbook_foodfashions", 6, "Shagbark Nut Ambrosia"]
     ],
-    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "qualities": [{ "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 2 }],
+    "tools": [[["surface_heat", 5, "LIST"]]],
     "components": [
-      [ [ "hickory_nut", 4 ] ],
-      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
+      [["hickory_nut", 4]],
+      [["milk_standard_raw", 1, "LIST"], ["milk_powder", 1], ["con_milk", 1]],
       [
-        [ "honeycomb", 1 ],
-        [ "honey_bottled", 6 ],
-        [ "honey_glassed", 6 ],
-        [ "sugar", 20 ],
-        [ "syrup", 8 ],
-        [ "beet_syrup", 8 ]
+        ["honeycomb", 1],
+        ["honey_bottled", 6],
+        ["honey_glassed", 6],
+        ["sugar", 20],
+        ["syrup", 8],
+        ["beet_syrup", 8]
       ],
-      [ [ "water", 10 ], [ "water_clean", 10 ] ]
+      [["water", 10], ["water_clean", 10]]
     ]
   },
   {
@@ -640,8 +649,8 @@
     "skill_used": "cooking",
     "time": "1 s",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "chem_ethanol", 125 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "flags": ["BLIND_HARD"],
+    "components": [[["chem_ethanol", 125]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -652,20 +661,20 @@
     "time": "1 s",
     "charges": 1,
     "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
+    "flags": ["BLIND_EASY"],
     "components": [
       [
-        [ "gin", 1 ],
-        [ "rum", 1 ],
-        [ "single_malt_whiskey", 1 ],
-        [ "cheap_whiskey", 1 ],
-        [ "canadian_whiskey", 1 ],
-        [ "single_pot_whiskey", 1 ],
-        [ "tequila", 1 ],
-        [ "triple_sec", 1 ],
-        [ "vodka", 1 ],
-        [ "whiskey", 1 ],
-        [ "brandy", 1 ]
+        ["gin", 1],
+        ["rum", 1],
+        ["single_malt_whiskey", 1],
+        ["cheap_whiskey", 1],
+        ["canadian_whiskey", 1],
+        ["single_pot_whiskey", 1],
+        ["tequila", 1],
+        ["triple_sec", 1],
+        ["vodka", 1],
+        ["whiskey", 1],
+        ["brandy", 1]
       ]
     ]
   },
@@ -678,18 +687,18 @@
     "time": "1 s",
     "charges": 1,
     "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
+    "flags": ["BLIND_EASY"],
     "components": [
       [
-        [ "beer", 1 ],
-        [ "belgian_ale", 1 ],
-        [ "drink_beeknees", 1 ],
-        [ "european_pilsner", 1 ],
-        [ "hb_beer", 1 ],
-        [ "india_pale_ale", 1 ],
-        [ "wine_barley", 1 ],
-        [ "pale_ale", 1 ],
-        [ "stout", 1 ]
+        ["beer", 1],
+        ["belgian_ale", 1],
+        ["drink_beeknees", 1],
+        ["european_pilsner", 1],
+        ["hb_beer", 1],
+        ["india_pale_ale", 1],
+        ["wine_barley", 1],
+        ["pale_ale", 1],
+        ["stout", 1]
       ]
     ]
   },
@@ -702,9 +711,9 @@
     "difficulty": 3,
     "time": "7 m",
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "water_boiling_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "strawberries", 2 ], [ "irradiated_strawberries", 2 ] ], [ [ "vodka", 4 ] ] ]
+    "qualities": [{ "id": "COOK", "level": 2 }],
+    "tools": [[["water_boiling_heat", 6, "LIST"]]],
+    "components": [[["strawberries", 2], ["irradiated_strawberries", 2]], [["vodka", 4]]]
   },
   {
     "type": "recipe",
@@ -715,9 +724,9 @@
     "difficulty": 3,
     "time": "7 m",
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "water_boiling_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "blueberries", 2 ], [ "irradiated_blueberries", 2 ] ], [ [ "vodka", 4 ] ] ]
+    "qualities": [{ "id": "COOK", "level": 2 }],
+    "tools": [[["water_boiling_heat", 6, "LIST"]]],
+    "components": [[["blueberries", 2], ["irradiated_blueberries", 2]], [["vodka", 4]]]
   },
   {
     "type": "recipe",
@@ -728,39 +737,39 @@
     "difficulty": 3,
     "time": "7 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
-    "components": [ [ [ "meth", 4 ] ], [ [ "cola", 2 ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "COOK", "level": 2 }],
+    "tools": [[["surface_heat", 4, "LIST"]]],
+    "components": [[["meth", 4]], [["cola", 2]]]
   },
   {
     "type": "recipe",
     "result": "juice",
-    "byproducts": [ [ "juice_pulp" ] ],
+    "byproducts": [["juice_pulp"]],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "3 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "sweet_fruit", 1, "LIST" ] ], [ [ "water_clean", 1 ] ] ]
+    "qualities": [{ "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }],
+    "tools": [[["rag", -1]]],
+    "components": [[["sweet_fruit", 1, "LIST"]], [["water_clean", 1]]]
   },
   {
     "type": "recipe",
     "result": "juice",
     "id_suffix": "fresh",
-    "byproducts": [ [ "juice_pulp", 2 ] ],
+    "byproducts": [["juice_pulp", 2]],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "tools": [ [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "sweet_fruit", 2, "LIST" ] ] ]
+    "qualities": [{ "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 }],
+    "tools": [[["rag", -1]]],
+    "components": [[["sweet_fruit", 2, "LIST"]]]
   },
   {
     "type": "recipe",
@@ -770,16 +779,16 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
+    "flags": ["BLIND_HARD"],
     "components": [
-      [ [ "water_clean", 1 ] ],
+      [["water_clean", 1]],
       [
-        [ "sugar", 10 ],
-        [ "honey_bottled", 1 ],
-        [ "honey_glassed", 2 ],
-        [ "honeycomb", 1 ],
-        [ "syrup", 1 ],
-        [ "beet_syrup", 1 ]
+        ["sugar", 10],
+        ["honey_bottled", 1],
+        ["honey_glassed", 2],
+        ["honeycomb", 1],
+        ["syrup", 1],
+        ["beet_syrup", 1]
       ]
     ]
   },
@@ -789,14 +798,14 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "skills_required": [ "survival", 6 ],
+    "skills_required": ["survival", 6],
     "difficulty": 5,
     "time": "12 m",
-    "batch_time_factors": [ 80, 5 ],
-    "book_learn": [ [ "textbook_survival", 5 ], [ "atomic_survival", 4 ], [ "survival_book", 3 ] ],
-    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "tanbark", 2 ] ] ]
+    "batch_time_factors": [80, 5],
+    "book_learn": [["textbook_survival", 5], ["atomic_survival", 4], ["survival_book", 3]],
+    "qualities": [{ "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "tools": [[["water_boiling_heat", 8, "LIST"]]],
+    "components": [[["water", 1], ["water_clean", 1]], [["tanbark", 2]]]
   },
   {
     "type": "recipe",
@@ -806,10 +815,14 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "tea_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "milk_standard", 1, "LIST" ] ] ]
+    "batch_time_factors": [80, 4],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
+    "components": [
+      [["tea_raw", 1]],
+      [["water", 1], ["water_clean", 1]],
+      [["milk_standard", 1, "LIST"]]
+    ]
   },
   {
     "type": "recipe",
@@ -819,10 +832,14 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "milk_standard", 1, "LIST" ] ], [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
+    "batch_time_factors": [80, 4],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 3, "LIST"]]],
+    "components": [
+      [["coffee_raw", 1]],
+      [["milk_standard", 1, "LIST"]],
+      [["water_clean", 1], ["water", 1]]
+    ]
   },
   {
     "type": "recipe",
@@ -832,9 +849,13 @@
     "skill_used": "cooking",
     "time": "6 m",
     "autolearn": true,
-    "batch_time_factors": [ 83, 5 ],
-    "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
-    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "milk_standard", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "batch_time_factors": [83, 5],
+    "tools": [[["atomic_coffeepot", -1]]],
+    "components": [
+      [["coffee_raw", 1]],
+      [["milk_standard", 1, "LIST"]],
+      [["water", 1], ["water_clean", 1]]
+    ]
   },
   {
     "type": "recipe",
@@ -845,16 +866,16 @@
     "difficulty": 2,
     "time": "15 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
     "components": [
-      [ [ "tea_raw", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
-      [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 2 ], [ "syrup", 1 ] ],
-      [ [ "pepper", 10 ] ],
-      [ [ "cinnamon", 10 ] ]
+      [["tea_raw", 1]],
+      [["water", 1], ["water_clean", 1]],
+      [["milk_standard_raw", 1, "LIST"], ["milk_powder", 1], ["con_milk", 1]],
+      [["sugar", 10], ["honey_bottled", 1], ["honey_glassed", 2], ["syrup", 1]],
+      [["pepper", 10]],
+      [["cinnamon", 10]]
     ]
   },
   {
@@ -865,10 +886,14 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "beverage_sweetener", 1, "LIST" ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 3, "LIST"]]],
+    "components": [
+      [["coffee_raw", 1]],
+      [["water", 1], ["water_clean", 1]],
+      [["beverage_sweetener", 1, "LIST"]]
+    ]
   },
   {
     "type": "recipe",
@@ -879,10 +904,10 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "coffee_syrup", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 3, "LIST"]]],
+    "components": [[["coffee_syrup", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -892,9 +917,13 @@
     "skill_used": "cooking",
     "time": "6 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
-    "components": [ [ [ "coffee_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "beverage_sweetener", 1, "LIST" ] ] ]
+    "batch_time_factors": [80, 5],
+    "tools": [[["atomic_coffeepot", -1]]],
+    "components": [
+      [["coffee_raw", 1]],
+      [["water", 1], ["water_clean", 1]],
+      [["beverage_sweetener", 1, "LIST"]]
+    ]
   },
   {
     "type": "recipe",
@@ -905,9 +934,9 @@
     "skill_used": "cooking",
     "time": "6 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
-    "components": [ [ [ "coffee_syrup", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "batch_time_factors": [80, 5],
+    "tools": [[["atomic_coffeepot", -1]]],
+    "components": [[["coffee_syrup", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -917,10 +946,14 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "coffee_raw_kentucky", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "beverage_sweetener", 1, "LIST" ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 3, "LIST"]]],
+    "components": [
+      [["coffee_raw_kentucky", 1]],
+      [["water", 1], ["water_clean", 1]],
+      [["beverage_sweetener", 1, "LIST"]]
+    ]
   },
   {
     "type": "recipe",
@@ -930,14 +963,14 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 3, "LIST"]]],
     "components": [
-      [ [ "coffee_raw", 1 ] ],
-      [ [ "milk_standard", 1, "LIST" ] ],
-      [ [ "beverage_sweetener", 1, "LIST" ] ],
-      [ [ "water_clean", 1 ], [ "water", 1 ] ]
+      [["coffee_raw", 1]],
+      [["milk_standard", 1, "LIST"]],
+      [["beverage_sweetener", 1, "LIST"]],
+      [["water_clean", 1], ["water", 1]]
     ]
   },
   {
@@ -949,10 +982,14 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "coffee_syrup", 1 ] ], [ [ "milk_standard", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 3, "LIST"]]],
+    "components": [
+      [["coffee_syrup", 1]],
+      [["milk_standard", 1, "LIST"]],
+      [["water", 1], ["water_clean", 1]]
+    ]
   },
   {
     "type": "recipe",
@@ -962,13 +999,13 @@
     "skill_used": "cooking",
     "time": "6 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
+    "batch_time_factors": [80, 5],
+    "tools": [[["atomic_coffeepot", -1]]],
     "components": [
-      [ [ "coffee_raw", 1 ] ],
-      [ [ "beverage_sweetener", 1, "LIST" ] ],
-      [ [ "milk_standard", 1, "LIST" ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+      [["coffee_raw", 1]],
+      [["beverage_sweetener", 1, "LIST"]],
+      [["milk_standard", 1, "LIST"]],
+      [["water", 1], ["water_clean", 1]]
     ]
   },
   {
@@ -980,9 +1017,13 @@
     "skill_used": "cooking",
     "time": "6 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "tools": [ [ [ "atomic_coffeepot", -1 ] ] ],
-    "components": [ [ [ "coffee_syrup", 1 ] ], [ [ "milk_standard", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "batch_time_factors": [80, 5],
+    "tools": [[["atomic_coffeepot", -1]]],
+    "components": [
+      [["coffee_syrup", 1]],
+      [["milk_standard", 1, "LIST"]],
+      [["water", 1], ["water_clean", 1]]
+    ]
   },
   {
     "type": "recipe",
@@ -992,10 +1033,14 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "tea_raw", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "beverage_sweetener", 1, "LIST" ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
+    "components": [
+      [["tea_raw", 1]],
+      [["water", 1], ["water_clean", 1]],
+      [["beverage_sweetener", 1, "LIST"]]
+    ]
   },
   {
     "type": "recipe",
@@ -1005,14 +1050,14 @@
     "skill_used": "cooking",
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
     "components": [
-      [ [ "tea_raw", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "milk_standard", 1, "LIST" ] ],
-      [ [ "beverage_sweetener", 1, "LIST" ] ]
+      [["tea_raw", 1]],
+      [["water", 1], ["water_clean", 1]],
+      [["milk_standard", 1, "LIST"]],
+      [["beverage_sweetener", 1, "LIST"]]
     ]
   },
   {
@@ -1024,7 +1069,7 @@
     "difficulty": 2,
     "time": "3 m 30 s",
     "autolearn": true,
-    "components": [ [ [ "gin", 1 ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ] ], [ [ "lemonade", 1 ] ] ]
+    "components": [[["gin", 1]], [["honeycomb", 1], ["honey_bottled", 1]], [["lemonade", 1]]]
   },
   {
     "type": "recipe",
@@ -1035,8 +1080,11 @@
     "difficulty": 1,
     "time": "3 m",
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ], [ [ "whiskey", 3 ], [ "single_malt_whiskey", 3 ] ] ]
+    "flags": ["BLIND_HARD"],
+    "components": [
+      [["lemon", 1], ["irradiated_lemon", 1]],
+      [["whiskey", 3], ["single_malt_whiskey", 3]]
+    ]
   },
   {
     "type": "recipe",
@@ -1047,7 +1095,7 @@
     "difficulty": 3,
     "time": "2 m",
     "autolearn": true,
-    "components": [ [ [ "gin", 6 ] ], [ [ "wine_vermouth", 1 ] ] ]
+    "components": [[["gin", 6]], [["wine_vermouth", 1]]]
   },
   {
     "type": "recipe",
@@ -1058,10 +1106,16 @@
     "time": "3 m",
     "charges": 5,
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
+    "flags": ["BLIND_HARD"],
     "components": [
-      [ [ "bum_wine", 2 ], [ "wine_cabernet", 2 ], [ "wine_chardonnay", 2 ], [ "wine_noir", 2 ], [ "wine_vermouth", 2 ] ],
-      [ [ "cola", 1 ] ]
+      [
+        ["bum_wine", 2],
+        ["wine_cabernet", 2],
+        ["wine_chardonnay", 2],
+        ["wine_noir", 2],
+        ["wine_vermouth", 2]
+      ],
+      [["cola", 1]]
     ]
   },
   {
@@ -1074,11 +1128,11 @@
     "time": "4 m",
     "charges": 15,
     "autolearn": true,
-    "flags": [ "BLIND_HARD" ],
+    "flags": ["BLIND_HARD"],
     "components": [
-      [ [ "oj", 1 ], [ "lemonade", 1 ], [ "apple_cider", 1 ], [ "cranberry_juice", 1 ], [ "juice", 1 ] ],
-      [ [ "weak_liquor", 1, "LIST" ] ],
-      [ [ "hard_liquor_chem", 1, "LIST" ] ]
+      [["oj", 1], ["lemonade", 1], ["apple_cider", 1], ["cranberry_juice", 1], ["juice", 1]],
+      [["weak_liquor", 1, "LIST"]],
+      [["hard_liquor_chem", 1, "LIST"]]
     ]
   },
   {
@@ -1087,14 +1141,18 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "skills_required": [ "survival", 4 ],
+    "skills_required": ["survival", 4],
     "difficulty": 5,
     "time": "15 m",
-    "batch_time_factors": [ 50, 3 ],
+    "batch_time_factors": [50, 3],
     "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "honey_ant", 1 ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 3 ] ] ]
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 3, "LIST"]]],
+    "components": [
+      [["water", 1], ["water_clean", 1]],
+      [["honey_ant", 1]],
+      [["honeycomb", 1], ["honey_bottled", 3]]
+    ]
   },
   {
     "type": "recipe",
@@ -1105,10 +1163,10 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "bee_balm", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 2, "LIST"]]],
+    "components": [[["bee_balm", 1]], [["water", 1], ["water_clean", 1]]]
   },
   {
     "type": "recipe",
@@ -1119,16 +1177,16 @@
     "difficulty": 1,
     "time": "5 m",
     "charges": 4,
-    "book_learn": [ [ "family_cookbook", 2 ] ],
-    "batch_time_factors": [ 50, 3 ],
-    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "book_learn": [["family_cookbook", 2]],
+    "batch_time_factors": [50, 3],
+    "qualities": [{ "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 2 }],
+    "tools": [[["surface_heat", 5, "LIST"]]],
     "components": [
-      [ [ "eggs_small", 1, "LIST" ] ],
-      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "sugar", 4 ] ],
-      [ [ "con_milk", 1 ] ],
-      [ [ "cinnamon", 2 ] ]
+      [["eggs_small", 1, "LIST"]],
+      [["milk_standard_raw", 1, "LIST"], ["milk_powder", 1]],
+      [["sugar", 4]],
+      [["con_milk", 1]],
+      [["cinnamon", 2]]
     ]
   },
   {
@@ -1140,17 +1198,17 @@
     "difficulty": 1,
     "charges": 6,
     "time": "5 m",
-    "book_learn": [ [ "family_cookbook", 2 ] ],
-    "batch_time_factors": [ 50, 3 ],
-    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "book_learn": [["family_cookbook", 2]],
+    "batch_time_factors": [50, 3],
+    "qualities": [{ "id": "COOK", "level": 3 }, { "id": "BOIL", "level": 2 }],
+    "tools": [[["surface_heat", 5, "LIST"]]],
     "components": [
-      [ [ "eggs_small", 1, "LIST" ] ],
-      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "sugar", 4 ] ],
-      [ [ "con_milk", 1 ] ],
-      [ [ "hard_liquor_chem", 1, "LIST" ] ],
-      [ [ "cinnamon", 2 ] ]
+      [["eggs_small", 1, "LIST"]],
+      [["milk_standard_raw", 1, "LIST"], ["milk_powder", 1]],
+      [["sugar", 4]],
+      [["con_milk", 1]],
+      [["hard_liquor_chem", 1, "LIST"]],
+      [["cinnamon", 2]]
     ]
   },
   {
@@ -1163,14 +1221,14 @@
     "time": "5 m",
     "autolearn": true,
     "result_mult": 2,
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "COOK", "level": 3 }],
+    "tools": [[["surface_heat", 5, "LIST"]]],
     "components": [
-      [ [ "chocolate", 1 ] ],
-      [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "sugar", 5 ] ]
+      [["chocolate", 1]],
+      [["milk_standard_raw", 1, "LIST"], ["con_milk", 1], ["milk_powder", 1]],
+      [["water", 1], ["water_clean", 1]],
+      [["sugar", 5]]
     ]
   },
   {
@@ -1181,19 +1239,19 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "5 m",
-    "book_learn": [ [ "family_cookbook", 2 ] ],
+    "book_learn": [["family_cookbook", 2]],
     "charges": 6,
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "batch_time_factors": [ 80, 5 ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "qualities": [{ "id": "COOK", "level": 3 }],
+    "batch_time_factors": [80, 5],
+    "tools": [[["surface_heat", 5, "LIST"]]],
     "components": [
-      [ [ "chocolate", 2 ] ],
-      [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
-      [ [ "water", 1 ] ],
-      [ [ "sugar", 5 ] ],
-      [ [ "chilly-p", 1 ] ],
-      [ [ "cinnamon", 1 ] ],
-      [ [ "water", 6 ], [ "water_clean", 6 ] ]
+      [["chocolate", 2]],
+      [["milk_standard_raw", 1, "LIST"], ["con_milk", 1], ["milk_powder", 1]],
+      [["water", 1]],
+      [["sugar", 5]],
+      [["chilly-p", 1]],
+      [["cinnamon", 1]],
+      [["water", 6], ["water_clean", 6]]
     ]
   },
   {
@@ -1201,59 +1259,59 @@
     "result": "rehydration_drink",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
-    "book_learn": [ [ "textbook_firstaid", 1 ], [ "manual_survival", 1 ], [ "manual_first_aid", 1 ] ],
+    "book_learn": [["textbook_firstaid", 1], ["manual_survival", 1], ["manual_first_aid", 1]],
     "skill_used": "cooking",
     "time": "3 m",
     "charges": 8,
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "sugar", 10 ] ], [ [ "salt", 1 ] ], [ [ "water_clean", 8 ] ] ],
+    "qualities": [{ "id": "CONTAIN", "level": 1 }],
+    "components": [[["sugar", 10]], [["salt", 1]], [["water_clean", 8]]],
     "//": "For later: this should also include baking soda / sodium bicarbonate.  Other electrolytes are debatable."
   },
   {
     "type": "recipe",
     "result": "kompot",
     "id_suffix": "jarred_3l",
-    "byproducts": [ [ "water", 10 ] ],
+    "byproducts": [["water", 10]],
     "container": "jar_3l_glass_sealed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "skills_required": [ "mechanics", 1 ],
+    "skills_required": ["mechanics", 1],
     "difficulty": 3,
     "time": "40 m",
     "result_mult": 12,
-    "book_learn": [ [ "manual_canning", 2 ] ],
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "book_learn": [["manual_canning", 2]],
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "COOK", "level": 3 }],
+    "tools": [[["surface_heat", 200, "LIST"]], [["pot_canning", -1]]],
     "components": [
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "sweet_fruit_like", 6, "LIST" ] ],
-      [ [ "sugar", 30 ] ],
-      [ [ "water", 22 ], [ "water_clean", 22 ] ]
+      [["jar_3l_glass", 1]],
+      [["sweet_fruit_like", 6, "LIST"]],
+      [["sugar", 30]],
+      [["water", 22], ["water_clean", 22]]
     ]
   },
   {
     "type": "recipe",
     "result": "kompot",
     "id_suffix": "jarred",
-    "byproducts": [ [ "water", 10 ] ],
+    "byproducts": [["water", 10]],
     "container": "jar_glass_sealed",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "skills_required": [ "mechanics", 1 ],
+    "skills_required": ["mechanics", 1],
     "difficulty": 3,
     "time": "30 m",
-    "book_learn": [ [ "manual_canning", 2 ] ],
-    "batch_time_factors": [ 80, 5 ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
+    "book_learn": [["manual_canning", 2]],
+    "batch_time_factors": [80, 5],
+    "qualities": [{ "id": "COOK", "level": 3 }],
+    "tools": [[["surface_heat", 100, "LIST"]], [["pot_canning", -1]]],
     "components": [
-      [ [ "jar_glass", 1 ] ],
-      [ [ "water", 12 ], [ "water_clean", 12 ] ],
-      [ [ "sweet_fruit_like", 1, "LIST" ] ],
-      [ [ "sugar", 5 ] ]
+      [["jar_glass", 1]],
+      [["water", 12], ["water_clean", 12]],
+      [["sweet_fruit_like", 1, "LIST"]],
+      [["sugar", 5]]
     ]
   },
   {
@@ -1265,10 +1323,10 @@
     "difficulty": 5,
     "time": "7 m",
     "autolearn": true,
-    "batch_time_factors": [ 83, 5 ],
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "meat_tainted", 12 ] ], [ [ "hard_liquor_chem", 1, "LIST" ] ] ]
+    "batch_time_factors": [83, 5],
+    "qualities": [{ "id": "COOK", "level": 2 }],
+    "tools": [[["surface_heat", 20, "LIST"]]],
+    "components": [[["meat_tainted", 12]], [["hard_liquor_chem", 1, "LIST"]]]
   },
   {
     "type": "recipe",
@@ -1276,12 +1334,12 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
-    "skills_required": [ "survival", 1 ],
+    "skills_required": ["survival", 1],
     "difficulty": 5,
     "time": "7 m",
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
-    "components": [ [ [ "sewage", 1 ] ], [ [ "hard_liquor_chem", 1, "LIST" ] ] ]
+    "qualities": [{ "id": "COOK", "level": 2 }],
+    "tools": [[["water_boiling_heat", 1, "LIST"]]],
+    "components": [[["sewage", 1]], [["hard_liquor_chem", 1, "LIST"]]]
   }
 ]

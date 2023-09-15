@@ -8,7 +8,7 @@
     "color": "cyan",
     "looks_like": "t_thconc_floor",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "flags": ["TRANSPARENT", "FLAT", "ROAD"],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_null",
@@ -16,9 +16,9 @@
       "str_max": 400,
       "str_min_supported": 150,
       "items": [
-        { "item": "rock", "count": [ 5, 10 ] },
-        { "item": "scrap", "count": [ 5, 8 ] },
-        { "item": "rebar", "count": [ 0, 2 ] }
+        { "item": "rock", "count": [5, 10] },
+        { "item": "scrap", "count": [5, 8] },
+        { "item": "rebar", "count": [0, 2] }
       ]
     }
   },
@@ -46,7 +46,7 @@
       "S": "f_sink",
       "T": "f_toilet",
       "W": "f_washer",
-      "X": [ "f_crate_c", "f_crate_o" ],
+      "X": ["f_crate_c", "f_crate_o"],
       "b": "f_bed",
       "c": "f_counter",
       "d": "f_desk",
@@ -56,10 +56,19 @@
       "h": "f_chair",
       "j": "f_cupboard",
       "k": "f_indoor_plant",
-      "m": [ "f_armchair", "f_dresser", "f_chair", "f_table", "f_bookcase", "f_rack", "f_null", "f_null" ],
+      "m": [
+        "f_armchair",
+        "f_dresser",
+        "f_chair",
+        "f_table",
+        "f_bookcase",
+        "f_rack",
+        "f_null",
+        "f_null"
+      ],
       "o": "f_oven",
       "p": "f_pool_table",
-      "q": [ "f_trashcan", "f_trashcan", "f_trashcan", "f_null" ],
+      "q": ["f_trashcan", "f_trashcan", "f_trashcan", "f_null"],
       "r": "f_rack",
       "s": "f_shower",
       "t": "f_table",
@@ -68,7 +77,14 @@
     },
     "terrain": {
       " ": "t_linoleum_white",
-      "!": [ "t_door_c", "t_door_o", "t_door_locked", "t_door_locked", "t_door_locked", "t_door_locked" ],
+      "!": [
+        "t_door_c",
+        "t_door_o",
+        "t_door_locked",
+        "t_door_locked",
+        "t_door_locked",
+        "t_door_locked"
+      ],
       "#": "t_shrub",
       "$": "t_bars",
       "%": "t_rock",
@@ -78,8 +94,8 @@
       "(": "t_linoleum_white",
       ")": "t_flat_roof",
       "*": "t_linoleum_white",
-      "+": [ "t_door_c", "t_door_c", "t_door_c", "t_door_o", "t_door_o", "t_door_locked_interior" ],
-      ",": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+      "+": ["t_door_c", "t_door_c", "t_door_c", "t_door_o", "t_door_o", "t_door_locked_interior"],
+      ",": ["t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
       "-": "t_wall",
       ".": "t_open_air",
       "0": "t_grate",
@@ -94,7 +110,13 @@
       "2": "t_linoleum_white",
       "3": "t_thconc_floor_nofloor",
       "4": "t_linoleum_white",
-      "5": [ "t_door_bar_locked", "t_door_bar_locked", "t_door_bar_locked", "t_door_bar_locked", "t_door_bar_o" ],
+      "5": [
+        "t_door_bar_locked",
+        "t_door_bar_locked",
+        "t_door_bar_locked",
+        "t_door_bar_locked",
+        "t_door_bar_o"
+      ],
       "6": "t_console_broken",
       "7": "t_open_air_rooved",
       "8": "t_railing_v",
@@ -115,7 +137,13 @@
       "G": "t_sidewalk",
       "H": "t_linoleum_white",
       "I": "t_brick_wall",
-      "J": [ "t_door_glass_c", "t_door_glass_c", "t_door_glass_c", "t_door_glass_c", "t_door_glass_o" ],
+      "J": [
+        "t_door_glass_c",
+        "t_door_glass_c",
+        "t_door_glass_c",
+        "t_door_glass_c",
+        "t_door_glass_o"
+      ],
       "K": "t_linoleum_white",
       "L": "t_linoleum_white",
       "M": "t_wall_metal",
@@ -132,7 +160,16 @@
       "X": "t_strconc_floor",
       "Y": "t_window_bars",
       "Z": "t_machinery_light",
-      "^": [ "t_tree", "t_tree", "t_tree", "t_tree_young", "t_tree_dead", "t_tree_pine", "t_tree_pine", "t_tree_pine" ],
+      "^": [
+        "t_tree",
+        "t_tree",
+        "t_tree",
+        "t_tree_young",
+        "t_tree_dead",
+        "t_tree_pine",
+        "t_tree_pine",
+        "t_tree_pine"
+      ],
       "_": "t_pavement",
       "a": "t_atm",
       "b": "t_linoleum_white",

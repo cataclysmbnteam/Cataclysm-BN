@@ -6,13 +6,13 @@
     "description": "Once a soldier, it is dressed head to toe in combat gear and carries itself rather steadily for a zombie.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "categories": [ "CLASSIC" ],
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "categories": ["CLASSIC"],
+    "species": ["ZOMBIE", "HUMAN"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 100,
     "speed": 80,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "Z",
     "color": "light_green_green",
     "aggression": 100,
@@ -28,9 +28,9 @@
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 } ],
+    "special_attacks": [{ "type": "bite", "cooldown": 5, "min_mul": 0.8 }],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "death_function": [ "NORMAL" ],
+    "death_function": ["NORMAL"],
     "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
@@ -57,12 +57,12 @@
     "looks_like": "mon_zombie_soldier",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 120,
     "speed": 90,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "Z",
     "color": "light_green_green",
     "aggression": 100,
@@ -82,11 +82,11 @@
       {
         "type": "bite",
         "cooldown": 8,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 } ]
+        "damage_max_instance": [{ "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 }]
       }
     ],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "death_function": [ "NORMAL" ],
+    "death_function": ["NORMAL"],
     "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
@@ -119,11 +119,11 @@
         {
           "id": "scratch",
           "cooldown": 10,
-          "damage_max_instance": [ { "damage_type": "bash", "amount": 5, "armor_multiplier": 0.5 } ]
+          "damage_max_instance": [{ "damage_type": "bash", "amount": 5, "armor_multiplier": 0.5 }]
         },
         { "type": "leap", "cooldown": 10, "max_range": 3 }
       ],
-      "flags": [ "KEENNOSE" ]
+      "flags": ["KEENNOSE"]
     }
   },
   {
@@ -135,25 +135,25 @@
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 10 },
-    "delete": { "flags": [ "BLEED" ], "categories": [ "CLASSIC" ] },
+    "delete": { "flags": ["BLEED"], "categories": ["CLASSIC"] },
     "extend": {
       "special_attacks": [
-        [ "ACID_BARF", 10 ],
+        ["ACID_BARF", 10],
         {
           "type": "gun",
           "cooldown": 15,
           "move_cost": 90,
           "gun_type": "acid_sniper",
-          "fake_skills": [ [ "gun", 4 ], [ "rifle", 4 ] ],
+          "fake_skills": [["gun", 4], ["rifle", 4]],
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
           "description": "The acid-sniper zombie launches a corrosive dart!",
-          "ranges": [ [ 2, 20, "DEFAULT" ] ]
+          "ranges": [[2, 20, "DEFAULT"]]
         }
       ],
-      "death_function": [ "ACID" ],
-      "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
+      "death_function": ["ACID"],
+      "flags": ["ACIDPROOF", "ACID_BLOOD"]
     }
   },
   {
@@ -165,26 +165,26 @@
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
     "relative": { "hp": 40, "speed": -10, "melee_skill": 2, "armor_bash": 5 },
-    "delete": { "flags": [ "BLEED" ], "categories": [ "CLASSIC" ] },
+    "delete": { "flags": ["BLEED"], "categories": ["CLASSIC"] },
     "extend": {
       "special_attacks": [
-        [ "ACID_BARF", 5 ],
+        ["ACID_BARF", 5],
         { "id": "slam" },
         {
           "type": "gun",
           "cooldown": 4,
           "move_cost": 50,
           "gun_type": "acid_spray",
-          "fake_skills": [ [ "gun", 4 ], [ "rifle", 4 ] ],
+          "fake_skills": [["gun", 4], ["rifle", 4]],
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
           "description": "The acid-support zombie launches a hail of corrosive darts!",
-          "ranges": [ [ 2, 8, "DEFAULT" ] ]
+          "ranges": [[2, 8, "DEFAULT"]]
         }
       ],
-      "death_function": [ "ACID" ],
-      "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
+      "death_function": ["ACID"],
+      "flags": ["ACIDPROOF", "ACID_BLOOD"]
     }
   },
   {
@@ -195,12 +195,12 @@
     "looks_like": "mon_zombie_brute",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "volume": "72500 ml",
     "weight": "85500 g",
     "hp": 150,
     "speed": 80,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "Z",
     "color": "light_green_white",
     "aggression": 100,
@@ -217,11 +217,15 @@
     "vision_night": 5,
     "harvest": "zombie_kevlar",
     "special_attacks": [
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      {
+        "id": "slam",
+        "cooldown": 10,
+        "damage_max_instance": [{ "damage_type": "bash", "amount": 12 }]
+      },
+      ["SMASH", 30]
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
-    "death_function": [ "NORMAL" ],
+    "death_function": ["NORMAL"],
     "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_2" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
@@ -247,12 +251,12 @@
     "looks_like": "mon_zombie_hulk",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "volume": "625000 ml",
     "weight": "200 kg",
     "hp": 300,
     "speed": 75,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "Z",
     "color": "light_green_white",
     "aggression": 100,
@@ -269,12 +273,16 @@
     "vision_night": 10,
     "harvest": "zombie_kevlar",
     "special_attacks": [
-      { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },
-      [ "LONGSWIPE", 20 ],
-      [ "SMASH", 20 ]
+      {
+        "id": "slam",
+        "cooldown": 12,
+        "damage_max_instance": [{ "damage_type": "bash", "amount": 35 }]
+      },
+      ["LONGSWIPE", 20],
+      ["SMASH", 20]
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
-    "death_function": [ "NORMAL" ],
+    "death_function": ["NORMAL"],
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -298,13 +306,13 @@
     "description": "Once a pilot, it is dressed in basic military fatigues, aviator sunglasses, and a sturdy looking helmet.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "categories": [ "CLASSIC" ],
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "categories": ["CLASSIC"],
+    "species": ["ZOMBIE", "HUMAN"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 90,
     "speed": 85,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "Z",
     "color": "light_green_green",
     "aggression": 100,
@@ -320,9 +328,9 @@
     "vision_day": 35,
     "vision_night": 5,
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "special_attacks": [{ "type": "bite", "cooldown": 5 }, ["GRAB", 7], ["scratch", 20]],
     "death_drops": "mon_zombie_military_pilot_death_drops",
-    "death_function": [ "NORMAL" ],
+    "death_function": ["NORMAL"],
     "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
@@ -348,12 +356,12 @@
     "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead.  Their failure is made manifest in this gas-masked husk, its black suit torn and ripped.  Its flamethrower, dangling limply at its side, is attached to a tank of napalm strapped onto its back, which trickles its contents onto the ground.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 100,
     "speed": 70,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "Z",
     "color": "white_red",
     "aggression": 100,
@@ -371,8 +379,11 @@
     "luminance": 8,
     "harvest": "zombie",
     "starting_ammo": { "pressurized_tank": 1000 },
-    "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_soldier_death_drops", 100 ], [ "mon_zombie_flamer", 100 ] ] },
-    "death_function": [ "FIREBALL" ],
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [["mon_zombie_soldier_death_drops", 100], ["mon_zombie_flamer", 100]]
+    },
+    "death_function": ["FIREBALL"],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_BURNER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
@@ -399,13 +410,13 @@
     "description": "Despite being encased in a what was once a nigh-impenetrable suit of power armor, something still managed to kill this soldier.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "diff": 5,
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 120,
     "speed": 70,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "Z",
     "color": "white_red",
     "aggression": 100,
@@ -423,9 +434,21 @@
     "vision_night": 3,
     "harvest": "zombie",
     "death_drops": "mon_zombie_armored_death_drops",
-    "death_function": [ "NORMAL" ],
+    "death_function": ["NORMAL"],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY"
+    ]
   },
   {
     "id": "mon_zombie_bio_op",
@@ -434,13 +457,13 @@
     "description": "This armored and augmented soldier's bionics crackle with energy.  Worse, it appears to remember its training.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
+    "species": ["ZOMBIE", "HUMAN"],
     "diff": 5,
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 120,
     "speed": 95,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "Z",
     "color": "red_cyan",
     "aggression": 100,
@@ -448,7 +471,7 @@
     "melee_skill": 7,
     "melee_dice": 3,
     "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "melee_damage": [{ "damage_type": "electric", "amount": 4 }],
     "melee_cut": 0,
     "dodge": 3,
     "armor_bash": 10,
@@ -458,10 +481,10 @@
     "vision_night": 3,
     "luminance": 4,
     "harvest": "CBM_OP",
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
-    "special_when_hit": [ "ZAPBACK", 75 ],
+    "special_attacks": [["BIO_OP_TAKEDOWN", 20]],
+    "special_when_hit": ["ZAPBACK", 75],
     "death_drops": "mon_zombie_bio_op_death_drops",
-    "death_function": [ "NORMAL" ],
+    "death_function": ["NORMAL"],
     "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
@@ -494,6 +517,6 @@
     "armor_cut": 27,
     "armor_bullet": 30,
     "harvest": "CBM_OP2",
-    "special_attacks": [ [ "BIO_OP_BIOJUTSU", 15 ] ]
+    "special_attacks": [["BIO_OP_BIOJUTSU", 15]]
   }
 ]

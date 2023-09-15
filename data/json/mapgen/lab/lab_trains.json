@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_train_depot", "central_lab_train_depot" ],
+    "om_terrain": ["lab_train_depot", "central_lab_train_depot"],
     "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -32,7 +32,7 @@
         "|     _                |",
         "------------------------"
       ],
-      "palettes": [ "lab_palette" ],
+      "palettes": ["lab_palette"],
       "computers": {
         "6": {
           "name": "Laboratory Train Controls",
@@ -41,7 +41,7 @@
             { "name": "Request Subway Train", "action": "disconnect", "security": 0 },
             { "name": "View Subway Routes", "action": "map_subway", "security": 0 }
           ],
-          "failures": [ { "action": "damage" }, { "action": "alarm" }, { "action": "manhacks" } ]
+          "failures": [{ "action": "damage" }, { "action": "alarm" }, { "action": "manhacks" }]
         }
       },
       "terrain": {
@@ -53,14 +53,44 @@
         "p": "t_sewage_pipe"
       },
       "place_nested": [
-        { "chunks": [ "lab_train_subway_east" ], "x": 0, "y": 0, "neighbors": { "east": [ "subway" ] } },
-        { "chunks": [ "lab_train_subway_west" ], "x": 0, "y": 0, "neighbors": { "west": [ "subway" ] } },
-        { "chunks": [ "lab_train_subway_north" ], "x": 0, "y": 0, "neighbors": { "north": [ "subway" ] } },
-        { "chunks": [ "lab_train_subway_south" ], "x": 0, "y": 0, "neighbors": { "south": [ "subway" ] } },
-        { "chunks": [ "lab_train_entrance_north" ], "x": 0, "y": 0, "neighbors": { "north": [ "lab" ] } },
-        { "chunks": [ "lab_train_entrance_south" ], "x": 0, "y": 0, "neighbors": { "south": [ "lab" ] } },
-        { "chunks": [ "lab_train_entrance_east" ], "x": 0, "y": 0, "neighbors": { "east": [ "lab" ] } },
-        { "chunks": [ "lab_train_entrance_west" ], "x": 0, "y": 0, "neighbors": { "west": [ "lab" ] } }
+        {
+          "chunks": ["lab_train_subway_east"],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "east": ["subway"] }
+        },
+        {
+          "chunks": ["lab_train_subway_west"],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "west": ["subway"] }
+        },
+        {
+          "chunks": ["lab_train_subway_north"],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": ["subway"] }
+        },
+        {
+          "chunks": ["lab_train_subway_south"],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": ["subway"] }
+        },
+        {
+          "chunks": ["lab_train_entrance_north"],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": ["lab"] }
+        },
+        {
+          "chunks": ["lab_train_entrance_south"],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": ["lab"] }
+        },
+        { "chunks": ["lab_train_entrance_east"], "x": 0, "y": 0, "neighbors": { "east": ["lab"] } },
+        { "chunks": ["lab_train_entrance_west"], "x": 0, "y": 0, "neighbors": { "west": ["lab"] } }
       ]
     }
   },
@@ -69,7 +99,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_train_subway_east",
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "mapgensize": [24, 24],
       "rows": [
         "                       .",
         "                ........",
@@ -96,10 +126,10 @@
         "                ........",
         "                       ."
       ],
-      "palettes": [ "subway_underground" ],
+      "palettes": ["subway_underground"],
       "place_vehicles": [
-        { "vehicle": "trains_draisine", "x": [ 12, 17 ], "y": 7, "chance": 3, "rotation": 180 },
-        { "vehicle": "trains_draisine", "x": [ 16, 21 ], "y": 16, "chance": 3, "rotation": 0 }
+        { "vehicle": "trains_draisine", "x": [12, 17], "y": 7, "chance": 3, "rotation": 180 },
+        { "vehicle": "trains_draisine", "x": [16, 21], "y": 16, "chance": 3, "rotation": 0 }
       ]
     }
   },
@@ -108,7 +138,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_train_subway_west",
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "mapgensize": [24, 24],
       "rows": [
         ".                       ",
         ".......                 ",
@@ -135,10 +165,10 @@
         ".......                 ",
         ".                       "
       ],
-      "palettes": [ "subway_underground" ],
+      "palettes": ["subway_underground"],
       "place_vehicles": [
-        { "vehicle": "trains_draisine", "x": [ 1, 7 ], "y": 7, "chance": 3, "rotation": 180 },
-        { "vehicle": "trains_draisine", "x": [ 6, 11 ], "y": 16, "chance": 3, "rotation": 0 }
+        { "vehicle": "trains_draisine", "x": [1, 7], "y": 7, "chance": 3, "rotation": 180 },
+        { "vehicle": "trains_draisine", "x": [6, 11], "y": 16, "chance": 3, "rotation": 0 }
       ]
     }
   },
@@ -147,7 +177,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_train_subway_north",
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "mapgensize": [24, 24],
       "rows": [
         "...^X^^^X^....^X^^^X^...",
         " ..-x---x-....-x---x-.. ",
@@ -174,10 +204,10 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "subway_underground" ],
+      "palettes": ["subway_underground"],
       "place_vehicles": [
-        { "vehicle": "trains_draisine", "x": 7, "y": [ 6, 11 ], "chance": 3, "rotation": 90 },
-        { "vehicle": "trains_draisine", "x": 16, "y": [ 2, 7 ], "chance": 3, "rotation": 270 }
+        { "vehicle": "trains_draisine", "x": 7, "y": [6, 11], "chance": 3, "rotation": 90 },
+        { "vehicle": "trains_draisine", "x": 16, "y": [2, 7], "chance": 3, "rotation": 270 }
       ]
     }
   },
@@ -186,7 +216,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_train_subway_south",
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "mapgensize": [24, 24],
       "rows": [
         "                        ",
         "                        ",
@@ -213,10 +243,10 @@
         " ..-x---x-....-x---x-.. ",
         "...^X^^^X^....^X^^^X^..."
       ],
-      "palettes": [ "subway_underground" ],
+      "palettes": ["subway_underground"],
       "place_vehicles": [
-        { "vehicle": "trains_draisine", "x": 16, "y": [ 12, 17 ], "chance": 3, "rotation": 270 },
-        { "vehicle": "trains_draisine", "x": 7, "y": [ 16, 21 ], "chance": 3, "rotation": 90 }
+        { "vehicle": "trains_draisine", "x": 16, "y": [12, 17], "chance": 3, "rotation": 270 },
+        { "vehicle": "trains_draisine", "x": 7, "y": [16, 21], "chance": 3, "rotation": 90 }
       ]
     }
   },
@@ -225,7 +255,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_train_entrance_north",
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "mapgensize": [24, 24],
       "rows": [
         "         |....|         ",
         "        .|....|.        ",
@@ -252,8 +282,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette" ],
-      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [ 10, 13 ], "y": [ 1, 4 ], "repeat": [ 0, 4 ] } ]
+      "palettes": ["lab_palette"],
+      "place_nested": [{ "chunks": ["sub_f_crate"], "x": [10, 13], "y": [1, 4], "repeat": [0, 4] }]
     }
   },
   {
@@ -261,7 +291,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_train_entrance_south",
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "mapgensize": [24, 24],
       "rows": [
         "                        ",
         "                        ",
@@ -288,8 +318,10 @@
         "        .|....|.        ",
         "-----------MM-----------"
       ],
-      "palettes": [ "lab_palette" ],
-      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [ 10, 13 ], "y": [ 19, 21 ], "repeat": [ 0, 4 ] } ]
+      "palettes": ["lab_palette"],
+      "place_nested": [
+        { "chunks": ["sub_f_crate"], "x": [10, 13], "y": [19, 21], "repeat": [0, 4] }
+      ]
     }
   },
   {
@@ -297,7 +329,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_train_entrance_east",
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "mapgensize": [24, 24],
       "rows": [
         "                       |",
         "                       |",
@@ -324,8 +356,10 @@
         "                       |",
         "                       |"
       ],
-      "palettes": [ "lab_palette" ],
-      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [ 19, 21 ], "y": [ 10, 13 ], "repeat": [ 0, 4 ] } ]
+      "palettes": ["lab_palette"],
+      "place_nested": [
+        { "chunks": ["sub_f_crate"], "x": [19, 21], "y": [10, 13], "repeat": [0, 4] }
+      ]
     }
   },
   {
@@ -333,7 +367,7 @@
     "method": "json",
     "nested_mapgen_id": "lab_train_entrance_west",
     "object": {
-      "mapgensize": [ 24, 24 ],
+      "mapgensize": [24, 24],
       "rows": [
         "                        ",
         "                        ",
@@ -360,8 +394,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette" ],
-      "place_nested": [ { "chunks": [ "sub_f_crate" ], "x": [ 1, 4 ], "y": [ 10, 13 ], "repeat": [ 0, 4 ] } ]
+      "palettes": ["lab_palette"],
+      "place_nested": [{ "chunks": ["sub_f_crate"], "x": [1, 4], "y": [10, 13], "repeat": [0, 4] }]
     }
   }
 ]

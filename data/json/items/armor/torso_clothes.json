@@ -9,18 +9,18 @@
     "price": 1500,
     "price_postapoc": 50,
     "to_hit": 1,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "brown",
-    "covers": [ "torso", "legs" ],
+    "covers": ["torso", "legs"],
     "coverage": 70,
     "encumbrance": 5,
     "storage": "2 L",
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
+    "flags": ["POCKETS", "BELTED", "WATER_FRIENDLY"]
   },
   {
     "id": "blazer",
@@ -31,18 +31,18 @@
     "volume": "3500 ml",
     "price": 12000,
     "price_postapoc": 50,
-    "material": [ "wool" ],
+    "material": ["wool"],
     "symbol": "[",
     "looks_like": "jacket_light",
     "color": "dark_gray",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 85,
     "encumbrance": 20,
     "storage": "500 ml",
     "warmth": 20,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "FANCY" ]
+    "valid_mods": ["steel_padded", "alloy_padded"],
+    "flags": ["VARSIZE", "FANCY"]
   },
   {
     "id": "dress",
@@ -55,16 +55,16 @@
     "price": 18000,
     "price_postapoc": 50,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "robe",
     "color": "pink",
-    "covers": [ "legs", "torso" ],
+    "covers": ["legs", "torso"],
     "coverage": 85,
     "encumbrance": 7,
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": ["VARSIZE", "FANCY"]
   },
   {
     "id": "dress_shirt",
@@ -76,17 +76,17 @@
     "volume": "750 ml",
     "price": 1500,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "white",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 90,
     "encumbrance": 5,
     "storage": "250 ml",
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": ["VARSIZE", "FANCY"]
   },
   {
     "id": "dress_wedding",
@@ -98,16 +98,16 @@
     "price": 59000,
     "price_postapoc": 50,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "dress",
     "color": "white",
-    "covers": [ "legs", "torso" ],
+    "covers": ["legs", "torso"],
     "coverage": 90,
     "encumbrance": 45,
     "warmth": 30,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ]
+    "flags": ["VARSIZE", "SUPER_FANCY"]
   },
   {
     "id": "flag_shirt",
@@ -119,15 +119,15 @@
     "volume": "500 ml",
     "price": 6000,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "light_red",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 90,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "flotation_vest",
@@ -140,16 +140,16 @@
     "price_postapoc": 250,
     "to_hit": -3,
     "bashing": 2,
-    "material": [ "plastic", "cotton" ],
+    "material": ["plastic", "cotton"],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "yellow",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 40,
     "encumbrance": 40,
     "warmth": 5,
     "material_thickness": 4,
-    "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ]
+    "flags": ["FLOTATION", "WATER_FRIENDLY", "BELTED"]
   },
   {
     "id": "flotation_vest_ms",
@@ -162,16 +162,16 @@
     "price_postapoc": 250,
     "to_hit": -3,
     "bashing": 2,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 40,
     "encumbrance": 50,
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "FLOTATION", "WATER_FRIENDLY", "BELTED" ]
+    "flags": ["FLOTATION", "WATER_FRIENDLY", "BELTED"]
   },
   {
     "id": "gown",
@@ -183,16 +183,16 @@
     "volume": "5 L",
     "price": 21000,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "dress",
     "color": "dark_gray",
-    "covers": [ "torso", "legs" ],
+    "covers": ["torso", "legs"],
     "coverage": 75,
     "encumbrance": 14,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ]
+    "flags": ["VARSIZE", "SUPER_FANCY"]
   },
   {
     "id": "halter_top",
@@ -205,15 +205,15 @@
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "tank_top",
     "color": "pink",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 25,
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "hoodie",
@@ -224,17 +224,17 @@
     "volume": "3 L",
     "price": 3800,
     "price_postapoc": 100,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "sweater",
     "color": "dark_gray",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 95,
     "encumbrance": 12,
     "storage": "2250 ml",
     "warmth": 30,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
+    "flags": ["VARSIZE", "OUTER", "POCKETS", "HOOD"]
   },
   {
     "id": "jersey",
@@ -247,11 +247,11 @@
     "volume": "2250 ml",
     "price": 8900,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "yellow",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 90,
     "encumbrance": 7,
     "warmth": 25,
@@ -302,7 +302,7 @@
         "text": "A volleyball jersey made of thick material imprinted with the logo of the Ooarai Ducks."
       }
     ],
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "leotard",
@@ -313,14 +313,14 @@
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 50,
-    "material": [ "nylon" ],
+    "material": ["nylon"],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 55,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": ["VARSIZE", "SKINTIGHT", "WATER_FRIENDLY"]
   },
   {
     "id": "linuxtshirt",
@@ -332,11 +332,11 @@
     "volume": "500 ml",
     "price": 2000,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 90,
     "encumbrance": 5,
     "warmth": 5,
@@ -375,7 +375,7 @@
         "text": "A t-shirt with the Debian logo on it, underneath it says \"The Universal Operating System\""
       }
     ],
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "longshirt",
@@ -386,16 +386,16 @@
     "volume": "750 ml",
     "price": 2000,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "dress_shirt",
     "color": "blue",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 90,
     "encumbrance": 3,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "maid_dress",
@@ -407,17 +407,17 @@
     "volume": "250 ml",
     "price": 5000,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "dress",
     "color": "blue",
-    "covers": [ "torso", "arms", "legs" ],
+    "covers": ["torso", "arms", "legs"],
     "coverage": 75,
     "encumbrance": 7,
     "storage": "500 ml",
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": ["VARSIZE", "FANCY"]
   },
   {
     "id": "polo_shirt",
@@ -428,16 +428,16 @@
     "volume": "750 ml",
     "price": 1500,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "light_red",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 90,
     "encumbrance": 7,
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "postman_shirt",
@@ -449,16 +449,16 @@
     "volume": "500 ml",
     "price": 1500,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "polo_shirt",
     "color": "light_blue",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 90,
     "storage": "1 L",
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "sheriffshirt",
@@ -470,17 +470,17 @@
     "volume": "750 ml",
     "price": 1100,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "dress_shirt",
     "color": "light_gray",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 90,
     "encumbrance": 5,
     "storage": "500 ml",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "striped_shirt",
@@ -492,16 +492,16 @@
     "volume": "750 ml",
     "price": 500,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "white",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 90,
     "encumbrance": 5,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "sundress",
@@ -513,14 +513,14 @@
     "price": 4000,
     "price_postapoc": 50,
     "to_hit": -5,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "dress",
     "color": "yellow",
-    "covers": [ "legs", "torso" ],
+    "covers": ["legs", "torso"],
     "coverage": 65,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": ["VARSIZE", "FANCY"]
   },
   {
     "id": "sweater",
@@ -531,17 +531,17 @@
     "volume": "2 L",
     "price": 4500,
     "price_postapoc": 100,
-    "material": [ "wool" ],
+    "material": ["wool"],
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "blue",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 40,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE" ]
+    "valid_mods": ["steel_padded", "alloy_padded"],
+    "flags": ["VARSIZE"]
   },
   {
     "id": "sweatshirt",
@@ -553,17 +553,17 @@
     "volume": "3500 ml",
     "price": 1800,
     "price_postapoc": 100,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "light_red",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 30,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE" ]
+    "valid_mods": ["steel_padded", "alloy_padded"],
+    "flags": ["VARSIZE"]
   },
   {
     "id": "technician_shirt_gray",
@@ -575,11 +575,11 @@
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "polo_shirt",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 40,
     "encumbrance": 5,
     "storage": "250 ml",
@@ -588,9 +588,12 @@
     "snippet_category": [
       { "id": "technician_shirt_blue", "text": "A blue work t-shirt with a small front pocket." },
       { "id": "technician_shirt_gray", "text": "A gray work t-shirt with a small front pocket." },
-      { "id": "technician_shirt_lightblue", "text": "A light-blue work t-shirt with a small front pocket." }
+      {
+        "id": "technician_shirt_lightblue",
+        "text": "A light-blue work t-shirt with a small front pocket."
+      }
     ],
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "tshirt",
@@ -601,15 +604,15 @@
     "volume": "500 ml",
     "price": 800,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "camisole",
     "color": "white",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 90,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "tshirt_text",
@@ -621,11 +624,11 @@
     "volume": "500 ml",
     "price": 800,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "tshirt",
     "color": "white",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 90,
     "warmth": 5,
     "material_thickness": 1,
@@ -635,7 +638,7 @@
         "text": "A short-sleeved cotton shirt with the text \"chown -R us ~your/base\" printed on the front."
       }
     ],
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "tshirt_tour",
@@ -693,19 +696,19 @@
     "price": 5500,
     "price_postapoc": 250,
     "to_hit": 1,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "vest",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 90,
     "encumbrance": 8,
     "storage": "1 L",
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "valid_mods": ["steel_padded", "alloy_padded"],
+    "flags": ["VARSIZE", "POCKETS", "OUTER"]
   },
   {
     "id": "wool_hoodie",
@@ -716,17 +719,17 @@
     "volume": "3250 ml",
     "price": 3500,
     "price_postapoc": 100,
-    "material": [ "wool" ],
+    "material": ["wool"],
     "symbol": "[",
     "looks_like": "hoodie",
     "color": "dark_gray",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 95,
     "encumbrance": 12,
     "storage": "2250 ml",
     "warmth": 45,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
+    "valid_mods": ["steel_padded", "alloy_padded"],
+    "flags": ["VARSIZE", "OUTER", "POCKETS", "HOOD"]
   }
 ]

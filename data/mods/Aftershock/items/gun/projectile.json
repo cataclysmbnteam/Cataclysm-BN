@@ -9,16 +9,16 @@
     "price": 0,
     "to_hit": -2,
     "bashing": 3,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "(",
     "color": "magenta",
     "skill": "shotgun",
-    "ammo": [ "40" ],
+    "ammo": ["40"],
     "ranged_damage": { "damage_type": "stab", "amount": -8 },
     "dispersion": 855,
     "durability": 6,
     "clip_size": 1,
     "reload": 200,
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID" ]
+    "flags": ["NEVER_JAMS", "RELOAD_EJECT", "NO_UNWIELD", "TRADER_AVOID"]
   }
 ]

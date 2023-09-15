@@ -32,10 +32,10 @@
         ".[......................",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "t": "t_linoleum_gray",
@@ -46,7 +46,10 @@
         "-": "t_linoleum_gray"
       },
       "furniture": { "!": "f_region_flower" },
-      "place_item": [ { "item": "television", "x": 9, "y": 7 }, { "item": "stereo", "x": 12, "y": 8 } ],
+      "place_item": [
+        { "item": "television", "x": 9, "y": 7 },
+        { "item": "stereo", "x": 12, "y": 8 }
+      ],
       "place_items": [
         { "chance": 40, "item": "nightstand", "x": 18, "y": 16 },
         { "chance": 40, "item": "nightstand", "x": 5, "y": 16 },
@@ -90,7 +93,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

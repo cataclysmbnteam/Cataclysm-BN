@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_stairs_down" ] ],
+    "om_terrain": [["microlab_generic_stairs_down"]],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -31,13 +31,13 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "microlab" ],
+      "palettes": ["microlab"],
       "terrain": { "`": "t_open_air", "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_isolated_stairs_odd" ] ],
+    "om_terrain": [["microlab_generic_isolated_stairs_odd"]],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -67,13 +67,18 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "`": "t_open_air", "=": "t_metal_ventilation_shutter", "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "palettes": ["microlab"],
+      "terrain": {
+        "`": "t_open_air",
+        "=": "t_metal_ventilation_shutter",
+        "X": "t_region_shrub_decorative",
+        "P": "t_carpet_red"
+      }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_isolated_stairs_even" ] ],
+    "om_terrain": [["microlab_generic_isolated_stairs_even"]],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -103,13 +108,18 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "`": "t_open_air", "=": "t_metal_ventilation_shutter", "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "palettes": ["microlab"],
+      "terrain": {
+        "`": "t_open_air",
+        "=": "t_metal_ventilation_shutter",
+        "X": "t_region_shrub_decorative",
+        "P": "t_carpet_red"
+      }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_isolated_stairs_up" ] ],
+    "om_terrain": [["microlab_generic_isolated_stairs_up"]],
     "method": "json",
     "object": {
       "fill_ter": "t_strconc_floor",
@@ -139,13 +149,18 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "ó": "t_concrete", "`": "t_open_air", "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "palettes": ["microlab"],
+      "terrain": {
+        "ó": "t_concrete",
+        "`": "t_open_air",
+        "X": "t_region_shrub_decorative",
+        "P": "t_carpet_red"
+      }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "microlab_generic_isolated_elevator_pit" ] ],
+    "om_terrain": [["microlab_generic_isolated_elevator_pit"]],
     "method": "json",
     "object": {
       "fill_ter": "t_concrete",
@@ -175,7 +190,7 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "microlab" ]
+      "palettes": ["microlab"]
     }
   }
 ]

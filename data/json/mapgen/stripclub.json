@@ -27,14 +27,14 @@
         { "chance": 15, "item": "sex_lair", "x": 21, "y": 13 },
         { "chance": 20, "item": "alcohol", "x": 7, "y": 18 },
         { "chance": 30, "item": "dresser_female", "x": 17, "y": 13 },
-        { "chance": 30, "item": "female_underwear_top", "x": 21, "y": [ 15, 16 ] },
+        { "chance": 30, "item": "female_underwear_top", "x": 21, "y": [15, 16] },
         { "chance": 30, "item": "alcohol", "x": 5, "y": 4 },
-        { "chance": 30, "item": "alcohol", "x": [ 2, 3 ], "y": 2 },
+        { "chance": 30, "item": "alcohol", "x": [2, 3], "y": 2 },
         { "chance": 30, "item": "trash", "x": 15, "y": 16 },
         { "chance": 10, "item": "textbooks", "x": 21, "y": 14 },
         { "chance": 5, "item": "sex_lair", "x": 13, "y": 11 }
       ],
-      "place_toilets": [ { "x": 19, "y": 2 }, { "x": 21, "y": 2 }, { "x": 21, "y": 8 } ],
+      "place_toilets": [{ "x": 19, "y": 2 }, { "x": 21, "y": 2 }, { "x": 21, "y": 8 }],
       "rows": [
         "________________________",
         "S||||||||||||||||||||||_",
@@ -118,18 +118,18 @@
         "          |-----------3 ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 4, 17 ],
-          "y": [ 5, 15 ]
+          "x": [4, 17],
+          "y": [5, 15]
         }
       ]
     }
@@ -155,7 +155,7 @@
         { "chance": 25, "item": "office_breakroom", "x": 3, "y": 4 },
         { "chance": 10, "item": "trash", "x": 14, "y": 22 },
         { "chance": 45, "item": "female_underwear_bottom", "x": 7, "y": 16 },
-        { "chance": 45, "item": "female_underwear_bottom", "x": [ 4, 5 ], "y": 16 },
+        { "chance": 45, "item": "female_underwear_bottom", "x": [4, 5], "y": 16 },
         { "chance": 35, "item": "female_underwear_bottom", "x": 5, "y": 13 },
         { "chance": 35, "item": "female_underwear_bottom", "x": 6, "y": 12 },
         { "chance": 35, "item": "female_underwear_bottom", "x": 3, "y": 12 },
@@ -164,15 +164,17 @@
         { "chance": 55, "item": "female_underwear_top", "x": 3, "y": 13 },
         { "chance": 45, "item": "female_underwear_top", "x": 8, "y": 12 },
         { "chance": 45, "item": "female_underwear_top", "x": 5, "y": 12 },
-        { "chance": 10, "item": "vending_drink_items", "repeat": [ 1, 5 ], "x": 19, "y": 5 },
+        { "chance": 10, "item": "vending_drink_items", "repeat": [1, 5], "x": 19, "y": 5 },
         { "chance": 20, "item": "softdrugs", "x": 3, "y": 15 },
         { "chance": 10, "item": "softdrugs", "x": 6, "y": 11 },
         { "chance": 10, "item": "harddrugs", "x": 7, "y": 20 },
         { "chance": 10, "item": "harddrugs", "x": 3, "y": 14 },
         { "chance": 65, "item": "alcohol", "x": 21, "y": 3 }
       ],
-      "place_monsters": [ { "chance": 3, "density": 1, "monster": "GROUP_ZOMBIE", "x": 19, "y": 10 } ],
-      "place_toilets": [ { "x": 4, "y": 20 } ],
+      "place_monsters": [
+        { "chance": 3, "density": 1, "monster": "GROUP_ZOMBIE", "x": 19, "y": 10 }
+      ],
+      "place_toilets": [{ "x": 4, "y": 20 }],
       "fill_ter": "t_floor",
       "rows": [
         "__________sss___________",
@@ -254,18 +256,18 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 4, 17 ],
-          "y": [ 6, 17 ]
+          "x": [4, 17],
+          "y": [6, 17]
         }
       ]
     }
@@ -317,8 +319,10 @@
         { "chance": 75, "item": "bar_alcohol", "x": 12, "y": 20 },
         { "chance": 15, "item": "magazines", "x": 6, "y": 3 }
       ],
-      "place_monsters": [ { "chance": 10, "density": 0.0, "monster": "GROUP_ZOMBIE", "x": 16, "y": 14 } ],
-      "place_toilets": [ { "x": 2, "y": 17 }, { "x": 4, "y": 17 } ],
+      "place_monsters": [
+        { "chance": 10, "density": 0.0, "monster": "GROUP_ZOMBIE", "x": 16, "y": 14 }
+      ],
+      "place_toilets": [{ "x": 2, "y": 17 }, { "x": 4, "y": 17 }],
       "fill_ter": "t_floor",
       "rows": [
         "s_______sss_______d_____",
@@ -402,19 +406,19 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "%": "t_wall_p" },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 4, 15 ],
-          "y": [ 6, 14 ]
+          "x": [4, 15],
+          "y": [6, 14]
         }
       ]
     }

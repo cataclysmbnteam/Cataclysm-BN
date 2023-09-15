@@ -26,9 +26,9 @@
     "symbol": ",",
     "description": "A carefully folded raw hide harvested from a black dragon.  It is a large enough piece that it is workable to make armor, and with enough scales you could make scale mail.",
     "price": 50000,
-    "material": [ "black_dragon_hide", "flesh" ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "vitamins": [  ],
+    "material": ["black_dragon_hide", "flesh"],
+    "flags": ["NO_SALVAGE", "TRADER_AVOID"],
+    "vitamins": [],
     "volume": "4 L",
     "stack_size": 1
   },
@@ -42,7 +42,7 @@
     "volume": "4 L",
     "price": 0,
     "to_hit": -2,
-    "material": [ "flesh", "black_dragon_hide" ],
+    "material": ["flesh", "black_dragon_hide"],
     "symbol": ",",
     "color": "black_white",
     "use_action": {
@@ -54,7 +54,7 @@
       "not_ready_msg": "The black dragon hide isn't done yet.",
       "//": "2 days"
     },
-    "flags": [ "NO_SALVAGE" ]
+    "flags": ["NO_SALVAGE"]
   },
   {
     "type": "GENERIC",
@@ -64,7 +64,7 @@
     "name": "black dragon hide",
     "description": "Prepared hide from a black dragon.  Hard, acid-resistant, and with more scales could make a suit of armor as hard as steel and half as heavy.",
     "price": 50000,
-    "material": [ "black_dragon_hide" ],
+    "material": ["black_dragon_hide"],
     "weight": "2500 g",
     "volume": "4 L",
     "category": "spare_parts",
@@ -74,45 +74,51 @@
     "id": "boots_black_dragon_scale",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of black dragonscale boots", "str_pl": "pairs of black dragonscale boots" },
+    "name": {
+      "str": "pair of black dragonscale boots",
+      "str_pl": "pairs of black dragonscale boots"
+    },
     "description": "Boots made of black dragonscale.  Very protective, and surprisingly light.",
     "weight": "945 g",
     "volume": "3250 ml",
     "price": 75000,
     "to_hit": -2,
     "bashing": 7,
-    "material": [ "black_dragon_hide" ],
+    "material": ["black_dragon_hide"],
     "symbol": "[",
     "color": "black_white",
-    "covers": [ "feet" ],
+    "covers": ["feet"],
     "coverage": 100,
     "encumbrance": 30,
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "boots_black_dragon_hide",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of black dragonhide boots", "str_pl": "pairs of black dragonhide boots" },
+    "name": {
+      "str": "pair of black dragonhide boots",
+      "str_pl": "pairs of black dragonhide boots"
+    },
     "description": "Boots made of black dragonhide.  Very protective, and surprisingly light.",
     "weight": "655 g",
     "volume": "3250 ml",
     "price": 50000,
     "to_hit": -2,
     "bashing": 7,
-    "material": [ "black_dragon_hide" ],
+    "material": ["black_dragon_hide"],
     "symbol": "[",
     "color": "black_white",
-    "covers": [ "feet" ],
+    "covers": ["feet"],
     "coverage": 100,
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "helmet_black_dragon_scale",
@@ -125,17 +131,17 @@
     "price": 58000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "black_dragon_hide" ],
+    "material": ["black_dragon_hide"],
     "symbol": "[",
     "color": "black_white",
-    "covers": [ "head", "eyes", "mouth" ],
+    "covers": ["head", "eyes", "mouth"],
     "coverage": 100,
     "encumbrance": 32,
     "warmth": 15,
     "material_thickness": 6,
     "environmental_protection": 3,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "techniques": ["WBLOCK_1"],
+    "flags": ["VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "helmet_black_dragon_hide",
@@ -148,17 +154,17 @@
     "price": 58000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "black_dragon_hide" ],
+    "material": ["black_dragon_hide"],
     "symbol": "[",
     "color": "black_white",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "coverage": 100,
     "encumbrance": 32,
     "warmth": 15,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "techniques": ["WBLOCK_1"],
+    "flags": ["VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "suit_black_dragon_scale",
@@ -171,16 +177,16 @@
     "price": 2000000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "black_dragon_hide" ],
+    "material": ["black_dragon_hide"],
     "symbol": "[",
     "color": "black_white",
-    "covers": [ "legs", "torso", "arms" ],
+    "covers": ["legs", "torso", "arms"],
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
+    "flags": ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY"]
   },
   {
     "id": "suit_black_dragon_hide",
@@ -193,124 +199,148 @@
     "price": 2000000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "black_dragon_hide" ],
+    "material": ["black_dragon_hide"],
     "symbol": "[",
     "color": "black_white",
-    "covers": [ "legs", "torso", "arms" ],
+    "covers": ["legs", "torso", "arms"],
     "coverage": 100,
     "encumbrance": 18,
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
+    "flags": ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY"]
   },
   {
     "id": "gauntlets_black_dragon_scale",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of black dragonscale gauntlets", "str_pl": "pairs of black dragonscale gauntlets" },
+    "name": {
+      "str": "pair of black dragonscale gauntlets",
+      "str_pl": "pairs of black dragonscale gauntlets"
+    },
     "description": "A pair of heavy-duty gauntlets made of black dragonscale that covers your hands.",
     "weight": "380 g",
     "volume": "1 L",
     "price": 180000,
     "to_hit": 2,
-    "material": [ "black_dragon_hide" ],
+    "material": ["black_dragon_hide"],
     "symbol": "[",
     "color": "black_white",
-    "covers": [ "hands" ],
+    "covers": ["hands"],
     "coverage": 100,
     "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "gloves_black_dragon_hide",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of black dragonhide gloves", "str_pl": "pairs of black dragonhide gloves" },
+    "name": {
+      "str": "pair of black dragonhide gloves",
+      "str_pl": "pairs of black dragonhide gloves"
+    },
     "description": "A pair of customized, Kevlar armored leather gloves, modified to be easy to wear while providing maximum protection under extreme conditions.",
     "weight": "230 g",
     "volume": "750 ml",
     "price": 180000,
     "to_hit": 2,
-    "material": [ "black_dragon_hide" ],
+    "material": ["black_dragon_hide"],
     "symbol": "[",
     "color": "black_white",
-    "covers": [ "hands" ],
+    "covers": ["hands"],
     "coverage": 100,
     "encumbrance": 8,
     "warmth": 15,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "boots_xlblack_dragon_scale",
     "copy-from": "boots_black_dragon_scale",
     "type": "ARMOR",
-    "name": { "str": "pair of XL black dragonscale boots", "str_pl": "pairs of XL black dragonscale boots" },
+    "name": {
+      "str": "pair of XL black dragonscale boots",
+      "str_pl": "pairs of XL black dragonscale boots"
+    },
     "description": "Massive boots made of black dragonscale, modified to fit even the strangest of bodies.  Very protective, and surprisingly light.",
     "weight": "1545 g",
     "volume": "6250 ml",
     "encumbrance": 40,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "boots_xlblack_dragon_hide",
     "copy-from": "boots_black_dragon_hide",
     "type": "ARMOR",
-    "name": { "str": "pair of XL black dragonhide boots", "str_pl": "pairs of XL black dragonhide boots" },
+    "name": {
+      "str": "pair of XL black dragonhide boots",
+      "str_pl": "pairs of XL black dragonhide boots"
+    },
     "description": "Massive boots made of black dragonhide, modified to fit even the strangest of bodies.  Very protective, and surprisingly light.",
     "weight": "955 g",
     "volume": "6250 ml",
     "encumbrance": 28,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "gauntlets_xlblack_dragon_scale",
     "copy-from": "gauntlets_black_dragon_scale",
     "type": "ARMOR",
-    "name": { "str": "pair of XL black dragonscale gauntlets", "str_pl": "pairs of XL black dragonscale gauntlets" },
+    "name": {
+      "str": "pair of XL black dragonscale gauntlets",
+      "str_pl": "pairs of XL black dragonscale gauntlets"
+    },
     "description": "A pair of heavy-duty gauntlets made of black dragonscale that covers your hands, or whatever you use as hands.",
     "weight": "680 g",
     "volume": "2 L",
     "encumbrance": 30,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "gloves_xlblack_dragon_hide",
     "copy-from": "gloves_black_dragon_hide",
     "type": "ARMOR",
-    "name": { "str": "pair of XL black dragonhide gloves", "str_pl": "pairs of XL black dragonhide gloves" },
+    "name": {
+      "str": "pair of XL black dragonhide gloves",
+      "str_pl": "pairs of XL black dragonhide gloves"
+    },
     "description": "A pair of customized, Kevlar armored leather gloves, modified to be easy to wear while providing maximum protection under extreme conditions.  Sized to fit even the strangest of anatomy.",
     "weight": "430 g",
     "volume": "1500 ml",
     "encumbrance": 18,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "boots_xlblack_dragon_scale",
     "copy-from": "boots_black_dragon_scale",
     "type": "ARMOR",
-    "name": { "str": "pair of XL black dragonscale boots", "str_pl": "pairs of XL black dragonscale boots" },
+    "name": {
+      "str": "pair of XL black dragonscale boots",
+      "str_pl": "pairs of XL black dragonscale boots"
+    },
     "description": "Massive boots made of black dragonscale, modified to fit even the strangest of bodies.  Very protective, and surprisingly light.",
     "weight": "1545 g",
     "volume": "6250 ml",
     "encumbrance": 40,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "boots_xlblack_dragon_hide",
     "copy-from": "boots_black_dragon_hide",
     "type": "ARMOR",
-    "name": { "str": "pair of XL black dragonhide boots", "str_pl": "pairs of XL black dragonhide boots" },
+    "name": {
+      "str": "pair of XL black dragonhide boots",
+      "str_pl": "pairs of XL black dragonhide boots"
+    },
     "description": "Massive boots made of black dragonhide, modified to fit even the strangest of bodies.  Very protective, and surprisingly light.",
     "weight": "955 g",
     "volume": "6250 ml",
     "encumbrance": 28,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "helmet_xlblack_dragon_scale",
@@ -321,7 +351,7 @@
     "weight": "1256 g",
     "volume": "4500 ml",
     "encumbrance": 42,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "helmet_xlblack_dragon_hide",
@@ -332,7 +362,7 @@
     "weight": "815 g",
     "volume": "4500 ml",
     "encumbrance": 42,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "helmet_xlblack_dragon_scale",
@@ -343,7 +373,7 @@
     "weight": "1256 g",
     "volume": "4500 ml",
     "encumbrance": 42,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "helmet_xlblack_dragon_hide",
@@ -354,7 +384,7 @@
     "weight": "815 g",
     "volume": "4500 ml",
     "encumbrance": 42,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "suit_xlblack_dragon_scale",
@@ -365,7 +395,7 @@
     "weight": "6250 g",
     "volume": "18 L",
     "encumbrance": 35,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY"]
   },
   {
     "id": "suit_xlblack_dragon_hide",
@@ -376,6 +406,6 @@
     "weight": "5500 g",
     "volume": "18 L",
     "encumbrance": 28,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY"]
   }
 ]

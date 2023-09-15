@@ -16,10 +16,10 @@
     "name": { "str": "food guard" },
     "job_description": "I'm guarding the food.",
     "common": false,
-    "bonus_str": { "rng": [ -1, 2 ] },
-    "bonus_dex": { "rng": [ -1, 1 ] },
-    "bonus_int": { "rng": [ -1, 1 ] },
-    "bonus_per": { "rng": [ 1, 3 ] },
+    "bonus_str": { "rng": [-1, 2] },
+    "bonus_dex": { "rng": [-1, 1] },
+    "bonus_int": { "rng": [-1, 1] },
+    "bonus_per": { "rng": [1, 3] },
     "worn_override": "GODCO_food_guard_worn",
     "carry_override": "GODCO_food_guard_carried",
     "weapon_override": "GODCO_food_guard_wield",
@@ -30,7 +30,10 @@
       { "group": "Appearance_demographics" }
     ],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [4, 2] }, { "rng": [-4, -1] }] }] }
+      }
     ]
   },
   {
@@ -54,13 +57,16 @@
     "type": "item_group",
     "id": "GODCO_food_guard_carried",
     "subtype": "collection",
-    "entries": [ { "group": "snacks", "prob": 75, "count": [ 1, 2 ] }, { "group": "cannedfood", "prob": 50, "count": [ 1, 2 ] } ]
+    "entries": [
+      { "group": "snacks", "prob": 75, "count": [1, 2] },
+      { "group": "cannedfood", "prob": 50, "count": [1, 2] }
+    ]
   },
   {
     "type": "item_group",
     "id": "GODCO_food_guard_wield",
     "subtype": "collection",
-    "entries": [ { "item": "flashlight", "ammo-item": "battery", "charges": 120 } ]
+    "entries": [{ "item": "flashlight", "ammo-item": "battery", "charges": 120 }]
   },
   {
     "type": "effect_type",
@@ -78,44 +84,88 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hey there.", "You're back.", "So…?" ],
+      "yes": ["Hey there.", "You're back.", "So…?"],
       "no": "Hey!  What are you doing up here?  You are not allowed to come here."
     },
     "responses": [
       {
         "text": "Who are you?",
-        "effect": { "u_add_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_food_guard",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_food_guard",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_GODCO_food_guard_firstmeet"
       },
       {
         "text": "How much food do you have in storage?",
         "topic": "TALK_GODCO_food_guard_ask_food_quantity",
-        "condition": { "u_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": {
+          "u_has_var": "u_met_food_guard",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       },
       {
         "text": "Can I borrow something from the stash?",
         "topic": "TALK_GODCO_food_guard_ask_food",
-        "condition": { "u_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": {
+          "u_has_var": "u_met_food_guard",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       },
       {
         "text": "What's your story?",
-        "condition": { "u_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_food_guard",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_GODCO_food_guard_ask_past1"
       },
       {
         "text": "How are things here?",
-        "condition": { "u_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_food_guard",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_GODCO_food_guard_ask_mood"
       },
       {
         "text": "I am sorry, I didn't know.  I'll be going.",
-        "condition": { "not": { "u_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_food_guard",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "I have to go now.",
-        "condition": { "u_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_food_guard",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -125,9 +175,15 @@
     "id": "TALK_GODCO_food_guard_firstmeet",
     "dynamic_line": "Me?  I am the food guard.  I've been tasked to watch over this storage.",
     "responses": [
-      { "text": "Can I borrow something from the stockpile?", "topic": "TALK_GODCO_food_guard_ask_food" },
+      {
+        "text": "Can I borrow something from the stockpile?",
+        "topic": "TALK_GODCO_food_guard_ask_food"
+      },
       { "text": "Has anyone stolen from here?", "topic": "TALK_GODCO_food_guard_ask_theft" },
-      { "text": "How much food do you have in storage?", "topic": "TALK_GODCO_food_guard_ask_food_quantity" }
+      {
+        "text": "How much food do you have in storage?",
+        "topic": "TALK_GODCO_food_guard_ask_food_quantity"
+      }
     ]
   },
   {
@@ -141,22 +197,44 @@
     "responses": [
       {
         "text": "I have money.",
-        "condition": { "not": { "u_has_var": "u_trade_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "not": {
+            "u_has_var": "u_trade_food_guard",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "trial": { "type": "PERSUADE", "difficulty": 1 },
         "failure": { "topic": "TALK_GODCO_food_guard_ask_food_fail1", "opinion": { "trust": -2 } },
         "success": { "topic": "TALK_GODCO_food_guard_ask_food_fail1", "opinion": { "trust": -1 } }
       },
       {
         "text": "Please, my family is starving.",
-        "condition": { "not": { "u_has_var": "u_trade_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
-        "trial": { "type": "LIE", "difficulty": 3, "mod": [ [ "trust", 2 ] ] },
+        "condition": {
+          "not": {
+            "u_has_var": "u_trade_food_guard",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
+        "trial": { "type": "LIE", "difficulty": 3, "mod": [["trust", 2]] },
         "success": {
           "topic": "TALK_GODCO_food_guard_ask_food_success",
-          "effect": { "u_add_var": "u_trade_food_guard", "type": "general", "context": "meeting", "value": "yes" }
+          "effect": {
+            "u_add_var": "u_trade_food_guard",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
         },
         "failure": { "topic": "TALK_GODCO_food_guard_ask_food_fail2", "opinion": { "trust": -1 } }
       },
-      { "text": "How much food do you have here?", "topic": "TALK_GODCO_food_guard_ask_food_quantity" },
+      {
+        "text": "How much food do you have here?",
+        "topic": "TALK_GODCO_food_guard_ask_food_quantity"
+      },
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_food_guard_1" }
     ]
   },
@@ -164,19 +242,21 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_food_guard_ask_food_success",
     "dynamic_line": "Alright, but just this once.  Don't tell anyone.",
-    "responses": [ { "text": "I promise I won't tell anybody.", "topic": "TALK_DONE", "effect": "start_trade" } ]
+    "responses": [
+      { "text": "I promise I won't tell anybody.", "topic": "TALK_DONE", "effect": "start_trade" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_food_guard_ask_food_fail1",
     "dynamic_line": "Are you trying to bribe me?",
-    "responses": [ { "text": "I'd better leave.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "I'd better leave.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_food_guard_ask_food_fail2",
     "dynamic_line": "I am sorry, but I can't help you or your family.  This is not my food, you need to ask permission from someone else.",
-    "responses": [ { "text": "I think I'll be going.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "I think I'll be going.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
@@ -187,8 +267,14 @@
       "no": "That information is a bit private, but you can see for yourself.  We have about 20 crates full of non-perishables."
     },
     "responses": [
-      { "text": "Where did all this food come from?", "topic": "TALK_GODCO_food_guard_ask_food_where" },
-      { "text": "Can I borrow something from the stash?", "topic": "TALK_GODCO_food_guard_ask_food" },
+      {
+        "text": "Where did all this food come from?",
+        "topic": "TALK_GODCO_food_guard_ask_food_where"
+      },
+      {
+        "text": "Can I borrow something from the stash?",
+        "topic": "TALK_GODCO_food_guard_ask_food"
+      },
       { "text": "Oh, okay.", "topic": "TALK_GODCO_food_guard_1" }
     ]
   },
@@ -214,7 +300,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_food_guard_ask_past2",
     "dynamic_line": "I don't have a great appetite.",
-    "responses": [ { "text": "Reasonable.", "topic": "TALK_GODCO_food_guard_1" } ]
+    "responses": [{ "text": "Reasonable.", "topic": "TALK_GODCO_food_guard_1" }]
   },
   {
     "type": "talk_topic",
@@ -238,7 +324,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_food_guard_ask_theft",
     "dynamic_line": "Not that I know of.  I haven't seen any suspicious drops in our food supply.  I guess I'm doing a great at my job… or nobody is rotten enough to steal from our community.",
-    "responses": [ { "text": "That's good to hear.", "topic": "TALK_GODCO_food_guard_1" } ]
+    "responses": [{ "text": "That's good to hear.", "topic": "TALK_GODCO_food_guard_1" }]
   },
   {
     "id": "MISSION_GODCO_FOOD_GUARD_BOOK",
@@ -250,7 +336,7 @@
     "value": 0,
     "item": "novel_mystery",
     "count": 3,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "I'd like to read some mystery novels.",
       "offer": "Hmm, that would be great!  But if you do, please bring more than just one.  I could read a single novel in a day.  Could you get me… 3 mystery novels?",
@@ -262,6 +348,6 @@
       "success_lie": "Could you give them to me?",
       "failure": "Fine.  I can read something else."
     },
-    "end": { "effect": [ { "u_buy_item": "icon", "count": 2 } ], "opinion": { "trust": 2 } }
+    "end": { "effect": [{ "u_buy_item": "icon", "count": 2 }], "opinion": { "trust": 2 } }
   }
 ]

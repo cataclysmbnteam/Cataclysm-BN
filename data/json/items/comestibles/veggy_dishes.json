@@ -9,7 +9,7 @@
     "description": "A cooked stalk from a cattail plant.  Its fibrous outer leaves have been stripped away and now it is quite delicious.",
     "price": 0,
     "price_postapoc": 10,
-    "delete": { "flags": [ "RAW" ] },
+    "delete": { "flags": ["RAW"] },
     "fun": 1
   },
   {
@@ -30,7 +30,7 @@
     "volume": "250 ml",
     "milling": { "into": "flour", "conversion_rate": 15 },
     "fun": -14,
-    "vitamins": [  ]
+    "vitamins": []
   },
   {
     "type": "COMESTIBLE",
@@ -48,11 +48,11 @@
     "description": "Exposed cloves of garlic that have been coated in oil and then roasted.  Much better than eating them raw.",
     "price": 300,
     "price_postapoc": 50,
-    "material": [ "garlic" ],
+    "material": ["garlic"],
     "volume": "150 ml",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 1,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [["calcium", 2], ["iron", 2]]
   },
   {
     "type": "COMESTIBLE",
@@ -69,10 +69,10 @@
     "description": "Spicy chili pepper that has been roasted on high heat, with skin removed.  Much better than eating it raw, and could also be used for other cooking recipes.",
     "price": 50,
     "price_postapoc": 50,
-    "material": [ "veggy" ],
+    "material": ["veggy"],
     "volume": "83 ml",
-    "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "flags": ["EATEN_HOT"],
+    "vitamins": [["vitC", 16], ["calcium", 1], ["iron", 2]],
     "fun": 1
   },
   {
@@ -85,7 +85,7 @@
     "description": "Cooked leaves from wild dandelions.  Tasty and nutritious.",
     "price": 200,
     "price_postapoc": 10,
-    "flags": [ "EATEN_HOT", "SMOKABLE" ],
+    "flags": ["EATEN_HOT", "SMOKABLE"],
     "fun": 1
   },
   {
@@ -98,7 +98,7 @@
     "description": "Wild dandelion flowers that have been battered and deep-fried.  Very tasty and nutritious.",
     "price": 250,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 5
   },
   {
@@ -111,7 +111,7 @@
     "description": "Cooked burdock leaves.  Tasty and nutritious.",
     "price": 200,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT", "SMOKABLE" ],
+    "flags": ["EATEN_HOT", "SMOKABLE"],
     "fun": 1
   },
   {
@@ -128,7 +128,7 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "500 ml",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 5
   },
   {
@@ -145,7 +145,7 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "500 ml",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 6
   },
   {
@@ -157,7 +157,7 @@
     "description": "A freshly cooked chunk of plant matter, tasty and nutritious.",
     "price": 700,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT", "TRADER_AVOID" ]
+    "flags": ["EATEN_HOT", "TRADER_AVOID"]
   },
   {
     "type": "COMESTIBLE",
@@ -168,7 +168,7 @@
     "description": "Cooked wild edible plants.  An interesting mix of flavors.",
     "price": 700,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT" ]
+    "flags": ["EATEN_HOT"]
   },
   {
     "type": "COMESTIBLE",
@@ -187,7 +187,7 @@
     "volume": "500 ml",
     "charges": 2,
     "//": "TODO: Confirm nutrition facts for aspic",
-    "flags": [ "EATEN_COLD" ]
+    "flags": ["EATEN_COLD"]
   },
   {
     "type": "COMESTIBLE",
@@ -199,7 +199,7 @@
     "description": "A serving of cooked buckwheat groats.  Healthy and nutritious but bland.",
     "price": 120,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 0
   },
   {
@@ -211,7 +211,7 @@
     "color": "yellow",
     "symbol": "%",
     "material": "veggy",
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [["vitA", 6], ["vitC", 3], ["iron", 3]],
     "spoils_in": "2 days",
     "container": "can_medium",
     "quench": 5,
@@ -221,7 +221,7 @@
     "description": "Canned corn in water.  Eat up!",
     "price": 200,
     "price_postapoc": 150,
-    "flags": [ "EATEN_HOT" ]
+    "flags": ["EATEN_HOT"]
   },
   {
     "type": "COMESTIBLE",
@@ -232,14 +232,14 @@
     "color": "yellow",
     "symbol": "%",
     "material": "veggy",
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 3 ], [ "iron", 3 ] ],
+    "vitamins": [["vitA", 6], ["vitC", 3], ["iron", 3]],
     "spoils_in": "2 days",
     "container": "bowl_plastic",
     "calories": 120,
     "volume": "250 ml",
     "description": "Corn kernels which have been cooked in an alkaline solution and then rinsed, making them better suited for eating or cooking.",
     "price": 200,
-    "flags": [ "EATEN_HOT" ]
+    "flags": ["EATEN_HOT"]
   },
   {
     "type": "COMESTIBLE",
@@ -253,11 +253,11 @@
     "symbol": "%",
     "quench": -1,
     "calories": 47,
-    "vitamins": [ [ "iron", 3 ] ],
+    "vitamins": [["iron", 3]],
     "description": "This yellow cornmeal is useful for baking.",
     "price": 450,
     "price_postapoc": 25,
-    "material": [ "veggy", "powder" ],
+    "material": ["veggy", "powder"],
     "volume": "250 ml",
     "charges": 10,
     "fun": -5
@@ -273,14 +273,14 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 295,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 8 ], [ "iron", 32 ] ],
+    "vitamins": [["vitC", 3], ["calcium", 8], ["iron", 32]],
     "description": "Slow-cooked beans with vegetables.  Tasty and very filling.",
     "price": 700,
     "price_postapoc": 100,
-    "material": [ "veggy", "bean" ],
+    "material": ["veggy", "bean"],
     "volume": "500 ml",
     "//": "one beans + one veggy",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 4
   },
   {
@@ -304,7 +304,7 @@
     "cooks_like": "rice_cooked",
     "milling": { "into": "flour", "conversion_rate": 3 },
     "charges": 3,
-    "vitamins": [ [ "iron", 3 ] ],
+    "vitamins": [["iron", 3]],
     "fun": -15
   },
   {
@@ -320,11 +320,11 @@
     "description": "A hearty serving of cooked long-grain white rice.",
     "price": 100,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 2,
     "//": "rice triples in size when cooked",
     "charges": 1,
-    "vitamins": [ [ "vitA", 1 ], [ "iron", 11 ] ]
+    "vitamins": [["vitA", 1], ["iron", 11]]
   },
   {
     "type": "COMESTIBLE",
@@ -342,9 +342,9 @@
     "price_postapoc": 150,
     "material": "veggy",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 5,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 3 ] ]
+    "vitamins": [["vitA", 2], ["vitC", 4], ["calcium", 3], ["iron", 3]]
   },
   {
     "type": "COMESTIBLE",
@@ -360,11 +360,11 @@
     "description": "A serving of beans and rice that has been cooked together.  Delicious and healthy!",
     "price": 500,
     "price_postapoc": 150,
-    "material": [ "veggy", "bean" ],
+    "material": ["veggy", "bean"],
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 2,
-    "vitamins": [ [ "vitC", 14 ], [ "calcium", 4 ], [ "iron", 16 ] ]
+    "vitamins": [["vitC", 14], ["calcium", 4], ["iron", 16]]
   },
   {
     "type": "COMESTIBLE",
@@ -382,9 +382,9 @@
     "price_postapoc": 150,
     "material": "veggy",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": ["EATEN_HOT", "NUTRIENT_OVERRIDE"],
     "fun": 5,
-    "vitamins": [ [ "calcium", 17 ], [ "iron", 16 ], [ "vitC", 84 ], [ "vitA", 61 ] ]
+    "vitamins": [["calcium", 17], ["iron", 16], ["vitC", 84], ["vitA", 61]]
   },
   {
     "type": "COMESTIBLE",
@@ -403,9 +403,9 @@
     "price_postapoc": 200,
     "material": "veggy",
     "volume": "1 L",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": ["EATEN_HOT", "NUTRIENT_OVERRIDE"],
     "fun": 19,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ], [ "iron", 5 ], [ "vitC", 24 ] ]
+    "vitamins": [["vitA", 2], ["calcium", 7], ["iron", 5], ["vitC", 24]]
   },
   {
     "type": "COMESTIBLE",
@@ -421,12 +421,12 @@
     "description": "Slow-cooked beans and rice with vegetables and seasonings.  Tasty and very filling.",
     "price": 750,
     "price_postapoc": 200,
-    "material": [ "veggy", "bean" ],
+    "material": ["veggy", "bean"],
     "volume": "750 ml",
     "//": "one bean + one rice + one veggy",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 4,
-    "vitamins": [ [ "vitC", 28 ], [ "calcium", 8 ], [ "iron", 32 ] ]
+    "vitamins": [["vitC", 28], ["calcium", 8], ["iron", 32]]
   },
   {
     "type": "COMESTIBLE",
@@ -444,9 +444,9 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": ["EATEN_HOT", "NUTRIENT_OVERRIDE"],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ] ]
+    "vitamins": [["vitA", 1], ["vitC", 9], ["calcium", 13], ["iron", 8]]
   },
   {
     "type": "COMESTIBLE",
@@ -462,7 +462,7 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "250 ml",
-    "delete": { "flags": [ "RAW" ] },
+    "delete": { "flags": ["RAW"] },
     "charges": 1
   },
   {
@@ -481,12 +481,12 @@
     "description": "A delicious baked pie with a delicious vegetable filling.",
     "price": 1250,
     "price_postapoc": 2000,
-    "material": [ "wheat", "veggy" ],
+    "material": ["wheat", "veggy"],
     "volume": "2 L",
     "charges": 8,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 3,
-    "vitamins": [ [ "vitA", 5 ], [ "vitC", 4 ], [ "calcium", 3 ], [ "iron", 14 ] ]
+    "vitamins": [["vitA", 5], ["vitC", 4], ["calcium", 3], ["iron", 14]]
   },
   {
     "type": "COMESTIBLE",
@@ -502,12 +502,12 @@
     "description": "A vegetarian pizza, with delicious tomato sauce and a fluffy crust.  Its smell brings back great memories.",
     "price": 990,
     "price_postapoc": 500,
-    "material": [ "wheat", "veggy", "tomato" ],
+    "material": ["wheat", "veggy", "tomato"],
     "volume": "1 L",
     "charges": 4,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 10,
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 20 ], [ "calcium", 30 ], [ "iron", 20 ] ]
+    "vitamins": [["vitA", 7], ["vitC", 20], ["calcium", 30], ["iron", 20]]
   },
   {
     "type": "COMESTIBLE",
@@ -524,11 +524,11 @@
     "description": "Olive oil, basil, garlic, pine nuts.  Simple and delicious.",
     "price": 230,
     "price_postapoc": 300,
-    "material": [ "veggy", "nut", "garlic" ],
+    "material": ["veggy", "nut", "garlic"],
     "volume": "250 ml",
     "charges": 4,
     "phase": "liquid",
-    "vitamins": [ [ "vitA", 7 ], [ "calcium", 11 ], [ "iron", 3 ] ],
+    "vitamins": [["vitA", 7], ["calcium", 11], ["iron", 3]],
     "fun": 4
   },
   {
@@ -548,7 +548,7 @@
     "price_postapoc": 150,
     "material": "veggy",
     "volume": "250 ml",
-    "vitamins": [ [ "vitA", 73 ], [ "vitC", 11 ], [ "calcium", 5 ], [ "iron", 9 ] ]
+    "vitamins": [["vitA", 73], ["vitC", 11], ["calcium", 5], ["iron", 9]]
   },
   {
     "type": "COMESTIBLE",
@@ -568,7 +568,7 @@
     "price_postapoc": 100,
     "material": "veggy",
     "volume": "250 ml",
-    "vitamins": [ [ "vitA", 46 ], [ "vitC", 7 ], [ "calcium", 5 ], [ "iron", 9 ] ]
+    "vitamins": [["vitA", 46], ["vitC", 7], ["calcium", 5], ["iron", 9]]
   },
   {
     "type": "COMESTIBLE",
@@ -584,12 +584,12 @@
     "description": "Spaghetti, with a generous helping of pesto on top.  Yum!",
     "price": 1000,
     "price_postapoc": 200,
-    "material": [ "wheat", "veggy", "nut" ],
+    "material": ["wheat", "veggy", "nut"],
     "volume": "500 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 15,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 10 ] ]
+    "vitamins": [["calcium", 10], ["iron", 10]]
   },
   {
     "type": "COMESTIBLE",
@@ -624,9 +624,9 @@
     "material": "veggy",
     "//": "assumes the sauerkraut and onions cook down to half their raw values.  vitamins and calories are the two added together",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 5,
-    "vitamins": [ [ "vitC", 99 ], [ "calcium", 21 ], [ "iron", 2 ] ]
+    "vitamins": [["vitC", 99], ["calcium", 21], ["iron", 2]]
   },
   {
     "type": "COMESTIBLE",
@@ -656,7 +656,7 @@
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
     "charges": 2,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": ["RAW"] }
   },
   {
     "type": "COMESTIBLE",
@@ -668,7 +668,7 @@
     "description": "Reconstituted vegetable flakes, which are much more enjoyable to eat now that they have been rehydrated.",
     "price": 900,
     "price_postapoc": 50,
-    "delete": { "flags": [ "RAW" ] },
+    "delete": { "flags": ["RAW"] },
     "fun": 2
   },
   {
@@ -690,7 +690,7 @@
     "material": "veggy",
     "volume": "250 ml",
     "fun": 1,
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 6 ], [ "iron", 10 ] ]
+    "vitamins": [["vitC", 30], ["calcium", 6], ["iron", 10]]
   },
   {
     "type": "COMESTIBLE",
@@ -728,7 +728,7 @@
     "description": "Baking this dahlia root has broken down the starch, making it softer and sweeter.",
     "price": 110,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 2
   },
   {
@@ -741,7 +741,7 @@
     "description": "When properly cooked, salsify tastes vaguely like oysters.  Makes a great side dish.",
     "price": 90,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 2,
     "//": "From Oregon Trail. Be prepared to lose it as soon as your wagon tips over."
   },
@@ -764,7 +764,7 @@
     "volume": "250 ml",
     "charges": 4,
     "fun": 3,
-    "vitamins": [  ]
+    "vitamins": []
   },
   {
     "type": "COMESTIBLE",
@@ -785,7 +785,7 @@
     "volume": "250 ml",
     "charges": 2,
     "fun": 8,
-    "vitamins": [  ]
+    "vitamins": []
   },
   {
     "type": "COMESTIBLE",
@@ -805,7 +805,7 @@
     "material": "veggy",
     "volume": "250 ml",
     "fun": 12,
-    "vitamins": [ [ "vitA", 28 ], [ "vitC", 80 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [["vitA", 28], ["vitC", 80], ["calcium", 2], ["iron", 4]]
   },
   {
     "type": "COMESTIBLE",
@@ -837,7 +837,7 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 85 ], [ "calcium", 17 ] ],
+    "vitamins": [["vitC", 85], ["calcium", 17]],
     "fun": -2
   },
   {
@@ -857,7 +857,7 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "500 ml",
-    "vitamins": [ [ "vitA", 27 ], [ "vitC", 27 ], [ "calcium", 48 ], [ "iron", 9 ] ],
+    "vitamins": [["vitA", 27], ["vitC", 27], ["calcium", 48], ["iron", 9]],
     "fun": 3
   },
   {
@@ -865,7 +865,7 @@
     "id": "fiddlehead_boiled",
     "name": { "str_sp": "boiled fiddleheads" },
     "weight": "50 g",
-    "flags": [ "SMOKABLE", "EATEN_HOT" ],
+    "flags": ["SMOKABLE", "EATEN_HOT"],
     "smoking_result": "dry_veggy",
     "color": "light_green",
     "spoils_in": "2 days 12 hours",
@@ -879,14 +879,14 @@
     "volume": "120 ml",
     "fun": 1,
     "healthy": 1,
-    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ]
+    "vitamins": [["vitC", 6], ["vitA", 10], ["calcium", 4]]
   },
   {
     "type": "COMESTIBLE",
     "id": "fiddlehead_sauteed",
     "name": { "str_sp": "sauteed fiddleheads" },
     "weight": "100 g",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "color": "light_green",
     "spoils_in": "2 days 12 hours",
     "comestible_type": "FOOD",
@@ -899,6 +899,6 @@
     "volume": "240 ml",
     "fun": 5,
     "healthy": 1,
-    "vitamins": [ [ "vitC", 32 ], [ "vitA", 40 ], [ "calcium", 4 ] ]
+    "vitamins": [["vitC", 32], ["vitA", 40], ["calcium", 4]]
   }
 ]

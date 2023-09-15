@@ -8,7 +8,7 @@
     "looks_like": "meat_cooked",
     "description": "Thought it's not technically foie gras, you don't have to think about that.",
     "price_postapoc": 150,
-    "material": [ "flesh", "fruit" ],
+    "material": ["flesh", "fruit"],
     "color": "brown",
     "weight": "75 g",
     "volume": "250 ml",
@@ -18,8 +18,8 @@
     "healthy": -1,
     "fun": 15,
     "quench": 3,
-    "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 0 ], [ "iron", 2 ], [ "vitB", 15 ] ]
+    "flags": ["EATEN_HOT"],
+    "vitamins": [["vitA", 4], ["vitC", 5], ["calcium", 0], ["iron", 2], ["vitB", 15]]
   },
   {
     "id": "liver_onion",
@@ -30,7 +30,7 @@
     "looks_like": "meat_cooked",
     "description": "A classic way to serve liver.",
     "price_postapoc": 150,
-    "material": [ "flesh", "veggy" ],
+    "material": ["flesh", "veggy"],
     "color": "brown",
     "weight": "206 g",
     "volume": "250 ml",
@@ -38,8 +38,8 @@
     "calories": 398,
     "healthy": 2,
     "quench": -3,
-    "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 75 ], [ "vitC", 1 ], [ "calcium", 0 ], [ "iron", 8 ], [ "vitB", 336 ] ]
+    "flags": ["EATEN_HOT"],
+    "vitamins": [["vitA", 75], ["vitC", 1], ["calcium", 0], ["iron", 8], ["vitB", 336]]
   },
   {
     "id": "fried_livers",
@@ -50,7 +50,7 @@
     "looks_like": "meat_cooked",
     "description": "Nothing tastier than something that's deep-fried!",
     "price_postapoc": 150,
-    "material": [ "flesh", "wheat", "milk" ],
+    "material": ["flesh", "wheat", "milk"],
     "primary_material": "flesh",
     "color": "brown",
     "weight": "58 g",
@@ -61,8 +61,8 @@
     "healthy": -2,
     "fun": 6,
     "quench": -4,
-    "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 75 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 9 ], [ "vitB", 337 ] ]
+    "flags": ["EATEN_HOT"],
+    "vitamins": [["vitA", 75], ["vitC", 0], ["calcium", 2], ["iron", 9], ["vitB", 337]]
   },
   {
     "id": "humble_pie",
@@ -78,13 +78,13 @@
     "description": "Also known as 'Umble' pie, made with chopped organ meats.  Not half bad, and really good for you!",
     "price": 1350,
     "price_postapoc": 450,
-    "material": [ "wheat", "flesh" ],
+    "material": ["wheat", "flesh"],
     "primary_material": "processed_food",
     "volume": "750 ml",
     "weight": "249 g",
     "charges": 3,
-    "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "vitA", 36 ], [ "vitC", 15 ], [ "calcium", 1 ], [ "iron", 40 ], [ "vitB", 171 ] ]
+    "flags": ["EATEN_HOT"],
+    "vitamins": [["vitA", 36], ["vitC", 15], ["calcium", 1], ["iron", 40], ["vitB", 171]]
   },
   {
     "id": "stewed_tripe",
@@ -98,13 +98,13 @@
     "fun": 3,
     "description": "Stomach lining, cut up and stewed for an hour in broth.  Better than it sounds.",
     "price_postapoc": 50,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "primary_material": "flesh",
     "color": "brown",
     "spoils_in": "2 days",
     "volume": "250 ml",
     "weight": "70 g",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "calories": 130
   },
   {
@@ -119,13 +119,13 @@
     "fun": 6,
     "description": "Nothing tastier than something that's deep-fried!",
     "price_postapoc": 150,
-    "material": [ "flesh", "wheat" ],
+    "material": ["flesh", "wheat"],
     "primary_material": "flesh",
     "color": "brown",
     "spoils_in": "2 days",
     "volume": "250 ml",
     "weight": "70 g",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "calories": 310
   },
   {
@@ -138,7 +138,7 @@
     "quench": -2,
     "description": "A traditional Danish pate.  Probably better if you spread it on some bread.",
     "price_postapoc": 150,
-    "material": [ "flesh", "wheat", "milk", "veggy" ],
+    "material": ["flesh", "wheat", "milk", "veggy"],
     "primary_material": "processed_food",
     "color": "magenta",
     "spoils_in": "360 days",
@@ -146,7 +146,7 @@
     "weight": "112 g",
     "charges": 14,
     "calories": 344,
-    "vitamins": [ [ "vitA", 43 ], [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 5 ], [ "vitB", 193 ] ]
+    "vitamins": [["vitA", 43], ["vitC", 0], ["calcium", 1], ["iron", 5], ["vitB", 193]]
   },
   {
     "id": "brain_cooked",
@@ -160,7 +160,7 @@
     "parasites": 0,
     "healthy": -2,
     "fun": -8,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": ["RAW"] }
   },
   {
     "id": "fried_brain",
@@ -173,16 +173,16 @@
     "fun": 3,
     "description": "I don't know what you were expecting.  It's deep-fried.",
     "price_postapoc": 400,
-    "material": [ "flesh", "wheat" ],
+    "material": ["flesh", "wheat"],
     "primary_material": "flesh",
     "color": "brown",
     "spoils_in": "3 days",
     "volume": "250 ml",
     "weight": "250 g",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "calories": 285,
     "charges": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitB", 144 ], [ "vitC", 6 ], [ "iron", 13 ], [ "calcium", 1 ] ]
+    "vitamins": [["vitA", 1], ["vitB", 144], ["vitC", 6], ["iron", 13], ["calcium", 1]]
   },
   {
     "id": "kidney_cooked",
@@ -197,7 +197,7 @@
     "quench": -2,
     "fun": -3,
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": ["RAW"] }
   },
   {
     "id": "deviled_kidney",
@@ -210,16 +210,16 @@
     "fun": 5,
     "description": "A delicious way to prepare kidneys.",
     "price_postapoc": 450,
-    "material": [ "flesh", "wheat", "veggy" ],
+    "material": ["flesh", "wheat", "veggy"],
     "primary_material": "flesh",
     "color": "yellow",
     "spoils_in": "2 days",
     "volume": "250 ml",
     "weight": "180 g",
     "charges": 3,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "calories": 301,
-    "vitamins": [ [ "vitA", 5 ], [ "vitB", 104 ], [ "vitC", 1 ], [ "iron", 6 ], [ "calcium", 1 ] ]
+    "vitamins": [["vitA", 5], ["vitB", 104], ["vitC", 1], ["iron", 6], ["calcium", 1]]
   },
   {
     "id": "sweetbread_cooked",
@@ -232,7 +232,7 @@
     "fun": -4,
     "description": "Normally a delicacy, it needs a little… something.",
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": ["RAW"] }
   },
   {
     "id": "grilled_sweetbread",
@@ -254,7 +254,7 @@
     "price_postapoc": 50,
     "fun": -2,
     "healthy": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": ["RAW"] }
   },
   {
     "id": "canned_liver",
@@ -273,7 +273,7 @@
     "name": { "str": "cooked piece of lung", "str_pl": "cooked pieces of lung" },
     "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": ["RAW"] }
   },
   {
     "id": "lung_provence",
@@ -286,7 +286,7 @@
     "fun": 8,
     "description": "A delicious way to prepare lungs.",
     "price_postapoc": 250,
-    "material": [ "flesh", "wheat", "veggy" ],
+    "material": ["flesh", "wheat", "veggy"],
     "primary_material": "flesh",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -294,7 +294,7 @@
     "weight": "180 g",
     "charges": 6,
     "calories": 100,
-    "flags": [ "EATEN_HOT" ]
+    "flags": ["EATEN_HOT"]
   },
   {
     "id": "toettchen",
@@ -307,7 +307,7 @@
     "fun": 7,
     "description": "A German lung dish.",
     "price_postapoc": 1000,
-    "material": [ "flesh", "wheat", "veggy" ],
+    "material": ["flesh", "wheat", "veggy"],
     "primary_material": "flesh",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -315,7 +315,7 @@
     "weight": "180 g",
     "charges": 6,
     "calories": 400,
-    "flags": [ "EATEN_HOT" ]
+    "flags": ["EATEN_HOT"]
   },
   {
     "id": "scrambledeggsandbrain",
@@ -328,7 +328,7 @@
     "fun": 3,
     "description": "Brains and eggs, why didn't you ever think to put these together?",
     "price_postapoc": 1000,
-    "material": [ "flesh", "wheat", "veggy" ],
+    "material": ["flesh", "wheat", "veggy"],
     "primary_material": "flesh",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -336,7 +336,7 @@
     "weight": "180 g",
     "charges": 6,
     "calories": 400,
-    "flags": [ "EATEN_HOT" ]
+    "flags": ["EATEN_HOT"]
   },
   {
     "id": "sausage_casings",
@@ -370,6 +370,6 @@
     "fun": 1,
     "healthy": -2,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT" ]
+    "flags": ["EATEN_HOT"]
   }
 ]

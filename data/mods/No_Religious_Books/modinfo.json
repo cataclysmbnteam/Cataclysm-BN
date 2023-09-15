@@ -3,10 +3,10 @@
     "type": "MOD_INFO",
     "id": "no_religious_Texts",
     "name": "Disable Religious Texts",
-    "authors": [ "dvolk" ],
+    "authors": ["dvolk"],
     "description": "Removes religious text items from the game.",
     "category": "item_exclude",
-    "dependencies": [ "bn" ],
+    "dependencies": ["bn"],
     "obsolete": true
   },
   {

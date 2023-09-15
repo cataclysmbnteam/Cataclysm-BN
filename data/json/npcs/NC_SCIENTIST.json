@@ -3,7 +3,11 @@
     "type": "item_group",
     "id": "NC_SCIENTIST_eyes",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 20 }, { "item": "glasses_safety", "prob": 40 }, { "item": "glasses_eye", "prob": 60 } ]
+    "entries": [
+      { "item": "null", "prob": 20 },
+      { "item": "glasses_safety", "prob": 40 },
+      { "item": "glasses_eye", "prob": 60 }
+    ]
   },
   {
     "type": "item_group",

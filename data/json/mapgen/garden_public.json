@@ -2,7 +2,7 @@
   {
     "method": "json",
     "object": {
-      "place_item": [ { "item": "ref_lighter", "chance": 10, "x": 11, "y": 11 } ],
+      "place_item": [{ "item": "ref_lighter", "chance": 10, "x": 11, "y": 11 }],
       "furniture": {
         "#": "f_null",
         ".": "f_null",
@@ -45,7 +45,7 @@
         ".": "t_sidewalk",
         "4": "t_tree_willow",
         "F": "t_shrub",
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "_": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "b": "t_sidewalk",
         "d": "t_shrub",
         "f": "t_shrub",
@@ -59,7 +59,7 @@
   {
     "method": "json",
     "object": {
-      "place_item": [ { "item": "lighter", "chance": 9, "x": 18, "y": 19 } ],
+      "place_item": [{ "item": "lighter", "chance": 9, "x": 18, "y": 19 }],
       "furniture": {
         "#": "f_null",
         "*": "f_datura",
@@ -74,7 +74,7 @@
         "P": "f_sign",
         "|": "f_null"
       },
-      "place_items": [ { "chance": 7, "item": "homebooks", "x": 2, "y": 12 } ],
+      "place_items": [{ "chance": 7, "item": "homebooks", "x": 2, "y": 12 }],
       "rows": [
         "...........__...........",
         "...........__...........",
@@ -104,7 +104,16 @@
       "terrain": {
         "#": "t_shrub",
         "*": "t_shrub",
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": [
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_dirt"
+        ],
         "B": "t_shrub",
         "F": "t_grass",
         "S": "t_grass",

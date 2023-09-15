@@ -4,10 +4,10 @@
     "method": "json",
     "weight": 200,
     "om_terrain": [
-      [ "railroad_station_0_1", "railroad_station_1_1", "railroad_station_2_1" ],
-      [ "railroad_station_0_2", "railroad_station_1_2", "railroad_station_2_2" ],
-      [ "railroad_station_0_3", "railroad_station_1_3", "railroad_station_2_3" ],
-      [ "railroad_station_0_4", "railroad_station_1_4", "railroad_station_2_4" ]
+      ["railroad_station_0_1", "railroad_station_1_1", "railroad_station_2_1"],
+      ["railroad_station_0_2", "railroad_station_1_2", "railroad_station_2_2"],
+      ["railroad_station_0_3", "railroad_station_1_3", "railroad_station_2_3"],
+      ["railroad_station_0_4", "railroad_station_1_4", "railroad_station_2_4"]
     ],
     "object": {
       "fill_ter": "t_dirt",
@@ -109,7 +109,7 @@
         " -x---x-        -x---x-                    #T[#[d#]].......::.......]$  ",
         " ^X^^^X^        ^X^^^X^                    #######$$.......::.......$$  "
       ],
-      "palettes": [ "railroad", "railroad_station" ],
+      "palettes": ["railroad", "railroad_station"],
       "vendingmachines": {
         "6": { "item_group": "vending_drink" },
         "7": { "item_group": "vending_food" },
@@ -129,9 +129,9 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "railroad_station_under_0_1", "railroad_station_under_1_1" ],
-      [ "railroad_station_under_0_2", "railroad_station_under_1_2" ],
-      [ "railroad_station_under_0_3", "railroad_station_under_1_3" ]
+      ["railroad_station_under_0_1", "railroad_station_under_1_1"],
+      ["railroad_station_under_0_2", "railroad_station_under_1_2"],
+      ["railroad_station_under_0_3", "railroad_station_under_1_3"]
     ],
     "weight": 100,
     "object": {
@@ -210,7 +210,7 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "railroad_station_under" ]
+      "palettes": ["railroad_station_under"]
     }
   }
 ]

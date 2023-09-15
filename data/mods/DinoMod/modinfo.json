@@ -3,9 +3,9 @@
     "type": "MOD_INFO",
     "id": "DinoMod",
     "name": "DinoMod",
-    "maintainers": [ "ephemeralstoryteller", "damien", "LyleSy" ],
+    "maintainers": ["ephemeralstoryteller", "damien", "LyleSy"],
     "description": "Adds dinosaurs. Some rideable, others less friendly. Life will find a way.",
     "category": "creatures",
-    "dependencies": [ "bn" ]
+    "dependencies": ["bn"]
   }
 ]

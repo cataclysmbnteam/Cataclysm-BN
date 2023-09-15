@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_bunker_shop_g" ],
+    "om_terrain": ["s_bunker_shop_g"],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -42,7 +42,7 @@
         "h": "t_door_c",
         "i": "t_wall_wood_broken",
         "j": "t_wall_wood_chipped",
-        "k": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "k": ["t_grass", "t_grass", "t_grass", "t_dirt"],
         "m": "t_dirt",
         "n": "t_chainfence_h",
         "o": "t_concrete_wall",
@@ -77,13 +77,13 @@
         "E": "f_locker"
       },
       "place_loot": [
-        { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 9, 12 ], "y": [ 13, 19 ] },
-        { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 13, 17 ], "y": [ 19, 17 ] },
-        { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 14, 17 ], "y": [ 13, 15 ] },
-        { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 14, 9 ], "y": [ 11, 9 ] },
-        { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 19, 21 ], "y": [ 13, 17 ] },
-        { "group": "floor_trash", "chance": 90, "repeat": [ 5 ], "x": [ 15, 10 ], "y": [ 22, 21 ] },
-        { "group": "floor_trash", "chance": 90, "repeat": [ 3 ], "x": [ 16, 17 ], "y": [ 9, 11 ] }
+        { "group": "floor_trash", "chance": 90, "repeat": [5], "x": [9, 12], "y": [13, 19] },
+        { "group": "floor_trash", "chance": 90, "repeat": [5], "x": [13, 17], "y": [19, 17] },
+        { "group": "floor_trash", "chance": 90, "repeat": [5], "x": [14, 17], "y": [13, 15] },
+        { "group": "floor_trash", "chance": 90, "repeat": [5], "x": [14, 9], "y": [11, 9] },
+        { "group": "floor_trash", "chance": 90, "repeat": [5], "x": [19, 21], "y": [13, 17] },
+        { "group": "floor_trash", "chance": 90, "repeat": [5], "x": [15, 10], "y": [22, 21] },
+        { "group": "floor_trash", "chance": 90, "repeat": [3], "x": [16, 17], "y": [9, 11] }
       ]
     }
   }

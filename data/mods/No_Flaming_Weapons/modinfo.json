@@ -3,10 +3,10 @@
     "type": "MOD_INFO",
     "id": "no_flaming_weapons",
     "name": "No Flaming Weapons",
-    "authors": [ "tungtn" ],
+    "authors": ["tungtn"],
     "description": "Removes flaming melee weapons.",
     "category": "item_exclude",
-    "dependencies": [ "bn" ],
+    "dependencies": ["bn"],
     "obsolete": true
   },
   {

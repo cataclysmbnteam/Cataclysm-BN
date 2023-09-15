@@ -14,9 +14,9 @@
       { "item": "light_disposable_cell", "prob": 10 },
       { "item": "lighter", "prob": 20 },
       { "item": "whistle", "prob": 70 },
-      { "item": "water_clean", "count": [ 1, 2 ], "prob": 80 },
-      { "item": "protein_bar_evac", "count": [ 2, 3 ] },
-      { "item": "bowl_plastic", "count": [ 1, 3 ], "prob": 70 }
+      { "item": "water_clean", "count": [1, 2], "prob": 80 },
+      { "item": "protein_bar_evac", "count": [2, 3] },
+      { "item": "bowl_plastic", "count": [1, 3], "prob": 70 }
     ]
   },
   {
@@ -38,9 +38,9 @@
       { "item": "bag_plastic", "prob": 5 },
       { "item": "bowl_plastic", "prob": 5 },
       { "item": "can_food_unsealed", "prob": 5 },
-      { "item": "bottle_plastic", "count": [ 1, 2 ], "prob": 50 },
-      { "item": "protein_bar_evac", "count": [ 2, 3 ], "prob": 70 },
-      { "item": "bowl_plastic", "count": [ 1, 3 ], "prob": 70 }
+      { "item": "bottle_plastic", "count": [1, 2], "prob": 50 },
+      { "item": "protein_bar_evac", "count": [2, 3], "prob": 70 },
+      { "item": "bowl_plastic", "count": [1, 3], "prob": 70 }
     ]
   },
   {
@@ -54,19 +54,19 @@
         "distribution": [
           {
             "collection": [
-              { "item": "emer_blanket", "count": [ 5, 10 ], "prob": 80 },
-              { "item": "jacket_evac", "count": [ 5, 10 ], "prob": 80 }
+              { "item": "emer_blanket", "count": [5, 10], "prob": 80 },
+              { "item": "jacket_evac", "count": [5, 10], "prob": 80 }
             ],
             "prob": 30
           },
-          { "item": "water_clean", "count": [ 6, 12 ], "prob": 20 },
-          { "item": "protein_bar_evac", "count": [ 20, 24 ], "prob": 60 },
+          { "item": "water_clean", "count": [6, 12], "prob": 20 },
+          { "item": "protein_bar_evac", "count": [20, 24], "prob": 60 },
           {
             "collection": [
               { "item": "extinguisher", "prob": 70 },
-              { "item": "1st_aid", "count": [ 1, 3 ], "prob": 65 },
+              { "item": "1st_aid", "count": [1, 3], "prob": 65 },
               { "item": "two_way_radio", "prob": 65 },
-              { "item": "light_disposable_cell", "count": [ 2, 4 ], "prob": 65 },
+              { "item": "light_disposable_cell", "count": [2, 4], "prob": 65 },
               { "item": "electric_lantern", "prob": 35 },
               { "item": "barometer", "prob": 8 }
             ],
@@ -74,7 +74,7 @@
           },
           {
             "collection": [
-              { "item": "detergent", "count": [ 0, 2 ] },
+              { "item": "detergent", "count": [0, 2] },
               { "item": "brush", "prob": 85 },
               { "item": "bleach", "prob": 45 },
               { "item": "ammonia", "prob": 15 },
@@ -84,9 +84,9 @@
           },
           {
             "collection": [
-              { "item": "can_beans", "count": [ 8, 12 ], "prob": 50 },
-              { "item": "can_tomato", "count": [ 8, 12 ], "prob": 40 },
-              { "item": "soup_chicken", "count": [ 8, 12 ], "prob": 20 }
+              { "item": "can_beans", "count": [8, 12], "prob": 50 },
+              { "item": "can_tomato", "count": [8, 12], "prob": 40 },
+              { "item": "soup_chicken", "count": [8, 12], "prob": 20 }
             ],
             "prob": 5
           }
@@ -106,20 +106,20 @@
         "distribution": [
           {
             "collection": [
-              { "item": "folding_poncho", "count": [ 1, 10 ], "prob": 60 },
-              { "item": "emer_blanket", "count": [ 1, 10 ], "prob": 60 },
-              { "item": "jacket_evac", "count": [ 1, 10 ], "prob": 50 }
+              { "item": "folding_poncho", "count": [1, 10], "prob": 60 },
+              { "item": "emer_blanket", "count": [1, 10], "prob": 60 },
+              { "item": "jacket_evac", "count": [1, 10], "prob": 50 }
             ],
             "prob": 30
           },
           {
             "collection": [
-              { "item": "water_clean", "count": [ 1, 6 ], "prob": 60 },
-              { "item": "bottle_plastic", "count": [ 1, 6 ], "prob": 90 }
+              { "item": "water_clean", "count": [1, 6], "prob": 60 },
+              { "item": "bottle_plastic", "count": [1, 6], "prob": 90 }
             ],
             "prob": 50
           },
-          { "item": "protein_bar_evac", "count": [ 1, 23 ], "prob": 60 },
+          { "item": "protein_bar_evac", "count": [1, 23], "prob": 60 },
           {
             "collection": [
               { "item": "extinguisher", "prob": 50 },
@@ -132,7 +132,7 @@
           },
           {
             "collection": [
-              { "item": "detergent", "count": [ 0, 2 ] },
+              { "item": "detergent", "count": [0, 2] },
               { "item": "brush", "prob": 85 },
               { "item": "bleach", "charges-min": 1, "prob": 45 },
               { "item": "box_small", "prob": 5 },
@@ -144,14 +144,14 @@
           },
           {
             "collection": [
-              { "item": "can_beans", "count": [ 1, 2 ], "prob": 10 },
-              { "item": "can_tomato", "count": [ 1, 2 ], "prob": 5 },
-              { "item": "soup_chicken", "count": [ 1, 2 ], "prob": 2 },
+              { "item": "can_beans", "count": [1, 2], "prob": 10 },
+              { "item": "can_tomato", "count": [1, 2], "prob": 5 },
+              { "item": "soup_chicken", "count": [1, 2], "prob": 2 },
               { "item": "box_small", "prob": 5 },
               { "item": "bag_plastic", "prob": 5 },
               { "item": "bowl_plastic", "prob": 5 },
               { "item": "vitamins", "prob": 5 },
-              { "item": "can_food_unsealed", "count": [ 1, 30 ], "prob": 90 }
+              { "item": "can_food_unsealed", "count": [1, 30], "prob": 90 }
             ],
             "prob": 5
           }
@@ -167,13 +167,13 @@
     "//2": "The cabinets contain a stock of delicious evac protein bars, and may contain clean water, cans of food, and spare blankets.",
     "subtype": "collection",
     "entries": [
-      { "item": "soap", "count": [ 1, 2 ] },
+      { "item": "soap", "count": [1, 2] },
       { "item": "brush", "prob": 90 },
       { "item": "bleach", "prob": 45 },
       { "item": "ammonia", "prob": 25 },
       { "item": "mirror", "prob": 12 },
       { "item": "1st_aid", "prob": 60 },
-      { "item": "paper", "charges": [ 50, 150 ] },
+      { "item": "paper", "charges": [50, 150] },
       { "item": "evac_pamphlet", "prob": 10 }
     ]
   }

@@ -17,8 +17,13 @@
     "contains": "2500 ml",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "covers": ["torso"],
+      "coverage": 10,
+      "encumbrance": 4,
+      "material_thickness": 2
+    },
+    "flags": ["WAIST", "OVERSIZE", "WATER_FRIENDLY"]
   },
   {
     "id": "30gal_barrel",
@@ -38,7 +43,7 @@
     "contains": "112500 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [["CONTAIN", 1]]
   },
   {
     "id": "30gal_drum",
@@ -58,7 +63,7 @@
     "contains": "100 L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "55gal_drum",
@@ -78,7 +83,7 @@
     "contains": "200 L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "bag_canvas",
@@ -132,7 +137,7 @@
     "symbol": ")",
     "color": "light_gray",
     "contains": "6 L",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "bag_zipper",
@@ -151,7 +156,7 @@
     "color": "light_gray",
     "contains": "250 ml",
     "seals": true,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "bag_body_bag",
@@ -170,7 +175,7 @@
     "symbol": ")",
     "color": "dark_gray",
     "contains": "100 L",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "bag_iv",
@@ -191,7 +196,7 @@
     "contains": "500 ml",
     "seals": true,
     "watertight": true,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "bottle_glass",
@@ -212,7 +217,7 @@
     "contains": "750 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [["BOIL", 1]]
   },
   {
     "id": "bottle_plastic",
@@ -323,7 +328,7 @@
     "contains": "250 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "box_cigarette",
@@ -403,7 +408,7 @@
     "color": "light_gray",
     "contains": "5 L",
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "camelbak",
@@ -417,14 +422,19 @@
     "price_postapoc": 250,
     "to_hit": -1,
     "bashing": 1,
-    "material": [ "cotton", "plastic" ],
+    "material": ["cotton", "plastic"],
     "symbol": ")",
     "color": "dark_gray",
     "contains": "2 L",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "torso" ], "coverage": 15, "storage": "1 L", "material_thickness": 1 },
-    "flags": [ "BELTED" ]
+    "armor_data": {
+      "covers": ["torso"],
+      "coverage": 15,
+      "storage": "1 L",
+      "material_thickness": 1
+    },
+    "flags": ["BELTED"]
   },
   {
     "id": "can_drink",
@@ -456,7 +466,7 @@
     "color": "light_blue",
     "preserves": false,
     "unseals_into": "null",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "qualities": [["CONTAIN", 1], ["BOIL", 2]]
   },
   {
     "id": "carton_sealed",
@@ -469,7 +479,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": [ "plastic", "aluminum", "paper" ],
+    "material": ["plastic", "aluminum", "paper"],
     "symbol": ")",
     "color": "light_cyan",
     "contains": "2 L",
@@ -489,7 +499,7 @@
     "seals": true,
     "watertight": true,
     "unseals_into": "null",
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [["CONTAIN", 1]]
   },
   {
     "id": "plastic_bag_vac",
@@ -539,7 +549,7 @@
     "color": "blue",
     "preserves": false,
     "unseals_into": "null",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "qualities": [["CONTAIN", 1], ["BOIL", 2]]
   },
   {
     "id": "can_medium",
@@ -563,7 +573,7 @@
     "looks_like": "can_food_unsealed",
     "preserves": false,
     "unseals_into": "null",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "qualities": [["CONTAIN", 1], ["BOIL", 2]]
   },
   {
     "id": "canteen",
@@ -582,8 +592,13 @@
     "contains": "1500 ml",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "leg_either" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "armor_data": {
+      "covers": ["leg_either"],
+      "coverage": 5,
+      "encumbrance": 2,
+      "material_thickness": 2
+    },
+    "flags": ["WAIST", "OVERSIZE", "WATER_FRIENDLY"]
   },
   {
     "id": "thermos",
@@ -619,7 +634,7 @@
     "contains": "250 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "clay_hydria",
@@ -639,7 +654,7 @@
     "contains": "15 L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "clay_watercont",
@@ -658,7 +673,7 @@
     "contains": "37500 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "cup_plastic",
@@ -687,7 +702,7 @@
     "symbol": ")",
     "color": "light_cyan",
     "unseals_into": "null",
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [["CONTAIN", 1]]
   },
   {
     "id": "flask_glass",
@@ -701,13 +716,13 @@
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 3,
-    "material": [ "glass", "rubber" ],
+    "material": ["glass", "rubber"],
     "symbol": ")",
     "color": "light_cyan",
     "contains": "250 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [["BOIL", 1]]
   },
   {
     "id": "test_tube",
@@ -721,13 +736,13 @@
     "price_postapoc": 10,
     "to_hit": -1,
     "bashing": 1,
-    "material": [ "glass", "rubber" ],
+    "material": ["glass", "rubber"],
     "symbol": ")",
     "color": "light_cyan",
     "contains": "10ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 1], ["CONTAIN", 1]]
   },
   {
     "id": "beaker",
@@ -746,7 +761,7 @@
     "contains": "250ml",
     "seals": false,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 1], ["CONTAIN", 1]]
   },
   {
     "id": "gradcylinder",
@@ -765,7 +780,7 @@
     "contains": "100ml",
     "seals": false,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 1], ["CONTAIN", 1]]
   },
   {
     "id": "test_tube_micro",
@@ -784,7 +799,7 @@
     "contains": "1ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 1], ["CONTAIN", 1]]
   },
   {
     "id": "flask_hip",
@@ -804,9 +819,9 @@
     "contains": "250 ml",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "leg_either" ], "coverage": 2, "material_thickness": 1 },
-    "qualities": [ [ "BOIL", 1 ] ],
-    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
+    "armor_data": { "covers": ["leg_either"], "coverage": 2, "material_thickness": 1 },
+    "qualities": [["BOIL", 1]],
+    "flags": ["WAIST", "OVERSIZE", "WATER_FRIENDLY"]
   },
   {
     "id": "jar_3l_glass",
@@ -826,7 +841,7 @@
     "contains": "3 L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
+    "qualities": [["CONTAIN", 1], ["BOIL", 1]]
   },
   {
     "id": "jar_3l_glass_sealed",
@@ -857,7 +872,7 @@
     "seals": true,
     "watertight": true,
     "unseals_into": "null",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 1 ] ]
+    "qualities": [["CONTAIN", 1], ["BOIL", 1]]
   },
   {
     "id": "jar_glass_sealed",
@@ -907,7 +922,7 @@
     "contains": "20L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [["BOIL", 1]]
   },
   {
     "id": "jug_clay",
@@ -926,7 +941,7 @@
     "contains": "1 L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "qualities": [["CONTAIN", 1], ["BOIL", 2]]
   },
   {
     "id": "jug_plastic",
@@ -964,7 +979,7 @@
     "contains": "50 L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "keg_steel",
@@ -984,7 +999,7 @@
     "contains": "50 L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "large_stomach_sealed",
@@ -1018,13 +1033,13 @@
     "price_postapoc": 250,
     "to_hit": -4,
     "bashing": 6,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "}",
     "color": "light_cyan",
     "contains": "60L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "metal_tank_little",
@@ -1044,7 +1059,7 @@
     "contains": "2L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "canteen_wood",
@@ -1063,8 +1078,8 @@
     "contains": "1500 ml",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "armor_data": { "covers": ["torso"], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
+    "flags": ["WAIST", "WATER_FRIENDLY"]
   },
   {
     "id": "stomach_sealed",
@@ -1105,8 +1120,8 @@
     "contains": "1500 ml",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "leg_either" ], "coverage": 5, "material_thickness": 2 },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "armor_data": { "covers": ["leg_either"], "coverage": 5, "material_thickness": 2 },
+    "flags": ["WAIST", "WATER_FRIENDLY"]
   },
   {
     "id": "waterskin2",
@@ -1127,8 +1142,8 @@
     "contains": "3 L",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "torso" ], "coverage": 10, "material_thickness": 2 },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "armor_data": { "covers": ["torso"], "coverage": 10, "material_thickness": 2 },
+    "flags": ["WAIST", "WATER_FRIENDLY"]
   },
   {
     "id": "waterskin3",
@@ -1149,8 +1164,8 @@
     "contains": "5 L",
     "seals": true,
     "watertight": true,
-    "armor_data": { "covers": [ "torso" ], "coverage": 15, "material_thickness": 2 },
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "armor_data": { "covers": ["torso"], "coverage": 15, "material_thickness": 2 },
+    "flags": ["BELTED", "WATER_FRIENDLY"]
   },
   {
     "id": "wooden_barrel",
@@ -1164,13 +1179,13 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 8,
-    "material": [ "wood", "steel" ],
+    "material": ["wood", "steel"],
     "symbol": ")",
     "color": "brown",
     "contains": "100 L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [["CONTAIN", 1]]
   },
   {
     "id": "wrapper",
@@ -1188,7 +1203,7 @@
     "symbol": ",",
     "color": "light_gray",
     "contains": "2500 ml",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "styrofoam_cup",
@@ -1242,7 +1257,7 @@
     "contains": "3750 ml",
     "watertight": true,
     "seals": true,
-    "properties": [ [ "burst_when_filled", "75" ] ]
+    "properties": [["burst_when_filled", "75"]]
   },
   {
     "id": "balloon",
@@ -1281,7 +1296,7 @@
     "color": "blue",
     "preserves": false,
     "unseals_into": "null",
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "qualities": [["CONTAIN", 1], ["BOIL", 2]]
   },
   {
     "id": "survival_kit_box",
@@ -1299,6 +1314,6 @@
     "contains": "1 L",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "qualities": [["CONTAIN", 1], ["BOIL", 2]]
   }
 ]

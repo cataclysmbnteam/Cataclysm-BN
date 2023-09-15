@@ -10,7 +10,7 @@
     "coverage": 100,
     "roof": "t_flat_roof",
     "light_emitted": 50,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL" ],
+    "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL"],
     "examine_action": "dimensional_portal"
   }
 ]

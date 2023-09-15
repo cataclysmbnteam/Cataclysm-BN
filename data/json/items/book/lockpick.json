@@ -8,7 +8,7 @@
     "volume": "500 ml",
     "price": 100,
     "price_postapoc": 5000,
-    "material": [ "paper" ],
+    "material": ["paper"],
     "symbol": "?",
     "color": "green",
     "skill": "mechanics",

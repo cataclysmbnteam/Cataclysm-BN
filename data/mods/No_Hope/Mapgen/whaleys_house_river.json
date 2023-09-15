@@ -38,17 +38,19 @@
       },
       "place_items": [
         { "chance": 65, "item": "fridge", "x": 8, "y": 12 },
-        { "chance": 65, "item": "bed", "x": [ 8, 9 ], "y": 7 },
+        { "chance": 65, "item": "bed", "x": [8, 9], "y": 7 },
         { "chance": 25, "item": "alcohol", "x": 11, "y": 7 },
         { "chance": 35, "item": "misc_smoking", "x": 14, "y": 10 },
         { "chance": 35, "item": "magazines", "x": 15, "y": 10 },
-        { "chance": 35, "item": "tools_home", "x": 10, "y": [ 15, 16 ] },
+        { "chance": 35, "item": "tools_home", "x": 10, "y": [15, 16] },
         { "chance": 65, "item": "dresser_stack", "x": 8, "y": 9 },
         { "chance": 65, "item": "cannedfood", "x": 9, "y": 11 },
         { "chance": 45, "item": "kitchen", "x": 8, "y": 11 }
       ],
-      "place_toilets": [ { "x": 16, "y": 13 } ],
-      "place_vehicles": [ { "chance": 75, "fuel": 0, "rotation": 90, "vehicle": "canoe", "x": 2, "y": 19 } ],
+      "place_toilets": [{ "x": 16, "y": 13 }],
+      "place_vehicles": [
+        { "chance": 75, "fuel": 0, "rotation": 90, "vehicle": "canoe", "x": 2, "y": 19 }
+      ],
       "rows": [
         "....._......_..._._.._._",
         "._.__.._._.._._.........",
@@ -139,16 +141,18 @@
       },
       "place_items": [
         { "chance": 65, "item": "fridge", "x": 15, "y": 8 },
-        { "chance": 45, "item": "kitchen", "x": [ 11, 12 ], "y": 9 },
+        { "chance": 45, "item": "kitchen", "x": [11, 12], "y": 9 },
         { "chance": 15, "item": "winter", "x": 8, "y": 10 },
         { "chance": 25, "item": "magazines", "x": 12, "y": 10 },
         { "chance": 15, "item": "shoes", "x": 9, "y": 14 },
         { "chance": 75, "item": "dresser_stack", "x": 13, "y": 15 },
-        { "chance": 65, "item": "bed", "x": [ 11, 12 ], "y": 15 },
-        { "chance": 75, "item": "cannedfood", "x": 16, "y": [ 8, 9 ] }
+        { "chance": 65, "item": "bed", "x": [11, 12], "y": 15 },
+        { "chance": 75, "item": "cannedfood", "x": 16, "y": [8, 9] }
       ],
-      "place_toilets": [ { "x": 15, "y": 15 } ],
-      "place_vehicles": [ { "chance": 65, "fuel": 0, "rotation": 270, "vehicle": "canoe", "x": 20, "y": 15 } ],
+      "place_toilets": [{ "x": 15, "y": 15 }],
+      "place_vehicles": [
+        { "chance": 65, "fuel": 0, "rotation": 270, "vehicle": "canoe", "x": 20, "y": 15 }
+      ],
       "rows": [
         "...._....._._...._._.._.",
         "._._..__._._..._........",
@@ -235,7 +239,17 @@
         { "chance": 5, "item": "floor_trash", "x": 5, "y": 12 },
         { "chance": 5, "item": "floor_trash", "x": 9, "y": 8 }
       ],
-      "place_vehicles": [ { "chance": 35, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "canoe", "x": 5, "y": 20 } ],
+      "place_vehicles": [
+        {
+          "chance": 35,
+          "fuel": 0,
+          "rotation": 270,
+          "status": -1,
+          "vehicle": "canoe",
+          "x": 5,
+          "y": 20
+        }
+      ],
       "rows": [
         "_...._..._......._......",
         ".._...._......_..._..._.",
@@ -329,7 +343,7 @@
         { "chance": 35, "item": "antique", "x": 14, "y": 15 },
         { "chance": 35, "item": "antique", "x": 8, "y": 15 }
       ],
-      "place_monsters": [ { "monster": "GROUP_SAFE", "x": 13, "y": 8 } ],
+      "place_monsters": [{ "monster": "GROUP_SAFE", "x": 13, "y": 8 }],
       "rows": [
         "........._........_.....",
         "..._........._.._...._..",
@@ -426,7 +440,7 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 75, "item": "bed", "x": 8, "y": [ 14, 15 ] },
+        { "chance": 75, "item": "bed", "x": 8, "y": [14, 15] },
         { "chance": 5, "item": "drugdealer", "x": 16, "y": 9 },
         { "chance": 15, "item": "livingroom", "x": 17, "y": 9 },
         { "chance": 15, "item": "livingroom", "x": 16, "y": 7 },
@@ -437,14 +451,14 @@
         { "chance": 15, "item": "trash", "x": 9, "y": 11 },
         { "chance": 15, "item": "trash", "x": 14, "y": 9 },
         { "chance": 15, "item": "trash", "x": 11, "y": 8 },
-        { "chance": 75, "item": "creepy", "x": 13, "y": [ 11, 12 ] },
-        { "chance": 35, "item": "creepy", "x": [ 16, 17 ], "y": 10 },
+        { "chance": 75, "item": "creepy", "x": 13, "y": [11, 12] },
+        { "chance": 35, "item": "creepy", "x": [16, 17], "y": 10 },
         { "chance": 25, "item": "trash", "x": 9, "y": 19 },
         { "chance": 25, "item": "trash", "x": 15, "y": 17 },
         { "chance": 25, "item": "trash", "x": 5, "y": 8 }
       ],
-      "place_npcs": [ { "class": "derelict_dweller", "x": 11, "y": 10 } ],
-      "place_toilets": [ { "x": 9, "y": 7 } ],
+      "place_npcs": [{ "class": "derelict_dweller", "x": 11, "y": 10 }],
+      "place_toilets": [{ "x": 9, "y": 7 }],
       "rows": [
         "..._....................",
         "_...._.#.._...._._..._..",
@@ -564,16 +578,18 @@
         { "chance": 35, "item": "kitchen", "x": 14, "y": 9 },
         { "chance": 55, "item": "supplies_farming", "x": 10, "y": 19 },
         { "chance": 65, "item": "novels", "x": 20, "y": 6 },
-        { "chance": 75, "item": "bed", "x": [ 8, 9 ], "y": 6 },
+        { "chance": 75, "item": "bed", "x": [8, 9], "y": 6 },
         { "chance": 25, "item": "livingroom", "x": 17, "y": 13 },
         { "chance": 25, "item": "livingroom", "x": 17, "y": 11 },
         { "chance": 65, "item": "fridge", "x": 13, "y": 6 },
         { "chance": 10, "item": "stoner", "x": 20, "y": 9 },
         { "chance": 25, "item": "softdrugs", "x": 8, "y": 12 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 14, "y": 11 } ],
-      "place_toilets": [ { "x": 10, "y": 13 } ],
-      "place_vehicles": [ { "chance": 35, "fuel": 0, "rotation": 90, "vehicle": "raft", "x": 2, "y": 18 } ],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": 14, "y": 11 }],
+      "place_toilets": [{ "x": 10, "y": 13 }],
+      "place_vehicles": [
+        { "chance": 35, "fuel": 0, "rotation": 90, "vehicle": "raft", "x": 2, "y": 18 }
+      ],
       "rows": [
         "...._.._....._._...._...",
         "_.......##......__....#.",
@@ -677,7 +693,7 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 75, "item": "bed", "x": 20, "y": [ 10, 11 ] },
+        { "chance": 75, "item": "bed", "x": 20, "y": [10, 11] },
         { "chance": 5, "item": "cannedfood", "x": 6, "y": 10 },
         { "chance": 25, "item": "farming_tools", "x": 10, "y": 18 },
         { "chance": 15, "item": "winter", "x": 20, "y": 15 },
@@ -688,8 +704,18 @@
         { "chance": 25, "item": "trash", "x": 10, "y": 15 },
         { "chance": 25, "item": "trash", "x": 14, "y": 10 }
       ],
-      "place_monsters": [ { "monster": "GROUP_SAFE", "x": 13, "y": 11 } ],
-      "place_vehicles": [ { "chance": 35, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "canoe", "x": 1, "y": 20 } ],
+      "place_monsters": [{ "monster": "GROUP_SAFE", "x": 13, "y": 11 }],
+      "place_vehicles": [
+        {
+          "chance": 35,
+          "fuel": 0,
+          "rotation": 270,
+          "status": -1,
+          "vehicle": "canoe",
+          "x": 1,
+          "y": 20
+        }
+      ],
       "rows": [
         "._......._.._.._....._..",
         ".#._..#__#._....._......",
@@ -784,10 +810,12 @@
         { "chance": 25, "item": "trash", "x": 15, "y": 16 },
         { "chance": 25, "item": "trash", "x": 14, "y": 14 },
         { "chance": 25, "item": "trash", "x": 15, "y": 11 },
-        { "chance": 25, "item": "trash", "x": 11, "y": [ 7, 8 ] },
+        { "chance": 25, "item": "trash", "x": 11, "y": [7, 8] },
         { "chance": 25, "item": "trash", "x": 12, "y": 6 }
       ],
-      "place_vehicles": [ { "chance": 35, "fuel": 0, "rotation": 90, "vehicle": "raft", "x": 22, "y": 20 } ],
+      "place_vehicles": [
+        { "chance": 35, "fuel": 0, "rotation": 90, "vehicle": "raft", "x": 22, "y": 20 }
+      ],
       "rows": [
         "._._......._......_..._.",
         "....._.._.#.#._..#......",
@@ -840,7 +868,10 @@
   {
     "method": "json",
     "object": {
-      "place_item": [ { "item": "splinter", "repeat": 1, "x": 9, "y": 7 }, { "item": "splinter", "repeat": 1, "x": 6, "y": 11 } ],
+      "place_item": [
+        { "item": "splinter", "repeat": 1, "x": 9, "y": 7 },
+        { "item": "splinter", "repeat": 1, "x": 6, "y": 11 }
+      ],
       "furniture": {
         "#": "f_null",
         "&": "f_toilet",
@@ -856,10 +887,10 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 45, "item": "bed", "x": 11, "y": [ 11, 12 ] },
+        { "chance": 45, "item": "bed", "x": 11, "y": [11, 12] },
         { "chance": 15, "item": "field", "x": 16, "y": 6 },
-        { "chance": 45, "item": "trash", "x": 14, "y": [ 11, 12 ] },
-        { "chance": 75, "item": "swimmer_wetsuit", "x": 14, "y": [ 14, 15 ] }
+        { "chance": 45, "item": "trash", "x": 14, "y": [11, 12] },
+        { "chance": 75, "item": "swimmer_wetsuit", "x": 14, "y": [14, 15] }
       ],
       "rows": [
         "..w....w......w......w..",
@@ -950,13 +981,23 @@
       "place_items": [
         { "chance": 15, "item": "antique_guns_with_ammo", "x": 15, "y": 11 },
         { "chance": 25, "item": "camping", "x": 17, "y": 11 },
-        { "chance": 75, "item": "bed", "x": [ 11, 12 ], "y": 11 },
+        { "chance": 75, "item": "bed", "x": [11, 12], "y": 11 },
         { "chance": 45, "item": "magazines", "x": 14, "y": 11 },
-        { "chance": 55, "item": "cannedfood", "x": [ 13, 14 ], "y": 8 }
+        { "chance": 55, "item": "cannedfood", "x": [13, 14], "y": 8 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 14, "y": 10 } ],
-      "place_toilets": [ { "x": 20, "y": 9 } ],
-      "place_vehicles": [ { "chance": 35, "fuel": 0, "rotation": 90, "status": -1, "vehicle": "canoe", "x": 1, "y": 21 } ],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": 14, "y": 10 }],
+      "place_toilets": [{ "x": 20, "y": 9 }],
+      "place_vehicles": [
+        {
+          "chance": 35,
+          "fuel": 0,
+          "rotation": 90,
+          "status": -1,
+          "vehicle": "canoe",
+          "x": 1,
+          "y": 21
+        }
+      ],
       "rows": [
         "...._......._.._#..._...",
         ".._#.._.._.....#4##...#.",
@@ -1057,9 +1098,9 @@
         { "chance": 65, "item": "cannedfood", "x": 18, "y": 7 },
         { "chance": 55, "item": "knifeblock", "x": 17, "y": 7 },
         { "chance": 15, "item": "stoner", "x": 13, "y": 7 },
-        { "chance": 75, "item": "bed", "x": 13, "y": [ 11, 12 ] },
+        { "chance": 75, "item": "bed", "x": 13, "y": [11, 12] },
         { "chance": 65, "item": "magazines", "x": 15, "y": 9 },
-        { "chance": 55, "item": "garden_shed", "x": [ 7, 8 ], "y": 17 },
+        { "chance": 55, "item": "garden_shed", "x": [7, 8], "y": 17 },
         { "chance": 35, "item": "tools_carpentry", "x": 7, "y": 16 },
         { "chance": 65, "item": "camping", "x": 16, "y": 9 },
         { "chance": 65, "item": "dresser_stack", "x": 15, "y": 11 },
@@ -1069,9 +1110,11 @@
         { "chance": 45, "item": "clutter_yard", "x": 7, "y": 13 },
         { "chance": 45, "item": "tools_earthworking", "x": 8, "y": 16 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 14, "y": 8 } ],
-      "place_toilets": [ { "x": 17, "y": 12 } ],
-      "place_vehicles": [ { "chance": 25, "fuel": 0, "rotation": 270, "vehicle": "canoe", "x": 2, "y": 19 } ],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": 14, "y": 8 }],
+      "place_toilets": [{ "x": 17, "y": 12 }],
+      "place_vehicles": [
+        { "chance": 25, "fuel": 0, "rotation": 270, "vehicle": "canoe", "x": 2, "y": 19 }
+      ],
       "rows": [
         "._......_...._.#.__..._.",
         "....##.....____..._...#.",
@@ -1163,7 +1206,7 @@
         "|": "f_null"
       },
       "place_items": [
-        { "chance": 75, "item": "bed", "x": 10, "y": [ 11, 12 ] },
+        { "chance": 75, "item": "bed", "x": 10, "y": [11, 12] },
         { "chance": 65, "item": "magazines", "x": 12, "y": 5 },
         { "chance": 35, "item": "livingroom", "x": 12, "y": 7 },
         { "chance": 35, "item": "livingroom", "x": 10, "y": 7 },
@@ -1176,10 +1219,13 @@
         { "chance": 5, "item": "clutter_bedroom", "x": 13, "y": 12 },
         { "chance": 5, "item": "clutter_bedroom", "x": 12, "y": 9 },
         { "chance": 55, "item": "fridge", "x": 17, "y": 9 },
-        { "chance": 35, "item": "cannedfood", "x": 17, "y": [ 6, 7 ] }
+        { "chance": 35, "item": "cannedfood", "x": 17, "y": [6, 7] }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 17, "y": 19 }, { "monster": "GROUP_ZOMBIE", "x": 4, "y": 17 } ],
-      "place_toilets": [ { "x": 17, "y": 11 } ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": 17, "y": 19 },
+        { "monster": "GROUP_ZOMBIE", "x": 4, "y": 17 }
+      ],
+      "place_toilets": [{ "x": 17, "y": 11 }],
       "rows": [
         ".._............_...._...",
         "_...._...._......_....#_",
@@ -1271,12 +1317,12 @@
       "place_items": [
         { "chance": 25, "item": "misc_smoking", "x": 18, "y": 8 },
         { "chance": 65, "item": "cannedfood", "x": 14, "y": 12 },
-        { "chance": 75, "item": "bed", "x": [ 17, 18 ], "y": 11 },
+        { "chance": 75, "item": "bed", "x": [17, 18], "y": 11 },
         { "chance": 25, "item": "guns_shotgun_common", "x": 16, "y": 12 },
         { "chance": 45, "item": "kitchen", "x": 13, "y": 9 },
         { "chance": 45, "item": "alcohol", "x": 13, "y": 8 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 10, "y": 15 } ],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": 10, "y": 15 }],
       "rows": [
         ".._......_....._...._...",
         "......._....._..._......",
@@ -1366,7 +1412,7 @@
       },
       "place_items": [
         { "chance": 25, "item": "jackets", "x": 7, "y": 11 },
-        { "chance": 85, "item": "creepy", "x": [ 18, 19 ], "y": 11 },
+        { "chance": 85, "item": "creepy", "x": [18, 19], "y": 11 },
         { "chance": 85, "item": "creepy", "x": 14, "y": 9 },
         { "chance": 85, "item": "creepy", "x": 13, "y": 8 },
         { "chance": 25, "item": "trash", "x": 15, "y": 18 },
@@ -1384,8 +1430,18 @@
         { "chance": 75, "item": "butcher_tools", "x": 19, "y": 9 },
         { "chance": 75, "item": "butcher_tools", "x": 14, "y": 8 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 8, "y": 10 } ],
-      "place_vehicles": [ { "chance": 15, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "canoe", "x": 13, "y": 19 } ],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": 8, "y": 10 }],
+      "place_vehicles": [
+        {
+          "chance": 15,
+          "fuel": 0,
+          "rotation": 270,
+          "status": -1,
+          "vehicle": "canoe",
+          "x": 13,
+          "y": 19
+        }
+      ],
       "rows": [
         "......._......_._._.....",
         "._._......_#....__.._.#_",
@@ -1485,10 +1541,10 @@
       },
       "place_items": [
         { "chance": 45, "item": "knifeblock", "x": 10, "y": 13 },
-        { "chance": 65, "item": "camping", "x": 18, "y": [ 12, 13 ] },
+        { "chance": 65, "item": "camping", "x": 18, "y": [12, 13] },
         { "chance": 75, "item": "novels", "x": 13, "y": 10 },
         { "chance": 75, "item": "dresser_shabby", "x": 9, "y": 10 },
-        { "chance": 55, "item": "bed", "x": [ 9, 10 ], "y": 9 },
+        { "chance": 55, "item": "bed", "x": [9, 10], "y": 9 },
         { "chance": 25, "item": "trash", "x": 12, "y": 15 },
         { "chance": 25, "item": "trash", "x": 14, "y": 13 },
         { "chance": 25, "item": "trash", "x": 10, "y": 12 },
@@ -1497,7 +1553,7 @@
         { "chance": 65, "item": "magazines", "x": 13, "y": 9 },
         { "chance": 15, "item": "cannedfood", "x": 9, "y": 13 }
       ],
-      "place_monsters": [ { "monster": "GROUP_SAFE", "x": 14, "y": 12 } ],
+      "place_monsters": [{ "monster": "GROUP_SAFE", "x": 14, "y": 12 }],
       "rows": [
         "...#........._......_...",
         "....._._##__..#._.#..._.",

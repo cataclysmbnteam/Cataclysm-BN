@@ -10,27 +10,27 @@
         "name": "Clean blackpowder fouling",
         "success_msg": "You clean your %s.",
         "time": "50 m",
-        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "skills": [{ "id": "mechanics", "level": 1 }],
         "turns_into": "fault_gun_unlubricated",
         "requirements": {
-          "qualities": [ { "id": "SCREW", "level": 1 } ],
-          "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+          "qualities": [{ "id": "SCREW", "level": 1 }],
+          "tools": [[["pipe_cleaner", -1], ["small_repairkit", -1], ["large_repairkit", -1]]],
           "components": [
             [
-              [ "gasoline", 125 ],
-              [ "diesel", 125 ],
-              [ "chem_ethanol", 125 ],
-              [ "chem_methanol", 125 ],
-              [ "denat_alcohol", 125 ],
-              [ "chem_chloroform", 125 ],
-              [ "ether", 125 ],
-              [ "chem_DMSO", 125 ],
-              [ "vinegar", 8 ],
-              [ "ammonia", 1 ],
-              [ "bleach", 1 ],
-              [ "soapy_water", 1 ]
+              ["gasoline", 125],
+              ["diesel", 125],
+              ["chem_ethanol", 125],
+              ["chem_methanol", 125],
+              ["denat_alcohol", 125],
+              ["chem_chloroform", 125],
+              ["ether", 125],
+              ["chem_DMSO", 125],
+              ["vinegar", 8],
+              ["ammonia", 1],
+              ["bleach", 1],
+              ["soapy_water", 1]
             ],
-            [ [ "rag", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
+            [["rag", 1], ["fur", 1], ["faux_fur", 1], ["felt_patch", 1], ["cotton_ball", 2]]
           ]
         }
       },
@@ -39,33 +39,33 @@
         "name": "Clean blackpowder fouling and lubricate",
         "success_msg": "You clean and lubricate your %s.",
         "time": "55 m",
-        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "skills": [{ "id": "mechanics", "level": 1 }],
         "also_mends": "fault_gun_unlubricated",
         "requirements": {
-          "qualities": [ { "id": "SCREW", "level": 1 } ],
-          "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+          "qualities": [{ "id": "SCREW", "level": 1 }],
+          "tools": [[["pipe_cleaner", -1], ["small_repairkit", -1], ["large_repairkit", -1]]],
           "components": [
             [
-              [ "gasoline", 125 ],
-              [ "diesel", 125 ],
-              [ "chem_ethanol", 125 ],
-              [ "chem_methanol", 125 ],
-              [ "denat_alcohol", 125 ],
-              [ "chem_chloroform", 125 ],
-              [ "ether", 125 ],
-              [ "chem_DMSO", 125 ],
-              [ "vinegar", 8 ],
-              [ "ammonia", 1 ],
-              [ "bleach", 1 ],
-              [ "soapy_water", 1 ]
+              ["gasoline", 125],
+              ["diesel", 125],
+              ["chem_ethanol", 125],
+              ["chem_methanol", 125],
+              ["denat_alcohol", 125],
+              ["chem_chloroform", 125],
+              ["ether", 125],
+              ["chem_DMSO", 125],
+              ["vinegar", 8],
+              ["ammonia", 1],
+              ["bleach", 1],
+              ["soapy_water", 1]
             ],
-            [ [ "rag", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ],
-            [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ]
+            [["rag", 1], ["fur", 1], ["faux_fur", 1], ["felt_patch", 1], ["cotton_ball", 2]],
+            [["lamp_oil", 5], ["cooking_oil", 1], ["cooking_oil2", 1], ["motor_oil", 5]]
           ]
         }
       }
     ],
-    "flags": [ "SILENT" ]
+    "flags": ["SILENT"]
   },
   {
     "id": "fault_gun_chamber_spent",
@@ -78,8 +78,8 @@
         "name": "Eject spent casing",
         "success_msg": "You eject the spent casing from the %s.",
         "time": "1 s",
-        "skills": [  ],
-        "requirements": {  }
+        "skills": [],
+        "requirements": {}
       }
     ]
   },
@@ -93,14 +93,14 @@
         "id": "mend_fault_gun_unlubricated",
         "name": "Lubricate",
         "time": "50 m",
-        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "skills": [{ "id": "mechanics", "level": 1 }],
         "success_msg": "You lubricate the %s.",
         "requirements": {
-          "qualities": [ { "id": "SCREW", "level": 1 } ],
-          "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+          "qualities": [{ "id": "SCREW", "level": 1 }],
+          "tools": [[["pipe_cleaner", -1], ["small_repairkit", -1], ["large_repairkit", -1]]],
           "components": [
-            [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ],
-            [ [ "rag", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
+            [["lamp_oil", 5], ["cooking_oil", 1], ["cooking_oil2", 1], ["motor_oil", 5]],
+            [["rag", 1], ["fur", 1], ["faux_fur", 1], ["felt_patch", 1], ["cotton_ball", 2]]
           ]
         }
       }
@@ -117,27 +117,27 @@
         "name": "Clean gun",
         "success_msg": "You clean your %s.",
         "time": "50 m",
-        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "skills": [{ "id": "mechanics", "level": 1 }],
         "turns_into": "fault_gun_unlubricated",
         "requirements": {
-          "qualities": [ { "id": "SCREW", "level": 1 } ],
-          "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+          "qualities": [{ "id": "SCREW", "level": 1 }],
+          "tools": [[["pipe_cleaner", -1], ["small_repairkit", -1], ["large_repairkit", -1]]],
           "components": [
             [
-              [ "gasoline", 125 ],
-              [ "diesel", 125 ],
-              [ "chem_ethanol", 125 ],
-              [ "chem_methanol", 125 ],
-              [ "denat_alcohol", 125 ],
-              [ "chem_chloroform", 125 ],
-              [ "ether", 125 ],
-              [ "chem_DMSO", 125 ],
-              [ "vinegar", 8 ],
-              [ "ammonia", 1 ],
-              [ "bleach", 1 ],
-              [ "soapy_water", 1 ]
+              ["gasoline", 125],
+              ["diesel", 125],
+              ["chem_ethanol", 125],
+              ["chem_methanol", 125],
+              ["denat_alcohol", 125],
+              ["chem_chloroform", 125],
+              ["ether", 125],
+              ["chem_DMSO", 125],
+              ["vinegar", 8],
+              ["ammonia", 1],
+              ["bleach", 1],
+              ["soapy_water", 1]
             ],
-            [ [ "rag", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
+            [["rag", 1], ["fur", 1], ["faux_fur", 1], ["felt_patch", 1], ["cotton_ball", 2]]
           ]
         }
       },
@@ -146,32 +146,32 @@
         "name": "Clean gun and lubricate",
         "success_msg": "You clean and lubricate your %s.",
         "time": "55 m",
-        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "skills": [{ "id": "mechanics", "level": 1 }],
         "also_mends": "fault_gun_unlubricated",
         "requirements": {
-          "qualities": [ { "id": "SCREW", "level": 1 } ],
-          "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+          "qualities": [{ "id": "SCREW", "level": 1 }],
+          "tools": [[["pipe_cleaner", -1], ["small_repairkit", -1], ["large_repairkit", -1]]],
           "components": [
             [
-              [ "gasoline", 125 ],
-              [ "diesel", 125 ],
-              [ "chem_ethanol", 125 ],
-              [ "chem_methanol", 125 ],
-              [ "denat_alcohol", 125 ],
-              [ "chem_chloroform", 125 ],
-              [ "ether", 125 ],
-              [ "chem_DMSO", 125 ],
-              [ "vinegar", 8 ],
-              [ "ammonia", 1 ],
-              [ "bleach", 1 ],
-              [ "soapy_water", 1 ]
+              ["gasoline", 125],
+              ["diesel", 125],
+              ["chem_ethanol", 125],
+              ["chem_methanol", 125],
+              ["denat_alcohol", 125],
+              ["chem_chloroform", 125],
+              ["ether", 125],
+              ["chem_DMSO", 125],
+              ["vinegar", 8],
+              ["ammonia", 1],
+              ["bleach", 1],
+              ["soapy_water", 1]
             ],
-            [ [ "rag", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ],
-            [ [ "lamp_oil", 5 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "motor_oil", 5 ] ]
+            [["rag", 1], ["fur", 1], ["faux_fur", 1], ["felt_patch", 1], ["cotton_ball", 2]],
+            [["lamp_oil", 5], ["cooking_oil", 1], ["cooking_oil2", 1], ["motor_oil", 5]]
           ]
         }
       }
     ],
-    "flags": [ "SILENT" ]
+    "flags": ["SILENT"]
   }
 ]

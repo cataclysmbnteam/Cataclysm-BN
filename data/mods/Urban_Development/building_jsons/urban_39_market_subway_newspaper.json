@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_39_1" ],
+    "om_terrain": ["urban_39_1"],
     "weight": 250,
     "object": {
       "fill_ter": "t_linoleum_white",
@@ -32,17 +32,26 @@
         "%%%l▪▪▪▪▪▪×▪▪×▪▪▪▪▪¦l%%%",
         "%%%llllllllllllllllll%%%"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
-      "terrain": { "▪": "t_open_air", "×": "t_column", "¦": "t_glass_railing", "C": "t_linoleum_white", "g": "t_linoleum_white" },
-      "items": { "'": { "item": "subway", "chance": 1 }, "g": { "item": "vending_drink", "chance": 60 } },
+      "palettes": ["acidia_residential_commercial_palette"],
+      "terrain": {
+        "▪": "t_open_air",
+        "×": "t_column",
+        "¦": "t_glass_railing",
+        "C": "t_linoleum_white",
+        "g": "t_linoleum_white"
+      },
+      "items": {
+        "'": { "item": "subway", "chance": 1 },
+        "g": { "item": "vending_drink", "chance": 60 }
+      },
       "signs": { "Ṃ": { "signage": "Subway Map: <city> stop" } },
-      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 10, 22 ], "y": [ 1, 22 ], "density": 0.25 } ]
+      "place_monsters": [{ "monster": "GROUP_MALL", "x": [10, 22], "y": [1, 22], "density": 0.25 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_39_2" ],
+    "om_terrain": ["urban_39_2"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -72,7 +81,7 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
+      "palettes": ["acidia_residential_commercial_palette"],
       "terrain": {
         "ž": "t_strconc_floor",
         "L": "t_strconc_floor",
@@ -89,13 +98,13 @@
         "g": { "item": "vending_drink", "chance": 60, "repeat": 2 },
         "r": { "item": "snacks", "chance": 40, "repeat": 4 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.25 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 22], "density": 0.25 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_39_3" ],
+    "om_terrain": ["urban_39_3"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -125,8 +134,8 @@
         ";;;;;;;;;;;;;;;;;;;;;;;;",
         ";;;;;;;;;;;;;;;;;;;;;;;;"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_residential_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         "C": { "item": "kitchen", "chance": 30 },
         "Q": { "item": "produce", "chance": 25 },
@@ -134,13 +143,13 @@
         "g": { "item": "forage_spring", "chance": 40 },
         "r": { "item": "produce", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 } ]
+      "place_monsters": [{ "monster": "GROUP_MALL", "x": [1, 22], "y": [1, 22], "density": 0.6 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_39_4" ],
+    "om_terrain": ["urban_39_4"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -170,7 +179,7 @@
         ";;;;;;;(l'''l(;;;;;;;;;;",
         ";;;;;;;;;;;;;;;;;;;;;;;;"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
+      "palettes": ["acidia_residential_commercial_palette"],
       "terrain": { "(": "t_sidewalk" },
       "items": {
         "O": { "item": "newspapers", "chance": 60, "repeat": 3 },
@@ -179,13 +188,13 @@
         "g": { "item": "forage_spring", "chance": 40 },
         "r": { "item": "produce", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.5 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 22], "density": 0.5 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_39_5" ],
+    "om_terrain": ["urban_39_5"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -215,8 +224,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_residential_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         " ": { "item": "livingroom", "chance": 1 },
         "2": { "item": "softdrugs", "chance": 1 },
@@ -234,13 +243,13 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cleaning", "chance": 50 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 4, 20 ], "density": 0.25 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [4, 20], "density": 0.25 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_39_6" ],
+    "om_terrain": ["urban_39_6"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -270,8 +279,8 @@
         "........RRRR............",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_residential_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         " ": { "item": "livingroom", "chance": 1 },
         "2": { "item": "softdrugs", "chance": 1 },
@@ -289,13 +298,13 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cleaning", "chance": 50 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 9, 15 ], "density": 0.25 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [9, 15], "density": 0.25 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_39_7" ],
+    "om_terrain": ["urban_39_7"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -325,8 +334,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_residential_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         " ": { "item": "livingroom", "chance": 1 },
         "2": { "item": "softdrugs", "chance": 1 },
@@ -347,13 +356,13 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cleaning", "chance": 50 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 4, 20 ], "density": 0.25 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [4, 20], "density": 0.25 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_39_8" ],
+    "om_terrain": ["urban_39_8"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -383,21 +392,21 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_residential_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         " ": { "item": "livingroom", "chance": 1 },
         "2": { "item": "softdrugs", "chance": 10 },
         "b": { "item": "bed", "chance": 60 },
         "d": { "item": "office", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 5 ], "y": [ 9, 15 ], "density": 0.25 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 5], "y": [9, 15], "density": 0.25 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_39_9" ],
+    "om_terrain": ["urban_39_9"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -427,14 +436,14 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
+      "palettes": ["acidia_residential_commercial_palette"],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 22], "density": 0.06 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_39_10" ],
+    "om_terrain": ["urban_39_10"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -464,8 +473,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
+      "palettes": ["acidia_residential_commercial_palette"],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 22], "density": 0.06 }]
     }
   }
 ]

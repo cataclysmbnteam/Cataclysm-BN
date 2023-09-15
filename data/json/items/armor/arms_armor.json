@@ -10,17 +10,17 @@
     "price_postapoc": 250,
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "wood" ],
+    "material": ["wood"],
     "symbol": "[",
     "looks_like": "arm_splint",
     "color": "brown",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 75,
     "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 3,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
+    "techniques": ["WBLOCK_1"],
+    "flags": ["BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN"]
   },
   {
     "id": "armguard_chitin",
@@ -32,17 +32,17 @@
     "price": 20000,
     "price_postapoc": 750,
     "to_hit": 1,
-    "material": [ "chitin", "leather" ],
+    "material": ["chitin", "leather"],
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "green",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": ["STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY"]
   },
   {
     "id": "armguard_acidchitin",
@@ -50,10 +50,19 @@
     "looks_like": "armguard_chitin",
     "type": "ARMOR",
     "price_postapoc": 1250,
-    "name": { "str": "pair of biosilicified chitin arm guards", "str_pl": "pairs of biosilicified chitin arm guards" },
+    "name": {
+      "str": "pair of biosilicified chitin arm guards",
+      "str_pl": "pairs of biosilicified chitin arm guards"
+    },
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
-    "material": [ "acidchitin", "leather" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "material": ["acidchitin", "leather"],
+    "proportional": {
+      "weight": 1.125,
+      "volume": 1.13,
+      "price": 1.25,
+      "encumbrance": 1.5,
+      "warmth": 1.5
+    },
     "relative": { "material_thickness": 1 }
   },
   {
@@ -66,16 +75,16 @@
     "price": 3500,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "material": [ "plastic", "neoprene" ],
+    "material": ["plastic", "neoprene"],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 80,
     "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
+    "flags": ["BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN"]
   },
   {
     "id": "armguard_larmor",
@@ -87,17 +96,17 @@
     "price": 4000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "arm_warmers",
     "color": "brown",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 90,
     "encumbrance": 20,
     "warmth": 25,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "valid_mods": ["steel_padded", "alloy_padded"],
+    "flags": ["VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "WATER_FRIENDLY"]
   },
   {
     "id": "armguard_lightplate",
@@ -109,16 +118,16 @@
     "price": 20000,
     "price_postapoc": 12000,
     "to_hit": -1,
-    "material": [ "steel", "leather" ],
+    "material": ["steel", "leather"],
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_gray",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 95,
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": ["VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN"]
   },
   {
     "id": "armguard_metal",
@@ -130,16 +139,16 @@
     "price": 30000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "material": [ "iron" ],
+    "material": ["iron"],
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "light_gray",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 80,
     "encumbrance": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": ["BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY"]
   },
   {
     "id": "armguard_paper",
@@ -151,16 +160,16 @@
     "price": 230,
     "price_postapoc": 250,
     "to_hit": 1,
-    "material": [ "paper" ],
+    "material": ["paper"],
     "symbol": "[",
     "looks_like": "armguard_larmor",
     "color": "blue",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 80,
     "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": ["BELTED", "BLOCK_WHILE_WORN"]
   },
   {
     "id": "armguard_scrap",
@@ -174,16 +183,16 @@
     "to_hit": 1,
     "bashing": 1,
     "cutting": 1,
-    "material": [ "steel", "iron" ],
+    "material": ["steel", "iron"],
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_gray",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 80,
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": ["BELTED", "BLOCK_WHILE_WORN"]
   },
   {
     "id": "armguard_soft",
@@ -195,17 +204,17 @@
     "price": 1200,
     "price_postapoc": 500,
     "to_hit": 1,
-    "material": [ "neoprene", "cotton" ],
+    "material": ["neoprene", "cotton"],
     "symbol": "[",
     "looks_like": "arm_warmers",
     "color": "light_red",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 70,
     "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": ["VARSIZE", "SKINTIGHT", "WATER_FRIENDLY"]
   },
   {
     "id": "chainmail_arms",
@@ -217,15 +226,15 @@
     "price": 7500,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": ["iron", "cotton"],
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_red",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": ["VARSIZE", "STURDY"]
   },
   {
     "id": "elbow_pads",
@@ -237,14 +246,14 @@
     "price": 3500,
     "price_postapoc": 250,
     "to_hit": 1,
-    "material": [ "plastic", "cotton" ],
+    "material": ["plastic", "cotton"],
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "dark_gray",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 30,
     "material_thickness": 5,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": ["WATER_FRIENDLY", "BELTED"]
   },
   {
     "id": "vambrace_larmor",
@@ -256,16 +265,16 @@
     "price": 2000,
     "price_postapoc": 500,
     "to_hit": 1,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "armguard_larmor",
     "color": "brown",
-    "covers": [ "arms" ],
+    "covers": ["arms"],
     "coverage": 50,
     "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
+    "flags": ["STURDY", "BELTED", "WATER_FRIENDLY"]
   }
 ]

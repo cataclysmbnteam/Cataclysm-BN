@@ -23,6 +23,9 @@
     "id": "BGRS_Dreamer_STORY3",
     "type": "talk_topic",
     "dynamic_line": "I'm going to keep going with this dream, hopefully soon I'll get to one where I can fly.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

@@ -5,7 +5,11 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "fill_ter": "t_floor",
       "rows": [
         ".[...........p._______..",
@@ -49,13 +53,13 @@
         "U": "t_thconc_floor"
       },
       "furniture": { "$": "f_table" },
-      "items": { "$": { "item": "table_foyer", "chance": 50, "repeat": [ 2, 3 ] } },
+      "items": { "$": { "item": "table_foyer", "chance": 50, "repeat": [2, 3] } },
       "place_loot": [
-        { "group": "toy_store", "x": [ 5, 10 ], "y": [ 6, 7 ], "chance": 50, "repeat": [ 4, 6 ] },
+        { "group": "toy_store", "x": [5, 10], "y": [6, 7], "chance": 50, "repeat": [4, 6] },
         { "item": "backpack", "x": 7, "y": 5, "chance": 60 },
         { "item": "talking_doll", "x": 5, "y": 8, "chance": 60 }
       ],
-      "place_vehicles": [ { "vehicle": "car", "x": 19, "y": 7, "chance": 30, "rotation": 90 } ]
+      "place_vehicles": [{ "vehicle": "car", "x": 19, "y": 7, "chance": 30, "rotation": 90 }]
     }
   },
   {
@@ -64,7 +68,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",

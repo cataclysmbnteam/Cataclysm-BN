@@ -15,8 +15,13 @@
         "s": "f_null",
         "w": "f_null"
       },
-      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
-      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] } ],
+      "items": {
+        "&": { "item": "trash", "chance": 25, "repeat": 2 },
+        "v": { "item": "golf_green", "chance": 10 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [2, 21], "y": [2, 21], "repeat": [0, 2] }
+      ],
       "rows": [
         "........................",
         "...................ws...",
@@ -83,7 +88,10 @@
         "s": "t_swater_sh",
         "w": "t_water_sh"
       },
-      "place_signs": [ { "signage": "HOLE #16", "x": 1, "y": 9 }, { "signage": "HOLE #14", "x": 15, "y": 13 } ]
+      "place_signs": [
+        { "signage": "HOLE #16", "x": 1, "y": 9 },
+        { "signage": "HOLE #14", "x": 15, "y": 13 }
+      ]
     },
     "om_terrain": "golfcourse_00",
     "type": "mapgen",
@@ -93,7 +101,9 @@
     "method": "json",
     "object": {
       "furniture": { ".": "f_null", "4": "f_null", "_": "f_null", "s": "f_null" },
-      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] } ],
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [2, 21], "y": [2, 21], "repeat": [0, 2] }
+      ],
       "rows": [
         "44_...._444_...._4sss444",
         "44_...._444_...._4sss444",
@@ -173,8 +183,13 @@
         "g": "f_null",
         "s": "f_null"
       },
-      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
-      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] } ],
+      "items": {
+        "&": { "item": "trash", "chance": 25, "repeat": 2 },
+        "v": { "item": "golf_green", "chance": 10 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [2, 21], "y": [2, 21], "repeat": [0, 2] }
+      ],
       "rows": [
         "44_...._444_...._4ss4444",
         "44......444_gggg._ss4444",
@@ -240,7 +255,10 @@
         "g": "t_grass_golf",
         "s": "t_swater_sh"
       },
-      "place_signs": [ { "signage": "HOLE #15", "x": 7, "y": 6 }, { "signage": "HOLE #10", "x": 4, "y": 15 } ]
+      "place_signs": [
+        { "signage": "HOLE #15", "x": 7, "y": 6 },
+        { "signage": "HOLE #10", "x": 4, "y": 15 }
+      ]
     },
     "om_terrain": "golfcourse_02",
     "type": "mapgen",
@@ -261,8 +279,13 @@
         "g": "f_null",
         "s": "f_null"
       },
-      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
-      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] } ],
+      "items": {
+        "&": { "item": "trash", "chance": 25, "repeat": 2 },
+        "v": { "item": "golf_green", "chance": 10 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [2, 21], "y": [2, 21], "repeat": [0, 2] }
+      ],
       "rows": [
         "444444444444444444444444",
         "444444444444444444444444",
@@ -327,7 +350,7 @@
         "g": "t_grass_golf",
         "s": "t_sand"
       },
-      "place_signs": [ { "signage": "HOLE #17", "x": 10, "y": 4 } ]
+      "place_signs": [{ "signage": "HOLE #17", "x": 10, "y": 4 }]
     },
     "om_terrain": "golfcourse_10",
     "type": "mapgen",
@@ -347,8 +370,13 @@
         "d": "f_null",
         "g": "f_null"
       },
-      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
-      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] } ],
+      "items": {
+        "&": { "item": "trash", "chance": 25, "repeat": 2 },
+        "v": { "item": "golf_green", "chance": 10 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [2, 21], "y": [2, 21], "repeat": [0, 2] }
+      ],
       "rows": [
         "4.........______________",
         "44ddP##&4444444444444444",
@@ -412,7 +440,10 @@
         "v": "t_grass_golf",
         "g": "t_grass_golf"
       },
-      "place_signs": [ { "signage": "HOLE #12", "x": 4, "y": 1 }, { "signage": "HOLE #8", "x": 14, "y": 10 } ]
+      "place_signs": [
+        { "signage": "HOLE #12", "x": 4, "y": 1 },
+        { "signage": "HOLE #8", "x": 14, "y": 10 }
+      ]
     },
     "om_terrain": "golfcourse_11",
     "type": "mapgen",
@@ -434,8 +465,13 @@
         "g": "f_null",
         "t": "f_trashcan"
       },
-      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
-      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] } ],
+      "items": {
+        "&": { "item": "trash", "chance": 25, "repeat": 2 },
+        "v": { "item": "golf_green", "chance": 10 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [2, 21], "y": [2, 21], "repeat": [0, 2] }
+      ],
       "rows": [
         "4......444_...._4_....._",
         "4......444_...._4_....._",
@@ -525,8 +561,13 @@
         "d": "f_null",
         "g": "f_null"
       },
-      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
-      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] } ],
+      "items": {
+        "&": { "item": "trash", "chance": 25, "repeat": 2 },
+        "v": { "item": "golf_green", "chance": 10 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [2, 21], "y": [2, 21], "repeat": [0, 2] }
+      ],
       "rows": [
         "444444444444444444444444",
         "444444444444444444444444",
@@ -590,7 +631,10 @@
         "v": "t_grass_golf",
         "g": "t_grass_golf"
       },
-      "place_signs": [ { "signage": "HOLE #18", "x": 15, "y": 3 }, { "signage": "HOLE #13", "x": 11, "y": 17 } ]
+      "place_signs": [
+        { "signage": "HOLE #18", "x": 15, "y": 3 },
+        { "signage": "HOLE #13", "x": 11, "y": 17 }
+      ]
     },
     "om_terrain": "golfcourse_20",
     "type": "mapgen",
@@ -610,8 +654,13 @@
         "d": "f_null",
         "g": "f_null"
       },
-      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
-      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] } ],
+      "items": {
+        "&": { "item": "trash", "chance": 25, "repeat": 2 },
+        "v": { "item": "golf_green", "chance": 10 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [2, 21], "y": [2, 21], "repeat": [0, 2] }
+      ],
       "rows": [
         "____________4444_...._44",
         "4444444444444444_...._44",
@@ -675,7 +724,10 @@
         "v": "t_grass_golf",
         "g": "t_grass_golf"
       },
-      "place_signs": [ { "signage": "HOLE #7", "x": 5, "y": 8 }, { "signage": "HOLE #5", "x": 0, "y": 13 } ]
+      "place_signs": [
+        { "signage": "HOLE #7", "x": 5, "y": 8 },
+        { "signage": "HOLE #5", "x": 0, "y": 13 }
+      ]
     },
     "om_terrain": "golfcourse_21",
     "type": "mapgen",
@@ -696,8 +748,13 @@
         "g": "f_null",
         "s": "f_null"
       },
-      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
-      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] } ],
+      "items": {
+        "&": { "item": "trash", "chance": 25, "repeat": 2 },
+        "v": { "item": "golf_green", "chance": 10 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [2, 21], "y": [2, 21], "repeat": [0, 2] }
+      ],
       "rows": [
         "4_...__4_...._4444444444",
         "4_..ss_4_...._44________",
@@ -762,7 +819,10 @@
         "g": "t_grass_golf",
         "s": "t_sand"
       },
-      "place_signs": [ { "signage": "HOLE #6", "x": 7, "y": 10 }, { "signage": "HOLE #2", "x": 17, "y": 9 } ]
+      "place_signs": [
+        { "signage": "HOLE #6", "x": 7, "y": 10 },
+        { "signage": "HOLE #2", "x": 17, "y": 9 }
+      ]
     },
     "om_terrain": "golfcourse_22",
     "type": "mapgen",
@@ -773,12 +833,60 @@
     "object": {
       "furniture": { "#": "f_null", ".": "f_null", "_": "f_null", "p": "f_null", "s": "f_null" },
       "place_vehicles": [
-        { "chance": 20, "fuel": 10, "rotation": 0, "status": -1, "vehicle": "parkinglotbasic", "x": 20, "y": 4 },
-        { "chance": 20, "fuel": 20, "rotation": 180, "status": -1, "vehicle": "parkinglotbasic", "x": 3, "y": 5 },
-        { "chance": 20, "fuel": 0, "rotation": 0, "status": -1, "vehicle": "parkinglotbasic", "x": 20, "y": 11 },
-        { "chance": 20, "fuel": 20, "rotation": 180, "status": -1, "vehicle": "parkinglotbasic", "x": 3, "y": 12 },
-        { "chance": 20, "fuel": 10, "rotation": 0, "status": -1, "vehicle": "parkinglotbasic", "x": 20, "y": 18 },
-        { "chance": 20, "fuel": 30, "rotation": 180, "status": -1, "vehicle": "parkinglotbasic", "x": 3, "y": 19 }
+        {
+          "chance": 20,
+          "fuel": 10,
+          "rotation": 0,
+          "status": -1,
+          "vehicle": "parkinglotbasic",
+          "x": 20,
+          "y": 4
+        },
+        {
+          "chance": 20,
+          "fuel": 20,
+          "rotation": 180,
+          "status": -1,
+          "vehicle": "parkinglotbasic",
+          "x": 3,
+          "y": 5
+        },
+        {
+          "chance": 20,
+          "fuel": 0,
+          "rotation": 0,
+          "status": -1,
+          "vehicle": "parkinglotbasic",
+          "x": 20,
+          "y": 11
+        },
+        {
+          "chance": 20,
+          "fuel": 20,
+          "rotation": 180,
+          "status": -1,
+          "vehicle": "parkinglotbasic",
+          "x": 3,
+          "y": 12
+        },
+        {
+          "chance": 20,
+          "fuel": 10,
+          "rotation": 0,
+          "status": -1,
+          "vehicle": "parkinglotbasic",
+          "x": 20,
+          "y": 18
+        },
+        {
+          "chance": 20,
+          "fuel": 30,
+          "rotation": 180,
+          "status": -1,
+          "vehicle": "parkinglotbasic",
+          "x": 3,
+          "y": 19
+        }
       ],
       "rows": [
         "_________......_________",
@@ -809,7 +917,7 @@
       "terrain": {
         "#": "t_shrub",
         ".": "t_pavement",
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "_": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "p": "t_pavement_y",
         "s": "t_sidewalk"
       }
@@ -847,26 +955,90 @@
         "t": "f_table",
         "v": "f_vending_c",
         "{": "f_rack",
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "y": ["f_indoor_plant_y", "f_indoor_plant"],
         "r": "f_trashcan",
-        "U": [ "f_dumpster", "f_recycle_bin" ]
+        "U": ["f_dumpster", "f_recycle_bin"]
       },
       "place_items": [
-        { "chance": 20, "item": "office_mess", "x": [ 4, 5 ], "y": 10 },
+        { "chance": 20, "item": "office_mess", "x": [4, 5], "y": 10 },
         { "chance": 80, "item": "vending_food_items", "x": 20, "y": 7 },
         { "chance": 80, "item": "vending_drink_items", "x": 20, "y": 9 }
       ],
       "place_vehicles": [
-        { "chance": 20, "fuel": 15, "rotation": 0, "status": -1, "vehicle": "golf_carts", "x": 3, "y": 15 },
-        { "chance": 20, "fuel": 10, "rotation": 0, "status": -1, "vehicle": "golf_carts", "x": 7, "y": 15 },
-        { "chance": 20, "fuel": 5, "rotation": 0, "status": -1, "vehicle": "golf_carts", "x": 11, "y": 15 },
-        { "chance": 40, "fuel": 20, "rotation": 270, "status": -1, "vehicle": "golf_carts", "x": 17, "y": 17 },
-        { "chance": 40, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "golf_carts", "x": 17, "y": 21 },
-        { "chance": 20, "fuel": 15, "rotation": 180, "status": -1, "vehicle": "golf_carts", "x": 3, "y": 22 },
-        { "chance": 20, "fuel": 20, "rotation": 180, "status": -1, "vehicle": "golf_carts", "x": 7, "y": 22 },
-        { "chance": 20, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "golf_carts", "x": 11, "y": 22 }
+        {
+          "chance": 20,
+          "fuel": 15,
+          "rotation": 0,
+          "status": -1,
+          "vehicle": "golf_carts",
+          "x": 3,
+          "y": 15
+        },
+        {
+          "chance": 20,
+          "fuel": 10,
+          "rotation": 0,
+          "status": -1,
+          "vehicle": "golf_carts",
+          "x": 7,
+          "y": 15
+        },
+        {
+          "chance": 20,
+          "fuel": 5,
+          "rotation": 0,
+          "status": -1,
+          "vehicle": "golf_carts",
+          "x": 11,
+          "y": 15
+        },
+        {
+          "chance": 40,
+          "fuel": 20,
+          "rotation": 270,
+          "status": -1,
+          "vehicle": "golf_carts",
+          "x": 17,
+          "y": 17
+        },
+        {
+          "chance": 40,
+          "fuel": 0,
+          "rotation": 270,
+          "status": -1,
+          "vehicle": "golf_carts",
+          "x": 17,
+          "y": 21
+        },
+        {
+          "chance": 20,
+          "fuel": 15,
+          "rotation": 180,
+          "status": -1,
+          "vehicle": "golf_carts",
+          "x": 3,
+          "y": 22
+        },
+        {
+          "chance": 20,
+          "fuel": 20,
+          "rotation": 180,
+          "status": -1,
+          "vehicle": "golf_carts",
+          "x": 7,
+          "y": 22
+        },
+        {
+          "chance": 20,
+          "fuel": 0,
+          "rotation": 180,
+          "status": -1,
+          "vehicle": "golf_carts",
+          "x": 11,
+          "y": 22
+        }
       ],
-      "toilets": { "&": {  } },
+      "toilets": { "&": {} },
       "fill_ter": "t_carpet_purple",
       "rows": [
         "gsssssssssssssssgggggggg",
@@ -904,7 +1076,7 @@
         "_": "t_floor",
         "c": "t_carpet_purple",
         "d": "t_dirt",
-        "g": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "g": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "s": "t_sidewalk",
         "t": "t_floor",
         "v": "t_floor",
@@ -985,8 +1157,8 @@
       "items": {
         "T": { "item": "alcohol_bottled_canned", "chance": 20 },
         "t": { "item": "alcohol_bottled_canned", "chance": 20 },
-        "f": { "item": "alcohol_bottled_canned", "chance": 30, "repeat": [ 2, 4 ] },
-        "C": { "item": "snacks", "chance": 30, "repeat": [ 1, 2 ] }
+        "f": { "item": "alcohol_bottled_canned", "chance": 30, "repeat": [2, 4] },
+        "C": { "item": "snacks", "chance": 30, "repeat": [1, 2] }
       }
     }
   },
@@ -1022,7 +1194,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "K": "t_open_air_rooved" }
     }
   },
@@ -1041,8 +1213,13 @@
         "g": "f_null",
         "s": "f_null"
       },
-      "items": { "&": { "item": "trash", "chance": 25, "repeat": 2 }, "v": { "item": "golf_green", "chance": 10 } },
-      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 0, 2 ] } ],
+      "items": {
+        "&": { "item": "trash", "chance": 25, "repeat": 2 },
+        "v": { "item": "golf_green", "chance": 10 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [2, 21], "y": [2, 21], "repeat": [0, 2] }
+      ],
       "rows": [
         "44ddddddddddddddddddd444",
         "_______4444444444##dd444",
@@ -1107,7 +1284,10 @@
         "g": "t_grass_golf",
         "s": "t_sand"
       },
-      "place_signs": [ { "signage": "HOLE #1", "x": 21, "y": 2 }, { "signage": "HOLE #3", "x": 21, "y": 16 } ]
+      "place_signs": [
+        { "signage": "HOLE #1", "x": 21, "y": 2 },
+        { "signage": "HOLE #3", "x": 21, "y": 16 }
+      ]
     },
     "om_terrain": "golfcourse_32",
     "type": "mapgen",

@@ -9,13 +9,17 @@
     "never_learn": true,
     "construction_blueprint": "fbmh_trench_north",
     "blueprint_name": "north trench",
-    "blueprint_provides": [ { "id": "fbmh_trench_north" } ],
-    "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" } ],
+    "blueprint_provides": [{ "id": "fbmh_trench_north" }],
+    "blueprint_requires": [
+      { "id": "fbmh_northeast", "amount": 4 },
+      { "id": "fbmh_fire_northeast" },
+      { "id": "fbmh_bed2_northeast" }
+    ],
+    "blueprint_excludes": [{ "id": "fbm_no_dig" }],
     "blueprint_needs": {
       "time": "1 d 21 h",
-      "skills": [ [ "fabrication", 0 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
+      "skills": [["fabrication", 0]],
+      "inline": { "tools": [], "qualities": [[{ "id": "DIG", "level": 2 }]], "components": [] }
     }
   },
   {
@@ -28,13 +32,17 @@
     "never_learn": true,
     "construction_blueprint": "fbmh_trench_south",
     "blueprint_name": "south trench",
-    "blueprint_provides": [ { "id": "fbmh_trench_south" } ],
-    "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" } ],
+    "blueprint_provides": [{ "id": "fbmh_trench_south" }],
+    "blueprint_requires": [
+      { "id": "fbmh_northeast", "amount": 4 },
+      { "id": "fbmh_fire_northeast" },
+      { "id": "fbmh_bed2_northeast" }
+    ],
+    "blueprint_excludes": [{ "id": "fbm_no_dig" }],
     "blueprint_needs": {
       "time": "1 d 21 h",
-      "skills": [ [ "fabrication", 0 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
+      "skills": [["fabrication", 0]],
+      "inline": { "tools": [], "qualities": [[{ "id": "DIG", "level": 2 }]], "components": [] }
     }
   },
   {
@@ -47,13 +55,21 @@
     "never_learn": true,
     "construction_blueprint": "fbmh_trench_corner_northeast",
     "blueprint_name": "northeast trench",
-    "blueprint_provides": [ { "id": "fbmh_trench_northeast" } ],
-    "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_northeast" }, { "id": "fbmh_trench_east" } ],
+    "blueprint_provides": [{ "id": "fbmh_trench_northeast" }],
+    "blueprint_requires": [
+      { "id": "fbmh_northeast", "amount": 4 },
+      { "id": "fbmh_fire_northeast" },
+      { "id": "fbmh_bed2_northeast" }
+    ],
+    "blueprint_excludes": [
+      { "id": "fbm_no_dig" },
+      { "id": "fbmh_trench_northeast" },
+      { "id": "fbmh_trench_east" }
+    ],
     "blueprint_needs": {
       "time": "12 h 30 m",
-      "skills": [ [ "fabrication", 0 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
+      "skills": [["fabrication", 0]],
+      "inline": { "tools": [], "qualities": [[{ "id": "DIG", "level": 2 }]], "components": [] }
     }
   },
   {
@@ -66,13 +82,21 @@
     "never_learn": true,
     "construction_blueprint": "fbmh_trench_corner_northwest",
     "blueprint_name": "northwest trench",
-    "blueprint_provides": [ { "id": "fbmh_trench_northwest" } ],
-    "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_northwest" }, { "id": "fbmh_trench_west" } ],
+    "blueprint_provides": [{ "id": "fbmh_trench_northwest" }],
+    "blueprint_requires": [
+      { "id": "fbmh_northeast", "amount": 4 },
+      { "id": "fbmh_fire_northeast" },
+      { "id": "fbmh_bed2_northeast" }
+    ],
+    "blueprint_excludes": [
+      { "id": "fbm_no_dig" },
+      { "id": "fbmh_trench_northwest" },
+      { "id": "fbmh_trench_west" }
+    ],
     "blueprint_needs": {
       "time": "12 h 30 m",
-      "skills": [ [ "fabrication", 0 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
+      "skills": [["fabrication", 0]],
+      "inline": { "tools": [], "qualities": [[{ "id": "DIG", "level": 2 }]], "components": [] }
     }
   },
   {
@@ -85,13 +109,21 @@
     "never_learn": true,
     "construction_blueprint": "fbmh_trench_corner_southeast",
     "blueprint_name": "southeast trench",
-    "blueprint_provides": [ { "id": "fbmh_trench_southeast" } ],
-    "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southeast" }, { "id": "fbmh_trench_east" } ],
+    "blueprint_provides": [{ "id": "fbmh_trench_southeast" }],
+    "blueprint_requires": [
+      { "id": "fbmh_northeast", "amount": 4 },
+      { "id": "fbmh_fire_northeast" },
+      { "id": "fbmh_bed2_northeast" }
+    ],
+    "blueprint_excludes": [
+      { "id": "fbm_no_dig" },
+      { "id": "fbmh_trench_southeast" },
+      { "id": "fbmh_trench_east" }
+    ],
     "blueprint_needs": {
       "time": "12 h 30 m",
-      "skills": [ [ "fabrication", 0 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
+      "skills": [["fabrication", 0]],
+      "inline": { "tools": [], "qualities": [[{ "id": "DIG", "level": 2 }]], "components": [] }
     }
   },
   {
@@ -104,13 +136,21 @@
     "never_learn": true,
     "construction_blueprint": "fbmh_trench_corner_southwest",
     "blueprint_name": "southwest trench",
-    "blueprint_provides": [ { "id": "fbmh_trench_southwest" } ],
-    "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southwest" }, { "id": "fbmh_trench_west" } ],
+    "blueprint_provides": [{ "id": "fbmh_trench_southwest" }],
+    "blueprint_requires": [
+      { "id": "fbmh_northeast", "amount": 4 },
+      { "id": "fbmh_fire_northeast" },
+      { "id": "fbmh_bed2_northeast" }
+    ],
+    "blueprint_excludes": [
+      { "id": "fbm_no_dig" },
+      { "id": "fbmh_trench_southwest" },
+      { "id": "fbmh_trench_west" }
+    ],
     "blueprint_needs": {
       "time": "12 h 30 m",
-      "skills": [ [ "fabrication", 0 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
+      "skills": [["fabrication", 0]],
+      "inline": { "tools": [], "qualities": [[{ "id": "DIG", "level": 2 }]], "components": [] }
     }
   },
   {
@@ -123,13 +163,21 @@
     "never_learn": true,
     "construction_blueprint": "fbmh_trench_east",
     "blueprint_name": "east trench",
-    "blueprint_provides": [ { "id": "fbmh_trench_east" } ],
-    "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southeast" }, { "id": "fbmh_trench_northeast" } ],
+    "blueprint_provides": [{ "id": "fbmh_trench_east" }],
+    "blueprint_requires": [
+      { "id": "fbmh_northeast", "amount": 4 },
+      { "id": "fbmh_fire_northeast" },
+      { "id": "fbmh_bed2_northeast" }
+    ],
+    "blueprint_excludes": [
+      { "id": "fbm_no_dig" },
+      { "id": "fbmh_trench_southeast" },
+      { "id": "fbmh_trench_northeast" }
+    ],
     "blueprint_needs": {
       "time": "2 d 22 h",
-      "skills": [ [ "fabrication", 0 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
+      "skills": [["fabrication", 0]],
+      "inline": { "tools": [], "qualities": [[{ "id": "DIG", "level": 2 }]], "components": [] }
     }
   },
   {
@@ -142,13 +190,21 @@
     "never_learn": true,
     "construction_blueprint": "fbmh_trench_west",
     "blueprint_name": "west trench",
-    "blueprint_provides": [ { "id": "fbmh_trench_west" } ],
-    "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbm_no_dig" }, { "id": "fbmh_trench_southwest" }, { "id": "fbmh_trench_northwest" } ],
+    "blueprint_provides": [{ "id": "fbmh_trench_west" }],
+    "blueprint_requires": [
+      { "id": "fbmh_northeast", "amount": 4 },
+      { "id": "fbmh_fire_northeast" },
+      { "id": "fbmh_bed2_northeast" }
+    ],
+    "blueprint_excludes": [
+      { "id": "fbm_no_dig" },
+      { "id": "fbmh_trench_southwest" },
+      { "id": "fbmh_trench_northwest" }
+    ],
     "blueprint_needs": {
       "time": "2 d 22 h",
-      "skills": [ [ "fabrication", 0 ] ],
-      "inline": { "tools": [  ], "qualities": [ [ { "id": "DIG", "level": 2 } ] ], "components": [  ] }
+      "skills": [["fabrication", 0]],
+      "inline": { "tools": [], "qualities": [[{ "id": "DIG", "level": 2 }]], "components": [] }
     }
   }
 ]

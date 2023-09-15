@@ -9,12 +9,12 @@
     "volume": "750 ml",
     "price": 600,
     "price_postapoc": 50,
-    "material": [ "cotton", "stone" ],
+    "material": ["cotton", "stone"],
     "symbol": ";",
     "color": "blue",
     "to_hit": -1,
     "ammo_type": "thrown",
-    "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
+    "flags": ["NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON"]
   },
   {
     "type": "GENERIC",
@@ -26,11 +26,11 @@
     "symbol": "o",
     "color": "red",
     "description": "A plastic disc made for playing disc golf, it is smaller and denser then a normal frisbee.",
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "volume": "250 ml",
     "weight": "170 g",
     "bashing": 2,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ]
+    "thrown_damage": [{ "damage_type": "bash", "amount": 1 }]
   },
   {
     "type": "GENERIC",
@@ -42,11 +42,11 @@
     "symbol": "o",
     "color": "yellow",
     "description": "A plastic frisbee made for outdoor games.",
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "volume": "500 ml",
     "weight": "175 g",
     "bashing": 1,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ]
+    "thrown_damage": [{ "damage_type": "bash", "amount": 1 }]
   },
   {
     "id": "net",
@@ -58,12 +58,12 @@
     "volume": "1500 ml",
     "price": 650,
     "price_postapoc": 250,
-    "material": [ "cotton", "stone" ],
+    "material": ["cotton", "stone"],
     "symbol": "H",
     "color": "white",
     "to_hit": -2,
     "ammo_type": "thrown",
-    "flags": [ "NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON" ]
+    "flags": ["NOGIB", "TANGLE", "PRIMITIVE_RANGED_WEAPON"]
   },
   {
     "type": "GENERIC",
@@ -75,12 +75,12 @@
     "symbol": ";",
     "color": "yellow",
     "description": "A large plastic dart made for outdoor games.",
-    "material": [ "plastic", "iron" ],
+    "material": ["plastic", "iron"],
     "volume": "500 ml",
     "weight": "175 g",
     "to_hit": -1,
     "cutting": 8,
-    "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ]
+    "thrown_damage": [{ "damage_type": "stab", "amount": 16 }]
   },
   {
     "type": "GENERIC",
@@ -92,13 +92,16 @@
     "symbol": ";",
     "color": "light_gray",
     "description": "A lightweight hatchet made for throwing.  Its ineffective cutting edge and light weight makes it unsuitable for use as a tool.",
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "volume": "750 ml",
     "weight": "792 g",
     "to_hit": -1,
     "bashing": 10,
     "cutting": 17,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ]
+    "thrown_damage": [
+      { "damage_type": "bash", "amount": 6 },
+      { "damage_type": "cut", "amount": 16 }
+    ]
   },
   {
     "type": "GENERIC",
@@ -115,7 +118,7 @@
     "weight": "268 g",
     "bashing": 1,
     "cutting": 10,
-    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ]
+    "thrown_damage": [{ "damage_type": "stab", "amount": 14 }]
   },
   {
     "id": "throwing_stick",
@@ -132,6 +135,6 @@
     "symbol": ";",
     "color": "brown",
     "ammo_type": "thrown",
-    "flags": [ "NOGIB" ]
+    "flags": ["NOGIB"]
   }
 ]

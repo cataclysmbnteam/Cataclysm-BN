@@ -4,53 +4,59 @@
     "type": "GUN",
     "name": { "str": "base range weapon" },
     "symbol": "(",
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON" ],
+    "flags": ["WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON"],
     "clip_size": 1,
-    "ammo_effects": [ "NEVER_MISFIRES" ]
+    "ammo_effects": ["NEVER_MISFIRES"]
   },
   {
     "abstract": "bow_base",
     "copy-from": "muscle_ranged_base",
     "type": "GUN",
-    "weapon_category": [ "BOWS", "ELASTIC" ],
+    "weapon_category": ["BOWS", "ELASTIC"],
     "name": { "str": "base bow" },
     "skill": "archery",
     "reload_noise_volume": 3,
     "color": "yellow",
     "ammo": "arrow",
-    "extend": { "flags": [ "FIRE_TWOHAND" ] },
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "extend": { "flags": ["FIRE_TWOHAND"] },
+    "valid_mod_locations": [
+      ["underbarrel", 1],
+      ["sights", 1],
+      ["accessories", 2],
+      ["stabilizer", 1],
+      ["dampening", 1]
+    ]
   },
   {
     "abstract": "xbow_base",
     "type": "GUN",
     "looks_like": "crossbow",
-    "weapon_category": [ "M_XBOWS", "ELASTIC" ],
+    "weapon_category": ["M_XBOWS", "ELASTIC"],
     "name": { "str": "base crossbow" },
     "reload_noise_volume": 10,
     "skill": "rifle",
     "symbol": "(",
     "color": "green",
-    "flags": [ "PRIMITIVE_RANGED_WEAPON", "CROSSBOW", "RELOAD_ONE" ],
+    "flags": ["PRIMITIVE_RANGED_WEAPON", "CROSSBOW", "RELOAD_ONE"],
     "clip_size": 1,
     "ammo": "bolt",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ],
-      [ "dampening", 1 ]
+      ["accessories", 4],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["rail", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["underbarrel", 1],
+      ["dampening", 1]
     ]
   },
   {
     "abstract": "s_xbow_base",
     "type": "GUN",
     "copy-from": "xbow_base",
-    "weapon_category": [ "S_XBOWS", "ELASTIC" ],
+    "weapon_category": ["S_XBOWS", "ELASTIC"],
     "name": { "str": "base hand crossbow" },
     "skill": "pistol",
     "range": 6,
@@ -58,14 +64,14 @@
     "durability": 6,
     "reload": 1200,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ],
-      [ "dampening", 1 ]
+      ["accessories", 2],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock", 1],
+      ["underbarrel", 1],
+      ["dampening", 1]
     ]
   },
   {
@@ -73,18 +79,18 @@
     "//": "Used for slingshots, that use archery, not slings, that use the throw skill instead.",
     "copy-from": "muscle_ranged_base",
     "type": "GUN",
-    "weapon_category": [ "SLINGSHOTS", "ELASTIC" ],
+    "weapon_category": ["SLINGSHOTS", "ELASTIC"],
     "name": { "str": "base slingshot" },
     "skill": "archery",
     "ammo": "pebble",
-    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ],
-    "extend": { "flags": [ "BELT_CLIP" ] }
+    "valid_mod_locations": [["grip mount", 1], ["underbarrel mount", 1]],
+    "extend": { "flags": ["BELT_CLIP"] }
   },
   {
     "abstract": "sling_base",
     "copy-from": "muscle_ranged_base",
     "type": "GUN",
-    "weapon_category": [ "SLINGS" ],
+    "weapon_category": ["SLINGS"],
     "name": { "str": "base sling" },
     "skill": "throw"
   }

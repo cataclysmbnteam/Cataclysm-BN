@@ -20,10 +20,10 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
-    "bonus_str": { "rng": [ -3, -2 ] },
-    "bonus_dex": { "rng": [ -5, -1 ] },
-    "bonus_int": { "rng": [ -2, 0 ] },
-    "bonus_per": { "rng": [ -6, -2 ] },
+    "bonus_str": { "rng": [-3, -2] },
+    "bonus_dex": { "rng": [-5, -1] },
+    "bonus_int": { "rng": [-2, 0] },
+    "bonus_per": { "rng": [-6, -2] },
     "worn_override": "NC_BEGGAR_2_worn",
     "carry_override": "EMPTY_GROUP",
     "weapon_override": "EMPTY_GROUP",
@@ -65,11 +65,20 @@
       "no": "Have I told you about cardboard, friend?  Do you have any?"
     },
     "responses": [
-      { "condition": "has_assigned_mission", "text": "About that shopping list of yours…", "topic": "TALK_MISSION_INQUIRE" },
+      {
+        "condition": "has_assigned_mission",
+        "text": "About that shopping list of yours…",
+        "topic": "TALK_MISSION_INQUIRE"
+      },
       {
         "condition": {
           "and": [
-            { "npc_has_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" },
+            {
+              "npc_has_var": "cardboard_donor",
+              "type": "mission",
+              "context": "dinodave",
+              "value": "yes"
+            },
             { "not": "has_no_available_mission" }
           ]
         },
@@ -77,33 +86,38 @@
         "topic": "TALK_MISSION_OFFER"
       },
       {
-        "condition": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] },
+        "condition": { "and": ["has_no_available_mission", "has_no_assigned_mission"] },
         "text": "What are you going to do with all that cardboard now?",
         "topic": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
-        "effect": { "u_add_var": "dave_happy", "type": "general", "context": "recruit", "value": "yes" }
+        "effect": {
+          "u_add_var": "dave_happy",
+          "type": "general",
+          "context": "recruit",
+          "value": "yes"
+        }
       },
       {
-        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
+        "condition": { "not": { "and": ["has_no_available_mission", "has_no_assigned_mission"] } },
         "text": "Cardboard?",
         "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD"
       },
       {
-        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
+        "condition": { "not": { "and": ["has_no_available_mission", "has_no_assigned_mission"] } },
         "text": "Why are you sitting out here?",
         "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE"
       },
       {
-        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
+        "condition": { "not": { "and": ["has_no_available_mission", "has_no_assigned_mission"] } },
         "text": "Are you seriously wearing a dinosaur costume?",
         "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR"
       },
       {
-        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
+        "condition": { "not": { "and": ["has_no_available_mission", "has_no_assigned_mission"] } },
         "text": "Do you need something to eat?",
         "topic": "TALK_REFUGEE_BEGGAR_2_GIVE_FOOD"
       },
       {
-        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
+        "condition": { "not": { "and": ["has_no_available_mission", "has_no_assigned_mission"] } },
         "text": "Get away from me.",
         "topic": "TALK_DONE"
       },
@@ -124,8 +138,11 @@
     ],
     "repeat_responses": [
       {
-        "for_category": [ "food" ],
-        "response": { "text": "Here, you can have this <topic_item>.", "topic": "TALK_REFUGEE_BEGGAR_2_GAVE_FOOD" }
+        "for_category": ["food"],
+        "response": {
+          "text": "Here, you can have this <topic_item>.",
+          "topic": "TALK_REFUGEE_BEGGAR_2_GAVE_FOOD"
+        }
       }
     ]
   },
@@ -133,10 +150,18 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_GAVE_FOOD",
     "dynamic_line": "I can tell when it has stuff in it, it's got a sandy texture.  But this doesn't.  Thanks again.",
-    "speaker_effect": [ { "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } } ],
+    "speaker_effect": [{ "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } }],
     "responses": [
-      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_2", "effect": "u_bulk_trade_accept" },
-      { "text": "No problem.  See you around.", "topic": "TALK_DONE", "effect": "u_bulk_trade_accept" }
+      {
+        "text": "What are you doing here?",
+        "topic": "TALK_REFUGEE_BEGGAR_2",
+        "effect": "u_bulk_trade_accept"
+      },
+      {
+        "text": "No problem.  See you around.",
+        "topic": "TALK_DONE",
+        "effect": "u_bulk_trade_accept"
+      }
     ]
   },
   {
@@ -146,9 +171,15 @@
     "responses": [
       { "text": "Why cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD2" },
       { "text": "The sandman?", "topic": "TALK_REFUGEE_BEGGAR_2_SANDMAN" },
-      { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD" },
+      {
+        "text": "Would you like me to give you some cardboard?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD"
+      },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
+      {
+        "text": "Are you seriously wearing a dinosaur costume?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR"
+      },
       { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
@@ -157,9 +188,15 @@
     "id": "TALK_REFUGEE_BEGGAR_2_CARDBOARD2",
     "dynamic_line": "There's so much of it now, and the zombies are afraid of it.  It's kept me safe so far.  The beta rays come from the center point of the zombie, so it hits the cardboard and can't penetrate.  The reflection can stop any further damage.",
     "responses": [
-      { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD" },
+      {
+        "text": "Would you like me to give you some cardboard?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD"
+      },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
+      {
+        "text": "Are you seriously wearing a dinosaur costume?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR"
+      },
       { "text": "I think I have to get going…", "topic": "TALK_DONE" }
     ]
   },
@@ -167,7 +204,14 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD",
     "dynamic_line": "Kind of a question's that?  Yeah man, you got cardboard, I got a whole… a whole shopping list.  Got it here.",
-    "speaker_effect": { "effect": { "npc_add_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" } },
+    "speaker_effect": {
+      "effect": {
+        "npc_add_var": "cardboard_donor",
+        "type": "mission",
+        "context": "dinodave",
+        "value": "yes"
+      }
+    },
     "responses": [
       { "text": "What's next on the list?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -197,7 +241,10 @@
     "id": "TALK_REFUGEE_BEGGAR_2_DINOSAUR",
     "dynamic_line": "No.",
     "responses": [
-      { "text": "I… I can see you wearing it.  Why are you wearing that?", "topic": "TALK_REFUGEE_BEGGAR_2_WEARING" },
+      {
+        "text": "I… I can see you wearing it.  Why are you wearing that?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_WEARING"
+      },
       { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "I think I have to get going…", "topic": "TALK_DONE" }
@@ -226,18 +273,33 @@
     },
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } },
+        "condition": {
+          "not": {
+            "u_has_var": "beggars_recruited",
+            "type": "general",
+            "context": "recruit",
+            "value": "yes"
+          }
+        },
         "text": "Why don't you leave this place?  Come with me, I could use some help out there.",
         "topic": "TALK_REFUGEE_BEGGAR_2_JOIN"
       },
-      { "text": "Well.  No problem, glad to be of service.  Talk to you later.", "topic": "TALK_DONE" }
+      {
+        "text": "Well.  No problem, glad to be of service.  Talk to you later.",
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_JOIN",
     "dynamic_line": "No!  I just got everything together.  I am not leaving, not now.  Everything's finally coming together!",
-    "responses": [ { "text": "Well.  No problem, glad to be of service.  Talk to you later.", "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "Well.  No problem, glad to be of service.  Talk to you later.",
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "id": "MISSION_BEGGAR_2_BOX_SMALL",
@@ -249,7 +311,7 @@
     "item": "box_small",
     "count": 40,
     "followup": "MISSION_BEGGAR_2_DUCT_TAPE",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.",
       "offer": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.  I need a bunch of 'em.  Little ones, you know?  Can you bring me like… like… forty?",
@@ -271,7 +333,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "duct_tape",
     "followup": "MISSION_BEGGAR_2_BOX_MEDIUM",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "These ones are good, good ones.  They need something to, you know, bind them together.  Surround them, light side, dark side.",
       "offer": "These ones are good, good ones.  They need something to, you know, bind them together.  Surround them, light side, dark side.  Bring me the Force!",
@@ -294,7 +356,7 @@
     "item": "box_medium",
     "count": 10,
     "followup": "MISSION_BEGGAR_2_PLASTIC_SHEET",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "Ten bigger ones now please.  The list doesn't lie.  You've done so well.",
       "offer": "Ten bigger ones now please.  The list doesn't lie.  You've done so well.  I got a little more on the list, but we're more than half there.",
@@ -317,7 +379,7 @@
     "item": "plastic_sheet",
     "count": 10,
     "followup": "MISSION_BEGGAR_2_BOX_LARGE",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "If I can set it up in here I won't need it, but they might drive me out, so I guess I need some plastic just in case.  I don't like it, the sandman can smell through plastic, but I think the cardboard is stronger.",
       "offer": "If I can set it up in here I won't need it, but they might drive me out, so I guess I need some plastic just in case.  I don't like it, the sandman can smell through plastic, but I think the cardboard is stronger.  Please bring me some plastic sheets.",
@@ -339,7 +401,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "box_large",
     "count": 5,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?",
       "offer": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?  Five more cardboard boxes, as big as it gets.  I have a few already stored up, that should be all I need.",

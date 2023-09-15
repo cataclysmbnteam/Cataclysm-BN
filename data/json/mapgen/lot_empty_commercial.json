@@ -58,7 +58,13 @@
         "P": "t_chainfence_v",
         "|": "t_chainfence_v"
       },
-      "place_signs": [ { "signage": "Empty lot, great for your small business! Call <full_name> at 555-2117!", "x": 9, "y": 3 } ]
+      "place_signs": [
+        {
+          "signage": "Empty lot, great for your small business! Call <full_name> at 555-2117!",
+          "x": 9,
+          "y": 3
+        }
+      ]
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
@@ -67,7 +73,15 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_bench", ".": "f_null", "T": "f_table", "_": "f_null", "b": "f_bench", "g": "f_null", "t": "f_table" },
+      "furniture": {
+        "#": "f_bench",
+        ".": "f_null",
+        "T": "f_table",
+        "_": "f_null",
+        "b": "f_bench",
+        "g": "f_null",
+        "t": "f_table"
+      },
       "place_items": [
         { "chance": 35, "item": "trash", "x": 2, "y": 18 },
         { "chance": 35, "item": "trash", "x": 16, "y": 5 },
@@ -106,7 +120,15 @@
         "_.._....._........._....",
         "._.g.._.._.___._._.g..__"
       ],
-      "terrain": { "#": "t_concrete", ".": "t_concrete", "T": "t_dirt", "_": "t_dirt", "b": "t_dirt", "g": "t_grass", "t": "t_concrete" }
+      "terrain": {
+        "#": "t_concrete",
+        ".": "t_concrete",
+        "T": "t_dirt",
+        "_": "t_dirt",
+        "b": "t_dirt",
+        "g": "t_grass",
+        "t": "t_concrete"
+      }
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
@@ -116,10 +138,29 @@
     "method": "json",
     "object": {
       "furniture": { ".": "f_null", "P": "f_sign", "#": "f_null", "_": "f_null", "s": "f_sign" },
-      "place_items": [ { "chance": 35, "item": "trash", "x": 16, "y": 17 }, { "chance": 35, "item": "trash", "x": 7, "y": 11 } ],
+      "place_items": [
+        { "chance": 35, "item": "trash", "x": 16, "y": 17 },
+        { "chance": 35, "item": "trash", "x": 7, "y": 11 }
+      ],
       "place_vehicles": [
-        { "chance": 20, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "bicycle", "x": 6, "y": 17 },
-        { "chance": 20, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "shopping_cart", "x": 17, "y": 19 }
+        {
+          "chance": 20,
+          "fuel": 0,
+          "rotation": 0,
+          "status": 1,
+          "vehicle": "bicycle",
+          "x": 6,
+          "y": 17
+        },
+        {
+          "chance": 20,
+          "fuel": 0,
+          "rotation": 0,
+          "status": 1,
+          "vehicle": "shopping_cart",
+          "x": 17,
+          "y": 19
+        }
       ],
       "rows": [
         "..._..._........_...._..",
@@ -147,7 +188,13 @@
         "...._........#........._",
         "..#..._.._...._.._._...."
       ],
-      "terrain": { ".": "t_dirt", "#": "t_underbrush", "P": "t_dirt", "_": "t_grass", "s": "t_grass" },
+      "terrain": {
+        ".": "t_dirt",
+        "#": "t_underbrush",
+        "P": "t_dirt",
+        "_": "t_grass",
+        "s": "t_grass"
+      },
       "place_signs": [
         { "signage": "Empty lot for sale!", "x": 13, "y": 5 },
         { "signage": "Call <family_name> Family Realty at 555-3130!", "x": 13, "y": 6 }
@@ -161,7 +208,7 @@
     "method": "json",
     "object": {
       "furniture": { "+": "f_null", ".": "f_null", "P": "f_sign", "_": "f_null", "|": "f_null" },
-      "place_items": [ { "chance": 55, "item": "trash", "x": 16, "y": 17 } ],
+      "place_items": [{ "chance": 55, "item": "trash", "x": 16, "y": 17 }],
       "rows": [
         "......__........._......",
         "........................",
@@ -188,8 +235,17 @@
         ".||||||||||||||||||||||.",
         ".........._........_...."
       ],
-      "terrain": { "+": "t_chaingate_l", ".": "t_grass", "P": "t_chainfence_v", "_": "t_dirt", "|": "t_chainfence_v" },
-      "place_signs": [ { "signage": "SOLD!", "x": 14, "y": 2 }, { "signage": "East <city> Realty!", "x": 15, "y": 2 } ]
+      "terrain": {
+        "+": "t_chaingate_l",
+        ".": "t_grass",
+        "P": "t_chainfence_v",
+        "_": "t_dirt",
+        "|": "t_chainfence_v"
+      },
+      "place_signs": [
+        { "signage": "SOLD!", "x": 14, "y": 2 },
+        { "signage": "East <city> Realty!", "x": 15, "y": 2 }
+      ]
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
@@ -198,8 +254,18 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "+": "f_null", ".": "f_null", "P": "f_sign", "_": "f_null", "d": "f_null", "|": "f_null" },
-      "place_items": [ { "chance": 35, "item": "trash", "x": 20, "y": 11 }, { "chance": 35, "item": "trash", "x": 10, "y": 9 } ],
+      "furniture": {
+        "+": "f_null",
+        ".": "f_null",
+        "P": "f_sign",
+        "_": "f_null",
+        "d": "f_null",
+        "|": "f_null"
+      },
+      "place_items": [
+        { "chance": 35, "item": "trash", "x": 20, "y": 11 },
+        { "chance": 35, "item": "trash", "x": 10, "y": 9 }
+      ],
       "rows": [
         "______dd_________d______",
         "________________________",
@@ -226,8 +292,18 @@
         "_||||||||||||||||||||||_",
         "__________d________d____"
       ],
-      "terrain": { "+": "t_chaingate_l", ".": "t_concrete", "P": "t_chainfence_v", "_": "t_grass", "d": "t_dirt", "|": "t_chainfence_v" },
-      "place_signs": [ { "signage": "Lot for sale!", "x": 7, "y": 2 }, { "signage": "Call for more info. 555-7723", "x": 8, "y": 2 } ]
+      "terrain": {
+        "+": "t_chaingate_l",
+        ".": "t_concrete",
+        "P": "t_chainfence_v",
+        "_": "t_grass",
+        "d": "t_dirt",
+        "|": "t_chainfence_v"
+      },
+      "place_signs": [
+        { "signage": "Lot for sale!", "x": 7, "y": 2 },
+        { "signage": "Call for more info. 555-7723", "x": 8, "y": 2 }
+      ]
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
@@ -239,7 +315,7 @@
       "furniture": {
         "+": "f_null",
         ".": "f_null",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_null", "f_rubble_rock" ],
+        "^": ["f_rubble", "f_rubble", "f_rubble", "f_null", "f_null", "f_rubble_rock"],
         "_": "f_null",
         "|": "f_null"
       },
@@ -318,7 +394,7 @@
           "t_concrete",
           "t_dirt"
         ],
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "_": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "|": "t_chainfence"
       }
     },
@@ -356,7 +432,17 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
-      "place_vehicles": [ { "chance": 95, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "forgotten_vehicles", "x": 16, "y": 17 } ],
+      "place_vehicles": [
+        {
+          "chance": 95,
+          "fuel": 0,
+          "rotation": 90,
+          "status": 1,
+          "vehicle": "forgotten_vehicles",
+          "x": 16,
+          "y": 17
+        }
+      ],
       "rows": [
         "________________________",
         "________________________",
@@ -414,9 +500,12 @@
           "t_dirt"
         ],
         "P": "t_grass",
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ]
+        "_": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"]
       },
-      "place_signs": [ { "signage": "Private Property!", "x": 3, "y": 3 }, { "signage": "NO Dumping!", "x": 20, "y": 3 } ]
+      "place_signs": [
+        { "signage": "Private Property!", "x": 3, "y": 3 },
+        { "signage": "NO Dumping!", "x": 20, "y": 3 }
+      ]
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
@@ -435,7 +524,17 @@
         { "chance": 35, "item": "trash", "x": 3, "y": 10 },
         { "chance": 35, "item": "trash", "x": 16, "y": 9 }
       ],
-      "place_vehicles": [ { "chance": 90, "fuel": 0, "rotation": 180, "status": 1, "vehicle": "forgotten_vehicles", "x": 5, "y": 14 } ],
+      "place_vehicles": [
+        {
+          "chance": 90,
+          "fuel": 0,
+          "rotation": 180,
+          "status": 1,
+          "vehicle": "forgotten_vehicles",
+          "x": 5,
+          "y": 14
+        }
+      ],
       "rows": [
         "________________________",
         "________________________",
@@ -479,7 +578,7 @@
           "t_grass",
           "t_dirt"
         ],
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "_": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "|": "t_chainfence"
       }
     },
@@ -542,7 +641,7 @@
           "t_grass",
           "t_dirt"
         ],
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "_": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "d": [
           "t_concrete",
           "t_concrete",
@@ -580,7 +679,17 @@
         { "chance": 30, "item": "trash", "x": 14, "y": 14 },
         { "chance": 30, "item": "trash", "x": 3, "y": 11 }
       ],
-      "place_vehicles": [ { "chance": 85, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "shopping_cart", "x": 18, "y": 15 } ],
+      "place_vehicles": [
+        {
+          "chance": 85,
+          "fuel": 0,
+          "rotation": 0,
+          "status": 1,
+          "vehicle": "shopping_cart",
+          "x": 18,
+          "y": 15
+        }
+      ],
       "rows": [
         "________________________",
         "________________________",
@@ -608,7 +717,15 @@
         "________________________"
       ],
       "terrain": {
-        "#": [ "t_concrete", "t_concrete", "t_chainfence_posts", "t_chainfence_posts", "t_grass", "t_grass", "t_dirt" ],
+        "#": [
+          "t_concrete",
+          "t_concrete",
+          "t_chainfence_posts",
+          "t_chainfence_posts",
+          "t_grass",
+          "t_grass",
+          "t_dirt"
+        ],
         "{": "t_concrete",
         ".": [
           "t_concrete",
@@ -626,7 +743,7 @@
           "t_grass",
           "t_dirt"
         ],
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ]
+        "_": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"]
       }
     },
     "om_terrain": "emptycommerciallot",

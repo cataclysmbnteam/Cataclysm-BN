@@ -15,15 +15,17 @@
     "copy-from": "rifle_ball",
     "name": { "str_sp": "5.56mm, JHP" },
     "description": "Modern rifle ammunition, ubiquitous and affordable.  It's suitable for international conflicts, hunting small to large game, home defense, and these days, zombies.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.",
-    "proportional": { "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 } }
+    "proportional": {
+      "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 }
+    }
   },
   {
     "id": "bp_rifle_ball",
     "copy-from": "rifle_ball",
     "type": "AMMO",
     "name": { "str_sp": "5.56mm, FMJ (black powder)" },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "extend": { "effects": ["RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] },
     "description": "Modern rifle ammunition, ubiquitous and affordable.  It's suitable for international conflicts, hunting small to large game, home defense, and these days, zombies.  Full metal jacketed bullets offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.  This was however handloaded with black powder.",
     "proportional": {
       "price": 0.3,
@@ -38,6 +40,8 @@
     "type": "AMMO",
     "name": { "str_sp": "5.56mm, JHP (black powder)" },
     "description": "Modern rifle ammunition, ubiquitous and affordable.  It's suitable for international conflicts, hunting small to large game, home defense, and these days, zombies.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.  This was however handloaded with black powder.",
-    "proportional": { "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 } }
+    "proportional": {
+      "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 }
+    }
   }
 ]

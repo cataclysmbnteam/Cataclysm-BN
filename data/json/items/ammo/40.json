@@ -17,8 +17,8 @@
     "volume": "250 ml",
     "price": 220,
     "price_postapoc": 800,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "powder" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
+    "material": ["brass", "powder"],
     "symbol": "=",
     "color": "yellow",
     "count": 40,
@@ -30,7 +30,7 @@
     "damage": { "damage_type": "bullet", "amount": 35 },
     "dispersion": 50,
     "recoil": 560,
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "id": "bp_40fmj",
@@ -43,8 +43,8 @@
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": ["RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   },
   {
     "id": "bp_40sw",
@@ -57,7 +57,7 @@
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": ["RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   }
 ]

@@ -9,7 +9,7 @@
     "color": "white",
     "move_cost_mod": -1,
     "required_str": 1,
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "flags": ["TRANSPARENT", "EASY_DECONSTRUCT"],
     "deployed_item": "garden_gnome",
     "examine_action": "deployed_furniture",
     "bash": {
@@ -17,7 +17,7 @@
       "str_max": 40,
       "sound": "krash!",
       "sound_fail": "krak.",
-      "items": [ { "item": "ceramic_shard", "count": [ 2, 6 ] } ]
+      "items": [{ "item": "ceramic_shard", "count": [2, 6] }]
     }
   }
 ]

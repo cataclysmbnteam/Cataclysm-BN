@@ -3,10 +3,10 @@
     "type": "MOD_INFO",
     "id": "manualbionicinstall",
     "name": "Manual Bionic Installation",
-    "authors": [ "Xhuis" ],
-    "maintainers": [ "Xhuis" ],
+    "authors": ["Xhuis"],
+    "maintainers": ["Xhuis"],
     "description": "Allows CBMs to be installed by hand.  Pairs well with Safe Autodoc.",
     "category": "rebalance",
-    "dependencies": [ "bn" ]
+    "dependencies": ["bn"]
   }
 ]

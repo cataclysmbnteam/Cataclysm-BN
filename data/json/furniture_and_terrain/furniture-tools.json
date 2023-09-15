@@ -10,15 +10,15 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "char_forge",
-    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
+    "flags": ["TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
+    "deconstruct": { "items": [{ "item": "char_forge", "count": 1 }] },
     "examine_action": "reload_furniture",
     "bash": {
       "str_min": 4,
       "str_max": 8,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "char_forge", "count": 1 } ]
+      "items": [{ "item": "char_forge", "count": 1 }]
     }
   },
   {
@@ -32,9 +32,15 @@
     "coverage": 30,
     "required_str": 16,
     "crafting_pseudo_item": "anvil",
-    "deconstruct": { "items": [ { "item": "anvil", "count": 1 } ] },
-    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "anvil", "count": 1 } ] }
+    "deconstruct": { "items": [{ "item": "anvil", "count": 1 }] },
+    "flags": ["TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT"],
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [{ "item": "anvil", "count": 1 }]
+    }
   },
   {
     "type": "furniture",
@@ -48,9 +54,15 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "still",
-    "deconstruct": { "items": [ { "item": "still", "count": 1 } ] },
-    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "still", "count": 1 } ] }
+    "deconstruct": { "items": [{ "item": "still", "count": 1 }] },
+    "flags": ["TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT"],
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [{ "item": "still", "count": 1 }]
+    }
   },
   {
     "type": "furniture",
@@ -65,14 +77,14 @@
     "examine_action": "kiln_empty",
     "max_volume": "125 L",
     "crafting_pseudo_item": "char_kiln",
-    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "rock", "count": [ 35, 40 ] } ] },
+    "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE"],
+    "deconstruct": { "items": [{ "item": "rock", "count": [35, 40] }] },
     "bash": {
       "str_min": 25,
       "str_max": 180,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
+      "items": [{ "item": "rock", "count": [15, 30] }]
     }
   },
   {
@@ -87,14 +99,23 @@
     "coverage": 40,
     "required_str": -1,
     "examine_action": "kiln_full",
-    "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "rock", "count": [ 30, 30 ] } ] },
+    "flags": [
+      "NOITEM",
+      "SEALED",
+      "CONTAINER",
+      "FIRE_CONTAINER",
+      "SUPPRESS_SMOKE",
+      "PLACE_ITEM",
+      "EASY_DECONSTRUCT",
+      "MINEABLE"
+    ],
+    "deconstruct": { "items": [{ "item": "rock", "count": [30, 30] }] },
     "bash": {
       "str_min": 25,
       "str_max": 180,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
+      "items": [{ "item": "rock", "count": [15, 30] }]
     }
   },
   {
@@ -110,17 +131,19 @@
     "examine_action": "kiln_empty",
     "max_volume": "125 L",
     "crafting_pseudo_item": "char_kiln",
-    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
-    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM"],
+    "deconstruct": {
+      "items": [{ "item": "metal_tank", "count": [1, 4] }, { "item": "pipe", "count": [2, 4] }]
+    },
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "pipe", "count": [ 0, 4 ] }
+        { "item": "scrap", "count": [2, 4] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "pipe", "count": [0, 4] }
       ]
     }
   },
@@ -136,17 +159,19 @@
     "coverage": 40,
     "required_str": -1,
     "examine_action": "kiln_full",
-    "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
-    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+    "deconstruct": {
+      "items": [{ "item": "metal_tank", "count": [1, 4] }, { "item": "pipe", "count": [2, 4] }]
+    },
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "pipe", "count": [ 0, 4 ] }
+        { "item": "scrap", "count": [2, 4] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "pipe", "count": [0, 4] }
       ]
     }
   },
@@ -164,17 +189,19 @@
     "examine_action": "arcfurnace_empty",
     "max_volume": "200 L",
     "crafting_pseudo_item": "arcfurnace",
-    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
-    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM"],
+    "deconstruct": {
+      "items": [{ "item": "metal_tank", "count": [1, 4] }, { "item": "pipe", "count": [2, 4] }]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "pipe", "count": [ 0, 4 ] }
+        { "item": "scrap", "count": [2, 4] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "pipe", "count": [0, 4] }
       ]
     }
   },
@@ -190,17 +217,19 @@
     "coverage": 40,
     "required_str": -1,
     "examine_action": "arcfurnace_full",
-    "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
-    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+    "deconstruct": {
+      "items": [{ "item": "metal_tank", "count": [1, 4] }, { "item": "pipe", "count": [2, 4] }]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "pipe", "count": [ 0, 4 ] }
+        { "item": "scrap", "count": [2, 4] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "pipe", "count": [0, 4] }
       ]
     }
   },
@@ -213,16 +242,26 @@
     "bgcolor": "brown",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "CONTAINER",
+      "NOITEM",
+      "EASY_DECONSTRUCT",
+      "MINEABLE"
+    ],
     "crafting_pseudo_item": "char_smoker",
     "examine_action": "smoker_options",
-    "deconstruct": { "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 16, 16 ] } ] },
+    "deconstruct": {
+      "items": [{ "item": "rock", "count": 8 }, { "item": "stick", "count": [16, 16] }]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
+      "items": [{ "item": "rock", "count": 8 }, { "item": "stick", "count": [8, 12] }]
     }
   },
   {
@@ -235,7 +274,15 @@
     "bgcolor": "brown",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "CONTAINER",
+      "NOITEM",
+      "EASY_DECONSTRUCT",
+      "MINEABLE"
+    ],
     "crafting_pseudo_item": "char_smoker",
     "examine_action": "smoker_options",
     "bash": {
@@ -243,7 +290,7 @@
       "str_max": 50,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
+      "items": [{ "item": "rock", "count": 8 }, { "item": "stick", "count": [8, 12] }]
     }
   },
   {
@@ -257,16 +304,24 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "deployed_item": "metal_smoking_rack",
-    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "CONTAINER",
+      "NOITEM",
+      "EASY_DECONSTRUCT",
+      "MINEABLE"
+    ],
     "crafting_pseudo_item": "char_smoker",
     "examine_action": "smoker_options",
-    "deconstruct": { "items": [ { "item": "metal_smoking_rack", "count": 1 } ] },
+    "deconstruct": { "items": [{ "item": "metal_smoking_rack", "count": 1 }] },
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": 4 }, { "item": "pipe", "count": [ 3, 5 ] } ]
+      "items": [{ "item": "scrap", "count": 4 }, { "item": "pipe", "count": [3, 5] }]
     }
   },
   {
@@ -280,16 +335,24 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "deployed_item": "metal_smoking_rack",
-    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "CONTAINER",
+      "NOITEM",
+      "EASY_DECONSTRUCT",
+      "MINEABLE"
+    ],
     "crafting_pseudo_item": "char_smoker",
     "examine_action": "smoker_options",
-    "deconstruct": { "items": [ { "item": "metal_smoking_rack", "count": 1 } ] },
+    "deconstruct": { "items": [{ "item": "metal_smoking_rack", "count": 1 }] },
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": 4 }, { "item": "pipe", "count": [ 3, 5 ] } ]
+      "items": [{ "item": "scrap", "count": 4 }, { "item": "pipe", "count": [3, 5] }]
     }
   },
   {
@@ -303,15 +366,15 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "char_forge",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
+    "flags": ["SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE"],
+    "deconstruct": { "items": [{ "item": "rock", "count": 40 }] },
     "examine_action": "reload_furniture",
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "crash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "rock", "count": [ 20, 30 ] } ]
+      "items": [{ "item": "rock", "count": [20, 30] }]
     }
   },
   {
@@ -325,15 +388,15 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "brick_kiln",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
+    "flags": ["SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE"],
+    "deconstruct": { "items": [{ "item": "rock", "count": 40 }] },
     "examine_action": "reload_furniture",
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "rock", "count": [ 20, 30 ] } ]
+      "items": [{ "item": "rock", "count": [20, 30] }]
     }
   },
   {
@@ -346,7 +409,7 @@
     "color": "brown",
     "move_cost_mod": 3,
     "required_str": 6,
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
+    "flags": ["LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE"],
     "examine_action": "deployed_furniture",
     "deployed_item": "stepladder",
     "bash": {
@@ -355,9 +418,9 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 10, 30 ] },
-        { "item": "splinter", "count": [ 5, 10 ] }
+        { "item": "2x4", "count": [4, 10] },
+        { "item": "nail", "charges": [10, 30] },
+        { "item": "splinter", "count": [5, 10] }
       ]
     }
   },
@@ -372,26 +435,26 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM"],
     "bash": {
       "str_min": 40,
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "steel_plate", "count": [ 1, 2 ] }
+        { "item": "cable", "charges": [0, 4] },
+        { "item": "scrap", "count": [8, 12] },
+        { "item": "steel_chunk", "count": [2, 4] },
+        { "item": "steel_plate", "count": [1, 2] }
       ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "sheet_metal", "count": [ 4, 6 ] },
-        { "item": "element", "count": [ 10, 25 ] },
-        { "item": "scrap", "count": [ 12, 16 ] }
+        { "item": "cable", "charges": [4, 8] },
+        { "item": "steel_chunk", "count": [4, 6] },
+        { "item": "steel_plate", "count": [2, 4] },
+        { "item": "sheet_metal", "count": [4, 6] },
+        { "item": "element", "count": [10, 25] },
+        { "item": "scrap", "count": [12, 16] }
       ]
     }
   },
@@ -406,28 +469,28 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 10,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": ["BLOCKSDOOR"],
     "bash": {
       "str_min": 40,
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
+        { "item": "cable", "charges": [0, 4] },
+        { "item": "scrap", "count": [8, 12] },
+        { "item": "steel_chunk", "count": [2, 4] },
+        { "item": "plastic_chunk", "count": [4, 10] },
+        { "item": "steel_plate", "count": [2, 4] }
       ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [4, 8] },
+        { "item": "steel_chunk", "count": [4, 6] },
+        { "item": "steel_lump", "count": [1, 2] },
+        { "item": "scrap", "count": [12, 16] },
+        { "item": "steel_plate", "count": [2, 4] },
         { "item": "spike", "count": 1 },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "plastic_chunk", "count": [4, 14] },
         { "item": "motor_small", "count": 1 }
       ]
     }
@@ -443,29 +506,29 @@
     "move_cost_mod": 8,
     "coverage": 40,
     "required_str": 10,
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "flags": ["BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE"],
     "//": "some day this should be something you can activate to take down and get an item version of.  That day is not today.",
     "bash": {
       "str_min": 40,
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
+        { "item": "cable", "charges": [0, 4] },
+        { "item": "scrap", "count": [8, 12] },
+        { "item": "steel_chunk", "count": [2, 4] },
+        { "item": "plastic_chunk", "count": [4, 10] },
+        { "item": "steel_plate", "count": [2, 4] }
       ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "circsaw_blade", "count": [ 1, 2 ] },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "cable", "charges": [4, 8] },
+        { "item": "steel_chunk", "count": [4, 6] },
+        { "item": "steel_lump", "count": [1, 2] },
+        { "item": "scrap", "count": [12, 16] },
+        { "item": "steel_plate", "count": [2, 4] },
+        { "item": "circsaw_blade", "count": [1, 2] },
+        { "item": "plastic_chunk", "count": [4, 14] },
         { "item": "motor_small", "count": 1 }
       ]
     }
@@ -481,29 +544,29 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 10,
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
+    "flags": ["BLOCKSDOOR", "TRANSPARENT"],
     "//": "some day this should be something you can activate to take down and get an item version of.  That day is not today.",
     "bash": {
       "str_min": 40,
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
+        { "item": "cable", "charges": [0, 4] },
+        { "item": "scrap", "count": [8, 12] },
+        { "item": "steel_chunk", "count": [2, 4] },
+        { "item": "plastic_chunk", "count": [4, 10] },
+        { "item": "steel_plate", "count": [2, 4] }
       ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "pipe", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "circsaw_blade", "count": [ 1, 2 ] },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "cable", "charges": [4, 8] },
+        { "item": "pipe", "count": [4, 6] },
+        { "item": "steel_lump", "count": [1, 2] },
+        { "item": "scrap", "count": [12, 16] },
+        { "item": "steel_plate", "count": [2, 4] },
+        { "item": "circsaw_blade", "count": [1, 2] },
+        { "item": "plastic_chunk", "count": [4, 14] },
         { "item": "motor_small", "count": 1 }
       ]
     }
@@ -519,28 +582,28 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 10,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": ["BLOCKSDOOR"],
     "bash": {
       "str_min": 40,
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
+        { "item": "cable", "charges": [0, 4] },
+        { "item": "scrap", "count": [8, 12] },
+        { "item": "steel_chunk", "count": [2, 4] },
+        { "item": "plastic_chunk", "count": [4, 10] },
+        { "item": "steel_plate", "count": [2, 4] }
       ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "wire", "count": [ 1, 2 ] },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "cable", "charges": [4, 8] },
+        { "item": "steel_chunk", "count": [4, 6] },
+        { "item": "steel_lump", "count": [1, 2] },
+        { "item": "scrap", "count": [12, 16] },
+        { "item": "steel_plate", "count": [2, 4] },
+        { "item": "wire", "count": [1, 2] },
+        { "item": "plastic_chunk", "count": [4, 14] },
         { "item": "motor_small", "count": 1 }
       ]
     }
@@ -556,28 +619,28 @@
     "move_cost_mod": 8,
     "coverage": 35,
     "required_str": 14,
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "flags": ["BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE"],
     "bash": {
       "str_min": 40,
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
+        { "item": "cable", "charges": [0, 4] },
+        { "item": "scrap", "count": [8, 12] },
+        { "item": "steel_chunk", "count": [2, 4] },
+        { "item": "plastic_chunk", "count": [4, 10] },
+        { "item": "steel_plate", "count": [2, 4] }
       ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "spike", "count": [ 2, 3 ] },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "cable", "charges": [4, 8] },
+        { "item": "steel_chunk", "count": [4, 6] },
+        { "item": "steel_lump", "count": [1, 2] },
+        { "item": "scrap", "count": [12, 16] },
+        { "item": "steel_plate", "count": [2, 4] },
+        { "item": "spike", "count": [2, 3] },
+        { "item": "plastic_chunk", "count": [4, 14] },
         { "item": "motor_small", "count": 1 }
       ]
     }
@@ -593,28 +656,28 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 12,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": ["BLOCKSDOOR"],
     "bash": {
       "str_min": 40,
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
+        { "item": "cable", "charges": [0, 4] },
+        { "item": "scrap", "count": [8, 12] },
+        { "item": "steel_chunk", "count": [2, 4] },
+        { "item": "plastic_chunk", "count": [4, 10] },
+        { "item": "steel_plate", "count": [2, 4] }
       ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "blade", "count": [ 2, 3 ] },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "cable", "charges": [4, 8] },
+        { "item": "steel_chunk", "count": [4, 6] },
+        { "item": "steel_lump", "count": [1, 2] },
+        { "item": "scrap", "count": [12, 16] },
+        { "item": "steel_plate", "count": [2, 4] },
+        { "item": "blade", "count": [2, 3] },
+        { "item": "plastic_chunk", "count": [4, 14] },
         { "item": "motor_small", "count": 1 }
       ]
     }
@@ -630,28 +693,28 @@
     "move_cost_mod": 8,
     "coverage": 40,
     "required_str": 14,
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "flags": ["BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE"],
     "bash": {
       "str_min": 40,
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 4, 10 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] }
+        { "item": "cable", "charges": [0, 4] },
+        { "item": "scrap", "count": [8, 12] },
+        { "item": "steel_chunk", "count": [2, 4] },
+        { "item": "plastic_chunk", "count": [4, 10] },
+        { "item": "steel_plate", "count": [2, 4] }
       ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "blade", "count": [ 2, 3 ] },
-        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "cable", "charges": [4, 8] },
+        { "item": "steel_chunk", "count": [4, 6] },
+        { "item": "steel_lump", "count": [1, 2] },
+        { "item": "scrap", "count": [12, 16] },
+        { "item": "steel_plate", "count": [2, 4] },
+        { "item": "blade", "count": [2, 3] },
+        { "item": "plastic_chunk", "count": [4, 14] },
         { "item": "motor_small", "count": 1 }
       ]
     }
@@ -667,28 +730,28 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": 16,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": ["BLOCKSDOOR"],
     "bash": {
       "str_min": 40,
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] },
-        { "item": "steel_plate", "count": [ 1, 2 ] }
+        { "item": "cable", "charges": [0, 4] },
+        { "item": "scrap", "count": [8, 12] },
+        { "item": "steel_chunk", "count": [2, 4] },
+        { "item": "steel_lump", "count": [1, 2] },
+        { "item": "steel_plate", "count": [1, 2] }
       ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 2, 4 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "pipe", "count": [ 2, 4 ] },
-        { "item": "chain", "count": [ 0, 1 ] },
+        { "item": "cable", "charges": [4, 8] },
+        { "item": "steel_chunk", "count": [4, 6] },
+        { "item": "steel_lump", "count": [2, 4] },
+        { "item": "scrap", "count": [12, 16] },
+        { "item": "steel_plate", "count": [2, 4] },
+        { "item": "pipe", "count": [2, 4] },
+        { "item": "chain", "count": [0, 1] },
         { "item": "motor_small", "count": 1 }
       ]
     }
@@ -704,25 +767,25 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 16,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": ["BLOCKSDOOR"],
     "bash": {
       "str_min": 40,
       "str_max": 150,
       "sound_fail": "clang!",
       "items": [
-        { "item": "cable", "charges": [ 0, 4 ] },
-        { "item": "scrap", "count": [ 12, 20 ] },
-        { "item": "steel_chunk", "count": [ 2, 4 ] },
-        { "item": "steel_lump", "count": [ 1, 2 ] }
+        { "item": "cable", "charges": [0, 4] },
+        { "item": "scrap", "count": [12, 20] },
+        { "item": "steel_chunk", "count": [2, 4] },
+        { "item": "steel_lump", "count": [1, 2] }
       ]
     },
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 4, 8 ] },
-        { "item": "steel_chunk", "count": [ 4, 6 ] },
-        { "item": "steel_lump", "count": [ 2, 4 ] },
-        { "item": "scrap", "count": [ 12, 16 ] },
-        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "cable", "charges": [4, 8] },
+        { "item": "steel_chunk", "count": [4, 6] },
+        { "item": "steel_lump", "count": [2, 4] },
+        { "item": "scrap", "count": [12, 16] },
+        { "item": "pipe", "count": [0, 4] },
         { "item": "motor_small", "count": 1 }
       ]
     }
@@ -738,18 +801,18 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": 12,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": ["BLOCKSDOOR"],
     "deconstruct": {
       "items": [
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "scrap", "count": [2, 6] },
+        { "item": "steel_chunk", "count": [1, 3] },
+        { "item": "sheet_metal_small", "count": [0, 4] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "hose", "count": [3, 6] },
         { "item": "motor", "count": 1 },
         { "item": "metal_tank", "count": 1 },
-        { "item": "plastic_chunk", "count": [ 4, 6 ] },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "plastic_chunk", "count": [4, 6] },
+        { "item": "solder_wire", "charges": [1, 15] }
       ]
     },
     "bash": {
@@ -758,14 +821,14 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 1 ] },
-        { "item": "e_scrap", "count": [ 5, 10 ] },
-        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+        { "item": "scrap", "count": [2, 7] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "sheet_metal_small", "count": [8, 12] },
+        { "item": "sheet_metal", "count": [1, 2] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "hose", "count": [0, 1] },
+        { "item": "e_scrap", "count": [5, 10] },
+        { "item": "plastic_chunk", "count": [0, 2] }
       ]
     }
   },
@@ -778,15 +841,15 @@
     "color": "brown",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN" ],
+    "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN"],
     "examine_action": "fvat_empty",
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 14 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": [6, 12] },
         { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal_small", "count": [ 4, 10 ] },
-        { "item": "scrap", "count": [ 5, 10 ] }
+        { "item": "sheet_metal_small", "count": [4, 10] },
+        { "item": "scrap", "count": [5, 10] }
       ]
     },
     "bash": {
@@ -795,11 +858,11 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "2x4", "count": [ 4, 8 ] },
-        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "2x4", "count": [4, 8] },
+        { "item": "nail", "charges": [4, 8] },
         { "item": "water_faucet", "prob": 50 },
-        { "item": "sheet_metal_small", "count": [ 2, 6 ] },
-        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "sheet_metal_small", "count": [2, 6] },
+        { "item": "scrap", "count": [5, 10] },
         { "item": "splinter", "count": 1 }
       ]
     }
@@ -813,15 +876,15 @@
     "color": "brown_cyan",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN" ],
+    "flags": ["NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN"],
     "examine_action": "fvat_full",
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 14 },
-        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "nail", "charges": [6, 12] },
         { "item": "water_faucet", "count": 1 },
-        { "item": "sheet_metal_small", "count": [ 4, 10 ] },
-        { "item": "scrap", "count": [ 5, 10 ] }
+        { "item": "sheet_metal_small", "count": [4, 10] },
+        { "item": "scrap", "count": [5, 10] }
       ]
     },
     "bash": {
@@ -830,11 +893,11 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "2x4", "count": [ 4, 8 ] },
-        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "2x4", "count": [4, 8] },
+        { "item": "nail", "charges": [4, 8] },
         { "item": "water_faucet", "prob": 50 },
-        { "item": "sheet_metal_small", "count": [ 2, 6 ] },
-        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "sheet_metal_small", "count": [2, 6] },
+        { "item": "scrap", "count": [5, 10] },
         { "item": "splinter", "count": 1 }
       ]
     }
@@ -858,13 +921,13 @@
       "BUTCHER_EQ",
       "ORGANIC"
     ],
-    "deconstruct": { "items": [ { "item": "stick_long", "count": 6 } ] },
+    "deconstruct": { "items": [{ "item": "stick_long", "count": 6 }] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [ { "item": "stick_long", "count": [ 1, 6 ] } ]
+      "items": [{ "item": "stick_long", "count": [1, 6] }]
     }
   },
   {
@@ -878,14 +941,14 @@
     "required_str": -1,
     "deployed_item": "metal_butcher_rack",
     "examine_action": "deployed_furniture",
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "BUTCHER_EQ" ],
-    "deconstruct": { "items": [ { "item": "metal_butcher_rack", "count": 1 } ] },
+    "flags": ["PLACE_ITEM", "TRANSPARENT", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "BUTCHER_EQ"],
+    "deconstruct": { "items": [{ "item": "metal_butcher_rack", "count": 1 }] },
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
+      "items": [{ "item": "scrap", "count": [1, 3] }, { "item": "pipe", "count": [1, 3] }]
     }
   },
   {
@@ -897,8 +960,10 @@
     "required_str": -1,
     "move_cost_mod": 2,
     "color": "light_gray",
-    "deconstruct": { "items": [ { "item": "grip_hook", "count": 1 }, { "item": "chain", "count": 1 } ] },
-    "flags": [ "TRANSPARENT", "BUTCHER_EQ" ]
+    "deconstruct": {
+      "items": [{ "item": "grip_hook", "count": 1 }, { "item": "chain", "count": 1 }]
+    },
+    "flags": ["TRANSPARENT", "BUTCHER_EQ"]
   },
   {
     "type": "furniture",
@@ -910,18 +975,18 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "examine_action": "quern_examine",
-    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
-    "deconstruct": { "items": [ { "item": "wind_mill", "count": 1 } ] },
+    "flags": ["SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR"],
+    "deconstruct": { "items": [{ "item": "wind_mill", "count": 1 }] },
     "bash": {
       "str_min": 16,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "pipe", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 4, 8 ] },
-        { "item": "rock", "count": [ 8, 15 ] }
+        { "item": "scrap", "count": [4, 8] },
+        { "item": "pipe", "count": [1, 3] },
+        { "item": "sheet_metal_small", "count": [4, 8] },
+        { "item": "rock", "count": [8, 15] }
       ]
     }
   },
@@ -935,18 +1000,18 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "examine_action": "quern_examine",
-    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
-    "deconstruct": { "items": [ { "item": "wind_mill", "count": 1 } ] },
+    "flags": ["SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR"],
+    "deconstruct": { "items": [{ "item": "wind_mill", "count": 1 }] },
     "bash": {
       "str_min": 16,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "pipe", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 4, 8 ] },
-        { "item": "rock", "count": [ 8, 15 ] }
+        { "item": "scrap", "count": [4, 8] },
+        { "item": "pipe", "count": [1, 3] },
+        { "item": "sheet_metal_small", "count": [4, 8] },
+        { "item": "rock", "count": [8, 15] }
       ]
     }
   },
@@ -960,20 +1025,20 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "examine_action": "quern_examine",
-    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
-    "deconstruct": { "items": [ { "item": "water_mill", "count": 1 } ] },
+    "flags": ["SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR"],
+    "deconstruct": { "items": [{ "item": "water_mill", "count": 1 }] },
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "2x4", "count": [ 1, 5 ] },
-        { "item": "nail", "charges": [ 5, 15 ] },
-        { "item": "splinter", "count": [ 20, 30 ] },
-        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
-        { "item": "scrap", "count": [ 3, 5 ] },
-        { "item": "rock", "count": [ 8, 15 ] }
+        { "item": "2x4", "count": [1, 5] },
+        { "item": "nail", "charges": [5, 15] },
+        { "item": "splinter", "count": [20, 30] },
+        { "item": "sheet_metal_small", "count": [2, 3] },
+        { "item": "scrap", "count": [3, 5] },
+        { "item": "rock", "count": [8, 15] }
       ]
     }
   },
@@ -987,20 +1052,20 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "examine_action": "quern_examine",
-    "flags": [ "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR" ],
-    "deconstruct": { "items": [ { "item": "water_mill", "count": 1 } ] },
+    "flags": ["SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "BLOCKSDOOR"],
+    "deconstruct": { "items": [{ "item": "water_mill", "count": 1 }] },
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "2x4", "count": [ 1, 5 ] },
-        { "item": "nail", "charges": [ 5, 15 ] },
-        { "item": "splinter", "count": [ 20, 30 ] },
-        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
-        { "item": "scrap", "count": [ 3, 5 ] },
-        { "item": "rock", "count": [ 8, 15 ] }
+        { "item": "2x4", "count": [1, 5] },
+        { "item": "nail", "charges": [5, 15] },
+        { "item": "splinter", "count": [20, 30] },
+        { "item": "sheet_metal_small", "count": [2, 3] },
+        { "item": "scrap", "count": [3, 5] },
+        { "item": "rock", "count": [8, 15] }
       ]
     }
   },
@@ -1015,9 +1080,15 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 25,
-    "flags": [ "SEALED", "ALARMED", "BLOCKSDOOR" ],
+    "flags": ["SEALED", "ALARMED", "BLOCKSDOOR"],
     "examine_action": "pay_gas",
-    "bash": { "str_min": 7, "str_max": 30, "sound": "glass breaking!", "sound_fail": "whack!", "furn_set": "f_aut_gas_console_o" }
+    "bash": {
+      "str_min": 7,
+      "str_max": 30,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "furn_set": "f_aut_gas_console_o"
+    }
   },
   {
     "type": "furniture",
@@ -1030,18 +1101,18 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 20,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": ["BLOCKSDOOR"],
     "bash": {
       "str_min": 5,
       "str_max": 45,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "scrap", "count": [2, 8] },
+        { "item": "steel_chunk", "count": [0, 3] },
         { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
+        { "item": "cu_pipe", "count": [1, 4] },
+        { "item": "scrap_copper", "count": [0, 2] }
       ]
     }
   },
@@ -1056,7 +1127,15 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 30,
-    "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD", "MINEABLE" ],
+    "flags": [
+      "SEALED",
+      "PLACE_ITEM",
+      "ALARMED",
+      "CONTAINER",
+      "BLOCKSDOOR",
+      "FLAMMABLE_HARD",
+      "MINEABLE"
+    ],
     "examine_action": "vending",
     "bash": {
       "str_min": 150,
@@ -1065,9 +1144,9 @@
       "sound_fail": "whack!",
       "furn_set": "f_vending_o",
       "items": [
-        { "item": "glass_shard", "count": [ 1, 3 ] },
-        { "item": "sheet_metal", "count": [ 0, 2 ] },
-        { "item": "steel_chunk", "count": [ 1, 5 ] }
+        { "item": "glass_shard", "count": [1, 3] },
+        { "item": "sheet_metal", "count": [0, 2] },
+        { "item": "steel_chunk", "count": [1, 5] }
       ]
     }
   },
@@ -1082,7 +1161,7 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 12,
-    "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
+    "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "MINEABLE"],
     "examine_action": "vending",
     "bash": {
       "str_min": 20,
@@ -1092,7 +1171,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 12,
       "furn_set": "f_vending_o",
-      "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ]
+      "items": [{ "item": "glass_shard", "count": [1, 3] }]
     }
   },
   {
@@ -1106,18 +1185,18 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 12,
-    "flags": [ "PLACE_ITEM", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
+    "flags": ["PLACE_ITEM", "CONTAINER", "BLOCKSDOOR", "MINEABLE"],
     "bash": {
       "str_min": 30,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "scrap", "count": [2, 8] },
+        { "item": "steel_chunk", "count": [0, 3] },
         { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
+        { "item": "cu_pipe", "count": [1, 4] },
+        { "item": "scrap_copper", "count": [0, 2] }
       ]
     }
   },
@@ -1131,7 +1210,7 @@
     "color": "white",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
+    "flags": ["LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE"],
     "examine_action": "deployed_furniture",
     "deployed_item": "grapnel",
     "bash": {
@@ -1139,7 +1218,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "grip_hook", "count": [ 4, 4 ] }, { "item": "rope_30", "count": [ 1, 1 ] } ]
+      "items": [{ "item": "grip_hook", "count": [4, 4] }, { "item": "rope_30", "count": [1, 1] }]
     }
   },
   {
@@ -1152,7 +1231,7 @@
     "color": "white",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
+    "flags": ["LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE"],
     "examine_action": "deployed_furniture",
     "deployed_item": "rope_30",
     "bash": {
@@ -1160,7 +1239,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "rope_30", "count": [ 1, 1 ] } ]
+      "items": [{ "item": "rope_30", "count": [1, 1] }]
     }
   }
 ]

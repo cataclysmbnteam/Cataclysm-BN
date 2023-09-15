@@ -14,8 +14,8 @@
     "material": "iron",
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "ANVIL", 3 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "qualities": [["ANVIL", 3]],
+    "flags": ["DURABLE_MELEE"]
   },
   {
     "id": "anvil_bronze",
@@ -32,8 +32,8 @@
     "material": "bronze",
     "symbol": ";",
     "color": "yellow",
-    "qualities": [ [ "ANVIL", 3 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "qualities": [["ANVIL", 3]],
+    "flags": ["DURABLE_MELEE"]
   },
   {
     "id": "boltcutters",
@@ -47,11 +47,11 @@
     "price_postapoc": 250,
     "bashing": 7,
     "cutting": 4,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "red",
     "use_action": "BOLTCUTTERS",
-    "flags": [ "BELT_CLIP" ]
+    "flags": ["BELT_CLIP"]
   },
   {
     "id": "char_forge",
@@ -69,7 +69,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": "charcoal",
-    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ],
+    "qualities": [["SAW_M", 2], ["SAW_M_FINE", 1]],
     "sub": "forge",
     "max_charges": 500,
     "charges_per_use": 8,
@@ -98,7 +98,7 @@
         "move_cost": 500
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": ["ALLOWS_REMOTE_USE"]
   },
   {
     "id": "char_kiln",
@@ -115,7 +115,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "chisel",
@@ -133,8 +133,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CHISEL", 3 ] ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
+    "qualities": [["CHISEL", 3]],
+    "flags": ["DURABLE_MELEE", "BELT_CLIP"]
   },
   {
     "id": "crucible",
@@ -151,7 +151,7 @@
     "material": "ceramic",
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["COOK", 1], ["CHEM", 1], ["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "crucible_clay",
@@ -168,7 +168,7 @@
     "material": "clay",
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["COOK", 1], ["CHEM", 1], ["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "forge",
@@ -182,10 +182,10 @@
     "price_postapoc": 4000,
     "to_hit": -2,
     "bashing": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ],
+    "qualities": [["SAW_M", 2], ["SAW_M_FINE", 1]],
     "ammo": "battery",
     "charges_per_use": 4,
     "use_action": [
@@ -213,9 +213,17 @@
         "move_cost": 500
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": ["ALLOWS_REMOTE_USE"],
     "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+      [
+        "battery",
+        [
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell",
+          "heavy_atomic_battery_cell",
+          "heavy_disposable_cell"
+        ]
+      ]
     ],
     "magazine_well": "1000 ml"
   },
@@ -234,7 +242,7 @@
     "symbol": ";",
     "color": "brown",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": ["NO_REPAIR", "NO_SALVAGE"]
   },
   {
     "id": "kiln_full",
@@ -247,7 +255,7 @@
     "price": 100,
     "price_postapoc": 500,
     "to_hit": -2,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": ";",
     "color": "brown",
     "use_action": {
@@ -258,7 +266,7 @@
       "menu_text": "Light wood",
       "type": "transform"
     },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": ["ALLOWS_REMOTE_USE"]
   },
   {
     "id": "kiln_lit",
@@ -271,7 +279,7 @@
     "price": 100,
     "price_postapoc": 500,
     "to_hit": -2,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": ";",
     "color": "brown",
     "use_action": {
@@ -282,7 +290,7 @@
       "transform_age": 3600,
       "not_ready_msg": "The kiln is still burning."
     },
-    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": ["TRADER_AVOID", "ALLOWS_REMOTE_USE"]
   },
   {
     "id": "link_sheet",
@@ -297,7 +305,7 @@
     "material": "iron",
     "symbol": ",",
     "color": "light_gray",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": ["NO_SALVAGE"]
   },
   {
     "id": "swage",
@@ -314,7 +322,7 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": ["DURABLE_MELEE"]
   },
   {
     "id": "tongs",
@@ -330,8 +338,8 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "COOK", 1 ] ],
+    "qualities": [["COOK", 1]],
     "use_action": "HEAT_FOOD",
-    "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
+    "flags": ["BELT_CLIP", "ALLOWS_REMOTE_USE"]
   }
 ]

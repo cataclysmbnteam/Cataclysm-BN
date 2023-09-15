@@ -9,13 +9,13 @@
     "volume": "6250 ml",
     "price": 4000,
     "price_postapoc": 500,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": ":",
     "color": "light_cyan",
     "ammo_type": "battery",
     "capacity": 2500,
     "//": "58Ah @ 12VDC. Could supply ~700 watts for an hour",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE"]
   },
   {
     "id": "battery_motorbike",
@@ -52,7 +52,7 @@
     "to_hit": -3,
     "color": "light_gray",
     "symbol": ":",
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "volume": "2250 ml",
     "bashing": 1,
     "category": "veh_parts",
@@ -110,11 +110,11 @@
     "price_postapoc": 1500,
     "to_hit": -2,
     "bashing": 20,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": ":",
     "color": "light_cyan",
     "ammo_type": "battery",
     "capacity": 40000,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR" ]
+    "flags": ["NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "NO_REPAIR"]
   }
 ]

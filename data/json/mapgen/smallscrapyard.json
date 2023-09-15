@@ -41,7 +41,7 @@
         { "chance": 25, "item": "trash", "x": 10, "y": 6 },
         { "chance": 25, "item": "trash", "x": 13, "y": 3 },
         { "chance": 25, "item": "trash", "x": 8, "y": 2 },
-        { "chance": 25, "item": "trash", "x": [ 1, 2 ], "y": 1 },
+        { "chance": 25, "item": "trash", "x": [1, 2], "y": 1 },
         { "chance": 10, "item": "supplies_spares_vehicle", "x": 8, "y": 19 },
         { "chance": 10, "item": "supplies_spares_vehicle", "x": 3, "y": 16 },
         { "chance": 10, "item": "supplies_spares_vehicle", "x": 16, "y": 15 },

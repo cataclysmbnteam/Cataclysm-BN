@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "cs_private_park" ],
+    "om_terrain": ["cs_private_park"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -75,15 +75,15 @@
         "L": "f_locker",
         "S": "f_woodstove"
       },
-      "toilets": { "t": {  } },
-      "place_vehicles": [ { "vehicle": "bicycle", "x": 3, "y": 2, "rotation": 0, "chance": 50 } ],
+      "toilets": { "t": {} },
+      "place_vehicles": [{ "vehicle": "bicycle", "x": 3, "y": 2, "rotation": 0, "chance": 50 }],
       "place_items": [
-        { "item": "trash_forest", "chance": 50, "x": [ 17, 19 ], "y": [ 19, 21 ] },
-        { "item": "trash", "chance": 50, "x": [ 4, 5 ], "y": [ 8, 11 ] },
-        { "item": "trash", "chance": 50, "x": [ 6, 15 ], "y": [ 10, 15 ] },
-        { "item": "trash_forest", "chance": 50, "x": [ 17, 19 ], "y": [ 19, 21 ] },
-        { "item": "trash", "chance": 50, "x": [ 4, 5 ], "y": [ 8, 11 ] },
-        { "item": "trash", "chance": 50, "x": [ 6, 15 ], "y": [ 10, 15 ] },
+        { "item": "trash_forest", "chance": 50, "x": [17, 19], "y": [19, 21] },
+        { "item": "trash", "chance": 50, "x": [4, 5], "y": [8, 11] },
+        { "item": "trash", "chance": 50, "x": [6, 15], "y": [10, 15] },
+        { "item": "trash_forest", "chance": 50, "x": [17, 19], "y": [19, 21] },
+        { "item": "trash", "chance": 50, "x": [4, 5], "y": [8, 11] },
+        { "item": "trash", "chance": 50, "x": [6, 15], "y": [10, 15] },
         { "item": "trash_forest", "chance": 50, "x": 9, "y": 21 },
         { "item": "trash_forest", "chance": 50, "x": 10, "y": 21 },
         { "item": "trash", "chance": 50, "x": 9, "y": 21 },
@@ -93,7 +93,7 @@
         { "item": "trash", "chance": 50, "x": 10, "y": 21 },
         { "item": "trash", "chance": 50, "x": 11, "y": 21 }
       ],
-      "place_signs": [ { "signage": "Private Property: No Trespassing", "x": 8, "y": 0 } ]
+      "place_signs": [{ "signage": "Private Property: No Trespassing", "x": 8, "y": 0 }]
     }
   },
   {
@@ -128,7 +128,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ]
+      "palettes": ["roof_palette"]
     }
   }
 ]

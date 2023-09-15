@@ -33,8 +33,8 @@
         "........................",
         "........................"
       ],
-      "rotation": [ 0, 3 ],
-      "palettes": [ "FEMA_camp" ],
+      "rotation": [0, 3],
+      "palettes": ["FEMA_camp"],
       "terrain": { "n": "t_dirt", "P": "t_water_pump", "T": "t_dirt" },
       "items": { "L": { "item": "home_hw", "chance": 30 } }
     }

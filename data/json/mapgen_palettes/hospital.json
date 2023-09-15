@@ -70,6 +70,6 @@
       "A": "f_autodoc",
       "?": "f_autodoc_couch"
     },
-    "toilets": { "&": {  } }
+    "toilets": { "&": {} }
   }
 ]

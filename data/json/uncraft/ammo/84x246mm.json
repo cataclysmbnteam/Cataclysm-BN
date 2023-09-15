@@ -5,8 +5,8 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "10 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "chem_compositionb", 500 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 3 ] ] ],
+    "qualities": [{ "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }],
+    "components": [[["chem_compositionb", 500]], [["impact_fuze", 1]], [["scrap", 3]]],
     "charges": 1
   },
   {
@@ -15,8 +15,8 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "10 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "chem_compositionb", 600 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 3 ] ] ],
+    "qualities": [{ "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }],
+    "components": [[["chem_compositionb", 600]], [["impact_fuze", 1]], [["scrap", 3]]],
     "charges": 1
   },
   {
@@ -25,8 +25,8 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "10 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "impact_fuze", 1 ] ], [ [ "scrap", 2 ] ] ],
+    "qualities": [{ "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }],
+    "components": [[["impact_fuze", 1]], [["scrap", 2]]],
     "charges": 1
   }
 ]

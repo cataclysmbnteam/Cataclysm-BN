@@ -77,7 +77,11 @@
     "type": "item_group",
     "id": "NC_ARSONIST_shoes",
     "subtype": "distribution",
-    "entries": [ { "item": "sneakers", "prob": 20 }, { "item": "boots", "prob": 20 }, { "item": "boots_bunker", "prob": 10 } ]
+    "entries": [
+      { "item": "sneakers", "prob": 20 },
+      { "item": "boots", "prob": 20 },
+      { "item": "boots_bunker", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
@@ -94,7 +98,11 @@
     "type": "item_group",
     "id": "NC_ARSONIST_eyes",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 80 }, { "item": "glasses_safety", "prob": 20 }, { "item": "sunglasses", "prob": 20 } ]
+    "entries": [
+      { "item": "null", "prob": 80 },
+      { "item": "glasses_safety", "prob": 20 },
+      { "item": "sunglasses", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",
@@ -164,49 +172,57 @@
     "type": "item_group",
     "id": "NC_ARSONIST_throw",
     "subtype": "distribution",
-    "entries": [ { "item": "throwing_knife", "prob": 50 }, { "item": "throwing_axe", "prob": 50 } ]
+    "entries": [{ "item": "throwing_knife", "prob": 50 }, { "item": "throwing_axe", "prob": 50 }]
   },
   {
     "type": "item_group",
     "id": "NC_ARSONIST_archery",
     "subtype": "distribution",
-    "entries": [ { "item": "crossbow", "prob": 5 } ]
+    "entries": [{ "item": "crossbow", "prob": 5 }]
   },
   {
     "type": "item_group",
     "id": "NC_ARSONIST_pistols",
     "subtype": "distribution",
-    "entries": [ { "item": "usp_9mm", "prob": 30 }, { "item": "m9", "prob": 70 } ]
+    "entries": [{ "item": "usp_9mm", "prob": 30 }, { "item": "m9", "prob": 70 }]
   },
   {
     "type": "item_group",
     "id": "NC_ARSONIST_shotgun",
     "subtype": "distribution",
-    "entries": [ { "item": "mossberg_500", "prob": 25 }, { "item": "remington_870", "prob": 25 } ]
+    "entries": [{ "item": "mossberg_500", "prob": 25 }, { "item": "remington_870", "prob": 25 }]
   },
   {
     "type": "item_group",
     "id": "NC_ARSONIST_smg",
     "subtype": "distribution",
-    "entries": [ { "item": "uzi", "prob": 50 }, { "item": "tec9", "prob": 50 }, { "item": "sten", "prob": 10 } ]
+    "entries": [
+      { "item": "uzi", "prob": 50 },
+      { "item": "tec9", "prob": 50 },
+      { "item": "sten", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_ARSONIST_rifle",
     "subtype": "distribution",
-    "entries": [ { "item": "m4a1", "prob": 35 }, { "item": "m1a", "prob": 35 }, { "item": "ak47", "prob": 35 } ]
+    "entries": [
+      { "item": "m4a1", "prob": 35 },
+      { "item": "m1a", "prob": 35 },
+      { "item": "ak47", "prob": 35 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_ARSONIST_launcher",
     "subtype": "distribution",
-    "entries": [ { "item": "flamethrower", "prob": 50 } ]
+    "entries": [{ "item": "flamethrower", "prob": 50 }]
   },
   {
     "type": "item_group",
     "id": "NC_ARSONIST_weapon_random",
     "subtype": "distribution",
-    "entries": [ { "item": "q_staff", "prob": 100 } ]
+    "entries": [{ "item": "q_staff", "prob": 100 }]
   },
   {
     "type": "item_group",

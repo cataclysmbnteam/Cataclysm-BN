@@ -33,7 +33,7 @@
     "type": "item_group",
     "//": "for music store",
     "subtype": "distribution",
-    "entries": [ { "group": "kids_books", "prob": 139 }, { "item": "novel_pulp", "prob": 16 } ]
+    "entries": [{ "group": "kids_books", "prob": 139 }, { "item": "novel_pulp", "prob": 16 }]
   },
   {
     "id": "boxing_books",
@@ -294,7 +294,7 @@
     "id": "ranch_homebooks",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "reference_firstaid2", "prob": 2 }, { "group": "homebooks", "prob": 98 } ]
+    "entries": [{ "item": "reference_firstaid2", "prob": 2 }, { "group": "homebooks", "prob": 98 }]
   },
   {
     "type": "item_group",
@@ -624,7 +624,7 @@
     "id": "record_patient",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "record_patient", "prob": 100 } ]
+    "entries": [{ "item": "record_patient", "prob": 100 }]
   },
   {
     "id": "fireman_doc",
@@ -643,13 +643,13 @@
     "id": "record_weather",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "record_weather", "prob": 100 } ]
+    "entries": [{ "item": "record_weather", "prob": 100 }]
   },
   {
     "id": "isherwood_mission_reward_herbal",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "isherwood_herbal_remedies", "prob": 100 } ]
+    "entries": [{ "item": "isherwood_herbal_remedies", "prob": 100 }]
   },
   {
     "id": "tailorbooks",
@@ -748,7 +748,10 @@
     "id": "newspaper",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "group": "newspaper_recent", "prob": 80 }, { "group": "newspaper_old", "prob": 20 } ]
+    "entries": [
+      { "group": "newspaper_recent", "prob": 80 },
+      { "group": "newspaper_old", "prob": 20 }
+    ]
   },
   {
     "id": "newspaper_recent",

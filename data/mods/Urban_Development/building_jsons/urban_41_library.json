@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_41_1" ],
+    "om_terrain": ["urban_41_1"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -32,29 +32,29 @@
         ",,,,|@@@@@|   h h   OOOO",
         ",,,,---------           "
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
+      "palettes": ["acidia_residential_commercial_palette"],
       "items": { "t": { "item": "office", "chance": 40 } },
       "place_items": [
-        { "item": "textbooks", "x": 5, "y": [ 7, 18 ], "chance": 20, "repeat": [ 26, 52 ] },
-        { "item": "textbooks", "x": [ 7, 8 ], "y": 8, "chance": 10, "repeat": [ 6, 12 ] },
-        { "item": "textbooks", "x": [ 7, 10 ], "y": 10, "chance": 5, "repeat": [ 12, 24 ] },
-        { "item": "textbooks", "x": [ 7, 10 ], "y": 12, "chance": 5, "repeat": [ 12, 24 ] },
-        { "item": "textbooks", "x": [ 7, 10 ], "y": 14, "chance": 5, "repeat": [ 12, 24 ] },
-        { "item": "textbooks", "x": [ 7, 10 ], "y": 16, "chance": 5, "repeat": [ 12, 24 ] },
-        { "item": "textbooks", "x": [ 7, 8 ], "y": 18, "chance": 5, "repeat": [ 6, 12 ] },
-        { "item": "homebooks", "x": [ 11, 12 ], "y": 7, "chance": 50, "repeat": [ 4, 8 ] },
-        { "item": "homebooks", "x": [ 16, 17 ], "y": 7, "chance": 50, "repeat": [ 4, 8 ] },
-        { "item": "novels", "x": [ 20, 23 ], "y": 13, "chance": 80, "repeat": [ 8, 16 ] },
-        { "item": "novels", "x": [ 20, 23 ], "y": 16, "chance": 80, "repeat": [ 8, 16 ] },
-        { "item": "novels", "x": [ 20, 23 ], "y": 19, "chance": 80, "repeat": [ 8, 16 ] },
-        { "item": "novels", "x": [ 20, 23 ], "y": 22, "chance": 80, "repeat": [ 8, 16 ] }
+        { "item": "textbooks", "x": 5, "y": [7, 18], "chance": 20, "repeat": [26, 52] },
+        { "item": "textbooks", "x": [7, 8], "y": 8, "chance": 10, "repeat": [6, 12] },
+        { "item": "textbooks", "x": [7, 10], "y": 10, "chance": 5, "repeat": [12, 24] },
+        { "item": "textbooks", "x": [7, 10], "y": 12, "chance": 5, "repeat": [12, 24] },
+        { "item": "textbooks", "x": [7, 10], "y": 14, "chance": 5, "repeat": [12, 24] },
+        { "item": "textbooks", "x": [7, 10], "y": 16, "chance": 5, "repeat": [12, 24] },
+        { "item": "textbooks", "x": [7, 8], "y": 18, "chance": 5, "repeat": [6, 12] },
+        { "item": "homebooks", "x": [11, 12], "y": 7, "chance": 50, "repeat": [4, 8] },
+        { "item": "homebooks", "x": [16, 17], "y": 7, "chance": 50, "repeat": [4, 8] },
+        { "item": "novels", "x": [20, 23], "y": 13, "chance": 80, "repeat": [8, 16] },
+        { "item": "novels", "x": [20, 23], "y": 16, "chance": 80, "repeat": [8, 16] },
+        { "item": "novels", "x": [20, 23], "y": 19, "chance": 80, "repeat": [8, 16] },
+        { "item": "novels", "x": [20, 23], "y": 22, "chance": 80, "repeat": [8, 16] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_41_2" ],
+    "om_terrain": ["urban_41_2"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -84,20 +84,20 @@
         "OOOOOOOOO        ],,,,,,",
         "                 |,,,,,,"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
+      "palettes": ["acidia_residential_commercial_palette"],
       "items": { "t": { "item": "office", "chance": 40 }, "d": { "item": "office", "chance": 80 } },
       "place_items": [
-        { "item": "novels", "x": [ 0, 8 ], "y": 13, "chance": 80, "repeat": [ 18, 36 ] },
-        { "item": "novels", "x": [ 0, 8 ], "y": 16, "chance": 80, "repeat": [ 18, 36 ] },
-        { "item": "novels", "x": [ 0, 8 ], "y": 19, "chance": 80, "repeat": [ 18, 36 ] },
-        { "item": "novels", "x": [ 0, 8 ], "y": 22, "chance": 80, "repeat": [ 18, 36 ] }
+        { "item": "novels", "x": [0, 8], "y": 13, "chance": 80, "repeat": [18, 36] },
+        { "item": "novels", "x": [0, 8], "y": 16, "chance": 80, "repeat": [18, 36] },
+        { "item": "novels", "x": [0, 8], "y": 19, "chance": 80, "repeat": [18, 36] },
+        { "item": "novels", "x": [0, 8], "y": 22, "chance": 80, "repeat": [18, 36] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_41_3" ],
+    "om_terrain": ["urban_41_3"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -127,7 +127,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
+      "palettes": ["acidia_residential_commercial_palette"],
       "items": {
         "t": { "item": "office", "chance": 40 },
         "C": { "item": "coffee_counter", "chance": 20 },
@@ -135,17 +135,17 @@
         "f": { "item": "coffee_freezer", "chance": 90 }
       },
       "place_items": [
-        { "item": "homebooks", "x": [ 7, 11 ], "y": 0, "chance": 50, "repeat": [ 10, 20 ] },
-        { "item": "novels", "x": [ 20, 23 ], "y": 1, "chance": 80, "repeat": [ 8, 16 ] },
-        { "item": "mansion_books", "x": [ 16, 20 ], "y": 7, "chance": 20, "repeat": [ 10, 20 ] },
-        { "item": "mansion_books", "x": [ 16, 20 ], "y": 10, "chance": 20, "repeat": [ 10, 20 ] }
+        { "item": "homebooks", "x": [7, 11], "y": 0, "chance": 50, "repeat": [10, 20] },
+        { "item": "novels", "x": [20, 23], "y": 1, "chance": 80, "repeat": [8, 16] },
+        { "item": "mansion_books", "x": [16, 20], "y": 7, "chance": 20, "repeat": [10, 20] },
+        { "item": "mansion_books", "x": [16, 20], "y": 10, "chance": 20, "repeat": [10, 20] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_41_4" ],
+    "om_terrain": ["urban_41_4"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -175,24 +175,24 @@
         ",,,,,;;;;;,,,,,,,,,,,,,,",
         ",,,,,;;;;;,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
+      "palettes": ["acidia_residential_commercial_palette"],
       "items": {
         "t": { "item": "office", "chance": 40 },
         "d": { "item": "office", "chance": 80 },
         "r": { "item": "maps", "chance": 20 },
         "2": { "item": "coffee_bathroom", "chance": 20 }
       },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "place_items": [
-        { "item": "novels", "x": [ 0, 8 ], "y": 1, "chance": 80, "repeat": [ 18, 36 ] },
-        { "item": "exotic_books", "x": 10, "y": [ 5, 7 ], "chance": 30, "repeat": [ 6, 12 ] }
+        { "item": "novels", "x": [0, 8], "y": 1, "chance": 80, "repeat": [18, 36] },
+        { "item": "exotic_books", "x": 10, "y": [5, 7], "chance": 30, "repeat": [6, 12] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_41_5" ],
+    "om_terrain": ["urban_41_5"],
     "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
@@ -222,14 +222,17 @@
         "....|OOOOOOO    OOOOOO-|",
         "....--------    --------"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
-      "items": { "t": { "item": "office", "chance": 40 }, "O": { "item": "homebooks", "chance": 30 } }
+      "palettes": ["acidia_residential_commercial_palette"],
+      "items": {
+        "t": { "item": "office", "chance": 40 },
+        "O": { "item": "homebooks", "chance": 30 }
+      }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_41_6" ],
+    "om_terrain": ["urban_41_6"],
     "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
@@ -259,14 +262,14 @@
         "                 |......",
         "                 |......"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
+      "palettes": ["acidia_residential_commercial_palette"],
       "items": { "r": { "item": "homebooks", "chance": 10 } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_41_7" ],
+    "om_terrain": ["urban_41_7"],
     "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
@@ -296,15 +299,15 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_residential_commercial_palette"],
+      "toilets": { "T": {} },
       "items": { "t": { "item": "office", "chance": 20 }, "d": { "item": "office", "chance": 10 } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_41_8" ],
+    "om_terrain": ["urban_41_8"],
     "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
@@ -334,15 +337,21 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_commercial_palette" ],
-      "items": { "O": { "item": "homebooks", "chance": 5 }, "f": { "item": "fridgesnacks", "chance": 60 } },
-      "place_loot": [ { "item": "microwave", "x": 9, "y": 12, "chance": 100 }, { "item": "laptop", "x": 14, "y": 14, "chance": 70 } ]
+      "palettes": ["acidia_residential_commercial_palette"],
+      "items": {
+        "O": { "item": "homebooks", "chance": 5 },
+        "f": { "item": "fridgesnacks", "chance": 60 }
+      },
+      "place_loot": [
+        { "item": "microwave", "x": 9, "y": 12, "chance": 100 },
+        { "item": "laptop", "x": 14, "y": 14, "chance": 70 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_41_9" ],
+    "om_terrain": ["urban_41_9"],
     "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
@@ -372,13 +381,13 @@
         "....4RRRRRRRRRRRRRRRRRRR",
         "....453RRRRRRRRRRRRRRRRR"
       ],
-      "palettes": [ "acidia_residential_roof_palette" ]
+      "palettes": ["acidia_residential_roof_palette"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_41_10" ],
+    "om_terrain": ["urban_41_10"],
     "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
@@ -408,13 +417,13 @@
         "RRRRRRRRRRRRRRRRR2......",
         "RRRRRRRRRRRRRRRRR2......"
       ],
-      "palettes": [ "acidia_residential_roof_palette" ]
+      "palettes": ["acidia_residential_roof_palette"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_41_11" ],
+    "om_terrain": ["urban_41_11"],
     "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
@@ -444,13 +453,13 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_roof_palette" ]
+      "palettes": ["acidia_residential_roof_palette"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_41_12" ],
+    "om_terrain": ["urban_41_12"],
     "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
@@ -480,7 +489,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_residential_roof_palette" ]
+      "palettes": ["acidia_residential_roof_palette"]
     }
   }
 ]

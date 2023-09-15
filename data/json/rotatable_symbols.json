@@ -1,98 +1,98 @@
 [
   {
     "type": "rotatable_symbol",
-    "tuple": [ "<", "^", ">", "v" ]
+    "tuple": ["<", "^", ">", "v"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "┘", "└", "┌", "┐" ]
+    "tuple": ["┘", "└", "┌", "┐"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "│", "─" ]
+    "tuple": ["│", "─"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "├", "┬", "┤", "┴" ]
+    "tuple": ["├", "┬", "┤", "┴"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╝", "╚", "╔", "╗" ]
+    "tuple": ["╝", "╚", "╔", "╗"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "║", "═" ]
+    "tuple": ["║", "═"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╠", "╦", "╣", "╩" ]
+    "tuple": ["╠", "╦", "╣", "╩"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╛", "╘", "╒", "╕" ]
+    "tuple": ["╛", "╘", "╒", "╕"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╫", "╪" ]
+    "tuple": ["╫", "╪"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╞", "╤", "╡", "╧" ]
+    "tuple": ["╞", "╤", "╡", "╧"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╜", "╙", "╓", "╖" ]
+    "tuple": ["╜", "╙", "╓", "╖"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╟", "╥", "╢", "╨" ]
+    "tuple": ["╟", "╥", "╢", "╨"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "┃", "━" ]
+    "tuple": ["┃", "━"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "┆", "┄" ]
+    "tuple": ["┆", "┄"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "┇", "┅" ]
+    "tuple": ["┇", "┅"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "┊", "┈" ]
+    "tuple": ["┊", "┈"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "┋", "┉" ]
+    "tuple": ["┋", "┉"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╎", "╌" ]
+    "tuple": ["╎", "╌"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╏", "╍" ]
+    "tuple": ["╏", "╍"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "╯", "╰", "╭", "╮" ]
+    "tuple": ["╯", "╰", "╭", "╮"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "▟", "▙", "▛", "▜" ]
+    "tuple": ["▟", "▙", "▛", "▜"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "▚", "▞" ]
+    "tuple": ["▚", "▞"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "▘", "▝", "▗", "▖" ]
+    "tuple": ["▘", "▝", "▗", "▖"]
   },
   {
     "type": "rotatable_symbol",
-    "tuple": [ "▁", "▏", "▔", "▕" ]
+    "tuple": ["▁", "▏", "▔", "▕"]
   }
 ]

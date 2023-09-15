@@ -285,7 +285,10 @@
     "type": "map_extra",
     "name": "Dead Vegetation (Point)",
     "description": "Dead vegetation is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_dead_vegetation" },
+    "generator": {
+      "generator_method": "map_extra_function",
+      "generator_id": "mx_point_dead_vegetation"
+    },
     "sym": ".",
     "color": "brown",
     "autonote": true
@@ -303,7 +306,10 @@
     "type": "map_extra",
     "name": "Burned Ground (Point)",
     "description": "Burned ground is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_burned_ground" },
+    "generator": {
+      "generator_method": "map_extra_function",
+      "generator_id": "mx_point_burned_ground"
+    },
     "sym": "."
   },
   {
@@ -311,7 +317,10 @@
     "type": "map_extra",
     "name": "Marloss Pilgrimage",
     "description": "Marloss Pilgrimage is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_marloss_pilgrimage" },
+    "generator": {
+      "generator_method": "map_extra_function",
+      "generator_id": "mx_marloss_pilgrimage"
+    },
     "sym": "F",
     "color": "dark_gray",
     "autonote": true

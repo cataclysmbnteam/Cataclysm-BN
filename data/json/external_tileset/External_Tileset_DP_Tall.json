@@ -1,7 +1,7 @@
 [
   {
     "type": "mod_tileset",
-    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE" ],
+    "compatibility": ["UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE"],
     "tiles-new": [
       {
         "file": "external_tileset/External_Tileset_DP_Tall.png",

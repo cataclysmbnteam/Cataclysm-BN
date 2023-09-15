@@ -15,6 +15,6 @@
     "ammo_type": "12mm",
     "capacity": 20,
     "reliability": 10,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   }
 ]

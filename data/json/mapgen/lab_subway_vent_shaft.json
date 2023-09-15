@@ -23,7 +23,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_subway_vent_shaft_roof" ],
+    "om_terrain": ["lab_subway_vent_shaft_roof"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_open_air",
@@ -53,13 +53,13 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_subway_vent_shaft" ]
+      "palettes": ["lab_subway_vent_shaft"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_subway_vent_shaft_surface" ],
+    "om_terrain": ["lab_subway_vent_shaft_surface"],
     "weight": 1000,
     "object": {
       "predecessor_mapgen": "forest",
@@ -89,13 +89,13 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_subway_vent_shaft" ]
+      "palettes": ["lab_subway_vent_shaft"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_subway_vent_shaft-1" ],
+    "om_terrain": ["lab_subway_vent_shaft-1"],
     "weight": 1000,
     "object": {
       "rows": [
@@ -124,13 +124,13 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "lab_subway_vent_shaft" ]
+      "palettes": ["lab_subway_vent_shaft"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_subway_vent_shaft-2" ],
+    "om_terrain": ["lab_subway_vent_shaft-2"],
     "weight": 1000,
     "object": {
       "rows": [
@@ -159,13 +159,13 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "lab_subway_vent_shaft" ]
+      "palettes": ["lab_subway_vent_shaft"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_subway_vent_shaft-3" ],
+    "om_terrain": ["lab_subway_vent_shaft-3"],
     "weight": 1000,
     "object": {
       "rows": [
@@ -194,13 +194,13 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "lab_subway_vent_shaft" ]
+      "palettes": ["lab_subway_vent_shaft"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_subway_vent_shaft-4" ],
+    "om_terrain": ["lab_subway_vent_shaft-4"],
     "weight": 1000,
     "object": {
       "rows": [
@@ -229,7 +229,7 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "lab_subway_vent_shaft" ]
+      "palettes": ["lab_subway_vent_shaft"]
     }
   }
 ]

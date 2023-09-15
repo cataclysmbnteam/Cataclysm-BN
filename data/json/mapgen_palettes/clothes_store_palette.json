@@ -23,7 +23,7 @@
       "L": "f_locker",
       "l": "f_locker",
       "b": "f_bigmirror",
-      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "y": ["f_indoor_plant", "f_indoor_plant_y"],
       "p": "f_region_flower",
       "D": "f_trashcan",
       "&": "f_mannequin",
@@ -37,18 +37,27 @@
         { "item": "pants_mens", "chance": 5, "repeat": 3 }
       ],
       "K": { "item": "coats_unisex", "chance": 30, "repeat": 3 },
-      "J": [ { "item": "shoes_unisex", "chance": 60, "repeat": 3 }, { "item": "shoes_womens", "chance": 20, "repeat": 3 } ],
-      "W": [ { "item": "shirts_unisex", "chance": 50, "repeat": 3 }, { "item": "shirts_womens", "chance": 10, "repeat": 3 } ],
+      "J": [
+        { "item": "shoes_unisex", "chance": 60, "repeat": 3 },
+        { "item": "shoes_womens", "chance": 20, "repeat": 3 }
+      ],
+      "W": [
+        { "item": "shirts_unisex", "chance": 50, "repeat": 3 },
+        { "item": "shirts_womens", "chance": 10, "repeat": 3 }
+      ],
       "U": { "item": "underwear_mens", "chance": 40, "repeat": 3 },
       "I": { "item": "underwear_womens", "chance": 40, "repeat": 3 },
-      "T": [ { "item": "gloves_unisex", "chance": 45, "repeat": 3 }, { "item": "scarfs_unisex", "chance": 30, "repeat": 3 } ],
+      "T": [
+        { "item": "gloves_unisex", "chance": 45, "repeat": 3 },
+        { "item": "scarfs_unisex", "chance": 30, "repeat": 3 }
+      ],
       "O": [
         { "item": "clothing_outdoor_torso", "chance": 50, "repeat": 3 },
         { "item": "clothing_outdoor_pants", "chance": 50, "repeat": 3 }
       ],
       "B": { "item": "bags", "chance": 50, "repeat": 3 },
       "$": { "item": "SUS_office_filing_cabinet", "chance": 100 },
-      "D": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
+      "D": { "item": "trash", "chance": 30, "repeat": [1, 2] },
       "(": { "item": "SUS_mannequin_outdoor", "chance": 30 },
       "&": { "item": "SUS_mannequin_general", "chance": 70 },
       "d": { "item": "SUS_office_desk", "chance": 100 },
@@ -72,7 +81,7 @@
       "d": "f_desk",
       "[": "f_table",
       "b": "f_bigmirror",
-      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "y": ["f_indoor_plant", "f_indoor_plant_y"],
       "&": "f_mannequin",
       "@": "f_mannequin",
       "h": "f_chair",
@@ -112,7 +121,7 @@
       "d": "f_desk",
       "[": "f_table",
       "b": "f_bigmirror",
-      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "y": ["f_indoor_plant", "f_indoor_plant_y"],
       "&": "f_mannequin",
       "h": "f_chair",
       "p": "f_region_flower",

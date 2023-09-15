@@ -28,7 +28,7 @@
     "capacity": 10,
     "reliability": 9,
     "reload_time": 130,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "as50mag",
@@ -47,7 +47,7 @@
     "capacity": 10,
     "reliability": 9,
     "reload_time": 110,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "tac50mag",
@@ -66,6 +66,6 @@
     "capacity": 5,
     "reliability": 9,
     "reload_time": 200,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   }
 ]

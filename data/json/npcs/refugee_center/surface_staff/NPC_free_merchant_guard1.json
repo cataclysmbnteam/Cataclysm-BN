@@ -14,7 +14,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_EVAC_GUARD1",
-    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Hello marshal.", "no": "Hello there." },
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "Hello marshal.",
+      "no": "Hello there."
+    },
     "responses": [
       { "text": "What is this place?", "topic": "TALK_EVAC_GUARD1_PLACE" },
       { "text": "Can I join you guys?", "topic": "TALK_EVAC_GUARD1_JOIN" },
@@ -27,7 +31,10 @@
     "id": "TALK_EVAC_GUARD1_PLACE",
     "dynamic_line": "This is a refugee center that we've made into a sort of trading hub.",
     "responses": [
-      { "text": "So are you with the government or something?", "topic": "TALK_EVAC_GUARD1_GOVERNMENT" },
+      {
+        "text": "So are you with the government or something?",
+        "topic": "TALK_EVAC_GUARD1_GOVERNMENT"
+      },
       { "text": "What do you trade?", "topic": "TALK_EVAC_GUARD1_TRADE" }
     ]
   },
@@ -53,14 +60,17 @@
     "type": "talk_topic",
     "id": "TALK_EVAC_GUARD1_JOIN",
     "dynamic_line": "Nope.",
-    "responses": [ { "text": "That's pretty blunt!", "topic": "TALK_EVAC_GUARD1_JOIN2" } ]
+    "responses": [{ "text": "That's pretty blunt!", "topic": "TALK_EVAC_GUARD1_JOIN2" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_EVAC_GUARD1_JOIN2",
     "dynamic_line": "Death is pretty blunt.",
     "responses": [
-      { "text": "So no negotiating?  No, 'If you do this quest then we'll let you in?'", "topic": "TALK_EVAC_GUARD1_JOIN3" }
+      {
+        "text": "So no negotiating?  No, 'If you do this quest then we'll let you in?'",
+        "topic": "TALK_EVAC_GUARD1_JOIN3"
+      }
     ]
   },
   {
@@ -77,7 +87,11 @@
     "id": "TALK_EVAC_GUARD1_ATTITUDE",
     "dynamic_line": "Then leave, you have two feet.",
     "responses": [
-      { "text": "I think I'd rather rearrange your face instead!", "topic": "TALK_DONE", "effect": "insult_combat" },
+      {
+        "text": "I think I'd rather rearrange your face instead!",
+        "topic": "TALK_DONE",
+        "effect": "insult_combat"
+      },
       { "text": "I will.", "topic": "TALK_DONE" }
     ]
   },
@@ -105,7 +119,7 @@
     "type": "talk_topic",
     "id": "TALK_EVAC_GUARD1_BYE",
     "dynamic_line": "Stay safe out there.  Hate to have to kill you after you've already died.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "…", "topic": "TALK_DONE" }]
   },
   {
     "id": "MISSION_EVAC_SMOKER_GET_CIGARETTES",
@@ -117,7 +131,7 @@
     "value": 800,
     "item": "cig",
     "count": 100,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "Come on man, I just need a smoke.",
       "offer": "With all that's been going on, it's been more and more difficult to find a smoke.  My stash has been running low for a while now.  Think you could help me out here?  A few packs is all I need.",

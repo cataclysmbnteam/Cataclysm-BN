@@ -29,7 +29,7 @@
         ]
       ]
     ],
-    "flags": [ "FIRESTARTER" ],
+    "flags": ["FIRESTARTER"],
     "magazine_well": "250 ml"
   },
   {
@@ -49,7 +49,7 @@
     "max_charges": 50,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": ["FIRESTARTER"]
   },
   {
     "id": "fire_drill_large",
@@ -61,14 +61,14 @@
     "volume": "1250 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": [ "wood", "stone" ],
+    "material": ["wood", "stone"],
     "symbol": ",",
     "color": "brown",
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": ["FIRESTARTER"]
   },
   {
     "id": "flint_steel",
@@ -81,14 +81,14 @@
     "price": 300,
     "price_postapoc": 250,
     "to_hit": -1,
-    "material": [ "stone", "steel" ],
+    "material": ["stone", "steel"],
     "symbol": ",",
     "color": "dark_gray",
     "initial_charges": 2000,
     "max_charges": 2000,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 5000 },
-    "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
+    "flags": ["FIRESTARTER", "REQUIRES_TINDER"]
   },
   {
     "id": "lighter",
@@ -100,14 +100,14 @@
     "volume": "14 ml",
     "price": 10,
     "price_postapoc": 10,
-    "material": [ "plastic", "aluminum" ],
+    "material": ["plastic", "aluminum"],
     "symbol": ",",
     "color": "blue",
-    "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
+    "rand_charges": [1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100],
     "max_charges": 100,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 50 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": ["FIRESTARTER"]
   },
   {
     "id": "magnifying_glass",
@@ -120,11 +120,16 @@
     "price": 600,
     "price_postapoc": 50,
     "to_hit": -1,
-    "material": [ "glass", "plastic" ],
+    "material": ["glass", "plastic"],
     "symbol": "o",
     "color": "green",
-    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true },
-    "flags": [ "FIRESTARTER" ]
+    "use_action": {
+      "type": "firestarter",
+      "moves": 1000,
+      "moves_slow": 25000,
+      "need_sunlight": true
+    },
+    "flags": ["FIRESTARTER"]
   },
   {
     "id": "matches",
@@ -143,7 +148,7 @@
     "max_charges": 20,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": ["FIRESTARTER"]
   },
   {
     "id": "ref_lighter",
@@ -174,7 +179,7 @@
       },
       { "type": "firestarter", "moves": 50 }
     ],
-    "flags": [ "FIRESTARTER" ]
+    "flags": ["FIRESTARTER"]
   },
   {
     "id": "ref_lighter_on",
@@ -205,7 +210,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "FIRESTARTER", "LIGHT_8", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": ["FIRE", "FIRESTARTER", "LIGHT_8", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH"]
   },
   {
     "id": "tinderbox",
@@ -260,6 +265,6 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRESTARTER" ]
+    "flags": ["FIRESTARTER"]
   }
 ]

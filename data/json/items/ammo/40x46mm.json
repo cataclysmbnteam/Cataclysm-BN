@@ -6,8 +6,8 @@
     "volume": "250 ml",
     "price": 10000,
     "price_postapoc": 6000,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "steel", "powder" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
+    "material": ["steel", "powder"],
     "symbol": "=",
     "color": "yellow",
     "count": 6,
@@ -17,7 +17,7 @@
     "damage": { "damage_type": "bullet", "amount": 80 },
     "dispersion": 30,
     "recoil": 225,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": ["COOKOFF", "NEVER_MISFIRES"]
   },
   {
     "id": "40x46mm_m1006",
@@ -28,7 +28,7 @@
     "weight": "68 g",
     "damage": { "damage_type": "bash", "amount": 20 },
     "casing": "40x46mm_m212_casing",
-    "extend": { "effects": [ "LARGE_BEANBAG" ] }
+    "extend": { "effects": ["LARGE_BEANBAG"] }
   },
   {
     "id": "40x46mm_m433",
@@ -39,7 +39,7 @@
     "weight": "230 g",
     "damage": { "damage_type": "bullet", "amount": 200, "armor_penetration": 30 },
     "casing": "40x46mm_m118_casing",
-    "extend": { "effects": [ "FRAG" ] }
+    "extend": { "effects": ["FRAG"] }
   },
   {
     "id": "40x46mm_m576",
@@ -52,7 +52,7 @@
     "damage": { "damage_type": "bullet", "amount": 120 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "extend": { "effects": ["SHOT"] }
   },
   {
     "id": "40x46mm_m651",
@@ -64,7 +64,7 @@
     "damage": { "damage_type": "bullet", "amount": 15 },
     "drop": "gasbomb_act",
     "casing": "40x46mm_m195_casing",
-    "extend": { "effects": [ "NO_EMBED" ] }
+    "extend": { "effects": ["NO_EMBED"] }
   },
   {
     "id": "40x46mm_buckshot_m118",
@@ -77,7 +77,7 @@
     "damage": { "damage_type": "bullet", "amount": 120 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "extend": { "effects": ["SHOT"] }
   },
   {
     "id": "40x46mm_slug_m118",
@@ -117,7 +117,7 @@
     "damage": { "damage_type": "bullet", "amount": 84, "armor_penetration": 72 },
     "recoil": 1000,
     "casing": "40x46mm_m118_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "extend": { "effects": ["SHOT"] }
   },
   {
     "id": "40x46mm_flechette_m199",
@@ -131,6 +131,6 @@
     "damage": { "damage_type": "bullet", "amount": 84, "armor_penetration": 72 },
     "recoil": 1000,
     "casing": "40x46mm_m199_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "extend": { "effects": ["SHOT"] }
   }
 ]

@@ -6,7 +6,7 @@
     "name": { "str": ".50 BMG M17 tracer" },
     "description": "A tracer variant of the powerful .50 BMG round.  Tracer rounds help to keep the weapon they are fired from on target at the risk of igniting flammable substances.",
     "count": 10,
-    "effects": [ "INCENDIARY" ],
+    "effects": ["INCENDIARY"],
     "dispersion": 310
   },
   {
@@ -18,8 +18,8 @@
     "volume": "250 ml",
     "price": 2200,
     "price_postapoc": 2500,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "powder" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
+    "material": ["brass", "powder"],
     "symbol": "=",
     "color": "dark_gray",
     "count": 25,
@@ -31,7 +31,7 @@
     "damage": { "damage_type": "bullet", "amount": 100, "armor_penetration": 44 },
     "dispersion": 150,
     "recoil": 5000,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": ["COOKOFF", "NEVER_MISFIRES"]
   },
   {
     "id": "50match",
@@ -61,9 +61,9 @@
     "name": { "str": ".50 BMG Raufoss Mk 211" },
     "price": 60000,
     "price_postapoc": 7500,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
     "description": "This variant of the .50 BMG round makes the most of the caliber's potential payload delivery: the tip is loaded with an incendiary mix, which ignites on impact, detonating the RDX or PETN charge.  This also ignites a secondary zirconium powder incendiary charge that surrounds a tungsten carbide penetrator, both encased by a mild steel cup.  Fragments from the cup and burning metallic powder follow the penetrator through armored targets, increasing lethality.  These rare, complicated, and expensive rounds are not likely to be manufactured again; use them wisely.",
-    "effects": [ "INCENDIARY", "EXPLOSIVE_BIG" ],
+    "effects": ["INCENDIARY", "EXPLOSIVE_BIG"],
     "//": "mk 211 is estimated to be as effective as 20mm, which would have 65kJ energy, or 255 damage. ~181 damage is fair.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 50, "armor_penetration": 25 } },
     "dispersion": 100

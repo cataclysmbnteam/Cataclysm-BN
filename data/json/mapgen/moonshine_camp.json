@@ -74,7 +74,7 @@
         { "item": "stepladder", "repeat": 1, "x": 21, "y": 13 }
       ],
       "place_items": [
-        { "chance": 75, "item": "moonshine_brew", "x": [ 12, 13 ], "y": 13 },
+        { "chance": 75, "item": "moonshine_brew", "x": [12, 13], "y": 13 },
         { "chance": 75, "item": "moonshine_brew", "x": 16, "y": 12 },
         { "chance": 55, "item": "trash", "x": 10, "y": 13 },
         { "chance": 55, "item": "trash", "x": 9, "y": 12 },
@@ -165,10 +165,16 @@
         "_": "t_grass",
         "|": "t_wall_wood"
       },
-      "furniture": { "H": "f_wood_keg", "O": "f_fvat_empty", "^": "f_still", "a": "f_ash", "c": "f_chair" },
+      "furniture": {
+        "H": "f_wood_keg",
+        "O": "f_fvat_empty",
+        "^": "f_still",
+        "a": "f_ash",
+        "c": "f_chair"
+      },
       "place_items": [
         { "chance": 75, "item": "moonshine_brew", "x": 13, "y": 12 },
-        { "chance": 75, "item": "moonshine_brew", "x": 12, "y": [ 11, 14 ] },
+        { "chance": 75, "item": "moonshine_brew", "x": 12, "y": [11, 14] },
         { "chance": 5, "item": "camping", "x": 14, "y": 8 },
         { "chance": 55, "item": "trash", "x": 20, "y": 18 },
         { "chance": 55, "item": "trash", "x": 8, "y": 13 }
@@ -263,7 +269,7 @@
         "|": "t_wall_wood"
       },
       "furniture": { "O": "f_fvat_empty", "^": "f_still", "c": "f_chair", "t": "f_table" },
-      "place_item": [ { "item": "stepladder", "repeat": 1, "x": 4, "y": 4 } ],
+      "place_item": [{ "item": "stepladder", "repeat": 1, "x": 4, "y": 4 }],
       "place_items": [
         { "chance": 15, "item": "trash", "x": 9, "y": 19 },
         { "chance": 15, "item": "trash", "x": 16, "y": 17 },
@@ -271,7 +277,7 @@
         { "chance": 15, "item": "trash", "x": 12, "y": 5 },
         { "chance": 45, "item": "clutter_yard", "x": 6, "y": 14 },
         { "chance": 45, "item": "clutter_yard", "x": 8, "y": 10 },
-        { "chance": 65, "item": "moonshine_brew", "x": 12, "y": [ 11, 12 ] }
+        { "chance": 65, "item": "moonshine_brew", "x": 12, "y": [11, 12] }
       ]
     }
   },

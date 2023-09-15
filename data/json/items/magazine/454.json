@@ -12,9 +12,9 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "454", "45colt", "410shot" ],
+    "ammo_type": ["454", "45colt", "410shot"],
     "capacity": 5,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": ["SPEEDLOADER"]
   },
   {
     "id": "454_speedloader6",

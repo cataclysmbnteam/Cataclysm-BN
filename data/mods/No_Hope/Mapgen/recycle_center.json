@@ -13,20 +13,62 @@
         "{": "f_recycle_bin",
         "S": "f_sink"
       },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "place_items": [
-        { "chance": 50, "repeat": [ 120, 220 ], "item": "recycle_iron", "x": [ 10, 14 ], "y": [ 15, 16 ] },
-        { "chance": 50, "repeat": [ 50, 120 ], "item": "recycle_electronic", "x": [ 18, 19 ], "y": [ 12, 14 ] },
-        { "chance": 50, "repeat": [ 160, 400 ], "item": "recycle_paper", "x": [ 4, 5 ], "y": [ 11, 19 ] },
-        { "chance": 50, "repeat": [ 80, 180 ], "item": "recycle_copper", "x": [ 10, 14 ], "y": [ 12, 13 ] },
-        { "chance": 50, "repeat": [ 30, 100 ], "item": "recycle_battery", "x": [ 18, 19 ], "y": [ 17, 19 ] },
-        { "chance": 50, "repeat": [ 80, 180 ], "item": "recycle_glass", "x": [ 18, 19 ], "y": [ 7, 9 ] },
-        { "chance": 50, "repeat": [ 150, 250 ], "item": "recycle_steel", "x": [ 10, 14 ], "y": [ 18, 19 ] },
+        {
+          "chance": 50,
+          "repeat": [120, 220],
+          "item": "recycle_iron",
+          "x": [10, 14],
+          "y": [15, 16]
+        },
+        {
+          "chance": 50,
+          "repeat": [50, 120],
+          "item": "recycle_electronic",
+          "x": [18, 19],
+          "y": [12, 14]
+        },
+        { "chance": 50, "repeat": [160, 400], "item": "recycle_paper", "x": [4, 5], "y": [11, 19] },
+        {
+          "chance": 50,
+          "repeat": [80, 180],
+          "item": "recycle_copper",
+          "x": [10, 14],
+          "y": [12, 13]
+        },
+        {
+          "chance": 50,
+          "repeat": [30, 100],
+          "item": "recycle_battery",
+          "x": [18, 19],
+          "y": [17, 19]
+        },
+        { "chance": 50, "repeat": [80, 180], "item": "recycle_glass", "x": [18, 19], "y": [7, 9] },
+        {
+          "chance": 50,
+          "repeat": [150, 250],
+          "item": "recycle_steel",
+          "x": [10, 14],
+          "y": [18, 19]
+        },
         { "chance": 25, "item": "office_mess", "x": 6, "y": 7 },
         { "chance": 25, "item": "office_mess", "x": 3, "y": 7 },
         { "chance": 35, "repeat": 2, "item": "trash", "x": 3, "y": 5 },
-        { "chance": 50, "repeat": [ 80, 180 ], "item": "recycle_aluminum", "x": [ 10, 14 ], "y": [ 9, 10 ] },
-        { "chance": 50, "repeat": [ 180, 350 ], "item": "recycle_plastic", "x": [ 7, 8 ], "y": [ 11, 19 ] }
+        {
+          "chance": 50,
+          "repeat": [80, 180],
+          "item": "recycle_aluminum",
+          "x": [10, 14],
+          "y": [9, 10]
+        },
+        {
+          "chance": 50,
+          "repeat": [180, 350],
+          "item": "recycle_plastic",
+          "x": [7, 8],
+          "y": [11, 19]
+        }
       ],
       "rows": [
         ".........s..............",
@@ -57,8 +99,14 @@
       "terrain": {
         "&": "t_floor",
         "+": "t_door_metal_c",
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "D": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
+        "D": [
+          ["t_door_b", 20],
+          ["t_door_frame", 10],
+          ["t_door_o", 70],
+          ["t_door_c", 5],
+          ["t_door_locked_interior", 3]
+        ],
         "_": "t_thconc_floor",
         "c": "t_floor",
         "R": "t_recycler",
@@ -66,7 +114,7 @@
         "f": "t_floor",
         "s": "t_sidewalk",
         "t": "t_floor",
-        "w": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
+        "w": [["t_window_frame", 70], ["t_window_empty", 20], ["t_window", 5]],
         "|": "t_brick_wall",
         "4": "t_gutter_downspout"
       },
@@ -118,19 +166,22 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "palettes": ["roof_palette"],
+      "nested": {
+        "U": { "chunks": ["roof_2x2_infrastructure"] },
+        "R": { "chunks": ["roof_2x2_infrastructure_1"] }
+      },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 5, 15 ],
-          "y": [ 7, 15 ]
+          "x": [5, 15],
+          "y": [7, 15]
         }
       ]
     }
@@ -153,21 +204,55 @@
         "R": "f_sink"
       },
       "place_items": [
-        { "chance": 50, "repeat": [ 20, 60 ], "item": "recycle_copper", "x": [ 8, 9 ], "y": 19 },
-        { "chance": 50, "repeat": [ 80, 220 ], "item": "recycle_plastic", "x": [ 4, 5 ], "y": [ 6, 11 ] },
-        { "chance": 50, "repeat": [ 80, 220 ], "item": "recycle_iron", "x": [ 8, 9 ], "y": [ 6, 11 ] },
+        { "chance": 50, "repeat": [20, 60], "item": "recycle_copper", "x": [8, 9], "y": 19 },
+        { "chance": 50, "repeat": [80, 220], "item": "recycle_plastic", "x": [4, 5], "y": [6, 11] },
+        { "chance": 50, "repeat": [80, 220], "item": "recycle_iron", "x": [8, 9], "y": [6, 11] },
         { "chance": 30, "repeat": 2, "item": "trash", "x": 12, "y": 7 },
         { "chance": 30, "repeat": 2, "item": "trash", "x": 13, "y": 5 },
-        { "chance": 50, "repeat": [ 100, 350 ], "item": "recycle_paper", "x": [ 18, 19 ], "y": [ 9, 19 ] },
-        { "chance": 50, "repeat": [ 20, 120 ], "item": "recycle_battery", "x": [ 13, 15 ], "y": [ 18, 19 ] },
+        {
+          "chance": 50,
+          "repeat": [100, 350],
+          "item": "recycle_paper",
+          "x": [18, 19],
+          "y": [9, 19]
+        },
+        {
+          "chance": 50,
+          "repeat": [20, 120],
+          "item": "recycle_battery",
+          "x": [13, 15],
+          "y": [18, 19]
+        },
         { "chance": 25, "item": "office", "x": 14, "y": 5 },
         { "chance": 25, "item": "office", "x": 12, "y": 5 },
-        { "chance": 50, "repeat": [ 80, 250 ], "item": "recycle_steel", "x": [ 4, 5 ], "y": [ 14, 19 ] },
-        { "chance": 50, "repeat": [ 20, 100 ], "item": "recycle_aluminum", "x": [ 8, 9 ], "y": [ 14, 15 ] },
-        { "chance": 50, "repeat": [ 20, 120 ], "item": "recycle_electronic", "x": [ 13, 15 ], "y": [ 14, 15 ] },
-        { "chance": 50, "repeat": [ 20, 150 ], "item": "recycle_glass", "x": [ 13, 15 ], "y": [ 10, 11 ] }
+        { "chance": 50, "repeat": [80, 250], "item": "recycle_steel", "x": [4, 5], "y": [14, 19] },
+        {
+          "chance": 50,
+          "repeat": [20, 100],
+          "item": "recycle_aluminum",
+          "x": [8, 9],
+          "y": [14, 15]
+        },
+        {
+          "chance": 50,
+          "repeat": [20, 120],
+          "item": "recycle_electronic",
+          "x": [13, 15],
+          "y": [14, 15]
+        },
+        { "chance": 50, "repeat": [20, 150], "item": "recycle_glass", "x": [13, 15], "y": [10, 11] }
       ],
-      "place_vehicles": [ { "chance": 75, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "forklift", "x": 16, "y": [ 7, 16 ] } ],
+      "place_vehicles": [
+        {
+          "chance": 75,
+          "fuel": 0,
+          "rotation": 270,
+          "status": -1,
+          "vehicle": "forklift",
+          "x": 16,
+          "y": [7, 16]
+        }
+      ],
       "rows": [
         ".....cccc...............",
         ".....cccc...............",
@@ -197,20 +282,20 @@
       "terrain": {
         "+": "t_chaingate_c",
         "-": "t_chainfence",
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "D": "t_door_metal_c",
         "P": "t_concrete",
         "S": "t_chainfence",
         "_": "t_thconc_floor",
         "R": "t_recycler",
         "c": "t_concrete",
-        "w": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
+        "w": [["t_window_frame", 70], ["t_window_empty", 20], ["t_window", 5]],
         "{": "t_concrete",
         "|": "t_brick_wall",
         "4": "t_gutter_downspout",
         "=": "t_door_c"
       },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "place_signs": [
         { "signage": "GLASS", "x": 15, "y": 9 },
         { "signage": "ALUMINUM", "x": 8, "y": 13 },
@@ -261,19 +346,22 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "palettes": ["roof_palette"],
+      "nested": {
+        "U": { "chunks": ["roof_2x2_infrastructure"] },
+        "R": { "chunks": ["roof_2x2_infrastructure_1"] }
+      },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 13, 15 ],
-          "y": [ 7, 17 ]
+          "x": [13, 15],
+          "y": [7, 17]
         }
       ]
     }
@@ -292,22 +380,55 @@
         "{": "f_recycle_bin",
         "S": "f_sink"
       },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "place_items": [
-        { "chance": 15, "item": "office", "x": [ 4, 5 ], "y": 14 },
+        { "chance": 15, "item": "office", "x": [4, 5], "y": 14 },
         { "chance": 30, "item": "trash", "x": 3, "y": 14 },
-        { "chance": 20, "item": "tools_home", "x": 3, "y": [ 19, 20 ] },
-        { "chance": 50, "repeat": [ 80, 280 ], "item": "recycle_plastic", "x": [ 15, 16 ], "y": [ 7, 12 ] },
-        { "chance": 50, "repeat": [ 80, 280 ], "item": "recycle_glass", "x": [ 19, 20 ], "y": [ 7, 12 ] },
-        { "chance": 50, "repeat": [ 80, 350 ], "item": "recycle_paper", "x": [ 3, 9 ], "y": [ 7, 8 ] },
-        { "chance": 50, "repeat": [ 30, 150 ], "item": "recycle_electronic", "x": [ 3, 5 ], "y": [ 10, 11 ] },
-        { "chance": 50, "repeat": [ 20, 120 ], "item": "recycle_battery", "x": [ 8, 9 ], "y": [ 10, 11 ] },
-        { "chance": 50, "repeat": [ 80, 350 ], "item": "recycle_iron", "x": [ 9, 15 ], "y": [ 15, 16 ] },
-        { "chance": 50, "repeat": [ 80, 350 ], "item": "recycle_steel", "x": [ 9, 15 ], "y": [ 19, 20 ] },
-        { "chance": 50, "repeat": [ 50, 180 ], "item": "recycle_aluminum", "x": [ 18, 20 ], "y": [ 15, 16 ] },
-        { "chance": 50, "repeat": [ 50, 180 ], "item": "recycle_copper", "x": [ 18, 20 ], "y": [ 19, 20 ] }
+        { "chance": 20, "item": "tools_home", "x": 3, "y": [19, 20] },
+        {
+          "chance": 50,
+          "repeat": [80, 280],
+          "item": "recycle_plastic",
+          "x": [15, 16],
+          "y": [7, 12]
+        },
+        { "chance": 50, "repeat": [80, 280], "item": "recycle_glass", "x": [19, 20], "y": [7, 12] },
+        { "chance": 50, "repeat": [80, 350], "item": "recycle_paper", "x": [3, 9], "y": [7, 8] },
+        {
+          "chance": 50,
+          "repeat": [30, 150],
+          "item": "recycle_electronic",
+          "x": [3, 5],
+          "y": [10, 11]
+        },
+        {
+          "chance": 50,
+          "repeat": [20, 120],
+          "item": "recycle_battery",
+          "x": [8, 9],
+          "y": [10, 11]
+        },
+        { "chance": 50, "repeat": [80, 350], "item": "recycle_iron", "x": [9, 15], "y": [15, 16] },
+        { "chance": 50, "repeat": [80, 350], "item": "recycle_steel", "x": [9, 15], "y": [19, 20] },
+        {
+          "chance": 50,
+          "repeat": [50, 180],
+          "item": "recycle_aluminum",
+          "x": [18, 20],
+          "y": [15, 16]
+        },
+        {
+          "chance": 50,
+          "repeat": [50, 180],
+          "item": "recycle_copper",
+          "x": [18, 20],
+          "y": [19, 20]
+        }
       ],
-      "place_loot": [ { "item": "television", "x": 4, "y": 14, "chance": 50 }, { "item": "stepladder", "x": 8, "y": 13, "chance": 50 } ],
+      "place_loot": [
+        { "item": "television", "x": 4, "y": 14, "chance": 50 },
+        { "item": "stepladder", "x": 8, "y": 13, "chance": 50 }
+      ],
       "rows": [
         "__________ppppp_________",
         "__________ppppp_________",
@@ -340,14 +461,20 @@
         ".": "t_concrete",
         "4": "t_tree_pine",
         "7": "t_tree",
-        "D": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "D": [
+          ["t_door_b", 20],
+          ["t_door_frame", 10],
+          ["t_door_o", 70],
+          ["t_door_c", 5],
+          ["t_door_locked_interior", 3]
+        ],
         "P": "t_concrete",
         "R": "t_recycler",
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "_": ["t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "p": "t_pavement",
         "s": "t_grass",
         "t": "t_thconc_floor",
-        "w": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
+        "w": [["t_window_frame", 70], ["t_window_empty", 20], ["t_window", 5]],
         "{": "t_concrete",
         "|": "t_chainfence",
         "5": "t_gutter_downspout"
@@ -402,7 +529,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_tar_flat_roof" }
     }
   }

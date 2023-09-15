@@ -9,8 +9,8 @@
     "volume": "250 ml",
     "price": 100,
     "price_postapoc": 900,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "steel", "powder" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
+    "material": ["steel", "powder"],
     "symbol": "=",
     "color": "yellow",
     "count": 30,
@@ -21,7 +21,7 @@
     "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 18 },
     "dispersion": 30,
     "recoil": 1400,
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "id": "545_ap",
@@ -31,7 +31,7 @@
     "description": "Armor piercing 5.45x39mm ammunition with 57gr bullets containing a steel penetrator.  Developed in 1998 by the Russian military.",
     "price": 350,
     "price_postapoc": 900,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
     "symbol": "=",
     "color": "yellow",
     "//": "Balanced as AP, 7/8 damage, arpen 6/7 that value.",

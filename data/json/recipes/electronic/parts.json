@@ -9,10 +9,10 @@
     "time": "11 m",
     "reversible": true,
     "decomp_learn": 2,
-    "book_learn": [ [ "mag_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 6 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 4 ] ] ]
+    "book_learn": [["mag_electronics", 2]],
+    "using": [["soldering_standard", 6]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["amplifier", 1]], [["scrap", 2]], [["cable", 4]]]
   },
   {
     "type": "recipe",
@@ -24,10 +24,15 @@
     "time": "50 m",
     "reversible": true,
     "decomp_learn": 6,
-    "book_learn": [ [ "textbook_mechanics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ], [ "textbook_robots", 5 ] ],
-    "using": [ [ "soldering_standard", 35 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "processor", 2 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 8 ] ] ]
+    "book_learn": [
+      ["textbook_mechanics", 7],
+      ["textbook_electronics", 6],
+      ["advanced_electronics", 6],
+      ["textbook_robots", 5]
+    ],
+    "using": [["soldering_standard", 35]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["power_supply", 2]], [["processor", 2]], [["scrap", 5]], [["cable", 8]]]
   },
   {
     "type": "recipe",
@@ -39,11 +44,11 @@
     "time": "10 m",
     "reversible": true,
     "decomp_learn": 0,
-    "autolearn": [ [ "electronics", 2 ] ],
-    "book_learn": [ [ "manual_electronics", 0 ], [ "mag_electronics", 1 ] ],
-    "using": [ [ "soldering_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "plastic_chunk", 1 ], [ "duct_tape", 10 ] ], [ [ "cable", 10 ] ] ]
+    "autolearn": [["electronics", 2]],
+    "book_learn": [["manual_electronics", 0], ["mag_electronics", 1]],
+    "using": [["soldering_standard", 5]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["amplifier", 1]], [["plastic_chunk", 1], ["duct_tape", 10]], [["cable", 10]]]
   },
   {
     "type": "recipe",
@@ -56,10 +61,14 @@
     "reversible": true,
     "decomp_learn": 5,
     "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "soldering_standard", 35 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "solar_cell", 12 ] ], [ [ "cable", 20 ] ] ]
+    "book_learn": [
+      ["manual_electronics", 7],
+      ["textbook_electronics", 6],
+      ["advanced_electronics", 6]
+    ],
+    "using": [["soldering_standard", 35]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["power_supply", 2]], [["amplifier", 2]], [["solar_cell", 12]], [["cable", 20]]]
   },
   {
     "type": "recipe",
@@ -67,21 +76,29 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "fabrication",
-    "skills_required": [ "electronics", 3 ],
+    "skills_required": ["electronics", 3],
     "difficulty": 3,
     "time": "1 h",
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "soldering_standard", 35 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "book_learn": [
+      ["manual_electronics", 7],
+      ["textbook_electronics", 6],
+      ["advanced_electronics", 6]
+    ],
+    "using": [["soldering_standard", 35]],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 2 }
+    ],
     "components": [
-      [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
-      [ [ "2x4", 5 ], [ "frame_wood", 1 ] ],
-      [ [ "sheet_metal_small", 3 ] ],
-      [ [ "nail", 20 ] ],
-      [ [ "pipe", 4 ] ]
+      [["motor_small", 1], ["alternator_bicycle", 1], ["alternator_motorbike", 1]],
+      [["2x4", 5], ["frame_wood", 1]],
+      [["sheet_metal_small", 3]],
+      [["nail", 20]],
+      [["pipe", 4]]
     ]
   },
   {
@@ -90,29 +107,37 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "fabrication",
-    "skills_required": [ "electronics", 5 ],
+    "skills_required": ["electronics", 5],
     "difficulty": 5,
     "time": "3 h",
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 35 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "book_learn": [
+      ["manual_electronics", 7],
+      ["textbook_electronics", 6],
+      ["advanced_electronics", 6]
+    ],
+    "using": [["welding_standard", 10], ["soldering_standard", 35]],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 2 }
+    ],
     "components": [
-      [ [ "2x4", 30 ], [ "frame_wood", 4 ] ],
-      [ [ "sheet_metal_small", 12 ] ],
+      [["2x4", 30], ["frame_wood", 4]],
+      [["sheet_metal_small", 12]],
       [
-        [ "motor_small", 4 ],
-        [ "alternator_bicycle", 4 ],
-        [ "alternator_motorbike", 4 ],
-        [ "alternator_car", 2 ],
-        [ "alternator_truck", 1 ],
-        [ "motor", 2 ],
-        [ "motor_large", 1 ]
+        ["motor_small", 4],
+        ["alternator_bicycle", 4],
+        ["alternator_motorbike", 4],
+        ["alternator_car", 2],
+        ["alternator_truck", 1],
+        ["motor", 2],
+        ["motor_large", 1]
       ],
-      [ [ "nail", 120 ] ],
-      [ [ "pipe", 20 ] ]
+      [["nail", 120]],
+      [["pipe", 20]]
     ]
   },
   {
@@ -121,14 +146,18 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "fabrication",
-    "skills_required": [ "electronics", 4 ],
+    "skills_required": ["electronics", 4],
     "difficulty": 4,
     "time": "1 h",
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "soldering_standard", 35 ] ],
+    "book_learn": [
+      ["manual_electronics", 7],
+      ["textbook_electronics", 6],
+      ["advanced_electronics", 6]
+    ],
+    "using": [["soldering_standard", 35]],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
@@ -136,12 +165,12 @@
       { "id": "SAW_W", "level": 2 }
     ],
     "components": [
-      [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
-      [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
-      [ [ "sheet_metal_small", 6 ] ],
-      [ [ "nail", 80 ] ],
-      [ [ "pipe", 8 ] ],
-      [ [ "wheel_wood_b", 2 ] ]
+      [["motor_small", 1], ["alternator_bicycle", 1], ["alternator_motorbike", 1]],
+      [["2x4", 20], ["frame_wood", 3]],
+      [["sheet_metal_small", 6]],
+      [["nail", 80]],
+      [["pipe", 8]],
+      [["wheel_wood_b", 2]]
     ]
   },
   {
@@ -150,14 +179,18 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "fabrication",
-    "skills_required": [ "electronics", 6 ],
+    "skills_required": ["electronics", 6],
     "difficulty": 6,
     "time": "3 h 20 m",
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "soldering_standard", 85 ] ],
+    "book_learn": [
+      ["manual_electronics", 7],
+      ["textbook_electronics", 6],
+      ["advanced_electronics", 6]
+    ],
+    "using": [["soldering_standard", 85]],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 2 },
@@ -165,20 +198,20 @@
       { "id": "SAW_W", "level": 2 }
     ],
     "components": [
-      [ [ "2x4", 50 ], [ "frame_wood", 9 ] ],
-      [ [ "sheet_metal_small", 18 ] ],
+      [["2x4", 50], ["frame_wood", 9]],
+      [["sheet_metal_small", 18]],
       [
-        [ "motor_small", 3 ],
-        [ "alternator_bicycle", 3 ],
-        [ "alternator_motorbike", 3 ],
-        [ "alternator_car", 2 ],
-        [ "alternator_truck", 1 ],
-        [ "motor", 2 ],
-        [ "motor_large", 1 ]
+        ["motor_small", 3],
+        ["alternator_bicycle", 3],
+        ["alternator_motorbike", 3],
+        ["alternator_car", 2],
+        ["alternator_truck", 1],
+        ["motor", 2],
+        ["motor_large", 1]
       ],
-      [ [ "nail", 240 ] ],
-      [ [ "pipe", 24 ] ],
-      [ [ "wheel_wood_b", 6 ] ]
+      [["nail", 240]],
+      [["pipe", 24]],
+      [["wheel_wood_b", 6]]
     ]
   },
   {
@@ -191,15 +224,15 @@
     "time": "50 m",
     "reversible": true,
     "decomp_learn": 5,
-    "book_learn": [ [ "textbook_robots", 8 ] ],
-    "using": [ [ "soldering_standard", 35 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "book_learn": [["textbook_robots", 8]],
+    "using": [["soldering_standard", 35]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "power_supply", 2 ] ],
-      [ [ "amplifier", 2 ] ],
-      [ [ "solar_cell", 8 ] ],
-      [ [ "cable", 10 ] ],
-      [ [ "solar_panel", 1 ] ]
+      [["power_supply", 2]],
+      [["amplifier", 2]],
+      [["solar_cell", 8]],
+      [["cable", 10]],
+      [["solar_panel", 1]]
     ]
   },
   {
@@ -208,21 +241,25 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "mechanics",
-    "skills_required": [ "electronics", 1 ],
+    "skills_required": ["electronics", 1],
     "difficulty": 4,
     "time": "1 h",
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "using": [["welding_standard", 10]],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
     "components": [
-      [ [ "frame", 1 ] ],
-      [ [ "hotplate", 1 ] ],
-      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
-      [ [ "pan", 1 ] ],
-      [ [ "water_faucet", 1 ] ],
-      [ [ "cable", 5 ] ]
+      [["frame", 1]],
+      [["hotplate", 1]],
+      [["pot", 1], ["pot_copper", 1]],
+      [["pan", 1]],
+      [["water_faucet", 1]],
+      [["cable", 5]]
     ]
   },
   {
@@ -231,15 +268,20 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "fabrication",
-    "skills_required": [ "electronics", 4 ],
+    "skills_required": ["electronics", 4],
     "difficulty": 4,
     "time": "20 m",
     "reversible": true,
     "decomp_learn": 4,
-    "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "forge", 1 ] ], [ [ "cable", 5 ] ] ]
+    "book_learn": [
+      ["textbook_mechanics", 6],
+      ["textbook_electronics", 8],
+      ["textbook_fabrication", 8],
+      ["welding_book", 5]
+    ],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["power_supply", 2]], [["forge", 1]], [["cable", 5]]]
   },
   {
     "type": "recipe",
@@ -247,15 +289,20 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "fabrication",
-    "skills_required": [ "electronics", 4 ],
+    "skills_required": ["electronics", 4],
     "difficulty": 4,
     "time": "20 m",
     "reversible": true,
     "decomp_learn": 4,
-    "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "kiln", 1 ] ], [ [ "cable", 5 ] ] ]
+    "book_learn": [
+      ["textbook_mechanics", 6],
+      ["textbook_electronics", 8],
+      ["textbook_fabrication", 8],
+      ["welding_book", 5]
+    ],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["power_supply", 2]], [["kiln", 1]], [["cable", 5]]]
   },
   {
     "type": "recipe",
@@ -263,14 +310,23 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "mechanics",
-    "skills_required": [ "electronics", 4 ],
+    "skills_required": ["electronics", 4],
     "difficulty": 4,
     "time": "10 m",
     "reversible": true,
     "decomp_learn": 4,
-    "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "welder", 1 ], [ "welder_crude", 2 ] ] ]
+    "book_learn": [
+      ["textbook_mechanics", 6],
+      ["textbook_electronics", 8],
+      ["textbook_fabrication", 8],
+      ["welding_book", 5]
+    ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [[["soldering_iron", 1]], [["welder", 1], ["welder_crude", 2]]]
   },
   {
     "type": "recipe",
@@ -278,15 +334,24 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "mechanics",
-    "skills_required": [ "electronics", 4 ],
+    "skills_required": ["electronics", 4],
     "difficulty": 4,
     "time": "50 m",
     "reversible": true,
     "decomp_learn": 4,
-    "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "frame", 1 ] ], [ [ "welding_components", 1 ] ], [ [ "cable", 5 ] ] ]
+    "book_learn": [
+      ["textbook_mechanics", 6],
+      ["textbook_electronics", 8],
+      ["textbook_fabrication", 8],
+      ["welding_book", 5]
+    ],
+    "using": [["welding_standard", 10]],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [[["frame", 1]], [["welding_components", 1]], [["cable", 5]]]
   },
   {
     "type": "recipe",
@@ -294,22 +359,31 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "fabrication",
-    "skills_required": [ "electronics", 3 ],
+    "skills_required": ["electronics", 3],
     "difficulty": 4,
     "time": "1 h",
     "reversible": true,
     "decomp_learn": 3,
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_fabrication", 3 ], [ "manual_electronics", 3 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "book_learn": [
+      ["textbook_fabrication", 3],
+      ["manual_fabrication", 3],
+      ["manual_electronics", 3],
+      ["manual_mechanics", 3]
+    ],
+    "using": [["welding_standard", 10]],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
     "components": [
-      [ [ "frame", 1 ] ],
-      [ [ "vac_sealer", 1 ], [ "makeshift_sealer", 1 ] ],
-      [ [ "dehydrator", 1 ] ],
-      [ [ "water_purifier", 1 ] ],
-      [ [ "food_processor", 1 ] ],
-      [ [ "press", 1 ] ],
-      [ [ "cable", 5 ] ]
+      [["frame", 1]],
+      [["vac_sealer", 1], ["makeshift_sealer", 1]],
+      [["dehydrator", 1]],
+      [["water_purifier", 1]],
+      [["food_processor", 1]],
+      [["press", 1]],
+      [["cable", 5]]
     ]
   },
   {
@@ -318,21 +392,30 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "fabrication",
-    "skills_required": [ "electronics", 3 ],
+    "skills_required": ["electronics", 3],
     "difficulty": 4,
     "time": "1 h",
     "reversible": true,
     "decomp_learn": 3,
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_fabrication", 3 ], [ "manual_electronics", 3 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "book_learn": [
+      ["textbook_fabrication", 3],
+      ["manual_fabrication", 3],
+      ["manual_electronics", 3],
+      ["manual_mechanics", 3]
+    ],
+    "using": [["welding_standard", 10]],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
     "components": [
-      [ [ "frame", 1 ] ],
-      [ [ "chemistry_set", 1 ] ],
-      [ [ "electrolysis_kit", 1 ] ],
-      [ [ "water_faucet", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 5 ] ]
+      [["frame", 1]],
+      [["chemistry_set", 1]],
+      [["electrolysis_kit", 1]],
+      [["water_faucet", 1]],
+      [["power_supply", 1]],
+      [["cable", 5]]
     ]
   },
   {
@@ -341,13 +424,18 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 2 ],
+    "skills_required": ["fabrication", 2],
     "difficulty": 3,
     "time": "40 m",
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 14 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
+    "book_learn": [["manual_electronics", 2], ["mag_electronics", 2], ["manual_mechanics", 3]],
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [
+      [["small_storage_battery", 14]],
+      [["e_scrap", 4]],
+      [["scrap", 8]],
+      [["cable", 5]]
+    ]
   },
   {
     "type": "recipe",
@@ -356,18 +444,18 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 3 ],
+    "skills_required": ["fabrication", 3],
     "difficulty": 3,
     "time": "40 m",
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "book_learn": [["manual_electronics", 2], ["mag_electronics", 2], ["manual_mechanics", 3]],
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "medium_storage_battery", 5 ] ],
-      [ [ "small_storage_battery", 10 ] ],
-      [ [ "e_scrap", 4 ] ],
-      [ [ "scrap", 8 ] ],
-      [ [ "cable", 5 ] ]
+      [["medium_storage_battery", 5]],
+      [["small_storage_battery", 10]],
+      [["e_scrap", 4]],
+      [["scrap", 8]],
+      [["cable", 5]]
     ]
   },
   {
@@ -376,13 +464,18 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 3 ],
+    "skills_required": ["fabrication", 3],
     "difficulty": 3,
     "time": "2 h",
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 80 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 80 ] ], [ [ "e_scrap", 16 ] ], [ [ "scrap", 32 ] ], [ [ "cable", 20 ] ] ]
+    "book_learn": [["manual_electronics", 2], ["mag_electronics", 2], ["manual_mechanics", 3]],
+    "using": [["soldering_standard", 80]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [
+      [["small_storage_battery", 80]],
+      [["e_scrap", 16]],
+      [["scrap", 32]],
+      [["cable", 20]]
+    ]
   },
   {
     "type": "recipe",
@@ -390,15 +483,15 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": ["fabrication", 1],
     "difficulty": 3,
     "time": "20 m",
     "reversible": true,
     "decomp_learn": 2,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 5 ], [ "steel_tiny", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "cable", 3 ] ], [ [ "e_scrap", 3 ] ] ]
+    "book_learn": [["manual_electronics", 2], ["mag_electronics", 2], ["manual_mechanics", 2]],
+    "using": [["soldering_standard", 5], ["steel_tiny", 1]],
+    "qualities": [{ "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }],
+    "components": [[["cable", 3]], [["e_scrap", 3]]]
   },
   {
     "type": "recipe",
@@ -406,15 +499,15 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": ["fabrication", 1],
     "difficulty": 3,
     "time": "20 m",
     "reversible": true,
     "decomp_learn": 2,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 5 ], [ "steel_standard", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 5 ] ], [ [ "cable", 6 ] ] ]
+    "book_learn": [["manual_electronics", 2], ["mag_electronics", 2], ["manual_mechanics", 2]],
+    "using": [["soldering_standard", 5], ["steel_standard", 1]],
+    "qualities": [{ "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 }],
+    "components": [[["e_scrap", 5]], [["cable", 6]]]
   },
   {
     "type": "recipe",
@@ -422,14 +515,14 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "computer", 2 ],
+    "skills_required": ["computer", 2],
     "difficulty": 6,
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "soldering_standard", 150 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_lcd_screen", 10 ] ], [ [ "processor", 3 ] ], [ [ "RAM", 2 ] ], [ [ "cable", 20 ] ] ]
+    "using": [["soldering_standard", 150]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["small_lcd_screen", 10]], [["processor", 3]], [["RAM", 2]], [["cable", 20]]]
   },
   {
     "type": "recipe",
@@ -437,14 +530,20 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "computer", 3 ],
+    "skills_required": ["computer", 3],
     "difficulty": 7,
     "time": "3 h",
-    "book_learn": [ [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ] ],
-    "using": [ [ "soldering_standard", 50 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "lens", 4 ] ], [ [ "e_scrap", 10 ] ], [ [ "amplifier", 4 ] ], [ [ "cable", 20 ] ], [ [ "plastic_chunk", 5 ] ] ]
+    "book_learn": [["textbook_electronics", 6], ["advanced_electronics", 6]],
+    "using": [["soldering_standard", 50]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "tools": [[["mold_plastic", -1]]],
+    "components": [
+      [["lens", 4]],
+      [["e_scrap", 10]],
+      [["amplifier", 4]],
+      [["cable", 20]],
+      [["plastic_chunk", 5]]
+    ]
   },
   {
     "type": "recipe",
@@ -453,16 +552,16 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "computer", 1 ],
+    "skills_required": ["computer", 1],
     "difficulty": 5,
     "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }],
     "components": [
-      [ [ "camera", 2 ], [ "camera_pro", 2 ], [ "broken_eyebot", 2 ], [ "smart_phone", 2 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "cable", 5 ] ]
+      [["camera", 2], ["camera_pro", 2], ["broken_eyebot", 2], ["smart_phone", 2]],
+      [["power_supply", 1]],
+      [["cable", 5]]
     ]
   },
   {
@@ -471,24 +570,24 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "fabrication",
-    "skills_required": [ "electronics", 5 ],
+    "skills_required": ["electronics", 5],
     "difficulty": 5,
     "time": "15 m",
     "reversible": true,
     "decomp_learn": 4,
-    "book_learn": [ [ "repeater_mod_guide", 2 ] ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "book_learn": [["repeater_mod_guide", 2]],
+    "using": [["soldering_standard", 15]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "processor", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "power_supply", 2 ] ],
-      [ [ "transponder", 1 ] ],
-      [ [ "e_scrap", 2 ] ],
-      [ [ "amplifier", 2 ] ],
-      [ [ "cable", 1 ] ],
-      [ [ "battery_car", 1 ] ]
+      [["processor", 1]],
+      [["scrap", 2]],
+      [["wire", 5]],
+      [["power_supply", 2]],
+      [["transponder", 1]],
+      [["e_scrap", 2]],
+      [["amplifier", 2]],
+      [["cable", 1]],
+      [["battery_car", 1]]
     ]
   },
   {
@@ -497,15 +596,15 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": ["fabrication", 1],
     "difficulty": 3,
     "time": "15 m",
     "reversible": true,
     "decomp_learn": 3,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "light_battery_cell", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "book_learn": [["manual_electronics", 2], ["mag_electronics", 2]],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["light_battery_cell", 5]], [["scrap", 4]], [["cable", 5]]]
   },
   {
     "type": "recipe",
@@ -513,15 +612,15 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": ["fabrication", 1],
     "difficulty": 3,
     "time": "20 m",
     "reversible": true,
     "decomp_learn": 3,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "medium_battery_cell", 2 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "book_learn": [["manual_electronics", 2], ["mag_electronics", 2]],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["medium_battery_cell", 2]], [["scrap", 4]], [["cable", 5]]]
   },
   {
     "type": "recipe",
@@ -529,15 +628,15 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": ["fabrication", 1],
     "difficulty": 3,
     "time": "15 m",
     "reversible": true,
     "decomp_learn": 3,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "light_plus_battery_cell", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "book_learn": [["manual_electronics", 2], ["mag_electronics", 2]],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["light_plus_battery_cell", 5]], [["scrap", 4]], [["cable", 5]]]
   },
   {
     "type": "recipe",
@@ -545,15 +644,15 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": ["fabrication", 1],
     "difficulty": 3,
     "time": "20 m",
     "reversible": true,
     "decomp_learn": 3,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "medium_plus_battery_cell", 2 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "book_learn": [["manual_electronics", 2], ["mag_electronics", 2]],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["medium_plus_battery_cell", 2]], [["scrap", 4]], [["cable", 5]]]
   },
   {
     "result": "battery_car",
@@ -562,19 +661,19 @@
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "difficulty": 3,
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": ["fabrication", 1],
     "time": "30 m",
     "reversible": true,
     "decomp_learn": 2,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "book_learn": [["manual_electronics", 2], ["mag_electronics", 2], ["manual_mechanics", 3]],
+    "using": [["soldering_standard", 10], ["surface_heat", 50]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "tools": [[["mold_plastic", -1]]],
     "components": [
-      [ [ "plastic_chunk", 20 ] ],
-      [ [ "scrap", 4 ] ],
-      [ [ "lead", 5000 ] ],
-      [ [ "acid", 4 ], [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ]
+      [["plastic_chunk", 20]],
+      [["scrap", 4]],
+      [["lead", 5000]],
+      [["acid", 4], ["fertilizer_liquid", 4], ["fertilizer_commercial", 4]]
     ]
   },
   {
@@ -584,19 +683,19 @@
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "difficulty": 3,
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": ["fabrication", 1],
     "time": "30 m",
     "reversible": true,
     "decomp_learn": 2,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "book_learn": [["manual_electronics", 2], ["mag_electronics", 2], ["manual_mechanics", 3]],
+    "using": [["soldering_standard", 10], ["surface_heat", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "tools": [[["mold_plastic", -1]]],
     "components": [
-      [ [ "plastic_chunk", 4 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "lead", 1000 ] ],
-      [ [ "acid", 2 ], [ "fertilizer_liquid", 2 ], [ "fertilizer_commercial", 2 ] ]
+      [["plastic_chunk", 4]],
+      [["scrap", 1]],
+      [["lead", 1000]],
+      [["acid", 2], ["fertilizer_liquid", 2], ["fertilizer_commercial", 2]]
     ]
   },
   {
@@ -605,15 +704,15 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 4 ],
+    "skills_required": ["fabrication", 4],
     "difficulty": 3,
     "time": "20 m",
     "reversible": true,
     "decomp_learn": 3,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "storage_battery", 2 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
+    "book_learn": [["manual_electronics", 2], ["mag_electronics", 2], ["manual_mechanics", 3]],
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["storage_battery", 2]], [["e_scrap", 4]], [["scrap", 8]], [["cable", 5]]]
   },
   {
     "result": "light_minus_atomic_battery_cell",
@@ -622,12 +721,12 @@
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "difficulty": 6,
-    "skills_required": [ "fabrication", 6 ],
+    "skills_required": ["fabrication", 6],
     "time": "60 m",
-    "book_learn": [ [ "recipe_atomic_battery", 6 ], [ "textbook_atomic_lab", 7 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 1 ] ] ]
+    "book_learn": [["recipe_atomic_battery", 6], ["textbook_atomic_lab", 7]],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["scrap", 6]], [["cable", 4]], [["plut_cell", 1]]]
   },
   {
     "result": "light_atomic_battery_cell",
@@ -636,12 +735,12 @@
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "difficulty": 6,
-    "skills_required": [ "fabrication", 6 ],
+    "skills_required": ["fabrication", 6],
     "time": "60 m",
-    "book_learn": [ [ "recipe_atomic_battery", 6 ], [ "textbook_atomic_lab", 7 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 2 ] ] ]
+    "book_learn": [["recipe_atomic_battery", 6], ["textbook_atomic_lab", 7]],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["scrap", 6]], [["cable", 4]], [["plut_cell", 2]]]
   },
   {
     "result": "medium_atomic_battery_cell",
@@ -650,12 +749,12 @@
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "difficulty": 6,
-    "skills_required": [ "fabrication", 6 ],
+    "skills_required": ["fabrication", 6],
     "time": "60 m",
-    "book_learn": [ [ "recipe_atomic_battery", 6 ], [ "textbook_atomic_lab", 7 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 10 ] ] ]
+    "book_learn": [["recipe_atomic_battery", 6], ["textbook_atomic_lab", 7]],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["scrap", 6]], [["cable", 4]], [["plut_cell", 10]]]
   },
   {
     "result": "heavy_atomic_battery_cell",
@@ -664,12 +763,12 @@
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "difficulty": 6,
-    "skills_required": [ "fabrication", 6 ],
+    "skills_required": ["fabrication", 6],
     "time": "60 m",
-    "book_learn": [ [ "recipe_atomic_battery", 6 ], [ "textbook_atomic_lab", 7 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "cable", 4 ] ], [ [ "plut_cell", 20 ] ] ]
+    "book_learn": [["recipe_atomic_battery", 6], ["textbook_atomic_lab", 7]],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["scrap", 6]], [["cable", 4]], [["plut_cell", 20]]]
   },
   {
     "result": "huge_atomic_battery_cell",
@@ -678,12 +777,12 @@
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "difficulty": 8,
-    "skills_required": [ "fabrication", 8 ],
+    "skills_required": ["fabrication", 8],
     "time": "90 m",
-    "book_learn": [ [ "recipe_atomic_battery", 8 ], [ "textbook_atomic_lab", 9 ] ],
-    "using": [ [ "welding_standard", 50 ], [ "steel_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "cable", 20 ] ], [ [ "plut_cell", 200 ] ] ]
+    "book_learn": [["recipe_atomic_battery", 8], ["textbook_atomic_lab", 9]],
+    "using": [["welding_standard", 50], ["steel_standard", 5]],
+    "qualities": [{ "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }],
+    "components": [[["cable", 20]], [["plut_cell", 200]]]
   },
   {
     "result": "solder_wire",
@@ -692,15 +791,23 @@
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "difficulty": 1,
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": ["fabrication", 1],
     "time": "60 m",
-    "batch_time_factors": [ 70, 5 ],
+    "batch_time_factors": [70, 5],
     "autolearn": true,
-    "using": [ [ "surface_heat", 50 ] ],
+    "using": [["surface_heat", 50]],
     "charges": 50,
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
-    "components": [ [ [ "lead", 25 ] ], [ [ "tin", 25 ] ], [ [ "rosin", 2 ] ] ]
+    "qualities": [
+      { "id": "ANVIL", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "tools": [
+      [["tongs", -1]],
+      [["swage", -1]],
+      [["surface_heat", 1, "LIST"], ["forge", 1], ["oxy_torch", 1]]
+    ],
+    "components": [[["lead", 25]], [["tin", 25]], [["rosin", 2]]]
   },
   {
     "type": "recipe",
@@ -713,9 +820,13 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 1 ], [ "e_scrap", 2 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 3 ] ] ]
+    "book_learn": [
+      ["manual_electronics", 2],
+      ["textbook_electronics", 3],
+      ["advanced_electronics", 3]
+    ],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["power_supply", 1], ["e_scrap", 2]], [["scrap", 2]], [["cable", 3]]]
   }
 ]

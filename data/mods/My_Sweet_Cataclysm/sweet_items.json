@@ -7,7 +7,7 @@
     "weight": "3 g",
     "volume": "5 ml",
     "price": 0,
-    "material": [ "paper" ],
+    "material": ["paper"],
     "symbol": "/",
     "color": "pink"
   }

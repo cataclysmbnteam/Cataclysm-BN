@@ -55,7 +55,7 @@
       "x": "f_crate_o",
       "X": "f_crate_c"
     },
-    "toilets": { "&": { "amount": [ 0, 50 ] } },
+    "toilets": { "&": { "amount": [0, 50] } },
     "items": {
       "C": { "item": "mechanics", "chance": 30 },
       "d": { "item": "dresser", "chance": 90 },

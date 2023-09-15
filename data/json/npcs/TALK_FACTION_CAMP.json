@@ -33,7 +33,10 @@
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
       },
       { "text": "Nothing.  Let's talk about something else.", "topic": "TALK_FRIEND" },
-      { "text": "Never mind, let's talk about other things you can do", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "Never mind, let's talk about other things you can do",
+        "topic": "TALK_ALLY_TUTORIAL"
+      },
       { "text": "Nothing.  Lets' get back to work.", "topic": "TALK_DONE" }
     ]
   },
@@ -47,9 +50,15 @@
       { "text": "Tell me more about camp missions.", "topic": "TALK_CAMP_TUTORIAL_MISSIONS" },
       { "text": "Tell me about building a camp.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
       { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
-      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      {
+        "text": "I know the basics.  Just tell me what changed.",
+        "topic": "TALK_CAMP_TUTORIAL_CHANGES"
+      },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "Never mind, let's talk about other things you can do.",
+        "topic": "TALK_ALLY_TUTORIAL"
+      },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -64,9 +73,15 @@
       { "text": "Tell me more about camp missions.", "topic": "TALK_CAMP_TUTORIAL_MISSIONS" },
       { "text": "Tell me about building a camp.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
       { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
-      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      {
+        "text": "I know the basics.  Just tell me what changed.",
+        "topic": "TALK_CAMP_TUTORIAL_CHANGES"
+      },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "Never mind, let's talk about other things you can do.",
+        "topic": "TALK_ALLY_TUTORIAL"
+      },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -79,9 +94,15 @@
       { "text": "Tell me more about camp missions.", "topic": "TALK_CAMP_TUTORIAL_MISSIONS" },
       { "text": "Tell me about building a camp.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
       { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
-      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      {
+        "text": "I know the basics.  Just tell me what changed.",
+        "topic": "TALK_CAMP_TUTORIAL_CHANGES"
+      },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "Never mind, let's talk about other things you can do.",
+        "topic": "TALK_ALLY_TUTORIAL"
+      },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -95,9 +116,15 @@
       { "text": "Tell me more about faction camps and food.", "topic": "TALK_CAMP_TUTORIAL_FOOD" },
       { "text": "Tell me about building a camp.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
       { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
-      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      {
+        "text": "I know the basics.  Just tell me what changed.",
+        "topic": "TALK_CAMP_TUTORIAL_CHANGES"
+      },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "Never mind, let's talk about other things you can do.",
+        "topic": "TALK_ALLY_TUTORIAL"
+      },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -112,9 +139,15 @@
       { "text": "Tell me about evac shelter camps.", "topic": "TALK_CAMP_TUTORIAL_EVAC_SHELTER" },
       { "text": "Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
       { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
-      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      {
+        "text": "I know the basics.  Just tell me what changed.",
+        "topic": "TALK_CAMP_TUTORIAL_CHANGES"
+      },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "Never mind, let's talk about other things you can do.",
+        "topic": "TALK_ALLY_TUTORIAL"
+      },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -127,9 +160,15 @@
       { "text": "Got it.  Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
       { "text": "Can we review how camps work?", "topic": "TALK_CAMP_TUTORIAL_OVERVIEW" },
       { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
-      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      {
+        "text": "I know the basics.  Just tell me what changed.",
+        "topic": "TALK_CAMP_TUTORIAL_CHANGES"
+      },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "Never mind, let's talk about other things you can do.",
+        "topic": "TALK_ALLY_TUTORIAL"
+      },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -142,9 +181,15 @@
       { "text": "Got it.  Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
       { "text": "Can we review how camps work?", "topic": "TALK_CAMP_TUTORIAL_OVERVIEW" },
       { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
-      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      {
+        "text": "I know the basics.  Just tell me what changed.",
+        "topic": "TALK_CAMP_TUTORIAL_CHANGES"
+      },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "Never mind, let's talk about other things you can do.",
+        "topic": "TALK_ALLY_TUTORIAL"
+      },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -157,9 +202,15 @@
       { "text": "Got it.  Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
       { "text": "Can we review how camps work?", "topic": "TALK_CAMP_TUTORIAL_OVERVIEW" },
       { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
-      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      {
+        "text": "I know the basics.  Just tell me what changed.",
+        "topic": "TALK_CAMP_TUTORIAL_CHANGES"
+      },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "Never mind, let's talk about other things you can do.",
+        "topic": "TALK_ALLY_TUTORIAL"
+      },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -169,10 +220,19 @@
     "type": "talk_topic",
     "dynamic_line": "Each camp can have up to 8 expansions, one in each adjacent overmap tile.  Expansions add to the capabilities of your camp, such as adding a farm field or a manufactory for crafting all kinds of things.\n  You need two beds in a room in your central camp for each expansion, and currently, expansions can only be built in fields and have to be built up from scratch.\n  Expansion missions show up in separate tabs in the bulletin board, one set of missions per location, and you'll need to hit 'tab' to see them.  The currently available expansions are:\n  -- Farm: This is a full tile of plowed fields that you can maintain or send companions on missions to maintain.  Plants grow here normally.\n  -- Garage: This is a large building.  Companions can be sent on missions here to disassemble vehicles.  Of course, you can also assign companions to disassemble vehicles without a garage, so this expansion is not very useful.\n  -- Canteen: This is an expanded kitchen, dining area, and pantry.\n  --Livestock Area: This is a modular set of buildings for holding livestock such as cows, horses, or chickens.  Animals are not included!\n  Saltworks Area: This is a small expansion for processing salt.\n  Fabrication Workshop: This is a large expansion for doing all kinds of crafts.  Companions can use some of the furniture in this expansion to craft some items much faster than you can do by yourself by hand.\n  Central Storage Building: This is a large building for storing goods.",
     "responses": [
-      { "text": "Got it.  Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
-      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      {
+        "text": "Got it.  Give me some advice on building a camp.",
+        "topic": "TALK_CAMP_TUTORIAL_ADVICE"
+      },
+      {
+        "text": "I know the basics.  Just tell me what changed.",
+        "topic": "TALK_CAMP_TUTORIAL_CHANGES"
+      },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "Never mind, let's talk about other things you can do.",
+        "topic": "TALK_ALLY_TUTORIAL"
+      },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -188,9 +248,15 @@
       { "text": "Tell me about evac shelter camps.", "topic": "TALK_CAMP_TUTORIAL_EVAC_SHELTER" },
       { "text": "Tell me about expansions.", "topic": "TALK_CAMP_TUTORIAL_EXPANSIONS" },
       { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
-      { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
+      {
+        "text": "I know the basics.  Just tell me what changed.",
+        "topic": "TALK_CAMP_TUTORIAL_CHANGES"
+      },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
-      { "text": "Never mind, let's talk about other things you can do.", "topic": "TALK_ALLY_TUTORIAL" },
+      {
+        "text": "Never mind, let's talk about other things you can do.",
+        "topic": "TALK_ALLY_TUTORIAL"
+      },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -217,7 +283,11 @@
     "type": "talk_topic",
     "dynamic_line": "Hey boss.  I was thinking, you don't really need me sitting in this tent and not really contributing to the camp.  It's a cushy job, but I could do more.  We could put up a bulletin board and you could write up what you want done there.  What do you say?",
     "responses": [
-      { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": "basecamp_mission" },
+      {
+        "text": "What needs to be done?",
+        "topic": "TALK_CAMP_OVERSEER",
+        "effect": "basecamp_mission"
+      },
       {
         "text": "Yes, set up the bulletin board and then go back to normal duties.",
         "topic": "TALK_DONE",
@@ -230,6 +300,6 @@
     "id": "TALK_HALLU_CAMP",
     "type": "talk_topic",
     "dynamic_line": "<hallu_dont_camp>",
-    "responses": [ { "text": "Fair enough.", "topic": "TALK_NONE" } ]
+    "responses": [{ "text": "Fair enough.", "topic": "TALK_NONE" }]
   }
 ]

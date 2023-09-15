@@ -6,12 +6,12 @@
     "description": "A tall, powerful, reptilian humanoid with a muscular tail whose skin is covered in dark gray-green scales.  They are tribal and tend to be found in caves and near water, especially in areas inhabited by dragons and wyrms.  They aren't particularly hostile, though they don't care for outsiders and are highly dangerous when provoked.  While they usually prefer to fight with their greatclubs, they are equally ferocious with their sharp teeth and claws.",
     "default_faction": "lizardfolk",
     "bodytype": "human",
-    "species": [ "LIZARDFOLK" ],
+    "species": ["LIZARDFOLK"],
     "volume": "80 L",
     "weight": "100 kg",
     "hp": 70,
     "speed": 105,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "L",
     "color": "green",
     "aggression": 80,
@@ -27,14 +27,14 @@
     "armor_bullet": 10,
     "armor_stab": 6,
     "harvest": "lizardfolk",
-    "death_function": [ "NORMAL" ],
+    "death_function": ["NORMAL"],
     "death_drops": [
       { "item": "lizardfolk_club", "prob": 30 },
       { "item": "loincloth", "prob": 40 },
       { "item": "leather_belt", "prob": 20 },
       { "item": "bone_human", "prob": 10 }
     ],
-    "special_attacks": [ [ "crush", 5 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [["crush", 5], { "type": "bite", "cooldown": 5 }],
     "flags": [
       "SEES",
       "HEARS",
@@ -66,11 +66,11 @@
         "cooldown": 5,
         "move_cost": 150,
         "gun_type": "lizardfolk_javelin_gun",
-        "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
+        "fake_skills": [["gun", 8], ["rifle", 8]],
         "fake_dex": 8,
         "fake_per": 8,
         "require_targeting_player": false,
-        "ranges": [ [ 2, 10, "DEFAULT" ] ],
+        "ranges": [[2, 10, "DEFAULT"]],
         "description": "The hunter hurls a barbed javelin at you!"
       },
       { "type": "bite", "cooldown": 5 }
@@ -93,7 +93,10 @@
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_shaman_base" }, "cooldown": 5 }, [ "scratch", 5 ] ],
+    "special_attacks": [
+      { "type": "spell", "spell_data": { "id": "spell_shaman_base" }, "cooldown": 5 },
+      ["scratch", 5]
+    ],
     "death_drops": {
       "subtype": "distribution",
       "items": [
@@ -116,7 +119,7 @@
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 3,
-    "special_attacks": [ [ "skewer", 2 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [["skewer", 2], { "type": "bite", "cooldown": 5 }],
     "death_drops": [
       { "item": "lizardfolk_trident", "prob": 30 },
       { "group": "lair_loot_generic", "prob": 40 },
@@ -132,7 +135,7 @@
     "//": "A copy of the standard mon_gator (from reptile_amphibian.json) with a different description to match the lizardfolk lore.  Lizardfolk Shamans are able to shapeshift into crocodile form.",
     "description": "A once-and-future lizardfolk shaman, this large crocodile no longer has any hint of any humanoid characteristics and looks very, very dangerous.",
     "default_faction": "lizardfolk",
-    "species": [ "LIZARDFOLK" ],
+    "species": ["LIZARDFOLK"],
     "symbol": "C",
     "harvest": "lizardfolk"
   }

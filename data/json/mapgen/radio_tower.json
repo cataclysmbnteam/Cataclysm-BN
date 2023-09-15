@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "radio_tower" ],
+    "om_terrain": ["radio_tower"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -33,7 +33,7 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
+        " ": ["t_dirt", "t_dirt", "t_grass"],
         "#": "t_concrete_wall",
         "R": "t_radio_tower",
         "2": "t_chaingate_c",
@@ -48,7 +48,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "radio_tower_1" ],
+    "om_terrain": ["radio_tower_1"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -79,7 +79,7 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
+        " ": ["t_dirt", "t_dirt", "t_grass"],
         "#": "t_concrete_wall",
         "R": "t_radio_tower",
         "2": "t_chaingate_c",
@@ -94,8 +94,8 @@
       },
       "furniture": { "C": "f_counter", "r": "f_rack", "h": "f_chair", "l": "f_locker" },
       "items": {
-        "C": { "item": "radio", "chance": 80, "repeat": [ 1, 2 ] },
-        "r": { "item": "recycle_electronic", "chance": 80, "repeat": [ 1, 2 ] },
+        "C": { "item": "radio", "chance": 80, "repeat": [1, 2] },
+        "r": { "item": "recycle_electronic", "chance": 80, "repeat": [1, 2] },
         "l": { "item": "clothing_work_set", "chance": 80 }
       }
     }
@@ -132,8 +132,14 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "palettes": ["roof_palette"],
+      "terrain": {
+        "R": "t_radio_tower",
+        "a": "t_railing",
+        ",": "t_metal_floor_no_roof",
+        "<": "t_stairs_up",
+        ">": "t_stairs_down"
+      }
     }
   },
   {
@@ -168,8 +174,14 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "palettes": ["roof_palette"],
+      "terrain": {
+        "R": "t_radio_tower",
+        "a": "t_railing",
+        ",": "t_metal_floor_no_roof",
+        "<": "t_stairs_up",
+        ">": "t_stairs_down"
+      }
     }
   },
   {
@@ -204,8 +216,14 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "palettes": ["roof_palette"],
+      "terrain": {
+        "R": "t_radio_tower",
+        "a": "t_railing",
+        ",": "t_metal_floor_no_roof",
+        "<": "t_stairs_up",
+        ">": "t_stairs_down"
+      }
     }
   },
   {
@@ -240,8 +258,14 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "<": "t_stairs_up", ">": "t_stairs_down" }
+      "palettes": ["roof_palette"],
+      "terrain": {
+        "R": "t_radio_tower",
+        "a": "t_railing",
+        ",": "t_metal_floor_no_roof",
+        "<": "t_stairs_up",
+        ">": "t_stairs_down"
+      }
     }
   },
   {
@@ -276,11 +300,21 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", ">": "t_stairs_down" },
+      "palettes": ["roof_palette"],
+      "terrain": {
+        "R": "t_radio_tower",
+        "a": "t_railing",
+        ",": "t_metal_floor_no_roof",
+        ">": "t_stairs_down"
+      },
       "place_nested": [
         {
-          "chunks": [ [ "null", 40 ], [ "radio_tower_2x2_map", 40 ], [ "radio_tower_2x2_holdout", 10 ], [ "radio_tower_2x2_sniper", 10 ] ],
+          "chunks": [
+            ["null", 40],
+            ["radio_tower_2x2_map", 40],
+            ["radio_tower_2x2_holdout", 10],
+            ["radio_tower_2x2_sniper", 10]
+          ],
           "x": 10,
           "y": 5
         }
@@ -292,14 +326,17 @@
     "method": "json",
     "nested_mapgen_id": "radio_tower_2x2_holdout",
     "object": {
-      "mapgensize": [ 2, 2 ],
-      "place_furniture": [ { "furn": "f_camp_chair", "x": 1, "y": 0 }, { "furn": "f_makeshift_bed", "x": 1, "y": 1 } ],
+      "mapgensize": [2, 2],
+      "place_furniture": [
+        { "furn": "f_camp_chair", "x": 1, "y": 0 },
+        { "furn": "f_makeshift_bed", "x": 1, "y": 1 }
+      ],
       "place_loot": [
-        { "group": "camping", "x": 1, "y": [ 0, 1 ], "chance": 50, "repeat": [ 2, 3 ] },
-        { "item": "blanket", "x": 1, "y": [ 0, 1 ], "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "can_drink_unsealed", "x": 1, "y": [ 0, 1 ], "chance": 30, "repeat": [ 2, 3 ] },
-        { "item": "can_food_unsealed", "x": 1, "y": [ 0, 1 ], "chance": 40, "repeat": [ 2, 3 ] },
-        { "item": "can_food_unsealed", "x": 1, "y": [ 0, 1 ], "chance": 40, "repeat": [ 2, 3 ] },
+        { "group": "camping", "x": 1, "y": [0, 1], "chance": 50, "repeat": [2, 3] },
+        { "item": "blanket", "x": 1, "y": [0, 1], "chance": 50, "repeat": [1, 2] },
+        { "item": "can_drink_unsealed", "x": 1, "y": [0, 1], "chance": 30, "repeat": [2, 3] },
+        { "item": "can_food_unsealed", "x": 1, "y": [0, 1], "chance": 40, "repeat": [2, 3] },
+        { "item": "can_food_unsealed", "x": 1, "y": [0, 1], "chance": 40, "repeat": [2, 3] },
         { "item": "sleeping_bag", "x": 1, "y": 1, "chance": 40 }
       ]
     }
@@ -309,13 +346,13 @@
     "method": "json",
     "nested_mapgen_id": "radio_tower_2x2_sniper",
     "object": {
-      "mapgensize": [ 2, 2 ],
-      "place_furniture": [ { "furn": "f_camp_chair", "x": 1, "y": 0 } ],
+      "mapgensize": [2, 2],
+      "place_furniture": [{ "furn": "f_camp_chair", "x": 1, "y": 0 }],
       "place_loot": [
         { "item": "corpse", "x": 1, "y": 0 },
         { "group": "mon_zombie_soldier_death_drops", "x": 1, "y": 0 },
         { "item": "survivor_scope", "x": 1, "y": 0, "chance": 70 },
-        { "item": "can_drink_unsealed", "x": 1, "y": [ 0, 1 ], "chance": 70, "repeat": [ 2, 3 ] },
+        { "item": "can_drink_unsealed", "x": 1, "y": [0, 1], "chance": 70, "repeat": [2, 3] },
         { "item": "3006", "x": 1, "y": 0, "chance": 40 },
         { "item": "remington_700", "x": 1, "y": 0, "chance": 80, "ammo": 100 }
       ]
@@ -326,7 +363,7 @@
     "method": "json",
     "nested_mapgen_id": "radio_tower_2x2_map",
     "object": {
-      "mapgensize": [ 2, 2 ],
+      "mapgensize": [2, 2],
       "place_loot": [
         { "item": "survivor_scope", "x": 1, "y": 0 },
         { "item": "survivormap", "x": 1, "y": 0 },

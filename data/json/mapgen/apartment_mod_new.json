@@ -3,8 +3,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "apartments_mod_tower_110", "apartments_mod_tower_010" ],
-      [ "apartments_mod_tower_100", "apartments_mod_tower_000" ]
+      ["apartments_mod_tower_110", "apartments_mod_tower_010"],
+      ["apartments_mod_tower_100", "apartments_mod_tower_000"]
     ],
     "weight": 250,
     "object": {
@@ -59,12 +59,12 @@
         "                      ssss                      ",
         "                      ssss                      "
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 24, 47 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 24, 47 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [0, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [24, 47], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [24, 47], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [0, 23], "repeat": [1, 2] }
       ]
     }
   },
@@ -72,8 +72,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "apartments_mod_tower_111", "apartments_mod_tower_011" ],
-      [ "apartments_mod_tower_101", "apartments_mod_tower_001" ]
+      ["apartments_mod_tower_111", "apartments_mod_tower_011"],
+      ["apartments_mod_tower_101", "apartments_mod_tower_001"]
     ],
     "weight": 250,
     "object": {
@@ -128,19 +128,19 @@
         "************************************************",
         "************************************************"
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 24, 47 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 24, 47 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [0, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [24, 47], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [24, 47], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [0, 23], "repeat": [1, 2] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "apartments_mod_tower_112", "apartments_mod_tower_012" ] ],
+    "om_terrain": [["apartments_mod_tower_112", "apartments_mod_tower_012"]],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -170,10 +170,10 @@
         "*R,Q|A.ooo.FFFFI.Y^|........|^....A..FFFF.I|Q,R*",
         "*R|-|--------------|........|--------------|-|R*"
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 24, 47 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [0, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [24, 47], "repeat": [1, 2] }
       ]
     }
   },
@@ -181,8 +181,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "apartments_mod_tower_113", "apartments_mod_tower_013" ],
-      [ "apartments_mod_tower_103", "apartments_mod_tower_003" ]
+      ["apartments_mod_tower_113", "apartments_mod_tower_013"],
+      ["apartments_mod_tower_103", "apartments_mod_tower_003"]
     ],
     "weight": 250,
     "object": {
@@ -237,39 +237,46 @@
         "************************************************",
         "************************************************"
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "place_nested": [
         {
-          "chunks": [ [ "roof_2x2_golf", 25 ], [ "null", 25 ], [ "roof_4x4_party", 25 ], [ "roof_3x3_wine", 25 ] ],
-          "x": [ 8, 15 ],
-          "y": [ 2, 7 ]
+          "chunks": [
+            ["roof_2x2_golf", 25],
+            ["null", 25],
+            ["roof_4x4_party", 25],
+            ["roof_3x3_wine", 25]
+          ],
+          "x": [8, 15],
+          "y": [2, 7]
         },
         {
           "chunks": [
-            [ "null", 50 ],
-            [ "roof_5x5_coop", 50 ],
-            [ "roof_4x4_utility_1", 30 ],
-            [ "roof_4x4_utility", 30 ],
-            [ "roof_2x2_utilities", 20 ],
-            [ "roof_2x2_utilities_c", 20 ],
-            [ "roof_2x2_utilities_b", 20 ]
+            ["null", 50],
+            ["roof_5x5_coop", 50],
+            ["roof_4x4_utility_1", 30],
+            ["roof_4x4_utility", 30],
+            ["roof_2x2_utilities", 20],
+            ["roof_2x2_utilities_c", 20],
+            ["roof_2x2_utilities_b", 20]
           ],
-          "x": [ 13, 19 ],
-          "y": [ 17, 20 ]
+          "x": [13, 19],
+          "y": [17, 20]
         },
         {
           "chunks": [
-            [ "roof_2x2_golf", 20 ],
-            [ "null", 20 ],
-            [ "roof_4x4_holdout", 20 ],
-            [ "roof_4x4_party", 20 ],
-            [ "roof_3x3_wine", 20 ]
+            ["roof_2x2_golf", 20],
+            ["null", 20],
+            ["roof_4x4_holdout", 20],
+            ["roof_4x4_party", 20],
+            ["roof_3x3_wine", 20]
           ],
-          "x": [ 24, 40 ],
-          "y": [ 24, 40 ]
+          "x": [24, 40],
+          "y": [24, 40]
         }
       ],
-      "place_monsters": [ { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 4, 23 ], "y": [ 4, 23 ], "repeat": [ 0, 1 ] } ]
+      "place_monsters": [
+        { "monster": "GROUP_ROOF_ZOMBIE", "x": [4, 23], "y": [4, 23], "repeat": [0, 1] }
+      ]
     }
   }
 ]

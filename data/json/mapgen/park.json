@@ -6,7 +6,7 @@
     "//": "Playground",
     "weight": 500,
     "object": {
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "''''''''''''''''''''''''",
@@ -34,8 +34,10 @@
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''"
       ],
-      "palettes": [ "park_scenic_palette" ],
-      "place_monster": [ { "group": "GROUP_PARK_PLAYGROUND", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
+      "palettes": ["park_scenic_palette"],
+      "place_monster": [
+        { "group": "GROUP_PARK_PLAYGROUND", "x": [1, 23], "y": [1, 23], "repeat": [10, 20] }
+      ],
       "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -47,7 +49,7 @@
     "weight": 700,
     "object": {
       "fill_ter": "t_pavement",
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "rows": [
         "                        ",
         " |||||||||||||||||||||| ",
@@ -74,8 +76,10 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "park_asphalt_palette" ],
-      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ]
+      "palettes": ["park_asphalt_palette"],
+      "place_monster": [
+        { "group": "GROUP_PARK_SCENIC", "x": [1, 23], "y": [1, 23], "repeat": [10, 20] }
+      ]
     }
   },
   {
@@ -86,7 +90,7 @@
     "weight": 500,
     "object": {
       "fill_ter": "t_pavement",
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "rows": [
         "                        ",
         " |||||||||||||||||||||& ",
@@ -113,8 +117,10 @@
         " |||||||||||||||||||||  ",
         "                        "
       ],
-      "palettes": [ "park_asphalt_palette" ],
-      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ]
+      "palettes": ["park_asphalt_palette"],
+      "place_monster": [
+        { "group": "GROUP_PARK_SCENIC", "x": [1, 23], "y": [1, 23], "repeat": [10, 20] }
+      ]
     }
   },
   {
@@ -125,7 +131,7 @@
     "weight": 300,
     "object": {
       "fill_ter": "t_region_groundcover_urban",
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "rows": [
         "&bbb                bbb&",
         "   ,,,,,,,,,[,,,,,,,,,  ",
@@ -152,9 +158,11 @@
         "   ,,,,,,,,,[,,,,,,,,,  ",
         "&bbb                bbb&"
       ],
-      "palettes": [ "park_asphalt_palette" ],
-      "items": { "b": { "item": "shoes", "chance": 15, "repeat": [ 2, 5 ] } },
-      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ]
+      "palettes": ["park_asphalt_palette"],
+      "items": { "b": { "item": "shoes", "chance": 15, "repeat": [2, 5] } },
+      "place_monster": [
+        { "group": "GROUP_PARK_SCENIC", "x": [1, 23], "y": [1, 23], "repeat": [10, 20] }
+      ]
     }
   },
   {
@@ -165,7 +173,7 @@
     "weight": 500,
     "object": {
       "fill_ter": "t_grass",
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "rows": [
         "         ......         ",
         "  zzzzzzzz....zzzzzzzz  ",
@@ -192,9 +200,11 @@
         "  zzzzzzzz....zzzzzzzz  ",
         "         ......         "
       ],
-      "palettes": [ "park_scenic_palette" ],
-      "place_item": [ { "item": "char_smoker", "x": 7, "y": 7 } ],
-      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
+      "palettes": ["park_scenic_palette"],
+      "place_item": [{ "item": "char_smoker", "x": 7, "y": 7 }],
+      "place_monster": [
+        { "group": "GROUP_PARK_SCENIC", "x": [1, 23], "y": [1, 23], "repeat": [10, 20] }
+      ],
       "vehicles": { ".": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -206,7 +216,7 @@
     "weight": 500,
     "object": {
       "fill_ter": "t_grass",
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "rows": [
         "   ,   z ...... z     , ",
         ",    zzz .o..o. zzz,    ",
@@ -233,8 +243,10 @@
         "     zzz .o..o. zzz ,   ",
         " , ,   z ...... z       "
       ],
-      "palettes": [ "park_scenic_palette" ],
-      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
+      "palettes": ["park_scenic_palette"],
+      "place_monster": [
+        { "group": "GROUP_PARK_SCENIC", "x": [1, 23], "y": [1, 23], "repeat": [10, 20] }
+      ],
       "vehicles": { ".": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -246,7 +258,7 @@
     "weight": 500,
     "object": {
       "fill_ter": "t_region_groundcover_urban",
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "rows": [
         "__________|++|__________",
         "__zzzzzzzz|,,|Pzzzzzzz__",
@@ -295,17 +307,19 @@
         { "signage": "Watch your step!", "x": 14, "y": 1 },
         { "signage": "Use park at your own risk.", "x": 22, "y": 14 }
       ],
-      "items": { "&": { "item": "trash", "chance": 75, "repeat": [ 2, 7 ] } },
+      "items": { "&": { "item": "trash", "chance": 75, "repeat": [2, 7] } },
       "place_item": [
-        { "item": "bag_plastic", "x": 10, "y": 11, "repeat": [ 10, 50 ] },
-        { "item": "feces_dog", "x": [ 3, 20 ], "y": [ 3, 20 ], "chance": 200 },
-        { "item": "feces_dog", "x": 3, "y": 10, "repeat": [ 1, 10 ] },
-        { "item": "feces_dog", "x": 10, "y": 3, "repeat": [ 1, 10 ] },
-        { "item": "feces_dog", "x": 20, "y": 13, "repeat": [ 1, 10 ] },
-        { "item": "feces_dog", "x": 20, "y": 10, "repeat": [ 1, 10 ] },
-        { "item": "feces_dog", "x": 11, "y": 12, "repeat": [ 5, 20 ] }
+        { "item": "bag_plastic", "x": 10, "y": 11, "repeat": [10, 50] },
+        { "item": "feces_dog", "x": [3, 20], "y": [3, 20], "chance": 200 },
+        { "item": "feces_dog", "x": 3, "y": 10, "repeat": [1, 10] },
+        { "item": "feces_dog", "x": 10, "y": 3, "repeat": [1, 10] },
+        { "item": "feces_dog", "x": 20, "y": 13, "repeat": [1, 10] },
+        { "item": "feces_dog", "x": 20, "y": 10, "repeat": [1, 10] },
+        { "item": "feces_dog", "x": 11, "y": 12, "repeat": [5, 20] }
       ],
-      "place_monster": [ { "group": "GROUP_PARK_DOG", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 5, 12 ] } ]
+      "place_monster": [
+        { "group": "GROUP_PARK_DOG", "x": [1, 23], "y": [1, 23], "repeat": [5, 12] }
+      ]
     }
   },
   {
@@ -342,7 +356,7 @@
         "'''u4'''4''0u'4u'''''u4u",
         "''''''u''''u4''''u4'''''"
       ],
-      "palettes": [ "park_scenic_palette" ],
+      "palettes": ["park_scenic_palette"],
       "place_items": [
         { "chance": 8, "item": "dogfight", "x": 2, "y": 12 },
         { "chance": 30, "item": "trash", "x": 6, "y": 10 },
@@ -360,8 +374,13 @@
         { "chance": 10, "item": "field", "x": 2, "y": 16 },
         { "chance": 10, "item": "field", "x": 1, "y": 13 }
       ],
-      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
-      "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 }, "p": { "vehicle": "suburban_home", "chance": 1 } }
+      "place_monster": [
+        { "group": "GROUP_PARK_SCENIC", "x": [1, 23], "y": [1, 23], "repeat": [10, 20] }
+      ],
+      "vehicles": {
+        "'": { "vehicle": "park_playground_vehicles", "chance": 1 },
+        "p": { "vehicle": "suburban_home", "chance": 1 }
+      }
     }
   },
   {
@@ -398,7 +417,7 @@
         "tu'1Ou'tu'c'u''u'tu1tu'u",
         "'t'ut'_t''u't'ut'''u''t'"
       ],
-      "palettes": [ "park_scenic_palette" ],
+      "palettes": ["park_scenic_palette"],
       "place_items": [
         { "chance": 10, "item": "barbecue", "x": 3, "y": 11 },
         { "chance": 10, "item": "barbecue", "x": 4, "y": 11 },
@@ -416,7 +435,9 @@
         { "chance": 5, "item": "stoner", "x": 7, "y": 16 },
         { "chance": 5, "item": "forage_mushroom", "x": 3, "y": 21 }
       ],
-      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
+      "place_monster": [
+        { "group": "GROUP_PARK_SCENIC", "x": [1, 23], "y": [1, 23], "repeat": [10, 20] }
+      ],
       "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -454,7 +475,7 @@
         "t''''''_t''''_'''''t''''",
         "'t't''''''_'''t''_''''''"
       ],
-      "palettes": [ "park_scenic_palette" ],
+      "palettes": ["park_scenic_palette"],
       "place_items": [
         { "chance": 3, "item": "stash_drugs", "x": 21, "y": 3 },
         { "chance": 10, "item": "magazines", "x": 21, "y": 14 },
@@ -464,8 +485,10 @@
         { "chance": 10, "item": "toy_box", "x": 16, "y": 14 },
         { "chance": 10, "item": "toy_box", "x": 14, "y": 13 }
       ],
-      "place_toilets": [ { "x": 21, "y": 3 }, { "x": 21, "y": 5 } ],
-      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
+      "place_toilets": [{ "x": 21, "y": 3 }, { "x": 21, "y": 5 }],
+      "place_monster": [
+        { "group": "GROUP_PARK_SCENIC", "x": [1, 23], "y": [1, 23], "repeat": [10, 20] }
+      ],
       "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -503,9 +526,11 @@
         "sssssss''''''''d'''sss''",
         "'''''''''''d''_''''sss''"
       ],
-      "palettes": [ "park_scenic_palette" ],
+      "palettes": ["park_scenic_palette"],
       "items": { "_": { "item": "forest", "chance": 4 } },
-      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
+      "place_monster": [
+        { "group": "GROUP_PARK_SCENIC", "x": [1, 23], "y": [1, 23], "repeat": [10, 20] }
+      ],
       "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -543,10 +568,12 @@
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss"
       ],
-      "palettes": [ "park_scenic_palette" ],
+      "palettes": ["park_scenic_palette"],
       "terrain": { "O": "t_sidewalk" },
       "items": { "|": { "item": "stoner", "chance": 1 } },
-      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 15, 17 ], "y": [ 15, 17 ], "repeat": [ 10, 20 ] } ],
+      "place_monster": [
+        { "group": "GROUP_PARK_SCENIC", "x": [15, 17], "y": [15, 17], "repeat": [10, 20] }
+      ],
       "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -584,10 +611,17 @@
         "'[[[[[[[[[[[[[[[[[[[[[4'",
         "'''u'''''''''''''''u''''"
       ],
-      "palettes": [ "park_scenic_palette" ],
+      "palettes": ["park_scenic_palette"],
       "vendingmachines": { "v": { "item_group": "vending_drink" } },
-      "items": { "X": [ { "item": "trash", "chance": 75, "repeat": [ 2, 7 ] }, { "item": "vending_drink_items", "chance": 25 } ] },
-      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
+      "items": {
+        "X": [
+          { "item": "trash", "chance": 75, "repeat": [2, 7] },
+          { "item": "vending_drink_items", "chance": 25 }
+        ]
+      },
+      "place_monster": [
+        { "group": "GROUP_PARK_SCENIC", "x": [1, 23], "y": [1, 23], "repeat": [10, 20] }
+      ],
       "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   }

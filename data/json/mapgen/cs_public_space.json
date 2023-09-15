@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cs_public_space" ],
+    "om_terrain": ["cs_public_space"],
     "method": "json",
     "weight": 1000,
     "object": {
@@ -44,9 +44,18 @@
         "N": "t_sidewalk",
         "f": "t_dirtmound"
       },
-      "furniture": { "S": "f_statue", "b": "f_bench", "D": "f_dumpster", "N": "f_bulletin", "f": "f_bluebell" },
-      "items": { "D": { "item": "oa_custom_trash", "chance": 70 }, "b": { "item": "oa_discarded_news", "chance": 5 } },
-      "place_loot": [ { "item": "american_flag", "x": 10, "y": 1, "chance": 25 } ]
+      "furniture": {
+        "S": "f_statue",
+        "b": "f_bench",
+        "D": "f_dumpster",
+        "N": "f_bulletin",
+        "f": "f_bluebell"
+      },
+      "items": {
+        "D": { "item": "oa_custom_trash", "chance": 70 },
+        "b": { "item": "oa_discarded_news", "chance": 5 }
+      },
+      "place_loot": [{ "item": "american_flag", "x": 10, "y": 1, "chance": 25 }]
     }
   }
 ]

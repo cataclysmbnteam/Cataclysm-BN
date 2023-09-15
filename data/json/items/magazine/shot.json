@@ -15,7 +15,7 @@
     "ammo_type": "shot",
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "saiga30mag",
@@ -34,7 +34,7 @@
     "capacity": 30,
     "reliability": 8,
     "reload_time": 130,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "USAS10mag",
@@ -52,7 +52,7 @@
     "ammo_type": "shot",
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "USAS20mag",
@@ -71,7 +71,7 @@
     "capacity": 20,
     "reliability": 8,
     "reload_time": 110,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "shotbelt_20",
@@ -89,8 +89,8 @@
     "ammo_type": "shot",
     "capacity": 20,
     "reliability": 5,
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 2 },
-    "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "armor_data": { "covers": ["torso"], "coverage": 5, "material_thickness": 1, "encumbrance": 2 },
+    "flags": ["MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY"]
   },
   {
     "id": "shot_speedloader6",
@@ -107,7 +107,7 @@
     "color": "light_gray",
     "ammo_type": "shot",
     "capacity": 6,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": ["SPEEDLOADER"]
   },
   {
     "id": "shot_speedloader8",
@@ -124,6 +124,6 @@
     "color": "light_gray",
     "ammo_type": "shot",
     "capacity": 8,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": ["SPEEDLOADER"]
   }
 ]

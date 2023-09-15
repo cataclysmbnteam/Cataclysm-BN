@@ -4,9 +4,9 @@
     "type": "mapgen",
     "weight": 100,
     "om_terrain": [
-      [ "movietheater_0_0", "movietheater_1_0", "movietheater_2_0" ],
-      [ "movietheater_0_1", "movietheater_1_1", "movietheater_2_1" ],
-      [ "movietheater_0_2", "movietheater_1_2", "movietheater_2_2" ]
+      ["movietheater_0_0", "movietheater_1_0", "movietheater_2_0"],
+      ["movietheater_0_1", "movietheater_1_1", "movietheater_2_1"],
+      ["movietheater_0_2", "movietheater_1_2", "movietheater_2_2"]
     ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -84,16 +84,19 @@
         "!.......................+**********************+.......................!",
         "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       ],
-      "palettes": [ "movie_theater_palette.json" ],
+      "palettes": ["movie_theater_palette.json"],
       "terrain": { "#": "t_thconc_floor", "H": "t_thconc_floor", "y": "t_thconc_floor" },
-      "toilets": { "&": {  } },
-      "vendingmachines": { "v": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "toilets": { "&": {} },
+      "vendingmachines": {
+        "v": { "item_group": "vending_drink" },
+        "F": { "item_group": "vending_food" }
+      },
       "items": {
         "&": { "item": "alcohol", "chance": 10 },
         "T": { "item": "snacks", "chance": 5 },
-        "X": { "item": "snacks", "chance": 30, "repeat": [ 6, 12 ] },
-        "g": { "item": "fridgesnacks", "chance": 70, "repeat": [ 6, 12 ] },
-        "G": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "X": { "item": "snacks", "chance": 30, "repeat": [6, 12] },
+        "g": { "item": "fridgesnacks", "chance": 70, "repeat": [6, 12] },
+        "G": { "item": "trash", "chance": 20, "repeat": [2, 4] },
         "t": [
           { "item": "snacks", "chance": 3 },
           { "item": "consumer_electronics", "chance": 4 },
@@ -159,9 +162,9 @@
     "type": "mapgen",
     "weight": 100,
     "om_terrain": [
-      [ "movietheater_roof_0_0", "movietheater_roof_1_0", "movietheater_roof_2_0" ],
-      [ "movietheater_roof_0_1", "movietheater_roof_1_1", "movietheater_roof_2_1" ],
-      [ "movietheater_roof_0_2", "movietheater_roof_1_2", "movietheater_roof_2_2" ]
+      ["movietheater_roof_0_0", "movietheater_roof_1_0", "movietheater_roof_2_0"],
+      ["movietheater_roof_0_1", "movietheater_roof_1_1", "movietheater_roof_2_1"],
+      ["movietheater_roof_0_2", "movietheater_roof_1_2", "movietheater_roof_2_2"]
     ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -239,8 +242,11 @@
         "|......................................................................3",
         "|----------------------------------------------------------------------3"
       ],
-      "palettes": [ "roof_palette" ],
-      "liquids": { "6": { "liquid": "water", "amount": [ 0, 100 ] }, "Y": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
+      "palettes": ["roof_palette"],
+      "liquids": {
+        "6": { "liquid": "water", "amount": [0, 100] },
+        "Y": { "liquid": "water_clean", "amount": [100, 1000] }
+      },
       "terrain": {
         ">": "t_ladder_down",
         "_": "t_thconc_floor",
@@ -258,7 +264,7 @@
         "p": "t_machinery_old"
       },
       "furniture": { "Y": "f_standing_tank", "6": "f_water_heater", "7": "f_roof_turbine_vent" },
-      "items": { "C": { "item": "snacks", "chance": 30, "repeat": [ 6, 12 ] } }
+      "items": { "C": { "item": "snacks", "chance": 30, "repeat": [6, 12] } }
     }
   }
 ]

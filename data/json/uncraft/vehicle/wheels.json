@@ -5,8 +5,8 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "48 s",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 6 ] ], [ [ "chunk_rubber", 15 ] ] ]
+    "qualities": [{ "id": "SAW_M", "level": 1 }],
+    "components": [[["steel_lump", 6]], [["chunk_rubber", 15]]]
   },
   {
     "type": "uncraft",
@@ -14,8 +14,8 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "48 s",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 15 ] ], [ [ "chunk_rubber", 15 ] ] ]
+    "qualities": [{ "id": "SAW_M", "level": 1 }],
+    "components": [[["steel_lump", 15]], [["chunk_rubber", 15]]]
   },
   {
     "type": "uncraft",
@@ -23,8 +23,8 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "48 s",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 15 ] ], [ [ "chunk_rubber", 15 ] ] ]
+    "qualities": [{ "id": "SAW_M", "level": 1 }],
+    "components": [[["steel_lump", 15]], [["chunk_rubber", 15]]]
   },
   {
     "type": "uncraft",
@@ -32,8 +32,8 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "48 s",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 10 ] ], [ [ "chunk_rubber", 15 ] ] ]
+    "qualities": [{ "id": "SAW_M", "level": 1 }],
+    "components": [[["steel_lump", 10]], [["chunk_rubber", 15]]]
   },
   {
     "type": "uncraft",
@@ -41,8 +41,8 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "48 s",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 6 ] ], [ [ "chunk_rubber", 6 ] ] ]
+    "qualities": [{ "id": "SAW_M", "level": 1 }],
+    "components": [[["steel_chunk", 6]], [["chunk_rubber", 6]]]
   },
   {
     "type": "uncraft",
@@ -50,8 +50,8 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "48 s",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 6 ] ], [ [ "chunk_rubber", 6 ] ] ]
+    "qualities": [{ "id": "SAW_M", "level": 1 }],
+    "components": [[["steel_chunk", 6]], [["chunk_rubber", 6]]]
   },
   {
     "type": "uncraft",
@@ -59,8 +59,8 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "48 s",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 8 ] ], [ [ "chunk_rubber", 6 ] ] ]
+    "qualities": [{ "id": "SAW_M", "level": 1 }],
+    "components": [[["steel_chunk", 8]], [["chunk_rubber", 6]]]
   },
   {
     "type": "uncraft",
@@ -68,8 +68,8 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "48 s",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 3 ] ], [ [ "chunk_rubber", 6 ] ] ]
+    "qualities": [{ "id": "SAW_M", "level": 1 }],
+    "components": [[["steel_lump", 3]], [["chunk_rubber", 6]]]
   },
   {
     "type": "uncraft",
@@ -77,7 +77,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "48 s",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 3 ] ], [ [ "chunk_rubber", 6 ] ] ]
+    "qualities": [{ "id": "SAW_M", "level": 1 }],
+    "components": [[["steel_lump", 3]], [["chunk_rubber", 6]]]
   }
 ]

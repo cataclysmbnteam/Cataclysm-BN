@@ -8,8 +8,8 @@
     "volume": "250 ml",
     "price": 200,
     "price_postapoc": 1000,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "steel", "powder" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
+    "material": ["steel", "powder"],
     "symbol": "=",
     "color": "light_gray",
     "count": 20,
@@ -20,7 +20,7 @@
     "damage": { "damage_type": "bullet", "amount": 55, "armor_penetration": 8 },
     "dispersion": 30,
     "recoil": 3000,
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "id": "bp_500_Magnum",
@@ -33,7 +33,7 @@
       "recoil": 0.76,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": ["RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   }
 ]

@@ -10,7 +10,7 @@
     "price": 280000,
     "price_postapoc": 2250,
     "to_hit": -2,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "762x25",
     "range": 2,
@@ -18,21 +18,21 @@
     "dispersion": 120,
     "min_cycle_recoil": 270,
     "barrel_length": "500 ml",
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 5]],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ],
-      [ "rail mount", 1 ]
+      ["accessories", 3],
+      ["barrel", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["underbarrel", 1],
+      ["rail mount", 1]
     ],
-    "magazines": [ [ "762x25", [ "ppshmag", "ppshdrum" ] ] ]
+    "magazines": [["762x25", ["ppshmag", "ppshdrum"]]]
   },
   {
     "id": "tokarev",
@@ -47,12 +47,12 @@
     "price_postapoc": 1250,
     "to_hit": -2,
     "bashing": 10,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "ammo": "762x25",
     "dispersion": 225,
     "durability": 7,
     "min_cycle_recoil": 270,
     "magazine_well": "250 ml",
-    "magazines": [ [ "762x25", [ "tokarevmag" ] ] ]
+    "magazines": [["762x25", ["tokarevmag"]]]
   }
 ]

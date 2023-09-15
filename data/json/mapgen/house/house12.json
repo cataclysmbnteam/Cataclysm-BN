@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "house_12" ],
+    "om_terrain": ["house_12"],
     "weight": 200,
     "object": {
       "fill_ter": "t_floor",
@@ -32,10 +32,15 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
-      "terrain": { "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ], "$": "t_fence" },
-      "place_loot": [ { "group": "livingroom", "x": [ 3, 7 ], "y": [ 13, 19 ], "chance": 90, "repeat": [ 1, 4 ] } ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 10 } ]
+      "palettes": ["standard_domestic_palette"],
+      "terrain": {
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "$": "t_fence"
+      },
+      "place_loot": [
+        { "group": "livingroom", "x": [3, 7], "y": [13, 19], "chance": 90, "repeat": [1, 4] }
+      ],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [2, 21], "y": [2, 21], "chance": 10 }]
     }
   },
   {
@@ -70,7 +75,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -106,10 +111,12 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "nested": {
-        "1": { "chunks": [ [ "null", 70 ], [ "7x7_tent_indoors", 10 ], [ "7x7_band_practice_open", 30 ] ] },
-        "2": { "chunks": [ [ "null", 70 ], [ "room_7x7_recroom_S", 30 ], [ "room_7x7_wine_cellar_S", 30 ] ] }
+        "1": { "chunks": [["null", 70], ["7x7_tent_indoors", 10], ["7x7_band_practice_open", 30]] },
+        "2": {
+          "chunks": [["null", 70], ["room_7x7_recroom_S", 30], ["room_7x7_wine_cellar_S", 30]]
+        }
       }
     }
   }

@@ -14,11 +14,11 @@
       "bio_tools",
       "bio_sunglasses"
     ],
-    "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
+    "skills": [{ "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" }],
     "items": {
-      "both": { "items": [ "hat_hard", "jumpsuit", "socks", "rope_30", "boots", "afs_herc_rig" ] },
-      "male": [ "briefs" ],
-      "female": [ "bra", "boy_shorts" ]
+      "both": { "items": ["hat_hard", "jumpsuit", "socks", "rope_30", "boots", "afs_herc_rig"] },
+      "male": ["briefs"],
+      "female": ["bra", "boy_shorts"]
     }
   },
   {
@@ -27,9 +27,17 @@
     "name": "Cryosleep Survivor",
     "description": "A sudden power failure woke you from the cryosleep sarcophagus in which you had entombed yourself lifetimes ago.  It seems the emergency reanimation procedure has damaged your memory, and now, bearing almost no knowledge of your past life, you must find a way to survive in a ruined and alien world.",
     "points": 2,
-    "traits": [ "AFS_CRYOADAPTATION" ],
+    "traits": ["AFS_CRYOADAPTATION"],
     "items": {
-      "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "medium_atomic_battery_cell", "charges": 5000 } ] }
+      "both": {
+        "entries": [
+          {
+            "item": "afs_cryopod_bodyglove",
+            "ammo-item": "medium_atomic_battery_cell",
+            "charges": 5000
+          }
+        ]
+      }
     }
   },
   {
@@ -38,7 +46,7 @@
     "name": { "male": "Atomic Pitchman", "female": "Atomic Pitchwoman" },
     "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the bombs hit.  You enter now the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
     "points": 3,
-    "skills": [ { "level": 1, "name": "speech" } ],
+    "skills": [{ "level": 1, "name": "speech" }],
     "items": {
       "both": [
         "dress_shirt",
@@ -53,8 +61,8 @@
         "afs_atompot",
         "energy_drink_atomic"
       ],
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": ["briefs"],
+      "female": ["bra", "panties"]
     }
   },
   {
@@ -65,16 +73,24 @@
     "points": 4,
     "items": {
       "both": {
-        "items": [ "socks", "afs_calorie_pill", "afs_atomic_smartphone", "undershirt", "dump_pouch" ],
+        "items": ["socks", "afs_calorie_pill", "afs_atomic_smartphone", "undershirt", "dump_pouch"],
         "entries": [
           { "item": "water_clean", "container-item": "camelbak" },
-          { "item": "crowbar", "custom-flags": [ "auto_wield" ] },
-          { "item": "phase_immersion_suit", "ammo-item": "heavy_atomic_battery_cell", "charges": 10000 },
-          { "item": "dimensional_anchor", "ammo-item": "medium_atomic_battery_cell", "charges": 5000 }
+          { "item": "crowbar", "custom-flags": ["auto_wield"] },
+          {
+            "item": "phase_immersion_suit",
+            "ammo-item": "heavy_atomic_battery_cell",
+            "charges": 10000
+          },
+          {
+            "item": "dimensional_anchor",
+            "ammo-item": "medium_atomic_battery_cell",
+            "charges": 5000
+          }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "boy_shorts" ]
+      "male": ["briefs"],
+      "female": ["boy_shorts"]
     }
   },
   {
@@ -83,11 +99,11 @@
     "name": "Vatgrown Bodyguard",
     "description": "Grown in some corporate laboratory to provide the perfect bodyguard, with nothing to live for but your client.  The Cataclysm ignored social strata and somehow you outlived your master.  Now no one knows the conditioning words to force your obedience.  While the world burns, you get your first taste of life.",
     "points": 3,
-    "traits": [ "AFS_BRUTAL_STRENGTH", "SLOWREADER", "LIGHTWEIGHT" ],
+    "traits": ["AFS_BRUTAL_STRENGTH", "SLOWREADER", "LIGHTWEIGHT"],
     "items": {
-      "both": [ "suit", "dress_shoes", "bootsheath", "ceramic_knife" ],
-      "male": [ "briefs", "undershirt" ],
-      "female": [ "boy_shorts", "bra" ]
+      "both": ["suit", "dress_shoes", "bootsheath", "ceramic_knife"],
+      "male": ["briefs", "undershirt"],
+      "female": ["boy_shorts", "bra"]
     }
   },
   {
@@ -96,7 +112,7 @@
     "name": "CBM Engineer",
     "description": "You worked as a technician in a sterile, high-security facility concerned with the fabrication of bionic implants.  The final evacuation order caught you in the middle of your 16 hour extended shift, and you barely managed to escape the building, tools in hand.",
     "points": 2,
-    "skills": [ { "level": 4, "name": "electronics" } ],
+    "skills": [{ "level": 4, "name": "electronics" }],
     "items": {
       "both": {
         "items": [
@@ -110,10 +126,10 @@
           "backpack",
           "jeans"
         ],
-        "entries": [ { "item": "cash_card", "charges": 50000 } ]
+        "entries": [{ "item": "cash_card", "charges": 50000 }]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": ["briefs"],
+      "female": ["bra", "panties"]
     }
   },
   {
@@ -122,21 +138,36 @@
     "name": "Wraitheon Executive",
     "description": "You were one of the chief executives of the Megacorporation Wraitheon Robotics ltd.  and consistently ranked among the most powerful and influential persons of the world.  Still, the apocalypse has caught you unprepared, and now after the dissolution of your company and the crumbling of your network of influence, your were left powerless and destitute, and must rely on your two robotic bodyguards to survive.",
     "points": 8,
-    "CBMs": [ "bio_batteries", "bio_power_storage_mkII", "bio_eye_enhancer", "bio_int_enhancer", "bio_memory", "bio_cable" ],
-    "traits": [ "FLIMSY3", "SLOWHEALER3" ],
-    "pets": [ { "name": "afs_mon_sentinel_lx", "amount": 2 } ],
-    "skills": [ { "level": 6, "name": "speech" }, { "level": 6, "name": "computer" } ],
+    "CBMs": [
+      "bio_batteries",
+      "bio_power_storage_mkII",
+      "bio_eye_enhancer",
+      "bio_int_enhancer",
+      "bio_memory",
+      "bio_cable"
+    ],
+    "traits": ["FLIMSY3", "SLOWHEALER3"],
+    "pets": [{ "name": "afs_mon_sentinel_lx", "amount": 2 }],
+    "skills": [{ "level": 6, "name": "speech" }, { "level": 6, "name": "computer" }],
     "items": {
       "both": {
-        "items": [ "tux", "dress_shoes", "socks", "gold_watch", "undershirt", "smart_phone", "gasdiscount_platinum" ],
+        "items": [
+          "tux",
+          "dress_shoes",
+          "socks",
+          "gold_watch",
+          "undershirt",
+          "smart_phone",
+          "gasdiscount_platinum"
+        ],
         "entries": [
           { "item": "cash_card", "charges": 200000000 },
           { "item": "cash_card", "charges": 200000000 },
           { "item": "afs_wraitheon_smartphone" }
         ]
       },
-      "male": [ "briefs", "collarpin", "diamond_ring" ],
-      "female": [ "panties", "hairpin", "pearl_collar" ]
+      "male": ["briefs", "collarpin", "diamond_ring"],
+      "female": ["panties", "hairpin", "pearl_collar"]
     }
   },
   {
@@ -175,7 +206,12 @@
         "entries": [
           { "item": "kukri", "container-item": "sheath" },
           { "item": "radiocontrol", "ammo-item": "light_atomic_battery_cell", "charges": 1000 },
-          { "item": "afs_eidolon_derringer", "ammo-item": "5x50heavy", "charges": 4, "container-item": "holster" },
+          {
+            "item": "afs_eidolon_derringer",
+            "ammo-item": "5x50heavy",
+            "charges": 4,
+            "container-item": "holster"
+          },
           { "item": "5x50heavy" }
         ]
       }
@@ -189,11 +225,19 @@
     "points": 2,
     "items": {
       "both": {
-        "items": [ "tux", "dress_shoes", "socks", "gold_watch", "undershirt", "smart_phone", "gasdiscount_platinum" ],
-        "entries": [ { "item": "cash_card", "charges": 200000000 } ]
+        "items": [
+          "tux",
+          "dress_shoes",
+          "socks",
+          "gold_watch",
+          "undershirt",
+          "smart_phone",
+          "gasdiscount_platinum"
+        ],
+        "entries": [{ "item": "cash_card", "charges": 200000000 }]
       },
-      "male": [ "briefs", "collarpin", "diamond_ring" ],
-      "female": [ "panties", "hairpin", "pearl_collar" ]
+      "male": ["briefs", "collarpin", "diamond_ring"],
+      "female": ["panties", "hairpin", "pearl_collar"]
     }
   },
   {
@@ -209,23 +253,34 @@
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "bashing" }
     ],
-    "traits": [ "PROF_SWAT", "UPLIFTED", "THRESH_MASTODON", "MUT_TANK", "TUSKS", "HUGE_OK" ],
+    "traits": ["PROF_SWAT", "UPLIFTED", "THRESH_MASTODON", "MUT_TANK", "TUSKS", "HUGE_OK"],
     "//": "Need to add XL gear for MASTODON's in more items.",
     "items": {
       "both": {
-        "items": [ "xlswat_armor", "xlboots_combat", "xlgloves_tactical", "badge_swat", "wristwatch" ],
+        "items": [
+          "xlswat_armor",
+          "xlboots_combat",
+          "xlgloves_tactical",
+          "badge_swat",
+          "wristwatch"
+        ],
         "entries": [
           { "group": "army_mags_usp9" },
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "ear_plugs", "custom-flags": ["no_auto_equip"] },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc2" },
           { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "holster" },
-          { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" },
+          {
+            "item": "ksg",
+            "ammo-item": "shot_00",
+            "charges": 7,
+            "contents-item": "shoulder_strap"
+          },
           { "item": "baton", "container-item": "xlpolice_belt" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boy_shorts" ]
+      "male": ["boxer_shorts"],
+      "female": ["sports_bra", "boy_shorts"]
     }
   },
   {
@@ -274,23 +329,28 @@
           "knife_hunting"
         ],
         "entries": [
-          { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
+          {
+            "item": "medium_plus_battery_cell",
+            "ammo-item": "battery",
+            "charges": 600,
+            "container-item": "mil_mess_kit"
+          },
+          { "item": "ear_plugs", "custom-flags": ["no_auto_equip"] },
+          { "item": "hat_boonie", "custom-flags": ["no_auto_equip"] },
           {
             "item": "m2010",
             "ammo-item": "300_winmag",
             "charges": 5,
-            "contents-item": [ "shoulder_strap", "rifle_scope", "bipod" ]
+            "contents-item": ["shoulder_strap", "rifle_scope", "bipod"]
           },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
           { "item": "usp45mag", "ammo-item": "45_acp", "charges": 12 },
-          { "item": "tacvest", "contents-group": [ "army_mags_m2010" ] }
+          { "item": "tacvest", "contents-group": ["army_mags_m2010"] }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": ["boxer_shorts"],
+      "female": ["sports_bra", "boxer_shorts"]
     }
   }
 ]

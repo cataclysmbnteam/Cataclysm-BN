@@ -8,13 +8,13 @@
     "difficulty": 0,
     "time": 400,
     "autolearn": true,
-    "components": [ [ [ "withered", 3 ] ] ]
+    "components": [[["withered", 3]]]
   },
   {
     "result": "withered_bundle",
     "type": "uncraft",
     "time": 300,
-    "components": [ [ [ "withered", 3 ] ] ]
+    "components": [[["withered", 3]]]
   },
   {
     "result": "pellet",
@@ -23,11 +23,11 @@
     "subcategory": "CSC_AMMO_RIFLE",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 2 ],
+    "skills_required": ["gun", 2],
     "time": "90 s",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 2], ["mag_rifle", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 1 ] ]
+    "using": [["bullet_forming", 1], ["ammo_bullet", 1]]
   }
 ]

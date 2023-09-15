@@ -1,7 +1,7 @@
 [
   {
     "result": "helmet_demonchitin",
-    "byproducts": [ [ "demon_chitin_piece", 3 ] ],
+    "byproducts": [["demon_chitin_piece", 3]],
     "qualities": [
       { "id": "CHISEL", "level": 1 },
       { "id": "SEW", "level": 3 },
@@ -12,15 +12,19 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
-    "skills_required": [ [ "spellcraft", 6 ] ],
+    "skills_required": [["spellcraft", 6]],
     "difficulty": 7,
     "time": "4 h",
-    "book_learn": [ [ "magic_armormaking", 6 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 1 ] ], [ [ "demon_chitin_piece", 1 ] ] ]
+    "book_learn": [["magic_armormaking", 6]],
+    "components": [
+      [["cordage_superior", 1, "LIST"]],
+      [["demon_chitin_plate", 1]],
+      [["demon_chitin_piece", 1]]
+    ]
   },
   {
     "result": "armguard_demonchitin",
-    "byproducts": [ [ "demon_chitin_piece", 8 ] ],
+    "byproducts": [["demon_chitin_piece", 8]],
     "qualities": [
       { "id": "CHISEL", "level": 1 },
       { "id": "SEW", "level": 3 },
@@ -31,11 +35,15 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
-    "skills_required": [ [ "spellcraft", 6 ] ],
+    "skills_required": [["spellcraft", 6]],
     "difficulty": 6,
     "time": "2 h",
-    "book_learn": [ [ "magic_armormaking", 5 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 1 ] ], [ [ "demon_chitin_piece", 2 ] ] ]
+    "book_learn": [["magic_armormaking", 5]],
+    "components": [
+      [["cordage_superior", 1, "LIST"]],
+      [["demon_chitin_plate", 1]],
+      [["demon_chitin_piece", 2]]
+    ]
   },
   {
     "result": "armor_demonchitin",
@@ -49,11 +57,15 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
-    "skills_required": [ [ "spellcraft", 6 ] ],
+    "skills_required": [["spellcraft", 6]],
     "difficulty": 8,
     "time": "4 h",
-    "book_learn": [ [ "magic_armormaking", 7 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 4 ] ], [ [ "demon_chitin_piece", 6 ] ] ]
+    "book_learn": [["magic_armormaking", 7]],
+    "components": [
+      [["cordage_superior", 1, "LIST"]],
+      [["demon_chitin_plate", 4]],
+      [["demon_chitin_piece", 6]]
+    ]
   },
   {
     "result": "boots_demonchitin",
@@ -67,11 +79,15 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
-    "skills_required": [ [ "spellcraft", 6 ] ],
+    "skills_required": [["spellcraft", 6]],
     "difficulty": 5,
     "time": "2 h 40 m",
-    "book_learn": [ [ "magic_armormaking", 4 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_plate", 1 ] ], [ [ "demon_chitin_piece", 2 ] ] ]
+    "book_learn": [["magic_armormaking", 4]],
+    "components": [
+      [["cordage_superior", 1, "LIST"]],
+      [["demon_chitin_plate", 1]],
+      [["demon_chitin_piece", 2]]
+    ]
   },
   {
     "result": "gauntlets_demonchitin",
@@ -85,11 +101,11 @@
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
-    "skills_required": [ [ "spellcraft", 6 ] ],
+    "skills_required": [["spellcraft", 6]],
     "difficulty": 5,
     "time": "2 h",
-    "book_learn": [ [ "magic_armormaking", 4 ] ],
-    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "demon_chitin_piece", 10 ] ] ]
+    "book_learn": [["magic_armormaking", 4]],
+    "components": [[["cordage_superior", 1, "LIST"]], [["demon_chitin_piece", 10]]]
   },
   {
     "result": "demonchitin_armor_horse",
@@ -98,10 +114,10 @@
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
     "time": "17 h 30 m",
-    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "skills_required": [ [ "spellcraft", 6 ], [ "fabrication", 4 ], [ "survival", 4 ] ],
-    "using": [ [ "cordage", 7 ] ],
-    "components": [ [ [ "demon_chitin_plate", 4 ] ], [ [ "demon_chitin_piece", 20 ] ] ]
+    "book_learn": [["textbook_tailor", 5], ["tailor_portfolio", 5]],
+    "skills_required": [["spellcraft", 6], ["fabrication", 4], ["survival", 4]],
+    "using": [["cordage", 7]],
+    "components": [[["demon_chitin_plate", 4]], [["demon_chitin_piece", 20]]]
   },
   {
     "result": "demonchitin_harness_dog",
@@ -109,9 +125,9 @@
     "copy-from": "armor_demonchitin",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_CANINE ARMOR",
-    "skills_required": [ [ "spellcraft", 6 ], [ "fabrication", 4 ], [ "survival", 4 ] ],
+    "skills_required": [["spellcraft", 6], ["fabrication", 4], ["survival", 4]],
     "time": "5 h",
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "demon_chitin_piece", 12 ] ] ]
+    "using": [["cordage", 1]],
+    "components": [[["demon_chitin_piece", 12]]]
   }
 ]

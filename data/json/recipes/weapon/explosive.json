@@ -9,9 +9,9 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "jar_glass", 1 ], [ "bottle_glass", 1 ], [ "clay_canister", 2 ], [ "flask_glass", 2 ] ],
-      [ [ "acid", 2 ] ],
-      [ [ "cordage_short", 1, "LIST" ] ]
+      [["jar_glass", 1], ["bottle_glass", 1], ["clay_canister", 2], ["flask_glass", 2]],
+      [["acid", 2]],
+      [["cordage_short", 1, "LIST"]]
     ]
   },
   {
@@ -22,19 +22,19 @@
     "skill_used": "cooking",
     "difficulty": 7,
     "time": "10 m",
-    "book_learn": [ [ "textbook_anarch", 5 ], [ "adv_chemistry", 6 ], [ "textbook_chemistry", 6 ] ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "book_learn": [["textbook_anarch", 5], ["adv_chemistry", 6], ["textbook_chemistry", 6]],
+    "qualities": [{ "id": "CHEM", "level": 2 }],
+    "tools": [[["surface_heat", 25, "LIST"]]],
     "components": [
-      [ [ "paper", 5 ], [ "rolling_paper", 32 ] ],
-      [ [ "acid", 2 ], [ "chem_sulphuric_acid", 2 ], [ "chem_nitric_acid", 2 ] ],
-      [ [ "ammonia", 1 ], [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
+      [["paper", 5], ["rolling_paper", 32]],
+      [["acid", 2], ["chem_sulphuric_acid", 2], ["chem_nitric_acid", 2]],
+      [["ammonia", 1], ["chem_ethanol", 250], ["denat_alcohol", 250]],
       [
-        [ "soap", 3 ],
-        [ "edible_tallow_lard", 2, "LIST" ],
-        [ "tallow_tainted", 2 ],
-        [ "cooking_oil", 16 ],
-        [ "cooking_oil2", 16 ]
+        ["soap", 3],
+        ["edible_tallow_lard", 2, "LIST"],
+        ["tallow_tainted", 2],
+        ["cooking_oil", 16],
+        ["cooking_oil2", 16]
       ]
     ]
   },
@@ -48,18 +48,18 @@
     "time": "50 m",
     "reversible": true,
     "decomp_learn": 5,
-    "book_learn": [ [ "textbook_anarch", 4 ], [ "advanced_electronics", 4 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "book_learn": [["textbook_anarch", 4], ["advanced_electronics", 4]],
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "circuit", 1 ] ],
-      [ [ "e_scrap", 2 ] ],
-      [ [ "scrap", 10 ] ],
-      [ [ "amplifier", 1 ], [ "power_supply", 1 ] ],
-      [ [ "plut_cell", 1 ] ],
-      [ [ "antenna", 1 ] ],
-      [ [ "solder_wire", 10 ] ],
-      [ [ "cable", 10 ] ]
+      [["circuit", 1]],
+      [["e_scrap", 2]],
+      [["scrap", 10]],
+      [["amplifier", 1], ["power_supply", 1]],
+      [["plut_cell", 1]],
+      [["antenna", 1]],
+      [["solder_wire", 10]],
+      [["cable", 10]]
     ]
   },
   {
@@ -72,23 +72,23 @@
     "time": "30 m",
     "reversible": true,
     "decomp_learn": 5,
-    "book_learn": [ [ "textbook_anarch", 4 ], [ "advanced_electronics", 4 ] ],
-    "using": [ [ "soldering_standard", 15 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "book_learn": [["textbook_anarch", 4], ["advanced_electronics", 4]],
+    "using": [["soldering_standard", 15]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
+      [["superglue", 1], ["cordage", 1, "LIST"]],
       [
-        [ "scrap", 3 ],
-        [ "can_food_unsealed", 1 ],
-        [ "can_drink_unsealed", 1 ],
-        [ "clay_canister", 1 ],
-        [ "canister_empty", 1 ]
+        ["scrap", 3],
+        ["can_food_unsealed", 1],
+        ["can_drink_unsealed", 1],
+        ["clay_canister", 1],
+        ["canister_empty", 1]
       ],
-      [ [ "solder_wire", 5 ] ],
-      [ [ "plut_cell", 1 ] ],
-      [ [ "platinum_small", 4 ] ],
-      [ [ "amplifier", 1 ], [ "power_supply", 1 ] ],
-      [ [ "cable", 5 ] ]
+      [["solder_wire", 5]],
+      [["plut_cell", 1]],
+      [["platinum_small", 4]],
+      [["amplifier", 1], ["power_supply", 1]],
+      [["cable", 5]]
     ]
   },
   {
@@ -101,8 +101,12 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "thread", 10 ] ], [ [ "paper", 1 ], [ "rolling_paper", 6 ] ], [ [ "gunpowder", 5 ], [ "chem_black_powder", 5 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [
+      [["thread", 10]],
+      [["paper", 1], ["rolling_paper", 6]],
+      [["gunpowder", 5], ["chem_black_powder", 5]]
+    ]
   },
   {
     "result": "firecracker_pack",
@@ -113,8 +117,8 @@
     "time": "3 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "firecracker", 25 ] ], [ [ "paper", 5 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["firecracker", 25]], [["paper", 5]], [["cordage_short", 1, "LIST"]]]
   },
   {
     "type": "recipe",
@@ -126,9 +130,13 @@
     "time": "5 m",
     "autolearn": true,
     "components": [
-      [ [ "volatile_explosive", 24, "LIST" ], [ "stable_explosive", 24, "LIST" ], [ "military_explosive", 24, "LIST" ] ],
-      [ [ "delay_fuze", 1 ], [ "fuse", 1 ] ],
-      [ [ "jug_plastic", 1 ] ]
+      [
+        ["volatile_explosive", 24, "LIST"],
+        ["stable_explosive", 24, "LIST"],
+        ["military_explosive", 24, "LIST"]
+      ],
+      [["delay_fuze", 1], ["fuse", 1]],
+      [["jug_plastic", 1]]
     ]
   },
   {
@@ -137,18 +145,23 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "skills_required": [ "cooking", 6 ],
+    "skills_required": ["cooking", 6],
     "difficulty": 6,
     "time": "40 m",
     "reversible": true,
-    "book_learn": [ [ "recipe_labchem", 7 ], [ "textbook_anarch", 7 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "book_learn": [["recipe_labchem", 7], ["textbook_anarch", 7]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pilot_light", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "oxy_powder", 75 ] ],
-      [ [ "incendiary", 50 ] ]
+      [["pilot_light", 1]],
+      [["superglue", 1], ["duct_tape", 75], ["cordage", 1, "LIST"]],
+      [
+        ["canister_empty", 1],
+        ["can_drink_unsealed", 1],
+        ["clay_canister", 1],
+        ["can_food_unsealed", 1]
+      ],
+      [["oxy_powder", 75]],
+      [["incendiary", 50]]
     ]
   },
   {
@@ -158,17 +171,17 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "cooking",
-    "skills_required": [ "mechanics", 1 ],
+    "skills_required": ["mechanics", 1],
     "difficulty": 4,
     "time": "8 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_gaswarfare", 3 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "book_learn": [["textbook_gaswarfare", 3]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
-      [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
-      [ [ "superglue", 1 ] ]
+      [["bleach", 2], ["oxy_powder", 200]],
+      [["ammonia", 2], ["lye_powder", 200]],
+      [["canister_empty", 1], ["can_food_unsealed", 1], ["can_drink_unsealed", 1]],
+      [["superglue", 1]]
     ]
   },
   {
@@ -177,18 +190,18 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "cooking",
-    "skills_required": [ "mechanics", 1 ],
+    "skills_required": ["mechanics", 1],
     "difficulty": 4,
     "time": "8 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_gaswarfare", 3 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "book_learn": [["textbook_gaswarfare", 3]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
-      [ [ "fungicide", 50 ] ],
-      [ [ "chem_sulphur", 150 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
-      [ [ "superglue", 1 ] ]
+      [["bleach", 2], ["oxy_powder", 200]],
+      [["fungicide", 50]],
+      [["chem_sulphur", 150]],
+      [["canister_empty", 1], ["can_food_unsealed", 1], ["can_drink_unsealed", 1]],
+      [["superglue", 1]]
     ]
   },
   {
@@ -197,18 +210,18 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "cooking",
-    "skills_required": [ "mechanics", 1 ],
+    "skills_required": ["mechanics", 1],
     "difficulty": 4,
     "time": "8 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_gaswarfare", 3 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "book_learn": [["textbook_gaswarfare", 3]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
-      [ [ "insecticide", 50 ] ],
-      [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ] ],
-      [ [ "superglue", 1 ] ]
+      [["bleach", 2], ["oxy_powder", 200]],
+      [["insecticide", 50]],
+      [["water", 2], ["water_clean", 2]],
+      [["canister_empty", 1], ["can_food_unsealed", 1], ["can_drink_unsealed", 1]],
+      [["superglue", 1]]
     ]
   },
   {
@@ -217,17 +230,21 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 1 ],
+    "skills_required": ["mechanics", 1],
     "difficulty": 2,
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "volatile_explosive", 24, "LIST" ], [ "stable_explosive", 24, "LIST" ], [ "military_explosive", 24, "LIST" ] ],
-      [ [ "delay_fuze", 1 ], [ "fuse", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "nail", 30 ], [ "scrap", 2 ] ]
+      [
+        ["volatile_explosive", 24, "LIST"],
+        ["stable_explosive", 24, "LIST"],
+        ["military_explosive", 24, "LIST"]
+      ],
+      [["delay_fuze", 1], ["fuse", 1]],
+      [["superglue", 1], ["duct_tape", 75], ["cordage", 1, "LIST"]],
+      [["canister_empty", 1], ["can_drink_unsealed", 1], ["can_food_unsealed", 1]],
+      [["nail", 30], ["scrap", 2]]
     ]
   },
   {
@@ -239,8 +256,8 @@
     "time": "30 s",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "accelerant_liquid", 500 ] ],
-    "components": [ [ [ "rag", 1 ] ], [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ] ]
+    "using": [["accelerant_liquid", 500]],
+    "components": [[["rag", 1]], [["bottle_glass", 1], ["flask_glass", 1], ["clay_canister", 1]]]
   },
   {
     "result": "dynamite_bomb",
@@ -248,14 +265,19 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 2 ],
+    "skills_required": ["mechanics", 2],
     "difficulty": 3,
     "time": "12 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "soldering_iron", 30 ] ] ],
-    "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "nail", 200 ], [ "scrap", 16 ] ], [ [ "fuse", 1 ] ], [ [ "dynamite", 1 ] ] ]
+    "qualities": [{ "id": "SAW_M", "level": 1 }, { "id": "GLARE", "level": 2 }],
+    "tools": [[["welder", 20], ["welder_crude", 30], ["toolset", 30], ["soldering_iron", 30]]],
+    "components": [
+      [["metal_tank_little", 1]],
+      [["nail", 200], ["scrap", 16]],
+      [["fuse", 1]],
+      [["dynamite", 1]]
+    ]
   },
   {
     "result": "improvised_pipebomb",
@@ -267,11 +289,15 @@
     "time": "15 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "qualities": [{ "id": "SAW_M", "level": 1 }],
     "components": [
-      [ [ "volatile_explosive", 30, "LIST" ], [ "stable_explosive", 30, "LIST" ], [ "military_explosive", 30, "LIST" ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "delay_fuze", 1 ], [ "fuse", 1 ] ]
+      [
+        ["volatile_explosive", 30, "LIST"],
+        ["stable_explosive", 30, "LIST"],
+        ["military_explosive", 30, "LIST"]
+      ],
+      [["pipe", 1]],
+      [["delay_fuze", 1], ["fuse", 1]]
     ]
   },
   {
@@ -280,17 +306,22 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "cooking",
-    "skills_required": [ "mechanics", 1 ],
+    "skills_required": ["mechanics", 1],
     "difficulty": 3,
     "time": "7 m 30 s",
     "autolearn": true,
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "candy", 1 ], [ "cola", 1 ] ],
-      [ [ "vitamins", 10 ], [ "aspirin", 8 ], [ "chem_phenol", 80 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
-      [ [ "superglue", 1 ] ]
+      [["water", 1], ["water_clean", 1], ["salt_water", 1], ["saline", 5]],
+      [["candy", 1], ["cola", 1]],
+      [["vitamins", 10], ["aspirin", 8], ["chem_phenol", 80]],
+      [
+        ["canister_empty", 1],
+        ["can_food_unsealed", 1],
+        ["clay_canister", 1],
+        ["can_drink_unsealed", 1]
+      ],
+      [["superglue", 1]]
     ]
   },
   {
@@ -302,11 +333,15 @@
     "difficulty": 3,
     "time": "2 h",
     "reversible": true,
-    "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
+    "book_learn": [["manual_launcher", 7], ["textbook_anarch", 8]],
     "components": [
-      [ [ "volatile_explosive", 4000, "LIST" ], [ "stable_explosive", 4000, "LIST" ], [ "military_explosive", 4000, "LIST" ] ],
-      [ [ "30gal_drum", 1 ] ],
-      [ [ "delay_fuze", 1 ], [ "fuse", 1 ] ]
+      [
+        ["volatile_explosive", 4000, "LIST"],
+        ["stable_explosive", 4000, "LIST"],
+        ["military_explosive", 4000, "LIST"]
+      ],
+      [["30gal_drum", 1]],
+      [["delay_fuze", 1], ["fuse", 1]]
     ]
   },
   {
@@ -319,9 +354,13 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "volatile_explosive", 5, "LIST" ], [ "stable_explosive", 5, "LIST" ], [ "military_explosive", 5, "LIST" ] ],
-      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ] ],
-      [ [ "fuse", 1 ] ]
+      [
+        ["volatile_explosive", 5, "LIST"],
+        ["stable_explosive", 5, "LIST"],
+        ["military_explosive", 5, "LIST"]
+      ],
+      [["canister_empty", 1], ["can_drink_unsealed", 1], ["can_food_unsealed", 1]],
+      [["fuse", 1]]
     ]
   },
   {
@@ -333,13 +372,17 @@
     "difficulty": 2,
     "time": "5 m",
     "reversible": true,
-    "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "book_learn": [["manual_launcher", 4], ["textbook_anarch", 5]],
+    "qualities": [{ "id": "SAW_M", "level": 1 }],
     "components": [
-      [ [ "volatile_explosive", 250, "LIST" ], [ "stable_explosive", 250, "LIST" ], [ "military_explosive", 250, "LIST" ] ],
-      [ [ "jug_plastic", 1 ] ],
-      [ [ "scrap", 20 ] ],
-      [ [ "delay_fuze", 1 ], [ "fuse", 1 ] ]
+      [
+        ["volatile_explosive", 250, "LIST"],
+        ["stable_explosive", 250, "LIST"],
+        ["military_explosive", 250, "LIST"]
+      ],
+      [["jug_plastic", 1]],
+      [["scrap", 20]],
+      [["delay_fuze", 1], ["fuse", 1]]
     ]
   }
 ]

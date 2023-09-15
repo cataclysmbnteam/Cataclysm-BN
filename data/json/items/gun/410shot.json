@@ -9,14 +9,14 @@
     "volume": "5762 ml",
     "price": 189000,
     "price_postapoc": 7000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "dispersion": 395,
     "durability": 7,
     "barrel_length": "750 ml",
     "magazine_well": "250 ml",
     "ammo": "410shot",
-    "magazines": [ [ "410shot", [ "saiga410mag_10rd", "saiga410mag_30rd" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "magazines": [["410shot", ["saiga410mag_10rd", "saiga410mag_30rd"]]],
+    "flags": ["NEVER_JAMS"]
   },
   {
     "id": "shotgun_410",
@@ -30,24 +30,24 @@
     "price_postapoc": 2000,
     "blackpowder_tolerance": 80,
     "ammo": "410shot",
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "dispersion": 210,
     "durability": 9,
     "clip_size": 1,
     "barrel_length": "117 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "muzzle", 1 ],
-      [ "mechanism", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 4],
+      ["barrel", 1],
+      ["bore", 1],
+      ["muzzle", 1],
+      ["mechanism", 1],
+      ["sights mount", 1],
+      ["sling", 1],
+      ["stock mount", 1],
+      ["grip mount", 1],
+      ["rail mount", 1],
+      ["underbarrel mount", 1]
     ],
-    "extend": { "flags": [ "NEVER_JAMS" ] }
+    "extend": { "flags": ["NEVER_JAMS"] }
   }
 ]

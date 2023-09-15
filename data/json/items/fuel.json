@@ -19,7 +19,13 @@
     "ammo_type": "conc_alcohol",
     "fuel": {
       "energy": 15.6,
-      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+      "explosion_data": {
+        "chance_hot": 5,
+        "chance_cold": 10,
+        "factor": 0.2,
+        "fiery": true,
+        "size_factor": 0.1
+      }
     }
   },
   {
@@ -60,11 +66,17 @@
     "ammo_type": "diesel",
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 4 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+    "effects": ["FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES"],
     "fuel": {
       "energy": 35.8,
       "pump_terrain": "t_diesel_pump",
-      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+      "explosion_data": {
+        "chance_hot": 20,
+        "chance_cold": 1000,
+        "factor": 0.2,
+        "fiery": false,
+        "size_factor": 0.1
+      }
     }
   },
   {
@@ -88,10 +100,16 @@
     "ammo_type": "jp8",
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+    "effects": ["FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES"],
     "fuel": {
       "energy": 34.7,
-      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+      "explosion_data": {
+        "chance_hot": 20,
+        "chance_cold": 1000,
+        "factor": 0.2,
+        "fiery": false,
+        "size_factor": 0.1
+      }
     }
   },
   {
@@ -115,10 +133,16 @@
     "ammo_type": "avgas",
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+    "effects": ["FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES"],
     "fuel": {
       "energy": 45.8,
-      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+      "explosion_data": {
+        "chance_hot": 20,
+        "chance_cold": 1000,
+        "factor": 0.2,
+        "fiery": false,
+        "size_factor": 0.1
+      }
     }
   },
   {
@@ -131,7 +155,13 @@
     "price_postapoc": 300,
     "fuel": {
       "energy": 29.6,
-      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+      "explosion_data": {
+        "chance_hot": 20,
+        "chance_cold": 1000,
+        "factor": 0.2,
+        "fiery": false,
+        "size_factor": 0.1
+      }
     }
   },
   {
@@ -154,11 +184,17 @@
     "ammo_type": "gasoline",
     "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+    "effects": ["FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES"],
     "fuel": {
       "energy": 34.2,
       "pump_terrain": "t_gas_pump",
-      "explosion_data": { "chance_hot": 2, "chance_cold": 5, "factor": 1, "fiery": true, "size_factor": 0.1 }
+      "explosion_data": {
+        "chance_hot": 2,
+        "chance_cold": 5,
+        "factor": 1,
+        "fiery": true,
+        "size_factor": 0.1
+      }
     }
   },
   {
@@ -182,11 +218,17 @@
     "fuel": {
       "//": "Roughly equivalent to LPG",
       "energy": 26,
-      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+      "explosion_data": {
+        "chance_hot": 5,
+        "chance_cold": 10,
+        "factor": 0.2,
+        "fiery": true,
+        "size_factor": 0.1
+      }
     },
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
-    "effects": [ "FLAME", "STREAM" ]
+    "effects": ["FLAME", "STREAM"]
   },
   {
     "id": "motor_oil",
@@ -209,11 +251,17 @@
     "fuel": {
       "//": "Roughly equivalent to LPG",
       "energy": 26,
-      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+      "explosion_data": {
+        "chance_hot": 5,
+        "chance_cold": 10,
+        "factor": 0.2,
+        "fiery": true,
+        "size_factor": 0.1
+      }
     },
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
-    "effects": [ "FLAME", "STREAM" ]
+    "effects": ["FLAME", "STREAM"]
   },
   {
     "id": "napalm",
@@ -235,7 +283,7 @@
     "ammo_type": "flammable",
     "damage": { "damage_type": "heat", "amount": 15, "armor_penetration": 30 },
     "range": 6,
-    "effects": [ "FLAME", "STREAM_BIG", "INCENDIARY", "NEVER_MISFIRES" ]
+    "effects": ["FLAME", "STREAM_BIG", "INCENDIARY", "NEVER_MISFIRES"]
   },
   {
     "id": "gelled_gasoline",

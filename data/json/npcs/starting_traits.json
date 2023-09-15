@@ -71,116 +71,120 @@
     "type": "trait_group",
     "id": "trait_group_NONADDICTIVE",
     "subtype": "distribution",
-    "traits": [ { "trait": "NONADDICTIVE" }, { "trait": "ADDICTIVE" } ]
+    "traits": [{ "trait": "NONADDICTIVE" }, { "trait": "ADDICTIVE" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_EASYSLEEPER",
     "subtype": "distribution",
-    "traits": [ { "trait": "EASYSLEEPER" }, { "trait": "INSOMNIA" } ]
+    "traits": [{ "trait": "EASYSLEEPER" }, { "trait": "INSOMNIA" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_ANIMALEMPATH",
     "subtype": "distribution",
-    "traits": [ { "trait": "ANIMALEMPATH" }, { "trait": "ANIMALDISCORD" } ]
+    "traits": [{ "trait": "ANIMALEMPATH" }, { "trait": "ANIMALDISCORD" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_FASTHEALER",
     "subtype": "distribution",
-    "traits": [ { "trait": "FASTHEALER" }, { "trait": "SLOWHEALER" } ]
+    "traits": [{ "trait": "FASTHEALER" }, { "trait": "SLOWHEALER" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_FASTLEARNER",
     "subtype": "distribution",
-    "traits": [ { "trait": "FASTLEARNER" }, { "trait": "SLOWLEARNER" } ]
+    "traits": [{ "trait": "FASTLEARNER" }, { "trait": "SLOWLEARNER" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_FASTREADER",
     "subtype": "distribution",
-    "traits": [ { "trait": "FASTREADER" }, { "trait": "SLOWREADER" }, { "trait": "ILLITERATE", "prob": 5 } ]
+    "traits": [
+      { "trait": "FASTREADER" },
+      { "trait": "SLOWREADER" },
+      { "trait": "ILLITERATE", "prob": 5 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "trait_group_FLEET",
     "subtype": "distribution",
-    "traits": [ { "trait": "FLEET" }, { "trait": "SLOWRUNNER" } ]
+    "traits": [{ "trait": "FLEET" }, { "trait": "SLOWRUNNER" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_GOODHEARING",
     "subtype": "distribution",
-    "traits": [ { "trait": "GOODHEARING" }, { "trait": "BADHEARING" } ]
+    "traits": [{ "trait": "GOODHEARING" }, { "trait": "BADHEARING" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_DRUNKEN",
     "subtype": "distribution",
-    "traits": [ { "trait": "TOLERANCE" }, { "trait": "LIGHTWEIGHT" } ]
+    "traits": [{ "trait": "TOLERANCE" }, { "trait": "LIGHTWEIGHT" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_GOODCARDIO",
     "subtype": "distribution",
-    "traits": [ { "trait": "GOODCARDIO" }, { "trait": "BADCARDIO" } ]
+    "traits": [{ "trait": "GOODCARDIO" }, { "trait": "BADCARDIO" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_WAKEFUL",
     "subtype": "distribution",
-    "traits": [ { "trait": "WAKEFUL" }, { "trait": "SLEEPY" } ]
+    "traits": [{ "trait": "WAKEFUL" }, { "trait": "SLEEPY" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_LIGHTEATER",
     "subtype": "distribution",
     "//": "currently not used as NPC needs are a bit out of whack and disabled by default.",
-    "traits": [ { "trait": "LIGHTEATER" }, { "trait": "HUNGER" } ]
+    "traits": [{ "trait": "LIGHTEATER" }, { "trait": "HUNGER" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_LIGHTSTEP",
     "subtype": "distribution",
-    "traits": [ { "trait": "LIGHTSTEP" }, { "trait": "CLUMSY" } ]
+    "traits": [{ "trait": "LIGHTSTEP" }, { "trait": "CLUMSY" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_OPTIMISTIC",
     "subtype": "distribution",
-    "traits": [ { "trait": "OPTIMISTIC" }, { "trait": "BADTEMPER" } ]
+    "traits": [{ "trait": "OPTIMISTIC" }, { "trait": "BADTEMPER" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_PACKMULE",
     "subtype": "distribution",
-    "traits": [ { "trait": "PACKMULE" }, { "trait": "DISORGANIZED" } ]
+    "traits": [{ "trait": "PACKMULE" }, { "trait": "DISORGANIZED" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_PARKOUR",
     "subtype": "distribution",
-    "traits": [ { "trait": "PARKOUR" }, { "trait": "BADKNEES" } ]
+    "traits": [{ "trait": "PARKOUR" }, { "trait": "BADKNEES" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_PRETTY",
     "subtype": "distribution",
-    "traits": [ { "trait": "PRETTY" }, { "trait": "UGLY" } ]
+    "traits": [{ "trait": "PRETTY" }, { "trait": "UGLY" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_PSYCHOPATH",
     "subtype": "distribution",
-    "traits": [ { "trait": "PSYCHOPATH" }, { "trait": "KILLER" }, { "trait": "PACIFIST" } ]
+    "traits": [{ "trait": "PSYCHOPATH" }, { "trait": "KILLER" }, { "trait": "PACIFIST" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_EAGLEEYED",
     "subtype": "distribution",
-    "traits": [ { "trait": "EAGLEEYED" }, { "trait": "MYOPIC" } ]
+    "traits": [{ "trait": "EAGLEEYED" }, { "trait": "MYOPIC" }]
   },
   {
     "type": "trait_group",
@@ -199,48 +203,53 @@
     "id": "trait_group_LIAR",
     "subtype": "distribution",
     "//": "NOTE: These traits should be used as conditionals to affect the difficulty of NPCs lying about the expertise they have.",
-    "traits": [ { "trait": "LIAR" } ]
+    "traits": [{ "trait": "LIAR" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_STRONGBACK",
     "subtype": "distribution",
-    "traits": [ { "trait": "STRONGBACK" }, { "trait": "BADBACK" } ]
+    "traits": [{ "trait": "STRONGBACK" }, { "trait": "BADBACK" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_STRONGSTOMACH",
     "subtype": "distribution",
-    "traits": [ { "trait": "STRONGSTOMACH" }, { "trait": "WEAKSTOMACH" } ]
+    "traits": [{ "trait": "STRONGSTOMACH" }, { "trait": "WEAKSTOMACH" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_THICKSKIN",
     "subtype": "distribution",
-    "traits": [ { "trait": "THICKSKIN" }, { "trait": "THINSKIN" } ]
+    "traits": [{ "trait": "THICKSKIN" }, { "trait": "THINSKIN" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_TOUGH",
     "subtype": "distribution",
-    "traits": [ { "trait": "TOUGH" }, { "trait": "FLIMSY" }, { "trait": "FLIMSY2" }, { "trait": "FLIMSY3" } ]
+    "traits": [
+      { "trait": "TOUGH" },
+      { "trait": "FLIMSY" },
+      { "trait": "FLIMSY2" },
+      { "trait": "FLIMSY3" }
+    ]
   },
   {
     "type": "trait_group",
     "id": "trait_group_WEAKSCENT",
     "subtype": "distribution",
-    "traits": [ { "trait": "WEAKSCENT" }, { "trait": "SMELLY" } ]
+    "traits": [{ "trait": "WEAKSCENT" }, { "trait": "SMELLY" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_PAINRESIST",
     "subtype": "distribution",
-    "traits": [ { "trait": "PAINRESIST" }, { "trait": "MORE_PAIN" } ]
+    "traits": [{ "trait": "PAINRESIST" }, { "trait": "MORE_PAIN" }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_PROJUNK",
     "subtype": "distribution",
-    "traits": [ { "trait": "PROJUNK" }, { "trait": "ANTIJUNK" } ]
+    "traits": [{ "trait": "PROJUNK" }, { "trait": "ANTIJUNK" }]
   }
 ]

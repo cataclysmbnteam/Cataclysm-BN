@@ -41,7 +41,7 @@
     "type": "item_group",
     "id": "pool_table",
     "subtype": "distribution",
-    "entries": [ { "item": "pool_cue", "prob": 4 } ]
+    "entries": [{ "item": "pool_cue", "prob": 4 }]
   },
   {
     "id": "barrels",
@@ -58,7 +58,10 @@
     "type": "item_group",
     "id": "flower_pots",
     "subtype": "distribution",
-    "entries": [ { "item": "clay_pot_flower", "prob": 65 }, { "item": "plastic_pot_flower", "prob": 100 } ]
+    "entries": [
+      { "item": "clay_pot_flower", "prob": 65 },
+      { "item": "plastic_pot_flower", "prob": 100 }
+    ]
   },
   {
     "type": "item_group",

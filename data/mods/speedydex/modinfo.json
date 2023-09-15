@@ -3,11 +3,11 @@
     "type": "MOD_INFO",
     "id": "speedydex",
     "name": "SpeedyDex",
-    "authors": [ "KorGgenT" ],
-    "maintainers": [ "KorGgenT" ],
+    "authors": ["KorGgenT"],
+    "maintainers": ["KorGgenT"],
     "description": "Higher dex increases your speed.",
     "category": "rebalance",
-    "dependencies": [ "bn" ]
+    "dependencies": ["bn"]
   },
   {
     "type": "EXTERNAL_OPTION",

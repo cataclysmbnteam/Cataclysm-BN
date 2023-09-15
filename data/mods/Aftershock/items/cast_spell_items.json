@@ -7,14 +7,14 @@
     "weight": "100 g",
     "volume": "250 ml",
     "price": 5000,
-    "material": [ "superalloy" ],
+    "material": ["superalloy"],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "charges_per_use": 1,
     "coverage": 0,
     "warmth": 0,
-    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ONLY_ONE", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": ["WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ONLY_ONE", "NO_UNLOAD", "NO_RELOAD"]
   },
   {
     "id": "afs_holo_transposition_caster",
@@ -26,7 +26,12 @@
     "initial_charges": 15,
     "charges_per_use": 1,
     "artifact_data": { "charge_type": "ARTC_TIME" },
-    "use_action": { "type": "cast_spell", "spell_id": "afs_holo_transposition", "no_fail": true, "level": 1 }
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "afs_holo_transposition",
+      "no_fail": true,
+      "level": 1
+    }
   },
   {
     "id": "afs_holo_flare_caster",
@@ -38,7 +43,12 @@
     "initial_charges": 15,
     "charges_per_use": 1,
     "artifact_data": { "charge_type": "ARTC_TIME" },
-    "use_action": { "type": "cast_spell", "spell_id": "afs_holo_flare", "no_fail": true, "level": 1 }
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "afs_holo_flare",
+      "no_fail": true,
+      "level": 1
+    }
   },
   {
     "id": "afs_holo_decoy_caster",
@@ -50,7 +60,12 @@
     "initial_charges": 2,
     "charges_per_use": 1,
     "artifact_data": { "charge_type": "ARTC_TIME" },
-    "use_action": { "type": "cast_spell", "spell_id": "afs_holo_decoy", "no_fail": true, "level": 1 }
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "afs_holo_decoy",
+      "no_fail": true,
+      "level": 1
+    }
   },
   {
     "id": "afs_holo_field_caster",
@@ -62,6 +77,11 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "artifact_data": { "charge_type": "ARTC_TIME" },
-    "use_action": { "type": "cast_spell", "spell_id": "afs_holo_field", "no_fail": true, "level": 1 }
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "afs_holo_field",
+      "no_fail": true,
+      "level": 1
+    }
   }
 ]

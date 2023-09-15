@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "station_radio" ],
+    "om_terrain": ["station_radio"],
     "weight": 500,
     "//": "Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
@@ -34,7 +34,7 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": ["t_grass", "t_grass", "t_grass", "t_dirt"],
         "+": "t_door_c",
         "=": "t_door_locked_alarm",
         "D": "t_door_locked",
@@ -63,10 +63,10 @@
         "S": "f_sink",
         "e": "f_fridge",
         "r": "f_trashcan",
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "y": ["f_indoor_plant_y", "f_indoor_plant"],
         "7": "f_filing_cabinet"
       },
-      "toilets": { "t": {  } },
+      "toilets": { "t": {} },
       "computers": {
         "6": {
           "name": "Broadcasting Control",
@@ -82,13 +82,13 @@
         "o": { "item": "novels", "chance": 70 },
         "r": { "item": "trash", "chance": 70 },
         "d": { "item": "office", "chance": 70 },
-        "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] },
+        "e": { "item": "fridge", "chance": 70, "repeat": [2, 3] },
         "7": { "item": "office_paper", "chance": 30 }
       },
       "place_loot": [
         { "group": "record_weather", "x": 18, "y": 13 },
         { "group": "cleaning", "x": 2, "y": 17, "chance": 70 },
-        { "group": "electronics", "x": [ 6, 7 ], "y": 5, "chance": 80 }
+        { "group": "electronics", "x": [6, 7], "y": 5, "chance": 80 }
       ]
     }
   },
@@ -124,20 +124,20 @@
         " |-----------3          ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "*": "t_tar_flat_roof", ">": "t_ladder_down" },
       "furniture": { "N": "f_TV_antenna" },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 4, 17 ],
-          "y": [ 13, 15 ]
+          "x": [4, 17],
+          "y": [13, 15]
         }
       ]
     }
@@ -145,7 +145,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "station_radio_1" ],
+    "om_terrain": ["station_radio_1"],
     "weight": 500,
     "//": "Eventually the northern shed will house the main breaker or generator that must be activated prior to transmitting.",
     "object": {
@@ -177,7 +177,7 @@
         "ss                      "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": ["t_grass", "t_grass", "t_grass", "t_dirt"],
         "+": "t_door_c",
         "=": "t_door_locked_alarm",
         "D": "t_door_locked",
@@ -210,7 +210,7 @@
         "R": "f_dumpster",
         "P": "f_rack"
       },
-      "toilets": { "t": {  } },
+      "toilets": { "t": {} },
       "computers": {
         "6": {
           "name": "Broadcasting Control",
@@ -225,11 +225,11 @@
         "o": { "item": "novels", "chance": 70 },
         "R": { "item": "trash", "chance": 70 },
         "d": { "item": "office", "chance": 70 },
-        "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] },
+        "e": { "item": "fridge", "chance": 70, "repeat": [2, 3] },
         "P": { "item": "electronics", "chance": 70 },
         "l": { "item": "cleaning", "chance": 70 }
       },
-      "place_loot": [ { "group": "record_weather", "x": 19, "y": 13 } ]
+      "place_loot": [{ "group": "record_weather", "x": 19, "y": 13 }]
     }
   },
   {
@@ -264,20 +264,20 @@
         "  |-----------3         ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "*": "t_tar_flat_roof", ">": "t_ladder_down" },
       "furniture": { "N": "f_TV_antenna" },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 4, 17 ],
-          "y": [ 14, 16 ]
+          "x": [4, 17],
+          "y": [14, 16]
         }
       ]
     }

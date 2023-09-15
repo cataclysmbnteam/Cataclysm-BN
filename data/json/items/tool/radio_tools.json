@@ -10,7 +10,7 @@
     "price": 30000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": ")",
     "color": "red"
   },
@@ -21,7 +21,7 @@
     "name": { "str": "radio car box", "str_pl": "radio car boxes" },
     "description": "An RC car, with radio-control and batteries included!  Disassemble to unpack and enjoy.",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR", "NO_SALVAGE" ]
+    "flags": ["NO_REPAIR", "NO_SALVAGE"]
   },
   {
     "id": "radiocontrol",
@@ -65,7 +65,16 @@
     "charges_per_use": 1,
     "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
     "use_action": "RADIOCAR",
-    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_minus_disposable_cell",
+          "light_minus_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "radio_car_on",
@@ -75,7 +84,7 @@
     "description": "This remote-controlled car is on, and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
     "turns_per_charge": 5,
     "use_action": "RADIOCARON",
-    "flags": [ "LIGHT_8", "RADIO_CONTROLLED", "TRADER_AVOID" ]
+    "flags": ["LIGHT_8", "RADIO_CONTROLLED", "TRADER_AVOID"]
   },
   {
     "id": "radio_mod",
@@ -105,7 +114,7 @@
     "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 4,
-    "material": [ "plastic", "aluminum" ],
+    "material": ["plastic", "aluminum"],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
@@ -136,7 +145,7 @@
     "power_draw": 500,
     "revert_to": "radio",
     "use_action": "RADIO_ON",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": ["TRADER_AVOID"],
     "magazine_well": "250 ml"
   },
   {
@@ -150,12 +159,12 @@
     "price": 2000,
     "price_postapoc": 750,
     "bashing": 6,
-    "material": [ "plastic", "aluminum" ],
+    "material": ["plastic", "aluminum"],
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
     "charges_per_use": 1,
-    "flags": [ "TWO_WAY_RADIO" ],
+    "flags": ["TWO_WAY_RADIO"],
     "magazines": [
       [
         "battery",

@@ -17,7 +17,13 @@
     "looks_like": "vitamins",
     "fun": -8,
     "freezing_point": -490,
-    "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitA", 24, 48 ], [ "vitB", 24, 48 ], [ "vitC", 24, 48 ] ]
+    "vitamins": [
+      ["calcium", 24, 48],
+      ["iron", 24, 48],
+      ["vitA", 24, 48],
+      ["vitB", 24, 48],
+      ["vitC", 24, 48]
+    ]
   },
   {
     "id": "afs_calorie_water",
@@ -32,7 +38,13 @@
     "price": 10000,
     "looks_like": "bleach",
     "fun": -2,
-    "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitA", 24, 48 ], [ "vitB", 24, 48 ], [ "vitC", 24, 48 ] ]
+    "vitamins": [
+      ["calcium", 24, 48],
+      ["iron", 24, 48],
+      ["vitA", 24, 48],
+      ["vitB", 24, 48],
+      ["vitC", 24, 48]
+    ]
   },
   {
     "id": "afs_sundew",
@@ -47,7 +59,7 @@
     "looks_like": "diesel",
     "container": "flask_glass",
     "stim": 4,
-    "flags": [ "LIGHT_2", "EATEN_HOT" ],
+    "flags": ["LIGHT_2", "EATEN_HOT"],
     "freezing_point": -490
   },
   {
@@ -79,7 +91,7 @@
     "stim": -30,
     "phase": "solid",
     "color": "light_red",
-    "flags": [ "ANESTHESIA", "LIGHT_4", "EATEN_HOT" ],
+    "flags": ["ANESTHESIA", "LIGHT_4", "EATEN_HOT"],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You go limp and collapse as the sunesthesia knocks you senseless.",

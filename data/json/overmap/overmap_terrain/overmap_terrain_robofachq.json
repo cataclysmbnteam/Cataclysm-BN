@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_terrain",
-    "id": [ "robofachq_roof_a0", "robofachq_roof_a3" ],
+    "id": ["robofachq_roof_a0", "robofachq_roof_a3"],
     "name": "open air",
     "sym": ".",
     "color": "blue"

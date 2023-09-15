@@ -24,7 +24,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_WOODCUTTER_JOB",
     "dynamic_line": "I'm one of the migrants that got diverted to this outpost when I arrived at the refugee center.  They said I was big enough to swing an ax so my profession became lumberjack… didn't have any say in it.  If I want to eat then I'll be cutting wood from now till kingdom come.",
-    "responses": [ { "text": "Oh.", "topic": "TALK_RANCH_WOODCUTTER" } ]
+    "responses": [{ "text": "Oh.", "topic": "TALK_RANCH_WOODCUTTER" }]
   },
   {
     "id": "TALK_RANCH_WOODCUTTER_HIRE",
@@ -38,18 +38,26 @@
       {
         "text": "[800 Merch, 1d] 10 logs",
         "topic": "TALK_DONE",
-        "effect": [ { "u_consume_item": "FMCNote", "count": 800 }, "buy_10_logs" ],
-        "condition": { "and": [ { "npc_service": true }, { "u_has_items": { "item": "FMCNote", "count": 800 } } ] }
+        "effect": [{ "u_consume_item": "FMCNote", "count": 800 }, "buy_10_logs"],
+        "condition": {
+          "and": [{ "npc_service": true }, { "u_has_items": { "item": "FMCNote", "count": 800 } }]
+        }
       },
       {
         "text": "[4800 Merch, 7d] 100 logs",
         "topic": "TALK_DONE",
-        "effect": [ { "u_consume_item": "FMCNote", "count": 4800 }, "buy_100_logs" ],
-        "condition": { "and": [ { "npc_service": true }, { "u_has_items": { "item": "FMCNote", "count": 4800 } } ] }
+        "effect": [{ "u_consume_item": "FMCNote", "count": 4800 }, "buy_100_logs"],
+        "condition": {
+          "and": [{ "npc_service": true }, { "u_has_items": { "item": "FMCNote", "count": 4800 } }]
+        }
       },
       {
         "topic": "TALK_RANCH_WOODCUTTER",
-        "truefalsetext": { "true": "Maybe later.", "false": "I'll be back later.", "condition": { "npc_service": true } }
+        "truefalsetext": {
+          "true": "Maybe later.",
+          "false": "I'll be back later.",
+          "condition": { "npc_service": true }
+        }
       }
     ]
   }

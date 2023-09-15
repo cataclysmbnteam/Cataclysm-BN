@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "house_17" ],
+    "om_terrain": ["house_17"],
     "weight": 200,
     "object": {
       "fill_ter": "t_floor",
@@ -32,9 +32,9 @@
         "..........#####...##o##.",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": { "%": "t_region_shrub_decorative", "#": "t_adobe_brick_wall" },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 6 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [2, 21], "y": [2, 21], "chance": 6 }]
     }
   },
   {
@@ -69,7 +69,7 @@
         "          |---3   |---3 ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -105,7 +105,7 @@
         "          |||||   ||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ]
+      "palettes": ["basement_empty"]
     }
   }
 ]

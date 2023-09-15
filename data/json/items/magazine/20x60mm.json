@@ -9,14 +9,14 @@
     "volume": "250 ml",
     "price": 40000,
     "price_postapoc": 250,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "20x66mm",
     "capacity": 10,
     "reliability": 10,
     "reload_time": 60,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "20x66_20_mag",
@@ -28,14 +28,14 @@
     "volume": "500 ml",
     "price": 40000,
     "price_postapoc": 500,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "20x66mm",
     "capacity": 20,
     "reliability": 10,
     "reload_time": 60,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "20x66_40_mag",
@@ -47,13 +47,13 @@
     "volume": "750 ml",
     "price": 60000,
     "price_postapoc": 1000,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "20x66mm",
     "capacity": 40,
     "reliability": 10,
     "reload_time": 70,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   }
 ]

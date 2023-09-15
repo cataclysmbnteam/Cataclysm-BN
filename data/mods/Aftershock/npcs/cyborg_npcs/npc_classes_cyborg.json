@@ -4,14 +4,21 @@
     "id": "NC_HIVE_GANGER",
     "name": { "str": "Hive Ganger" },
     "job_description": "I've survived all my life with the whole world against me, how is this any different.",
-    "traits": [ { "group": "BG_survival_story_GANGER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_GANGER" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },
-      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 1, 4 ] } },
-      { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [3, 2] }, { "rng": [-4, -1] }] }] }
+      },
+      { "skill": "speech", "bonus": { "rng": [2, 4] } },
+      { "skill": "gun", "bonus": { "rng": [4, 8] } },
+      { "skill": "melee", "bonus": { "rng": [1, 4] } },
+      { "skill": "pistol", "bonus": { "rng": [3, 6] } },
+      { "skill": "unarmed", "bonus": { "rng": [3, 6] } }
     ],
     "worn_override": "NC_GANGER_worn",
     "carry_override": "NC_GANGER_carried",
@@ -58,13 +65,16 @@
       { "group": "Appearance_demographics" }
     ],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },
-      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 2, 6 ] } },
-      { "skill": "pistol", "bonus": { "rng": [ 1, 6 ] } },
-      { "skill": "unarmed", "bonus": { "rng": [ 1, 6 ] } },
-      { "skill": "rifle", "bonus": { "rng": [ 1, 6 ] } },
-      { "skill": "smg", "bonus": { "rng": [ 1, 4 ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [3, 2] }, { "rng": [-4, -1] }] }] }
+      },
+      { "skill": "gun", "bonus": { "rng": [2, 4] } },
+      { "skill": "melee", "bonus": { "rng": [2, 6] } },
+      { "skill": "pistol", "bonus": { "rng": [1, 6] } },
+      { "skill": "unarmed", "bonus": { "rng": [1, 6] } },
+      { "skill": "rifle", "bonus": { "rng": [1, 6] } },
+      { "skill": "smg", "bonus": { "rng": [1, 4] } }
     ],
     "worn_override": "NC_CYBERNINJA_worn",
     "carry_override": "NC_CYBERNINJA_carried",

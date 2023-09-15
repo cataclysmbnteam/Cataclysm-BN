@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "bank" ],
+    "om_terrain": ["bank"],
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -33,11 +33,11 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub" ],
+        " ": ["t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub"],
         "#": "t_wall_w",
         "$": "t_metal_floor",
-        "%": [ "t_door_c", "t_door_c", "t_door_locked_interior" ],
-        "*": [ "t_door_c", "t_door_c", "t_door_c", "t_door_locked_interior" ],
+        "%": ["t_door_c", "t_door_c", "t_door_locked_interior"],
+        "*": ["t_door_c", "t_door_c", "t_door_c", "t_door_locked_interior"],
         "+": "t_door_c",
         "-": "t_window",
         ".": "t_floor",
@@ -59,28 +59,30 @@
         "T": "f_table",
         "c": "f_counter",
         "l": "f_stool",
-        "p": [ "f_indoor_plant", "f_null" ],
+        "p": ["f_indoor_plant", "f_null"],
         "s": "f_sink",
         "t": "f_toilet"
       },
-      "toilets": { "t": {  } },
-      "place_loot": [ { "item": "american_flag", "x": 20, "y": 0, "chance": 50 } ],
+      "toilets": { "t": {} },
+      "place_loot": [{ "item": "american_flag", "x": 20, "y": 0, "chance": 50 }],
       "place_items": [
-        { "item": "office", "x": [ 4, 9 ], "y": 8, "chance": 30 },
-        { "item": "office", "x": [ 3, 5 ], "y": 12, "chance": 30 },
-        { "item": "office", "x": 16, "y": [ 14, 15 ], "chance": 70 },
-        { "item": "vault", "x": 3, "y": [ 19, 20 ], "chance": 30, "repeat": 5 },
-        { "item": "vault", "x": [ 3, 5 ], "y": 16, "chance": 90, "repeat": 5 }
+        { "item": "office", "x": [4, 9], "y": 8, "chance": 30 },
+        { "item": "office", "x": [3, 5], "y": 12, "chance": 30 },
+        { "item": "office", "x": 16, "y": [14, 15], "chance": 70 },
+        { "item": "vault", "x": 3, "y": [19, 20], "chance": 30, "repeat": 5 },
+        { "item": "vault", "x": [3, 5], "y": 16, "chance": 90, "repeat": 5 }
       ],
       "computers": {
         "6": {
           "name": "Consolidated Computerized Bank of the Treasury",
           "security": 3,
-          "options": [ { "name": "Open Vault", "action": "unlock" } ],
-          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+          "options": [{ "name": "Open Vault", "action": "unlock" }],
+          "failures": [{ "action": "shutdown" }, { "action": "alarm" }]
         }
       },
-      "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
+      "place_monster": [
+        { "monster": "mon_secubot", "x": [7, 18], "y": [7, 18], "chance": 30, "repeat": 4 }
+      ]
     }
   },
   {
@@ -129,9 +131,14 @@
       "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe" },
       "place_nested": [
         {
-          "chunks": [ [ "null", 20 ], [ "roof_2x2_utilities_b", 15 ], [ "roof_2x2_utilities_c", 5 ], [ "roof_2x2_utilities_d", 40 ] ],
-          "x": [ 4, 16 ],
-          "y": [ 4, 14 ]
+          "chunks": [
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40]
+          ],
+          "x": [4, 16],
+          "y": [4, 14]
         }
       ]
     }
@@ -139,7 +146,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "bank_1" ],
+    "om_terrain": ["bank_1"],
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -170,14 +177,24 @@
         "########4               "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": ["t_grass", "t_grass", "t_grass", "t_dirt"],
         "_": "t_metal_floor",
-        "|": [ "t_door_c", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w" ],
+        "|": [
+          "t_door_c",
+          "t_wall_w",
+          "t_wall_w",
+          "t_wall_w",
+          "t_wall_w",
+          "t_wall_w",
+          "t_wall_w",
+          "t_wall_w",
+          "t_wall_w"
+        ],
         "I": "t_wall_w",
         "#": "t_brick_wall",
         "$": "t_metal_floor",
-        "%": [ "t_door_c", "t_door_c", "t_door_locked_interior" ],
-        "*": [ "t_door_c", "t_door_c", "t_door_c", "t_door_locked_interior" ],
+        "%": ["t_door_c", "t_door_c", "t_door_locked_interior"],
+        "*": ["t_door_c", "t_door_c", "t_door_c", "t_door_locked_interior"],
         "+": "t_door_c",
         "-": "t_window",
         "x": "t_console_broken",
@@ -206,18 +223,18 @@
         "T": "f_table",
         "c": "f_counter",
         "l": "f_stool",
-        "p": [ "f_indoor_plant", "f_null" ],
+        "p": ["f_indoor_plant", "f_null"],
         "s": "f_sink",
         "L": "f_locker",
         "d": "f_desk",
         "t": "f_toilet"
       },
-      "toilets": { "t": {  } },
+      "toilets": { "t": {} },
       "items": {
         "o": { "item": "novels", "chance": 70 },
         "$": { "item": "vault", "chance": 95, "repeat": 5 },
         "T": { "item": "vault", "chance": 20, "repeat": 5 },
-        "e": { "item": "fridge", "chance": 70, "repeat": [ 2, 3 ] },
+        "e": { "item": "fridge", "chance": 70, "repeat": [2, 3] },
         "d": { "item": "office", "chance": 50 },
         "L": { "item": "cop_weapons", "chance": 40 }
       },
@@ -226,12 +243,14 @@
           "name": "High Security Consolidated Computerized Bank of the Treasury",
           "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 4,
-          "options": [ { "name": "Open Vault", "action": "unlock" } ],
-          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
+          "options": [{ "name": "Open Vault", "action": "unlock" }],
+          "failures": [{ "action": "alarm" }, { "action": "damage" }, { "action": "secubots" }]
         }
       },
-      "place_loot": [ { "item": "american_flag", "x": 22, "y": 0, "chance": 50 } ],
-      "place_monster": [ { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 } ]
+      "place_loot": [{ "item": "american_flag", "x": 22, "y": 0, "chance": 50 }],
+      "place_monster": [
+        { "monster": "mon_secubot", "x": [7, 18], "y": [7, 18], "chance": 30, "repeat": 4 }
+      ]
     }
   },
   {
@@ -279,9 +298,14 @@
       "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe" },
       "place_nested": [
         {
-          "chunks": [ [ "null", 20 ], [ "roof_2x2_utilities_b", 15 ], [ "roof_2x2_utilities_c", 5 ], [ "roof_2x2_utilities_d", 40 ] ],
-          "x": [ 5, 15 ],
-          "y": [ 4, 17 ]
+          "chunks": [
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40]
+          ],
+          "x": [5, 15],
+          "y": [4, 17]
         }
       ]
     }

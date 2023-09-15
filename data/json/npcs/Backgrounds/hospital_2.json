@@ -15,18 +15,28 @@
       {
         "text": "It might help to get it off your chest.",
         "condition": {
-          "and": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
+          "and": [
+            { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
+            { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
+          ]
         },
-        "trial": { "type": "PERSUADE", "difficulty": 40, "mod": [ [ "TRUST", 2 ], [ "VALUE", 3 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 40, "mod": [["TRUST", 2], ["VALUE", 3]] },
         "success": { "topic": "BGSS_HOSPITAL_2_STORY2" },
         "failure": { "topic": "BGSS_HOSPITAL_2_NOTYET" }
       },
       {
         "text": "Suck it up.  If we're going to work together I need to know you.",
         "condition": {
-          "and": [ { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } }, { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } } ]
+          "and": [
+            { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
+            { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
+          ]
         },
-        "trial": { "type": "INTIMIDATE", "difficulty": 40, "mod": [ [ "BRAVERY", 2 ], [ "TRUST", 1 ], [ "ANGER", -2 ] ] },
+        "trial": {
+          "type": "INTIMIDATE",
+          "difficulty": 40,
+          "mod": [["BRAVERY", 2], ["TRUST", 1], ["ANGER", -2]]
+        },
         "success": { "topic": "BGSS_HOSPITAL_2_STORY2" },
         "failure": { "topic": "BGSS_HOSPITAL_2_NOTYET" }
       },
@@ -66,7 +76,11 @@
         "effect": { "npc_add_effect": "player_BGSS_SAIDYES" },
         "topic": "TALK_FRIEND"
       },
-      { "text": "<end_talking>", "effect": { "npc_add_effect": "player_BGSS_SAIDYES" }, "topic": "TALK_DONE" }
+      {
+        "text": "<end_talking>",
+        "effect": { "npc_add_effect": "player_BGSS_SAIDYES" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -86,7 +100,10 @@
     "//": "In the future this NPC should give you the map coordinates to the cabin if you persuade.",
     "responses": [
       { "text": "What did you see, up there on the roof?", "topic": "BGSS_HOSPITAL_2_ROOF" },
-      { "text": "Thanks for telling me all that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      {
+        "text": "Thanks for telling me all that.  <done_conversation_section>",
+        "topic": "TALK_FRIEND"
+      },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },

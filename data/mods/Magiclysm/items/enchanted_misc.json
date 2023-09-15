@@ -13,8 +13,8 @@
     "volume": "450 ml",
     "bashing": 8,
     "to_hit": -1,
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE", "FIRE" ],
+    "qualities": [["HAMMER", 1]],
+    "flags": ["ALLOWS_REMOTE_USE", "FIRE"],
     "initial_charges": 60,
     "max_charges": 60,
     "charges_per_use": 1,
@@ -43,9 +43,14 @@
     "description": "The heat cube in the torch configuration, where it emits warmth and a bright flame that does not burn.",
     "turns_per_charge": 360,
     "revert_to": "heat_cube",
-    "use_action": { "target": "heat_cube", "msg": "The torch flame is extinguished.", "menu_text": "Turn off", "type": "transform" },
-    "emits": [ "emit_hot_air2_stream" ],
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "use_action": {
+      "target": "heat_cube",
+      "msg": "The torch flame is extinguished.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
+    "emits": ["emit_hot_air2_stream"],
+    "flags": ["LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE"]
   },
   {
     "id": "mkey_opening",
@@ -55,7 +60,7 @@
     "weight": "20 g",
     "volume": 0,
     "price": 500000,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "color": "yellow",
     "initial_charges": 5,
@@ -76,8 +81,8 @@
     "material": "wood",
     "symbol": "/",
     "color": "brown",
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ],
+    "techniques": ["WBLOCK_1"],
+    "flags": ["STURDY"],
     "use_action": {
       "target": "mtorch_everburning_lit",
       "msg": "You light the torch.",
@@ -103,8 +108,8 @@
         "type": "transform"
       }
     ],
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "STURDY" ]
+    "techniques": ["WBLOCK_1"],
+    "flags": ["FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "STURDY"]
   },
   {
     "name": { "str": "endless flask" },
@@ -131,7 +136,7 @@
     "name": "enchanted tailor's kit",
     "description": "This is a high quality, engraved steel kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.  It also contains one of those magic spiders that constantly, if slowly, makes new thread.",
     "price": 100000,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "initial_charges": 500,
     "max_charges": 1000,
     "charges_per_use": 1,
@@ -161,12 +166,24 @@
       },
       {
         "type": "sew_advanced",
-        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "plastic", "kevlar_rigid" ],
+        "materials": [
+          "cotton",
+          "leather",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "plastic",
+          "kevlar_rigid"
+        ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
+        "clothing_mods": ["leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled"]
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": ["ALLOWS_REMOTE_USE"]
   },
   {
     "id": "mspider_box",
@@ -177,7 +194,7 @@
     "volume": "100 ml",
     "price": 100000,
     "to_hit": -2,
-    "material": [ "glass" ],
+    "material": ["glass"],
     "symbol": ";",
     "color": "red",
     "ammo": "thread",

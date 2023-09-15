@@ -2,7 +2,7 @@
   {
     "id": "animalshelter",
     "type": "vehicle_group",
-    "vehicles": [ [ "animalctrl", 300 ] ]
+    "vehicles": [["animalctrl", 300]]
   },
   {
     "id": "animalshelter_softdrug",
@@ -66,7 +66,11 @@
     "id": "animalshelter_toys",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "bone", "prob": 20 }, { "item": "bowl_plastic", "prob": 10 }, { "item": "rope_6", "prob": 5 } ]
+    "entries": [
+      { "item": "bone", "prob": 20 },
+      { "item": "bowl_plastic", "prob": 10 },
+      { "item": "rope_6", "prob": 5 }
+    ]
   },
   {
     "name": "GROUP_ANIMALSHELTER_CATS",
@@ -142,7 +146,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "animalshelter" ],
+    "om_terrain": ["animalshelter"],
     "weight": 300,
     "object": {
       "fill_ter": "t_floor",
@@ -220,34 +224,46 @@
         "y": "f_indoor_plant",
         "A": "f_armchair"
       },
-      "toilets": { "t": {  } },
+      "toilets": { "t": {} },
       "place_items": [
-        { "item": "trash", "x": 7, "y": 8, "chance": 35, "repeat": [ 1, 3 ] },
-        { "item": "trash", "x": 12, "y": 11, "chance": 35, "repeat": [ 1, 3 ] },
-        { "item": "trash", "x": 13, "y": 21, "chance": 35, "repeat": [ 1, 3 ] },
-        { "item": "trash", "x": 9, "y": [ 21, 22 ], "chance": 35, "repeat": [ 2, 6 ] },
-        { "item": "cleaning", "x": 3, "y": 14, "chance": 45, "repeat": [ 1, 3 ] },
-        { "item": "cleaning", "x": 11, "y": 18, "chance": 45, "repeat": [ 1, 3 ] },
-        { "item": "cleaning", "x": 12, "y": 21, "chance": 45, "repeat": [ 1, 3 ] },
-        { "item": "animalshelter_softdrug", "x": 3, "y": 14, "chance": 30, "repeat": [ 1, 3 ] },
-        { "item": "animalshelter_softdrug", "x": 11, "y": 18, "chance": 30, "repeat": [ 1, 3 ] },
-        { "item": "animalshelter_softdrug", "x": 12, "y": 21, "chance": 30, "repeat": [ 1, 3 ] },
-        { "item": "animalshelter_hardrug", "x": 3, "y": 14, "chance": 75, "repeat": [ 1, 3 ] },
-        { "item": "waitingroom", "x": 3, "y": 8, "chance": 30, "repeat": [ 1, 3 ] },
-        { "item": "waitingroom", "x": 4, "y": 9, "chance": 30, "repeat": [ 1, 3 ] },
-        { "item": "waitingroom", "x": 4, "y": 10, "chance": 60, "repeat": [ 1, 3 ] },
-        { "item": "waitingroom", "x": 11, "y": 14, "chance": 30, "repeat": [ 2, 3 ] },
-        { "item": "animalshelter_utility", "x": 3, "y": 8, "chance": 45, "repeat": [ 2, 3 ] },
-        { "item": "animalshelter_utility", "x": 3, "y": 14, "chance": 35, "repeat": [ 2, 5 ] },
-        { "item": "animalshelter_utility", "x": 11, "y": 14, "chance": 35, "repeat": [ 1, 3 ] },
-        { "item": "animalshelter_utility", "x": 11, "y": 18, "chance": 35, "repeat": [ 2, 5 ] },
-        { "item": "animalshelter_utility", "x": 12, "y": 21, "chance": 35, "repeat": [ 2, 5 ] },
-        { "item": "animalshelter_toys", "x": [ 14, 20 ], "y": [ 4, 6 ], "chance": 60, "repeat": [ 2, 5 ] },
-        { "item": "animalshelter_toys", "x": [ 14, 20 ], "y": [ 21, 22 ], "chance": 60, "repeat": [ 2, 5 ] },
-        { "item": "office", "x": 10, "y": [ 4, 5 ], "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "office", "x": 6, "y": 11, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "office", "x": 4, "y": 13, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "doctors_books", "x": 4, "y": 13, "chance": 15, "repeat": [ 1, 2 ] }
+        { "item": "trash", "x": 7, "y": 8, "chance": 35, "repeat": [1, 3] },
+        { "item": "trash", "x": 12, "y": 11, "chance": 35, "repeat": [1, 3] },
+        { "item": "trash", "x": 13, "y": 21, "chance": 35, "repeat": [1, 3] },
+        { "item": "trash", "x": 9, "y": [21, 22], "chance": 35, "repeat": [2, 6] },
+        { "item": "cleaning", "x": 3, "y": 14, "chance": 45, "repeat": [1, 3] },
+        { "item": "cleaning", "x": 11, "y": 18, "chance": 45, "repeat": [1, 3] },
+        { "item": "cleaning", "x": 12, "y": 21, "chance": 45, "repeat": [1, 3] },
+        { "item": "animalshelter_softdrug", "x": 3, "y": 14, "chance": 30, "repeat": [1, 3] },
+        { "item": "animalshelter_softdrug", "x": 11, "y": 18, "chance": 30, "repeat": [1, 3] },
+        { "item": "animalshelter_softdrug", "x": 12, "y": 21, "chance": 30, "repeat": [1, 3] },
+        { "item": "animalshelter_hardrug", "x": 3, "y": 14, "chance": 75, "repeat": [1, 3] },
+        { "item": "waitingroom", "x": 3, "y": 8, "chance": 30, "repeat": [1, 3] },
+        { "item": "waitingroom", "x": 4, "y": 9, "chance": 30, "repeat": [1, 3] },
+        { "item": "waitingroom", "x": 4, "y": 10, "chance": 60, "repeat": [1, 3] },
+        { "item": "waitingroom", "x": 11, "y": 14, "chance": 30, "repeat": [2, 3] },
+        { "item": "animalshelter_utility", "x": 3, "y": 8, "chance": 45, "repeat": [2, 3] },
+        { "item": "animalshelter_utility", "x": 3, "y": 14, "chance": 35, "repeat": [2, 5] },
+        { "item": "animalshelter_utility", "x": 11, "y": 14, "chance": 35, "repeat": [1, 3] },
+        { "item": "animalshelter_utility", "x": 11, "y": 18, "chance": 35, "repeat": [2, 5] },
+        { "item": "animalshelter_utility", "x": 12, "y": 21, "chance": 35, "repeat": [2, 5] },
+        {
+          "item": "animalshelter_toys",
+          "x": [14, 20],
+          "y": [4, 6],
+          "chance": 60,
+          "repeat": [2, 5]
+        },
+        {
+          "item": "animalshelter_toys",
+          "x": [14, 20],
+          "y": [21, 22],
+          "chance": 60,
+          "repeat": [2, 5]
+        },
+        { "item": "office", "x": 10, "y": [4, 5], "chance": 25, "repeat": [1, 2] },
+        { "item": "office", "x": 6, "y": 11, "chance": 25, "repeat": [1, 2] },
+        { "item": "office", "x": 4, "y": 13, "chance": 25, "repeat": [1, 2] },
+        { "item": "doctors_books", "x": 4, "y": 13, "chance": 15, "repeat": [1, 2] }
       ],
       "place_monsters": [
         { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 4, "chance": 20, "density": 0.05 },
@@ -255,10 +271,10 @@
         { "monster": "GROUP_ANIMALSHELTER_OTHER", "x": 3, "y": 6, "chance": 20, "density": 0.05 },
         {
           "monster": "GROUP_ANIMALSHELTER_CATS",
-          "x": [ 14, 20 ],
-          "y": [ 4, 6 ],
+          "x": [14, 20],
+          "y": [4, 6],
           "chance": 2,
-          "repeat": [ 2, 3 ],
+          "repeat": [2, 3],
           "density": 0.05
         },
         { "monster": "GROUP_ANIMALSHELTER_CATS", "x": 14, "y": 8, "chance": 2, "density": 0.05 },
@@ -277,20 +293,20 @@
         { "monster": "GROUP_ANIMALSHELTER_DOGS", "x": 19, "y": 19, "chance": 5, "density": 0.05 },
         {
           "monster": "GROUP_ANIMALSHELTER_DOGS",
-          "x": [ 14, 20 ],
-          "y": [ 21, 22 ],
+          "x": [14, 20],
+          "y": [21, 22],
           "chance": 2,
-          "repeat": [ 1, 2 ],
+          "repeat": [1, 2],
           "density": 0.05
         }
       ],
-      "place_vehicles": [ { "vehicle": "animalshelter", "x": 5, "y": 20, "chance": 25 } ]
+      "place_vehicles": [{ "vehicle": "animalshelter", "x": 5, "y": 20, "chance": 25 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "animalshelter_roof" ],
+    "om_terrain": ["animalshelter_roof"],
     "weight": 300,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -330,13 +346,20 @@
         "5": "t_gutter_drop"
       },
       "furniture": { "&": "f_roof_turbine_vent" },
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 16 ], "y": [ 3, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [4, 16], "y": [3, 15], "chance": 50, "repeat": [1, 3] }
+      ],
       "place_nested": [
-        { "chunks": [ [ "roof_2x2_golf", 10 ], [ "null", 80 ] ], "x": 12, "y": 18 },
-        { "chunks": [ [ "roof_16x16_help", 90 ], [ "null", 80 ] ], "x": 4, "y": 5 },
+        { "chunks": [["roof_2x2_golf", 10], ["null", 80]], "x": 12, "y": 18 },
+        { "chunks": [["roof_16x16_help", 90], ["null", 80]], "x": 4, "y": 5 },
         {
-          "chunks": [ [ "null", 40 ], [ "roof_4x4_party", 5 ], [ "roof_4x4_utility", 40 ], [ "roof_5x5_coop", 15 ] ],
-          "x": [ 10, 12 ],
+          "chunks": [
+            ["null", 40],
+            ["roof_4x4_party", 5],
+            ["roof_4x4_utility", 40],
+            ["roof_5x5_coop", 15]
+          ],
+          "x": [10, 12],
           "y": 12
         }
       ]

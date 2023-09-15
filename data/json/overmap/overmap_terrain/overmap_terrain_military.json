@@ -7,27 +7,45 @@
     "color": "blue",
     "see_cost": 5,
     "extras": "build",
-    "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": ["RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD"]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "fema", "fema_1_3", "fema_2_1", "fema_2_2", "fema_2_3", "fema_3_1", "fema_3_2", "fema_3_3" ],
+    "id": [
+      "fema",
+      "fema_1_3",
+      "fema_2_1",
+      "fema_2_2",
+      "fema_2_3",
+      "fema_3_1",
+      "fema_3_2",
+      "fema_3_3"
+    ],
     "name": "fema camp",
     "sym": "F",
     "color": "i_blue",
     "see_cost": 5,
     "extras": "build",
-    "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": ["RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD"]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "FEMA_tlc", "FEMA_te", "FEMA_trc", "FEMA_le", "FEMA_mid", "FEMA_re", "FEMA_blc", "FEMA_brc" ],
+    "id": [
+      "FEMA_tlc",
+      "FEMA_te",
+      "FEMA_trc",
+      "FEMA_le",
+      "FEMA_mid",
+      "FEMA_re",
+      "FEMA_blc",
+      "FEMA_brc"
+    ],
     "name": "FEMA refugee camp",
     "sym": "F",
     "color": "i_blue",
     "extras": "build",
     "see_cost": 2,
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+    "spawns": { "group": "GROUP_VANILLA", "population": [4, 12], "chance": 90 }
   },
   {
     "type": "overmap_terrain",
@@ -37,20 +55,27 @@
     "color": "blue",
     "extras": "build",
     "see_cost": 2,
-    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+    "spawns": { "group": "GROUP_VANILLA", "population": [4, 12], "chance": 90 }
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter", "shelter_1", "shelter_2", "shelter_vandal", "shelter_1_vandal", "shelter_2_vandal" ],
+    "id": [
+      "shelter",
+      "shelter_1",
+      "shelter_2",
+      "shelter_vandal",
+      "shelter_1_vandal",
+      "shelter_2_vandal"
+    ],
     "name": "evac shelter",
     "sym": "+",
     "color": "white",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
+    "flags": ["KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY"]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "shelter_roof", "shelter_roof_1", "shelter_roof_2" ],
+    "id": ["shelter_roof", "shelter_roof_1", "shelter_roof_2"],
     "name": "evac shelter roof",
     "sym": "+",
     "color": "white",
@@ -63,7 +88,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP" ]
+    "flags": ["KNOWN_UP"]
   },
   {
     "type": "overmap_terrain",
@@ -72,7 +97,14 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [
+      "KNOWN_DOWN",
+      "SOURCE_PEOPLE",
+      "SOURCE_SAFETY",
+      "SOURCE_GUN",
+      "SOURCE_AMMO",
+      "SOURCE_FOOD"
+    ]
   },
   {
     "type": "overmap_terrain",
@@ -81,7 +113,7 @@
     "sym": ".",
     "color": "brown",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN" ]
+    "flags": ["KNOWN_DOWN"]
   },
   {
     "type": "overmap_terrain",
@@ -90,7 +122,14 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [
+      "KNOWN_UP",
+      "SOURCE_PEOPLE",
+      "SOURCE_SAFETY",
+      "SOURCE_GUN",
+      "SOURCE_AMMO",
+      "SOURCE_FOOD"
+    ]
   },
   {
     "type": "overmap_terrain",
@@ -99,7 +138,14 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [
+      "KNOWN_UP",
+      "SOURCE_PEOPLE",
+      "SOURCE_SAFETY",
+      "SOURCE_GUN",
+      "SOURCE_AMMO",
+      "SOURCE_FOOD"
+    ]
   },
   {
     "type": "overmap_terrain",
@@ -108,7 +154,7 @@
     "sym": "B",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": ["KNOWN_DOWN", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO"]
   },
   {
     "type": "overmap_terrain",
@@ -117,7 +163,7 @@
     "sym": "B",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "NO_ROTATE", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": ["KNOWN_UP", "NO_ROTATE", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO"]
   },
   {
     "type": "overmap_terrain",
@@ -127,34 +173,39 @@
     "color": "red",
     "see_cost": 2,
     "extras": "build",
-    "flags": [ "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
+    "flags": ["RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO"]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "silo", "silo_1", "silo_2", "silo_3", "silo_4", "silo_finale" ],
+    "id": ["silo", "silo_1", "silo_2", "silo_3", "silo_4", "silo_finale"],
     "name": "missile silo",
     "sym": "0",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": ["NO_ROTATE", "RISK_HIGH"]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "ws_fire_lookout_tower_base", "ws_fire_lookout_tower_f1", "ws_fire_lookout_tower_f2", "ws_fire_lookout_tower_f3" ],
+    "id": [
+      "ws_fire_lookout_tower_base",
+      "ws_fire_lookout_tower_f1",
+      "ws_fire_lookout_tower_f2",
+      "ws_fire_lookout_tower_f3"
+    ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "fire lookout tower",
     "sym": "T",
     "color": "red",
-    "flags": [ "SOURCE_SAFETY" ]
+    "flags": ["SOURCE_SAFETY"]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "ws_survivor_bunker_f0", "ws_survivor_bunker_f-1" ],
+    "id": ["ws_survivor_bunker_f0", "ws_survivor_bunker_f-1"],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "survivor's bunker",
     "sym": "b",
     "color": "green",
-    "flags": [ "SOURCE_SAFETY", "SOURCE_PEOPLE" ]
+    "flags": ["SOURCE_SAFETY", "SOURCE_PEOPLE"]
   },
   {
     "type": "overmap_terrain",
@@ -163,7 +214,7 @@
     "name": "survivor's camp",
     "sym": "c",
     "color": "brown",
-    "flags": [ "SOURCE_SAFETY", "SOURCE_PEOPLE" ]
+    "flags": ["SOURCE_SAFETY", "SOURCE_PEOPLE"]
   },
   {
     "type": "overmap_terrain",
@@ -172,7 +223,7 @@
     "sym": "H",
     "color": "red",
     "see_cost": 5,
-    "flags": [ "SOURCE_FUEL", "SOURCE_GUN", "SOURCE_VEHICLES", "RISK_HIGH" ]
+    "flags": ["SOURCE_FUEL", "SOURCE_GUN", "SOURCE_VEHICLES", "RISK_HIGH"]
   },
   {
     "type": "overmap_terrain",
@@ -215,7 +266,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_5f", "mil_base_5j", "mil_base_6j", "mil_base_7j" ],
+    "id": ["mil_base_5f", "mil_base_5j", "mil_base_6j", "mil_base_7j"],
     "copy-from": "generic_military_base",
     "name": "road",
     "sym": "─",
@@ -223,7 +274,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_4a", "mil_base_4f" ],
+    "id": ["mil_base_4a", "mil_base_4f"],
     "copy-from": "generic_military_base",
     "name": "road",
     "sym": "├",
@@ -287,7 +338,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_5a", "mil_base_6a", "mil_base_7a" ],
+    "id": ["mil_base_5a", "mil_base_6a", "mil_base_7a"],
     "copy-from": "generic_military_base",
     "name": "parking lot",
     "sym": "O",
@@ -332,25 +383,25 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_2f1", "mil_base_2f", "mil_base_3f1", "mil_base_3f" ],
+    "id": ["mil_base_2f1", "mil_base_2f", "mil_base_3f1", "mil_base_3f"],
     "copy-from": "generic_military_base",
     "name": "military base - mess hall"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_2g1", "mil_base_2g", "mil_base_3g1", "mil_base_3g" ],
+    "id": ["mil_base_2g1", "mil_base_2g", "mil_base_3g1", "mil_base_3g"],
     "copy-from": "generic_military_base",
     "name": "military base - warehouse"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_3h1", "mil_base_3h" ],
+    "id": ["mil_base_3h1", "mil_base_3h"],
     "copy-from": "generic_military_base",
     "name": "military base - communications center"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_5e1", "mil_base_5e" ],
+    "id": ["mil_base_5e1", "mil_base_5e"],
     "copy-from": "generic_military_base",
     "name": "military base - armory"
   },
@@ -371,13 +422,20 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_5g1", "mil_base_5g" ],
+    "id": ["mil_base_5g1", "mil_base_5g"],
     "copy-from": "generic_military_base",
     "name": "military base - command center"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_5h1", "mil_base_5h", "mil_base_5i1", "mil_base_5i", "mil_base_6i1", "mil_base_6i" ],
+    "id": [
+      "mil_base_5h1",
+      "mil_base_5h",
+      "mil_base_5i1",
+      "mil_base_5i",
+      "mil_base_6i1",
+      "mil_base_6i"
+    ],
     "copy-from": "generic_military_base",
     "name": "military base - infirmary"
   },
@@ -406,7 +464,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_3i", "mil_base_3i1", "mil_base_3i2", "mil_base_3i3", "mil_base_3i4" ],
+    "id": ["mil_base_3i", "mil_base_3i1", "mil_base_3i2", "mil_base_3i3", "mil_base_3i4"],
     "copy-from": "generic_military_base",
     "name": "radio tower",
     "sym": "X",
@@ -449,14 +507,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_minefield_e", "mil_base_minefield_w" ],
+    "id": ["mil_base_minefield_e", "mil_base_minefield_w"],
     "copy-from": "generic_military_base",
     "name": "minefield",
     "sym": "│"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mil_base_minefield_n", "mil_base_minefield_s", "mil_base_minefield_end" ],
+    "id": ["mil_base_minefield_n", "mil_base_minefield_s", "mil_base_minefield_end"],
     "copy-from": "generic_military_base",
     "name": "minefield",
     "sym": "─"

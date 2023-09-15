@@ -3,9 +3,9 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "school_1_3", "school_1_2", "school_1_1" ],
-      [ "school_1_6", "school_1_5", "school_1_4" ],
-      [ "school_1_9", "school_1_8", "school_1_7" ]
+      ["school_1_3", "school_1_2", "school_1_1"],
+      ["school_1_6", "school_1_5", "school_1_4"],
+      ["school_1_9", "school_1_8", "school_1_7"]
     ],
     "weight": 250,
     "object": {
@@ -84,31 +84,38 @@
         "|,,,,,,,,,,,,,,,,,,,,,,.^|ffffffffffGfffffffffffffffffffffffffffffffff  ",
         "||wwww|||||wwww|||||wwww||                                              "
       ],
-      "palettes": [ "school_palette" ],
-      "place_items": [  ],
-      "place_item": [ { "item": "american_flag", "x": 36, "y": 58, "amount": 1 } ],
+      "palettes": ["school_palette"],
+      "place_items": [],
+      "place_item": [{ "item": "american_flag", "x": 36, "y": 58, "amount": 1 }],
       "place_monster": [
-        { "monster": [ "mon_nursebot", "mon_nursebot_defective" ], "x": [ 27, 33 ], "y": [ 20, 23 ], "chance": 50 },
-        { "group": "GROUP_SCHOOL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 5, 10 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 5, 10 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 5, 10 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 5, 10 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 5, 10 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 5, 10 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 49, 70 ], "repeat": [ 5, 10 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 49, 70 ], "repeat": [ 5, 10 ] }
+        {
+          "monster": ["mon_nursebot", "mon_nursebot_defective"],
+          "x": [27, 33],
+          "y": [20, 23],
+          "chance": 50
+        },
+        { "group": "GROUP_SCHOOL", "x": [0, 23], "y": [0, 23], "repeat": [5, 10] },
+        { "group": "GROUP_SCHOOL", "x": [25, 46], "y": [1, 22], "repeat": [5, 10] },
+        { "group": "GROUP_SCHOOL", "x": [49, 70], "y": [1, 22], "repeat": [5, 10] },
+        { "group": "GROUP_SCHOOL", "x": [1, 22], "y": [25, 46], "repeat": [5, 10] },
+        { "group": "GROUP_SCHOOL", "x": [25, 46], "y": [25, 46], "repeat": [5, 10] },
+        { "group": "GROUP_SCHOOL", "x": [49, 70], "y": [25, 46], "repeat": [5, 10] },
+        { "group": "GROUP_SCHOOL", "x": [1, 22], "y": [49, 70], "repeat": [5, 10] },
+        { "group": "GROUP_SCHOOL", "x": [25, 46], "y": [49, 70], "repeat": [5, 10] },
+        { "group": "GROUP_SCHOOL", "x": [49, 70], "y": [49, 70], "repeat": [5, 10] }
       ],
-      "place_vehicles": [ { "vehicle": "school_vehicles", "x": 9, "y": 7, "chance": 25, "rotation": 0 } ]
+      "place_vehicles": [
+        { "vehicle": "school_vehicles", "x": 9, "y": 7, "chance": 25, "rotation": 0 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "school_2_3", "school_2_2", "school_2_1" ],
-      [ "school_2_6", "school_2_5", "school_2_4" ],
-      [ "school_2_9", "school_2_8", "school_2_7" ]
+      ["school_2_3", "school_2_2", "school_2_1"],
+      ["school_2_6", "school_2_5", "school_2_4"],
+      ["school_2_9", "school_2_8", "school_2_7"]
     ],
     "weight": 250,
     "object": {
@@ -187,15 +194,15 @@
         "|~~~~~~~~~~~~~~~~~~~H...^|**********************************************",
         "||wwww|||||wwww|||||wwww||**********************************************"
       ],
-      "palettes": [ "school_palette" ],
-      "place_items": [  ],
+      "palettes": ["school_palette"],
+      "place_items": [],
       "place_monster": [
-        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 2, 6 ] }
+        { "group": "GROUP_SCHOOL", "x": [25, 46], "y": [1, 22], "repeat": [2, 6] },
+        { "group": "GROUP_SCHOOL", "x": [49, 70], "y": [1, 22], "repeat": [2, 6] },
+        { "group": "GROUP_SCHOOL", "x": [1, 22], "y": [25, 46], "repeat": [2, 6] },
+        { "group": "GROUP_SCHOOL", "x": [25, 46], "y": [25, 46], "repeat": [2, 6] },
+        { "group": "GROUP_SCHOOL", "x": [49, 70], "y": [25, 46], "repeat": [2, 6] },
+        { "group": "GROUP_SCHOOL", "x": [1, 22], "y": [49, 70], "repeat": [2, 6] }
       ]
     }
   },
@@ -203,9 +210,9 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "school_3_3", "school_3_2", "school_3_1" ],
-      [ "school_3_6", "school_3_5", "school_3_4" ],
-      [ "school_3_9", "school_3_8", "school_3_7" ]
+      ["school_3_3", "school_3_2", "school_3_1"],
+      ["school_3_6", "school_3_5", "school_3_4"],
+      ["school_3_9", "school_3_8", "school_3_7"]
     ],
     "weight": 250,
     "object": {
@@ -284,15 +291,15 @@
         "1zzzzzzzzzzzzzzzzzzzzzzzz2**********************************************",
         "54444444444444444444444445**********************************************"
       ],
-      "palettes": [ "school_palette" ],
-      "place_items": [  ],
+      "palettes": ["school_palette"],
+      "place_items": [],
       "place_monster": [
-        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 2, 6 ] },
-        { "group": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 2, 6 ] }
+        { "group": "GROUP_SCHOOL", "x": [25, 46], "y": [1, 22], "repeat": [2, 6] },
+        { "group": "GROUP_SCHOOL", "x": [49, 70], "y": [1, 22], "repeat": [2, 6] },
+        { "group": "GROUP_SCHOOL", "x": [1, 22], "y": [25, 46], "repeat": [2, 6] },
+        { "group": "GROUP_SCHOOL", "x": [25, 46], "y": [25, 46], "repeat": [2, 6] },
+        { "group": "GROUP_SCHOOL", "x": [49, 70], "y": [25, 46], "repeat": [2, 6] },
+        { "group": "GROUP_SCHOOL", "x": [1, 22], "y": [49, 70], "repeat": [2, 6] }
       ]
     }
   },
@@ -300,9 +307,9 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "school_4_3", "school_4_2", "school_4_1" ],
-      [ "school_4_6", "school_4_5", "school_4_4" ],
-      [ "school_4_9", "school_4_8", "school_4_7" ]
+      ["school_4_3", "school_4_2", "school_4_1"],
+      ["school_4_6", "school_4_5", "school_4_4"],
+      ["school_4_9", "school_4_8", "school_4_7"]
     ],
     "weight": 250,
     "object": {
@@ -381,19 +388,19 @@
         "************************************************************************",
         "************************************************************************"
       ],
-      "palettes": [ "school_palette" ],
-      "place_items": [  ],
+      "palettes": ["school_palette"],
+      "place_items": [],
       "place_nested": [
-        { "chunks": [ [ "roof_16x16_help", 5 ], [ "null", 25 ] ], "x": [ 48, 54 ], "y": [ 6, 8 ] },
+        { "chunks": [["roof_16x16_help", 5], ["null", 25]], "x": [48, 54], "y": [6, 8] },
         {
-          "chunks": [ [ "roof_4x4_utility", 5 ], [ "roof_4x4_utility", 5 ], [ "roof_6x6_utility", 5 ] ],
-          "x": [ 50, 58 ],
-          "y": [ 36, 42 ]
+          "chunks": [["roof_4x4_utility", 5], ["roof_4x4_utility", 5], ["roof_6x6_utility", 5]],
+          "x": [50, 58],
+          "y": [36, 42]
         },
         {
-          "chunks": [ [ "roof_4x4_utility", 5 ], [ "roof_4x4_utility", 5 ], [ "roof_2x2_utilities_d", 5 ] ],
-          "x": [ 25, 40 ],
-          "y": [ 36, 42 ]
+          "chunks": [["roof_4x4_utility", 5], ["roof_4x4_utility", 5], ["roof_2x2_utilities_d", 5]],
+          "x": [25, 40],
+          "y": [36, 42]
         }
       ]
     }
@@ -405,17 +412,23 @@
       "*": "t_open_air",
       "~": "t_open_air_rooved",
       "H": "t_glass_railing",
-      " ": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ] ],
+      " ": [["t_dirt", 5], ["t_grass", 16], ["t_grass_long", 5]],
       "b": "t_dirt",
       "$": [
-        [ "t_underbrush", 10 ],
-        [ "t_shrub", 32 ],
-        [ "t_grass_tall", 10 ],
-        [ "t_shrub_lilac", 2 ],
-        [ "t_shrub_hydrangea", 2 ],
-        [ "t_shrub_rose", 1 ]
+        ["t_underbrush", 10],
+        ["t_shrub", 32],
+        ["t_grass_tall", 10],
+        ["t_shrub_lilac", 2],
+        ["t_shrub_hydrangea", 2],
+        ["t_shrub_rose", 1]
       ],
-      ";": [ [ "t_tree", 10 ], [ "t_tree_willow", 3 ], [ "t_tree_birch", 3 ], [ "t_tree_maple", 3 ], [ "t_tree_pine", 5 ] ],
+      ";": [
+        ["t_tree", 10],
+        ["t_tree_willow", 3],
+        ["t_tree_birch", 3],
+        ["t_tree_maple", 3],
+        ["t_tree_pine", 5]
+      ],
       "+": "t_door_c",
       "i": "t_linoleum_gray",
       "e": "t_linoleum_gray",
@@ -492,7 +505,7 @@
       "F": "f_filing_cabinet",
       "a": "f_trashcan",
       "A": "f_glass_cabinet",
-      "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "^": ["f_indoor_plant", "f_indoor_plant_y"],
       "[": "f_home_furnace",
       "]": "f_water_heater",
       "0": "f_standing_tank",
@@ -501,30 +514,39 @@
       "K": "f_TV_antenna",
       "E": "f_air_conditioner"
     },
-    "toilets": { "T": {  } },
+    "toilets": { "T": {} },
     "items": {
       "a": { "item": "fast_food", "chance": 95 },
       ".": { "item": "school", "chance": 1 },
       "d": { "item": "school", "chance": 50 },
-      "D": { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
-      "e": [ { "item": "fridge", "chance": 65, "repeat": [ 1, 3 ] }, { "item": "fridgesnacks", "chance": 15 } ],
-      "g": { "item": "cleaning", "chance": 80, "repeat": [ 1, 3 ] },
-      "k": { "item": "chem_school", "chance": 80, "repeat": [ 1, 4 ] },
+      "D": { "item": "office", "chance": 40, "repeat": [1, 2] },
+      "e": [
+        { "item": "fridge", "chance": 65, "repeat": [1, 3] },
+        { "item": "fridgesnacks", "chance": 15 }
+      ],
+      "g": { "item": "cleaning", "chance": 80, "repeat": [1, 3] },
+      "k": { "item": "chem_school", "chance": 80, "repeat": [1, 4] },
       "l": { "item": "school", "chance": 60 },
       "o": { "item": "book_school", "chance": 100 },
-      "r": [ { "item": "snacks", "chance": 10, "repeat": [ 1, 2 ] }, { "item": "cannedfood", "chance": 60, "repeat": [ 1, 3 ] } ],
-      "p": { "item": "gym_school", "chance": 70, "repeat": [ 1, 5 ] },
-      "R": { "item": "tools_plumbing", "chance": 55, "repeat": [ 1, 2 ] },
-      "t": { "item": "dining", "chance": 33, "repeat": [ 1, 2 ] },
+      "r": [
+        { "item": "snacks", "chance": 10, "repeat": [1, 2] },
+        { "item": "cannedfood", "chance": 60, "repeat": [1, 3] }
+      ],
+      "p": { "item": "gym_school", "chance": 70, "repeat": [1, 5] },
+      "R": { "item": "tools_plumbing", "chance": 55, "repeat": [1, 2] },
+      "t": { "item": "dining", "chance": 33, "repeat": [1, 2] },
       "u": { "item": "child_items", "chance": 1 },
-      "F": { "item": "file_room", "chance": 85, "repeat": [ 1, 4 ] },
+      "F": { "item": "file_room", "chance": 85, "repeat": [1, 4] },
       "U": [
-        { "item": "snacks", "chance": 10, "repeat": [ 1, 2 ] },
-        { "item": "cannedfood", "chance": 70, "repeat": [ 1, 3 ] },
-        { "item": "dining", "chance": 5, "repeat": [ 1, 3 ] }
+        { "item": "snacks", "chance": 10, "repeat": [1, 2] },
+        { "item": "cannedfood", "chance": 70, "repeat": [1, 3] },
+        { "item": "dining", "chance": 5, "repeat": [1, 3] }
       ]
     },
-    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "vendingmachines": {
+      "8": { "item_group": "vending_drink" },
+      "9": { "item_group": "vending_food" }
+    },
     "computers": {
       "6": {
         "name": "School Bell Software 1.1",

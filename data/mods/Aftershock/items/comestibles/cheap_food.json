@@ -18,12 +18,12 @@
     "fun": -8,
     "freezing_point": -490,
     "vitamins": [
-      [ "calcium", 24, 48 ],
-      [ "iron", 24, 48 ],
-      [ "vitA", 24, 48 ],
-      [ "vitB", 24, 48 ],
-      [ "vitC", 24, 48 ],
-      [ "bad_food", 10 ]
+      ["calcium", 24, 48],
+      ["iron", 24, 48],
+      ["vitA", 24, 48],
+      ["vitB", 24, 48],
+      ["vitC", 24, 48],
+      ["bad_food", 10]
     ]
   },
   {
@@ -40,12 +40,12 @@
     "looks_like": "bleach",
     "fun": -2,
     "vitamins": [
-      [ "calcium", 24, 48 ],
-      [ "iron", 24, 48 ],
-      [ "vitA", 24, 48 ],
-      [ "vitB", 24, 48 ],
-      [ "vitC", 24, 48 ],
-      [ "bad_food", 10 ]
+      ["calcium", 24, 48],
+      ["iron", 24, 48],
+      ["vitA", 24, 48],
+      ["vitB", 24, 48],
+      ["vitC", 24, 48],
+      ["bad_food", 10]
     ]
   },
   {
@@ -62,8 +62,8 @@
     "container": "can_drink",
     "fun": 10,
     "stim": 4,
-    "vitamins": [ [ "bad_food", -6 ] ],
-    "flags": [ "LIGHT_2", "EATEN_HOT" ],
+    "vitamins": [["bad_food", -6]],
+    "flags": ["LIGHT_2", "EATEN_HOT"],
     "freezing_point": -490
   },
   {
@@ -88,7 +88,14 @@
     "description": "Smoothly blended edibles, neatly shaped into cubes for maximum enjoyment.",
     "fun": 2,
     "freezing_point": -490,
-    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitA", 30 ], [ "vitB", 30 ], [ "vitC", 30 ], [ "bad_food", 1 ] ]
+    "vitamins": [
+      ["calcium", 30],
+      ["iron", 30],
+      ["vitA", 30],
+      ["vitB", 30],
+      ["vitC", 30],
+      ["bad_food", 1]
+    ]
   },
   {
     "id": "afs_food_to_go",
@@ -117,7 +124,7 @@
     "description": "Rings of caramelized yellow colorant, tasting not exactly like apple.",
     "fun": 2,
     "freezing_point": -490,
-    "vitamins": [ [ "iron", 1 ], [ "vitA", 1 ], [ "vitC", 10 ] ]
+    "vitamins": [["iron", 1], ["vitA", 1], ["vitC", 10]]
   },
   {
     "id": "afs_cee_wafers",
@@ -126,14 +133,14 @@
     "container": "can_food",
     "copy-from": "protein_bar_evac",
     "color": "white",
-    "material": [ "veggy" ],
+    "material": ["veggy"],
     "calories": 150,
     "healthy": 3,
     "charges": 3,
     "description": "Smooth crackers colored grayish-green.  Used to be perfectly edible seaweed, or so the wrapper claims.",
     "fun": 2,
     "freezing_point": -490,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "bad_food", 1 ] ]
+    "vitamins": [["calcium", 5], ["iron", 5], ["vitC", 10], ["bad_food", 1]]
   },
   {
     "id": "afs_beefsim",
@@ -143,13 +150,13 @@
     "copy-from": "protein_bar_evac",
     "color": "red",
     "calories": 250,
-    "material": [ "flesh", "veggy" ],
+    "material": ["flesh", "veggy"],
     "healthy": 3,
     "description": "Soy or pureed rat?  Better not to know.\n(But its probably both.) ",
     "fun": 0,
     "charges": 2,
     "freezing_point": -490,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 10 ], [ "vitB", 10 ], [ "bad_food", 1 ] ]
+    "vitamins": [["calcium", 5], ["iron", 5], ["vitC", 10], ["vitB", 10], ["bad_food", 1]]
   },
   {
     "id": "afs_soup_27",
@@ -159,12 +166,19 @@
     "container": "can_food",
     "color": "red",
     "calories": 450,
-    "material": [ "flesh", "veggy" ],
+    "material": ["flesh", "veggy"],
     "healthy": 3,
     "description": "Yellow chunks float on creamy liquid, like flotsam on a filthy summer pond.  Branding implies at least 26 other flavors, but you have neither seen or heard about any of them.",
     "fun": 0,
     "freezing_point": -490,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ], [ "vitC", 5 ], [ "vitB", 10 ], [ "vitA", 5 ], [ "bad_food", 1 ] ]
+    "vitamins": [
+      ["calcium", 1],
+      ["iron", 10],
+      ["vitC", 5],
+      ["vitB", 10],
+      ["vitA", 5],
+      ["bad_food", 1]
+    ]
   },
   {
     "id": "afs_caffex",
@@ -177,6 +191,6 @@
     "description": "A dark and soapy beverage, pre-brewed and loaded with synthetic caffeine.",
     "fun": 6,
     "freezing_point": -490,
-    "vitamins": [ [ "bad_food", 1 ] ]
+    "vitamins": [["bad_food", 1]]
   }
 ]

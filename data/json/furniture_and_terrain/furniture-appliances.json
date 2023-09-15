@@ -13,12 +13,12 @@
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "cu_pipe", "count": [ 2, 5 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [2, 6] },
+        { "item": "steel_chunk", "count": [1, 3] },
+        { "item": "sheet_metal", "count": [2, 6] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "cu_pipe", "count": [2, 5] },
+        { "item": "hose", "count": [0, 2] },
         { "item": "thermostat", "count": 1 },
         { "item": "refrigerant_tank", "count": 1 },
         { "item": "motor_small", "count": 1 }
@@ -30,13 +30,13 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
+        { "item": "scrap", "count": [2, 7] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "sheet_metal", "count": [2, 6] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "hose", "count": [0, 2] },
+        { "item": "cu_pipe", "count": [1, 4] },
+        { "item": "scrap_copper", "count": [0, 2] }
       ]
     }
   },
@@ -53,14 +53,14 @@
     "looks_like": "f_air_conditioner",
     "deconstruct": {
       "items": [
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "sheet_metal", "count": [ 2, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "scrap", "count": [2, 6] },
+        { "item": "steel_chunk", "count": [1, 3] },
+        { "item": "sheet_metal_small", "count": [0, 4] },
+        { "item": "sheet_metal", "count": [2, 4] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "hose", "count": [3, 6] },
         { "item": "motor_small", "count": 1 },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [1, 15] }
       ]
     },
     "bash": {
@@ -69,14 +69,14 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 1 ] },
-        { "item": "e_scrap", "count": [ 5, 10 ] },
-        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+        { "item": "scrap", "count": [2, 7] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "sheet_metal_small", "count": [8, 12] },
+        { "item": "sheet_metal", "count": [1, 2] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "hose", "count": [0, 1] },
+        { "item": "e_scrap", "count": [5, 10] },
+        { "item": "plastic_chunk", "count": [0, 2] }
       ]
     }
   },
@@ -92,18 +92,18 @@
     "coverage": 60,
     "required_str": 13,
     "max_volume": "200 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE"],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "sheet_metal", "count": [ 2, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [2, 6] },
+        { "item": "steel_chunk", "count": [1, 3] },
+        { "item": "sheet_metal_small", "count": [0, 4] },
+        { "item": "sheet_metal", "count": [2, 4] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "hose", "count": [1, 2] },
         { "item": "motor_small", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 5 ] }
+        { "item": "cu_pipe", "count": [2, 5] }
       ]
     },
     "bash": {
@@ -112,15 +112,15 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "rag", "count": [ 5, 10 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 1 ] },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
+        { "item": "scrap", "count": [2, 7] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "sheet_metal_small", "count": [8, 12] },
+        { "item": "sheet_metal", "count": [1, 2] },
+        { "item": "rag", "count": [5, 10] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "hose", "count": [0, 1] },
+        { "item": "cu_pipe", "count": [1, 4] },
+        { "item": "scrap_copper", "count": [0, 2] }
       ]
     }
   },
@@ -135,18 +135,18 @@
     "coverage": 60,
     "required_str": 12,
     "max_volume": "37500 ml",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE"],
     "deconstruct": {
       "items": [
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "element", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [2, 6] },
+        { "item": "steel_chunk", "count": [1, 3] },
+        { "item": "sheet_metal_small", "count": [0, 4] },
+        { "item": "sheet_metal", "count": [2, 6] },
+        { "item": "element", "count": [2, 3] },
         { "item": "wire_mesh", "count": 1 },
-        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cable", "charges": [1, 15] },
         { "item": "motor_small", "charges": 1 },
-        { "item": "cu_pipe", "count": [ 1, 3 ] }
+        { "item": "cu_pipe", "count": [1, 3] }
       ]
     },
     "bash": {
@@ -155,12 +155,12 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 0, 6 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "element", "count": [ 1, 3 ] },
-        { "item": "cable", "charges": [ 1, 15 ] }
+        { "item": "scrap", "count": [0, 6] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "sheet_metal_small", "count": [8, 12] },
+        { "item": "sheet_metal", "count": [1, 4] },
+        { "item": "element", "count": [1, 3] },
+        { "item": "cable", "charges": [1, 15] }
       ]
     }
   },
@@ -173,7 +173,7 @@
     "description": "Abstract furniture.  If you see this, something went wrong.",
     "move_cost_mod": 2,
     "required_str": 1,
-    "flags": [ "TRANSPARENT", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "flags": ["TRANSPARENT", "PLACE_ITEM", "EASY_DECONSTRUCT"],
     "deconstruct": {
       "items": [
         { "item": "cable", "charges": 2 },
@@ -189,11 +189,11 @@
       "sound": "metal screeching!",
       "sound_fail": "bonk!",
       "items": [
-        { "item": "scrap", "count": [ 1, 2 ] },
-        { "item": "cable", "charges": [ 0, 1 ] },
-        { "item": "e_scrap", "count": [ 0, 1 ] },
-        { "item": "glass_shard", "count": [ 0, 2 ] },
-        { "item": "pipe", "count": [ 0, 1 ] }
+        { "item": "scrap", "count": [1, 2] },
+        { "item": "cable", "charges": [0, 1] },
+        { "item": "e_scrap", "count": [0, 1] },
+        { "item": "glass_shard", "count": [0, 2] },
+        { "item": "pipe", "count": [0, 1] }
       ]
     }
   },
@@ -223,7 +223,10 @@
     "transforms_into": "f_floor_lamp_off",
     "prompt": "Switch off the floor lamp.",
     "message": "You switch off the floor lamp.",
-    "active": [ "charge_watcher", { "min_power": 5, "transform": { "id": "f_floor_lamp_on", "msg": "The lamp lights up." } } ]
+    "active": [
+      "charge_watcher",
+      { "min_power": 5, "transform": { "id": "f_floor_lamp_on", "msg": "The lamp lights up." } }
+    ]
   },
   {
     "type": "furniture",
@@ -259,8 +262,8 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "glass_fridge", "count": 1 } ] },
+    "flags": ["PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT"],
+    "deconstruct": { "items": [{ "item": "glass_fridge", "count": 1 }] },
     "max_volume": "250 L",
     "bash": {
       "str_min": 12,
@@ -268,15 +271,15 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "sheet_metal", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 6, 9 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "sheet_metal", "count": [1, 3] },
+        { "item": "sheet_metal_small", "count": [6, 9] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "scrap", "count": [2, 8] },
+        { "item": "cable", "charges": [1, 3] },
         { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] },
-        { "item": "glass_shard", "count": [ 2, 4 ] },
+        { "item": "cu_pipe", "count": [1, 4] },
+        { "item": "scrap_copper", "count": [0, 2] },
+        { "item": "glass_shard", "count": [2, 4] },
         { "item": "motor_tiny", "prob": 25 }
       ]
     }
@@ -305,7 +308,13 @@
     "transforms_into": "f_glass_fridge_off",
     "prompt": "Switch off the glass fridge.",
     "message": "You switch off the glass fridge.",
-    "active": [ "charge_watcher", { "min_power": 40, "transform": { "id": "f_glass_fridge_on", "msg": "The fridge starts up." } } ],
+    "active": [
+      "charge_watcher",
+      {
+        "min_power": 40,
+        "transform": { "id": "f_glass_fridge_on", "msg": "The fridge starts up." }
+      }
+    ],
     "color": "light_cyan"
   },
   {
@@ -320,7 +329,7 @@
     "prompt": "Switch off the glass fridge.",
     "message": "You switch off the glass fridge.",
     "color": "light_cyan",
-    "extend": { "flags": [ "FRIDGE" ] },
+    "extend": { "flags": ["FRIDGE"] },
     "//": "Consumes more power due to worse insulation.",
     "active": [
       "steady_consumer",
@@ -343,7 +352,7 @@
     "prompt": "Switch on the glass freezer.",
     "message": "You switch on the glass freezer.",
     "color": "blue",
-    "deconstruct": { "items": [ { "item": "glass_freezer", "count": 1 } ] }
+    "deconstruct": { "items": [{ "item": "glass_freezer", "count": 1 }] }
   },
   {
     "type": "furniture",
@@ -356,9 +365,15 @@
     "transforms_into": "f_glass_freezer_off",
     "prompt": "Switch off the glass freezer.",
     "message": "You switch off the glass freezer.",
-    "active": [ "charge_watcher", { "min_power": 50, "transform": { "id": "f_glass_freezer_on", "msg": "The freezer starts up." } } ],
+    "active": [
+      "charge_watcher",
+      {
+        "min_power": 50,
+        "transform": { "id": "f_glass_freezer_on", "msg": "The freezer starts up." }
+      }
+    ],
     "color": "blue",
-    "deconstruct": { "items": [ { "item": "glass_freezer", "count": 1 } ] }
+    "deconstruct": { "items": [{ "item": "glass_freezer", "count": 1 }] }
   },
   {
     "type": "furniture",
@@ -372,9 +387,9 @@
     "prompt": "Switch off the glass freezer.",
     "message": "You switch off the glass freezer.",
     "color": "blue",
-    "extend": { "flags": [ "FREEZER" ] },
+    "extend": { "flags": ["FREEZER"] },
     "//": "Consumes more power due to worse insulation.",
-    "deconstruct": { "items": [ { "item": "glass_freezer", "count": 1 } ] },
+    "deconstruct": { "items": [{ "item": "glass_freezer", "count": 1 }] },
     "active": [
       "steady_consumer",
       {
@@ -395,16 +410,16 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "BLOCKSDOOR" ],
+    "flags": ["CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "BLOCKSDOOR"],
     "examine_action": "fireplace",
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "scrap", "count": [2, 6] },
+        { "item": "steel_chunk", "count": [1, 3] },
+        { "item": "sheet_metal", "count": [2, 6] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "cu_pipe", "count": [2, 5] },
         { "item": "thermostat", "count": 1 },
         { "item": "motor_small", "count": 1 }
       ]
@@ -415,13 +430,13 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
+        { "item": "scrap", "count": [2, 7] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "sheet_metal", "count": [2, 6] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "hose", "count": [0, 2] },
+        { "item": "cu_pipe", "count": [1, 4] },
+        { "item": "scrap_copper", "count": [0, 2] }
       ]
     }
   },
@@ -436,18 +451,18 @@
     "coverage": 60,
     "required_str": 12,
     "max_volume": "30 L",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE"],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [2, 6] },
+        { "item": "steel_chunk", "count": [1, 3] },
+        { "item": "sheet_metal_small", "count": [0, 4] },
+        { "item": "sheet_metal", "count": [2, 6] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "hose", "count": [1, 2] },
         { "item": "motor_small", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 5 ] }
+        { "item": "cu_pipe", "count": [2, 5] }
       ]
     },
     "bash": {
@@ -456,14 +471,14 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
+        { "item": "scrap", "count": [2, 7] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "sheet_metal_small", "count": [8, 12] },
+        { "item": "sheet_metal", "count": [1, 4] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "hose", "count": [0, 2] },
+        { "item": "cu_pipe", "count": [1, 4] },
+        { "item": "scrap_copper", "count": [0, 2] }
       ]
     }
   },
@@ -478,9 +493,17 @@
     "coverage": 60,
     "required_str": 10,
     "crafting_pseudo_item": "fake_oven",
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": [
+      "PLACE_ITEM",
+      "TRANSPARENT",
+      "FIRE_CONTAINER",
+      "CONTAINER",
+      "BLOCKSDOOR",
+      "MOUNTABLE",
+      "EASY_DECONSTRUCT"
+    ],
     "examine_action": "fireplace",
-    "deconstruct": { "items": [ { "item": "oven", "count": 1 } ] },
+    "deconstruct": { "items": [{ "item": "oven", "count": 1 }] },
     "max_volume": "40 L",
     "bash": {
       "str_min": 8,
@@ -488,12 +511,12 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "scrap", "count": [ 0, 6 ] },
-        { "item": "element", "count": [ 1, 3 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "sheet_metal", "count": [1, 4] },
+        { "item": "sheet_metal_small", "count": [8, 12] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "scrap", "count": [0, 6] },
+        { "item": "element", "count": [1, 3] },
+        { "item": "cable", "charges": [1, 3] },
         { "item": "pilot_light", "count": 1 }
       ]
     }
@@ -510,9 +533,18 @@
     "coverage": 60,
     "required_str": 10,
     "crafting_pseudo_item": "fake_oven",
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
+    "flags": [
+      "PLACE_ITEM",
+      "TRANSPARENT",
+      "FIRE_CONTAINER",
+      "CONTAINER",
+      "BLOCKSDOOR",
+      "MOUNTABLE"
+    ],
     "examine_action": "fireplace",
-    "deconstruct": { "items": [ { "item": "kitchen_unit", "count": 1 }, { "item": "cable", "charges": [ 1, 3 ] } ] },
+    "deconstruct": {
+      "items": [{ "item": "kitchen_unit", "count": 1 }, { "item": "cable", "charges": [1, 3] }]
+    },
     "max_volume": "25 L",
     "bash": {
       "str_min": 8,
@@ -520,15 +552,15 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "scrap", "count": [ 0, 6 ] },
-        { "item": "element", "count": [ 1, 3 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "sheet_metal", "count": [1, 2] },
+        { "item": "sheet_metal_small", "count": [2, 4] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "scrap", "count": [0, 6] },
+        { "item": "element", "count": [1, 3] },
+        { "item": "cable", "charges": [1, 3] },
         { "item": "pilot_light", "count": 1 },
         { "item": "water_faucet", "count": 1 },
-        { "item": "pot", "count": [ 0, 1 ] }
+        { "item": "pot", "count": [0, 1] }
       ]
     }
   },
@@ -543,13 +575,13 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
-    "flags": [ "TRANSPARENT" ],
+    "flags": ["TRANSPARENT"],
     "deconstruct": {
       "items": [
-        { "item": "leather", "count": [ 6, 12 ] },
-        { "item": "2x4", "count": [ 2, 4 ] },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "wire", "count": [ 1, 4 ] }
+        { "item": "leather", "count": [6, 12] },
+        { "item": "2x4", "count": [2, 4] },
+        { "item": "scrap", "count": [2, 6] },
+        { "item": "wire", "count": [1, 4] }
       ]
     },
     "max_volume": "40 L",
@@ -559,10 +591,10 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "leather", "count": [ 1, 4 ] },
-        { "item": "2x4", "count": [ 1, 2 ] },
-        { "item": "scrap", "count": [ 0, 6 ] },
-        { "item": "wire", "count": [ 1, 3 ] }
+        { "item": "leather", "count": [1, 4] },
+        { "item": "2x4", "count": [1, 2] },
+        { "item": "scrap", "count": [0, 6] },
+        { "item": "wire", "count": [1, 3] }
       ]
     }
   },
@@ -577,15 +609,15 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
-    "flags": [ "TRANSPARENT" ],
+    "flags": ["TRANSPARENT"],
     "deconstruct": {
       "items": [
-        { "item": "metal_tank", "count": [ 1, 2 ] },
+        { "item": "metal_tank", "count": [1, 2] },
         { "item": "water_faucet", "count": 2 },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "chain", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [2, 6] },
+        { "item": "chain", "count": [2, 4] },
         { "item": "anvil", "count": 1 },
-        { "item": "pipe", "count": [ 1, 3 ] }
+        { "item": "pipe", "count": [1, 3] }
       ]
     },
     "max_volume": "40 L",
@@ -595,11 +627,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "water_faucet", "count": [ 1, 2 ] },
+        { "item": "water_faucet", "count": [1, 2] },
         { "item": "anvil", "count": 1 },
-        { "item": "chain", "count": [ 1, 3 ] },
-        { "item": "scrap", "count": [ 10, 20 ] },
-        { "item": "pipe", "count": [ 1, 3 ] }
+        { "item": "chain", "count": [1, 3] },
+        { "item": "scrap", "count": [10, 20] },
+        { "item": "pipe", "count": [1, 3] }
       ]
     }
   },
@@ -613,19 +645,19 @@
     "move_cost_mod": 5,
     "required_str": 6,
     "looks_like": "f_filing_cabinet",
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": ["TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR"],
     "deconstruct": {
       "items": [
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "steel_lump", "count": [ 1, 3 ] },
-        { "item": "plastic_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "sheet_metal", "count": [ 2, 4 ] },
-        { "item": "pipe", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "scrap", "count": [2, 6] },
+        { "item": "steel_chunk", "count": [1, 3] },
+        { "item": "steel_lump", "count": [1, 3] },
+        { "item": "plastic_chunk", "count": [1, 3] },
+        { "item": "sheet_metal_small", "count": [0, 4] },
+        { "item": "sheet_metal", "count": [2, 4] },
+        { "item": "pipe", "count": [1, 4] },
+        { "item": "cable", "charges": [1, 15] },
         { "item": "motor", "count": 1 },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "solder_wire", "charges": [1, 15] }
       ]
     },
     "bash": {
@@ -634,14 +666,14 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "pipe", "count": [ 1, 2 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "e_scrap", "count": [ 5, 10 ] },
-        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+        { "item": "scrap", "count": [2, 7] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "sheet_metal_small", "count": [8, 12] },
+        { "item": "sheet_metal", "count": [1, 2] },
+        { "item": "pipe", "count": [1, 2] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "e_scrap", "count": [5, 10] },
+        { "item": "plastic_chunk", "count": [0, 2] }
       ]
     }
   },
@@ -656,14 +688,14 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 8,
-    "flags": [ "BLOCKSDOOR" ],
+    "flags": ["BLOCKSDOOR"],
     "deconstruct": {
       "items": [
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
-        { "item": "plastic_chunk", "count": [ 2, 12 ] },
-        { "item": "pipe", "count": [ 4, 8 ] },
-        { "item": "laptop", "count": [ 2, 4 ] },
-        { "item": "cable", "charges": [ 5, 10 ] }
+        { "item": "sheet_metal_small", "count": [4, 6] },
+        { "item": "plastic_chunk", "count": [2, 12] },
+        { "item": "pipe", "count": [4, 8] },
+        { "item": "laptop", "count": [2, 4] },
+        { "item": "cable", "charges": [5, 10] }
       ]
     },
     "bash": {
@@ -672,12 +704,12 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "plastic_chunk", "count": [ 1, 6 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [4, 8] },
+        { "item": "plastic_chunk", "count": [1, 6] },
+        { "item": "sheet_metal_small", "count": [1, 4] },
         { "item": "pipe", "count": 1 },
-        { "item": "e_scrap", "count": [ 20, 50 ] },
-        { "item": "cable", "charges": [ 2, 8 ] }
+        { "item": "e_scrap", "count": [20, 50] },
+        { "item": "cable", "charges": [2, 8] }
       ]
     }
   },
@@ -694,14 +726,14 @@
     "required_str": -1,
     "deconstruct": {
       "items": [
-        { "item": "pipe", "count": [ 6, 12 ] },
-        { "item": "rebar", "count": [ 6, 12 ] },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "steel_lump", "count": [ 4, 6 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "sheet_metal", "count": [ 8, 10 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "pipe", "count": [6, 12] },
+        { "item": "rebar", "count": [6, 12] },
+        { "item": "scrap", "count": [2, 6] },
+        { "item": "steel_chunk", "count": [1, 3] },
+        { "item": "steel_lump", "count": [4, 6] },
+        { "item": "sheet_metal_small", "count": [0, 4] },
+        { "item": "sheet_metal", "count": [8, 10] },
+        { "item": "cable", "charges": [1, 15] },
         { "item": "motor", "count": 1 }
       ]
     },
@@ -711,15 +743,15 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "pipe", "count": [ 1, 10 ] },
-        { "item": "rebar", "count": [ 1, 10 ] },
-        { "item": "scrap", "count": [ 6, 16 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "steel_lump", "count": [ 0, 6 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 2 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
+        { "item": "pipe", "count": [1, 10] },
+        { "item": "rebar", "count": [1, 10] },
+        { "item": "scrap", "count": [6, 16] },
+        { "item": "steel_chunk", "count": [1, 4] },
+        { "item": "steel_lump", "count": [0, 6] },
+        { "item": "sheet_metal_small", "count": [8, 12] },
+        { "item": "sheet_metal", "count": [1, 2] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "scrap_copper", "count": [0, 2] }
       ]
     }
   },
@@ -732,8 +764,8 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "active": [ "solar", { "power": 50 } ],
-    "flags": [ "TRANSPARENT" ],
+    "active": ["solar", { "power": 50 }],
+    "flags": ["TRANSPARENT"],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": 6 },
@@ -749,13 +781,13 @@
       "sound": "whack!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solar_cell", "count": [ 1, 5 ] },
-        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "solar_cell", "count": [1, 5] },
+        { "item": "scrap", "count": [3, 6] },
         { "item": "amplifier", "prob": 50 },
-        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "cable", "charges": [10, 15] },
         { "item": "power_supply", "prob": 50 },
-        { "item": "scrap", "count": [ 4, 6 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [4, 6] },
+        { "item": "plastic_chunk", "count": [1, 2] },
         { "item": "steel_chunk", "count": 3 }
       ]
     }
@@ -770,8 +802,8 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "active": [ "solar", { "power": 100 } ],
-    "flags": [ "TRANSPARENT" ],
+    "active": ["solar", { "power": 100 }],
+    "flags": ["TRANSPARENT"],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": 6 },
@@ -787,13 +819,13 @@
       "sound": "whack!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solar_cell", "count": [ 1, 8 ] },
-        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "solar_cell", "count": [1, 8] },
+        { "item": "scrap", "count": [3, 6] },
         { "item": "amplifier", "prob": 50 },
-        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "cable", "charges": [10, 15] },
         { "item": "power_supply", "prob": 50 },
-        { "item": "scrap", "count": [ 4, 6 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [4, 6] },
+        { "item": "plastic_chunk", "count": [1, 2] },
         { "item": "steel_chunk", "count": 3 }
       ]
     }
@@ -809,14 +841,14 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "active": [ "battery", { "max_stored": 7000 } ],
+    "active": ["battery", { "max_stored": 7000 }],
     "examine_action": "check_power",
     "deconstruct": {
       "items": [
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "sheet_metal_small", "count": [4, 6] },
         { "item": "plastic_chunk", "count": 2 },
         { "item": "pipe", "count": 4 },
-        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "cable", "charges": [5, 10] },
         { "item": "medium_storage_battery", "count": 1 }
       ]
     },
@@ -826,12 +858,12 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [4, 8] },
+        { "item": "plastic_chunk", "count": [1, 2] },
+        { "item": "sheet_metal_small", "count": [1, 4] },
         { "item": "pipe", "count": 1 },
-        { "item": "cable", "charges": [ 2, 8 ] },
-        { "item": "small_storage_battery", "count": [ 5, 10 ] }
+        { "item": "cable", "charges": [2, 8] },
+        { "item": "small_storage_battery", "count": [5, 10] }
       ]
     }
   },
@@ -846,14 +878,14 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "active": [ "battery", { "max_stored": 40000 } ],
+    "active": ["battery", { "max_stored": 40000 }],
     "examine_action": "check_power",
     "deconstruct": {
       "items": [
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "sheet_metal_small", "count": [4, 6] },
         { "item": "plastic_chunk", "count": 2 },
         { "item": "pipe", "count": 4 },
-        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "cable", "charges": [5, 10] },
         { "item": "storage_battery", "count": 1 }
       ]
     },
@@ -863,12 +895,12 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [4, 8] },
+        { "item": "plastic_chunk", "count": [1, 2] },
+        { "item": "sheet_metal_small", "count": [1, 4] },
         { "item": "pipe", "count": 1 },
-        { "item": "cable", "charges": [ 2, 8 ] },
-        { "item": "small_storage_battery", "count": [ 30, 60 ] }
+        { "item": "cable", "charges": [2, 8] },
+        { "item": "small_storage_battery", "count": [30, 60] }
       ]
     }
   },
@@ -883,14 +915,14 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "active": [ "battery", { "max_stored": 80000 } ],
+    "active": ["battery", { "max_stored": 80000 }],
     "examine_action": "check_power",
     "deconstruct": {
       "items": [
-        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "sheet_metal_small", "count": [4, 6] },
         { "item": "plastic_chunk", "count": 2 },
         { "item": "pipe", "count": 4 },
-        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "cable", "charges": [5, 10] },
         { "item": "large_storage_battery", "count": 1 }
       ]
     },
@@ -900,12 +932,12 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [4, 8] },
+        { "item": "plastic_chunk", "count": [1, 2] },
+        { "item": "sheet_metal_small", "count": [1, 4] },
         { "item": "pipe", "count": 1 },
-        { "item": "cable", "charges": [ 2, 8 ] },
-        { "item": "small_storage_battery", "count": [ 50, 100 ] }
+        { "item": "cable", "charges": [2, 8] },
+        { "item": "small_storage_battery", "count": [50, 100] }
       ]
     }
   },
@@ -920,10 +952,10 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "active": [ "charger", { "power": 15 } ],
+    "active": ["charger", { "power": 15 }],
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "cable", "charges": [2, 5] },
         { "item": "battery_charger", "count": 1 },
         { "item": "power_supply", "count": 1 }
       ]
@@ -934,12 +966,12 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 4, 8 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [4, 8] },
+        { "item": "plastic_chunk", "count": [1, 2] },
+        { "item": "sheet_metal_small", "count": [1, 4] },
         { "item": "pipe", "count": 1 },
-        { "item": "cable", "charges": [ 2, 8 ] },
-        { "item": "small_storage_battery", "count": [ 5, 10 ] }
+        { "item": "cable", "charges": [2, 8] },
+        { "item": "small_storage_battery", "count": [5, 10] }
       ]
     }
   },
@@ -952,10 +984,10 @@
     "description": "A vehicle recharging station connected to building's electric grid, providing higher output than consumer battery chargers.",
     "symbol": ":",
     "color": "blue_white",
-    "active": [ "charger", { "power": 600 } ],
+    "active": ["charger", { "power": 600 }],
     "deconstruct": {
       "items": [
-        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "cable", "charges": [2, 5] },
         { "item": "recharge_station", "count": 1 },
         { "item": "power_supply", "count": 1 }
       ]
@@ -973,15 +1005,15 @@
     "coverage": 10,
     "required_str": -1,
     "max_volume": "5000 ml",
-    "active": [ "vehicle_connector", {  } ],
-    "flags": [ "TRANSPARENT" ],
-    "deconstruct": { "items": [ { "item": "power_supply" } ] },
+    "active": ["vehicle_connector", {}],
+    "flags": ["TRANSPARENT"],
+    "deconstruct": { "items": [{ "item": "power_supply" }] },
     "bash": {
       "str_min": 4,
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "power_supply", "prob": 50 } ]
+      "items": [{ "item": "power_supply", "prob": 50 }]
     }
   },
   {
@@ -997,9 +1029,13 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridwelder",
     "examine_action": "use_furn_fake_item",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": ["TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT"],
     "deconstruct": {
-      "items": [ { "item": "welder", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "welder", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 4,
@@ -1007,10 +1043,10 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] }
+        { "item": "power_supply", "count": [1, 4] },
+        { "item": "scrap", "count": [0, 2] },
+        { "item": "cable", "charges": [1, 4] },
+        { "item": "plastic_chunk", "count": [1, 2] }
       ]
     }
   },
@@ -1023,9 +1059,13 @@
     "symbol": "#",
     "color": "red",
     "description": "A vehicle welding rig connected to a electrical grid.  Has a soldering iron attached.",
-    "extend": { "crafting_pseudo_item": [ "fake_gridsolderingiron" ] },
+    "extend": { "crafting_pseudo_item": ["fake_gridsolderingiron"] },
     "deconstruct": {
-      "items": [ { "item": "weldrig", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "weldrig", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 4,
@@ -1033,11 +1073,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "frame", "count": [ 0, 1 ] }
+        { "item": "power_supply", "count": [1, 4] },
+        { "item": "scrap", "count": [0, 2] },
+        { "item": "cable", "charges": [1, 4] },
+        { "item": "plastic_chunk", "count": [1, 2] },
+        { "item": "frame", "count": [0, 1] }
       ]
     }
   },
@@ -1054,9 +1094,13 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridforge",
     "examine_action": "use_furn_fake_item",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": ["TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT"],
     "deconstruct": {
-      "items": [ { "item": "forge", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "forge", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1064,10 +1108,10 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "element", "count": [ 2, 6 ] }
+        { "item": "power_supply", "count": [1, 4] },
+        { "item": "scrap", "count": [0, 2] },
+        { "item": "cable", "charges": [1, 4] },
+        { "item": "element", "count": [2, 6] }
       ]
     }
   },
@@ -1081,7 +1125,11 @@
     "description": "A vehicle forge rig connected to a electrical grid.",
     "color": "red",
     "deconstruct": {
-      "items": [ { "item": "forgerig", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "forgerig", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1089,10 +1137,10 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "element", "count": [ 2, 6 ] }
+        { "item": "power_supply", "count": [1, 4] },
+        { "item": "scrap", "count": [0, 2] },
+        { "item": "cable", "charges": [1, 4] },
+        { "item": "element", "count": [2, 6] }
       ]
     }
   },
@@ -1108,9 +1156,13 @@
     "coverage": 10,
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridkiln",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": ["TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT"],
     "deconstruct": {
-      "items": [ { "item": "kiln", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "kiln", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1118,10 +1170,10 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "element", "count": [ 2, 6 ] }
+        { "item": "power_supply", "count": [1, 4] },
+        { "item": "scrap", "count": [0, 2] },
+        { "item": "cable", "charges": [1, 4] },
+        { "item": "element", "count": [2, 6] }
       ]
     }
   },
@@ -1137,9 +1189,13 @@
     "coverage": 10,
     "required_str": -1,
     "crafting_pseudo_item": "fake_griddehydrator",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": ["TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT"],
     "deconstruct": {
-      "items": [ { "item": "dehydrator", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "dehydrator", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1147,11 +1203,11 @@
       "sound": "crunch!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 4 ] },
-        { "item": "plastic_chunk", "count": [ 0, 9 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "element", "count": [ 2, 6 ] }
+        { "item": "power_supply", "count": [1, 4] },
+        { "item": "scrap", "count": [0, 4] },
+        { "item": "plastic_chunk", "count": [0, 9] },
+        { "item": "cable", "charges": [1, 4] },
+        { "item": "element", "count": [2, 6] }
       ]
     }
   },
@@ -1167,9 +1223,13 @@
     "coverage": 10,
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridfood_processor",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": ["TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT"],
     "deconstruct": {
-      "items": [ { "item": "food_processor", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "food_processor", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1177,11 +1237,11 @@
       "sound": "crunch!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 4 ] },
-        { "item": "plastic_chunk", "count": [ 0, 9 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "element", "count": [ 2, 6 ] }
+        { "item": "power_supply", "count": [1, 4] },
+        { "item": "scrap", "count": [0, 4] },
+        { "item": "plastic_chunk", "count": [0, 9] },
+        { "item": "cable", "charges": [1, 4] },
+        { "item": "element", "count": [2, 6] }
       ]
     }
   },
@@ -1197,9 +1257,13 @@
     "coverage": 10,
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridvac_sealer",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": ["TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT"],
     "deconstruct": {
-      "items": [ { "item": "vac_sealer", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "vac_sealer", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1207,11 +1271,11 @@
       "sound": "crunch!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 4 ] },
-        { "item": "plastic_chunk", "count": [ 0, 9 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "element", "count": [ 2, 6 ] }
+        { "item": "power_supply", "count": [1, 4] },
+        { "item": "scrap", "count": [0, 4] },
+        { "item": "plastic_chunk", "count": [0, 9] },
+        { "item": "cable", "charges": [1, 4] },
+        { "item": "element", "count": [2, 6] }
       ]
     }
   },
@@ -1226,18 +1290,26 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": -1,
-    "crafting_pseudo_item": [ "fake_gridfood_processor", "fake_griddehydrator", "fake_gridvac_sealer", "fake_gridwater_purifier", "press" ],
-    "flags": [ "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "craftrig", "count": 1 }, { "item": "cable", "charges": 5 } ] },
+    "crafting_pseudo_item": [
+      "fake_gridfood_processor",
+      "fake_griddehydrator",
+      "fake_gridvac_sealer",
+      "fake_gridwater_purifier",
+      "press"
+    ],
+    "flags": ["BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT"],
+    "deconstruct": {
+      "items": [{ "item": "craftrig", "count": 1 }, { "item": "cable", "charges": 5 }]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "count": [ 4, 7 ], "item": "steel_lump" },
-        { "count": [ 4, 7 ], "item": "steel_chunk" },
-        { "count": [ 4, 7 ], "item": "scrap" },
+        { "count": [4, 7], "item": "steel_lump" },
+        { "count": [4, 7], "item": "steel_chunk" },
+        { "count": [4, 7], "item": "scrap" },
         { "charges": 0, "item": "water_purifier", "prob": 50 },
         { "charges": 0, "item": "vac_sealer", "prob": 50 },
         { "charges": 0, "item": "dehydrator", "prob": 50 },
@@ -1258,7 +1330,7 @@
     "coverage": 10,
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridelectrolysis_kit",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": ["TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT"],
     "deconstruct": {
       "items": [
         { "item": "electrolysis_kit", "count": 1 },
@@ -1271,7 +1343,7 @@
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 0, 2 ] }, { "item": "cable", "charges": [ 1, 4 ] } ]
+      "items": [{ "item": "scrap", "count": [0, 2] }, { "item": "cable", "charges": [1, 4] }]
     }
   },
   {
@@ -1285,10 +1357,14 @@
     "move_cost_mod": -1,
     "coverage": 10,
     "required_str": -1,
-    "crafting_pseudo_item": [ "fake_oven", "fake_chemistry_set" ],
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "crafting_pseudo_item": ["fake_oven", "fake_chemistry_set"],
+    "flags": ["TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT"],
     "deconstruct": {
-      "items": [ { "item": "chemistry_set", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "chemistry_set", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1296,9 +1372,9 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "glass_shard", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] }
+        { "item": "scrap", "count": [0, 2] },
+        { "item": "glass_shard", "count": [0, 2] },
+        { "item": "cable", "charges": [1, 4] }
       ]
     }
   },
@@ -1311,9 +1387,13 @@
     "symbol": "=",
     "description": "A vehicle chemistry lab connected to a electrical grid, combining the functions of a hotplate, electrolysis kit, and chemistry tools.",
     "color": "blue",
-    "crafting_pseudo_item": [ "fake_oven", "fake_chemistry_set", "fake_gridelectrolysis_kit" ],
+    "crafting_pseudo_item": ["fake_oven", "fake_chemistry_set", "fake_gridelectrolysis_kit"],
     "deconstruct": {
-      "items": [ { "item": "chemlab", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "chemlab", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 8,
@@ -1321,10 +1401,10 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 0, 4 ] },
-        { "item": "glass_shard", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 2, 8 ] },
-        { "item": "frame", "count": [ 0, 1 ] }
+        { "item": "scrap", "count": [0, 4] },
+        { "item": "glass_shard", "count": [0, 2] },
+        { "item": "cable", "charges": [2, 8] },
+        { "item": "frame", "count": [0, 1] }
       ]
     }
   },
@@ -1341,16 +1421,20 @@
     "required_str": -1,
     "crafting_pseudo_item": "fake_gridsolderingiron",
     "examine_action": "use_furn_fake_item",
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "flags": ["TRANSPARENT", "MOUNTABLE", "EASY_DECONSTRUCT"],
     "deconstruct": {
-      "items": [ { "item": "soldering_iron", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "soldering_iron", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 2,
       "str_max": 10,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 0, 2 ] }, { "item": "cable", "charges": [ 1, 4 ] } ]
+      "items": [{ "item": "scrap", "count": [0, 2] }, { "item": "cable", "charges": [1, 4] }]
     }
   },
   {
@@ -1364,8 +1448,8 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": -1,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "fridge", "count": 1 } ] },
+    "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT"],
+    "deconstruct": { "items": [{ "item": "fridge", "count": 1 }] },
     "max_volume": "200 L",
     "bash": {
       "str_min": 18,
@@ -1373,14 +1457,14 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "sheet_metal", "count": [1, 4] },
+        { "item": "sheet_metal_small", "count": [8, 12] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "scrap", "count": [2, 8] },
+        { "item": "cable", "charges": [1, 2] },
         { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 4 ] },
-        { "item": "scrap_copper", "count": [ 1, 2 ] },
+        { "item": "cu_pipe", "count": [2, 4] },
+        { "item": "scrap_copper", "count": [1, 2] },
         { "item": "motor_tiny", "prob": 25 }
       ]
     }
@@ -1409,7 +1493,10 @@
     "transforms_into": "f_fridge_off",
     "prompt": "Switch off the fridge.",
     "message": "You switch off the fridge.",
-    "active": [ "charge_watcher", { "min_power": 30, "transform": { "id": "f_fridge_on", "msg": "The fridge starts up." } } ],
+    "active": [
+      "charge_watcher",
+      { "min_power": 30, "transform": { "id": "f_fridge_on", "msg": "The fridge starts up." } }
+    ],
     "color": "light_cyan"
   },
   {
@@ -1424,10 +1511,14 @@
     "prompt": "Switch off the fridge.",
     "message": "You switch off the fridge.",
     "color": "light_cyan",
-    "extend": { "flags": [ "FRIDGE" ] },
+    "extend": { "flags": ["FRIDGE"] },
     "active": [
       "steady_consumer",
-      { "power": 20, "consume_every": "600 s", "transform": { "id": "f_fridge", "msg": "The fridge shuts down." } }
+      {
+        "power": 20,
+        "consume_every": "600 s",
+        "transform": { "id": "f_fridge", "msg": "The fridge shuts down." }
+      }
     ]
   },
   {
@@ -1442,7 +1533,7 @@
     "prompt": "Switch on the freezer.",
     "message": "You switch on the freezer.",
     "color": "blue",
-    "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] }
+    "deconstruct": { "items": [{ "item": "freezer", "count": 1 }] }
   },
   {
     "type": "furniture",
@@ -1455,9 +1546,12 @@
     "transforms_into": "f_freezer_off",
     "prompt": "Switch off the freezer.",
     "message": "You switch off the freezer.",
-    "active": [ "charge_watcher", { "min_power": 40, "transform": { "id": "f_freezer_on", "msg": "The freezer starts up." } } ],
+    "active": [
+      "charge_watcher",
+      { "min_power": 40, "transform": { "id": "f_freezer_on", "msg": "The freezer starts up." } }
+    ],
     "color": "blue",
-    "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] }
+    "deconstruct": { "items": [{ "item": "freezer", "count": 1 }] }
   },
   {
     "type": "furniture",
@@ -1471,11 +1565,15 @@
     "prompt": "Switch off the freezer.",
     "message": "You switch off the freezer.",
     "color": "blue",
-    "extend": { "flags": [ "FREEZER" ] },
-    "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] },
+    "extend": { "flags": ["FREEZER"] },
+    "deconstruct": { "items": [{ "item": "freezer", "count": 1 }] },
     "active": [
       "steady_consumer",
-      { "power": 25, "consume_every": "600 s", "transform": { "id": "f_freezer", "msg": "The freezer shuts down." } }
+      {
+        "power": 25,
+        "consume_every": "600 s",
+        "transform": { "id": "f_freezer", "msg": "The freezer shuts down." }
+      }
     ]
   },
   {
@@ -1489,8 +1587,8 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "minifreezer", "count": 1 } ] },
+    "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT"],
+    "deconstruct": { "items": [{ "item": "minifreezer", "count": 1 }] },
     "max_volume": "75 L",
     "bash": {
       "str_min": 18,
@@ -1498,9 +1596,9 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "steel_lump", "count": [ 8, 13 ] },
-        { "item": "steel_chunk", "count": [ 8, 13 ] },
-        { "item": "scrap", "count": [ 8, 13 ] },
+        { "item": "steel_lump", "count": [8, 13] },
+        { "item": "steel_chunk", "count": [8, 13] },
+        { "item": "scrap", "count": [8, 13] },
         { "item": "hose", "prob": 50 },
         { "item": "motor_tiny", "prob": 25 }
       ]
@@ -1532,7 +1630,10 @@
     "message": "You switch off the minifreezer.",
     "active": [
       "charge_watcher",
-      { "min_power": 60, "transform": { "id": "f_minifreezer_on", "msg": "The minifreezer starts up." } }
+      {
+        "min_power": 60,
+        "transform": { "id": "f_minifreezer_on", "msg": "The minifreezer starts up." }
+      }
     ],
     "color": "blue"
   },
@@ -1548,7 +1649,7 @@
     "prompt": "Switch off the minifreezer.",
     "message": "You switch off the minifreezer.",
     "color": "blue",
-    "extend": { "flags": [ "FREEZER" ] },
+    "extend": { "flags": ["FREEZER"] },
     "active": [
       "steady_consumer",
       {
@@ -1570,10 +1671,14 @@
     "crafting_pseudo_item": "gridautoclave",
     "required_str": -1,
     "looks_like": "f_autoclave",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "EASY_DECONSTRUCT" ],
+    "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "EASY_DECONSTRUCT"],
     "examine_action": "autoclave_empty",
     "deconstruct": {
-      "items": [ { "item": "autoclave", "count": 1 }, { "item": "cable", "charges": 5 }, { "item": "power_supply", "count": 1 } ]
+      "items": [
+        { "item": "autoclave", "count": 1 },
+        { "item": "cable", "charges": 5 },
+        { "item": "power_supply", "count": 1 }
+      ]
     },
     "bash": {
       "str_min": 40,
@@ -1581,11 +1686,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 1 ] }
+        { "item": "scrap", "count": [2, 7] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "sheet_metal_small", "count": [8, 12] },
+        { "item": "sheet_metal", "count": [1, 4] },
+        { "item": "cable", "charges": [1, 1] }
       ]
     }
   },
@@ -1599,7 +1704,7 @@
     "description": "Abstract furniture.  If you see this, something went wrong.",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "flags": ["TRANSPARENT", "EASY_DECONSTRUCT"],
     "deconstruct": {
       "items": [
         { "item": "small_space_heater", "count": 1 },
@@ -1613,10 +1718,10 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "power_supply", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 0, 2 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "element", "count": [ 2, 6 ] }
+        { "item": "power_supply", "count": [1, 4] },
+        { "item": "scrap", "count": [0, 2] },
+        { "item": "cable", "charges": [1, 4] },
+        { "item": "element", "count": [2, 6] }
       ]
     }
   },
@@ -1633,7 +1738,10 @@
     "message": "You turn the heater off.",
     "active": [
       "charge_watcher",
-      { "min_power": 5, "transform": { "id": "f_space_heater_on", "msg": "The space heater warms up." } }
+      {
+        "min_power": 5,
+        "transform": { "id": "f_space_heater_on", "msg": "The space heater warms up." }
+      }
     ]
   },
   {
@@ -1666,11 +1774,14 @@
       {
         "power": 1,
         "consume_every": "2 s",
-        "transform": { "id": "f_space_heater", "msg": "The heater runs out of power and cools off." }
+        "transform": {
+          "id": "f_space_heater",
+          "msg": "The heater runs out of power and cools off."
+        }
       }
     ],
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "EMITTER" ],
-    "emissions": [ "emit_hot_air2_stream" ]
+    "flags": ["TRANSPARENT", "EASY_DECONSTRUCT", "EMITTER"],
+    "emissions": ["emit_hot_air2_stream"]
   },
   {
     "type": "furniture",
@@ -1685,7 +1796,10 @@
     "message": "You turn the heater off.",
     "active": [
       "charge_watcher",
-      { "min_power": 5, "transform": { "id": "f_space_heater_large_on", "msg": "The space heater warms up." } }
+      {
+        "min_power": 5,
+        "transform": { "id": "f_space_heater_large_on", "msg": "The space heater warms up." }
+      }
     ],
     "deconstruct": {
       "items": [
@@ -1732,11 +1846,14 @@
       {
         "power": 1,
         "consume_every": "2 s",
-        "transform": { "id": "f_space_heater_large", "msg": "The heater runs out of power and cools off." }
+        "transform": {
+          "id": "f_space_heater_large",
+          "msg": "The heater runs out of power and cools off."
+        }
       }
     ],
-    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "EMITTER" ],
-    "emissions": [ "emit_hot_air2_blast" ],
+    "flags": ["TRANSPARENT", "EASY_DECONSTRUCT", "EMITTER"],
+    "emissions": ["emit_hot_air2_blast"],
     "deconstruct": {
       "items": [
         { "item": "large_space_heater", "count": 1 },

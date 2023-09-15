@@ -5,8 +5,8 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "1 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "lead", 10 ] ] ],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["shot_hull", 1]], [["shotgun_primer", 1]], [["gunpowder", 6]], [["lead", 10]]],
     "charges": 1
   },
   {
@@ -15,8 +15,13 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "1 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "rubber_slug", 1 ] ] ],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [
+      [["shot_hull", 1]],
+      [["shotgun_primer", 1]],
+      [["gunpowder", 3]],
+      [["rubber_slug", 1]]
+    ],
     "charges": 1
   },
   {
@@ -25,8 +30,8 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "1 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "lead", 10 ] ] ],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["shot_hull", 1]], [["shotgun_primer", 1]], [["gunpowder", 3]], [["lead", 10]]],
     "charges": 1
   },
   {
@@ -35,8 +40,13 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "1 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "magnesium", 5 ] ] ],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [
+      [["shot_hull", 1]],
+      [["shotgun_primer", 1]],
+      [["gunpowder", 3]],
+      [["magnesium", 5]]
+    ],
     "charges": 1
   },
   {
@@ -45,8 +55,13 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "1 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "combatnail", 10 ] ] ],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [
+      [["shot_hull", 1]],
+      [["shotgun_primer", 1]],
+      [["gunpowder", 6]],
+      [["combatnail", 10]]
+    ],
     "charges": 1
   },
   {
@@ -56,8 +71,13 @@
     "difficulty": 5,
     "time": "50 s",
     "//": "A little more carefully...",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "chem_rdx", 1 ] ] ],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [
+      [["shot_hull", 1]],
+      [["shotgun_primer", 1]],
+      [["gunpowder", 3]],
+      [["chem_rdx", 1]]
+    ],
     "charges": 1
   },
   {
@@ -66,8 +86,8 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "1 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "lead", 20 ] ] ],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["shot_hull", 1]], [["shotgun_primer", 1]], [["gunpowder", 6]], [["lead", 20]]],
     "charges": 1
   }
 ]

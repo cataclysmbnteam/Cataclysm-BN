@@ -44,13 +44,18 @@
         ],
         "entries": [
           { "item": "shocktonfa_off", "contents-item": "battery_ups" },
-          { "item": "coilgun", "ammo-item": "combatnail", "charges": 50, "contents-item": [ "shoulder_strap" ] },
+          {
+            "item": "coilgun",
+            "ammo-item": "combatnail",
+            "charges": 50,
+            "contents-item": ["shoulder_strap"]
+          },
           { "item": "nailmag", "ammo-item": "combatnail", "charges": 50 }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": ["boxer_shorts"],
+      "female": ["bra", "panties"]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": ["SCEN_ONLY"]
   }
 ]

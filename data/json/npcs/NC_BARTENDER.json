@@ -3,13 +3,13 @@
     "type": "item_group",
     "id": "NC_BARTENDER_extra",
     "subtype": "distribution",
-    "entries": [ { "item": "backpack", "prob": 90 } ]
+    "entries": [{ "item": "backpack", "prob": 90 }]
   },
   {
     "type": "item_group",
     "id": "NC_BARTENDER_coat",
     "subtype": "distribution",
-    "entries": [ { "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 } ]
+    "entries": [{ "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 }]
   },
   {
     "type": "item_group",

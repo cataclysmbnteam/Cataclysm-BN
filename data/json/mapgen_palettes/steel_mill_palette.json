@@ -57,7 +57,7 @@
       "s": "f_utility_shelf",
       "l": "f_locker",
       "S": "f_bookcase",
-      "b": [ [ "f_crate_c", 2 ], "f_crate_o" ],
+      "b": [["f_crate_c", 2], "f_crate_o"],
       "0": "f_sink",
       "C": "f_counter",
       "n": "f_counter",
@@ -87,7 +87,10 @@
       "S": { "item": "homebooks", "chance": 30 },
       "7": { "item": "office_paper", "chance": 30 }
     },
-    "toilets": { "t": {  } },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } }
+    "toilets": { "t": {} },
+    "vendingmachines": {
+      "D": { "item_group": "vending_drink" },
+      "V": { "item_group": "vending_food" }
+    }
   }
 ]

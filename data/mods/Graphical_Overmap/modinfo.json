@@ -3,11 +3,11 @@
     "type": "MOD_INFO",
     "id": "Graphical_Overmap",
     "name": "Larwick's Overmap",
-    "authors": [ "Larwick" ],
-    "maintainers": [ "Larwick" ],
+    "authors": ["Larwick"],
+    "maintainers": ["Larwick"],
     "description": "Gives the overmap a graphical overhaul.  Please refer to readme for installation.",
     "category": "graphical",
-    "dependencies": [ "bn" ],
+    "dependencies": ["bn"],
     "obsolete": true
   }
 ]

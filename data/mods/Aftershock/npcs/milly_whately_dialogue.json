@@ -11,34 +11,72 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "What did you bring me?", "Hello.", "How are you?", "Welcome!", "Do you smell something?" ],
+      "yes": [
+        "What did you bring me?",
+        "Hello.",
+        "How are you?",
+        "Welcome!",
+        "Do you smell something?"
+      ],
       "no": "New test subjects!  I'm so glad you showed up!"
     },
     "responses": [
       {
         "text": "Who are you?",
-        "effect": { "u_add_var": "u_met_millyficent", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_millyficent", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_millyficent",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_millyficent",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_millyficent_firstmeet"
       },
       {
         "text": "What is this place?",
-        "condition": { "u_has_var": "u_met_millyficent", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_millyficent",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_millyficent_place"
       },
       {
         "text": "How did you get here?",
-        "condition": { "u_has_var": "u_met_millyficent", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_millyficent",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_millyficent_ask_past"
       },
       {
         "text": "How are things here?",
-        "condition": { "u_has_var": "u_met_millyficent", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_millyficent",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_millyficent_ask_mood"
       },
       {
         "text": "Can I do anything for you?  Do I want to?",
-        "condition": { "u_has_var": "u_met_millyficent", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_millyficent",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "I'm going on my way now.", "topic": "TALK_DONE" }
@@ -77,19 +115,19 @@
     "type": "talk_topic",
     "id": "TALK_millyficent_ask_past",
     "dynamic_line": "Well after I did my graduate thesis on theoretical xenobiology the government hired me to join the most interesting program.  Yes there were deaths but we learned so much.",
-    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_Millyficent_1" } ]
+    "responses": [{ "text": "Let's talk about something else.", "topic": "TALK_Millyficent_1" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_millyficent_cataclysm",
     "dynamic_line": "What I know is that I pay well for test subjects and I deliver results and at this rate we will not be releasing on time!",
-    "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_Millyficent_1" } ]
+    "responses": [{ "text": "Let's talk about something else.", "topic": "TALK_Millyficent_1" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_millyficent_ask_mood",
     "dynamic_line": "Ever since they moved me to my own lab my research has progressed so much faster.",
-    "responses": [ { "text": "This is not reassuring.", "topic": "TALK_Millyficent_1" } ]
+    "responses": [{ "text": "This is not reassuring.", "topic": "TALK_Millyficent_1" }]
   },
   {
     "id": "MISSION_migo_biology_1",
@@ -101,7 +139,7 @@
     "value": 0,
     "item": "fetid_goop",
     "count": 14,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_migo_biology_2",
     "dialogue": {
       "describe": "I need 14 fetid goops from mi-go locations.",
@@ -114,7 +152,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "You are holding back the evolution of the human race."
     },
-    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "container": "flask_glass", "count": 1 } ] }
+    "end": { "effect": [{ "u_buy_item": "mutagen_migo", "container": "flask_glass", "count": 1 }] }
   },
   {
     "id": "MISSION_migo_biology_2",
@@ -126,7 +164,7 @@
     "value": 0,
     "item": "resin_chunk",
     "count": 50,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_migo_biology_3",
     "dialogue": {
       "describe": "I need 50 chunks of mi-go resin.",
@@ -139,7 +177,7 @@
       "success_lie": "Did you act on Broadway?  Because I bet that skill isn't useful anymore.",
       "failure": "I wonder if I could trade you to them for what I need?"
     },
-    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "container": "flask_glass", "count": 1 } ] }
+    "end": { "effect": [{ "u_buy_item": "mutagen_migo", "container": "flask_glass", "count": 1 }] }
   },
   {
     "id": "MISSION_migo_biology_3",
@@ -151,7 +189,7 @@
     "value": 0,
     "item": "mutagen",
     "count": 3,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_migo_biology_4",
     "dialogue": {
       "describe": "I need three mutagen.",
@@ -164,7 +202,9 @@
       "success_lie": "Lies and the lying liars who tell them.",
       "failure": "You are keeping me from my experiments.  Would you like to become one?"
     },
-    "end": { "effect": [ { "u_buy_item": "iv_mutagen_migo", "container": "flask_glass", "count": 1 } ] }
+    "end": {
+      "effect": [{ "u_buy_item": "iv_mutagen_migo", "container": "flask_glass", "count": 1 }]
+    }
   },
   {
     "id": "MISSION_migo_biology_4",
@@ -176,7 +216,7 @@
     "value": 0,
     "item": "humming_heart",
     "count": 2,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_FIND_CYRUS",
     "dialogue": {
       "describe": "Parts, parts, parts.  Bring me some hearts.",
@@ -189,7 +229,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "I can't be Dr Frankenstein unless you get me these."
     },
-    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
+    "end": { "effect": [{ "u_buy_item": "mutagen_migo", "container": "bottle_glass", "count": 3 }] }
   },
   {
     "id": "MISSION_FIND_CYRUS",
@@ -199,7 +239,7 @@
     "goal": "MGOAL_TALK_TO_NPC",
     "difficulty": 2,
     "value": 150000,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "My great uncle Cyrus had an unconventional relationship with both his neighbors and the mi-go before the Cataclysm.  I'd like to know where he has gotten with his research since I haven't heard from him in years.",
@@ -222,8 +262,13 @@
         "random": true,
         "search_range": 180
       },
-      "update_mapgen": { "place_npcs": [ { "class": "cyrus_whately", "x": 11, "y": 10, "target": true } ] }
+      "update_mapgen": {
+        "place_npcs": [{ "class": "cyrus_whately", "x": 11, "y": 10, "target": true }]
+      }
     },
-    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "millyficents_diary", "count": 1 } ] }
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [{ "u_buy_item": "millyficents_diary", "count": 1 }]
+    }
   }
 ]

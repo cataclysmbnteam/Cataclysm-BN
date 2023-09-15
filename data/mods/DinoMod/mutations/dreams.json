@@ -1,7 +1,10 @@
 [
   {
     "type": "dream",
-    "messages": [ "You dream of a strange jungle with giant ferns.", "Dreams of being the king are all you can remember." ],
+    "messages": [
+      "You dream of a strange jungle with giant ferns.",
+      "Dreams of being the king are all you can remember."
+    ],
     "category": "TYRANT",
     "strength": 1
   },
@@ -25,7 +28,10 @@
   },
   {
     "type": "dream",
-    "messages": [ "So close, you can taste the rebirth of a glorious past.", "King, nay not a king.  A god among beasts." ],
+    "messages": [
+      "So close, you can taste the rebirth of a glorious past.",
+      "King, nay not a king.  A god among beasts."
+    ],
     "category": "TYRANT",
     "strength": 4
   },

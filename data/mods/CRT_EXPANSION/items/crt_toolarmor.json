@@ -19,15 +19,15 @@
       "need_charges": 1,
       "need_charges_msg": "Power levels too low for safe boot up"
     },
-    "material": [ "plastic", "kevlar" ],
+    "material": ["plastic", "kevlar"],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "eyes", "mouth" ],
+    "covers": ["eyes", "mouth"],
     "coverage": 100,
     "encumbrance": 50,
     "warmth": 20,
     "relic_data": {
-      "recharge_scheme": [ { "type": "solar", "interval": "10 m", "rate": 1 } ],
+      "recharge_scheme": [{ "type": "solar", "interval": "10 m", "rate": 1 }],
       "passive_effects": [
         {
           "has": "WORN",
@@ -43,7 +43,7 @@
     },
     "material_thickness": 3,
     "environmental_protection": 16,
-    "qualities": [ [ "GLARE", 1 ] ],
+    "qualities": [["GLARE", 1]],
     "flags": [
       "WATERPROOF",
       "STURDY",
@@ -70,16 +70,21 @@
     "initial_charges": 0,
     "turns_per_charge": 1,
     "revert_to": "crt_gasmask",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "C.R.T HUD deactivating.", "target": "crt_gasmask" },
-    "material": [ "plastic", "kevlar" ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "C.R.T HUD deactivating.",
+      "target": "crt_gasmask"
+    },
+    "material": ["plastic", "kevlar"],
     "symbol": "[",
     "color": "light_green",
-    "covers": [ "eyes", "mouth" ],
+    "covers": ["eyes", "mouth"],
     "coverage": 100,
     "encumbrance": 5,
     "warmth": 75,
     "relic_data": {
-      "recharge_scheme": [ { "type": "solar", "interval": "10 m", "rate": 1 } ],
+      "recharge_scheme": [{ "type": "solar", "interval": "10 m", "rate": 1 }],
       "passive_effects": [
         {
           "has": "WORN",
@@ -95,7 +100,7 @@
     },
     "material_thickness": 2,
     "environmental_protection": 20,
-    "qualities": [ [ "GLARE", 2 ] ],
+    "qualities": [["GLARE", 2]],
     "flags": [
       "WATERPROOF",
       "STURDY",
@@ -123,10 +128,10 @@
     "price": 7000000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar", "superalloy" ],
+    "material": ["kevlar", "superalloy"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "max_charges": 300,
     "initial_charges": 300,
     "charges_per_use": 1,
@@ -139,7 +144,7 @@
       "need_charges_msg": "Power levels too low for safe bootup…"
     },
     "relic_data": {
-      "recharge_scheme": [ { "type": "solar", "interval": "10 m", "rate": 1 } ],
+      "recharge_scheme": [{ "type": "solar", "interval": "10 m", "rate": 1 }],
       "passive_effects": [
         {
           "has": "WORN",
@@ -160,7 +165,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "VARSIZE", "USE_UPS", "NO_UNLOAD", "OUTER" ]
+    "flags": ["WATER_FRIENDLY", "STURDY", "VARSIZE", "USE_UPS", "NO_UNLOAD", "OUTER"]
   },
   {
     "id": "crt_em_vest_on",
@@ -173,10 +178,10 @@
     "price": 7000000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar", "superalloy" ],
+    "material": ["kevlar", "superalloy"],
     "symbol": "[",
     "color": "light_green",
-    "covers": [ "torso", "legs", "arms" ],
+    "covers": ["torso", "legs", "arms"],
     "coverage": 100,
     "encumbrance": 5,
     "storage": "2500 ml",
@@ -187,9 +192,14 @@
     "initial_charges": 0,
     "turns_per_charge": 1,
     "revert_to": "crt_em_vest",
-    "use_action": { "type": "transform", "menu_text": "Turn off armor", "msg": "C.R.I.T. E.M powering off…", "target": "crt_em_vest" },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Turn off armor",
+      "msg": "C.R.I.T. E.M powering off…",
+      "target": "crt_em_vest"
+    },
     "relic_data": {
-      "recharge_scheme": [ { "type": "solar", "interval": "10 m", "rate": 1 } ],
+      "recharge_scheme": [{ "type": "solar", "interval": "10 m", "rate": 1 }],
       "passive_effects": [
         {
           "has": "WORN",
@@ -224,7 +234,7 @@
     "name": { "str": "C.R.I.T. helmet (off)", "str_pl": "C.R.I.T. helmets (off)" },
     "description": "C.R.T standard-issue helmet.  Protects the noggin and has a stretch of insulated steel mesh for neck warmth and protection.",
     "color": "light_gray",
-    "material": [ "kevlar", "hardsteel" ],
+    "material": ["kevlar", "hardsteel"],
     "material_thickness": 2,
     "warmth": 20,
     "max_charges": 100,
@@ -238,7 +248,17 @@
       "need_charges": 1,
       "need_charges_msg": "The helmet's batteries are dead."
     },
-    "flags": [ "WATERPROOF", "STURDY", "VARSIZE", "RAD_PROOF", "kevlar_padded", "TRADER_AVOID", "USE_UPS", "NO_UNLOAD", "OUTER" ]
+    "flags": [
+      "WATERPROOF",
+      "STURDY",
+      "VARSIZE",
+      "RAD_PROOF",
+      "kevlar_padded",
+      "TRADER_AVOID",
+      "USE_UPS",
+      "NO_UNLOAD",
+      "OUTER"
+    ]
   },
   {
     "id": "crt_helmet_on",
@@ -247,7 +267,7 @@
     "name": { "str": "C.R.I.T. helmet (on)", "str_pl": "C.R.I.T. helmets (on)" },
     "description": "C.R.I.T. standard-issue helmet.  Protects the noggin and has a stretch of insulated steel mesh for neck warmth and protection.  A tactically dim flashlight is attached to the side.  This light is currently on and drawing power.",
     "color": "light_gray",
-    "material": [ "kevlar", "hardsteel" ],
+    "material": ["kevlar", "hardsteel"],
     "flags": [
       "WATERPROOF",
       "STURDY",
@@ -280,7 +300,7 @@
     "color": "dark_gray",
     "material": "hardsteel",
     "material_thickness": 1,
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "qualities": [["BOIL", 1], ["CONTAIN", 1]],
     "use_action": "HOTPLATE"
   }
 ]

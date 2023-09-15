@@ -3,10 +3,10 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "lumbermill_0_0", "lumbermill_1_0" ],
-      [ "lumbermill_0_1", "lumbermill_1_1" ],
-      [ "lumbermill_0_0_roof", "lumbermill_1_0_roof" ],
-      [ "lumbermill_0_1_roof", "lumbermill_1_1_roof" ]
+      ["lumbermill_0_0", "lumbermill_1_0"],
+      ["lumbermill_0_1", "lumbermill_1_1"],
+      ["lumbermill_0_0_roof", "lumbermill_1_0_roof"],
+      ["lumbermill_0_1_roof", "lumbermill_1_1_roof"]
     ],
     "weight": 100,
     "object": {
@@ -109,31 +109,47 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
-      "palettes": [ "lumberyard" ],
+      "palettes": ["lumberyard"],
       "terrain": { "o": "t_concrete" },
-      "gaspumps": { "G": { "fuel": "gasoline", "amount": [ 50000, 268750 ] } },
+      "gaspumps": { "G": { "fuel": "gasoline", "amount": [50000, 268750] } },
       "place_vehicles": [
-        { "vehicle": "flatbed_truck", "x": [ 43, 45 ], "y": 33, "chance": 30, "fuel": 25, "status": 1, "rotation": 90 },
         {
-          "vehicle": "pickup",
-          "x": [ 35, 37 ],
-          "y": [ 28, 31 ],
+          "vehicle": "flatbed_truck",
+          "x": [43, 45],
+          "y": 33,
           "chance": 30,
           "fuel": 25,
           "status": 1,
           "rotation": 90
         },
-        { "vehicle": "car", "x": [ 29, 31 ], "y": [ 27, 30 ], "chance": 30, "fuel": 15, "status": 1, "rotation": 90 }
+        {
+          "vehicle": "pickup",
+          "x": [35, 37],
+          "y": [28, 31],
+          "chance": 30,
+          "fuel": 25,
+          "status": 1,
+          "rotation": 90
+        },
+        {
+          "vehicle": "car",
+          "x": [29, 31],
+          "y": [27, 30],
+          "chance": 30,
+          "fuel": 15,
+          "status": 1,
+          "rotation": 90
+        }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lumbermill_dforest" ],
+    "om_terrain": ["lumbermill_dforest"],
     "weight": 100,
     "object": {
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "rows": [
         "   *   *  ____ *      * ",
         "   1      ____      7   ",
@@ -160,16 +176,16 @@
         "      2 7 ____ *   2    ",
         " 7        ____        * "
       ],
-      "palettes": [ "lumberyard" ]
+      "palettes": ["lumberyard"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lumbermill_dforest" ],
+    "om_terrain": ["lumbermill_dforest"],
     "weight": 100,
     "object": {
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "rows": [
         "   *   *  ____ *      * ",
         "          ____      2   ",
@@ -196,16 +212,16 @@
         "      2 * ____     *    ",
         " 2        ____  *     * "
       ],
-      "palettes": [ "lumberyard" ]
+      "palettes": ["lumberyard"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lumbermill_dforest" ],
+    "om_terrain": ["lumbermill_dforest"],
     "weight": 100,
     "object": {
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "rows": [
         "          ____          ",
         "       *  ____  *    2  ",
@@ -232,16 +248,16 @@
         "      *  ____      2    ",
         " *        ____         *"
       ],
-      "palettes": [ "lumberyard" ]
+      "palettes": ["lumberyard"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lumbermill_dforest" ],
+    "om_terrain": ["lumbermill_dforest"],
     "weight": 100,
     "object": {
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "rows": [
         "          ____          ",
         "  *    2  _______  *    ",
@@ -268,16 +284,16 @@
         "  7       ____  2 *     ",
         "      *   ____          "
       ],
-      "palettes": [ "lumberyard" ]
+      "palettes": ["lumberyard"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lumbermill_dforest" ],
+    "om_terrain": ["lumbermill_dforest"],
     "weight": 100,
     "object": {
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "rows": [
         "     *    ____   *      ",
         " *        ____       2  ",
@@ -304,16 +320,16 @@
         "       *  ____  *       ",
         "  *     2 ____        * "
       ],
-      "palettes": [ "lumberyard" ]
+      "palettes": ["lumberyard"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lumbermill_dforest" ],
+    "om_terrain": ["lumbermill_dforest"],
     "weight": 100,
     "object": {
-      "rotation": [ 0, 3 ],
+      "rotation": [0, 3],
       "rows": [
         " *     *  ____        * ",
         "      2   ____ *  2     ",
@@ -340,7 +356,7 @@
         "   *   2  ____   2   *  ",
         "          ____          "
       ],
-      "palettes": [ "lumberyard" ]
+      "palettes": ["lumberyard"]
     }
   }
 ]

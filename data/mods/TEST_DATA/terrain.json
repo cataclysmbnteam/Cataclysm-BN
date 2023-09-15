@@ -8,7 +8,7 @@
     "symbol": ".",
     "color": "red",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
+    "flags": ["TRANSPARENT", "FLAMMABLE", "FLAT"],
     "bash": {
       "str_min": 1,
       "str_max": 1,
@@ -27,8 +27,14 @@
     "symbol": ".",
     "color": "blue",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
-    "bash": { "str_min": 999, "str_max": 999, "sound": "crash!", "sound_fail": "whump!", "bash_below": true }
+    "flags": ["TRANSPARENT", "FLAMMABLE", "FLAT"],
+    "bash": {
+      "str_min": 999,
+      "str_max": 999,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "bash_below": true
+    }
   },
   {
     "type": "terrain",
@@ -40,7 +46,13 @@
     "color": "red",
     "move_cost": 0,
     "roof": "t_fragile_roof",
-    "bash": { "str_min": 1, "str_max": 1, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null" }
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null"
+    }
   },
   {
     "type": "terrain",

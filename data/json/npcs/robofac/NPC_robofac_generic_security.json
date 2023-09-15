@@ -16,15 +16,19 @@
     "name": { "str": "Hub Security" },
     "job_description": "I'm part of the Hub security team.",
     "common": false,
-    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
-    "bonus_str": { "rng": [ 1, 3 ] },
-    "bonus_int": { "rng": [ 1, 2 ] },
-    "bonus_per": { "rng": [ 1, 2 ] },
+    "traits": [
+      { "group": "BG_survival_story_POLICE" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [1, 3] },
+    "bonus_int": { "rng": [1, 2] },
+    "bonus_per": { "rng": [1, 2] },
     "skills": [
-      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -2 } ] } },
-      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
+      { "skill": "ALL", "level": { "sum": [{ "dice": [3, 2] }, { "constant": -2 }] } },
+      { "skill": "gun", "bonus": { "rng": [2, 4] } },
+      { "skill": "pistol", "bonus": { "rng": [2, 4] } },
+      { "skill": "rifle", "bonus": { "rng": [2, 4] } }
     ],
     "carry_override": "NC_robofac_generic_security_misc",
     "worn_override": "NC_robofac_generic_security_worn"
@@ -63,7 +67,11 @@
   {
     "id": "TALK_HUB_SECURITY",
     "type": "talk_topic",
-    "dynamic_line": [ "Keep it civil, merc.", "Just on watch, move along.", { "u_male": [ "Sir." ], "no": [ "Ma'am" ] } ],
-    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+    "dynamic_line": [
+      "Keep it civil, merc.",
+      "Just on watch, move along.",
+      { "u_male": ["Sir."], "no": ["Ma'am"] }
+    ],
+    "responses": [{ "text": "…", "topic": "TALK_DONE" }]
   }
 ]

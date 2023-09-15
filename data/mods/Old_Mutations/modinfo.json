@@ -3,10 +3,10 @@
     "type": "MOD_INFO",
     "id": "Old_Mutations",
     "name": "Old Mutations",
-    "authors": [ "Coolthulhu" ],
+    "authors": ["Coolthulhu"],
     "description": "Makes mutations work like before, without balancing changes and mutagen accumulation.",
     "category": "rebalance",
-    "dependencies": [ "bn" ]
+    "dependencies": ["bn"]
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -21,7 +21,7 @@
     "points": 3,
     "description": "You have a very strong genetic base.  If you mutate, the odds that the mutation will be beneficial are greatly increased.",
     "starting_trait": true,
-    "cancels": [ "CHAOTIC_BAD" ],
-    "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL" ]
+    "cancels": ["CHAOTIC_BAD"],
+    "category": ["FISH", "SLIME", "ALPHA", "MEDICAL"]
   }
 ]

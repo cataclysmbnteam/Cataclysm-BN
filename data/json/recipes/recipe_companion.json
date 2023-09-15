@@ -9,7 +9,7 @@
     "time": "300 m",
     "autolearn": false,
     "never_learn": true,
-    "components": [ [ [ "log", 2 ], [ "stick", 16 ], [ "splinter", 80 ] ] ]
+    "components": [[["log", 2], ["stick", 16], ["splinter", 80]]]
   },
   {
     "type": "recipe",
@@ -22,9 +22,13 @@
     "time": "30 m",
     "autolearn": false,
     "never_learn": true,
-    "using": [ [ "forging_standard", 1 ], [ "steel_standard", 6 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+    "using": [["forging_standard", 1], ["steel_standard", 6]],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 5 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [[["tongs", -1]], [["crucible", -1], ["crucible_clay", -1]]]
   },
   {
     "type": "recipe",
@@ -37,9 +41,13 @@
     "time": "52 m",
     "autolearn": false,
     "never_learn": true,
-    "using": [ [ "forging_standard", 1 ], [ "steel_standard", 8 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ]
+    "using": [["forging_standard", 1], ["steel_standard", 8]],
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 5 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [[["tongs", -1]], [["crucible", -1], ["crucible_clay", -1]], [["swage", -1]]]
   },
   {
     "type": "recipe",
@@ -52,9 +60,13 @@
     "time": "18 m",
     "autolearn": false,
     "never_learn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 5 ], [ "oxy_torch", 1 ] ] ],
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ] ]
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 5 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [[["tongs", -1]], [["swage", -1]], [["forge", 5], ["oxy_torch", 1]]],
+    "components": [[["steel_chunk", 1], ["scrap", 3]]]
   },
   {
     "type": "recipe",
@@ -67,9 +79,17 @@
     "time": "3 m",
     "autolearn": false,
     "never_learn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ] ]
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 5 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [["tongs", -1]],
+      [["crucible", -1], ["crucible_clay", -1]],
+      [["forge", 10], ["oxy_torch", 2]]
+    ],
+    "components": [[["scrap", 1]]]
   },
   {
     "type": "recipe",
@@ -82,9 +102,13 @@
     "time": "12 m",
     "autolearn": false,
     "never_learn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "scrap", 7 ] ] ]
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 5 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [[["tongs", -1]], [["swage", -1]], [["forge", 10], ["oxy_torch", 2]]],
+    "components": [[["scrap", 7]]]
   },
   {
     "type": "recipe",
@@ -97,8 +121,12 @@
     "time": "9 m",
     "autolearn": false,
     "never_learn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 5 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "scrap", 3 ] ] ]
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "HAMMER", "level": 5 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [[["tongs", -1]], [["swage", -1]], [["forge", 10], ["oxy_torch", 2]]],
+    "components": [[["scrap", 3]]]
   }
 ]

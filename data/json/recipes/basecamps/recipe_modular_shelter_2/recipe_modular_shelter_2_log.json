@@ -9,16 +9,26 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_2_bedroom_NW_log",
     "blueprint_name": "build NW log bedroom walls",
-    "blueprint_requires": [ { "id": "fbmc_shelter_2_fire" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom1" } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom1" } ],
+    "blueprint_requires": [{ "id": "fbmc_shelter_2_fire" }],
+    "blueprint_provides": [{ "id": "fbmc_shelter_2_bedroom1" }],
+    "blueprint_excludes": [{ "id": "fbmc_shelter_2_bedroom1" }],
     "blueprint_needs": {
       "time": "11 h 30 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "skills": [["fabrication", 3]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 38 ] ], [ [ "hinge", 2 ] ], [ [ "log", 16 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ] ]
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
+        "components": [
+          [["2x4", 38]],
+          [["hinge", 2]],
+          [["log", 16]],
+          [["nail", 36]],
+          [["wood_panel", 1]]
+        ]
       }
     }
   },
@@ -32,16 +42,26 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_2_bedroom_W1_log",
     "blueprint_name": "build W log bedroom walls",
-    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom1" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom2" } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom2" } ],
+    "blueprint_requires": [{ "id": "fbmc_shelter_2_bedroom1" }],
+    "blueprint_provides": [{ "id": "fbmc_shelter_2_bedroom2" }],
+    "blueprint_excludes": [{ "id": "fbmc_shelter_2_bedroom2" }],
     "blueprint_needs": {
       "time": "11 h 30 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "skills": [["fabrication", 3]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 38 ] ], [ [ "hinge", 2 ] ], [ [ "log", 16 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ] ]
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
+        "components": [
+          [["2x4", 38]],
+          [["hinge", 2]],
+          [["log", 16]],
+          [["nail", 36]],
+          [["wood_panel", 1]]
+        ]
       }
     }
   },
@@ -55,16 +75,26 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_2_bedroom_W2_log",
     "blueprint_name": "build W log bedroom walls",
-    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom2" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom3" } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom3" } ],
+    "blueprint_requires": [{ "id": "fbmc_shelter_2_bedroom2" }],
+    "blueprint_provides": [{ "id": "fbmc_shelter_2_bedroom3" }],
+    "blueprint_excludes": [{ "id": "fbmc_shelter_2_bedroom3" }],
     "blueprint_needs": {
       "time": "9 h",
-      "skills": [ [ "fabrication", 3 ] ],
+      "skills": [["fabrication", 3]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 32 ] ], [ [ "hinge", 2 ] ], [ [ "log", 12 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ] ]
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
+        "components": [
+          [["2x4", 32]],
+          [["hinge", 2]],
+          [["log", 12]],
+          [["nail", 36]],
+          [["wood_panel", 1]]
+        ]
       }
     }
   },
@@ -78,16 +108,26 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_2_bedroom_W3_log",
     "blueprint_name": "build W log bedroom walls",
-    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom3" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom4" } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom4" } ],
+    "blueprint_requires": [{ "id": "fbmc_shelter_2_bedroom3" }],
+    "blueprint_provides": [{ "id": "fbmc_shelter_2_bedroom4" }],
+    "blueprint_excludes": [{ "id": "fbmc_shelter_2_bedroom4" }],
     "blueprint_needs": {
       "time": "1 d",
-      "skills": [ [ "fabrication", 3 ] ],
+      "skills": [["fabrication", 3]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 68 ] ], [ [ "hinge", 2 ] ], [ [ "log", 36 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ] ]
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
+        "components": [
+          [["2x4", 68]],
+          [["hinge", 2]],
+          [["log", 36]],
+          [["nail", 36]],
+          [["wood_panel", 1]]
+        ]
       }
     }
   },
@@ -101,16 +141,26 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_2_bedroom_SW_log",
     "blueprint_name": "build SW log bedroom walls",
-    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom4" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom5" } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom5" } ],
+    "blueprint_requires": [{ "id": "fbmc_shelter_2_bedroom4" }],
+    "blueprint_provides": [{ "id": "fbmc_shelter_2_bedroom5" }],
+    "blueprint_excludes": [{ "id": "fbmc_shelter_2_bedroom5" }],
     "blueprint_needs": {
       "time": "14 h",
-      "skills": [ [ "fabrication", 3 ] ],
+      "skills": [["fabrication", 3]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 44 ] ], [ [ "hinge", 2 ] ], [ [ "log", 20 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ] ]
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
+        "components": [
+          [["2x4", 44]],
+          [["hinge", 2]],
+          [["log", 20]],
+          [["nail", 36]],
+          [["wood_panel", 1]]
+        ]
       }
     }
   },
@@ -124,16 +174,26 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_2_bedroom_S_log",
     "blueprint_name": "build S log bedroom walls",
-    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom5" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom6" } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom6" } ],
+    "blueprint_requires": [{ "id": "fbmc_shelter_2_bedroom5" }],
+    "blueprint_provides": [{ "id": "fbmc_shelter_2_bedroom6" }],
+    "blueprint_excludes": [{ "id": "fbmc_shelter_2_bedroom6" }],
     "blueprint_needs": {
       "time": "23 h",
-      "skills": [ [ "fabrication", 3 ] ],
+      "skills": [["fabrication", 3]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 76 ] ], [ [ "hinge", 4 ] ], [ [ "log", 32 ] ], [ [ "nail", 72 ] ], [ [ "wood_panel", 2 ] ] ]
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
+        "components": [
+          [["2x4", 76]],
+          [["hinge", 4]],
+          [["log", 32]],
+          [["nail", 72]],
+          [["wood_panel", 2]]
+        ]
       }
     }
   },
@@ -147,16 +207,26 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_2_bedroom_E1_log",
     "blueprint_name": "build central E bedroom log walls",
-    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom6" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom7" } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom7" } ],
+    "blueprint_requires": [{ "id": "fbmc_shelter_2_bedroom6" }],
+    "blueprint_provides": [{ "id": "fbmc_shelter_2_bedroom7" }],
+    "blueprint_excludes": [{ "id": "fbmc_shelter_2_bedroom7" }],
     "blueprint_needs": {
       "time": "1 d 3 h",
-      "skills": [ [ "fabrication", 3 ] ],
+      "skills": [["fabrication", 3]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 96 ] ], [ [ "hinge", 6 ] ], [ [ "log", 36 ] ], [ [ "nail", 108 ] ], [ [ "wood_panel", 3 ] ] ]
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
+        "components": [
+          [["2x4", 96]],
+          [["hinge", 6]],
+          [["log", 36]],
+          [["nail", 108]],
+          [["wood_panel", 3]]
+        ]
       }
     }
   },
@@ -170,16 +240,26 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_2_bedroom_E2_log",
     "blueprint_name": "build E bedroom log walls",
-    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom7" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom8" } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom8" } ],
+    "blueprint_requires": [{ "id": "fbmc_shelter_2_bedroom7" }],
+    "blueprint_provides": [{ "id": "fbmc_shelter_2_bedroom8" }],
+    "blueprint_excludes": [{ "id": "fbmc_shelter_2_bedroom8" }],
     "blueprint_needs": {
       "time": "14 h",
-      "skills": [ [ "fabrication", 3 ] ],
+      "skills": [["fabrication", 3]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 44 ] ], [ [ "hinge", 2 ] ], [ [ "log", 20 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ] ]
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
+        "components": [
+          [["2x4", 44]],
+          [["hinge", 2]],
+          [["log", 20]],
+          [["nail", 36]],
+          [["wood_panel", 1]]
+        ]
       }
     }
   },
@@ -193,16 +273,26 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_2_bedroom_E3_log",
     "blueprint_name": "build E bedroom log walls",
-    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom8" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom9" } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom9" } ],
+    "blueprint_requires": [{ "id": "fbmc_shelter_2_bedroom8" }],
+    "blueprint_provides": [{ "id": "fbmc_shelter_2_bedroom9" }],
+    "blueprint_excludes": [{ "id": "fbmc_shelter_2_bedroom9" }],
     "blueprint_needs": {
       "time": "11 h 30 m",
-      "skills": [ [ "fabrication", 3 ] ],
+      "skills": [["fabrication", 3]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 38 ] ], [ [ "hinge", 2 ] ], [ [ "log", 16 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ] ]
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
+        "components": [
+          [["2x4", 38]],
+          [["hinge", 2]],
+          [["log", 16]],
+          [["nail", 36]],
+          [["wood_panel", 1]]
+        ]
       }
     }
   },
@@ -216,16 +306,26 @@
     "never_learn": true,
     "construction_blueprint": "fbmc_shelter_2_bedroom_E4_log",
     "blueprint_name": "build E bedroom log walls",
-    "blueprint_requires": [ { "id": "fbmc_shelter_2_bedroom9" } ],
-    "blueprint_provides": [ { "id": "fbmc_shelter_2_bedroom10" } ],
-    "blueprint_excludes": [ { "id": "fbmc_shelter_2_bedroom10" } ],
+    "blueprint_requires": [{ "id": "fbmc_shelter_2_bedroom9" }],
+    "blueprint_provides": [{ "id": "fbmc_shelter_2_bedroom10" }],
+    "blueprint_excludes": [{ "id": "fbmc_shelter_2_bedroom10" }],
     "blueprint_needs": {
       "time": "9 h",
-      "skills": [ [ "fabrication", 3 ] ],
+      "skills": [["fabrication", 3]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 32 ] ], [ [ "hinge", 2 ] ], [ [ "log", 12 ] ], [ [ "nail", 36 ] ], [ [ "wood_panel", 1 ] ] ]
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
+        "components": [
+          [["2x4", 32]],
+          [["hinge", 2]],
+          [["log", 12]],
+          [["nail", 36]],
+          [["wood_panel", 1]]
+        ]
       }
     }
   }

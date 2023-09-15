@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "small_wooded_trail" ],
+    "om_terrain": ["small_wooded_trail"],
     "weight": 100,
     "object": {
       "rows": [
@@ -53,14 +53,20 @@
         "|": "t_chainfence_v"
       },
       "furniture": { "&": "f_trashcan", "b": "f_bench" },
-      "place_item": [ { "item": "rock", "x": 13, "y": 9 }, { "item": "rock", "x": 2, "y": 13 }, { "item": "rock", "x": 22, "y": 19 } ],
-      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 15 ], "y": [ 5, 13 ], "repeat": 2 } ]
+      "place_item": [
+        { "item": "rock", "x": 13, "y": 9 },
+        { "item": "rock", "x": 2, "y": 13 },
+        { "item": "rock", "x": 22, "y": 19 }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [2, 15], "y": [5, 13], "repeat": 2 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "small_wooded_trail" ],
+    "om_terrain": ["small_wooded_trail"],
     "weight": 100,
     "object": {
       "rows": [
@@ -117,8 +123,8 @@
         "|": "t_chainfence_v"
       },
       "furniture": { "&": "f_trashcan", "b": "f_bench" },
-      "place_item": [ { "item": "rock", "x": 2, "y": 13 }, { "item": "rock", "x": 22, "y": 19 } ],
-      "place_monsters": [ { "monster": "GROUP_PARK_ANIMAL", "x": 2, "y": 5 } ]
+      "place_item": [{ "item": "rock", "x": 2, "y": 13 }, { "item": "rock", "x": 22, "y": 19 }],
+      "place_monsters": [{ "monster": "GROUP_PARK_ANIMAL", "x": 2, "y": 5 }]
     }
   }
 ]

@@ -67,11 +67,11 @@
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
     "price": 387,
     "price_postapoc": 300,
-    "material": [ "powder", "junk" ],
+    "material": ["powder", "junk"],
     "primary_material": "powder",
     "volume": "250 ml",
     "calories": 19,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": ["NUTRIENT_OVERRIDE"],
     "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted.",
     "charges": 71
   },
@@ -104,7 +104,7 @@
     "material": "veggy",
     "volume": "250 ml",
     "charges": 20,
-    "flags": [ "RAW" ],
+    "flags": ["RAW"],
     "stack_size": 100,
     "fun": -1
   },
@@ -142,7 +142,7 @@
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": ["veggy"],
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 10

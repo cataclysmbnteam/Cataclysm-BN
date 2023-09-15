@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "church" ],
+    "om_terrain": ["church"],
     "//": "New England Church",
     "weight": 1000,
     "object": {
@@ -33,9 +33,15 @@
         "     ^^    ss    ^^   s ",
         "     ^^    ss    ^^   s "
       ],
-      "terrain": { "p": "t_floor", "W": "t_floor", "<": "t_stairs_up", "y": "t_floor", "r": "t_carpet_red" },
+      "terrain": {
+        "p": "t_floor",
+        "W": "t_floor",
+        "<": "t_stairs_up",
+        "y": "t_floor",
+        "r": "t_carpet_red"
+      },
       "furniture": { "p": "f_piano", "W": "f_wardrobe" },
-      "palettes": [ "church" ],
+      "palettes": ["church"],
       "mapping": { "b": { "furniture": "f_brazier" } },
       "items": {
         "#": { "item": "church", "chance": 40 },
@@ -88,7 +94,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": {
         "O": "t_column",
         ".": "t_shingle_flat_roof",
@@ -131,7 +137,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "o": "t_wall_glass", "#": "t_wall_w" }
     }
   },
@@ -167,7 +173,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ">": "t_stairs_down", "#": "t_wall_w", "o": "t_wall_glass" }
     }
   },
@@ -203,14 +209,14 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "church_1" ],
+    "om_terrain": ["church_1"],
     "//": "Gothic Church",
     "weight": 1000,
     "object": {
@@ -241,7 +247,7 @@
         "s WWWWW    ss    WWWWW s",
         "ssssssssssssssssssssssss"
       ],
-      "palettes": [ "church" ],
+      "palettes": ["church"],
       "mapping": { "b": { "furniture": "f_brazier" } },
       "terrain": {
         "#": "t_rock_floor",
@@ -318,7 +324,7 @@
         "  wGGGw          wGGGw  ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": {
         ".": "t_floor",
         "x": "t_rock_wall_half",
@@ -332,19 +338,26 @@
         "<": "t_stairs_up",
         "G": "t_window_stained_green"
       },
-      "furniture": { "d": "f_desk", "H": "f_bookcase", "c": "f_armchair", "b": "f_bench", "h": "f_chair", "f": "f_filing_cabinet" },
+      "furniture": {
+        "d": "f_desk",
+        "H": "f_bookcase",
+        "c": "f_armchair",
+        "b": "f_bench",
+        "h": "f_chair",
+        "f": "f_filing_cabinet"
+      },
       "items": {
         "d": { "item": "cubical_office", "chance": 20 },
         "H": { "item": "religious_books", "chance": 50 },
-        "f": { "item": "office_paper", "chance": 70, "repeat": [ 2, 4 ] }
+        "f": { "item": "office_paper", "chance": 70, "repeat": [2, 4] }
       },
       "nested": {
         "U": {
           "chunks": [
-            [ "roof_6x6_greenhouse_1", 25 ],
-            [ "roof_6x6_greenhouse_2", 25 ],
-            [ "roof_6x6_garden_1", 25 ],
-            [ "roof_6x6_garden_2", 25 ]
+            ["roof_6x6_greenhouse_1", 25],
+            ["roof_6x6_greenhouse_2", 25],
+            ["roof_6x6_garden_1", 25],
+            ["roof_6x6_garden_2", 25]
           ]
         }
       }
@@ -382,7 +395,7 @@
         "  wBGBw          wBGBw  ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": {
         ".": "t_floor",
         "x": "t_rock_wall_half",
@@ -405,12 +418,12 @@
       },
       "items": {
         "d": { "item": "cubical_office", "chance": 5 },
-        "H": { "item": "novels", "chance": 30, "repeat": [ 2, 4 ] },
-        "K": { "item": "allclothes", "chance": 40, "repeat": [ 2, 4 ] },
-        "e": { "item": "oven", "chance": 40, "repeat": [ 2, 4 ] },
-        "j": { "item": "bed", "chance": 70, "repeat": [ 2, 4 ] },
-        "f": { "item": "office_paper", "chance": 70, "repeat": [ 2, 4 ] },
-        "F": { "item": "fridgesnacks", "chance": 60, "repeat": [ 2, 4 ] }
+        "H": { "item": "novels", "chance": 30, "repeat": [2, 4] },
+        "K": { "item": "allclothes", "chance": 40, "repeat": [2, 4] },
+        "e": { "item": "oven", "chance": 40, "repeat": [2, 4] },
+        "j": { "item": "bed", "chance": 70, "repeat": [2, 4] },
+        "f": { "item": "office_paper", "chance": 70, "repeat": [2, 4] },
+        "F": { "item": "fridgesnacks", "chance": 60, "repeat": [2, 4] }
       }
     }
   },
@@ -446,7 +459,7 @@
         "  xxxxx          xxxxx  ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "x": "t_rock_wall_half", ".": "t_rock_floor_no_roof" }
     }
   }

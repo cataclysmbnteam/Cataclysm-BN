@@ -15,9 +15,13 @@
     "fire_resist": 1,
     "elec_resist": 1,
     "chip_resist": 0,
-    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "dmg_adj": ["lightly damaged", "damaged", "very damaged", "thoroughly damaged"],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
-    "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ]
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1 },
+      { "fuel": 1, "smoke": 1, "burn": 2 },
+      { "fuel": 1, "smoke": 1, "burn": 3 }
+    ]
   }
 ]

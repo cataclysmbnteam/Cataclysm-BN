@@ -7,7 +7,7 @@
     "min_pet_vol": "300 L",
     "max_pet_vol": "1000 L",
     "pet_bodytype": "quadruped",
-    "flags": [ "IS_PET_ARMOR" ]
+    "flags": ["IS_PET_ARMOR"]
   },
   {
     "type": "PET_ARMOR",
@@ -18,7 +18,7 @@
     "description": "A heavy mattress-like armor of cloth, leather and thick linings of Kevlar, originally used as protection in bullfighting.  You could put this on a friendly medium quadruped.",
     "price": 50000,
     "price_postapoc": 5000,
-    "material": [ "cotton", "leather", "kevlar" ],
+    "material": ["cotton", "leather", "kevlar"],
     "weight": "30 kg",
     "volume": "150 L",
     "material_thickness": 12,
@@ -33,7 +33,7 @@
     "description": "A makeshift assembly of criniere, peytral and croupiere made from biosilicified chitin fitted to a thin mesh.  You could put this on a friendly medium quadruped.",
     "price": 120000,
     "price_postapoc": 8000,
-    "material": [ "acidchitin", "steel" ],
+    "material": ["acidchitin", "steel"],
     "weight": "35 kg",
     "volume": "150 L",
     "material_thickness": 4,
@@ -48,7 +48,7 @@
     "description": "A makeshift assembly of criniere, peytral and croupiere made from chitin fitted to a thin mesh.  You could put this on a friendly medium quadruped.",
     "price": 100000,
     "price_postapoc": 6000,
-    "material": [ "chitin", "steel" ],
+    "material": ["chitin", "steel"],
     "weight": "35 kg",
     "volume": "150 L",
     "material_thickness": 3,
@@ -63,7 +63,7 @@
     "description": "A heavy covering of chainmail, suitably made for medium quadrupeds as protection.  You could put this on a friendly medium quadruped.",
     "price": 40000,
     "price_postapoc": 10000,
-    "material": [ "steel", "leather" ],
+    "material": ["steel", "leather"],
     "weight": "40 kg",
     "volume": "150 L",
     "material_thickness": 6
@@ -80,7 +80,7 @@
     "description": "A full barding for medium quadrupeds consisting of boiled leather and cloth undercovering.  This caparison is depicting a battle between a monstrous dragon and regal griffin.  You could put this on a friendly medium quadruped.",
     "price": 30000,
     "price_postapoc": 3000,
-    "material": [ "cotton", "leather" ],
+    "material": ["cotton", "leather"],
     "weight": "15 kg",
     "volume": "150 L",
     "material_thickness": 6,
@@ -131,7 +131,7 @@
     "description": "Decorative bones affixed to leather medium quadruped barding to invoke fear in bandits and raiders and traders all!  You could put this on a friendly medium quadruped.",
     "price": 45000,
     "price_postapoc": 3000,
-    "material": [ "bone", "leather" ],
+    "material": ["bone", "leather"],
     "weight": "17 kg",
     "volume": "150 L",
     "material_thickness": 6
@@ -145,7 +145,7 @@
     "description": "A thin plastic covering adapted for medium quadrupeds to protect from acid rain and other caustic sources.  You could put this on a friendly medium quadruped.",
     "price": 15000,
     "price_postapoc": 1500,
-    "material": [ "neoprene", "plastic" ],
+    "material": ["neoprene", "plastic"],
     "weight": "14 kg",
     "volume": "150 L",
     "material_thickness": 3
@@ -159,7 +159,7 @@
     "description": "A thin mesh interwoven with superalloy plates and pouches for military working medium quadrupeds that covers from the dewlap to the croup, down to the elbows.  You could put this on a friendly medium quadruped.",
     "price": 250000,
     "price_postapoc": 10000,
-    "material": [ "superalloy" ],
+    "material": ["superalloy"],
     "weight": "20 kg",
     "volume": "150 L",
     "material_thickness": 5,
@@ -175,16 +175,16 @@
     "volume": "7500 ml",
     "price": 15000,
     "price_postapoc": 1500,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "dump_pouch",
     "color": "green",
-    "covers": [ "hands" ],
+    "covers": ["hands"],
     "coverage": 50,
     "encumbrance": 30,
     "storage": "30 L",
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": ["BELTED", "WATER_FRIENDLY"]
   }
 ]

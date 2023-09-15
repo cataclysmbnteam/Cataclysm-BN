@@ -5,7 +5,7 @@
     "name": "Challenge-FEMA Death Camp",
     "points": -6,
     "description": "You were one of the many law-enforcement and military personnel alike called in to keep order on one of the FEMA camps.  It all went to shit fast… wounded, infected, surrounded by fire you lie on the ground… and they just keep coming…",
-    "allowed_locs": [ "sloc_fema_entrance", "sloc_fema" ],
+    "allowed_locs": ["sloc_fema_entrance", "sloc_fema"],
     "professions": [
       "cop",
       "sniper_police",
@@ -20,7 +20,7 @@
       "specops"
     ],
     "start_name": "Fema Camp",
-    "flags": [ "HELI_CRASH", "SUR_START", "FIRE_START", "INFECTED", "CHALLENGE" ]
+    "flags": ["HELI_CRASH", "SUR_START", "FIRE_START", "INFECTED", "CHALLENGE"]
   },
   {
     "type": "scenario",
@@ -28,17 +28,24 @@
     "name": "Mansion Holdout",
     "points": -1,
     "description": "While the world ended, you felt relatively safe inside the mansion you have serviced for years.  Now the dead have come knocking at your doorstep, and it might be time to leave.",
-    "allowed_locs": [ "sloc_mansion", "sloc_mansion_entrance" ],
-    "professions": [ "maid" ],
+    "allowed_locs": ["sloc_mansion", "sloc_mansion_entrance"],
+    "professions": ["maid"],
     "start_name": "Mansion",
-    "flags": [ "SUR_START" ]
+    "flags": ["SUR_START"]
   },
   {
     "type": "scenario",
     "id": "missed",
     "copy-from": "missed",
     "extend": {
-      "allowed_locs": [ "sloc_electronics_store", "sloc_clothes_store", "sloc_bank", "sloc_pawn_shop", "sloc_gun_store", "sloc_gas_station" ]
+      "allowed_locs": [
+        "sloc_electronics_store",
+        "sloc_clothes_store",
+        "sloc_bank",
+        "sloc_pawn_shop",
+        "sloc_gun_store",
+        "sloc_gas_station"
+      ]
     }
   },
   {
@@ -46,7 +53,14 @@
     "id": "infected",
     "copy-from": "infected",
     "extend": {
-      "allowed_locs": [ "sloc_electronics_store", "sloc_clothes_store", "sloc_bank", "sloc_pawn_shop", "sloc_gun_store", "sloc_gas_station" ]
+      "allowed_locs": [
+        "sloc_electronics_store",
+        "sloc_clothes_store",
+        "sloc_bank",
+        "sloc_pawn_shop",
+        "sloc_gun_store",
+        "sloc_gas_station"
+      ]
     }
   },
   {
@@ -54,7 +68,14 @@
     "id": "fire",
     "copy-from": "fire",
     "extend": {
-      "allowed_locs": [ "sloc_electronics_store", "sloc_clothes_store", "sloc_bank", "sloc_pawn_shop", "sloc_gun_store", "sloc_gas_station" ]
+      "allowed_locs": [
+        "sloc_electronics_store",
+        "sloc_clothes_store",
+        "sloc_bank",
+        "sloc_pawn_shop",
+        "sloc_gun_store",
+        "sloc_gas_station"
+      ]
     }
   }
 ]

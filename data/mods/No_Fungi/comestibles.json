@@ -5,7 +5,7 @@
     "copy-from": "marloss_berry",
     "name": { "str": "marloss berry", "str_pl": "marloss berries" },
     "use_action": "BLECH",
-    "extend": { "flags": [ "UNSAFE_CONSUME" ] }
+    "extend": { "flags": ["UNSAFE_CONSUME"] }
   },
   {
     "type": "COMESTIBLE",
@@ -13,7 +13,7 @@
     "copy-from": "marloss_seed",
     "name": { "str": "Marloss seed" },
     "use_action": "BLECH",
-    "extend": { "flags": [ "UNSAFE_CONSUME" ] }
+    "extend": { "flags": ["UNSAFE_CONSUME"] }
   },
   {
     "type": "COMESTIBLE",
@@ -21,7 +21,7 @@
     "copy-from": "marloss_gel",
     "name": { "str_sp": "marloss gelatin" },
     "use_action": "BLECH",
-    "extend": { "flags": [ "UNSAFE_CONSUME" ] }
+    "extend": { "flags": ["UNSAFE_CONSUME"] }
   },
   {
     "type": "COMESTIBLE",
@@ -29,7 +29,7 @@
     "copy-from": "mycus_fruit",
     "name": { "str": "mycus fruit" },
     "use_action": "BLECH",
-    "extend": { "flags": [ "UNSAFE_CONSUME" ] }
+    "extend": { "flags": ["UNSAFE_CONSUME"] }
   },
   {
     "type": "COMESTIBLE",
@@ -44,6 +44,6 @@
     "copy-from": "brew_mycus_wine",
     "name": { "str_sp": "marloss wine must" },
     "use_action": "BLECH",
-    "extend": { "flags": [ "UNSAFE_CONSUME" ] }
+    "extend": { "flags": ["UNSAFE_CONSUME"] }
   }
 ]

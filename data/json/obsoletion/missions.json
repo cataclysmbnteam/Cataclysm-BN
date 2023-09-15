@@ -7,7 +7,7 @@
     "difficulty": 5,
     "value": 50000,
     "item": "flu_shot",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_NURSE_11",
     "dialogue": {
       "describe": "We need help…",

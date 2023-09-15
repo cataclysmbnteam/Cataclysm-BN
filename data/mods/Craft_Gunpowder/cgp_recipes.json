@@ -6,25 +6,34 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
-    "skills_required": [ [ "fabrication", 5 ], [ "gun", 2 ], [ "tailor", 1 ] ],
-    "book_learn": [ [ "manual_smg", 6 ], [ "textbook_anarch", 6 ], [ "textbook_mechanics", 5 ], [ "welding_book", 5 ] ],
+    "skills_required": [["fabrication", 5], ["gun", 2], ["tailor", 1]],
+    "book_learn": [
+      ["manual_smg", 6],
+      ["textbook_anarch", 6],
+      ["textbook_mechanics", 5],
+      ["welding_book", 5]
+    ],
     "difficulty": 5,
     "time": 360000,
-    "using": [ [ "sewing_standard", 20 ], [ "welding_standard", 50 ], [ "forging_standard", 25 ] ],
+    "using": [["sewing_standard", 20], ["welding_standard", 50], ["forging_standard", 25]],
     "tools": [
-      [ [ "small_repairkit", 300 ], [ "large_repairkit", 75 ] ],
-      [ [ "cordless_drill", 300 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "swage", -1 ] ]
+      [["small_repairkit", 300], ["large_repairkit", 75]],
+      [["cordless_drill", 300]],
+      [["crucible", -1], ["crucible_clay", -1]],
+      [["swage", -1]]
     ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
     "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "leather", 4 ] ],
-      [ [ "steel_chunk", 8 ], [ "steel_lump", 2 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "wire", 3 ] ],
-      [ [ "sheet_metal", 2 ] ]
+      [["pipe", 1]],
+      [["leather", 4]],
+      [["steel_chunk", 8], ["steel_lump", 2]],
+      [["spring", 1]],
+      [["wire", 3]],
+      [["sheet_metal", 2]]
     ]
   },
   {
@@ -33,20 +42,20 @@
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "fabrication",
-    "skills_required": [ "cooking", 1 ],
+    "skills_required": ["cooking", 1],
     "difficulty": 4,
     "time": 8000,
     "book_learn": [
-      [ "textbook_anarch", 4 ],
-      [ "recipe_bullets", 2 ],
-      [ "manual_shotgun", 3 ],
-      [ "manual_pistol", 3 ],
-      [ "adv_chemistry", 3 ],
-      [ "textbook_chemistry", 3 ]
+      ["textbook_anarch", 4],
+      ["recipe_bullets", 2],
+      ["manual_shotgun", 3],
+      ["manual_pistol", 3],
+      ["adv_chemistry", 3],
+      ["textbook_chemistry", 3]
     ],
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "chemistry_set", 50 ], [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
-    "components": [ [ [ "oxy_powder", 200 ] ], [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ], [ [ "charcoal", 5 ] ] ]
+    "qualities": [{ "id": "CHEM", "level": 2 }],
+    "tools": [[["chemistry_set", 50], ["hotplate", 50], ["toolset", 50]]],
+    "components": [[["oxy_powder", 200]], [["ammonia", 2], ["lye_powder", 200]], [["charcoal", 5]]]
   },
   {
     "type": "recipe",
@@ -54,13 +63,19 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "difficulty": 6,
     "time": 36000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "scrap", 3 ] ], [ [ "spring", 1 ] ], [ [ "2x4", 2 ] ], [ [ "sheet_metal", 1 ] ] ]
+    "qualities": [{ "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }],
+    "components": [
+      [["pipe", 2]],
+      [["scrap", 3]],
+      [["spring", 1]],
+      [["2x4", 2]],
+      [["sheet_metal", 1]]
+    ]
   },
   {
     "type": "recipe",
@@ -68,13 +83,19 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "difficulty": 6,
     "time": 36000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "scrap", 3 ] ], [ [ "spring", 1 ] ], [ [ "2x4", 2 ] ], [ [ "sheet_metal", 1 ] ] ]
+    "qualities": [{ "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }],
+    "components": [
+      [["pipe", 2]],
+      [["scrap", 3]],
+      [["spring", 1]],
+      [["2x4", 2]],
+      [["sheet_metal", 1]]
+    ]
   },
   {
     "type": "recipe",
@@ -82,13 +103,19 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "difficulty": 6,
     "time": 36000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "scrap", 3 ] ], [ [ "spring", 1 ] ], [ [ "2x4", 2 ] ], [ [ "sheet_metal", 1 ] ] ]
+    "qualities": [{ "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }],
+    "components": [
+      [["pipe", 2]],
+      [["scrap", 3]],
+      [["spring", 1]],
+      [["2x4", 2]],
+      [["sheet_metal", 1]]
+    ]
   },
   {
     "type": "recipe",
@@ -97,23 +124,23 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "electronics",
     "difficulty": 7,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": 60000,
     "decomp_learn": 2,
-    "book_learn": [ [ "manual_electronics", 4 ], [ "textbook_electronics", 4 ] ],
-    "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 20 ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "book_learn": [["manual_electronics", 4], ["textbook_electronics", 4]],
+    "using": [["soldering_standard", 20], ["surface_heat", 20]],
+    "qualities": [{ "id": "SCREW_FINE", "level": 1 }, { "id": "CHEM", "level": 2 }],
+    "tools": [[["mold_plastic", -1]]],
     "components": [
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "amplifier", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "light_battery_cell", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "silver_small", 10 ] ],
-      [ [ "gold_small", 10 ] ],
-      [ [ "chem_aluminium_powder", 10 ] ],
-      [ [ "chem_chromium_oxide", 10 ] ],
-      [ [ "lens", 2 ] ]
+      [["plastic_chunk", 2]],
+      [["amplifier", 1]],
+      [["power_supply", 1]],
+      [["light_battery_cell", 1], ["plut_cell", 1]],
+      [["silver_small", 10]],
+      [["gold_small", 10]],
+      [["chem_aluminium_powder", 10]],
+      [["chem_chromium_oxide", 10]],
+      [["lens", 2]]
     ]
   },
   {
@@ -123,22 +150,22 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "skills_required": [ [ "pistol", 5 ] ],
+    "skills_required": [["pistol", 5]],
     "time": 30000,
     "decomp_learn": 4,
-    "book_learn": [ [ "manual_pistol", 4 ], [ "manual_fabrication", 5 ], [ "textbook_fabrication", 5 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "book_learn": [["manual_pistol", 4], ["manual_fabrication", 5], ["textbook_fabrication", 5]],
+    "using": [["soldering_standard", 10], ["surface_heat", 10]],
+    "qualities": [{ "id": "SCREW_FINE", "level": 1 }],
+    "tools": [[["mold_plastic", -1]]],
     "components": [
       [
-        [ "scrap", 1 ],
-        [ "can_drink_unsealed", 1 ],
-        [ "can_food_unsealed", 1 ],
-        [ "canister_empty", 1 ],
-        [ "plastic_chunk", 1 ]
+        ["scrap", 1],
+        ["can_drink_unsealed", 1],
+        ["can_food_unsealed", 1],
+        ["canister_empty", 1],
+        ["plastic_chunk", 1]
       ],
-      [ [ "lens", 2 ] ]
+      [["lens", 2]]
     ]
   },
   {
@@ -148,17 +175,17 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "skills_required": [ [ "gun", 6 ] ],
+    "skills_required": [["gun", 6]],
     "time": 45000,
     "decomp_learn": 4,
-    "book_learn": [ [ "manual_rifle", 4 ], [ "manual_fabrication", 5 ], [ "textbook_fabrication", 5 ] ],
-    "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 15 ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "book_learn": [["manual_rifle", 4], ["manual_fabrication", 5], ["textbook_fabrication", 5]],
+    "using": [["soldering_standard", 20], ["surface_heat", 15]],
+    "qualities": [{ "id": "SCREW_FINE", "level": 1 }],
+    "tools": [[["mold_plastic", -1]]],
     "components": [
-      [ [ "scrap", 1 ], [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "lens", 2 ] ]
+      [["scrap", 1], ["can_drink_unsealed", 1], ["can_food_unsealed", 1], ["canister_empty", 1]],
+      [["plastic_chunk", 2]],
+      [["lens", 2]]
     ]
   }
 ]

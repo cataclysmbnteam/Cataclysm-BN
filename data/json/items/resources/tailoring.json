@@ -13,7 +13,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": ["NO_SALVAGE"]
   },
   {
     "id": "scrap_faux_fur",
@@ -283,7 +283,7 @@
     "looks_like": "thread",
     "description": "Some very durable Kevlar thread that would be particularly useful for making ballistic armor, though it's fine to use in place of normal thread too, in most cases.  Making armor-grade Kevlar sheets from this would need a particularly tight weave, and so would need some specialized machinery.",
     "material": "kevlar",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": ["NO_SALVAGE"],
     "volume": "200 ml",
     "weight": "1 g",
     "ammo_type": "thread",
@@ -302,7 +302,7 @@
     "looks_like": "thread",
     "description": "Some heat-resistant Nomex thread that would be particularly useful for making heat protection gear, though it's fine to use in place of normal thread too, in most cases.",
     "material": "nomex",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": ["NO_SALVAGE"],
     "volume": "200 ml",
     "weight": "1 g",
     "ammo_type": "thread",

@@ -33,10 +33,10 @@
         "..[.........[...........",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "#": "t_wall_wood",
         "`": "t_concrete",
@@ -172,7 +172,7 @@
         { "chance": 20, "item": "plumbing_bulk", "x": 18, "y": 11 },
         { "chance": 20, "item": "plumbing_bulk", "x": 17, "y": 10 },
         { "chance": 10, "item": "plumbing_bulk", "x": 18, "y": 10 },
-        { "chance": 20, "item": "tools_carpentry", "x": 3, "y": [ 8, 9 ] },
+        { "chance": 20, "item": "tools_carpentry", "x": 3, "y": [8, 9] },
         { "chance": 25, "item": "trash", "x": 1, "y": 5 },
         { "chance": 25, "item": "trash", "x": 10, "y": 3 },
         { "chance": 25, "item": "trash", "x": 2, "y": 2 },
@@ -259,7 +259,7 @@
         "{": "t_pavement",
         "|": "t_wall_wood"
       },
-      "place_item": [ { "chance": 60, "item": "bucket", "repeat": 1, "x": 3, "y": 13 } ],
+      "place_item": [{ "chance": 60, "item": "bucket", "repeat": 1, "x": 3, "y": 13 }],
       "furniture": {
         "#": "f_counter",
         "&": "f_sink",
@@ -319,7 +319,7 @@
         { "chance": 50, "item": "bags_trip", "x": 3, "y": 6 },
         { "chance": 30, "item": "dresser", "x": 5, "y": 11 }
       ],
-      "place_toilets": [ { "x": 19, "y": 10 } ]
+      "place_toilets": [{ "x": 19, "y": 10 }]
     }
   },
   {
@@ -354,7 +354,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

@@ -15,6 +15,6 @@
     "count": 25,
     "reliability": 6,
     "linkage": "ammolinkgrenade",
-    "flags": [ "MAG_BELT", "MAG_DESTROY" ]
+    "flags": ["MAG_BELT", "MAG_DESTROY"]
   }
 ]

@@ -7,7 +7,15 @@
     "looks_like": "ar15",
     "name": { "str": "2-DINO-A7 laser rifle" },
     "description": "A state-of-the-art laser rifle developed by the R&D outfit \"Aerial Labs\".  Initial performance rivaled Rivtech's finest, with rumors flying about corporate skulduggery.  Fitted with a large internal plutonium cell for CyberDinos.",
-    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "UNRECOVERABLE", "TRADER_AVOID", "WATERPROOF_GUN", "NO_SALVAGE" ],
+    "flags": [
+      "NEVER_JAMS",
+      "NON_FOULING",
+      "NEEDS_NO_LUBE",
+      "UNRECOVERABLE",
+      "TRADER_AVOID",
+      "WATERPROOF_GUN",
+      "NO_SALVAGE"
+    ],
     "skill": "rifle",
     "weight": "540 g",
     "bashing": 12,
@@ -19,8 +27,8 @@
     "clip_size": 1,
     "dispersion": 1200,
     "durability": 6,
-    "ammo_effects": [ "LASER" ],
+    "ammo_effects": ["LASER"],
     "volume": "2500 ml",
-    "ammo": [ "battery" ]
+    "ammo": ["battery"]
   }
 ]

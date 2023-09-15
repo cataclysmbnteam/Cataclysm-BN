@@ -5,9 +5,9 @@
     "type": "ARMOR",
     "name": "C.R.I.T. blouse",
     "description": "C.R.I.T. standard-issue blouse.  Durable, lightweight, and has ample storage.  Super-flex neoprene keeps one warm in moderately cold weather while a sleek design keeps it from being too flashy.  A zipper at the back and front allows for quick donning and doffing.",
-    "flags": [ "COLLAR", "VARSIZE", "WATERPROOF", "STURDY", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": ["COLLAR", "VARSIZE", "WATERPROOF", "STURDY", "FANCY", "ALLOWS_NATURAL_ATTACKS"],
     "color": "light_gray",
-    "material": [ "neoprene", "kevlar" ],
+    "material": ["neoprene", "kevlar"],
     "warmth": 35
   },
   {
@@ -17,10 +17,10 @@
     "name": { "str_sp": "C.R.I.T. trousers" },
     "description": "C.R.I.T. standard-issue trousers.  Durable, lightweight and has ample storage.  Super-flex neoprene keeps one warm in moderately cold weather.",
     "color": "light_gray",
-    "material": [ "neoprene", "kevlar" ],
+    "material": ["neoprene", "kevlar"],
     "warmth": 35,
     "coverage": 100,
-    "flags": [ "WATERPROOF", "VARSIZE", "STURDY" ]
+    "flags": ["WATERPROOF", "VARSIZE", "STURDY"]
   },
   {
     "id": "crt_dress_pants",
@@ -31,13 +31,13 @@
     "color": "light_gray",
     "symbol": "[",
     "looks_like": "pants_army",
-    "material": [ "cotton", "neoprene" ],
+    "material": ["cotton", "neoprene"],
     "warmth": 17,
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "encumbrance": 10,
     "coverage": 100,
     "material_thickness": 2,
-    "flags": [ "WATERPROOF", "VARSIZE", "FANCY" ]
+    "flags": ["WATERPROOF", "VARSIZE", "FANCY"]
   },
   {
     "id": "crt_helmet_liner",
@@ -46,7 +46,7 @@
     "name": "C.R.I.T. helmet liner",
     "description": "C.R.I.T. standard-issue helmet liner.  Keeps the noggin warm.",
     "color": "light_gray",
-    "material": [ "neoprene" ],
+    "material": ["neoprene"],
     "material_thickness": 1,
     "warmth": 35
   },
@@ -61,17 +61,17 @@
     "price": 100000,
     "to_hit": -1,
     "bashing": 2,
-    "material": [ "cotton", "plastic", "rubber" ],
+    "material": ["cotton", "plastic", "rubber"],
     "symbol": "[",
     "color": "dark_gray",
     "looks_like": "dress_shoes",
-    "covers": [ "feet" ],
+    "covers": ["feet"],
     "coverage": 65,
     "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "FANCY" ]
+    "flags": ["VARSIZE", "WATERPROOF", "FANCY"]
   },
   {
     "id": "crt_rec_gloves",
@@ -83,17 +83,17 @@
     "volume": "250 ml",
     "price": 100000,
     "to_hit": -1,
-    "material": [ "cotton", "neoprene" ],
+    "material": ["cotton", "neoprene"],
     "symbol": "[",
     "color": "dark_gray",
     "looks_like": "gloves_tactical",
-    "covers": [ "hands" ],
+    "covers": ["hands"],
     "coverage": 90,
     "encumbrance": 4,
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": ["SKINTIGHT", "WATER_FRIENDLY"]
   },
   {
     "id": "crt_belt",
@@ -102,7 +102,7 @@
     "name": "C.R.I.T. web belt",
     "description": "C.R.I.T. standard-issue belt.  Keeps your trousers up and your tools on your hip.",
     "color": "blue",
-    "material": [ "leather", "brass" ],
+    "material": ["leather", "brass"],
     "use_action": {
       "type": "holster",
       "holster_prompt": "Sheath blade",
@@ -110,9 +110,9 @@
       "min_volume": 0,
       "max_volume": "1 L",
       "draw_cost": 5,
-      "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      "flags": ["BELT_CLIP", "SHEATH_KNIFE", "SHEATH_SWORD"]
     },
-    "flags": [ "STURDY", "WAIST" ]
+    "flags": ["STURDY", "WAIST"]
   },
   {
     "id": "crt_rec_duster",
@@ -124,18 +124,18 @@
     "volume": "5750 ml",
     "price": 25500,
     "to_hit": -1,
-    "material": [ "cotton", "neoprene", "rubber" ],
+    "material": ["cotton", "neoprene", "rubber"],
     "symbol": "[",
     "color": "black_green",
     "looks_like": "duster_survivor",
-    "covers": [ "torso", "arms", "legs" ],
+    "covers": ["torso", "arms", "legs"],
     "coverage": 100,
     "encumbrance": 13,
     "storage": "1250 ml",
     "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 2,
-    "flags": [ "POCKETS", "OUTER", "OVERSIZE", "COLLAR", "WATERPROOF", "RAINPROOF", "FANCY" ]
+    "flags": ["POCKETS", "OUTER", "OVERSIZE", "COLLAR", "WATERPROOF", "RAINPROOF", "FANCY"]
   },
   {
     "id": "crt_rec_hat",
@@ -146,16 +146,16 @@
     "weight": "253 g",
     "volume": "1250 ml",
     "price": 4500,
-    "material": [ "cotton", "neoprene", "rubber" ],
+    "material": ["cotton", "neoprene", "rubber"],
     "symbol": "[",
     "color": "white",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "looks_like": "beret",
     "coverage": 50,
     "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "FANCY", "VARSIZE", "RAINPROOF", "WATERPROOF" ]
+    "flags": ["FANCY", "VARSIZE", "RAINPROOF", "WATERPROOF"]
   }
 ]

@@ -31,13 +31,13 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_BARKEEP_JOB",
     "dynamic_line": "If it isn't obvious, I oversee the bar here.  The scavengers bring in old world alcohol that we sell for special occasions.  For most that come through here though, the drinks we brew ourselves are the only thing they can afford.",
-    "responses": [ { "text": "I see.", "topic": "TALK_RANCH_BARKEEP" } ]
+    "responses": [{ "text": "I see.", "topic": "TALK_RANCH_BARKEEP" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_BARKEEP_INFORMATION",
     "dynamic_line": "We have a policy of keeping information to ourselves.  Ask the patrons if you want to hear rumors or news.",
-    "responses": [ { "text": "Thanks for nothing.", "topic": "TALK_RANCH_BARKEEP" } ]
+    "responses": [{ "text": "Thanks for nothing.", "topic": "TALK_RANCH_BARKEEP" }]
   },
   {
     "id": "MISSION_RANCH_BARTENDER_1",
@@ -48,7 +48,7 @@
     "value": 50000,
     "item": "still",
     "count": 2,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_BARTENDER_2",
     "dialogue": {
       "describe": "We need help…",
@@ -64,7 +64,7 @@
     "end": {
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_1" ], "x": 0, "y": 0 } ]
+        "place_nested": [{ "chunks": ["tacoma_commune_bar_bartender_1"], "x": 0, "y": 0 }]
       }
     }
   },
@@ -77,7 +77,7 @@
     "value": 50000,
     "item": "yeast",
     "count": 20,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_BARTENDER_3",
     "dialogue": {
       "describe": "We need help…",
@@ -94,7 +94,7 @@
       "effect": { "npc_add_trait": "NPC_BRANDY" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_2" ], "x": 0, "y": 0 } ]
+        "place_nested": [{ "chunks": ["tacoma_commune_bar_bartender_2"], "x": 0, "y": 0 }]
       }
     }
   },
@@ -107,7 +107,7 @@
     "value": 50000,
     "item": "seed_sugar_beet",
     "count": 10,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_BARTENDER_4",
     "dialogue": {
       "describe": "We need help…",
@@ -124,7 +124,7 @@
       "effect": { "npc_add_trait": "NPC_RUM" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_3" ], "x": 0, "y": 0 } ]
+        "place_nested": [{ "chunks": ["tacoma_commune_bar_bartender_3"], "x": 0, "y": 0 }]
       }
     }
   },
@@ -137,7 +137,7 @@
     "value": 50000,
     "item": "metal_tank",
     "count": 12,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_RANCH_BARTENDER_5",
     "dialogue": {
       "describe": "We need help…",
@@ -154,7 +154,7 @@
       "effect": { "npc_add_trait": "NPC_WHISKEY" },
       "update_mapgen": {
         "om_terrain": "ranch_camp_51",
-        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_4" ], "x": 0, "y": 0 } ]
+        "place_nested": [{ "chunks": ["tacoma_commune_bar_bartender_4"], "x": 0, "y": 0 }]
       }
     }
   },
@@ -167,7 +167,7 @@
     "value": 50000,
     "item": "55gal_drum",
     "count": 2,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_NULL",
     "dialogue": {
       "describe": "We need help…",

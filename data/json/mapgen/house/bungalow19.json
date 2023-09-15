@@ -65,12 +65,12 @@
         "(": "f_speaker_cabinet",
         "$": "f_table",
         "&": "f_floor_lamp",
-        "?": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "?": ["f_indoor_plant", "f_indoor_plant_y"],
         "/": "f_rack"
       },
       "items": {
-        "$": { "item": "table_foyer", "chance": 50, "repeat": [ 2, 3 ] },
-        "/": { "item": "clothing_outdoor_shoes", "chance": 50, "repeat": [ 2, 3 ] }
+        "$": { "item": "table_foyer", "chance": 50, "repeat": [2, 3] },
+        "/": { "item": "clothing_outdoor_shoes", "chance": 50, "repeat": [2, 3] }
       }
     }
   },
@@ -80,7 +80,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",

@@ -10,16 +10,16 @@
     "price_postapoc": 50,
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "wood" ],
+    "material": ["wood"],
     "symbol": "[",
     "looks_like": "leg_splint",
     "color": "brown",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 75,
     "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": ["BELTED", "WATER_FRIENDLY"]
   },
   {
     "id": "bunker_pants",
@@ -33,19 +33,19 @@
     "price": 81500,
     "price_postapoc": 500,
     "to_hit": -1,
-    "material": [ "nomex", "kevlar" ],
+    "material": ["nomex", "kevlar"],
     "symbol": "[",
     "looks_like": "pants_cargo",
     "color": "dark_gray",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 100,
     "encumbrance": 30,
     "storage": "1500 ml",
     "warmth": 30,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": ["steel_padded", "alloy_padded"],
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER" ]
+    "flags": ["VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER"]
   },
   {
     "id": "chainmail_legs",
@@ -57,15 +57,15 @@
     "price": 7500,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": ["iron", "cotton"],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": ["VARSIZE", "STURDY"]
   },
   {
     "id": "chaps_leather",
@@ -77,16 +77,16 @@
     "price": 21000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "pants_leather",
     "color": "dark_gray",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 65,
     "encumbrance": 3,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "OUTER" ]
+    "flags": ["OUTER"]
   },
   {
     "id": "fencing_pants",
@@ -98,17 +98,17 @@
     "volume": "2 L",
     "price": 2500,
     "price_postapoc": 500,
-    "material": [ "cotton", "kevlar" ],
+    "material": ["cotton", "kevlar"],
     "symbol": "[",
     "looks_like": "pants",
     "color": "white",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 95,
     "encumbrance": 15,
     "storage": "500 ml",
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": ["VARSIZE"]
   },
   {
     "id": "knee_pads",
@@ -120,14 +120,14 @@
     "price": 2500,
     "price_postapoc": 50,
     "to_hit": 1,
-    "material": [ "plastic", "cotton" ],
+    "material": ["plastic", "cotton"],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "dark_gray",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 30,
     "material_thickness": 5,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": ["WATER_FRIENDLY", "BELTED"]
   },
   {
     "id": "legguard_bronze",
@@ -139,16 +139,16 @@
     "price": 40000,
     "price_postapoc": 750,
     "to_hit": 1,
-    "material": [ "bronze", "leather" ],
+    "material": ["bronze", "leather"],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "yellow",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 70,
     "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "BELTED", "STURDY" ]
+    "flags": ["BELTED", "STURDY"]
   },
   {
     "id": "legguard_hard",
@@ -160,17 +160,17 @@
     "price": 3400,
     "price_postapoc": 500,
     "to_hit": 1,
-    "material": [ "plastic", "neoprene" ],
+    "material": ["plastic", "neoprene"],
     "symbol": "[",
     "looks_like": "leg_warmers",
     "color": "dark_gray",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 75,
     "encumbrance": 10,
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": ["BELTED", "WATER_FRIENDLY"]
   },
   {
     "id": "legguard_lightplate",
@@ -182,16 +182,16 @@
     "price": 20000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "material": [ "steel", "leather" ],
+    "material": ["steel", "leather"],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_gray",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 95,
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": ["VARSIZE", "OUTER", "STURDY"]
   },
   {
     "id": "legguard_metal",
@@ -203,16 +203,16 @@
     "price": 40000,
     "price_postapoc": 1000,
     "to_hit": 1,
-    "material": [ "iron", "leather" ],
+    "material": ["iron", "leather"],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 70,
     "encumbrance": 6,
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": ["BELTED", "WATER_FRIENDLY"]
   },
   {
     "id": "legguard_paper",
@@ -224,16 +224,16 @@
     "price": 230,
     "price_postapoc": 50,
     "to_hit": 1,
-    "material": [ "paper" ],
+    "material": ["paper"],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "blue",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 80,
     "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED" ]
+    "flags": ["BELTED"]
   },
   {
     "id": "legguard_scrap",
@@ -247,16 +247,16 @@
     "to_hit": -1,
     "bashing": 1,
     "cutting": 1,
-    "material": [ "steel", "iron" ],
+    "material": ["steel", "iron"],
     "symbol": "[",
     "looks_like": "legguard_metal",
     "color": "light_gray",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 80,
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "BELTED" ]
+    "flags": ["BELTED"]
   },
   {
     "id": "lsurvivor_pants",
@@ -267,18 +267,18 @@
     "volume": "3500 ml",
     "price": 40000,
     "price_postapoc": 1500,
-    "material": [ "kevlar", "cotton" ],
+    "material": ["kevlar", "cotton"],
     "symbol": "[",
     "looks_like": "pants_survivor",
     "color": "green",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 95,
     "encumbrance": 16,
     "storage": "2500 ml",
     "warmth": 12,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ]
+    "flags": ["VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY"]
   },
   {
     "id": "motorbike_pants",
@@ -290,17 +290,17 @@
     "volume": "750 ml",
     "price": 10000,
     "price_postapoc": 750,
-    "material": [ "kevlar", "cotton" ],
+    "material": ["kevlar", "cotton"],
     "symbol": "[",
     "looks_like": "pants_leather",
     "color": "dark_gray",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 100,
     "encumbrance": 20,
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": ["VARSIZE", "WATERPROOF"]
   },
   {
     "id": "pants_survivor",
@@ -311,18 +311,18 @@
     "volume": "3 L",
     "price": 38000,
     "price_postapoc": 2000,
-    "material": [ "cotton", "kevlar" ],
+    "material": ["cotton", "kevlar"],
     "symbol": "[",
     "looks_like": "pants_army",
     "color": "green",
-    "covers": [ "legs" ],
+    "covers": ["legs"],
     "coverage": 100,
     "encumbrance": 20,
     "storage": "3500 ml",
     "warmth": 15,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "valid_mods": ["steel_padded", "alloy_padded"],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+    "flags": ["VARSIZE", "POCKETS", "STURDY", "WATERPROOF"]
   }
 ]

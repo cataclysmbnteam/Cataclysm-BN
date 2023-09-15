@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_apt" ],
+    "om_terrain": ["s_apt"],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -31,22 +31,22 @@
         "         -W+W-          ",
         "                        "
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "terrain": { "4": "t_linoleum_white", "5": "t_linoleum_white" },
       "furniture": { "4": "f_washer", "5": "f_dryer" },
       "place_loot": [
-        { "group": "allclothes", "chance": 50, "repeat": [ 5 ], "x": [ 7, 8 ], "y": [ 20, 20 ] },
-        { "group": "tools_home", "chance": 50, "repeat": [ 1 ], "x": [ 5, 4 ], "y": [ 15, 15 ] },
-        { "group": "tools_home", "chance": 50, "repeat": [ 1 ], "x": [ 2, 1 ], "y": [ 15, 15 ] },
-        { "group": "tools_home", "chance": 50, "repeat": [ 1 ], "x": [ 2, 1 ], "y": [ 20, 20 ] },
-        { "group": "tools_home", "chance": 50, "repeat": [ 1 ], "x": [ 4, 5 ], "y": [ 20, 20 ] }
+        { "group": "allclothes", "chance": 50, "repeat": [5], "x": [7, 8], "y": [20, 20] },
+        { "group": "tools_home", "chance": 50, "repeat": [1], "x": [5, 4], "y": [15, 15] },
+        { "group": "tools_home", "chance": 50, "repeat": [1], "x": [2, 1], "y": [15, 15] },
+        { "group": "tools_home", "chance": 50, "repeat": [1], "x": [2, 1], "y": [20, 20] },
+        { "group": "tools_home", "chance": 50, "repeat": [1], "x": [4, 5], "y": [20, 20] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_apt_2ndfloor" ],
+    "om_terrain": ["s_apt_2ndfloor"],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -75,13 +75,13 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "apartment_palette" ]
+      "palettes": ["apartment_palette"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_apt_roof" ],
+    "om_terrain": ["s_apt_roof"],
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -110,7 +110,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "$": "t_wall", "+": "t_door_c", ">": "t_stairs_down" }
     }
   }

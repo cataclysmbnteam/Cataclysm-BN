@@ -4,7 +4,7 @@
     "id": "style_mma_panzer",
     "name": { "str": "Panzer Kunst" },
     "description": "Panzer Kunst or \"Armor Art\" is a futuristic martial art devised for cyborgs fighting in zero-gravity environments.",
-    "initiate": [ "You adopt a panzer kunst stance.", "%s adopts a panzer kunst stance." ],
+    "initiate": ["You adopt a panzer kunst stance.", "%s adopts a panzer kunst stance."],
     "learn_difficulty": 10,
     "arm_block_with_bio_armor_arms": true,
     "leg_block_with_bio_armor_legs": true,
@@ -16,7 +16,7 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "bonus_dodges": 1,
-        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "per", "scale": 0.12 } ]
+        "flat_bonuses": [{ "stat": "dodge", "scaling-stat": "per", "scale": 0.12 }]
       }
     ],
     "ondodge_buffs": [
@@ -24,7 +24,7 @@
         "id": "mma_buff_panzer_ondodge",
         "name": "Einzug Rüstungen",
         "description": "\"Armor Penetration\"\nBy attuning to the rhythm of your opponent, you can strike where their guard is the weakest.\n+5 bash Armor Penetration.\nLasts 2 turns.",
-        "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+        "skill_requirements": [{ "name": "unarmed", "level": 2 }],
         "unarmed_allowed": true,
         "melee_allowed": true,
         "buff_duration": 2,
@@ -36,7 +36,12 @@
         ]
       }
     ],
-    "techniques": [ "mma_tec_panzer_counter", "mma_tec_panzer_somersault", "mma_tec_panzer_precise", "mma_tec_panzer_rapid" ],
-    "weapon_category": [ "BIONIC_WEAPONRY" ]
+    "techniques": [
+      "mma_tec_panzer_counter",
+      "mma_tec_panzer_somersault",
+      "mma_tec_panzer_precise",
+      "mma_tec_panzer_rapid"
+    ],
+    "weapon_category": ["BIONIC_WEAPONRY"]
   }
 ]

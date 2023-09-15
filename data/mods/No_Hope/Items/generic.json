@@ -17,7 +17,7 @@
     "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  Unusable as a weapon on its own without the necessary parts.",
     "price": 5000000,
     "price_postapoc": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "5000 g",
     "volume": "750 ml",
     "category": "spare_parts"
@@ -34,7 +34,7 @@
     "weight": "8932 g",
     "volume": "4500 ml",
     "to_hit": -2,
-    "material": [ "wood", "steel" ]
+    "material": ["wood", "steel"]
   },
   {
     "id": "mn_classic_kit",
@@ -48,7 +48,7 @@
     "weight": "2000 g",
     "volume": "2750 ml",
     "to_hit": -2,
-    "material": [ "wood", "steel" ]
+    "material": ["wood", "steel"]
   },
   {
     "id": "mn_ebr_kit",
@@ -62,7 +62,7 @@
     "weight": "2000 g",
     "volume": "2750 ml",
     "to_hit": -2,
-    "material": [ "plastic", "steel" ]
+    "material": ["plastic", "steel"]
   },
   {
     "id": "l_car_223_kit",
@@ -76,7 +76,7 @@
     "weight": "400 g",
     "volume": "500 ml",
     "to_hit": -2,
-    "material": [ "steel", "plastic" ]
+    "material": ["steel", "plastic"]
   },
   {
     "id": "l_mbr_223_kit",
@@ -90,7 +90,7 @@
     "weight": "700 g",
     "volume": "750 ml",
     "to_hit": -2,
-    "material": [ "steel", "plastic" ]
+    "material": ["steel", "plastic"]
   },
   {
     "id": "l_dsr_223_kit",
@@ -104,7 +104,7 @@
     "weight": "1900 g",
     "volume": "2500 ml",
     "to_hit": -2,
-    "material": [ "steel", "plastic" ]
+    "material": ["steel", "plastic"]
   },
   {
     "id": "l_lmg_223_kit",
@@ -118,7 +118,7 @@
     "weight": "2300 g",
     "volume": "2750 ml",
     "to_hit": -2,
-    "material": [ "steel", "plastic" ]
+    "material": ["steel", "plastic"]
   },
   {
     "type": "GENERIC",
@@ -129,13 +129,13 @@
     "category": "other",
     "description": "A broken tribot.  Now that its legs lie broken and immobile, the world seems a little less threatening.  Could be gutted for parts.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "430000 g",
     "volume": "187500 ml",
     "bashing": 10,
     "cutting": 6,
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": ["TRADER_AVOID", "NO_REPAIR"]
   },
   {
     "type": "GENERIC",
@@ -146,13 +146,13 @@
     "category": "other",
     "description": "A broken tank drone.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "1223850 g",
     "volume": "875 L",
     "bashing": 20,
     "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": ["TRADER_AVOID", "NO_REPAIR"]
   },
   {
     "type": "GENERIC",
@@ -163,13 +163,13 @@
     "category": "other",
     "description": "A broken chicken walker.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "1023850 g",
     "volume": "1100 L",
     "bashing": 20,
     "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": ["TRADER_AVOID", "NO_REPAIR"]
   },
   {
     "type": "GENERIC",
@@ -181,7 +181,7 @@
     "weight": "40000 g",
     "volume": "70000 ml",
     "price": 200000,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "category": "spare_parts"
   },
   {
@@ -194,7 +194,7 @@
     "weight": "60000 g",
     "volume": "80000 ml",
     "price": 300000,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "category": "spare_parts"
   },
   {
@@ -207,7 +207,7 @@
     "weight": "150000 g",
     "volume": "575000 ml",
     "price": 1000000,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "category": "spare_parts"
   },
   {
@@ -232,9 +232,9 @@
     "to_hit": 3,
     "color": "brown",
     "symbol": "/",
-    "material": [ "wood" ],
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE" ],
+    "material": ["wood"],
+    "techniques": ["WBLOCK_1"],
+    "flags": ["DURABLE_MELEE"],
     "volume": "1750 ml",
     "bashing": 19,
     "price": 18000

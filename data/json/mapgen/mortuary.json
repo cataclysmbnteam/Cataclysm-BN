@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mortuary" ],
+    "om_terrain": ["mortuary"],
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -45,13 +45,13 @@
         "d": "t_linoleum_white",
         "f": "t_dirt",
         "i": "t_linoleum_white",
-        "o": [ "t_window_domestic", "t_window_open", "t_curtains" ],
+        "o": ["t_window_domestic", "t_window_open", "t_curtains"],
         "u": "t_shrub",
         "|": "t_wall_w",
         "~": "t_linoleum_white",
         "4": "t_gutter_downspout"
       },
-      "toilets": { "&": {  } },
+      "toilets": { "&": {} },
       "furniture": {
         "C": "f_coffin_c",
         "D": "f_desk",
@@ -59,12 +59,21 @@
         "h": "f_chair",
         "L": "f_locker",
         "O": "f_coffin_o",
-        "P": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "P": ["f_indoor_plant_y", "f_indoor_plant"],
         "T": "f_table",
         "a": "f_dahlia",
         "c": "f_sofa",
         "d": "f_rack",
-        "f": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+        "f": [
+          "f_datura",
+          "f_bluebell",
+          "f_mutpoppy",
+          "f_dahlia",
+          "f_flower_tulip",
+          "f_chamomile",
+          "f_flower_spurge",
+          "f_lily"
+        ],
         "i": "f_sink",
         "l": "f_bookcase"
       },
@@ -76,13 +85,13 @@
         }
       ],
       "place_items": [
-        { "item": "cleaning", "x": 3, "y": [ 19, 20 ], "chance": 50 },
+        { "item": "cleaning", "x": 3, "y": [19, 20], "chance": 50 },
         { "item": "dissection", "x": 3, "y": 21, "chance": 70 },
-        { "item": "church", "x": [ 16, 18 ], "y": [ 14, 20 ], "chance": 50 },
+        { "item": "church", "x": [16, 18], "y": [14, 20], "chance": 50 },
         { "item": "lab_torso", "x": 8, "y": 19, "chance": 50 },
         { "item": "bionics_common", "x": 8, "y": 19, "chance": 30 },
         { "item": "bionic_power_storage_civ", "x": 8, "y": 19, "chance": 15 },
-        { "item": "homebooks", "x": [ 5, 6 ], "y": 17, "chance": 50 },
+        { "item": "homebooks", "x": [5, 6], "y": 17, "chance": 50 },
         { "item": "magazines", "x": 3, "y": 17, "chance": 50 }
       ],
       "place_loot": [
@@ -92,7 +101,7 @@
         { "group": "corpse_female_mortuary", "x": 6, "y": 21, "chance": 40 },
         { "group": "corpse_viewing", "x": 20, "y": 17, "chance": 50 }
       ],
-      "place_vehicles": [ { "vehicle": "hearse", "x": 12, "y": 7, "chance": 90 } ]
+      "place_vehicles": [{ "vehicle": "hearse", "x": 12, "y": 7, "chance": 90 }]
     }
   },
   {
@@ -127,19 +136,19 @@
         "  |------------------3  ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] } },
+      "palettes": ["roof_palette"],
+      "nested": { "U": { "chunks": ["roof_2x2_infrastructure"] } },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 4, 17 ],
-          "y": [ 14, 19 ]
+          "x": [4, 17],
+          "y": [14, 19]
         }
       ]
     }

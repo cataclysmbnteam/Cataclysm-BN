@@ -19,7 +19,12 @@
       "type": "place_trap",
       "allow_underwater": true,
       "bury_question": "Bury the beartrap?",
-      "bury": { "trap": "tr_beartrap_buried", "moves": 275, "practice": 7, "done_message": "You bury the beartrap." },
+      "bury": {
+        "trap": "tr_beartrap_buried",
+        "moves": 275,
+        "practice": 7,
+        "done_message": "You bury the beartrap."
+      },
       "trap": "tr_beartrap",
       "moves": 200,
       "practice": 4,
@@ -87,7 +92,7 @@
     "price": 5000,
     "price_postapoc": 500,
     "to_hit": -4,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "red",
     "use_action": {
@@ -179,7 +184,7 @@
     "price_postapoc": 1000,
     "to_hit": -2,
     "bashing": 4,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -208,7 +213,12 @@
     "use_action": {
       "type": "place_trap",
       "bury_question": "Bury the land mine?",
-      "bury": { "trap": "tr_landmine_buried", "moves": 275, "practice": 7, "done_message": "You bury the land mine." },
+      "bury": {
+        "trap": "tr_landmine_buried",
+        "moves": 275,
+        "practice": 7,
+        "done_message": "You bury the land mine."
+      },
       "trap": "tr_landmine",
       "moves": 200,
       "practice": 4,
@@ -227,7 +237,7 @@
     "price_postapoc": 1000,
     "to_hit": -2,
     "bashing": 12,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": ";",
     "color": "brown",
     "use_action": {
@@ -280,7 +290,7 @@
       "practice": 2,
       "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
     },
-    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID" ],
+    "flags": ["HURT_WHEN_WIELDED", "TRADER_AVOID"],
     "to_hit": -1
   }
 ]

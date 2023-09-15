@@ -9,13 +9,13 @@
     "volume": "500 ml",
     "price": 10000,
     "price_postapoc": 100,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "38super",
     "capacity": 16,
     "reliability": 7,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "m1911mag_10rd_38super",
@@ -33,6 +33,6 @@
     "ammo_type": "38super",
     "capacity": 9,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   }
 ]

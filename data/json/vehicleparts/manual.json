@@ -12,8 +12,8 @@
     "difficulty": 1,
     "noise_factor": 5,
     "m2c": 45,
-    "exclusions": [ "manual" ],
-    "flags": [ "ENGINE", "E_STARTS_INSTANTLY", "E_ALTERNATOR" ]
+    "exclusions": ["manual"],
+    "flags": ["ENGINE", "E_STARTS_INSTANTLY", "E_ALTERNATOR"]
   },
   {
     "id": "foot_pedals",
@@ -27,12 +27,23 @@
     "muscle_power_factor": 140,
     "folded_volume": 2,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 0]],
+        "time": "60 m",
+        "qualities": [{ "id": "WRENCH", "level": 1 }]
+      },
+      "removal": {
+        "skills": [["mechanics", 0]],
+        "time": "30 m",
+        "qualities": [{ "id": "WRENCH", "level": 1 }]
+      },
+      "repair": { "skills": [["mechanics", 0]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
-    "extend": { "flags": [ "FOLDABLE", "MUSCLE_LEGS", "CONTROLS" ] },
+    "breaks_into": [
+      { "item": "steel_chunk", "count": [1, 2] },
+      { "item": "scrap", "count": [0, 2] }
+    ],
+    "extend": { "flags": ["FOLDABLE", "MUSCLE_LEGS", "CONTROLS"] },
     "damage_reduction": { "all": 4 }
   },
   {
@@ -48,12 +59,23 @@
     "damage_modifier": 50,
     "folded_volume": 2,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 0]],
+        "time": "60 m",
+        "qualities": [{ "id": "WRENCH", "level": 1 }]
+      },
+      "removal": {
+        "skills": [["mechanics", 0]],
+        "time": "30 m",
+        "qualities": [{ "id": "WRENCH", "level": 1 }]
+      },
+      "repair": { "skills": [["mechanics", 0]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
-    "extend": { "flags": [ "FOLDABLE", "MUSCLE_ARMS", "CONTROLS" ] },
+    "breaks_into": [
+      { "item": "steel_chunk", "count": [1, 2] },
+      { "item": "scrap", "count": [0, 2] }
+    ],
+    "extend": { "flags": ["FOLDABLE", "MUSCLE_ARMS", "CONTROLS"] },
     "damage_reduction": { "all": 4 }
   }
 ]

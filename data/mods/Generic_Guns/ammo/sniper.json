@@ -15,15 +15,17 @@
     "copy-from": "sniper_ball",
     "name": { "str_sp": "7.62mm, JHP" },
     "description": "Modern sniper ammunition.  It has a high range and is perfect for disabling targets from afar.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.",
-    "proportional": { "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 } }
+    "proportional": {
+      "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 }
+    }
   },
   {
     "id": "bp_sniper_ball",
     "copy-from": "sniper_ball",
     "type": "AMMO",
     "name": { "str_sp": "7.62mm, FMJ (black powder)" },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
+    "extend": { "effects": ["RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] },
     "description": "Modern sniper ammunition.  It has a high range and is perfect for disabling targets from afar.  Full metal jacketed bullets offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.  This was however handloaded with black powder.",
     "proportional": {
       "price": 0.3,
@@ -38,6 +40,8 @@
     "type": "AMMO",
     "name": { "str_sp": "7.62mm, JHP (black powder)" },
     "description": "Modern sniper ammunition.  It has a high range and is perfect for disabling targets from afar.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.  This was however handloaded with black powder.",
-    "proportional": { "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 } }
+    "proportional": {
+      "damage": { "damage_type": "bullet", "amount": 1.25, "armor_penetration": 0.001 }
+    }
   }
 ]

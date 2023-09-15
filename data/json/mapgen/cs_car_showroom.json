@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cs_car_showroom" ],
+    "om_terrain": ["cs_car_showroom"],
     "method": "json",
     "weight": 1000,
     "object": {
@@ -51,7 +51,7 @@
       "furniture": {
         "C": "f_dumpster",
         "s": "f_sink",
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "y": ["f_indoor_plant_y", "f_indoor_plant"],
         "t": "f_toilet",
         "d": "f_desk",
         "L": "f_locker",
@@ -65,7 +65,16 @@
         "V": "f_vending_c",
         "v": "f_vending_c"
       },
-      "place_vehicles": [ { "vehicle": "oa_vg_cs_vehicles", "x": 16, "y": 7, "rotation": 270, "chance": 100, "status": 0 } ],
+      "place_vehicles": [
+        {
+          "vehicle": "oa_vg_cs_vehicles",
+          "x": 16,
+          "y": 7,
+          "rotation": 270,
+          "chance": 100,
+          "status": 0
+        }
+      ],
       "items": {
         "c": { "item": "oa_custom_trash", "chance": 70 },
         "C": { "item": "oa_custom_trash", "chance": 70 },
@@ -77,14 +86,17 @@
         "f": { "item": "office_paper", "chance": 70 }
       },
       "place_items": [
-        { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 17, "y": 22 },
-        { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 18, "y": 22 },
-        { "item": "vending_food_items", "chance": 80, "repeat": [ 3, 6 ], "x": 3, "y": 6 },
-        { "item": "vending_drink_items", "chance": 80, "repeat": [ 3, 6 ], "x": 3, "y": 7 },
-        { "item": "fridgesnacks", "chance": 70, "repeat": [ 0, 4 ], "x": 3, "y": 4 }
+        { "item": "oa_custom_trash", "chance": 80, "repeat": [2, 4], "x": 17, "y": 22 },
+        { "item": "oa_custom_trash", "chance": 80, "repeat": [2, 4], "x": 18, "y": 22 },
+        { "item": "vending_food_items", "chance": 80, "repeat": [3, 6], "x": 3, "y": 6 },
+        { "item": "vending_drink_items", "chance": 80, "repeat": [3, 6], "x": 3, "y": 7 },
+        { "item": "fridgesnacks", "chance": 70, "repeat": [0, 4], "x": 3, "y": 4 }
       ],
-      "add": [ { "item": "microwave", "x": 4, "y": 4, "chance": 1 }, { "item": "coffeemaker", "x": 5, "y": 4, "chance": 1 } ],
-      "toilets": { "t": {  } }
+      "add": [
+        { "item": "microwave", "x": 4, "y": 4, "chance": 1 },
+        { "item": "coffeemaker", "x": 5, "y": 4, "chance": 1 }
+      ],
+      "toilets": { "t": {} }
     }
   },
   {
@@ -135,21 +147,56 @@
         "G": "t_reinforced_door_glass_c"
       },
       "furniture": {
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "y": ["f_indoor_plant_y", "f_indoor_plant"],
         "d": "f_desk",
         "h": "f_chair",
         "S": "f_sofa",
         "b": "f_bench",
         "u": "f_birdbath",
-        "n": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "n": ["f_indoor_plant_y", "f_indoor_plant"],
         "f": "f_filing_cabinet"
       },
       "place_vehicles": [
-        { "vehicle": "showroom_small_vehicles", "x": 14, "y": 6, "rotation": 270, "chance": 100, "status": 0 },
-        { "vehicle": "showroom_small_vehicles", "x": 14, "y": 11, "rotation": 270, "chance": 100, "status": 0 },
-        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 6, "rotation": 270, "chance": 100, "status": 0 },
-        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 11, "rotation": 270, "chance": 100, "status": 0 },
-        { "vehicle": "showroom_small_vehicles", "x": 4, "y": 6, "rotation": 270, "chance": 100, "status": 0 }
+        {
+          "vehicle": "showroom_small_vehicles",
+          "x": 14,
+          "y": 6,
+          "rotation": 270,
+          "chance": 100,
+          "status": 0
+        },
+        {
+          "vehicle": "showroom_small_vehicles",
+          "x": 14,
+          "y": 11,
+          "rotation": 270,
+          "chance": 100,
+          "status": 0
+        },
+        {
+          "vehicle": "showroom_small_vehicles",
+          "x": 19,
+          "y": 6,
+          "rotation": 270,
+          "chance": 100,
+          "status": 0
+        },
+        {
+          "vehicle": "showroom_small_vehicles",
+          "x": 19,
+          "y": 11,
+          "rotation": 270,
+          "chance": 100,
+          "status": 0
+        },
+        {
+          "vehicle": "showroom_small_vehicles",
+          "x": 4,
+          "y": 6,
+          "rotation": 270,
+          "chance": 100,
+          "status": 0
+        }
       ],
       "items": {
         "d": { "item": "oa_ig_cs_desks", "chance": 70 },

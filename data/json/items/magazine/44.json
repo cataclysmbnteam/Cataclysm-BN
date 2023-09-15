@@ -14,7 +14,7 @@
     "color": "light_gray",
     "ammo_type": "44",
     "capacity": 6,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": ["SPEEDLOADER"]
   },
   {
     "id": "deaglemag",
@@ -32,6 +32,6 @@
     "ammo_type": "44",
     "capacity": 8,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   }
 ]

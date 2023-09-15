@@ -5,9 +5,14 @@
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "500 s",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 6 ] ], [ [ "amplifier", 4 ] ], [ [ "light_battery_cell", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [
+      [["power_supply", 6]],
+      [["amplifier", 4]],
+      [["light_battery_cell", 1]],
+      [["burnt_out_bionic", 1]]
+    ]
   },
   {
     "type": "uncraft",
@@ -15,14 +20,14 @@
     "skill_used": "electronics",
     "difficulty": 10,
     "time": "700 s",
-    "using": [ [ "soldering_standard", 32 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [["soldering_standard", 32]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "power_supply", 10 ] ],
-      [ [ "amplifier", 6 ] ],
-      [ [ "light_plus_battery_cell", 1 ] ],
-      [ [ "light_battery_cell", 1 ] ],
-      [ [ "burnt_out_bionic", 1 ] ]
+      [["power_supply", 10]],
+      [["amplifier", 6]],
+      [["light_plus_battery_cell", 1]],
+      [["light_battery_cell", 1]],
+      [["burnt_out_bionic", 1]]
     ]
   },
   {
@@ -31,9 +36,9 @@
     "skill_used": "electronics",
     "difficulty": 7,
     "time": "500 s",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["power_supply", 2]], [["amplifier", 2]], [["burnt_out_bionic", 1]]]
   },
   {
     "type": "uncraft",
@@ -41,9 +46,9 @@
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "500 s",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "recharge_station", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["power_supply", 2]], [["recharge_station", 1]], [["burnt_out_bionic", 1]]]
   },
   {
     "type": "uncraft",
@@ -51,9 +56,9 @@
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "500 s",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["power_supply", 2]], [["amplifier", 2]], [["burnt_out_bionic", 1]]]
   },
   {
     "type": "uncraft",
@@ -61,9 +66,14 @@
     "skill_used": "electronics",
     "difficulty": 9,
     "time": "500 s",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 5 ] ], [ [ "amplifier", 3 ] ], [ [ "plut_cell", 5 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [
+      [["power_supply", 5]],
+      [["amplifier", 3]],
+      [["plut_cell", 5]],
+      [["burnt_out_bionic", 1]]
+    ]
   },
   {
     "type": "uncraft",
@@ -71,9 +81,9 @@
     "skill_used": "electronics",
     "difficulty": 7,
     "time": "500 s",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "hose", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["power_supply", 2]], [["hose", 1]], [["burnt_out_bionic", 1]]]
   },
   {
     "type": "uncraft",
@@ -81,9 +91,14 @@
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "500 s",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "lens", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [
+      [["power_supply", 1]],
+      [["amplifier", 1]],
+      [["lens", 2]],
+      [["burnt_out_bionic", 1]]
+    ]
   },
   {
     "type": "uncraft",
@@ -91,8 +106,13 @@
     "skill_used": "electronics",
     "difficulty": 7,
     "time": "500 s",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "element", 1 ] ], [ [ "hose", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "using": [["soldering_standard", 20]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [
+      [["power_supply", 2]],
+      [["element", 1]],
+      [["hose", 1]],
+      [["burnt_out_bionic", 1]]
+    ]
   }
 ]

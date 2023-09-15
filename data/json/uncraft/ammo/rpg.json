@@ -5,13 +5,13 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "10 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }],
     "components": [
-      [ [ "copper", 200 ] ],
-      [ [ "chem_compositionb", 450 ] ],
-      [ [ "gunpowder", 300 ] ],
-      [ [ "impact_fuze", 1 ] ],
-      [ [ "scrap", 3 ] ]
+      [["copper", 200]],
+      [["chem_compositionb", 450]],
+      [["gunpowder", 300]],
+      [["impact_fuze", 1]],
+      [["scrap", 3]]
     ],
     "charges": 1
   },
@@ -21,13 +21,13 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "10 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }],
     "components": [
-      [ [ "copper", 250 ] ],
-      [ [ "chem_compositionb", 1500 ] ],
-      [ [ "gunpowder", 300 ] ],
-      [ [ "impact_fuze", 1 ] ],
-      [ [ "scrap", 3 ] ]
+      [["copper", 250]],
+      [["chem_compositionb", 1500]],
+      [["gunpowder", 300]],
+      [["impact_fuze", 1]],
+      [["scrap", 3]]
     ],
     "charges": 1
   },
@@ -37,14 +37,14 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "10 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }],
     "components": [
-      [ [ "copper", 50 ] ],
-      [ [ "chem_compositionb", 50 ] ],
-      [ [ "gunpowder", 300 ] ],
-      [ [ "impact_fuze", 1 ] ],
-      [ [ "scrap", 3 ] ],
-      [ [ "incendiary", 150 ] ]
+      [["copper", 50]],
+      [["chem_compositionb", 50]],
+      [["gunpowder", 300]],
+      [["impact_fuze", 1]],
+      [["scrap", 3]],
+      [["incendiary", 150]]
     ],
     "charges": 1
   },
@@ -54,8 +54,13 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "10 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "chem_compositionb", 200 ] ], [ [ "gunpowder", 300 ] ], [ [ "impact_fuze", 1 ] ], [ [ "scrap", 3 ] ] ],
+    "qualities": [{ "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }],
+    "components": [
+      [["chem_compositionb", 200]],
+      [["gunpowder", 300]],
+      [["impact_fuze", 1]],
+      [["scrap", 3]]
+    ],
     "charges": 1
   }
 ]

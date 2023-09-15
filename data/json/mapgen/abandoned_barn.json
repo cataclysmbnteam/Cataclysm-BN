@@ -31,7 +31,7 @@
         "..........d....#.......d",
         "...d............d......."
       ],
-      "palettes": [ "desolatebarn_palette" ],
+      "palettes": ["desolatebarn_palette"],
       "place_items": [
         { "chance": 25, "item": "trash", "x": 12, "y": 18 },
         { "chance": 25, "item": "trash", "x": 9, "y": 13 },
@@ -41,9 +41,13 @@
         { "chance": 10, "item": "hand_tools", "x": 13, "y": 12 }
       ],
       "place_nested": [
-        { "chunks": [ [ "ruins_4x4_front", 60 ], [ "ruins_4x4_junk", 40 ] ], "x": 6, "y": 11 },
-        { "chunks": [ [ "null", 60 ], [ "ruins_4x4_junk", 30 ], [ "ruins_4x4_camp", 10 ] ], "x": 10, "y": 16 },
-        { "chunks": [ [ "null", 70 ], [ "ruins_8x8_yard", 30 ] ], "x": 16, "y": 10 }
+        { "chunks": [["ruins_4x4_front", 60], ["ruins_4x4_junk", 40]], "x": 6, "y": 11 },
+        {
+          "chunks": [["null", 60], ["ruins_4x4_junk", 30], ["ruins_4x4_camp", 10]],
+          "x": 10,
+          "y": 16
+        },
+        { "chunks": [["null", 70], ["ruins_8x8_yard", 30]], "x": 16, "y": 10 }
       ]
     }
   },
@@ -80,9 +84,9 @@
         "...f......d.f....f...#.d",
         "...d......#.....d......."
       ],
-      "palettes": [ "desolatebarn_palette" ],
-      "place_rubble": [ { "x": 10, "y": 5 }, { "x": 11, "y": 5 }, { "x": 11, "y": 8 } ],
-      "place_nested": [ { "chunks": [ [ "null", 80 ], [ "ruins_8x8_yard", 20 ] ], "x": 16, "y": 5 } ]
+      "palettes": ["desolatebarn_palette"],
+      "place_rubble": [{ "x": 10, "y": 5 }, { "x": 11, "y": 5 }, { "x": 11, "y": 8 }],
+      "place_nested": [{ "chunks": [["null", 80], ["ruins_8x8_yard", 20]], "x": 16, "y": 5 }]
     }
   },
   {
@@ -117,7 +121,7 @@
         "...1......d..........#.d",
         "...d......#.....d......."
       ],
-      "palettes": [ "desolatebarn_palette" ],
+      "palettes": ["desolatebarn_palette"],
       "place_items": [
         { "chance": 25, "item": "trash", "x": 19, "y": 19 },
         { "chance": 25, "item": "trash", "x": 15, "y": 15 },
@@ -125,11 +129,19 @@
         { "chance": 25, "item": "trash", "x": 18, "y": 11 }
       ],
       "sealed_item": {
-        "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling" },
-        "P": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling" }
+        "p": {
+          "items": { "item": "farming_seeds", "chance": 100 },
+          "furniture": "f_plant_seedling"
+        },
+        "P": {
+          "items": { "item": "farming_seeds", "chance": 100 },
+          "furniture": "f_plant_seedling"
+        }
       },
-      "place_monster": [ { "monster": "mon_cat", "chance": 30, "x": 19, "y": 10 } ],
-      "place_nested": [ { "chunks": [ [ "ruins_4x4_front", 80 ], [ "ruins_4x4_junk", 20 ] ], "x": 15, "y": 11 } ]
+      "place_monster": [{ "monster": "mon_cat", "chance": 30, "x": 19, "y": 10 }],
+      "place_nested": [
+        { "chunks": [["ruins_4x4_front", 80], ["ruins_4x4_junk", 20]], "x": 15, "y": 11 }
+      ]
     }
   },
   {
@@ -164,15 +176,15 @@
         ".d........#............#",
         "...d............d......."
       ],
-      "palettes": [ "desolatebarn_palette" ],
+      "palettes": ["desolatebarn_palette"],
       "place_items": [
         { "chance": 35, "item": "trash", "x": 17, "y": 5 },
         { "chance": 35, "item": "trash", "x": 4, "y": 5 },
         { "chance": 35, "item": "trash", "x": 13, "y": 3 },
         { "chance": 20, "item": "hand_tools", "x": 6, "y": 7 }
       ],
-      "place_rubble": [ { "x": [ 17, 18 ], "y": 2 }, { "x": 18, "y": 3 }, { "x": 6, "y": 3 } ],
-      "place_nested": [ { "chunks": [ [ "null", 70 ], [ "ruins_8x8_yard", 30 ] ], "x": 8, "y": 10 } ]
+      "place_rubble": [{ "x": [17, 18], "y": 2 }, { "x": 18, "y": 3 }, { "x": 6, "y": 3 }],
+      "place_nested": [{ "chunks": [["null", 70], ["ruins_8x8_yard", 30]], "x": 8, "y": 10 }]
     }
   },
   {
@@ -208,7 +220,7 @@
         ".d........d............d",
         "...d............d......."
       ],
-      "palettes": [ "desolatebarn_palette" ],
+      "palettes": ["desolatebarn_palette"],
       "place_items": [
         { "chance": 15, "item": "building_rubble", "x": 16, "y": 19 },
         { "chance": 15, "item": "building_rubble", "x": 8, "y": 15 },
@@ -226,11 +238,15 @@
         { "chance": 10, "item": "building_rubble", "x": 8, "y": 16 },
         { "chance": 10, "item": "building_rubble", "x": 9, "y": 4 }
       ],
-      "place_rubble": [ { "repeat": [ 2, 20 ], "x": [ 7, 5 ], "y": [ 18, 18 ] } ],
+      "place_rubble": [{ "repeat": [2, 20], "x": [7, 5], "y": [18, 18] }],
       "place_nested": [
-        { "chunks": [ [ "ruins_4x4_front", 60 ], [ "ruins_4x4_junk", 40 ] ], "x": 11, "y": 6 },
-        { "chunks": [ [ "null", 80 ], [ "ruins_4x4_junk", 20 ] ], "x": 8, "y": 10 },
-        { "chunks": [ [ "null", 60 ], [ "ruins_4x4_camp", 30 ], [ "ruins_4x4_NPCs", 10 ] ], "x": 13, "y": 10 }
+        { "chunks": [["ruins_4x4_front", 60], ["ruins_4x4_junk", 40]], "x": 11, "y": 6 },
+        { "chunks": [["null", 80], ["ruins_4x4_junk", 20]], "x": 8, "y": 10 },
+        {
+          "chunks": [["null", 60], ["ruins_4x4_camp", 30], ["ruins_4x4_NPCs", 10]],
+          "x": 13,
+          "y": 10
+        }
       ]
     }
   },
@@ -267,7 +283,7 @@
         "........#...............",
         ".....d........d........."
       ],
-      "palettes": [ "desolatebarn_palette" ],
+      "palettes": ["desolatebarn_palette"],
       "place_items": [
         { "chance": 10, "item": "stash_drugs", "x": 10, "y": 17 },
         { "chance": 35, "item": "trash", "x": 7, "y": 19 },
@@ -275,10 +291,10 @@
         { "chance": 35, "item": "trash", "x": 10, "y": 14 },
         { "chance": 35, "item": "trash", "x": 8, "y": 14 }
       ],
-      "place_rubble": [ { "repeat": [ 5, 40 ], "x": [ 4, 19 ], "y": [ 7, 16 ] } ],
+      "place_rubble": [{ "repeat": [5, 40], "x": [4, 19], "y": [7, 16] }],
       "place_nested": [
-        { "chunks": [ [ "null", 60 ], [ "ruins_4x4_junk", 40 ] ], "x": 9, "y": 8 },
-        { "chunks": [ [ "null", 80 ], [ "ruins_4x4_camp", 20 ] ], "x": 5, "y": 8 }
+        { "chunks": [["null", 60], ["ruins_4x4_junk", 40]], "x": 9, "y": 8 },
+        { "chunks": [["null", 80], ["ruins_4x4_camp", 20]], "x": 5, "y": 8 }
       ]
     }
   },
@@ -316,8 +332,13 @@
         ".....d........d........."
       ],
       "terrain": { "p": "t_dirt" },
-      "palettes": [ "desolatebarn_palette" ],
-      "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling" } },
+      "palettes": ["desolatebarn_palette"],
+      "sealed_item": {
+        "p": {
+          "items": { "item": "farming_seeds", "chance": 100 },
+          "furniture": "f_plant_seedling"
+        }
+      },
       "place_items": [
         { "chance": 10, "item": "hand_tools", "x": 7, "y": 20 },
         { "chance": 10, "item": "hand_tools", "x": 6, "y": 19 },
@@ -326,10 +347,10 @@
         { "chance": 25, "item": "trash", "x": 10, "y": 18 },
         { "chance": 25, "item": "trash", "x": 5, "y": 14 }
       ],
-      "place_rubble": [ { "repeat": [ 0, 20 ], "x": [ 5, 9 ], "y": [ 15, 21 ] } ],
+      "place_rubble": [{ "repeat": [0, 20], "x": [5, 9], "y": [15, 21] }],
       "place_nested": [
-        { "chunks": [ [ "null", 85 ], [ "ruins_8x8_yard", 15 ] ], "x": 4, "y": 5 },
-        { "chunks": [ [ "null", 85 ], [ "ruins_8x8_yard", 15 ] ], "x": 11, "y": 13 }
+        { "chunks": [["null", 85], ["ruins_8x8_yard", 15]], "x": 4, "y": 5 },
+        { "chunks": [["null", 85], ["ruins_8x8_yard", 15]], "x": 11, "y": 13 }
       ]
     }
   },
@@ -366,7 +387,7 @@
         ".......d................",
         ".....d........d........."
       ],
-      "palettes": [ "desolatebarn_palette" ],
+      "palettes": ["desolatebarn_palette"],
       "place_items": [
         { "chance": 10, "item": "hand_tools", "x": 10, "y": 15 },
         { "chance": 10, "item": "hand_tools", "x": 10, "y": 12 },
@@ -377,8 +398,17 @@
         { "chance": 25, "item": "trash", "x": 9, "y": 14 },
         { "chance": 25, "item": "trash", "x": 16, "y": 10 }
       ],
-      "place_rubble": [ { "repeat": [ 0, 80 ], "x": [ 11, 20 ], "y": [ 8, 18 ] }, { "repeat": [ 0, 15 ], "x": [ 8, 10 ], "y": [ 10, 16 ] } ],
-      "place_nested": [ { "chunks": [ [ "null", 40 ], [ "ruins_4x4_camp", 20 ], [ "ruins_4x4_NPCs", 40 ] ], "x": 12, "y": 11 } ]
+      "place_rubble": [
+        { "repeat": [0, 80], "x": [11, 20], "y": [8, 18] },
+        { "repeat": [0, 15], "x": [8, 10], "y": [10, 16] }
+      ],
+      "place_nested": [
+        {
+          "chunks": [["null", 40], ["ruins_4x4_camp", 20], ["ruins_4x4_NPCs", 40]],
+          "x": 12,
+          "y": 11
+        }
+      ]
     }
   },
   {
@@ -414,8 +444,8 @@
         "d...d.........d......d..",
         "........6........d......"
       ],
-      "palettes": [ "desolatebarn_palette" ],
-      "place_rubble": [ { "repeat": [ 3, 50 ], "x": [ 6, 18 ], "y": [ 6, 16 ] } ],
+      "palettes": ["desolatebarn_palette"],
+      "place_rubble": [{ "repeat": [3, 50], "x": [6, 18], "y": [6, 16] }],
       "place_items": [
         { "chance": 10, "item": "tools_carpentry", "x": 7, "y": 7 },
         { "chance": 10, "item": "tools_carpentry", "x": 7, "y": 8 },
@@ -433,7 +463,9 @@
         { "chance": 10, "item": "plumbing_bulk", "x": 17, "y": 14 },
         { "chance": 10, "item": "hardware_bulk", "x": 17, "y": 15 }
       ],
-      "place_nested": [ { "chunks": [ [ "null", 40 ], [ "ruins_4x4_camp", 40 ], [ "ruins_4x4_NPCs", 20 ] ], "x": 8, "y": 8 } ]
+      "place_nested": [
+        { "chunks": [["null", 40], ["ruins_4x4_camp", 40], ["ruins_4x4_NPCs", 20]], "x": 8, "y": 8 }
+      ]
     }
   },
   {
@@ -469,7 +501,7 @@
         "d...d.||&|vvvvv||||..d..",
         "........d........d......"
       ],
-      "palettes": [ "desolatebarn_palette" ],
+      "palettes": ["desolatebarn_palette"],
       "place_items": [
         { "chance": 20, "item": "trash", "x": 7, "y": 9 },
         { "chance": 20, "item": "trash", "x": 14, "y": 6 },
@@ -479,14 +511,24 @@
         { "chance": 10, "item": "hardware_bulk", "x": 7, "y": 12 },
         { "chance": 10, "item": "plumbing_bulk", "x": 8, "y": 12 }
       ],
-      "place_vehicles": [ { "chance": 100, "fuel": 0, "rotation": 180, "status": 1, "vehicle": "farm_vehicles", "x": 10, "y": 9 } ],
+      "place_vehicles": [
+        {
+          "chance": 100,
+          "fuel": 0,
+          "rotation": 180,
+          "status": 1,
+          "vehicle": "farm_vehicles",
+          "x": 10,
+          "y": 9
+        }
+      ],
       "place_rubble": [
-        { "repeat": [ 0, 40 ], "x": [ 6, 18 ], "y": [ 5, 13 ] },
-        { "repeat": [ 0, 8 ], "x": [ 6, 9 ], "y": [ 17, 22 ] },
-        { "repeat": [ 0, 8 ], "x": [ 15, 18 ], "y": [ 17, 22 ] },
-        { "repeat": [ 0, 2 ], "x": 6, "y": [ 14, 16 ] },
-        { "repeat": [ 0, 2 ], "x": 18, "y": [ 14, 16 ] },
-        { "repeat": [ 0, 3 ], "x": [ 10, 14 ], "y": 22 }
+        { "repeat": [0, 40], "x": [6, 18], "y": [5, 13] },
+        { "repeat": [0, 8], "x": [6, 9], "y": [17, 22] },
+        { "repeat": [0, 8], "x": [15, 18], "y": [17, 22] },
+        { "repeat": [0, 2], "x": 6, "y": [14, 16] },
+        { "repeat": [0, 2], "x": 18, "y": [14, 16] },
+        { "repeat": [0, 3], "x": [10, 14], "y": 22 }
       ]
     }
   }

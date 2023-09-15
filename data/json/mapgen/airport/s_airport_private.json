@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "s_air_parking", "s_air_term", "s_air_atc", "s_air_hangars" ] ],
+    "om_terrain": [["s_air_parking", "s_air_term", "s_air_atc", "s_air_hangars"]],
     "object": {
       "fill_ter": "t_linoleum_gray",
       "rows": [
@@ -87,30 +87,36 @@
         "t": "f_locker",
         "u": "f_indoor_plant"
       },
-      "gaspumps": { "1": {  } },
+      "gaspumps": { "1": {} },
       "place_loot": [
-        { "group": "road", "chance": 50, "repeat": 4, "x": [ 1, 22 ], "y": [ 1, 19 ] },
-        { "group": "allclothes", "chance": 80, "repeat": [ 10 ], "x": 29, "y": [ 5, 6 ] },
+        { "group": "road", "chance": 50, "repeat": 4, "x": [1, 22], "y": [1, 19] },
+        { "group": "allclothes", "chance": 80, "repeat": [10], "x": 29, "y": [5, 6] },
         { "group": "allclothes", "chance": 80, "repeat": 5, "x": 28, "y": 7 },
         { "group": "office", "chance": 80, "repeat": 5, "x": 29, "y": 7 },
-        { "group": "office", "chance": 80, "repeat": 2, "x": [ 26, 29 ], "y": 13 },
+        { "group": "office", "chance": 80, "repeat": 2, "x": [26, 29], "y": 13 },
         { "group": "office", "chance": 80, "repeat": 2, "x": 26, "y": 11 },
-        { "group": "bags_trip", "chance": 80, "repeat": 1, "x": 26, "y": [ 2, 4 ] },
-        { "group": "bags_trip", "chance": 80, "repeat": 1, "x": 32, "y": [ 4, 8 ] },
-        { "group": "bags_trip", "chance": 80, "repeat": 2, "x": 35, "y": [ 4, 8 ] },
-        { "group": "bags_trip", "chance": 80, "repeat": 1, "x": 38, "y": [ 4, 8 ] },
-        { "group": "bags_trip", "chance": 80, "repeat": 1, "x": [ 26, 29 ], "y": 8 },
-        { "group": "bags_trip", "chance": 80, "repeat": 2, "x": [ 34, 38 ], "y": 11 },
+        { "group": "bags_trip", "chance": 80, "repeat": 1, "x": 26, "y": [2, 4] },
+        { "group": "bags_trip", "chance": 80, "repeat": 1, "x": 32, "y": [4, 8] },
+        { "group": "bags_trip", "chance": 80, "repeat": 2, "x": 35, "y": [4, 8] },
+        { "group": "bags_trip", "chance": 80, "repeat": 1, "x": 38, "y": [4, 8] },
+        { "group": "bags_trip", "chance": 80, "repeat": 1, "x": [26, 29], "y": 8 },
+        { "group": "bags_trip", "chance": 80, "repeat": 2, "x": [34, 38], "y": 11 },
         { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 45, "y": 4 },
         { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 38, "y": 3 },
         { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 35, "y": 3 },
         { "group": "bar_trash", "chance": 50, "repeat": 5, "x": 39, "y": 11 },
-        { "group": "office", "chance": 50, "repeat": 5, "x": 33, "y": [ 10, 14 ] },
+        { "group": "office", "chance": 50, "repeat": 5, "x": 33, "y": [10, 14] },
         { "group": "vending_food", "chance": 80, "repeat": 1, "x": 40, "y": 5 },
         { "group": "vending_drink", "chance": 80, "repeat": 1, "x": 40, "y": 6 },
-        { "group": "road", "chance": 50, "repeat": 10, "x": [ 75, 80 ], "y": [ 7, 20 ] },
-        { "group": "civilian_helicopter_parts", "repeat": 10, "chance": 50, "x": [ 75, 79 ], "y": [ 7, 20 ] },
-        { "group": "road", "chance": 50, "repeat": 10, "x": [ 87, 92 ], "y": [ 7, 20 ] },
+        { "group": "road", "chance": 50, "repeat": 10, "x": [75, 80], "y": [7, 20] },
+        {
+          "group": "civilian_helicopter_parts",
+          "repeat": 10,
+          "chance": 50,
+          "x": [75, 79],
+          "y": [7, 20]
+        },
+        { "group": "road", "chance": 50, "repeat": 10, "x": [87, 92], "y": [7, 20] },
         { "group": "clothing_work_mask", "chance": 50, "repeat": 2, "x": 81, "y": 7 },
         { "group": "clothing_work_mask", "chance": 50, "repeat": 2, "x": 87, "y": 21 },
         { "group": "tools_mechanic", "chance": 50, "repeat": 4, "x": 88, "y": 21 },
@@ -118,8 +124,8 @@
         { "group": "military_helicopter_parts", "chance": 15, "x": 81, "y": 8 }
       ],
       "items": {
-        "q": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
-        "I": { "item": "office", "chance": 30, "repeat": [ 2, 3 ] }
+        "q": { "item": "trash", "chance": 30, "repeat": [2, 3] },
+        "I": { "item": "office", "chance": 30, "repeat": [2, 3] }
       },
       "place_vehicles": [
         { "vehicle": "dealership", "x": 3, "y": 3, "chance": 50, "rotation": 180 },
@@ -165,7 +171,7 @@
         " |-------53  |5-------3 ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_metal_flat_roof" }
     }
   },
@@ -201,13 +207,13 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ]
+      "palettes": ["roof_palette"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_air_atc_2" ],
+    "om_terrain": ["s_air_atc_2"],
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -236,14 +242,20 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_brick_wall", "`": "t_linoleum_white", ";": "t_metal_flat_roof", ">": "t_stairs_down", "<": "t_stairs_up" }
+      "palettes": ["roof_palette"],
+      "terrain": {
+        "#": "t_brick_wall",
+        "`": "t_linoleum_white",
+        ";": "t_metal_flat_roof",
+        ">": "t_stairs_down",
+        "<": "t_stairs_up"
+      }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_air_atc_3" ],
+    "om_terrain": ["s_air_atc_3"],
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -283,7 +295,9 @@
         "h": "t_metal_floor"
       },
       "furniture": { "e": "f_table", "E": "f_chair" },
-      "place_loot": [ { "group": "office_mess", "chance": 80, "repeat": [ 5 ], "x": [ 10, 13 ], "y": [ 2, 5 ] } ]
+      "place_loot": [
+        { "group": "office_mess", "chance": 80, "repeat": [5], "x": [10, 13], "y": [2, 5] }
+      ]
     }
   }
 ]

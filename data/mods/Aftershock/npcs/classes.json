@@ -15,13 +15,16 @@
     "id": "afs_prepnet_gardener",
     "name": { "str": "Gardener" },
     "job_description": "When the end came, we were ready.  Now I grow food for my phyle.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [{ "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },
-      { "skill": "survival", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "fabrication", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [4, 2] }, { "rng": [-4, -1] }] }] }
+      },
+      { "skill": "survival", "bonus": { "rng": [2, 4] } },
+      { "skill": "fabrication", "bonus": { "rng": [1, 3] } },
+      { "skill": "melee", "bonus": { "rng": [3, 6] } },
+      { "skill": "gun", "bonus": { "rng": [3, 6] } }
     ],
     "common": false,
     "worn_override": "afs_gardener_worn",
@@ -62,21 +65,24 @@
     "job_description": "I've been studying the mi-go for years…",
     "common": false,
     "traits": [
-      [ "hair_red_long", 100 ],
-      [ "SKIN_LIGHT", 100 ],
-      [ "WARM_NATURED", 100 ],
-      [ "INT_UP_3", 100 ],
-      [ "DEX_UP_2", 100 ],
-      [ "STR_UP", 100 ]
+      ["hair_red_long", 100],
+      ["SKIN_LIGHT", 100],
+      ["WARM_NATURED", 100],
+      ["INT_UP_3", 100],
+      ["DEX_UP_2", 100],
+      ["STR_UP", 100]
     ],
-    "bonus_dex": { "rng": [ -1, 0 ] },
-    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_dex": { "rng": [-1, 0] },
+    "bonus_int": { "rng": [2, 5] },
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
-      { "skill": "computer", "bonus": { "rng": [ 1, 5 ] } },
-      { "skill": "electronics", "bonus": { "rng": [ 1, 5 ] } },
-      { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
-      { "skill": "cooking", "bonus": { "rng": [ 6, 8 ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [2, 2] }, { "constant": -4 }] }] }
+      },
+      { "skill": "computer", "bonus": { "rng": [1, 5] } },
+      { "skill": "electronics", "bonus": { "rng": [1, 5] } },
+      { "skill": "firstaid", "bonus": { "rng": [1, 4] } },
+      { "skill": "cooking", "bonus": { "rng": [6, 8] } }
     ]
   },
   {
@@ -86,17 +92,22 @@
     "common": false,
     "job_description": "Our family has been through hard times before.  We know how to survive.",
     "skills": [
-      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+      { "skill": "dodge", "bonus": { "rng": [3, 6] } },
+      { "skill": "melee", "bonus": { "rng": [3, 6] } },
+      { "skill": "unarmed", "bonus": { "rng": [3, 6] } }
     ],
     "bonus_str": 2,
     "bonus_dex": 2,
     "traits": [
       { "group": "trait_mutant_npc_common" },
       { "group": "trait_group_migo" },
-      { "distribution": [ { "group": "trait_group_migo_nonthres" }, { "group": "trait_group_migo_postthres" } ] },
-      [ "BGSS_Whately", 100 ]
+      {
+        "distribution": [
+          { "group": "trait_group_migo_nonthres" },
+          { "group": "trait_group_migo_postthres" }
+        ]
+      },
+      ["BGSS_Whately", 100]
     ]
   },
   {
@@ -119,21 +130,24 @@
     "job_description": "Friend to outsiders…",
     "common": false,
     "traits": [
-      [ "SKIN_LIGHT", 100 ],
-      [ "MIGO_HEAT_RESIST", 100 ],
-      [ "ALIEN_INT", 100 ],
-      [ "THRESH_YUGGOTH", 100 ],
-      [ "OTHERWORLDLY_GRACE", 100 ],
-      [ "MIGO_BREATHE", 100 ]
+      ["SKIN_LIGHT", 100],
+      ["MIGO_HEAT_RESIST", 100],
+      ["ALIEN_INT", 100],
+      ["THRESH_YUGGOTH", 100],
+      ["OTHERWORLDLY_GRACE", 100],
+      ["MIGO_BREATHE", 100]
     ],
-    "bonus_dex": { "rng": [ -1, 0 ] },
-    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_dex": { "rng": [-1, 0] },
+    "bonus_int": { "rng": [2, 5] },
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
-      { "skill": "computer", "bonus": { "rng": [ 1, 5 ] } },
-      { "skill": "electronics", "bonus": { "rng": [ 1, 5 ] } },
-      { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
-      { "skill": "cooking", "bonus": { "rng": [ 6, 8 ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [2, 2] }, { "constant": -4 }] }] }
+      },
+      { "skill": "computer", "bonus": { "rng": [1, 5] } },
+      { "skill": "electronics", "bonus": { "rng": [1, 5] } },
+      { "skill": "firstaid", "bonus": { "rng": [1, 4] } },
+      { "skill": "cooking", "bonus": { "rng": [6, 8] } }
     ]
   },
   {

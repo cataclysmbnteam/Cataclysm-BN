@@ -169,7 +169,7 @@
     "description": "A metal cylinder with a small lens inside intended to be installed on a door.",
     "price": 12000,
     "price_postapoc": 50,
-    "material": [ "aluminum", "glass" ],
+    "material": ["aluminum", "glass"],
     "weight": "5 g",
     "volume": "250 ml",
     "to_hit": -3
@@ -185,7 +185,7 @@
     "description": "A roll of fine mesh screen for bug barriers on porches.",
     "price": 1200,
     "price_postapoc": 50,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "weight": "25 g",
     "volume": "1000 ml",
     "to_hit": -3

@@ -3,11 +3,11 @@
     "type": "MOD_INFO",
     "id": "no_medieval_items",
     "name": "No Medieval Items",
-    "authors": [ "Rivet-the-Zombie" ],
-    "maintainers": [ "Rivet-the-Zombie" ],
+    "authors": ["Rivet-the-Zombie"],
+    "maintainers": ["Rivet-the-Zombie"],
     "description": "Removes medieval weapons, armors, and specific books.",
     "category": "item_exclude",
-    "dependencies": [ "bn" ],
+    "dependencies": ["bn"],
     "obsolete": true
   },
   {

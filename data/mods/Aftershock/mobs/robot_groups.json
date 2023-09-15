@@ -13,15 +13,15 @@
     "type": "monstergroup",
     "name": "GROUP_SEWER",
     "monsters": [
-      { "monster": "mon_utilibot", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_utilibot_const", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 3 ] }
+      { "monster": "mon_utilibot", "freq": 50, "cost_multiplier": 0, "pack_size": [2, 3] },
+      { "monster": "mon_utilibot_const", "freq": 50, "cost_multiplier": 0, "pack_size": [2, 3] }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_TURRET",
     "default": "mon_turret_light",
-    "monsters": [ { "monster": "mon_laserturret_xray", "freq": 50, "cost_multiplier": 2 } ]
+    "monsters": [{ "monster": "mon_laserturret_xray", "freq": 50, "cost_multiplier": 2 }]
   },
   {
     "type": "monstergroup",
@@ -29,13 +29,13 @@
     "auto_total": true,
     "default": "mon_zombie_scientist",
     "monsters": [
-      { "monster": "mon_utilibot", "freq": 5, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_utilibot", "freq": 5, "cost_multiplier": 0, "pack_size": [1, 2] },
       { "monster": "mon_secubot", "freq": 0, "cost_multiplier": 10 },
       { "monster": "mon_milbot_556", "freq": 1, "cost_multiplier": 10 },
       { "monster": "mon_milbot_8x40mm", "freq": 1, "cost_multiplier": 10 },
       { "monster": "mon_milbot_needle", "freq": 1, "cost_multiplier": 10 },
       { "monster": "mon_laserturret_xray", "freq": 2, "cost_multiplier": 20 },
-      { "monster": "mon_medibot", "freq": 5, "cost_multiplier": 3, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_medibot", "freq": 5, "cost_multiplier": 3, "pack_size": [1, 2] }
     ]
   },
   {
@@ -82,8 +82,8 @@
     "name": "GROUP_PUBLICWORKERS",
     "default": "mon_zombie_electric",
     "monsters": [
-      { "monster": "mon_utilibot", "freq": 10, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_utilibot_const", "freq": 10, "cost_multiplier": 0, "pack_size": [ 2, 3 ] }
+      { "monster": "mon_utilibot", "freq": 10, "cost_multiplier": 0, "pack_size": [2, 4] },
+      { "monster": "mon_utilibot_const", "freq": 10, "cost_multiplier": 0, "pack_size": [2, 3] }
     ]
   },
   {
@@ -108,26 +108,30 @@
     "type": "monstergroup",
     "name": "GROUP_ROBOT_EYEBOT",
     "default": "mon_eyebot",
-    "monsters": [ { "monster": "mon_eyebot", "freq": 100, "cost_multiplier": 0 } ]
+    "monsters": [{ "monster": "mon_eyebot", "freq": 100, "cost_multiplier": 0 }]
   },
   {
     "name": "GROUP_MANSION",
     "type": "monstergroup",
     "default": "mon_zombie",
-    "monsters": [ { "monster": "mon_utilibot_butler", "freq": 20, "cost_multiplier": 2 } ]
+    "monsters": [{ "monster": "mon_utilibot_butler", "freq": 20, "cost_multiplier": 2 }]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_HOSPITAL",
     "default": "mon_null",
     "//": "Hospital monster spawns.  Same as GROUP_ZOMBIE, but without Z-dogs.",
-    "monsters": [ { "monster": "mon_medibot", "freq": 15, "cost_multiplier": 20, "pack_size": [ 2, 3 ] } ]
+    "monsters": [
+      { "monster": "mon_medibot", "freq": 15, "cost_multiplier": 20, "pack_size": [2, 3] }
+    ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_FIRE",
     "default": "mon_zombie_fireman",
-    "monsters": [ { "monster": "mon_utilibot_fire", "freq": 200, "cost_multiplier": 2, "pack_size": [ 4, 6 ] } ]
+    "monsters": [
+      { "monster": "mon_utilibot_fire", "freq": 200, "cost_multiplier": 2, "pack_size": [4, 6] }
+    ]
   },
   {
     "name": "GROUP_NECROPOLIS_ROBOT",

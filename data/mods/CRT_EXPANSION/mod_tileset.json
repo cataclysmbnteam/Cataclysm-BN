@@ -1,7 +1,7 @@
 [
   {
     "type": "mod_tileset",
-    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE", "MshockRealXotto", "MSX++DEAD_PEOPLE" ],
+    "compatibility": ["UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE", "MshockRealXotto", "MSX++DEAD_PEOPLE"],
     "tiles-new": [
       {
         "file": "CRT_EXPANSION_normal.png",
@@ -26,10 +26,10 @@
             "multitile": true,
             "additional_tiles": [
               { "id": "center", "fg": 9, "bg": 2 },
-              { "id": "corner", "fg": [ 10, 11, 12, 13 ], "bg": 2 },
-              { "id": "t_connection", "fg": [ 20, 21, 22, 23 ], "bg": 2 },
-              { "id": "edge", "fg": [ 14, 15 ], "bg": 2 },
-              { "id": "end_piece", "fg": [ 16, 17, 18, 19 ], "bg": 2 },
+              { "id": "corner", "fg": [10, 11, 12, 13], "bg": 2 },
+              { "id": "t_connection", "fg": [20, 21, 22, 23], "bg": 2 },
+              { "id": "edge", "fg": [14, 15], "bg": 2 },
+              { "id": "end_piece", "fg": [16, 17, 18, 19], "bg": 2 },
               { "id": "unconnected", "fg": 24, "bg": 2 }
             ]
           },
@@ -238,7 +238,7 @@
       },
       {
         "file": "CRT_EXPANSION_wide.png",
-        "tiles": [ { "id": "overlay_wielded_ds_line_gun", "fg": 177, "rotates": false } ],
+        "tiles": [{ "id": "overlay_wielded_ds_line_gun", "fg": 177, "rotates": false }],
         "//": "range 177 to 192",
         "sprite_width": 64,
         "sprite_height": 48,

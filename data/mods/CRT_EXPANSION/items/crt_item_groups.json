@@ -3,13 +3,13 @@
     "type": "item_group",
     "id": "gunmod_common",
     "//": "Common gunmods typically owned by citizens and found in many locations.",
-    "items": [ [ "bthk_stock", 50 ] ]
+    "items": [["bthk_stock", 50]]
   },
   {
     "type": "item_group",
     "id": "gunmod_milspec",
     "//": "Military specification gunmods found only at military sites.",
-    "items": [ [ "flare_gmod", 25 ] ]
+    "items": [["flare_gmod", 25]]
   },
   {
     "type": "item_group",
@@ -73,12 +73,12 @@
     "type": "item_group",
     "id": "guns_rifle_milspec",
     "//": "Military specification rifles only ever found at military sites.",
-    "items": [ { "item": "crt_cqb_si", "prob": 15, "charges-min": 0, "charges-max": 20 } ]
+    "items": [{ "item": "crt_cqb_si", "prob": 15, "charges-min": 0, "charges-max": 20 }]
   },
   {
     "type": "item_group",
     "id": "guns_rifle_rare",
-    "items": [ { "item": "pelletgun", "prob": 25, "charges-min": 0, "charges-max": 1 } ]
+    "items": [{ "item": "pelletgun", "prob": 25, "charges-min": 0, "charges-max": 1 }]
   },
   {
     "type": "item_group",
@@ -98,11 +98,17 @@
     "items": [
       {
         "distribution": [
-          { "collection": [ { "item": "crt_rec_duster" }, { "item": "crt_rec_hat", "prob": 50 } ], "prob": 50 },
-          { "collection": [ { "item": "crt_legguard" }, { "item": "crt_legguard" } ], "prob": 25 },
+          {
+            "collection": [{ "item": "crt_rec_duster" }, { "item": "crt_rec_hat", "prob": 50 }],
+            "prob": 50
+          },
+          { "collection": [{ "item": "crt_legguard" }, { "item": "crt_legguard" }], "prob": 25 },
           { "item": "crt_aarmor", "prob": 15 },
           {
-            "collection": [ { "item": "crt_sarmor" }, { "distribution": [ { "item": "crt_earmor" }, { "item": "crt_warmor" } ] } ],
+            "collection": [
+              { "item": "crt_sarmor" },
+              { "distribution": [{ "item": "crt_earmor" }, { "item": "crt_warmor" }] }
+            ],
             "prob": 10
           }
         ],
@@ -118,11 +124,17 @@
     "items": [
       {
         "distribution": [
-          { "collection": [ { "item": "crt_rec_duster" }, { "item": "crt_rec_hat", "prob": 50 } ], "prob": 50 },
-          { "collection": [ { "item": "crt_legguard" }, { "item": "crt_legguard" } ], "prob": 25 },
+          {
+            "collection": [{ "item": "crt_rec_duster" }, { "item": "crt_rec_hat", "prob": 50 }],
+            "prob": 50
+          },
+          { "collection": [{ "item": "crt_legguard" }, { "item": "crt_legguard" }], "prob": 25 },
           { "item": "crt_aarmor", "prob": 15 },
           {
-            "collection": [ { "item": "crt_sarmor" }, { "distribution": [ { "item": "crt_earmor" }, { "item": "crt_warmor" } ] } ],
+            "collection": [
+              { "item": "crt_sarmor" },
+              { "distribution": [{ "item": "crt_earmor" }, { "item": "crt_warmor" }] }
+            ],
             "prob": 10
           }
         ],
@@ -134,17 +146,25 @@
     "id": "clothing_soldier_shirt",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "distribution": [ { "item": "tshirt", "prob": 4 }, { "item": "crt_jacket", "prob": 1 } ] } ]
+    "entries": [
+      { "distribution": [{ "item": "tshirt", "prob": 4 }, { "item": "crt_jacket", "prob": 1 }] }
+    ]
   },
   {
     "type": "item_group",
     "id": "mil_accessories",
-    "items": [ [ "crt_mess_kit", 10 ], [ "crt_etool", 15 ], [ "crt_canteen", 10 ], [ "crt_gasmask", 10 ] ]
+    "items": [["crt_mess_kit", 10], ["crt_etool", 15], ["crt_canteen", 10], ["crt_gasmask", 10]]
   },
   {
     "type": "item_group",
     "id": "camping",
-    "items": [ [ "pellet", 4 ], [ "dhp_pellet", 2 ], [ "hp_pellet", 1 ], [ "alloy_pellet", 1 ], [ "pelletgun", 10 ] ]
+    "items": [
+      ["pellet", 4],
+      ["dhp_pellet", 2],
+      ["hp_pellet", 1],
+      ["alloy_pellet", 1],
+      ["pelletgun", 10]
+    ]
   },
   {
     "type": "item_group",
@@ -161,6 +181,12 @@
   {
     "type": "item_group",
     "id": "lab_dorm",
-    "items": [ [ "pellet", 4 ], [ "dhp_pellet", 2 ], [ "hp_pellet", 1 ], [ "alloy_pellet", 1 ], [ "pelletgun", 10 ] ]
+    "items": [
+      ["pellet", 4],
+      ["dhp_pellet", 2],
+      ["hp_pellet", 1],
+      ["alloy_pellet", 1],
+      ["pelletgun", 10]
+    ]
   }
 ]

@@ -32,10 +32,10 @@
         "....``GG!!....!!GK``..u.",
         "....````........````...."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "K": "t_concrete",
@@ -56,7 +56,7 @@
       "place_items": [
         { "chance": 35, "item": "bags_trip", "x": 3, "y": 20 },
         { "chance": 30, "item": "light_reading", "x": 20, "y": 11 },
-        { "chance": 30, "item": "light_reading", "x": 5, "y": [ 10, 11 ] },
+        { "chance": 30, "item": "light_reading", "x": 5, "y": [10, 11] },
         { "chance": 35, "item": "tools_home", "x": 20, "y": 20 }
       ]
     }
@@ -93,7 +93,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

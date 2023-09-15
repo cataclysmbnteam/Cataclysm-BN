@@ -4,8 +4,8 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "item": "bone_human", "count": [ 5, 8 ], "prob": 100 },
-      { "item": "human_flesh", "count": [ 5, 8 ], "prob": 100 },
+      { "item": "bone_human", "count": [5, 8], "prob": 100 },
+      { "item": "human_flesh", "count": [5, 8], "prob": 100 },
       { "item": "hstomach", "prob": 50 }
     ]
   },
@@ -25,8 +25,8 @@
       { "item": "militarymap", "prob": 5 },
       { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
       { "group": "mil_food", "prob": 15 },
-      { "item": "bone_human", "count": [ 5, 8 ], "prob": 100 },
-      { "item": "human_flesh", "count": [ 5, 8 ], "prob": 100 },
+      { "item": "bone_human", "count": [5, 8], "prob": 100 },
+      { "item": "human_flesh", "count": [5, 8], "prob": 100 },
       { "item": "hstomach", "prob": 100 },
       { "group": "misc_smoking", "prob": 30 }
     ]
@@ -59,7 +59,10 @@
               { "item": "red_dot_sight", "prob": 100 },
               { "item": "suppressor", "prob": 100 },
               { "item": "laser_sight", "prob": 50 },
-              { "collection": [ { "item": "m320" }, { "group": "ammo_launcher_grenade" } ], "prob": 100 }
+              {
+                "collection": [{ "item": "m320" }, { "group": "ammo_launcher_grenade" }],
+                "prob": 100
+              }
             ],
             "prob": 30
           }
@@ -76,8 +79,8 @@
           { "group": "misc_smoking", "prob": 30 }
         ]
       },
-      { "item": "bone_human", "count": [ 5, 8 ], "prob": 100 },
-      { "item": "human_flesh", "count": [ 5, 8 ], "prob": 100 },
+      { "item": "bone_human", "count": [5, 8], "prob": 100 },
+      { "item": "human_flesh", "count": [5, 8], "prob": 100 },
       { "item": "hstomach", "prob": 100 }
     ]
   },
@@ -85,21 +88,21 @@
     "id": "corpses",
     "type": "item_group",
     "items": [
-      [ "corpse_generic_male", 80 ],
-      [ "corpse_generic_female", 80 ],
-      [ "corpse_generic_boy", 15 ],
-      [ "corpse_generic_girl", 15 ],
-      [ "corpse_generic_human", 10 ],
-      [ "corpse_bloody", 10 ],
-      [ "corpse_painful", 10 ],
-      [ "corpse_scorched", 10 ],
-      [ "corpse_stabbed", 10 ],
-      [ "corpse_gunned", 10 ],
-      [ "corpse_halved_upper", 10 ],
-      [ "corpse_half_beheaded", 10 ],
-      [ "corpse_child_calm", 10 ],
-      [ "corpse_child_gunned", 10 ],
-      [ "corpse_oldwoman_jewelry", 10 ]
+      ["corpse_generic_male", 80],
+      ["corpse_generic_female", 80],
+      ["corpse_generic_boy", 15],
+      ["corpse_generic_girl", 15],
+      ["corpse_generic_human", 10],
+      ["corpse_bloody", 10],
+      ["corpse_painful", 10],
+      ["corpse_scorched", 10],
+      ["corpse_stabbed", 10],
+      ["corpse_gunned", 10],
+      ["corpse_halved_upper", 10],
+      ["corpse_half_beheaded", 10],
+      ["corpse_child_calm", 10],
+      ["corpse_child_gunned", 10],
+      ["corpse_oldwoman_jewelry", 10]
     ]
   },
   {
@@ -133,6 +136,6 @@
     "id": "corpse_child",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "corpse_child_calm" }, { "item": "corpse_child_gunned" } ]
+    "entries": [{ "item": "corpse_child_calm" }, { "item": "corpse_child_gunned" }]
   }
 ]

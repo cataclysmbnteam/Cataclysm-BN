@@ -11,10 +11,10 @@
         "description": "Remove the old drive belt and install a new one.",
         "success_msg": "You wrap a new drive belt around the %s's components.",
         "time": "5 m",
-        "skills": [ { "id": "mechanics", "level": 2 } ],
+        "skills": [{ "id": "mechanics", "level": 2 }],
         "requirements": {
-          "qualities": [ { "id": "WRENCH", "level": 1 } ],
-          "components": [ [ [ "drivebelt", 1 ], [ "drivebelt_makeshift", 1 ] ] ]
+          "qualities": [{ "id": "WRENCH", "level": 1 }],
+          "components": [[["drivebelt", 1], ["drivebelt_makeshift", 1]]]
         }
       }
     ]
@@ -31,8 +31,11 @@
         "description": "Disconnect the faulty glow plugs and install a new set.",
         "success_msg": "You disconnect the %s's faulty glow plugs and insert new ones.",
         "time": "40 m",
-        "skills": [ { "id": "mechanics", "level": 4 } ],
-        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "glowplug", 1 ] ] ] }
+        "skills": [{ "id": "mechanics", "level": 4 }],
+        "requirements": {
+          "qualities": [{ "id": "WRENCH_FINE", "level": 1 }],
+          "components": [[["glowplug", 1]]]
+        }
       }
     ]
   },
@@ -48,8 +51,8 @@
         "description": "Deactivate the immobiliser that's preventing the vehicle from starting.",
         "success_msg": "You successfully deactivate the %s's immobiliser.",
         "time": "5 m",
-        "skills": [ { "id": "mechanics", "level": 2 }, { "id": "electronics", "level": 5 } ],
-        "requirements": { "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] }
+        "skills": [{ "id": "mechanics", "level": 2 }, { "id": "electronics", "level": 5 }],
+        "requirements": { "qualities": [{ "id": "SCREW_FINE", "level": 1 }] }
       }
     ]
   },
@@ -65,8 +68,11 @@
         "description": "Depressurize the fuel line and replace the broken pump with a new one.",
         "success_msg": "You depressurize the fuel line and swap out the %s's faulty diesel pump.",
         "time": "40 m",
-        "skills": [ { "id": "mechanics", "level": 4 } ],
-        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "pump_complex", 1 ] ] ] }
+        "skills": [{ "id": "mechanics", "level": 4 }],
+        "requirements": {
+          "qualities": [{ "id": "WRENCH_FINE", "level": 1 }],
+          "components": [[["pump_complex", 1]]]
+        }
       }
     ]
   },
@@ -82,10 +88,10 @@
         "description": "Replace the expired air filter with a clean one.",
         "success_msg": "You swap the %s's air filter and discard the old one.",
         "time": "5 m",
-        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "skills": [{ "id": "mechanics", "level": 1 }],
         "requirements": {
-          "qualities": [ { "id": "SCREW", "level": 1 } ],
-          "components": [ [ [ "filter_air", 1 ], [ "filter_air_makeshift", 1 ] ] ]
+          "qualities": [{ "id": "SCREW", "level": 1 }],
+          "components": [[["filter_air", 1], ["filter_air_makeshift", 1]]]
         }
       }
     ]
@@ -102,10 +108,10 @@
         "description": "Replace the expired fuel filter with a clean one.",
         "success_msg": "You swap the %s's fuel filter and discard the old one.",
         "time": "5 m",
-        "skills": [ { "id": "mechanics", "level": 1 } ],
+        "skills": [{ "id": "mechanics", "level": 1 }],
         "requirements": {
-          "qualities": [ { "id": "SCREW", "level": 1 } ],
-          "components": [ [ [ "filter_liquid", 1 ], [ "filter_liquid_makeshift", 1 ] ] ]
+          "qualities": [{ "id": "SCREW", "level": 1 }],
+          "components": [[["filter_liquid", 1], ["filter_liquid_makeshift", 1]]]
         }
       }
     ]
@@ -122,8 +128,11 @@
         "description": "Drain the gas line and replace the broken pump with a new one.",
         "success_msg": "You drain the gas line and swap out the %s's fuel pump with a new one.",
         "time": "40 m",
-        "skills": [ { "id": "mechanics", "level": 4 } ],
-        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
+        "skills": [{ "id": "mechanics", "level": 4 }],
+        "requirements": {
+          "qualities": [{ "id": "WRENCH_FINE", "level": 1 }],
+          "components": [[["well_pump", 1]]]
+        }
       }
     ]
   },
@@ -139,8 +148,11 @@
         "description": "Replace the defective water pump with a new one.",
         "success_msg": "You replace the %s's defective water pump.",
         "time": "20 m",
-        "skills": [ { "id": "mechanics", "level": 4 } ],
-        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
+        "skills": [{ "id": "mechanics", "level": 4 }],
+        "requirements": {
+          "qualities": [{ "id": "WRENCH_FINE", "level": 1 }],
+          "components": [[["well_pump", 1]]]
+        }
       }
     ]
   },
@@ -156,8 +168,11 @@
         "description": "Remove the faulty starter motor, and replace it with a functioning one.",
         "success_msg": "You replace the %s's starter motor.",
         "time": "10 m",
-        "skills": [ { "id": "mechanics", "level": 3 } ],
-        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "motor_small", 1 ] ] ] }
+        "skills": [{ "id": "mechanics", "level": 3 }],
+        "requirements": {
+          "qualities": [{ "id": "WRENCH_FINE", "level": 1 }],
+          "components": [[["motor_small", 1]]]
+        }
       }
     ]
   }

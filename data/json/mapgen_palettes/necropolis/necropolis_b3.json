@@ -117,7 +117,10 @@
       "b": { "item": "magazines", "chance": 10 },
       "d": { "item": "dresser", "chance": 50 },
       "f": { "item": "SUS_fridge", "chance": 25 },
-      "k": [ { "item": "office", "chance": 25, "repeat": 2 }, { "item": "necropolis_visitors", "chance": 1 } ],
+      "k": [
+        { "item": "office", "chance": 25, "repeat": 2 },
+        { "item": "necropolis_visitors", "chance": 1 }
+      ],
       "o": { "item": "homebooks", "chance": 25 }
     }
   }

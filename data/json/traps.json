@@ -21,7 +21,7 @@
     "avoidance": 8,
     "difficulty": 0,
     "action": "bubble",
-    "drops": [ "bubblewrap" ],
+    "drops": ["bubblewrap"],
     "vehicle_data": { "sound_volume": 18, "sound": "Pop!" }
   },
   {
@@ -34,7 +34,7 @@
     "avoidance": 8,
     "difficulty": 0,
     "action": "glass",
-    "drops": [ "glass_shard" ],
+    "drops": ["glass_shard"],
     "vehicle_data": { "sound_volume": 10, "sound": "Crunch!" }
   },
   {
@@ -49,7 +49,7 @@
     "comfort": 4,
     "floor_bedding_warmth": -500,
     "action": "cot",
-    "drops": [ "cot" ],
+    "drops": ["cot"],
     "benign": true
   },
   {
@@ -62,7 +62,7 @@
     "avoidance": 0,
     "difficulty": 0,
     "action": "none",
-    "drops": [ "funnel" ],
+    "drops": ["funnel"],
     "benign": true,
     "funnel_radius": 300
   },
@@ -76,7 +76,7 @@
     "avoidance": 0,
     "difficulty": 0,
     "action": "none",
-    "drops": [ "makeshift_funnel" ],
+    "drops": ["makeshift_funnel"],
     "benign": true,
     "funnel_radius": 200
   },
@@ -92,7 +92,7 @@
     "comfort": 4,
     "floor_bedding_warmth": -1000,
     "action": "none",
-    "drops": [ "rollmat" ],
+    "drops": ["rollmat"],
     "benign": true
   },
   {
@@ -107,7 +107,7 @@
     "comfort": 4,
     "floor_bedding_warmth": -1000,
     "action": "none",
-    "drops": [ "fur_rollmat" ],
+    "drops": ["fur_rollmat"],
     "benign": true
   },
   {
@@ -147,7 +147,7 @@
     "avoidance": 7,
     "difficulty": 3,
     "action": "beartrap",
-    "drops": [ "beartrap" ],
+    "drops": ["beartrap"],
     "vehicle_data": {
       "damage": 300,
       "sound_volume": 8,
@@ -155,7 +155,7 @@
       "sound_type": "trap",
       "sound_variant": "bear_trap",
       "remove_trap": true,
-      "spawn_items": [ "beartrap" ]
+      "spawn_items": ["beartrap"]
     }
   },
   {
@@ -169,7 +169,7 @@
     "avoidance": 8,
     "difficulty": 4,
     "action": "beartrap",
-    "drops": [ "beartrap" ],
+    "drops": ["beartrap"],
     "vehicle_data": {
       "damage": 300,
       "sound_volume": 8,
@@ -177,7 +177,7 @@
       "sound_type": "trap",
       "sound_variant": "bear_trap",
       "remove_trap": true,
-      "spawn_items": [ "beartrap" ]
+      "spawn_items": ["beartrap"]
     }
   },
   {
@@ -190,7 +190,7 @@
     "avoidance": 6,
     "difficulty": 0,
     "action": "board",
-    "drops": [ "board_trap" ],
+    "drops": ["board_trap"],
     "vehicle_data": { "damage": 300 }
   },
   {
@@ -203,7 +203,7 @@
     "avoidance": 6,
     "difficulty": 0,
     "action": "caltrops",
-    "drops": [ "caltrops" ],
+    "drops": ["caltrops"],
     "vehicle_data": { "damage": 300 }
   },
   {
@@ -216,7 +216,7 @@
     "avoidance": 6,
     "difficulty": 0,
     "action": "caltrops_glass",
-    "drops": [ "caltrops_glass" ],
+    "drops": ["caltrops_glass"],
     "vehicle_data": { "damage": 300 }
   },
   {
@@ -229,7 +229,7 @@
     "avoidance": 4,
     "difficulty": 3,
     "action": "tripwire",
-    "drops": [ "string_36" ]
+    "drops": ["string_36"]
   },
   {
     "type": "trap",
@@ -242,7 +242,7 @@
     "avoidance": 4,
     "difficulty": 5,
     "action": "crossbow",
-    "drops": [ "string_36", "crossbow", "bolt_steel" ],
+    "drops": ["string_36", "crossbow", "bolt_steel"],
     "vehicle_data": {
       "chance": 30,
       "damage": 300,
@@ -251,7 +251,7 @@
       "sound_type": "fire_gun",
       "sound_variant": "crossbow",
       "remove_trap": true,
-      "spawn_items": [ "crossbow", "string_6", { "id": "bolt_steel", "chance": 0.9 } ]
+      "spawn_items": ["crossbow", "string_6", { "id": "bolt_steel", "chance": 0.9 }]
     }
   },
   {
@@ -265,7 +265,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
+    "drops": ["string_36", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 }],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -287,7 +287,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "drops": ["string_36", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 }],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -296,7 +296,7 @@
       "sound_type": "fire_gun",
       "sound_variant": "shotgun_d",
       "remove_trap": true,
-      "spawn_items": [ "shotgun_d", "string_6" ]
+      "spawn_items": ["shotgun_d", "string_6"]
     }
   },
   {
@@ -310,7 +310,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "drops": ["string_36", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 }],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -319,7 +319,7 @@
       "sound_type": "fire_gun",
       "sound_variant": "shotgun_s",
       "remove_trap": true,
-      "spawn_items": [ "shotgun_s", "string_6" ]
+      "spawn_items": ["shotgun_s", "string_6"]
     }
   },
   {
@@ -334,7 +334,7 @@
     "difficulty": 2,
     "trap_radius": 1,
     "action": "none",
-    "drops": [ "motor", "blade", "blade", "string_36" ]
+    "drops": ["motor", "blade", "blade", "string_36"]
   },
   {
     "type": "trap",
@@ -346,7 +346,13 @@
     "avoidance": 4,
     "difficulty": 99,
     "action": "blade",
-    "vehicle_data": { "damage": 300, "sound_volume": 1, "sound": "Swinnng!", "sound_type": "smash_success", "sound_variant": "hit_vehicle" }
+    "vehicle_data": {
+      "damage": 300,
+      "sound_volume": 1,
+      "sound": "Swinnng!",
+      "sound_type": "smash_success",
+      "sound_variant": "hit_vehicle"
+    }
   },
   {
     "type": "trap",
@@ -359,7 +365,7 @@
     "avoidance": 14,
     "difficulty": 10,
     "action": "landmine",
-    "drops": [ "landmine" ],
+    "drops": ["landmine"],
     "vehicle_data": {
       "do_explosion": true,
       "damage": 1000,
@@ -381,7 +387,7 @@
     "avoidance": 14,
     "difficulty": 10,
     "action": "landmine",
-    "drops": [ "landmine" ],
+    "drops": ["landmine"],
     "vehicle_data": {
       "do_explosion": true,
       "damage": 1000,
@@ -403,7 +409,7 @@
     "avoidance": 15,
     "difficulty": 20,
     "action": "telepad",
-    "drops": [ "telepad" ]
+    "drops": ["telepad"]
   },
   {
     "type": "trap",
@@ -426,7 +432,13 @@
     "avoidance": 20,
     "difficulty": 99,
     "action": "dissector",
-    "vehicle_data": { "damage": 500, "sound_volume": 10, "sound": "BRZZZAP!", "sound_type": "trap", "sound_variant": "dissector" }
+    "vehicle_data": {
+      "damage": 500,
+      "sound_volume": 10,
+      "sound": "BRZZZAP!",
+      "sound_type": "trap",
+      "sound_variant": "dissector"
+    }
   },
   {
     "type": "trap",
@@ -510,7 +522,7 @@
     "avoidance": 4,
     "difficulty": 7,
     "action": "boobytrap",
-    "drops": [ "boobytrap" ],
+    "drops": ["boobytrap"],
     "vehicle_data": {
       "do_explosion": true,
       "damage": 1000,
@@ -626,7 +638,7 @@
     "avoidance": 0,
     "difficulty": 0,
     "action": "none",
-    "drops": [ "leather_funnel" ],
+    "drops": ["leather_funnel"],
     "benign": true,
     "funnel_radius": 200
   },
@@ -640,7 +652,7 @@
     "avoidance": 0,
     "difficulty": 0,
     "action": "none",
-    "drops": [ "birchbark_funnel" ],
+    "drops": ["birchbark_funnel"],
     "benign": true,
     "funnel_radius": 200
   },
@@ -667,7 +679,7 @@
     "avoidance": 0,
     "difficulty": 0,
     "action": "none",
-    "drops": [ "metal_funnel" ],
+    "drops": ["metal_funnel"],
     "benign": true,
     "funnel_radius": 400
   },
@@ -717,7 +729,7 @@
     "avoidance": 0,
     "difficulty": 0,
     "action": "none",
-    "drops": [ "tarp_raincatcher" ],
+    "drops": ["tarp_raincatcher"],
     "benign": true,
     "funnel_radius": 342
   }

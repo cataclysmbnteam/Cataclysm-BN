@@ -22,19 +22,19 @@
     "//": "Needs his own unique background.",
     "traits": [
       { "group": "BG_survival_story_POLICE" },
-      [ "TOUGH2", 100 ],
-      [ "PAINRESIST", 100 ],
-      [ "GOODCARDIO", 100 ],
+      ["TOUGH2", 100],
+      ["PAINRESIST", 100],
+      ["GOODCARDIO", 100],
       { "group": "Appearance_demographics" }
     ],
-    "bonus_str": { "rng": [ 2, 4 ] },
-    "bonus_int": { "rng": [ 1, 2 ] },
-    "bonus_per": { "rng": [ 2, 4 ] },
+    "bonus_str": { "rng": [2, 4] },
+    "bonus_int": { "rng": [1, 2] },
+    "bonus_per": { "rng": [2, 4] },
     "skills": [
-      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -1 } ] } },
-      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "smg", "bonus": { "rng": [ 2, 6 ] } }
+      { "skill": "ALL", "level": { "sum": [{ "dice": [3, 2] }, { "constant": -1 }] } },
+      { "skill": "gun", "bonus": { "rng": [2, 4] } },
+      { "skill": "pistol", "bonus": { "rng": [2, 4] } },
+      { "skill": "smg", "bonus": { "rng": [2, 6] } }
     ],
     "bionics": [
       { "id": "bio_targeting", "chance": 100 },

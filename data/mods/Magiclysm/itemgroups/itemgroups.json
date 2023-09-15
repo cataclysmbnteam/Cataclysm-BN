@@ -3,27 +3,32 @@
     "type": "item_group",
     "id": "dragon_books",
     "//": "puts all the dragon books in one group, so it's easy to add more later",
-    "items": [ [ "black_dragons", 10 ] ]
+    "items": [["black_dragons", 10]]
   },
   {
     "type": "item_group",
     "id": "religious_books",
-    "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ], [ "summon_undead_spellbook", 1 ] ]
+    "items": [
+      ["priest_beginner", 1],
+      ["priest_advanced", 1],
+      ["druid_spellbook", 1],
+      ["summon_undead_spellbook", 1]
+    ]
   },
   {
     "type": "item_group",
     "id": "novels",
-    "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 1 ] ]
+    "items": [["wizard_beginner", 3], ["wizard_advanced", 1]]
   },
   {
     "type": "item_group",
     "id": "homebooks",
-    "items": [ { "group": "spellbook_loot_0", "prob": 4 } ]
+    "items": [{ "group": "spellbook_loot_0", "prob": 4 }]
   },
   {
     "type": "item_group",
     "id": "manuals",
-    "items": [ { "group": "spellbook_loot_0", "prob": 3 }, { "group": "dragon_books", "prob": 4 } ]
+    "items": [{ "group": "spellbook_loot_0", "prob": 3 }, { "group": "dragon_books", "prob": 4 }]
   },
   {
     "type": "item_group",
@@ -48,7 +53,7 @@
   {
     "type": "item_group",
     "id": "exotic_books",
-    "items": [ { "group": "spellbook_loot_1", "prob": 3 }, { "group": "dragon_books", "prob": 2 } ]
+    "items": [{ "group": "spellbook_loot_1", "prob": 3 }, { "group": "dragon_books", "prob": 2 }]
   },
   {
     "type": "item_group",
@@ -63,47 +68,47 @@
     "type": "item_group",
     "id": "displays",
     "items": [
-      [ "mana_potion_lesser", 50 ],
-      [ "magi_staff_minor", 5 ],
-      [ "wizard_hat", 5 ],
-      [ "cauldron_demon_chitin", 3 ],
-      [ "manatouched_serum", 3 ]
+      ["mana_potion_lesser", 50],
+      ["magi_staff_minor", 5],
+      ["wizard_hat", 5],
+      ["cauldron_demon_chitin", 3],
+      ["manatouched_serum", 3]
     ]
   },
   {
     "id": "coffee_display_2",
     "type": "item_group",
-    "items": [ [ "mana_potion_lesser", 10 ] ]
+    "items": [["mana_potion_lesser", 10]]
   },
   {
     "type": "item_group",
     "id": "bar_alcohol",
-    "items": [ [ "mana_potion_lesser", 20 ], [ "manatouched_serum", 1 ] ]
+    "items": [["mana_potion_lesser", 20], ["manatouched_serum", 1]]
   },
   {
     "type": "item_group",
     "id": "bar_fridge",
-    "items": [ [ "mana_potion_lesser", 5 ] ]
+    "items": [["mana_potion_lesser", 5]]
   },
   {
     "type": "item_group",
     "id": "pizza_beer",
-    "items": [ [ "mana_potion_lesser", 5 ] ]
+    "items": [["mana_potion_lesser", 5]]
   },
   {
     "type": "item_group",
     "id": "pizza_soda",
-    "items": [ [ "mana_potion_lesser", 3 ] ]
+    "items": [["mana_potion_lesser", 3]]
   },
   {
     "id": "groce_softdrink",
     "type": "item_group",
-    "items": [ [ "mana_potion_lesser", 15 ] ]
+    "items": [["mana_potion_lesser", 15]]
   },
   {
     "id": "trash",
     "type": "item_group",
-    "items": [ [ "summon_scroll_smudged", 5 ] ]
+    "items": [["summon_scroll_smudged", 5]]
   },
   {
     "type": "item_group",
@@ -129,14 +134,14 @@
     "id": "potions_common",
     "type": "item_group",
     "items": [
-      [ "mana_potion_lesser", 90 ],
-      [ "mana_potion", 20 ],
-      [ "mana_potion_greater", 1 ],
-      [ "ogres_strength_potion", 10 ],
-      [ "foxs_cunning_potion", 10 ],
-      [ "eagles_sight_potion", 10 ],
-      [ "cats_grace_potion", 10 ],
-      [ "manatouched_serum", 1 ]
+      ["mana_potion_lesser", 90],
+      ["mana_potion", 20],
+      ["mana_potion_greater", 1],
+      ["ogres_strength_potion", 10],
+      ["foxs_cunning_potion", 10],
+      ["eagles_sight_potion", 10],
+      ["cats_grace_potion", 10],
+      ["manatouched_serum", 1]
     ]
   },
   {
@@ -146,7 +151,7 @@
       { "group": "potions_common", "prob": 80 },
       { "group": "alchemy_items", "prob": 30 },
       { "group": "magical_reagents", "prob": 20 },
-      [ "crystallized_mana", 55 ],
+      ["crystallized_mana", 55],
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
     ]
   },
@@ -154,11 +159,11 @@
     "id": "alchemy_items",
     "type": "item_group",
     "items": [
-      [ "owlbear_stone", 10 ],
+      ["owlbear_stone", 10],
       { "item": "stone_shell", "prob": 10, "count-min": 1, "count-max": 3 },
-      [ "egg_owlbear_rock", 5 ],
-      [ "glow_light_off", 1 ],
-      [ "bulette_plate", 10 ],
+      ["egg_owlbear_rock", 5],
+      ["glow_light_off", 1],
+      ["bulette_plate", 10],
       { "item": "bulette_pearl", "prob": 8, "count-min": 1, "count-max": 2 }
     ]
   },
@@ -176,7 +181,7 @@
       {
         "distribution": [
           { "group": "enchanted_wands_lesser", "prob": 15 },
-          { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] },
+          { "group": "spellbook_loot_1", "prob": 35, "count": [1, 3] },
           { "group": "enchanted_rings_common", "prob": 20 },
           { "group": "enchanted_rings_uncommon", "prob": 5 },
           { "group": "enchanted_combat_items", "prob": 10 },
@@ -185,7 +190,7 @@
         "prob": 15
       },
       { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
-      [ "toolbox", 10 ]
+      ["toolbox", 10]
     ]
   },
   {
@@ -194,7 +199,7 @@
     "items": [
       { "group": "potions_common", "prob": 20 },
       { "group": "enchanted_wands_lesser", "prob": 15 },
-      { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] },
+      { "group": "spellbook_loot_1", "prob": 35, "count": [1, 3] },
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
       { "group": "enchanted_combat_items", "prob": 10 },
@@ -205,12 +210,19 @@
   {
     "type": "item_group",
     "id": "magic_shop_clothes",
-    "items": [ [ "cloak", 3 ], [ "cloak_wool", 5 ], [ "jedi_cloak", 3 ], [ "robe", 5 ], [ "tophat", 5 ], [ "leathersandals", 6 ] ]
+    "items": [
+      ["cloak", 3],
+      ["cloak_wool", 5],
+      ["jedi_cloak", 3],
+      ["robe", 5],
+      ["tophat", 5],
+      ["leathersandals", 6]
+    ]
   },
   {
     "type": "item_group",
     "id": "wisp_death",
-    "items": [ [ "glow_dust", 1 ] ]
+    "items": [["glow_dust", 1]]
   },
   {
     "type": "item_group",
@@ -220,16 +232,16 @@
       { "group": "tools_common", "prob": 60 },
       { "group": "paint", "prob": 20 },
       { "group": "supplies_fuel", "prob": 35 },
-      [ "toolbox", 10 ],
-      [ "mop", 100 ],
-      [ "broom", 100 ],
-      [ "battery_car", 35 ]
+      ["toolbox", 10],
+      ["mop", 100],
+      ["broom", 100],
+      ["battery_car", 35]
     ]
   },
   {
     "type": "item_group",
     "id": "magic_CBM",
-    "items": [ [ "bio_fuel_cell_blood", 10 ] ]
+    "items": [["bio_fuel_cell_blood", 10]]
   },
   {
     "type": "item_group",
@@ -264,8 +276,8 @@
     "id": "lair_black_dragon_treasure",
     "//": "Stuff you would find in any dragon treasure room or from a boss fight.  Should require exceptional risk to access.  Includes lower tier group, plus the best magic items.",
     "items": [
-      { "group": "lair_loot_generic", "prob": 80, "count": [ 2, 6 ] },
-      { "item": "dragon_black_scale", "count": [ 48, 120 ] },
+      { "group": "lair_loot_generic", "prob": 80, "count": [2, 6] },
+      { "item": "dragon_black_scale", "count": [48, 120] },
       { "group": "enchanted_tokens_weapon", "prob": 30 },
       { "group": "enchanted_rings_common", "prob": 40 },
       { "group": "enchanted_rings_uncommon", "prob": 30 },
@@ -432,21 +444,27 @@
     "type": "item_group",
     "//": "all enchanted masks.  High end loot for boss fights, treasure rooms, etc.",
     "subtype": "collection",
-    "items": [ { "item": "mmask_disappearance", "prob": 5 }, { "item": "mmask_vision", "prob": 10 } ]
+    "items": [{ "item": "mmask_disappearance", "prob": 5 }, { "item": "mmask_vision", "prob": 10 }]
   },
   {
     "id": "enchanted_bracers_lesser",
     "type": "item_group",
     "//": "lesser enchanted bracers",
     "subtype": "collection",
-    "items": [ { "item": "mbracer_defense_lesser", "prob": 10 }, { "item": "mbracer_lightning_lesser", "prob": 10 } ]
+    "items": [
+      { "item": "mbracer_defense_lesser", "prob": 10 },
+      { "item": "mbracer_lightning_lesser", "prob": 10 }
+    ]
   },
   {
     "id": "enchanted_bracers_greater",
     "type": "item_group",
     "//": "greater enchanted bracers",
     "subtype": "collection",
-    "items": [ { "item": "mbracer_defense_greater", "prob": 10 }, { "item": "mbracer_lightning_greater", "prob": 10 } ]
+    "items": [
+      { "item": "mbracer_defense_greater", "prob": 10 },
+      { "item": "mbracer_lightning_greater", "prob": 10 }
+    ]
   },
   {
     "id": "enchanted_boots",
@@ -593,7 +611,7 @@
       { "group": "magic_CBM", "prob": 2 },
       { "item": "lair_map", "prob": 20 },
       { "item": "retreat_map", "prob": 30 },
-      [ "crystallized_mana", 50 ],
+      ["crystallized_mana", 50],
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
     ]
   },
@@ -672,12 +690,12 @@
     "//": "Reagents you'd use in crafting a wide variety of things, including alchemy and rituals.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "item": "mercury", "prob": 15, "charges-min": 50 } ]
+    "items": [{ "item": "mercury", "prob": 15, "charges-min": 50 }]
   },
   {
     "id": "science",
     "type": "item_group",
-    "items": [ { "group": "magical_reagents", "prob": 18 } ]
+    "items": [{ "group": "magical_reagents", "prob": 18 }]
   },
   {
     "id": "magus_items",
@@ -717,7 +735,10 @@
         "prob": 10
       },
       {
-        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
+        "distribution": [
+          { "item": "recovery_spellbook", "prob": 10 },
+          { "item": "spell_scroll_invisibility", "prob": 50 }
+        ],
         "prob": 5
       }
     ]
@@ -738,7 +759,10 @@
         "prob": 45
       },
       {
-        "distribution": [ { "item": "priest_advanced", "prob": 10 }, { "item": "spell_scroll_summon_skeleton", "prob": 50 } ],
+        "distribution": [
+          { "item": "priest_advanced", "prob": 10 },
+          { "item": "spell_scroll_summon_skeleton", "prob": 50 }
+        ],
         "prob": 35
       },
       {
@@ -768,7 +792,10 @@
     "subtype": "collection",
     "items": [
       {
-        "distribution": [ { "item": "spell_scroll_create_lighter", "prob": 50 }, { "item": "spell_scroll_chilling_touch", "prob": 50 } ],
+        "distribution": [
+          { "item": "spell_scroll_create_lighter", "prob": 50 },
+          { "item": "spell_scroll_chilling_touch", "prob": 50 }
+        ],
         "prob": 45
       },
       {
@@ -836,7 +863,10 @@
         "prob": 10
       },
       {
-        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
+        "distribution": [
+          { "item": "recovery_spellbook", "prob": 10 },
+          { "item": "spell_scroll_invisibility", "prob": 50 }
+        ],
         "prob": 5
       },
       { "group": "magic_CBM", "prob": 2 }
@@ -988,7 +1018,10 @@
         "prob": 10
       },
       {
-        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
+        "distribution": [
+          { "item": "recovery_spellbook", "prob": 10 },
+          { "item": "spell_scroll_invisibility", "prob": 50 }
+        ],
         "prob": 5
       },
       { "group": "magic_CBM", "prob": 2 }
@@ -1040,27 +1073,30 @@
         "prob": 10
       },
       {
-        "distribution": [ { "group": "enchanted_rings_common", "prob": 30 }, { "group": "enchanted_rings_uncommon", "prob": 10 } ],
+        "distribution": [
+          { "group": "enchanted_rings_common", "prob": 30 },
+          { "group": "enchanted_rings_uncommon", "prob": 10 }
+        ],
         "prob": 40
       },
-      [ "crystallized_mana", 50 ],
-      [ "copper_circlet", 10 ],
+      ["crystallized_mana", 50],
+      ["copper_circlet", 10],
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 }
     ]
   },
   {
     "type": "item_group",
     "id": "academy_lore",
-    "items": [ [ "retreat_map", 100 ] ]
+    "items": [["retreat_map", 100]]
   },
   {
     "type": "item_group",
     "id": "magic_basement_photo",
-    "items": [ [ "wizard_photo", 100 ] ]
+    "items": [["wizard_photo", 100]]
   },
   {
     "type": "item_group",
     "id": "forest_tomb_spellbook",
-    "items": [ [ "summon_undead_spellbook", 100 ] ]
+    "items": [["summon_undead_spellbook", 100]]
   }
 ]

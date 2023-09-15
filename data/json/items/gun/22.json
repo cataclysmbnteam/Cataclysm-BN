@@ -17,9 +17,9 @@
     "dispersion": 280,
     "durability": 6,
     "min_cycle_recoil": 39,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 6]],
     "barrel_length": "250 ml",
-    "magazines": [ [ "22", [ "a180mag" ] ] ]
+    "magazines": [["22", ["a180mag"]]]
   },
   {
     "id": "marlin_9a",
@@ -32,15 +32,15 @@
     "price": 23000,
     "price_postapoc": 2000,
     "ascii_picture": "marlin_39a",
-    "material": [ "iron", "wood" ],
+    "material": ["iron", "wood"],
     "color": "brown",
     "ammo": "22",
     "ranged_damage": { "damage_type": "bullet", "amount": 5 },
     "dispersion": 90,
     "blackpowder_tolerance": 56,
     "clip_size": 19,
-    "magazines": [ [ "22", [ "marlin_tubeloader" ] ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "magazines": [["22", ["marlin_tubeloader"]]],
+    "flags": ["RELOAD_ONE"]
   },
   {
     "id": "moss_brownie",
@@ -53,7 +53,7 @@
     "price": 110000,
     "price_postapoc": 500,
     "bashing": 1,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "dark_gray",
     "ammo": "22",
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
@@ -62,17 +62,17 @@
     "blackpowder_tolerance": 96,
     "clip_size": 4,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["grip", 1],
+      ["mechanism", 2],
+      ["sights mount", 1],
+      ["stock mount", 1],
+      ["underbarrel mount", 1]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "faults": ["fault_gun_blackpowder", "fault_gun_dirt"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"]
   },
   {
     "id": "rifle_22",
@@ -86,7 +86,7 @@
     "price_postapoc": 500,
     "bashing": 10,
     "ascii_picture": "sm_pipe_gun",
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "22",
     "barrel_length": "500 ml"
@@ -102,7 +102,7 @@
     "price": 27000,
     "price_postapoc": 750,
     "ascii_picture": "ruger1022",
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "22",
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
@@ -110,7 +110,7 @@
     "min_cycle_recoil": 39,
     "barrel_length": "500 ml",
     "magazine_well": "250 ml",
-    "magazines": [ [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ] ]
+    "magazines": [["22", ["ruger1022mag", "ruger1022bigmag"]]]
   },
   {
     "id": "ruger_lcr_22",
@@ -121,7 +121,7 @@
     "weight": "420 g",
     "ammo": "22",
     "clip_size": 8,
-    "magazines": [ [ "22", [ "22_speedloader8" ] ] ]
+    "magazines": [["22", ["22_speedloader8"]]]
   },
   {
     "id": "sig_mosquito",
@@ -136,26 +136,26 @@
     "to_hit": -2,
     "bashing": 9,
     "ascii_picture": "sig_mosquito",
-    "material": [ "aluminum", "steel", "plastic" ],
+    "material": ["aluminum", "steel", "plastic"],
     "color": "dark_gray",
     "ammo": "22",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "min_cycle_recoil": 39,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "22", [ "mosquitomag" ] ] ]
+    "magazines": [["22", ["mosquitomag"]]]
   },
   {
     "id": "sw_22",
@@ -170,13 +170,13 @@
     "to_hit": -2,
     "ascii_picture": "sw_22a",
     "bashing": 9,
-    "material": [ "aluminum", "steel", "plastic" ],
+    "material": ["aluminum", "steel", "plastic"],
     "color": "dark_gray",
     "ammo": "22",
     "durability": 7,
     "min_cycle_recoil": 39,
     "magazine_well": "250 ml",
-    "magazines": [ [ "22", [ "sw22mag" ] ] ]
+    "magazines": [["22", ["sw22mag"]]]
   },
   {
     "id": "j22",
@@ -188,14 +188,14 @@
     "volume": "123 ml",
     "price": 7000,
     "price_postapoc": 750,
-    "material": [ "budget_steel" ],
+    "material": ["budget_steel"],
     "color": "dark_gray",
     "ammo": "22",
     "magazine_well": "55 ml",
     "dispersion": 600,
     "durability": 5,
     "min_cycle_recoil": 39,
-    "magazines": [ [ "22", [ "j22mag" ] ] ]
+    "magazines": [["22", ["j22mag"]]]
   },
   {
     "id": "walther_p22",
@@ -209,12 +209,12 @@
     "price_postapoc": 750,
     "to_hit": -3,
     "bashing": 4,
-    "material": [ "plastic", "zinc" ],
+    "material": ["plastic", "zinc"],
     "color": "dark_gray",
     "ammo": "22",
     "durability": 7,
     "min_cycle_recoil": 39,
     "magazine_well": "250 ml",
-    "magazines": [ [ "22", [ "wp22mag" ] ] ]
+    "magazines": [["22", ["wp22mag"]]]
   }
 ]

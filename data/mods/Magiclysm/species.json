@@ -8,13 +8,13 @@
     "type": "SPECIES",
     "id": "DRAGON",
     "name": { "str": "dragon" },
-    "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ]
+    "anger_triggers": ["HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK"]
   },
   {
     "type": "SPECIES",
     "id": "LIZARDFOLK",
     "name": { "str_sp": "lizardfolk" },
-    "anger_triggers": [ "FRIEND_ATTACKED" ],
-    "fear_triggers": [ "FIRE" ]
+    "anger_triggers": ["FRIEND_ATTACKED"],
+    "fear_triggers": ["FIRE"]
   }
 ]

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "sub_station" ],
+    "om_terrain": ["sub_station"],
     "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -32,8 +32,11 @@
         "SSSSSSSSSSSSSSSS4SSSSSSS",
         "SSSSSSSSSSSSSSSSSSSSSSSS"
       ],
-      "palettes": [ "subway" ],
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
+      "palettes": ["subway"],
+      "vendingmachines": {
+        "D": { "item_group": "vending_drink" },
+        "F": { "item_group": "vending_food" }
+      }
     }
   },
   {
@@ -68,13 +71,13 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ]
+      "palettes": ["roof_palette"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "sewer_sub_station" ],
+    "om_terrain": ["sewer_sub_station"],
     "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -104,16 +107,21 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "subway_underground" ],
-      "vendingmachines": { "J": { "item_group": "vending_drink" }, "C": { "item_group": "vending_food" } },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 20 ], "y": [ 4, 9 ], "repeat": [ 5, 9 ] } ],
-      "place_item": [ { "item": "subwaymap", "x": 1, "y": [ 6, 7 ], "chance": 75 } ]
+      "palettes": ["subway_underground"],
+      "vendingmachines": {
+        "J": { "item_group": "vending_drink" },
+        "C": { "item_group": "vending_food" }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [6, 20], "y": [4, 9], "repeat": [5, 9] }
+      ],
+      "place_item": [{ "item": "subwaymap", "x": 1, "y": [6, 7], "chance": 75 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "underground_sub_station" ],
+    "om_terrain": ["underground_sub_station"],
     "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -143,7 +151,7 @@
         "#^^-x---x-IIII-x---x-^^#",
         "#^^^X^^^X^^^^^^X^^^X^^^#"
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": ["subway_underground"]
     }
   }
 ]

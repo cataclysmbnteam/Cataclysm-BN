@@ -4,8 +4,8 @@
     "method": "json",
     "nested_mapgen_id": "robofac_hq_surface_freemerchant_camp",
     "object": {
-      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
-      "mapgensize": [ 15, 15 ],
+      "faction_owner": [{ "id": "free_merchants", "x": [0, 14], "y": [0, 14] }],
+      "mapgensize": [15, 15],
       "rows": [
         "        ...... ",
         " ###### ...... ",
@@ -32,7 +32,14 @@
         "c": "t_dirt",
         "F": "t_pit_shallow"
       },
-      "furniture": { "#": "f_skin_wall", "+": "f_skin_door", "x": "f_crate_c", "t": "f_table", "h": "f_chair", "F": "f_firering" },
+      "furniture": {
+        "#": "f_skin_wall",
+        "+": "f_skin_door",
+        "x": "f_crate_c",
+        "t": "f_table",
+        "h": "f_chair",
+        "F": "f_firering"
+      },
       "traps": { "c": "tr_fur_rollmat", "v": "tr_funnel" },
       "place_npcs": [
         { "class": "roabofac_free_merchant", "x": 5, "y": 3 },
@@ -45,7 +52,15 @@
         "F": { "item": "pot", "chance": 100 },
         "v": { "item": "jug_plastic", "chance": 100 }
       },
-      "place_loot": [ { "group": "NC_ROBOFAC_INTERCOM_trade", "chance": 100, "x": 2, "y": [ 2, 4 ], "repeat": [ 9, 15 ] } ]
+      "place_loot": [
+        {
+          "group": "NC_ROBOFAC_INTERCOM_trade",
+          "chance": 100,
+          "x": 2,
+          "y": [2, 4],
+          "repeat": [9, 15]
+        }
+      ]
     }
   },
   {
@@ -53,14 +68,14 @@
     "method": "json",
     "nested_mapgen_id": "robofac_hq_surface_merc_1",
     "object": {
-      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 4 ], "y": [ 0, 4 ] } ],
-      "mapgensize": [ 2, 2 ],
+      "faction_owner": [{ "id": "robofac_auxiliaries", "x": [0, 4], "y": [0, 4] }],
+      "mapgensize": [2, 2],
       "rows": [
         "  ",
         " ."
       ],
       "terrain": { ".": "t_thconc_floor" },
-      "place_npcs": [ { "class": "robofac_merc_1", "x": 1, "y": 1 } ]
+      "place_npcs": [{ "class": "robofac_merc_1", "x": 1, "y": 1 }]
     }
   }
 ]

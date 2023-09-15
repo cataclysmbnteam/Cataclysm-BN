@@ -13,7 +13,7 @@
     "price_postapoc": 500,
     "ascii_picture": "2_shot_special",
     "bashing": 3,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "color": "brown",
     "ammo": "38",
     "dispersion": 620,
@@ -22,12 +22,12 @@
     "clip_size": 2,
     "reload": 200,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "sights", 1 ],
-      [ "underbarrel", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ]
+      ["accessories", 4],
+      ["grip", 1],
+      ["sights", 1],
+      ["underbarrel", 1],
+      ["rail mount", 1],
+      ["stock mount", 1]
     ],
     "delete": { "flags": "NEVER_JAMS" }
   },
@@ -42,22 +42,22 @@
     "price": 120000,
     "price_postapoc": 1000,
     "bashing": 3,
-    "material": [ "steel", "wood" ],
-    "ammo": [ "357mag", "38" ],
+    "material": ["steel", "wood"],
+    "ammo": ["357mag", "38"],
     "range": 3,
     "dispersion": 520,
     "durability": 6,
     "blackpowder_tolerance": 96,
     "clip_size": 4,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["grip", 1],
+      ["mechanism", 2],
+      ["sights mount", 1],
+      ["stock mount", 1],
+      ["underbarrel mount", 1]
     ]
   },
   {
@@ -72,11 +72,11 @@
     "price": 42400,
     "price_postapoc": 1250,
     "bashing": 9,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "dark_gray",
     "ammo": "38",
     "blackpowder_tolerance": 56,
-    "magazines": [ [ "38", [ "38_speedloader6" ] ] ]
+    "magazines": [["38", ["38_speedloader6"]]]
   },
   {
     "id": "rifle_38",
@@ -90,7 +90,7 @@
     "price_postapoc": 500,
     "ascii_picture": "ps_pipe_gun",
     "bashing": 10,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "38",
     "barrel_length": "750 ml"
@@ -105,24 +105,24 @@
     "volume": "321 ml",
     "price": 54500,
     "price_postapoc": 1000,
-    "material": [ "steel", "aluminum", "plastic" ],
+    "material": ["steel", "aluminum", "plastic"],
     "color": "dark_gray",
     "ammo": "38",
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "durability": 10,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "magazines": [ [ "38", [ "38_speedloader5" ] ] ],
+    "magazines": [["38", ["38_speedloader5"]]],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock mount", 1],
+      ["underbarrel", 1]
     ]
   },
   {
@@ -138,24 +138,24 @@
     "price": 62000,
     "price_postapoc": 1250,
     "bashing": 9,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "light_gray",
-    "ammo": [ "357mag", "38" ],
+    "ammo": ["357mag", "38"],
     "dispersion": 320,
     "durability": 10,
     "blackpowder_tolerance": 56,
     "clip_size": 7,
-    "magazines": [ [ "38", [ "38_speedloader" ] ] ],
+    "magazines": [["38", ["38_speedloader"]]],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock mount", 1],
+      ["underbarrel", 1]
     ]
   }
 ]

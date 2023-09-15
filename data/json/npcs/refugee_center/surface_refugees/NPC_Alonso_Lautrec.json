@@ -18,17 +18,20 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Alonso wants to be the town bicycle, but isn't getting as much interest as he'd hoped.  He'll trade a morale bonus for condoms.",
-    "bonus_str": { "rng": [ -2, 1 ] },
-    "bonus_dex": { "rng": [ -2, 4 ] },
-    "bonus_int": { "rng": [ -2, 2 ] },
-    "bonus_per": { "rng": [ -2, 2 ] },
+    "bonus_str": { "rng": [-2, 1] },
+    "bonus_dex": { "rng": [-2, 4] },
+    "bonus_int": { "rng": [-2, 2] },
+    "bonus_per": { "rng": [-2, 2] },
     "worn_override": "REFUGEE_Alonso_worn",
     "carry_override": "REFUGEE_Alonso_carried",
     "weapon_override": "REFUGEE_Alonso_wield",
-    "traits": [ { "trait": "PRETTY" }, { "group": "Appearance_demographics" } ],
+    "traits": [{ "trait": "PRETTY" }, { "group": "Appearance_demographics" }],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -5 ] } ] } ] } },
-      { "skill": "barter", "bonus": { "rng": [ 0, 1 ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [2, 2] }, { "rng": [0, -5] }] }] }
+      },
+      { "skill": "barter", "bonus": { "rng": [0, 1] } }
     ]
   },
   {
@@ -49,18 +52,22 @@
     "type": "item_group",
     "id": "REFUGEE_Alonso_carried",
     "subtype": "collection",
-    "entries": [ { "item": "mag_porn" }, { "item": "vibrator" }, { "item": "condom" } ]
+    "entries": [{ "item": "mag_porn" }, { "item": "vibrator" }, { "item": "condom" }]
   },
   {
     "type": "item_group",
     "id": "REFUGEE_Alonso_wield",
     "subtype": "collection",
-    "entries": [ { "item": "cudgel" } ]
+    "entries": [{ "item": "cudgel" }]
   },
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [ "TALK_REFUGEE_Alonso_2", "TALK_REFUGEE_Alonso_Background", "TALK_REFUGEE_Alonso_Situation" ],
+    "id": [
+      "TALK_REFUGEE_Alonso_2",
+      "TALK_REFUGEE_Alonso_Background",
+      "TALK_REFUGEE_Alonso_Situation"
+    ],
     "responses": [
       { "text": "You seem a little forward…", "topic": "TALK_REFUGEE_Alonso_Forward" },
       {
@@ -69,7 +76,14 @@
         "condition": {
           "and": [
             { "u_has_perception": 10 },
-            { "not": { "npc_has_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked" } }
+            {
+              "not": {
+                "npc_has_var": "Alonso_accent",
+                "type": "general",
+                "context": "none",
+                "value": "asked"
+              }
+            }
           ]
         }
       },
@@ -95,24 +109,58 @@
     "responses": [
       {
         "text": "Nice to meet you, Alonso.",
-        "effect": { "u_add_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_Alonso_Lautrec",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Alonso_Lautrec",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_REFUGEE_Alonso_1_firstmeet"
       },
       {
         "text": "Hi, Alonso.  What's up?",
         "topic": "TALK_REFUGEE_Alonso_2",
-        "condition": { "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": {
+          "u_has_var": "u_met_Alonso_Lautrec",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       },
       {
         "text": "Hi Alonso, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_Alonso_Lautrec",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Alonso_Lautrec",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Hi Alonso.  I can't stay to talk.",
-        "condition": { "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_Alonso_Lautrec",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -180,7 +228,12 @@
       {
         "text": "Just stop talking like that around me, maybe?  It's really obnoxious.",
         "topic": "TALK_REFUGEE_Alonso_CalledOut3",
-        "effect": { "npc_add_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked" }
+        "effect": {
+          "npc_add_var": "Alonso_accent",
+          "type": "general",
+          "context": "none",
+          "value": "asked"
+        }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'll leave you to it then.", "topic": "TALK_DONE" }
@@ -190,7 +243,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_CalledOut3",
     "dynamic_line": "Fine.  As a favor to you, I'll be a guy from Brooklyn.",
-    "responses": [ { "text": "Thanks.  I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "Thanks.  I'd better get going.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",

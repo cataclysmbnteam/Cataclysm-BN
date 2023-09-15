@@ -5,8 +5,8 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 2 ] ], [ [ "copper", 1 ] ] ],
+    "qualities": [{ "id": "PULL", "level": 1 }],
+    "components": [[["lead", 2]], [["22_casing_new", 1]], [["gunpowder", 2]], [["copper", 1]]],
     "charges": 1
   },
   {
@@ -15,8 +15,8 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 2 ] ] ],
+    "qualities": [{ "id": "PULL", "level": 1 }],
+    "components": [[["lead", 2]], [["22_casing_new", 1]], [["gunpowder", 2]]],
     "charges": 1
   },
   {
@@ -25,8 +25,8 @@
     "skill_used": "gun",
     "difficulty": 5,
     "time": "5 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 2 ] ] ],
+    "qualities": [{ "id": "PULL", "level": 1 }],
+    "components": [[["lead", 2]], [["22_casing_new", 1]], [["gunpowder", 2]]],
     "charges": 1
   }
 ]

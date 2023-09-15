@@ -6,13 +6,13 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 2 ],
+    "skills_required": ["gun", 2],
     "time": "20 m",
-    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "3006_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+    "book_learn": [["recipe_bullets", 2], ["mag_rifle", 3]],
+    "tools": [[["small_repairkit", 10], ["large_repairkit", 5]]],
+    "using": [["3006_casehead", 1]],
+    "qualities": [{ "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }],
+    "components": [[["sheet_metal_small", 1]]]
   },
   {
     "result": "762x39_clip",
@@ -21,13 +21,13 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 2 ],
+    "skills_required": ["gun", 2],
     "time": "20 m",
-    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "using": [ [ "762_casehead", 1 ] ],
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+    "book_learn": [["recipe_bullets", 2], ["mag_rifle", 3]],
+    "qualities": [{ "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }],
+    "using": [["762_casehead", 1]],
+    "tools": [[["small_repairkit", 10], ["large_repairkit", 5]]],
+    "components": [[["sheet_metal_small", 1]]]
   },
   {
     "result": "762R_clip",
@@ -36,13 +36,13 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 2 ],
+    "skills_required": ["gun", 2],
     "time": "20 m",
-    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "using": [ [ "762R_casehead", 1 ] ],
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+    "book_learn": [["recipe_bullets", 2], ["mag_rifle", 3]],
+    "qualities": [{ "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }],
+    "using": [["762R_casehead", 1]],
+    "tools": [[["small_repairkit", 10], ["large_repairkit", 5]]],
+    "components": [[["sheet_metal_small", 1]]]
   },
   {
     "result": "garandclip",
@@ -51,13 +51,13 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 2 ],
+    "skills_required": ["gun", 2],
     "time": "20 m",
-    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "using": [ [ "3006_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "garand", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+    "book_learn": [["recipe_bullets", 2], ["mag_rifle", 3]],
+    "using": [["3006_casehead", 1]],
+    "qualities": [{ "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }],
+    "tools": [[["garand", -1]], [["small_repairkit", 10], ["large_repairkit", 5]]],
+    "components": [[["sheet_metal_small", 1]]]
   },
   {
     "result": "marlin_tubeloader",
@@ -66,12 +66,12 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ [ "mechanics", 2 ], [ "gun", 2 ] ],
+    "skills_required": [["mechanics", 2], ["gun", 2]],
     "time": "20 m",
-    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "components": [ [ [ "pipe", 1 ], [ "scrap", 1 ] ] ]
+    "book_learn": [["recipe_bullets", 2], ["mag_rifle", 3]],
+    "qualities": [{ "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }],
+    "tools": [[["small_repairkit", 10], ["large_repairkit", 5]]],
+    "components": [[["pipe", 1], ["scrap", 1]]]
   },
   {
     "result": "pressurized_tank_chem",
@@ -80,12 +80,12 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "mechanics", 3 ],
+    "skills_required": ["mechanics", 3],
     "time": "40 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "metal_tank_little", 1 ] ] ]
+    "using": [["welding_standard", 2]],
+    "qualities": [{ "id": "HAMMER", "level": 2 }],
+    "components": [[["metal_tank_little", 1]]]
   },
   {
     "result": "shot_speedloader6",
@@ -94,16 +94,20 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "mechanics", 3 ], [ "gun", 3 ] ],
+    "skills_required": [["mechanics", 3], ["gun", 3]],
     "time": "40 m",
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_shotgun", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [
-      [ [ "mold_plastic", -1 ] ],
-      [ [ "surface_heat", 15, "LIST" ] ],
-      [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
+    "book_learn": [["recipe_bullets", 3], ["mag_shotgun", 4]],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 }
     ],
-    "components": [ [ [ "plastic_chunk", 2 ], [ "scrap", 1 ] ] ]
+    "tools": [
+      [["mold_plastic", -1]],
+      [["surface_heat", 15, "LIST"]],
+      [["small_repairkit", 10], ["large_repairkit", 5]]
+    ],
+    "components": [[["plastic_chunk", 2], ["scrap", 1]]]
   },
   {
     "result": "shot_speedloader8",
@@ -112,16 +116,20 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ [ "mechanics", 3 ], [ "gun", 3 ] ],
+    "skills_required": [["mechanics", 3], ["gun", 3]],
     "time": "50 m",
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_shotgun", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [
-      [ [ "mold_plastic", -1 ] ],
-      [ [ "surface_heat", 15, "LIST" ] ],
-      [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
+    "book_learn": [["recipe_bullets", 3], ["mag_shotgun", 4]],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 }
     ],
-    "components": [ [ [ "plastic_chunk", 3 ], [ "scrap", 1 ] ] ]
+    "tools": [
+      [["mold_plastic", -1]],
+      [["surface_heat", 15, "LIST"]],
+      [["small_repairkit", 10], ["large_repairkit", 5]]
+    ],
+    "components": [[["plastic_chunk", 3], ["scrap", 1]]]
   },
   {
     "result": "survivor223mag",
@@ -130,27 +138,31 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
     "tools": [
       [
-        [ "acr", -1 ],
-        [ "ar15", -1 ],
-        [ "h&k416a5", -1 ],
-        [ "m249", -1 ],
-        [ "m27iar", -1 ],
-        [ "m4a1", -1 ],
-        [ "m16a4", -1 ],
-        [ "scar_l", -1 ],
-        [ "sig552", -1 ],
-        [ "surv_carbine_223", -1 ]
+        ["acr", -1],
+        ["ar15", -1],
+        ["h&k416a5", -1],
+        ["m249", -1],
+        ["m27iar", -1],
+        ["m4a1", -1],
+        ["m16a4", -1],
+        ["scar_l", -1],
+        ["sig552", -1],
+        ["surv_carbine_223", -1]
       ],
-      [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
+      [["small_repairkit", 10], ["large_repairkit", 5]]
     ],
-    "using": [ [ "223_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "using": [["223_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "ruger_makeshiftmag",
@@ -159,13 +171,17 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "ruger_mini", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "223_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "tools": [[["ruger_mini", -1]], [["small_repairkit", 10], ["large_repairkit", 5]]],
+    "using": [["223_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "m14_makeshiftmag",
@@ -174,13 +190,20 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "m14ebr", -1 ], [ "m1a", -1 ], [ "M24", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "308_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "tools": [
+      [["m14ebr", -1], ["m1a", -1], ["M24", -1]],
+      [["small_repairkit", 10], ["large_repairkit", 5]]
+    ],
+    "using": [["308_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "hk417_makeshiftmag",
@@ -189,13 +212,20 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "hk417_13", -1 ], [ "m110a1", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "308_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "tools": [
+      [["hk417_13", -1], ["m110a1", -1]],
+      [["small_repairkit", 10], ["large_repairkit", 5]]
+    ],
+    "using": [["308_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "ar10_makeshiftmag",
@@ -204,13 +234,17 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "ar10", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "308_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "tools": [[["ar10", -1]], [["small_repairkit", 10], ["large_repairkit", 5]]],
+    "using": [["308_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "g3_makeshiftmag",
@@ -219,13 +253,20 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "hk_g3", -1 ], [ "rifle_308", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "308_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "tools": [
+      [["hk_g3", -1], ["rifle_308", -1]],
+      [["small_repairkit", 10], ["large_repairkit", 5]]
+    ],
+    "using": [["308_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "fal_makeshiftmag",
@@ -234,13 +275,17 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "fn_fal", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "308_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "tools": [[["fn_fal", -1]], [["small_repairkit", 10], ["large_repairkit", 5]]],
+    "using": [["308_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "scarh_makeshiftmag",
@@ -249,13 +294,17 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "scar_h", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "using": [ [ "308_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "tools": [[["scar_h", -1]], [["small_repairkit", 10], ["large_repairkit", 5]]],
+    "using": [["308_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "scarh_makeshiftmag",
@@ -267,9 +316,13 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "fal_makeshiftmag", 1 ] ] ]
+    "tools": [[["small_repairkit", 10], ["large_repairkit", 5]]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "DRILL", "level": 1 }
+    ],
+    "components": [[["fal_makeshiftmag", 1]]]
   },
   {
     "result": "scarhmag",
@@ -280,9 +333,13 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "falmag", 1 ] ] ]
+    "tools": [[["small_repairkit", 10], ["large_repairkit", 5]]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "DRILL", "level": 1 }
+    ],
+    "components": [[["falmag", 1]]]
   },
   {
     "result": "scarhmag_30rd",
@@ -293,9 +350,13 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
-    "tools": [ [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "falbigmag", 1 ] ] ]
+    "tools": [[["small_repairkit", 10], ["large_repairkit", 5]]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "DRILL", "level": 1 }
+    ],
+    "components": [[["falbigmag", 1]]]
   },
   {
     "result": "shotbelt_20",
@@ -304,11 +365,11 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "60 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 40 ] ],
-    "components": [ [ [ "fabric_standard", 2, "LIST" ] ] ]
+    "using": [["sewing_standard", 40]],
+    "components": [[["fabric_standard", 2, "LIST"]]]
   },
   {
     "result": "smg_40_mag",
@@ -317,13 +378,17 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "smg_40", -1 ] ] ],
-    "using": [ [ "40_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "tools": [[["smg_40", -1]]],
+    "using": [["40_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "smg_45_mag",
@@ -332,13 +397,17 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "mac_10", -1 ], [ "smg_45", -1 ] ] ],
-    "using": [ [ "45_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "tools": [[["mac_10", -1], ["smg_45", -1]]],
+    "using": [["45_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "ump45_makeshiftmag",
@@ -347,13 +416,17 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "hk_ump45", -1 ] ] ],
-    "using": [ [ "45_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "tools": [[["hk_ump45", -1]]],
+    "using": [["45_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "thompson_makeshiftmag",
@@ -362,13 +435,17 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "tommygun", -1 ] ] ],
-    "using": [ [ "45_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "tools": [[["tommygun", -1]]],
+    "using": [["45_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "survivor9mm_mag",
@@ -377,13 +454,17 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "smg_9mm", -1 ], [ "sten", -1 ] ] ],
-    "using": [ [ "9mm_casehead", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]
+    "tools": [[["smg_9mm", -1], ["sten", -1]]],
+    "using": [["9mm_casehead", 1]],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["spring", 1]], [["duct_tape", 40]]]
   },
   {
     "result": "aux_pressurized_tank",
@@ -392,83 +473,83 @@
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "mechanics", 3 ],
+    "skills_required": ["mechanics", 3],
     "time": "40 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "metal_tank_little", 1 ] ] ]
+    "using": [["welding_standard", 2]],
+    "qualities": [{ "id": "HAMMER", "level": 2 }],
+    "components": [[["metal_tank_little", 1]]]
   },
   {
     "type": "recipe",
     "result": "ammolink223",
-    "byproducts": [ [ "scrap", 50 ] ],
+    "byproducts": [["scrap", 50]],
     "charges": 10,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
-    "batch_time_factors": [ 50, 3 ],
-    "autolearn": [ [ "fabrication", 5 ], [ "gun", 2 ] ],
-    "book_learn": [ [ "manual_rifle", 3 ], [ "recipe_bullets", 3 ] ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
-    "using": [ [ "forging_standard", 3 ] ],
-    "components": [ [ [ "sheet_metal", 1 ], [ "sheet_metal_small", 24 ] ] ]
+    "batch_time_factors": [50, 3],
+    "autolearn": [["fabrication", 5], ["gun", 2]],
+    "book_learn": [["manual_rifle", 3], ["recipe_bullets", 3]],
+    "tools": [[["swage", -1]], [["tongs", -1]]],
+    "using": [["forging_standard", 3]],
+    "components": [[["sheet_metal", 1], ["sheet_metal_small", 24]]]
   },
   {
     "type": "recipe",
     "result": "ammolink308",
-    "byproducts": [ [ "scrap", 50 ] ],
+    "byproducts": [["scrap", 50]],
     "charges": 10,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
-    "batch_time_factors": [ 50, 3 ],
-    "autolearn": [ [ "fabrication", 5 ], [ "gun", 2 ] ],
-    "book_learn": [ [ "manual_rifle", 3 ], [ "recipe_bullets", 3 ] ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
-    "using": [ [ "forging_standard", 3 ] ],
-    "components": [ [ [ "sheet_metal", 1 ], [ "sheet_metal_small", 24 ] ] ]
+    "batch_time_factors": [50, 3],
+    "autolearn": [["fabrication", 5], ["gun", 2]],
+    "book_learn": [["manual_rifle", 3], ["recipe_bullets", 3]],
+    "tools": [[["swage", -1]], [["tongs", -1]]],
+    "using": [["forging_standard", 3]],
+    "components": [[["sheet_metal", 1], ["sheet_metal_small", 24]]]
   },
   {
     "type": "recipe",
     "result": "ammolink50",
-    "byproducts": [ [ "scrap", 50 ] ],
+    "byproducts": [["scrap", 50]],
     "charges": 10,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 2 ],
+    "skills_required": ["gun", 2],
     "time": "20 m",
-    "batch_time_factors": [ 50, 3 ],
-    "autolearn": [ [ "fabrication", 5 ], [ "gun", 2 ] ],
-    "book_learn": [ [ "manual_rifle", 3 ], [ "recipe_bullets", 3 ] ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
-    "using": [ [ "forging_standard", 3 ] ],
-    "components": [ [ [ "sheet_metal", 1 ], [ "sheet_metal_small", 24 ] ] ]
+    "batch_time_factors": [50, 3],
+    "autolearn": [["fabrication", 5], ["gun", 2]],
+    "book_learn": [["manual_rifle", 3], ["recipe_bullets", 3]],
+    "tools": [[["swage", -1]], [["tongs", -1]]],
+    "using": [["forging_standard", 3]],
+    "components": [[["sheet_metal", 1], ["sheet_metal_small", 24]]]
   },
   {
     "type": "recipe",
     "result": "ammolink40mm",
-    "byproducts": [ [ "scrap", 90 ] ],
+    "byproducts": [["scrap", 90]],
     "charges": 10,
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MAGAZINES",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 2 ],
+    "skills_required": ["gun", 2],
     "time": "25 m",
-    "batch_time_factors": [ 50, 3 ],
-    "autolearn": [ [ "fabrication", 6 ], [ "gun", 2 ] ],
-    "book_learn": [ [ "recipe_bullets", 4 ] ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
-    "using": [ [ "forging_standard", 4 ] ],
-    "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ] ] ]
+    "batch_time_factors": [50, 3],
+    "autolearn": [["fabrication", 6], ["gun", 2]],
+    "book_learn": [["recipe_bullets", 4]],
+    "tools": [[["swage", -1]], [["tongs", -1]]],
+    "using": [["forging_standard", 4]],
+    "components": [[["sheet_metal", 2], ["sheet_metal_small", 48]]]
   }
 ]

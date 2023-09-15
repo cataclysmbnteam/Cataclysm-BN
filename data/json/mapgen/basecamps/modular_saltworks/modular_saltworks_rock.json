@@ -33,7 +33,7 @@
     "method": "json",
     "nested_mapgen_id": "fbmsw_saltpan_rock",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [7, 7],
       "rows": [
         "wwwowww",
         "w.....w",
@@ -43,21 +43,21 @@
         "w.....w",
         "www+www"
       ],
-      "palettes": [ "fbmsw_rock_palette" ]
+      "palettes": ["fbmsw_rock_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_saltpan_rock_northeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_saltpan_rock" ], "x": 14, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmsw_saltpan_rock"], "x": 14, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmsw_shack_rock",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "      ",
         "  woww",
@@ -66,21 +66,21 @@
         " orrrw",
         " wwoww"
       ],
-      "palettes": [ "fbmsw_rock_palette" ]
+      "palettes": ["fbmsw_rock_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_shack_rock_southeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_shack_rock" ], "x": 15, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmsw_shack_rock"], "x": 15, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmsw_brewery0_rock",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [7, 7],
       "rows": [
         "wwwwwww",
         "w.rrr.w",
@@ -90,13 +90,13 @@
         "w.....w",
         "wwwwwww"
       ],
-      "palettes": [ "fbmsw_rock_palette" ]
+      "palettes": ["fbmsw_rock_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_brewery0_rock_southwest",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery0_rock" ], "x": 3, "y": 14 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmsw_brewery0_rock"], "x": 3, "y": 14 }] }
   }
 ]

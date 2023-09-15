@@ -4,7 +4,11 @@
     "id": "move_earth",
     "fail_message": "The earth here does not listen to your command to move.",
     "terrain": [
-      { "result": "t_hole", "valid_terrain": [ "t_pit", "t_slope_down" ], "message": "The pit has deepened further." },
+      {
+        "result": "t_hole",
+        "valid_terrain": ["t_pit", "t_slope_down"],
+        "message": "The pit has deepened further."
+      },
       {
         "result": "t_pit",
         "valid_terrain": [
@@ -70,10 +74,14 @@
         ],
         "message": "The rocks here are ground into sand."
       },
-      { "result": "t_rock_floor", "valid_terrain": [ "t_rock" ], "message": "The rock crumbles to dust." },
+      {
+        "result": "t_rock_floor",
+        "valid_terrain": ["t_rock"],
+        "message": "The rock crumbles to dust."
+      },
       {
         "result": "t_hole",
-        "valid_terrain": [ "t_null" ],
+        "valid_terrain": ["t_null"],
         "message": "All the dust in the air here falls to the ground.",
         "message_good": false
       }
@@ -82,13 +90,21 @@
   {
     "type": "ter_furn_transform",
     "id": "fungicide",
-    "terrain": [ { "result": "t_dirt_barren", "valid_flags": [ "FUNGUS" ], "message": "The fungus here dies back." } ],
-    "furniture": [ { "result": "f_null", "valid_flags": [ "FUNGUS" ], "message": "The fungus here dies back." } ]
+    "terrain": [
+      {
+        "result": "t_dirt_barren",
+        "valid_flags": ["FUNGUS"],
+        "message": "The fungus here dies back."
+      }
+    ],
+    "furniture": [
+      { "result": "f_null", "valid_flags": ["FUNGUS"], "message": "The fungus here dies back." }
+    ]
   },
   {
     "type": "ter_furn_transform",
     "id": "lava_bomb",
-    "terrain": [ { "result": "t_lava", "valid_flags": [ "DIGGABLE" ] } ]
+    "terrain": [{ "result": "t_lava", "valid_flags": ["DIGGABLE"] }]
   },
   {
     "type": "ter_furn_transform",
@@ -97,11 +113,11 @@
     "terrain": [
       {
         "result": "t_rock_smooth",
-        "valid_flags": [ "DIGGABLE", "FLAT" ],
+        "valid_flags": ["DIGGABLE", "FLAT"],
         "message": "The ground shakes, a section of unnaturally smooth stone wall rising up."
       }
     ],
-    "furniture": [ { "result": "f_null", "valid_flags": [ "TRANSPARENT", "WALL" ] } ]
+    "furniture": [{ "result": "f_null", "valid_flags": ["TRANSPARENT", "WALL"] }]
   },
   {
     "type": "ter_furn_transform",
@@ -109,29 +125,33 @@
     "//": "TODO: Update the birch and willow transformations if they ever make those trees behave consistent relative to blackjack oak and pine.",
     "terrain": [
       {
-        "result": [ [ "t_tree_blackjack_harvested", 10 ], [ "t_tree_harvested", 90 ] ],
-        "valid_terrain": [ "t_tree_dead" ],
+        "result": [["t_tree_blackjack_harvested", 10], ["t_tree_harvested", 90]],
+        "valid_terrain": ["t_tree_dead"],
         "message": "The dead tree regrows."
       },
       {
         "result": "t_tree_pine_harvested",
-        "valid_terrain": [ "t_tree_deadpine" ],
+        "valid_terrain": ["t_tree_deadpine"],
         "message": "The dead tree regrows."
       },
       {
         "result": "t_tree_hickory_harvested",
-        "valid_terrain": [ "t_tree_hickory_dead" ],
+        "valid_terrain": ["t_tree_hickory_dead"],
         "message": "The dead tree regrows."
       },
-      { "result": "t_tree_birch", "valid_terrain": [ "t_tree_birch_harvested" ], "message": "The dead tree regrows." },
+      {
+        "result": "t_tree_birch",
+        "valid_terrain": ["t_tree_birch_harvested"],
+        "message": "The dead tree regrows."
+      },
       {
         "result": "t_tree_willow",
-        "valid_terrain": [ "t_tree_willow_harvested" ],
+        "valid_terrain": ["t_tree_willow_harvested"],
         "message": "The dead tree regrows."
       },
       {
         "result": "t_grass",
-        "valid_terrain": [ "t_grass_dead" ],
+        "valid_terrain": ["t_grass_dead"],
         "message": "Life springs anew from the dead grass."
       }
     ]

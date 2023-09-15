@@ -10,7 +10,7 @@
     "price": 1000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "material": [ "paper" ],
+    "material": ["paper"],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -73,7 +73,17 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "s_pharm", "s_gun", "s_grocery", "s_hunting", "mil_surplus", "s_gas" ],
+      "terrain": [
+        "hiway",
+        "road",
+        "bridge",
+        "s_pharm",
+        "s_gun",
+        "s_grocery",
+        "s_hunting",
+        "mil_surplus",
+        "s_gas"
+      ],
       "message": "You add roads and possible supply points to your map."
     }
   },
@@ -112,7 +122,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [ "subway", "sub_station" ],
+      "terrain": ["subway", "sub_station"],
       "message": "You add subway lines and underground stations to your map."
     }
   },
@@ -126,7 +136,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [ "forest_trail", "trailhead" ],
+      "terrain": ["forest_trail", "trailhead"],
       "message": "You add trails and trailheads to your map."
     }
   },
@@ -140,7 +150,17 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore", "museum" ],
+      "terrain": [
+        "hiway",
+        "road",
+        "bridge",
+        "hotel_tower",
+        "s_restaurant",
+        "cathedral",
+        "s_restaurant_fast",
+        "megastore",
+        "museum"
+      ],
       "message": "You add roads and tourist attractions to your map."
     }
   },

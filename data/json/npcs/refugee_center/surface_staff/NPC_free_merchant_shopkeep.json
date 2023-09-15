@@ -16,7 +16,7 @@
     "id": "NC_EVAC_SHOPKEEP",
     "name": { "str": "Merchant" },
     "job_description": "I'm a local shopkeeper.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [{ "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }],
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
@@ -25,25 +25,30 @@
     "skills": [
       {
         "skill": "ALL",
-        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+        "level": {
+          "mul": [
+            { "one_in": 3 },
+            { "sum": [{ "dice": [2, 2] }, { "constant": -2 }, { "one_in": 4 }] }
+          ]
+        }
       },
       { "skill": "mechanics", "bonus": { "one_in": 2 } },
-      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 3, 5 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 3, 5 ] } }
+      { "skill": "electronics", "bonus": { "rng": [0, 2] } },
+      { "skill": "speech", "bonus": { "rng": [3, 5] } },
+      { "skill": "barter", "bonus": { "rng": [3, 5] } }
     ]
   },
   {
     "type": "item_group",
     "id": "NC_EVAC_SHOPKEEP_storage",
     "subtype": "distribution",
-    "entries": [ { "item": "duffelbag", "prob": 100 } ]
+    "entries": [{ "item": "duffelbag", "prob": 100 }]
   },
   {
     "type": "item_group",
     "id": "NC_EVAC_SHOPKEEP_coat",
     "subtype": "distribution",
-    "entries": [ { "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 } ]
+    "entries": [{ "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 }]
   },
   {
     "type": "item_group",
@@ -52,12 +57,12 @@
     "items": [
       { "item": "RobofacCoin", "count-min": 5, "count-max": 30, "prob": 30 },
       { "item": "FlatCoin", "count-min": 50, "count-max": 300, "prob": 30 },
-      { "group": "ammo_rifle_common", "prob": 5, "charges": [ 10, 30 ] },
-      { "group": "ammo_rifle_reloaded", "prob": 25, "charges": [ 10, 30 ] },
-      { "group": "ammo_pistol_common", "prob": 10, "charges": [ 10, 30 ] },
-      { "group": "ammo_pistol_reloaded", "prob": 30, "charges": [ 10, 30 ] },
-      { "group": "ammo_shotgun_common", "prob": 5, "charges": [ 10, 30 ] },
-      { "group": "ammo_shotgun_reloaded", "prob": 25, "charges": [ 10, 30 ] },
+      { "group": "ammo_rifle_common", "prob": 5, "charges": [10, 30] },
+      { "group": "ammo_rifle_reloaded", "prob": 25, "charges": [10, 30] },
+      { "group": "ammo_pistol_common", "prob": 10, "charges": [10, 30] },
+      { "group": "ammo_pistol_reloaded", "prob": 30, "charges": [10, 30] },
+      { "group": "ammo_shotgun_common", "prob": 5, "charges": [10, 30] },
+      { "group": "ammo_shotgun_reloaded", "prob": 25, "charges": [10, 30] },
       { "group": "tools_general", "prob": 40 },
       { "group": "tools_home", "prob": 40 },
       { "group": "tools_construction", "prob": 30 },
@@ -73,7 +78,7 @@
       { "group": "supplies_fuel", "prob": 20 },
       { "group": "supplies_metal", "prob": 20 },
       { "group": "supplies_mechanics", "prob": 20 },
-      { "group": "ammo_any_batteries_full", "prob": 20, "count": [ 1, 3 ] },
+      { "group": "ammo_any_batteries_full", "prob": 20, "count": [1, 3] },
       { "group": "magazines", "prob": 30 },
       { "group": "book_gunref", "prob": 15 },
       { "group": "hardware_books", "prob": 30 },
@@ -83,122 +88,122 @@
       { "group": "book_survival", "prob": 15 },
       { "group": "novels", "prob": 50 },
       { "group": "textbooks", "prob": 30 },
-      [ "vest", 40 ],
-      [ "kevlar", 15 ],
-      [ "jacket_army", 30 ],
-      [ "trenchcoat", 25 ],
-      [ "trenchcoat_leather", 20 ],
-      [ "trenchcoat_fur", 10 ],
-      [ "vest_leather", 15 ],
-      [ "football_armor", 30 ],
-      [ "jacket_leather", 25 ],
-      [ "jacket_jean", 15 ],
-      [ "jacket_flannel", 15 ],
-      [ "pants_cargo", 40 ],
-      [ "shorts_cargo", 25 ],
-      [ "pants_army", 30 ],
-      [ "pants_leather", 15 ],
-      [ "gloves_fingerless", 30 ],
-      [ "gloves_tactical", 15 ],
-      [ "gauntlets_larmor", 25 ],
-      [ "gloves_fur", 5 ],
-      [ "gloves_leather", 35 ],
-      [ "gloves_work", 20 ],
-      [ "boots", 20 ],
-      [ "boots_steel", 20 ],
-      [ "boots_hiking", 30 ],
-      [ "knee_high_boots", 5 ],
-      [ "boots_combat", 15 ],
-      [ "boots_larmor", 10 ],
-      [ "boots_fur", 10 ],
-      [ "helmet_army", 25 ],
-      [ "tac_helmet", 20 ],
-      [ "helmet_riot", 20 ],
-      [ "tac_fullhelmet", 10 ],
-      [ "helmet_larmor", 15 ],
-      [ "firehelmet", 5 ],
-      [ "hood_rain", 15 ],
-      [ "dive_bag", 10 ],
-      [ "runner_bag", 20 ],
-      [ "molle_pack", 10 ],
-      [ "backpack", 40 ],
-      [ "backpack_leather", 35 ],
-      [ "mbag", 25 ],
-      [ "slingpack", 15 ],
-      [ "rucksack", 10 ],
-      [ "duffelbag", 10 ],
-      [ "mask_hockey", 15 ],
-      [ "mask_gas", 25 ],
-      [ "mask_filter", 20 ],
-      [ "sunglasses", 15 ],
-      [ "glasses_safety", 15 ],
-      [ "goggles_ski", 5 ],
-      [ "tacvest", 20 ],
-      [ "legrig", 15 ],
-      [ "tool_belt", 15 ],
-      [ "fanny", 5 ],
-      [ "dump_pouch", 5 ],
-      [ "ragpouch", 15 ],
-      [ "leather_pouch", 15 ],
-      [ "quiver", 15 ],
-      [ "quiver_large", 5 ],
-      [ "wristwatch", 30 ],
-      [ "diving_watch", 5 ],
-      [ "pocketwatch", 10 ],
-      [ "holster", 25 ],
-      [ "bandana", 20 ],
-      [ "scarf", 15 ],
-      [ "hat_boonie", 20 ],
-      [ "balclava", 10 ],
-      [ "pickaxe", 20 ],
-      [ "makeshift_machete", 15 ],
-      [ "fungicide", 20 ],
-      [ "insecticide", 20 ],
-      [ "antifungal", 20 ],
-      [ "antiparasitic", 20 ],
-      [ "diazepam", 15 ],
-      [ "small_repairkit", 20 ],
-      [ "grapnel", 5 ],
-      [ "misc_repairkit", 15 ],
-      [ "toolbox", 20 ],
-      [ "crowbar", 25 ],
-      [ "machete", 25 ],
-      [ "ax", 25 ],
-      [ "spear_knife", 30 ],
-      [ "rifle_9mm", 20 ],
-      [ "rifle_22", 20 ],
-      [ "uzi", 10 ],
-      [ "mac_10", 10 ],
-      [ "crossbow", 15 ],
-      [ "sig_mosquito", 15 ],
-      [ "sw_22", 15 ],
-      [ "glock_19", 15 ],
-      [ "usp_9mm", 10 ],
-      [ "m9", 35 ],
-      [ "cx4", 1 ],
-      [ "usp_45", 10 ],
-      [ "m1911", 10 ],
-      [ "ar15", 10 ],
-      [ "savage_111f", 5 ],
-      [ "remington_700", 5 ],
-      [ "ruger_1022", 10 ],
-      [ "marlin_9a", 10 ],
-      [ "remington_870", 10 ],
-      [ "mossberg_500", 5 ],
-      [ "shotgun_d", 5 ],
-      [ "improvised_pipebomb", 10 ],
-      [ "molotov", 10 ],
-      [ "longbow", 5 ],
-      [ "compositebow", 15 ],
-      [ "shortbow", 10 ],
-      [ "arrow_metal", 25 ],
-      [ "bolt_steel", 10 ],
-      [ "laser_sight", 15 ],
-      [ "rail_laser_sight", 10 ],
-      [ "rifle_scope", 20 ],
-      [ "pistol_scope", 10 ],
-      [ "improve_sights", 20 ],
-      [ "ashot", 5 ]
+      ["vest", 40],
+      ["kevlar", 15],
+      ["jacket_army", 30],
+      ["trenchcoat", 25],
+      ["trenchcoat_leather", 20],
+      ["trenchcoat_fur", 10],
+      ["vest_leather", 15],
+      ["football_armor", 30],
+      ["jacket_leather", 25],
+      ["jacket_jean", 15],
+      ["jacket_flannel", 15],
+      ["pants_cargo", 40],
+      ["shorts_cargo", 25],
+      ["pants_army", 30],
+      ["pants_leather", 15],
+      ["gloves_fingerless", 30],
+      ["gloves_tactical", 15],
+      ["gauntlets_larmor", 25],
+      ["gloves_fur", 5],
+      ["gloves_leather", 35],
+      ["gloves_work", 20],
+      ["boots", 20],
+      ["boots_steel", 20],
+      ["boots_hiking", 30],
+      ["knee_high_boots", 5],
+      ["boots_combat", 15],
+      ["boots_larmor", 10],
+      ["boots_fur", 10],
+      ["helmet_army", 25],
+      ["tac_helmet", 20],
+      ["helmet_riot", 20],
+      ["tac_fullhelmet", 10],
+      ["helmet_larmor", 15],
+      ["firehelmet", 5],
+      ["hood_rain", 15],
+      ["dive_bag", 10],
+      ["runner_bag", 20],
+      ["molle_pack", 10],
+      ["backpack", 40],
+      ["backpack_leather", 35],
+      ["mbag", 25],
+      ["slingpack", 15],
+      ["rucksack", 10],
+      ["duffelbag", 10],
+      ["mask_hockey", 15],
+      ["mask_gas", 25],
+      ["mask_filter", 20],
+      ["sunglasses", 15],
+      ["glasses_safety", 15],
+      ["goggles_ski", 5],
+      ["tacvest", 20],
+      ["legrig", 15],
+      ["tool_belt", 15],
+      ["fanny", 5],
+      ["dump_pouch", 5],
+      ["ragpouch", 15],
+      ["leather_pouch", 15],
+      ["quiver", 15],
+      ["quiver_large", 5],
+      ["wristwatch", 30],
+      ["diving_watch", 5],
+      ["pocketwatch", 10],
+      ["holster", 25],
+      ["bandana", 20],
+      ["scarf", 15],
+      ["hat_boonie", 20],
+      ["balclava", 10],
+      ["pickaxe", 20],
+      ["makeshift_machete", 15],
+      ["fungicide", 20],
+      ["insecticide", 20],
+      ["antifungal", 20],
+      ["antiparasitic", 20],
+      ["diazepam", 15],
+      ["small_repairkit", 20],
+      ["grapnel", 5],
+      ["misc_repairkit", 15],
+      ["toolbox", 20],
+      ["crowbar", 25],
+      ["machete", 25],
+      ["ax", 25],
+      ["spear_knife", 30],
+      ["rifle_9mm", 20],
+      ["rifle_22", 20],
+      ["uzi", 10],
+      ["mac_10", 10],
+      ["crossbow", 15],
+      ["sig_mosquito", 15],
+      ["sw_22", 15],
+      ["glock_19", 15],
+      ["usp_9mm", 10],
+      ["m9", 35],
+      ["cx4", 1],
+      ["usp_45", 10],
+      ["m1911", 10],
+      ["ar15", 10],
+      ["savage_111f", 5],
+      ["remington_700", 5],
+      ["ruger_1022", 10],
+      ["marlin_9a", 10],
+      ["remington_870", 10],
+      ["mossberg_500", 5],
+      ["shotgun_d", 5],
+      ["improvised_pipebomb", 10],
+      ["molotov", 10],
+      ["longbow", 5],
+      ["compositebow", 15],
+      ["shortbow", 10],
+      ["arrow_metal", 25],
+      ["bolt_steel", 10],
+      ["laser_sight", 15],
+      ["rail_laser_sight", 10],
+      ["rifle_scope", 20],
+      ["pistol_scope", 10],
+      ["improve_sights", 20],
+      ["ashot", 5]
     ]
   },
   {
@@ -225,7 +230,12 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+              "not": {
+                "npc_has_var": "cleanup_asked",
+                "type": "mission",
+                "context": "Boris_mission_1",
+                "value": "yes"
+              }
             }
           ]
         },
@@ -237,17 +247,34 @@
       { "text": "Is there any way I can join your group?", "topic": "TALK_EVAC_MERCHANT_ASK_JOIN" },
       {
         "text": "What's with these beggars?",
-        "condition": { "not": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } },
+        "condition": {
+          "not": {
+            "u_has_var": "beggars_recruited",
+            "type": "general",
+            "context": "recruit",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_EVAC_MERCHANT_BEGGARS1"
       },
       {
         "text": "I took care of your beggar problem.",
-        "condition": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" },
+        "condition": {
+          "u_has_var": "beggars_recruited",
+          "type": "general",
+          "context": "recruit",
+          "value": "yes"
+        },
         "topic": "TALK_EVAC_MERCHANT_BEGGARS2"
       },
       {
         "text": "Tell me more about that ranch of yours.",
-        "condition": { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" },
+        "condition": {
+          "u_has_var": "tacoma_started",
+          "type": "knowledge",
+          "context": "flag",
+          "value": "yes"
+        },
         "topic": "TALK_EVAC_MERCHANT_RANCH"
       },
       { "text": "Can I do anything for the center?", "topic": "TALK_MISSION_LIST" },
@@ -256,7 +283,7 @@
         "text": "I figured you might be looking for some help…",
         "topic": "TALK_NONE",
         "effect": { "companion_mission": "REFUGEE_MERCHANT" },
-        "condition": { "u_has_any_trait": [ "NPC_MISSION_LEV_1" ] }
+        "condition": { "u_has_any_trait": ["NPC_MISSION_LEV_1"] }
       },
       {
         "text": "What's with these 'free merchant certified notes'?",
@@ -282,7 +309,9 @@
     "id": "TALK_EVAC_MERCHANT_PLANS",
     "type": "talk_topic",
     "dynamic_line": "To be honest, we started out with six buses full of office workers and soccer moms… we did what we could to sort through the masses, take the people with the best chance of survival first.  It sounds harsh but it was the only option.  The only thing we want now is to run enough trade through here to keep us alive… with our address in the evac shelter computers, people keep coming here and we have to turn them away, but we've found we can trade their salvage for what we've got.  We plan to turn that into a business model.  Don't care who your goods come from or how you got them, just don't bring trouble.",
-    "responses": [ { "text": "It's just as bad out there, if not worse.", "topic": "TALK_EVAC_MERCHANT_PLANS2" } ]
+    "responses": [
+      { "text": "It's just as bad out there, if not worse.", "topic": "TALK_EVAC_MERCHANT_PLANS2" }
+    ]
   },
   {
     "id": "TALK_EVAC_MERCHANT_PLANS2",
@@ -315,14 +344,17 @@
     "id": "TALK_EVAC_MERCHANT_PRIME_LOOT",
     "type": "talk_topic",
     "dynamic_line": "Well, there is a party of about a dozen 'scavengers' that found some sort of government facility.  They bring us a literal truck load of jumpsuits, m4's, and canned food every week or so.  Since some of those guys got family here, we've been doing alright.  As to where it is, I don't have the foggiest of ideas.",
-    "responses": [ { "text": "Thanks, I'll keep an eye out.", "topic": "TALK_EVAC_MERCHANT" } ]
+    "responses": [{ "text": "Thanks, I'll keep an eye out.", "topic": "TALK_EVAC_MERCHANT" }]
   },
   {
     "id": "TALK_EVAC_MERCHANT_HUB01",
     "type": "talk_topic",
     "dynamic_line": "We had an odd group came by two days after the power grid went off, two armed guards wearing brown uniforms, escorting what seemed to be a gov' doctor of some sort, had a hazmat suit and mask they never took off.  They looked rather organized, probably military remnant from somewhere close by.",
     "responses": [
-      { "text": "I was hoping for something more substantial than that.", "topic": "TALK_EVAC_MERCHANT" },
+      {
+        "text": "I was hoping for something more substantial than that.",
+        "topic": "TALK_EVAC_MERCHANT"
+      },
       { "text": "Just that?", "topic": "TALK_EVAC_MERCHANT_HUB01_ACTIVITY" }
     ]
   },
@@ -331,7 +363,10 @@
     "type": "talk_topic",
     "dynamic_line": "They surely didn't seem the nice talkative type.  Doctor paid us in advance to get some old FEMA info from our computers here, told us to deliver the data to some remote locale afterwards.  Still haven't done that however, we're half thinking it must have been some sort of strange trap.",
     "responses": [
-      { "text": "Think you could share that meeting location?", "topic": "TALK_EVAC_MERCHANT_HUB01_DELIVERY_MISSION_OFFER" },
+      {
+        "text": "Think you could share that meeting location?",
+        "topic": "TALK_EVAC_MERCHANT_HUB01_DELIVERY_MISSION_OFFER"
+      },
       { "text": "Seems like you are right to be suspicious.", "topic": "TALK_EVAC_MERCHANT" }
     ]
   },
@@ -361,20 +396,23 @@
     "id": "TALK_EVAC_MERCHANT_NO",
     "type": "talk_topic",
     "dynamic_line": "I'm sorry, not a risk we are willing to take right now.",
-    "responses": [ { "text": "Fine…", "topic": "TALK_EVAC_MERCHANT" } ]
+    "responses": [{ "text": "Fine…", "topic": "TALK_EVAC_MERCHANT" }]
   },
   {
     "id": "TALK_EVAC_MERCHANT_HELL_NO",
     "type": "talk_topic",
     "dynamic_line": "There isn't a chance in hell!  We had one guy come in here with bloody fur all over his body… well I guess that isn't all that strange but I'm pretty sure whatever toxic waste is still out there is bound to mutate more than just his hair.",
-    "responses": [ { "text": "Fine… *coughupyourscough*", "topic": "TALK_EVAC_MERCHANT" } ]
+    "responses": [{ "text": "Fine… *coughupyourscough*", "topic": "TALK_EVAC_MERCHANT" }]
   },
   {
     "id": "TALK_EVAC_MERCHANT_ASK_JOIN",
     "type": "talk_topic",
     "dynamic_line": "Sorry, last thing we need is another mouth to feed.  Most of us lack any real survival skills so keeping our group small enough to survive on the food random scavengers bring to trade with us is important.",
     "responses": [
-      { "text": "I'm sure I can do something to change your mind *wink*", "topic": "TALK_EVAC_MERCHANT_HELL_NO" },
+      {
+        "text": "I'm sure I can do something to change your mind *wink*",
+        "topic": "TALK_EVAC_MERCHANT_HELL_NO"
+      },
       { "text": "I can pull my own weight!", "topic": "TALK_EVAC_MERCHANT_NO" },
       {
         "text": "[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!",
@@ -384,7 +422,7 @@
       {
         "text": "[STR 11] I punch things in face real good!",
         "topic": "TALK_EVAC_MERCHANT_NO",
-        "condition": { "and": [ { "not": { "u_has_intelligence": 7 } }, { "u_has_strength": 11 } ] }
+        "condition": { "and": [{ "not": { "u_has_intelligence": 7 } }, { "u_has_strength": 11 }] }
       },
       { "text": "I guess I'll look somewhere else…", "topic": "TALK_EVAC_MERCHANT" }
     ]
@@ -395,7 +433,10 @@
     "dynamic_line": "Can't say we've heard much.  Most these shelters seemed to have been designed to make people feel safer… not actually aid in their survival.  Our radio equipment is utter garbage that someone convinced the government to buy, with no intention of it ever being used.  From the passing scavengers I've heard nothing but prime loot'n spots and rumors of hordes.",
     "responses": [
       { "text": "Hordes?", "topic": "TALK_EVAC_MERCHANT_HORDES" },
-      { "text": "Heard of anything better than the odd gun cache?", "topic": "TALK_EVAC_MERCHANT_PRIME_LOOT" },
+      {
+        "text": "Heard of anything better than the odd gun cache?",
+        "topic": "TALK_EVAC_MERCHANT_PRIME_LOOT"
+      },
       { "text": "Any other settlements nearby?", "topic": "TALK_EVAC_MERCHANT_HUB01" },
       { "text": "Was hoping for something more…", "topic": "TALK_EVAC_MERCHANT" }
     ]
@@ -409,7 +450,12 @@
         "text": "[SPEECH] I don't suppose there'd be some kind of reward if I could clear them out of here?",
         "topic": "TALK_EVAC_MERCHANT_BEGGARS1_Reward",
         "condition": { "u_has_skill": { "skill": "speech", "level": 1 } },
-        "effect": { "npc_add_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }
+        "effect": {
+          "npc_add_var": "beggars_reward_agreed",
+          "type": "general",
+          "context": "recruit",
+          "value": "yes"
+        }
       }
     ]
   },
@@ -417,7 +463,7 @@
     "id": "TALK_EVAC_MERCHANT_BEGGARS1_Reward",
     "type": "talk_topic",
     "dynamic_line": "We don't have much to share, but I'm sure we could pay you in our own currency if you could clean up our burgeoning health hazard without anyone getting hurt, yeah.",
-    "responses": [ { "text": "I'll see what I can do.", "topic": "TALK_EVAC_MERCHANT" } ]
+    "responses": [{ "text": "I'll see what I can do.", "topic": "TALK_EVAC_MERCHANT" }]
   },
   {
     "id": "TALK_EVAC_MERCHANT_BEGGARS2",
@@ -427,7 +473,12 @@
       {
         "text": "I do believe we discussed a reward?",
         "topic": "TALK_EVAC_MERCHANT_BEGGARS2_Reward",
-        "condition": { "npc_has_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }
+        "condition": {
+          "npc_has_var": "beggars_reward_agreed",
+          "type": "general",
+          "context": "recruit",
+          "value": "yes"
+        }
       },
       { "text": "Just glad to help.", "topic": "TALK_EVAC_MERCHANT" }
     ]
@@ -437,7 +488,7 @@
     "type": "talk_topic",
     "dynamic_line": "And so we did.  You didn't do the full job, but we're fair people here.  Here's five merch a head for the folks you found a new home for.",
     "speaker_effect": { "effect": { "u_buy_item": "FMCNote", "count": 20 } },
-    "responses": [ { "text": "Thanks.", "topic": "TALK_EVAC_MERCHANT" } ]
+    "responses": [{ "text": "Thanks.", "topic": "TALK_EVAC_MERCHANT" }]
   },
   {
     "id": "TALK_EVAC_MERCHANT_RANCH",
@@ -465,18 +516,35 @@
     "type": "talk_topic",
     "id": "TALK_EVAC_MERCHANT_Boris_Mission_1",
     "dynamic_line": "Hmm.  Most of the people downstairs aren't willing to come up for things like that.  If you sweeten the pot a bit, we could get a few folks I'm sure.",
-    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "speaker_effect": {
+      "effect": {
+        "npc_add_var": "cleanup_asked",
+        "type": "mission",
+        "context": "Boris_mission_1",
+        "value": "yes"
+      }
+    },
     "responses": [
       {
         "text": "How about five Merch to do it?",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 5 } },
-        "effect": { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
+        "effect": {
+          "u_adjust_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "cleanup_promises",
+          "adjustment": 1
+        },
         "topic": "TALK_EVAC_MERCHANT_Boris_Mission_1b"
       },
       {
         "text": "How about ten Merch to do it?",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
-        "effect": { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
+        "effect": {
+          "u_adjust_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "cleanup_promises",
+          "adjustment": 3
+        },
         "topic": "TALK_EVAC_MERCHANT_Boris_Mission_1c"
       }
     ]
@@ -503,21 +571,39 @@
       "assign_mission_target": { "om_terrain": "evac_center_9", "reveal_radius": 1 },
       "update_mapgen": {
         "om_terrain": "evac_center_9",
-        "place_monster": [ { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
+        "place_monster": [
+          {
+            "group": "GROUP_REFUGEE_BOSS_ZOMBIE",
+            "name": "Sean McLaughlin",
+            "x": 10,
+            "y": 10,
+            "target": true
+          }
+        ]
       }
     },
     "end": {
       "effect": [
         { "u_buy_item": "FMCNote", "count": 25 },
-        { "u_add_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
+        {
+          "u_add_var": "FMShopkeep_Mission1",
+          "type": "mission",
+          "context": "flag",
+          "value": "yes"
+        },
+        {
+          "u_adjust_var": "refugee_happiness",
+          "type": "counter",
+          "context": "refugee_center",
+          "adjustment": 3
+        }
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_9",
-        "set": [ { "square": "terrain", "id": "t_floor", "x": 0, "y": 23, "x2": 1, "y2": 23 } ]
+        "set": [{ "square": "terrain", "id": "t_floor", "x": 0, "y": 23, "x2": 1, "y2": 23 }]
       }
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_2",
     "dialogue": {
       "describe": "We need help…",
@@ -540,7 +626,12 @@
     "difficulty": 5,
     "value": 5000,
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 80 },
+      "assign_mission_target": {
+        "om_terrain": "field",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 80
+      },
       "update_mapgen": {
         "rows": [
           "                        ",
@@ -568,19 +659,32 @@
           "                        ",
           "                        "
         ],
-        "terrain": { "g": "t_grass", ".": "t_dirt", "a": "t_dirt", "b": "t_dirt", "R": "t_dirt", "F": "t_dirt" },
+        "terrain": {
+          "g": "t_grass",
+          ".": "t_dirt",
+          "a": "t_dirt",
+          "b": "t_dirt",
+          "R": "t_dirt",
+          "F": "t_dirt"
+        },
         "furniture": { "a": "f_ash" },
         "traps": { "F": "tr_fur_rollmat", "R": "tr_rollmat" },
         "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
         "place_loot": [
-          { "group": "cannedfood", "x": [ 6, 18 ], "y": [ 3, 15 ], "chance": 100 },
-          { "group": "alcohol_bottled_canned", "x": [ 6, 18 ], "y": [ 3, 15 ], "repeat": 2, "chance": 75 },
-          { "group": "trash_forest", "x": [ 6, 18 ], "y": [ 3, 15 ], "repeat": 2, "chance": 75 },
-          { "group": "stash_drugs", "x": [ 6, 18 ], "y": [ 3, 15 ], "chance": 75 },
-          { "group": "dresser", "x": [ 9, 10 ], "y": [ 10, 14 ], "chance": 75 },
-          { "group": "softdrugs", "x": [ 9, 10 ], "y": [ 10, 14 ], "chance": 50 },
-          { "group": "camping", "x": [ 9, 10 ], "y": [ 10, 14 ], "chance": 75 },
-          { "group": "casings", "x": [ 10, 15 ], "y": [ 15, 18 ], "repeat": 5, "chance": 100 },
+          { "group": "cannedfood", "x": [6, 18], "y": [3, 15], "chance": 100 },
+          {
+            "group": "alcohol_bottled_canned",
+            "x": [6, 18],
+            "y": [3, 15],
+            "repeat": 2,
+            "chance": 75
+          },
+          { "group": "trash_forest", "x": [6, 18], "y": [3, 15], "repeat": 2, "chance": 75 },
+          { "group": "stash_drugs", "x": [6, 18], "y": [3, 15], "chance": 75 },
+          { "group": "dresser", "x": [9, 10], "y": [10, 14], "chance": 75 },
+          { "group": "softdrugs", "x": [9, 10], "y": [10, 14], "chance": 50 },
+          { "group": "camping", "x": [9, 10], "y": [10, 14], "chance": 75 },
+          { "group": "casings", "x": [10, 15], "y": [15, 18], "repeat": 5, "chance": 100 },
           { "item": "corpse", "x": 13, "y": 19, "chance": 100 },
           { "item": "corpse", "x": 12, "y": 20, "chance": 100 }
         ],
@@ -591,9 +695,33 @@
         ],
         "place_vehicles": [
           { "vehicle": "cube_van", "x": 12, "y": 12 },
-          { "vehicle": "quad_bike", "x": 18, "y": 7, "rotation": 270, "fuel": 500, "status": -1, "chance": 100 },
-          { "vehicle": "motorcycle", "x": 10, "y": 3, "rotation": 315, "fuel": 500, "status": -1, "chance": 100 },
-          { "vehicle": "motorcycle", "x": 7, "y": 7, "rotation": 90, "fuel": 500, "status": -1, "chance": 100 }
+          {
+            "vehicle": "quad_bike",
+            "x": 18,
+            "y": 7,
+            "rotation": 270,
+            "fuel": 500,
+            "status": -1,
+            "chance": 100
+          },
+          {
+            "vehicle": "motorcycle",
+            "x": 10,
+            "y": 3,
+            "rotation": 315,
+            "fuel": 500,
+            "status": -1,
+            "chance": 100
+          },
+          {
+            "vehicle": "motorcycle",
+            "x": 7,
+            "y": 7,
+            "rotation": 90,
+            "fuel": 500,
+            "status": -1,
+            "chance": 100
+          }
         ]
       }
     },
@@ -603,7 +731,7 @@
         { "u_add_var": "FMShopkeep_Mission2", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
     "dialogue": {
       "describe": "We need help…",
@@ -627,14 +755,27 @@
     "value": 50000,
     "item": "commune_prospectus",
     "start": {
-      "assign_mission_target": { "om_terrain": "ranch_camp_67", "om_special": "ranch_camp", "reveal_radius": 1, "search_range": 200 },
+      "assign_mission_target": {
+        "om_terrain": "ranch_camp_67",
+        "om_special": "ranch_camp",
+        "reveal_radius": 1,
+        "search_range": 200
+      },
       "update_mapgen": {
         "place_npcs": [
-          { "class": "ranch_foreman", "x": 16, "y": 15, "target": true, "add_trait": "NPC_MISSION_LEV_1" },
+          {
+            "class": "ranch_foreman",
+            "x": 16,
+            "y": 15,
+            "target": true,
+            "add_trait": "NPC_MISSION_LEV_1"
+          },
           { "class": "ranch_construction_1", "x": 9, "y": 17 }
         ]
       },
-      "effect": [ { "u_add_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" } ]
+      "effect": [
+        { "u_add_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" }
+      ]
     },
     "end": {
       "effect": [
@@ -649,7 +790,7 @@
         ]
       }
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
     "dialogue": {
       "describe": "We need help…",
@@ -673,7 +814,7 @@
     "value": 400000,
     "item": "solar_panel",
     "count": 10,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
     "end": {
       "effect": [
@@ -683,19 +824,23 @@
       "update_mapgen": [
         {
           "om_terrain": "evac_center_8_z1",
-          "set": [ { "line": "furniture", "id": "f_solar_unit", "x": 11, "y": 12, "x2": 12, "y2": 12 } ]
+          "set": [
+            { "line": "furniture", "id": "f_solar_unit", "x": 11, "y": 12, "x2": 12, "y2": 12 }
+          ]
         },
         {
           "om_terrain": "evac_center_12_z1",
-          "set": [ { "line": "furniture", "id": "f_solar_unit", "x": 21, "y": 12, "x2": 21, "y2": 14 } ]
+          "set": [
+            { "line": "furniture", "id": "f_solar_unit", "x": 21, "y": 12, "x2": 21, "y2": 14 }
+          ]
         },
         {
           "om_terrain": "evac_center_14_z1",
-          "set": [ { "line": "furniture", "id": "f_solar_unit", "x": 1, "y": 12, "x2": 1, "y2": 14 } ]
+          "set": [{ "line": "furniture", "id": "f_solar_unit", "x": 1, "y": 12, "x2": 1, "y2": 14 }]
         },
         {
           "om_terrain": "evac_center_18_z1",
-          "set": [ { "line": "furniture", "id": "f_solar_unit", "x": 11, "y": 3, "x2": 12, "y2": 3 } ]
+          "set": [{ "line": "furniture", "id": "f_solar_unit", "x": 11, "y": 3, "x2": 12, "y2": 3 }]
         }
       ]
     },
@@ -727,7 +872,7 @@
         { "u_add_var": "FMShopkeep_Mission5", "type": "mission", "context": "flag", "value": "yes" }
       ]
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "We need help…",
       "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth.  Our reserves would barely last a few days if something kept our people locked in.  We need a stockpile to avoid that.  Thanks to our outpost we have a bit of meat and vegetables coming in, but we need a better way to preserve them.  Some of our people know enough about food canning that if we had a good stock of canning jars, we could make pickles and canned meats to get us set for the winter.  I'll pay you a premium rate if you can bring us around a hundred jars to get us started.",
@@ -748,7 +893,7 @@
     "goal": "MGOAL_CONDITION",
     "difficulty": 5,
     "start": {
-      "effect": [ { "u_buy_item": "fema_data", "count": 1 } ],
+      "effect": [{ "u_buy_item": "fema_data", "count": 1 }],
       "assign_mission_target": {
         "om_terrain": "robofachq_surface_entrance",
         "om_special": "hub_01",
@@ -757,9 +902,14 @@
         "search_range": 240
       }
     },
-    "goal_condition": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+    "goal_condition": {
+      "u_has_var": "completed_free_merchants_hub_delivery_1",
+      "type": "dialogue",
+      "context": "intercom",
+      "value": "yes"
+    },
     "value": 5000,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "…",
       "offer": "…",

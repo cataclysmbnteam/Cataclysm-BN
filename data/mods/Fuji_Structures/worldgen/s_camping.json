@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_camping" ],
+    "om_terrain": ["s_camping"],
     "object": {
       "fill_ter": "t_linoleum_gray",
       "rows": [
@@ -35,7 +35,7 @@
         "a": "t_wall",
         "b": "t_door_c",
         "c": "t_wall_glass",
-        "d": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "d": ["t_grass", "t_grass", "t_grass", "t_dirt"],
         "e": "t_sidewalk",
         "f": "t_pavement",
         "g": "t_chainfence_v",
@@ -81,32 +81,32 @@
         "z": "f_trashcan",
         "A": "f_sink"
       },
-      "toilets": { "B": {  } },
+      "toilets": { "B": {} },
       "place_loot": [
-        { "group": "cannedfood", "chance": 50, "repeat": [ 10 ], "x": [ 3, 3 ], "y": [ 4, 10 ] },
-        { "group": "swimmer_shoes", "chance": 50, "repeat": [ 2 ], "x": [ 4, 4 ], "y": [ 4, 5 ] },
-        { "group": "NC_COWBOY_shoes", "chance": 50, "repeat": [ 5 ], "x": [ 4, 4 ], "y": [ 6, 10 ] },
-        { "group": "camping", "chance": 50, "repeat": [ 10 ], "x": [ 6, 6 ], "y": [ 4, 10 ] },
-        { "group": "hand_tools", "chance": 50, "repeat": [ 5 ], "x": [ 7, 7 ], "y": [ 4, 10 ] },
-        { "group": "softdrugs", "chance": 50, "repeat": [ 2 ], "x": [ 3, 4 ], "y": [ 12, 12 ] },
-        { "group": "archery", "chance": 50, "repeat": [ 2 ], "x": [ 4, 7 ], "y": [ 15, 15 ] },
-        { "group": "archery_ammo", "chance": 50, "repeat": [ 2 ], "x": [ 8, 9 ], "y": [ 15, 15 ] },
-        { "group": "kitchen_nonfood", "chance": 50, "repeat": [ 4 ], "x": [ 6, 7 ], "y": [ 12, 12 ] },
-        { "group": "book_survival", "chance": 50, "repeat": [ 2 ], "x": [ 10, 10 ], "y": [ 7, 7 ] },
-        { "group": "vending_food_items", "chance": 50, "repeat": [ 2 ], "x": [ 10, 10 ], "y": [ 8, 8 ] },
-        { "group": "vending_drink", "chance": 80, "repeat": [ 1 ], "x": [ 11, 11 ], "y": [ 12, 12 ] },
-        { "group": "trash", "chance": 50, "repeat": [ 5 ], "x": [ 11, 11 ], "y": [ 2, 2 ] },
-        { "group": "trash", "chance": 50, "repeat": [ 5 ], "x": [ 18, 20 ], "y": [ 18, 19 ] },
-        { "group": "camping", "chance": 50, "repeat": [ 4 ], "x": [ 5, 6 ], "y": [ 17, 17 ] },
-        { "group": "hand_tools", "chance": 50, "repeat": [ 2 ], "x": [ 7, 7 ], "y": [ 17, 17 ] },
-        { "group": "cannedfood", "chance": 50, "repeat": [ 5 ], "x": [ 5, 6 ], "y": [ 18, 18 ] }
+        { "group": "cannedfood", "chance": 50, "repeat": [10], "x": [3, 3], "y": [4, 10] },
+        { "group": "swimmer_shoes", "chance": 50, "repeat": [2], "x": [4, 4], "y": [4, 5] },
+        { "group": "NC_COWBOY_shoes", "chance": 50, "repeat": [5], "x": [4, 4], "y": [6, 10] },
+        { "group": "camping", "chance": 50, "repeat": [10], "x": [6, 6], "y": [4, 10] },
+        { "group": "hand_tools", "chance": 50, "repeat": [5], "x": [7, 7], "y": [4, 10] },
+        { "group": "softdrugs", "chance": 50, "repeat": [2], "x": [3, 4], "y": [12, 12] },
+        { "group": "archery", "chance": 50, "repeat": [2], "x": [4, 7], "y": [15, 15] },
+        { "group": "archery_ammo", "chance": 50, "repeat": [2], "x": [8, 9], "y": [15, 15] },
+        { "group": "kitchen_nonfood", "chance": 50, "repeat": [4], "x": [6, 7], "y": [12, 12] },
+        { "group": "book_survival", "chance": 50, "repeat": [2], "x": [10, 10], "y": [7, 7] },
+        { "group": "vending_food_items", "chance": 50, "repeat": [2], "x": [10, 10], "y": [8, 8] },
+        { "group": "vending_drink", "chance": 80, "repeat": [1], "x": [11, 11], "y": [12, 12] },
+        { "group": "trash", "chance": 50, "repeat": [5], "x": [11, 11], "y": [2, 2] },
+        { "group": "trash", "chance": 50, "repeat": [5], "x": [18, 20], "y": [18, 19] },
+        { "group": "camping", "chance": 50, "repeat": [4], "x": [5, 6], "y": [17, 17] },
+        { "group": "hand_tools", "chance": 50, "repeat": [2], "x": [7, 7], "y": [17, 17] },
+        { "group": "cannedfood", "chance": 50, "repeat": [5], "x": [5, 6], "y": [18, 18] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_camping_roof" ],
+    "om_terrain": ["s_camping_roof"],
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -135,7 +135,7 @@
         " |----------3           ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ]
+      "palettes": ["roof_palette"]
     }
   }
 ]

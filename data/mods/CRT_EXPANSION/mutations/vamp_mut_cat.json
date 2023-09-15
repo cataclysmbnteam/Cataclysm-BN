@@ -35,13 +35,19 @@
   },
   {
     "type": "dream",
-    "messages": [ "You have a strange dream about the shadows.", "Your dreams give you a peculiar feeling of sinking into the dark." ],
+    "messages": [
+      "You have a strange dream about the shadows.",
+      "Your dreams give you a peculiar feeling of sinking into the dark."
+    ],
     "category": "VAMP",
     "strength": 1
   },
   {
     "type": "dream",
-    "messages": [ "You have a vivid dream of talking a midnight stroll.", "You dream of drinking copious amounts of warm water." ],
+    "messages": [
+      "You have a vivid dream of talking a midnight stroll.",
+      "You dream of drinking copious amounts of warm water."
+    ],
     "category": "VAMP",
     "strength": 2
   },

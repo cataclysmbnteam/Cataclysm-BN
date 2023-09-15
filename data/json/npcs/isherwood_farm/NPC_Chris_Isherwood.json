@@ -17,7 +17,7 @@
     "id": "NC_ISHERWOOD_CHRIS",
     "name": { "str": "Chris Isherwood" },
     "job_description": "I'm Jesse and Carlos' son, part of the Isherwood family",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [{ "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }],
     "common": false,
     "bonus_per": { "one_in": 4 },
     "worn_override": "NC_Isherwood_male_worn",
@@ -26,14 +26,19 @@
     "skills": [
       {
         "skill": "ALL",
-        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+        "level": {
+          "mul": [
+            { "one_in": 3 },
+            { "sum": [{ "dice": [2, 2] }, { "constant": -2 }, { "one_in": 4 }] }
+          ]
+        }
       },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "survival", "bonus": { "rng": [ 7, 10 ] } },
-      { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
-      { "skill": "rifle", "bonus": { "rng": [ 7, 10 ] } },
-      { "skill": "archery", "bonus": { "rng": [ 8, 10 ] } }
+      { "skill": "barter", "bonus": { "rng": [2, 4] } },
+      { "skill": "melee", "bonus": { "rng": [3, 6] } },
+      { "skill": "survival", "bonus": { "rng": [7, 10] } },
+      { "skill": "gun", "bonus": { "rng": [4, 8] } },
+      { "skill": "rifle", "bonus": { "rng": [7, 10] } },
+      { "skill": "archery", "bonus": { "rng": [8, 10] } }
     ]
   },
   {
@@ -54,7 +59,12 @@
       {
         "text": "Hi, Your dad asked me to come find you, said you've been looking for your uncle.",
         "topic": "TALK_ISHERWOOD_CHRIS_TALK1",
-        "effect": { "u_add_var": "u_met_chris_isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": {
+          "u_add_var": "u_met_chris_isherwood",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       },
       {
         "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.  Is it tied to Barry's abduction?",
@@ -62,7 +72,12 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
+            {
+              "u_has_var": "u_heard_about_chris",
+              "type": "general",
+              "context": "meeting",
+              "value": "yes"
+            }
           ]
         }
       },
@@ -78,7 +93,10 @@
     "id": "TALK_ISHERWOOD_CHRIS_TALK1",
     "dynamic_line": "Yeah, they are always worried about us, I prefer to survey the land and try to track the changes.  I'm thinking about fixing up this cabin for some peace and quiet…",
     "responses": [
-      { "text": "Sounds like you are restless, why not leave?", "topic": "TALK_ISHERWOOD_CHRIS_WANTS" },
+      {
+        "text": "Sounds like you are restless, why not leave?",
+        "topic": "TALK_ISHERWOOD_CHRIS_WANTS"
+      },
       { "text": "What sort of changes have you seen?", "topic": "TALK_ISHERWOOD_CHRIS_LAND" },
       {
         "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
@@ -86,7 +104,12 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
+            {
+              "u_has_var": "u_heard_about_chris",
+              "type": "general",
+              "context": "meeting",
+              "value": "yes"
+            }
           ]
         }
       },
@@ -139,7 +162,7 @@
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
     "dynamic_line": "You should leave before my family sees you.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "…", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
@@ -167,10 +190,16 @@
     "value": 50000,
     "start": {
       "effect": "follow",
-      "assign_mission_target": { "om_terrain": "mi-go_scout_tower_3", "om_special": "Mi-Go Scout Tower", "reveal_radius": 3 },
-      "update_mapgen": { "place_npcs": [ { "class": "isherwood_barry", "x": 18, "y": 15, "target": true } ] }
+      "assign_mission_target": {
+        "om_terrain": "mi-go_scout_tower_3",
+        "om_special": "Mi-Go Scout Tower",
+        "reveal_radius": 3
+      },
+      "update_mapgen": {
+        "place_npcs": [{ "class": "isherwood_barry", "x": 18, "y": 15, "target": true }]
+      }
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "has_generic_rewards": false,
     "destination": "mi-go_scout_tower_3",
     "dialogue": {
@@ -186,7 +215,12 @@
     },
     "end": {
       "opinion": { "trust": 5, "value": 5 },
-      "update_mapgen": [ { "om_terrain": "cabin_isherwood", "place_nested": [ { "chunks": [ "cabin_isherwood_update" ], "x": 3, "y": 1 } ] } ]
+      "update_mapgen": [
+        {
+          "om_terrain": "cabin_isherwood",
+          "place_nested": [{ "chunks": ["cabin_isherwood_update"], "x": 3, "y": 1 }]
+        }
+      ]
     }
   }
 ]

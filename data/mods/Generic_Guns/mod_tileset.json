@@ -1,7 +1,7 @@
 [
   {
     "type": "mod_tileset",
-    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE", "MshockRealXotto", "MSX++DEAD_PEOPLE" ],
+    "compatibility": ["UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE", "MshockRealXotto", "MSX++DEAD_PEOPLE"],
     "tiles-new": [
       {
         "file": "Generic_Guns_normal.png",
@@ -1037,49 +1037,49 @@
             "fg": 539,
             "rotates": true,
             "multitile": true,
-            "additional_tiles": [ { "id": "broken", "fg": 540 } ]
+            "additional_tiles": [{ "id": "broken", "fg": 540 }]
           },
           {
             "id": "vp_mounted_m134",
             "fg": 541,
             "rotates": true,
             "multitile": true,
-            "additional_tiles": [ { "id": "broken", "fg": 542 } ]
+            "additional_tiles": [{ "id": "broken", "fg": 542 }]
           },
           {
             "id": "vp_mounted_m1918",
             "fg": 543,
             "rotates": true,
             "multitile": true,
-            "additional_tiles": [ { "id": "broken", "fg": 544 } ]
+            "additional_tiles": [{ "id": "broken", "fg": 544 }]
           },
           {
             "id": "vp_mounted_m240",
             "fg": 545,
             "rotates": true,
             "multitile": true,
-            "additional_tiles": [ { "id": "broken", "fg": 546 } ]
+            "additional_tiles": [{ "id": "broken", "fg": 546 }]
           },
           {
             "id": "vp_mounted_mk19",
             "fg": 547,
             "rotates": true,
             "multitile": true,
-            "additional_tiles": [ { "id": "broken", "fg": 548 } ]
+            "additional_tiles": [{ "id": "broken", "fg": 548 }]
           },
           {
             "id": "vp_mounted_rm298",
             "fg": 549,
             "rotates": true,
             "multitile": true,
-            "additional_tiles": [ { "id": "broken", "fg": 550 } ]
+            "additional_tiles": [{ "id": "broken", "fg": 550 }]
           },
           {
             "id": "vp_mounted_rm614",
             "fg": 551,
             "rotates": true,
             "multitile": true,
-            "additional_tiles": [ { "id": "broken", "fg": 552 } ]
+            "additional_tiles": [{ "id": "broken", "fg": 552 }]
           }
         ],
         "//": "range 1 to 560",
@@ -1095,20 +1095,20 @@
           { "id": "overlay_wielded_as50", "fg": 562, "rotates": false },
           {
             "id": "mon_crows_m240",
-            "fg": [ { "weight": 100, "sprite": 563 }, { "weight": 100, "sprite": 564 } ],
+            "fg": [{ "weight": 100, "sprite": 563 }, { "weight": 100, "sprite": 564 }],
             "rotates": false,
             "animated": true
           },
           { "id": "mon_turret", "fg": 565, "rotates": false },
           {
             "id": "mon_turret_bmg",
-            "fg": [ { "weight": 100, "sprite": 566 }, { "weight": 100, "sprite": 567 } ],
+            "fg": [{ "weight": 100, "sprite": 566 }, { "weight": 100, "sprite": 567 }],
             "rotates": false,
             "animated": true
           },
           {
             "id": "mon_turret_rifle",
-            "fg": [ { "weight": 100, "sprite": 568 }, { "weight": 100, "sprite": 569 } ],
+            "fg": [{ "weight": 100, "sprite": 568 }, { "weight": 100, "sprite": 569 }],
             "rotates": false,
             "animated": true
           }

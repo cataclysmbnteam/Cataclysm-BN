@@ -18,17 +18,20 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "A counselor from far away, Rhy can offer a lot of supports to player and survivors if she can get herself sorted a little",
-    "bonus_str": { "rng": [ -1, 1 ] },
-    "bonus_dex": { "rng": [ -2, 2 ] },
-    "bonus_int": { "rng": [ 0, 3 ] },
-    "bonus_per": { "rng": [ -1, 3 ] },
+    "bonus_str": { "rng": [-1, 1] },
+    "bonus_dex": { "rng": [-2, 2] },
+    "bonus_int": { "rng": [0, 3] },
+    "bonus_per": { "rng": [-1, 3] },
     "worn_override": "REFUGEE_Rhyzaea_worn",
     "carry_override": "office",
     "weapon_override": "REFUGEE_Rhyzaea_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_Mixed" } ],
+    "traits": [{ "group": "NPC_starting_traits" }, { "group": "Appearance_Mixed" }],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -2, 1 ] } ] } ] } },
-      { "skill": "speech", "bonus": { "rng": [ 3, 7 ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [2, 2] }, { "rng": [-2, 1] }] }] }
+      },
+      { "skill": "speech", "bonus": { "rng": [3, 7] } }
     ]
   },
   {
@@ -50,7 +53,7 @@
     "type": "item_group",
     "id": "REFUGEE_Rhyzaea_wield",
     "subtype": "collection",
-    "entries": [ { "item": "stick" } ]
+    "entries": [{ "item": "stick" }]
   },
   {
     "type": "talk_topic",
@@ -69,7 +72,12 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+              "not": {
+                "npc_has_var": "cleanup_asked",
+                "type": "mission",
+                "context": "Boris_mission_1",
+                "value": "yes"
+              }
             }
           ]
         },
@@ -92,19 +100,38 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hello again.", "Good to see you're still around.", "Oh, hi.", "Need to talk?" ],
+      "yes": ["Hello again.", "Good to see you're still around.", "Oh, hi.", "Need to talk?"],
       "no": "Hi there.  I don't think we've met before.  I'm Rhyzaea, people call me Rhy."
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_met_Rhyzaea_Johnny", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": {
+      "effect": {
+        "u_add_var": "u_met_Rhyzaea_Johnny",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes"
+      }
+    },
     "responses": [
       {
         "text": "Nice to meet you, Rhy.",
-        "condition": { "not": { "u_has_var": "u_met_Rhyzaea_Johnny", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Rhyzaea_Johnny",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_REFUGEE_Rhyzaea_1_firstmeet"
       },
       {
         "text": "Hi, Rhy.  How's it going?",
-        "condition": { "u_has_var": "u_met_Rhyzaea_Johnny", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_Rhyzaea_Johnny",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_REFUGEE_Rhyzaea_2"
       },
       { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
@@ -115,7 +142,10 @@
     "id": "TALK_REFUGEE_Rhyzaea_1_firstmeet",
     "dynamic_line": "So, what's your story?  We don't see a lot of new people back here.",
     "responses": [
-      { "text": "Just a curious traveler.  What's up with you?", "topic": "TALK_REFUGEE_Rhyzaea_2" },
+      {
+        "text": "Just a curious traveler.  What's up with you?",
+        "topic": "TALK_REFUGEE_Rhyzaea_2"
+      },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
     ]
   },
@@ -142,7 +172,10 @@
       { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
       { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      {
+        "text": "Well, it's been nice talking to you, but I need to head out.",
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -153,7 +186,10 @@
       { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
       { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      {
+        "text": "Well, it's been nice talking to you, but I need to head out.",
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -164,7 +200,10 @@
       { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
       { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
+      {
+        "text": "Well, it's been nice talking to you, but I need to head out.",
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {

@@ -23,6 +23,9 @@
     "id": "BGRS_MIGO_1_STORY3",
     "type": "talk_topic",
     "dynamic_line": "Bem… aqueles sem cérebro seguiram cegamente o líder.  Quanto àqueles com algum cérebro… bom, acho que você está conversando com um deles agora",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

@@ -3,11 +3,11 @@
     "type": "MOD_INFO",
     "id": "RL_Classes",
     "name": "Classic Roguelike Classes",
-    "authors": [ "Rivet-the-Zombie" ],
-    "maintainers": [ "Rivet-the-Zombie" ],
+    "authors": ["Rivet-the-Zombie"],
+    "maintainers": ["Rivet-the-Zombie"],
     "description": "Adds a set of professions which correspond to classic Roguelike character archetypes.",
     "category": "rebalance",
-    "dependencies": [ "bn" ],
+    "dependencies": ["bn"],
     "obsolete": true
   }
 ]

@@ -3,11 +3,11 @@
     "id": "mut_lab",
     "type": "item_group",
     "items": [
-      [ "kiernans_notes", 1 ],
-      [ "iv_mutagen_tyrant", 3 ],
-      [ "iv_mutagen_stego", 3 ],
-      [ "mutagen_tyrant", 5 ],
-      [ "mutagen_stego", 5 ]
+      ["kiernans_notes", 1],
+      ["iv_mutagen_tyrant", 3],
+      ["iv_mutagen_stego", 3],
+      ["mutagen_tyrant", 5],
+      ["mutagen_stego", 5]
     ]
   },
   {
@@ -17,12 +17,12 @@
     "magazine": 100,
     "items": [
       { "group": "office", "prob": 100 },
-      [ "newest_newspaper", 100 ],
-      [ "egg_dino", 75 ],
-      [ "egg_dino_theropod", 75 ],
-      [ "mutagen_tyrant", 30 ],
-      [ "mutagen_stego", 30 ],
-      [ "kiernans_notes", 10 ],
+      ["newest_newspaper", 100],
+      ["egg_dino", 75],
+      ["egg_dino_theropod", 75],
+      ["mutagen_tyrant", 30],
+      ["mutagen_stego", 30],
+      ["kiernans_notes", 10],
       { "item": "kevlar_armor_elephant", "prob": 10 },
       { "item": "acidchitin_armor_elephant", "prob": 10 },
       { "item": "chitin_armor_elephant", "prob": 10 },

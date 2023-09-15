@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "house_2story_base" ],
+    "om_terrain": ["house_2story_base"],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -31,10 +31,10 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "#": "t_adobe_brick_wall",
@@ -49,13 +49,13 @@
         ")": "t_door_glass_c"
       },
       "furniture": { "!": "f_region_flower" },
-      "place_loot": [ { "item": "stereo", "x": 12, "y": 19 } ]
+      "place_loot": [{ "item": "stereo", "x": 12, "y": 19 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "house_2story_second" ],
+    "om_terrain": ["house_2story_second"],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -84,7 +84,7 @@
         "________________________",
         "________________________"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "_": "t_open_air",
         "#": "t_adobe_brick_wall",
@@ -99,7 +99,7 @@
         ")": "t_door_glass_c",
         "$": "t_screened_porch_wall"
       },
-      "place_loot": [ { "item": "stereo", "x": 12, "y": 19 } ]
+      "place_loot": [{ "item": "stereo", "x": 12, "y": 19 }]
     }
   },
   {
@@ -134,7 +134,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -170,10 +170,24 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "nested": {
-        "1": { "chunks": [ [ "null", 25 ], [ "recroom_12x12", 25 ], [ "tvroom_12x12", 25 ], [ "workoutroom_12x12", 25 ] ] },
-        "2": { "chunks": [ [ "null", 25 ], [ "room_6x6_woodworker", 25 ], [ "room_6x6_junk", 25 ], [ "room_6x6_bike", 25 ] ] }
+        "1": {
+          "chunks": [
+            ["null", 25],
+            ["recroom_12x12", 25],
+            ["tvroom_12x12", 25],
+            ["workoutroom_12x12", 25]
+          ]
+        },
+        "2": {
+          "chunks": [
+            ["null", 25],
+            ["room_6x6_woodworker", 25],
+            ["room_6x6_junk", 25],
+            ["room_6x6_bike", 25]
+          ]
+        }
       }
     }
   }

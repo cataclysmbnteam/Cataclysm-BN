@@ -68,7 +68,7 @@
     "price": 8500,
     "price_postapoc": 500,
     "volume": "8750 ml",
-    "qualities": [ [ "SELF_JACK", 17 ] ]
+    "qualities": [["SELF_JACK", 17]]
   },
   {
     "type": "GENERIC",
@@ -83,6 +83,6 @@
     "price": 500,
     "price_postapoc": 100,
     "volume": "500 ml",
-    "qualities": [ [ "SELF_JACK", 1 ] ]
+    "qualities": [["SELF_JACK", 1]]
   }
 ]

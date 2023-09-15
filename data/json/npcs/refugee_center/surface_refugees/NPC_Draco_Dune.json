@@ -6,18 +6,26 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Draco is a middle-aged musician, and generally a pretty nice guy.  He's always been a wanderer and this isn't his first time living basically homeless.",
-    "bonus_str": { "rng": [ -2, 2 ] },
-    "bonus_dex": { "rng": [ -1, 2 ] },
-    "bonus_int": { "rng": [ -1, 3 ] },
-    "bonus_per": { "rng": [ -1, 3 ] },
+    "bonus_str": { "rng": [-2, 2] },
+    "bonus_dex": { "rng": [-1, 2] },
+    "bonus_int": { "rng": [-1, 3] },
+    "bonus_per": { "rng": [-1, 3] },
     "worn_override": "REFUGEE_Draco_worn",
     "carry_override": "REFUGEE_Draco_carried",
     "weapon_override": "REFUGEE_Draco_wield",
-    "traits": [ { "trait": "PRETTY" }, { "trait": "OPTIMISTIC" }, { "trait": "BADBACK" }, { "group": "Appearance_African" } ],
+    "traits": [
+      { "trait": "PRETTY" },
+      { "trait": "OPTIMISTIC" },
+      { "trait": "BADBACK" },
+      { "group": "Appearance_African" }
+    ],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
-      { "skill": "speech", "bonus": { "rng": [ 2, 3 ] } },
-      { "skill": "swimming", "bonus": { "rng": [ 1, 2 ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [2, 2] }, { "rng": [0, -4] }] }] }
+      },
+      { "skill": "speech", "bonus": { "rng": [2, 3] } },
+      { "skill": "swimming", "bonus": { "rng": [1, 2] } }
     ]
   },
   {
@@ -39,13 +47,13 @@
     "type": "item_group",
     "id": "REFUGEE_Draco_carried",
     "subtype": "collection",
-    "entries": [ { "item": "wire" } ]
+    "entries": [{ "item": "wire" }]
   },
   {
     "type": "item_group",
     "id": "REFUGEE_Draco_wield",
     "subtype": "collection",
-    "entries": [ { "item": "crowbar" } ]
+    "entries": [{ "item": "crowbar" }]
   },
   {
     "type": "npc",
@@ -79,8 +87,20 @@
     "responses": [
       {
         "text": "Nice to meet you, Draco.",
-        "condition": { "not": { "u_has_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" } },
-        "effect": { "u_add_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Draco_Dune",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
+        "effect": {
+          "u_add_var": "u_met_Draco_Dune",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_REFUGEE_Draco_1_firstmeet",
         "switch": true
       },
@@ -88,9 +108,21 @@
         "text": "Hi, Draco, how are you doing?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" } },
             {
-              "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" }
+              "not": {
+                "u_has_var": "Draco_Dune_convo_depth",
+                "type": "general",
+                "context": "meeting",
+                "value": "3"
+              }
+            },
+            {
+              "not": {
+                "u_has_var": "Draco_Dune_convo_depth",
+                "type": "general",
+                "context": "meeting",
+                "value": "7"
+              }
             }
           ]
         },
@@ -100,9 +132,19 @@
         "text": "Hi again, Draco, nice to see you too.",
         "condition": {
           "and": [
-            { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" },
             {
-              "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" }
+              "u_has_var": "Draco_Dune_convo_depth",
+              "type": "general",
+              "context": "meeting",
+              "value": "3"
+            },
+            {
+              "not": {
+                "u_has_var": "Draco_Dune_convo_depth",
+                "type": "general",
+                "context": "meeting",
+                "value": "7"
+              }
             }
           ]
         },
@@ -110,17 +152,34 @@
       },
       {
         "text": "Hi again, Draco, nice to see you too.",
-        "condition": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" },
+        "condition": {
+          "u_has_var": "Draco_Dune_convo_depth",
+          "type": "general",
+          "context": "meeting",
+          "value": "7"
+        },
         "topic": "TALK_REFUGEE_Draco_7"
       },
       {
         "text": "Hi Draco, nice to meet you.  I gotta go though.",
-        "condition": { "not": { "u_has_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Draco_Dune",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Hi Draco, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_Draco_Dune",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -142,7 +201,12 @@
       {
         "text": "What about you, what's your story?",
         "topic": "TALK_REFUGEE_Draco_3",
-        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+        "effect": {
+          "u_add_var": "Draco_Dune_convo_depth",
+          "type": "general",
+          "context": "meeting",
+          "value": "3"
+        }
       },
       { "text": "No more indeed.", "topic": "TALK_DONE" }
     ]
@@ -152,7 +216,10 @@
     "id": "TALK_REFUGEE_Draco_3",
     "dynamic_line": "Oh you don't have time for all that, do you?  Well, I'll give you the short version.  I've gotten kinda tired of it in the telling.  Frankly, it's not as heroic, not as inspiring, not as tragic, and certainly not as funny as some of the tales around here.  But it's mine, ya know?  I'm a musician.  Guitar's my baby.  You like folk and the blues, friend?  Well, that was my bag and I sure could please my own ear with em, anyway.  Folks who's bein' generous might also say it pleased theirs.  Problem is, I seem to be between guitars right now, you know?  Temporarily guitar-light, if you get my saying.  Problem is, in the run for my life, I had to use old Jasmine as a bit of a billy club.  Had to curb some rowdy dudes on my way here.  It was her or me, you understand?  You wouldn't begrudge a man breakin' his instrument to save his life, would ya?",
     "responses": [
-      { "text": "I think I would've done the same.  Nobody around here has a guitar?", "topic": "TALK_REFUGEE_Draco_4" },
+      {
+        "text": "I think I would've done the same.  Nobody around here has a guitar?",
+        "topic": "TALK_REFUGEE_Draco_4"
+      },
       { "text": "Yes, yes I would… you monster.", "topic": "TALK_DONE" }
     ]
   },
@@ -215,7 +282,10 @@
     "dynamic_line": "Me too!  Times are hard for folks and that's no laughing matter.  People need some normality in these times.  Some reminders of how things used to be.  I think a sing-along or two could do folks good.",
     "responses": [
       { "text": "Couldn't hurt.", "topic": "TALK_REFUGEE_Draco_7" },
-      { "text": "I don't need to hear amateur-hour karaoke around here.  Goodbye.", "topic": "TALK_DONE" }
+      {
+        "text": "I don't need to hear amateur-hour karaoke around here.  Goodbye.",
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -235,7 +305,10 @@
     "id": "TALK_REFUGEE_Draco_6d",
     "dynamic_line": "Me too.  It's fight a stay afloat in these times.  Some music would lift all spirits, though, don't you think?",
     "responses": [
-      { "text": "Can you play heavy metal on an acoustic guitar?", "topic": "TALK_REFUGEE_Draco_7" },
+      {
+        "text": "Can you play heavy metal on an acoustic guitar?",
+        "topic": "TALK_REFUGEE_Draco_7"
+      },
       { "text": "Boring.  I'm going to go destroy something.", "topic": "TALK_DONE" }
     ]
   },
@@ -259,22 +332,53 @@
       "yes": "My savior!  My patron of the arts!  You're always welcome here, friend.",
       "no": "Man, just imagine what I could do with a new guitar."
     },
-    "speaker_effect": { "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" } },
+    "speaker_effect": {
+      "effect": {
+        "u_add_var": "Draco_Dune_convo_depth",
+        "type": "general",
+        "context": "meeting",
+        "value": "7"
+      }
+    },
     "responses": [
       {
         "text": "Let's talk about getting you that guitar.",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" } }
+        "condition": {
+          "not": {
+            "u_has_var": "NC_REFUGEE_Draco_has_guitar",
+            "type": "general",
+            "context": "mission",
+            "value": "yes"
+          }
+        }
       },
       {
         "text": "I've been thinking about that deal you mentioned.",
-        "condition": { "u_has_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" },
+        "condition": {
+          "u_has_var": "NC_REFUGEE_Draco_offered_weed_deal",
+          "type": "general",
+          "context": "barter",
+          "value": "yes"
+        },
         "topic": "TALK_REFUGEE_Draco_10_approve"
       },
       {
         "text": "Anything you buying or selling, by chance?",
-        "condition": { "not": { "u_has_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" } },
-        "effect": { "u_add_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" },
+        "condition": {
+          "not": {
+            "u_has_var": "NC_REFUGEE_Draco_offered_weed_deal",
+            "type": "general",
+            "context": "barter",
+            "value": "yes"
+          }
+        },
+        "effect": {
+          "u_add_var": "NC_REFUGEE_Draco_offered_weed_deal",
+          "type": "general",
+          "context": "barter",
+          "value": "yes"
+        },
         "topic": "TALK_REFUGEE_Draco_8"
       },
       { "text": "See you around, Draco.", "topic": "TALK_DONE" }
@@ -284,7 +388,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_8",
     "dynamic_line": "Well now, my friend-o!  You just asked a mighty fine question.  Folks have been missing the little things in life.  New shoes, new cellphones, can't exactly go shopping, or, well, I guess you sorta can, if you mind the broken glass.  I left my wallet in an outdoorsman's store when I 'bought' this warmer coat.  Figured that's kinda it, you know?  It didn't matter anymore.  I don't think my insurance's going to pay out for any health care I get now.  I did what you see in the movies though, I rolled a joint with a hundred dollar bill.  Ended up coughing and rerolling it in regular paper though.  Was too harsh.  Just letting you know in case you get the smart idea of trying it.",
-    "responses": [ { "text": "Go on.", "topic": "TALK_REFUGEE_Draco_9" } ]
+    "responses": [{ "text": "Go on.", "topic": "TALK_REFUGEE_Draco_9" }]
   },
   {
     "type": "talk_topic",
@@ -296,9 +400,17 @@
       {
         "text": "Oh yeah, some people've been growing it in their basements.",
         "topic": "TALK_REFUGEE_Draco_10_approve",
-        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+        "effect": {
+          "u_add_var": "Draco_Dune_convo_depth",
+          "type": "general",
+          "context": "meeting",
+          "value": "3"
+        }
       },
-      { "text": "I'm not comfortable with where this is going.", "topic": "TALK_REFUGEE_Draco_10_disapprove" }
+      {
+        "text": "I'm not comfortable with where this is going.",
+        "topic": "TALK_REFUGEE_Draco_10_disapprove"
+      }
     ]
   },
   {
@@ -310,7 +422,12 @@
       {
         "text": "Right, of course I knew that!  There's tons of the stuff out there for the taking.",
         "topic": "TALK_REFUGEE_Draco_10_approve",
-        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+        "effect": {
+          "u_add_var": "Draco_Dune_convo_depth",
+          "type": "general",
+          "context": "meeting",
+          "value": "3"
+        }
       },
       { "text": "Nope, sorry.", "topic": "TALK_REFUGEE_Draco_10_hasnt_found_weed" },
       { "text": "I'm not doing this.", "topic": "TALK_DONE" }
@@ -324,7 +441,12 @@
       {
         "text": "I can help.",
         "topic": "TALK_REFUGEE_Draco_10_approve",
-        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+        "effect": {
+          "u_add_var": "Draco_Dune_convo_depth",
+          "type": "general",
+          "context": "meeting",
+          "value": "3"
+        }
       },
       { "text": "Find somebody else, dude.", "topic": "TALK_DONE" }
     ]
@@ -344,7 +466,12 @@
           "and": [
             { "u_has_items": { "item": "weed", "count": 5 } },
             {
-              "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" }
+              "not": {
+                "u_has_var": "NC_REFUGEE_Draco_has_guitar",
+                "type": "general",
+                "context": "mission",
+                "value": "yes"
+              }
             },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
@@ -361,7 +488,12 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "weed", "count": 5 } },
-            { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
+            {
+              "u_has_var": "NC_REFUGEE_Draco_has_guitar",
+              "type": "general",
+              "context": "mission",
+              "value": "yes"
+            },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -378,7 +510,12 @@
           "and": [
             { "u_has_items": { "item": "joint", "count": 5 } },
             {
-              "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" }
+              "not": {
+                "u_has_var": "NC_REFUGEE_Draco_has_guitar",
+                "type": "general",
+                "context": "mission",
+                "value": "yes"
+              }
             },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
@@ -395,7 +532,12 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "joint", "count": 5 } },
-            { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
+            {
+              "u_has_var": "NC_REFUGEE_Draco_has_guitar",
+              "type": "general",
+              "context": "mission",
+              "value": "yes"
+            },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -406,7 +548,10 @@
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
       },
-      { "text": "Oh, alright.  I'll be back later with the goods.", "topic": "TALK_REFUGEE_Draco_7" },
+      {
+        "text": "Oh, alright.  I'll be back later with the goods.",
+        "topic": "TALK_REFUGEE_Draco_7"
+      },
       { "text": "On second thought, maybe later.", "topic": "TALK_DONE" }
     ]
   },
@@ -437,11 +582,21 @@
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
     "item": "acoustic_guitar",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "end": {
       "effect": [
-        { "u_add_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
+        {
+          "u_add_var": "NC_REFUGEE_Draco_has_guitar",
+          "type": "general",
+          "context": "mission",
+          "value": "yes"
+        },
+        {
+          "u_adjust_var": "refugee_happiness",
+          "type": "counter",
+          "context": "refugee_center",
+          "adjustment": 2
+        }
       ]
     },
     "dialogue": {

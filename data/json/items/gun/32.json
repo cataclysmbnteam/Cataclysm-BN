@@ -9,26 +9,26 @@
     "volume": "312 ml",
     "price": 43000,
     "price_postapoc": 1000,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "dark_gray",
     "ammo": "32",
     "min_cycle_recoil": 135,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
     "delete": { "faults": "fault_gun_chamber_spent" },
     "magazine_well": "250 ml",
-    "magazines": [ [ "32", [ "sigp230mag" ] ] ]
+    "magazines": [["32", ["sigp230mag"]]]
   },
   {
     "id": "skorpion_61",
@@ -50,9 +50,9 @@
     "dispersion": 360,
     "durability": 6,
     "min_cycle_recoil": 135,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
-    "built_in_mods": [ "folding_stock" ],
-    "magazines": [ [ "32", [ "skorpion61mag" ] ] ]
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 5]],
+    "built_in_mods": ["folding_stock"],
+    "magazines": [["32", ["skorpion61mag"]]]
   },
   {
     "id": "walther_ppk",
@@ -65,25 +65,25 @@
     "price": 45000,
     "price_postapoc": 1250,
     "ascii_picture": "ppk",
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "light_gray",
     "ammo": "32",
     "min_cycle_recoil": 135,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "32", [ "ppkmag" ] ] ]
+    "magazines": [["32", ["ppkmag"]]]
   },
   {
     "id": "kp32",
@@ -96,11 +96,11 @@
     "price": 14000,
     "price_postapoc": 1000,
     "ascii_picture": "P3AT",
-    "material": [ "steel", "plastic", "aluminum" ],
+    "material": ["steel", "plastic", "aluminum"],
     "color": "dark_gray",
     "ammo": "32",
     "magazine_well": "41 ml",
     "min_cycle_recoil": 135,
-    "magazines": [ [ "32", [ "kp32mag" ] ] ]
+    "magazines": [["32", ["kp32mag"]]]
   }
 ]

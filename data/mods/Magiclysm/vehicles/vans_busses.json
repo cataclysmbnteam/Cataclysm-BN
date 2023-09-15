@@ -4,13 +4,13 @@
     "type": "vehicle",
     "name": "Security Van",
     "blueprint": [
-      [ "     o " ],
-      [ "O----+-O" ],
-      [ "|===|#'|" ],
-      [ "+===|o'>" ],
-      [ "|===|#'|" ],
-      [ "O--+-+-O" ],
-      [ "     o " ]
+      ["     o "],
+      ["O----+-O"],
+      ["|===|#'|"],
+      ["+===|o'>"],
+      ["|===|#'|"],
+      ["O--+-+-O"],
+      ["     o "]
     ],
     "parts": [
       { "x": 0, "y": 1, "part": "frame_orichalcum_vertical" },
@@ -66,12 +66,12 @@
       { "x": 2, "y": -1, "part": "frame_orichalcum_nw" },
       { "x": 2, "y": -1, "part": "hdhalfboard_nw" },
       { "x": 2, "y": -1, "part": "headlight_reinforced" },
-      { "x": 2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
+      { "x": 2, "y": -1, "parts": ["wheel_mount_medium_steerable", "wheel_wide"] },
       { "x": 2, "y": -1, "part": "plating_steel" },
       { "x": 2, "y": 3, "part": "frame_orichalcum_ne" },
       { "x": 2, "y": 3, "part": "hdhalfboard_ne" },
       { "x": 2, "y": 3, "part": "headlight_reinforced" },
-      { "x": 2, "y": 3, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
+      { "x": 2, "y": 3, "parts": ["wheel_mount_medium_steerable", "wheel_wide"] },
       { "x": 2, "y": 3, "part": "plating_steel" },
       { "x": -1, "y": 0, "part": "frame_orichalcum_horizontal" },
       { "x": -1, "y": 0, "part": "hdboard_horizontal" },
@@ -157,22 +157,47 @@
       { "x": -5, "y": 2, "part": "plating_steel" },
       { "x": -5, "y": -1, "part": "frame_orichalcum_sw" },
       { "x": -5, "y": -1, "part": "hdboard_sw" },
-      { "x": -5, "y": -1, "parts": [ "wheel_mount_medium", "wheel_wide" ] },
+      { "x": -5, "y": -1, "parts": ["wheel_mount_medium", "wheel_wide"] },
       { "x": -5, "y": -1, "part": "hdroof" },
       { "x": -5, "y": -1, "part": "plating_steel" },
       { "x": -5, "y": 3, "part": "frame_orichalcum_se" },
       { "x": -5, "y": 3, "part": "hdboard_se" },
-      { "x": -5, "y": 3, "parts": [ "wheel_mount_medium", "wheel_wide" ] },
+      { "x": -5, "y": 3, "parts": ["wheel_mount_medium", "wheel_wide"] },
       { "x": -5, "y": 3, "part": "hdroof" },
       { "x": -5, "y": 3, "part": "plating_steel" }
     ],
     "items": [
-      { "x": 0, "y": 1, "chance": 70, "magazine": 100, "ammo": 50, "item_groups": [ "guns_cop" ] },
-      { "x": -2, "y": 0, "chance": 50, "item_groups": [ "supplies_metal_precious", "supplies_metal_precious" ] },
-      { "x": -2, "y": 0, "chance": 50, "item_groups": [ "supplies_metal_precious", "supplies_metal_precious" ] },
-      { "x": -3, "y": 0, "chance": 20, "item_groups": [ "supplies_metal_precious", "supplies_metal_precious" ] },
-      { "x": -4, "y": 0, "chance": 20, "item_groups": [ "supplies_metal_precious", "supplies_metal_precious" ] },
-      { "x": -4, "y": 0, "chance": 20, "items": [ "diamond", "diamond", "diamond", "diamond", "diamond" ] }
+      { "x": 0, "y": 1, "chance": 70, "magazine": 100, "ammo": 50, "item_groups": ["guns_cop"] },
+      {
+        "x": -2,
+        "y": 0,
+        "chance": 50,
+        "item_groups": ["supplies_metal_precious", "supplies_metal_precious"]
+      },
+      {
+        "x": -2,
+        "y": 0,
+        "chance": 50,
+        "item_groups": ["supplies_metal_precious", "supplies_metal_precious"]
+      },
+      {
+        "x": -3,
+        "y": 0,
+        "chance": 20,
+        "item_groups": ["supplies_metal_precious", "supplies_metal_precious"]
+      },
+      {
+        "x": -4,
+        "y": 0,
+        "chance": 20,
+        "item_groups": ["supplies_metal_precious", "supplies_metal_precious"]
+      },
+      {
+        "x": -4,
+        "y": 0,
+        "chance": 20,
+        "items": ["diamond", "diamond", "diamond", "diamond", "diamond"]
+      }
     ]
   }
 ]

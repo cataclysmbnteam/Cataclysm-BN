@@ -49,8 +49,11 @@
         "Z": "t_linoleum_gray"
       },
       "furniture": { "$": "f_rack", "&": "f_table" },
-      "items": { "$": { "item": "clothing_outdoor_shoes", "chance": 50 }, "&": { "item": "table_foyer", "chance": 50 } },
-      "place_loot": [ { "item": "laptop", "x": 5, "y": 21, "chance": 50 } ]
+      "items": {
+        "$": { "item": "clothing_outdoor_shoes", "chance": 50 },
+        "&": { "item": "table_foyer", "chance": 50 }
+      },
+      "place_loot": [{ "item": "laptop", "x": 5, "y": 21, "chance": 50 }]
     }
   },
   {
@@ -59,7 +62,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",

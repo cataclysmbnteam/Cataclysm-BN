@@ -12,16 +12,28 @@
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
     "folded_volume": 25,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 9 ] },
-      { "item": "steel_chunk", "count": [ 6, 9 ] },
-      { "item": "scrap", "count": [ 6, 9 ] }
+      { "item": "steel_lump", "count": [6, 9] },
+      { "item": "steel_chunk", "count": [6, 9] },
+      { "item": "scrap", "count": [6, 9] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 0]],
+        "time": "50 s",
+        "qualities": [{ "id": "WRENCH", "level": 1 }]
+      },
+      "removal": {
+        "skills": [["mechanics", 0]],
+        "time": "50 s",
+        "qualities": [{ "id": "WRENCH", "level": 1 }]
+      },
+      "repair": {
+        "skills": [["mechanics", 3]],
+        "time": "600 s",
+        "using": [["welding_standard", 5]]
+      }
     },
-    "flags": [ "FOLDABLE" ]
+    "flags": ["FOLDABLE"]
   },
   {
     "id": "battery_motorbike",
@@ -32,9 +44,9 @@
     "durability": 100,
     "folded_volume": 5,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 4, 7 ] },
-      { "item": "scrap", "count": [ 4, 7 ] }
+      { "item": "steel_lump", "count": [4, 7] },
+      { "item": "steel_chunk", "count": [4, 7] },
+      { "item": "scrap", "count": [4, 7] }
     ]
   },
   {
@@ -46,9 +58,9 @@
     "durability": 30,
     "folded_volume": 3,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 7 ] },
-      { "item": "steel_chunk", "count": [ 4, 7 ] },
-      { "item": "scrap", "count": [ 4, 7 ] }
+      { "item": "steel_lump", "count": [4, 7] },
+      { "item": "steel_chunk", "count": [4, 7] },
+      { "item": "scrap", "count": [4, 7] }
     ]
   },
   {
@@ -59,16 +71,16 @@
     "item": "large_storage_battery",
     "durability": 600,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 10, 20 ] },
-      { "item": "steel_chunk", "count": [ 5, 10 ] },
-      { "item": "scrap", "count": [ 5, 10 ] },
-      { "item": "storage_battery", "count": [ 0, 1 ] }
+      { "item": "steel_lump", "count": [10, 20] },
+      { "item": "steel_chunk", "count": [5, 10] },
+      { "item": "scrap", "count": [5, 10] },
+      { "item": "storage_battery", "count": [0, 1] }
     ],
     "requirements": {
       "repair": {
-        "skills": [ [ "electronics", 4 ] ],
+        "skills": [["electronics", 4]],
         "time": "50 m",
-        "using": [ [ "vehicle_screw", 1 ], [ "storage_battery", 6 ], [ "soldering_standard", 16 ] ]
+        "using": [["vehicle_screw", 1], ["storage_battery", 6], ["soldering_standard", 16]]
       }
     }
   },
@@ -80,16 +92,16 @@
     "item": "large_storage_battery",
     "location": "on_battery_mount",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] },
+      "install": { "skills": [["mechanics", 0]], "time": "10 s", "using": [] },
+      "removal": { "skills": [["mechanics", 0]], "time": "10 s", "using": [] },
       "repair": {
-        "skills": [ [ "electronics", 4 ] ],
+        "skills": [["electronics", 4]],
         "time": "50 m",
-        "using": [ [ "vehicle_screw", 1 ], [ "storage_battery", 6 ], [ "soldering_standard", 16 ] ]
+        "using": [["vehicle_screw", 1], ["storage_battery", 6], ["soldering_standard", 16]]
       }
     },
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.  This one is mounted on a quick release framework that assists in loading and unloading the battery, allowing it to be easily swapped.",
-    "flags": [ "NEEDS_BATTERY_MOUNT", "NO_LIFT_REQ" ]
+    "flags": ["NEEDS_BATTERY_MOUNT", "NO_LIFT_REQ"]
   },
   {
     "id": "medium_storage_battery",
@@ -100,17 +112,20 @@
     "difficulty": 1,
     "durability": 250,
     "folded_volume": 10,
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "small_storage_battery", "count": [ 0, 7 ] } ],
+    "breaks_into": [
+      { "item": "scrap", "count": [1, 4] },
+      { "item": "small_storage_battery", "count": [0, 7] }
+    ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" },
+      "install": { "skills": [["mechanics", 0]], "time": "200 s", "using": "vehicle_screw" },
+      "removal": { "skills": [["mechanics", 0]], "time": "200 s", "using": "vehicle_screw" },
       "repair": {
-        "skills": [ [ "electronics", 4 ] ],
+        "skills": [["electronics", 4]],
         "time": "25 m",
-        "using": [ [ "vehicle_screw", 1 ], [ "storage_battery", 1 ], [ "soldering_standard", 3 ] ]
+        "using": [["vehicle_screw", 1], ["storage_battery", 1], ["soldering_standard", 3]]
       }
     },
-    "extend": { "flags": [ "FOLDABLE" ] }
+    "extend": { "flags": ["FOLDABLE"] }
   },
   {
     "id": "small_storage_battery",
@@ -121,13 +136,13 @@
     "difficulty": 1,
     "durability": 100,
     "folded_volume": 2,
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
+    "breaks_into": [{ "item": "scrap", "count": [1, 2] }],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] },
-      "repair": {  }
+      "install": { "skills": [["mechanics", 0]], "time": "100 s", "using": [] },
+      "removal": { "skills": [["mechanics", 0]], "time": "100 s", "using": [] },
+      "repair": {}
     },
-    "extend": { "flags": [ "FOLDABLE" ] }
+    "extend": { "flags": ["FOLDABLE"] }
   },
   {
     "id": "storage_battery",
@@ -143,18 +158,22 @@
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
     "damage_modifier": 80,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 5, 10 ] },
-      { "item": "steel_chunk", "count": [ 5, 10 ] },
-      { "item": "scrap", "count": [ 5, 10 ] },
-      { "item": "medium_storage_battery", "count": [ 1, 2 ] }
+      { "item": "steel_lump", "count": [5, 10] },
+      { "item": "steel_chunk", "count": [5, 10] },
+      { "item": "scrap", "count": [5, 10] },
+      { "item": "medium_storage_battery", "count": [1, 2] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "300 s", "using": "vehicle_weld_removal" },
+      "install": {
+        "skills": [["mechanics", 2]],
+        "time": "600 s",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": { "skills": [["mechanics", 2]], "time": "300 s", "using": "vehicle_weld_removal" },
       "repair": {
-        "skills": [ [ "electronics", 4 ] ],
+        "skills": [["electronics", 4]],
         "time": "50 m",
-        "using": [ [ "vehicle_screw", 1 ], [ "storage_battery", 3 ], [ "soldering_standard", 8 ] ]
+        "using": [["vehicle_screw", 1], ["storage_battery", 3], ["soldering_standard", 8]]
       }
     }
   },
@@ -166,10 +185,10 @@
     "item": "storage_battery",
     "location": "on_battery_mount",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] }
+      "install": { "skills": [["mechanics", 0]], "time": "10 s", "using": [] },
+      "removal": { "skills": [["mechanics", 0]], "time": "10 s", "using": [] }
     },
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.  This one is mounted on a quick release framework that assists in loading and unloading the battery, allowing it to be easily swapped.",
-    "flags": [ "NEEDS_BATTERY_MOUNT", "NO_LIFT_REQ" ]
+    "flags": ["NEEDS_BATTERY_MOUNT", "NO_LIFT_REQ"]
   }
 ]

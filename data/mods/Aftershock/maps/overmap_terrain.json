@@ -7,7 +7,7 @@
     "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": ["SIDEWALK"]
   },
   {
     "id": "prepnet_orchard",
@@ -16,7 +16,7 @@
     "name": "PrepNet orchard",
     "sym": "#",
     "color": "i_green",
-    "flags": [ "SOURCE_FOOD" ]
+    "flags": ["SOURCE_FOOD"]
   },
   {
     "id": "municipal_reactor_ware",
@@ -26,7 +26,7 @@
     "color": "pink",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": ["SIDEWALK"]
   },
   {
     "id": "municipal_reactor_ware_b",
@@ -72,7 +72,7 @@
     "color": "pink",
     "see_cost": 3,
     "extras": "marloss",
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": ["NO_ROTATE", "RISK_HIGH"]
   },
   {
     "type": "overmap_terrain",
@@ -83,7 +83,7 @@
       "afs_augmentation_clinic_n4"
     ],
     "name": "augmentation clinic",
-    "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
+    "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [4, 10], "chance": 80 },
     "sym": "A",
     "color": "yellow",
     "see_cost": 3
@@ -95,7 +95,7 @@
     "sym": "M",
     "color": "light_green",
     "see_cost": 3,
-    "flags": [ "SIDEWALK" ]
+    "flags": ["SIDEWALK"]
   },
   {
     "type": "overmap_terrain",
@@ -128,7 +128,14 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [
+      "KNOWN_DOWN",
+      "SOURCE_PEOPLE",
+      "SOURCE_SAFETY",
+      "SOURCE_GUN",
+      "SOURCE_AMMO",
+      "SOURCE_FOOD"
+    ]
   },
   {
     "type": "overmap_terrain",
@@ -137,7 +144,7 @@
     "sym": ".",
     "color": "brown",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN" ]
+    "flags": ["KNOWN_DOWN"]
   },
   {
     "type": "overmap_terrain",
@@ -146,7 +153,14 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [
+      "KNOWN_UP",
+      "SOURCE_PEOPLE",
+      "SOURCE_SAFETY",
+      "SOURCE_GUN",
+      "SOURCE_AMMO",
+      "SOURCE_FOOD"
+    ]
   },
   {
     "type": "overmap_terrain",
@@ -155,7 +169,14 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+    "flags": [
+      "KNOWN_UP",
+      "SOURCE_PEOPLE",
+      "SOURCE_SAFETY",
+      "SOURCE_GUN",
+      "SOURCE_AMMO",
+      "SOURCE_FOOD"
+    ]
   },
   {
     "type": "overmap_terrain",
@@ -165,7 +186,7 @@
     "color": "i_pink",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": ["SIDEWALK"]
   },
   {
     "type": "overmap_terrain",

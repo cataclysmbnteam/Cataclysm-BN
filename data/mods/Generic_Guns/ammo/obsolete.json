@@ -6,8 +6,12 @@
     "name": { "str_sp": "pistol ammo, ball (reloaded)" },
     "ammo_type": "ammo_pistol",
     "casing": "pistol_casing",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] }
   },
   {
     "type": "recipe",
@@ -19,8 +23,12 @@
     "type": "AMMO",
     "copy-from": "pistol_jhp",
     "name": { "str_sp": "pistol ammo, JHP (reloaded)" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] }
   },
   {
     "type": "recipe",
@@ -32,8 +40,12 @@
     "type": "AMMO",
     "copy-from": "tiny_pistol_ball",
     "name": { "str_sp": "tiny pistol ammo, ball (reloaded)" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] }
   },
   {
     "type": "recipe",
@@ -45,8 +57,12 @@
     "type": "AMMO",
     "copy-from": "tiny_pistol_jhp",
     "name": { "str_sp": "tiny pistol ammo, JHP (reloaded)" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] }
   },
   {
     "type": "recipe",
@@ -58,8 +74,12 @@
     "type": "AMMO",
     "copy-from": "pistol_magnum_ball",
     "name": { "str_sp": "magnum ammo, ball (reloaded)" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] }
   },
   {
     "type": "recipe",
@@ -71,8 +91,12 @@
     "type": "AMMO",
     "copy-from": "pistol_magnum_jhp",
     "name": { "str_sp": "magnum ammo, JHP (reloaded)" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] }
   },
   {
     "type": "recipe",
@@ -84,9 +108,13 @@
     "copy-from": "shot_buck",
     "name": { "str_sp": "shotshell, buckshot (reloaded)" },
     "type": "AMMO",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] },
+    "delete": { "effects": ["NEVER_MISFIRES"] }
   },
   {
     "type": "recipe",
@@ -98,9 +126,13 @@
     "copy-from": "shot_fowl",
     "name": { "str_sp": "shotshell, birdshot (reloaded)" },
     "type": "AMMO",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] },
+    "delete": { "effects": ["NEVER_MISFIRES"] }
   },
   {
     "type": "recipe",
@@ -112,9 +144,13 @@
     "copy-from": "shot_foster",
     "name": { "str_sp": "shotshell, slug (reloaded)" },
     "type": "AMMO",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] },
+    "delete": { "effects": ["NEVER_MISFIRES"] }
   },
   {
     "type": "recipe",
@@ -152,9 +188,13 @@
     "copy-from": "shot_pyro",
     "name": { "str_sp": "shotshell, pyrotechnical (reloaded)" },
     "type": "AMMO",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] },
+    "delete": { "effects": ["NEVER_MISFIRES"] }
   },
   {
     "type": "recipe",
@@ -174,8 +214,12 @@
     "type": "AMMO",
     "copy-from": "rifle_ball",
     "name": { "str_sp": "rifle ammo, ball (reloaded)" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] }
   },
   {
     "type": "recipe",
@@ -187,8 +231,12 @@
     "type": "AMMO",
     "copy-from": "rifle_AP",
     "name": { "str_sp": "rifle ammo, AP (reloaded)" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] }
   },
   {
     "type": "recipe",
@@ -206,8 +254,8 @@
       "recoil": 0.57,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": ["RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"] }
   },
   {
     "type": "recipe",
@@ -227,8 +275,12 @@
     "type": "AMMO",
     "copy-from": "rifle_huge_ball",
     "name": { "str_sp": "huge rifle ammo, ball (reloaded)" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] }
   },
   {
     "type": "recipe",
@@ -240,8 +292,12 @@
     "type": "AMMO",
     "copy-from": "rifle_huge_AP",
     "name": { "str_sp": "huge rifle ammo, AP (reloaded)" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] }
+    "proportional": {
+      "price": 0.7,
+      "damage": { "damage_type": "bullet", "amount": 0.9 },
+      "dispersion": 1.1
+    },
+    "extend": { "effects": ["RECYCLED"] }
   },
   {
     "type": "recipe",
@@ -259,8 +315,8 @@
       "recoil": 0.57,
       "dispersion": 1.2
     },
-    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": { "effects": ["RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"] }
   },
   {
     "type": "recipe",

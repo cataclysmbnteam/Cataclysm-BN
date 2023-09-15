@@ -24,7 +24,10 @@
     "type": "talk_topic",
     "dynamic_line": "This is it.  This is what I was made for.  There in the street, smashin' monster heads and prayin' I'd make it out?  I've never felt like that.  Alive.  Important.  So after I got myself all stuck back together, I nutted up and went back to it.  Probly killed a thousand Z since then, and I'm still not tired of it.",
     "responses": [
-      { "text": "It's good you found your calling.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      {
+        "text": "It's good you found your calling.  <done_conversation_section>",
+        "topic": "TALK_FRIEND"
+      },
       { "text": "It's good you found your calling.  <end_talking>", "topic": "TALK_DONE" }
     ]
   }

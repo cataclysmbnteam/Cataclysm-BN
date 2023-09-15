@@ -8,13 +8,13 @@
     "weight": "360 g",
     "volume": "500 ml",
     "price": 20000,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": [ "22" ],
+    "ammo_type": ["22"],
     "capacity": 200,
     "reload_time": 60,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "360_400_mag",
@@ -25,13 +25,13 @@
     "weight": "440 g",
     "volume": "750 ml",
     "price": 30000,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": [ "22" ],
+    "ammo_type": ["22"],
     "capacity": 400,
     "reload_time": 60,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "8x40_speedloader5",
@@ -43,12 +43,12 @@
     "volume": "250 ml",
     "price": 8000,
     "price_postapoc": 250,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": [ "8x40mm" ],
+    "ammo_type": ["8x40mm"],
     "capacity": 5,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": ["SPEEDLOADER"]
   },
   {
     "id": "223_speedloader5",
@@ -62,9 +62,9 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223" ],
+    "ammo_type": ["223"],
     "capacity": 5,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": ["SPEEDLOADER"]
   },
   {
     "id": "lw223bigmag",
@@ -78,10 +78,10 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223" ],
+    "ammo_type": ["223"],
     "capacity": 56,
     "reload_time": 160,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "lw223mag",
@@ -95,10 +95,10 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223" ],
+    "ammo_type": ["223"],
     "capacity": 32,
     "reload_time": 120,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "460_speedloader6",
@@ -112,10 +112,10 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "460", "45" ],
+    "ammo_type": ["460", "45"],
     "capacity": 6,
     "reload_time": 140,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": ["SPEEDLOADER"]
   },
   {
     "id": "lw12mag",
@@ -129,10 +129,10 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "460", "45" ],
+    "ammo_type": ["460", "45"],
     "capacity": 12,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "9mm_speedloader7",
@@ -146,9 +146,9 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "9mm" ],
+    "ammo_type": ["9mm"],
     "capacity": 7,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": ["SPEEDLOADER"]
   },
   {
     "id": "lw21mag",
@@ -162,9 +162,9 @@
     "material": "plastic",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "9mm" ],
+    "ammo_type": ["9mm"],
     "capacity": 21,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   }
 ]

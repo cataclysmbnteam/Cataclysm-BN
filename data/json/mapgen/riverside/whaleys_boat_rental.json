@@ -25,14 +25,46 @@
         { "chance": 15, "item": "trash", "x": 9, "y": 9 },
         { "chance": 15, "item": "trash", "x": 3, "y": 7 },
         { "chance": 15, "item": "trash", "x": 8, "y": 5 },
-        { "chance": 45, "item": "magazines", "x": [ 12, 13 ], "y": 7 }
+        { "chance": 45, "item": "magazines", "x": [12, 13], "y": 7 }
       ],
-      "place_toilets": [ { "x": 3, "y": 3 } ],
+      "place_toilets": [{ "x": 3, "y": 3 }],
       "place_vehicles": [
-        { "chance": 50, "fuel": 0, "rotation": 90, "status": 0, "vehicle": "canoe", "x": 15, "y": 15 },
-        { "chance": 50, "fuel": 0, "rotation": 90, "status": 0, "vehicle": "boatrent", "x": 19, "y": 16 },
-        { "chance": 50, "fuel": 0, "rotation": 90, "status": 0, "vehicle": "boatrent", "x": 17, "y": 17 },
-        { "chance": 50, "fuel": 0, "rotation": 90, "status": 0, "vehicle": "boatrent", "x": 12, "y": 18 }
+        {
+          "chance": 50,
+          "fuel": 0,
+          "rotation": 90,
+          "status": 0,
+          "vehicle": "canoe",
+          "x": 15,
+          "y": 15
+        },
+        {
+          "chance": 50,
+          "fuel": 0,
+          "rotation": 90,
+          "status": 0,
+          "vehicle": "boatrent",
+          "x": 19,
+          "y": 16
+        },
+        {
+          "chance": 50,
+          "fuel": 0,
+          "rotation": 90,
+          "status": 0,
+          "vehicle": "boatrent",
+          "x": 17,
+          "y": 17
+        },
+        {
+          "chance": 50,
+          "fuel": 0,
+          "rotation": 90,
+          "status": 0,
+          "vehicle": "boatrent",
+          "x": 12,
+          "y": 18
+        }
       ],
       "rows": [
         "...d............s..dd...",
@@ -109,11 +141,51 @@
         { "chance": 45, "item": "cubical_office", "x": 12, "y": 9 }
       ],
       "place_vehicles": [
-        { "chance": 65, "fuel": 0, "rotation": 90, "status": 0, "vehicle": "raft", "x": 6, "y": 17 },
-        { "chance": 75, "fuel": 0, "rotation": 90, "status": 0, "vehicle": "canoe", "x": 18, "y": 17 },
-        { "chance": 75, "fuel": 0, "rotation": 90, "status": 0, "vehicle": "canoe", "x": 16, "y": 18 },
-        { "chance": 75, "fuel": 0, "rotation": 90, "status": 0, "vehicle": "canoe", "x": 20, "y": 18 },
-        { "chance": 65, "fuel": 0, "rotation": 90, "status": 0, "vehicle": "raft", "x": 10, "y": 19 },
+        {
+          "chance": 65,
+          "fuel": 0,
+          "rotation": 90,
+          "status": 0,
+          "vehicle": "raft",
+          "x": 6,
+          "y": 17
+        },
+        {
+          "chance": 75,
+          "fuel": 0,
+          "rotation": 90,
+          "status": 0,
+          "vehicle": "canoe",
+          "x": 18,
+          "y": 17
+        },
+        {
+          "chance": 75,
+          "fuel": 0,
+          "rotation": 90,
+          "status": 0,
+          "vehicle": "canoe",
+          "x": 16,
+          "y": 18
+        },
+        {
+          "chance": 75,
+          "fuel": 0,
+          "rotation": 90,
+          "status": 0,
+          "vehicle": "canoe",
+          "x": 20,
+          "y": 18
+        },
+        {
+          "chance": 65,
+          "fuel": 0,
+          "rotation": 90,
+          "status": 0,
+          "vehicle": "raft",
+          "x": 10,
+          "y": 19
+        },
         { "chance": 65, "fuel": 0, "rotation": 90, "status": 0, "vehicle": "raft", "x": 3, "y": 20 }
       ],
       "rows": [
@@ -189,17 +261,57 @@
         { "chance": 75, "item": "vending_food_items", "x": 13, "y": 5 },
         { "chance": 75, "item": "swimmer_torso", "x": 14, "y": 10 },
         { "chance": 75, "item": "swimmer_torso", "x": 17, "y": 9 },
-        { "chance": 75, "item": "swimmer_torso", "x": [ 6, 7 ], "y": 7 },
+        { "chance": 75, "item": "swimmer_torso", "x": [6, 7], "y": 7 },
         { "chance": 75, "item": "vending_drink_items", "x": 14, "y": 5 },
         { "chance": 75, "item": "swimmer_wetsuit", "x": 13, "y": 9 },
         { "chance": 75, "item": "swimmer_wetsuit", "x": 5, "y": 7 }
       ],
       "place_vehicles": [
-        { "chance": 75, "fuel": 0, "rotation": 270, "status": 0, "vehicle": "canoe", "x": 17, "y": 18 },
-        { "chance": 75, "fuel": 0, "rotation": 270, "status": 0, "vehicle": "raft", "x": 5, "y": 19 },
-        { "chance": 75, "fuel": 0, "rotation": 270, "status": 0, "vehicle": "canoe", "x": 14, "y": 19 },
-        { "chance": 75, "fuel": 0, "rotation": 270, "status": 0, "vehicle": "canoe", "x": 20, "y": 19 },
-        { "chance": 75, "fuel": 0, "rotation": 270, "status": 0, "vehicle": "raft", "x": 9, "y": 20 }
+        {
+          "chance": 75,
+          "fuel": 0,
+          "rotation": 270,
+          "status": 0,
+          "vehicle": "canoe",
+          "x": 17,
+          "y": 18
+        },
+        {
+          "chance": 75,
+          "fuel": 0,
+          "rotation": 270,
+          "status": 0,
+          "vehicle": "raft",
+          "x": 5,
+          "y": 19
+        },
+        {
+          "chance": 75,
+          "fuel": 0,
+          "rotation": 270,
+          "status": 0,
+          "vehicle": "canoe",
+          "x": 14,
+          "y": 19
+        },
+        {
+          "chance": 75,
+          "fuel": 0,
+          "rotation": 270,
+          "status": 0,
+          "vehicle": "canoe",
+          "x": 20,
+          "y": 19
+        },
+        {
+          "chance": 75,
+          "fuel": 0,
+          "rotation": 270,
+          "status": 0,
+          "vehicle": "raft",
+          "x": 9,
+          "y": 20
+        }
       ],
       "rows": [
         "__.___._______._____.___",

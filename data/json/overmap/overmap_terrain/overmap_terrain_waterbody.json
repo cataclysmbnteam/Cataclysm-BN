@@ -7,8 +7,8 @@
     "sym": "#",
     "color": "light_blue",
     "see_cost": 1,
-    "flags": [ "NO_ROTATE", "LAKE_SHORE", "SOURCE_DRINK" ],
-    "mapgen": [ { "method": "builtin", "name": "lake_shore" } ]
+    "flags": ["NO_ROTATE", "LAKE_SHORE", "SOURCE_DRINK"],
+    "mapgen": [{ "method": "builtin", "name": "lake_shore" }]
   },
   {
     "type": "overmap_terrain",
@@ -18,7 +18,7 @@
     "sym": "#",
     "color": "blue",
     "see_cost": 1,
-    "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK" ]
+    "flags": ["NO_ROTATE", "LAKE", "SOURCE_DRINK"]
   },
   {
     "type": "overmap_terrain",
@@ -28,7 +28,7 @@
     "sym": "#",
     "color": "blue",
     "see_cost": 1,
-    "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK" ]
+    "flags": ["NO_ROTATE", "LAKE", "SOURCE_DRINK"]
   },
   {
     "type": "overmap_terrain",
@@ -38,6 +38,6 @@
     "sym": "#",
     "color": "blue",
     "see_cost": 1,
-    "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK" ]
+    "flags": ["NO_ROTATE", "LAKE", "SOURCE_DRINK"]
   }
 ]

@@ -1110,7 +1110,12 @@
     "type": "snippet",
     "category": "<crack_smoke>",
     "//": "Complaint when the NPC is near the avatar who is smoking crack.",
-    "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "Why are you smoking crack cocaine?", "<meth_smoke>" ]
+    "text": [
+      "Ew, smells like burning rubber!",
+      "Ugh, that smells rancid!",
+      "Why are you smoking crack cocaine?",
+      "<meth_smoke>"
+    ]
   },
   {
     "type": "snippet",
@@ -1238,7 +1243,17 @@
   {
     "type": "snippet",
     "category": "<dumb>",
-    "text": [ "stupid", "idiotic", "dumb", "dumb-ass", "moronic", "mickey mouse", "shit-for-brains", "brain-dead", "imbecilic" ]
+    "text": [
+      "stupid",
+      "idiotic",
+      "dumb",
+      "dumb-ass",
+      "moronic",
+      "mickey mouse",
+      "shit-for-brains",
+      "brain-dead",
+      "imbecilic"
+    ]
   },
   {
     "type": "snippet",
@@ -1298,7 +1313,14 @@
   {
     "type": "snippet",
     "category": "<the_cataclysm>",
-    "text": [ "the Cataclysm", "the apocalypse", "the end of the world", "Armageddon", "the end of days", "Zero Day" ]
+    "text": [
+      "the Cataclysm",
+      "the apocalypse",
+      "the end of the world",
+      "Armageddon",
+      "the end of days",
+      "Zero Day"
+    ]
   },
   {
     "type": "snippet",
@@ -1378,7 +1400,17 @@
   {
     "type": "snippet",
     "category": "<granny_name_g>",
-    "text": [ "child", "my child", "dear", "my dear", "friend", "survivor", "little one", "darling", "sweetie" ]
+    "text": [
+      "child",
+      "my child",
+      "dear",
+      "my dear",
+      "friend",
+      "survivor",
+      "little one",
+      "darling",
+      "sweetie"
+    ]
   },
   {
     "type": "snippet",

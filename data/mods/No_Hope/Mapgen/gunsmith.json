@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_gun_4" ],
+    "om_terrain": ["s_gun_4"],
     "weight": 300,
     "object": {
       "fill_ter": "t_floor",
@@ -33,8 +33,22 @@
         "__________s__,_dd_______"
       ],
       "set": [
-        { "point": "terrain", "id": "t_tree_young", "x": 22, "y": [ 1, 4 ], "chance": 10, "repeat": [ 1, 3 ] },
-        { "point": "terrain", "id": "t_tree_apple", "x": 22, "y": [ 1, 4 ], "chance": 30, "repeat": [ 1, 2 ] }
+        {
+          "point": "terrain",
+          "id": "t_tree_young",
+          "x": 22,
+          "y": [1, 4],
+          "chance": 10,
+          "repeat": [1, 3]
+        },
+        {
+          "point": "terrain",
+          "id": "t_tree_apple",
+          "x": 22,
+          "y": [1, 4],
+          "chance": 30,
+          "repeat": [1, 2]
+        }
       ],
       "terrain": {
         "#": "t_floor",
@@ -71,35 +85,35 @@
         "r": "f_rack",
         "t": "f_table"
       },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "place_loot": [
-        { "group": "gunmod_common", "x": [ 5, 10 ], "y": 10, "chance": 50, "repeat": [ 3, 6 ] },
-        { "group": "gunmod_rare", "x": [ 5, 10 ], "y": 11, "chance": 50, "repeat": [ 1, 3 ] },
-        { "group": "ammo_casings_bulk", "x": [ 5, 10 ], "y": 13, "chance": 50, "repeat": [ 3, 6 ] },
-        { "group": "book_gunref", "x": 2, "y": [ 8, 13 ], "chance": 50, "repeat": [ 1, 4 ] },
+        { "group": "gunmod_common", "x": [5, 10], "y": 10, "chance": 50, "repeat": [3, 6] },
+        { "group": "gunmod_rare", "x": [5, 10], "y": 11, "chance": 50, "repeat": [1, 3] },
+        { "group": "ammo_casings_bulk", "x": [5, 10], "y": 13, "chance": 50, "repeat": [3, 6] },
+        { "group": "book_gunref", "x": 2, "y": [8, 13], "chance": 50, "repeat": [1, 4] },
         { "group": "mags_pistol_rare", "x": 17, "y": 11, "chance": 80 },
         { "group": "mags_pistol_rare", "x": 18, "y": 11, "chance": 20 },
         { "group": "mags_smg_rare", "x": 19, "y": 11, "chance": 60 },
         { "group": "mags_shotgun_rare", "x": 21, "y": 12, "chance": 80 },
         { "group": "mags_rifle_rare", "x": 21, "y": 13, "chance": 90 },
-        { "group": "ammo_obscure", "x": [ 15, 16 ], "y": 13, "chance": 80 },
-        { "group": "ammo_obscure", "x": [ 15, 16 ], "y": 13, "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "ammo_obscure", "x": [15, 16], "y": 13, "chance": 80 },
+        { "group": "ammo_obscure", "x": [15, 16], "y": 13, "chance": 70, "repeat": [1, 2] },
         { "group": "guns_pistol_obscure", "x": 18, "y": 8, "chance": 30, "magazine": 80 },
         { "group": "guns_shotgun_obscure", "x": 19, "y": 8, "chance": 30, "magazine": 80 },
         { "group": "guns_rifle_obscure", "x": 20, "y": 8, "chance": 30, "magazine": 80 },
         { "group": "guns_smg_obscure", "x": 20, "y": 8, "chance": 30, "magazine": 80 },
-        { "group": "fridgesnacks", "x": 16, "y": 18, "chance": 70, "repeat": [ 4, 12 ] },
-        { "group": "tools_common", "x": [ 3, 4 ], "y": 15, "chance": 50, "repeat": [ 3, 6 ] },
-        { "group": "tools_blacksmith", "x": [ 5, 6 ], "y": 15, "chance": 80, "repeat": [ 1, 2 ] },
-        { "group": "ammo_parts", "x": [ 4, 6 ], "y": [ 19, 20 ], "chance": 50, "repeat": [ 4, 8 ] },
+        { "group": "fridgesnacks", "x": 16, "y": 18, "chance": 70, "repeat": [4, 12] },
+        { "group": "tools_common", "x": [3, 4], "y": 15, "chance": 50, "repeat": [3, 6] },
+        { "group": "tools_blacksmith", "x": [5, 6], "y": 15, "chance": 80, "repeat": [1, 2] },
+        { "group": "ammo_parts", "x": [4, 6], "y": [19, 20], "chance": 50, "repeat": [4, 8] },
         { "item": "forge", "x": 4, "y": 18, "chance": 30 },
         { "item": "puller", "x": 5, "y": 18, "chance": 50 },
         { "item": "press", "x": 6, "y": 18, "chance": 50 },
         { "item": "welder", "x": 7, "y": 15, "chance": 30 },
         { "item": "goggles_welding", "x": 7, "y": 15, "chance": 30 },
-        { "item": "small_repairkit", "x": [ 5, 6 ], "y": 8, "chance": 50 },
-        { "item": "small_repairkit", "x": [ 7, 8 ], "y": 8, "chance": 30 },
-        { "item": "large_repairkit", "x": [ 9, 10 ], "y": 8, "chance": 30 },
+        { "item": "small_repairkit", "x": [5, 6], "y": 8, "chance": 50 },
+        { "item": "small_repairkit", "x": [7, 8], "y": 8, "chance": 30 },
+        { "item": "large_repairkit", "x": [9, 10], "y": 8, "chance": 30 },
         { "item": "television", "x": 14, "y": 16, "chance": 60 },
         { "item": "laptop", "x": 17, "y": 15, "chance": 30 }
       ]
@@ -137,7 +151,7 @@
         " |-------3        |---3 ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": {
         ";": "t_floor",
         "r": "t_floor",
@@ -150,8 +164,11 @@
         "+": "t_door_locked"
       },
       "furniture": { "W": "f_water_heater" },
-      "liquids": { "W": { "liquid": "water", "amount": [ 0, 100 ] } },
-      "items": { "C": { "item": "ammo_common", "chance": 30 }, "r": { "item": "tools_blacksmith", "chance": 30 } }
+      "liquids": { "W": { "liquid": "water", "amount": [0, 100] } },
+      "items": {
+        "C": { "item": "ammo_common", "chance": 30 },
+        "r": { "item": "tools_blacksmith", "chance": 30 }
+      }
     }
   },
   {
@@ -186,7 +203,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ]
+      "palettes": ["roof_palette"]
     }
   }
 ]

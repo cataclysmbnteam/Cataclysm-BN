@@ -25,13 +25,20 @@
     "type": "monstergroup",
     "name": "GROUP_BEE",
     "default": "mon_bee",
-    "monsters": [  ]
+    "monsters": []
   },
   {
     "name": "GROUP_DERMATIK",
     "type": "monstergroup",
     "default": "mon_dermatik",
-    "monsters": [ { "monster": "mon_dermatik", "freq": 100, "cost_multiplier": 1, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] } ]
+    "monsters": [
+      {
+        "monster": "mon_dermatik",
+        "freq": 100,
+        "cost_multiplier": 1,
+        "conditions": ["SPRING", "SUMMER", "AUTUMN"]
+      }
+    ]
   },
   {
     "type": "monstergroup",
@@ -48,13 +55,20 @@
     "type": "monstergroup",
     "name": "GROUP_SPIDER",
     "default": "mon_spider_web",
-    "monsters": [  ]
+    "monsters": []
   },
   {
     "name": "GROUP_WASP",
     "type": "monstergroup",
     "default": "mon_wasp",
-    "monsters": [ { "monster": "mon_wasp", "freq": 100, "cost_multiplier": 1, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] } ]
+    "monsters": [
+      {
+        "monster": "mon_wasp",
+        "freq": 100,
+        "cost_multiplier": 1,
+        "conditions": ["SPRING", "SUMMER", "AUTUMN"]
+      }
+    ]
   },
   {
     "type": "monstergroup",

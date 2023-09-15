@@ -9,7 +9,12 @@
     "price": 160,
     "charges": 2,
     "stack_size": 8,
-    "seed_data": { "plant_name": "pineapple", "fruit": "pineapple", "byproducts": [ "straw_pile" ], "grow": "280 days" }
+    "seed_data": {
+      "plant_name": "pineapple",
+      "fruit": "pineapple",
+      "byproducts": ["straw_pile"],
+      "grow": "280 days"
+    }
   },
   {
     "id": "seed_melon",
@@ -17,7 +22,12 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "melon seeds" },
     "description": "Some melon seeds.",
-    "seed_data": { "plant_name": "melon", "fruit": "melon", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": {
+      "plant_name": "melon",
+      "fruit": "melon",
+      "byproducts": ["withered"],
+      "grow": "91 days"
+    }
   },
   {
     "id": "seed_bananas",
@@ -25,7 +35,12 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "banana saplings" },
     "description": "Some banana saplings.",
-    "seed_data": { "plant_name": "banana", "fruit": "banana", "byproducts": [ "withered" ], "grow": "120 days" }
+    "seed_data": {
+      "plant_name": "banana",
+      "fruit": "banana",
+      "byproducts": ["withered"],
+      "grow": "120 days"
+    }
   },
   {
     "id": "seed_orange",
@@ -33,7 +48,12 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "orange vine" },
     "description": "Some orange vine.  Definitely GMO.",
-    "seed_data": { "plant_name": "orange", "fruit": "orange", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": {
+      "plant_name": "orange",
+      "fruit": "orange",
+      "byproducts": ["withered"],
+      "grow": "91 days"
+    }
   },
   {
     "id": "seed_lemon",
@@ -41,7 +61,12 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "lemon vine" },
     "description": "Some lemon vines.  Definitely GMO.",
-    "seed_data": { "plant_name": "lemon", "fruit": "lemon", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": {
+      "plant_name": "lemon",
+      "fruit": "lemon",
+      "byproducts": ["withered"],
+      "grow": "91 days"
+    }
   },
   {
     "id": "seed_coconut",
@@ -49,6 +74,11 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "subterraenean coconut" },
     "description": "Proof that man went too far before the Cataclysm.",
-    "seed_data": { "plant_name": "coconut", "fruit": "coconut", "byproducts": [ "withered" ], "grow": "120 days" }
+    "seed_data": {
+      "plant_name": "coconut",
+      "fruit": "coconut",
+      "byproducts": ["withered"],
+      "grow": "120 days"
+    }
   }
 ]

@@ -8,11 +8,19 @@
     "damage_modifier": 150,
     "description": "A reinforced ram.  Place at the edge of vehicle to reduce damage taken in collisions, and to increase damaged delivered in collisions, if the ram is the first vehicle part to collide.",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 2]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "using": [["vehicle_weld_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 3]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "PROTRUSION", "OBSTACLE" ]
+    "flags": ["PROTRUSION", "OBSTACLE"]
   },
   {
     "id": "ram_alloy",
@@ -24,14 +32,22 @@
     "broken_color": "dark_gray",
     "durability": 650,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
+      { "item": "steel_lump", "count": [4, 6] },
+      { "item": "steel_chunk", "count": [4, 6] },
+      { "item": "scrap", "count": [4, 6] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 4]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "using": [["vehicle_weld_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 5]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
     "damage_reduction": { "all": 120 }
   },
@@ -45,14 +61,22 @@
     "broken_color": "cyan",
     "durability": 860,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
+      { "item": "steel_lump", "count": [4, 6] },
+      { "item": "steel_chunk", "count": [4, 6] },
+      { "item": "scrap", "count": [4, 6] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 4]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "using": [["vehicle_weld_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 5]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
     "damage_reduction": { "all": 200 }
   },
@@ -66,15 +90,23 @@
     "broken_color": "green",
     "durability": 800,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] },
-      { "item": "ceramic_armor", "count": [ 0, 4 ] }
+      { "item": "steel_lump", "count": [4, 6] },
+      { "item": "steel_chunk", "count": [4, 6] },
+      { "item": "scrap", "count": [4, 6] },
+      { "item": "ceramic_armor", "count": [0, 4] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 6]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 4]],
+        "time": "30 m",
+        "using": [["vehicle_weld_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 7]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
     "damage_reduction": { "all": 180, "cut": 210, "stab": 280 }
   },
@@ -89,15 +121,23 @@
     "durability": 550,
     "damage_modifier": 200,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] },
-      { "item": "spike", "count": [ 0, 2 ] }
+      { "item": "steel_lump", "count": [4, 6] },
+      { "item": "steel_chunk", "count": [4, 6] },
+      { "item": "scrap", "count": [4, 6] },
+      { "item": "spike", "count": [0, 2] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 3]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "using": [["vehicle_weld_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 4]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
     "damage_reduction": { "all": 148 }
   },
@@ -124,9 +164,17 @@
     "durability": 300,
     "breaks_into": "ig_vp_wood_plate",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": {
+        "skills": [["mechanics", 2]],
+        "time": "60 m",
+        "using": [["vehicle_nail_install", 1]]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "using": [["vehicle_nail_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 3]], "time": "60 m", "using": [["adhesive", 2]] }
     },
     "damage_reduction": { "all": 75 }
   },
@@ -140,7 +188,7 @@
     "broken_color": "light_gray",
     "looks_like": "ram_wood",
     "durability": 320,
-    "breaks_into": [ { "item": "chitin_piece", "count": [ 5, 15 ] } ],
+    "breaks_into": [{ "item": "chitin_piece", "count": [5, 15] }],
     "damage_reduction": { "all": 80 }
   },
   {
@@ -150,7 +198,7 @@
     "name": { "str": "biosilicified chitin ram" },
     "item": "acidchitin_plate",
     "proportional": { "durability": 1.5 },
-    "breaks_into": [ { "item": "chitin_piece", "count": [ 6, 19 ] } ],
+    "breaks_into": [{ "item": "chitin_piece", "count": [6, 19] }],
     "damage_reduction": { "all": 110 }
   },
   {
@@ -164,13 +212,17 @@
     "damage_modifier": 50,
     "durability": 40,
     "description": "A mattress, strapped onto the vehicle.  It could serve to blunt any impact.",
-    "breaks_into": [ { "item": "rag", "count": [ 40, 55 ] } ],
+    "breaks_into": [{ "item": "rag", "count": [40, 55] }],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "rope_natural_short", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [  ] }
+      "install": {
+        "skills": [["mechanics", 0]],
+        "time": "5 m",
+        "using": [["rope_natural_short", 2]]
+      },
+      "removal": { "skills": [["mechanics", 0]], "time": "5 m", "using": [] }
     },
     "damage_reduction": { "bash": 20 },
-    "flags": [ "PROTRUSION", "OBSTACLE", "OPAQUE" ]
+    "flags": ["PROTRUSION", "OBSTACLE", "OPAQUE"]
   },
   {
     "id": "tearer",
@@ -185,14 +237,22 @@
     "durability": 450,
     "power": -1750,
     "damage_modifier": 500,
-    "breaks_into": [  ],
+    "breaks_into": [],
     "description": "A circular blade, powered by the vehicle's engine.  It will dramatically increase the damage the vehicle delivers in collisions.  Mount on the edges of the vehicle, preferably the front.",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 5]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 3]],
+        "time": "30 m",
+        "using": [["vehicle_weld_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 6]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION" ],
+    "flags": ["UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION"],
     "damage_reduction": { "all": 82 }
   }
 ]

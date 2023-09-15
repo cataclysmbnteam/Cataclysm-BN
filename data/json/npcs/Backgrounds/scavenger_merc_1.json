@@ -10,23 +10,39 @@
     "responses": [
       {
         "text": "I'm not looking for a friend, but I've paid my dues and earned my way.  You gotta pony up too.  We're stuck with each other for a bit.",
-        "condition": { "not": { "or": [ { "npc_has_effect": "player_BGSS_SAIDNO" }, { "npc_has_effect": "player_BGSS_SAIDYES" } ] } },
+        "condition": {
+          "not": {
+            "or": [
+              { "npc_has_effect": "player_BGSS_SAIDNO" },
+              { "npc_has_effect": "player_BGSS_SAIDYES" }
+            ]
+          }
+        },
         "//": "This guy is very unlikely to respond to nice words, unless you're a really smooth operator and have earned it.",
-        "trial": { "type": "PERSUADE", "difficulty": 80, "mod": [ [ "VALUE", -2 ], [ "TRUST", -2 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 80, "mod": [["VALUE", -2], ["TRUST", -2]] },
         "success": { "topic": "BGSS_SCAVENGER_MERC_1_STORY2_BADGERME" },
         "failure": { "topic": "BGSS_SCAVENGER_MERC_1_FUCKOFF" }
       },
       {
         "text": "Don't mouth off to me.  I know where everyone else working for me comes from.  If I'm going to let you stand behind me with a loaded gun, you're going to toe the <swear> line too.",
-        "condition": { "not": { "or": [ { "npc_has_effect": "player_BGSS_SAIDNO" }, { "npc_has_effect": "player_BGSS_SAIDYES" } ] } },
+        "condition": {
+          "not": {
+            "or": [
+              { "npc_has_effect": "player_BGSS_SAIDNO" },
+              { "npc_has_effect": "player_BGSS_SAIDYES" }
+            ]
+          }
+        },
         "//": "This guy is more likely to respond to a show of strength.",
-        "trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [ [ "TRUST", -1 ], [ "FEAR", -1 ] ] },
+        "trial": { "type": "INTIMIDATE", "difficulty": 50, "mod": [["TRUST", -1], ["FEAR", -1]] },
         "success": { "topic": "BGSS_SCAVENGER_MERC_1_STORY2_OKAY" },
         "failure": { "topic": "BGSS_SCAVENGER_MERC_1_NICETRY" }
       },
       {
         "text": "Is this enough whisky for you?",
-        "condition": { "and": [ { "u_has_item": "whiskey" }, { "npc_has_effect": "player_BGSS_SAIDYES" } ] },
+        "condition": {
+          "and": [{ "u_has_item": "whiskey" }, { "npc_has_effect": "player_BGSS_SAIDYES" }]
+        },
         "topic": "BGSS_SCAVENGER_MERC_1_STORY2"
       },
       { "text": "Fine.  Let's talk business, then.", "topic": "TALK_NONE" },
@@ -122,11 +138,17 @@
     "responses": [
       {
         "text": "Why was a guy with your skillset guarding a warehouse?  Must've been some warehouse.",
-        "condition": { "and": [ { "u_has_intelligence": 7 }, { "u_has_perception": 8 } ] },
+        "condition": { "and": [{ "u_has_intelligence": 7 }, { "u_has_perception": 8 }] },
         "topic": "BGSS_SCAVENGER_MERC_1_STORY4"
       },
-      { "text": "What was working for the Free Merchants like?", "topic": "BGSS_SCAVENGER_MERC_1_FREE_MERCHANTS" },
-      { "text": "What was working for the Old Guard like?", "topic": "BGSS_SCAVENGER_MERC_1_OLD_GUARD" },
+      {
+        "text": "What was working for the Free Merchants like?",
+        "topic": "BGSS_SCAVENGER_MERC_1_FREE_MERCHANTS"
+      },
+      {
+        "text": "What was working for the Old Guard like?",
+        "topic": "BGSS_SCAVENGER_MERC_1_OLD_GUARD"
+      },
       { "text": "Thanks for that.", "topic": "TALK_FRIEND" },
       { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
     ]
@@ -149,10 +171,13 @@
     "responses": [
       {
         "text": "Why was someone with your skillset guarding a warehouse?  Must've been some warehouse.",
-        "condition": { "and": [ { "u_has_intelligence": 7 }, { "u_has_perception": 8 } ] },
+        "condition": { "and": [{ "u_has_intelligence": 7 }, { "u_has_perception": 8 }] },
         "topic": "BGSS_SCAVENGER_MERC_1_STORY4"
       },
-      { "text": "What was working for the Old Guard like?", "topic": "BGSS_SCAVENGER_MERC_1_OLD_GUARD" },
+      {
+        "text": "What was working for the Old Guard like?",
+        "topic": "BGSS_SCAVENGER_MERC_1_OLD_GUARD"
+      },
       { "text": "Thanks for that.", "topic": "TALK_FRIEND" },
       { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
     ]
@@ -164,10 +189,13 @@
     "responses": [
       {
         "text": "Why was a guy with your skillset guarding a warehouse?  Must've been some warehouse.",
-        "condition": { "and": [ { "u_has_intelligence": 7 }, { "u_has_perception": 8 } ] },
+        "condition": { "and": [{ "u_has_intelligence": 7 }, { "u_has_perception": 8 }] },
         "topic": "BGSS_SCAVENGER_MERC_1_STORY4"
       },
-      { "text": "What was working for the Free Merchants like?", "topic": "BGSS_SCAVENGER_MERC_1_FREE_MERCHANTS" },
+      {
+        "text": "What was working for the Free Merchants like?",
+        "topic": "BGSS_SCAVENGER_MERC_1_FREE_MERCHANTS"
+      },
       { "text": "Thanks for that.", "topic": "TALK_FRIEND" },
       { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
     ]

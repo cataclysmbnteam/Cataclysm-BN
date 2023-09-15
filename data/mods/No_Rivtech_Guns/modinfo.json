@@ -3,10 +3,10 @@
     "type": "MOD_INFO",
     "id": "no_rivtech_guns",
     "name": "No Fictional Guns",
-    "authors": [ "tungtn/community" ],
+    "authors": ["tungtn/community"],
     "description": "Removes fictional conventional firearms and ammunition.",
     "category": "item_exclude",
-    "dependencies": [ "bn" ],
+    "dependencies": ["bn"],
     "obsolete": true
   },
   {

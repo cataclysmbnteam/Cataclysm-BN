@@ -12,8 +12,8 @@
     "bashing": 5,
     "ammo": "380",
     "min_cycle_recoil": 270,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
-    "magazines": [ [ "380", [ "mac11mag" ] ] ]
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 6]],
+    "magazines": [["380", ["mac11mag"]]]
   },
   {
     "id": "kp3at",
@@ -29,7 +29,7 @@
     "ammo": "380",
     "magazine_well": "44 ml",
     "min_cycle_recoil": 270,
-    "magazines": [ [ "380", [ "kp3atmag" ] ] ]
+    "magazines": [["380", ["kp3atmag"]]]
   },
   {
     "id": "fn1910",
@@ -41,12 +41,12 @@
     "volume": "186 ml",
     "price": 75000,
     "price_postapoc": 1250,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "color": "dark_gray",
     "ammo": "380",
     "durability": 7,
     "min_cycle_recoil": 270,
-    "magazines": [ [ "380", [ "fn1910mag" ] ] ]
+    "magazines": [["380", ["fn1910mag"]]]
   },
   {
     "id": "rugerlcp",
@@ -59,11 +59,11 @@
     "price": 21000,
     "price_postapoc": 1250,
     "ascii_picture": "ruger_LCP",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "dark_gray",
     "ammo": "380",
     "min_cycle_recoil": 270,
-    "magazines": [ [ "380", [ "rugerlcpmag" ] ] ]
+    "magazines": [["380", ["rugerlcpmag"]]]
   },
   {
     "id": "hptcf380",
@@ -76,12 +76,12 @@
     "price": 7500,
     "price_postapoc": 1750,
     "to_hit": -2,
-    "material": [ "plastic", "steel", "zinc" ],
+    "material": ["plastic", "steel", "zinc"],
     "color": "dark_gray",
     "ammo": "380",
     "durability": 7,
     "magazine_well": "250 ml",
-    "magazines": [ [ "380", [ "hptcf380mag_8rd", "hptcf380mag_10rd" ] ] ]
+    "magazines": [["380", ["hptcf380mag_8rd", "hptcf380mag_10rd"]]]
   },
   {
     "id": "taurus_spectrum",
@@ -95,12 +95,12 @@
     "price_postapoc": 1250,
     "to_hit": -2,
     "bashing": 8,
-    "material": [ "steel", "aluminum" ],
+    "material": ["steel", "aluminum"],
     "color": "dark_gray",
     "ammo": "380",
     "durability": 7,
     "min_cycle_recoil": 225,
     "magazine_well": "250 ml",
-    "magazines": [ [ "380", [ "taurus_spectrum_mag" ] ] ]
+    "magazines": [["380", ["taurus_spectrum_mag"]]]
   }
 ]

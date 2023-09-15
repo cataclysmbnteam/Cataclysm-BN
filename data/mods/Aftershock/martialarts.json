@@ -4,27 +4,27 @@
     "copy-from": "style_swordsmanship",
     "type": "martial_art",
     "name": { "str": "Medieval Swordsmanship" },
-    "extend": { "weapons": [ "afs_energy_saber_on" ] }
+    "extend": { "weapons": ["afs_energy_saber_on"] }
   },
   {
     "id": "style_niten",
     "copy-from": "style_niten",
     "type": "martial_art",
     "name": { "str": "Niten Ichi-Ryu" },
-    "extend": { "weapons": [ "afs_energy_saber_on" ] }
+    "extend": { "weapons": ["afs_energy_saber_on"] }
   },
   {
     "id": "style_silat",
     "copy-from": "style_silat",
     "type": "martial_art",
     "name": { "str": "Silat" },
-    "extend": { "weapons": [ "afs_energy_saber_on" ] }
+    "extend": { "weapons": ["afs_energy_saber_on"] }
   },
   {
     "id": "style_sojutsu",
     "copy-from": "style_sojutsu",
     "type": "martial_art",
     "name": { "str": "Sojutsu" },
-    "extend": { "weapons": [ "afs_titanium_bat" ] }
+    "extend": { "weapons": ["afs_titanium_bat"] }
   }
 ]

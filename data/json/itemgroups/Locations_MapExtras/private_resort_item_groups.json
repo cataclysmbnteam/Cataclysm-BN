@@ -48,8 +48,8 @@
           { "group": "clothing_work_set", "prob": 10 }
         ]
       },
-      { "group": "accesories_personal_unisex", "prob": 40, "count": [ 0, 2 ] },
-      { "group": "default_zombie_items_pockets", "prob": 25, "count": [ 0, 4 ] },
+      { "group": "accesories_personal_unisex", "prob": 40, "count": [0, 2] },
+      { "group": "default_zombie_items_pockets", "prob": 25, "count": [0, 4] },
       { "group": "socks_unisex", "prob": 80 }
     ]
   },
@@ -73,7 +73,10 @@
     "entries": [
       { "group": "underwear_womens" },
       {
-        "distribution": [ { "item": "dress_shoes", "prob": 10 }, { "group": "shoes_womens", "prob": 90 } ],
+        "distribution": [
+          { "item": "dress_shoes", "prob": 10 },
+          { "group": "shoes_womens", "prob": 90 }
+        ],
         "prob": 90
       },
       { "item": "maid_dress" },
@@ -101,7 +104,10 @@
     "subtype": "collection",
     "entries": [
       { "group": "underwear_mens" },
-      { "distribution": [ { "item": "suit", "prob": 90 }, { "item": "wool_suit", "prob": 10 } ], "prob": 90 },
+      {
+        "distribution": [{ "item": "suit", "prob": 90 }, { "item": "wool_suit", "prob": 10 }],
+        "prob": 90
+      },
       { "item": "long_undertop", "prob": 25 },
       { "item": "dress_shoes", "prob": 80 },
       { "item": "tie_necktie", "prob": 66 },
@@ -113,7 +119,7 @@
     "id": "private_resort_dancing_clothes",
     "type": "item_group",
     "items": [
-      { "group": "underwear_womens", "prob": 95, "count": [ 1, 3 ] },
+      { "group": "underwear_womens", "prob": 95, "count": [1, 3] },
       { "group": "accesories_personal_womens", "prob": 40 },
       { "group": "underwear_mens", "prob": 15 },
       { "item": "bondage_mask", "prob": 5 },
@@ -166,14 +172,14 @@
       { "group": "suits", "prob": 50 },
       { "group": "hatstore_hats", "prob": 25 },
       { "group": "bags_trip", "prob": 15 },
-      { "group": "mil_accessories", "prob": 5, "damage": [ 0, 4 ] }
+      { "group": "mil_accessories", "prob": 5, "damage": [0, 4] }
     ]
   },
   {
     "id": "private_resort_sec_weapon",
     "type": "item_group",
     "items": [
-      { "item": "tazer", "prob": 20, "damage": [ 1, 4 ] },
+      { "item": "tazer", "prob": 20, "damage": [1, 4] },
       { "item": "PR24-retracted", "prob": 50 },
       { "item": "shot_beanbag", "prob": 50 }
     ]

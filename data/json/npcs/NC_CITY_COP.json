@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "NC_CITY_COP_storage",
     "subtype": "distribution",
-    "entries": [ { "item": "duffelbag", "prob": 100 } ]
+    "entries": [{ "item": "duffelbag", "prob": 100 }]
   },
   {
     "id": "NC_CITY_COP_gloves",
@@ -19,13 +19,17 @@
     "id": "NC_CITY_COP_helmet",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "helmet_riot", "prob": 100 } ]
+    "entries": [{ "item": "helmet_riot", "prob": 100 }]
   },
   {
     "id": "NC_CITY_COP_pants",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "pants", "prob": 75 }, { "item": "pants_cargo", "prob": 70 }, { "item": "leather_belt", "prob": 30 } ]
+    "entries": [
+      { "item": "pants", "prob": 75 },
+      { "item": "pants_cargo", "prob": 70 },
+      { "item": "leather_belt", "prob": 30 }
+    ]
   },
   {
     "id": "NC_CITY_COP_shoes",
@@ -53,13 +57,17 @@
     "id": "NC_CITY_COP_melee",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "baton", "prob": 50 }, { "item": "PR24-retracted", "prob": 30 }, { "item": "tazer", "prob": 20 } ]
+    "entries": [
+      { "item": "baton", "prob": 50 },
+      { "item": "PR24-retracted", "prob": 30 },
+      { "item": "tazer", "prob": 20 }
+    ]
   },
   {
     "id": "NC_CITY_COP_weapons",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "group": "cop_melee", "prob": 100 }, { "group": "guns_cop", "prob": 100 } ]
+    "entries": [{ "group": "cop_melee", "prob": 100 }, { "group": "guns_cop", "prob": 100 }]
   },
   {
     "id": "NC_CITY_COP_misc",

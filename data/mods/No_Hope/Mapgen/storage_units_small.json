@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "small_storage_units" ],
+    "om_terrain": ["small_storage_units"],
     "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -53,9 +53,12 @@
         "r": "f_rubble",
         "t": "f_table",
         "{": "f_vending_o",
-        "M": [ "f_crate_c", "f_cardboard_box" ]
+        "M": ["f_crate_c", "f_cardboard_box"]
       },
-      "place_loot": [ { "item": "television", "x": 3, "y": 6, "chance": 75 }, { "item": "stepladder", "x": 5, "y": 19, "chance": 50 } ],
+      "place_loot": [
+        { "item": "television", "x": 3, "y": 6, "chance": 75 },
+        { "item": "stepladder", "x": 5, "y": 19, "chance": 50 }
+      ],
       "place_items": [
         { "item": "novels", "x": 2, "y": 17, "chance": 30 },
         { "item": "novels", "x": 2, "y": 15, "chance": 10 },
@@ -65,8 +68,8 @@
         { "item": "tools_earthworking", "x": 4, "y": 12, "chance": 10 },
         { "item": "tools_earthworking", "x": 19, "y": 5, "chance": 10 },
         { "item": "camping", "x": 19, "y": 11, "chance": 30 },
-        { "item": "textbooks", "x": [ 3, 4 ], "y": 9, "chance": 10 },
-        { "item": "tools_electronics", "x": [ 20, 21 ], "y": 17, "chance": 20 },
+        { "item": "textbooks", "x": [3, 4], "y": 9, "chance": 10 },
+        { "item": "tools_electronics", "x": [20, 21], "y": 17, "chance": 20 },
         { "item": "tools_electronics", "x": 22, "y": 9, "chance": 20 },
         { "item": "tools_home", "x": 22, "y": 12, "chance": 15 },
         { "item": "tools_home", "x": 1, "y": 8, "chance": 25 },
@@ -128,14 +131,14 @@
         ".......          .......",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_tar_flat_roof" }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "small_storage_units_1" ],
+    "om_terrain": ["small_storage_units_1"],
     "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -189,9 +192,12 @@
         "L": "f_locker",
         "t": "f_rack",
         "I": "f_dumpster",
-        "M": [ "f_crate_c", "f_cardboard_box" ]
+        "M": ["f_crate_c", "f_cardboard_box"]
       },
-      "place_loot": [ { "item": "television", "x": 3, "y": 6, "chance": 75 }, { "item": "stepladder", "x": 5, "y": 19, "chance": 50 } ],
+      "place_loot": [
+        { "item": "television", "x": 3, "y": 6, "chance": 75 },
+        { "item": "stepladder", "x": 5, "y": 19, "chance": 50 }
+      ],
       "items": {
         "_": { "item": "trash", "chance": 20 },
         "o": { "item": "novels", "chance": 70 },
@@ -202,7 +208,7 @@
         "d": { "item": "dresser", "chance": 50 },
         "L": { "item": "cleaning", "chance": 70 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 1, "y": 24, "chance": 5 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": 1, "y": 24, "chance": 5 }]
     }
   },
   {
@@ -237,7 +243,7 @@
         "......   ......   ......",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_tar_flat_roof" }
     }
   }

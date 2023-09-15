@@ -11,14 +11,14 @@
     "broken_color": "light_blue",
     "durability": 200,
     "description": "A rigid steel boom crane.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want jack up the other vehicle to change the its wheels.  To use it to lift a heavy component like an engine that you are installing or removing, the crane must have line of sight to where it is going and it must be within four tiles of it.",
-    "breaks_into": [ { "item": "pipe", "count": [ 8, 32 ] }, { "item": "scrap", "count": [ 8, 24 ] } ],
-    "qualities": [ [ "LIFT", 40 ], [ "JACK", 40 ] ],
+    "breaks_into": [{ "item": "pipe", "count": [8, 32] }, { "item": "scrap", "count": [8, 24] }],
+    "qualities": [["LIFT", 40], ["JACK", 40]],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [["mechanics", 5]], "time": "60 m", "using": [["vehicle_bolt", 1]] },
+      "removal": { "skills": [["mechanics", 3]], "time": "30 m", "using": [["vehicle_bolt", 1]] },
+      "repair": { "skills": [["mechanics", 6]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "PROTRUSION" ],
+    "flags": ["PROTRUSION"],
     "damage_reduction": { "all": 48 }
   },
   {
@@ -27,8 +27,8 @@
     "copy-from": "crane_medium",
     "name": { "str": "internal boom crane" },
     "location": "center",
-    "delete": { "flags": [ "PROTRUSION" ] },
-    "extend": { "flags": [ "OBSTACLE" ] }
+    "delete": { "flags": ["PROTRUSION"] },
+    "extend": { "flags": ["OBSTACLE"] }
   },
   {
     "id": "crane_small",
@@ -43,14 +43,14 @@
     "durability": 100,
     "description": "An extendable cantilever crane.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want jack up the other vehicle to change the its wheels.  To use it to lift a heavy component like an engine that you are installing or removing, the crane must have line of sight to where it is going and it must be within four tiles of it.",
     "folded_volume": 12,
-    "breaks_into": [ { "item": "pipe", "count": [ 2, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
-    "qualities": [ [ "LIFT", 7 ], [ "JACK", 7 ] ],
+    "breaks_into": [{ "item": "pipe", "count": [2, 8] }, { "item": "scrap", "count": [2, 6] }],
+    "qualities": [["LIFT", 7], ["JACK", 7]],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [["mechanics", 2]], "time": "60 m", "using": [["vehicle_bolt", 1]] },
+      "removal": { "skills": [["mechanics", 2]], "time": "30 m", "using": [["vehicle_bolt", 1]] },
+      "repair": { "skills": [["mechanics", 3]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "PROTRUSION", "FOLDABLE" ],
+    "flags": ["PROTRUSION", "FOLDABLE"],
     "damage_reduction": { "all": 42 }
   },
   {
@@ -66,14 +66,22 @@
     "durability": 100,
     "description": "A small pallet lifter.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want jack up the other vehicle to change the its wheels.  To use it to lift a heavy component like an engine that you are installing or removing, the crane must have line of sight to where it is going and it must be within four tiles of it.",
     "folded_volume": 12,
-    "breaks_into": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
-    "qualities": [ [ "LIFT", 1 ], [ "JACK", 1 ] ],
+    "breaks_into": [{ "item": "pipe", "count": [1, 4] }, { "item": "scrap", "count": [2, 6] }],
+    "qualities": [["LIFT", 1], ["JACK", 1]],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 2]],
+        "time": "60 m",
+        "qualities": [{ "id": "WRENCH", "level": 1 }]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "qualities": [{ "id": "WRENCH", "level": 1 }]
+      },
+      "repair": { "skills": [["mechanics", 3]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "PROTRUSION", "FOLDABLE" ],
+    "flags": ["PROTRUSION", "FOLDABLE"],
     "damage_reduction": { "all": 40 }
   },
   {
@@ -91,17 +99,25 @@
     "description": "A pair of forklift arms.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want jack up the other vehicle to change the its wheels.  To use it to lift a heavy component like an engine that you are installing or removing, the crane must have line of sight to where it is going and it must be within four tiles of it.",
     "size": 50,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
+      { "item": "steel_lump", "count": [4, 6] },
+      { "item": "steel_chunk", "count": [4, 6] },
+      { "item": "scrap", "count": [4, 6] }
     ],
-    "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
+    "qualities": [["LIFT", 2], ["JACK", 6]],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 2]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "using": [["vehicle_weld_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 3]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "CARGO", "PROTRUSION" ],
+    "flags": ["CARGO", "PROTRUSION"],
     "damage_reduction": { "all": 42 }
   },
   {
@@ -121,17 +137,25 @@
     "folded_volume": 12,
     "power": -70000,
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
+      { "item": "steel_lump", "count": [4, 6] },
+      { "item": "steel_chunk", "count": [4, 6] },
+      { "item": "scrap", "count": [4, 6] }
     ],
-    "transform_terrain": { "pre_flags": [ "DIGGABLE" ], "post_terrain": "t_pit_shallow" },
+    "transform_terrain": { "pre_flags": ["DIGGABLE"], "post_terrain": "t_pit_shallow" },
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 5]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 3]],
+        "time": "30 m",
+        "using": [["vehicle_weld_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 6]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "FOLDABLE", "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL", "TRANSFORM_TERRAIN" ],
+    "flags": ["FOLDABLE", "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL", "TRANSFORM_TERRAIN"],
     "damage_reduction": { "all": 132 }
   },
   {
@@ -148,17 +172,25 @@
     "durability": 200,
     "description": "An extendable metal pylon used to replace a portable jack.  If mounted to a vehicle, it could be used to lift it up.",
     "breaks_into": [
-      { "item": "pipe", "count": [ 4, 12 ] },
-      { "item": "scrap", "count": [ 8, 24 ] },
-      { "item": "jack", "count": [ 1, 1 ] }
+      { "item": "pipe", "count": [4, 12] },
+      { "item": "scrap", "count": [8, 24] },
+      { "item": "jack", "count": [1, 1] }
     ],
-    "qualities": [ [ "SELF_JACK", 17 ] ],
+    "qualities": [["SELF_JACK", 17]],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 2]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "using": [["vehicle_weld_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 3]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "PROTRUSION", "SELF_JACK" ],
+    "flags": ["PROTRUSION", "SELF_JACK"],
     "damage_reduction": { "all": 36 }
   },
   {
@@ -172,14 +204,22 @@
     "broken_color": "light_blue",
     "durability": 200,
     "description": "A kickstand to keep the bike from falling over.  You could use this to lean it forward or backward to change a tire.",
-    "breaks_into": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
-    "qualities": [ [ "SELF_JACK", 1 ] ],
+    "breaks_into": [{ "item": "pipe", "count": [1, 3] }, { "item": "scrap", "count": [1, 3] }],
+    "qualities": [["SELF_JACK", 1]],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 2]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "qualities": [{ "id": "SAW_M", "level": 1 }]
+      },
+      "repair": { "skills": [["mechanics", 3]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "SELF_JACK" ],
+    "flags": ["SELF_JACK"],
     "damage_reduction": { "all": 5 }
   }
 ]

@@ -5,7 +5,7 @@
     "name": "No Feral Humans",
     "description": "Removes all feral humans from the game.",
     "category": "monster_exclude",
-    "dependencies": [ "bn" ]
+    "dependencies": ["bn"]
   },
   {
     "type": "MONSTER_BLACKLIST",
@@ -35,6 +35,6 @@
   {
     "type": "SCENARIO_BLACKLIST",
     "subtype": "blacklist",
-    "scenarios": [ "assassination", "player_feral" ]
+    "scenarios": ["assassination", "player_feral"]
   }
 ]

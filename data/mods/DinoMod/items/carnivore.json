@@ -29,7 +29,7 @@
     "color": "white",
     "price": 10,
     "price_postapoc": 10,
-    "material": [ "bone" ]
+    "material": ["bone"]
   },
   {
     "type": "GENERIC",
@@ -44,7 +44,7 @@
     "color": "white",
     "price": 20,
     "price_postapoc": 20,
-    "material": [ "bone" ]
+    "material": ["bone"]
   },
   {
     "type": "GENERIC",
@@ -59,7 +59,7 @@
     "color": "white",
     "price": 40,
     "price_postapoc": 40,
-    "material": [ "bone" ]
+    "material": ["bone"]
   },
   {
     "type": "GENERIC",
@@ -74,8 +74,8 @@
     "color": "white",
     "price": 10,
     "price_postapoc": 10,
-    "material": [ "bone" ],
-    "qualities": [ [ "CUT_FINE", 1 ] ]
+    "material": ["bone"],
+    "qualities": [["CUT_FINE", 1]]
   },
   {
     "type": "GENERIC",
@@ -90,8 +90,8 @@
     "color": "white",
     "price": 20,
     "price_postapoc": 20,
-    "material": [ "bone" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ] ]
+    "material": ["bone"],
+    "qualities": [["CUT", 1], ["CUT_FINE", 1]]
   },
   {
     "type": "GENERIC",
@@ -106,8 +106,8 @@
     "color": "white",
     "price": 40,
     "price_postapoc": 40,
-    "material": [ "bone" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 1 ] ]
+    "material": ["bone"],
+    "qualities": [["CUT", 1], ["CUT_FINE", 1], ["BUTCHER", 1]]
   },
   {
     "type": "GENERIC",
@@ -133,7 +133,7 @@
     "name": { "str": "triceratops skull" },
     "description": "Large dinosaur skull with three large horns and a large crest.",
     "copy-from": "skull_dino_large",
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [["COOK", 1]]
   },
   {
     "type": "GENERIC",
@@ -141,7 +141,7 @@
     "name": { "str": "torosaurus skull" },
     "description": "Large dinosaur skull with three large horns and a large crest.",
     "copy-from": "skull_dino_large",
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [["COOK", 1]]
   },
   {
     "type": "GENERIC",
@@ -149,7 +149,7 @@
     "name": { "str": "styracosaurus skull" },
     "description": "Large dinosaur skull with a large horn above the nose and a spiked crest.",
     "copy-from": "skull_dino_large",
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [["COOK", 1]]
   },
   {
     "type": "GENERIC",
@@ -157,6 +157,6 @@
     "name": { "str": "centrosaurus skull" },
     "description": "Large dinosaur skull with a large horn above the nose and a bony crest.",
     "copy-from": "skull_dino_large",
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [["COOK", 1]]
   }
 ]

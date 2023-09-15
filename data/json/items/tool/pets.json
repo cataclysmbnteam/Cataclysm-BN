@@ -11,12 +11,12 @@
     "price_postapoc": 100,
     "bashing": 1,
     "cutting": 1,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "#",
     "color": "light_gray",
-    "properties": [ [ "monster_size_capacity", "TINY" ] ],
+    "properties": [["monster_size_capacity", "TINY"]],
     "use_action": "CAPTURE_MONSTER_ACT",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "dog_whistle",
@@ -45,11 +45,11 @@
     "price_postapoc": 250,
     "to_hit": -1,
     "cutting": 3,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "SHEAR", 1 ] ],
-    "flags": [ "STAB" ]
+    "qualities": [["CUT", 1], ["SHEAR", 1]],
+    "flags": ["STAB"]
   },
   {
     "id": "elec_shears",
@@ -63,10 +63,10 @@
     "price_postapoc": 250,
     "to_hit": -1,
     "bashing": 2,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "SHEAR", 3 ] ],
+    "qualities": [["SHEAR", 3]],
     "ammo": "battery",
     "initial_charges": 100,
     "max_charges": 100,
@@ -84,10 +84,10 @@
     "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 5,
-    "material": [ "leather", "steel" ],
+    "material": ["leather", "steel"],
     "symbol": "M",
     "color": "yellow",
-    "flags": [ "TACK" ]
+    "flags": ["TACK"]
   },
   {
     "id": "pet_carrier",
@@ -101,12 +101,12 @@
     "price_postapoc": 100,
     "bashing": 1,
     "cutting": 1,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "#",
     "color": "light_gray",
-    "properties": [ [ "monster_size_capacity", "SMALL" ] ],
+    "properties": [["monster_size_capacity", "SMALL"]],
     "use_action": "CAPTURE_MONSTER_ACT",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "pet_carrier_wooden",
@@ -118,7 +118,7 @@
     "volume": "6250 ml",
     "price": 800,
     "price_postapoc": 50,
-    "material": [ "wood" ],
+    "material": ["wood"],
     "symbol": "#",
     "color": "brown",
     "looks_like": "pet_carrier"

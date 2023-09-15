@@ -2,7 +2,14 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_null", ".": "f_null", "4": "f_null", "7": "f_null", "_": "f_null", "s": "f_null" },
+      "furniture": {
+        "#": "f_null",
+        ".": "f_null",
+        "4": "f_null",
+        "7": "f_null",
+        "_": "f_null",
+        "s": "f_null"
+      },
       "place_items": [
         { "chance": 55, "item": "trash", "x": 7, "y": 20 },
         { "chance": 55, "item": "trash", "x": 17, "y": 17 },
@@ -36,7 +43,14 @@
         "..#7.......__.___...#7..",
         ".._#...7...__.__..._..s."
       ],
-      "terrain": { "#": "t_underbrush", ".": "t_grass", "4": "t_tree_pine", "7": "t_tree", "_": "t_dirt", "s": "t_shrub" }
+      "terrain": {
+        "#": "t_underbrush",
+        ".": "t_grass",
+        "4": "t_tree_pine",
+        "7": "t_tree",
+        "_": "t_dirt",
+        "s": "t_shrub"
+      }
     },
     "om_terrain": "dirtroad",
     "type": "mapgen",
@@ -45,7 +59,14 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_null", ".": "f_null", "4": "f_null", "7": "f_null", "_": "f_null", "s": "f_null" },
+      "furniture": {
+        "#": "f_null",
+        ".": "f_null",
+        "4": "f_null",
+        "7": "f_null",
+        "_": "f_null",
+        "s": "f_null"
+      },
       "place_items": [
         { "chance": 55, "item": "trash", "x": 7, "y": 20 },
         { "chance": 55, "item": "trash", "x": 17, "y": 17 },
@@ -79,7 +100,14 @@
         "..#7.......__.___...#7..",
         ".._#...7...__.__..._..s."
       ],
-      "terrain": { "#": "t_underbrush", ".": "t_grass", "4": "t_tree_pine", "7": "t_tree", "_": "t_dirt", "s": "t_shrub" }
+      "terrain": {
+        "#": "t_underbrush",
+        ".": "t_grass",
+        "4": "t_tree_pine",
+        "7": "t_tree",
+        "_": "t_dirt",
+        "s": "t_shrub"
+      }
     },
     "om_terrain": "dirtroad",
     "type": "mapgen",

@@ -39,7 +39,17 @@
           { "item": "misc_smoking", "chance": 2 }
         ]
       },
-      "place_vehicles": [ { "chance": 70, "fuel": 0, "rotation": 0, "status": 1, "vehicle": "dumpsite_vehicles", "x": 13, "y": 10 } ],
+      "place_vehicles": [
+        {
+          "chance": 70,
+          "fuel": 0,
+          "rotation": 0,
+          "status": 1,
+          "vehicle": "dumpsite_vehicles",
+          "x": 13,
+          "y": 10
+        }
+      ],
       "rows": [
         "........................",
         "........................",
@@ -119,7 +129,16 @@
           "t_tree_dead",
           "t_tree_pine"
         ],
-        "_": [ "t_dirt", "t_underbrush", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_tree_young" ]
+        "_": [
+          "t_dirt",
+          "t_underbrush",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_tree_young"
+        ]
       }
     },
     "om_terrain": "dumpsite",
@@ -132,7 +151,7 @@
       "furniture": {
         ".": "f_null",
         "7": "f_null",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage" ],
+        "^": ["f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage"],
         "_": "f_null",
         "r": [
           "f_rubble",
@@ -211,10 +230,10 @@
         "........................"
       ],
       "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "7": "t_tree_maple",
         "^": "t_dirt",
-        "_": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        "_": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"],
         "r": "t_dirt"
       }
     },
@@ -225,7 +244,10 @@
   {
     "method": "json",
     "object": {
-      "furniture": { ".": "f_null", "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage" ] },
+      "furniture": {
+        ".": "f_null",
+        "^": ["f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage"]
+      },
       "items": {
         "^": [
           { "item": "trash", "chance": 25, "repeat": 2 },
@@ -248,7 +270,17 @@
           { "item": "misc_smoking", "chance": 2 }
         ]
       },
-      "place_vehicles": [ { "chance": 95, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "dumpsite_vehicles", "x": 9, "y": 14 } ],
+      "place_vehicles": [
+        {
+          "chance": 95,
+          "fuel": 0,
+          "rotation": 90,
+          "status": 1,
+          "vehicle": "dumpsite_vehicles",
+          "x": 9,
+          "y": 14
+        }
+      ],
       "rows": [
         "........................",
         "........................",
@@ -336,7 +368,15 @@
     "object": {
       "furniture": {
         ".": "f_null",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_null", "f_rubble_rock", "f_wreckage" ],
+        "^": [
+          "f_rubble",
+          "f_rubble",
+          "f_rubble",
+          "f_null",
+          "f_null",
+          "f_rubble_rock",
+          "f_wreckage"
+        ],
         "_": "f_null"
       },
       "items": {
@@ -388,8 +428,29 @@
         "........................"
       ],
       "terrain": {
-        ".": [ "t_dirt", "t_underbrush", "t_underbrush", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_tree_pine" ],
-        "^": [ "t_dirt", "t_underbrush", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        ".": [
+          "t_dirt",
+          "t_underbrush",
+          "t_underbrush",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_tree_pine"
+        ],
+        "^": [
+          "t_dirt",
+          "t_underbrush",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass"
+        ],
         "_": [
           "t_dirt",
           "t_underbrush",
@@ -412,14 +473,17 @@
   {
     "method": "json",
     "object": {
-      "place_item": [ { "item": "handrolled_cig", "chance": 70, "x": 10, "y": 14 }, { "item": "rollmat", "chance": 80, "x": 10, "y": 14 } ],
+      "place_item": [
+        { "item": "handrolled_cig", "chance": 70, "x": 10, "y": 14 },
+        { "item": "rollmat", "chance": 80, "x": 10, "y": 14 }
+      ],
       "furniture": {
         "#": "f_canvas_wall",
         "+": "f_canvas_door",
         ".": "f_null",
         "{": "f_dumpster",
         ";": "f_groundsheet",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage" ],
+        "^": ["f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage"],
         "_": "f_null"
       },
       "items": {
@@ -542,10 +606,29 @@
       "furniture": {
         "#": "f_hay",
         ".": "f_null",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_null", "f_null", "f_rubble_rock", "f_wreckage" ],
+        "^": [
+          "f_rubble",
+          "f_rubble",
+          "f_rubble",
+          "f_null",
+          "f_null",
+          "f_null",
+          "f_rubble_rock",
+          "f_wreckage"
+        ],
         "_": "f_null",
         "h": "f_hay",
-        "r": [ "f_rubble", "f_rubble", "f_null", "f_null", "f_null", "f_hay", "f_hay", "f_rubble_rock", "f_wreckage" ],
+        "r": [
+          "f_rubble",
+          "f_rubble",
+          "f_null",
+          "f_null",
+          "f_null",
+          "f_hay",
+          "f_hay",
+          "f_rubble_rock",
+          "f_wreckage"
+        ],
         "s": "f_straw_bed"
       },
       "items": {
@@ -829,7 +912,7 @@
         ],
         "t": "t_grass",
         "w": "t_grass",
-        "{": [ "t_dirt", "t_grass" ]
+        "{": ["t_dirt", "t_grass"]
       }
     },
     "om_terrain": "dumpsite",
@@ -841,7 +924,18 @@
     "object": {
       "furniture": {
         ".": "f_null",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_null", "f_null", "f_null", "f_null", "f_rubble_rock", "f_wreckage" ],
+        "^": [
+          "f_rubble",
+          "f_rubble",
+          "f_rubble",
+          "f_null",
+          "f_null",
+          "f_null",
+          "f_null",
+          "f_null",
+          "f_rubble_rock",
+          "f_wreckage"
+        ],
         "_": "f_null"
       },
       "items": {
@@ -1102,7 +1196,16 @@
       "furniture": {
         "#": "f_null",
         ".": "f_null",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_null", "f_null", "f_rubble_rock", "f_wreckage" ],
+        "^": [
+          "f_rubble",
+          "f_rubble",
+          "f_rubble",
+          "f_null",
+          "f_null",
+          "f_null",
+          "f_rubble_rock",
+          "f_wreckage"
+        ],
         "_": "f_null"
       },
       "items": {
@@ -1125,7 +1228,17 @@
           { "item": "misc_smoking", "chance": 2 }
         ]
       },
-      "place_vehicles": [ { "chance": 80, "fuel": 0, "rotation": 270, "status": 1, "vehicle": "dumpsite_vehicles", "x": 8, "y": 11 } ],
+      "place_vehicles": [
+        {
+          "chance": 80,
+          "fuel": 0,
+          "rotation": 270,
+          "status": 1,
+          "vehicle": "dumpsite_vehicles",
+          "x": 8,
+          "y": 11
+        }
+      ],
       "rows": [
         "........................",
         "........................",
@@ -1207,7 +1320,16 @@
           "t_tree_dead",
           "t_tree_pine"
         ],
-        "_": [ "t_dirt", "t_underbrush", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_tree_young" ]
+        "_": [
+          "t_dirt",
+          "t_underbrush",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_tree_young"
+        ]
       }
     },
     "om_terrain": "dumpsite",

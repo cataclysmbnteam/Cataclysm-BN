@@ -2,8 +2,8 @@
   {
     "type": "mapgen",
     "om_terrain": [
-      [ "robofachq_exe_a0", "robofachq_exe_a1", "robofachq_exe_a2", "robofachq_exe_a3" ],
-      [ "robofachq_exe_b0", "robofachq_exe_b1", "robofachq_exe_b2", "robofachq_exe_b3" ]
+      ["robofachq_exe_a0", "robofachq_exe_a1", "robofachq_exe_a2", "robofachq_exe_a3"],
+      ["robofachq_exe_b0", "robofachq_exe_b1", "robofachq_exe_b2", "robofachq_exe_b3"]
     ],
     "method": "json",
     "object": {
@@ -58,9 +58,9 @@
         "#########|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||########",
         "################################################################################################"
       ],
-      "palettes": [ "robofachq" ],
+      "palettes": ["robofachq"],
       "terrain": {
-        ",": [ "t_shrub_rose", "t_shrub", "t_grass", "t_grass", "t_grass_tall" ],
+        ",": ["t_shrub_rose", "t_shrub", "t_grass", "t_grass", "t_grass_tall"],
         "-": "t_wall_metal",
         "'": "t_open_air",
         "e": "t_elevator",
@@ -72,11 +72,17 @@
         "R": "t_railing",
         "W": "t_water_dispenser"
       },
-      "furniture": { ":": "f_server", "K": "f_counter", "H": "f_armchair", "L": "f_locker", "f": "f_filing_cabinet" },
+      "furniture": {
+        ":": "f_server",
+        "K": "f_counter",
+        "H": "f_armchair",
+        "L": "f_locker",
+        "f": "f_filing_cabinet"
+      },
       "item": { "A": { "item": "american_flag" } },
       "items": {
         "F": { "item": "fridge", "chance": 80 },
-        "f": { "item": "file_room", "repeat": [ 10, 30 ] },
+        "f": { "item": "file_room", "repeat": [10, 30] },
         "@": { "item": "bed", "chance": 80 },
         "r": [
           { "item": "cop_armory", "chance": 80 },
@@ -93,11 +99,14 @@
         ],
         "K": { "item": "kitchen", "chance": 40 },
         "o": { "item": "oven", "chance": 70 },
-        "d": [ { "item": "office_supplies", "chance": 70 }, { "item": "office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "d": [
+          { "item": "office_supplies", "chance": 70 },
+          { "item": "office_mess", "chance": 70, "repeat": [1, 3] }
+        ],
         "D": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 },
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
-          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [1, 5] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [1, 3] }
         ]
       },
       "monster": { "T": { "monster": "mon_turret_light" } },
@@ -107,8 +116,8 @@
   {
     "type": "mapgen",
     "om_terrain": [
-      [ "robofachq_hab_a0", "robofachq_hab_a1", "robofachq_hab_a2", "robofachq_hab_a3" ],
-      [ "robofachq_hab_b0", "robofachq_hab_b1", "robofachq_hab_b2", "robofachq_hab_b3" ]
+      ["robofachq_hab_a0", "robofachq_hab_a1", "robofachq_hab_a2", "robofachq_hab_a3"],
+      ["robofachq_hab_b0", "robofachq_hab_b1", "robofachq_hab_b2", "robofachq_hab_b3"]
     ],
     "method": "json",
     "object": {
@@ -163,9 +172,9 @@
         "#############|##|~Y;|~Y;|~Y;|~Y;|~Y;|~Y;|,,,,,,,,,,,,,,|~Y;|~Y;|~Y;|~Y;|~Y;|~Y;|~Y;|;|;|||||||||",
         "#############|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||########"
       ],
-      "palettes": [ "robofachq" ],
+      "palettes": ["robofachq"],
       "terrain": {
-        ",": [ "t_shrub_rose", "t_shrub", "t_grass_tall" ],
+        ",": ["t_shrub_rose", "t_shrub", "t_grass_tall"],
         "-": "t_wall_metal",
         "'": "t_open_air",
         "e": "t_elevator",
@@ -194,29 +203,35 @@
       },
       "items": {
         "S": [
-          { "item": "tools_robotics", "chance": 30, "repeat": [ 1, 3 ] },
-          { "item": "robots", "chance": 50, "repeat": [ 1, 3 ] },
-          { "item": "supplies_electronics", "chance": 50, "repeat": [ 1, 3 ] }
+          { "item": "tools_robotics", "chance": 30, "repeat": [1, 3] },
+          { "item": "robots", "chance": 50, "repeat": [1, 3] },
+          { "item": "supplies_electronics", "chance": 50, "repeat": [1, 3] }
         ],
-        "F": { "item": "fridge", "chance": 80, "repeat": [ 2, 6 ] },
+        "F": { "item": "fridge", "chance": 80, "repeat": [2, 6] },
         "@": { "item": "bed", "chance": 80 },
         "M": [
-          { "item": "SUS_dishes", "chance": 80, "repeat": [ 1, 3 ] },
-          { "item": "SUS_silverware", "chance": 33, "repeat": [ 1, 3 ] }
+          { "item": "SUS_dishes", "chance": 80, "repeat": [1, 3] },
+          { "item": "SUS_silverware", "chance": 33, "repeat": [1, 3] }
         ],
         "k": [
-          { "item": "kitchen", "chance": 33, "repeat": [ 1, 3 ] },
-          { "item": "SUS_knife_drawer", "chance": 40, "repeat": [ 1, 3 ] },
-          { "item": "SUS_cookware", "chance": 40, "repeat": [ 1, 3 ] }
+          { "item": "kitchen", "chance": 33, "repeat": [1, 3] },
+          { "item": "SUS_knife_drawer", "chance": 40, "repeat": [1, 3] },
+          { "item": "SUS_cookware", "chance": 40, "repeat": [1, 3] }
         ],
         "K": { "item": "kitchen", "chance": 40 },
         "o": { "item": "oven", "chance": 70 },
-        "d": [ { "item": "office_supplies", "chance": 70 }, { "item": "office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
-        "r": [ { "item": "tools_earthworking", "chance": 50 }, { "item": "supplies_farming", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "d": [
+          { "item": "office_supplies", "chance": 70 },
+          { "item": "office_mess", "chance": 70, "repeat": [1, 3] }
+        ],
+        "r": [
+          { "item": "tools_earthworking", "chance": 50 },
+          { "item": "supplies_farming", "chance": 70, "repeat": [1, 3] }
+        ],
         "D": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 },
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
-          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [1, 5] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [1, 3] }
         ]
       },
       "npcs": { "G": { "class": "hub_security" } }
@@ -225,8 +240,8 @@
   {
     "type": "mapgen",
     "om_terrain": [
-      [ "robofachq_res_a0", "robofachq_res_a1", "robofachq_res_a2", "robofachq_res_a3" ],
-      [ "robofachq_res_b0", "robofachq_res_b1", "robofachq_res_b2", "robofachq_res_b3" ]
+      ["robofachq_res_a0", "robofachq_res_a1", "robofachq_res_a2", "robofachq_res_a3"],
+      ["robofachq_res_b0", "robofachq_res_b1", "robofachq_res_b2", "robofachq_res_b3"]
     ],
     "method": "json",
     "object": {
@@ -281,9 +296,9 @@
         "#############|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||",
         "################################################################################################"
       ],
-      "palettes": [ "robofachq" ],
+      "palettes": ["robofachq"],
       "terrain": {
-        ",": [ "t_shrub_rose", "t_shrub", "t_grass_tall" ],
+        ",": ["t_shrub_rose", "t_shrub", "t_grass_tall"],
         "-": "t_wall_metal",
         "'": "t_open_air",
         "e": "t_elevator",
@@ -312,14 +327,17 @@
       },
       "items": {
         "S": [
-          { "item": "tools_robotics", "chance": 30, "repeat": [ 1, 3 ] },
-          { "item": "robots", "chance": 50, "repeat": [ 1, 3 ] },
-          { "item": "supplies_electronics", "chance": 50, "repeat": [ 1, 3 ] }
+          { "item": "tools_robotics", "chance": 30, "repeat": [1, 3] },
+          { "item": "robots", "chance": 50, "repeat": [1, 3] },
+          { "item": "supplies_electronics", "chance": 50, "repeat": [1, 3] }
         ],
-        "d": [ { "item": "office_supplies", "chance": 70 }, { "item": "office_mess", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "d": [
+          { "item": "office_supplies", "chance": 70 },
+          { "item": "office_mess", "chance": 70, "repeat": [1, 3] }
+        ],
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
-          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [1, 5] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [1, 3] }
         ]
       },
       "npcs": { "G": { "class": "hub_security" } }
@@ -327,7 +345,9 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "robofachq_sub_a0", "robofachq_sub_a1", "robofachq_sub_a2", "robofachq_sub_a3" ] ],
+    "om_terrain": [
+      ["robofachq_sub_a0", "robofachq_sub_a1", "robofachq_sub_a2", "robofachq_sub_a3"]
+    ],
     "method": "json",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -357,20 +377,29 @@
         "#####################################|^hdh  (       ^|##########################################",
         "#####################################||||||||     ||||##########################################"
       ],
-      "palettes": [ "robofachq" ],
-      "terrain": { "-": "t_wall_metal", "e": "t_elevator", "E": "t_elevator_control", "Y": "t_utility_light", "I": "t_intercom" },
+      "palettes": ["robofachq"],
+      "terrain": {
+        "-": "t_wall_metal",
+        "e": "t_elevator",
+        "E": "t_elevator_control",
+        "Y": "t_utility_light",
+        "I": "t_intercom"
+      },
       "items": {
-        "l": [ { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 50 }, { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 } ],
+        "l": [
+          { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 50 },
+          { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 50 }
+        ],
         "i": { "item": "cleaning", "chance": 50 },
-        "B": [ { "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 } ]
+        "B": [{ "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 }]
       }
     }
   },
   {
     "type": "mapgen",
     "om_terrain": [
-      [ "robofachq_ai_a0", "robofachq_ai_a1", "robofachq_ai_a2", "robofachq_ai_a3" ],
-      [ "robofachq_ai_b0", "robofachq_ai_b1", "robofachq_ai_b2", "robofachq_ai_b3" ]
+      ["robofachq_ai_a0", "robofachq_ai_a1", "robofachq_ai_a2", "robofachq_ai_a3"],
+      ["robofachq_ai_b0", "robofachq_ai_b1", "robofachq_ai_b2", "robofachq_ai_b3"]
     ],
     "method": "json",
     "object": {
@@ -425,7 +454,7 @@
         "################################################################################################",
         "################################################################################################"
       ],
-      "palettes": [ "robofachq" ],
+      "palettes": ["robofachq"],
       "terrain": {
         "-": "t_wall_metal",
         "e": "t_elevator",
@@ -435,14 +464,14 @@
         "6": "t_console"
       },
       "furniture": { ":": "f_server", "K": "f_counter" },
-      "items": { "r": [ { "item": "electronics", "chance": 75, "repeat": [ 1, 5 ] } ] }
+      "items": { "r": [{ "item": "electronics", "chance": 75, "repeat": [1, 5] }] }
     }
   },
   {
     "type": "mapgen",
     "om_terrain": [
-      [ "robofachq_aiutl_a0", "robofachq_aiutl_a1", "robofachq_aiutl_a2", "robofachq_aiutl_a3" ],
-      [ "robofachq_aiutl_b0", "robofachq_aiutl_b1", "robofachq_aiutl_b2", "robofachq_aiutl_b3" ]
+      ["robofachq_aiutl_a0", "robofachq_aiutl_a1", "robofachq_aiutl_a2", "robofachq_aiutl_a3"],
+      ["robofachq_aiutl_b0", "robofachq_aiutl_b1", "robofachq_aiutl_b2", "robofachq_aiutl_b3"]
     ],
     "method": "json",
     "object": {
@@ -497,7 +526,7 @@
         "################################################################################################",
         "################################################################################################"
       ],
-      "palettes": [ "robofachq" ],
+      "palettes": ["robofachq"],
       "terrain": {
         "-": "t_wall_metal",
         "e": "t_elevator",
@@ -510,8 +539,8 @@
       "furniture": { ":": "f_server" },
       "items": {
         "B": [
-          { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },
-          { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
+          { "item": "magazines", "chance": 75, "repeat": [1, 5] },
+          { "item": "lab_bookshelves", "chance": 55, "repeat": [1, 3] }
         ]
       }
     }

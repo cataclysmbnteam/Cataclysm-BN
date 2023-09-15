@@ -6,7 +6,7 @@
     "description": "A black blob of viscous goo, oozing across the ground like a glob of living oil.",
     "default_faction": "blob",
     "bodytype": "blob",
-    "species": [ "NETHER", "BLOB" ],
+    "species": ["NETHER", "BLOB"],
     "diff": 1,
     "volume": "62500 ml",
     "weight": "81500 g",
@@ -25,9 +25,9 @@
     "armor_stab": 14,
     "armor_acid": 15,
     "harvest": "exempt",
-    "special_attacks": [ [ "FORMBLOB", 30 ] ],
-    "death_function": [ "BLOBSPLIT" ],
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
+    "special_attacks": [["FORMBLOB", 30]],
+    "death_function": ["BLOBSPLIT"],
+    "flags": ["HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF"]
   },
   {
     "id": "mon_blob_brain",
@@ -36,7 +36,7 @@
     "description": "A gigantic black blob of viscous goo, oozing across the ground like a glob of living oil.  Other blobs seem to swarm around it.",
     "default_faction": "blob",
     "bodytype": "blob",
-    "species": [ "NETHER", "BLOB" ],
+    "species": ["NETHER", "BLOB"],
     "diff": 5,
     "volume": "875000 ml",
     "weight": "200 kg",
@@ -53,9 +53,18 @@
     "melee_cut": 0,
     "armor_bash": 12,
     "harvest": "exempt",
-    "special_attacks": [ [ "CALLBLOBS", 0 ] ],
-    "death_function": [ "BRAINBLOB" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "QUEEN" ]
+    "special_attacks": [["CALLBLOBS", 0]],
+    "death_function": ["BRAINBLOB"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "NOHEAD",
+      "POISON",
+      "NO_BREATHE",
+      "ACIDPROOF",
+      "QUEEN"
+    ]
   },
   {
     "id": "mon_blob_large",
@@ -64,7 +73,7 @@
     "description": "A large black blob of viscous goo, oozing across the ground like a glob of living oil.",
     "default_faction": "blob",
     "bodytype": "blob",
-    "species": [ "NETHER", "BLOB" ],
+    "species": ["NETHER", "BLOB"],
     "diff": 1,
     "volume": "92500 ml",
     "weight": "120 kg",
@@ -85,9 +94,9 @@
     "armor_stab": 20,
     "armor_acid": 20,
     "harvest": "exempt",
-    "special_attacks": [ [ "FORMBLOB", 20 ] ],
-    "death_function": [ "BLOBSPLIT" ],
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
+    "special_attacks": [["FORMBLOB", 20]],
+    "death_function": ["BLOBSPLIT"],
+    "flags": ["HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF"]
   },
   {
     "id": "mon_blob_small",
@@ -96,7 +105,7 @@
     "description": "A small black blob of viscous goo, oozing across the ground like a glob of living oil.",
     "default_faction": "blob",
     "bodytype": "blob",
-    "species": [ "NETHER", "BLOB" ],
+    "species": ["NETHER", "BLOB"],
     "diff": 1,
     "volume": "30000 ml",
     "weight": "40750 g",
@@ -115,8 +124,8 @@
     "armor_stab": 10,
     "armor_acid": 10,
     "harvest": "exempt",
-    "death_function": [ "BLOBSPLIT" ],
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
+    "death_function": ["BLOBSPLIT"],
+    "flags": ["HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF"]
   },
   {
     "id": "mon_gelatin",
@@ -125,7 +134,7 @@
     "description": "A formless slime mold the size of a cow.  Crusty bits of cytoplasm fall away as it oozes across the ground.",
     "bodytype": "blob",
     "default_faction": "blob",
-    "species": [ "NETHER" ],
+    "species": ["NETHER"],
     "diff": 2,
     "volume": "92500 ml",
     "weight": "120 kg",
@@ -141,9 +150,9 @@
     "melee_cut": 0,
     "armor_bash": 10,
     "harvest": "exempt",
-    "special_attacks": [ [ "FORMBLOB", 4 ] ],
-    "death_function": [ "MELT" ],
-    "flags": [ "SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD", "NOGIB" ]
+    "special_attacks": [["FORMBLOB", 4]],
+    "death_function": ["MELT"],
+    "flags": ["SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD", "NOGIB"]
   },
   {
     "id": "mon_player_blob",
@@ -152,7 +161,7 @@
     "description": "A familiar-looking blob of goo.  It sprouts the occasional eyestalk.",
     "default_faction": "player",
     "bodytype": "blob",
-    "species": [ "MUTANT" ],
+    "species": ["MUTANT"],
     "diff": 2,
     "volume": "62500 ml",
     "weight": "81500 g",
@@ -171,8 +180,18 @@
     "armor_bash": 12,
     "vision_night": 5,
     "harvest": "exempt",
-    "special_attacks": [ [ "SLIMESPRING", 15 ] ],
-    "death_function": [ "ACID" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "NOHEAD", "POISON", "VENOM", "WARM", "GUILT" ]
+    "special_attacks": [["SLIMESPRING", 15]],
+    "death_function": ["ACID"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "GOODHEARING",
+      "NOHEAD",
+      "POISON",
+      "VENOM",
+      "WARM",
+      "GUILT"
+    ]
   }
 ]

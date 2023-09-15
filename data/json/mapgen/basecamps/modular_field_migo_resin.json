@@ -2,15 +2,21 @@
   {
     "type": "palette",
     "id": "fbmh_migo_resin_palette",
-    "terrain": { ";": "t_dirt", ".": "t_floor_resin", "+": "t_resin_hole_c", "v": "t_wall_resin_cage", "w": "t_wall_resin" },
-    "furniture": {  }
+    "terrain": {
+      ";": "t_dirt",
+      ".": "t_floor_resin",
+      "+": "t_resin_hole_c",
+      "v": "t_wall_resin_cage",
+      "w": "t_wall_resin"
+    },
+    "furniture": {}
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_room0_migo_resin",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "      ",
         " ;;ww;",
@@ -19,21 +25,21 @@
         " ;;;;;",
         " ;;;;;"
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_room0_migo_resin_northeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_room0_migo_resin" ], "x": 15, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_room0_migo_resin"], "x": 15, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_room1_migo_resin",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "      ",
         "  v   ",
@@ -42,21 +48,21 @@
         " w...w",
         "      "
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_room1_migo_resin_northeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_room1_migo_resin" ], "x": 15, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_room1_migo_resin"], "x": 15, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_room2_migo_resin",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "      ",
         " w   w",
@@ -65,21 +71,21 @@
         "      ",
         " wwwww"
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_room2_migo_resin_northeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_room2_migo_resin" ], "x": 15, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_room2_migo_resin"], "x": 15, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_migo_resin_shack_east",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwwwww",
         "w....w",
@@ -88,21 +94,21 @@
         "w....w",
         "w+wwww"
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_shack4_migo_resin_east",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_migo_resin_shack_east" ], "x": 15, "y": 9 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_migo_resin_shack_east"], "x": 15, "y": 9 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_migo_resin_room_east",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "w....w",
         "w....w",
@@ -111,7 +117,7 @@
         "w....w",
         "w+wwww"
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
@@ -119,28 +125,28 @@
     "update_mapgen_id": "fbmh_room4_migo_resin_east",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbmh_migo_resin_room_east" ], "x": 15, "y": 9 } ],
-      "set": [ { "point": "terrain", "id": "t_wall_resin", "x": 15, "y": 8 } ]
+      "place_nested": [{ "chunks": ["fbmh_migo_resin_room_east"], "x": 15, "y": 9 }],
+      "set": [{ "point": "terrain", "id": "t_wall_resin", "x": 15, "y": 8 }]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_shack4_migo_resin_southeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_migo_resin_shack_east" ], "x": 15, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_migo_resin_shack_east"], "x": 15, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_room4_migo_resin_southeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_migo_resin_room_east" ], "x": 15, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_migo_resin_room_east"], "x": 15, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_migo_resin_shack_northwest",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         ";;;;;;",
         "wwwww;",
@@ -149,21 +155,23 @@
         "w...w;",
         "wwwww;"
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_room4_migo_resin_northwest",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_migo_resin_shack_northwest" ], "x": 3, "y": 3 } ] }
+    "object": {
+      "place_nested": [{ "chunks": ["fbmh_migo_resin_shack_northwest"], "x": 3, "y": 3 }]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_migo_resin_shack_west",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwwwww",
         "w....w",
@@ -172,21 +180,21 @@
         "w....w",
         "wwww+w"
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_shack4_migo_resin_west",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_migo_resin_shack_west" ], "x": 3, "y": 9 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_migo_resin_shack_west"], "x": 3, "y": 9 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_migo_resin_room_west",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "w....w",
         "w....w",
@@ -195,7 +203,7 @@
         "w....w",
         "wwww+w"
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
@@ -203,28 +211,28 @@
     "update_mapgen_id": "fbmh_room4_migo_resin_west",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbmh_migo_resin_room_west" ], "x": 3, "y": 9 } ],
-      "set": [ { "point": "terrain", "id": "t_wall_resin", "x": 8, "y": 8 } ]
+      "place_nested": [{ "chunks": ["fbmh_migo_resin_room_west"], "x": 3, "y": 9 }],
+      "set": [{ "point": "terrain", "id": "t_wall_resin", "x": 8, "y": 8 }]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_shack4_migo_resin_southwest",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_migo_resin_shack_west" ], "x": 3, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_migo_resin_shack_west"], "x": 3, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_room4_migo_resin_southwest",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_migo_resin_room_west" ], "x": 3, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_migo_resin_room_west"], "x": 3, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_core_shack_ne_migo_resin_center",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "   www",
         "   ..w",
@@ -233,21 +241,23 @@
         "   ..w",
         "   ..w"
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_core_shack_ne_migo_resin_center",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_core_shack_ne_migo_resin_center" ], "x": 9, "y": 9 } ] }
+    "object": {
+      "place_nested": [{ "chunks": ["fbmh_core_shack_ne_migo_resin_center"], "x": 9, "y": 9 }]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_core_ne_migo_resin_center",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "   www",
         "   ...",
@@ -256,21 +266,21 @@
         "   ...",
         "   ..."
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_core_ne_migo_resin_center",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_core_ne_migo_resin_center" ], "x": 9, "y": 9 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_core_ne_migo_resin_center"], "x": 9, "y": 9 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_core_shack_nw_migo_resin_center",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "ww+   ",
         "w..   ",
@@ -279,21 +289,23 @@
         "w..   ",
         "w..   "
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_core_shack_nw_migo_resin_center",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_core_shack_nw_migo_resin_center" ], "x": 9, "y": 9 } ] }
+    "object": {
+      "place_nested": [{ "chunks": ["fbmh_core_shack_nw_migo_resin_center"], "x": 9, "y": 9 }]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_core_nw_migo_resin_center",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "ww+   ",
         "...   ",
@@ -302,14 +314,14 @@
         "...   ",
         "...   "
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_core_nw_migo_resin_center",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_core_nw_migo_resin_center" ], "x": 9, "y": 9 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_core_nw_migo_resin_center"], "x": 9, "y": 9 }] }
   },
   {
     "type": "mapgen",
@@ -317,8 +329,8 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbmh_core_nw_migo_resin_center" ], "x": 9, "y": 9 },
-        { "chunks": [ "fbmh_core_ne_migo_resin_center" ], "x": 9, "y": 9 }
+        { "chunks": ["fbmh_core_nw_migo_resin_center"], "x": 9, "y": 9 },
+        { "chunks": ["fbmh_core_ne_migo_resin_center"], "x": 9, "y": 9 }
       ]
     }
   },
@@ -327,7 +339,7 @@
     "method": "json",
     "nested_mapgen_id": "fbmh_core_shack_se_migo_resin_south",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "   ..w",
         "   ..w",
@@ -336,21 +348,23 @@
         "   ..w",
         "   +ww"
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_core_shack_se_migo_resin_south",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_core_shack_se_migo_resin_south" ], "x": 9, "y": 15 } ] }
+    "object": {
+      "place_nested": [{ "chunks": ["fbmh_core_shack_se_migo_resin_south"], "x": 9, "y": 15 }]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_core_se_migo_resin_south",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "   ...",
         "   ...",
@@ -359,21 +373,21 @@
         "   ...",
         "   +ww"
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_core_se_migo_resin_south",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_core_se_migo_resin_south" ], "x": 9, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_core_se_migo_resin_south"], "x": 9, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_core_shack_sw_migo_resin_south",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "w..   ",
         "w..   ",
@@ -382,21 +396,23 @@
         "w..   ",
         "www   "
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_core_shack_sw_migo_resin_south",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_core_shack_sw_migo_resin_south" ], "x": 9, "y": 15 } ] }
+    "object": {
+      "place_nested": [{ "chunks": ["fbmh_core_shack_sw_migo_resin_south"], "x": 9, "y": 15 }]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_core_sw_migo_resin_south",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "...   ",
         "...   ",
@@ -405,14 +421,14 @@
         "...   ",
         "www   "
       ],
-      "palettes": [ "fbmh_migo_resin_palette" ]
+      "palettes": ["fbmh_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmh_core_sw_migo_resin_south",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_core_sw_migo_resin_south" ], "x": 9, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmh_core_sw_migo_resin_south"], "x": 9, "y": 15 }] }
   },
   {
     "type": "mapgen",
@@ -420,8 +436,8 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbmh_core_sw_migo_resin_south" ], "x": 9, "y": 15 },
-        { "chunks": [ "fbmh_core_se_migo_resin_south" ], "x": 9, "y": 15 }
+        { "chunks": ["fbmh_core_sw_migo_resin_south"], "x": 9, "y": 15 },
+        { "chunks": ["fbmh_core_se_migo_resin_south"], "x": 9, "y": 15 }
       ]
     }
   }

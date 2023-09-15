@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "_house_template" ],
+    "om_terrain": ["_house_template"],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -99,7 +99,7 @@
         "R": "f_rack",
         "v": "f_chair"
       },
-      "place_loot": [  ]
+      "place_loot": []
     }
   }
 ]

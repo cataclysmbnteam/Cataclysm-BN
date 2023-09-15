@@ -9,15 +9,30 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 5,
-    "flags": [ "CLIMB_SIMPLE", "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "THIN_OBSTACLE", "CLIMBABLE", "PERMEABLE" ],
+    "flags": [
+      "CLIMB_SIMPLE",
+      "TRANSPARENT",
+      "FLAMMABLE_ASH",
+      "ORGANIC",
+      "MOUNTABLE",
+      "THIN_OBSTACLE",
+      "CLIMBABLE",
+      "PERMEABLE"
+    ],
     "examine_action": "chainfence",
-    "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
+    "deconstruct": {
+      "items": [{ "item": "2x4", "count": 6 }, { "item": "nail", "charges": [6, 8] }]
+    },
     "bash": {
       "str_min": 3,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [2, 6] },
+        { "item": "nail", "charges": [4, 8] },
+        { "item": "splinter", "count": 1 }
+      ]
     }
   },
   {
@@ -43,13 +58,16 @@
       "PERMEABLE"
     ],
     "examine_action": "chainfence",
-    "deconstruct": { "items": [ { "item": "earthbag", "count": 16 } ] },
+    "deconstruct": { "items": [{ "item": "earthbag", "count": 16 }] },
     "bash": {
       "str_min": 12,
       "str_max": 60,
       "sound": "rrrip!",
       "sound_fail": "whump.",
-      "items": [ { "item": "bag_canvas", "count": [ 10, 16 ] }, { "item": "material_soil", "charges": [ 40, 48 ] } ]
+      "items": [
+        { "item": "bag_canvas", "count": [10, 16] },
+        { "item": "material_soil", "charges": [40, 48] }
+      ]
     }
   },
   {
@@ -63,15 +81,21 @@
     "coverage": 95,
     "description": "An earthbag wall.",
     "required_str": -1,
-    "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE", "BLOCK_WIND" ],
-    "deconstruct": { "items": [ { "item": "earthbag", "count": 20 } ], "furn_set": "f_earthbag_half" },
+    "flags": ["NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE", "BLOCK_WIND"],
+    "deconstruct": {
+      "items": [{ "item": "earthbag", "count": 20 }],
+      "furn_set": "f_earthbag_half"
+    },
     "bash": {
       "str_min": 24,
       "str_max": 80,
       "sound": "rrrip!",
       "sound_fail": "whump.",
       "furn_set": "f_earthbag_half",
-      "items": [ { "item": "bag_canvas", "count": [ 15, 20 ] }, { "item": "material_soil", "charges": [ 50, 60 ] } ]
+      "items": [
+        { "item": "bag_canvas", "count": [15, 20] },
+        { "item": "material_soil", "charges": [50, 60] }
+      ]
     }
   },
   {
@@ -83,13 +107,17 @@
     "color": "brown",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT"],
     "bash": {
       "str_min": 6,
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [1, 3] },
+        { "item": "nail", "charges": [2, 6] },
+        { "item": "splinter", "count": 1 }
+      ]
     }
   },
   {
@@ -114,13 +142,16 @@
       "PERMEABLE"
     ],
     "examine_action": "chainfence",
-    "deconstruct": { "items": [ { "item": "sandbag", "count": 16 } ] },
+    "deconstruct": { "items": [{ "item": "sandbag", "count": 16 }] },
     "bash": {
       "str_min": 12,
       "str_max": 60,
       "sound": "rrrip!",
       "sound_fail": "whump.",
-      "items": [ { "item": "bag_canvas", "count": [ 10, 16 ] }, { "item": "material_sand", "charges": [ 800, 960 ] } ]
+      "items": [
+        { "item": "bag_canvas", "count": [10, 16] },
+        { "item": "material_sand", "charges": [800, 960] }
+      ]
     }
   },
   {
@@ -133,15 +164,18 @@
     "coverage": 95,
     "description": "A sandbag wall.",
     "required_str": -1,
-    "flags": [ "NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE", "BLOCK_WIND" ],
-    "deconstruct": { "items": [ { "item": "sandbag", "count": 20 } ], "furn_set": "f_sandbag_half" },
+    "flags": ["NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT", "MINEABLE", "BLOCK_WIND"],
+    "deconstruct": { "items": [{ "item": "sandbag", "count": 20 }], "furn_set": "f_sandbag_half" },
     "bash": {
       "str_min": 24,
       "str_max": 80,
       "sound": "rrrip!",
       "sound_fail": "whump.",
       "furn_set": "f_sandbag_half",
-      "items": [ { "item": "bag_canvas", "count": [ 15, 20 ] }, { "item": "material_sand", "charges": [ 1000, 1200 ] } ]
+      "items": [
+        { "item": "bag_canvas", "count": [15, 20] },
+        { "item": "material_sand", "charges": [1000, 1200] }
+      ]
     }
   }
 ]

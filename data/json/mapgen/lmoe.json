@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lmoe" ],
+    "om_terrain": ["lmoe"],
     "//": "Above ground",
     "weight": 100,
     "object": {
@@ -32,13 +32,13 @@
         "    S      S            ",
         "                  S     "
       ],
-      "palettes": [ "bunker_ext" ]
+      "palettes": ["bunker_ext"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lmoe_roof" ],
+    "om_terrain": ["lmoe_roof"],
     "//": "Above ground",
     "weight": 100,
     "object": {
@@ -68,13 +68,13 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv"
       ],
-      "palettes": [ "bunker_ext" ]
+      "palettes": ["bunker_ext"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lmoe_under_empty" ],
+    "om_terrain": ["lmoe_under_empty"],
     "//": "Empty LMOE shelter that has been looted or used.",
     "//2": "This particular 2-bed shelter is a more professionally done, all metal bomb shelter with kitchen, secret safe room / gun locker, and workshop.",
     "weight": 100,
@@ -106,13 +106,13 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "bunker", "empty_bunker_items" ]
+      "palettes": ["bunker", "empty_bunker_items"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lmoe_under_empty" ],
+    "om_terrain": ["lmoe_under_empty"],
     "//": "Empty LMOE shelter that has been looted or used.",
     "//2": "This particular 4-bed shelter is definitely homemade, mostly carved out of bare rock, and seems to be incomplete.",
     "weight": 100,
@@ -144,13 +144,13 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "bunker", "empty_bunker_items" ]
+      "palettes": ["bunker", "empty_bunker_items"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lmoe_under_empty" ],
+    "om_terrain": ["lmoe_under_empty"],
     "//": "Empty LMOE shelter that has been looted or used.",
     "//2": "This is a commercially built 4-bed LMOE shelter based on IRL plans.",
     "//3": "There are extensive secret rooms which might contain a lot of treasure in the non-looted version.",
@@ -183,18 +183,18 @@
         "|__+________|_______=__|",
         "||||||||||||||||||||||||"
       ],
-      "palettes": [ "bunker", "empty_bunker_items" ],
+      "palettes": ["bunker", "empty_bunker_items"],
       "place_nested": [
-        { "chunks": [ "lmoe3_storage_11x11" ], "x": 13, "y": 6 },
-        { "chunks": [ "lmoe3_tankroom_11x11" ], "x": 1, "y": 18 },
-        { "chunks": [ "lmoe3_crafting_11x11" ], "x": 13, "y": 18 }
+        { "chunks": ["lmoe3_storage_11x11"], "x": 13, "y": 6 },
+        { "chunks": ["lmoe3_tankroom_11x11"], "x": 1, "y": 18 },
+        { "chunks": ["lmoe3_crafting_11x11"], "x": 13, "y": 18 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lmoe_under" ],
+    "om_terrain": ["lmoe_under"],
     "//": "Stocked up LMOE shelter.",
     "//2": "This particular 2-bed shelter is a more professionally done, all metal bomb shelter with kitchen, secret safe room / gun locker, and workshop.",
     "//3": "For now this is just filler terrain, it shouldn't spawn in game.",
@@ -227,7 +227,7 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "bunker", "empty_bunker_items" ]
+      "palettes": ["bunker", "empty_bunker_items"]
     }
   }
 ]

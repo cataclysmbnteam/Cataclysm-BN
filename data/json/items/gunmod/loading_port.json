@@ -14,8 +14,8 @@
     "symbol": ":",
     "color": "green",
     "location": "loading port",
-    "mod_target_category": [ [ "PISTOLS" ], [ "SHOTGUNS" ] ],
-    "acceptable_ammo": [ "shot" ],
-    "magazine_adaptor": [ [ "shot", [ "shot_speedloader6", "shot_speedloader8" ] ] ]
+    "mod_target_category": [["PISTOLS"], ["SHOTGUNS"]],
+    "acceptable_ammo": ["shot"],
+    "magazine_adaptor": [["shot", ["shot_speedloader6", "shot_speedloader8"]]]
   }
 ]

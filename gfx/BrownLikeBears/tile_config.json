@@ -113,7 +113,7 @@
           "rotates": false
         },
         { "id": "overlay_worn_bandana", "fg": 101, "rotates": false },
-        { "id": [ "overlay_worn_beret", "overlay_worn_beret_wool" ], "fg": 50, "rotates": false },
+        { "id": ["overlay_worn_beret", "overlay_worn_beret_wool"], "fg": 50, "rotates": false },
         { "id": "overlay_worn_bondage_mask", "fg": 106, "rotates": false },
         { "id": "overlay_worn_bondage_suit", "fg": 105, "rotates": false },
         { "id": "overlay_worn_chestrig", "fg": 42, "rotates": false },
@@ -132,14 +132,26 @@
         { "id": "overlay_worn_flag_shirt", "fg": 94, "rotates": false },
         { "id": "overlay_worn_football_armor", "fg": 72, "rotates": false },
         {
-          "id": [ "overlay_worn_glasses_eye", "overlay_worn_glasses_reading", "overlay_worn_glasses_bifocal" ],
+          "id": [
+            "overlay_worn_glasses_eye",
+            "overlay_worn_glasses_reading",
+            "overlay_worn_glasses_bifocal"
+          ],
           "fg": 52,
           "rotates": false
         },
         { "id": "overlay_worn_glasses_monocle", "fg": 115, "rotates": false },
         { "id": "overlay_worn_glasses_safety", "fg": 54, "rotates": false },
-        { "id": [ "overlay_worn_goggles_ir_on", "overlay_worn_goggles_ir" ], "fg": 55, "rotates": false },
-        { "id": [ "overlay_worn_goggles_nv_on", "overlay_worn_goggles_nv" ], "fg": 57, "rotates": false },
+        {
+          "id": ["overlay_worn_goggles_ir_on", "overlay_worn_goggles_ir"],
+          "fg": 55,
+          "rotates": false
+        },
+        {
+          "id": ["overlay_worn_goggles_nv_on", "overlay_worn_goggles_nv"],
+          "fg": 57,
+          "rotates": false
+        },
         { "id": "overlay_worn_goggles_welding", "fg": 56, "rotates": false },
         { "id": "overlay_worn_greatcoat", "fg": 43, "rotates": false },
         { "id": "overlay_worn_hat_ball", "fg": 69, "rotates": false },
@@ -163,27 +175,35 @@
         { "id": "overlay_worn_helmet_skid", "fg": 123, "rotates": false },
         { "id": "overlay_worn_helmet_survivor", "fg": 139, "rotates": false },
         { "id": "overlay_worn_helmet_xlsurvivor", "fg": 139, "rotates": false },
-        { "id": [ "overlay_worn_hoodie", "overlay_worn_wool_hoodie" ], "fg": 60, "rotates": false },
+        { "id": ["overlay_worn_hoodie", "overlay_worn_wool_hoodie"], "fg": 60, "rotates": false },
         { "id": "overlay_worn_house_coat", "fg": 96, "rotates": false },
         { "id": "overlay_worn_jacket_army", "fg": 51, "rotates": false },
         { "id": "overlay_worn_jacket_flannel", "fg": 82, "rotates": false },
         { "id": "overlay_worn_jacket_jean", "fg": 109, "rotates": false },
         {
-          "id": [ "overlay_worn_jacket_leather", "overlay_worn_jacket_leather_mod", "overlay_worn_jacket_windbreaker" ],
+          "id": [
+            "overlay_worn_jacket_leather",
+            "overlay_worn_jacket_leather_mod",
+            "overlay_worn_jacket_windbreaker"
+          ],
           "fg": 112,
           "rotates": false
         },
         { "id": "overlay_worn_jacket_light", "fg": 110, "rotates": false },
         { "id": "overlay_worn_jersey", "fg": 75, "rotates": false },
-        { "id": [ "overlay_worn_judo_belt_black", "overlay_worn_obi_gi" ], "fg": 85, "rotates": false },
+        {
+          "id": ["overlay_worn_judo_belt_black", "overlay_worn_obi_gi"],
+          "fg": 85,
+          "rotates": false
+        },
         { "id": "overlay_worn_judo_belt_blue", "fg": 87, "rotates": false },
         { "id": "overlay_worn_judo_belt_brown", "fg": 86, "rotates": false },
         { "id": "overlay_worn_judo_belt_green", "fg": 88, "rotates": false },
         { "id": "overlay_worn_judo_belt_orange", "fg": 89, "rotates": false },
         { "id": "overlay_worn_judo_belt_white", "fg": 91, "rotates": false },
         { "id": "overlay_worn_judo_belt_yellow", "fg": 90, "rotates": false },
-        { "id": [ "overlay_worn_jumpsuit_xl", "overlay_worn_jumpsuit" ], "fg": 84, "rotates": false },
-        { "id": [ "overlay_worn_karate_gi", "overlay_worn_judo_gi" ], "fg": 92, "rotates": false },
+        { "id": ["overlay_worn_jumpsuit_xl", "overlay_worn_jumpsuit"], "fg": 84, "rotates": false },
+        { "id": ["overlay_worn_karate_gi", "overlay_worn_judo_gi"], "fg": 92, "rotates": false },
         { "id": "overlay_worn_kevlar", "fg": 111, "rotates": false },
         { "id": "overlay_worn_knit_scarf", "fg": 140, "rotates": false },
         { "id": "overlay_worn_knit_scarf_loose", "fg": 140, "rotates": false },
@@ -201,10 +221,14 @@
         { "id": "overlay_worn_mask_filter", "fg": 121, "rotates": false },
         { "id": "overlay_worn_mask_gas", "fg": 142, "rotates": false },
         { "id": "overlay_worn_mask_gas_xl", "fg": 142, "rotates": false },
-        { "id": [ "overlay_worn_mask_hockey", "overlay_worn_mask_guy_fawkes" ], "fg": 117, "rotates": false },
+        {
+          "id": ["overlay_worn_mask_hockey", "overlay_worn_mask_guy_fawkes"],
+          "fg": 117,
+          "rotates": false
+        },
         { "id": "overlay_worn_mask_rioter", "fg": 99, "rotates": false },
         {
-          "id": [ "overlay_worn_mask_ski", "overlay_worn_mask_ski_loose", "overlay_worn_balclava" ],
+          "id": ["overlay_worn_mask_ski", "overlay_worn_mask_ski_loose", "overlay_worn_balclava"],
           "fg": 97,
           "rotates": false
         },
@@ -217,16 +241,30 @@
         { "id": "overlay_worn_patchwork_scarf_loose", "fg": 140, "rotates": false },
         { "id": "overlay_worn_pickelhaube", "fg": 49, "rotates": false },
         { "id": "overlay_worn_polo_shirt", "fg": 133, "rotates": false },
-        { "id": [ "overlay_worn_poncho", "overlay_worn_folding_poncho_on" ], "fg": 118, "rotates": false },
+        {
+          "id": ["overlay_worn_poncho", "overlay_worn_folding_poncho_on"],
+          "fg": 118,
+          "rotates": false
+        },
         { "id": "overlay_worn_porkpie", "fg": 129, "rotates": false },
         { "id": "overlay_worn_pot_helmet", "fg": 124, "rotates": false },
         {
-          "id": [ "overlay_worn_purse", "overlay_worn_slingpack", "overlay_worn_fanny", "overlay_worn_dive_bag" ],
+          "id": [
+            "overlay_worn_purse",
+            "overlay_worn_slingpack",
+            "overlay_worn_fanny",
+            "overlay_worn_dive_bag"
+          ],
           "fg": 63,
           "rotates": false
         },
         {
-          "id": [ "overlay_worn_rucksack", "overlay_worn_molle_pack", "overlay_worn_gobag", "overlay_worn_duffelbag" ],
+          "id": [
+            "overlay_worn_rucksack",
+            "overlay_worn_molle_pack",
+            "overlay_worn_gobag",
+            "overlay_worn_duffelbag"
+          ],
           "fg": 64,
           "rotates": false
         },
@@ -583,7 +621,7 @@
         {
           "id": "f_canvas_wall",
           "fg": 245,
-          "bg": [  ],
+          "bg": [],
           "multitile": true,
           "additional_tiles": [
             { "id": "center", "fg": 311 },
@@ -683,7 +721,7 @@
         {
           "id": "f_large_canvas_wall",
           "fg": 245,
-          "bg": [  ],
+          "bg": [],
           "multitile": true,
           "additional_tiles": [
             { "id": "center", "fg": 311 },
@@ -709,7 +747,7 @@
           "id": "f_pool_table",
           "fg": 242,
           "multitile": true,
-          "additional_tiles": [ { "id": "corner", "fg": 241 }, { "id": "t_connection", "fg": 242 } ],
+          "additional_tiles": [{ "id": "corner", "fg": 241 }, { "id": "t_connection", "fg": 242 }],
           "rotates": false
         },
         { "id": "f_rack", "fg": 280, "rotates": false },
@@ -729,7 +767,7 @@
         {
           "id": "f_skin_wall",
           "fg": 246,
-          "bg": [  ],
+          "bg": [],
           "multitile": true,
           "additional_tiles": [
             { "id": "center", "fg": 303 },
@@ -929,7 +967,11 @@
         { "id": "battery_ups", "fg": 733, "rotates": false, "multitile": false },
         { "id": "battleaxe", "fg": 489, "rotates": false, "multitile": false },
         { "id": "battleaxe_fake", "fg": 489, "rotates": false, "multitile": false },
-        { "id": [ "battleaxe_fake", "battleaxe_inferior", "battleaxe" ], "fg": 861, "rotates": false },
+        {
+          "id": ["battleaxe_fake", "battleaxe_inferior", "battleaxe"],
+          "fg": 861,
+          "rotates": false
+        },
         { "id": "battletorch", "fg": 490, "rotates": false, "multitile": false },
         { "id": "battletorch_done", "fg": 480, "rotates": false, "multitile": false },
         { "id": "battletorch_lit", "fg": 491, "rotates": false, "multitile": false },
@@ -1014,7 +1056,12 @@
         { "id": "bio_painkiller", "fg": 1235, "rotates": false, "multitile": false },
         { "id": "bio_pokedeye", "fg": 1235, "rotates": false, "multitile": false },
         { "id": "bio_power_armor_interface", "fg": 1235, "rotates": false, "multitile": false },
-        { "id": "bio_power_armor_interface_mkII", "fg": 1235, "rotates": false, "multitile": false },
+        {
+          "id": "bio_power_armor_interface_mkII",
+          "fg": 1235,
+          "rotates": false,
+          "multitile": false
+        },
         { "id": "bio_power_storage", "fg": 1235, "rotates": false, "multitile": false },
         { "id": "bio_power_storage_mkII", "fg": 1235, "rotates": false, "multitile": false },
         { "id": "bio_power_weakness", "fg": 1235, "rotates": false, "multitile": false },
@@ -1225,7 +1272,7 @@
           "fg": 881,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         { "id": "control_laptop", "fg": 422, "rotates": false, "multitile": false },
         { "id": "conversion_battle", "fg": 918, "rotates": false, "multitile": false },
@@ -1555,7 +1602,7 @@
         { "id": "juice", "fg": 933, "rotates": false, "multitile": false },
         { "id": "katana", "fg": 675, "rotates": false, "multitile": false },
         { "id": "katana_fake", "fg": 675, "rotates": false, "multitile": false },
-        { "id": [ "katana", "katana_fake", "katana_inferior" ], "fg": 860, "rotates": false },
+        { "id": ["katana", "katana_fake", "katana_inferior"], "fg": 860, "rotates": false },
         { "id": "keg", "fg": 947, "rotates": false, "multitile": false },
         { "id": "kevlar_armor_small_quadruped", "fg": 537, "rotates": false, "multitile": false },
         { "id": "kevlar_plate", "fg": 717, "rotates": false, "multitile": false },
@@ -1838,7 +1885,7 @@
         { "id": "pot", "fg": 420, "rotates": false, "multitile": false },
         { "id": "power_supply", "fg": 951, "rotates": false, "multitile": false },
         { "id": "ppshdrum", "fg": 862, "rotates": false },
-        { "id": [ "ppshmag", "tokarevmag" ], "fg": 863, "rotates": false },
+        { "id": ["ppshmag", "tokarevmag"], "fg": 863, "rotates": false },
         { "id": "ppsh", "fg": 530, "rotates": false, "multitile": false },
         { "id": "PR24-extended", "fg": 435, "rotates": false, "multitile": false },
         { "id": "PR24-retracted", "fg": 435, "rotates": false, "multitile": false },
@@ -2023,7 +2070,7 @@
           "fg": 883,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 882 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 882 }]
         },
         { "id": "seat", "fg": 1482, "bg": 1, "rotates": false, "multitile": false },
         { "id": "seed_garlic", "fg": 857, "rotates": false },
@@ -2344,9 +2391,19 @@
         { "id": "arrow_fire_hardened_fletched", "fg": 903, "rotates": false, "multitile": false },
         { "id": "arrow_flamming", "fg": 903, "rotates": false, "multitile": false },
         { "id": "arrow_heavy_field_point", "fg": 903, "rotates": false, "multitile": false },
-        { "id": "arrow_heavy_field_point_fletched", "fg": 903, "rotates": false, "multitile": false },
+        {
+          "id": "arrow_heavy_field_point_fletched",
+          "fg": 903,
+          "rotates": false,
+          "multitile": false
+        },
         { "id": "arrow_heavy_fire_hardened", "fg": 903, "rotates": false, "multitile": false },
-        { "id": "arrow_heavy_fire_hardened_fletched", "fg": 903, "rotates": false, "multitile": false },
+        {
+          "id": "arrow_heavy_fire_hardened_fletched",
+          "fg": 903,
+          "rotates": false,
+          "multitile": false
+        },
         { "id": "arrow_metal", "fg": 903, "rotates": false, "multitile": false },
         { "id": "arrow_metal_sharpened", "fg": 903, "rotates": false, "multitile": false },
         { "id": "arrow_metal_sharpened_fletched", "fg": 903, "rotates": false, "multitile": false },
@@ -2844,7 +2901,12 @@
         { "id": "jacket_evac", "fg": 1074, "rotates": false, "multitile": false },
         { "id": "jacket_flannel", "fg": 1075, "rotates": false, "multitile": false },
         { "id": "jacket_jean", "fg": 1074, "rotates": false, "multitile": false },
-        { "id": [ "jacket_leather", "jacket_windbreaker" ], "fg": 1077, "rotates": false, "multitile": false },
+        {
+          "id": ["jacket_leather", "jacket_windbreaker"],
+          "fg": 1077,
+          "rotates": false,
+          "multitile": false
+        },
         { "id": "jacket_leather_red", "fg": 1086, "rotates": false, "multitile": false },
         { "id": "jacket_light", "fg": 1073, "rotates": false, "multitile": false },
         { "id": "jeans", "fg": 1026, "rotates": false, "multitile": false },
@@ -2969,7 +3031,7 @@
         { "id": "power_armor_helmet_heavy", "fg": 1184, "rotates": false, "multitile": false },
         { "id": "power_armor_helmet_light", "fg": 1182, "rotates": false, "multitile": false },
         { "id": "power_armor_light", "fg": 1181, "rotates": false, "multitile": false },
-        { "id": [ "purse", "slingpack" ], "fg": 1153, "rotates": false, "multitile": false },
+        { "id": ["purse", "slingpack"], "fg": 1153, "rotates": false, "multitile": false },
         { "id": "quiver", "fg": 1157, "rotates": false, "multitile": false },
         { "id": "quiver_large", "fg": 1158, "rotates": false, "multitile": false },
         { "id": "rad_badge", "fg": 1165, "rotates": false, "multitile": false },
@@ -3012,7 +3074,12 @@
         { "id": "sleeveless_trenchcoat", "fg": 1089, "rotates": false, "multitile": false },
         { "id": "sleeveless_trenchcoat_fur", "fg": 1090, "rotates": false, "multitile": false },
         { "id": "sleeveless_trenchcoat_leather", "fg": 1090, "rotates": false, "multitile": false },
-        { "id": "sleeveless_trenchcoat_survivor", "fg": 1090, "rotates": false, "multitile": false },
+        {
+          "id": "sleeveless_trenchcoat_survivor",
+          "fg": 1090,
+          "rotates": false,
+          "multitile": false
+        },
         { "id": "sleeveless_tunic", "fg": 1048, "rotates": false, "multitile": false },
         { "id": "small_relic", "fg": 1163, "rotates": false, "multitile": false },
         { "id": "sneakers", "fg": 1020, "rotates": false, "multitile": false },
@@ -3624,203 +3691,203 @@
           "fg": 1472,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_aisle_horizontal",
           "fg": 1472,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_aisle_lights",
           "fg": 1448,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_aisle_vertical",
           "fg": 1490,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_aisle_vertical",
           "fg": 1490,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_alternator_car",
           "fg": 1424,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_alternator_motorbike",
           "fg": 1424,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_alternator_truck",
           "fg": 1424,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_basketlg",
           "fg": 1469,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_basketlg_folding",
           "fg": 1469,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_basketsm",
           "fg": 1469,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_battery_car",
           "fg": 1499,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_battery_motorbike",
           "fg": 1499,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_battery_truck",
           "fg": 1499,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_bed",
           "fg": 1454,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_blade_horizontal",
           "fg": 1459,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_blade_vertical",
           "fg": 2128,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_board_horizontal",
           "fg": 1484,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_board_ne",
           "fg": 1485,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_board_nw",
           "fg": 1487,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_board_se",
           "fg": 1486,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_board_sw",
           "fg": 1488,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_board_vertical",
           "fg": 1483,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_box",
           "fg": 1469,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_cam_control",
           "fg": 1442,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_cargo_space",
           "fg": 1481,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_chemlab",
           "fg": 915,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1479 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1479 }]
         },
         {
           "id": "vp_controls",
           "fg": 881,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_craft_rig",
           "fg": 1478,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1479 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1479 }]
         },
         { "id": "vp_diesel_engine_i6", "fg": 873, "rotates": true },
         { "id": "vp_diesel_engine_v6", "fg": 873, "rotates": true },
@@ -3830,84 +3897,84 @@
           "fg": 1435,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_diesel_tank_little",
           "fg": 1435,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_diesel_tank_small",
           "fg": 1435,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_door",
           "fg": 1456,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "open", "fg": 1457 }, { "id": "broken", "fg": 1470 } ]
+          "additional_tiles": [{ "id": "open", "fg": 1457 }, { "id": "broken", "fg": 1470 }]
         },
         {
           "id": "vp_door_internal",
           "fg": 1456,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "open", "fg": 1457 }, { "id": "broken", "fg": 1470 } ]
+          "additional_tiles": [{ "id": "open", "fg": 1457 }, { "id": "broken", "fg": 1470 }]
         },
         {
           "id": "vp_door_motor",
           "fg": 1446,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_door_opaque",
           "fg": 1456,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "open", "fg": 1457 }, { "id": "broken", "fg": 1470 } ]
+          "additional_tiles": [{ "id": "open", "fg": 1457 }, { "id": "broken", "fg": 1470 }]
         },
         {
           "id": "vp_door_shutter",
           "fg": 1471,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "open", "fg": 1474 }, { "id": "broken", "fg": 1480 } ]
+          "additional_tiles": [{ "id": "open", "fg": 1474 }, { "id": "broken", "fg": 1480 }]
         },
         {
           "id": "vp_door_sliding",
           "fg": 1471,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "open", "fg": 1474 }, { "id": "broken", "fg": 1480 } ]
+          "additional_tiles": [{ "id": "open", "fg": 1474 }, { "id": "broken", "fg": 1480 }]
         },
         {
           "id": "vp_door_trunk",
           "fg": 1471,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "open", "fg": 1474 }, { "id": "broken", "fg": 1480 } ]
+          "additional_tiles": [{ "id": "open", "fg": 1474 }, { "id": "broken", "fg": 1480 }]
         },
         {
           "id": "vp_door_wood",
           "fg": 1437,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "open", "fg": 1438 }, { "id": "broken", "fg": 1439 } ]
+          "additional_tiles": [{ "id": "open", "fg": 1438 }, { "id": "broken", "fg": 1439 }]
         },
         {
           "id": "vp_drive_by_wire_controls",
           "fg": 1443,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         { "id": "vp_engine_1cyl", "fg": 873, "rotates": true },
         { "id": "vp_engine_1cyl_small", "fg": 873, "rotates": true },
@@ -3919,42 +3986,42 @@
           "fg": 1468,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_engine_gas_1cyl",
           "fg": 1468,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_engine_gas_i4",
           "fg": 1468,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_engine_gas_v2",
           "fg": 1468,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_engine_gas_v6",
           "fg": 1468,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_engine_gas_v8",
           "fg": 1468,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         { "id": "vp_engine_inline4", "fg": 873, "rotates": true },
         {
@@ -3962,21 +4029,21 @@
           "fg": 1468,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_engine_motor_large",
           "fg": 1468,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_engine_plasma",
           "fg": 1468,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         { "id": "vp_engine_v12", "fg": 873, "rotates": true },
         { "id": "vp_engine_v6", "fg": 873, "rotates": true },
@@ -3987,63 +4054,63 @@
           "fg": 1436,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_external_gas_tank",
           "fg": 1529,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_flamethrower",
           "fg": 1508,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_floodlight",
           "fg": 1510,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_folding_frame",
           "fg": 1515,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_folding_seat",
           "fg": 1482,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_foot_pedals",
           "fg": 1468,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_frame_cover",
           "fg": 1468,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_frame_cross",
           "fg": 1489,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         { "id": "vp_frame_handle", "fg": 1468, "rotates": true },
         {
@@ -4051,350 +4118,350 @@
           "fg": 1496,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_frame_horizontal_2",
           "fg": 1496,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_frame_ne",
           "fg": 1495,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_frame_nw",
           "fg": 1495,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_frame_se",
           "fg": 1495,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_frame_sw",
           "fg": 1495,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_frame_vertical",
           "fg": 1495,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_frame_vertical_2",
           "fg": 1495,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_frame_wood_cover",
           "fg": 1417,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_cross",
           "fg": 1416,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_handle",
           "fg": 1417,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_horizontal",
           "fg": 1415,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_horizontal_2",
           "fg": 1415,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_light_cover",
           "fg": 1417,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_light_cross",
           "fg": 1416,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_light_handle",
           "fg": 1417,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_light_horizontal",
           "fg": 1415,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_light_horizontal_2",
           "fg": 1415,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_light_ne",
           "fg": 1414,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_light_nw",
           "fg": 1414,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_light_se",
           "fg": 1414,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_light_sw",
           "fg": 1414,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_light_vertical",
           "fg": 1414,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_light_vertical_2",
           "fg": 1414,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_ne",
           "fg": 1414,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_nw",
           "fg": 1414,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_se",
           "fg": 1414,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_sw",
           "fg": 1414,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_vertical",
           "fg": 1414,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_frame_wood_vertical_2",
           "fg": 1414,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_fuel_tank_batt",
           "fg": 1499,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_fuel_tank_gas",
           "fg": 1498,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_fuel_tank_hydrogen",
           "fg": 1501,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_fuel_tank_plut",
           "fg": 1500,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_fuel_tank_water",
           "fg": 1502,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_fusion_gun",
           "fg": 1511,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1450 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1450 }]
         },
         {
           "id": "vp_gas_tank",
           "fg": 1498,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_gas_tank_little",
           "fg": 1498,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_gas_tank_small",
           "fg": 1498,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_halfboard_cover",
           "fg": 1468,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_halfboard_cross",
           "fg": 1503,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_halfboard_horizontal",
           "fg": 1484,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_halfboard_horizontal_2",
           "fg": 1484,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_halfboard_ne",
           "fg": 1485,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_halfboard_nw",
           "fg": 1487,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_halfboard_se",
           "fg": 1486,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_halfboard_sw",
           "fg": 1488,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_halfboard_vertical",
           "fg": 1483,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_halfboard_vertical_2",
           "fg": 1483,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_hand_rims",
           "fg": 783,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         { "id": "vp_hard_plate", "fg": 1494, "rotates": true },
         {
@@ -4402,350 +4469,350 @@
           "fg": 1471,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "open", "fg": 1474 }, { "id": "broken", "fg": 1480 } ]
+          "additional_tiles": [{ "id": "open", "fg": 1474 }, { "id": "broken", "fg": 1480 }]
         },
         {
           "id": "vp_hdboard_horizontal",
           "fg": 1522,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdboard_ne",
           "fg": 1523,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdboard_nw",
           "fg": 1525,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdboard_se",
           "fg": 1524,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdboard_sw",
           "fg": 1526,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdboard_vertical",
           "fg": 1521,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdframe_cover",
           "fg": 1520,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdframe_cross",
           "fg": 1518,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdframe_horizontal",
           "fg": 1517,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdframe_horizontal_2",
           "fg": 1517,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdframe_ne",
           "fg": 1516,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdframe_nw",
           "fg": 1516,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdframe_se",
           "fg": 1516,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdframe_sw",
           "fg": 1516,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdframe_vertical",
           "fg": 1516,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdframe_vertical_2",
           "fg": 1516,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_hdhatch",
           "fg": 1426,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "open", "fg": 1427 }, { "id": "broken", "fg": 1428 } ]
+          "additional_tiles": [{ "id": "open", "fg": 1427 }, { "id": "broken", "fg": 1428 }]
         },
         {
           "id": "vp_hdroof",
           "fg": 1425,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_headlight",
           "fg": 1510,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_headlight_reinforced",
           "fg": 916,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_head_light",
           "fg": 1510,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_horn_bicycle",
           "fg": 1513,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_horn_big",
           "fg": 1512,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_horn_car",
           "fg": 1512,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_hydrogen_tank",
           "fg": 1501,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_jumper_cable",
           "fg": 1433,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_jumper_cable_heavy",
           "fg": 1433,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_kitchen_unit",
           "fg": 865,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1479 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1479 }]
         },
         {
           "id": "vp_laser_gun",
           "fg": 1511,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1450 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1450 }]
         },
         {
           "id": "vp_light_blue",
           "fg": 872,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_light_red",
           "fg": 871,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_lit_aisle_horizontal",
           "fg": 1447,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_lit_aisle_horizontal",
           "fg": 1447,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_lit_aisle_vertical",
           "fg": 1448,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_lit_aisle_vertical",
           "fg": 1448,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_m249",
           "fg": 1507,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1451 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1451 }]
         },
         {
           "id": "vp_medium_storage_battery",
           "fg": 1499,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_metal_wheel",
           "fg": 1465,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1475 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1475 }]
         },
         {
           "id": "vp_minifridge",
           "fg": 866,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1479 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1479 }]
         },
         {
           "id": "vp_minireactor",
           "fg": 1500,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_mounted_browning",
           "fg": 1533,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_mounted_mk19",
           "fg": 1533,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1519 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1519 }]
         },
         {
           "id": "vp_mounted_rm298",
           "fg": 1449,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_mounted_rm614",
           "fg": 1449,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_muffler",
           "fg": 1506,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_muffler",
           "fg": 883,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_omnicam",
           "fg": 1444,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_plasmagun",
           "fg": 1509,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1451 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1451 }]
         },
         {
           "id": "vp_plasma_gun",
           "fg": 1509,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1451 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1451 }]
         },
         { "id": "vp_plating_bone", "fg": 1440, "rotates": true },
         { "id": "vp_plating_chitin", "fg": 1491, "rotates": true },
@@ -4760,133 +4827,133 @@
           "fg": 917,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1479 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1479 }]
         },
         {
           "id": "vp_reclining_seat",
           "fg": 1482,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_reinforced_solar_panel",
           "fg": 877,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1477 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1477 }]
         },
         {
           "id": "vp_reinforced_solar_panel_v2",
           "fg": 877,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1477 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1477 }]
         },
         {
           "id": "vp_reinforced_windshield",
           "fg": 1463,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1462 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1462 }]
         },
         {
           "id": "vp_robot_controls",
           "fg": 1445,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_roller_drum",
           "fg": 1432,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_roof",
           "fg": 1455,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_roof_cloth",
           "fg": 1455,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_roof_wood",
           "fg": 1455,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_saddle",
           "fg": 1482,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_seatbelt",
           "fg": 883,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 882 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 882 }]
         },
         {
           "id": "vp_seatbelt_heavyduty",
           "fg": 1530,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 882 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 882 }]
         },
         {
           "id": "vp_seat",
           "fg": 1482,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_seat_wood",
           "fg": 1441,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_small_storage_battery",
           "fg": 1499,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_solar_panel",
           "fg": 876,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1476 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1476 }]
         },
         {
           "id": "vp_solar_panel_v2",
           "fg": 876,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1476 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1476 }]
         },
         {
           "id": "vp_solar_panel_v3",
           "fg": 876,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1476 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1476 }]
         },
         { "id": "vp_spiked_plate", "fg": 1493, "rotates": true },
         {
@@ -4894,28 +4961,28 @@
           "fg": 1461,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_spike_horizontal",
           "fg": 1460,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_spike_vertical",
           "fg": 1461,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_spike_wood",
           "fg": 1973,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         { "id": "vp_steel_plate", "fg": 1491, "rotates": true },
         {
@@ -4923,42 +4990,42 @@
           "fg": 1429,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1479 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1479 }]
         },
         {
           "id": "vp_storage_battery",
           "fg": 1499,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_storage_battery_mount",
           "fg": 1452,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_storage_battery_removable",
           "fg": 1499,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_stowboard_horizontal",
           "fg": 1534,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_stowboard_vertical",
           "fg": 1535,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         { "id": "vp_superalloy_plate", "fg": 1492, "rotates": true },
         {
@@ -4966,399 +5033,399 @@
           "fg": 926,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_travois",
           "fg": 1434,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_trunk",
           "fg": 1473,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_trunk_floor",
           "fg": 1481,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_vehicle_alarm",
           "fg": 926,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_veh_forge",
           "fg": 879,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1479 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1479 }]
         },
         {
           "id": "vp_veh_table",
           "fg": 914,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_v_curtain",
           "fg": 1531,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_watercannon",
           "fg": 1509,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1453 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1453 }]
         },
         {
           "id": "vp_water_faucet",
           "fg": 1532,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1479 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1479 }]
         },
         {
           "id": "vp_water_tank",
           "fg": 1502,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1497 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1497 }]
         },
         {
           "id": "vp_welding_rig",
           "fg": 878,
           "rotates": false,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1479 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1479 }]
         },
         {
           "id": "vp_wheel",
           "fg": 1465,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1475 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1475 }]
         },
         {
           "id": "vp_wheel_armor",
           "fg": 1514,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1475 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1475 }]
         },
         {
           "id": "vp_wheel_bicycle",
           "fg": 1467,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1475 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1475 }]
         },
         {
           "id": "vp_wheel_caster",
           "fg": 1467,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1475 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1475 }]
         },
         {
           "id": "vp_wheel_motorbike",
           "fg": 1464,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1475 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1475 }]
         },
         {
           "id": "vp_wheel_small",
           "fg": 1467,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1475 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1475 }]
         },
         {
           "id": "vp_wheel_underbody",
           "fg": 1465,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1475 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1475 }]
         },
         {
           "id": "vp_wheel_unicycle",
           "fg": 1464,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1475 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1475 }]
         },
         {
           "id": "vp_wheel_wheelchair",
           "fg": 1464,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1475 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1475 }]
         },
         {
           "id": "vp_wheel_wide",
           "fg": 1466,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1475 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1475 }]
         },
         {
           "id": "vp_wheel_wood",
           "fg": 1430,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_wheel_wood_b",
           "fg": 1431,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_windshield",
           "fg": 1458,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1462 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1462 }]
         },
         {
           "id": "vp_wing_mirror",
           "fg": 1413,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_woodboard_horizontal",
           "fg": 1419,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodboard_ne",
           "fg": 1420,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodboard_nw",
           "fg": 1422,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodboard_se",
           "fg": 1421,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodboard_sw",
           "fg": 1423,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodboard_vertical",
           "fg": 1418,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodhalfboard_horizontal",
           "fg": 1419,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodhalfboard_horizontal_2",
           "fg": 1419,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodhalfboard_ne",
           "fg": 1420,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodhalfboard_nw",
           "fg": 1422,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodhalfboard_se",
           "fg": 1421,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodhalfboard_sw",
           "fg": 1423,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodhalfboard_vertical",
           "fg": 1418,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_woodhalfboard_vertical_2",
           "fg": 1418,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1504 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1504 }]
         },
         {
           "id": "vp_xlframe_cross",
           "fg": 1489,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_xlframe_horizontal",
           "fg": 1515,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_xlframe_horizontal_2",
           "fg": 1515,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_xlframe_ne",
           "fg": 2005,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_xlframe_nw",
           "fg": 2005,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_xlframe_se",
           "fg": 2005,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_xlframe_sw",
           "fg": 2005,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_xlframe_vertical",
           "fg": 2005,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_xlframe_vertical_2",
           "fg": 2005,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1505 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1505 }]
         },
         {
           "id": "vp_xlhalfboard_horizontal",
           "fg": 1484,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_xlhalfboard_horizontal_2",
           "fg": 1484,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_xlhalfboard_ne",
           "fg": 1485,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_xlhalfboard_nw",
           "fg": 1487,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_xlhalfboard_se",
           "fg": 1486,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_xlhalfboard_sw",
           "fg": 1488,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_xlhalfboard_vertical",
           "fg": 1483,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         {
           "id": "vp_xlhalfboard_vertical_2",
           "fg": 1483,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 1979 } ]
+          "additional_tiles": [{ "id": "broken", "fg": 1979 }]
         },
         { "id": "mon_amigara_horror", "fg": 1549, "rotates": false },
         { "id": "mon_ant", "fg": 1626, "rotates": false },
@@ -5713,7 +5780,7 @@
           ],
           "rotates": false
         },
-        { "id": [ "t_concrete", "t_concrete_floor" ], "bg": 1752, "rotates": false },
+        { "id": ["t_concrete", "t_concrete_floor"], "bg": 1752, "rotates": false },
         {
           "id": "t_concrete_v",
           "fg": 1970,
@@ -5730,7 +5797,7 @@
           "rotates": false
         },
         {
-          "id": [ "t_concrete_wall", "t_rock_smooth" ],
+          "id": ["t_concrete_wall", "t_rock_smooth"],
           "fg": 1970,
           "bg": 1924,
           "multitile": true,
@@ -5877,14 +5944,17 @@
           "id": "t_generator_broken",
           "fg": 1998,
           "multitile": true,
-          "additional_tiles": [ { "id": "corner", "fg": 1998, "bg": [  ] }, { "id": "t_connection", "fg": 2057, "bg": [  ] } ],
+          "additional_tiles": [
+            { "id": "corner", "fg": 1998, "bg": [] },
+            { "id": "t_connection", "fg": 2057, "bg": [] }
+          ],
           "rotates": false
         },
         { "id": "t_grass", "fg": 2049, "rotates": false },
         { "id": "t_grass_white", "fg": 1891, "bg": 1516, "rotates": false },
         { "id": "t_grate", "fg": 2093, "rotates": false },
         { "id": "t_guardrail_bg_dp", "fg": 1959, "rotates": true },
-        { "id": "t_hole", "bg": [  ], "rotates": false },
+        { "id": "t_hole", "bg": [], "rotates": false },
         { "id": "t_improvised_shelter", "fg": 1839, "rotates": false, "multitile": false },
         { "id": "t_ind_drill", "fg": 1919, "rotates": false, "multitile": false },
         { "id": "t_ind_furnace", "fg": 1918, "rotates": false, "multitile": false },
@@ -5925,9 +5995,13 @@
         {
           "id": "t_monkey_bars",
           "fg": 1950,
-          "bg": [  ],
+          "bg": [],
           "multitile": true,
-          "additional_tiles": [ { "id": "center", "fg": 1950 }, { "id": "corner", "fg": 1951 }, { "id": "t_connection", "fg": 1952 } ],
+          "additional_tiles": [
+            { "id": "center", "fg": 1950 },
+            { "id": "corner", "fg": 1951 },
+            { "id": "t_connection", "fg": 1952 }
+          ],
           "rotates": false
         },
         { "id": "t_m_frame", "fg": 1895, "rotates": false },
@@ -6079,7 +6153,7 @@
           "rotates": false
         },
         {
-          "id": [ "t_reinforced_glass", "t_reinforced_glass_shutter_open" ],
+          "id": ["t_reinforced_glass", "t_reinforced_glass_shutter_open"],
           "fg": 1967,
           "bg": 2058,
           "multitile": true,
@@ -6196,7 +6270,7 @@
         { "id": "t_searth_test", "bg": 1791, "rotates": false },
         { "id": "t_sewage", "bg": 2094, "rotates": false },
         {
-          "id": [ "t_sewage_pipe", "t_ind_pipe" ],
+          "id": ["t_sewage_pipe", "t_ind_pipe"],
           "fg": 1939,
           "multitile": true,
           "additional_tiles": [
@@ -6224,9 +6298,9 @@
         {
           "id": "t_slide",
           "fg": 1954,
-          "bg": [  ],
+          "bg": [],
           "multitile": true,
-          "additional_tiles": [ { "id": "edge", "fg": 1954 }, { "id": "end_piece", "fg": 1953 } ],
+          "additional_tiles": [{ "id": "edge", "fg": 1954 }, { "id": "end_piece", "fg": 1953 }],
           "rotates": false
         },
         { "id": "t_slime", "fg": 2094, "rotates": false },
@@ -6237,7 +6311,7 @@
         { "id": "t_stairs_up", "fg": 1762, "rotates": false },
         { "id": "t_station_disc", "fg": 1836, "rotates": false, "multitile": false },
         {
-          "id": [ "t_stone_wall_line", "t_rock_wall" ],
+          "id": ["t_stone_wall_line", "t_rock_wall"],
           "fg": 1964,
           "bg": 1924,
           "multitile": true,
@@ -6376,7 +6450,7 @@
         {
           "id": "t_wall_glass",
           "fg": 1974,
-          "bg": [  ],
+          "bg": [],
           "multitile": true,
           "additional_tiles": [
             { "id": "center", "fg": 1974 },
@@ -6406,7 +6480,7 @@
         {
           "id": "t_wall_glass_h",
           "fg": 1974,
-          "bg": [  ],
+          "bg": [],
           "multitile": true,
           "additional_tiles": [
             { "id": "center", "fg": 1974 },
@@ -6436,7 +6510,7 @@
         {
           "id": "t_wall_glass_v",
           "fg": 1974,
-          "bg": [  ],
+          "bg": [],
           "multitile": true,
           "additional_tiles": [
             { "id": "center", "fg": 1974 },
@@ -6784,7 +6858,7 @@
         { "id": "t_wall_wood_broken", "fg": 2080, "rotates": false },
         { "id": "t_wall_wood_chipped", "fg": 2079, "rotates": false },
         {
-          "id": [ "t_wall_wood", "t_wall_wood_line" ],
+          "id": ["t_wall_wood", "t_wall_wood_line"],
           "fg": 1889,
           "multitile": true,
           "additional_tiles": [
@@ -6849,7 +6923,7 @@
           "rotates": false
         },
         {
-          "id": [ "t_window_bars_alarm", "t_window_bars", "t_bars" ],
+          "id": ["t_window_bars_alarm", "t_window_bars", "t_bars"],
           "fg": 2087,
           "multitile": true,
           "additional_tiles": [
@@ -6870,14 +6944,14 @@
         { "id": "t_window_enhanced", "fg": 1782, "rotates": false },
         { "id": "t_window_enhanced_noglass", "fg": 1783, "rotates": false },
         { "id": "t_window_frame", "fg": 2073, "bg": 2058, "rotates": false },
-        { "id": [ "t_window_open", "t_window_no_curtains_open" ], "fg": 2072, "rotates": false },
+        { "id": ["t_window_open", "t_window_no_curtains_open"], "fg": 2072, "rotates": false },
         { "id": "t_window_reinforced", "fg": 1780, "rotates": false },
         { "id": "t_window_reinforced_noglass", "fg": 1781, "rotates": false },
         { "id": "t_window_stained_blue", "fg": 1771, "bg": 2058, "rotates": true },
         { "id": "t_window_stained_green", "fg": 1761, "bg": 2058, "rotates": true },
         { "id": "t_window_stained_red", "fg": 1772, "bg": 2058, "rotates": true },
-        { "id": [ "t_window_taped", "t_window_no_curtains_taped" ], "fg": 2071, "rotates": false },
-        { "id": [ "t_window", "t_window_no_curtains" ], "fg": 2070, "rotates": false },
+        { "id": ["t_window_taped", "t_window_no_curtains_taped"], "fg": 2071, "rotates": false },
+        { "id": ["t_window", "t_window_no_curtains"], "fg": 2070, "rotates": false },
         { "id": "t_wreckage", "bg": 1977, "rotates": false },
         { "id": "121_tr_rollmat_0", "fg": 2101, "rotates": false },
         { "id": "tr_beartrap", "fg": 2113, "rotates": false },
@@ -6929,7 +7003,7 @@
         { "id": "tr_landmine_buried", "fg": 1824, "rotates": false },
         { "id": "tr_lava", "bg": 1978, "rotates": false },
         { "id": "tr_leather_funnel", "fg": 2125, "rotates": false, "multitile": false },
-        { "id": "tr_ledge", "bg": [  ], "rotates": false },
+        { "id": "tr_ledge", "bg": [], "rotates": false },
         { "id": "tr_light_snare", "fg": 2120, "rotates": false },
         { "id": "tr_makeshift_funnel", "fg": 2106, "rotates": false },
         { "id": "tr_nailboard", "fg": 2114, "rotates": false },
@@ -6991,7 +7065,7 @@
     },
     {
       "file": "fallback.png",
-      "tiles": [  ],
+      "tiles": [],
       "ascii": [
         { "offset": 0, "bold": false, "color": "BLACK" },
         { "offset": 256, "bold": true, "color": "WHITE" },

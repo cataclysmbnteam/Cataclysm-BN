@@ -3,10 +3,10 @@
     "type": "MOD_INFO",
     "id": "novitamins",
     "name": "Simplified Nutrition",
-    "authors": [ "mugling" ],
+    "authors": ["mugling"],
     "description": "Disables vitamin requirements.",
     "category": "rebalance",
-    "dependencies": [ "bn" ]
+    "dependencies": ["bn"]
   },
   {
     "type": "EXTERNAL_OPTION",
@@ -16,6 +16,6 @@
   },
   {
     "type": "ITEM_BLACKLIST",
-    "items": [ "calcium_tablet", "vitamins" ]
+    "items": ["calcium_tablet", "vitamins"]
   }
 ]

@@ -7,8 +7,8 @@
     "skill_used": "tailor",
     "time": "80 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 35 ] ] ]
+    "using": [["sewing_standard", 20]],
+    "components": [[["rag", 35]]]
   },
   {
     "result": "electric_blanket",
@@ -17,11 +17,17 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "electronics", 2 ],
+    "skills_required": ["electronics", 2],
     "time": "120 m",
-    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 35 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "element", 8 ] ], [ [ "cable", 10 ] ], [ [ "amplifier", 1 ] ] ]
+    "book_learn": [["textbook_tailor", 2], ["manual_tailor", 2]],
+    "using": [["sewing_standard", 20]],
+    "components": [
+      [["rag", 35]],
+      [["plastic_chunk", 4]],
+      [["element", 8]],
+      [["cable", 10]],
+      [["amplifier", 1]]
+    ]
   },
   {
     "result": "gold_ring",
@@ -31,9 +37,9 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "120 m",
-    "book_learn": [ [ "jewelry_book", 6 ] ],
-    "using": [ [ "blacksmithing_advanced", 3 ] ],
-    "components": [ [ [ "gold_small", 3 ] ] ]
+    "book_learn": [["jewelry_book", 6]],
+    "using": [["blacksmithing_advanced", 3]],
+    "components": [[["gold_small", 3]]]
   },
   {
     "result": "gold_bracelet",
@@ -43,9 +49,9 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "120 m",
-    "book_learn": [ [ "jewelry_book", 6 ] ],
-    "using": [ [ "blacksmithing_advanced", 3 ] ],
-    "components": [ [ [ "gold_small", 12 ] ] ]
+    "book_learn": [["jewelry_book", 6]],
+    "using": [["blacksmithing_advanced", 3]],
+    "components": [[["gold_small", 12]]]
   },
   {
     "result": "copper_bracelet",
@@ -55,9 +61,9 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "120 m",
-    "book_learn": [ [ "jewelry_book", 6 ] ],
-    "using": [ [ "blacksmithing_advanced", 3 ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
+    "book_learn": [["jewelry_book", 6]],
+    "using": [["blacksmithing_advanced", 3]],
+    "components": [[["copper_scrap_equivalent", 2, "LIST"]]]
   },
   {
     "type": "recipe",
@@ -67,9 +73,9 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "120 m",
-    "book_learn": [ [ "jewelry_book", 6 ] ],
-    "using": [ [ "blacksmithing_advanced", 3 ] ],
-    "components": [ [ [ "silver_small", 15 ] ] ]
+    "book_learn": [["jewelry_book", 6]],
+    "using": [["blacksmithing_advanced", 3]],
+    "components": [[["silver_small", 15]]]
   },
   {
     "type": "recipe",
@@ -80,7 +86,7 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "wooden_bead", 10 ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+    "components": [[["wooden_bead", 10]], [["cordage_short", 1, "LIST"]]]
   },
   {
     "result": "bead_necklace",
@@ -91,7 +97,7 @@
     "reversible": true,
     "autolearn": true,
     "type": "recipe",
-    "components": [ [ [ "wooden_bead", 30 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+    "components": [[["wooden_bead", 30]], [["cordage", 1, "LIST"]]]
   },
   {
     "result": "down_blanket",
@@ -102,8 +108,8 @@
     "difficulty": 1,
     "time": "85 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
+    "using": [["sewing_standard", 20]],
+    "components": [[["rag", 35]], [["down_feather", 160]]]
   },
   {
     "result": "fur_blanket",
@@ -112,13 +118,13 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
     "difficulty": 1,
-    "skills_required": [ "survival", 1 ],
+    "skills_required": ["survival", 1],
     "time": "80 m",
     "reversible": true,
     "decomp_learn": 0,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 24 ] ],
-    "components": [ [ [ "rag", 30 ] ], [ [ "fur", 10 ] ] ]
+    "using": [["sewing_standard", 24]],
+    "components": [[["rag", 30]], [["fur", 10]]]
   },
   {
     "result": "fur_cat_tail",
@@ -128,13 +134,18 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "30 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
-    "using": [ [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "book_learn": [["mag_animecon", 3]],
+    "using": [["sewing_standard", 10]],
+    "tools": [[["surface_heat", 5, "LIST"]]],
     "components": [
-      [ [ "fur", 4 ] ],
-      [ [ "cordage", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
+      [["fur", 4]],
+      [["cordage", 1, "LIST"]],
+      [
+        ["plastic_chunk", 10],
+        ["bottle_plastic", 5],
+        ["bottle_plastic_small", 10],
+        ["jug_plastic", 1]
+      ]
     ]
   },
   {
@@ -145,13 +156,18 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "30 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
-    "using": [ [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "book_learn": [["mag_animecon", 3]],
+    "using": [["sewing_standard", 10]],
+    "tools": [[["surface_heat", 5, "LIST"]]],
     "components": [
-      [ [ "faux_fur", 4 ] ],
-      [ [ "cordage", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
+      [["faux_fur", 4]],
+      [["cordage", 1, "LIST"]],
+      [
+        ["plastic_chunk", 10],
+        ["bottle_plastic", 5],
+        ["bottle_plastic_small", 10],
+        ["jug_plastic", 1]
+      ]
     ]
   },
   {
@@ -162,10 +178,10 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "20 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
-    "using": [ [ "sewing_standard", 5 ] ],
-    "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "fur", 2 ] ], [ [ "scrap", 1 ] ] ]
+    "book_learn": [["mag_animecon", 3]],
+    "using": [["sewing_standard", 5]],
+    "tools": [[["soldering_standard", 10, "LIST"], ["surface_heat", 10, "LIST"]]],
+    "components": [[["fur", 2]], [["scrap", 1]]]
   },
   {
     "result": "faux_fur_collar",
@@ -175,10 +191,10 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "20 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
-    "using": [ [ "sewing_standard", 5 ] ],
-    "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "faux_fur", 2 ] ], [ [ "scrap", 1 ] ] ]
+    "book_learn": [["mag_animecon", 3]],
+    "using": [["sewing_standard", 5]],
+    "tools": [[["soldering_standard", 10, "LIST"], ["surface_heat", 10, "LIST"]]],
+    "components": [[["faux_fur", 2]], [["scrap", 1]]]
   },
   {
     "result": "basket_laundry",
@@ -188,10 +204,14 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "60 m",
-    "book_learn": [ [ "textbook_fabrication", 4 ], [ "welding_book", 4 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "WELD", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 20 ] ] ]
+    "book_learn": [["textbook_fabrication", 4], ["welding_book", 4]],
+    "qualities": [
+      { "id": "ANVIL", "level": 1 },
+      { "id": "WELD", "level": 1 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "tools": [[["surface_heat", 5, "LIST"]]],
+    "components": [[["plastic_chunk", 20]]]
   },
   {
     "result": "leather_cat_tail",
@@ -201,13 +221,18 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "30 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
-    "using": [ [ "sewing_standard", 10 ] ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "book_learn": [["mag_animecon", 3]],
+    "using": [["sewing_standard", 10]],
+    "tools": [[["surface_heat", 5, "LIST"]]],
     "components": [
-      [ [ "leather", 4 ] ],
-      [ [ "cordage", 1, "LIST" ] ],
-      [ [ "plastic_chunk", 10 ], [ "bottle_plastic", 5 ], [ "bottle_plastic_small", 10 ], [ "jug_plastic", 1 ] ]
+      [["leather", 4]],
+      [["cordage", 1, "LIST"]],
+      [
+        ["plastic_chunk", 10],
+        ["bottle_plastic", 5],
+        ["bottle_plastic_small", 10],
+        ["jug_plastic", 1]
+      ]
     ]
   },
   {
@@ -218,10 +243,10 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "20 m",
-    "book_learn": [ [ "mag_animecon", 3 ] ],
-    "using": [ [ "sewing_standard", 5 ] ],
-    "tools": [ [ [ "soldering_standard", 10, "LIST" ], [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "leather", 2 ] ], [ [ "scrap", 1 ] ] ]
+    "book_learn": [["mag_animecon", 3]],
+    "using": [["sewing_standard", 5]],
+    "tools": [[["soldering_standard", 10, "LIST"], ["surface_heat", 10, "LIST"]]],
+    "components": [[["leather", 2]], [["scrap", 1]]]
   },
   {
     "result": "rebreather_filter",
@@ -230,25 +255,25 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "cooking", 1 ],
+    "skills_required": ["cooking", 1],
     "time": "60 m",
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [
-      [ "textbook_fireman", 4 ],
-      [ "atomic_survival", 4 ],
-      [ "adv_chemistry", 4 ],
-      [ "textbook_chemistry", 4 ],
-      [ "emergency_book", 3 ],
-      [ "textbook_gaswarfare", 4 ]
+      ["textbook_fireman", 4],
+      ["atomic_survival", 4],
+      ["adv_chemistry", 4],
+      ["textbook_chemistry", 4],
+      ["emergency_book", 3],
+      ["textbook_gaswarfare", 4]
     ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "oxy_powder", 50 ] ],
-      [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
-      [ [ "superglue", 1 ] ],
-      [ [ "scrap", 2 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ]
+      [["oxy_powder", 50]],
+      [["charcoal", 5], ["coal_lump", 5]],
+      [["superglue", 1]],
+      [["scrap", 2], ["can_food_unsealed", 1], ["can_drink_unsealed", 1], ["canister_empty", 1]]
     ]
   },
   {
@@ -262,7 +287,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "components": [ [ [ "charcoal", 5 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [[["charcoal", 5]], [["paper", 2]], [["bag_plastic", 1]]]
   },
   {
     "result": "gasfilter_m",
@@ -275,7 +300,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
-    "components": [ [ [ "charcoal", 10 ] ], [ [ "paper", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [[["charcoal", 10]], [["paper", 2]], [["bag_plastic", 1]]]
   },
   {
     "result": "gasfilter_l",
@@ -284,25 +309,25 @@
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "cooking", 1 ],
+    "skills_required": ["cooking", 1],
     "time": "60 m",
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [
-      [ "textbook_fireman", 4 ],
-      [ "atomic_survival", 4 ],
-      [ "adv_chemistry", 4 ],
-      [ "textbook_chemistry", 4 ],
-      [ "emergency_book", 3 ],
-      [ "textbook_gaswarfare", 4 ]
+      ["textbook_fireman", 4],
+      ["atomic_survival", 4],
+      ["adv_chemistry", 4],
+      ["textbook_chemistry", 4],
+      ["emergency_book", 3],
+      ["textbook_gaswarfare", 4]
     ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "oxy_powder", 50 ] ],
-      [ [ "charcoal", 5 ], [ "coal_lump", 5 ] ],
-      [ [ "superglue", 1 ] ],
-      [ [ "scrap", 2 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ]
+      [["oxy_powder", 50]],
+      [["charcoal", 5], ["coal_lump", 5]],
+      [["superglue", 1]],
+      [["scrap", 2], ["can_food_unsealed", 1], ["can_drink_unsealed", 1], ["canister_empty", 1]]
     ]
   },
   {
@@ -312,12 +337,12 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
     "difficulty": 4,
-    "skills_required": [ "survival", 1 ],
+    "skills_required": ["survival", 1],
     "time": "75 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "rag", 60 ] ] ]
+    "using": [["sewing_standard", 30]],
+    "components": [[["rag", 60]]]
   },
   {
     "result": "sleeping_bag_fur_roll",
@@ -326,14 +351,19 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ "survival", 1 ],
+    "skills_required": ["survival", 1],
     "time": "75 m",
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
-    "book_learn": [ [ "textbook_survival", 1 ], [ "trappers_companion", 3 ], [ "survival_book", 2 ], [ "pocket_survival", 1 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "rag", 10 ] ], [ [ "fur", 20 ] ] ]
+    "book_learn": [
+      ["textbook_survival", 1],
+      ["trappers_companion", 3],
+      ["survival_book", 2],
+      ["pocket_survival", 1]
+    ],
+    "using": [["sewing_standard", 30]],
+    "components": [[["rag", 10]], [["fur", 20]]]
   },
   {
     "result": "survivor_belt",
@@ -345,12 +375,12 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "survivor_belt_notools", 1 ] ],
-      [ [ "screwdriver_set", 1 ] ],
-      [ [ "wrench", 1 ] ],
-      [ [ "saw", 1 ] ],
-      [ [ "hacksaw", 1 ] ],
-      [ [ "hammer", 1 ] ]
+      [["survivor_belt_notools", 1]],
+      [["screwdriver_set", 1]],
+      [["wrench", 1]],
+      [["saw", 1]],
+      [["hacksaw", 1]],
+      [["hammer", 1]]
     ]
   },
   {
@@ -360,15 +390,15 @@
     "subcategory": "CSC_ARMOR_OTHER",
     "skill_used": "tailor",
     "difficulty": 6,
-    "skills_required": [ "fabrication", 3 ],
+    "skills_required": ["fabrication", 3],
     "time": "80 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 140 ] ],
+    "using": [["sewing_standard", 140]],
     "components": [
-      [ [ "leather", 6 ], [ "leather_belt", 1 ] ],
-      [ [ "duct_tape", 100 ] ],
-      [ [ "sheath", 1 ] ],
-      [ [ "legrig", 1 ], [ "tool_belt", 1 ], [ "dump_pouch", 1 ], [ "leather_pouch", 4 ] ]
+      [["leather", 6], ["leather_belt", 1]],
+      [["duct_tape", 100]],
+      [["sheath", 1]],
+      [["legrig", 1], ["tool_belt", 1], ["dump_pouch", 1], ["leather_pouch", 4]]
     ]
   },
   {
@@ -380,8 +410,8 @@
     "skill_used": "tailor",
     "time": "6 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 7 ] ],
-    "components": [ [ [ "rag", 5 ] ] ]
+    "using": [["sewing_standard", 7]],
+    "components": [[["rag", 5]]]
   },
   {
     "type": "recipe",
@@ -391,7 +421,7 @@
     "skill_used": "survival",
     "time": "4 m",
     "autolearn": true,
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "towel_soiled", 1 ] ] ]
+    "components": [[["water", 1], ["water_clean", 1]], [["towel_soiled", 1]]]
   },
   {
     "result": "shield_wooden",
@@ -402,11 +432,11 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [{ "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }],
     "components": [
-      [ [ "nail", 8 ] ],
-      [ [ "2x4", 4 ], [ "wood_panel", 1 ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "fur", 2 ], [ "leather", 2 ] ]
+      [["nail", 8]],
+      [["2x4", 4], ["wood_panel", 1]],
+      [["rag", 2], ["felt_patch", 2], ["fur", 2], ["leather", 2]]
     ]
   },
   {
@@ -418,11 +448,11 @@
     "difficulty": 3,
     "time": "50 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "qualities": [{ "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }],
     "components": [
-      [ [ "nail", 16 ] ],
-      [ [ "2x4", 8 ], [ "wood_panel", 2 ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "fur", 2 ], [ "leather", 2 ] ]
+      [["nail", 16]],
+      [["2x4", 8], ["wood_panel", 2]],
+      [["rag", 2], ["felt_patch", 2], ["fur", 2], ["leather", 2]]
     ]
   },
   {
@@ -435,8 +465,8 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "shield_wooden", 1 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }],
+    "components": [[["shield_wooden", 1]], [["fur", 4], ["leather", 4]]]
   },
   {
     "result": "shield_leather_large",
@@ -448,8 +478,8 @@
     "time": "1 h",
     "autolearn": true,
     "reversible": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "shield_wooden_large", 1 ] ], [ [ "fur", 8 ], [ "leather", 8 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }],
+    "components": [[["shield_wooden_large", 1]], [["fur", 8], ["leather", 8]]]
   },
   {
     "result": "shield_banded",
@@ -460,9 +490,9 @@
     "difficulty": 5,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_standard", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shield_wooden", 1 ] ] ]
+    "using": [["blacksmithing_standard", 2], ["steel_standard", 2]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["shield_wooden", 1]]]
   },
   {
     "result": "shield_banded_large",
@@ -473,9 +503,9 @@
     "difficulty": 6,
     "time": "1 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shield_wooden_large", 1 ] ] ]
+    "using": [["blacksmithing_standard", 4], ["steel_standard", 4]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["shield_wooden_large", 1]]]
   },
   {
     "result": "shield_welded",
@@ -486,8 +516,8 @@
     "difficulty": 2,
     "time": "10 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
-    "components": [ [ [ "steel_plate", 1 ] ], [ [ "scrap", 4 ] ] ]
+    "using": [["welding_standard", 10]],
+    "components": [[["steel_plate", 1]], [["scrap", 4]]]
   },
   {
     "result": "shield_buckler",
@@ -498,7 +528,7 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_standard", 1 ] ]
+    "using": [["blacksmithing_standard", 1], ["steel_standard", 1]]
   },
   {
     "result": "shield_spiked",
@@ -509,9 +539,9 @@
     "difficulty": 6,
     "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 3 ], [ "steel_standard", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shield_wooden", 1 ] ] ]
+    "using": [["blacksmithing_standard", 3], ["steel_standard", 3]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["shield_wooden", 1]]]
   },
   {
     "result": "shield_spiked_large",
@@ -522,8 +552,8 @@
     "difficulty": 6,
     "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 5 ], [ "steel_standard", 5 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "shield_wooden_large", 1 ] ] ]
+    "using": [["blacksmithing_standard", 5], ["steel_standard", 5]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["shield_wooden_large", 1]]]
   }
 ]

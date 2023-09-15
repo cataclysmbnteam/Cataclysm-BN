@@ -11,14 +11,14 @@
     "price": 390000,
     "price_postapoc": 4000,
     "bashing": 11,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "545x39",
     "dispersion": 150,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 4]],
     "barrel_length": "250 ml",
-    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "magazines": [["545x39", ["ak74mag", "rpk74mag"]]],
+    "flags": ["NEVER_JAMS"]
   },
   {
     "id": "an94",
@@ -31,13 +31,13 @@
     "price": 420000,
     "price_postapoc": 4500,
     "bashing": 11,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "brown",
     "ammo": "545x39",
     "dispersion": 150,
     "durability": 7,
     "barrel_length": "250 ml",
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ]
+    "modes": [["DEFAULT", "semi", 1], ["BURST", "2 rd.", 2], ["AUTO", "auto", 4]],
+    "magazines": [["545x39", ["ak74mag", "rpk74mag"]]]
   }
 ]

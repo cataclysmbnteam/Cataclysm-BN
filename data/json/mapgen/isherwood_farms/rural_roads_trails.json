@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "rural_road" ],
+    "om_terrain": ["rural_road"],
     "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
@@ -33,14 +33,14 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
-      "palettes": [ "rural_road" ],
-      "place_nested": [ { "chunks": [ [ "2x2_haybale", 5 ], [ "null", 20 ] ], "x": [ 4, 18 ], "y": [ 0, 22 ] } ]
+      "palettes": ["rural_road"],
+      "place_nested": [{ "chunks": [["2x2_haybale", 5], ["null", 20]], "x": [4, 18], "y": [0, 22] }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "rural_road" ],
+    "om_terrain": ["rural_road"],
     "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
@@ -71,19 +71,19 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
-      "palettes": [ "rural_road" ],
-      "place_nested": [ { "chunks": [ [ "2x2_haybale", 5 ], [ "null", 20 ] ], "x": [ 4, 18 ], "y": [ 0, 22 ] } ]
+      "palettes": ["rural_road"],
+      "place_nested": [{ "chunks": [["2x2_haybale", 5], ["null", 20]], "x": [4, 18], "y": [0, 22] }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "rural_road_3way" ],
+    "om_terrain": ["rural_road_3way"],
     "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
       "predecessor_mapgen": "field",
-      "rotation": [ 1, 1 ],
+      "rotation": [1, 1],
       "rows": [
         ".......i///ii///i.......",
         ".......i///ii///i.......",
@@ -110,14 +110,16 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
-      "palettes": [ "rural_road" ],
-      "place_nested": [ { "chunks": [ [ "2x2_haybale", 5 ], [ "null", 20 ] ], "x": [ 10, 20 ], "y": [ 0, 22 ] } ]
+      "palettes": ["rural_road"],
+      "place_nested": [
+        { "chunks": [["2x2_haybale", 5], ["null", 20]], "x": [10, 20], "y": [0, 22] }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "rural_road_turn" ],
+    "om_terrain": ["rural_road_turn"],
     "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
@@ -148,13 +150,13 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
-      "palettes": [ "rural_road" ]
+      "palettes": ["rural_road"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "rural_road_turn1" ],
+    "om_terrain": ["rural_road_turn1"],
     "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
@@ -185,13 +187,13 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
-      "palettes": [ "rural_road" ]
+      "palettes": ["rural_road"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "rural_road_forest" ],
+    "om_terrain": ["rural_road_forest"],
     "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
@@ -222,13 +224,13 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
-      "palettes": [ "rural_road" ]
+      "palettes": ["rural_road"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "rural_road_forest" ],
+    "om_terrain": ["rural_road_forest"],
     "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
@@ -259,13 +261,13 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
-      "palettes": [ "rural_road" ]
+      "palettes": ["rural_road"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "rural_road_turn_forest" ],
+    "om_terrain": ["rural_road_turn_forest"],
     "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
@@ -296,13 +298,13 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
-      "palettes": [ "rural_road" ]
+      "palettes": ["rural_road"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "rural_road_turn1_forest" ],
+    "om_terrain": ["rural_road_turn1_forest"],
     "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
@@ -333,18 +335,18 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
-      "palettes": [ "rural_road" ]
+      "palettes": ["rural_road"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "rural_road_3way_forest" ],
+    "om_terrain": ["rural_road_3way_forest"],
     "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
       "predecessor_mapgen": "forest",
-      "rotation": [ 1, 1 ],
+      "rotation": [1, 1],
       "rows": [
         ".......i///ii///i.......",
         ".......i///ii///i.......",
@@ -371,7 +373,7 @@
         ".......i///ii///i.......",
         ".......i///ii///i......."
       ],
-      "palettes": [ "rural_road" ]
+      "palettes": ["rural_road"]
     }
   }
 ]

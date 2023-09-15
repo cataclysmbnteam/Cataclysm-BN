@@ -4,7 +4,7 @@
     "id": "acidia_camp_palette",
     "terrain": {
       "^": "t_region_tree",
-      "+": [ [ "t_door_c", 3 ], [ "t_door_o", 2 ], "t_door_locked_interior" ],
+      "+": [["t_door_c", 3], ["t_door_o", 2], "t_door_locked_interior"],
       ",": "t_region_groundcover",
       "#": "t_palisade",
       "$": "t_region_groundcover_barren",

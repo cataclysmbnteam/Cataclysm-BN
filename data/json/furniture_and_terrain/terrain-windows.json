@@ -9,8 +9,19 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND" ],
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "NOITEM",
+      "REDUCE_SCENT",
+      "BARRICADABLE_WINDOW",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND"
+    ],
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "glass_sheet", "count": 1 }]
+    },
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -19,8 +30,8 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 1, 5 ] } ],
-      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 0, 5 ] }
+      "items": [{ "item": "glass_shard", "count": [1, 5] }],
+      "ranged": { "reduction": [1, 3], "reduction_laser": [0, 5] }
     }
   },
   {
@@ -33,8 +44,12 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
-    "delete": { "flags": [ "TRANSPARENT", "BARRICADABLE_WINDOW" ] },
-    "bash": { "str_min": 6, "str_max": 12, "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 1, 10 ] } }
+    "delete": { "flags": ["TRANSPARENT", "BARRICADABLE_WINDOW"] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "ranged": { "reduction": [1, 3], "reduction_laser": [1, 10] }
+    }
   },
   {
     "type": "terrain",
@@ -45,8 +60,8 @@
     "symbol": "\"",
     "color": "light_gray",
     "move_cost": 0,
-    "delete": { "flags": [ "BARRICADABLE_WINDOW" ] },
-    "extend": { "flags": [ "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS" ] },
+    "delete": { "flags": ["BARRICADABLE_WINDOW"] },
+    "extend": { "flags": ["OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS"] },
     "curtain_transform": "t_window_no_curtains",
     "examine_action": "curtains",
     "close": "t_curtains",
@@ -57,13 +72,13 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
     "bash": {
       "items": [
-        { "item": "glass_shard", "count": [ 1, 3 ] },
+        { "item": "glass_shard", "count": [1, 3] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -83,7 +98,7 @@
       "new_ter_type": "t_window_open",
       "break_ter_type": "t_window_frame",
       "break_items": [
-        { "item": "glass_shard", "count": [ 1, 3 ] },
+        { "item": "glass_shard", "count": [1, 3] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -99,10 +114,10 @@
     "symbol": "\"",
     "color": "white",
     "move_cost": 0,
-    "extend": { "flags": [ "OPENCLOSE_INSIDE" ] },
+    "extend": { "flags": ["OPENCLOSE_INSIDE"] },
     "examine_action": "locked_object",
     "open": "t_window_no_curtains_open",
-    "bash": { "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ] },
+    "bash": { "items": [{ "item": "glass_shard", "count": [1, 3] }] },
     "pry": {
       "success_message": "You pry open the window.",
       "fail_message": "You pry, but cannot pry open the window.",
@@ -116,7 +131,7 @@
       "difficulty": 11,
       "new_ter_type": "t_window_no_curtains_open",
       "break_ter_type": "t_window_frame",
-      "break_items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ]
+      "break_items": [{ "item": "glass_shard", "count": [1, 3] }]
     }
   },
   {
@@ -128,9 +143,18 @@
     "symbol": "'",
     "color": "white",
     "move_cost": 4,
-    "extend": { "flags": [ "OPENCLOSE_INSIDE", "MOUNTABLE", "BLOCK_WIND", "THIN_OBSTACLE", "SMALL_PASSAGE", "PERMEABLE" ] },
+    "extend": {
+      "flags": [
+        "OPENCLOSE_INSIDE",
+        "MOUNTABLE",
+        "BLOCK_WIND",
+        "THIN_OBSTACLE",
+        "SMALL_PASSAGE",
+        "PERMEABLE"
+      ]
+    },
     "close": "t_window_no_curtains",
-    "bash": { "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ] }
+    "bash": { "items": [{ "item": "glass_shard", "count": [1, 3] }] }
   },
   {
     "type": "terrain",
@@ -142,11 +166,13 @@
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
-    "delete": { "flags": [ "TRANSPARENT", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL" ] },
-    "extend": { "flags": [ "WALL" ] },
+    "delete": {
+      "flags": ["TRANSPARENT", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL"]
+    },
+    "extend": { "flags": ["WALL"] },
     "bash": {
-      "items": [ { "item": "glass_shard", "count": [ 1, 3 ] } ],
-      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 1, 10 ] }
+      "items": [{ "item": "glass_shard", "count": [1, 3] }],
+      "ranged": { "reduction": [1, 3], "reduction_laser": [1, 10] }
     }
   },
   {
@@ -159,17 +185,17 @@
     "symbol": "\"",
     "color": "dark_gray",
     "move_cost": 0,
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": ["FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "WINDOW"],
     "curtain_transform": "t_window_no_curtains_taped",
     "examine_action": "curtains",
     "bash": {
       "items": [
-        { "item": "glass_shard", "count": [ 1, 3 ] },
+        { "item": "glass_shard", "count": [1, 3] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
       ],
-      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 1, 10 ] }
+      "ranged": { "reduction": [1, 3], "reduction_laser": [1, 10] }
     }
   },
   {
@@ -181,14 +207,16 @@
     "symbol": "'",
     "color": "light_gray",
     "move_cost": 4,
-    "extend": { "flags": [ "OPENCLOSE_INSIDE", "MOUNTABLE", "THIN_OBSTACLE", "SMALL_PASSAGE", "WINDOW" ] },
-    "delete": { "flags": [ "REDUCE_SCENT", "BARRICADABLE_WINDOW", "BLOCK_WIND" ] },
+    "extend": {
+      "flags": ["OPENCLOSE_INSIDE", "MOUNTABLE", "THIN_OBSTACLE", "SMALL_PASSAGE", "WINDOW"]
+    },
+    "delete": { "flags": ["REDUCE_SCENT", "BARRICADABLE_WINDOW", "BLOCK_WIND"] },
     "curtain_transform": "t_window_no_curtains",
     "examine_action": "curtains",
     "close": "t_window_domestic",
     "bash": {
       "items": [
-        { "item": "glass_shard", "count": [ 1, 3 ] },
+        { "item": "glass_shard", "count": [1, 3] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -205,8 +233,8 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
-    "extend": { "flags": [ "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "WINDOW" ] },
-    "delete": { "flags": [ "TRANSPARENT", "REDUCE_SCENT", "BARRICADABLE_WINDOW" ] },
+    "extend": { "flags": ["OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "WINDOW"] },
+    "delete": { "flags": ["TRANSPARENT", "REDUCE_SCENT", "BARRICADABLE_WINDOW"] },
     "curtain_transform": "t_window_no_curtains",
     "open": "t_window_domestic",
     "examine_action": "curtains",
@@ -216,18 +244,18 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
     "bash": {
       "items": [
-        { "item": "glass_shard", "count": [ 1, 3 ] },
+        { "item": "glass_shard", "count": [1, 3] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
       ],
-      "ranged": { "reduction": [ 1, 3 ], "reduction_laser": [ 1, 10 ] }
+      "ranged": { "reduction": [1, 3], "reduction_laser": [1, 10] }
     },
     "pry": {
       "success_message": "You pry open the window.",
@@ -243,7 +271,7 @@
       "new_ter_type": "t_window_open",
       "break_ter_type": "t_window_frame",
       "break_items": [
-        { "item": "glass_shard", "count": [ 1, 3 ] },
+        { "item": "glass_shard", "count": [1, 3] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -259,7 +287,7 @@
     "symbol": "\"",
     "color": "light_cyan",
     "move_cost": 0,
-    "extend": { "flags": [ "ALARMED" ] }
+    "extend": { "flags": ["ALARMED"] }
   },
   {
     "type": "terrain",
@@ -269,7 +297,7 @@
     "description": "Duct tape covers this window, blocking out any sunlight and visibility.  You could remove the duct tape by cutting it off.",
     "symbol": "\"",
     "color": "dark_gray",
-    "extend": { "flags": [ "ALARMED" ] }
+    "extend": { "flags": ["ALARMED"] }
   },
   {
     "type": "terrain",
@@ -299,9 +327,9 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": [
-        { "item": "2x4", "count": [ 0, 5 ] },
-        { "item": "nail", "charges": [ 0, 5 ] },
-        { "item": "splinter", "count": [ 5, 10 ] }
+        { "item": "2x4", "count": [0, 5] },
+        { "item": "nail", "charges": [0, 5] },
+        { "item": "splinter", "count": [5, 10] }
       ]
     }
   },
@@ -323,9 +351,18 @@
       "sound_vol": 12,
       "sound_fail_vol": 8,
       "ter_set": "t_window_empty",
-      "items": [ { "item": "glass_shard", "count": [ 0, 1 ] } ]
+      "items": [{ "item": "glass_shard", "count": [0, 1] }]
     },
-    "flags": [ "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_TO_WALL", "SMALL_PASSAGE", "PERMEABLE" ]
+    "flags": [
+      "TRANSPARENT",
+      "SHARP",
+      "FLAMMABLE",
+      "NOITEM",
+      "MOUNTABLE",
+      "CONNECT_TO_WALL",
+      "SMALL_PASSAGE",
+      "PERMEABLE"
+    ]
   },
   {
     "type": "terrain",
@@ -337,7 +374,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "delete": { "flags": [ "TRANSPARENT", "BARRICADABLE_WINDOW" ] },
+    "delete": { "flags": ["TRANSPARENT", "BARRICADABLE_WINDOW"] },
     "bash": {
       "str_min": 3,
       "str_max": 30,
@@ -346,8 +383,11 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "splinter", "count": [ 0, 2 ] }, { "item": "glass_shard", "count": [ 1, 4 ] } ],
-      "ranged": { "reduction": [ 10, 30 ] }
+      "items": [
+        { "item": "splinter", "count": [0, 2] },
+        { "item": "glass_shard", "count": [1, 4] }
+      ],
+      "ranged": { "reduction": [10, 30] }
     }
   },
   {
@@ -361,7 +401,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": ["FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND"],
     "bash": {
       "str_min": 3,
       "str_max": 30,
@@ -370,7 +410,7 @@
       "sound_vol": 14,
       "sound_fail_vol": 10,
       "ter_set": "t_window_empty",
-      "items": [ { "item": "splinter", "count": [ 0, 2 ] } ]
+      "items": [{ "item": "splinter", "count": [0, 2] }]
     }
   },
   {
@@ -384,14 +424,14 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": ["FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND"],
     "bash": {
       "str_min": 12,
       "str_max": 30,
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_boarded",
-      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ]
+      "items": [{ "item": "splinter", "count": [0, 8] }]
     }
   },
   {
@@ -405,14 +445,14 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": ["FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND"],
     "bash": {
       "str_min": 12,
       "str_max": 30,
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_boarded_noglass",
-      "items": [ { "item": "splinter", "count": [ 0, 8 ] } ]
+      "items": [{ "item": "splinter", "count": [0, 8] }]
     }
   },
   {
@@ -426,14 +466,14 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": ["NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND"],
     "bash": {
       "str_min": 18,
       "str_max": 40,
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_reinforced",
-      "items": [ { "item": "spike", "count": [ 0, 2 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+      "items": [{ "item": "spike", "count": [0, 2] }, { "item": "sheet_metal", "count": [1, 3] }]
     }
   },
   {
@@ -447,14 +487,14 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": ["NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND"],
     "bash": {
       "str_min": 18,
       "str_max": 40,
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_window_reinforced_noglass",
-      "items": [ { "item": "spike", "count": [ 0, 2 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+      "items": [{ "item": "spike", "count": [0, 2] }, { "item": "sheet_metal", "count": [1, 3] }]
     }
   },
   {
@@ -467,7 +507,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "PERMEABLE" ],
+    "flags": ["TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "PERMEABLE"],
     "bash": {
       "str_min": 60,
       "str_max": 250,
@@ -476,8 +516,8 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] }
+        { "item": "steel_chunk", "count": [1, 4] },
+        { "item": "scrap", "count": [1, 5] }
       ]
     }
   },
@@ -491,8 +531,8 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
-    "delete": { "flags": [ "FLAMMABLE", "BARRICADABLE_WINDOW" ] },
-    "extend": { "flags": [ "ALARMED" ] },
+    "delete": { "flags": ["FLAMMABLE", "BARRICADABLE_WINDOW"] },
+    "extend": { "flags": ["ALARMED"] },
     "bash": { "ter_set": "t_window_bars" }
   },
   {
@@ -527,7 +567,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars",
       "items": [
-        { "item": "glass_shard", "count": [ 1, 5 ] },
+        { "item": "glass_shard", "count": [1, 5] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -565,7 +605,7 @@
       "sound_fail_vol": 10,
       "ter_set": "t_window_bars",
       "items": [
-        { "item": "glass_shard", "count": [ 1, 5 ] },
+        { "item": "glass_shard", "count": [1, 5] },
         { "item": "sheet", "count": 2 },
         { "item": "stick", "count": 1 },
         { "item": "string_36", "count": 1 }
@@ -581,14 +621,22 @@
     "color": "light_green",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "BARRICADABLE_WINDOW",
+      "CONNECT_TO_WALL",
+      "MINEABLE",
+      "BLOCK_WIND"
+    ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 6] }]
     }
   },
   {
@@ -600,14 +648,22 @@
     "color": "light_red",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "BARRICADABLE_WINDOW",
+      "CONNECT_TO_WALL",
+      "MINEABLE",
+      "BLOCK_WIND"
+    ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 6] }]
     }
   },
   {
@@ -619,14 +675,22 @@
     "color": "light_blue",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "BARRICADABLE_WINDOW",
+      "CONNECT_TO_WALL",
+      "MINEABLE",
+      "BLOCK_WIND"
+    ],
     "bash": {
       "str_min": 100,
       "str_max": 400,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 3, 6 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 6] }]
     }
   },
   {
@@ -651,7 +715,7 @@
     ],
     "deconstruct": {
       "ter_set": "t_window_reinforced",
-      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
+      "items": [{ "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 }]
     },
     "bash": {
       "str_min": 50,
@@ -661,9 +725,9 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 5, 12 ] }
+        { "item": "steel_chunk", "count": [1, 4] },
+        { "item": "scrap", "count": [1, 5] },
+        { "item": "glass_shard", "count": [5, 12] }
       ]
     }
   },
@@ -677,13 +741,21 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [
+      "NOITEM",
+      "CONNECT_TO_WALL",
+      "THIN_OBSTACLE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "WINDOW"
+    ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
     "open": "t_metal_grate_window_with_curtain_open",
     "deconstruct": {
       "ter_set": "t_window_reinforced",
-      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
+      "items": [{ "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 }]
     },
     "bash": {
       "str_min": 50,
@@ -693,9 +765,9 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 5, 12 ] }
+        { "item": "steel_chunk", "count": [1, 4] },
+        { "item": "scrap", "count": [1, 5] },
+        { "item": "glass_shard", "count": [5, 12] }
       ]
     }
   },
@@ -724,7 +796,7 @@
     "close": "t_metal_grate_window_with_curtain",
     "deconstruct": {
       "ter_set": "t_window_reinforced",
-      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
+      "items": [{ "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 }]
     },
     "bash": {
       "str_min": 50,
@@ -734,9 +806,9 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 5, 12 ] }
+        { "item": "steel_chunk", "count": [1, 4] },
+        { "item": "scrap", "count": [1, 5] },
+        { "item": "glass_shard", "count": [5, 12] }
       ]
     }
   },
@@ -750,10 +822,17 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "WINDOW" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "CONNECT_TO_WALL",
+      "BARRICADABLE_WINDOW",
+      "THIN_OBSTACLE",
+      "WINDOW"
+    ],
     "deconstruct": {
       "ter_set": "t_window_reinforced",
-      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
+      "items": [{ "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 }]
     },
     "bash": {
       "str_min": 50,
@@ -763,9 +842,9 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 5, 12 ] }
+        { "item": "steel_chunk", "count": [1, 4] },
+        { "item": "scrap", "count": [1, 5] },
+        { "item": "glass_shard", "count": [5, 12] }
       ]
     }
   },
@@ -779,13 +858,21 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [
+      "NOITEM",
+      "CONNECT_TO_WALL",
+      "THIN_OBSTACLE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "WINDOW"
+    ],
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "open": "t_metal_grate_window_with_curtain_open",
     "deconstruct": {
       "ter_set": "t_window_reinforced",
-      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
+      "items": [{ "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 }]
     },
     "bash": {
       "str_min": 50,
@@ -795,9 +882,9 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 5, 12 ] }
+        { "item": "steel_chunk", "count": [1, 4] },
+        { "item": "scrap", "count": [1, 5] },
+        { "item": "glass_shard", "count": [5, 12] }
       ]
     }
   },
@@ -826,7 +913,7 @@
     "close": "t_metal_grate_window_with_curtain",
     "deconstruct": {
       "ter_set": "t_window_reinforced",
-      "items": [ { "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 } ]
+      "items": [{ "item": "pipe", "count": 12 }, { "item": "sheet_metal_small", "count": 40 }]
     },
     "bash": {
       "str_min": 50,
@@ -836,9 +923,9 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "steel_lump", "prob": 25 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 5, 12 ] }
+        { "item": "steel_chunk", "count": [1, 4] },
+        { "item": "scrap", "count": [1, 5] },
+        { "item": "glass_shard", "count": [5, 12] }
       ]
     }
   },
@@ -865,7 +952,10 @@
     ],
     "examine_action": "locked_object",
     "open": "t_single_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "glass_sheet", "count": 1 }]
+    },
     "bash": {
       "str_min": 2,
       "str_max": 4,
@@ -876,8 +966,8 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 3, 8 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [3, 8] }
       ]
     }
   },
@@ -905,7 +995,10 @@
       "PERMEABLE"
     ],
     "close": "t_single_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "glass_sheet", "count": 1 }]
+    },
     "bash": {
       "str_min": 2,
       "str_max": 4,
@@ -916,8 +1009,8 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 3, 8 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [3, 8] }
       ]
     }
   },
@@ -951,7 +1044,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -963,7 +1056,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -997,7 +1090,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1009,7 +1102,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -1044,7 +1137,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1056,7 +1149,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -1082,7 +1175,10 @@
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_single_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "reinforced_glass_sheet", "count": 2 }]
+    },
     "bash": {
       "str_min": 12,
       "str_max": 30,
@@ -1093,8 +1189,8 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 3, 8 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [3, 8] }
       ]
     }
   },
@@ -1122,7 +1218,10 @@
       "PERMEABLE"
     ],
     "close": "t_reinforced_single_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "reinforced_glass_sheet", "count": 2 }]
+    },
     "bash": {
       "str_min": 12,
       "str_max": 30,
@@ -1133,8 +1232,8 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 3, 8 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [3, 8] }
       ]
     }
   },
@@ -1168,7 +1267,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1180,7 +1279,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -1214,7 +1313,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1226,7 +1325,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -1261,7 +1360,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1273,7 +1372,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -1299,7 +1398,10 @@
     ],
     "examine_action": "locked_object",
     "open": "t_double_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "glass_sheet", "count": 1 }]
+    },
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -1310,8 +1412,8 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 3, 8 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [3, 8] }
       ]
     }
   },
@@ -1339,7 +1441,10 @@
       "PERMEABLE"
     ],
     "close": "t_double_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "glass_sheet", "count": 1 }]
+    },
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -1350,8 +1455,8 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 3, 8 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [3, 8] }
       ]
     }
   },
@@ -1385,7 +1490,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1397,7 +1502,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -1431,7 +1536,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1443,7 +1548,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -1478,7 +1583,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1490,7 +1595,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -1516,7 +1621,10 @@
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_double_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "reinforced_glass_sheet", "count": 2 }]
+    },
     "bash": {
       "str_min": 12,
       "str_max": 30,
@@ -1527,8 +1635,8 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 3, 8 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [3, 8] }
       ]
     }
   },
@@ -1557,7 +1665,10 @@
     ],
     "curtain_transform": "t_reinforced_double_pane_glass",
     "close": "t_reinforced_double_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 2 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "reinforced_glass_sheet", "count": 2 }]
+    },
     "bash": {
       "str_min": 12,
       "str_max": 30,
@@ -1568,8 +1679,8 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 3, 8 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [3, 8] }
       ]
     }
   },
@@ -1603,7 +1714,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1615,7 +1726,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -1651,7 +1762,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 2 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1663,7 +1774,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -1698,7 +1809,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1710,7 +1821,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -1736,7 +1847,10 @@
     ],
     "examine_action": "locked_object",
     "open": "t_triple_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 3 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "glass_sheet", "count": 3 }]
+    },
     "bash": {
       "str_min": 4,
       "str_max": 8,
@@ -1747,8 +1861,8 @@
       "ter_set": "t_window_frame",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 5, 12 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [5, 12] }
       ]
     }
   },
@@ -1776,7 +1890,10 @@
       "PERMEABLE"
     ],
     "close": "t_triple_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 3 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "glass_sheet", "count": 3 }]
+    },
     "bash": {
       "str_min": 4,
       "str_max": 8,
@@ -1787,8 +1904,8 @@
       "ter_set": "t_window_frame",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 5, 12 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [5, 12] }
       ]
     }
   },
@@ -1822,7 +1939,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1834,7 +1951,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 12 ] } ]
+      "items": [{ "item": "glass_shard", "count": [5, 12] }]
     }
   },
   {
@@ -1868,7 +1985,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1880,7 +1997,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -1915,7 +2032,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -1927,7 +2044,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 12 ] } ]
+      "items": [{ "item": "glass_shard", "count": [5, 12] }]
     }
   },
   {
@@ -1953,7 +2070,10 @@
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_triple_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 3 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "reinforced_glass_sheet", "count": 3 }]
+    },
     "bash": {
       "str_min": 12,
       "str_max": 30,
@@ -1964,8 +2084,8 @@
       "ter_set": "t_window_frame",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 5, 12 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [5, 12] }
       ]
     }
   },
@@ -1993,7 +2113,10 @@
       "PERMEABLE"
     ],
     "close": "t_reinforced_triple_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 3 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "reinforced_glass_sheet", "count": 3 }]
+    },
     "bash": {
       "str_min": 12,
       "str_max": 30,
@@ -2004,8 +2127,8 @@
       "ter_set": "t_window_frame",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 5, 12 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [5, 12] }
       ]
     }
   },
@@ -2039,7 +2162,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2051,7 +2174,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 12 ] } ]
+      "items": [{ "item": "glass_shard", "count": [5, 12] }]
     }
   },
   {
@@ -2087,7 +2210,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2099,7 +2222,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -2134,7 +2257,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2146,7 +2269,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 5, 12 ] } ]
+      "items": [{ "item": "glass_shard", "count": [5, 12] }]
     }
   },
   {
@@ -2172,7 +2295,10 @@
     ],
     "examine_action": "locked_object",
     "open": "t_quadruple_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 4 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "glass_sheet", "count": 4 }]
+    },
     "bash": {
       "str_min": 5,
       "str_max": 10,
@@ -2183,8 +2309,8 @@
       "ter_set": "t_window_frame",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 10, 20 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [10, 20] }
       ]
     }
   },
@@ -2210,7 +2336,10 @@
       "PERMEABLE"
     ],
     "close": "t_quadruple_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 4 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "glass_sheet", "count": 4 }]
+    },
     "bash": {
       "str_min": 5,
       "str_max": 10,
@@ -2221,8 +2350,8 @@
       "ter_set": "t_window_frame",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 10, 20 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [10, 20] }
       ]
     }
   },
@@ -2256,7 +2385,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 4 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2268,7 +2397,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 10, 20 ] } ]
+      "items": [{ "item": "glass_shard", "count": [10, 20] }]
     }
   },
   {
@@ -2302,7 +2431,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2314,7 +2443,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -2349,7 +2478,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 4 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2361,7 +2490,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 10, 20 ] } ]
+      "items": [{ "item": "glass_shard", "count": [10, 20] }]
     }
   },
   {
@@ -2387,7 +2516,10 @@
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_quadruple_pane_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 4 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "reinforced_glass_sheet", "count": 4 }]
+    },
     "bash": {
       "str_min": 12,
       "str_max": 30,
@@ -2398,8 +2530,8 @@
       "ter_set": "t_window_frame",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 10, 20 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [10, 20] }
       ]
     }
   },
@@ -2427,7 +2559,10 @@
       "PERMEABLE"
     ],
     "close": "t_reinforced_quadruple_pane_glass",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 4 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "reinforced_glass_sheet", "count": 4 }]
+    },
     "bash": {
       "str_min": 12,
       "str_max": 30,
@@ -2438,8 +2573,8 @@
       "ter_set": "t_window_frame",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 10, 20 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [10, 20] }
       ]
     }
   },
@@ -2473,7 +2608,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "reinforced_glass_sheet", "count": 4 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2485,7 +2620,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 10, 20 ] } ]
+      "items": [{ "item": "glass_shard", "count": [10, 20] }]
     }
   },
   {
@@ -2521,7 +2656,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 2 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2533,7 +2668,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -2568,7 +2703,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 4 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2580,7 +2715,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 10, 20 ] } ]
+      "items": [{ "item": "glass_shard", "count": [10, 20] }]
     }
   },
   {
@@ -2606,7 +2741,10 @@
     ],
     "examine_action": "locked_object",
     "open": "t_plastic_window_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "plastic_sheet", "count": 1 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "plastic_sheet", "count": 1 }]
+    },
     "bash": {
       "str_min": 3,
       "str_max": 5,
@@ -2615,7 +2753,11 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "plastic_sheet", "count": 1 }
+      ]
     }
   },
   {
@@ -2642,7 +2784,10 @@
       "PERMEABLE"
     ],
     "close": "t_plastic_window",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "plastic_sheet", "count": 1 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "plastic_sheet", "count": 1 }]
+    },
     "bash": {
       "str_min": 3,
       "str_max": 5,
@@ -2651,7 +2796,11 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "plastic_sheet", "count": 1 }
+      ]
     }
   },
   {
@@ -2684,7 +2833,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "plastic_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2696,7 +2845,11 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "plastic_sheet", "count": 1 }
+      ]
     }
   },
   {
@@ -2730,7 +2883,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "plastic_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2742,7 +2895,11 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "plastic_sheet", "count": 1 }
+      ]
     }
   },
   {
@@ -2777,7 +2934,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "plastic_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2789,7 +2946,11 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "plastic_sheet", "count": 1 }
+      ]
     }
   },
   {
@@ -2815,7 +2976,10 @@
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_plastic_window_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "plastic_sheet", "count": 2 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "plastic_sheet", "count": 2 }]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 15,
@@ -2826,8 +2990,8 @@
       "ter_set": "t_window_frame",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "plastic_sheet", "count": [ 1, 2 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "plastic_sheet", "count": [1, 2] }
       ]
     }
   },
@@ -2855,7 +3019,10 @@
       "PERMEABLE"
     ],
     "close": "t_reinforced_plastic_window",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "plastic_sheet", "count": 2 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "plastic_sheet", "count": 2 }]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 15,
@@ -2866,8 +3033,8 @@
       "ter_set": "t_window_frame",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "plastic_sheet", "count": [ 1, 2 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "plastic_sheet", "count": [1, 2] }
       ]
     }
   },
@@ -2901,7 +3068,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "plastic_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2915,8 +3082,8 @@
       "ter_set": "t_window_frame",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "plastic_sheet", "count": [ 1, 2 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "plastic_sheet", "count": [1, 2] }
       ]
     }
   },
@@ -2951,7 +3118,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "plastic_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -2965,8 +3132,8 @@
       "ter_set": "t_window_frame",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "plastic_sheet", "count": [ 1, 2 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "plastic_sheet", "count": [1, 2] }
       ]
     }
   },
@@ -3002,7 +3169,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "plastic_sheet", "count": 2 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -3014,7 +3181,11 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [
+        { "item": "stick", "count": 1 },
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "plastic_sheet", "count": 1 }
+      ]
     }
   },
   {
@@ -3028,7 +3199,10 @@
     "move_cost": 0,
     "trap": "tr_ledge",
     "coverage": 60,
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "stick", "count": 1 }, { "item": "nail", "charges": [ 3, 4 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "stick", "count": 1 }, { "item": "nail", "charges": [3, 4] }]
+    },
     "bash": {
       "str_min": 1,
       "str_max": 1,
@@ -3036,9 +3210,9 @@
       "sound_fail": "whack!",
       "sound_vol": 12,
       "sound_fail_vol": 8,
-      "items": [ { "item": "2x4", "count": [ 2, 4 ] } ]
+      "items": [{ "item": "2x4", "count": [2, 4] }]
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "PERMEABLE" ]
+    "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "PERMEABLE"]
   },
   {
     "type": "terrain",
@@ -3063,7 +3237,10 @@
     ],
     "examine_action": "locked_object",
     "open": "t_tempered_glass_open",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "glass_sheet", "count": 1 }]
+    },
     "bash": {
       "str_min": 15,
       "str_max": 30,
@@ -3074,8 +3251,8 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 3, 8 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [3, 8] }
       ]
     }
   },
@@ -3102,7 +3279,10 @@
       "PERMEABLE"
     ],
     "close": "t_tempered_glass_window",
-    "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
+    "deconstruct": {
+      "ter_set": "t_window_empty",
+      "items": [{ "item": "glass_sheet", "count": 1 }]
+    },
     "bash": {
       "str_min": 15,
       "str_max": 30,
@@ -3113,8 +3293,8 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
-        { "item": "glass_shard", "count": [ 3, 8 ] }
+        { "item": "nail", "charges": [3, 4] },
+        { "item": "glass_shard", "count": [3, 8] }
       ]
     }
   },
@@ -3148,7 +3328,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -3160,7 +3340,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -3194,7 +3374,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "reinforced_glass_sheet", "count": 1 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -3206,7 +3386,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   },
   {
@@ -3241,7 +3421,7 @@
         { "item": "stick", "count": 1 },
         { "item": "sheet", "count": 2 },
         { "item": "glass_sheet", "count": 3 },
-        { "item": "nail", "charges": [ 3, 4 ] },
+        { "item": "nail", "charges": [3, 4] },
         { "item": "string_36", "count": 1 }
       ]
     },
@@ -3253,7 +3433,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_window_frame",
-      "items": [ { "item": "glass_shard", "count": [ 3, 8 ] } ]
+      "items": [{ "item": "glass_shard", "count": [3, 8] }]
     }
   }
 ]

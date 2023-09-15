@@ -7,7 +7,7 @@
     "color": "light_blue",
     "broken_symbol": "O",
     "broken_color": "light_gray",
-    "flags": [ "ROTOR" ],
+    "flags": ["ROTOR"],
     "description": "A set of aerofoil helicopter rotors, when spun at high speed, they generate thrust via lift."
   },
   {
@@ -19,14 +19,25 @@
     "//": "rotor diameter is in meters",
     "rotor_diameter": 15,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 7 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] },
-      "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "2 h", "using": [ [ "vehicle_weld_removal", 4 ] ] },
-      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] }
+      "install": {
+        "skills": [["mechanics", 7]],
+        "time": "2 h",
+        "using": [["welding_standard", 20]]
+      },
+      "removal": {
+        "skills": [["mechanics", 7]],
+        "time": "2 h",
+        "using": [["vehicle_weld_removal", 4]]
+      },
+      "repair": { "skills": [["mechanics", 8]], "time": "2 h", "using": [["welding_standard", 20]] }
     },
     "durability": 450,
     "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "damage_modifier": 80,
-    "breaks_into": [ { "item": "scrap", "count": [ 15, 30 ] }, { "item": "steel_chunk", "count": [ 8, 16 ] } ],
+    "breaks_into": [
+      { "item": "scrap", "count": [15, 30] },
+      { "item": "steel_chunk", "count": [8, 16] }
+    ],
     "damage_reduction": { "all": 66 }
   },
   {
@@ -38,14 +49,25 @@
     "//": "rotor diameter is in meters",
     "rotor_diameter": 8,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 7 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] },
-      "removal": { "skills": [ [ "mechanics", 7 ] ], "time": "2 h", "using": [ [ "vehicle_weld_removal", 4 ] ] },
-      "repair": { "skills": [ [ "mechanics", 8 ] ], "time": "2 h", "using": [ [ "welding_standard", 20 ] ] }
+      "install": {
+        "skills": [["mechanics", 7]],
+        "time": "2 h",
+        "using": [["welding_standard", 20]]
+      },
+      "removal": {
+        "skills": [["mechanics", 7]],
+        "time": "2 h",
+        "using": [["vehicle_weld_removal", 4]]
+      },
+      "repair": { "skills": [["mechanics", 8]], "time": "2 h", "using": [["welding_standard", 20]] }
     },
     "durability": 100,
     "description": "A set of four military-grade helicopter rotor blades, used to provide lift by rotation.",
     "damage_modifier": 80,
-    "breaks_into": [ { "item": "scrap", "count": [ 8, 15 ] }, { "item": "steel_chunk", "count": [ 2, 8 ] } ],
+    "breaks_into": [
+      { "item": "scrap", "count": [8, 15] },
+      { "item": "steel_chunk", "count": [2, 8] }
+    ],
     "damage_reduction": { "all": 22 }
   },
   {
@@ -57,17 +79,21 @@
     "looks_like": "small_helicopter_rotor",
     "rotor_diameter": 6,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] }
+      "install": { "skills": [["mechanics", 5]], "time": "60 m", "using": [["vehicle_bolt", 1]] },
+      "removal": { "skills": [["mechanics", 5]], "time": "30 m", "using": [["vehicle_bolt", 1]] },
+      "repair": {
+        "skills": [["mechanics", 6]],
+        "time": "60 m",
+        "using": [["welding_standard", 10]]
+      }
     },
     "durability": 50,
     "description": "A pair of rotor blades powered by a propeller, for light vehicles.",
     "damage_modifier": 80,
     "breaks_into": [
-      { "item": "scrap", "count": [ 4, 8 ] },
-      { "item": "steel_chunk", "count": [ 1, 4 ] },
-      { "item": "splinter", "count": [ 15, 30 ] }
+      { "item": "scrap", "count": [4, 8] },
+      { "item": "steel_chunk", "count": [1, 4] },
+      { "item": "splinter", "count": [15, 30] }
     ],
     "damage_reduction": { "all": 10 }
   },

@@ -8,7 +8,7 @@
     "volume": "150 ml",
     "price": 100,
     "price_postapoc": 0,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": ";",
     "color": "brown"
   }

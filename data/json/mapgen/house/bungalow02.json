@@ -60,10 +60,19 @@
         "z": "t_concrete",
         "/": "t_dirtmound"
       },
-      "furniture": { "$": "f_rack", "&": "f_treadmill", "?": "f_exercise", "/": "f_region_flower", "¤": "f_table" },
-      "items": { "$": { "item": "clothing_outdoor_shoes", "chance": 50 }, "¤": { "item": "nightstand", "chance": 30 } },
-      "place_loot": [ { "item": "television", "x": 13, "y": 19 } ],
-      "place_vehicles": [ { "vehicle": "car", "x": 5, "y": 6, "chance": 20, "rotation": 90 } ]
+      "furniture": {
+        "$": "f_rack",
+        "&": "f_treadmill",
+        "?": "f_exercise",
+        "/": "f_region_flower",
+        "¤": "f_table"
+      },
+      "items": {
+        "$": { "item": "clothing_outdoor_shoes", "chance": 50 },
+        "¤": { "item": "nightstand", "chance": 30 }
+      },
+      "place_loot": [{ "item": "television", "x": 13, "y": 19 }],
+      "place_vehicles": [{ "vehicle": "car", "x": 5, "y": 6, "chance": 20, "rotation": 90 }]
     }
   },
   {
@@ -72,7 +81,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",

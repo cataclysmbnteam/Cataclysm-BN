@@ -80,8 +80,8 @@
         { "chance": 30, "item": "hardware_bulk", "x": 7, "y": 3 },
         { "chance": 30, "item": "hardware_bulk", "x": 8, "y": 2 },
         { "chance": 30, "item": "hardware_trash", "x": 6, "y": 10 },
-        { "chance": 30, "item": "hardware_trash", "x": 18, "y": [ 7, 8 ] },
-        { "chance": 30, "item": "hardware_trash", "x": 3, "y": [ 3, 4 ] },
+        { "chance": 30, "item": "hardware_trash", "x": 18, "y": [7, 8] },
+        { "chance": 30, "item": "hardware_trash", "x": 3, "y": [3, 4] },
         { "chance": 10, "item": "tools_construction", "x": 12, "y": 4 },
         { "chance": 20, "item": "construction_worker", "x": 15, "y": 8 }
       ]
@@ -168,9 +168,9 @@
         { "chance": 30, "item": "hardware_bulk", "x": 7, "y": 2 },
         { "chance": 30, "item": "hardware_bulk", "x": 8, "y": 3 },
         { "chance": 30, "item": "hardware_trash", "x": 6, "y": 10 },
-        { "chance": 20, "item": "hardware_trash", "x": 18, "y": [ 7, 8 ] },
+        { "chance": 20, "item": "hardware_trash", "x": 18, "y": [7, 8] },
         { "chance": 30, "item": "hardware_trash", "x": 10, "y": 3 },
-        { "chance": 30, "item": "hardware_trash", "x": 3, "y": [ 3, 4 ] },
+        { "chance": 30, "item": "hardware_trash", "x": 3, "y": [3, 4] },
         { "chance": 20, "item": "construction_worker", "x": 15, "y": 8 },
         { "chance": 20, "item": "construction_worker", "x": 6, "y": 3 }
       ]

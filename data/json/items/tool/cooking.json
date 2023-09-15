@@ -11,12 +11,12 @@
     "price_postapoc": 3000,
     "to_hit": -2,
     "bashing": 5,
-    "material": [ "plastic", "aluminum" ],
-    "qualities": [ [ "BOIL", 1 ] ],
+    "material": ["plastic", "aluminum"],
+    "qualities": [["BOIL", 1]],
     "symbol": ",",
     "color": "light_green",
     "//": "It would be nice if this could have a use action to thaw frozen stuff.  It's not hot enough to work as a hotplate.",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": ["LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"]
   },
   {
     "id": "butchering_kit",
@@ -29,7 +29,7 @@
     "volume": "800 ml",
     "price": 8000,
     "price_postapoc": 150,
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 37 ] ]
+    "qualities": [["CUT", 1], ["CUT_FINE", 1], ["BUTCHER", 37]]
   },
   {
     "id": "butter_churn",
@@ -44,10 +44,10 @@
     "to_hit": -2,
     "bashing": 9,
     "material": "wood",
-    "qualities": [ [ "CHURN", 1 ] ],
+    "qualities": [["CHURN", 1]],
     "symbol": "H",
     "color": "light_cyan",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": ["ALLOWS_REMOTE_USE"]
   },
   {
     "id": "can_sealer",
@@ -78,17 +78,22 @@
     "bashing": 2,
     "cutting": 8,
     "to_hit": -2,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "/",
     "color": "yellow",
     "ammo": "battery",
     "charges_per_use": 5,
     "use_action": "CARVER_OFF",
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": ["SHEATH_SWORD", "NONCONDUCTIVE"],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -104,9 +109,9 @@
     "power_draw": 150000,
     "charges_per_use": 0,
     "revert_to": "carver_off",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
+    "qualities": [["CUT", 1], ["BUTCHER", 25]],
     "use_action": "CARVER_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "flags": ["MESSY", "TRADER_AVOID", "NONCONDUCTIVE"],
     "magazine_well": "500 ml"
   },
   {
@@ -121,14 +126,14 @@
     "price_postapoc": 2000,
     "to_hit": -3,
     "bashing": 3,
-    "material": [ "wood", "plastic" ],
+    "material": ["wood", "plastic"],
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 150,
     "max_charges": 150,
     "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": ["ALLOWS_REMOTE_USE"]
   },
   {
     "id": "char_smoker",
@@ -147,7 +152,7 @@
     "color": "light_gray",
     "ammo": "charcoal",
     "max_charges": 200,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": ["ALLOWS_REMOTE_USE"]
   },
   {
     "id": "charcoal_cooker",
@@ -186,9 +191,9 @@
     "symbol": ")",
     "color": "brown",
     "container_data": { "contains": "2 L", "watertight": true },
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
     "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": ["ALLOWS_REMOTE_USE"]
   },
   {
     "id": "clay_quern",
@@ -220,7 +225,7 @@
     "symbol": ")",
     "color": "brown",
     "container_data": { "contains": "750 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [["BOIL", 1]]
   },
   {
     "id": "coffeemaker",
@@ -234,17 +239,22 @@
     "price_postapoc": 50,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 10,
-    "qualities": [ [ "BOIL", 1 ] ],
+    "qualities": [["BOIL", 1]],
     "use_action": "HOTPLATE",
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -261,15 +271,20 @@
     "price_postapoc": 2000,
     "to_hit": -2,
     "bashing": 8,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": ";",
     "color": "blue",
     "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": ["ALLOWS_REMOTE_USE"],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -285,7 +300,7 @@
     "price": 10,
     "price_postapoc": 10,
     "bashing": 8,
-    "material": [ "glass", "egg" ],
+    "material": ["glass", "egg"],
     "symbol": "%",
     "color": "white",
     "use_action": {
@@ -317,7 +332,7 @@
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "use_action": ["HOTPLATE", "HEAT_FOOD"]
   },
   {
     "id": "flask_yeast",
@@ -330,7 +345,7 @@
     "price": 10,
     "price_postapoc": 10,
     "bashing": 8,
-    "material": [ "glass", "powder" ],
+    "material": ["glass", "powder"],
     "symbol": "%",
     "color": "white",
     "use_action": {
@@ -344,7 +359,7 @@
       "not_ready_msg": "The yeast isn't done culturing yet.",
       "//": "12 hours"
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "id": "jar_yeast",
@@ -392,15 +407,20 @@
     "price_postapoc": 250,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "iron" ],
+    "material": ["iron"],
     "symbol": "%",
     "color": "white",
     "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": ["ALLOWS_REMOTE_USE"],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -457,7 +477,7 @@
     "price_postapoc": 250,
     "to_hit": -1,
     "bashing": 4,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
@@ -466,7 +486,12 @@
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -482,7 +507,7 @@
     "price": 650,
     "price_postapoc": 10,
     "bashing": 4,
-    "material": [ "glass", "veggy" ],
+    "material": ["glass", "veggy"],
     "symbol": "%",
     "color": "green",
     "use_action": {
@@ -505,7 +530,7 @@
     "price": 650,
     "price_postapoc": 10,
     "bashing": 4,
-    "material": [ "glass", "veggy" ],
+    "material": ["glass", "veggy"],
     "symbol": "%",
     "color": "green",
     "use_action": {
@@ -528,7 +553,7 @@
     "price": 650,
     "price_postapoc": 10,
     "bashing": 4,
-    "material": [ "glass", "veggy" ],
+    "material": ["glass", "veggy"],
     "symbol": "%",
     "color": "green",
     "use_action": {
@@ -552,15 +577,20 @@
     "price_postapoc": 250,
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": ["ALLOWS_REMOTE_USE"],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ]
   },
@@ -576,18 +606,23 @@
     "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 4,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
     "sub": "hotplate",
     "charges_per_use": 5,
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],
+    "use_action": ["HOTPLATE", "HEAT_FOOD"],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -607,7 +642,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "light_gray",
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "qualities": [["COOK", 2], ["BOIL", 1], ["CONTAIN", 1]],
     "use_action": "HEAT_FOOD"
   },
   {
@@ -622,18 +657,23 @@
     "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 4,
-    "material": [ "superalloy", "ceramic" ],
+    "material": ["superalloy", "ceramic"],
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
     "sub": "hotplate",
     "charges_per_use": 5,
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],
+    "use_action": ["HOTPLATE", "HEAT_FOOD"],
     "magazines": [
       [
         "battery",
-        [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_plus_battery_cell",
+          "medium_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -653,7 +693,7 @@
     "material": "stone",
     "symbol": ":",
     "color": "light_gray",
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "multi_cooker",
@@ -666,17 +706,22 @@
     "price": 20000,
     "price_postapoc": 250,
     "to_hit": -3,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "red",
     "ammo": "battery",
     "power_draw": 1500000,
-    "qualities": [ [ "CONTAIN", 1 ] ],
+    "qualities": [["CONTAIN", 1]],
     "use_action": "MULTICOOKER",
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -687,7 +732,7 @@
     "copy-from": "multi_cooker",
     "name": { "str": "multi cooker - cooking" },
     "description": "A professional-grade multi-cooker, with a battery slot for camping trips or tailgating.  There is a dish in it.",
-    "delete": { "qualities": [ [ "CONTAIN", 1 ] ] }
+    "delete": { "qualities": [["CONTAIN", 1]] }
   },
   {
     "id": "oil_cooker",
@@ -738,7 +783,7 @@
     "price": 10,
     "price_postapoc": 10,
     "bashing": 8,
-    "material": [ "glass", "veggy" ],
+    "material": ["glass", "veggy"],
     "symbol": "%",
     "color": "white",
     "use_action": {
@@ -790,9 +835,9 @@
     "color": "light_gray",
     "looks_like": "pot_canning",
     "container_data": { "contains": "2 L", "seals": true, "watertight": true },
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
     "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": ["ALLOWS_REMOTE_USE"]
   },
   {
     "id": "rock_quern",
@@ -821,7 +866,7 @@
     "price": 10,
     "price_postapoc": 10,
     "bashing": 4,
-    "material": [ "glass", "veggy" ],
+    "material": ["glass", "veggy"],
     "symbol": "%",
     "color": "white",
     "use_action": {
@@ -849,7 +894,7 @@
     "material": "copper",
     "symbol": "L",
     "color": "white",
-    "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [["DISTILL", 2], ["BOIL", 2], ["CONTAIN", 1]]
   },
   {
     "id": "survivor_mess_kit",
@@ -863,15 +908,15 @@
     "price_postapoc": 100,
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "steel", "glass" ],
+    "material": ["steel", "glass"],
     "symbol": ";",
     "color": "brown",
     "ammo": "lamp_oil",
     "sub": "hotplate",
     "max_charges": 800,
     "charges_per_use": 1,
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
+    "use_action": ["HOTPLATE", "HEAT_FOOD"]
   },
   {
     "id": "teapot",
@@ -889,7 +934,7 @@
     "symbol": ")",
     "color": "dark_gray",
     "container_data": { "contains": "500 ml", "watertight": true },
-    "qualities": [ [ "BOIL", 1 ] ]
+    "qualities": [["BOIL", 1]]
   },
   {
     "id": "vac_sealer",
@@ -903,15 +948,20 @@
     "price_postapoc": 2000,
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ";",
     "color": "white",
     "ammo": "battery",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": ["ALLOWS_REMOTE_USE"],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -931,7 +981,7 @@
     "material": "iron",
     "symbol": ")",
     "color": "dark_gray",
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [["COOK", 1]]
   },
   {
     "id": "water_purifier",
@@ -945,13 +995,13 @@
     "price_postapoc": 1500,
     "to_hit": -3,
     "bashing": 2,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": ";",
     "color": "light_blue",
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": "WATER_PURIFIER",
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": ["ALLOWS_REMOTE_USE"],
     "magazines": [
       [
         "battery",

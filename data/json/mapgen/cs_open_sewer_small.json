@@ -12,7 +12,7 @@
     "type": "vehicle",
     "id": "oa_work_light",
     "name": "work light",
-    "blueprint": [ "^" ],
+    "blueprint": ["^"],
     "parts": [
       { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
       { "x": 0, "y": 0, "part": "wheel_caster" },
@@ -24,39 +24,39 @@
   {
     "type": "vehicle_group",
     "id": "os_work_vehicles",
-    "vehicles": [ [ "wheelbarrow", 60 ], [ "portable_generator", 40 ], [ "oa_work_light", 50 ] ]
+    "vehicles": [["wheelbarrow", 60], ["portable_generator", 40], ["oa_work_light", 50]]
   },
   {
     "type": "item_group",
     "id": "os_items",
     "items": [
-      [ "flashlight", 50 ],
-      [ "heavy_flashlight", 40 ],
-      [ "gloves_work", 30 ],
-      [ "gloves_rubber", 60 ],
-      [ "boots_rubber", 60 ],
-      [ "hat_hard", 60 ],
-      [ "shovel", 40 ],
-      [ "jackhammer", 5 ],
-      [ "elec_jackhammer", 5 ],
-      [ "folding_poncho", 40 ],
-      [ "radio", 40 ],
-      [ "well_pump", 10 ],
-      [ "toolbox", 5 ],
-      [ "wrench", 15 ],
-      [ "bag_canvas", 40 ],
-      [ "jumper_cable", 40 ],
-      [ "jumper_cable_heavy", 20 ],
-      [ "glasses_safety", 30 ],
-      [ "crowbar", 15 ],
-      [ "mask_filter", 30 ],
-      [ "electric_lantern", 30 ]
+      ["flashlight", 50],
+      ["heavy_flashlight", 40],
+      ["gloves_work", 30],
+      ["gloves_rubber", 60],
+      ["boots_rubber", 60],
+      ["hat_hard", 60],
+      ["shovel", 40],
+      ["jackhammer", 5],
+      ["elec_jackhammer", 5],
+      ["folding_poncho", 40],
+      ["radio", 40],
+      ["well_pump", 10],
+      ["toolbox", 5],
+      ["wrench", 15],
+      ["bag_canvas", 40],
+      ["jumper_cable", 40],
+      ["jumper_cable_heavy", 20],
+      ["glasses_safety", 30],
+      ["crowbar", 15],
+      ["mask_filter", 30],
+      ["electric_lantern", 30]
     ]
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "cs_open_sewer" ],
+    "om_terrain": ["cs_open_sewer"],
     "weight": 1000,
     "object": {
       "rows": [
@@ -126,8 +126,8 @@
         { "vehicle": "os_work_vehicles", "chance": 30, "x": 13, "y": 17 },
         { "vehicle": "os_work_vehicles", "chance": 30, "x": 6, "y": 7 }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE_SEWER", "x": 13, "y": 12 } ],
-      "place_signs": [ { "signage": "Caution: Work in Progress", "x": 11, "y": 1 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE_SEWER", "x": 13, "y": 12 }],
+      "place_signs": [{ "signage": "Caution: Work in Progress", "x": 11, "y": 1 }]
     }
   }
 ]

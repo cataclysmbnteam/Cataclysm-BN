@@ -33,10 +33,10 @@
         "$......................$",
         "$$$$$$$$$$$$$$$$$$$$$$$$"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "$": "t_privacy_fence",
@@ -56,23 +56,26 @@
         "~": "t_thconc_floor"
       },
       "furniture": { "!": "f_region_flower" },
-      "place_loot": [ { "item": "television", "x": 11, "y": 9 }, { "item": "stereo", "x": 10, "y": 9 } ],
+      "place_loot": [
+        { "item": "television", "x": 11, "y": 9 },
+        { "item": "stereo", "x": 10, "y": 9 }
+      ],
       "place_nested": [
         {
           "chunks": [
-            [ "roof_6x6_garden_4", 15 ],
-            [ "roof_6x6_garden_1", 15 ],
-            [ "greenhouse_6x6_herbal", 15 ],
-            [ "greenhouse_6x6_vegetable", 15 ],
-            [ "pond_6x6", 15 ],
-            [ "shed_6x6_junk", 15 ],
-            [ "shed_6x6_woodworker", 15 ],
-            [ "playset_4x4_2", 15 ],
-            [ "firepit_5x5_1", 15 ],
-            [ "firepit_5x5_2", 15 ],
-            [ "playset_4x4_1", 15 ]
+            ["roof_6x6_garden_4", 15],
+            ["roof_6x6_garden_1", 15],
+            ["greenhouse_6x6_herbal", 15],
+            ["greenhouse_6x6_vegetable", 15],
+            ["pond_6x6", 15],
+            ["shed_6x6_junk", 15],
+            ["shed_6x6_woodworker", 15],
+            ["playset_4x4_2", 15],
+            ["firepit_5x5_1", 15],
+            ["firepit_5x5_2", 15],
+            ["playset_4x4_1", 15]
           ],
-          "x": [ 4, 13 ],
+          "x": [4, 13],
           "y": 17
         }
       ]
@@ -161,7 +164,7 @@
         { "chance": 20, "item": "plumbing_bulk", "x": 5, "y": 13 },
         { "chance": 15, "item": "plumbing_bulk", "x": 10, "y": 7 },
         { "chance": 10, "item": "tools_construction", "x": 8, "y": 6 },
-        { "chance": 10, "item": "tools_construction", "x": [ 3, 4 ], "y": 5 },
+        { "chance": 10, "item": "tools_construction", "x": [3, 4], "y": 5 },
         { "chance": 20, "item": "hardware_bulk", "x": 1, "y": 5 },
         { "chance": 20, "item": "paint", "x": 3, "y": 4 },
         { "chance": 20, "item": "power_tools", "x": 8, "y": 8 }
@@ -242,7 +245,7 @@
         { "chance": 20, "item": "tools_home", "x": 8, "y": 8 },
         { "chance": 35, "item": "hardware_trash", "x": 4, "y": 10 },
         { "chance": 20, "item": "pizza_trash", "x": 4, "y": 9 },
-        { "chance": 20, "item": "tools_carpentry", "x": 8, "y": [ 6, 7 ] },
+        { "chance": 20, "item": "tools_carpentry", "x": 8, "y": [6, 7] },
         { "chance": 25, "item": "paint", "x": 18, "y": 9 },
         { "chance": 15, "item": "construction_worker", "x": 3, "y": 6 },
         { "chance": 15, "item": "construction_worker", "x": 4, "y": 5 },
@@ -288,7 +291,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

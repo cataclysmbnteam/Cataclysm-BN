@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "house_rv" ],
+    "om_terrain": ["house_rv"],
     "weight": 300,
     "object": {
       "fill_ter": "t_floor",
@@ -32,20 +32,27 @@
         ".####oo#####o##########.",
         ".....................^.."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
         "G": "t_concrete",
         "K": "t_concrete",
         "~": "t_concrete",
         "j": "t_concrete"
       },
       "place_loot": [
-        { "group": "guns_pistol_common", "x": 2, "y": 17, "chance": 5, "ammo": 90, "magazine": 100 },
-        { "group": "camping", "x": [ 16, 19 ], "y": 19, "chance": 70, "repeat": [ 1, 4 ] }
+        {
+          "group": "guns_pistol_common",
+          "x": 2,
+          "y": 17,
+          "chance": 5,
+          "ammo": 90,
+          "magazine": 100
+        },
+        { "group": "camping", "x": [16, 19], "y": 19, "chance": 70, "repeat": [1, 4] }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
-      "place_vehicles": [ { "vehicle": "rv", "x": 5, "y": 4, "chance": 5, "rotation": 270 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [2, 21], "y": [2, 21], "chance": 2 }],
+      "place_vehicles": [{ "vehicle": "rv", "x": 5, "y": 4, "chance": 5, "rotation": 270 }]
     }
   },
   {
@@ -80,7 +87,7 @@
         " |------------------5-3 ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -116,17 +123,24 @@
         " |||||||||||||||||||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "nested": {
         "1": {
           "chunks": [
-            [ "null", 70 ],
-            [ "room_10x10_pool_S", 10 ],
-            [ "room_10x10_recording_studio_S", 30 ],
-            [ "room_10x10_woodworker_S", 30 ]
+            ["null", 70],
+            ["room_10x10_pool_S", 10],
+            ["room_10x10_recording_studio_S", 30],
+            ["room_10x10_woodworker_S", 30]
           ]
         },
-        "2": { "chunks": [ [ "null", 75 ], [ "room_9x9_cellar_E", 20 ], [ "room_9x9_weed_E", 5 ], [ "room_9x9_recroom_E", 30 ] ] }
+        "2": {
+          "chunks": [
+            ["null", 75],
+            ["room_9x9_cellar_E", 20],
+            ["room_9x9_weed_E", 5],
+            ["room_9x9_recroom_E", 30]
+          ]
+        }
       }
     }
   }

@@ -5,21 +5,21 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "electronics",
-    "skills_required": [ "survival", 3 ],
+    "skills_required": ["survival", 3],
     "difficulty": 2,
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "using": [["soldering_standard", 10]],
+    "qualities": [{ "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "plut_cell", 4 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "wire", 2 ] ],
-      [ [ "lens", 1 ], [ "lens_small", 1 ] ],
-      [ [ "lightstrip_inactive", 1 ], [ "e_scrap", 1 ] ],
-      [ [ "rag", 4 ], [ "leather", 4 ], [ "duct_tape", 20 ], [ "medical_tape", 40 ], [ "cordage", 1, "LIST" ] ]
+      [["plut_cell", 4]],
+      [["power_supply", 1]],
+      [["scrap", 2]],
+      [["wire", 2]],
+      [["lens", 1], ["lens_small", 1]],
+      [["lightstrip_inactive", 1], ["e_scrap", 1]],
+      [["rag", 4], ["leather", 4], ["duct_tape", 20], ["medical_tape", 40], ["cordage", 1, "LIST"]]
     ]
   },
   {
@@ -30,10 +30,10 @@
     "skill_used": "cooking",
     "time": "15 m",
     "autolearn": true,
-    "batch_time_factors": [ 70, 1 ],
-    "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "meat", 1 ] ] ]
+    "batch_time_factors": [70, 1],
+    "qualities": [{ "id": "COOK", "level": 1 }],
+    "tools": [[["surface_heat", 7, "LIST"]]],
+    "components": [[["meat", 1]]]
   },
   {
     "type": "recipe",
@@ -45,42 +45,42 @@
     "difficulty": 1,
     "time": "15 m",
     "autolearn": true,
-    "batch_time_factors": [ 70, 1 ],
-    "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "brain", 1 ] ] ]
+    "batch_time_factors": [70, 1],
+    "qualities": [{ "id": "COOK", "level": 1 }],
+    "tools": [[["surface_heat", 7, "LIST"]]],
+    "components": [[["brain", 1]]]
   },
   {
     "type": "recipe",
     "copy-from": "brain_cooked",
     "result": "lung_cooked",
-    "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "lung", 1 ] ] ]
+    "qualities": [{ "id": "COOK", "level": 1 }],
+    "tools": [[["surface_heat", 7, "LIST"]]],
+    "components": [[["lung", 1]]]
   },
   {
     "type": "recipe",
     "copy-from": "brain_cooked",
     "result": "kidney_cooked",
-    "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "kidney", 1 ] ] ]
+    "qualities": [{ "id": "COOK", "level": 1 }],
+    "tools": [[["surface_heat", 7, "LIST"]]],
+    "components": [[["kidney", 1]]]
   },
   {
     "type": "recipe",
     "copy-from": "brain_cooked",
     "result": "sweetbread_cooked",
-    "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "sweetbread", 1 ] ] ]
+    "qualities": [{ "id": "COOK", "level": 1 }],
+    "tools": [[["surface_heat", 7, "LIST"]]],
+    "components": [[["sweetbread", 1]]]
   },
   {
     "type": "recipe",
     "copy-from": "brain_cooked",
     "result": "liver_cooked",
-    "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "liver", 1 ] ] ]
+    "qualities": [{ "id": "COOK", "level": 1 }],
+    "tools": [[["surface_heat", 7, "LIST"]]],
+    "components": [[["liver", 1]]]
   },
   {
     "type": "recipe",
@@ -90,25 +90,34 @@
     "difficulty": 6,
     "charges": 1,
     "time": "30 m",
-    "book_learn": [ [ "mag_cooking", 4 ], [ "mag_glam", 5 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "liver", 3 ] ], [ [ "salt", 1 ] ], [ [ "sweet_fruit_like", 1, "LIST" ] ], [ [ "vinegar", 2 ] ] ]
+    "book_learn": [["mag_cooking", 4], ["mag_glam", 5]],
+    "qualities": [{ "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 }],
+    "tools": [[["surface_heat", 20, "LIST"]]],
+    "components": [
+      [["liver", 3]],
+      [["salt", 1]],
+      [["sweet_fruit_like", 1, "LIST"]],
+      [["vinegar", 2]]
+    ]
   },
   {
     "type": "recipe",
     "result": "fried_tripe",
     "category": "CC_FOOD",
     "skill_used": "cooking",
-    "skills_required": [ "survival", 2 ],
+    "skills_required": ["survival", 2],
     "time": "15 m",
     "charges": 2,
-    "book_learn": [ [ "cookbook", 1 ], [ "scots_cookbook", 2 ] ],
+    "book_learn": [["cookbook", 1], ["scots_cookbook", 2]],
     "difficulty": 3,
-    "batch_time_factors": [ 80, 1 ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "stomach", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ] ]
+    "batch_time_factors": [80, 1],
+    "qualities": [{ "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 }],
+    "tools": [[["surface_heat", 10, "LIST"]]],
+    "components": [
+      [["stomach", 1]],
+      [["batter", 3, "LIST"]],
+      [["cooking_oil", 4], ["cooking_oil2", 4]]
+    ]
   },
   {
     "type": "recipe",
@@ -117,15 +126,15 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "25 m",
-    "book_learn": [ [ "cookbook", 2 ] ],
-    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "book_learn": [["cookbook", 2]],
+    "qualities": [{ "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 }],
+    "tools": [[["surface_heat", 25, "LIST"]]],
     "components": [
-      [ [ "brain", 2 ] ],
-      [ [ "eggs_small", 1, "LIST" ] ],
-      [ [ "batter", 3, "LIST" ] ],
-      [ [ "salt", 1 ] ],
-      [ [ "seasoning_mild", 4, "LIST" ] ]
+      [["brain", 2]],
+      [["eggs_small", 1, "LIST"]],
+      [["batter", 3, "LIST"]],
+      [["salt", 1]],
+      [["seasoning_mild", 4, "LIST"]]
     ]
   },
   {
@@ -136,18 +145,18 @@
     "difficulty": 4,
     "time": "30 m",
     "charges": 1,
-    "book_learn": [ [ "cookbook", 2 ], [ "family_cookbook", 2 ] ],
-    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
+    "book_learn": [["cookbook", 2], ["family_cookbook", 2]],
+    "qualities": [{ "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 }],
+    "tools": [[["surface_heat", 60, "LIST"]]],
     "components": [
-      [ [ "kidney", 2 ] ],
-      [ [ "flour", 2 ] ],
-      [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
-      [ [ "soysauce", 1 ] ],
-      [ [ "salt", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "mustard", 1 ] ],
-      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
+      [["kidney", 2]],
+      [["flour", 2]],
+      [["onion", 1], ["irradiated_onion", 1]],
+      [["soysauce", 1]],
+      [["salt", 1]],
+      [["water", 1], ["water_clean", 1]],
+      [["mustard", 1]],
+      [["sauce_pesto", 1], ["sauce_red", 1], ["tomato", 1]]
     ]
   },
   {
@@ -157,11 +166,16 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "30 m",
-    "batch_time_factors": [ 70, 1 ],
-    "book_learn": [ [ "scots_cookbook", 2 ], [ "cookbook", 1 ], [ "textbook_survival", 3 ] ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "sweetbread", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "vinegar", 1 ] ], [ [ "salt", 2 ] ] ]
+    "batch_time_factors": [70, 1],
+    "book_learn": [["scots_cookbook", 2], ["cookbook", 1], ["textbook_survival", 3]],
+    "qualities": [{ "id": "COOK", "level": 3 }],
+    "tools": [[["surface_heat", 10, "LIST"]]],
+    "components": [
+      [["sweetbread", 1]],
+      [["water", 2], ["water_clean", 2]],
+      [["vinegar", 1]],
+      [["salt", 2]]
+    ]
   },
   {
     "result": "recharge_station",
@@ -172,9 +186,9 @@
     "difficulty": 3,
     "time": "50 m",
     "reversible": true,
-    "autolearn": [ [ "electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 35 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "processor", 2 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 8 ] ] ]
+    "autolearn": [["electronics", 2]],
+    "using": [["soldering_standard", 35]],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["power_supply", 2]], [["processor", 2]], [["scrap", 5]], [["cable", 8]]]
   }
 ]

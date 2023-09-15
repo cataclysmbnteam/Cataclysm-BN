@@ -6,11 +6,15 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 9 ] ], [ [ "scrap", 3 ], [ "sheet_metal_small", 1 ] ], [ [ "filament", 20, "LIST" ] ] ]
+    "qualities": [{ "id": "HAMMER", "level": 2 }, { "id": "SEW", "level": 1 }],
+    "components": [
+      [["leather", 9]],
+      [["scrap", 3], ["sheet_metal_small", 1]],
+      [["filament", 20, "LIST"]]
+    ]
   },
   {
     "result": "ammo_satchel",
@@ -19,11 +23,14 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "1 h 20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 8, "LIST" ], [ "fabric_standard", 8, "LIST" ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [
+      [["fabric_hides_any", 8, "LIST"], ["fabric_standard", 8, "LIST"]],
+      [["filament", 10, "LIST"]]
+    ]
   },
   {
     "result": "stone_pouch",
@@ -32,11 +39,14 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ [ "throw", 1 ] ],
+    "skills_required": [["throw", 1]],
     "time": "1 h 20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 12, "LIST" ], [ "fabric_standard", 12, "LIST" ] ], [ [ "filament", 20, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "components": [
+      [["fabric_hides_any", 12, "LIST"], ["fabric_standard", 12, "LIST"]],
+      [["filament", 20, "LIST"]]
+    ]
   },
   {
     "result": "chestrig",
@@ -45,14 +55,14 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "25 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "qualities": [{ "id": "SEW", "level": 1 }],
     "components": [
-      [ [ "fabric_hides_any", 5, "LIST" ], [ "fabric_standard", 5, "LIST" ] ],
-      [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ],
-      [ [ "filament", 20, "LIST" ] ]
+      [["fabric_hides_any", 5, "LIST"], ["fabric_standard", 5, "LIST"]],
+      [["chestpouch", 4], ["legpouch_large", 2]],
+      [["filament", 20, "LIST"]]
     ]
   },
   {
@@ -64,9 +74,13 @@
     "difficulty": 4,
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ], [ "sheet_metal_small", 1 ] ], [ [ "nail", 4 ] ] ]
+    "using": [["adhesive", 1]],
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
+    "components": [[["leather", 5]], [["scrap", 3], ["sheet_metal_small", 1]], [["nail", 4]]]
   },
   {
     "result": "back_holster",
@@ -75,11 +89,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "18 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ] ], [ [ "filament", 30, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [[["leather", 6]], [["filament", 30, "LIST"]]]
   },
   {
     "result": "backpack",
@@ -89,10 +103,10 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "50 m",
-    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
+    "book_learn": [["textbook_tailor", 2], ["manual_tailor", 2]],
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 20 ] ] ]
+    "using": [["sewing_standard", 20]],
+    "components": [[["rag", 20]]]
   },
   {
     "result": "backpack_leather",
@@ -103,8 +117,8 @@
     "difficulty": 3,
     "time": "50 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "leather", 20 ] ], [ [ "scrap", 6 ], [ "sheet_metal_small", 2 ] ] ]
+    "using": [["sewing_standard", 20]],
+    "components": [[["leather", 20]], [["scrap", 6], ["sheet_metal_small", 2]]]
   },
   {
     "result": "baldric",
@@ -113,12 +127,16 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ "melee", 1 ],
+    "skills_required": ["melee", 1],
     "time": "40 m",
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 12, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 8 ] ] ]
+    "using": [["adhesive", 1]],
+    "qualities": [{ "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "components": [
+      [["fabric_hides_any", 12, "LIST"]],
+      [["wood_structural", 1, "LIST"]],
+      [["nail", 8]]
+    ]
   },
   {
     "result": "bandolier_pistol",
@@ -127,11 +145,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 1 ], [ "pistol", 1 ] ],
+    "skills_required": [["gun", 1], ["pistol", 1]],
     "time": "1 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "leather", 8 ] ] ]
+    "using": [["sewing_standard", 10]],
+    "components": [[["leather", 8]]]
   },
   {
     "result": "bandolier_rifle",
@@ -140,11 +158,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
+    "skills_required": [["gun", 1], ["rifle", 1]],
     "time": "1 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "leather", 8 ] ] ]
+    "using": [["sewing_standard", 10]],
+    "components": [[["leather", 8]]]
   },
   {
     "result": "bandolier_shotgun",
@@ -153,11 +171,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 1 ], [ "shotgun", 1 ] ],
+    "skills_required": [["gun", 1], ["shotgun", 1]],
     "time": "1 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "leather", 8 ] ] ]
+    "using": [["sewing_standard", 10]],
+    "components": [[["leather", 8]]]
   },
   {
     "result": "torso_bandolier_shotgun",
@@ -166,11 +184,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 1 ], [ "shotgun", 1 ] ],
+    "skills_required": [["gun", 1], ["shotgun", 1]],
     "time": "1 h 40 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "leather", 14 ] ] ]
+    "using": [["sewing_standard", 20]],
+    "components": [[["leather", 14]]]
   },
   {
     "result": "bandolier_wrist",
@@ -179,11 +197,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
+    "skills_required": [["gun", 1], ["rifle", 1]],
     "time": "1 h 20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "filament", 8, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [[["rag", 4]], [["filament", 8, "LIST"]]]
   },
   {
     "result": "bholster",
@@ -192,11 +210,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 1,
-    "skills_required": [ [ "gun", 1 ] ],
+    "skills_required": [["gun", 1]],
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "nylon", 4 ] ] ]
+    "using": [["sewing_standard", 15]],
+    "components": [[["nylon", 4]]]
   },
   {
     "result": "bindle",
@@ -208,10 +226,15 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "fabric_standard", 4, "LIST" ], [ "fabric_hides_any", 4, "LIST" ], [ "cured_hide", 4 ], [ "cured_pelt", 4 ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "pointy_stick", 1 ] ]
+      [
+        ["fabric_standard", 4, "LIST"],
+        ["fabric_hides_any", 4, "LIST"],
+        ["cured_hide", 4],
+        ["cured_pelt", 4]
+      ],
+      [["stick", 1], ["broom", 1], ["2x4", 1], ["pool_cue", 1], ["pointy_stick", 1]]
     ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": ["BLIND_HARD"]
   },
   {
     "result": "bootsheath",
@@ -220,11 +243,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "melee", 1 ],
+    "skills_required": ["melee", 1],
     "time": "1 h 5 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 3 ] ], [ [ "filament", 5, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [[["leather", 3]], [["filament", 5, "LIST"]]]
   },
   {
     "result": "bootstrap",
@@ -233,11 +256,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "pistol", 1 ],
+    "skills_required": ["pistol", 1],
     "time": "1 h 15 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 3 ] ], [ [ "filament", 5, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [[["leather", 3]], [["filament", 5, "LIST"]]]
   },
   {
     "result": "bow_sling",
@@ -246,15 +269,15 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "archery", 1 ],
+    "skills_required": ["archery", 1],
     "time": "18 m",
     "autolearn": true,
-    "using": [ [ "filament", 40 ] ],
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "using": [["filament", 40]],
+    "qualities": [{ "id": "SEW", "level": 1 }],
     "components": [
-      [ [ "fabric_standard", 10, "LIST" ], [ "fabric_hides_any", 10, "LIST" ] ],
-      [ [ "plastic_chunk", 2 ], [ "scrap", 1 ], [ "sheet_metal_small", 1 ] ],
-      [ [ "rope_natural_short", 1, "LIST" ] ]
+      [["fabric_standard", 10, "LIST"], ["fabric_hides_any", 10, "LIST"]],
+      [["plastic_chunk", 2], ["scrap", 1], ["sheet_metal_small", 1]],
+      [["rope_natural_short", 1, "LIST"]]
     ]
   },
   {
@@ -264,12 +287,16 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ "melee", 1 ],
+    "skills_required": ["melee", 1],
     "time": "40 m",
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 15, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 10 ] ] ]
+    "using": [["adhesive", 1]],
+    "qualities": [{ "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "components": [
+      [["fabric_hides_any", 15, "LIST"]],
+      [["wood_structural", 1, "LIST"]],
+      [["nail", 10]]
+    ]
   },
   {
     "result": "chestpouch",
@@ -278,11 +305,14 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "1 h 18 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fabric_standard", 4, "LIST" ], [ "fabric_hides_any", 4, "LIST" ] ], [ [ "filament", 5, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [
+      [["fabric_standard", 4, "LIST"], ["fabric_hides_any", 4, "LIST"]],
+      [["filament", 5, "LIST"]]
+    ]
   },
   {
     "result": "tacvest",
@@ -291,16 +321,16 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ "fabrication", 2 ],
+    "skills_required": ["fabrication", 2],
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 25 ] ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
+    "using": [["sewing_standard", 25]],
+    "tools": [[["surface_heat", 5, "LIST"]], [["mold_plastic", -1]]],
     "components": [
-      [ [ "rag", 20 ] ],
-      [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ],
-      [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ],
-      [ [ "plastic_chunk", 2 ] ]
+      [["rag", 20]],
+      [["ragpouch", 2], ["leather_pouch", 2]],
+      [["chestpouch", 4], ["legpouch_large", 2], ["chestrig", 1]],
+      [["plastic_chunk", 2]]
     ]
   },
   {
@@ -311,10 +341,10 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "1 h 20 m",
-    "autolearn": [ [ "tailor", 4 ] ],
-    "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "rag", 40 ] ] ]
+    "autolearn": [["tailor", 4]],
+    "book_learn": [["textbook_tailor", 2], ["manual_tailor", 2], ["tailor_portfolio", 2]],
+    "using": [["sewing_standard", 30]],
+    "components": [[["rag", 40]]]
   },
   {
     "result": "flintlock_pouch",
@@ -323,11 +353,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 1 ] ],
+    "skills_required": [["gun", 1]],
     "time": "1 h 20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [[["leather", 6]], [["filament", 10, "LIST"]]]
   },
   {
     "result": "grenade_pouch",
@@ -336,12 +366,12 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
+    "skills_required": [["gun", 1], ["launcher", 1]],
     "time": "1 h 20 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "tools": [[["mold_plastic", -1]]],
+    "components": [[["rag", 4]], [["plastic_chunk", 2]], [["filament", 10, "LIST"]]]
   },
   {
     "result": "hide_bag",
@@ -352,8 +382,8 @@
     "time": "36 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "raw_leather", 6 ], [ "raw_hleather", 6 ], [ "raw_fur", 6 ], [ "raw_hfur", 6 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [[["raw_leather", 6], ["raw_hleather", 6], ["raw_fur", 6], ["raw_hfur", 6]]],
+    "flags": ["BLIND_EASY"]
   },
   {
     "result": "hide_tainted_bag",
@@ -364,8 +394,8 @@
     "time": "36 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "raw_tainted_leather", 6 ], [ "raw_tainted_fur", 6 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [[["raw_tainted_leather", 6], ["raw_tainted_fur", 6]]],
+    "flags": ["BLIND_EASY"]
   },
   {
     "result": "holster",
@@ -374,11 +404,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [[["leather", 6]], [["filament", 10, "LIST"]]]
   },
   {
     "result": "jerrypack",
@@ -389,11 +419,15 @@
     "difficulty": 2,
     "time": "1 m 30 s",
     "autolearn": true,
-    "using": [ [ "adhesive", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "using": [["adhesive", 3]],
+    "qualities": [{ "id": "HAMMER", "level": 3 }],
     "components": [
-      [ [ "fabric_standard", 6, "LIST" ], [ "fabric_hides_any", 6, "LIST" ], [ "cordage_short", 3, "LIST" ] ],
-      [ [ "jerrycan", 1 ] ]
+      [
+        ["fabric_standard", 6, "LIST"],
+        ["fabric_hides_any", 6, "LIST"],
+        ["cordage_short", 3, "LIST"]
+      ],
+      [["jerrycan", 1]]
     ]
   },
   {
@@ -405,8 +439,8 @@
     "difficulty": 2,
     "time": "60 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 20 ] ], [ [ "rope_natural", 1, "LIST" ] ] ]
+    "qualities": [{ "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }],
+    "components": [[["2x4", 3]], [["wood_panel", 1]], [["nail", 20]], [["rope_natural", 1, "LIST"]]]
   },
   {
     "result": "leather_belt",
@@ -416,8 +450,8 @@
     "skill_used": "tailor",
     "time": "8 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ [ [ "leather", 6 ] ] ]
+    "using": [["sewing_standard", 12]],
+    "components": [[["leather", 6]]]
   },
   {
     "result": "leather_pouch",
@@ -426,11 +460,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "survival", 1 ],
+    "skills_required": ["survival", 1],
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [[["fabric_hides_proper", 6, "LIST"]], [["filament", 10, "LIST"]]]
   },
   {
     "result": "ammo_pouch",
@@ -439,11 +473,14 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "survival", 1 ],
+    "skills_required": ["survival", 1],
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fabric_standard", 6, "LIST" ], [ "fabric_hides_any", 6, "LIST" ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [
+      [["fabric_standard", 6, "LIST"], ["fabric_hides_any", 6, "LIST"]],
+      [["filament", 10, "LIST"]]
+    ]
   },
   {
     "result": "legpouch",
@@ -452,11 +489,14 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "1 h 8 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "fabric_standard", 3, "LIST" ], [ "fabric_hides_any", 3, "LIST" ] ], [ [ "filament", 5, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [
+      [["fabric_standard", 3, "LIST"], ["fabric_hides_any", 3, "LIST"]],
+      [["filament", 5, "LIST"]]
+    ]
   },
   {
     "result": "legpouch_large",
@@ -465,14 +505,14 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "1 h 16 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "qualities": [{ "id": "SEW", "level": 1 }],
     "components": [
-      [ [ "fabric_standard", 6, "LIST" ], [ "fabric_hides_any", 6, "LIST" ] ],
-      [ [ "chestpouch", 2 ] ],
-      [ [ "filament", 8, "LIST" ] ]
+      [["fabric_standard", 6, "LIST"], ["fabric_hides_any", 6, "LIST"]],
+      [["chestpouch", 2]],
+      [["filament", 8, "LIST"]]
     ]
   },
   {
@@ -482,12 +522,12 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 4,
-    "skills_required": [ "fabrication", 2 ],
+    "skills_required": ["fabrication", 2],
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 15 ] ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "rag", 10 ] ], [ [ "plastic_chunk", 2 ] ] ]
+    "using": [["sewing_standard", 15]],
+    "tools": [[["surface_heat", 5, "LIST"]], [["mold_plastic", -1]]],
+    "components": [[["rag", 10]], [["plastic_chunk", 2]]]
   },
   {
     "result": "makeshift_knapsack",
@@ -498,19 +538,19 @@
     "time": "48 s",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
+    "using": [["cordage", 1]],
     "components": [
       [
-        [ "pants", 1 ],
-        [ "pants_cargo", 1 ],
-        [ "pants_army", 1 ],
-        [ "pants_checkered", 1 ],
-        [ "striped_pants", 1 ],
-        [ "technician_pants_gray", 1 ],
-        [ "jeans", 1 ]
+        ["pants", 1],
+        ["pants_cargo", 1],
+        ["pants_army", 1],
+        ["pants_checkered", 1],
+        ["striped_pants", 1],
+        ["technician_pants_gray", 1],
+        ["jeans", 1]
       ]
     ],
-    "flags": [ "BLIND_HARD" ]
+    "flags": ["BLIND_HARD"]
   },
   {
     "result": "makeshift_sling",
@@ -521,8 +561,8 @@
     "time": "48 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "sheet", 1 ], [ "blanket", 1 ], [ "electric_blanket", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [[["sheet", 1], ["blanket", 1], ["electric_blanket", 1]]],
+    "flags": ["BLIND_EASY"]
   },
   {
     "result": "plastic_shopping_bag",
@@ -533,9 +573,9 @@
     "difficulty": 1,
     "time": "15 m",
     "autolearn": true,
-    "using": [ [ "cordage", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bag_plastic", 8 ] ] ]
+    "using": [["cordage", 2]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["bag_plastic", 8]]]
   },
   {
     "result": "quiver",
@@ -544,14 +584,14 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "10 m",
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
-    "book_learn": [ [ "recipe_arrows", 1 ] ],
-    "using": [ [ "sewing_standard", 2 ] ],
-    "components": [ [ [ "leather", 2 ] ] ]
+    "book_learn": [["recipe_arrows", 1]],
+    "using": [["sewing_standard", 2]],
+    "components": [[["leather", 2]]]
   },
   {
     "result": "quiver_birchbark",
@@ -560,14 +600,14 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ [ "survival", 1 ], [ "gun", 1 ] ],
+    "skills_required": [["survival", 1], ["gun", 1]],
     "time": "20 m",
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
-    "book_learn": [ [ "recipe_arrows", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "birchbark", 3 ] ] ]
+    "book_learn": [["recipe_arrows", 2]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["birchbark", 3]]]
   },
   {
     "result": "quiver_large",
@@ -576,15 +616,15 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "20 m",
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
-    "book_learn": [ [ "recipe_arrows", 2 ] ],
-    "using": [ [ "sewing_standard", 8 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "leather", 8 ] ], [ [ "steel_tiny", 1, "LIST" ], [ "sheet_metal_small", 1 ] ] ]
+    "book_learn": [["recipe_arrows", 2]],
+    "using": [["sewing_standard", 8]],
+    "qualities": [{ "id": "HAMMER", "level": 2 }],
+    "components": [[["leather", 8]], [["steel_tiny", 1, "LIST"], ["sheet_metal_small", 1]]]
   },
   {
     "result": "quiver_large_birchbark",
@@ -593,14 +633,14 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 4,
-    "skills_required": [ [ "survival", 2 ], [ "gun", 2 ] ],
+    "skills_required": [["survival", 2], ["gun", 2]],
     "time": "40 m",
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
-    "book_learn": [ [ "recipe_arrows", 3 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "birchbark", 10 ] ] ]
+    "book_learn": [["recipe_arrows", 3]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["birchbark", 10]]]
   },
   {
     "result": "ragpouch",
@@ -610,8 +650,8 @@
     "skill_used": "tailor",
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 6 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [[["rag", 6]], [["filament", 10, "LIST"]]]
   },
   {
     "result": "scabbard",
@@ -620,12 +660,16 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ "melee", 1 ],
+    "skills_required": ["melee", 1],
     "time": "40 m",
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fabric_hides_any", 10, "LIST" ] ], [ [ "wood_structural", 1, "LIST" ] ], [ [ "nail", 5 ] ] ]
+    "using": [["adhesive", 1]],
+    "qualities": [{ "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "components": [
+      [["fabric_hides_any", 10, "LIST"]],
+      [["wood_structural", 1, "LIST"]],
+      [["nail", 5]]
+    ]
   },
   {
     "result": "sheath",
@@ -634,11 +678,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "melee", 1 ],
+    "skills_required": ["melee", 1],
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [[["leather", 6]], [["filament", 10, "LIST"]]]
   },
   {
     "result": "sholster",
@@ -647,11 +691,11 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 6 ] ], [ [ "filament", 20, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }],
+    "components": [[["leather", 6]], [["filament", 20, "LIST"]]]
   },
   {
     "result": "spearsling",
@@ -660,13 +704,13 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "melee", 1 ],
+    "skills_required": ["melee", 1],
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "qualities": [{ "id": "SEW", "level": 1 }],
     "components": [
-      [ [ "felt_patch", 7 ], [ "fabric_standard", 7, "LIST" ], [ "fabric_hides_any", 7, "LIST" ] ],
-      [ [ "filament", 20, "LIST" ] ]
+      [["felt_patch", 7], ["fabric_standard", 7, "LIST"], ["fabric_hides_any", 7, "LIST"]],
+      [["filament", 20, "LIST"]]
     ]
   },
   {
@@ -679,7 +723,7 @@
     "time": "18 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "straw_pile", 5 ], [ "birchbark", 7 ] ] ]
+    "components": [[["straw_pile", 5], ["birchbark", 7]]]
   },
   {
     "result": "survivor_hiking_backpack",
@@ -688,26 +732,26 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 7,
-    "skills_required": [ "fabrication", 6 ],
+    "skills_required": ["fabrication", 6],
     "time": "2 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 300 ] ],
+    "using": [["sewing_standard", 300]],
     "components": [
-      [ [ "fabric_standard", 30, "LIST" ] ],
-      [ [ "fabric_hides_proper", 36, "LIST" ] ],
-      [ [ "backpack_hiking", 2 ], [ "backpack_tactical_large", 1 ] ],
+      [["fabric_standard", 30, "LIST"]],
+      [["fabric_hides_proper", 36, "LIST"]],
+      [["backpack_hiking", 2], ["backpack_tactical_large", 1]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 4],
+        ["leather_pouch", 2],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 300 ] ]
+      [["duct_tape", 300]]
     ]
   },
   {
@@ -717,26 +761,26 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 7,
-    "skills_required": [ "fabrication", 6 ],
+    "skills_required": ["fabrication", 6],
     "time": "1 h 40 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
+    "using": [["sewing_standard", 200]],
     "components": [
-      [ [ "fabric_standard", 18, "LIST" ] ],
-      [ [ "fabric_hides_proper", 20, "LIST" ] ],
-      [ [ "molle_pack", 4 ], [ "duffelbag", 2 ], [ "rucksack", 4 ] ],
+      [["fabric_standard", 18, "LIST"]],
+      [["fabric_hides_proper", 20, "LIST"]],
+      [["molle_pack", 4], ["duffelbag", 2], ["rucksack", 4]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 4],
+        ["leather_pouch", 2],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 200 ] ]
+      [["duct_tape", 200]]
     ]
   },
   {
@@ -746,26 +790,26 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ "fabrication", 4 ],
+    "skills_required": ["fabrication", 4],
     "time": "1 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 120 ] ],
+    "using": [["sewing_standard", 120]],
     "components": [
-      [ [ "fabric_standard", 10, "LIST" ] ],
-      [ [ "fabric_hides_proper", 10, "LIST" ] ],
-      [ [ "runner_bag", 4 ], [ "backpack", 2 ], [ "backpack_leather", 2 ], [ "mbag", 4 ] ],
+      [["fabric_standard", 10, "LIST"]],
+      [["fabric_hides_proper", 10, "LIST"]],
+      [["runner_bag", 4], ["backpack", 2], ["backpack_leather", 2], ["mbag", 4]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 4],
+        ["leather_pouch", 2],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 120 ] ]
+      [["duct_tape", 120]]
     ]
   },
   {
@@ -775,26 +819,32 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 6,
-    "skills_required": [ "fabrication", 5 ],
+    "skills_required": ["fabrication", 5],
     "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 160 ] ],
+    "using": [["sewing_standard", 160]],
     "components": [
-      [ [ "fabric_standard", 14, "LIST" ] ],
-      [ [ "fabric_hides_proper", 16, "LIST" ] ],
-      [ [ "backpack", 4 ], [ "backpack_leather", 4 ], [ "molle_pack", 2 ], [ "duffelbag", 1 ], [ "rucksack", 2 ] ],
+      [["fabric_standard", 14, "LIST"]],
+      [["fabric_hides_proper", 16, "LIST"]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["backpack", 4],
+        ["backpack_leather", 4],
+        ["molle_pack", 2],
+        ["duffelbag", 1],
+        ["rucksack", 2]
       ],
-      [ [ "duct_tape", 160 ] ]
+      [
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 4],
+        ["leather_pouch", 2],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
+      ],
+      [["duct_tape", 160]]
     ]
   },
   {
@@ -804,26 +854,26 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 4,
-    "skills_required": [ "fabrication", 3 ],
+    "skills_required": ["fabrication", 3],
     "time": "1 h 10 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 80 ] ],
+    "using": [["sewing_standard", 80]],
     "components": [
-      [ [ "fabric_standard", 6, "LIST" ] ],
-      [ [ "fabric_hides_proper", 8, "LIST" ] ],
-      [ [ "runner_bag", 2 ], [ "backpack", 1 ], [ "backpack_leather", 1 ], [ "mbag", 2 ] ],
+      [["fabric_standard", 6, "LIST"]],
+      [["fabric_hides_proper", 8, "LIST"]],
+      [["runner_bag", 2], ["backpack", 1], ["backpack_leather", 1], ["mbag", 2]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 4],
+        ["leather_pouch", 2],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 80 ] ]
+      [["duct_tape", 80]]
     ]
   },
   {
@@ -833,26 +883,26 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ "fabrication", 3 ],
+    "skills_required": ["fabrication", 3],
     "time": "1 h 10 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ] ],
+    "using": [["sewing_standard", 100]],
     "components": [
-      [ [ "fabric_standard", 6, "LIST" ] ],
-      [ [ "fabric_hides_proper", 6, "LIST" ] ],
-      [ [ "holster", 1 ], [ "sholster", 1 ] ],
+      [["fabric_standard", 6, "LIST"]],
+      [["fabric_hides_proper", 6, "LIST"]],
+      [["holster", 1], ["sholster", 1]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 4 ],
-        [ "leather_pouch", 2 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 4],
+        ["leather_pouch", 2],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 50 ] ]
+      [["duct_tape", 50]]
     ]
   },
   {
@@ -864,8 +914,8 @@
     "time": "36 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "bag_canvas", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [[["bag_canvas", 1]]],
+    "flags": ["BLIND_EASY"]
   },
   {
     "result": "tool_belt",
@@ -876,8 +926,8 @@
     "difficulty": 3,
     "time": "16 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "leather", 6 ], [ "leather_belt", 1 ] ], [ [ "leather_pouch", 7 ] ] ]
+    "using": [["sewing_standard", 8]],
+    "components": [[["leather", 6], ["leather_belt", 1]], [["leather_pouch", 7]]]
   },
   {
     "result": "javelin_bag",
@@ -885,12 +935,12 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "skills_required": [ [ "throw", 1 ] ],
+    "skills_required": [["throw", 1]],
     "difficulty": 2,
     "time": "1 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "fabric_hides_proper", 32, "LIST" ] ] ]
+    "using": [["sewing_standard", 30]],
+    "components": [[["fabric_hides_proper", 32, "LIST"]]]
   },
   {
     "result": "grenadebandolier",
@@ -898,12 +948,12 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "skills_required": [ [ "gun", 1 ], [ "throw", 1 ] ],
+    "skills_required": [["gun", 1], ["throw", 1]],
     "difficulty": 3,
     "time": "50 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 6 ] ] ]
+    "using": [["sewing_standard", 20]],
+    "components": [[["rag", 6]]]
   },
   {
     "result": "bigback",
@@ -914,9 +964,14 @@
     "difficulty": 5,
     "time": "4 h 10 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 150 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "leather", 55 ] ], [ [ "sheet_metal_small", 8 ] ], [ [ "cordage", 2, "LIST" ] ], [ [ "leather_pouch", 2 ] ] ]
+    "using": [["sewing_standard", 150]],
+    "qualities": [{ "id": "HAMMER", "level": 2 }],
+    "components": [
+      [["leather", 55]],
+      [["sheet_metal_small", 8]],
+      [["cordage", 2, "LIST"]],
+      [["leather_pouch", 2]]
+    ]
   },
   {
     "result": "travelpack",
@@ -927,8 +982,8 @@
     "difficulty": 3,
     "time": "1 h 30 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 40 ] ],
-    "components": [ [ [ "rag", 36 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+    "using": [["sewing_standard", 40]],
+    "components": [[["rag", 36]], [["cordage", 1, "LIST"]]]
   },
   {
     "result": "petpack",
@@ -939,8 +994,8 @@
     "difficulty": 3,
     "time": "1 h 40 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "rag", 10 ] ], [ [ "plastic_chunk", 8 ] ] ]
+    "using": [["sewing_standard", 100]],
+    "components": [[["rag", 10]], [["plastic_chunk", 8]]]
   },
   {
     "result": "backpack_tactical_large",
@@ -951,8 +1006,8 @@
     "difficulty": 4,
     "time": "2 h 40 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "fabric_hides_any", 60, "LIST" ] ], [ [ "cordage", 1, "LIST" ] ] ]
+    "using": [["sewing_standard", 100]],
+    "components": [[["fabric_hides_any", 60, "LIST"]], [["cordage", 1, "LIST"]]]
   },
   {
     "result": "backpack_hiking",
@@ -963,8 +1018,8 @@
     "difficulty": 4,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ] ],
-    "components": [ [ [ "fabric_hides_any", 37, "LIST" ] ], [ [ "cordage", 1, "LIST" ] ] ]
+    "using": [["sewing_standard", 100]],
+    "components": [[["fabric_hides_any", 37, "LIST"]], [["cordage", 1, "LIST"]]]
   },
   {
     "result": "vest",
@@ -973,12 +1028,12 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 4,
-    "skills_required": [ "fabrication", 2 ],
+    "skills_required": ["fabrication", 2],
     "time": "45 m",
     "autolearn": true,
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "using": [ [ "sewing_standard", 50 ] ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
-    "components": [ [ [ "rag", 12 ] ], [ [ "plastic_chunk", 4 ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "using": [["sewing_standard", 50]],
+    "tools": [[["surface_heat", 10, "LIST"]], [["mold_plastic", -1]]],
+    "components": [[["rag", 12]], [["plastic_chunk", 4]]]
   }
 ]

@@ -4,7 +4,7 @@
     "id": "bike_shop",
     "terrain": {
       " ": "t_region_groundcover_urban",
-      "*": [ [ "t_region_groundcover_urban", 4 ], "t_region_tree_shade" ],
+      "*": [["t_region_groundcover_urban", 4], "t_region_tree_shade"],
       "_": "t_sidewalk",
       ".": "t_floor",
       "#": "t_wall_w",
@@ -54,6 +54,6 @@
       "@": "f_dumpster",
       "^": "f_indoor_plant"
     },
-    "toilets": { "T": {  } }
+    "toilets": { "T": {} }
   }
 ]

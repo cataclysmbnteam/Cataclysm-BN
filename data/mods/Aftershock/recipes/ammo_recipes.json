@@ -7,14 +7,18 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "45 m",
-    "book_learn": [ [ "recipe_unusual_ammos", 3 ], [ "recipe_lab_elec", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "HAMMER_FINE", "level": 1 } ],
-    "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 50 ] ],
+    "book_learn": [["recipe_unusual_ammos", 3], ["recipe_lab_elec", 8]],
+    "qualities": [
+      { "id": "CHEM", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "using": [["soldering_standard", 20], ["surface_heat", 50]],
     "components": [
-      [ [ "oxy_powder", 20 ] ],
-      [ [ "afs_material_2", 4 ] ],
-      [ [ "afs_material_3", 1 ] ],
-      [ [ "afs_energy_storage_2", 1 ] ]
+      [["oxy_powder", 20]],
+      [["afs_material_2", 4]],
+      [["afs_material_3", 1]],
+      [["afs_energy_storage_2", 1]]
     ]
   }
 ]

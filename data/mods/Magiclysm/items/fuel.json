@@ -16,10 +16,16 @@
     "ammo_type": "dragon_blood",
     "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+    "effects": ["FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES"],
     "fuel": {
       "energy": 50,
-      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+      "explosion_data": {
+        "chance_hot": 20,
+        "chance_cold": 1000,
+        "factor": 0.2,
+        "fiery": true,
+        "size_factor": 0.1
+      }
     }
   },
   {
@@ -72,7 +78,7 @@
     "tool": "syringe",
     "quench": 50,
     "ammo_data": { "ammo_type": "mana_infused_blood" },
-    "flags": [ "NO_INGEST" ],
+    "flags": ["NO_INGEST"],
     "use_action": { "type": "cast_spell", "spell_id": "mana_doping", "no_fail": true, "level": 0 }
   }
 ]

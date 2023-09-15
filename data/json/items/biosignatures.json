@@ -68,7 +68,7 @@
       "moves": 200,
       "duration": "1 h",
       "charges_to_use": 1,
-      "effects": [ { "id": "fetid_goop", "duration": 3600 } ]
+      "effects": [{ "id": "fetid_goop", "duration": 3600 }]
     }
   }
 ]

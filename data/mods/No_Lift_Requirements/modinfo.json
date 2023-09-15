@@ -6,10 +6,10 @@
     "authors": "Wad67",
     "description": "Strength checks and lifting qualities are no longer required for installing or removing vehicle parts.",
     "category": "rebalance",
-    "dependencies": [ "bn" ]
+    "dependencies": ["bn"]
   },
   {
     "type": "WORLD_OPTION",
-    "options": [ "DISABLE_LIFTING" ]
+    "options": ["DISABLE_LIFTING"]
   }
 ]

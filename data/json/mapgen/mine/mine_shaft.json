@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "mine_shaft_middle", "mine_shaft_middle_east" ] ],
+    "om_terrain": [["mine_shaft_middle", "mine_shaft_middle_east"]],
     "object": {
       "fill_ter": "t_rock",
       "rows": [
@@ -37,7 +37,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "mine_shaft_lower", "mine_shaft_lower_east" ] ],
+    "om_terrain": [["mine_shaft_lower", "mine_shaft_lower_east"]],
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
@@ -67,7 +67,7 @@
         "#######        ##  №#######           ########  "
       ],
       "terrain": {
-        " ": [ [ "t_water_sh_underground", 1 ], [ "t_rock_floor", 10 ] ],
+        " ": [["t_water_sh_underground", 1], ["t_rock_floor", 10]],
         "<": "t_ladder_up",
         "-": "t_wall",
         "|": "t_wall",
@@ -76,7 +76,7 @@
         "!": "t_elevator_control",
         "@": "t_elevator",
         "®": "t_machinery_heavy",
-        "#": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ],
+        "#": [["t_rock", 4], ["t_rock_floor", 1]],
         "=": "t_conveyor",
         "*": "t_railroad_track_small",
         "№": "t_pillar",
@@ -85,10 +85,13 @@
       },
       "furniture": { "L": "f_locker", "S": "f_utility_shelf" },
       "items": {
-        "L": [ { "item": "clothing_work_set", "chance": 50 }, { "item": "hardware_clothing", "chance": 50 } ],
+        "L": [
+          { "item": "clothing_work_set", "chance": 50 },
+          { "item": "hardware_clothing", "chance": 50 }
+        ],
         "S": { "item": "mine_equipment", "chance": 80 }
       },
-      "place_vehicles": [ { "vehicle": "trolley", "x": 10, "y": 16, "chance": 100, "status": 0 } ],
+      "place_vehicles": [{ "vehicle": "trolley", "x": 10, "y": 16, "chance": 100, "status": 0 }],
       "monsters": { " ": { "monster": "GROUP_MINER", "chance": 1, "density": 0.0005 } }
     }
   }

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_petstore" ],
+    "om_terrain": ["s_petstore"],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -62,17 +62,17 @@
         "d": "f_desk",
         "K": "f_counter",
         "L": "f_counter",
-        "U": [ "f_dumpster", "f_recycle_bin" ]
+        "U": ["f_dumpster", "f_recycle_bin"]
       },
-      "toilets": { "B": {  } },
+      "toilets": { "B": {} },
       "items": {
-        "A": { "item": "petstore_shelves", "chance": 70, "repeat": [ 2, 8 ] },
-        "L": { "item": "petstore_shelves", "chance": 70, "repeat": [ 2, 8 ] },
-        "G": { "item": "cleaning", "chance": 70, "repeat": [ 1, 4 ] },
-        "C": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
-        "K": { "item": "petstore_misc", "chance": 70, "repeat": [ 2, 8 ] },
-        "d": { "item": "office", "chance": 50, "repeat": [ 2, 4 ] },
-        "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+        "A": { "item": "petstore_shelves", "chance": 70, "repeat": [2, 8] },
+        "L": { "item": "petstore_shelves", "chance": 70, "repeat": [2, 8] },
+        "G": { "item": "cleaning", "chance": 70, "repeat": [1, 4] },
+        "C": { "item": "petstore_misc", "chance": 70, "repeat": [2, 8] },
+        "K": { "item": "petstore_misc", "chance": 70, "repeat": [2, 8] },
+        "d": { "item": "office", "chance": 50, "repeat": [2, 4] },
+        "U": { "item": "trash", "chance": 20, "repeat": [2, 4] }
       }
     }
   },
@@ -108,23 +108,26 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "palettes": ["roof_palette"],
+      "nested": {
+        "U": { "chunks": ["roof_2x2_infrastructure"] },
+        "R": { "chunks": ["roof_2x2_infrastructure_1"] }
+      },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 5, 15 ],
+          "x": [5, 15],
           "y": 18
         },
         {
-          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ] ],
-          "x": [ 5, 12 ],
+          "chunks": [["null", 20], ["roof_4x4_utility", 40], ["roof_6x6_utility", 20]],
+          "x": [5, 12],
           "y": 11
         }
       ]
@@ -149,12 +152,15 @@
         "A": "f_stool",
         "l": "f_locker"
       },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "place_items": [
         { "chance": 15, "item": "vet_softdrug", "x": 21, "y": 6 },
-        { "chance": 30, "item": "vet_utility", "x": [ 20, 21 ], "y": 3 }
+        { "chance": 30, "item": "vet_utility", "x": [20, 21], "y": 3 }
       ],
-      "items": { "l": { "item": "cleaning", "chance": 30 }, "T": { "item": "softdrugs", "chance": 30 } },
+      "items": {
+        "l": { "item": "cleaning", "chance": 30 },
+        "T": { "item": "softdrugs", "chance": 30 }
+      },
       "place_monster": [
         { "monster": "mon_cat", "x": 2, "y": 3 },
         { "monster": "mon_rabbit", "x": 2, "y": 7 },
@@ -244,21 +250,24 @@
         "                |-----3 ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "palettes": ["roof_palette"],
+      "nested": {
+        "U": { "chunks": ["roof_2x2_infrastructure"] },
+        "R": { "chunks": ["roof_2x2_infrastructure_1"] }
+      },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_6x6_utility", 20 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50],
+            ["roof_4x4_utility", 40],
+            ["roof_6x6_utility", 20]
           ],
-          "x": [ 5, 15 ],
-          "y": [ 6, 8 ]
+          "x": [5, 15],
+          "y": [6, 8]
         }
       ]
     }
@@ -279,27 +288,36 @@
         "Y": "f_locker",
         "G": "f_locker",
         "t": "f_toilet",
-        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+        "p": [
+          "f_datura",
+          "f_bluebell",
+          "f_mutpoppy",
+          "f_dahlia",
+          "f_flower_tulip",
+          "f_chamomile",
+          "f_flower_spurge",
+          "f_lily"
+        ],
         "{": "f_rack",
         "K": "f_birdbath"
       },
       "place_items": [
-        { "chance": 55, "item": "clothing_outdoor_torso", "x": [ 5, 6 ], "y": 21 },
-        { "chance": 70, "repeat": [ 1, 2 ], "item": "vet_softdrug", "x": 2, "y": [ 8, 10 ] },
+        { "chance": 55, "item": "clothing_outdoor_torso", "x": [5, 6], "y": 21 },
+        { "chance": 70, "repeat": [1, 2], "item": "vet_softdrug", "x": 2, "y": [8, 10] },
         { "chance": 55, "item": "trash", "x": 6, "y": 14 },
         { "chance": 55, "item": "trash", "x": 12, "y": 5 },
         { "chance": 20, "item": "vet_hardrug", "x": 2, "y": 11 },
-        { "chance": 85, "repeat": [ 1, 4 ], "item": "vet_utility", "x": 14, "y": 14 },
-        { "chance": 85, "repeat": [ 1, 4 ], "item": "vet_utility", "x": 14, "y": 12 },
-        { "chance": 85, "repeat": [ 1, 4 ], "item": "vet_utility", "x": 11, "y": [ 11, 12 ] },
-        { "chance": 70, "repeat": [ 1, 6 ], "item": "magazines", "x": 7, "y": 11 }
+        { "chance": 85, "repeat": [1, 4], "item": "vet_utility", "x": 14, "y": 14 },
+        { "chance": 85, "repeat": [1, 4], "item": "vet_utility", "x": 14, "y": 12 },
+        { "chance": 85, "repeat": [1, 4], "item": "vet_utility", "x": 11, "y": [11, 12] },
+        { "chance": 70, "repeat": [1, 6], "item": "magazines", "x": 7, "y": 11 }
       ],
       "items": {
-        "{": { "item": "petstore_shelves", "chance": 70, "repeat": [ 1, 4 ] },
-        "G": { "item": "cleaning", "chance": 70, "repeat": [ 1, 4 ] },
-        "l": { "item": "petstore_misc", "chance": 70, "repeat": [ 1, 4 ] },
-        "#": { "item": "office", "chance": 80, "repeat": [ 2, 4 ] },
-        "Y": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ]
+        "{": { "item": "petstore_shelves", "chance": 70, "repeat": [1, 4] },
+        "G": { "item": "cleaning", "chance": 70, "repeat": [1, 4] },
+        "l": { "item": "petstore_misc", "chance": 70, "repeat": [1, 4] },
+        "#": { "item": "office", "chance": 80, "repeat": [2, 4] },
+        "Y": [{ "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 }]
       },
       "place_monster": [
         { "monster": "mon_dog_zombie_rot", "x": 21, "y": 7 },
@@ -311,7 +329,7 @@
         { "monster": "mon_dog_zombie_rot", "x": 14, "y": 19 },
         { "monster": "mon_dog_zombie_rot", "x": 20, "y": 21 }
       ],
-      "place_toilets": [ { "x": 2, "y": 19 } ],
+      "place_toilets": [{ "x": 2, "y": 19 }],
       "rows": [
         "___________pppssppp_____",
         "__9____9___p9psspKppppp_",
@@ -340,7 +358,7 @@
       ],
       "terrain": {
         "+": "t_door_glass_c",
-        "_": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "_": [["t_grass", 5], ["t_grass_long", 2], "t_dirt", "t_shrub"],
         "p": "t_grass",
         "K": "t_grass",
         "-": "t_wall_glass",
@@ -419,21 +437,24 @@
         " |----------3           ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "palettes": ["roof_palette"],
+      "nested": {
+        "U": { "chunks": ["roof_2x2_infrastructure"] },
+        "R": { "chunks": ["roof_2x2_infrastructure_1"] }
+      },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_6x6_utility", 20 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50],
+            ["roof_4x4_utility", 40],
+            ["roof_6x6_utility", 20]
           ],
-          "x": [ 5, 15 ],
-          "y": [ 6, 9 ]
+          "x": [5, 15],
+          "y": [6, 9]
         }
       ]
     }

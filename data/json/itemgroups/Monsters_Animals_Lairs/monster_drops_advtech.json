@@ -40,19 +40,23 @@
     "type": "item_group",
     "id": "eyebot",
     "subtype": "distribution",
-    "entries": [ { "item": "flashlight", "prob": 40 } ]
+    "entries": [{ "item": "flashlight", "prob": 40 }]
   },
   {
     "type": "item_group",
     "id": "manhack",
     "subtype": "distribution",
-    "entries": [ { "item": "spike", "prob": 10 }, { "item": "scrap", "prob": 10 }, { "item": "blade", "prob": 5 } ]
+    "entries": [
+      { "item": "spike", "prob": 10 },
+      { "item": "scrap", "prob": 10 },
+      { "item": "blade", "prob": 5 }
+    ]
   },
   {
     "type": "item_group",
     "id": "skitterbot",
     "subtype": "distribution",
-    "entries": [ { "item": "tazer", "prob": 3 }, { "item": "scrap", "prob": 9 } ]
+    "entries": [{ "item": "tazer", "prob": 3 }, { "item": "scrap", "prob": 9 }]
   },
   {
     "type": "item_group",
@@ -82,31 +86,31 @@
     "type": "item_group",
     "id": "turret",
     "subtype": "distribution",
-    "entries": [ { "item": "9mm", "prob": 8 } ]
+    "entries": [{ "item": "9mm", "prob": 8 }]
   },
   {
     "type": "item_group",
     "id": "laserturret",
     "subtype": "distribution",
-    "entries": [ { "item": "cerberus_laser", "prob": 1 } ]
+    "entries": [{ "item": "cerberus_laser", "prob": 1 }]
   },
   {
     "type": "item_group",
     "id": "turret_rifle",
     "subtype": "distribution",
-    "entries": [ { "item": "556", "prob": 8 } ]
+    "entries": [{ "item": "556", "prob": 8 }]
   },
   {
     "type": "item_group",
     "id": "turret_bmg",
     "subtype": "distribution",
-    "entries": [ { "item": "50bmg", "prob": 8 } ]
+    "entries": [{ "item": "50bmg", "prob": 8 }]
   },
   {
     "type": "item_group",
     "id": "turret_searchlight",
     "subtype": "distribution",
-    "entries": [ { "item": "lens", "prob": 15 } ]
+    "entries": [{ "item": "lens", "prob": 15 }]
   },
   {
     "id": "cyborg_harvest",
@@ -129,10 +133,10 @@
     "subtype": "distribution",
     "entries": [
       { "item": "burnt_out_bionic", "prob": 25 },
-      { "item": "scrap", "prob": 15, "charges": [ 1, 5 ] },
+      { "item": "scrap", "prob": 15, "charges": [1, 5] },
       { "item": "alloy_sheet", "prob": 10 },
-      { "item": "cable", "prob": 15, "charges": [ 5, 10 ] },
-      { "item": "e_scrap", "prob": 10, "charges": [ 1, 5 ] },
+      { "item": "cable", "prob": 15, "charges": [5, 10] },
+      { "item": "e_scrap", "prob": 10, "charges": [1, 5] },
       { "item": "processor", "prob": 5 },
       { "item": "RAM", "prob": 5 },
       { "item": "amplifier", "prob": 5 },

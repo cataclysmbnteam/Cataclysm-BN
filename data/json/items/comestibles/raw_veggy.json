@@ -16,9 +16,9 @@
     "material": "veggy",
     "volume": "1 L",
     "milling": { "into": "flour", "conversion_rate": 15 },
-    "flags": [ "RAW" ],
+    "flags": ["RAW"],
     "charges": 4,
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
+    "vitamins": [["calcium", 6], ["iron", 29]],
     "fun": -15
   },
   {
@@ -33,7 +33,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": ["veggy"],
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 0
@@ -54,9 +54,9 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
+    "flags": ["EATEN_HOT", "SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 95 ], [ "calcium", 5 ], [ "iron", 4 ] ]
+    "vitamins": [["vitA", 3], ["vitC", 95], ["calcium", 5], ["iron", 4]]
   },
   {
     "type": "COMESTIBLE",
@@ -75,9 +75,9 @@
     "material": "veggy",
     "volume": "500 ml",
     "milling": { "into": "flour", "conversion_rate": 15 },
-    "flags": [ "RAW" ],
+    "flags": ["RAW"],
     "charges": 2,
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 22 ] ],
+    "vitamins": [["calcium", 3], ["iron", 22]],
     "fun": -10
   },
   {
@@ -99,9 +99,9 @@
     "volume": "2250 ml",
     "charges": 9,
     "fun": -2,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 56 ], [ "calcium", 5 ], [ "iron", 5 ] ]
+    "vitamins": [["vitC", 56], ["calcium", 5], ["iron", 5]]
   },
   {
     "type": "COMESTIBLE",
@@ -117,11 +117,11 @@
     "calories": 22,
     "description": "Edible leaves of a grape vine.  Typically used in salads or as food wrapping.",
     "price": "80 cent",
-    "material": [ "veggy" ],
+    "material": ["veggy"],
     "volume": "250 ml",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 21 ], [ "vitC", 2 ], [ "calcium", 4 ], [ "iron", 2 ] ]
+    "vitamins": [["vitA", 21], ["vitC", 2], ["calcium", 4], ["iron", 2]]
   },
   {
     "type": "COMESTIBLE",
@@ -142,8 +142,8 @@
     "volume": "2250 ml",
     "charges": 9,
     "fun": -2,
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 18 ] ]
+    "flags": ["RAW"],
+    "vitamins": [["calcium", 8], ["iron", 18]]
   },
   {
     "type": "COMESTIBLE",
@@ -163,9 +163,9 @@
     "volume": "125 ml",
     "charges": 6,
     "fun": -1,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 63 ], [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 1 ] ]
+    "vitamins": [["vitA", 63], ["vitC", 5], ["calcium", 3], ["iron", 1]]
   },
   {
     "type": "COMESTIBLE",
@@ -183,8 +183,8 @@
     "material": "veggy",
     "volume": "250 ml",
     "fun": -12,
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "iron", 8 ] ]
+    "flags": ["RAW"],
+    "vitamins": [["iron", 8]]
   },
   {
     "type": "COMESTIBLE",
@@ -202,9 +202,9 @@
     "material": "veggy",
     "volume": "250 ml",
     "fun": -8,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ] ]
+    "vitamins": [["calcium", 5], ["iron", 5]]
   },
   {
     "type": "COMESTIBLE",
@@ -222,9 +222,9 @@
     "price_postapoc": 10,
     "material": "veggy",
     "volume": "1000 ml",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 4 ], [ "calcium", 4 ], [ "iron", 1 ] ]
+    "vitamins": [["vitA", 3], ["vitC", 4], ["calcium", 4], ["iron", 1]]
   },
   {
     "type": "COMESTIBLE",
@@ -243,10 +243,10 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "750 ml",
-    "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
+    "flags": ["EATEN_HOT", "SMOKABLE", "RAW"],
     "milling": { "into": "cornmeal", "conversion_rate": 3 },
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ]
+    "vitamins": [["vitA", 2], ["vitC", 12], ["iron", 4]]
   },
   {
     "type": "COMESTIBLE",
@@ -263,7 +263,7 @@
     "description": "A tough protective capsule bulging with densely packed fibers and seeds, this cotton boll can be processed into usable material with the right tools.",
     "price": 100,
     "price_postapoc": 10,
-    "material": [ "veggy", "cotton" ],
+    "material": ["veggy", "cotton"],
     "volume": "250 ml",
     "charges": 4,
     "fun": -10
@@ -285,8 +285,8 @@
     "material": "veggy",
     "volume": "250 ml",
     "charges": 3,
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ] ],
+    "flags": ["RAW"],
+    "vitamins": [["vitA", 3], ["vitC", 88], ["calcium", 1], ["iron", 3]],
     "fun": -2
   },
   {
@@ -306,9 +306,9 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "750 ml",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 6 ], [ "iron", 6 ] ]
+    "vitamins": [["vitC", 9], ["calcium", 6], ["iron", 6]]
   },
   {
     "type": "COMESTIBLE",
@@ -326,7 +326,7 @@
     "material": "veggy",
     "volume": "250 ml",
     "fun": -4,
-    "flags": [ "RAW" ],
+    "flags": ["RAW"],
     "//": "Dahlia roots contain an incredible amount of vitamin B6. This isn't a vitamin tracked in Cataclysm, but be careful of vitamin overdose when eating dahlia in real life."
   },
   {
@@ -347,8 +347,8 @@
     "volume": "250 ml",
     "fun": -2,
     "smoking_result": "dry_veggy",
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", 18 ], [ "iron", 5 ], [ "calcium", 8 ] ]
+    "flags": ["RAW"],
+    "vitamins": [["vitC", 18], ["iron", 5], ["calcium", 8]]
   },
   {
     "type": "COMESTIBLE",
@@ -366,8 +366,8 @@
     "material": "veggy",
     "volume": "250 ml",
     "fun": -8,
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "calcium", 2 ] ]
+    "flags": ["RAW"],
+    "vitamins": [["vitC", 5], ["iron", 3], ["calcium", 2]]
   },
   {
     "type": "COMESTIBLE",
@@ -378,7 +378,7 @@
     "description": "A weed with a cluster of tiny white flowers.  These are often wild carrots, but beware of poisonous lookalikes.",
     "charges": 3,
     "//": "Also known as Queen Anne's Lace. It's that boring white flower that grows wild everywhere. Water hemlock looks almost exactly like wild carrot. The easiest way to tell them apart is by their scent. Please don't eat either of them at home, hemlock will kill you deader than Socrates.",
-    "flags": [ "FORAGE_POISON", "RAW" ],
+    "flags": ["FORAGE_POISON", "RAW"],
     "price": 90,
     "price_postapoc": 50,
     "fun": -2
@@ -397,7 +397,7 @@
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": ["veggy"],
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 0
@@ -420,8 +420,8 @@
     "material": "garlic",
     "volume": "150 ml",
     "fun": -18,
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 1 ] ],
+    "flags": ["RAW"],
+    "vitamins": [["vitC", 5], ["calcium", 3], ["iron", 1]],
     "//": "Who in their right mind would eat an entire garlic bulb raw?"
   },
   {
@@ -440,7 +440,7 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "250 ml",
-    "flags": [ "RAW" ],
+    "flags": ["RAW"],
     "charges": 4,
     "fun": -15
   },
@@ -460,8 +460,8 @@
     "material": "veggy",
     "volume": "400 ml",
     "fun": -12,
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", 41 ], [ "calcium", 6 ], [ "iron", 5 ] ]
+    "flags": ["RAW"],
+    "vitamins": [["vitC", 41], ["calcium", 6], ["iron", 5]]
   },
   {
     "type": "COMESTIBLE",
@@ -480,9 +480,9 @@
     "material": "veggy",
     "volume": "2500 ml",
     "charges": 10,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [["vitA", 16], ["vitC", 4], ["calcium", 1], ["iron", 2]]
   },
   {
     "type": "COMESTIBLE",
@@ -497,7 +497,7 @@
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": ["veggy"],
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 10
@@ -519,10 +519,10 @@
     "material": "veggy",
     "volume": "250 ml",
     "fun": -1,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
     "//": "Raw onions probably aren't all that tasty to most people.",
-    "vitamins": [ [ "vitC", 12 ], [ "calcium", 4 ], [ "iron", 2 ] ]
+    "vitamins": [["vitC", 12], ["calcium", 4], ["iron", 2]]
   },
   {
     "type": "COMESTIBLE",
@@ -543,7 +543,7 @@
     "price_postapoc": 10,
     "material": "veggy",
     "volume": "250 ml",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy"
   },
   {
@@ -561,8 +561,8 @@
     "material": "veggy",
     "volume": "750 ml",
     "fun": -2,
-    "flags": [ "EATEN_HOT", "RAW" ],
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ]
+    "flags": ["EATEN_HOT", "RAW"],
+    "vitamins": [["vitA", 2], ["vitC", 12], ["iron", 4]]
   },
   {
     "type": "COMESTIBLE",
@@ -581,9 +581,9 @@
     "material": "veggy",
     "volume": "375 ml",
     "fun": -3,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 47 ], [ "calcium", 3 ], [ "iron", 9 ] ]
+    "vitamins": [["vitC", 47], ["calcium", 3], ["iron", 9]]
   },
   {
     "type": "COMESTIBLE",
@@ -605,9 +605,9 @@
     "charges": 12,
     "bashing": 2,
     "fun": -1,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 58 ], [ "vitC", 12 ], [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [["vitA", 58], ["vitC", 12], ["calcium", 3], ["iron", 5]]
   },
   {
     "type": "COMESTIBLE",
@@ -625,9 +625,9 @@
     "material": "veggy",
     "volume": "100 ml",
     "fun": -2,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 7 ], [ "vitC", 30 ], [ "calcium", 2 ], [ "iron", 3 ] ]
+    "vitamins": [["vitA", 7], ["vitC", 30], ["calcium", 2], ["iron", 3]]
   },
   {
     "type": "COMESTIBLE",
@@ -647,9 +647,9 @@
     "volume": "250 ml",
     "stack_size": 4,
     "fun": -12,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 33 ], [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ]
+    "vitamins": [["vitA", 33], ["vitC", 23], ["calcium", 11], ["iron", 10]]
   },
   {
     "type": "COMESTIBLE",
@@ -669,9 +669,9 @@
     "volume": "250 ml",
     "stack_size": 4,
     "fun": -12,
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 23 ], [ "iron", 10 ] ]
+    "vitamins": [["vitC", 1], ["calcium", 23], ["iron", 10]]
   },
   {
     "type": "COMESTIBLE",
@@ -690,9 +690,9 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "250 ml",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 11 ], [ "calcium", 11 ], [ "iron", 2 ] ]
+    "vitamins": [["vitA", 1], ["vitC", 11], ["calcium", 11], ["iron", 2]]
   },
   {
     "type": "COMESTIBLE",
@@ -711,9 +711,9 @@
     "volume": "1 L",
     "charges": 4,
     "fun": -10,
-    "flags": [ "SMOKABLE" ],
+    "flags": ["SMOKABLE"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 2 ], [ "iron", 6 ] ]
+    "vitamins": [["vitC", 8], ["calcium", 2], ["iron", 6]]
   },
   {
     "type": "COMESTIBLE",
@@ -733,7 +733,7 @@
     "material": "veggy",
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
-    "flags": [ "RAW", "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": ["RAW", "IRREPLACEABLE_CONSUMABLE"],
     "charges": 20,
     "fun": -6
   },
@@ -754,9 +754,9 @@
     "price_postapoc": 50,
     "material": "tomato",
     "volume": "375 ml",
-    "flags": [ "SMOKABLE" ],
+    "flags": ["SMOKABLE"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 22 ], [ "calcium", 3 ], [ "iron", 6 ] ]
+    "vitamins": [["vitC", 22], ["calcium", 3], ["iron", 6]]
   },
   {
     "type": "COMESTIBLE",
@@ -773,11 +773,11 @@
     "price": 600,
     "price_postapoc": 50,
     "material": "veggy",
-    "flags": [ "TRADER_AVOID", "SMOKABLE", "RAW" ],
+    "flags": ["TRADER_AVOID", "SMOKABLE", "RAW"],
     "smoking_result": "dry_veggy",
     "volume": "250 ml",
     "//": "average of broccoli, cabbage, carrot, cattail_stalk, celery, chili_pepper, cucumber, lettuce, onion, pumpkin, raw_dandelion, rhubarb, sugar_beet, tomato, zucchini",
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [["vitA", 16], ["vitC", 36], ["calcium", 4], ["iron", 4]]
   },
   {
     "type": "COMESTIBLE",
@@ -803,7 +803,7 @@
     "//": "In real life many root vegetables are mildly toxic until cooked",
     "fun": -10,
     "price_postapoc": 10,
-    "flags": [ "SMOKABLE", "RAW" ]
+    "flags": ["SMOKABLE", "RAW"]
   },
   {
     "type": "COMESTIBLE",
@@ -821,9 +821,9 @@
     "price_postapoc": 50,
     "material": "veggy",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "SMOKABLE" ],
+    "flags": ["EATEN_HOT", "SMOKABLE"],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 39 ], [ "calcium", 3 ], [ "iron", 4 ] ]
+    "vitamins": [["vitC", 39], ["calcium", 3], ["iron", 4]]
   },
   {
     "type": "COMESTIBLE",
@@ -837,7 +837,7 @@
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": ["veggy"],
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 25
@@ -860,9 +860,9 @@
     "material": "bean",
     "fun": -1,
     "cooks_like": "beans_cooked",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_beans",
-    "vitamins": [ [ "iron", 2 ], [ "vitC", 20 ] ]
+    "vitamins": [["iron", 2], ["vitC", 20]]
   },
   {
     "type": "COMESTIBLE",
@@ -882,16 +882,16 @@
     "material": "veggy",
     "fun": -1,
     "cooks_like": "lentils_cooked",
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": ["SMOKABLE", "RAW"],
     "smoking_result": "dry_lentils",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vitB", 1 ] ]
+    "vitamins": [["calcium", 2], ["iron", 3], ["vitC", 1], ["vitB", 1]]
   },
   {
     "type": "COMESTIBLE",
     "id": "fiddlehead_raw",
     "name": { "str_sp": "fiddleheads" },
     "weight": "50 g",
-    "flags": [ "RAW" ],
+    "flags": ["RAW"],
     "color": "light_green",
     "spoils_in": "2 days 12 hours",
     "comestible_type": "FOOD",
@@ -905,6 +905,6 @@
     "fun": -10,
     "healthy": -2,
     "//": "Fiddleheads that haven't been boiled can make you sick.",
-    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ]
+    "vitamins": [["vitC", 6], ["vitA", 10], ["calcium", 4]]
   }
 ]

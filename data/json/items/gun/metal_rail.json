@@ -9,7 +9,7 @@
     "volume": "5 L",
     "price": "9000 USD",
     "price_postapoc": "90 USD",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "metal_rail",
@@ -20,8 +20,8 @@
     "clip_size": 10,
     "ups_charges": 120,
     "reload": 200,
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ],
-    "extend": { "flags": [ "RELOAD_ONE", "MOUNTED_GUN" ] }
+    "ammo_effects": ["INCENDIARY", "TRAIL"],
+    "extend": { "flags": ["RELOAD_ONE", "MOUNTED_GUN"] }
   },
   {
     "id": "rebar_rifle",
@@ -35,7 +35,7 @@
     "price_postapoc": "60 USD",
     "to_hit": -3,
     "bashing": 10,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": "(",
     "color": "brown",
     "ammo": "metal_rail",
@@ -45,6 +45,6 @@
     "clip_size": 1,
     "ups_charges": 60,
     "reload": 200,
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ]
+    "ammo_effects": ["INCENDIARY", "TRAIL"]
   }
 ]

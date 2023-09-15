@@ -9,14 +9,14 @@
     "volume": "500 ml",
     "price": 15000,
     "price_postapoc": 750,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "5x50",
     "capacity": 100,
     "reliability": 10,
     "reload_time": 60,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "5x50_50_mag",
@@ -28,13 +28,13 @@
     "volume": "250 ml",
     "price": 12500,
     "price_postapoc": 500,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "5x50",
     "capacity": 50,
     "reliability": 10,
     "reload_time": 50,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   }
 ]

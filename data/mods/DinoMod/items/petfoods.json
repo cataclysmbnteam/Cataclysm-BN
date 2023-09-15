@@ -4,20 +4,20 @@
     "copy-from": "cattlefodder",
     "type": "COMESTIBLE",
     "name": { "str_sp": "cattle fodder" },
-    "extend": { "petfood": [ "DINOFOOD_C" ] }
+    "extend": { "petfood": ["DINOFOOD_C"] }
   },
   {
     "id": "dogfood",
     "copy-from": "dogfood",
     "type": "COMESTIBLE",
     "name": { "str_sp": "wet dog food" },
-    "extend": { "petfood": [ "DINOFOOD_A" ] }
+    "extend": { "petfood": ["DINOFOOD_A"] }
   },
   {
     "id": "catfood",
     "copy-from": "catfood",
     "type": "COMESTIBLE",
     "name": { "str_sp": "wet cat food" },
-    "extend": { "petfood": [ "DINOFOOD_B" ] }
+    "extend": { "petfood": ["DINOFOOD_B"] }
   }
 ]

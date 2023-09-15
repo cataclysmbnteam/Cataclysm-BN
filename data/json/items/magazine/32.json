@@ -15,7 +15,7 @@
     "ammo_type": "32",
     "capacity": 8,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "sigp230mag",
@@ -33,7 +33,7 @@
     "ammo_type": "32",
     "capacity": 8,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "skorpion61mag",
@@ -51,7 +51,7 @@
     "ammo_type": "32",
     "capacity": 20,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "kp32mag",
@@ -69,6 +69,6 @@
     "ammo_type": "32",
     "capacity": 7,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   }
 ]

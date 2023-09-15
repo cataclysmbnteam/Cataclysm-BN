@@ -8,11 +8,11 @@
     "volume": "3 L",
     "price": 1400,
     "price_postapoc": 200,
-    "material": [ "leather", "bone" ],
+    "material": ["leather", "bone"],
     "symbol": "[",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": ["WATER_FRIENDLY"]
   },
   {
     "id": "helmet_ceratopsian",
@@ -23,12 +23,12 @@
     "volume": "3 L",
     "price": 1400,
     "price_postapoc": 200,
-    "material": [ "leather", "bone" ],
+    "material": ["leather", "bone"],
     "symbol": "[",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "WATER_FRIENDLY" ],
-    "qualities": [ [ "COOK", 1 ] ]
+    "flags": ["WATER_FRIENDLY"],
+    "qualities": [["COOK", 1]]
   },
   {
     "id": "helmet_dino_pred",
@@ -39,10 +39,10 @@
     "volume": "3 L",
     "price": 1400,
     "price_postapoc": 200,
-    "material": [ "leather", "bone" ],
+    "material": ["leather", "bone"],
     "symbol": "[",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": ["WATER_FRIENDLY"]
   }
 ]

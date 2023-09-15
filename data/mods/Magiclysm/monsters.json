@@ -6,7 +6,7 @@
     "description": "An image made from light, nearly identical to the real deal.",
     "looks_like": "player",
     "default_faction": "factionless",
-    "species": [ "UNKNOWN" ],
+    "species": ["UNKNOWN"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 1,
@@ -18,10 +18,10 @@
     "luminance": 16,
     "dodge": 6,
     "harvest": "exempt",
-    "fear_triggers": [ "PLAYER_CLOSE" ],
-    "special_attacks": [ [ "DISAPPEAR", 200 ] ],
-    "death_function": [ "DISAPPEAR" ],
-    "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+    "fear_triggers": ["PLAYER_CLOSE"],
+    "special_attacks": [["DISAPPEAR", 200]],
+    "death_function": ["DISAPPEAR"],
+    "flags": ["FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT"]
   },
   {
     "id": "mon_animated_blade",
@@ -49,9 +49,18 @@
     "armor_bullet": 2,
     "vision_day": 30,
     "vision_night": 30,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "harvest": "exempt",
-    "death_function": [ "MELT" ],
-    "flags": [ "SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "PRIORITIZE_TARGETS", "NO_BREATHE", "NOGIB" ]
+    "death_function": ["MELT"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "NOHEAD",
+      "HARDTOSHOOT",
+      "FLIES",
+      "PRIORITIZE_TARGETS",
+      "NO_BREATHE",
+      "NOGIB"
+    ]
   }
 ]

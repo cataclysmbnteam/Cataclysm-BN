@@ -2,7 +2,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "campus_media_0_0_0", "campus_media_1_0_0" ], [ "campus_media_0_1_0", "campus_media_1_1_0" ] ],
+    "om_terrain": [
+      ["campus_media_0_0_0", "campus_media_1_0_0"],
+      ["campus_media_0_1_0", "campus_media_1_1_0"]
+    ],
     "weight": 250,
     "object": {
       "fill_ter": "t_open_air",
@@ -57,8 +60,8 @@
         "________________________________________________"
       ],
       "terrain": { " ": "t_open_air" },
-      "furniture": {  },
-      "palettes": [ "campus_common" ]
+      "furniture": {},
+      "palettes": ["campus_common"]
     }
   }
 ]

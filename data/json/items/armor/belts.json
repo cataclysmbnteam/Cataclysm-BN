@@ -10,11 +10,11 @@
     "price": 9000,
     "price_postapoc": 750,
     "bashing": 5,
-    "material": [ "leather", "steel" ],
+    "material": ["leather", "steel"],
     "symbol": "[",
     "looks_like": "holster",
     "color": "yellow",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "encumbrance": 4,
     "storage": "1 L",
     "use_action": {
@@ -24,9 +24,9 @@
       "max_volume": "2 L",
       "max_weight": 3600,
       "draw_cost": 50,
-      "flags": [ "BELT_CLIP" ]
+      "flags": ["BELT_CLIP"]
     },
-    "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": ["FANCY", "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY"]
   },
   {
     "abstract": "judo_belt_abstract",
@@ -39,13 +39,13 @@
     "price": 1000,
     "price_postapoc": 25,
     "to_hit": -1,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 5,
     "encumbrance": 2,
     "material_thickness": 5,
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": ["WAIST", "WATER_FRIENDLY"]
   },
   {
     "id": "judo_belt_black",
@@ -113,10 +113,10 @@
     "price": 9000,
     "price_postapoc": 250,
     "bashing": 5,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 5,
     "material_thickness": 1,
     "use_action": {
@@ -126,9 +126,9 @@
       "max_volume": "500 ml",
       "max_weight": 400,
       "draw_cost": 60,
-      "flags": [ "BELT_CLIP" ]
+      "flags": ["BELT_CLIP"]
     },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": ["WAIST", "WATER_FRIENDLY"]
   },
   {
     "id": "obi_gi",
@@ -141,7 +141,7 @@
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": -1,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "color": "dark_gray"
   },
@@ -156,11 +156,11 @@
     "price": 10000,
     "price_postapoc": 750,
     "bashing": 5,
-    "material": [ "leather", "steel" ],
+    "material": ["leather", "steel"],
     "symbol": "[",
     "looks_like": "fireman_belt",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "encumbrance": 6,
     "storage": "2 L",
     "use_action": {
@@ -170,9 +170,9 @@
       "max_volume": "2250 ml",
       "max_weight": 3600,
       "draw_cost": 50,
-      "flags": [ "BELT_CLIP" ]
+      "flags": ["BELT_CLIP"]
     },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": ["WAIST", "WATER_FRIENDLY"]
   },
   {
     "id": "survivor_belt_notools",
@@ -183,11 +183,11 @@
     "volume": "2250 ml",
     "price": 15000,
     "price_postapoc": 2500,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 15,
     "encumbrance": 4,
     "storage": "3 L",
@@ -199,9 +199,9 @@
       "min_volume": "250 ml",
       "max_volume": "1 L",
       "draw_cost": 3,
-      "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      "flags": ["SHEATH_KNIFE", "SHEATH_SWORD"]
     },
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ]
+    "flags": ["VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE"]
   },
   {
     "id": "tool_belt",
@@ -214,11 +214,11 @@
     "price": 4500,
     "price_postapoc": 1500,
     "bashing": 5,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 20,
     "storage": "1 L",
     "encumbrance": 6,
@@ -232,9 +232,9 @@
       "max_volume": "1500 ml",
       "max_weight": "1500 g",
       "draw_cost": 50,
-      "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ]
+      "flags": ["BELT_CLIP", "SHEATH_KNIFE"]
     },
-    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
+    "flags": ["WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY"]
   },
   {
     "id": "webbing_belt",
@@ -246,11 +246,11 @@
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 50,
-    "material": [ "nylon", "steel" ],
+    "material": ["nylon", "steel"],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "yellow",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "encumbrance": 1,
     "use_action": {
       "type": "holster",
@@ -260,8 +260,8 @@
       "max_weight": "1500 g",
       "min_volume": "40 ml",
       "draw_cost": 60,
-      "flags": [ "BELT_CLIP" ]
+      "flags": ["BELT_CLIP"]
     },
-    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+    "flags": ["WAIST", "WATER_FRIENDLY"]
   }
 ]

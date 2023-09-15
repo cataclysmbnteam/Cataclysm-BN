@@ -23,6 +23,9 @@
     "id": "BGRS_SCHIZO_2_STORY3",
     "type": "talk_topic",
     "dynamic_line": "I think a lot of psychopaths are just geniuses who drove so fast that they lost control.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

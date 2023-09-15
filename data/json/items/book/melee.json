@@ -8,7 +8,7 @@
     "volume": "250 ml",
     "price": 450,
     "price_postapoc": 750,
-    "material": [ "paper" ],
+    "material": ["paper"],
     "symbol": "?",
     "color": "pink",
     "skill": "melee",
@@ -20,13 +20,16 @@
   {
     "id": "manual_melee",
     "type": "BOOK",
-    "name": { "str": "Close Quarter Fighting Manual", "str_pl": "copies of Close Quarter Fighting Manual" },
+    "name": {
+      "str": "Close Quarter Fighting Manual",
+      "str_pl": "copies of Close Quarter Fighting Manual"
+    },
     "description": "A well-thumbed hardbound book which illustrates simple strategies and techniques for close quarters combat encounters.",
     "weight": "564 g",
     "volume": "250 ml",
     "price": 2000,
     "price_postapoc": 1250,
-    "material": [ "paper" ],
+    "material": ["paper"],
     "symbol": "?",
     "color": "green",
     "skill": "melee",

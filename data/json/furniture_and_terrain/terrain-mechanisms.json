@@ -9,20 +9,20 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE"],
     "deconstruct": {
       "ter_set": "t_floor",
       "items": [
-        { "item": "processor", "count": [ 1, 2 ] },
-        { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "processor", "count": [1, 2] },
+        { "item": "RAM", "count": [4, 8] },
+        { "item": "cable", "charges": [4, 6] },
         { "item": "large_lcd_screen", "count": 1 },
-        { "item": "e_scrap", "count": [ 10, 16 ] },
-        { "item": "circuit", "count": [ 6, 10 ] },
-        { "item": "power_supply", "count": [ 2, 4 ] },
-        { "item": "amplifier", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "scrap", "count": [ 6, 8 ] }
+        { "item": "e_scrap", "count": [10, 16] },
+        { "item": "circuit", "count": [6, 10] },
+        { "item": "power_supply", "count": [2, 4] },
+        { "item": "amplifier", "count": [2, 4] },
+        { "item": "plastic_chunk", "count": [10, 12] },
+        { "item": "scrap", "count": [6, 8] }
       ]
     },
     "bash": {
@@ -33,15 +33,15 @@
       "ter_set": "t_floor",
       "items": [
         { "item": "processor", "prob": 25 },
-        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "RAM", "count": [0, 2], "prob": 50 },
+        { "item": "cable", "charges": [1, 2], "prob": 50 },
         { "item": "large_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "e_scrap", "count": [1, 4], "prob": 50 },
+        { "item": "circuit", "count": [0, 2], "prob": 50 },
         { "item": "power_supply", "prob": 25 },
         { "item": "amplifier", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        { "item": "plastic_chunk", "count": [4, 10], "prob": 50 },
+        { "item": "scrap", "count": [2, 6], "prob": 50 }
       ]
     }
   },
@@ -56,20 +56,20 @@
     "coverage": 50,
     "light_emitted": 10,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "flags": ["TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE"],
     "deconstruct": {
       "ter_set": "t_floor",
       "items": [
-        { "item": "processor", "count": [ 1, 2 ] },
-        { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "processor", "count": [1, 2] },
+        { "item": "RAM", "count": [4, 8] },
+        { "item": "cable", "charges": [4, 6] },
         { "item": "large_lcd_screen", "count": 1 },
-        { "item": "e_scrap", "count": [ 10, 16 ] },
-        { "item": "circuit", "count": [ 6, 10 ] },
-        { "item": "power_supply", "count": [ 2, 4 ] },
-        { "item": "amplifier", "count": [ 2, 4 ] },
-        { "item": "plastic_chunk", "count": [ 10, 12 ] },
-        { "item": "scrap", "count": [ 6, 8 ] }
+        { "item": "e_scrap", "count": [10, 16] },
+        { "item": "circuit", "count": [6, 10] },
+        { "item": "power_supply", "count": [2, 4] },
+        { "item": "amplifier", "count": [2, 4] },
+        { "item": "plastic_chunk", "count": [10, 12] },
+        { "item": "scrap", "count": [6, 8] }
       ]
     },
     "bash": {
@@ -80,15 +80,15 @@
       "ter_set": "t_console_broken",
       "items": [
         { "item": "processor", "prob": 25 },
-        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "RAM", "count": [0, 2], "prob": 50 },
+        { "item": "cable", "charges": [1, 2], "prob": 50 },
         { "item": "large_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "e_scrap", "count": [1, 4], "prob": 50 },
+        { "item": "circuit", "count": [0, 2], "prob": 50 },
         { "item": "power_supply", "prob": 25 },
         { "item": "amplifier", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        { "item": "plastic_chunk", "count": [4, 10], "prob": 50 },
+        { "item": "scrap", "count": [2, 6], "prob": 50 }
       ]
     }
   },
@@ -100,7 +100,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
+    "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
     "examine_action": "controls_gate",
     "bash": {
       "str_min": 18,
@@ -108,7 +108,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [{ "item": "steel_chunk", "count": [1, 4] }, { "item": "scrap", "count": [3, 6] }]
     }
   },
   {
@@ -119,7 +119,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
+    "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
     "examine_action": "controls_gate",
     "bash": {
       "str_min": 18,
@@ -127,7 +127,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [{ "item": "steel_chunk", "count": [1, 4] }, { "item": "scrap", "count": [3, 6] }]
     }
   },
   {
@@ -138,7 +138,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
+    "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
     "examine_action": "controls_gate",
     "bash": {
       "str_min": 18,
@@ -146,7 +146,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [{ "item": "steel_chunk", "count": [1, 4] }, { "item": "scrap", "count": [3, 6] }]
     }
   },
   {
@@ -157,7 +157,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
+    "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
     "examine_action": "controls_gate",
     "bash": {
       "str_min": 18,
@@ -165,7 +165,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [{ "item": "steel_chunk", "count": [1, 4] }, { "item": "scrap", "count": [3, 6] }]
     }
   },
   {
@@ -176,7 +176,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
+    "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
     "examine_action": "controls_gate",
     "bash": {
       "str_min": 18,
@@ -184,7 +184,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [{ "item": "steel_chunk", "count": [1, 4] }, { "item": "scrap", "count": [3, 6] }]
     }
   },
   {
@@ -195,7 +195,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
+    "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
     "examine_action": "controls_gate",
     "bash": {
       "str_min": 18,
@@ -203,7 +203,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [{ "item": "steel_chunk", "count": [1, 4] }, { "item": "scrap", "count": [3, 6] }]
     }
   },
   {
@@ -214,7 +214,7 @@
     "symbol": "6",
     "color": "white",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "COLLAPSES", "THIN_OBSTACLE" ],
+    "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES", "THIN_OBSTACLE"],
     "examine_action": "controls_gate",
     "bash": {
       "str_min": 18,
@@ -222,7 +222,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [{ "item": "steel_chunk", "count": [1, 4] }, { "item": "scrap", "count": [3, 6] }]
     }
   },
   {
@@ -233,7 +233,7 @@
     "symbol": "6",
     "color": "white",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "COLLAPSES", "THIN_OBSTACLE" ],
+    "flags": ["TRANSPARENT", "NOITEM", "COLLAPSES", "THIN_OBSTACLE"],
     "examine_action": "controls_gate",
     "bash": {
       "str_min": 18,
@@ -241,7 +241,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [{ "item": "steel_chunk", "count": [1, 4] }, { "item": "scrap", "count": [3, 6] }]
     }
   },
   {
@@ -252,7 +252,7 @@
     "symbol": "|",
     "color": "brown",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
+    "flags": ["TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE"],
     "examine_action": "controls_gate",
     "bash": {
       "str_min": 8,
@@ -261,12 +261,15 @@
       "sound_fail": "whump.",
       "ter_set": "t_dirtfloor",
       "items": [
-        { "item": "rope_6", "count": [ 3, 4 ] },
-        { "item": "2x4", "count": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 2, 4 ] }
+        { "item": "rope_6", "count": [3, 4] },
+        { "item": "2x4", "count": [1, 4] },
+        { "item": "splinter", "count": [2, 4] }
       ]
     },
-    "deconstruct": { "ter_set": "t_dirtfloor", "items": [ { "item": "rope_30", "count": 1 }, { "item": "2x4", "count": 8 } ] }
+    "deconstruct": {
+      "ter_set": "t_dirtfloor",
+      "items": [{ "item": "rope_30", "count": 1 }, { "item": "2x4", "count": 8 }]
+    }
   },
   {
     "type": "terrain",
@@ -276,7 +279,7 @@
     "symbol": "|",
     "color": "brown",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE", "EASY_DECONSTRUCT", "THIN_OBSTACLE" ],
+    "flags": ["TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE", "EASY_DECONSTRUCT", "THIN_OBSTACLE"],
     "examine_action": "controls_gate",
     "bash": {
       "str_min": 8,
@@ -285,12 +288,15 @@
       "sound_fail": "whump.",
       "ter_set": "t_null",
       "items": [
-        { "item": "rope_makeshift_6", "count": [ 3, 4 ] },
-        { "item": "2x4", "count": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 2, 4 ] }
+        { "item": "rope_makeshift_6", "count": [3, 4] },
+        { "item": "2x4", "count": [1, 4] },
+        { "item": "splinter", "count": [2, 4] }
       ]
     },
-    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "rope_makeshift_30", "count": 1 }, { "item": "2x4", "count": 8 } ] }
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [{ "item": "rope_makeshift_30", "count": 1 }, { "item": "2x4", "count": 8 }]
+    }
   },
   {
     "type": "terrain",
@@ -300,7 +306,7 @@
     "symbol": "=",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": ["NOITEM", "CONNECT_TO_WALL"],
     "//": "For the player to chat with an NPC through the intercom, the npc must have 'name_unique': 'the_intercom' and must be within 10 tiles of the intercom.",
     "examine_action": "intercom",
     "bash": {
@@ -309,7 +315,7 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_concrete_wall",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [{ "item": "plastic_chunk", "count": [0, 2] }, { "item": "scrap", "prob": 50 }]
     }
   },
   {
@@ -321,7 +327,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": ["NOITEM", "CONNECT_TO_WALL"],
     "examine_action": "cardreader_robofac",
     "bash": {
       "str_min": 18,
@@ -329,7 +335,7 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_card_reader_broken",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [{ "item": "plastic_chunk", "count": [0, 2] }, { "item": "scrap", "prob": 50 }]
     }
   },
   {
@@ -341,7 +347,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": ["NOITEM", "CONNECT_TO_WALL"],
     "examine_action": "cardreader",
     "bash": {
       "str_min": 18,
@@ -349,7 +355,7 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_card_reader_broken",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [{ "item": "plastic_chunk", "count": [0, 2] }, { "item": "scrap", "prob": 50 }]
     }
   },
   {
@@ -361,7 +367,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": ["NOITEM", "CONNECT_TO_WALL"],
     "examine_action": "cardreader",
     "bash": {
       "str_min": 18,
@@ -369,7 +375,7 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_card_reader_broken",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [{ "item": "plastic_chunk", "count": [0, 2] }, { "item": "scrap", "prob": 50 }]
     }
   },
   {
@@ -382,7 +388,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": ["NOITEM", "CONNECT_TO_WALL"],
     "examine_action": "cardreader",
     "bash": {
       "str_min": 18,
@@ -390,7 +396,7 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_card_reader_broken",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [{ "item": "plastic_chunk", "count": [0, 2] }, { "item": "scrap", "prob": 50 }]
     }
   },
   {
@@ -403,7 +409,7 @@
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "flags": ["NOITEM", "CONNECT_TO_WALL"],
     "examine_action": "cardreader_fp",
     "bash": {
       "str_min": 18,
@@ -411,7 +417,7 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_card_reader_broken",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [{ "item": "plastic_chunk", "count": [0, 2] }, { "item": "scrap", "prob": 50 }]
     }
   },
   {
@@ -422,7 +428,7 @@
     "symbol": "6",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "MINEABLE" ],
+    "flags": ["NOITEM", "CONNECT_TO_WALL", "MINEABLE"],
     "bash": {
       "str_min": 200,
       "str_max": 600,
@@ -432,12 +438,12 @@
       "ter_set": "t_concrete",
       "items": [
         { "item": "processor", "prob": 25 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [1, 2], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 3 ], "prob": 50 },
+        { "item": "e_scrap", "count": [1, 3], "prob": 50 },
         { "item": "circuit", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 6 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 4 ], "prob": 50 }
+        { "item": "plastic_chunk", "count": [4, 6], "prob": 50 },
+        { "item": "scrap", "count": [2, 4], "prob": 50 }
       ]
     }
   },
@@ -451,7 +457,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "INDOORS" ],
+    "flags": ["NOITEM", "INDOORS"],
     "examine_action": "elevator",
     "bash": {
       "str_min": 40,
@@ -461,15 +467,15 @@
       "ter_set": "t_console_broken",
       "items": [
         { "item": "processor", "prob": 25 },
-        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "RAM", "count": [0, 2], "prob": 50 },
+        { "item": "cable", "charges": [1, 2], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "e_scrap", "count": [1, 4], "prob": 50 },
+        { "item": "circuit", "count": [0, 2], "prob": 50 },
         { "item": "power_supply", "prob": 25 },
         { "item": "amplifier", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        { "item": "plastic_chunk", "count": [4, 10], "prob": 50 },
+        { "item": "scrap", "count": [2, 6], "prob": 50 }
       ]
     }
   },
@@ -483,7 +489,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "INDOORS" ],
+    "flags": ["NOITEM", "INDOORS"],
     "bash": {
       "str_min": 40,
       "str_max": 150,
@@ -492,15 +498,15 @@
       "ter_set": "t_console_broken",
       "items": [
         { "item": "processor", "prob": 25 },
-        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "RAM", "count": [0, 2], "prob": 50 },
+        { "item": "cable", "charges": [1, 2], "prob": 50 },
         { "item": "small_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "e_scrap", "count": [1, 4], "prob": 50 },
+        { "item": "circuit", "count": [0, 2], "prob": 50 },
         { "item": "power_supply", "prob": 25 },
         { "item": "amplifier", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        { "item": "plastic_chunk", "count": [4, 10], "prob": 50 },
+        { "item": "scrap", "count": [2, 6], "prob": 50 }
       ]
     }
   },
@@ -513,7 +519,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "MINEABLE", "SEALED" ],
+    "flags": ["TRANSPARENT", "MOUNTABLE", "PERMEABLE", "MINEABLE", "SEALED"],
     "examine_action": "pedestal_wyrm",
     "bash": {
       "str_min": 100,
@@ -521,7 +527,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 2, 5 ] } ]
+      "items": [{ "item": "rock", "count": [2, 5] }]
     }
   },
   {
@@ -533,7 +539,7 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "MINEABLE" ],
+    "flags": ["TRANSPARENT", "MOUNTABLE", "PERMEABLE", "MINEABLE"],
     "examine_action": "pedestal_temple",
     "bash": {
       "str_min": 100,
@@ -541,7 +547,7 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 2, 5 ] } ]
+      "items": [{ "item": "rock", "count": [2, 5] }]
     }
   },
   {
@@ -552,7 +558,7 @@
     "symbol": "6",
     "color": "yellow",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "flags": ["TRANSPARENT", "PERMEABLE"],
     "examine_action": "fswitch"
   },
   {
@@ -563,7 +569,7 @@
     "symbol": "6",
     "color": "cyan",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "flags": ["TRANSPARENT", "PERMEABLE"],
     "examine_action": "fswitch"
   },
   {
@@ -574,7 +580,7 @@
     "symbol": "6",
     "color": "magenta",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "flags": ["TRANSPARENT", "PERMEABLE"],
     "examine_action": "fswitch"
   },
   {
@@ -585,7 +591,7 @@
     "symbol": "6",
     "color": "white",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "flags": ["TRANSPARENT", "PERMEABLE"],
     "examine_action": "fswitch"
   }
 ]

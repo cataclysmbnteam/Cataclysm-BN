@@ -6,7 +6,7 @@
     "sym": "O",
     "color": "dark_gray",
     "copy-from": "generic_city_building_no_sidewalk",
-    "flags": [ "KNOWN_UP", "GENERIC_LOOT" ]
+    "flags": ["KNOWN_UP", "GENERIC_LOOT"]
   },
   {
     "type": "overmap_terrain",
@@ -15,27 +15,27 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
-    "extend": { "flags": [ "GENERIC_LOOT" ] }
+    "extend": { "flags": ["GENERIC_LOOT"] }
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_city_house_no_sidewalk",
     "copy-from": "generic_city_house",
-    "delete": { "flags": [ "SIDEWALK" ] }
+    "delete": { "flags": ["SIDEWALK"] }
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_city_house_roof",
     "copy-from": "generic_city_house_no_sidewalk",
     "name": "house roof",
-    "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
-    "delete": { "flags": [ "GENERIC_LOOT" ] }
+    "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [0, 3], "chance": 2 },
+    "delete": { "flags": ["GENERIC_LOOT"] }
   },
   {
     "type": "overmap_terrain",
-    "id": [ "basement", "basement_hidden_lab_stairs" ],
+    "id": ["basement", "basement_hidden_lab_stairs"],
     "copy-from": "generic_city_house_basement",
-    "extend": { "flags": [ "NO_ROTATE" ] }
+    "extend": { "flags": ["NO_ROTATE"] }
   },
   {
     "type": "overmap_terrain",
@@ -448,7 +448,7 @@
     "color": "light_green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": ["SIDEWALK", "GENERIC_LOOT"]
   },
   {
     "type": "overmap_terrain",
@@ -510,24 +510,24 @@
     "name": "trailer park",
     "sym": "#",
     "color": "i_white",
-    "extend": { "flags": [ "GENERIC_LOOT" ] }
+    "extend": { "flags": ["GENERIC_LOOT"] }
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_city_trailerpark_roof",
     "copy-from": "generic_city_trailerpark",
     "name": "trailer park roof",
-    "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
-    "delete": { "flags": [ "GENERIC_LOOT" ] }
+    "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [0, 3], "chance": 2 },
+    "delete": { "flags": ["GENERIC_LOOT"] }
   },
   {
     "type": "overmap_terrain",
-    "id": [ "trailerparksmall0", "trailerparksmall1", "trailerparksmall2" ],
+    "id": ["trailerparksmall0", "trailerparksmall1", "trailerparksmall2"],
     "copy-from": "generic_city_trailerpark"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "trailerparksmall0_roof", "trailerparksmall1_roof", "trailerparksmall2_roof" ],
+    "id": ["trailerparksmall0_roof", "trailerparksmall1_roof", "trailerparksmall2_roof"],
     "copy-from": "generic_city_trailerpark_roof"
   },
   {
@@ -545,7 +545,7 @@
     "name": "empty residential lot",
     "sym": "O",
     "color": "i_green",
-    "extend": { "flags": [ "GENERIC_LOOT" ] }
+    "extend": { "flags": ["GENERIC_LOOT"] }
   },
   {
     "id": "derelict_property",

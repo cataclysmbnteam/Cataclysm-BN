@@ -7,10 +7,14 @@
     "item": "laser_cannon",
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 14 }, { "item": "steel_chunk", "count": 6 }, { "item": "steel_lump", "count": 2 } ],
+    "breaks_into": [
+      { "item": "scrap", "count": 14 },
+      { "item": "steel_chunk", "count": 6 },
+      { "item": "steel_lump", "count": 2 }
+    ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+      "install": { "skills": [["mechanics", 5], ["electronics", 5]] },
+      "removal": { "skills": [["mechanics", 3]] }
     }
   },
   {
@@ -24,8 +28,8 @@
     "durability": 120,
     "item": "bone_plate",
     "location": "armor",
-    "flags": [ "ARMOR" ],
-    "breaks_into": [ { "item": "bone_tainted", "count": [ 10, 30 ] } ],
+    "flags": ["ARMOR"],
+    "breaks_into": [{ "item": "bone_tainted", "count": [10, 30] }],
     "damage_reduction": { "all": 18 }
   }
 ]

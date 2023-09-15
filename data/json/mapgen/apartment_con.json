@@ -53,18 +53,21 @@
         "                  ppppsssspppp                  ",
         "                      ssss                      "
       ],
-      "palettes": [ "apartment_con_old" ],
+      "palettes": ["apartment_con_old"],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_PEST", "x": [ 24, 43 ], "y": [ 0, 19 ], "chance": 3, "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 24, 43 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_PEST", "x": [ 0, 19 ], "y": [ 24, 43 ], "chance": 3, "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 24, 43 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_PEST", "x": [ 24, 43 ], "y": [ 24, 43 ], "chance": 3, "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 43], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_PEST", "x": [24, 43], "y": [0, 19], "chance": 3, "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [24, 43], "repeat": [1, 2] },
+        { "monster": "GROUP_PEST", "x": [0, 19], "y": [24, 43], "chance": 3, "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 43], "y": [24, 43], "repeat": [1, 2] },
+        { "monster": "GROUP_PEST", "x": [24, 43], "y": [24, 43], "chance": 3, "repeat": [1, 2] }
       ]
     },
-    "om_terrain": [ [ "apartments_con_tower_NW", "apartments_con_tower_NE" ], [ "apartments_con_tower_SW", "apartments_con_tower_SE" ] ],
+    "om_terrain": [
+      ["apartments_con_tower_NW", "apartments_con_tower_NE"],
+      ["apartments_con_tower_SW", "apartments_con_tower_SE"]
+    ],
     "type": "mapgen",
     "weight": 250
   }

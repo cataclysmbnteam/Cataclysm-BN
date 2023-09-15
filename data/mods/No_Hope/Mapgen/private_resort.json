@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_1nw" ],
+    "om_terrain": ["p_resort_1nw"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_metal_floor",
@@ -32,25 +32,25 @@
         ".F..W W,,?,,,,,,,,|mmmmL",
         ".F..W W,,Bb,,Bb?,,WmmmmL"
       ],
-      "palettes": [ "p_resort_palette_main_floor" ],
+      "palettes": ["p_resort_palette_main_floor"],
       "place_signs": [
         { "signage": "Private property.  No trespassing!", "x": 4, "y": 0 },
         { "signage": "Private property.  No trespassing!", "x": 18, "y": 0 }
       ],
       "place_items": [
-        { "chance": 40, "item": "alcohol", "x": 7, "y": 13, "repeat": [ 2, 8 ] },
-        { "chance": 50, "item": "snacks", "x": 7, "y": 13, "repeat": [ 3, 5 ] },
-        { "chance": 15, "item": "snacks", "x": 7, "y": 13, "repeat": [ 3, 5 ] },
+        { "chance": 40, "item": "alcohol", "x": 7, "y": 13, "repeat": [2, 8] },
+        { "chance": 50, "item": "snacks", "x": 7, "y": 13, "repeat": [3, 5] },
+        { "chance": 15, "item": "snacks", "x": 7, "y": 13, "repeat": [3, 5] },
         { "chance": 50, "item": "groce_condiment", "x": 11, "y": 13 },
-        { "chance": 15, "item": "groce_condiment", "x": 7, "y": 13, "repeat": [ 3, 5 ] },
-        { "chance": 50, "item": "crate_wine", "x": 6, "y": 14, "repeat": [ 1, 3 ] },
-        { "chance": 15, "item": "crate_wine", "x": 6, "y": 14, "repeat": [ 1, 2 ] },
-        { "chance": 50, "item": "softdrinks_canned", "x": 6, "y": 15, "repeat": [ 3, 5 ] },
-        { "chance": 50, "item": "crate_kitchen", "x": 10, "y": 15, "repeat": [ 3, 5 ] },
-        { "chance": 50, "item": "behindcounter", "x": 10, "y": 17, "repeat": [ 5, 7 ] },
-        { "chance": 50, "item": "foodintincan", "x": 9, "y": 18, "repeat": [ 3, 5 ] },
-        { "chance": 50, "item": "cannedfood", "x": 20, "y": 19, "repeat": [ 10, 5 ] },
-        { "chance": 50, "item": "cleaning", "x": 19, "y": 20, "repeat": [ 10, 5 ] },
+        { "chance": 15, "item": "groce_condiment", "x": 7, "y": 13, "repeat": [3, 5] },
+        { "chance": 50, "item": "crate_wine", "x": 6, "y": 14, "repeat": [1, 3] },
+        { "chance": 15, "item": "crate_wine", "x": 6, "y": 14, "repeat": [1, 2] },
+        { "chance": 50, "item": "softdrinks_canned", "x": 6, "y": 15, "repeat": [3, 5] },
+        { "chance": 50, "item": "crate_kitchen", "x": 10, "y": 15, "repeat": [3, 5] },
+        { "chance": 50, "item": "behindcounter", "x": 10, "y": 17, "repeat": [5, 7] },
+        { "chance": 50, "item": "foodintincan", "x": 9, "y": 18, "repeat": [3, 5] },
+        { "chance": 50, "item": "cannedfood", "x": 20, "y": 19, "repeat": [10, 5] },
+        { "chance": 50, "item": "cleaning", "x": 19, "y": 20, "repeat": [10, 5] },
         { "chance": 90, "item": "SUS_fridge", "x": 19, "y": 11 },
         { "chance": 50, "item": "SUS_fridge", "x": 19, "y": 12 },
         { "chance": 50, "item": "SUS_fridge", "x": 19, "y": 13 },
@@ -61,18 +61,18 @@
         { "chance": 50, "item": "SUS_fridge", "x": 23, "y": 13 },
         { "chance": 20, "item": "SUS_fridge", "x": 23, "y": 14 },
         { "chance": 50, "item": "SUS_fridge", "x": 23, "y": 15 },
-        { "chance": 20, "item": "butcher_tools", "x": 9, "y": 20, "repeat": [ 1, 3 ] },
-        { "chance": 20, "item": "butcher_tools", "x": 9, "y": 23, "repeat": [ 1, 3 ] },
-        { "chance": 20, "item": "butcher_tools", "x": 13, "y": 20, "repeat": [ 1, 3 ] },
-        { "chance": 20, "item": "butcher_tools", "x": 13, "y": 23, "repeat": [ 1, 3 ] },
-        { "chance": 25, "item": "butcher_raw_meat", "x": 16, "y": 20, "repeat": [ 1, 3 ] },
-        { "chance": 25, "item": "butcher_raw_meat", "x": 17, "y": 20, "repeat": [ 1, 3 ] },
+        { "chance": 20, "item": "butcher_tools", "x": 9, "y": 20, "repeat": [1, 3] },
+        { "chance": 20, "item": "butcher_tools", "x": 9, "y": 23, "repeat": [1, 3] },
+        { "chance": 20, "item": "butcher_tools", "x": 13, "y": 20, "repeat": [1, 3] },
+        { "chance": 20, "item": "butcher_tools", "x": 13, "y": 23, "repeat": [1, 3] },
+        { "chance": 25, "item": "butcher_raw_meat", "x": 16, "y": 20, "repeat": [1, 3] },
+        { "chance": 25, "item": "butcher_raw_meat", "x": 17, "y": 20, "repeat": [1, 3] },
         { "chance": 40, "item": "clothing_outdoor_torso", "x": 24, "y": 19 },
         { "chance": 40, "item": "clothing_outdoor_torso", "x": 24, "y": 20 },
         { "chance": 40, "item": "stash_drugs", "x": 24, "y": 20 },
-        { "chance": 40, "item": "dresser", "x": 24, "y": 21, "repeat": [ 1, 3 ] },
+        { "chance": 40, "item": "dresser", "x": 24, "y": 21, "repeat": [1, 3] },
         { "chance": 40, "item": "clothing_outdoor_torso", "x": 24, "y": 22 },
-        { "chance": 40, "item": "dresser", "x": 24, "y": 23, "repeat": [ 1, 3 ] },
+        { "chance": 40, "item": "dresser", "x": 24, "y": 23, "repeat": [1, 3] },
         { "chance": 60, "item": "stash_drugs", "x": 24, "y": 23 }
       ],
       "place_vehicles": [
@@ -80,15 +80,15 @@
         { "vehicle": "policesuv", "x": 11, "y": 7, "chance": 25, "rotation": 90, "status": -1 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE_COP", "x": [ 4, 20 ], "y": [ 3, 9 ], "density": 0.5 },
-        { "monster": "GROUP_RESORT_MIXED_STAFF", "x": [ 5, 23 ], "y": [ 11, 23 ], "density": 0.5 }
+        { "monster": "GROUP_ZOMBIE_COP", "x": [4, 20], "y": [3, 9], "density": 0.5 },
+        { "monster": "GROUP_RESORT_MIXED_STAFF", "x": [5, 23], "y": [11, 23], "density": 0.5 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_1ww" ],
+    "om_terrain": ["p_resort_1ww"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_metal_floor",
@@ -118,7 +118,7 @@
         ".F..Wrrrrrccr<<rrrcccrrr",
         ".F..W+WWWWWWWWWWWWWWWWW+"
       ],
-      "palettes": [ "p_resort_palette_restaraunt" ],
+      "palettes": ["p_resort_palette_restaraunt"],
       "items": {
         "{": {
           "item": {
@@ -138,19 +138,19 @@
         },
         "S": { "item": "SUS_kitchen_sink", "chance": 75 },
         "d": { "item": "SUS_dishwasher", "chance": 75 },
-        "B": { "item": "SUS_cookware", "chance": 33, "repeat": [ 1, 2 ] },
+        "B": { "item": "SUS_cookware", "chance": 33, "repeat": [1, 2] },
         "O": { "item": "SUS_oven", "chance": 75 }
       },
       "place_items": [
-        { "chance": 40, "item": "bar_fridge", "x": [ 7, 9 ], "y": [ 8, 8 ], "repeat": [ 2, 8 ] },
-        { "chance": 30, "item": "bar_table", "x": [ 7, 18 ], "y": [ 11, 11 ], "repeat": [ 15, 20 ] },
-        { "chance": 40, "item": "bar_alcohol", "x": [ 10, 18 ], "y": [ 8, 8 ], "repeat": [ 5, 10 ] },
-        { "chance": 50, "item": "restaur_table", "x": [ 5, 6 ], "y": [ 16, 16 ], "repeat": [ 2, 5 ] },
-        { "chance": 50, "item": "restaur_table", "x": [ 10, 11 ], "y": [ 15, 16 ], "repeat": [ 2, 8 ] },
-        { "chance": 50, "item": "restaur_table", "x": [ 18, 20 ], "y": [ 15, 16 ], "repeat": [ 3, 9 ] },
-        { "chance": 50, "item": "restaur_table", "x": [ 5, 6 ], "y": [ 20, 20 ], "repeat": [ 2, 5 ] },
-        { "chance": 50, "item": "restaur_table", "x": [ 10, 11 ], "y": [ 19, 20 ], "repeat": [ 2, 8 ] },
-        { "chance": 50, "item": "restaur_table", "x": [ 18, 20 ], "y": [ 19, 20 ], "repeat": [ 3, 9 ] },
+        { "chance": 40, "item": "bar_fridge", "x": [7, 9], "y": [8, 8], "repeat": [2, 8] },
+        { "chance": 30, "item": "bar_table", "x": [7, 18], "y": [11, 11], "repeat": [15, 20] },
+        { "chance": 40, "item": "bar_alcohol", "x": [10, 18], "y": [8, 8], "repeat": [5, 10] },
+        { "chance": 50, "item": "restaur_table", "x": [5, 6], "y": [16, 16], "repeat": [2, 5] },
+        { "chance": 50, "item": "restaur_table", "x": [10, 11], "y": [15, 16], "repeat": [2, 8] },
+        { "chance": 50, "item": "restaur_table", "x": [18, 20], "y": [15, 16], "repeat": [3, 9] },
+        { "chance": 50, "item": "restaur_table", "x": [5, 6], "y": [20, 20], "repeat": [2, 5] },
+        { "chance": 50, "item": "restaur_table", "x": [10, 11], "y": [19, 20], "repeat": [2, 8] },
+        { "chance": 50, "item": "restaur_table", "x": [18, 20], "y": [19, 20], "repeat": [3, 9] },
         { "chance": 50, "item": "SUS_fridge", "x": 23, "y": 1 },
         { "chance": 50, "item": "SUS_fridge", "x": 23, "y": 2 },
         { "chance": 50, "item": "SUS_fridge", "x": 23, "y": 3 },
@@ -159,15 +159,15 @@
         { "chance": 50, "item": "SUS_fridge", "x": 23, "y": 6 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_RESORT_MIXED", "x": [ 5, 23 ], "y": [ 0, 23 ], "density": 0.75 },
-        { "monster": "GROUP_RESORT_MIXED_STAFF", "x": [ 7, 23 ], "y": [ 0, 6 ], "density": 0.2 }
+        { "monster": "GROUP_RESORT_MIXED", "x": [5, 23], "y": [0, 23], "density": 0.75 },
+        { "monster": "GROUP_RESORT_MIXED_STAFF", "x": [7, 23], "y": [0, 6], "density": 0.2 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_1sw" ],
+    "om_terrain": ["p_resort_1sw"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -197,33 +197,62 @@
         ".F.:::::::______:::::::x",
         ".F.:::::::______:::::::x"
       ],
-      "palettes": [ "p_resort_palette_main_floor" ],
-      "place_monsters": [ { "monster": "GROUP_RESORT_MIXED", "x": [ 5, 23 ], "y": [ 0, 7 ], "repeat": [ 0, 1 ], "density": 0.2 } ],
-      "toilets": { "$": {  } },
+      "palettes": ["p_resort_palette_main_floor"],
+      "place_monsters": [
+        {
+          "monster": "GROUP_RESORT_MIXED",
+          "x": [5, 23],
+          "y": [0, 7],
+          "repeat": [0, 1],
+          "density": 0.2
+        }
+      ],
+      "toilets": { "$": {} },
       "place_items": [
-        { "chance": 50, "item": "restaur_bath", "x": [ 12, 13 ], "y": [ 0, 2 ], "repeat": [ 3, 6 ] },
-        { "chance": 50, "item": "restaur_bath", "x": [ 15, 16 ], "y": [ 0, 2 ], "repeat": [ 3, 6 ] },
-        { "chance": 50, "item": "restaur_bath", "x": [ 12, 13 ], "y": [ 4, 6 ], "repeat": [ 3, 6 ] },
-        { "chance": 50, "item": "restaur_bath", "x": [ 15, 16 ], "y": [ 4, 6 ], "repeat": [ 3, 6 ] },
-        { "chance": 25, "item": "stash_drugs", "x": [ 12, 13 ], "y": [ 0, 2 ], "repeat": [ 1, 2 ] },
-        { "chance": 25, "item": "stash_drugs", "x": [ 15, 16 ], "y": [ 0, 2 ], "repeat": [ 1, 2 ] },
-        { "chance": 25, "item": "stash_drugs", "x": [ 12, 13 ], "y": [ 4, 6 ], "repeat": [ 1, 2 ] },
-        { "chance": 25, "item": "stash_drugs", "x": [ 15, 16 ], "y": [ 4, 6 ], "repeat": [ 1, 2 ] }
+        { "chance": 50, "item": "restaur_bath", "x": [12, 13], "y": [0, 2], "repeat": [3, 6] },
+        { "chance": 50, "item": "restaur_bath", "x": [15, 16], "y": [0, 2], "repeat": [3, 6] },
+        { "chance": 50, "item": "restaur_bath", "x": [12, 13], "y": [4, 6], "repeat": [3, 6] },
+        { "chance": 50, "item": "restaur_bath", "x": [15, 16], "y": [4, 6], "repeat": [3, 6] },
+        { "chance": 25, "item": "stash_drugs", "x": [12, 13], "y": [0, 2], "repeat": [1, 2] },
+        { "chance": 25, "item": "stash_drugs", "x": [15, 16], "y": [0, 2], "repeat": [1, 2] },
+        { "chance": 25, "item": "stash_drugs", "x": [12, 13], "y": [4, 6], "repeat": [1, 2] },
+        { "chance": 25, "item": "stash_drugs", "x": [15, 16], "y": [4, 6], "repeat": [1, 2] }
       ],
       "place_vehicles": [
         { "vehicle": "parkinglotbasic", "x": 9, "y": 10, "chance": 20, "rotation": 0, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 9, "y": 15, "chance": 20, "rotation": 0, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 9, "y": 20, "chance": 20, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 20, "chance": 20, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 20, "chance": 20, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 20, "chance": 20, "rotation": 180, "status": 1 }
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 17,
+          "y": 20,
+          "chance": 20,
+          "rotation": 180,
+          "status": 1
+        },
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 17,
+          "y": 20,
+          "chance": 20,
+          "rotation": 180,
+          "status": 1
+        },
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 17,
+          "y": 20,
+          "chance": 20,
+          "rotation": 180,
+          "status": 1
+        }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_pw" ],
+    "om_terrain": ["p_resort_pw"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -253,21 +282,49 @@
         ".FFFFFFFFFFFFFFFFFFFFFFF",
         "........................"
       ],
-      "palettes": [ "p_resort_palette_main_floor" ],
+      "palettes": ["p_resort_palette_main_floor"],
       "place_vehicles": [
         { "vehicle": "parkinglotbasic", "x": 9, "y": 0, "chance": 20, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 9, "y": 11, "chance": 20, "rotation": 0, "status": -1 },
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 9,
+          "y": 11,
+          "chance": 20,
+          "rotation": 0,
+          "status": -1
+        },
         { "vehicle": "parkinglotbasic", "x": 9, "y": 16, "chance": 20, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 0, "chance": 20, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 11, "chance": 20, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 17, "y": 16, "chance": 20, "rotation": 180, "status": 1 }
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 17,
+          "y": 0,
+          "chance": 20,
+          "rotation": 180,
+          "status": 1
+        },
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 17,
+          "y": 11,
+          "chance": 20,
+          "rotation": 180,
+          "status": 1
+        },
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 17,
+          "y": 16,
+          "chance": 20,
+          "rotation": 180,
+          "status": 1
+        }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_1nn" ],
+    "om_terrain": ["p_resort_1nn"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor_waxed",
@@ -297,26 +354,32 @@
         "WHHHH'aaaaaHHaaaaa'HHHH+",
         "WWW++WWWWWWWWWWWWWW++WWW"
       ],
-      "palettes": [ "p_resort_palette_main_floor" ],
+      "palettes": ["p_resort_palette_main_floor"],
       "place_items": [
-        { "chance": 40, "item": "bar_fridge", "x": 1, "y": 11, "repeat": [ 2, 8 ] },
-        { "chance": 50, "item": "bar_table", "x": [ 3, 3 ], "y": [ 10, 16 ], "repeat": [ 6, 12 ] },
-        { "chance": 40, "item": "bar_alcohol", "x": [ 1, 1 ], "y": [ 12, 14 ], "repeat": [ 5, 10 ] },
-        { "chance": 40, "item": "stash_drugs", "x": [ 8, 9 ], "y": [ 6, 7 ], "repeat": [ 1, 4 ] },
-        { "chance": 40, "item": "stash_drugs", "x": [ 14, 15 ], "y": [ 6, 7 ], "repeat": [ 1, 4 ] },
-        { "chance": 40, "item": "stash_drugs", "x": [ 7, 9 ], "y": [ 19, 21 ], "repeat": [ 1, 8 ] },
-        { "chance": 40, "item": "stash_drugs", "x": [ 14, 16 ], "y": [ 19, 21 ], "repeat": [ 1, 8 ] }
+        { "chance": 40, "item": "bar_fridge", "x": 1, "y": 11, "repeat": [2, 8] },
+        { "chance": 50, "item": "bar_table", "x": [3, 3], "y": [10, 16], "repeat": [6, 12] },
+        { "chance": 40, "item": "bar_alcohol", "x": [1, 1], "y": [12, 14], "repeat": [5, 10] },
+        { "chance": 40, "item": "stash_drugs", "x": [8, 9], "y": [6, 7], "repeat": [1, 4] },
+        { "chance": 40, "item": "stash_drugs", "x": [14, 15], "y": [6, 7], "repeat": [1, 4] },
+        { "chance": 40, "item": "stash_drugs", "x": [7, 9], "y": [19, 21], "repeat": [1, 8] },
+        { "chance": 40, "item": "stash_drugs", "x": [14, 16], "y": [19, 21], "repeat": [1, 8] }
       ],
       "place_monsters": [
-        { "monster": "GROUP_RESORT_DANCERS", "x": [ 0, 23 ], "y": [ 5, 23 ], "repeat": [ 1, 2 ], "density": 0.4 },
-        { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 23 ], "y": [ 5, 23 ], "density": 0.5 }
+        {
+          "monster": "GROUP_RESORT_DANCERS",
+          "x": [0, 23],
+          "y": [5, 23],
+          "repeat": [1, 2],
+          "density": 0.4
+        },
+        { "monster": "GROUP_RESORT_MIXED", "x": [0, 23], "y": [5, 23], "density": 0.5 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_1mm" ],
+    "om_terrain": ["p_resort_1mm"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -346,25 +409,31 @@
         "+                      +",
         "WW+WW  WWWWWWWWWW  WW+WW"
       ],
-      "palettes": [ "p_resort_palette_main_floor" ],
+      "palettes": ["p_resort_palette_main_floor"],
       "items": {
-        "#": { "item": "bar_alcohol", "chance": 50, "repeat": [ 1, 2 ] },
+        "#": { "item": "bar_alcohol", "chance": 50, "repeat": [1, 2] },
         "^": [
-          { "item": "bar_table", "chance": 50, "repeat": [ 1, 3 ] },
-          { "item": "bar_alcohol", "chance": 25, "repeat": [ 0, 3 ] },
-          { "item": "stash_drugs", "chance": 25, "repeat": [ 0, 1 ] }
+          { "item": "bar_table", "chance": 50, "repeat": [1, 3] },
+          { "item": "bar_alcohol", "chance": 25, "repeat": [0, 3] },
+          { "item": "stash_drugs", "chance": 25, "repeat": [0, 1] }
         ]
       },
       "place_monsters": [
-        { "monster": "GROUP_POOL_NOKIDS", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.5 },
-        { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.5 }
+        {
+          "monster": "GROUP_POOL_NOKIDS",
+          "x": [0, 23],
+          "y": [0, 23],
+          "repeat": [1, 2],
+          "density": 0.5
+        },
+        { "monster": "GROUP_RESORT_MIXED", "x": [0, 23], "y": [0, 23], "density": 0.5 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_1ss" ],
+    "om_terrain": ["p_resort_1ss"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -394,27 +463,40 @@
         ".....xx__________xx.....",
         ".....xx__________xx....."
       ],
-      "palettes": [ "p_resort_palette_main_floor" ],
+      "palettes": ["p_resort_palette_main_floor"],
       "items": {
         "e": { "item": "SUS_office_desk", "chance": 50 },
         "!": { "item": "SUS_office_filing_cabinet", "chance": 75 },
-        "L": { "item": "dresser", "chance": 50, "repeat": [ 1, 3 ] },
-        "h": { "item": "shower", "chance": 50, "repeat": [ 0, 1 ] }
+        "L": { "item": "dresser", "chance": 50, "repeat": [1, 3] },
+        "h": { "item": "shower", "chance": 50, "repeat": [0, 1] }
       },
       "place_vehicles": [
-        { "vehicle": "police_pileup", "x": 4, "y": 15, "chance": 75, "rotation": 270, "status": -1 },
+        {
+          "vehicle": "police_pileup",
+          "x": 4,
+          "y": 15,
+          "chance": 75,
+          "rotation": 270,
+          "status": -1
+        },
         { "vehicle": "police_pileup", "x": 19, "y": 20, "chance": 25, "rotation": 0, "status": 1 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE_COP", "x": [ 0, 23 ], "y": [ 10, 23 ], "density": 0.5 },
-        { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 23 ], "y": [ 0, 9 ], "repeat": [ 0, 1 ], "density": 0.5 }
+        { "monster": "GROUP_ZOMBIE_COP", "x": [0, 23], "y": [10, 23], "density": 0.5 },
+        {
+          "monster": "GROUP_RESORT_MIXED",
+          "x": [0, 23],
+          "y": [0, 9],
+          "repeat": [0, 1],
+          "density": 0.5
+        }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_pm" ],
+    "om_terrain": ["p_resort_pm"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -444,19 +526,29 @@
         "FFFFGFW==========WFGFFFF",
         "...xxxx__________xxxx..."
       ],
-      "palettes": [ "p_resort_palette_main_floor" ],
+      "palettes": ["p_resort_palette_main_floor"],
       "place_signs": [
         { "signage": "Private property.  No trespassing!", "x": 8, "y": 24 },
         { "signage": "Private property.  No trespassing!", "x": 17, "y": 24 }
       ],
-      "place_vehicles": [ { "vehicle": "limousine", "x": 11, "y": 18, "chance": 75, "rotation": 90, "status": -1 } ],
-      "place_monsters": [ { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.75 } ]
+      "place_vehicles": [
+        { "vehicle": "limousine", "x": 11, "y": 18, "chance": 75, "rotation": 90, "status": -1 }
+      ],
+      "place_monsters": [
+        {
+          "monster": "GROUP_RESORT_MIXED",
+          "x": [0, 23],
+          "y": [0, 23],
+          "repeat": [1, 2],
+          "density": 0.75
+        }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_1ne" ],
+    "om_terrain": ["p_resort_1ne"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -486,39 +578,51 @@
         "                   W..F.",
         "++WWWWWWWWWWWWWWWW|W..F."
       ],
-      "palettes": [ "p_resort_palette_main_floor" ],
-      "toilets": { "$": {  } },
+      "palettes": ["p_resort_palette_main_floor"],
+      "toilets": { "$": {} },
       "items": {
         "^": [
-          { "item": "bar_table", "chance": 50, "repeat": [ 1, 3 ] },
-          { "item": "bar_alcohol", "chance": 25, "repeat": [ 0, 3 ] },
-          { "item": "stash_drugs", "chance": 25, "repeat": [ 0, 1 ] }
+          { "item": "bar_table", "chance": 50, "repeat": [1, 3] },
+          { "item": "bar_alcohol", "chance": 25, "repeat": [0, 3] },
+          { "item": "stash_drugs", "chance": 25, "repeat": [0, 1] }
         ],
-        "$": { "item": "stash_drugs", "chance": 25, "repeat": [ 0, 1 ] },
-        "V": { "item": "private_resort_dancing_clothes", "chance": 50, "repeat": [ 3, 6 ] },
-        "K": { "item": "private_resort_dancing_clothes", "chance": 50, "repeat": [ 1, 3 ] }
+        "$": { "item": "stash_drugs", "chance": 25, "repeat": [0, 1] },
+        "V": { "item": "private_resort_dancing_clothes", "chance": 50, "repeat": [3, 6] },
+        "K": { "item": "private_resort_dancing_clothes", "chance": 50, "repeat": [1, 3] }
       },
       "place_items": [
-        { "chance": 50, "item": "dresser", "x": [ 0, 0 ], "y": [ 7, 9 ], "repeat": [ 6, 12 ] },
-        { "chance": 25, "item": "home_hw", "x": 15, "y": 19, "repeat": [ 1, 3 ] },
-        { "chance": 25, "item": "home_hw", "x": 17, "y": 19, "repeat": [ 3, 5 ] },
-        { "chance": 50, "item": "stash_drugs", "x": 16, "y": 14, "repeat": [ 1, 4 ] }
+        { "chance": 50, "item": "dresser", "x": [0, 0], "y": [7, 9], "repeat": [6, 12] },
+        { "chance": 25, "item": "home_hw", "x": 15, "y": 19, "repeat": [1, 3] },
+        { "chance": 25, "item": "home_hw", "x": 17, "y": 19, "repeat": [3, 5] },
+        { "chance": 50, "item": "stash_drugs", "x": 16, "y": 14, "repeat": [1, 4] }
       ],
       "place_monsters": [
-        { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 23 ], "y": [ 5, 9 ], "repeat": [ 0, 1 ], "density": 0.3 },
-        { "monster": "GROUP_RESORT_DANCERS", "x": [ 0, 23 ], "y": [ 10, 16 ], "density": 0.6 },
-        { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 23 ], "y": [ 17, 23 ], "repeat": [ 0, 1 ], "density": 0.3 }
+        {
+          "monster": "GROUP_RESORT_MIXED",
+          "x": [0, 23],
+          "y": [5, 9],
+          "repeat": [0, 1],
+          "density": 0.3
+        },
+        { "monster": "GROUP_RESORT_DANCERS", "x": [0, 23], "y": [10, 16], "density": 0.6 },
+        {
+          "monster": "GROUP_RESORT_MIXED",
+          "x": [0, 23],
+          "y": [17, 23],
+          "repeat": [0, 1],
+          "density": 0.3
+        }
       ],
       "place_liquids": [
-        { "liquid": "water", "x": 16, "y": 17, "repeat": [ 10, 60 ] },
-        { "liquid": "water", "x": 17, "y": 17, "repeat": [ 5, 80 ] }
+        { "liquid": "water", "x": 16, "y": 17, "repeat": [10, 60] },
+        { "liquid": "water", "x": 17, "y": 17, "repeat": [5, 80] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_1ee" ],
+    "om_terrain": ["p_resort_1ee"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -548,35 +652,55 @@
         "                   w..F.",
         "||WWWWWWWWWWWWWWWW|W..F."
       ],
-      "palettes": [ "p_resort_palette_main_floor" ],
+      "palettes": ["p_resort_palette_main_floor"],
       "place_items": [
-        { "chance": 50, "item": "bar_table", "x": [ 6, 17 ], "y": [ 2, 2 ], "repeat": [ 10, 20 ] },
-        { "chance": 40, "item": "bar_fridge", "x": [ 15, 17 ], "y": [ 0, 0 ], "repeat": [ 2, 8 ] },
-        { "chance": 40, "item": "bar_alcohol", "x": [ 7, 14 ], "y": [ 0, 0 ], "repeat": [ 5, 10 ] },
-        { "chance": 25, "item": "pool_table", "x": [ 9, 10 ], "y": [ 6, 8 ], "repeat": [ 2, 8 ] },
-        { "chance": 25, "item": "pool_table", "x": [ 13, 14 ], "y": [ 6, 8 ], "repeat": [ 2, 8 ] },
+        { "chance": 50, "item": "bar_table", "x": [6, 17], "y": [2, 2], "repeat": [10, 20] },
+        { "chance": 40, "item": "bar_fridge", "x": [15, 17], "y": [0, 0], "repeat": [2, 8] },
+        { "chance": 40, "item": "bar_alcohol", "x": [7, 14], "y": [0, 0], "repeat": [5, 10] },
+        { "chance": 25, "item": "pool_table", "x": [9, 10], "y": [6, 8], "repeat": [2, 8] },
+        { "chance": 25, "item": "pool_table", "x": [13, 14], "y": [6, 8], "repeat": [2, 8] },
         { "chance": 75, "item": "guns_pistol_common", "x": 18, "y": 18 },
         { "chance": 66, "item": "private_resort_instruments", "x": 6, "y": 18 },
         { "chance": 66, "item": "private_resort_instruments", "x": 8, "y": 18 },
         { "chance": 66, "item": "private_resort_instruments", "x": 13, "y": 17 },
         { "chance": 66, "item": "private_resort_instruments", "x": 14, "y": 18 },
-        { "chance": 25, "item": "private_resort_gambling_table", "x": [ 8, 9 ], "y": [ 10, 12 ], "repeat": [ 5, 12 ] },
-        { "chance": 25, "item": "private_resort_gambling_table", "x": 16, "y": 18, "repeat": [ 2, 4 ] },
         {
           "chance": 25,
           "item": "private_resort_gambling_table",
-          "x": [ 14, 15 ],
-          "y": [ 10, 12 ],
-          "repeat": [ 5, 12 ]
+          "x": [8, 9],
+          "y": [10, 12],
+          "repeat": [5, 12]
+        },
+        {
+          "chance": 25,
+          "item": "private_resort_gambling_table",
+          "x": 16,
+          "y": 18,
+          "repeat": [2, 4]
+        },
+        {
+          "chance": 25,
+          "item": "private_resort_gambling_table",
+          "x": [14, 15],
+          "y": [10, 12],
+          "repeat": [5, 12]
         }
       ],
-      "place_monsters": [ { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 18 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ], "density": 0.5 } ]
+      "place_monsters": [
+        {
+          "monster": "GROUP_RESORT_MIXED",
+          "x": [0, 18],
+          "y": [0, 23],
+          "repeat": [1, 2],
+          "density": 0.5
+        }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_1se" ],
+    "om_terrain": ["p_resort_1se"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -606,14 +730,42 @@
         "x:::::::______:::::::.F.",
         "x:::::::______:::::::.F."
       ],
-      "palettes": [ "p_resort_palette_main_floor" ],
+      "palettes": ["p_resort_palette_main_floor"],
       "place_vehicles": [
-        { "vehicle": "parkinglotbasic", "x": 7, "y": 10, "chance": 20, "rotation": 0, "status": -1 },
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 7,
+          "y": 10,
+          "chance": 20,
+          "rotation": 0,
+          "status": -1
+        },
         { "vehicle": "parkinglotbasic", "x": 7, "y": 15, "chance": 20, "rotation": 0, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 7, "y": 20, "chance": 20, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 20, "chance": 20, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 20, "chance": 20, "rotation": 180, "status": -1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 20, "chance": 20, "rotation": 180, "status": 1 }
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 15,
+          "y": 20,
+          "chance": 20,
+          "rotation": 180,
+          "status": 1
+        },
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 15,
+          "y": 20,
+          "chance": 20,
+          "rotation": 180,
+          "status": -1
+        },
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 15,
+          "y": 20,
+          "chance": 20,
+          "rotation": 180,
+          "status": 1
+        }
       ],
       "items": {
         "T": { "item": "SUS_office_desk", "chance": 50 },
@@ -621,28 +773,54 @@
         "O": { "item": "SUS_oven", "chance": 75 }
       },
       "place_items": [
-        { "chance": 50, "item": "coffee_table", "x": 4, "y": 1, "repeat": [ 2, 5 ] },
-        { "chance": 50, "item": "dresser", "x": [ 6, 7 ], "y": [ 1, 1 ], "repeat": [ 4, 8 ] },
-        { "chance": 50, "item": "private_resort_gambling_table", "x": [ 17, 18 ], "y": [ 1, 1 ], "repeat": [ 4, 8 ] },
-        { "chance": 50, "item": "private_resort_instruments", "x": [ 17, 18 ], "y": [ 1, 1 ], "repeat": [ 1, 2 ] },
-        { "chance": 50, "item": "fridgesnacks", "x": 7, "y": 6, "repeat": [ 4, 8 ] },
-        { "chance": 50, "item": "vending_drink_items", "x": 7, "y": 4, "repeat": [ 5, 10 ] },
-        { "chance": 40, "item": "bar_alcohol", "x": [ 18, 18 ], "y": [ 3, 4 ], "repeat": [ 5, 10 ] },
-        { "chance": 75, "item": "ammo_pistol_rare", "x": 18, "y": 6, "repeat": [ 1, 2 ] },
+        { "chance": 50, "item": "coffee_table", "x": 4, "y": 1, "repeat": [2, 5] },
+        { "chance": 50, "item": "dresser", "x": [6, 7], "y": [1, 1], "repeat": [4, 8] },
+        {
+          "chance": 50,
+          "item": "private_resort_gambling_table",
+          "x": [17, 18],
+          "y": [1, 1],
+          "repeat": [4, 8]
+        },
+        {
+          "chance": 50,
+          "item": "private_resort_instruments",
+          "x": [17, 18],
+          "y": [1, 1],
+          "repeat": [1, 2]
+        },
+        { "chance": 50, "item": "fridgesnacks", "x": 7, "y": 6, "repeat": [4, 8] },
+        { "chance": 50, "item": "vending_drink_items", "x": 7, "y": 4, "repeat": [5, 10] },
+        { "chance": 40, "item": "bar_alcohol", "x": [18, 18], "y": [3, 4], "repeat": [5, 10] },
+        { "chance": 75, "item": "ammo_pistol_rare", "x": 18, "y": 6, "repeat": [1, 2] },
         { "chance": 80, "item": "guns_pistol_obscure", "x": 18, "y": 6 },
-        { "chance": 40, "item": "jewelry_front", "x": 18, "y": 6, "repeat": [ 2, 4 ] },
-        { "chance": 50, "item": "stash_drugs", "x": 18, "y": 6, "repeat": [ 1, 3 ] },
-        { "chance": 50, "item": "dresser", "x": [ 6, 7 ], "y": [ 1, 1 ], "repeat": [ 2, 4 ] },
-        { "chance": 50, "item": "guns_shotgun_common", "x": [ 6, 7 ], "y": [ 1, 1 ], "repeat": [ 1, 2 ] },
-        { "chance": 50, "item": "private_resort_sec_weapon", "x": [ 6, 7 ], "y": [ 1, 1 ], "repeat": [ 1, 3 ] }
+        { "chance": 40, "item": "jewelry_front", "x": 18, "y": 6, "repeat": [2, 4] },
+        { "chance": 50, "item": "stash_drugs", "x": 18, "y": 6, "repeat": [1, 3] },
+        { "chance": 50, "item": "dresser", "x": [6, 7], "y": [1, 1], "repeat": [2, 4] },
+        { "chance": 50, "item": "guns_shotgun_common", "x": [6, 7], "y": [1, 1], "repeat": [1, 2] },
+        {
+          "chance": 50,
+          "item": "private_resort_sec_weapon",
+          "x": [6, 7],
+          "y": [1, 1],
+          "repeat": [1, 3]
+        }
       ],
-      "place_monsters": [ { "monster": "GROUP_RESORT_MIXED_STAFF", "x": [ 0, 18 ], "y": [ 0, 7 ], "repeat": [ 0, 1 ], "density": 0.25 } ]
+      "place_monsters": [
+        {
+          "monster": "GROUP_RESORT_MIXED_STAFF",
+          "x": [0, 18],
+          "y": [0, 7],
+          "repeat": [0, 1],
+          "density": 0.25
+        }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_pe" ],
+    "om_terrain": ["p_resort_pe"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -672,21 +850,42 @@
         "FFFFFFFFFFFFFFFFFFFFFFF.",
         "........................"
       ],
-      "palettes": [ "p_resort_palette_main_floor" ],
+      "palettes": ["p_resort_palette_main_floor"],
       "place_vehicles": [
         { "vehicle": "parkinglotbasic", "x": 7, "y": 0, "chance": 20, "rotation": 0, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 7, "y": 11, "chance": 20, "rotation": 0, "status": 1 },
         { "vehicle": "parkinglotbasic", "x": 7, "y": 16, "chance": 20, "rotation": 0, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 0, "chance": 20, "rotation": 180, "status": -1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 11, "chance": 20, "rotation": 180, "status": 1 },
-        { "vehicle": "parkinglotbasic", "x": 15, "y": 16, "chance": 20, "rotation": 180, "status": 1 }
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 15,
+          "y": 0,
+          "chance": 20,
+          "rotation": 180,
+          "status": -1
+        },
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 15,
+          "y": 11,
+          "chance": 20,
+          "rotation": 180,
+          "status": 1
+        },
+        {
+          "vehicle": "parkinglotbasic",
+          "x": 15,
+          "y": 16,
+          "chance": 20,
+          "rotation": 180,
+          "status": 1
+        }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_2nw" ],
+    "om_terrain": ["p_resort_2nw"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -716,45 +915,53 @@
         "****w#----bbWRRW[-K----b",
         "****w#--c-bbWRRWW+WWW+WW"
       ],
-      "palettes": [ "p_resort_palette_living_floor" ],
-      "toilets": { "$": {  } },
+      "palettes": ["p_resort_palette_living_floor"],
+      "toilets": { "$": {} },
       "items": {
         "T": [
-          { "item": "bar_table", "chance": 40, "repeat": [ 2, 4 ] },
-          { "item": "bar_alcohol", "chance": 25, "repeat": [ 2, 4 ] }
+          { "item": "bar_table", "chance": 40, "repeat": [2, 4] },
+          { "item": "bar_alcohol", "chance": 25, "repeat": [2, 4] }
         ],
-        "d": { "item": "dresser", "chance": 50, "repeat": [ 3, 6 ] },
-        "B": { "item": "shower", "chance": 50, "repeat": [ 0, 1 ] },
-        "b": { "item": "bed", "chance": 50, "repeat": [ 0, 2 ] },
-        "Z": { "item": "crate_wine", "chance": 50, "repeat": [ 1, 2 ] },
-        "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [ 1, 3 ] },
-        "L": { "item": "gear_survival", "chance": 33, "repeat": [ 0, 3 ] },
-        "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [ 1, 3 ] }
+        "d": { "item": "dresser", "chance": 50, "repeat": [3, 6] },
+        "B": { "item": "shower", "chance": 50, "repeat": [0, 1] },
+        "b": { "item": "bed", "chance": 50, "repeat": [0, 2] },
+        "Z": { "item": "crate_wine", "chance": 50, "repeat": [1, 2] },
+        "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [1, 3] },
+        "L": { "item": "gear_survival", "chance": 33, "repeat": [0, 3] },
+        "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [1, 3] }
       },
       "place_items": [
-        { "chance": 50, "item": "bar_table", "x": [ 21, 21 ], "y": [ 9, 10 ], "repeat": [ 3, 6 ] },
-        { "chance": 40, "item": "bar_alcohol", "x": [ 23, 23 ], "y": [ 9, 11 ], "repeat": [ 5, 10 ] },
-        { "chance": 50, "item": "livingroom", "x": [ 5, 5 ], "y": [ 22, 23 ], "repeat": [ 3, 6 ] },
-        { "chance": 50, "item": "livingroom", "x": [ 9, 10 ], "y": [ 19, 19 ], "repeat": [ 3, 6 ] },
-        { "chance": 25, "item": "home_hw", "x": 21, "y": 16, "repeat": [ 1, 3 ] },
-        { "chance": 25, "item": "home_hw", "x": 21, "y": 18, "repeat": [ 1, 3 ] },
+        { "chance": 50, "item": "bar_table", "x": [21, 21], "y": [9, 10], "repeat": [3, 6] },
+        { "chance": 40, "item": "bar_alcohol", "x": [23, 23], "y": [9, 11], "repeat": [5, 10] },
+        { "chance": 50, "item": "livingroom", "x": [5, 5], "y": [22, 23], "repeat": [3, 6] },
+        { "chance": 50, "item": "livingroom", "x": [9, 10], "y": [19, 19], "repeat": [3, 6] },
+        { "chance": 25, "item": "home_hw", "x": 21, "y": 16, "repeat": [1, 3] },
+        { "chance": 25, "item": "home_hw", "x": 21, "y": 18, "repeat": [1, 3] },
         { "chance": 75, "item": "keg_beer", "x": 16, "y": 16 },
         { "chance": 75, "item": "keg_beer", "x": 17, "y": 16 },
         { "chance": 75, "item": "keg_beer", "x": 17, "y": 18 },
         { "chance": 75, "item": "keg_beer", "x": 19, "y": 18 },
-        { "chance": 50, "item": "remains_human_generic", "x": 20, "y": 20, "repeat": [ 1, 3 ] },
-        { "chance": 50, "item": "livingroom", "x": [ 16, 23 ], "y": [ 20, 22 ], "repeat": [ 10, 15 ] },
-        { "chance": 10, "item": "shelter", "x": [ 16, 23 ], "y": [ 20, 22 ], "repeat": [ 10, 15 ] },
-        { "chance": 33, "item": "butcher_tools", "x": 20, "y": 21, "repeat": [ 1, 3 ] },
-        { "chance": 33, "item": "corpses", "x": [ 16, 23 ], "y": [ 20, 22 ], "repeat": [ 2, 4 ] }
+        { "chance": 50, "item": "remains_human_generic", "x": 20, "y": 20, "repeat": [1, 3] },
+        { "chance": 50, "item": "livingroom", "x": [16, 23], "y": [20, 22], "repeat": [10, 15] },
+        { "chance": 10, "item": "shelter", "x": [16, 23], "y": [20, 22], "repeat": [10, 15] },
+        { "chance": 33, "item": "butcher_tools", "x": 20, "y": 21, "repeat": [1, 3] },
+        { "chance": 33, "item": "corpses", "x": [16, 23], "y": [20, 22], "repeat": [2, 4] }
       ],
-      "place_monsters": [ { "monster": "GROUP_RESORT_MIXED", "x": [ 6, 23 ], "y": [ 9, 23 ], "repeat": [ 0, 1 ], "density": 0.5 } ]
+      "place_monsters": [
+        {
+          "monster": "GROUP_RESORT_MIXED",
+          "x": [6, 23],
+          "y": [9, 23],
+          "repeat": [0, 1],
+          "density": 0.5
+        }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_2ww" ],
+    "om_terrain": ["p_resort_2ww"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -784,28 +991,30 @@
         "****WdBBW-$^W>>RRRRRRRRR",
         "****WWWWWWWWWWWW+WWWWWWX"
       ],
-      "palettes": [ "p_resort_palette_living_floor" ],
-      "toilets": { "$": {  } },
+      "palettes": ["p_resort_palette_living_floor"],
+      "toilets": { "$": {} },
       "items": {
-        "T": { "item": "livingroom", "chance": 33, "repeat": [ 0, 3 ] },
-        "d": { "item": "dresser", "chance": 50, "repeat": [ 3, 6 ] },
-        "B": { "item": "shower", "chance": 50, "repeat": [ 0, 1 ] },
-        "b": { "item": "bed", "chance": 50, "repeat": [ 0, 2 ] },
-        "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [ 1, 3 ] },
-        "L": { "item": "gear_survival", "chance": 33, "repeat": [ 0, 3 ] },
-        "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [ 1, 3 ] },
+        "T": { "item": "livingroom", "chance": 33, "repeat": [0, 3] },
+        "d": { "item": "dresser", "chance": 50, "repeat": [3, 6] },
+        "B": { "item": "shower", "chance": 50, "repeat": [0, 1] },
+        "b": { "item": "bed", "chance": 50, "repeat": [0, 2] },
+        "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [1, 3] },
+        "L": { "item": "gear_survival", "chance": 33, "repeat": [0, 3] },
+        "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [1, 3] },
         "#": [
-          { "item": "bar_table", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "bar_alcohol", "chance": 25, "repeat": [ 0, 2 ] }
+          { "item": "bar_table", "chance": 40, "repeat": [1, 2] },
+          { "item": "bar_alcohol", "chance": 25, "repeat": [0, 2] }
         ]
       },
-      "place_monsters": [ { "monster": "GROUP_RESORT_MIXED", "x": [ 6, 23 ], "y": [ 0, 23 ], "density": 0.75 } ]
+      "place_monsters": [
+        { "monster": "GROUP_RESORT_MIXED", "x": [6, 23], "y": [0, 23], "density": 0.75 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_2sw" ],
+    "om_terrain": ["p_resort_2sw"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -835,28 +1044,36 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "p_resort_palette_living_floor" ],
-      "toilets": { "$": {  } },
+      "palettes": ["p_resort_palette_living_floor"],
+      "toilets": { "$": {} },
       "items": {
-        "T": { "item": "livingroom", "chance": 33, "repeat": [ 0, 3 ] },
-        "d": { "item": "dresser", "chance": 50, "repeat": [ 3, 6 ] },
-        "B": { "item": "shower", "chance": 50, "repeat": [ 0, 1 ] },
-        "b": { "item": "bed", "chance": 50, "repeat": [ 0, 2 ] },
-        "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [ 1, 3 ] },
-        "L": { "item": "gear_survival", "chance": 33, "repeat": [ 0, 3 ] },
-        "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [ 1, 3 ] },
+        "T": { "item": "livingroom", "chance": 33, "repeat": [0, 3] },
+        "d": { "item": "dresser", "chance": 50, "repeat": [3, 6] },
+        "B": { "item": "shower", "chance": 50, "repeat": [0, 1] },
+        "b": { "item": "bed", "chance": 50, "repeat": [0, 2] },
+        "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [1, 3] },
+        "L": { "item": "gear_survival", "chance": 33, "repeat": [0, 3] },
+        "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [1, 3] },
         "#": [
-          { "item": "bar_table", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "bar_alcohol", "chance": 25, "repeat": [ 0, 2 ] }
+          { "item": "bar_table", "chance": 40, "repeat": [1, 2] },
+          { "item": "bar_alcohol", "chance": 25, "repeat": [0, 2] }
         ]
       },
-      "place_monsters": [ { "monster": "GROUP_RESORT_MIXED", "x": [ 6, 23 ], "y": [ 0, 6 ], "repeat": [ 0, 1 ], "density": 0.25 } ]
+      "place_monsters": [
+        {
+          "monster": "GROUP_RESORT_MIXED",
+          "x": [6, 23],
+          "y": [0, 6],
+          "repeat": [0, 1],
+          "density": 0.25
+        }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_2nn" ],
+    "om_terrain": ["p_resort_2nn"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -886,31 +1103,35 @@
         "Waa--------dW#-^bbbd----",
         "WWwwwwWwwwwWWWwwwwWwwwwW"
       ],
-      "place_item": [ { "item": "television", "repeat": 1, "x": 5, "y": 9 } ],
-      "palettes": [ "p_resort_palette_living_floor" ],
-      "toilets": { "$": {  } },
+      "place_item": [{ "item": "television", "repeat": 1, "x": 5, "y": 9 }],
+      "palettes": ["p_resort_palette_living_floor"],
+      "toilets": { "$": {} },
       "items": {
-        "T": { "item": "private_resort_gambling_table", "chance": 33, "repeat": [ 0, 3 ] },
-        "d": { "item": "dresser", "chance": 50, "repeat": [ 3, 6 ] },
-        "B": { "item": "shower", "chance": 50, "repeat": [ 0, 1 ] },
-        "b": { "item": "bed", "chance": 50, "repeat": [ 0, 2 ] },
-        "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [ 1, 3 ] },
-        "L": { "item": "gear_survival", "chance": 33, "repeat": [ 0, 3 ] },
-        "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [ 1, 3 ] },
+        "T": { "item": "private_resort_gambling_table", "chance": 33, "repeat": [0, 3] },
+        "d": { "item": "dresser", "chance": 50, "repeat": [3, 6] },
+        "B": { "item": "shower", "chance": 50, "repeat": [0, 1] },
+        "b": { "item": "bed", "chance": 50, "repeat": [0, 2] },
+        "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [1, 3] },
+        "L": { "item": "gear_survival", "chance": 33, "repeat": [0, 3] },
+        "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [1, 3] },
         "#": [
-          { "item": "bar_table", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "bar_alcohol", "chance": 25, "repeat": [ 0, 2 ] }
+          { "item": "bar_table", "chance": 40, "repeat": [1, 2] },
+          { "item": "bar_alcohol", "chance": 25, "repeat": [0, 2] }
         ],
-        "[": { "item": "private_resort_wardrobe", "chance": 25, "repeat": [ 0, 3 ] }
+        "[": { "item": "private_resort_wardrobe", "chance": 25, "repeat": [0, 3] }
       },
-      "place_items": [ { "chance": 50, "item": "stash_drugs", "x": [ 11, 13 ], "y": [ 9, 10 ], "repeat": [ 1, 5 ] } ],
-      "place_monsters": [ { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 23 ], "y": [ 5, 23 ], "density": 0.8 } ]
+      "place_items": [
+        { "chance": 50, "item": "stash_drugs", "x": [11, 13], "y": [9, 10], "repeat": [1, 5] }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_RESORT_MIXED", "x": [0, 23], "y": [5, 23], "density": 0.8 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_2mm" ],
+    "om_terrain": ["p_resort_2mm"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -940,13 +1161,13 @@
         "RRRRRRRRRRRRRRRRRRRRRRRR",
         "WXWWWWWWWWWWWWWWWWWWWWWW"
       ],
-      "palettes": [ "p_resort_palette_living_floor" ]
+      "palettes": ["p_resort_palette_living_floor"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_2ss" ],
+    "om_terrain": ["p_resort_2ss"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -976,14 +1197,16 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "p_resort_palette_living_floor" ],
-      "place_items": [ { "chance": 10, "item": "roof_trash", "x": [ 1, 20 ], "y": [ 0, 8 ], "repeat": [ 5, 15 ] } ]
+      "palettes": ["p_resort_palette_living_floor"],
+      "place_items": [
+        { "chance": 10, "item": "roof_trash", "x": [1, 20], "y": [0, 8], "repeat": [5, 15] }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_2ne" ],
+    "om_terrain": ["p_resort_2ne"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1013,35 +1236,43 @@
         "W$--+---WRRW[---bbbwrr**",
         "WWWWWWWWWRRWWWWWWWWW-r**"
       ],
-      "palettes": [ "p_resort_palette_living_floor" ],
-      "toilets": { "$": {  } },
+      "palettes": ["p_resort_palette_living_floor"],
+      "toilets": { "$": {} },
       "items": {
-        "T": { "item": "livingroom", "chance": 33, "repeat": [ 0, 3 ] },
-        "d": { "item": "dresser", "chance": 50, "repeat": [ 3, 6 ] },
-        "B": { "item": "shower", "chance": 50, "repeat": [ 0, 1 ] },
-        "b": { "item": "bed", "chance": 50, "repeat": [ 0, 2 ] },
-        "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [ 1, 3 ] },
-        "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [ 1, 3 ] },
+        "T": { "item": "livingroom", "chance": 33, "repeat": [0, 3] },
+        "d": { "item": "dresser", "chance": 50, "repeat": [3, 6] },
+        "B": { "item": "shower", "chance": 50, "repeat": [0, 1] },
+        "b": { "item": "bed", "chance": 50, "repeat": [0, 2] },
+        "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [1, 3] },
+        "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [1, 3] },
         "#": [
-          { "item": "bar_table", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "bar_alcohol", "chance": 25, "repeat": [ 0, 2 ] }
+          { "item": "bar_table", "chance": 40, "repeat": [1, 2] },
+          { "item": "bar_alcohol", "chance": 25, "repeat": [0, 2] }
         ],
-        "[": { "item": "private_resort_wardrobe", "chance": 25, "repeat": [ 0, 3 ] }
+        "[": { "item": "private_resort_wardrobe", "chance": 25, "repeat": [0, 3] }
       },
       "place_items": [
-        { "chance": 33, "item": "laundry", "x": [ 1, 3 ], "y": [ 18, 18 ], "repeat": [ 3, 9 ] },
-        { "chance": 33, "item": "laundry", "x": [ 4, 6 ], "y": [ 18, 18 ], "repeat": [ 3, 9 ] },
-        { "chance": 33, "item": "cleaning", "x": [ 1, 3 ], "y": [ 16, 16 ], "repeat": [ 3, 5 ] },
-        { "chance": 33, "item": "cleaning", "x": [ 4, 6 ], "y": [ 16, 16 ], "repeat": [ 1, 9 ] }
+        { "chance": 33, "item": "laundry", "x": [1, 3], "y": [18, 18], "repeat": [3, 9] },
+        { "chance": 33, "item": "laundry", "x": [4, 6], "y": [18, 18], "repeat": [3, 9] },
+        { "chance": 33, "item": "cleaning", "x": [1, 3], "y": [16, 16], "repeat": [3, 5] },
+        { "chance": 33, "item": "cleaning", "x": [4, 6], "y": [16, 16], "repeat": [1, 9] }
       ],
-      "place_monsters": [ { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 18 ], "y": [ 5, 23 ], "repeat": [ 1, 2 ], "density": 0.5 } ],
-      "place_liquids": [ { "liquid": "water", "x": 7, "y": 18, "repeat": [ 10, 100 ] } ]
+      "place_monsters": [
+        {
+          "monster": "GROUP_RESORT_MIXED",
+          "x": [0, 18],
+          "y": [5, 23],
+          "repeat": [1, 2],
+          "density": 0.5
+        }
+      ],
+      "place_liquids": [{ "liquid": "water", "x": 7, "y": 18, "repeat": [10, 100] }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_2ee" ],
+    "om_terrain": ["p_resort_2ee"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1071,28 +1302,30 @@
         "RRRRRRRRRRRW-cTTc-#W****",
         "WWWWWWWWW++WWWWWWWWW****"
       ],
-      "palettes": [ "p_resort_palette_living_floor" ],
-      "toilets": { "$": {  } },
+      "palettes": ["p_resort_palette_living_floor"],
+      "toilets": { "$": {} },
       "items": {
-        "T": { "item": "livingroom", "chance": 33, "repeat": [ 0, 3 ] },
-        "d": { "item": "dresser", "chance": 50, "repeat": [ 3, 6 ] },
-        "B": { "item": "shower", "chance": 50, "repeat": [ 0, 1 ] },
-        "b": { "item": "bed", "chance": 50, "repeat": [ 0, 2 ] },
-        "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [ 1, 3 ] },
-        "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [ 1, 3 ] },
+        "T": { "item": "livingroom", "chance": 33, "repeat": [0, 3] },
+        "d": { "item": "dresser", "chance": 50, "repeat": [3, 6] },
+        "B": { "item": "shower", "chance": 50, "repeat": [0, 1] },
+        "b": { "item": "bed", "chance": 50, "repeat": [0, 2] },
+        "^": { "item": "private_resort_coffee_table", "chance": 33, "repeat": [1, 3] },
+        "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [1, 3] },
         "#": [
-          { "item": "bar_table", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "bar_alcohol", "chance": 25, "repeat": [ 0, 2 ] }
+          { "item": "bar_table", "chance": 40, "repeat": [1, 2] },
+          { "item": "bar_alcohol", "chance": 25, "repeat": [0, 2] }
         ],
-        "[": { "item": "private_resort_wardrobe", "chance": 25, "repeat": [ 0, 3 ] }
+        "[": { "item": "private_resort_wardrobe", "chance": 25, "repeat": [0, 3] }
       },
-      "place_monsters": [ { "monster": "GROUP_RESORT_MIXED", "x": [ 0, 18 ], "y": [ 0, 23 ], "density": 1 } ]
+      "place_monsters": [
+        { "monster": "GROUP_RESORT_MIXED", "x": [0, 18], "y": [0, 23], "density": 1 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_2se" ],
+    "om_terrain": ["p_resort_2se"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1122,23 +1355,31 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "p_resort_palette_living_floor" ],
-      "toilets": { "$": {  } },
+      "palettes": ["p_resort_palette_living_floor"],
+      "toilets": { "$": {} },
       "items": {
-        "d": { "item": "dresser", "chance": 50, "repeat": [ 3, 6 ] },
-        "b": { "item": "bed", "chance": 50, "repeat": [ 0, 2 ] },
-        "O": { "item": "SUS_oven", "chance": 50, "repeat": [ 0, 3 ] },
+        "d": { "item": "dresser", "chance": 50, "repeat": [3, 6] },
+        "b": { "item": "bed", "chance": 50, "repeat": [0, 2] },
+        "O": { "item": "SUS_oven", "chance": 50, "repeat": [0, 3] },
         "]": { "item": "SUS_fridge", "chance": 75 },
-        "T": { "item": "livingroom", "chance": 33, "repeat": [ 0, 3 ] },
-        "#": { "item": "fridgesnacks", "chance": 50, "repeat": [ 0, 2 ] }
+        "T": { "item": "livingroom", "chance": 33, "repeat": [0, 3] },
+        "#": { "item": "fridgesnacks", "chance": 50, "repeat": [0, 2] }
       },
-      "place_monsters": [ { "monster": "GROUP_RESORT_MIXED_STAFF", "x": [ 0, 18 ], "y": [ 0, 6 ], "repeat": [ 0, 1 ], "density": 0.25 } ]
+      "place_monsters": [
+        {
+          "monster": "GROUP_RESORT_MIXED_STAFF",
+          "x": [0, 18],
+          "y": [0, 6],
+          "repeat": [0, 1],
+          "density": 0.25
+        }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_0nw" ],
+    "om_terrain": ["p_resort_0nw"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -1168,43 +1409,55 @@
         "***WyWg...gWLLWfffffW***",
         "***WWWWWWWWWWWWWWWWWW***"
       ],
-      "palettes": [ "p_resort_palette_basement" ],
-      "place_item": [ { "item": "toolbox", "repeat": 1, "x": 8, "y": 11 } ],
+      "palettes": ["p_resort_palette_basement"],
+      "place_item": [{ "item": "toolbox", "repeat": 1, "x": 8, "y": 11 }],
       "items": {
-        "S": { "item": "preserved_food", "chance": 50, "repeat": [ 0, 3 ] },
-        "f": { "item": "butcher_raw_meat", "chance": 50, "repeat": [ 0, 6 ] }
+        "S": { "item": "preserved_food", "chance": 50, "repeat": [0, 3] },
+        "f": { "item": "butcher_raw_meat", "chance": 50, "repeat": [0, 6] }
       },
       "place_items": [
-        { "chance": 50, "item": "tools_common", "x": [ 12, 15 ], "y": [ 14, 14 ], "repeat": [ 1, 8 ] },
-        { "chance": 33, "item": "power_tools", "x": [ 16, 16 ], "y": [ 14, 16 ], "repeat": [ 1, 2 ] },
-        { "chance": 50, "item": "tools_plumbing", "x": [ 16, 16 ], "y": [ 14, 16 ], "repeat": [ 1, 4 ] },
-        { "chance": 50, "item": "alcohol", "x": 4, "y": 20, "repeat": [ 1, 3 ] },
-        { "chance": 50, "item": "alcohol", "x": 4, "y": 22, "repeat": [ 3, 6 ] },
-        { "chance": 33, "item": "stash_drugs", "x": 4, "y": 22, "repeat": [ 3, 6 ] },
+        { "chance": 50, "item": "tools_common", "x": [12, 15], "y": [14, 14], "repeat": [1, 8] },
+        { "chance": 33, "item": "power_tools", "x": [16, 16], "y": [14, 16], "repeat": [1, 2] },
+        { "chance": 50, "item": "tools_plumbing", "x": [16, 16], "y": [14, 16], "repeat": [1, 4] },
+        { "chance": 50, "item": "alcohol", "x": 4, "y": 20, "repeat": [1, 3] },
+        { "chance": 50, "item": "alcohol", "x": 4, "y": 22, "repeat": [3, 6] },
+        { "chance": 33, "item": "stash_drugs", "x": 4, "y": 22, "repeat": [3, 6] },
         { "chance": 75, "item": "keg_beer", "x": 7, "y": 20 },
         { "chance": 75, "item": "keg_beer", "x": 8, "y": 20 },
         { "chance": 75, "item": "keg_beer", "x": 9, "y": 20 },
         { "chance": 75, "item": "keg_beer", "x": 7, "y": 22 },
         { "chance": 75, "item": "keg_beer", "x": 8, "y": 22 },
         { "chance": 75, "item": "keg_beer", "x": 9, "y": 22 },
-        { "chance": 25, "item": "home_hw", "x": [ 12, 13 ], "y": [ 22, 22 ], "repeat": [ 1, 3 ] }
+        { "chance": 25, "item": "home_hw", "x": [12, 13], "y": [22, 22], "repeat": [1, 3] }
       ],
       "place_monsters": [
-        { "monster": "GROUP_RESORT_STAFF", "x": [ 13, 16 ], "y": [ 16, 16 ], "repeat": [ 0, 1 ], "density": 0.1 },
-        { "monster": "GROUP_RESORT_STAFF", "x": [ 6, 19 ], "y": [ 20, 22 ], "repeat": [ 0, 1 ], "density": 0.1 }
+        {
+          "monster": "GROUP_RESORT_STAFF",
+          "x": [13, 16],
+          "y": [16, 16],
+          "repeat": [0, 1],
+          "density": 0.1
+        },
+        {
+          "monster": "GROUP_RESORT_STAFF",
+          "x": [6, 19],
+          "y": [20, 22],
+          "repeat": [0, 1],
+          "density": 0.1
+        }
       ],
       "place_liquids": [
-        { "liquid": "brandy", "x": 6, "y": 20, "repeat": [ 0, 8 ] },
-        { "liquid": "mead", "x": 10, "y": 20, "repeat": [ 0, 30 ] },
-        { "liquid": "single_malt_whiskey", "x": 6, "y": 22, "repeat": [ 0, 6 ] },
-        { "liquid": "wine_chardonnay", "x": 10, "y": 22, "repeat": [ 0, 20 ] }
+        { "liquid": "brandy", "x": 6, "y": 20, "repeat": [0, 8] },
+        { "liquid": "mead", "x": 10, "y": 20, "repeat": [0, 30] },
+        { "liquid": "single_malt_whiskey", "x": 6, "y": 22, "repeat": [0, 6] },
+        { "liquid": "wine_chardonnay", "x": 10, "y": 22, "repeat": [0, 20] }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_0se" ],
+    "om_terrain": ["p_resort_0se"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -1234,38 +1487,50 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "p_resort_palette_basement" ],
+      "palettes": ["p_resort_palette_basement"],
       "items": { "K": { "item": "SUS_office_filing_cabinet" } },
       "place_items": [
-        { "chance": 1, "item": "manuals", "x": [ 12, 18 ], "y": [ 2, 2 ], "repeat": [ 1, 2 ] },
-        { "chance": 1, "item": "manuals", "x": [ 12, 18 ], "y": [ 5, 5 ], "repeat": [ 1, 2 ] },
-        { "chance": 50, "item": "office_mess", "x": 18, "y": 4, "repeat": [ 1, 4 ] },
-        { "chance": 50, "item": "private_resort_sec_weapon", "x": [ 7, 7 ], "y": [ 7, 8 ], "repeat": [ 1, 3 ] },
-        { "chance": 50, "item": "office_mess", "x": [ 7, 7 ], "y": [ 7, 8 ], "repeat": [ 1, 4 ] },
-        { "chance": 50, "item": "mansion_safe", "x": [ 14, 14 ], "y": [ 9, 10 ], "repeat": [ 3, 8 ] },
-        { "chance": 50, "item": "mansion_safe", "x": [ 16, 16 ], "y": [ 9, 10 ], "repeat": [ 3, 8 ] },
-        { "chance": 50, "item": "mansion_safe", "x": [ 18, 18 ], "y": [ 9, 10 ], "repeat": [ 3, 8 ] },
-        { "chance": 50, "item": "stash_drugs", "x": 19, "y": 13, "repeat": [ 5, 10 ] },
-        { "chance": 50, "item": "mansion_gunsafe", "x": 19, "y": 14, "repeat": [ 5, 10 ] },
-        { "chance": 50, "item": "file_room", "x": 19, "y": 15, "repeat": [ 5, 10 ] },
-        { "chance": 25, "item": "mil_armor_torso", "x": 19, "y": 15, "repeat": [ 1, 2 ] },
+        { "chance": 1, "item": "manuals", "x": [12, 18], "y": [2, 2], "repeat": [1, 2] },
+        { "chance": 1, "item": "manuals", "x": [12, 18], "y": [5, 5], "repeat": [1, 2] },
+        { "chance": 50, "item": "office_mess", "x": 18, "y": 4, "repeat": [1, 4] },
+        {
+          "chance": 50,
+          "item": "private_resort_sec_weapon",
+          "x": [7, 7],
+          "y": [7, 8],
+          "repeat": [1, 3]
+        },
+        { "chance": 50, "item": "office_mess", "x": [7, 7], "y": [7, 8], "repeat": [1, 4] },
+        { "chance": 50, "item": "mansion_safe", "x": [14, 14], "y": [9, 10], "repeat": [3, 8] },
+        { "chance": 50, "item": "mansion_safe", "x": [16, 16], "y": [9, 10], "repeat": [3, 8] },
+        { "chance": 50, "item": "mansion_safe", "x": [18, 18], "y": [9, 10], "repeat": [3, 8] },
+        { "chance": 50, "item": "stash_drugs", "x": 19, "y": 13, "repeat": [5, 10] },
+        { "chance": 50, "item": "mansion_gunsafe", "x": 19, "y": 14, "repeat": [5, 10] },
+        { "chance": 50, "item": "file_room", "x": 19, "y": 15, "repeat": [5, 10] },
+        { "chance": 25, "item": "mil_armor_torso", "x": 19, "y": 15, "repeat": [1, 2] },
         { "chance": 75, "item": "corpses", "x": 12, "y": 13 },
-        { "chance": 75, "item": "default_zombie_clothes", "x": 12, "y": 13, "repeat": [ 3, 6 ] },
+        { "chance": 75, "item": "default_zombie_clothes", "x": 12, "y": 13, "repeat": [3, 6] },
         { "chance": 75, "item": "corpses", "x": 12, "y": 15 },
-        { "chance": 75, "item": "default_zombie_clothes", "x": 12, "y": 15, "repeat": [ 3, 6 ] },
-        { "chance": 75, "item": "private_resort_sec_weapon", "x": 6, "y": 9, "repeat": [ 1, 4 ] },
+        { "chance": 75, "item": "default_zombie_clothes", "x": 12, "y": 15, "repeat": [3, 6] },
+        { "chance": 75, "item": "private_resort_sec_weapon", "x": 6, "y": 9, "repeat": [1, 4] },
         { "chance": 75, "item": "guns_shotgun_common", "x": 6, "y": 9 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_RESORT_BOUNCER", "x": [ 6, 18 ], "y": [ 10, 13 ], "repeat": [ 0, 1 ], "density": 0.1 },
-        { "monster": "GROUP_RESORT_STAFF", "x": [ 9, 18 ], "y": [ 3, 4 ], "density": 0.2 }
+        {
+          "monster": "GROUP_RESORT_BOUNCER",
+          "x": [6, 18],
+          "y": [10, 13],
+          "repeat": [0, 1],
+          "density": 0.1
+        },
+        { "monster": "GROUP_RESORT_STAFF", "x": [9, 18], "y": [3, 4], "density": 0.2 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_rnw" ],
+    "om_terrain": ["p_resort_rnw"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -1295,14 +1560,16 @@
         "****r___________________",
         "****r__________________r"
       ],
-      "palettes": [ "p_resort_palette_roof" ],
-      "place_items": [ { "chance": 10, "item": "roof_trash", "x": [ 5, 22 ], "y": [ 9, 22 ], "repeat": [ 5, 15 ] } ]
+      "palettes": ["p_resort_palette_roof"],
+      "place_items": [
+        { "chance": 10, "item": "roof_trash", "x": [5, 22], "y": [9, 22], "repeat": [5, 15] }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_rww" ],
+    "om_terrain": ["p_resort_rww"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -1332,14 +1599,16 @@
         "****r___________________",
         "****r___________________"
       ],
-      "palettes": [ "p_resort_palette_roof" ],
-      "place_items": [ { "chance": 10, "item": "roof_trash", "x": [ 5, 22 ], "y": [ 1, 22 ], "repeat": [ 5, 15 ] } ]
+      "palettes": ["p_resort_palette_roof"],
+      "place_items": [
+        { "chance": 10, "item": "roof_trash", "x": [5, 22], "y": [1, 22], "repeat": [5, 15] }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_rsw" ],
+    "om_terrain": ["p_resort_rsw"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -1369,14 +1638,16 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "p_resort_palette_roof" ],
-      "place_items": [ { "chance": 10, "item": "roof_trash", "x": [ 5, 22 ], "y": [ 0, 7 ], "repeat": [ 3, 10 ] } ]
+      "palettes": ["p_resort_palette_roof"],
+      "place_items": [
+        { "chance": 10, "item": "roof_trash", "x": [5, 22], "y": [0, 7], "repeat": [3, 10] }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_rnn" ],
+    "om_terrain": ["p_resort_rnn"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -1406,14 +1677,16 @@
         "________________________",
         "rrrrrrrrrrrrrrrrrrrrrrrr"
       ],
-      "palettes": [ "p_resort_palette_roof" ],
-      "place_items": [ { "chance": 10, "item": "roof_trash", "x": [ 1, 22 ], "y": [ 7, 22 ], "repeat": [ 5, 15 ] } ]
+      "palettes": ["p_resort_palette_roof"],
+      "place_items": [
+        { "chance": 10, "item": "roof_trash", "x": [1, 22], "y": [7, 22], "repeat": [5, 15] }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_rmm" ],
+    "om_terrain": ["p_resort_rmm"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -1443,13 +1716,13 @@
         "________________________",
         "rrrrrrrrrrrrrrrrrrrrrr__"
       ],
-      "palettes": [ "p_resort_palette_roof" ]
+      "palettes": ["p_resort_palette_roof"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_rss" ],
+    "om_terrain": ["p_resort_rss"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -1479,13 +1752,13 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "p_resort_palette_roof" ]
+      "palettes": ["p_resort_palette_roof"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_rne" ],
+    "om_terrain": ["p_resort_rne"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -1515,21 +1788,27 @@
         "___________________r__**",
         "r__________________r__**"
       ],
-      "palettes": [ "p_resort_palette_roof" ],
+      "palettes": ["p_resort_palette_roof"],
       "place_nested": [
         {
-          "chunks": [ [ "roof_2x2_infrastructure", 80 ], [ "roof_2x2_infrastructure_2", 40 ], [ "roof_2x2_utilities", 40 ] ],
-          "x": [ 3, 18 ],
-          "y": [ 7, 22 ]
+          "chunks": [
+            ["roof_2x2_infrastructure", 80],
+            ["roof_2x2_infrastructure_2", 40],
+            ["roof_2x2_utilities", 40]
+          ],
+          "x": [3, 18],
+          "y": [7, 22]
         }
       ],
-      "place_items": [ { "chance": 10, "item": "roof_trash", "x": [ 0, 18 ], "y": [ 9, 22 ], "repeat": [ 5, 15 ] } ]
+      "place_items": [
+        { "chance": 10, "item": "roof_trash", "x": [0, 18], "y": [9, 22], "repeat": [5, 15] }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_ree" ],
+    "om_terrain": ["p_resort_ree"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -1559,21 +1838,27 @@
         "___________________r****",
         "___________________r****"
       ],
-      "palettes": [ "p_resort_palette_roof" ],
+      "palettes": ["p_resort_palette_roof"],
       "place_nested": [
         {
-          "chunks": [ [ "roof_2x2_infrastructure", 80 ], [ "roof_2x2_infrastructure_2", 40 ], [ "roof_2x2_utilities", 40 ] ],
-          "x": [ 3, 18 ],
-          "y": [ 2, 20 ]
+          "chunks": [
+            ["roof_2x2_infrastructure", 80],
+            ["roof_2x2_infrastructure_2", 40],
+            ["roof_2x2_utilities", 40]
+          ],
+          "x": [3, 18],
+          "y": [2, 20]
         }
       ],
-      "place_items": [ { "chance": 10, "item": "roof_trash", "x": [ 0, 18 ], "y": [ 0, 22 ], "repeat": [ 5, 15 ] } ]
+      "place_items": [
+        { "chance": 10, "item": "roof_trash", "x": [0, 18], "y": [0, 22], "repeat": [5, 15] }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "p_resort_rse" ],
+    "om_terrain": ["p_resort_rse"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -1603,20 +1888,22 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "p_resort_palette_roof" ],
+      "palettes": ["p_resort_palette_roof"],
       "place_nested": [
         {
           "chunks": [
-            [ "roof_2x2_infrastructure", 80 ],
-            [ "roof_2x2_infrastructure_2", 40 ],
-            [ "roof_2x2_utilities", 40 ],
-            [ "roof_6x6_survivor", 5 ]
+            ["roof_2x2_infrastructure", 80],
+            ["roof_2x2_infrastructure_2", 40],
+            ["roof_2x2_utilities", 40],
+            ["roof_6x6_survivor", 5]
           ],
-          "x": [ 2, 10 ],
-          "y": [ 2, 6 ]
+          "x": [2, 10],
+          "y": [2, 6]
         }
       ],
-      "place_items": [ { "chance": 10, "item": "roof_trash", "x": [ 0, 18 ], "y": [ 0, 7 ], "repeat": [ 3, 10 ] } ]
+      "place_items": [
+        { "chance": 10, "item": "roof_trash", "x": [0, 18], "y": [0, 7], "repeat": [3, 10] }
+      ]
     }
   }
 ]

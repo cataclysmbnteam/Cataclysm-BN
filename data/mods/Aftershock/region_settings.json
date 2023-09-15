@@ -1,7 +1,7 @@
 [
   {
     "type": "region_overlay",
-    "regions": [ "all" ],
+    "regions": ["all"],
     "river_scale": 1.0,
     "city": {
       "shop_radius": 1,

@@ -14,7 +14,12 @@
       {
         "text": "What are you doing here?",
         "topic": "TALK_CITY_COP_INTRO",
-        "effect": { "u_add_var": "talked_to_survivor_cop", "type": "dialogue", "context": "survivor_cop", "value": "yes" }
+        "effect": {
+          "u_add_var": "talked_to_survivor_cop",
+          "type": "dialogue",
+          "context": "survivor_cop",
+          "value": "yes"
+        }
       },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_CITY_COP", "effect": "start_trade" },
@@ -37,7 +42,10 @@
     "id": "TALK_CITY_COP_LEAVE",
     "dynamic_line": "This is a nice, secure building.  I'd be a fool to leave.  Been living off the vending machines, but I found the code for the evidence lockup so I've been doing some trading with other survivors.",
     "responses": [
-      { "text": "What kind of stuff was in the evidence lockup?", "topic": "TALK_CITY_COP_EVIDENCE" },
+      {
+        "text": "What kind of stuff was in the evidence lockup?",
+        "topic": "TALK_CITY_COP_EVIDENCE"
+      },
       { "text": "You've seen other survivors?", "topic": "TALK_CITY_COP_NEWS" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "What can you sell me?", "topic": "TALK_CITY_COP", "effect": "start_trade" },
@@ -52,7 +60,11 @@
       { "text": "Why don't you go somewhere else?", "topic": "TALK_CITY_COP_LEAVE" },
       { "text": "You've seen other survivors?", "topic": "TALK_CITY_COP_NEWS" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
-      { "text": "Well, let me check out some of that stuff.", "topic": "TALK_CITY_COP", "effect": "start_trade" },
+      {
+        "text": "Well, let me check out some of that stuff.",
+        "topic": "TALK_CITY_COP",
+        "effect": "start_trade"
+      },
       { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
     ]
   },
@@ -63,7 +75,11 @@
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_CITY_COP_LEAVE" },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
-      { "text": "Well, let me check out some of that stuff.", "topic": "TALK_CITY_COP", "effect": "start_trade" },
+      {
+        "text": "Well, let me check out some of that stuff.",
+        "topic": "TALK_CITY_COP",
+        "effect": "start_trade"
+      },
       { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
     ]
   }

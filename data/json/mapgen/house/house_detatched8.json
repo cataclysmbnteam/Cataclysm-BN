@@ -32,10 +32,10 @@
         "........!%%%%...........",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "j": "t_concrete",
@@ -67,7 +67,7 @@
         { "chance": 65, "item": "tools_earthworking", "x": 9, "y": 20 },
         { "chance": 55, "item": "book_survival", "x": 12, "y": 6 }
       ],
-      "place_monsters": [ { "chance": 6, "density": 1, "monster": "GROUP_HOUSE", "x": 12, "y": 10 } ]
+      "place_monsters": [{ "chance": 6, "density": 1, "monster": "GROUP_HOUSE", "x": 12, "y": 10 }]
     }
   },
   {
@@ -102,7 +102,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -138,34 +138,34 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "nested": {
         "1": {
           "chunks": [
-            [ "null", 60 ],
-            [ "room_6x6_guns_S", 10 ],
-            [ "room_6x6_office_S", 40 ],
-            [ "6x6_electronics_open", 20 ],
-            [ "room_6x6_bike", 20 ],
-            [ "6x6_sewing_open", 30 ],
-            [ "room_6x6_brewer_S", 20 ],
-            [ "room_6x6_junk_S", 40 ],
-            [ "5x5_holdout_S", 2 ],
-            [ "5x5_holdout_E", 2 ],
-            [ "5x5_gym_N", 20 ],
-            [ "5x5_gym_S", 20 ],
-            [ "5x5_gym_E", 20 ],
-            [ "5x5_gym_W", 20 ],
-            [ "livingroom_5x5_S_1", 30 ],
-            [ "livingroom_5x5_E_1", 30 ],
-            [ "livingroom_5x5_N_1", 30 ],
-            [ "livingroom_5x5_W_1", 30 ],
-            [ "livingroom_5x5_S_2", 30 ],
-            [ "livingroom_5x5_E_2", 30 ],
-            [ "livingroom_5x5_N_2", 30 ],
-            [ "livingroom_5x5_W_2", 30 ],
-            [ "home_office_4x4_N", 10 ],
-            [ "home_office_4x4_S", 10 ]
+            ["null", 60],
+            ["room_6x6_guns_S", 10],
+            ["room_6x6_office_S", 40],
+            ["6x6_electronics_open", 20],
+            ["room_6x6_bike", 20],
+            ["6x6_sewing_open", 30],
+            ["room_6x6_brewer_S", 20],
+            ["room_6x6_junk_S", 40],
+            ["5x5_holdout_S", 2],
+            ["5x5_holdout_E", 2],
+            ["5x5_gym_N", 20],
+            ["5x5_gym_S", 20],
+            ["5x5_gym_E", 20],
+            ["5x5_gym_W", 20],
+            ["livingroom_5x5_S_1", 30],
+            ["livingroom_5x5_E_1", 30],
+            ["livingroom_5x5_N_1", 30],
+            ["livingroom_5x5_W_1", 30],
+            ["livingroom_5x5_S_2", 30],
+            ["livingroom_5x5_E_2", 30],
+            ["livingroom_5x5_N_2", 30],
+            ["livingroom_5x5_W_2", 30],
+            ["home_office_4x4_N", 10],
+            ["home_office_4x4_S", 10]
           ]
         }
       }

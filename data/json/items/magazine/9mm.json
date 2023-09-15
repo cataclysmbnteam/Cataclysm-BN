@@ -16,7 +16,7 @@
     "capacity": 50,
     "reliability": 7,
     "reload_time": 160,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "glockbigmag",
@@ -35,7 +35,7 @@
     "capacity": 30,
     "reliability": 7,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "glockmag",
@@ -53,7 +53,7 @@
     "ammo_type": "9mm",
     "capacity": 15,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "glock17_17",
@@ -72,7 +72,7 @@
     "capacity": 17,
     "reliability": 7,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "glock17_22",
@@ -90,7 +90,7 @@
     "ammo_type": "9mm",
     "capacity": 22,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "glock_drum_50rd",
@@ -108,7 +108,7 @@
     "ammo_type": "9mm",
     "capacity": 50,
     "reliability": 8,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "glock_drum_100rd",
@@ -126,7 +126,7 @@
     "ammo_type": "9mm",
     "capacity": 100,
     "reliability": 8,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "m9bigmag",
@@ -145,7 +145,7 @@
     "capacity": 30,
     "reliability": 7,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "m9mag",
@@ -163,7 +163,7 @@
     "ammo_type": "9mm",
     "capacity": 15,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "mp5bigmag",
@@ -182,7 +182,7 @@
     "capacity": 50,
     "reliability": 8,
     "reload_time": 160,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "mp5mag",
@@ -200,7 +200,7 @@
     "ammo_type": "9mm",
     "capacity": 30,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "px4mag",
@@ -218,7 +218,7 @@
     "ammo_type": "9mm",
     "capacity": 17,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "stenmag",
@@ -236,7 +236,7 @@
     "ammo_type": "9mm",
     "capacity": 32,
     "reliability": 6,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "survivor9mm_mag",
@@ -255,7 +255,7 @@
     "capacity": 20,
     "reliability": 1,
     "reload_time": 160,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "tec9mag",
@@ -273,7 +273,7 @@
     "ammo_type": "9mm",
     "capacity": 32,
     "reliability": 7,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "usp9mag",
@@ -291,7 +291,7 @@
     "ammo_type": "9mm",
     "capacity": 15,
     "reliability": 10,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "uzimag",
@@ -309,7 +309,7 @@
     "ammo_type": "9mm",
     "capacity": 32,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "kpf9mag",
@@ -327,7 +327,7 @@
     "ammo_type": "9mm",
     "capacity": 7,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "p320mag_17rd_9x19mm",
@@ -346,7 +346,7 @@
     "capacity": 17,
     "reliability": 7,
     "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "bhp9mag_13rd",
@@ -364,7 +364,7 @@
     "ammo_type": "9mm",
     "capacity": 13,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "bhp9mag_15rd",
@@ -382,7 +382,7 @@
     "ammo_type": "9mm",
     "capacity": 15,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "p38mag",
@@ -400,7 +400,7 @@
     "ammo_type": "9mm",
     "capacity": 8,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "ppq9mag_10rd",
@@ -418,7 +418,7 @@
     "ammo_type": "9mm",
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "ppq9mag_15rd",
@@ -436,7 +436,7 @@
     "ammo_type": "9mm",
     "capacity": 15,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "ppq9mag_17rd",
@@ -454,7 +454,7 @@
     "ammo_type": "9mm",
     "capacity": 17,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "hptc9mag_8rd",
@@ -472,7 +472,7 @@
     "ammo_type": "9mm",
     "capacity": 8,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "hptc9mag_10rd",
@@ -490,7 +490,7 @@
     "ammo_type": "9mm",
     "capacity": 10,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "hptc9mag_15rd",
@@ -508,7 +508,7 @@
     "ammo_type": "9mm",
     "capacity": 15,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "cz75mag_12rd",
@@ -526,7 +526,7 @@
     "ammo_type": "9mm",
     "capacity": 12,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "cz75mag_20rd",
@@ -544,7 +544,7 @@
     "ammo_type": "9mm",
     "capacity": 20,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "cz75mag_26rd",
@@ -562,7 +562,7 @@
     "ammo_type": "9mm",
     "capacity": 26,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "ccpmag",
@@ -580,6 +580,6 @@
     "ammo_type": "9mm",
     "capacity": 8,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   }
 ]

@@ -11,13 +11,19 @@
     "price_postapoc": 500,
     "to_hit": -2,
     "bashing": 6,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "color": "yellow",
     "ammo": "nail",
     "dispersion": 800,
     "loudness": 5,
     "clip_size": 20,
     "reload": 50,
-    "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [
+      ["grip mount", 1],
+      ["rail mount", 1],
+      ["sights mount", 1],
+      ["stock mount", 1],
+      ["underbarrel mount", 1]
+    ]
   }
 ]

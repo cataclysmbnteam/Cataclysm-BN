@@ -3,13 +3,23 @@
     "type": "region_settings",
     "id": "default",
     "default_oter": "field",
-    "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
+    "default_groundcover": [["t_region_groundcover", 1]],
     "region_terrain_and_furniture": {
       "terrain": {
         "t_region_groundcover": { "t_grass": 12, "t_grass_dead": 2, "t_dirt": 1 },
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
-        "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
-        "t_region_groundcover_swamp": { "t_grass_long": 3, "t_grass_tall": 1, "t_moss": 2, "t_dirt": 2 },
+        "t_region_groundcover_forest": {
+          "t_grass_long": 5,
+          "t_grass_tall": 1,
+          "t_moss": 1,
+          "t_grass_dead": 3
+        },
+        "t_region_groundcover_swamp": {
+          "t_grass_long": 3,
+          "t_grass_tall": 1,
+          "t_moss": 2,
+          "t_dirt": 2
+        },
         "t_region_groundcover_barren": { "t_dirt": 30, "t_grass_dead": 2, "t_railroad_rubble": 1 },
         "t_region_grass": { "t_grass": 1 },
         "t_region_soil": { "t_dirt": 1 },
@@ -37,7 +47,13 @@
           "t_shrub_huckleberry": 2,
           "t_shrub_peanut": 1
         },
-        "t_region_shrub_decorative": { "t_shrub": 3, "t_fern": 1, "t_shrub_rose": 2, "t_shrub_hydrangea": 2, "t_shrub_lilac": 2 },
+        "t_region_shrub_decorative": {
+          "t_shrub": 3,
+          "t_fern": 1,
+          "t_shrub_rose": 2,
+          "t_shrub_hydrangea": 2,
+          "t_shrub_lilac": 2
+        },
         "t_region_tree": {
           "t_tree": 128,
           "t_tree_young": 128,
@@ -222,11 +238,19 @@
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
       "lake_depth": -5,
-      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
+      "shore_extendable_overmap_terrain": ["forest", "forest_thick", "forest_water", "field"],
       "shore_extendable_overmap_terrain_aliases": [
         { "om_terrain": "island_forest", "om_terrain_match_type": "TYPE", "alias": "forest" },
-        { "om_terrain": "island_forest_thick", "om_terrain_match_type": "TYPE", "alias": "forest_thick" },
-        { "om_terrain": "island_forest_water", "om_terrain_match_type": "TYPE", "alias": "forest_water" },
+        {
+          "om_terrain": "island_forest_thick",
+          "om_terrain_match_type": "TYPE",
+          "alias": "forest_thick"
+        },
+        {
+          "om_terrain": "island_forest_water",
+          "om_terrain_match_type": "TYPE",
+          "alias": "forest_water"
+        },
         { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
       ]
     },
@@ -248,8 +272,18 @@
         "groundcover": { "t_region_groundcover_forest": 1 },
         "clear_components": false,
         "components": {
-          "trees": { "sequence": 0, "chance": 12, "clear_types": false, "types": { "t_region_tree": 128 } },
-          "shrubs_and_flowers": { "sequence": 1, "chance": 10, "clear_types": false, "types": { "t_region_shrub": 100, "f_region_weed": 20 } },
+          "trees": {
+            "sequence": 0,
+            "chance": 12,
+            "clear_types": false,
+            "types": { "t_region_tree": 128 }
+          },
+          "shrubs_and_flowers": {
+            "sequence": 1,
+            "chance": 10,
+            "clear_types": false,
+            "types": { "t_region_shrub": 100, "f_region_weed": 20 }
+          },
           "clutter": {
             "sequence": 2,
             "chance": 80,
@@ -267,7 +301,7 @@
           }
         },
         "clear_terrain_furniture": false,
-        "terrain_furniture": {  }
+        "terrain_furniture": {}
       },
       "forest_thick": {
         "sparseness_adjacency_factor": 4,
@@ -278,8 +312,18 @@
         "groundcover": { "t_region_groundcover_forest": 1 },
         "clear_components": false,
         "components": {
-          "trees": { "sequence": 0, "chance": 5, "clear_types": false, "types": { "t_region_tree": 100 } },
-          "shrubs_and_flowers": { "sequence": 1, "chance": 5, "clear_types": false, "types": { "t_region_shrub": 100, "f_region_weed": 20 } },
+          "trees": {
+            "sequence": 0,
+            "chance": 5,
+            "clear_types": false,
+            "types": { "t_region_tree": 100 }
+          },
+          "shrubs_and_flowers": {
+            "sequence": 1,
+            "chance": 5,
+            "clear_types": false,
+            "types": { "t_region_shrub": 100, "f_region_weed": 20 }
+          },
           "clutter": {
             "sequence": 2,
             "chance": 64,
@@ -297,7 +341,7 @@
           }
         },
         "clear_terrain_furniture": false,
-        "terrain_furniture": {  }
+        "terrain_furniture": {}
       },
       "forest_water": {
         "sparseness_adjacency_factor": 2,
@@ -339,17 +383,33 @@
               "t_tree_dead": 30
             }
           },
-          "shrubs_and_flowers": { "sequence": 1, "chance": 15, "clear_types": false, "types": { "t_region_shrub": 80, "f_region_weed": 30 } },
+          "shrubs_and_flowers": {
+            "sequence": 1,
+            "chance": 15,
+            "clear_types": false,
+            "types": { "t_region_shrub": 80, "f_region_weed": 30 }
+          },
           "clutter": {
             "sequence": 2,
             "chance": 75,
             "clear_types": false,
             "types": { "t_trunk": 1, "f_boulder_small": 2, "f_boulder_medium": 1 }
           },
-          "water": { "sequence": 3, "chance": 2, "clear_types": false, "types": { "t_swater_sh": 12, "t_swater_dp": 1, "t_water_sh": 6 } }
+          "water": {
+            "sequence": 3,
+            "chance": 2,
+            "clear_types": false,
+            "types": { "t_swater_sh": 12, "t_swater_dp": 1, "t_water_sh": 6 }
+          }
         },
         "clear_terrain_furniture": false,
-        "terrain_furniture": { "t_water_sh": { "chance": 2, "clear_furniture": false, "furniture": { "f_region_water_plant": 1 } } }
+        "terrain_furniture": {
+          "t_water_sh": {
+            "chance": 2,
+            "clear_furniture": false,
+            "furniture": { "f_region_water_plant": 1 }
+          }
+        }
       }
     },
     "forest_trail_settings": {
@@ -962,6 +1022,11 @@
         "snowstorm"
       ]
     },
-    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
+    "overmap_feature_flag_settings": {
+      "clear_blacklist": false,
+      "blacklist": [],
+      "clear_whitelist": false,
+      "whitelist": []
+    }
   }
 ]

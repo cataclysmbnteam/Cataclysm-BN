@@ -4,7 +4,12 @@
     "name": "GROUP_ZOMBIE",
     "monsters": [
       { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 60 },
-      { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
+      {
+        "monster": "mon_zombie_skeltal",
+        "freq": 1,
+        "cost_multiplier": 30,
+        "conditions": ["AUTUMN"]
+      }
     ],
     "//": "Autumn is halloween"
   },
@@ -13,7 +18,12 @@
     "name": "GROUP_HOSPITAL",
     "monsters": [
       { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 60 },
-      { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
+      {
+        "monster": "mon_zombie_skeltal",
+        "freq": 1,
+        "cost_multiplier": 30,
+        "conditions": ["AUTUMN"]
+      }
     ]
   },
   {
@@ -21,7 +31,12 @@
     "name": "GROUP_GROCERY",
     "monsters": [
       { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 60 },
-      { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
+      {
+        "monster": "mon_zombie_skeltal",
+        "freq": 1,
+        "cost_multiplier": 30,
+        "conditions": ["AUTUMN"]
+      }
     ]
   },
   {
@@ -29,7 +44,12 @@
     "name": "GROUP_HOUSE",
     "monsters": [
       { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 60 },
-      { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
+      {
+        "monster": "mon_zombie_skeltal",
+        "freq": 1,
+        "cost_multiplier": 30,
+        "conditions": ["AUTUMN"]
+      }
     ]
   },
   {
@@ -41,7 +61,7 @@
         "freq": 1,
         "cost_multiplier": 0,
         "starts": 672,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+        "conditions": ["SPRING", "SUMMER", "AUTUMN"]
       }
     ]
   },
@@ -54,7 +74,7 @@
         "freq": 1,
         "cost_multiplier": 0,
         "starts": 672,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+        "conditions": ["SPRING", "SUMMER", "AUTUMN"]
       }
     ]
   },
@@ -67,7 +87,7 @@
         "freq": 1,
         "cost_multiplier": 0,
         "starts": 672,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+        "conditions": ["SPRING", "SUMMER", "AUTUMN"]
       }
     ]
   },
@@ -76,7 +96,7 @@
     "name": "GROUP_CAVE",
     "monsters": [
       { "monster": "mon_bear_smoky", "freq": 10, "cost_multiplier": 0, "starts": 672 },
-      { "monster": "mon_bear_smoky", "freq": 100, "cost_multiplier": 0, "conditions": [ "WINTER" ] }
+      { "monster": "mon_bear_smoky", "freq": 100, "cost_multiplier": 0, "conditions": ["WINTER"] }
     ],
     "//": "Additional bears during winter, when they hibernate."
   }

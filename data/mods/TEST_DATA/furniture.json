@@ -7,6 +7,6 @@
     "symbol": "{",
     "description": "A freezer that never runs out of juice!  Will preserve your bugs during tests.",
     "color": "blue",
-    "extend": { "flags": [ "FREEZER" ] }
+    "extend": { "flags": ["FREEZER"] }
   }
 ]

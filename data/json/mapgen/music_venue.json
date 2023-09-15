@@ -39,23 +39,23 @@
         { "chance": 35, "item": "misc_smoking", "x": 20, "y": 19 },
         { "chance": 65, "item": "trash", "x": 6, "y": 17 },
         { "chance": 25, "item": "hatstore_hats", "x": 13, "y": 9 },
-        { "chance": 75, "item": "bar_alcohol", "x": [ 14, 15 ], "y": 17 },
+        { "chance": 75, "item": "bar_alcohol", "x": [14, 15], "y": 17 },
         { "chance": 65, "item": "bar_fridge", "x": 13, "y": 17 },
         { "chance": 75, "item": "music_shop", "x": 4, "y": 12 },
         { "chance": 75, "item": "music_shop", "x": 6, "y": 8 },
         { "chance": 75, "item": "mussto_stringinst", "x": 5, "y": 6 }
       ],
       "place_loot": [
-        { "chance": 20, "item": "tshirt_tour", "x": [ 8, 19 ], "y": [ 6, 12 ], "repeat": [ 1, 5 ] },
+        { "chance": 20, "item": "tshirt_tour", "x": [8, 19], "y": [6, 12], "repeat": [1, 5] },
         { "item": "amplifier_head", "x": 3, "y": 10 },
-        { "chance": 10, "item": "amplifier_head", "x": 2, "y": [ 5, 12 ], "repeat": [ 1, 2 ] },
-        { "chance": 5, "item": "amplifier_head", "x": [ 3, 4 ], "y": [ 5, 12 ], "repeat": [ 1, 4 ] }
+        { "chance": 10, "item": "amplifier_head", "x": 2, "y": [5, 12], "repeat": [1, 2] },
+        { "chance": 5, "item": "amplifier_head", "x": [3, 4], "y": [5, 12], "repeat": [1, 4] }
       ],
       "place_furniture": [
-        { "furn": "f_speaker_cabinet", "x": 2, "y": [ 5, 12 ], "repeat": [ 1, 2 ] },
-        { "furn": "f_speaker_cabinet", "x": [ 3, 4 ], "y": [ 5, 12 ], "repeat": [ 1, 4 ] }
+        { "furn": "f_speaker_cabinet", "x": 2, "y": [5, 12], "repeat": [1, 2] },
+        { "furn": "f_speaker_cabinet", "x": [3, 4], "y": [5, 12], "repeat": [1, 4] }
       ],
-      "place_toilets": [ { "x": 2, "y": 14 }, { "x": 4, "y": 14 }, { "x": 6, "y": 14 } ],
+      "place_toilets": [{ "x": 2, "y": 14 }, { "x": 4, "y": 14 }, { "x": 6, "y": 14 }],
       "rows": [
         "________ss______________",
         "_______rss-----|||W||___",
@@ -90,7 +90,7 @@
         "D": "t_door_metal_c",
         "T": "t_concrete",
         "W": "t_window_no_curtains",
-        "_": [ [ "t_grass", 6 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ], [ "t_underbrush", 2 ] ],
+        "_": [["t_grass", 6], ["t_dirt", 2], ["t_grass_long", 4], ["t_underbrush", 2]],
         "b": "t_concrete",
         "c": "t_carpet_red",
         "d": "t_dirt",
@@ -150,12 +150,14 @@
         "d": "t_gutter_drop"
       },
       "furniture": { "&": "f_roof_turbine_vent" },
-      "place_items": [ { "item": "roof_trash", "x": [ 2, 21 ], "y": [ 5, 17 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [2, 21], "y": [5, 17], "chance": 50, "repeat": [1, 3] }
+      ],
       "place_nested": [
         {
-          "chunks": [ [ "null", 5 ], [ "roof_2x2_utilities_d", 30 ], [ "roof_2x2_utilities", 50 ] ],
-          "x": [ 4, 19 ],
-          "y": [ 7, 15 ]
+          "chunks": [["null", 5], ["roof_2x2_utilities_d", 30], ["roof_2x2_utilities", 50]],
+          "x": [4, 19],
+          "y": [7, 15]
         }
       ]
     },
@@ -184,7 +186,7 @@
         "7": "f_speaker_cabinet"
       },
       "place_items": [
-        { "chance": 65, "item": "bar_trash", "x": [ 13, 14 ], "y": 20 },
+        { "chance": 65, "item": "bar_trash", "x": [13, 14], "y": 20 },
         { "chance": 45, "item": "mussto_stringinst", "x": 7, "y": 11 },
         { "chance": 45, "item": "mussto_stringinst", "x": 6, "y": 8 },
         { "chance": 45, "item": "bar_table", "x": 20, "y": 16 },
@@ -200,7 +202,7 @@
         { "chance": 25, "item": "floor_trash", "x": 19, "y": 6 },
         { "chance": 25, "item": "floor_trash", "x": 12, "y": 5 },
         { "chance": 15, "item": "jackets", "x": 16, "y": 12 },
-        { "chance": 35, "item": "bar_food", "x": [ 4, 5 ], "y": 18 },
+        { "chance": 35, "item": "bar_food", "x": [4, 5], "y": 18 },
         { "chance": 35, "item": "magazines", "x": 13, "y": 18 },
         { "chance": 35, "item": "magazines", "x": 20, "y": 10 },
         { "chance": 65, "item": "vending_food_items", "x": 19, "y": 2 },
@@ -208,15 +210,15 @@
         { "chance": 75, "item": "vending_drink_items", "x": 20, "y": 2 },
         { "chance": 25, "item": "hatstore_hats", "x": 20, "y": 14 },
         { "chance": 25, "item": "hatstore_hats", "x": 11, "y": 10 },
-        { "chance": 75, "item": "bar_alcohol", "x": [ 6, 8 ], "y": 18 }
+        { "chance": 75, "item": "bar_alcohol", "x": [6, 8], "y": 18 }
       ],
       "place_loot": [
-        { "chance": 20, "item": "tshirt_tour", "x": [ 10, 18 ], "y": [ 5, 15 ], "repeat": [ 1, 5 ] },
+        { "chance": 20, "item": "tshirt_tour", "x": [10, 18], "y": [5, 15], "repeat": [1, 5] },
         { "item": "amplifier_head", "x": 6, "y": 9 },
-        { "chance": 5, "item": "amplifier_head", "x": 5, "y": [ 7, 12 ], "repeat": [ 1, 2 ] }
+        { "chance": 5, "item": "amplifier_head", "x": 5, "y": [7, 12], "repeat": [1, 2] }
       ],
-      "place_furniture": [ { "furn": "f_speaker_cabinet", "x": 5, "y": [ 7, 12 ], "repeat": [ 1, 2 ] } ],
-      "place_toilets": [ { "x": 4, "y": 2 }, { "x": 6, "y": 2 }, { "x": 8, "y": 2 } ],
+      "place_furniture": [{ "furn": "f_speaker_cabinet", "x": 5, "y": [7, 12], "repeat": [1, 2] }],
+      "place_toilets": [{ "x": 4, "y": 2 }, { "x": 6, "y": 2 }, { "x": 8, "y": 2 }],
       "rows": [
         ".......d.......sss......",
         "...||||||||--||TTT||||..",
@@ -247,7 +249,7 @@
         "+": "t_door_c",
         "_": "t_floor",
         "-": "t_wall_glass",
-        ".": [ [ "t_grass", 20 ], [ "t_dirt", 2 ], [ "t_underbrush", 1 ] ],
+        ".": [["t_grass", 20], ["t_dirt", 2], ["t_underbrush", 1]],
         "D": "t_door_metal_c",
         "T": "t_thconc_floor",
         "a": "t_door_glass_c",
@@ -312,10 +314,12 @@
         "d": "t_gutter_drop"
       },
       "furniture": { "&": "f_roof_turbine_vent" },
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 18 ], "y": [ 2, 17 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [4, 18], "y": [2, 17], "chance": 50, "repeat": [1, 3] }
+      ],
       "place_nested": [
-        { "chunks": [ [ "roof_2x2_utilities", 50 ] ], "x": 17, "y": 3 },
-        { "chunks": [ [ "null", 70 ], [ "roof_6x6_survivor", 5 ] ], "x": [ 6, 17 ], "y": 8 }
+        { "chunks": [["roof_2x2_utilities", 50]], "x": 17, "y": 3 },
+        { "chunks": [["null", 70], ["roof_6x6_survivor", 5]], "x": [6, 17], "y": 8 }
       ]
     },
     "om_terrain": "music_venue_1_roof",

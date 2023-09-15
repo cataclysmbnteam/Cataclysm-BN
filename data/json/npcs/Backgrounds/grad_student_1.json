@@ -15,7 +15,10 @@
     "type": "talk_topic",
     "dynamic_line": "I wandered for a little while around the grounds, letting the adrenaline fade, hoping for some kind of idea what to do.  I was out in the middle of nowhere, and I didn't know the area at all.  I wasn't certain if I should head back to Hanover, and try to get my belongings, or stay out where I was.  Finally, I decided to rest a while until I knew what was going on.  The internet told me most of what I needed; I'm sure you saw Twitter in those days.  Even if I'd thought it wise to go back all the way to New Hampshire, I was far too scared.",
     "responses": [
-      { "text": "Something must have driven you out of the motel.", "topic": "BGSS_GRAD_STUDENT_1_STORY3" },
+      {
+        "text": "Something must have driven you out of the motel.",
+        "topic": "BGSS_GRAD_STUDENT_1_STORY3"
+      },
       { "text": "What were you studying?", "topic": "BGSS_GRAD_STUDENT_1_FIELD" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }

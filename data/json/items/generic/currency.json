@@ -12,7 +12,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": "$",
-    "material": [ "paper" ]
+    "material": ["paper"]
   },
   {
     "type": "GENERIC",
@@ -27,7 +27,7 @@
     "to_hit": -3,
     "color": "brown",
     "symbol": "$",
-    "material": [ "gold" ],
+    "material": ["gold"],
     "volume": "2 ml"
   },
   {
@@ -42,7 +42,7 @@
     "to_hit": -3,
     "color": "brown",
     "symbol": "$",
-    "material": [ "copper" ]
+    "material": ["copper"]
   },
   {
     "type": "GENERIC",
@@ -56,7 +56,7 @@
     "to_hit": -3,
     "color": "white",
     "symbol": "$",
-    "material": [ "paper" ]
+    "material": ["paper"]
   },
   {
     "type": "GENERIC",
@@ -70,6 +70,6 @@
     "to_hit": -3,
     "color": "white",
     "symbol": "$",
-    "material": [ "paper" ]
+    "material": ["paper"]
   }
 ]

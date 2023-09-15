@@ -15,7 +15,7 @@
     "color": "light_gray",
     "ammo_type": "762",
     "capacity": 10,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": ["SPEEDLOADER"]
   },
   {
     "id": "akmag10",
@@ -33,7 +33,7 @@
     "ammo_type": "762",
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "akmag20",
@@ -51,7 +51,7 @@
     "ammo_type": "762",
     "capacity": 20,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "akmag30",
@@ -69,7 +69,7 @@
     "ammo_type": "762",
     "capacity": 30,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "akmag40",
@@ -87,7 +87,7 @@
     "ammo_type": "762",
     "capacity": 40,
     "reliability": 8,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "akdrum75",
@@ -105,6 +105,6 @@
     "ammo_type": "762",
     "capacity": 75,
     "reliability": 7,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   }
 ]

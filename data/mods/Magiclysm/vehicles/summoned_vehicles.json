@@ -3,8 +3,8 @@
     "id": "floating_disk",
     "type": "vehicle",
     "name": "Floating disk",
-    "blueprint": [ "o" ],
-    "parts": [ { "x": 0, "y": 0, "parts": [ "mana_frame" ] } ]
+    "blueprint": ["o"],
+    "parts": [{ "x": 0, "y": 0, "parts": ["mana_frame"] }]
   },
   {
     "id": "mana_wheel",
@@ -17,7 +17,7 @@
     "price": 1,
     "bashing": 8,
     "to_hit": -4,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "]",
     "color": "light_gray",
     "diameter": 20,
@@ -46,11 +46,33 @@
     "location": "structure",
     "//": "This should not be interactable nor visible as a vehicle part, its part of a summoned magic 'vehicle'",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 20 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 20 ], [ "spellcraft", 1 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 20 ], [ "spellcraft", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 20], ["spellcraft", 1]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 20], ["spellcraft", 1]],
+        "time": "30 m",
+        "using": [["vehicle_weld_removal", 1]]
+      },
+      "repair": {
+        "skills": [["mechanics", 20], ["spellcraft", 1]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      }
     },
-    "flags": [ "INITIAL_PART", "ENGINE", "STABLE", "E_STARTS_INSTANTLY", "STEERABLE", "WHEEL", "OBSTACLE", "CARGO", "MAGIC_FOLLOW" ],
+    "flags": [
+      "INITIAL_PART",
+      "ENGINE",
+      "STABLE",
+      "E_STARTS_INSTANTLY",
+      "STEERABLE",
+      "WHEEL",
+      "OBSTACLE",
+      "CARGO",
+      "MAGIC_FOLLOW"
+    ],
     "damage_reduction": { "all": 12 }
   },
   {
@@ -70,7 +92,7 @@
     "bashing": 1,
     "phase": "solid",
     "material": "flesh",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
+    "flags": ["PSEUDO", "PERPETUAL"],
     "fuel": { "energy": 500 },
     "symbol": "?",
     "color": "magenta",

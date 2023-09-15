@@ -8,7 +8,7 @@
     "description": "A gate for translocation.  Cast the translocation spell or use a translocator to choose this gate as a destination.",
     "color": "light_gray",
     "required_str": 25,
-    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "ALLOW_FIELD_EFFECT" ],
+    "flags": ["TRANSLOCATOR", "MOUNTABLE", "ALLOW_FIELD_EFFECT"],
     "examine_action": "translocator"
   },
   {
@@ -19,7 +19,7 @@
     "symbol": "O",
     "color": "red",
     "required_str": -1,
-    "flags": [ "ALLOW_FIELD_EFFECT" ],
+    "flags": ["ALLOW_FIELD_EFFECT"],
     "description": "This is a rough magic circle, carved into the ground and decorated with blood, candles, and other small knick-knacks."
   },
   {
@@ -33,21 +33,21 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 32,
-    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
+    "flags": ["NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND"],
     "bash": {
       "str_min": 64,
       "str_max": 160,
       "sound": "smash!",
       "sound_fail": "thump.",
       "items": [
-        { "item": "rock", "count": [ 10, 22 ] },
-        { "item": "sharp_rock", "count": [ 3, 7 ] },
-        { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
-        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
-        { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
-        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 },
-        { "item": "orichalcum_lump", "count": [ 0, 2 ] },
-        { "item": "orichalcum_sliver", "count": [ 4, 10 ] }
+        { "item": "rock", "count": [10, 22] },
+        { "item": "sharp_rock", "count": [3, 7] },
+        { "item": "material_limestone", "charges": [2, 5], "prob": 30 },
+        { "item": "material_rocksalt", "count": [0, 1], "prob": 10 },
+        { "item": "material_rhodonite", "count": [0, 1], "prob": 1 },
+        { "item": "material_zincite", "count": [0, 5], "prob": 2 },
+        { "item": "orichalcum_lump", "count": [0, 2] },
+        { "item": "orichalcum_sliver", "count": [4, 10] }
       ]
     }
   },
@@ -62,15 +62,15 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "flags": ["TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF"],
     "deconstruct": {
       "items": [
-        { "item": "pipe", "count": [ 6, 12 ] },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 4 ] },
-        { "item": "plastic_chunk", "count": [ 50, 75 ] },
-        { "item": "wood_panel", "count": [ 1, 2 ] },
-        { "item": "2x4", "count": [ 3, 4 ] }
+        { "item": "pipe", "count": [6, 12] },
+        { "item": "cu_pipe", "count": [1, 4] },
+        { "item": "cable", "charges": [1, 4] },
+        { "item": "plastic_chunk", "count": [50, 75] },
+        { "item": "wood_panel", "count": [1, 2] },
+        { "item": "2x4", "count": [3, 4] }
       ]
     },
     "max_volume": "1750 L",
@@ -80,12 +80,12 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "splinter", "count": [ 2, 8 ] },
-        { "item": "2x4", "count": [ 0, 2 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "plastic_chunk", "count": [ 30, 50 ] },
+        { "item": "splinter", "count": [2, 8] },
+        { "item": "2x4", "count": [0, 2] },
+        { "item": "wood_panel", "count": [0, 1] },
+        { "item": "plastic_chunk", "count": [30, 50] },
         { "item": "pipe", "count": 1 },
-        { "item": "cable", "charges": [ 1, 3 ] },
+        { "item": "cable", "charges": [1, 3] },
         { "item": "cu_pipe", "count": 1 }
       ]
     },
@@ -104,13 +104,13 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "still_lab",
-    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "flags": ["TRANSPARENT", "NOITEM"],
     "deconstruct": {
       "items": [
         { "item": "pot_copper", "count": 1 },
-        { "item": "pipe_glass", "count": [ 1, 4 ] },
-        { "item": "glass_tube_small", "charges": [ 5, 10 ] },
-        { "item": "flask_glass", "count": [ 1, 3 ] }
+        { "item": "pipe_glass", "count": [1, 4] },
+        { "item": "glass_tube_small", "charges": [5, 10] },
+        { "item": "flask_glass", "count": [1, 3] }
       ]
     },
     "max_volume": "1750 L",
@@ -119,7 +119,10 @@
       "str_max": 10,
       "sound": "glass breaking!",
       "sound_fail": "clang!",
-      "items": [ { "item": "scrap_copper", "count": [ 10, 20 ] }, { "item": "glass_shard", "count": [ 2, 4 ] } ]
+      "items": [
+        { "item": "scrap_copper", "count": [10, 20] },
+        { "item": "glass_shard", "count": [2, 4] }
+      ]
     }
   },
   {
@@ -133,14 +136,14 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "NOITEM" ],
+    "flags": ["TRANSPARENT", "NOITEM"],
     "deconstruct": {
       "items": [
-        { "item": "clockworks", "count": [ 10, 30 ] },
-        { "item": "scrap", "count": [ 10, 20 ] },
+        { "item": "clockworks", "count": [10, 30] },
+        { "item": "scrap", "count": [10, 20] },
         { "item": "pipe", "charges": 9 },
-        { "item": "wire", "count": [ 10, 20 ] },
-        { "item": "hinge", "count": [ 1, 3 ] }
+        { "item": "wire", "count": [10, 20] },
+        { "item": "hinge", "count": [1, 3] }
       ]
     },
     "max_volume": "1750 L",
@@ -150,9 +153,9 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 10, 100 ] },
-        { "item": "pipe", "count": [ 1, 5 ] },
-        { "item": "wire", "count": [ 3, 10 ] }
+        { "item": "scrap", "count": [10, 100] },
+        { "item": "pipe", "count": [1, 5] },
+        { "item": "wire", "count": [3, 10] }
       ]
     }
   },
@@ -167,8 +170,8 @@
     "coverage": 75,
     "required_str": -1,
     "looks_like": "f_boulder_large",
-    "flags": [ "TRANSPARENT", "EMITTER" ],
-    "emissions": [ "emit_glimmer" ],
+    "flags": ["TRANSPARENT", "EMITTER"],
+    "emissions": ["emit_glimmer"],
     "light_emitted": 12,
     "bash": {
       "str_min": 25,
@@ -176,9 +179,9 @@
       "sound": "glass shattering!",
       "sound_fail": "mana crackling!",
       "items": [
-        { "item": "crystallized_mana", "charges": [ 0, 100 ] },
-        { "item": "small_mana_crystal", "count": [ 0, 3 ] },
-        { "item": "glass_shard", "count": [ 1, 3 ] }
+        { "item": "crystallized_mana", "charges": [0, 100] },
+        { "item": "small_mana_crystal", "count": [0, 3] },
+        { "item": "glass_shard", "count": [1, 3] }
       ]
     }
   },
@@ -191,14 +194,14 @@
     "color": "light_gray",
     "coverage": 40,
     "required_str": 30,
-    "flags": [ "BASHABLE" ],
+    "flags": ["BASHABLE"],
     "description": "This is big stone altar.  Most commonly used in morally questionable rituals.",
     "bash": {
       "str_min": 30,
       "str_max": 160,
       "sound": "smash!",
       "sound_fail": "thump.",
-      "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
+      "items": [{ "item": "rock", "count": [5, 15] }, { "item": "sharp_rock", "count": [3, 5] }]
     }
   },
   {
@@ -212,15 +215,17 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "demon_forge",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "demon_chitin_plate", "count": 14 }, { "item": "char_forge", "count": 1 } ] },
+    "flags": ["SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE"],
+    "deconstruct": {
+      "items": [{ "item": "demon_chitin_plate", "count": 14 }, { "item": "char_forge", "count": 1 }]
+    },
     "examine_action": "reload_furniture",
     "bash": {
       "str_min": 20,
       "str_max": 50,
       "sound": "crash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "demon_chitin_piece", "count": [ 20, 30 ] } ]
+      "items": [{ "item": "demon_chitin_piece", "count": [20, 30] }]
     }
   }
 ]

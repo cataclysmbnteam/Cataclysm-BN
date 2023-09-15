@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_gardening" ],
+    "om_terrain": ["s_gardening"],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -37,16 +37,16 @@
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
         "-": "t_wall_g",
-        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "Z": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "1": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "2": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "3": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "5": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "Q": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "B": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
-        "p": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ] ],
-        "b": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
+        ".": [["t_grass", 5], ["t_grass_long", 2], "t_dirt"],
+        "Z": [["t_grass", 5], ["t_grass_long", 2], "t_dirt"],
+        "1": [["t_grass", 5], ["t_grass_long", 2], "t_dirt"],
+        "2": [["t_grass", 5], ["t_grass_long", 2], "t_dirt"],
+        "3": [["t_grass", 5], ["t_grass_long", 2], "t_dirt"],
+        "5": [["t_grass", 5], ["t_grass_long", 2], "t_dirt"],
+        "Q": [["t_grass", 5], ["t_grass_long", 2], "t_dirt"],
+        "B": [["t_grass", 5], ["t_grass_long", 2], "t_dirt"],
+        "p": [["t_grass", 5], ["t_grass_long", 2]],
+        "b": [["t_grass", 5], ["t_grass_long", 2], "t_dirt"],
         "O": "t_window",
         "_": "t_pavement",
         "r": "t_floor",
@@ -54,11 +54,11 @@
         "?": "t_console_broken",
         "^": "t_chaingate_l",
         "%": "t_chainfence",
-        "*": [ "t_door_locked", "t_door_c" ],
+        "*": ["t_door_locked", "t_door_c"],
         "4": "t_gutter_downspout",
         "<": "t_ladder_up"
       },
-      "toilets": { "&": {  } },
+      "toilets": { "&": {} },
       "furniture": {
         "#": "f_counter",
         "$": "f_counter_gate_c",
@@ -73,9 +73,18 @@
         "S": "f_filing_cabinet",
         "B": "f_birdbath",
         "b": "f_bench",
-        "U": [ "f_dumpster", "f_recycle_bin" ],
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
-        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+        "U": ["f_dumpster", "f_recycle_bin"],
+        "y": ["f_indoor_plant_y", "f_indoor_plant"],
+        "p": [
+          "f_datura",
+          "f_bluebell",
+          "f_mutpoppy",
+          "f_dahlia",
+          "f_flower_tulip",
+          "f_chamomile",
+          "f_flower_spurge",
+          "f_lily"
+        ],
         "Z": "f_planter"
       },
       "sealed_item": {
@@ -87,12 +96,12 @@
       "items": {
         "I": { "item": "office", "chance": 30 },
         "S": { "item": "office_paper", "chance": 30 },
-        "r": { "item": "farming_tools", "chance": 60, "repeat": [ 1, 2 ] },
-        "#": { "item": "flower_pots", "chance": 70, "repeat": [ 2, 8 ] },
+        "r": { "item": "farming_tools", "chance": 60, "repeat": [1, 2] },
+        "#": { "item": "flower_pots", "chance": 70, "repeat": [2, 8] },
         "U": { "item": "trash", "chance": 20 },
-        "@": { "item": "flower_pots", "chance": 70, "repeat": [ 2, 8 ] },
+        "@": { "item": "flower_pots", "chance": 70, "repeat": [2, 8] },
         "s": { "item": "softdrugs", "chance": 20 },
-        "t": { "item": "farming_seeds", "chance": 80, "repeat": [ 4, 16 ] }
+        "t": { "item": "farming_seeds", "chance": 80, "repeat": [4, 16] }
       }
     }
   },
@@ -128,24 +137,24 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ">": "t_ladder_down" },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 4, 17 ],
-          "y": [ 7, 8 ]
+          "x": [4, 17],
+          "y": [7, 8]
         },
         {
-          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_4x4_utility_1", 30 ] ],
-          "x": [ 4, 15 ],
-          "y": [ 11, 13 ]
+          "chunks": [["null", 20], ["roof_4x4_utility", 40], ["roof_4x4_utility_1", 30]],
+          "x": [4, 15],
+          "y": [11, 13]
         }
       ]
     }

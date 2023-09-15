@@ -10,7 +10,7 @@
     "price": 2000000,
     "price_postapoc": 5000,
     "to_hit": 1,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "light_blue",
     "ammo": "700nx",
     "dispersion": 90,
@@ -18,16 +18,16 @@
     "reload": 300,
     "barrel_length": "1000 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 4],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
-    "extend": { "flags": [ "RELOAD_ONE" ] }
+    "extend": { "flags": ["RELOAD_ONE"] }
   }
 ]

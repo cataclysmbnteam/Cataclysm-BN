@@ -8,13 +8,13 @@
     "difficulty": 1,
     "time": "55 m",
     "autolearn": true,
-    "using": [ [ "waterproofing", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
+    "using": [["waterproofing", 2]],
+    "qualities": [{ "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 }],
+    "tools": [[["water_boiling_heat", 8, "LIST"]]],
     "components": [
-      [ [ "water", 16 ], [ "water_clean", 16 ] ],
-      [ [ "stomach_sauropod", 1 ] ],
-      [ [ "cordage_short", 6, "LIST" ], [ "filament", 300, "LIST" ] ]
+      [["water", 16], ["water_clean", 16]],
+      [["stomach_sauropod", 1]],
+      [["cordage_short", 6, "LIST"], ["filament", 300, "LIST"]]
     ]
   }
 ]

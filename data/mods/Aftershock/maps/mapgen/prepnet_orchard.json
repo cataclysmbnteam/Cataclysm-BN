@@ -2,10 +2,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "prepnet_orchard" ],
+    "om_terrain": ["prepnet_orchard"],
     "weight": 100,
     "object": {
-      "faction_owner": [ { "id": "Prepnet_Phyle", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "Prepnet_Phyle", "x": [0, 23], "y": [0, 23] }],
       "rows": [
         "________________________",
         "________________________",
@@ -63,22 +63,26 @@
         { "item": "supplies_farming", "x": 6, "y": 7, "chance": 15 },
         { "item": "supplies_farming", "x": 3, "y": 9, "chance": 99 }
       ],
-      "place_loot": [ { "group": "prepnet_orchard_trade", "chance": 100, "x": [ 8 ], "y": [ 8, 9 ], "repeat": [ 3, 7 ] } ],
-      "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
+      "place_loot": [
+        { "group": "prepnet_orchard_trade", "chance": 100, "x": [8], "y": [8, 9], "repeat": [3, 7] }
+      ],
+      "sealed_item": {
+        "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" }
+      },
       "place_monster": [
         { "group": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 2 },
-        { "group": "GROUP_PrepNet", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 4 }
+        { "group": "GROUP_PrepNet", "x": [3, 20], "y": [16, 20], "repeat": 4 }
       ],
-      "place_npcs": [ { "class": "prepnet_gardener", "x": 10, "y": 9 } ]
+      "place_npcs": [{ "class": "prepnet_gardener", "x": 10, "y": 9 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "prepnet_orchard" ],
+    "om_terrain": ["prepnet_orchard"],
     "weight": 100,
     "object": {
-      "faction_owner": [ { "id": "Prepnet_Phyle", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "Prepnet_Phyle", "x": [0, 23], "y": [0, 23] }],
       "rows": [
         "________________________",
         "________________________",
@@ -132,19 +136,31 @@
         "w": "t_wall_log",
         "F": "t_fence_barbed"
       },
-      "furniture": { "&": "f_trashcan", "C": "f_chair", "D": "f_desk", "H": "f_sofa", "a": "f_trashcan", "b": "f_bench", "B": "f_table" },
+      "furniture": {
+        "&": "f_trashcan",
+        "C": "f_chair",
+        "D": "f_desk",
+        "H": "f_sofa",
+        "a": "f_trashcan",
+        "b": "f_bench",
+        "B": "f_table"
+      },
       "place_items": [
         { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
         { "item": "supplies_farming", "x": 4, "y": 11, "chance": 15 },
         { "item": "supplies_farming", "x": 6, "y": 7, "chance": 15 }
       ],
-      "place_loot": [ { "group": "prepnet_orchard_trade", "chance": 100, "x": [ 8 ], "y": [ 8, 9 ], "repeat": [ 3, 7 ] } ],
-      "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
+      "place_loot": [
+        { "group": "prepnet_orchard_trade", "chance": 100, "x": [8], "y": [8, 9], "repeat": [3, 7] }
+      ],
+      "sealed_item": {
+        "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" }
+      },
       "place_monster": [
         { "group": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 2 },
-        { "group": "GROUP_PrepNet", "x": [ 3, 20 ], "y": [ 16, 20 ], "repeat": 3 }
+        { "group": "GROUP_PrepNet", "x": [3, 20], "y": [16, 20], "repeat": 3 }
       ],
-      "place_npcs": [ { "class": "prepnet_gardener", "x": 10, "y": 9 } ]
+      "place_npcs": [{ "class": "prepnet_gardener", "x": 10, "y": 9 }]
     }
   }
 ]

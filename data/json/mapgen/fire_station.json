@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "fire_station" ],
+    "om_terrain": ["fire_station"],
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -32,7 +32,7 @@
         "|----------------------|",
         ".....................4.."
       ],
-      "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] } ],
+      "set": [{ "point": "terrain", "id": "t_dirt", "x": [0, 23], "y": 23, "repeat": [5, 8] }],
       "terrain": {
         " ": "t_floor",
         "+": "t_door_c",
@@ -62,28 +62,30 @@
         "r": "f_rack",
         "t": "f_table"
       },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "place_items": [
-        { "item": "bed", "x": [ 3, 4 ], "y": [ 16, 16 ], "chance": 80 },
-        { "item": "bed", "x": [ 3, 4 ], "y": [ 18, 18 ], "chance": 80 },
-        { "item": "fireman_doc", "x": [ 1, 1 ], "y": [ 2, 2 ], "chance": 70 },
-        { "item": "fireman_gear", "x": [ 1, 1 ], "y": [ 5, 5 ], "chance": 70 },
-        { "item": "fireman_gear", "x": [ 1, 1 ], "y": [ 6, 6 ], "chance": 70 },
-        { "item": "fridgesnacks", "x": [ 1, 1 ], "y": [ 16, 16 ], "chance": 70 },
-        { "item": "novels", "x": [ 1, 1 ], "y": [ 17, 17 ], "chance": 70 },
-        { "item": "fireman_pants", "x": [ 4, 4 ], "y": [ 17, 17 ], "chance": 70 },
-        { "item": "fireman_boots", "x": [ 4, 4 ], "y": [ 19, 19 ], "chance": 70 },
-        { "item": "oven", "x": [ 3, 3 ], "y": [ 21, 21 ], "chance": 70 },
-        { "item": "fireman_gear", "x": [ 8, 8 ], "y": [ 21, 21 ], "chance": 70 },
-        { "item": "fireman_torso", "x": [ 10, 10 ], "y": [ 21, 21 ], "chance": 70 },
-        { "item": "fireman_head", "x": [ 12, 12 ], "y": [ 21, 21 ], "chance": 70 },
-        { "item": "fireman_gloves", "x": [ 16, 16 ], "y": [ 21, 21 ], "chance": 70 },
-        { "item": "fireman_mask", "x": [ 18, 18 ], "y": [ 21, 21 ], "chance": 70 },
-        { "item": "fireman_gear", "x": [ 20, 20 ], "y": [ 21, 21 ], "chance": 70 }
+        { "item": "bed", "x": [3, 4], "y": [16, 16], "chance": 80 },
+        { "item": "bed", "x": [3, 4], "y": [18, 18], "chance": 80 },
+        { "item": "fireman_doc", "x": [1, 1], "y": [2, 2], "chance": 70 },
+        { "item": "fireman_gear", "x": [1, 1], "y": [5, 5], "chance": 70 },
+        { "item": "fireman_gear", "x": [1, 1], "y": [6, 6], "chance": 70 },
+        { "item": "fridgesnacks", "x": [1, 1], "y": [16, 16], "chance": 70 },
+        { "item": "novels", "x": [1, 1], "y": [17, 17], "chance": 70 },
+        { "item": "fireman_pants", "x": [4, 4], "y": [17, 17], "chance": 70 },
+        { "item": "fireman_boots", "x": [4, 4], "y": [19, 19], "chance": 70 },
+        { "item": "oven", "x": [3, 3], "y": [21, 21], "chance": 70 },
+        { "item": "fireman_gear", "x": [8, 8], "y": [21, 21], "chance": 70 },
+        { "item": "fireman_torso", "x": [10, 10], "y": [21, 21], "chance": 70 },
+        { "item": "fireman_head", "x": [12, 12], "y": [21, 21], "chance": 70 },
+        { "item": "fireman_gloves", "x": [16, 16], "y": [21, 21], "chance": 70 },
+        { "item": "fireman_mask", "x": [18, 18], "y": [21, 21], "chance": 70 },
+        { "item": "fireman_gear", "x": [20, 20], "y": [21, 21], "chance": 70 }
       ],
-      "place_loot": [ { "item": "american_flag", "x": 23, "y": 5, "chance": 75 } ],
-      "place_monsters": [ { "monster": "GROUP_FIRE", "x": [ 2, 21 ], "y": [ 9, 21 ], "chance": 1 } ],
-      "place_vehicles": [ { "vehicle": "fire_engine", "x": 11, "y": 13, "chance": 30, "rotation": 270 } ]
+      "place_loot": [{ "item": "american_flag", "x": 23, "y": 5, "chance": 75 }],
+      "place_monsters": [{ "monster": "GROUP_FIRE", "x": [2, 21], "y": [9, 21], "chance": 1 }],
+      "place_vehicles": [
+        { "vehicle": "fire_engine", "x": 11, "y": 13, "chance": 30, "rotation": 270 }
+      ]
     }
   },
   {
@@ -118,19 +120,19 @@
         "|--------------------5-3",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ],
-            [ "roof_4x4_utility", 40 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50],
+            ["roof_4x4_utility", 40]
           ],
-          "x": [ 4, 18 ],
-          "y": [ 10, 17 ]
+          "x": [4, 18],
+          "y": [10, 17]
         }
       ]
     }
@@ -138,7 +140,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "fire_station_1" ],
+    "om_terrain": ["fire_station_1"],
     "weight": 100,
     "object": {
       "fill_ter": "t_floor",
@@ -168,7 +170,7 @@
         "___|||||ww|w|ww|||||||||",
         "________________________"
       ],
-      "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] } ],
+      "set": [{ "point": "terrain", "id": "t_dirt", "x": [0, 23], "y": 23, "repeat": [5, 8] }],
       "terrain": {
         "f": "t_floor",
         "+": "t_door_metal_locked",
@@ -215,10 +217,10 @@
         "r": "f_rack",
         "{": "f_locker"
       },
-      "toilets": { "i": {  } },
+      "toilets": { "i": {} },
       "place_items": [
         { "item": "mechanics", "x": 15, "y": 14, "chance": 25 },
-        { "item": "mechanics", "x": [ 10, 11 ], "y": 14, "chance": 25 },
+        { "item": "mechanics", "x": [10, 11], "y": 14, "chance": 25 },
         { "item": "fireman_pants", "x": 11, "y": 16, "chance": 70 },
         { "item": "fireman_doc", "x": 16, "y": 21, "chance": 70 },
         { "item": "fireman_head", "x": 14, "y": 16, "chance": 70 },
@@ -230,23 +232,23 @@
         { "item": "home_hw", "x": 14, "y": 14, "chance": 70 },
         { "item": "fireman_mask", "x": 15, "y": 16, "chance": 70 },
         { "item": "gym", "x": 15, "y": 21, "chance": 70 },
-        { "item": "dining", "x": 11, "y": [ 19, 21 ], "chance": 70 },
+        { "item": "dining", "x": 11, "y": [19, 21], "chance": 70 },
         { "item": "fireman_gloves", "x": 13, "y": 16, "chance": 70 },
-        { "item": "clutter_bathroom", "x": [ 4, 5 ], "y": 16, "chance": 70 },
+        { "item": "clutter_bathroom", "x": [4, 5], "y": 16, "chance": 70 },
         { "item": "snacks", "x": 8, "y": 17, "chance": 70 },
         { "item": "fireman_gear", "x": 13, "y": 14, "chance": 70 },
         { "item": "fireman_boots", "x": 12, "y": 16, "chance": 70 },
         { "item": "dresser", "x": 20, "y": 21, "chance": 70 },
         { "item": "dresser", "x": 20, "y": 19, "chance": 70 },
-        { "item": "kitchen", "x": [ 8, 9 ], "y": 21, "chance": 70 },
+        { "item": "kitchen", "x": [8, 9], "y": 21, "chance": 70 },
         { "item": "fireman_gear", "x": 4, "y": 14, "chance": 70 },
         { "item": "bed", "x": 22, "y": 21, "chance": 70 },
         { "item": "bed", "x": 18, "y": 21, "chance": 70 },
         { "item": "bed", "x": 21, "y": 19, "chance": 70 },
         { "item": "bed", "x": 19, "y": 19, "chance": 70 }
       ],
-      "place_loot": [ { "item": "american_flag", "x": 20, "y": 4, "chance": 75 } ],
-      "place_monsters": [ { "monster": "GROUP_FIRE", "x": 10, "y": 16, "chance": 1 } ],
+      "place_loot": [{ "item": "american_flag", "x": 20, "y": 4, "chance": 75 }],
+      "place_monsters": [{ "monster": "GROUP_FIRE", "x": 10, "y": 16, "chance": 1 }],
       "place_vehicles": [
         { "vehicle": "fire_truck", "x": 5, "y": 5, "rotation": 270, "chance": 20 },
         { "vehicle": "fire_engine", "x": 14, "y": 5, "rotation": 270, "chance": 20 }
@@ -285,34 +287,34 @@
         "   |-------------------3",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ">": "t_ladder_down" },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ],
-            [ "roof_2x2_golf", 20 ],
-            [ "roof_3x3_wine", 30 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50],
+            ["roof_2x2_golf", 20],
+            ["roof_3x3_wine", 30]
           ],
-          "x": [ 6, 18 ],
-          "y": [ 17, 19 ]
+          "x": [6, 18],
+          "y": [17, 19]
         },
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_4x4_party", 15 ],
-            [ "roof_4x4_holdout", 5 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_4x4_utility_1", 30 ],
-            [ "roof_6x6_survivor", 20 ],
-            [ "roof_6x6_utility", 20 ]
+            ["null", 20],
+            ["roof_4x4_party", 15],
+            ["roof_4x4_holdout", 5],
+            ["roof_4x4_utility", 40],
+            ["roof_4x4_utility_1", 30],
+            ["roof_6x6_survivor", 20],
+            ["roof_6x6_utility", 20]
           ],
-          "x": [ 3, 12 ],
-          "y": [ 3, 9 ]
+          "x": [3, 12],
+          "y": [3, 9]
         }
       ]
     }

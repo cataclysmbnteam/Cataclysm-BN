@@ -22,7 +22,7 @@
       }
     },
     "mon_faction": "player",
-    "epilogues": [ { "power_min": 0, "power_max": 149, "id": "epilogue_faction_your_followers_0" } ],
+    "epilogues": [{ "power_min": 0, "power_max": 149, "id": "epilogue_faction_your_followers_0" }],
     "description": "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
   },
   {
@@ -369,7 +369,11 @@
       "lobby_beggars": { "knows your voice": true },
       "free_merchants": { "knows your voice": true },
       "old_guard": { "knows your voice": true },
-      "wasteland_scavengers": { "share my stuff": true, "guard your stuff": true, "knows your voice": true },
+      "wasteland_scavengers": {
+        "share my stuff": true,
+        "guard your stuff": true,
+        "knows your voice": true
+      },
       "no_faction": { "knows your voice": true }
     },
     "epilogues": [

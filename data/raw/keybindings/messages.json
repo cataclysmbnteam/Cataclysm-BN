@@ -4,13 +4,13 @@
     "type": "keybinding",
     "category": "MESSAGE_LOG",
     "name": "Toggle wide display",
-    "bindings": [ { "input_method": "keyboard", "key": "w" } ]
+    "bindings": [{ "input_method": "keyboard", "key": "w" }]
   },
   {
     "id": "TOGGLE_FULL_HEIGHT_DISPLAY",
     "type": "keybinding",
     "category": "MESSAGE_LOG",
     "name": "Toggle full height display",
-    "bindings": [ { "input_method": "keyboard", "key": "h" } ]
+    "bindings": [{ "input_method": "keyboard", "key": "h" }]
   }
 ]

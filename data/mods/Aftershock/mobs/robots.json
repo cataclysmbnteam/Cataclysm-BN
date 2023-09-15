@@ -5,13 +5,13 @@
     "name": { "str": "brain blaster" },
     "description": "The mi-go have set up some defenses here.  This horrifying techo-organic amalgamation appears to use brains in jars as their operating system.  On the plus side it looks like it can be headshot.",
     "default_faction": "mi-go",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "diff": 20,
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 45,
     "speed": 100,
-    "material": [ "alien_resin" ],
+    "material": ["alien_resin"],
     "symbol": "2",
     "color": "green",
     "aggression": 50,
@@ -23,18 +23,18 @@
     "starting_ammo": { "acidic_bore": 500 },
     "revert_to_itype": "bot_migoturret",
     "special_attacks": [
-      [ "PARROT", 0 ],
+      ["PARROT", 0],
       {
         "type": "gun",
         "cooldown": 1,
         "gun_type": "vibrating_blaster",
-        "fake_skills": [ [ "gun", 2 ], [ "rifle", 3 ] ],
-        "ranges": [ [ 0, 20, "DEFAULT" ] ]
+        "fake_skills": [["gun", 2], ["rifle", 3]],
+        "ranges": [[0, 20, "DEFAULT"]]
       }
     ],
-    "death_drops": {  },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+    "death_drops": {},
+    "death_function": ["BROKEN"],
+    "flags": ["SEES", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
   },
   {
     "id": "mon_migoturret_whately",
@@ -51,13 +51,13 @@
     "name": { "str": "chicken walker" },
     "description": "The Northrop ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40mm anti-vehicle grenade launcher, 5.56 anti-personnel gun, and the ability to electrify itself against attackers, it is an effective automated sentry, though production was limited due to a legal dispute.",
     "default_faction": "military",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "diff": 20,
     "volume": "92500 ml",
     "weight": "120 kg",
     "hp": 90,
     "speed": 115,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "R",
     "color": "red",
     "aggression": 50,
@@ -75,9 +75,17 @@
     "revert_to_itype": "bot_chickenbot",
     "starting_ammo": { "40x46mm_m433": 100, "556": 1000 },
     "path_settings": { "max_dist": 10 },
-    "special_attacks": [ [ "CHICKENBOT", 4 ] ],
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ]
+    "special_attacks": [["CHICKENBOT", 4]],
+    "death_function": ["BROKEN"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "NO_BREATHE",
+      "ELECTRONIC",
+      "PRIORITIZE_TARGETS",
+      "DROPS_AMMO"
+    ]
   },
   {
     "id": "mon_tankbot",
@@ -85,13 +93,13 @@
     "name": { "str": "Beagle Mini-Tank UGV" },
     "description": "The Northrop Beagle is a refrigerator-sized urban warfare UGV.  Sporting an anti-tank missile launcher, 40mm grenade launcher, and numerous anti-infantry weapons, it's designed for high-risk urban fighting.",
     "default_faction": "military",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "diff": 30,
     "volume": "875000 ml",
     "weight": "200 kg",
     "hp": 240,
     "speed": 75,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "R",
     "color": "dark_gray",
     "aggression": 50,
@@ -108,8 +116,8 @@
     "revert_to_itype": "bot_tankbot",
     "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
     "path_settings": { "max_dist": 20 },
-    "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
-    "death_function": [ "BROKEN" ],
+    "special_attacks": [["MULTI_ROBOT", 3]],
+    "death_function": ["BROKEN"],
     "flags": [
       "SEES",
       "HEARS",
@@ -130,13 +138,13 @@
     "name": { "str": "tripod" },
     "description": "The Honda Crop King.  Originally designed for agriculture, it has a trio of spiked retractable cables and where it used to mount pesticide sprayer the PrepNet Phyle have modified it to have a flamethrower for their war against the Mycus.",
     "default_faction": "PrepNet",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "diff": 20,
     "volume": "92500 ml",
     "weight": "120 kg",
     "hp": 80,
     "speed": 90,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "R",
     "color": "white",
     "aggression": 0,
@@ -158,10 +166,10 @@
         "cooldown": 1,
         "gun_type": "rm451_flamethrower",
         "ammo_type": "napalm",
-        "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
+        "fake_skills": [["gun", 4], ["launcher", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "hiss!",
-        "ranges": [ [ 0, 10, "DEFAULT" ] ],
+        "ranges": [[0, 10, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -171,9 +179,18 @@
         "targeting_volume": 10
       }
     ],
-    "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS" ]
+    "death_drops": { "groups": [["robots", 4], ["tripod", 1]] },
+    "death_function": ["BROKEN"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "BASHES",
+      "NO_BREATHE",
+      "ELECTRONIC",
+      "CLIMBS",
+      "PRIORITIZE_TARGETS"
+    ]
   },
   {
     "id": "afs_mon_sentinel_lx",
@@ -181,13 +198,13 @@
     "name": { "str": "Wraitheon Sentinel-lx" },
     "description": "Its exterior plates sable and gold, this luxurious variant of a Wraitheon drone was once kept as a bodyguard by society's wealthiest.  Still and with it's wrist sword extended, it resembles an ancient knight, standing an eternal watch.",
     "default_faction": "defense_bot",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "diff": 10,
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 200,
     "speed": 100,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "R",
     "color": "light_gray",
     "aggression": 50,
@@ -206,19 +223,28 @@
     "path_settings": { "max_dist": 6 },
     "revert_to_itype": "bot_sentinel_lx",
     "special_attacks": [
-      [ "SMASH", 20 ],
-      [ "TAZER", 5 ],
+      ["SMASH", 20],
+      ["TAZER", 5],
       {
         "type": "gun",
         "cooldown": 15,
         "gun_type": "afs_sentinel_laser_mon",
-        "ranges": [ [ 0, 12, "DEFAULT" ] ],
+        "ranges": [[0, 12, "DEFAULT"]],
         "targeting_sound": "\"Dispatching hostile with lethal force.\""
       }
     ],
-    "death_function": [ "BROKEN" ],
-    "death_drops": { "groups": [ [ "mon_afs_sentinel_lx_drops", 1 ] ] },
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "GOODHEARING", "PATH_AVOID_DANGER_2" ]
+    "death_function": ["BROKEN"],
+    "death_drops": { "groups": [["mon_afs_sentinel_lx_drops", 1]] },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "GOODHEARING",
+      "PATH_AVOID_DANGER_2"
+    ]
   },
   {
     "id": "mon_bloodhound_drone",
@@ -233,7 +259,7 @@
     "melee_skill": 2,
     "melee_dice": 1,
     "melee_dice_sides": 4,
-    "special_attacks": [ [ "SEARCHLIGHT", 1 ] ],
+    "special_attacks": [["SEARCHLIGHT", 1]],
     "luminance": 60,
     "melee_cut": 12,
     "armor_bash": 2,
@@ -241,9 +267,9 @@
     "armor_bullet": 6,
     "armor_fire": 3,
     "revert_to_itype": "bot_bloodhound_drone",
-    "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ], [ "turret_searchlight", 1 ] ] },
-    "death_function": [ "BROKEN" ],
-    "extend": { "flags": [ "HIT_AND_RUN" ] }
+    "death_drops": { "groups": [["robots", 4], ["manhack", 1], ["turret_searchlight", 1]] },
+    "death_function": ["BROKEN"],
+    "extend": { "flags": ["HIT_AND_RUN"] }
   },
   {
     "id": "mon_utilibot",
@@ -252,26 +278,33 @@
     "looks_like": "mon_hazmatbot",
     "description": "One of the many models of utility robot formerly in use by government agencies, private corporations, and civilians alike.",
     "default_faction": "utility_bot",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 120,
     "speed": 70,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "R",
     "color": "green",
     "morale": 80,
     "aggression": 0,
-    "anger_triggers": [ "HURT" ],
+    "anger_triggers": ["HURT"],
     "armor_bash": 8,
     "armor_cut": 8,
     "armor_bullet": 6,
     "armor_fire": 4,
     "armor_acid": 6,
     "vision_day": 50,
-    "death_function": [ "BROKEN" ],
-    "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "death_function": ["BROKEN"],
+    "death_drops": { "groups": [["broken_robots", 3]] },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1"
+    ]
   },
   {
     "id": "mon_hazmatbot",
@@ -306,12 +339,12 @@
         "type": "gun",
         "move_cost": 150,
         "gun_type": "nailgun",
-        "fake_skills": [ [ "gun", 0 ], [ "pistol", 2 ] ],
+        "fake_skills": [["gun", 0], ["pistol", 2]],
         "fake_dex": 8,
-        "ranges": [ [ 0, 3, "BURST" ] ]
+        "ranges": [[0, 3, "BURST"]]
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_utilibot_fire",
@@ -333,12 +366,12 @@
         "type": "gun",
         "move_cost": 100,
         "gun_type": "watercannon",
-        "fake_skills": [ [ "gun", 2 ], [ "launcher", 2 ] ],
+        "fake_skills": [["gun", 2], ["launcher", 2]],
         "fake_dex": 8,
-        "ranges": [ [ 0, 5, "BURST" ] ]
+        "ranges": [[0, 5, "BURST"]]
       }
     ],
-    "extend": { "flags": [ "BASHES" ] }
+    "extend": { "flags": ["BASHES"] }
   },
   {
     "id": "mon_medibot",
@@ -347,12 +380,12 @@
     "looks_like": "mon_tripod",
     "description": "A free roaming medical robot capable of administering powerful anesthetics and performing complex surgical operations, usually in that order.  Faulty bio-diagnostic programs resulted in numerous lawsuits before the Cataclysm.",
     "default_faction": "utility_bot",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 70,
     "speed": 80,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "R",
     "color": "white",
     "armor_bash": 6,
@@ -365,13 +398,20 @@
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_cut": 5,
-    "attack_effs": [ { "id": "bleed", "chance": 20, "duration": 3 } ],
+    "attack_effs": [{ "id": "bleed", "chance": 20, "duration": 3 }],
     "vision_day": 50,
-    "special_attacks": [ { "id": "hypo_pkill" } ],
-    "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
-    "death_function": [ "BROKEN" ],
-    "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "special_attacks": [{ "id": "hypo_pkill" }],
+    "anger_triggers": ["FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"],
+    "death_function": ["BROKEN"],
+    "death_drops": { "groups": [["broken_robots", 3]] },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1"
+    ]
   },
   {
     "id": "mon_skitterbot_rat",
@@ -391,9 +431,11 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 2,
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "special_attacks": [ { "type": "leap", "cooldown": 2, "move_cost": 0, "max_range": 10, "min_consider_range": 3 } ],
-    "extend": { "flags": [ "CLIMBS" ] }
+    "melee_damage": [{ "damage_type": "electric", "amount": 6 }],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 2, "move_cost": 0, "max_range": 10, "min_consider_range": 3 }
+    ],
+    "extend": { "flags": ["CLIMBS"] }
   },
   {
     "id": "mon_skitterbot_grab",
@@ -414,9 +456,9 @@
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 2,
-    "attack_effs": [ { "id": "downed", "chance": 20, "duration": 5 } ],
-    "special_attacks": [ [ "GRAB", 1 ] ],
-    "extend": { "flags": [ "SWARMS", "GRABS", "GROUP_BASH" ] }
+    "attack_effs": [{ "id": "downed", "chance": 20, "duration": 5 }],
+    "special_attacks": [["GRAB", 1]],
+    "extend": { "flags": ["SWARMS", "GRABS", "GROUP_BASH"] }
   },
   {
     "id": "mon_skitterbot_hunter",
@@ -442,10 +484,10 @@
         "move_cost": 300,
         "gun_type": "rm103a_pistol",
         "ammo_type": "8mm_caseless",
-        "fake_skills": [ [ "gun", 5 ], [ "pistol", 6 ] ],
+        "fake_skills": [["gun", 5], ["pistol", 6]],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 0, 10, "DEFAULT" ] ]
+        "ranges": [[0, 10, "DEFAULT"]]
       }
     ]
   },
@@ -455,7 +497,7 @@
     "copy-from": "mon_defbot_base",
     "name": "security robot",
     "description": "An automated riot control robot still active due to its internal power source.  This one is equipped with an electric prod and an integrated shotgun.",
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
+    "melee_damage": [{ "damage_type": "electric", "amount": 6 }],
     "starting_ammo": { "shot_beanbag": 400 },
     "special_attacks": [
       {
@@ -464,13 +506,13 @@
         "cooldown": 2,
         "gun_type": "m1014",
         "ammo_type": "shot",
-        "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
+        "fake_skills": [["gun", 2], ["shotgun", 2]],
         "fake_dex": 9,
         "no_ammo_sound": "click click!",
-        "ranges": [ [ 0, 8, "DEFAULT" ] ]
+        "ranges": [[0, 8, "DEFAULT"]]
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "abstract": "mon_milbot_base",
@@ -479,12 +521,12 @@
     "name": "military robot",
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm firearm.",
     "default_faction": "military",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
     "speed": 100,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "R",
     "color": "red_green",
     "aggression": 50,
@@ -501,9 +543,17 @@
     "armor_acid": 12,
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
-    "death_drops": { "groups": [ [ "broken_robots", 1 ] ] },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "death_drops": { "groups": [["broken_robots", 1]] },
+    "death_function": ["BROKEN"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1"
+    ]
   },
   {
     "id": "mon_milbot_556",
@@ -512,7 +562,7 @@
     "name": "military robot",
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm firearm.",
     "diff": 20,
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
+    "melee_damage": [{ "damage_type": "electric", "amount": 6 }],
     "starting_ammo": { "556": 1600 },
     "special_attacks": [
       {
@@ -521,10 +571,10 @@
         "move_cost": 150,
         "gun_type": "acr",
         "ammo_type": "556",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 0, 4, "BURST" ], [ 5, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ],
+        "ranges": [[0, 4, "BURST"], [5, 8, "AUTO"], [9, 16, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -534,7 +584,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_milbot_308",
@@ -543,7 +593,7 @@
     "name": "military robot",
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 7.62x51mm firearm.",
     "diff": 20,
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
+    "melee_damage": [{ "damage_type": "electric", "amount": 6 }],
     "starting_ammo": { "762_51": 1000 },
     "revert_to_itype": "bot_milbot_308",
     "special_attacks": [
@@ -553,10 +603,10 @@
         "move_cost": 150,
         "gun_type": "fn_fal",
         "ammo_type": "762_51",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 0, 5, "DEFAULT" ], [ 6, 10, "BURST" ], [ 11, 20, "DEFAULT" ] ],
+        "ranges": [[0, 5, "DEFAULT"], [6, 10, "BURST"], [11, 20, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -566,7 +616,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_milbot_8x40mm",
@@ -575,7 +625,7 @@
     "name": "military robot",
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 8mm firearm.",
     "diff": 20,
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
+    "melee_damage": [{ "damage_type": "electric", "amount": 6 }],
     "starting_ammo": { "8mm_caseless": 1200 },
     "special_attacks": [
       {
@@ -584,10 +634,10 @@
         "cooldown": 2,
         "gun_type": "rm2000_smg",
         "ammo_type": "8mm_caseless",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 6 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 6]],
         "fake_dex": 10,
         "no_ammo_sound": "whirrrr!",
-        "ranges": [ [ 0, 5, "BURST" ], [ 6, 10, "AUTO" ], [ 11, 24, "DEFAULT" ] ],
+        "ranges": [[0, 5, "BURST"], [6, 10, "AUTO"], [11, 24, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -597,7 +647,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_milbot_needle",
@@ -606,7 +656,7 @@
     "name": "military robot",
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5x50mm flechette gun.",
     "diff": 15,
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
+    "melee_damage": [{ "damage_type": "electric", "amount": 6 }],
     "starting_ammo": { "5x50dart": 1000 },
     "special_attacks": [
       {
@@ -615,10 +665,10 @@
         "cooldown": 2,
         "gun_type": "needlegun",
         "ammo_type": "5x50dart",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 0, 4, "BURST" ], [ 4, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ],
+        "ranges": [[0, 4, "BURST"], [4, 8, "AUTO"], [9, 16, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -628,7 +678,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_milbot_40mm",
@@ -637,7 +687,7 @@
     "name": "grenadier robot",
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 40mm grenade launcher.",
     "diff": 20,
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
+    "melee_damage": [{ "damage_type": "electric", "amount": 6 }],
     "color": "dark_gray_red",
     "starting_ammo": { "40x46mm_m433": 100 },
     "special_attacks": [
@@ -647,10 +697,10 @@
         "cooldown": 3,
         "gun_type": "m320",
         "ammo_type": "40x46mm_m433",
-        "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
+        "fake_skills": [["gun", 4], ["launcher", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
-        "ranges": [ [ 6, 30, "DEFAULT" ] ],
+        "ranges": [[6, 30, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -660,7 +710,7 @@
         "targeting_volume": 10
       }
     ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+    "extend": { "flags": ["DROPS_AMMO"] }
   },
   {
     "id": "mon_milbot_flame",
@@ -670,19 +720,19 @@
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated flamethrower.",
     "diff": 20,
     "armor_fire": 12,
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
+    "melee_damage": [{ "damage_type": "electric", "amount": 6 }],
     "starting_ammo": { "napalm": 1000 },
-    "extend": { "flags": [ "DROPS_AMMO" ] },
+    "extend": { "flags": ["DROPS_AMMO"] },
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
         "gun_type": "flamethrower",
         "ammo_type": "napalm",
-        "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
+        "fake_skills": [["gun", 4], ["launcher", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "hiss!",
-        "ranges": [ [ 0, 10, "DEFAULT" ] ],
+        "ranges": [[0, 10, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -701,7 +751,7 @@
     "name": "advanced robot",
     "description": "An advanced robot still functioning due to its internal fusion core.  This model is armed with a powerful laser-emitter.",
     "default_faction": "science",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "hp": 100,
     "armor_bash": 8,
     "armor_cut": 6,
@@ -728,9 +778,9 @@
         "move_cost": 150,
         "cooldown": 4,
         "gun_type": "laser_rifle",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
-        "ranges": [ [ 0, 8, "AUTO" ], [ 8, 16, "BURST" ] ],
+        "ranges": [[0, 8, "AUTO"], [8, 16, "BURST"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -756,9 +806,9 @@
         "type": "gun",
         "cooldown": 3,
         "gun_type": "plasma_ejector",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
-        "ranges": [ [ 4, 16, "DEFAULT" ] ],
+        "ranges": [[4, 16, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -784,10 +834,10 @@
         "cooldown": 4,
         "gun_type": "railgun",
         "ammo_type": "steel_rail",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
         "no_ammo_sound": "buzz!",
-        "ranges": [ [ 0, 18, "DEFAULT" ] ],
+        "ranges": [[0, 18, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -811,9 +861,9 @@
         "type": "gun",
         "cooldown": 2,
         "gun_type": "emp_gun",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_skills": [["gun", 5], ["rifle", 5]],
         "fake_dex": 10,
-        "ranges": [ [ 0, 4, "BURST" ], [ 4, 8, "AUTO" ], [ 9, 16, "DEFAULT" ] ],
+        "ranges": [[0, 4, "BURST"], [4, 8, "AUTO"], [9, 16, "DEFAULT"]],
         "require_targeting_player": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -831,13 +881,13 @@
     "name": "defense robot",
     "description": "An automated defense robot still active due to its internal power source.  This one is armed with an electric prod and an integrated 9mm firearm.",
     "default_faction": "cop_bot",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "diff": 10,
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 80,
     "speed": 100,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "R",
     "color": "light_blue",
     "aggression": 100,
@@ -855,8 +905,16 @@
     "armor_acid": 10,
     "vision_day": 50,
     "path_settings": { "max_dist": 5 },
-    "death_drops": { "groups": [ [ "broken_robots", 1 ] ] },
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "death_drops": { "groups": [["broken_robots", 1]] },
+    "death_function": ["BROKEN"],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1"
+    ]
   }
 ]

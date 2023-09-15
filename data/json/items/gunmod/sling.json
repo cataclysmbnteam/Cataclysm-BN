@@ -14,16 +14,16 @@
     "color": "green",
     "location": "sling",
     "mod_target_category": [
-      [ "SUBMACHINE_GUNS" ],
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "SHOTGUNS" ],
-      [ "M_XBOWS" ],
-      [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ],
-      [ "FLAMETHROWERS" ]
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"],
+      ["M_XBOWS"],
+      ["GRENADE_LAUNCHERS"],
+      ["ROCKET_LAUNCHERS"],
+      ["FLAMETHROWERS"]
     ],
-    "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": ["IS_ARMOR", "BELTED", "OVERSIZE", "WATER_FRIENDLY"]
   }
 ]

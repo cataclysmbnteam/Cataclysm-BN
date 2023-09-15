@@ -17,7 +17,7 @@
     "id": "NC_ISHERWOOD_LUKE",
     "name": { "str": "Luke Isherwood" },
     "job_description": "I'm Eddie's son, part of the Isherwood family",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [{ "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }],
     "common": false,
     "bonus_per": { "one_in": 4 },
     "worn_override": "NC_Isherwood_male_worn",
@@ -26,14 +26,19 @@
     "skills": [
       {
         "skill": "ALL",
-        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+        "level": {
+          "mul": [
+            { "one_in": 3 },
+            { "sum": [{ "dice": [2, 2] }, { "constant": -2 }, { "one_in": 4 }] }
+          ]
+        }
       },
-      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "rifle", "bonus": { "rng": [ 4, 8 ] } },
-      { "skill": "fabrication", "bonus": { "rng": [ 2, 7 ] } },
-      { "skill": "archery", "bonus": { "rng": [ 4, 8 ] } }
+      { "skill": "melee", "bonus": { "rng": [3, 6] } },
+      { "skill": "survival", "bonus": { "rng": [3, 6] } },
+      { "skill": "gun", "bonus": { "rng": [3, 6] } },
+      { "skill": "rifle", "bonus": { "rng": [4, 8] } },
+      { "skill": "fabrication", "bonus": { "rng": [2, 7] } },
+      { "skill": "archery", "bonus": { "rng": [4, 8] } }
     ]
   },
   {
@@ -54,7 +59,12 @@
       {
         "text": "Your dad said you were out here fixing up this place.",
         "topic": "TALK_ISHERWOOD_LUKE_TALK1",
-        "condition": { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": {
+          "u_has_var": "u_met_Eddie_Isherwood",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       },
       { "text": "Hey, What are you doing out here?", "topic": "TALK_ISHERWOOD_LUKE2" },
       {
@@ -118,7 +128,14 @@
     "type": "talk_topic",
     "id": "TALK_LUKE_CHRIS",
     "dynamic_line": "Chris is a little older than me, he's up at the horse farm with his parents and sister, Lisa.",
-    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": {
+      "effect": {
+        "u_add_var": "u_heard_about_chris",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes"
+      }
+    },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -137,7 +154,7 @@
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
     "dynamic_line": "You won't find any help here.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "…", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
@@ -161,7 +178,7 @@
     "value": 50000,
     "item": "glassblowing_book",
     "count": 1,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_ISHERWOOD_LUKE_2",
     "dialogue": {
       "describe": "I need more knowledge to get the glass blowing started.",
@@ -186,9 +203,14 @@
     "count": 1,
     "end": {
       "opinion": { "trust": 2, "value": 2 },
-      "effect": { "u_add_var": "u_did_luke_missions", "type": "general", "context": "recruit", "value": "yes" }
+      "effect": {
+        "u_add_var": "u_did_luke_missions",
+        "type": "general",
+        "context": "recruit",
+        "value": "yes"
+      }
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "I need more knowledge to get better pottery.",
       "offer": "I could really use the book, DIY Compendium.  With the internet gone, I don't have any handy references.",

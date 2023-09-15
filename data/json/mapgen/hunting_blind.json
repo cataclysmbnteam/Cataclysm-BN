@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "hunting_blind" ],
+    "om_terrain": ["hunting_blind"],
     "weight": 100,
     "object": {
       "rows": [
@@ -57,7 +57,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "hunting_blind" ],
+    "om_terrain": ["hunting_blind"],
     "weight": 100,
     "object": {
       "rows": [

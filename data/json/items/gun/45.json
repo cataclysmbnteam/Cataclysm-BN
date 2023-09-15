@@ -12,15 +12,15 @@
     "price_postapoc": 3500,
     "to_hit": -2,
     "bashing": 9,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "dark_gray",
     "ammo": "45",
     "dispersion": 280,
     "durability": 7,
     "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 6 ] ],
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 6]],
     "magazine_well": "500 ml",
-    "magazines": [ [ "45", [ "tdi_mag", "glock_21mag", "glock_21mag26" ] ] ]
+    "magazines": [["45", ["tdi_mag", "glock_21mag", "glock_21mag26"]]]
   },
   {
     "id": "hk_ump45",
@@ -35,14 +35,14 @@
     "to_hit": -2,
     "ascii_picture": "hk_ump",
     "bashing": 11,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "dark_gray",
     "ammo": "45",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 240,
     "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
-    "magazines": [ [ "45", [ "ump45mag", "ump45_makeshiftmag" ] ] ]
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 4]],
+    "magazines": [["45", ["ump45mag", "ump45_makeshiftmag"]]]
   },
   {
     "id": "m1911",
@@ -58,14 +58,14 @@
     "to_hit": -2,
     "ascii_picture": "m1911",
     "bashing": 12,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "light_gray",
     "ammo": "45",
     "durability": 7,
     "min_cycle_recoil": 540,
     "blackpowder_tolerance": 48,
     "magazine_well": "250 ml",
-    "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ] ]
+    "magazines": [["45", ["m1911mag", "m1911bigmag"]]]
   },
   {
     "id": "m1911_MEU",
@@ -98,10 +98,10 @@
     "dispersion": 520,
     "durability": 7,
     "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
-    "built_in_mods": [ "wire_stock" ],
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 5]],
+    "built_in_mods": ["wire_stock"],
     "magazine_well": "250 ml",
-    "magazines": [ [ "45", [ "mac10mag", "smg_45_mag" ] ] ]
+    "magazines": [["45", ["mac10mag", "smg_45_mag"]]]
   },
   {
     "id": "rifle_45",
@@ -115,7 +115,7 @@
     "price_postapoc": 500,
     "ascii_picture": "ps_pipe_gun",
     "bashing": 10,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "45",
     "barrel_length": "750 ml"
@@ -139,24 +139,24 @@
     "durability": 4,
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 456,
-    "modes": [ [ "DEFAULT", "burst", 5 ] ],
+    "modes": [["DEFAULT", "burst", 5]],
     "loudness": 25,
     "barrel_length": "250 ml",
     "handling": 40,
     "valid_mod_locations": [
-      [ "accessories", 3 ],
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "magazine", 1 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 3],
+      ["barrel", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["magazine", 1],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
-    "magazines": [ [ "45", [ "smg_45_mag", "mac10mag" ] ] ]
+    "magazines": [["45", ["smg_45_mag", "mac10mag"]]]
   },
   {
     "id": "surv_hand_cannon",
@@ -172,7 +172,7 @@
     "price_postapoc": 750,
     "to_hit": -3,
     "bashing": 12,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "color": "dark_gray",
     "ammo": "45",
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
@@ -193,16 +193,18 @@
     "price": 450000,
     "price_postapoc": 2750,
     "to_hit": -2,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "45",
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "dispersion": 360,
     "durability": 7,
     "min_cycle_recoil": 540,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 4]],
     "barrel_length": "500 ml",
-    "magazines": [ [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ] ] ]
+    "magazines": [
+      ["45", ["thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag"]]
+    ]
   },
   {
     "id": "usp_45",
@@ -213,8 +215,8 @@
     "ammo": "45",
     "price_postapoc": 2500,
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
-    "built_in_mods": [ "match_trigger" ],
-    "magazines": [ [ "45", [ "usp45mag" ] ] ]
+    "built_in_mods": ["match_trigger"],
+    "magazines": [["45", ["usp45mag"]]]
   },
   {
     "id": "mk23",
@@ -225,8 +227,8 @@
     "weight": "1120 g",
     "volume": "1607 ml",
     "price_postapoc": 3000,
-    "default_mods": [ "suppressor", "laser_sight" ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "default_mods": ["suppressor", "laser_sight"],
+    "flags": ["WATERPROOF_GUN", "NEVER_JAMS"]
   },
   {
     "id": "walther_ppq_45",
@@ -239,12 +241,12 @@
     "price": 80000,
     "price_postapoc": 2250,
     "to_hit": 0,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "color": "dark_gray",
     "ammo": "45",
     "durability": 9,
     "magazine_well": "250 ml",
-    "magazines": [ [ "45", [ "ppq45mag" ] ] ]
+    "magazines": [["45", ["ppq45mag"]]]
   },
   {
     "id": "hptjhp",
@@ -257,12 +259,12 @@
     "price": 7500,
     "price_postapoc": 2000,
     "to_hit": -2,
-    "material": [ "plastic", "steel", "zinc" ],
+    "material": ["plastic", "steel", "zinc"],
     "color": "dark_gray",
     "ammo": "45",
     "durability": 7,
     "magazine_well": "250 ml",
-    "magazines": [ [ "45", [ "hptjhpmag" ] ] ]
+    "magazines": [["45", ["hptjhpmag"]]]
   },
   {
     "id": "glock_21",
@@ -276,12 +278,12 @@
     "price_postapoc": 2600,
     "ascii_picture": "glock_20",
     "to_hit": -2,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "color": "dark_gray",
-    "ammo": [ "45" ],
+    "ammo": ["45"],
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 450,
     "magazine_well": "250 ml",
-    "magazines": [ [ "45", [ "glock_21mag", "glock_21mag26" ] ] ]
+    "magazines": [["45", ["glock_21mag", "glock_21mag26"]]]
   }
 ]

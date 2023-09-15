@@ -37,7 +37,7 @@
       { "item": "bearing", "prob": 5 },
       { "item": "cu_pipe", "prob": 5 },
       { "item": "scrap", "prob": 20 },
-      { "item": "glass_shard", "prob": 10, "count": [ 0, 1 ] },
+      { "item": "glass_shard", "prob": 10, "count": [0, 1] },
       { "item": "wire", "prob": 5 }
     ]
   },
@@ -95,7 +95,7 @@
         ".qQQQQQQQQQQQQQQQQQQQQQQQqss________________ss..|r333r  c   1|rssZZssr8.",
         "..........................ss_______,,_______ss..|-www-[[-www-|777777778."
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "furniture": { "1": "f_rack", "2": "f_rack", "3": "f_counter" },
       "items": {
         "1": { "item": "farming_tools", "chance": 30 },
@@ -106,20 +106,20 @@
       "place_loot": [
         { "group": "SUS_junk_drawer", "x": 42, "y": 8, "chance": 75 },
         { "group": "SUS_junk_drawer", "x": 42, "y": 10, "chance": 75 },
-        { "item": "television", "x": 32, "y": [ 11, 12 ], "chance": 80 },
-        { "item": "television", "x": 10, "y": [ 32, 33 ], "chance": 80 },
-        { "group": "tools_general", "x": 9, "y": [ 40, 44 ], "chance": 50, "repeat": 2 },
-        { "group": "supplies_mechanics", "x": 9, "y": [ 40, 44 ], "chance": 50, "repeat": 2 },
-        { "group": "fertilizers", "x": 25, "y": [ 52, 61 ], "chance": 40, "repeat": 4 },
-        { "group": "farming_seeds", "x": [ 25, 47 ], "y": 69, "chance": 30, "repeat": 10 }
+        { "item": "television", "x": 32, "y": [11, 12], "chance": 80 },
+        { "item": "television", "x": 10, "y": [32, 33], "chance": 80 },
+        { "group": "tools_general", "x": 9, "y": [40, 44], "chance": 50, "repeat": 2 },
+        { "group": "supplies_mechanics", "x": 9, "y": [40, 44], "chance": 50, "repeat": 2 },
+        { "group": "fertilizers", "x": 25, "y": [52, 61], "chance": 40, "repeat": 4 },
+        { "group": "farming_seeds", "x": [25, 47], "y": 69, "chance": 30, "repeat": 10 }
       ],
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [25, 46], "repeat": [1, 5] }
       ],
       "place_vehicles": [
         { "vehicle": "electric_car", "x": 15, "y": 41, "chance": 75, "rotation": 0 },
@@ -127,8 +127,8 @@
       ]
     },
     "om_terrain": [
-      [ "necropolis_a_1", "necropolis_a_2", "necropolis_a_3" ],
-      [ "necropolis_a_10", "necropolis_a_11", "necropolis_a_12" ]
+      ["necropolis_a_1", "necropolis_a_2", "necropolis_a_3"],
+      ["necropolis_a_10", "necropolis_a_11", "necropolis_a_12"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -187,30 +187,30 @@
         ".|c  {{{{ssssssMss.MMsMMmm]]]]]]]]]]]]]]]]]]]mmMMMMM____M___________sss.",
         ".|-{{{-sss-ssssssM.MMMsMMmm]]]]]]]]]]]]]]]]]mmMMMMMs_M_M___,,_______sss."
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "l": "t_floor", "u": "t_floor" },
       "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+        { "square": "radiation", "amount": [0, 1], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [0, 1], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [0, 1], "x": 48, "x2": 71, "y": 24, "y2": 47 }
       ],
       "place_loot": [
-        { "group": "vanity", "x": 2, "y": [ 33, 34 ], "chance": 50, "repeat": 2 },
-        { "group": "vanity", "x": 2, "y": [ 37, 38 ], "chance": 50, "repeat": 2 },
-        { "group": "vanity", "x": 2, "y": [ 41, 42 ], "chance": 50, "repeat": 2 },
-        { "group": "vanity", "x": 2, "y": [ 45, 46 ], "chance": 50, "repeat": 2 },
-        { "group": "beauty", "x": [ 2, 10 ], "y": 28, "chance": 30, "repeat": 8 }
+        { "group": "vanity", "x": 2, "y": [33, 34], "chance": 50, "repeat": 2 },
+        { "group": "vanity", "x": 2, "y": [37, 38], "chance": 50, "repeat": 2 },
+        { "group": "vanity", "x": 2, "y": [41, 42], "chance": 50, "repeat": 2 },
+        { "group": "vanity", "x": 2, "y": [45, 46], "chance": 50, "repeat": 2 },
+        { "group": "beauty", "x": [2, 10], "y": 28, "chance": 30, "repeat": 8 }
       ],
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [25, 46], "repeat": [1, 5] }
       ],
       "place_vehicles": [
         { "vehicle": "policecar", "x": 60, "y": 9, "chance": 25, "rotation": 0 },
@@ -221,8 +221,8 @@
       ]
     },
     "om_terrain": [
-      [ "necropolis_a_4", "necropolis_a_5", "necropolis_a_6" ],
-      [ "necropolis_a_13", "necropolis_a_14", "necropolis_a_15" ]
+      ["necropolis_a_4", "necropolis_a_5", "necropolis_a_6"],
+      ["necropolis_a_13", "necropolis_a_14", "necropolis_a_15"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -281,7 +281,7 @@
         "..w h   r r r r| +       |ss________________,________,________8.........",
         "..|P           : | hhhhh |ss________________,________,________8........."
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "furniture": { "F": "f_filing_cabinet" },
       "items": {
@@ -290,43 +290,46 @@
         "z": { "item": "plumbing_bulk", "chance": 40, "repeat": 3 }
       },
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [25, 46], "repeat": [1, 5] }
       ],
       "place_loot": [
-        { "group": "home_hw", "x": 0, "y": [ 4, 6 ], "chance": 50, "repeat": 3 },
-        { "group": "home_hw", "x": [ 7, 8 ], "y": 6, "chance": 50, "repeat": 2 },
+        { "group": "home_hw", "x": 0, "y": [4, 6], "chance": 50, "repeat": 3 },
+        { "group": "home_hw", "x": [7, 8], "y": 6, "chance": 50, "repeat": 2 },
         { "item": "55gal_drum", "x": 35, "y": 2, "chance": 90 },
         { "item": "55gal_drum", "x": 34, "y": 2, "chance": 75 },
         { "item": "55gal_drum", "x": 35, "y": 3, "chance": 75 },
         { "item": "55gal_drum", "x": 26, "y": 12, "chance": 75 },
-        { "group": "plumbing_clothing", "x": [ 0, 1 ], "y": 2, "chance": 50, "repeat": 3 },
-        { "group": "plumbing_clothing", "x": [ 7, 8 ], "y": 2, "chance": 50, "repeat": 3 },
-        { "group": "plumbing_clothing", "x": 35, "y": [ 12, 13 ], "chance": 50, "repeat": 3 },
-        { "group": "sewage_plant", "x": 18, "y": [ 18, 19 ], "chance": 25, "repeat": 2 },
-        { "group": "sewage_plant", "x": 19, "y": [ 18, 19 ], "chance": 25, "repeat": 2 },
-        { "group": "sewage_plant", "x": 21, "y": [ 18, 19 ], "chance": 25, "repeat": 2 },
-        { "group": "sewage_plant", "x": 23, "y": [ 18, 19 ], "chance": 25, "repeat": 2 },
-        { "group": "sewage_plant", "x": 25, "y": [ 18, 19 ], "chance": 25, "repeat": 2 },
-        { "group": "sewage_plant", "x": 27, "y": [ 18, 19 ], "chance": 25, "repeat": 2 },
-        { "group": "sewage_plant", "x": 29, "y": [ 18, 19 ], "chance": 25, "repeat": 4 },
-        { "group": "sewage_plant", "x": 34, "y": [ 18, 19 ], "chance": 25, "repeat": 4 },
-        { "group": "cop_evidence", "x": [ 13, 19 ], "y": 23, "chance": 25, "repeat": 4 },
-        { "group": "cop_evidence", "x": [ 13, 19 ], "y": 25, "chance": 25, "repeat": 4 },
-        { "group": "cop_shoes", "x": [ 13, 19 ], "y": 36, "chance": 40, "repeat": 5 },
-        { "group": "cop_pants", "x": [ 13, 19 ], "y": 36, "chance": 40, "repeat": 5 },
-        { "group": "cop_torso", "x": [ 13, 19 ], "y": 36, "chance": 40, "repeat": 5 },
-        { "group": "cop_gloves", "x": [ 13, 19 ], "y": 33, "chance": 40, "repeat": 5 },
-        { "group": "cop_helmet", "x": [ 13, 19 ], "y": 33, "chance": 40, "repeat": 3 },
-        { "group": "cop_gear", "x": [ 13, 19 ], "y": 33, "chance": 30, "repeat": 4 },
-        { "group": "cop_armory", "x": 25, "y": [ 31, 33 ], "chance": 30, "repeat": 3 },
-        { "group": "cop_armory", "x": 27, "y": [ 31, 33 ], "chance": 30, "repeat": 3 }
+        { "group": "plumbing_clothing", "x": [0, 1], "y": 2, "chance": 50, "repeat": 3 },
+        { "group": "plumbing_clothing", "x": [7, 8], "y": 2, "chance": 50, "repeat": 3 },
+        { "group": "plumbing_clothing", "x": 35, "y": [12, 13], "chance": 50, "repeat": 3 },
+        { "group": "sewage_plant", "x": 18, "y": [18, 19], "chance": 25, "repeat": 2 },
+        { "group": "sewage_plant", "x": 19, "y": [18, 19], "chance": 25, "repeat": 2 },
+        { "group": "sewage_plant", "x": 21, "y": [18, 19], "chance": 25, "repeat": 2 },
+        { "group": "sewage_plant", "x": 23, "y": [18, 19], "chance": 25, "repeat": 2 },
+        { "group": "sewage_plant", "x": 25, "y": [18, 19], "chance": 25, "repeat": 2 },
+        { "group": "sewage_plant", "x": 27, "y": [18, 19], "chance": 25, "repeat": 2 },
+        { "group": "sewage_plant", "x": 29, "y": [18, 19], "chance": 25, "repeat": 4 },
+        { "group": "sewage_plant", "x": 34, "y": [18, 19], "chance": 25, "repeat": 4 },
+        { "group": "cop_evidence", "x": [13, 19], "y": 23, "chance": 25, "repeat": 4 },
+        { "group": "cop_evidence", "x": [13, 19], "y": 25, "chance": 25, "repeat": 4 },
+        { "group": "cop_shoes", "x": [13, 19], "y": 36, "chance": 40, "repeat": 5 },
+        { "group": "cop_pants", "x": [13, 19], "y": 36, "chance": 40, "repeat": 5 },
+        { "group": "cop_torso", "x": [13, 19], "y": 36, "chance": 40, "repeat": 5 },
+        { "group": "cop_gloves", "x": [13, 19], "y": 33, "chance": 40, "repeat": 5 },
+        { "group": "cop_helmet", "x": [13, 19], "y": 33, "chance": 40, "repeat": 3 },
+        { "group": "cop_gear", "x": [13, 19], "y": 33, "chance": 30, "repeat": 4 },
+        { "group": "cop_armory", "x": 25, "y": [31, 33], "chance": 30, "repeat": 3 },
+        { "group": "cop_armory", "x": 27, "y": [31, 33], "chance": 30, "repeat": 3 }
       ],
-      "place_vendingmachines": [ { "item_group": "vending_food", "x": 14, "y": 38 }, { "item_group": "vending_drink", "x": 14, "y": 39 } ],
+      "place_vendingmachines": [
+        { "item_group": "vending_food", "x": 14, "y": 38 },
+        { "item_group": "vending_drink", "x": 14, "y": 39 }
+      ],
       "place_vehicles": [
         { "vehicle": "policecar", "x": 47, "y": 38, "chance": 50, "rotation": 180 },
         { "vehicle": "policecar", "x": 47, "y": 45, "chance": 50, "rotation": 180 },
@@ -335,8 +338,8 @@
       ]
     },
     "om_terrain": [
-      [ "necropolis_a_7", "necropolis_a_8", "necropolis_a_9" ],
-      [ "necropolis_a_16", "necropolis_a_17", "necropolis_a_18" ]
+      ["necropolis_a_7", "necropolis_a_8", "necropolis_a_9"],
+      ["necropolis_a_16", "necropolis_a_17", "necropolis_a_18"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -395,16 +398,23 @@
         "...........ss|r{{{{   {{{ssssssMsMssMsMMMMMMMMMMMNMNMNNNJJJNNN...ss....T",
         "...........ss|r {{  {{{{sMsssssMsMMsMMMMMMMMMMMMMMMNNNMNNMNNNNNNMss....."
       ],
-      "palettes": [ "necropolis_a" ],
-      "terrain": { "%": "t_elevator_control_off", "Y": "t_elevator", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
+      "palettes": ["necropolis_a"],
+      "terrain": {
+        "%": "t_elevator_control_off",
+        "Y": "t_elevator",
+        "Z": "t_floor",
+        "l": "t_floor",
+        "u": "t_floor",
+        "z": "t_floor"
+      },
       "furniture": { "Y": "f_crate_c" },
       "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+        { "square": "radiation", "amount": [0, 1], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [0, 1], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [0, 1], "x": 48, "x2": 71, "y": 24, "y2": 47 }
       ],
       "items": {
         "Y": { "item": "pantry", "chance": 25, "repeat": 3 },
@@ -412,31 +422,31 @@
         "z": { "item": "pantry", "chance": 25, "repeat": 3 }
       },
       "place_loot": [
-        { "group": "groce_frozen", "x": 15, "y": [ 25, 29 ], "chance": 40, "repeat": 4 },
-        { "group": "groce_meat", "x": 15, "y": [ 30, 33 ], "chance": 40, "repeat": 2 },
-        { "group": "groce_dairyegg", "x": 15, "y": [ 30, 33 ], "chance": 40, "repeat": 2 },
-        { "group": "alcohol", "x": 14, "y": [ 40, 47 ], "chance": 25, "repeat": 3 },
-        { "group": "cannedfood", "x": [ 19, 23 ], "y": [ 28, 29 ], "chance": 40, "repeat": 3 },
-        { "group": "groce_cereal", "x": [ 24, 27 ], "y": [ 28, 29 ], "chance": 25, "repeat": 3 },
-        { "group": "cannedfood", "x": [ 19, 23 ], "y": [ 32, 33 ], "chance": 25, "repeat": 3 },
-        { "group": "groce_ingredient", "x": [ 24, 27 ], "y": [ 32, 33 ], "chance": 25, "repeat": 3 },
-        { "group": "pasta", "x": [ 19, 23 ], "y": [ 36, 37 ], "chance": 25, "repeat": 3 },
-        { "group": "groce_softdrink", "x": [ 24, 27 ], "y": [ 36, 37 ], "chance": 25, "repeat": 3 },
-        { "group": "pasta", "x": [ 19, 23 ], "y": [ 40, 41 ], "chance": 25, "repeat": 3 },
-        { "group": "groce_condiment", "x": [ 24, 27 ], "y": [ 40, 41 ], "chance": 25, "repeat": 3 },
-        { "group": "groce_bread", "x": 39, "y": [ 32, 35 ], "chance": 30, "repeat": 3 },
-        { "group": "kitchen", "x": [ 20, 23 ], "y": 25, "chance": 40, "repeat": 2 },
-        { "group": "kitchen", "x": [ 24, 30 ], "y": 25, "chance": 40, "repeat": 2 },
-        { "group": "kitchen", "x": [ 39, 42 ], "y": 25, "chance": 40, "repeat": 2 },
-        { "group": "kitchen", "x": 42, "y": [ 26, 34 ], "chance": 40, "repeat": 4 }
+        { "group": "groce_frozen", "x": 15, "y": [25, 29], "chance": 40, "repeat": 4 },
+        { "group": "groce_meat", "x": 15, "y": [30, 33], "chance": 40, "repeat": 2 },
+        { "group": "groce_dairyegg", "x": 15, "y": [30, 33], "chance": 40, "repeat": 2 },
+        { "group": "alcohol", "x": 14, "y": [40, 47], "chance": 25, "repeat": 3 },
+        { "group": "cannedfood", "x": [19, 23], "y": [28, 29], "chance": 40, "repeat": 3 },
+        { "group": "groce_cereal", "x": [24, 27], "y": [28, 29], "chance": 25, "repeat": 3 },
+        { "group": "cannedfood", "x": [19, 23], "y": [32, 33], "chance": 25, "repeat": 3 },
+        { "group": "groce_ingredient", "x": [24, 27], "y": [32, 33], "chance": 25, "repeat": 3 },
+        { "group": "pasta", "x": [19, 23], "y": [36, 37], "chance": 25, "repeat": 3 },
+        { "group": "groce_softdrink", "x": [24, 27], "y": [36, 37], "chance": 25, "repeat": 3 },
+        { "group": "pasta", "x": [19, 23], "y": [40, 41], "chance": 25, "repeat": 3 },
+        { "group": "groce_condiment", "x": [24, 27], "y": [40, 41], "chance": 25, "repeat": 3 },
+        { "group": "groce_bread", "x": 39, "y": [32, 35], "chance": 30, "repeat": 3 },
+        { "group": "kitchen", "x": [20, 23], "y": 25, "chance": 40, "repeat": 2 },
+        { "group": "kitchen", "x": [24, 30], "y": 25, "chance": 40, "repeat": 2 },
+        { "group": "kitchen", "x": [39, 42], "y": 25, "chance": 40, "repeat": 2 },
+        { "group": "kitchen", "x": 42, "y": [26, 34], "chance": 40, "repeat": 4 }
       ],
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [25, 46], "repeat": [1, 5] }
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 9, "y": 5, "chance": 25, "rotation": 90 },
@@ -448,8 +458,8 @@
       ]
     },
     "om_terrain": [
-      [ "necropolis_a_19", "necropolis_a_20", "necropolis_a_21" ],
-      [ "necropolis_a_28", "necropolis_a_29", "necropolis_a_30" ]
+      ["necropolis_a_19", "necropolis_a_20", "necropolis_a_21"],
+      ["necropolis_a_28", "necropolis_a_29", "necropolis_a_30"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -508,15 +518,15 @@
         "..ss_______,,_______sss..........|O hnnh           +     kkk      |  |..",
         "..ss________________sss..........|c      |---------|      h    @@ |--|.."
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+        { "square": "radiation", "amount": [0, 1], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [0, 1], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [0, 1], "x": 48, "x2": 71, "y": 24, "y2": 47 }
       ],
       "items": {
         "k": { "item": "lmoe_guns", "chance": 5 },
@@ -526,18 +536,18 @@
         "z": { "item": "church", "chance": 50, "repeat": 2 }
       },
       "place_loot": [
-        { "group": "vehicle_scrapped", "x": [ 42, 47 ], "y": [ 2, 8 ], "chance": 75 },
+        { "group": "vehicle_scrapped", "x": [42, 47], "y": [2, 8], "chance": 75 },
         { "group": "alcohol", "x": 34, "y": 44, "chance": 80 },
-        { "group": "dining", "x": [ 37, 38 ], "y": [ 45, 46 ], "chance": 60 },
+        { "group": "dining", "x": [37, 38], "y": [45, 46], "chance": 60 },
         { "group": "kitchen", "x": 34, "y": 47, "chance": 40, "repeat": 3 }
       ],
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [25, 46], "repeat": [1, 5] }
       ],
       "place_vehicles": [
         { "vehicle": "fire_truck", "x": 15, "y": 8, "chance": 90, "rotation": 45 },
@@ -545,8 +555,8 @@
       ]
     },
     "om_terrain": [
-      [ "necropolis_a_22", "necropolis_a_23", "necropolis_a_24" ],
-      [ "necropolis_a_31", "necropolis_a_32", "necropolis_a_33" ]
+      ["necropolis_a_22", "necropolis_a_23", "necropolis_a_24"],
+      ["necropolis_a_31", "necropolis_a_32", "necropolis_a_33"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -605,34 +615,38 @@
         "......|){{{{{sssMssMsssMMMMMMmm]]]]]]]]]]]]]]]]]]]mmMMMMM...M..M........",
         "......|-{{{{ssMsMssMssMMMMMMMmm]]]]]]]]]]]]]]]]]]]mmMMMMM.M..M..MM......"
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "furniture": { "$": "f_safe_l" },
       "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+        { "square": "radiation", "amount": [0, 1], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [0, 1], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [0, 1], "x": 48, "x2": 71, "y": 24, "y2": 47 }
       ],
       "items": {
         "$": { "item": "my_precious", "chance": 30, "repeat": 3 },
-        "c": [ { "item": "novels", "chance": 20 }, { "item": "textbooks", "chance": 15 }, { "item": "textbooks", "chance": 10 } ],
+        "c": [
+          { "item": "novels", "chance": 20 },
+          { "item": "textbooks", "chance": 15 },
+          { "item": "textbooks", "chance": 10 }
+        ],
         "r": { "item": "pawn", "chance": 25 }
       },
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [25, 46], "repeat": [1, 5] }
       ]
     },
     "om_terrain": [
-      [ "necropolis_a_25", "necropolis_a_26", "necropolis_a_27" ],
-      [ "necropolis_a_34", "necropolis_a_35", "necropolis_a_36" ]
+      ["necropolis_a_25", "necropolis_a_26", "necropolis_a_27"],
+      ["necropolis_a_34", "necropolis_a_35", "necropolis_a_36"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -691,16 +705,16 @@
         "........|--|--------|.ssssssssss________sssssssssss|-+---------|-- --|ss",
         "........|BB|d@@d@@ n|sss________________________sss|   jjjjjj D|l    |ss"
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "D": "t_floor", "R": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "furniture": { "1": "f_bed", "2": "f_desk", "3": "f_dresser", "R": "f_rack" },
       "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+        { "square": "radiation", "amount": [0, 1], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [0, 1], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [0, 1], "x": 48, "x2": 71, "y": 24, "y2": 47 }
       ],
       "items": {
         "R": { "item": "home_hw", "chance": 40 },
@@ -708,22 +722,22 @@
         "n": { "item": "traveler", "chance": 50 }
       },
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [25, 46], "repeat": [1, 5] }
       ],
       "place_vehicles": [
         { "vehicle": "ambulance", "x": 65, "y": 15, "chance": 90, "rotation": 0 },
         { "vehicle": "fire_truck", "x": 32, "y": 28, "chance": 90, "rotation": 270 }
       ],
-      "place_vendingmachines": [ { "item_group": "vending_drink", "x": 64, "y": 47 } ]
+      "place_vendingmachines": [{ "item_group": "vending_drink", "x": 64, "y": 47 }]
     },
     "om_terrain": [
-      [ "necropolis_a_37", "necropolis_a_38", "necropolis_a_39" ],
-      [ "necropolis_a_46", "necropolis_a_47", "necropolis_a_48" ]
+      ["necropolis_a_37", "necropolis_a_38", "necropolis_a_39"],
+      ["necropolis_a_46", "necropolis_a_47", "necropolis_a_48"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -782,29 +796,29 @@
         "ssssssssssssssssssssssssssss_______________________,__,_________________",
         "ss________________________ss_______,,______________,,,,_________________"
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "Z": "t_floor", "l": "t_floor", "N": "t_floor", "u": "t_floor", "z": "t_floor" },
       "furniture": { "N": "f_table" },
       "items": { "n": { "item": "traveler", "chance": 50 } },
       "place_loot": [
-        { "group": "dining", "x": 67, "y": [ 27, 28 ], "chance": 70 },
+        { "group": "dining", "x": 67, "y": [27, 28], "chance": 70 },
         { "group": "dining", "x": 67, "y": 31, "chance": 60 },
-        { "group": "dining", "x": 67, "y": [ 33, 34 ], "chance": 60 },
+        { "group": "dining", "x": 67, "y": [33, 34], "chance": 60 },
         { "group": "kitchen", "x": 67, "y": 36, "chance": 80 },
-        { "group": "produce", "x": 63, "y": [ 37, 40 ], "chance": 50, "repeat": 3 }
+        { "group": "produce", "x": 63, "y": [37, 40], "chance": 50, "repeat": 3 }
       ],
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [25, 46], "repeat": [1, 5] }
       ]
     },
     "om_terrain": [
-      [ "necropolis_a_40", "necropolis_a_41", "necropolis_a_42" ],
-      [ "necropolis_a_49", "necropolis_a_50", "necropolis_a_51" ]
+      ["necropolis_a_40", "necropolis_a_41", "necropolis_a_42"],
+      ["necropolis_a_49", "necropolis_a_50", "necropolis_a_51"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -863,43 +877,43 @@
         "____________________________________________ss..........................",
         "___________________________________,,_______ss......C..................."
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "furniture": { "$": "f_safe_l" },
       "set": [
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 0, "y2": 23 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 0, "x2": 23, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 24, "x2": 47, "y": 24, "y2": 47 },
-        { "square": "radiation", "amount": [ 0, 1 ], "x": 48, "x2": 71, "y": 24, "y2": 47 }
+        { "square": "radiation", "amount": [0, 1], "x": 0, "x2": 23, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 24, "x2": 47, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 48, "x2": 71, "y": 0, "y2": 23 },
+        { "square": "radiation", "amount": [0, 1], "x": 0, "x2": 23, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [0, 1], "x": 24, "x2": 47, "y": 24, "y2": 47 },
+        { "square": "radiation", "amount": [0, 1], "x": 48, "x2": 71, "y": 24, "y2": 47 }
       ],
       "items": { "$": { "item": "vault", "chance": 60, "repeat": 3 } },
       "place_loot": [
-        { "group": "vault", "x": 2, "y": [ 27, 30 ], "chance": 30, "repeat": 3 },
-        { "item": "television", "x": 48, "y": [ 40, 41 ], "chance": 80 },
-        { "group": "dining", "x": [ 1, 2 ], "y": [ 36, 37 ], "chance": 70 },
-        { "group": "kitchen", "x": 5, "y": [ 36, 39 ], "chance": 80 },
-        { "group": "kitchen", "x": [ 59, 60 ], "y": 24, "chance": 80 },
-        { "group": "kitchen", "x": [ 59, 60 ], "y": 42, "chance": 80 },
+        { "group": "vault", "x": 2, "y": [27, 30], "chance": 30, "repeat": 3 },
+        { "item": "television", "x": 48, "y": [40, 41], "chance": 80 },
+        { "group": "dining", "x": [1, 2], "y": [36, 37], "chance": 70 },
+        { "group": "kitchen", "x": 5, "y": [36, 39], "chance": 80 },
+        { "group": "kitchen", "x": [59, 60], "y": 24, "chance": 80 },
+        { "group": "kitchen", "x": [59, 60], "y": 42, "chance": 80 },
         { "group": "SUS_bathroom_medicine", "x": 65, "y": 30, "chance": 50 },
         { "group": "SUS_bathroom_medicine", "x": 65, "y": 36, "chance": 50 },
         { "group": "SUS_junk_drawer", "x": 59, "y": 32, "chance": 75 },
         { "group": "SUS_junk_drawer", "x": 59, "y": 34, "chance": 75 },
-        { "group": "dining", "x": [ 51, 52 ], "y": [ 25, 27 ], "chance": 70 }
+        { "group": "dining", "x": [51, 52], "y": [25, 27], "chance": 70 }
       ],
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [25, 46], "repeat": [1, 5] }
       ]
     },
     "om_terrain": [
-      [ "necropolis_a_43", "necropolis_a_44", "necropolis_a_45" ],
-      [ "necropolis_a_52", "necropolis_a_53", "necropolis_a_54" ]
+      ["necropolis_a_43", "necropolis_a_44", "necropolis_a_45"],
+      ["necropolis_a_52", "necropolis_a_53", "necropolis_a_54"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -958,22 +972,22 @@
         "..............#..s___________________________s##s__,,,,__s|HHHH[[HHHH|ss",
         ".............###.s______,______,______,______s##s___,,___s|hnnh  hnnh|ss"
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "items": { "n": { "item": "traveler", "chance": 50 } },
       "place_loot": [
-        { "group": "dining", "x": [ 56, 57 ], "y": [ 17, 18 ], "chance": 70 },
-        { "group": "kitchen", "x": [ 52, 53 ], "y": [ 15, 19 ], "chance": 80 },
-        { "group": "dining", "x": [ 60, 61 ], "y": 47, "chance": 70 },
-        { "group": "dining", "x": [ 66, 67 ], "y": 47, "chance": 70 }
+        { "group": "dining", "x": [56, 57], "y": [17, 18], "chance": 70 },
+        { "group": "kitchen", "x": [52, 53], "y": [15, 19], "chance": 80 },
+        { "group": "dining", "x": [60, 61], "y": 47, "chance": 70 },
+        { "group": "dining", "x": [66, 67], "y": 47, "chance": 70 }
       ],
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [25, 46], "repeat": [1, 5] }
       ],
       "place_vehicles": [
         { "vehicle": "car_sports", "x": 46, "y": 9, "chance": 75, "rotation": 180 },
@@ -984,11 +998,14 @@
         { "vehicle": "semi_truck", "x": 12, "y": 38, "chance": 100, "rotation": 0 },
         { "vehicle": "policecar", "x": 23, "y": 35, "chance": 90, "rotation": 90 }
       ],
-      "place_vendingmachines": [ { "item_group": "vending_food", "x": 64, "y": 0 }, { "item_group": "vending_drink", "x": 68, "y": 17 } ]
+      "place_vendingmachines": [
+        { "item_group": "vending_food", "x": 64, "y": 0 },
+        { "item_group": "vending_drink", "x": 68, "y": 17 }
+      ]
     },
     "om_terrain": [
-      [ "necropolis_a_55", "necropolis_a_56", "necropolis_a_57" ],
-      [ "necropolis_a_64", "necropolis_a_65", "necropolis_a_66" ]
+      ["necropolis_a_55", "necropolis_a_56", "necropolis_a_57"],
+      ["necropolis_a_64", "necropolis_a_65", "necropolis_a_66"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -1047,15 +1064,15 @@
         "s___________,,___________sss________________sss_________________________",
         "____________,,____________ss_______,,_______ss__________________________"
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "Z": "t_floor", "l": "t_floor", "z": "t_floor" },
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [25, 46], "repeat": [1, 5] }
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 4, "y": 2, "chance": 90, "rotation": 0 },
@@ -1073,8 +1090,8 @@
       ]
     },
     "om_terrain": [
-      [ "necropolis_a_58", "necropolis_a_59", "necropolis_a_60" ],
-      [ "necropolis_a_67", "necropolis_a_68", "necropolis_a_69" ]
+      ["necropolis_a_58", "necropolis_a_59", "necropolis_a_60"],
+      ["necropolis_a_67", "necropolis_a_68", "necropolis_a_69"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -1133,23 +1150,23 @@
         "_____________________________ss........................#................",
         "_____________________________s.......#.................................."
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "items": { "r": { "item": "SUS_junk_drawer", "chance": 75 } },
       "place_loot": [
         { "group": "SUS_bathroom_medicine", "x": 59, "y": 10, "chance": 50 },
         { "group": "SUS_bathroom_medicine", "x": 60, "y": 17, "chance": 50 },
-        { "group": "dining", "x": [ 62, 63 ], "y": [ 9, 10 ], "chance": 70 },
+        { "group": "dining", "x": [62, 63], "y": [9, 10], "chance": 70 },
         { "group": "kitchen", "x": 67, "y": 9, "chance": 80 },
-        { "item": "television", "x": [ 64, 67 ], "y": 21, "chance": 80 }
+        { "item": "television", "x": [64, 67], "y": 21, "chance": 80 }
       ],
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [25, 46], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [25, 46], "repeat": [1, 5] }
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 0, "y": 7, "chance": 25, "rotation": 90 },
@@ -1159,8 +1176,8 @@
       ]
     },
     "om_terrain": [
-      [ "necropolis_a_61", "necropolis_a_62", "necropolis_a_63" ],
-      [ "necropolis_a_70", "necropolis_a_71", "necropolis_a_72" ]
+      ["necropolis_a_61", "necropolis_a_62", "necropolis_a_63"],
+      ["necropolis_a_70", "necropolis_a_71", "necropolis_a_72"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -1195,7 +1212,7 @@
         ".........X....................................C.........................",
         "........................................................#..............."
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "D": "t_floor", "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
       "items": {
         "L": { "item": "cleaning", "chance": 50, "repeat": 2 },
@@ -1203,18 +1220,18 @@
         "p": { "item": "pool_table", "chance": 30 }
       },
       "place_loot": [
-        { "group": "alcohol", "x": [ 31, 39 ], "y": 18, "chance": 50, "repeat": 5 },
-        { "group": "fast_food", "x": [ 61, 63 ], "y": 5, "chance": 40, "repeat": 2 },
-        { "group": "fast_food", "x": [ 63, 64 ], "y": 9, "chance": 40, "repeat": 2 },
-        { "group": "produce", "x": [ 59, 60 ], "y": 7, "chance": 70 }
+        { "group": "alcohol", "x": [31, 39], "y": 18, "chance": 50, "repeat": 5 },
+        { "group": "fast_food", "x": [61, 63], "y": 5, "chance": 40, "repeat": 2 },
+        { "group": "fast_food", "x": [63, 64], "y": 9, "chance": 40, "repeat": 2 },
+        { "group": "produce", "x": [59, 60], "y": 7, "chance": 70 }
       ],
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] }
       ]
     },
-    "om_terrain": [ [ "necropolis_a_73", "necropolis_a_74", "necropolis_a_75" ] ],
+    "om_terrain": [["necropolis_a_73", "necropolis_a_74", "necropolis_a_75"]],
     "type": "mapgen",
     "weight": 250
   },
@@ -1248,24 +1265,24 @@
         "............................_________________s..........................",
         "............................________________ss.........................."
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-      "gaspumps": { "&": {  } },
+      "gaspumps": { "&": {} },
       "place_loot": [
-        { "group": "alcohol", "x": [ 67, 71 ], "y": 19, "chance": 30, "repeat": 3 },
+        { "group": "alcohol", "x": [67, 71], "y": 19, "chance": 30, "repeat": 3 },
         { "group": "magazines", "x": 67, "y": 12, "chance": 30, "repeat": 3 },
-        { "group": "snacks", "x": [ 68, 70 ], "y": [ 14, 15 ], "chance": 30, "repeat": 3 },
+        { "group": "snacks", "x": [68, 70], "y": [14, 15], "chance": 30, "repeat": 3 },
         { "group": "magazines", "x": 67, "y": 9, "chance": 30, "repeat": 3 },
-        { "group": "snacks", "x": [ 67, 70 ], "y": 7, "chance": 30, "repeat": 3 }
+        { "group": "snacks", "x": [67, 70], "y": 7, "chance": 30, "repeat": 3 }
       ],
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] }
       ],
-      "place_vehicles": [ { "vehicle": "policecar", "x": 33, "y": 9, "chance": 90, "rotation": 0 } ]
+      "place_vehicles": [{ "vehicle": "policecar", "x": 33, "y": 9, "chance": 90, "rotation": 0 }]
     },
-    "om_terrain": [ [ "necropolis_a_76", "necropolis_a_77", "necropolis_a_78" ] ],
+    "om_terrain": [["necropolis_a_76", "necropolis_a_77", "necropolis_a_78"]],
     "type": "mapgen",
     "weight": 250
   },
@@ -1299,31 +1316,34 @@
         ".......................X..................................C.............",
         "..............#........................................................."
       ],
-      "palettes": [ "necropolis_a" ],
+      "palettes": ["necropolis_a"],
       "terrain": { "Z": "t_floor", "l": "t_floor", "u": "t_floor", "z": "t_floor" },
-      "place_vendingmachines": [ { "item_group": "vending_food", "x": 3, "y": 5 }, { "item_group": "vending_drink", "x": 4, "y": 5 } ],
+      "place_vendingmachines": [
+        { "item_group": "vending_food", "x": 3, "y": 5 },
+        { "item_group": "vending_drink", "x": 4, "y": 5 }
+      ],
       "items": { "o": { "item": "hardware_books", "chance": 50 } },
       "place_loot": [
         { "group": "alcohol", "x": 0, "y": 19, "chance": 70 },
-        { "group": "mechanics", "x": [ 0, 3 ], "y": 7, "chance": 30, "repeat": 2 },
-        { "group": "smoke_shop", "x": 3, "y": [ 13, 14 ], "chance": 40, "repeat": 3 },
-        { "group": "snacks", "x": 3, "y": [ 17, 19 ], "chance": 50, "repeat": 3 },
-        { "group": "tools_mechanic", "x": 5, "y": [ 11, 14 ], "chance": 50, "repeat": 3 },
-        { "group": "supplies_mechanics", "x": 28, "y": [ 8, 14 ], "chance": 30, "repeat": 6 },
-        { "group": "mechanics", "x": [ 13, 23 ], "y": [ 8, 14 ], "chance": 25, "repeat": 5 },
-        { "group": "mechanics", "x": [ 24, 28 ], "y": [ 8, 14 ], "chance": 25, "repeat": 5 }
+        { "group": "mechanics", "x": [0, 3], "y": 7, "chance": 30, "repeat": 2 },
+        { "group": "smoke_shop", "x": 3, "y": [13, 14], "chance": 40, "repeat": 3 },
+        { "group": "snacks", "x": 3, "y": [17, 19], "chance": 50, "repeat": 3 },
+        { "group": "tools_mechanic", "x": 5, "y": [11, 14], "chance": 50, "repeat": 3 },
+        { "group": "supplies_mechanics", "x": 28, "y": [8, 14], "chance": 30, "repeat": 6 },
+        { "group": "mechanics", "x": [13, 23], "y": [8, 14], "chance": 25, "repeat": 5 },
+        { "group": "mechanics", "x": [24, 28], "y": [8, 14], "chance": 25, "repeat": 5 }
       ],
       "place_monster": [
-        { "group": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] },
-        { "group": "GROUP_NECROPOLIS", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 1, 5 ] }
+        { "group": "GROUP_NECROPOLIS", "x": [1, 22], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [25, 46], "y": [1, 22], "repeat": [1, 5] },
+        { "group": "GROUP_NECROPOLIS", "x": [49, 70], "y": [1, 22], "repeat": [1, 5] }
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 10, "y": 10, "chance": 75, "rotation": 270 },
         { "vehicle": "pickup", "x": 21, "y": 10, "chance": 75, "rotation": 270 }
       ]
     },
-    "om_terrain": [ [ "necropolis_a_79", "necropolis_a_80", "necropolis_a_81" ] ],
+    "om_terrain": [["necropolis_a_79", "necropolis_a_80", "necropolis_a_81"]],
     "type": "mapgen",
     "weight": 250
   }

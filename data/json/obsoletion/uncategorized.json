@@ -4,22 +4,22 @@
     "type": "bionic",
     "name": { "str": "Internal Furnace" },
     "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
-    "occupied_bodyparts": [ [ "torso", 40 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "occupied_bodyparts": [["torso", 40]],
+    "flags": ["BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE"]
   },
   {
     "id": "bio_storage",
     "type": "bionic",
     "name": { "str": "Internal Storage" },
     "description": "Space inside your chest cavity has been surgically converted into a storage area.  You may carry an extra 2 liters of volume.",
-    "occupied_bodyparts": [ [ "torso", 32 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+    "occupied_bodyparts": [["torso", 32]],
+    "flags": ["BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF"]
   },
   {
     "type": "effect_type",
     "id": "magnesium",
-    "name": [ "Magnesium Supplements" ],
-    "desc": [ "You took some magnesium supplements.  These will help with sleep deprivation." ],
+    "name": ["Magnesium Supplements"],
+    "desc": ["You took some magnesium supplements.  These will help with sleep deprivation."],
     "rating": "good"
   },
   {
@@ -62,7 +62,7 @@
     "copy-from": "wheel",
     "type": "vehicle_part",
     "name": { "str": "wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+    "extend": { "flags": ["STEERABLE", "NOINSTALL"] }
   },
   {
     "id": "wheel_slick_steerable",
@@ -70,63 +70,63 @@
     "type": "vehicle_part",
     "name": { "str": "racing slick (steerable)" },
     "item": "wheel_slick",
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+    "extend": { "flags": ["STEERABLE", "NOINSTALL"] }
   },
   {
     "id": "wheel_armor_steerable",
     "copy-from": "wheel_armor",
     "type": "vehicle_part",
     "name": { "str": "armored wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+    "extend": { "flags": ["STEERABLE", "NOINSTALL"] }
   },
   {
     "id": "wheel_bicycle_steerable",
     "copy-from": "wheel_bicycle",
     "type": "vehicle_part",
     "name": { "str": "bicycle wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+    "extend": { "flags": ["STEERABLE", "NOINSTALL"] }
   },
   {
     "id": "wheel_bicycle_or_steerable",
     "copy-from": "wheel_bicycle_or",
     "type": "vehicle_part",
     "name": { "str": "off-road bicycle wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+    "extend": { "flags": ["STEERABLE", "NOINSTALL"] }
   },
   {
     "id": "wheel_motorbike_steerable",
     "copy-from": "wheel_motorbike",
     "type": "vehicle_part",
     "name": { "str": "motorbike wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+    "extend": { "flags": ["STEERABLE", "NOINSTALL"] }
   },
   {
     "id": "wheel_motorbike_or_steerable",
     "copy-from": "wheel_motorbike_or",
     "type": "vehicle_part",
     "name": { "str": "off-road motorbike wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+    "extend": { "flags": ["STEERABLE", "NOINSTALL"] }
   },
   {
     "id": "wheel_small_steerable",
     "copy-from": "wheel_small",
     "type": "vehicle_part",
     "name": { "str": "small wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+    "extend": { "flags": ["STEERABLE", "NOINSTALL"] }
   },
   {
     "id": "wheel_wide_steerable",
     "copy-from": "wheel_wide",
     "type": "vehicle_part",
     "name": { "str": "wide wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+    "extend": { "flags": ["STEERABLE", "NOINSTALL"] }
   },
   {
     "id": "wheel_wide_or_steerable",
     "copy-from": "wheel_wide_or",
     "type": "vehicle_part",
     "name": { "str": "off-road wide wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+    "extend": { "flags": ["STEERABLE", "NOINSTALL"] }
   },
   {
     "type": "mutation",
@@ -172,16 +172,27 @@
     "durability": 180,
     "description": "A strong metal wheel.",
     "damage_modifier": 70,
-    "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
+    "breaks_into": [
+      { "item": "scrap", "count": [4, 6] },
+      { "item": "steel_chunk", "count": [2, 3] }
+    ],
     "rolling_resistance": 0.375,
     "wheel_type": "rigid",
     "contact_area": 80,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 1]],
+        "time": "15 m",
+        "qualities": [{ "id": "WRENCH", "level": 2 }]
+      },
+      "removal": {
+        "skills": [["mechanics", 1]],
+        "time": "15 m",
+        "qualities": [{ "id": "WRENCH", "level": 2 }]
+      },
+      "repair": { "skills": [["mechanics", 2]], "time": "15 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "flags": ["WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM"],
     "damage_reduction": { "all": 66 }
   },
   {
@@ -208,11 +219,11 @@
         "name": "Wipe clean",
         "success_msg": "You clean you %s.",
         "time": "1 s",
-        "skills": [  ],
-        "requirements": {  }
+        "skills": [],
+        "requirements": {}
       }
     ],
-    "flags": [ "SILENT" ]
+    "flags": ["SILENT"]
   },
   {
     "id": "double_plutonium_core",
@@ -223,10 +234,10 @@
     "weight": "694 g",
     "volume": "750 ml",
     "price": 10000,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": ";",
     "color": "dark_gray",
-    "acceptable_ammo": [ "plutonium" ],
+    "acceptable_ammo": ["plutonium"],
     "capacity_multiplier": 2.0
   },
   {
@@ -254,8 +265,8 @@
     "type": "bionic",
     "name": { "str": "Scent Vision" },
     "description": "While this system is powered, you're able to visually sense your own scent, making it possible for you to recognize your surroundings even in complete darkness.",
-    "occupied_bodyparts": [ [ "head", 3 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "occupied_bodyparts": [["head", 3]],
+    "flags": ["BIONIC_TOGGLED"],
     "act_cost": "2 J",
     "react_cost": "2 J",
     "time": 1
@@ -298,8 +309,15 @@
     "item": "mininuke_launcher",
     "color": "green",
     "broken_color": "green",
-    "breaks_into": [ { "item": "scrap", "count": 27 }, { "item": "steel_chunk", "count": 10 }, { "item": "steel_lump", "count": 6 } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 3 ] ] } }
+    "breaks_into": [
+      { "item": "scrap", "count": 27 },
+      { "item": "steel_chunk", "count": 10 },
+      { "item": "steel_lump", "count": 6 }
+    ],
+    "requirements": {
+      "install": { "skills": [["mechanics", 5], ["launcher", 3]] },
+      "removal": { "skills": [["mechanics", 3]] }
+    }
   },
   {
     "id": "mounted_coilgun",
@@ -309,10 +327,14 @@
     "item": "coilgun",
     "color": "magenta",
     "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 13 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "breaks_into": [
+      { "item": "scrap", "count": 13 },
+      { "item": "steel_chunk", "count": 4 },
+      { "item": "steel_lump", "count": 1 }
+    ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+      "install": { "skills": [["mechanics", 5], ["electronics", 5]] },
+      "removal": { "skills": [["mechanics", 3]] }
     }
   },
   {
@@ -324,7 +346,7 @@
     "color": "magenta",
     "move_cost": 0,
     "coverage": 30,
-    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "flags": ["TRANSPARENT", "PERMEABLE"],
     "bash": {
       "str_min": 3,
       "str_max": 45,
@@ -332,12 +354,12 @@
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
       "items": [
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 5 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal", "count": [ 1, 3 ] },
-        { "item": "cable", "charges": [ 1, 15 ] }
+        { "item": "e_scrap", "count": [1, 4], "prob": 50 },
+        { "item": "circuit", "count": [1, 6], "prob": 50 },
+        { "item": "scrap", "count": [2, 5] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "sheet_metal", "count": [1, 3] },
+        { "item": "cable", "charges": [1, 15] }
       ]
     }
   },
@@ -352,18 +374,18 @@
     "coverage": 60,
     "required_str": 16,
     "looks_like": "f_washer",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED" ],
+    "flags": ["CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "SEALED"],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [2, 6] },
+        { "item": "steel_chunk", "count": [1, 3] },
+        { "item": "sheet_metal_small", "count": [0, 4] },
+        { "item": "sheet_metal", "count": [2, 6] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "hose", "count": [1, 2] },
         { "item": "motor_small", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 5 ] }
+        { "item": "cu_pipe", "count": [2, 5] }
       ]
     },
     "bash": {
@@ -372,14 +394,14 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 7 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] }
+        { "item": "scrap", "count": [2, 7] },
+        { "item": "steel_chunk", "count": [0, 3] },
+        { "item": "sheet_metal_small", "count": [8, 12] },
+        { "item": "sheet_metal", "count": [1, 4] },
+        { "item": "cable", "charges": [1, 15] },
+        { "item": "hose", "count": [0, 2] },
+        { "item": "cu_pipe", "count": [1, 4] },
+        { "item": "scrap_copper", "count": [0, 2] }
       ]
     }
   },
@@ -403,7 +425,7 @@
     "chip_resist": 6,
     "repaired_with": "lycra_patch",
     "salvaged_into": "lycra_patch",
-    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "dmg_adj": ["ripped", "torn", "shredded", "tattered"],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "burn_data": [
@@ -423,7 +445,7 @@
     "color": "light_blue",
     "move_cost": 0,
     "coverage": 40,
-    "flags": [ "TRANSPARENT" ],
+    "flags": ["TRANSPARENT"],
     "bash": {
       "str_min": 15,
       "str_max": 80,
@@ -431,9 +453,9 @@
       "sound_fail": "thunk.",
       "ter_set": "t_concrete",
       "items": [
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
-        { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "pipe", "count": [ 0, 2 ] }
+        { "item": "steel_chunk", "count": [0, 2] },
+        { "item": "scrap", "count": [3, 6] },
+        { "item": "pipe", "count": [0, 2] }
       ]
     },
     "examine_action": "clean_water_source"

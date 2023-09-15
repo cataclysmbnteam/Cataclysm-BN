@@ -65,7 +65,7 @@
       "[": "f_glass_freezer",
       ":": "f_shredder"
     },
-    "toilets": { "&": { "amount": [ 0, 50 ] } },
+    "toilets": { "&": { "amount": [0, 50] } },
     "items": {
       "D": { "item": "office", "chance": 60 },
       "l": { "item": "jackets", "chance": 5 },
@@ -73,100 +73,100 @@
       "o": { "item": "oven", "chance": 70 },
       "t": { "item": "trash", "chance": 60 },
       "U": { "item": "kitchen", "chance": 40 },
-      "Q": { "item": "office_mess", "chance": 50, "repeat": [ 1, 3 ] }
+      "Q": { "item": "office_mess", "chance": 50, "repeat": [1, 3] }
     }
   },
   {
     "type": "palette",
     "id": "mega_goods_a",
     "items": {
-      "b": { "item": "novels", "chance": 65, "repeat": [ 4, 12 ] },
-      "f": { "item": "produce", "chance": 65, "repeat": [ 2, 10 ] },
-      "F": { "item": "fridgesnacks", "chance": 65, "repeat": [ 2, 10 ] },
-      "k": { "item": "shirts", "chance": 65, "repeat": [ 1, 4 ] },
-      "K": { "item": "shoes", "chance": 65, "repeat": [ 1, 4 ] },
-      "r": { "item": "pants", "chance": 65, "repeat": [ 1, 4 ] },
-      "R": { "item": "jackets", "chance": 65, "repeat": [ 1, 4 ] },
-      "x": { "item": "child_items", "chance": 65, "repeat": [ 1, 8 ] },
-      "X": { "item": "construction_worker", "chance": 65, "repeat": [ 1, 4 ] },
-      "[": { "item": "kitchen_freezer", "chance": 65, "repeat": [ 2, 6 ] }
+      "b": { "item": "novels", "chance": 65, "repeat": [4, 12] },
+      "f": { "item": "produce", "chance": 65, "repeat": [2, 10] },
+      "F": { "item": "fridgesnacks", "chance": 65, "repeat": [2, 10] },
+      "k": { "item": "shirts", "chance": 65, "repeat": [1, 4] },
+      "K": { "item": "shoes", "chance": 65, "repeat": [1, 4] },
+      "r": { "item": "pants", "chance": 65, "repeat": [1, 4] },
+      "R": { "item": "jackets", "chance": 65, "repeat": [1, 4] },
+      "x": { "item": "child_items", "chance": 65, "repeat": [1, 8] },
+      "X": { "item": "construction_worker", "chance": 65, "repeat": [1, 4] },
+      "[": { "item": "kitchen_freezer", "chance": 65, "repeat": [2, 6] }
     }
   },
   {
     "type": "palette",
     "id": "mega_goods_b",
     "items": {
-      "b": { "item": "homebooks", "chance": 70, "repeat": [ 2, 10 ] },
-      "f": { "item": "fridgesnacks", "chance": 65, "repeat": [ 2, 10 ] },
-      "F": { "item": "fridge", "chance": 65, "repeat": [ 2, 10 ] },
-      "k": { "item": "shoes", "chance": 65, "repeat": [ 1, 4 ] },
-      "K": { "item": "cannedfood", "chance": 65, "repeat": [ 2, 10 ] },
-      "r": { "item": "hardware", "chance": 65, "repeat": [ 1, 4 ] },
-      "R": { "item": "mischw", "chance": 65, "repeat": [ 1, 6 ] },
-      "x": { "item": "shelter", "chance": 65, "repeat": [ 1, 4 ] },
-      "X": { "item": "cannedfood", "chance": 65, "repeat": [ 2, 10 ] },
-      "[": { "item": "kitchen_freezer", "chance": 65, "repeat": [ 2, 6 ] }
+      "b": { "item": "homebooks", "chance": 70, "repeat": [2, 10] },
+      "f": { "item": "fridgesnacks", "chance": 65, "repeat": [2, 10] },
+      "F": { "item": "fridge", "chance": 65, "repeat": [2, 10] },
+      "k": { "item": "shoes", "chance": 65, "repeat": [1, 4] },
+      "K": { "item": "cannedfood", "chance": 65, "repeat": [2, 10] },
+      "r": { "item": "hardware", "chance": 65, "repeat": [1, 4] },
+      "R": { "item": "mischw", "chance": 65, "repeat": [1, 6] },
+      "x": { "item": "shelter", "chance": 65, "repeat": [1, 4] },
+      "X": { "item": "cannedfood", "chance": 65, "repeat": [2, 10] },
+      "[": { "item": "kitchen_freezer", "chance": 65, "repeat": [2, 6] }
     }
   },
   {
     "type": "palette",
     "id": "mega_goods_c",
     "items": {
-      "b": { "item": "waitingroom", "chance": 60, "repeat": [ 1, 4 ] },
-      "f": { "item": "fridge", "chance": 65, "repeat": [ 2, 10 ] },
-      "F": { "item": "produce", "chance": 65, "repeat": [ 1, 4 ] },
-      "k": { "item": "cannedfood", "chance": 65, "repeat": [ 2, 10 ] },
-      "K": { "item": "pasta", "chance": 65, "repeat": [ 2, 10 ] },
-      "r": { "item": "hardware", "chance": 65, "repeat": [ 1, 4 ] },
-      "R": { "item": "cleaning", "chance": 65, "repeat": [ 1, 4 ] },
-      "x": { "item": "shoes", "chance": 65, "repeat": [ 1, 8 ] },
-      "X": { "item": "dresser", "chance": 65, "repeat": [ 1, 4 ] },
-      "[": { "item": "kitchen_freezer", "chance": 65, "repeat": [ 2, 6 ] }
+      "b": { "item": "waitingroom", "chance": 60, "repeat": [1, 4] },
+      "f": { "item": "fridge", "chance": 65, "repeat": [2, 10] },
+      "F": { "item": "produce", "chance": 65, "repeat": [1, 4] },
+      "k": { "item": "cannedfood", "chance": 65, "repeat": [2, 10] },
+      "K": { "item": "pasta", "chance": 65, "repeat": [2, 10] },
+      "r": { "item": "hardware", "chance": 65, "repeat": [1, 4] },
+      "R": { "item": "cleaning", "chance": 65, "repeat": [1, 4] },
+      "x": { "item": "shoes", "chance": 65, "repeat": [1, 8] },
+      "X": { "item": "dresser", "chance": 65, "repeat": [1, 4] },
+      "[": { "item": "kitchen_freezer", "chance": 65, "repeat": [2, 6] }
     }
   },
   {
     "type": "palette",
     "id": "mega_goods_d",
     "items": {
-      "b": { "item": "waitingroom", "chance": 65, "repeat": [ 1, 4 ] },
-      "f": { "item": "vending_food_items", "chance": 65, "repeat": [ 4, 12 ] },
-      "F": { "item": "kitchen", "chance": 65, "repeat": [ 1, 4 ] },
-      "k": { "item": "pasta", "chance": 65, "repeat": [ 2, 10 ] },
-      "K": { "item": "winter", "chance": 65, "repeat": [ 1, 4 ] },
-      "r": { "item": "sports", "chance": 65, "repeat": [ 1, 4 ] },
-      "R": { "item": "camping", "chance": 65, "repeat": [ 1, 4 ] },
-      "x": { "item": "cleaning", "chance": 65, "repeat": [ 1, 4 ] },
-      "X": { "item": "pasta", "chance": 65, "repeat": [ 2, 10 ] }
+      "b": { "item": "waitingroom", "chance": 65, "repeat": [1, 4] },
+      "f": { "item": "vending_food_items", "chance": 65, "repeat": [4, 12] },
+      "F": { "item": "kitchen", "chance": 65, "repeat": [1, 4] },
+      "k": { "item": "pasta", "chance": 65, "repeat": [2, 10] },
+      "K": { "item": "winter", "chance": 65, "repeat": [1, 4] },
+      "r": { "item": "sports", "chance": 65, "repeat": [1, 4] },
+      "R": { "item": "camping", "chance": 65, "repeat": [1, 4] },
+      "x": { "item": "cleaning", "chance": 65, "repeat": [1, 4] },
+      "X": { "item": "pasta", "chance": 65, "repeat": [2, 10] }
     }
   },
   {
     "type": "palette",
     "id": "mega_goods_e",
     "items": {
-      "b": { "item": "waitingroom", "chance": 65, "repeat": [ 1, 4 ] },
-      "f": { "item": "produce", "chance": 65, "repeat": [ 1, 4 ] },
-      "F": { "item": "vending_drink_items", "chance": 65, "repeat": [ 4, 12 ] },
-      "k": { "item": "cleaning", "chance": 65, "repeat": [ 1, 4 ] },
-      "K": { "item": "camping", "chance": 65, "repeat": [ 1, 4 ] },
-      "r": { "item": "mechanics", "chance": 65, "repeat": [ 1, 4 ] },
-      "R": { "item": "construction_worker", "chance": 65, "repeat": [ 1, 4 ] },
-      "x": { "item": "kitchen", "chance": 65, "repeat": [ 1, 4 ] },
-      "X": { "item": "school", "chance": 65, "repeat": [ 1, 4 ] }
+      "b": { "item": "waitingroom", "chance": 65, "repeat": [1, 4] },
+      "f": { "item": "produce", "chance": 65, "repeat": [1, 4] },
+      "F": { "item": "vending_drink_items", "chance": 65, "repeat": [4, 12] },
+      "k": { "item": "cleaning", "chance": 65, "repeat": [1, 4] },
+      "K": { "item": "camping", "chance": 65, "repeat": [1, 4] },
+      "r": { "item": "mechanics", "chance": 65, "repeat": [1, 4] },
+      "R": { "item": "construction_worker", "chance": 65, "repeat": [1, 4] },
+      "x": { "item": "kitchen", "chance": 65, "repeat": [1, 4] },
+      "X": { "item": "school", "chance": 65, "repeat": [1, 4] }
     }
   },
   {
     "type": "palette",
     "id": "mega_goods_f",
     "items": {
-      "b": { "item": "novels", "chance": 65, "repeat": [ 4, 12 ] },
-      "f": { "item": "fridgesnacks", "chance": 65, "repeat": [ 4, 12 ] },
-      "F": { "item": "vending_drink_items", "chance": 65, "repeat": [ 4, 12 ] },
-      "k": { "item": "shirts", "chance": 65, "repeat": [ 1, 4 ] },
-      "K": { "item": "shoes", "chance": 65, "repeat": [ 1, 4 ] },
-      "r": { "item": "snacks", "chance": 75, "repeat": [ 2, 10 ] },
-      "R": { "item": "shelter", "chance": 65, "repeat": [ 1, 4 ] },
-      "x": { "item": "textbooks", "chance": 65, "repeat": [ 1, 4 ] },
-      "X": { "item": "dresser", "chance": 65, "repeat": [ 1, 4 ] }
+      "b": { "item": "novels", "chance": 65, "repeat": [4, 12] },
+      "f": { "item": "fridgesnacks", "chance": 65, "repeat": [4, 12] },
+      "F": { "item": "vending_drink_items", "chance": 65, "repeat": [4, 12] },
+      "k": { "item": "shirts", "chance": 65, "repeat": [1, 4] },
+      "K": { "item": "shoes", "chance": 65, "repeat": [1, 4] },
+      "r": { "item": "snacks", "chance": 75, "repeat": [2, 10] },
+      "R": { "item": "shelter", "chance": 65, "repeat": [1, 4] },
+      "x": { "item": "textbooks", "chance": 65, "repeat": [1, 4] },
+      "X": { "item": "dresser", "chance": 65, "repeat": [1, 4] }
     }
   },
   {
@@ -206,8 +206,8 @@
       "terrain": {
         ".": "t_pavement",
         "_": "t_pavement_y",
-        "#": [ "t_underbrush", "t_grass" ],
-        "T": [ "t_tree_young", "t_tree" ],
+        "#": ["t_underbrush", "t_grass"],
+        "T": ["t_tree_young", "t_tree"],
         "W": "t_sidewalk"
       },
       "vehicles": { "v": { "vehicle": "city_vehicles", "chance": 10 } }
@@ -248,7 +248,7 @@
         ",,|....................."
       ],
       "rotation": 0,
-      "palettes": [ "megastore", "mega_goods_a" ],
+      "palettes": ["megastore", "mega_goods_a"],
       "items": {
         "C": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
@@ -291,7 +291,7 @@
         ",,|....................."
       ],
       "rotation": 0,
-      "palettes": [ "megastore", "mega_goods_c" ],
+      "palettes": ["megastore", "mega_goods_c"],
       "items": {
         "C": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
@@ -334,7 +334,7 @@
         ",,|....................."
       ],
       "rotation": 0,
-      "palettes": [ "megastore", "mega_goods_b" ],
+      "palettes": ["megastore", "mega_goods_b"],
       "items": {
         "C": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
@@ -377,7 +377,7 @@
         ",,|K..K..K..K..........."
       ],
       "rotation": 0,
-      "palettes": [ "megastore", "mega_goods_d" ],
+      "palettes": ["megastore", "mega_goods_d"],
       "items": {
         "C": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
@@ -420,7 +420,7 @@
         ",,|....................."
       ],
       "rotation": 0,
-      "palettes": [ "megastore", "mega_goods_e" ],
+      "palettes": ["megastore", "mega_goods_e"],
       "items": {
         "C": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
@@ -463,7 +463,7 @@
         "........................"
       ],
       "rotation": 0,
-      "palettes": [ "megastore", "mega_goods_a" ]
+      "palettes": ["megastore", "mega_goods_a"]
     }
   },
   {
@@ -501,7 +501,7 @@
         "........................"
       ],
       "rotation": 0,
-      "palettes": [ "megastore", "mega_goods_b" ]
+      "palettes": ["megastore", "mega_goods_b"]
     }
   },
   {
@@ -539,7 +539,7 @@
         "........................"
       ],
       "rotation": 0,
-      "palettes": [ "megastore", "mega_goods_c" ]
+      "palettes": ["megastore", "mega_goods_c"]
     }
   },
   {
@@ -577,7 +577,7 @@
         "........................"
       ],
       "rotation": 0,
-      "palettes": [ "megastore", "mega_goods_d" ]
+      "palettes": ["megastore", "mega_goods_d"]
     }
   },
   {
@@ -615,7 +615,7 @@
         "........................"
       ],
       "rotation": 0,
-      "palettes": [ "megastore", "mega_goods_e" ]
+      "palettes": ["megastore", "mega_goods_e"]
     }
   },
   {
@@ -653,7 +653,7 @@
         ",,,,|..xx........|f....."
       ],
       "rotation": 1,
-      "palettes": [ "megastore", "mega_goods_a" ],
+      "palettes": ["megastore", "mega_goods_a"],
       "terrain": { "%": "t_gates_mech_control", "m": "t_mdoor_frame" },
       "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 } }
     }
@@ -693,7 +693,7 @@
         ",,,,|............|r....."
       ],
       "rotation": 1,
-      "palettes": [ "megastore", "mega_goods_b" ],
+      "palettes": ["megastore", "mega_goods_b"],
       "terrain": { "%": "t_gates_mech_control" },
       "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 } }
     }
@@ -733,7 +733,7 @@
         ",,,,|............|r....."
       ],
       "rotation": 1,
-      "palettes": [ "megastore", "mega_goods_c" ],
+      "palettes": ["megastore", "mega_goods_c"],
       "terrain": { "%": "t_gates_mech_control", "m": "t_mdoor_frame" },
       "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 } }
     }
@@ -773,7 +773,7 @@
         ",,,,|............|R....."
       ],
       "rotation": 1,
-      "palettes": [ "megastore", "mega_goods_d" ],
+      "palettes": ["megastore", "mega_goods_d"],
       "terrain": { "%": "t_gates_mech_control", "m": "t_mdoor_frame" },
       "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 } }
     }
@@ -813,7 +813,7 @@
         ",,,,|xx..........|K....."
       ],
       "rotation": 1,
-      "palettes": [ "megastore", "mega_goods_e" ],
+      "palettes": ["megastore", "mega_goods_e"],
       "terrain": { "%": "t_gates_mech_control", "m": "t_mdoor_frame" },
       "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 } }
     }
@@ -853,8 +853,8 @@
         "........................"
       ],
       "rotation": 3,
-      "palettes": [ "megastore", "mega_goods_a" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_a"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -892,10 +892,13 @@
         "........................"
       ],
       "rotation": 3,
-      "palettes": [ "megastore", "mega_goods_b" ],
+      "palettes": ["megastore", "mega_goods_b"],
       "furniture": { "%": "f_displaycase" },
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ],
-      "items": { "C": { "item": "consumer_electronics", "chance": 60 }, "%": { "item": "jewelry_front", "chance": 60 } }
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }],
+      "items": {
+        "C": { "item": "consumer_electronics", "chance": 60 },
+        "%": { "item": "jewelry_front", "chance": 60 }
+      }
     }
   },
   {
@@ -933,8 +936,8 @@
         "........................"
       ],
       "rotation": 3,
-      "palettes": [ "megastore", "mega_goods_c" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_c"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -972,8 +975,8 @@
         "........................"
       ],
       "rotation": 3,
-      "palettes": [ "megastore", "mega_goods_d" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_d"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1011,8 +1014,8 @@
         "........................"
       ],
       "rotation": 3,
-      "palettes": [ "megastore", "mega_goods_e" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_e"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1049,9 +1052,9 @@
         ".kk..kk..rrrrrrrrrrrrrrr",
         "........................"
       ],
-      "rotation": [ 0, 3 ],
-      "palettes": [ "megastore", "mega_goods_a" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "rotation": [0, 3],
+      "palettes": ["megastore", "mega_goods_a"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1088,9 +1091,9 @@
         "....RR............RR....",
         "........................"
       ],
-      "rotation": [ 0, 3 ],
-      "palettes": [ "megastore", "mega_goods_b" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "rotation": [0, 3],
+      "palettes": ["megastore", "mega_goods_b"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1127,9 +1130,9 @@
         "..KKKKKKKKKKKKKKKKKKKK..",
         "........................"
       ],
-      "rotation": [ 0, 3 ],
-      "palettes": [ "megastore", "mega_goods_c" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "rotation": [0, 3],
+      "palettes": ["megastore", "mega_goods_c"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1166,9 +1169,9 @@
         "........................",
         "........................"
       ],
-      "rotation": [ 0, 3 ],
-      "palettes": [ "megastore", "mega_goods_d" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "rotation": [0, 3],
+      "palettes": ["megastore", "mega_goods_d"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1205,9 +1208,9 @@
         ".RR.RR.......bbbbbbbbbb.",
         "........................"
       ],
-      "rotation": [ 0, 3 ],
-      "palettes": [ "megastore", "mega_goods_e" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "rotation": [0, 3],
+      "palettes": ["megastore", "mega_goods_e"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1245,8 +1248,8 @@
         "........................"
       ],
       "rotation": 1,
-      "palettes": [ "megastore", "mega_goods_a" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_a"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1284,8 +1287,8 @@
         "........................"
       ],
       "rotation": 1,
-      "palettes": [ "megastore", "mega_goods_b" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_b"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1323,8 +1326,8 @@
         "........................"
       ],
       "rotation": 1,
-      "palettes": [ "megastore", "mega_goods_c" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_c"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1362,8 +1365,8 @@
         "........................"
       ],
       "rotation": 1,
-      "palettes": [ "megastore", "mega_goods_d" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ],
+      "palettes": ["megastore", "mega_goods_d"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }],
       "items": { "C": { "item": "consumer_electronics", "chance": 60 } }
     }
   },
@@ -1402,8 +1405,8 @@
         "........................"
       ],
       "rotation": 1,
-      "palettes": [ "megastore", "mega_goods_e" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_e"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1441,8 +1444,8 @@
         ",,WWg.....6............."
       ],
       "rotation": 3,
-      "palettes": [ "megastore", "mega_goods_a" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_a"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1480,8 +1483,8 @@
         ",,WWg.....6............."
       ],
       "rotation": 3,
-      "palettes": [ "megastore", "mega_goods_b" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_b"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1519,8 +1522,8 @@
         ",,WWg.....6............."
       ],
       "rotation": 3,
-      "palettes": [ "megastore", "mega_goods_c" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ],
+      "palettes": ["megastore", "mega_goods_c"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }],
       "furniture": { "%": "f_vending_c" }
     }
   },
@@ -1559,8 +1562,8 @@
         ",,WWg.....6............."
       ],
       "rotation": 3,
-      "palettes": [ "megastore", "mega_goods_d" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_d"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1598,8 +1601,8 @@
         ",,WW|.....6............."
       ],
       "rotation": 3,
-      "palettes": [ "megastore", "mega_goods_e" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ],
+      "palettes": ["megastore", "mega_goods_e"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }],
       "vehicles": { "v": { "vehicle": "food_cart", "chance": 50, "status": 0 } }
     }
   },
@@ -1638,9 +1641,12 @@
         "........................"
       ],
       "rotation": 2,
-      "palettes": [ "megastore", "mega_goods_f" ],
+      "palettes": ["megastore", "mega_goods_f"],
       "terrain": { "%": "t_atm", "m": "t_mdoor_frame" },
-      "items": { "e": { "item": "softdrugs", "chance": 40 }, "E": { "item": "harddrugs", "chance": 10 } },
+      "items": {
+        "e": { "item": "softdrugs", "chance": 40 },
+        "E": { "item": "harddrugs", "chance": 10 }
+      },
       "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 } }
     }
   },
@@ -1679,7 +1685,7 @@
         "..R..R..R..R............"
       ],
       "rotation": 2,
-      "palettes": [ "megastore", "mega_goods_f" ],
+      "palettes": ["megastore", "mega_goods_f"],
       "terrain": { "%": "t_atm", "m": "t_mdoor_frame" },
       "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 25, "status": 0 } }
     }
@@ -1719,8 +1725,8 @@
         ",,|r.r.r.r.r.r.r.r.r.r.."
       ],
       "rotation": 2,
-      "palettes": [ "megastore", "mega_goods_a" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ],
+      "palettes": ["megastore", "mega_goods_a"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }],
       "items": { "C": { "item": "coffee_display", "chance": 30 } }
     }
   },
@@ -1759,8 +1765,8 @@
         ",,|....................."
       ],
       "rotation": 2,
-      "palettes": [ "megastore", "mega_goods_b" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_b"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1798,8 +1804,8 @@
         ",,|R...................."
       ],
       "rotation": 2,
-      "palettes": [ "megastore", "mega_goods_c" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ],
+      "palettes": ["megastore", "mega_goods_c"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }],
       "items": { "C": { "item": "produce", "chance": 30, "repeat": 3 } }
     }
   },
@@ -1838,8 +1844,8 @@
         ",,|R...................."
       ],
       "rotation": 2,
-      "palettes": [ "megastore", "mega_goods_d" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_d"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1877,8 +1883,8 @@
         ",,|R...................."
       ],
       "rotation": 2,
-      "palettes": [ "megastore", "mega_goods_e" ],
-      "set": [ { "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" } ]
+      "palettes": ["megastore", "mega_goods_e"],
+      "set": [{ "square": "terrain", "x": 9, "y": 9, "x2": 14, "y2": 14, "id": "t_concrete" }]
     }
   },
   {
@@ -1916,7 +1922,7 @@
         "##|*********************"
       ],
       "rotation": 0,
-      "palettes": [ "megastore" ]
+      "palettes": ["megastore"]
     }
   },
   {
@@ -1954,7 +1960,7 @@
         "************************"
       ],
       "rotation": 0,
-      "palettes": [ "megastore" ]
+      "palettes": ["megastore"]
     }
   },
   {
@@ -1992,7 +1998,7 @@
         "####|************|******"
       ],
       "rotation": 1,
-      "palettes": [ "megastore" ],
+      "palettes": ["megastore"],
       "terrain": { "%": "t_machinery_heavy" }
     }
   },
@@ -2031,7 +2037,7 @@
         "************************"
       ],
       "rotation": 3,
-      "palettes": [ "megastore" ]
+      "palettes": ["megastore"]
     }
   },
   {
@@ -2068,8 +2074,8 @@
         "************************",
         "************************"
       ],
-      "rotation": [ 0, 3 ],
-      "palettes": [ "megastore" ]
+      "rotation": [0, 3],
+      "palettes": ["megastore"]
     }
   },
   {
@@ -2107,7 +2113,7 @@
         "************************"
       ],
       "rotation": 1,
-      "palettes": [ "megastore" ]
+      "palettes": ["megastore"]
     }
   },
   {
@@ -2145,7 +2151,7 @@
         "####|*******************"
       ],
       "rotation": 3,
-      "palettes": [ "megastore" ]
+      "palettes": ["megastore"]
     }
   },
   {
@@ -2183,7 +2189,7 @@
         "************************"
       ],
       "rotation": 2,
-      "palettes": [ "megastore" ]
+      "palettes": ["megastore"]
     }
   },
   {
@@ -2221,7 +2227,7 @@
         "##|*********************"
       ],
       "rotation": 2,
-      "palettes": [ "megastore" ]
+      "palettes": ["megastore"]
     }
   },
   {
@@ -2259,19 +2265,19 @@
         "##1                     "
       ],
       "rotation": 0,
-      "palettes": [ "megastore" ],
+      "palettes": ["megastore"],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 5 ],
-            [ "roof_16x16_help", 5 ],
-            [ "roof_2x2_infrastructure", 80 ],
-            [ "roof_2x2_infrastructure_2", 40 ],
-            [ "roof_2x2_utilities", 40 ],
-            [ "roof_6x6_survivor", 5 ]
+            ["null", 5],
+            ["roof_16x16_help", 5],
+            ["roof_2x2_infrastructure", 80],
+            ["roof_2x2_infrastructure_2", 40],
+            ["roof_2x2_utilities", 40],
+            ["roof_6x6_survivor", 5]
           ],
-          "x": [ 7, 22 ],
-          "y": [ 6, 22 ]
+          "x": [7, 22],
+          "y": [6, 22]
         }
       ]
     }
@@ -2311,19 +2317,19 @@
         "                        "
       ],
       "rotation": 0,
-      "palettes": [ "megastore" ],
+      "palettes": ["megastore"],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 5 ],
-            [ "roof_16x16_help", 5 ],
-            [ "roof_2x2_infrastructure", 80 ],
-            [ "roof_2x2_infrastructure_2", 40 ],
-            [ "roof_2x2_utilities", 40 ],
-            [ "roof_6x6_survivor", 5 ]
+            ["null", 5],
+            ["roof_16x16_help", 5],
+            ["roof_2x2_infrastructure", 80],
+            ["roof_2x2_infrastructure_2", 40],
+            ["roof_2x2_utilities", 40],
+            ["roof_6x6_survivor", 5]
           ],
-          "x": [ 1, 22 ],
-          "y": [ 6, 22 ]
+          "x": [1, 22],
+          "y": [6, 22]
         }
       ]
     }
@@ -2363,19 +2369,19 @@
         "####1                   "
       ],
       "rotation": 1,
-      "palettes": [ "megastore" ],
+      "palettes": ["megastore"],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 5 ],
-            [ "roof_16x16_help", 5 ],
-            [ "roof_2x2_infrastructure", 80 ],
-            [ "roof_2x2_infrastructure_2", 40 ],
-            [ "roof_2x2_utilities", 40 ],
-            [ "roof_6x6_survivor", 5 ]
+            ["null", 5],
+            ["roof_16x16_help", 5],
+            ["roof_2x2_infrastructure", 80],
+            ["roof_2x2_infrastructure_2", 40],
+            ["roof_2x2_utilities", 40],
+            ["roof_6x6_survivor", 5]
           ],
-          "x": [ 6, 22 ],
-          "y": [ 7, 22 ]
+          "x": [6, 22],
+          "y": [7, 22]
         }
       ]
     }
@@ -2415,22 +2421,22 @@
         "                        "
       ],
       "rotation": 3,
-      "palettes": [ "megastore" ],
+      "palettes": ["megastore"],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ] },
-        { "monster": "GROUP_SCHOOL", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 20 }
+        { "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 22] },
+        { "monster": "GROUP_SCHOOL", "x": [1, 22], "y": [1, 22], "chance": 20 }
       ],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 5 ],
-            [ "roof_2x2_infrastructure", 80 ],
-            [ "roof_2x2_infrastructure_2", 40 ],
-            [ "roof_2x2_utilities", 40 ],
-            [ "roof_6x6_survivor", 5 ]
+            ["null", 5],
+            ["roof_2x2_infrastructure", 80],
+            ["roof_2x2_infrastructure_2", 40],
+            ["roof_2x2_utilities", 40],
+            ["roof_6x6_survivor", 5]
           ],
-          "x": [ 1, 22 ],
-          "y": [ 18, 22 ]
+          "x": [1, 22],
+          "y": [18, 22]
         }
       ]
     }
@@ -2469,13 +2475,18 @@
         "                        ",
         "                        "
       ],
-      "rotation": [ 0, 3 ],
-      "palettes": [ "megastore" ],
+      "rotation": [0, 3],
+      "palettes": ["megastore"],
       "place_nested": [
         {
-          "chunks": [ [ "null", 5 ], [ "roof_2x2_infrastructure", 20 ], [ "roof_2x2_infrastructure_2", 20 ], [ "roof_2x2_utilities", 20 ] ],
-          "x": [ 1, 22 ],
-          "y": [ 1, 6 ]
+          "chunks": [
+            ["null", 5],
+            ["roof_2x2_infrastructure", 20],
+            ["roof_2x2_infrastructure_2", 20],
+            ["roof_2x2_utilities", 20]
+          ],
+          "x": [1, 22],
+          "y": [1, 6]
         }
       ]
     }
@@ -2515,18 +2526,18 @@
         "                        "
       ],
       "rotation": 1,
-      "palettes": [ "megastore" ],
+      "palettes": ["megastore"],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 5 ],
-            [ "roof_2x2_infrastructure", 80 ],
-            [ "roof_2x2_infrastructure_2", 40 ],
-            [ "roof_2x2_utilities", 40 ],
-            [ "roof_6x6_survivor", 5 ]
+            ["null", 5],
+            ["roof_2x2_infrastructure", 80],
+            ["roof_2x2_infrastructure_2", 40],
+            ["roof_2x2_utilities", 40],
+            ["roof_6x6_survivor", 5]
           ],
-          "x": [ 1, 22 ],
-          "y": [ 18, 22 ]
+          "x": [1, 22],
+          "y": [18, 22]
         }
       ]
     }
@@ -2566,12 +2577,17 @@
         "####1                   "
       ],
       "rotation": 3,
-      "palettes": [ "megastore" ],
+      "palettes": ["megastore"],
       "place_nested": [
         {
-          "chunks": [ [ "null", 5 ], [ "roof_2x2_infrastructure", 80 ], [ "roof_2x2_infrastructure_2", 40 ], [ "roof_2x2_utilities", 40 ] ],
-          "x": [ 1, 22 ],
-          "y": [ 18, 22 ]
+          "chunks": [
+            ["null", 5],
+            ["roof_2x2_infrastructure", 80],
+            ["roof_2x2_infrastructure_2", 40],
+            ["roof_2x2_utilities", 40]
+          ],
+          "x": [1, 22],
+          "y": [18, 22]
         }
       ]
     }
@@ -2611,18 +2627,18 @@
         "                        "
       ],
       "rotation": 2,
-      "palettes": [ "megastore" ],
+      "palettes": ["megastore"],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 5 ],
-            [ "roof_2x2_infrastructure", 80 ],
-            [ "roof_2x2_infrastructure_2", 40 ],
-            [ "roof_2x2_utilities", 40 ],
-            [ "roof_6x6_survivor", 5 ]
+            ["null", 5],
+            ["roof_2x2_infrastructure", 80],
+            ["roof_2x2_infrastructure_2", 40],
+            ["roof_2x2_utilities", 40],
+            ["roof_6x6_survivor", 5]
           ],
-          "x": [ 1, 22 ],
-          "y": [ 7, 22 ]
+          "x": [1, 22],
+          "y": [7, 22]
         }
       ]
     }
@@ -2662,12 +2678,17 @@
         "##1                     "
       ],
       "rotation": 2,
-      "palettes": [ "megastore" ],
+      "palettes": ["megastore"],
       "place_nested": [
         {
-          "chunks": [ [ "null", 5 ], [ "roof_2x2_infrastructure", 80 ], [ "roof_2x2_infrastructure_2", 40 ], [ "roof_2x2_utilities", 40 ] ],
-          "x": [ 7, 22 ],
-          "y": [ 18, 22 ]
+          "chunks": [
+            ["null", 5],
+            ["roof_2x2_infrastructure", 80],
+            ["roof_2x2_infrastructure_2", 40],
+            ["roof_2x2_utilities", 40]
+          ],
+          "x": [7, 22],
+          "y": [18, 22]
         }
       ]
     }

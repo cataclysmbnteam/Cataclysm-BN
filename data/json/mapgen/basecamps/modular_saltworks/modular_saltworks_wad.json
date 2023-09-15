@@ -2,7 +2,13 @@
   {
     "type": "palette",
     "id": "fbmsw_wad_palette",
-    "terrain": { ".": "t_dirtfloor", "~": "t_swater_sh", "o": "t_wall_wattle_half", "w": "t_wall_wattle", "+": "t_door_makeshift_c" },
+    "terrain": {
+      ".": "t_dirtfloor",
+      "~": "t_swater_sh",
+      "o": "t_wall_wattle_half",
+      "w": "t_wall_wattle",
+      "+": "t_door_makeshift_c"
+    },
     "furniture": {
       "b": "f_bench",
       "r": "f_rack",
@@ -20,7 +26,7 @@
     "method": "json",
     "nested_mapgen_id": "fbmsw_saltpan_wad",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [7, 7],
       "rows": [
         "wwwowww",
         "w.....w",
@@ -30,21 +36,21 @@
         "w.....w",
         "www+www"
       ],
-      "palettes": [ "fbmsw_wad_palette" ]
+      "palettes": ["fbmsw_wad_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_saltpan_wad_northeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_saltpan_wad" ], "x": 14, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmsw_saltpan_wad"], "x": 14, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmsw_shack_wad",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "      ",
         "  woww",
@@ -53,21 +59,21 @@
         " orrrw",
         " wwoww"
       ],
-      "palettes": [ "fbmsw_wad_palette" ]
+      "palettes": ["fbmsw_wad_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_shack_wad_southeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_shack_wad" ], "x": 15, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmsw_shack_wad"], "x": 15, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmsw_brewery0_wad",
     "object": {
-      "mapgensize": [ 7, 7 ],
+      "mapgensize": [7, 7],
       "rows": [
         "wwwwwww",
         "w.rrr.w",
@@ -77,13 +83,13 @@
         "w.....w",
         "wwwwwww"
       ],
-      "palettes": [ "fbmsw_wad_palette" ]
+      "palettes": ["fbmsw_wad_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmsw_brewery0_wad_southwest",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery0_wad" ], "x": 3, "y": 14 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmsw_brewery0_wad"], "x": 3, "y": 14 }] }
   }
 ]

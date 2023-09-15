@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "house_porch" ],
+    "om_terrain": ["house_porch"],
     "weight": 200,
     "object": {
       "fill_ter": "t_floor",
@@ -32,14 +32,14 @@
         "......#o##oo#######oo##.",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "~": "t_thconc_floor",
         "j": "t_thconc_floor",
         "G": "t_thconc_floor",
         "K": "t_thconc_floor",
         "!": "t_concrete",
-        ":": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        ":": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "_": "t_railing",
         "%": "t_region_groundcover_urban",
         "9": "t_linoleum_gray",
@@ -53,8 +53,8 @@
       },
       "furniture": { "%": "f_region_flower" },
       "place_loot": [
-        { "group": "alcohol", "x": [ 2, 2 ], "y": [ 8, 8 ], "chance": 15 },
-        { "item": "television", "x": [ 4, 4 ], "y": [ 10, 10 ], "chance": 75 }
+        { "group": "alcohol", "x": [2, 2], "y": [8, 8], "chance": 15 },
+        { "item": "television", "x": [4, 4], "y": [10, 10], "chance": 75 }
       ]
     }
   },
@@ -90,7 +90,7 @@
         "      |---------------3 ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -126,18 +126,18 @@
         "      ||||||||||||||||| ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "nested": {
         "1": {
           "chunks": [
-            [ "null", 70 ],
-            [ "room_7x7_recroom_E", 30 ],
-            [ "room_7x7_wine_cellar_E", 30 ],
-            [ "7x7_tent_indoors", 10 ],
-            [ "7x7_band_practice_open", 30 ]
+            ["null", 70],
+            ["room_7x7_recroom_E", 30],
+            ["room_7x7_wine_cellar_E", 30],
+            ["7x7_tent_indoors", 10],
+            ["7x7_band_practice_open", 30]
           ]
         },
-        "2": { "chunks": [ [ "null", 75 ], [ "room_9x9_cellar_W", 20 ], [ "room_9x9_weed_W", 5 ] ] }
+        "2": { "chunks": [["null", 75], ["room_9x9_cellar_W", 20], ["room_9x9_weed_W", 5]] }
       }
     }
   }

@@ -1,41 +1,46 @@
 [
   {
-    "id": [ "pistol_flintlock" ],
+    "id": ["pistol_flintlock"],
     "type": "MIGRATION",
     "replace": "black_powder_pistol"
   },
   {
-    "id": [ "colt_navy", "colt_army", "lemat_revolver" ],
+    "id": ["colt_navy", "colt_army", "lemat_revolver"],
     "type": "MIGRATION",
     "replace": "black_powder_revolver"
   },
   {
-    "id": [ "rifle_flintlock", "carbine_flintlock", "carbine_flintlock_double", "longrifle_flintlock" ],
+    "id": [
+      "rifle_flintlock",
+      "carbine_flintlock",
+      "carbine_flintlock_double",
+      "longrifle_flintlock"
+    ],
     "type": "MIGRATION",
     "replace": "black_powder_rifle"
   },
   {
-    "id": [ "blunderbuss" ],
+    "id": ["blunderbuss"],
     "type": "MIGRATION",
     "replace": "black_powder_shotgun"
   },
   {
-    "id": [ "launcher_simple", "m79" ],
+    "id": ["launcher_simple", "m79"],
     "type": "MIGRATION",
     "replace": "grenade_blooper"
   },
   {
-    "id": [ "mark19" ],
+    "id": ["mark19"],
     "type": "MIGRATION",
     "replace": "grenade_hmg"
   },
   {
-    "id": [ "m320" ],
+    "id": ["m320"],
     "type": "MIGRATION",
     "replace": "grenade_pistol"
   },
   {
-    "id": [ "mgl", "rm802", "triple_launcher_simple", "pseudo_m203" ],
+    "id": ["mgl", "rm802", "triple_launcher_simple", "pseudo_m203"],
     "type": "MIGRATION",
     "replace": "grenade_revolver"
   },
@@ -56,22 +61,31 @@
     "replace": "pistol_machine"
   },
   {
-    "id": [ "deagle_44", "m1911-460", "draco" ],
+    "id": ["deagle_44", "m1911-460", "draco"],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
   },
   {
-    "id": [ "henry_big_boy", "bh_m89", "colt_lightning" ],
+    "id": ["henry_big_boy", "bh_m89", "colt_lightning"],
     "type": "MIGRATION",
     "replace": "pistol_magnum_levergun"
   },
   {
-    "id": [ "rifle_44" ],
+    "id": ["rifle_44"],
     "type": "MIGRATION",
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "rm228", "sw_619", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
+    "id": [
+      "rm228",
+      "sw_619",
+      "ruger_redhawk",
+      "sw629",
+      "bfr",
+      "sw_500",
+      "raging_bull",
+      "raging_judge"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },
@@ -125,7 +139,7 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico" ],
+    "id": ["cx4", "hk_mp5_semi_pistol", "ksub2000", "calico"],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
@@ -146,32 +160,52 @@
     "replace": "pistol_pipe"
   },
   {
-    "id": [ "cop_38", "model_10_revolver", "ruger_lcr_38", "sw_610", "bond_410", "colt_saa", "rm99_pistol", "m47a1" ],
+    "id": [
+      "cop_38",
+      "model_10_revolver",
+      "ruger_lcr_38",
+      "sw_610",
+      "bond_410",
+      "colt_saa",
+      "rm99_pistol",
+      "m47a1"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_revolver"
   },
   {
-    "id": [ "ppsh", "hk_mp5", "hk_mp5sd", "uzi", "TDI", "hk_ump45", "fn_p90", "needlegun", "rm2000_smg", "sten" ],
+    "id": [
+      "ppsh",
+      "hk_mp5",
+      "hk_mp5sd",
+      "uzi",
+      "TDI",
+      "hk_ump45",
+      "fn_p90",
+      "needlegun",
+      "rm2000_smg",
+      "sten"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_smg"
   },
   {
-    "id": [ "american_180", "ruger_1022", "marlin_9a" ],
+    "id": ["american_180", "ruger_1022", "marlin_9a"],
     "type": "MIGRATION",
     "replace": "pistol_tiny_rifle"
   },
   {
-    "id": [ "kp32", "sig_mosquito", "sw_22", "walther_p22", "sig_p230", "walther_ppk", "j22" ],
+    "id": ["kp32", "sig_mosquito", "sw_22", "walther_p22", "sig_p230", "walther_ppk", "j22"],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
   },
   {
-    "id": [ "ruger_lcr_22" ],
+    "id": ["ruger_lcr_22"],
     "type": "MIGRATION",
     "replace": "pistol_tiny_revolver"
   },
   {
-    "id": [ "moss_brownie", "rifle_22" ],
+    "id": ["moss_brownie", "rifle_22"],
     "type": "MIGRATION",
     "replace": "pistol_tiny_zip"
   },
@@ -201,32 +235,32 @@
     "replace": "rifle_assault"
   },
   {
-    "id": [ "m107a1", "as50", "tac50", "m2browning_sawn", "bfg50", "trex_gun" ],
+    "id": ["m107a1", "as50", "tac50", "m2browning_sawn", "bfg50", "trex_gun"],
     "type": "MIGRATION",
     "replace": "rifle_huge_amr"
   },
   {
-    "id": [ "m2browning" ],
+    "id": ["m2browning"],
     "type": "MIGRATION",
     "replace": "rifle_huge_hmg"
   },
   {
-    "id": [ "m134", "m249", "m27iar", "m240", "m60", "rm614_lmg", "rm298" ],
+    "id": ["m134", "m249", "m27iar", "m240", "m60", "rm614_lmg", "rm298"],
     "type": "MIGRATION",
     "replace": "rifle_lmg"
   },
   {
-    "id": [ "surv_carbine_223" ],
+    "id": ["surv_carbine_223"],
     "type": "MIGRATION",
     "replace": "rifle_pipe_carbine"
   },
   {
-    "id": [ "rifle_3006", "rifle_223", "rifle_308" ],
+    "id": ["rifle_3006", "rifle_223", "rifle_308"],
     "type": "MIGRATION",
     "replace": "rifle_pipe_rifle"
   },
   {
-    "id": [ "m110a1", "rm11b_sniper_rifle", "m2010", "browning_blr", "m14ebr" ],
+    "id": ["m110a1", "rm11b_sniper_rifle", "m2010", "browning_blr", "m14ebr"],
     "type": "MIGRATION",
     "replace": "rifle_sniper"
   },
@@ -269,27 +303,27 @@
     "replace": "rifle_sporter"
   },
   {
-    "id": [ "AT4", "LAW_Packed", "LAW" ],
+    "id": ["AT4", "LAW_Packed", "LAW"],
     "type": "MIGRATION",
     "replace": "rocket_disposable"
   },
   {
-    "id": [ "m202_flash", "m3_carlgustav", "RPG", "surv_rocket_launcher" ],
+    "id": ["m202_flash", "m3_carlgustav", "RPG", "surv_rocket_launcher"],
     "type": "MIGRATION",
     "replace": "rocket_recoilless"
   },
   {
-    "id": [ "shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
+    "id": ["shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897"],
     "type": "MIGRATION",
     "replace": "shot_double"
   },
   {
-    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot", "pipe_combination_gun" ],
+    "id": ["pipe_double_shotgun", "revolver_shotgun", "ashot", "pipe_combination_gun"],
     "type": "MIGRATION",
     "replace": "shot_pipe_double"
   },
   {
-    "id": [ "saiga_410", "rm120c", "rm20", "bigun", "saiga_12", "tavor_12", "bigun", "USAS_12" ],
+    "id": ["saiga_410", "rm120c", "rm20", "bigun", "saiga_12", "tavor_12", "bigun", "USAS_12"],
     "type": "MIGRATION",
     "replace": "shot_tactical"
   },

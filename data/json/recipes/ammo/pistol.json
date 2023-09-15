@@ -6,14 +6,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 1 ], [ "manual_smg", 1 ], [ "recipe_bullets", 2 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 1], ["manual_smg", 1], ["recipe_bullets", 2]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 4 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_9mm", 1]],
+    "components": [[["chem_black_powder", 4]]]
   },
   {
     "result": "bp_9mmfmj",
@@ -22,14 +22,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 2 ], [ "manual_smg", 2 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 2], ["manual_smg", 2], ["recipe_bullets", 3]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_9mm", 1]],
+    "components": [[["chem_black_powder", 4]], [["copper", 1]]]
   },
   {
     "result": "bp_40fmj",
@@ -38,14 +38,19 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["recipe_bullets", 4]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [
+      [["40_casing", 1]],
+      [["smpistol_primer", 1]],
+      [["chem_black_powder", 6]],
+      [["copper", 1]]
+    ]
   },
   {
     "result": "bp_40sw",
@@ -54,14 +59,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 2 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 2], ["recipe_bullets", 3]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [[["40_casing", 1]], [["smpistol_primer", 1]], [["chem_black_powder", 6]]]
   },
   {
     "result": "bp_32_acp",
@@ -70,14 +75,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 5 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 5]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "32_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 3 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [[["32_casing", 1]], [["smpistol_primer", 1]], [["chem_black_powder", 3]]]
   },
   {
     "result": "bp_38_fmj",
@@ -86,14 +91,19 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 2 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 2], ["recipe_bullets", 3]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [
+      [["38_casing", 1]],
+      [["smpistol_primer", 1]],
+      [["chem_black_powder", 3]],
+      [["copper", 1]]
+    ]
   },
   {
     "result": "bp_44fmj",
@@ -102,14 +112,19 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
-    "components": [ [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ], [ [ "copper", 2 ] ] ]
+    "using": [["bullet_forming", 5], ["ammo_bullet", 4]],
+    "components": [
+      [["44_casing", 1]],
+      [["lgpistol_primer", 1]],
+      [["chem_black_powder", 9]],
+      [["copper", 2]]
+    ]
   },
   {
     "result": "bp_45_acp",
@@ -118,14 +133,19 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 5 ],
+    "skills_required": ["gun", 5],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "manual_smg", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["manual_smg", 3], ["recipe_bullets", 4]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ], [ [ "copper", 2 ] ] ]
+    "using": [["bullet_forming", 3], ["ammo_bullet", 3]],
+    "components": [
+      [["45_casing", 1]],
+      [["lgpistol_primer", 1]],
+      [["chem_black_powder", 6]],
+      [["copper", 2]]
+    ]
   },
   {
     "result": "bp_45_jhp",
@@ -134,14 +154,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 5 ],
+    "skills_required": ["gun", 5],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 2 ], [ "manual_smg", 2 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 2], ["manual_smg", 2], ["recipe_bullets", 3]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ] ]
+    "using": [["bullet_forming", 3], ["ammo_bullet", 3]],
+    "components": [[["45_casing", 1]], [["lgpistol_primer", 1]], [["chem_black_powder", 6]]]
   },
   {
     "result": "bp_46mm",
@@ -150,14 +170,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": ["gun", 3],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["mag_rifle", 4]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "46mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 6 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [[["46mm_casing", 1]], [["smpistol_primer", 1]], [["chem_black_powder", 6]]]
   },
   {
     "result": "bp_460_fmj",
@@ -166,14 +186,19 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [ [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ], [ [ "copper", 2 ] ] ]
+    "using": [["bullet_forming", 3], ["ammo_bullet", 3]],
+    "components": [
+      [["460_casing", 1]],
+      [["lgpistol_primer", 1]],
+      [["chem_black_powder", 9]],
+      [["copper", 2]]
+    ]
   },
   {
     "result": "bp_460_rowland",
@@ -182,14 +207,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": ["gun", 3],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [ [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ] ]
+    "using": [["bullet_forming", 3], ["ammo_bullet", 3]],
+    "components": [[["460_casing", 1]], [["lgpistol_primer", 1]], [["chem_black_powder", 9]]]
   },
   {
     "result": "bp_500_Magnum",
@@ -198,14 +223,19 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 9,
-    "skills_required": [ "gun", 7 ],
+    "skills_required": ["gun", 7],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 7 ], [ "manual_pistol", 8 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 7], ["manual_pistol", 8]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 6 ], [ "ammo_bullet", 5 ] ],
-    "components": [ [ [ "500_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 12 ] ], [ [ "copper", 2 ] ] ]
+    "using": [["bullet_forming", 6], ["ammo_bullet", 5]],
+    "components": [
+      [["500_casing", 1]],
+      [["lgrifle_primer", 1]],
+      [["chem_black_powder", 12]],
+      [["copper", 2]]
+    ]
   },
   {
     "result": "bp_762_25",
@@ -214,14 +244,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 3]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_762_25", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 6 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_762_25", 1]],
+    "components": [[["chem_black_powder", 6]]]
   },
   {
     "result": "bp_9x18mm",
@@ -230,14 +260,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 1], ["manual_pistol", 2]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 4 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [[["9x18mm_casing", 1]], [["smpistol_primer", 1]], [["chem_black_powder", 4]]]
   },
   {
     "result": "bp_9x18mmfmj",
@@ -246,14 +276,19 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 4 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [
+      [["9x18mm_casing", 1]],
+      [["smpistol_primer", 1]],
+      [["chem_black_powder", 4]],
+      [["copper", 1]]
+    ]
   },
   {
     "result": "bp_380_JHP",
@@ -262,14 +297,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 1 ], [ "manual_smg", 1 ], [ "recipe_bullets", 2 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 1], ["manual_smg", 1], ["recipe_bullets", 2]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_380", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_380", 1]],
+    "components": [[["chem_black_powder", 3]]]
   },
   {
     "result": "bp_380_FMJ",
@@ -278,14 +313,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 2 ], [ "manual_smg", 2 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 2], ["manual_smg", 2], ["recipe_bullets", 3]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_380", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_380", 1]],
+    "components": [[["chem_black_powder", 3]], [["copper", 1]]]
   },
   {
     "result": "bp_57mm",
@@ -294,14 +329,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 2 ], [ "manual_smg", 2 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 2], ["manual_smg", 2], ["recipe_bullets", 3]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_57", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_57", 1]],
+    "components": [[["chem_black_powder", 3]], [["copper", 1]]]
   },
   {
     "result": "36navy",
@@ -310,15 +345,19 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "1 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["recipe_bullets", 3]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "ammo_bullet", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+    "using": [["ammo_bullet", 1]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [
+      [["chem_black_powder", 4]],
+      [["smpistol_primer", 1]],
+      [["paper", 1], ["aluminum_foil", 1]]
+    ]
   },
   {
     "result": "44army",
@@ -327,15 +366,19 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "1 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["recipe_bullets", 3]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "ammo_bullet", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chem_black_powder", 4 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+    "using": [["ammo_bullet", 2]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [
+      [["chem_black_powder", 4]],
+      [["lgpistol_primer", 1]],
+      [["paper", 1], ["aluminum_foil", 1]]
+    ]
   },
   {
     "result": "32_acp",
@@ -344,13 +387,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 5 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 5]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "32_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 2 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [[["32_casing", 1]], [["smpistol_primer", 1]], [["gunpowder", 2]]]
   },
   {
     "result": "38_fmj",
@@ -359,13 +402,18 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 2 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 2], ["recipe_bullets", 3]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 2 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [
+      [["38_casing", 1]],
+      [["smpistol_primer", 1]],
+      [["gunpowder", 2]],
+      [["copper", 1]]
+    ]
   },
   {
     "result": "38_special",
@@ -374,13 +422,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 1 ], [ "recipe_bullets", 2 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 1], ["recipe_bullets", 2]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 2 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [[["38_casing", 1]], [["smpistol_primer", 1]], [["gunpowder", 2]]]
   },
   {
     "result": "38_super",
@@ -389,13 +437,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": ["gun", 3],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_38super", 1 ] ],
-    "components": [ [ [ "gunpowder", 3 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_38super", 1]],
+    "components": [[["gunpowder", 3]]]
   },
   {
     "result": "38super_fmj",
@@ -404,13 +452,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 1 ], [ "recipe_bullets", 2 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 1], ["recipe_bullets", 2]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_38super", 1 ] ],
-    "components": [ [ [ "gunpowder", 3 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_38super", 1]],
+    "components": [[["gunpowder", 3]], [["copper", 1]]]
   },
   {
     "result": "357sig_fmj",
@@ -419,13 +467,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["recipe_bullets", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_357sig", 1 ] ],
-    "components": [ [ [ "gunpowder", 5 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_357sig", 1]],
+    "components": [[["gunpowder", 5]], [["copper", 1]]]
   },
   {
     "result": "357sig_jhp",
@@ -434,13 +482,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["recipe_bullets", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_357sig", 1 ] ],
-    "components": [ [ [ "gunpowder", 5 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_357sig", 1]],
+    "components": [[["gunpowder", 5]]]
   },
   {
     "result": "357mag_fmj",
@@ -449,13 +497,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["recipe_bullets", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_357mag", 1 ] ],
-    "components": [ [ [ "gunpowder", 5 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_357mag", 1]],
+    "components": [[["gunpowder", 5]], [["copper", 1]]]
   },
   {
     "result": "357mag_jhp",
@@ -464,13 +512,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["recipe_bullets", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_357mag", 1 ] ],
-    "components": [ [ [ "gunpowder", 5 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_357mag", 1]],
+    "components": [[["gunpowder", 5]]]
   },
   {
     "result": "bp_357mag_fmj",
@@ -479,14 +527,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["recipe_bullets", 4]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_357mag", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 8 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_357mag", 1]],
+    "components": [[["chem_black_powder", 8]], [["copper", 1]]]
   },
   {
     "result": "bp_357mag_jhp",
@@ -495,14 +543,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["recipe_bullets", 4]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_357mag", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 8 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_357mag", 1]],
+    "components": [[["chem_black_powder", 8]]]
   },
   {
     "result": "bp_38_special",
@@ -511,14 +559,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 1 ], [ "recipe_bullets", 2 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 1], ["recipe_bullets", 2]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "chem_black_powder", 3 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [[["38_casing", 1]], [["smpistol_primer", 1]], [["chem_black_powder", 3]]]
   },
   {
     "result": "40fmj",
@@ -527,13 +575,18 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["recipe_bullets", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [
+      [["40_casing", 1]],
+      [["smpistol_primer", 1]],
+      [["gunpowder", 4]],
+      [["copper", 1]]
+    ]
   },
   {
     "result": "40sw",
@@ -542,13 +595,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 2 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 2], ["recipe_bullets", 3]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [[["40_casing", 1]], [["smpistol_primer", 1]], [["gunpowder", 4]]]
   },
   {
     "result": "10mm_fmj",
@@ -557,13 +610,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["recipe_bullets", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_10mm", 1 ] ],
-    "components": [ [ [ "gunpowder", 5 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_10mm", 1]],
+    "components": [[["gunpowder", 5]]]
   },
   {
     "result": "bp_10mm_fmj",
@@ -572,14 +625,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["recipe_bullets", 4]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_10mm", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 8 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_10mm", 1]],
+    "components": [[["chem_black_powder", 8]]]
   },
   {
     "result": "44fmj",
@@ -588,13 +641,18 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
-    "components": [ [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "copper", 2 ] ] ]
+    "using": [["bullet_forming", 5], ["ammo_bullet", 4]],
+    "components": [
+      [["44_casing", 1]],
+      [["lgpistol_primer", 1]],
+      [["gunpowder", 6]],
+      [["copper", 2]]
+    ]
   },
   {
     "result": "44magnum",
@@ -603,13 +661,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": ["gun", 3],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 5 ] ],
-    "components": [ [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 6 ] ] ]
+    "using": [["bullet_forming", 5], ["ammo_bullet", 5]],
+    "components": [[["44_casing", 1]], [["lgpistol_primer", 1]], [["gunpowder", 6]]]
   },
   {
     "result": "bp_44magnum",
@@ -618,14 +676,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": ["gun", 3],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 5 ] ],
-    "components": [ [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ] ]
+    "using": [["bullet_forming", 5], ["ammo_bullet", 5]],
+    "components": [[["44_casing", 1]], [["lgpistol_primer", 1]], [["chem_black_powder", 9]]]
   },
   {
     "result": "45_acp",
@@ -634,13 +692,18 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 5 ],
+    "skills_required": ["gun", 5],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "manual_smg", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["manual_smg", 3], ["recipe_bullets", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ], [ [ "copper", 2 ] ] ]
+    "using": [["bullet_forming", 3], ["ammo_bullet", 3]],
+    "components": [
+      [["45_casing", 1]],
+      [["lgpistol_primer", 1]],
+      [["gunpowder", 4]],
+      [["copper", 2]]
+    ]
   },
   {
     "result": "45_jhp",
@@ -649,13 +712,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 5 ],
+    "skills_required": ["gun", 5],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 2 ], [ "manual_smg", 2 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 2], ["manual_smg", 2], ["recipe_bullets", 3]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ]
+    "using": [["bullet_forming", 3], ["ammo_bullet", 3]],
+    "components": [[["45_casing", 1]], [["lgpistol_primer", 1]], [["gunpowder", 4]]]
   },
   {
     "result": "45_super",
@@ -664,13 +727,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 5 ],
+    "skills_required": ["gun", 5],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 4 ], [ "manual_smg", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 4], ["manual_smg", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 5 ] ] ]
+    "using": [["bullet_forming", 3], ["ammo_bullet", 3]],
+    "components": [[["45_casing", 1]], [["lgpistol_primer", 1]], [["gunpowder", 5]]]
   },
   {
     "result": "454_Casull",
@@ -679,13 +742,18 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "skills_required": [ "gun", 7 ],
+    "skills_required": ["gun", 7],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 6 ], [ "manual_pistol", 7 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 6], ["manual_pistol", 7]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
-    "components": [ [ [ "454_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "copper", 2 ] ] ]
+    "using": [["bullet_forming", 5], ["ammo_bullet", 4]],
+    "components": [
+      [["454_casing", 1]],
+      [["smrifle_primer", 1]],
+      [["gunpowder", 6]],
+      [["copper", 2]]
+    ]
   },
   {
     "result": "bp_454_Casull",
@@ -694,14 +762,19 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "skills_required": [ "gun", 7 ],
+    "skills_required": ["gun", 7],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 6 ], [ "manual_pistol", 7 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 6], ["manual_pistol", 7]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
-    "components": [ [ [ "454_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 9 ] ], [ [ "copper", 2 ] ] ]
+    "using": [["bullet_forming", 5], ["ammo_bullet", 4]],
+    "components": [
+      [["454_casing", 1]],
+      [["smrifle_primer", 1]],
+      [["chem_black_powder", 9]],
+      [["copper", 2]]
+    ]
   },
   {
     "result": "45colt_jhp",
@@ -710,13 +783,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": ["gun", 3],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 4 ], [ "ammo_45colt", 1 ] ],
-    "components": [ [ [ "gunpowder", 4 ] ] ]
+    "using": [["bullet_forming", 3], ["ammo_bullet", 4], ["ammo_45colt", 1]],
+    "components": [[["gunpowder", 4]]]
   },
   {
     "result": "bp_45colt_jhp",
@@ -725,14 +798,14 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": ["gun", 3],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 5 ], [ "ammo_45colt", 1 ] ],
-    "components": [ [ [ "chem_black_powder", 5 ] ] ]
+    "using": [["bullet_forming", 3], ["ammo_bullet", 5], ["ammo_45colt", 1]],
+    "components": [[["chem_black_powder", 5]]]
   },
   {
     "result": "46mm",
@@ -741,13 +814,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": ["gun", 3],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["mag_rifle", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "46mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [[["46mm_casing", 1]], [["smpistol_primer", 1]], [["gunpowder", 4]]]
   },
   {
     "result": "460_fmj",
@@ -756,13 +829,18 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [ [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "copper", 2 ] ] ]
+    "using": [["bullet_forming", 3], ["ammo_bullet", 3]],
+    "components": [
+      [["460_casing", 1]],
+      [["lgpistol_primer", 1]],
+      [["gunpowder", 6]],
+      [["copper", 2]]
+    ]
   },
   {
     "result": "460_rowland",
@@ -771,13 +849,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": ["gun", 3],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [ [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 6 ] ] ]
+    "using": [["bullet_forming", 3], ["ammo_bullet", 3]],
+    "components": [[["460_casing", 1]], [["lgpistol_primer", 1]], [["gunpowder", 6]]]
   },
   {
     "result": "500_Magnum",
@@ -786,13 +864,18 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 9,
-    "skills_required": [ "gun", 7 ],
+    "skills_required": ["gun", 7],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 7 ], [ "manual_pistol", 8 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 7], ["manual_pistol", 8]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 6 ], [ "ammo_bullet", 5 ] ],
-    "components": [ [ [ "500_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 8 ] ], [ [ "copper", 2 ] ] ]
+    "using": [["bullet_forming", 6], ["ammo_bullet", 5]],
+    "components": [
+      [["500_casing", 1]],
+      [["lgrifle_primer", 1]],
+      [["gunpowder", 8]],
+      [["copper", 2]]
+    ]
   },
   {
     "result": "57mm",
@@ -801,13 +884,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": ["gun", 3],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["mag_rifle", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "57mm_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [[["57mm_casing", 1]], [["smrifle_primer", 1]], [["gunpowder", 4]]]
   },
   {
     "result": "762_25",
@@ -816,13 +899,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 3]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_762_25", 1 ] ],
-    "components": [ [ [ "gunpowder", 4 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_762_25", 1]],
+    "components": [[["gunpowder", 4]]]
   },
   {
     "result": "762_25hot",
@@ -831,13 +914,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 3]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_762_25", 1 ] ],
-    "components": [ [ [ "gunpowder", 5 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_762_25", 1]],
+    "components": [[["gunpowder", 5]]]
   },
   {
     "result": "762_25typeP",
@@ -846,13 +929,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 3]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_762_25", 1 ] ],
-    "components": [ [ [ "gunpowder", 5 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_762_25", 1]],
+    "components": [[["gunpowder", 5]]]
   },
   {
     "result": "9mm",
@@ -861,13 +944,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 1 ], [ "manual_smg", 1 ], [ "recipe_bullets", 2 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 1], ["manual_smg", 1], ["recipe_bullets", 2]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
-    "components": [ [ [ "gunpowder", 3 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_9mm", 1]],
+    "components": [[["gunpowder", 3]]]
   },
   {
     "result": "9mmP",
@@ -876,13 +959,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": ["gun", 3],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "manual_smg", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["manual_smg", 3], ["recipe_bullets", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
-    "components": [ [ [ "gunpowder", 4 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_9mm", 1]],
+    "components": [[["gunpowder", 4]]]
   },
   {
     "result": "9mmP2",
@@ -891,13 +974,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 5 ],
+    "skills_required": ["gun", 5],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 4 ], [ "manual_smg", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 4], ["manual_smg", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
-    "components": [ [ [ "gunpowder", 5 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_9mm", 1]],
+    "components": [[["gunpowder", 5]]]
   },
   {
     "result": "9mmfmj",
@@ -906,13 +989,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 2 ], [ "manual_smg", 2 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 2], ["manual_smg", 2], ["recipe_bullets", 3]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
-    "components": [ [ [ "gunpowder", 3 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_9mm", 1]],
+    "components": [[["gunpowder", 3]], [["copper", 1]]]
   },
   {
     "result": "9x18mm",
@@ -921,13 +1004,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 1], ["manual_pistol", 2]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 3 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [[["9x18mm_casing", 1]], [["smpistol_primer", 1]], [["gunpowder", 3]]]
   },
   {
     "result": "9x18mmfmj",
@@ -936,13 +1019,18 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [
+      [["9x18mm_casing", 1]],
+      [["smpistol_primer", 1]],
+      [["gunpowder", 3]],
+      [["copper", 1]]
+    ]
   },
   {
     "result": "9x18mmP2",
@@ -951,13 +1039,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "skills_required": [ "gun", 5 ],
+    "skills_required": ["gun", 5],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["recipe_bullets", 3], ["manual_pistol", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 5 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2]],
+    "components": [[["9x18mm_casing", 1]], [["smpistol_primer", 1]], [["gunpowder", 5]]]
   },
   {
     "result": "380_JHP",
@@ -966,13 +1054,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 4 ],
+    "skills_required": ["gun", 4],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 1 ], [ "manual_smg", 1 ], [ "recipe_bullets", 2 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 1], ["manual_smg", 1], ["recipe_bullets", 2]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_380", 1 ] ],
-    "components": [ [ [ "gunpowder", 2 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_380", 1]],
+    "components": [[["gunpowder", 2]]]
   },
   {
     "result": "380_p",
@@ -981,13 +1069,13 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "skills_required": [ "gun", 3 ],
+    "skills_required": ["gun", 3],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 3 ], [ "manual_smg", 3 ], [ "recipe_bullets", 4 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 3], ["manual_smg", 3], ["recipe_bullets", 4]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_380", 1 ] ],
-    "components": [ [ [ "gunpowder", 3 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_380", 1]],
+    "components": [[["gunpowder", 3]]]
   },
   {
     "result": "380_FMJ",
@@ -996,12 +1084,12 @@
     "subcategory": "CSC_AMMO_PISTOL",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "skills_required": [ "gun", 1 ],
+    "skills_required": ["gun", 1],
     "time": "2 m",
-    "batch_time_factors": [ 60, 5 ],
-    "book_learn": [ [ "manual_pistol", 2 ], [ "manual_smg", 2 ], [ "recipe_bullets", 3 ] ],
+    "batch_time_factors": [60, 5],
+    "book_learn": [["manual_pistol", 2], ["manual_smg", 2], ["recipe_bullets", 3]],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_380", 1 ] ],
-    "components": [ [ [ "gunpowder", 2 ] ], [ [ "copper", 1 ] ] ]
+    "using": [["bullet_forming", 2], ["ammo_bullet", 2], ["ammo_380", 1]],
+    "components": [[["gunpowder", 2]], [["copper", 1]]]
   }
 ]

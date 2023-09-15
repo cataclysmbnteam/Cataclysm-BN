@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_electronicstore" ],
+    "om_terrain": ["s_electronicstore"],
     "object": {
       "fill_ter": "t_linoleum_white",
       "rows": [
@@ -31,14 +31,14 @@
         "!!!!(   --------        ",
         "!!!!(                   "
       ],
-      "palettes": [ "electro_palette" ],
-      "terrain": { " ": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ], [ "t_underbrush", 1 ] ] }
+      "palettes": ["electro_palette"],
+      "terrain": { " ": [["t_dirt", 5], ["t_grass", 16], ["t_grass_long", 5], ["t_underbrush", 1]] }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_electronicstore_2ndfloor" ],
+    "om_terrain": ["s_electronicstore_2ndfloor"],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -67,7 +67,7 @@
         "********45555556********",
         "************************"
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "terrain": { "-": "t_brick_wall", "#": "t_metal_floor_no_roof", "/": "t_ladder_down" }
     }
   }

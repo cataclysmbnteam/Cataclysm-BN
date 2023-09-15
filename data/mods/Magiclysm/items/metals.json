@@ -16,7 +16,7 @@
     "symbol": ",",
     "color": "light_green",
     "ammo_type": "components",
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [["HAMMER", 1]]
   },
   {
     "id": "orichalcum_sliver",
@@ -35,7 +35,7 @@
     "symbol": ",",
     "color": "light_green",
     "ammo_type": "components",
-    "qualities": [ [ "CUT", 1 ] ]
+    "qualities": [["CUT", 1]]
   },
   {
     "id": "orichalcum_ingot",

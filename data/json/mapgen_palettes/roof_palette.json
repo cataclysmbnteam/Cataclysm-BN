@@ -41,14 +41,14 @@
       "t": "f_table",
       "r": "f_rack",
       "L": "f_locker",
-      "C": [ "f_crate_c", "f_cardboard_box" ],
+      "C": ["f_crate_c", "f_cardboard_box"],
       "Y": "f_stool",
       "s": "f_sofa",
       "S": "f_sink",
       "e": "f_oven",
       "F": "f_fridge",
-      "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      "y": ["f_indoor_plant_y", "f_indoor_plant"]
     },
-    "toilets": { "T": {  } }
+    "toilets": { "T": {} }
   }
 ]

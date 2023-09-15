@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "parking_2x1_0", "parking_2x1_1" ] ],
+    "om_terrain": [["parking_2x1_0", "parking_2x1_1"]],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -32,14 +32,14 @@
         ".Y..___-____-____-____Y____-________________..Y.",
         "............................_______--_______...."
       ],
-      "terrain": { ".": [ [ "t_grass", 6 ], [ "t_dirt", 5 ] ], "_": "t_pavement", "-": "t_pavement_y" },
+      "terrain": { ".": [["t_grass", 6], ["t_dirt", 5]], "_": "t_pavement", "-": "t_pavement_y" },
       "furniture": { "Y": "f_street_light" }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "parking_3x1_0", "parking_3x1_1", "parking_3x1_2" ] ],
+    "om_terrain": [["parking_3x1_0", "parking_3x1_1", "parking_3x1_2"]],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -69,14 +69,14 @@
         "....__-____-____-____-____-____-____-____-____-____-________________....",
         "...........Y..............Y..............Y.........._______--_______...."
       ],
-      "terrain": { ".": [ [ "t_grass", 6 ], [ "t_dirt", 5 ] ], "_": "t_pavement", "-": "t_pavement_y" },
+      "terrain": { ".": [["t_grass", 6], ["t_dirt", 5]], "_": "t_pavement", "-": "t_pavement_y" },
       "furniture": { "Y": "f_street_light" }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "parking_2x2_0_0", "parking_2x2_1_0" ], [ "parking_2x2_0_1", "parking_2x2_1_1" ] ],
+    "om_terrain": [["parking_2x2_0_0", "parking_2x2_1_0"], ["parking_2x2_0_1", "parking_2x2_1_1"]],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -130,7 +130,12 @@
         "....__-____-____-____-____-_________________....",
         "..........................._______--_______....."
       ],
-      "terrain": { ".": [ [ "t_grass", 6 ], [ "t_dirt", 5 ] ], "_": "t_pavement", "-": "t_pavement_y", ",": "t_concrete" },
+      "terrain": {
+        ".": [["t_grass", 6], ["t_dirt", 5]],
+        "_": "t_pavement",
+        "-": "t_pavement_y",
+        ",": "t_concrete"
+      },
       "furniture": { "Y": "f_street_light" }
     }
   }

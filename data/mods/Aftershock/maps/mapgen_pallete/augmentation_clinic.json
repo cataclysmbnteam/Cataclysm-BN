@@ -44,6 +44,6 @@
       "f": "f_filing_cabinet",
       "^": "f_indoor_plant"
     },
-    "toilets": { "&": {  } }
+    "toilets": { "&": {} }
   }
 ]

@@ -62,7 +62,10 @@
           "meat_smoked",
           "dry_veggy"
         ],
-        "entries": [ { "item": "kukri", "container-item": "sheath" }, { "item": "throwing_knife", "count": 10 } ]
+        "entries": [
+          { "item": "kukri", "container-item": "sheath" },
+          { "item": "throwing_knife", "count": 10 }
+        ]
       }
     }
   },
@@ -100,7 +103,7 @@
           { "item": "pemmican", "charges": 8, "container-item": "wrapper" }
         ]
       },
-      "female": [ "bikini_top_fur" ]
+      "female": ["bikini_top_fur"]
     }
   },
   {
@@ -116,7 +119,7 @@
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "firstaid" }
     ],
-    "CBMs": [ "bio_face_mask", "bio_ethanol", "bio_memory", "bio_adrenaline", "bio_power_storage" ],
+    "CBMs": ["bio_face_mask", "bio_ethanol", "bio_memory", "bio_adrenaline", "bio_power_storage"],
     "items": {
       "both": {
         "items": [
@@ -136,7 +139,10 @@
           "whiskey",
           "mead"
         ],
-        "entries": [ { "item": "broadsword", "container-item": "scabbard" }, { "item": "knife_trench", "container-item": "sheath" } ]
+        "entries": [
+          { "item": "broadsword", "container-item": "scabbard" },
+          { "item": "knife_trench", "container-item": "sheath" }
+        ]
       }
     }
   },
@@ -194,8 +200,18 @@
     ],
     "items": {
       "both": {
-        "items": [ "judo_gi", "geta", "backpack_leather", "cloak", "i_staff", "1st_aid", "waterskin", "dry_veggy", "dry_veggy" ],
-        "entries": [ { "item": "tanto", "container-item": "sheath" } ]
+        "items": [
+          "judo_gi",
+          "geta",
+          "backpack_leather",
+          "cloak",
+          "i_staff",
+          "1st_aid",
+          "waterskin",
+          "dry_veggy",
+          "dry_veggy"
+        ],
+        "entries": [{ "item": "tanto", "container-item": "sheath" }]
       }
     }
   },
@@ -227,7 +243,7 @@
           "cheese_hard",
           "brandy"
         ],
-        "entries": [ { "item": "zweihander", "container-item": "bscabbard" } ]
+        "entries": [{ "item": "zweihander", "container-item": "bscabbard" }]
       }
     }
   },
@@ -248,7 +264,11 @@
       "bio_cloak",
       "bio_power_storage_mkII"
     ],
-    "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "speech" } ],
+    "skills": [
+      { "level": 2, "name": "cooking" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 1, "name": "speech" }
+    ],
     "items": {
       "both": {
         "items": [
@@ -261,9 +281,12 @@
           "dandelion_wine",
           "pine_wine"
         ],
-        "entries": [ { "item": "kris", "container-item": "scabbard" }, { "item": "dry_mushroom", "count": 8 } ]
+        "entries": [
+          { "item": "kris", "container-item": "scabbard" },
+          { "item": "dry_mushroom", "count": 8 }
+        ]
       },
-      "female": [ "bikini_top_leather" ]
+      "female": ["bikini_top_leather"]
     }
   }
 ]

@@ -32,10 +32,10 @@
         ".$%%............[...%%$.",
         ".$$$$$$$$$$$$$$$$$$$$$$."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         ",": "t_region_groundcover_urban",
         "K": "t_region_groundcover_urban",
@@ -70,8 +70,16 @@
         "]": "t_door_glass_c",
         "&": "t_sandbox"
       },
-      "furniture": { "?": "f_beaded_door", "!": "f_region_flower", ",": "f_brazier", "(": "f_camp_chair" },
-      "place_item": [ { "item": "television", "repeat": 1, "x": 14, "y": 7 }, { "item": "lawnmower", "repeat": 1, "x": 12, "y": 12 } ],
+      "furniture": {
+        "?": "f_beaded_door",
+        "!": "f_region_flower",
+        ",": "f_brazier",
+        "(": "f_camp_chair"
+      },
+      "place_item": [
+        { "item": "television", "repeat": 1, "x": 14, "y": 7 },
+        { "item": "lawnmower", "repeat": 1, "x": 12, "y": 12 }
+      ],
       "place_items": [
         { "chance": 20, "item": "clutter_yard", "x": 19, "y": 20 },
         { "chance": 20, "item": "clutter_yard", "x": 5, "y": 17 },
@@ -112,7 +120,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -148,29 +156,29 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "nested": {
         "2": {
           "chunks": [
-            [ "null", 70 ],
-            [ "room_6x6_guns_E", 2 ],
-            [ "room_6x6_guns_S", 2 ],
-            [ "room_6x6_junk_E", 30 ],
-            [ "room_6x6_junk_S", 30 ],
-            [ "room_6x6_office_E", 30 ],
-            [ "room_6x6_office_S", 30 ],
-            [ "room_6x6_brewer_E", 10 ],
-            [ "room_6x6_brewer_S", 10 ]
+            ["null", 70],
+            ["room_6x6_guns_E", 2],
+            ["room_6x6_guns_S", 2],
+            ["room_6x6_junk_E", 30],
+            ["room_6x6_junk_S", 30],
+            ["room_6x6_office_E", 30],
+            ["room_6x6_office_S", 30],
+            ["room_6x6_brewer_E", 10],
+            ["room_6x6_brewer_S", 10]
           ]
         },
         "1": {
           "chunks": [
-            [ "null", 70 ],
-            [ "room_10x10_woodworker_W", 20 ],
-            [ "room_10x10_guns_W", 7 ],
-            [ "room_10x10_pool_W", 2 ],
-            [ "room_10x10_junk_W", 30 ],
-            [ "room_10x10_recording_studio_W", 20 ]
+            ["null", 70],
+            ["room_10x10_woodworker_W", 20],
+            ["room_10x10_guns_W", 7],
+            ["room_10x10_pool_W", 2],
+            ["room_10x10_junk_W", 30],
+            ["room_10x10_recording_studio_W", 20]
           ]
         }
       }

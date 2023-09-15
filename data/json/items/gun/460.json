@@ -8,9 +8,9 @@
     "description": "This 1911 has been customized to chamber powerful .460 Rowland ammunition.  It now sports a large, integral compensator to aid in taming recoil and reducing slide velocity.  Notably, normal .45ACP can also be fired through the weapon.",
     "price": 166800,
     "price_postapoc": 3250,
-    "ammo": [ "460", "45" ],
-    "magazines": [ [ "460", [ "m1911mag", "m1911bigmag" ] ], [ "45", [ "m1911mag", "m1911bigmag" ] ] ],
+    "ammo": ["460", "45"],
+    "magazines": [["460", ["m1911mag", "m1911bigmag"]], ["45", ["m1911mag", "m1911bigmag"]]],
     "relative": { "durability": -1 },
-    "built_in_mods": [ "barrel_ported" ]
+    "built_in_mods": ["barrel_ported"]
   }
 ]

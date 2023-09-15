@@ -34,7 +34,7 @@
         "........................"
       ],
       "rotation": 0,
-      "palettes": [ "FEMA_camp" ],
+      "palettes": ["FEMA_camp"],
       "terrain": {
         "9": "t_card_military",
         "Z": "t_dirt",
@@ -44,8 +44,14 @@
         ",": "t_dirt",
         "*": "t_dirt"
       },
-      "items": { "x": { "item": "mil_surplus", "chance": 30 }, "X": { "item": "ammo_rifle_milspec", "chance": 80 } },
-      "monster": { "Z": { "monster": "mon_zombie_soldier" }, "z": { "monster": "mon_zombie_soldier" } }
+      "items": {
+        "x": { "item": "mil_surplus", "chance": 30 },
+        "X": { "item": "ammo_rifle_milspec", "chance": 80 }
+      },
+      "monster": {
+        "Z": { "monster": "mon_zombie_soldier" },
+        "z": { "monster": "mon_zombie_soldier" }
+      }
     }
   }
 ]

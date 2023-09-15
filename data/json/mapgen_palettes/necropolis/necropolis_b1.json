@@ -83,7 +83,7 @@
       "}": "t_manhole_cover",
       "b": "t_utility_light"
     },
-    "toilets": { "t": {  } },
+    "toilets": { "t": {} },
     "items": {
       " ": { "item": "subway", "chance": 1 },
       "@": { "item": "bed", "chance": 50, "repeat": 2 },

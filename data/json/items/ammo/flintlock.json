@@ -8,7 +8,7 @@
     "volume": "250 ml",
     "price": 1100,
     "price_postapoc": 1200,
-    "material": [ "lead", "powder" ],
+    "material": ["lead", "powder"],
     "symbol": "=",
     "color": "white",
     "count": 30,
@@ -20,7 +20,7 @@
     "dispersion": 90,
     "recoil": 1500,
     "loudness": 70,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER" ]
+    "effects": ["COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER"]
   },
   {
     "id": "flintlock_shot",
@@ -31,7 +31,7 @@
     "volume": "250 ml",
     "price": 1100,
     "price_postapoc": 1200,
-    "material": [ "lead", "powder" ],
+    "material": ["lead", "powder"],
     "symbol": "=",
     "color": "white",
     "count": 30,
@@ -42,6 +42,6 @@
     "dispersion": 20,
     "recoil": 1500,
     "loudness": 90,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "SHOT", "BLACKPOWDER" ]
+    "effects": ["COOKOFF", "MUZZLE_SMOKE", "SHOT", "BLACKPOWDER"]
   }
 ]

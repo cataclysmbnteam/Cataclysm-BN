@@ -68,7 +68,9 @@
         "s": "t_shrub_blueberry",
         "t": "t_tree_dead"
       },
-      "place_signs": [ { "signage": "Cheap lot for sale! Call <given_name> at 555-5151!", "x": 12, "y": 1 } ]
+      "place_signs": [
+        { "signage": "Cheap lot for sale! Call <given_name> at 555-5151!", "x": 12, "y": 1 }
+      ]
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",
@@ -172,8 +174,20 @@
         "......_............._...",
         "..._..._.._...._.._....."
       ],
-      "terrain": { ".": "t_grass", "4": "t_tree_pine", "P": "t_grass", "_": "t_dirt", "t": "t_tree_willow" },
-      "place_signs": [ { "signage": "Beautiful lot with some natural privacy! Call <full_name> at 555-3927!", "x": 9, "y": 1 } ]
+      "terrain": {
+        ".": "t_grass",
+        "4": "t_tree_pine",
+        "P": "t_grass",
+        "_": "t_dirt",
+        "t": "t_tree_willow"
+      },
+      "place_signs": [
+        {
+          "signage": "Beautiful lot with some natural privacy! Call <full_name> at 555-3927!",
+          "x": 9,
+          "y": 1
+        }
+      ]
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",
@@ -182,7 +196,15 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_null", ".": "f_null", "1": "f_null", "7": "f_null", "P": "f_sign", "_": "f_null", "s": "f_null" },
+      "furniture": {
+        "#": "f_null",
+        ".": "f_null",
+        "1": "f_null",
+        "7": "f_null",
+        "P": "f_sign",
+        "_": "f_null",
+        "s": "f_null"
+      },
       "rows": [
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",
@@ -218,7 +240,9 @@
         "_": "t_dirt",
         "s": "t_sidewalk"
       },
-      "place_signs": [ { "signage": "Property for sale, call <city> Real Estate at 555-8255!", "x": 12, "y": 3 } ]
+      "place_signs": [
+        { "signage": "Property for sale, call <city> Real Estate at 555-8255!", "x": 12, "y": 3 }
+      ]
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",
@@ -254,8 +278,14 @@
         "........................",
         "........................"
       ],
-      "terrain": { ".": "t_grass", "4": "t_tree_willow", "P": "t_grass", "_": "t_pavement", "d": "t_dirt" },
-      "place_signs": [ { "signage": "Lot SOLD!", "x": 14, "y": 4 } ]
+      "terrain": {
+        ".": "t_grass",
+        "4": "t_tree_willow",
+        "P": "t_grass",
+        "_": "t_pavement",
+        "d": "t_dirt"
+      },
+      "place_signs": [{ "signage": "Lot SOLD!", "x": 14, "y": 4 }]
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",

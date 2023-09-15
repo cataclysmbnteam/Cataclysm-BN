@@ -90,7 +90,7 @@
   {
     "method": "json",
     "object": {
-      "place_item": [ { "item": "log", "repeat": 1, "x": 7, "y": 9 } ],
+      "place_item": [{ "item": "log", "repeat": 1, "x": 7, "y": 9 }],
       "furniture": {
         "#": "f_null",
         "+": "f_canvas_door",
@@ -120,7 +120,7 @@
         { "chance": 10, "item": "misc_smoking", "x": 5, "y": 14 },
         { "chance": 3, "item": "sex_lair", "x": 3, "y": 18 }
       ],
-      "place_monster": [ { "monster": "mon_raccoon", "x": 9, "y": 16 } ],
+      "place_monster": [{ "monster": "mon_raccoon", "x": 9, "y": 16 }],
       "rows": [
         "........................",
         ".._...__........_.......",
@@ -361,7 +361,7 @@
         { "chance": 10, "item": "gas_charging_rack", "x": 22, "y": 12 },
         { "chance": 10, "item": "clutter_yard", "x": 14, "y": 9 }
       ],
-      "place_monster": [ { "monster": "mon_dog", "x": 12, "y": 6 } ],
+      "place_monster": [{ "monster": "mon_dog", "x": 12, "y": 6 }],
       "rows": [
         "....._........_.........",
         ".f....._.._.........._..",

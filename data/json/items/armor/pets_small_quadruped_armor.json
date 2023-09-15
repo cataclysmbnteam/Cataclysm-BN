@@ -7,7 +7,7 @@
     "min_pet_vol": "1 L",
     "max_pet_vol": "300 L",
     "pet_bodytype": "quadruped",
-    "flags": [ "IS_PET_ARMOR" ]
+    "flags": ["IS_PET_ARMOR"]
   },
   {
     "type": "PET_ARMOR",
@@ -18,7 +18,7 @@
     "description": "A heavy mattress-like armor of cloth, leather and thick linings of Kevlar, originally used as protection in bullfighting.  You could put this on a friendly small quadruped.",
     "price": 30000,
     "price_postapoc": 3000,
-    "material": [ "cotton", "leather", "kevlar" ],
+    "material": ["cotton", "leather", "kevlar"],
     "weight": "4290 g",
     "volume": "4500 ml",
     "material_thickness": 10,
@@ -33,7 +33,7 @@
     "description": "A makeshift assembly of criniere, peytral and croupiere made from biosilicified chitin fitted to a thin mesh.  You could put this on a friendly small quadruped.",
     "price": 50000,
     "price_postapoc": 2500,
-    "material": [ "acidchitin", "steel" ],
+    "material": ["acidchitin", "steel"],
     "weight": "5362 g",
     "volume": "4500 ml",
     "material_thickness": 3,
@@ -48,7 +48,7 @@
     "description": "A makeshift assembly of criniere, peytral and croupiere made from chitin fitted to a thin mesh.  You could put this on a friendly small quadruped.",
     "price": 35000,
     "price_postapoc": 2000,
-    "material": [ "chitin" ],
+    "material": ["chitin"],
     "weight": "5 kg",
     "volume": "4500 ml",
     "material_thickness": 3,
@@ -64,7 +64,7 @@
     "//": "Description is reference to Churl scenario text - 'protect your dog from foul undead'.",
     "price": 25000,
     "price_postapoc": 3500,
-    "material": [ "steel", "leather" ],
+    "material": ["steel", "leather"],
     "weight": "6434 g",
     "volume": "4500 ml",
     "material_thickness": 5
@@ -81,7 +81,7 @@
     "description": "A full barding for small quadrupeds consisting of boiled leather and cloth undercovering.  This caparison is depicting a battle between a monstrous dragon and regal griffin.  You could put this on a friendly small quadruped.",
     "price": 30000,
     "price_postapoc": 3000,
-    "material": [ "cotton", "leather" ],
+    "material": ["cotton", "leather"],
     "weight": "3 kg",
     "volume": "4500 ml",
     "material_thickness": 5
@@ -98,7 +98,7 @@
     "description": "Decorative bones affixed to leather small quadruped barding to invoke fear in bandits and raiders and traders all!  You could put this on a friendly small quadruped.",
     "price": 25000,
     "price_postapoc": 2500,
-    "material": [ "bone", "leather" ],
+    "material": ["bone", "leather"],
     "weight": "3 kg",
     "volume": "4500 ml",
     "material_thickness": 5
@@ -112,7 +112,7 @@
     "description": "A thin plastic covering adapted for small quadrupeds to protect from acid rain and other caustic sources.  You could put this on a friendly small quadruped.",
     "price": 5000,
     "price_postapoc": 500,
-    "material": [ "neoprene", "plastic" ],
+    "material": ["neoprene", "plastic"],
     "weight": "2500 mg",
     "volume": "4500 ml",
     "material_thickness": 3
@@ -126,7 +126,7 @@
     "description": "A thin mesh interwoven with superalloy plates and pouches for military working small quadrupeds that covers from the dewlap to the croup, down to the elbows.  You could put this on a friendly small quadruped.",
     "price": 130000,
     "price_postapoc": 5000,
-    "material": [ "superalloy" ],
+    "material": ["superalloy"],
     "weight": "3125 g",
     "volume": "4500 ml",
     "material_thickness": 4,
@@ -136,22 +136,25 @@
   {
     "id": "saddlebag_small_quadruped",
     "type": "ARMOR",
-    "name": { "str": "pair of saddle bags for small quadruped", "str_pl": "pairs of saddle bags for small quadruped" },
+    "name": {
+      "str": "pair of saddle bags for small quadruped",
+      "str_pl": "pairs of saddle bags for small quadruped"
+    },
     "description": "A pair of covered pouches laid across the back of a small quadruped.",
     "weight": "1 kg",
     "volume": "3500 ml",
     "price": 10000,
     "price_postapoc": 1000,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "dump_pouch",
     "color": "green",
-    "covers": [ "hands" ],
+    "covers": ["hands"],
     "coverage": 50,
     "encumbrance": 20,
     "storage": "10 L",
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": ["BELTED", "WATER_FRIENDLY"]
   }
 ]

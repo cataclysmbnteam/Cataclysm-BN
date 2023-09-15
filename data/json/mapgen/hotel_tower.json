@@ -1,7 +1,7 @@
 [
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_1_3", "hotel_tower_1_2", "hotel_tower_1_1" ] ],
+    "om_terrain": [["hotel_tower_1_3", "hotel_tower_1_2", "hotel_tower_1_1"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -32,19 +32,19 @@
         " s_____,_____,_____,_____,________sssss________,_____,_____,_____,_____s",
         " s_____,_____,_____,_____,_____________________,_____,_____,_____,_____s"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
+      "palettes": ["hotel_tower_palette.json"],
       "vehicles": { "V": { "vehicle": "suburban_home", "chance": 50, "rotation": 270 } },
       "terrain": { "V": "t_pavement" },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 0, 23 ], "chance": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 48, 71 ], "y": [ 0, 23 ], "chance": 2 }
+        { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [0, 23], "chance": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [0, 23], "chance": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [48, 71], "y": [0, 23], "chance": 2 }
       ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_1_6", "hotel_tower_1_5", "hotel_tower_1_4" ] ],
+    "om_terrain": [["hotel_tower_1_6", "hotel_tower_1_5", "hotel_tower_1_4"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -75,7 +75,7 @@
         " s''''%c..BB|o..BB|c.LBB|c..BB|h.........h|BB..h|BB..o|BB..c|BB..c%''''s",
         " s''''%c..BB|c..BB|o..BB|c.LBB|t.........t|BB..c|BB..c|BB..o|BB..o%''''s"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
+      "palettes": ["hotel_tower_palette.json"],
       "terrain": { "V": "t_pavement", "w": "t_window_domestic", "x": "t_console_broken" },
       "furniture": { "D": "f_desk" },
       "items": {
@@ -90,15 +90,15 @@
         "v": { "vehicle": "suburban_home", "chance": 60, "rotation": 90 }
       },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 0, 23 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 7, 23 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 49, 65 ], "y": [ 0, 23 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [0, 23] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [7, 23], "repeat": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [49, 65], "y": [0, 23] }
       ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_flr2_1_6", "hotel_tower_flr2_1_5", "hotel_tower_flr2_1_4" ] ],
+    "om_terrain": [["hotel_tower_flr2_1_6", "hotel_tower_flr2_1_5", "hotel_tower_flr2_1_4"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -129,7 +129,7 @@
         "******%c..BB|o..BB|c.LBB|c..BB|h.........h|BB..h|BB..o|BB..c|BB..c%*****",
         "******%c..BB|c..BB|o..BBXc.LBB|t.........t|BB..cXBB..c|BB..o|BB..o%*****"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
+      "palettes": ["hotel_tower_palette.json"],
       "terrain": { "w": "t_window_domestic", "x": "t_console_broken" },
       "furniture": { "D": "f_desk" },
       "items": {
@@ -140,15 +140,15 @@
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
       },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 21, 23 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 21, 23 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 49, 65 ], "y": [ 21, 23 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [21, 23] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [21, 23], "repeat": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [49, 65], "y": [21, 23] }
       ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_flr3_1_6", "hotel_tower_flr3_1_5", "hotel_tower_flr3_1_4" ] ],
+    "om_terrain": [["hotel_tower_flr3_1_6", "hotel_tower_flr3_1_5", "hotel_tower_flr3_1_4"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -179,7 +179,7 @@
         "******%c..BB|o..BB|c.LBB|c..BB|h.........h|BB..h|BB..o|BB..c|BB..c%*****",
         "******%c..BB|c..BB|o..BB|c.LBB|t.........t|BB..c|BB..c|BB..o|BB..o%*****"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
+      "palettes": ["hotel_tower_palette.json"],
       "terrain": { "w": "t_window_domestic", "x": "t_console_broken" },
       "furniture": { "D": "f_desk" },
       "items": {
@@ -190,15 +190,15 @@
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
       },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 21, 23 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 21, 23 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 49, 65 ], "y": [ 21, 23 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [21, 23] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [21, 23], "repeat": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [49, 65], "y": [21, 23] }
       ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_flr4_1_6", "hotel_tower_flr4_1_5", "hotel_tower_flr4_1_4" ] ],
+    "om_terrain": [["hotel_tower_flr4_1_6", "hotel_tower_flr4_1_5", "hotel_tower_flr4_1_4"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -229,7 +229,7 @@
         "******%c..BB|o..BB|c.LBB|c..BB|h.........h|BB..h|BB..o|BB..c|BB..c%*****",
         "******%c..BB|c..BB|o..BB|c.LBB|t.........t|BB..c|BB..c|BB..o|BB..o%*****"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
+      "palettes": ["hotel_tower_palette.json"],
       "terrain": { "w": "t_window_domestic", "x": "t_console_broken" },
       "furniture": { "D": "f_desk" },
       "items": {
@@ -240,15 +240,15 @@
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
       },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 21, 23 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 21, 23 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 49, 65 ], "y": [ 21, 23 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [21, 23] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [21, 23], "repeat": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [49, 65], "y": [21, 23] }
       ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_roof_1_6", "hotel_tower_roof_1_5", "hotel_tower_roof_1_4" ] ],
+    "om_terrain": [["hotel_tower_roof_1_6", "hotel_tower_roof_1_5", "hotel_tower_roof_1_4"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -279,12 +279,12 @@
         "      |...........................................................3     ",
         "      |...........................................................3     "
       ],
-      "palettes": [ "roof_palette" ]
+      "palettes": ["roof_palette"]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_1_9", "hotel_tower_1_8", "hotel_tower_1_7" ] ],
+    "om_terrain": [["hotel_tower_1_9", "hotel_tower_1_8", "hotel_tower_1_7"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -315,9 +315,9 @@
         "      %%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%     ",
         "                                                                        "
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "w": "t_window_domestic" },
-      "toilets": { "&": {  } },
+      "palettes": ["hotel_tower_palette.json"],
+      "terrain": { "+": ["t_door_c", "t_door_c", "t_door_o"], "w": "t_window_domestic" },
+      "toilets": { "&": {} },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -325,17 +325,17 @@
         "d": { "item": "book_hotel_tower_bible", "chance": 2 },
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
       },
-      "item": { "S": { "item": "towel", "chance": 3, "amount": [ 1, 2 ] } },
+      "item": { "S": { "item": "towel", "chance": 3, "amount": [1, 2] } },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 0, 22 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 23, 3 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 49, 65 ], "y": [ 0, 22 ], "repeat": 2 }
+        { "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [0, 22], "repeat": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [23, 3], "repeat": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [49, 65], "y": [0, 22], "repeat": 2 }
       ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_flr2_1_9", "hotel_tower_flr2_1_8", "hotel_tower_flr2_1_7" ] ],
+    "om_terrain": [["hotel_tower_flr2_1_9", "hotel_tower_flr2_1_8", "hotel_tower_flr2_1_7"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -366,9 +366,9 @@
         "******%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%*****",
         "************************************************************************"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "w": "t_window_domestic" },
-      "toilets": { "&": {  } },
+      "palettes": ["hotel_tower_palette.json"],
+      "terrain": { "+": ["t_door_c", "t_door_c", "t_door_o"], "w": "t_window_domestic" },
+      "toilets": { "&": {} },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -376,17 +376,17 @@
         "d": { "item": "book_hotel_tower_bible", "chance": 2 },
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
       },
-      "item": { "S": { "item": "towel", "chance": 3, "amount": [ 1, 2 ] } },
+      "item": { "S": { "item": "towel", "chance": 3, "amount": [1, 2] } },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 0, 22 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 23, 3 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 49, 65 ], "y": [ 0, 22 ], "repeat": 2 }
+        { "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [0, 22], "repeat": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [23, 3], "repeat": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [49, 65], "y": [0, 22], "repeat": 2 }
       ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_flr3_1_9", "hotel_tower_flr3_1_8", "hotel_tower_flr3_1_7" ] ],
+    "om_terrain": [["hotel_tower_flr3_1_9", "hotel_tower_flr3_1_8", "hotel_tower_flr3_1_7"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -417,9 +417,9 @@
         "******%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%*****",
         "************************************************************************"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "w": "t_window_domestic" },
-      "toilets": { "&": {  } },
+      "palettes": ["hotel_tower_palette.json"],
+      "terrain": { "+": ["t_door_c", "t_door_c", "t_door_o"], "w": "t_window_domestic" },
+      "toilets": { "&": {} },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -427,17 +427,17 @@
         "d": { "item": "book_hotel_tower_bible", "chance": 2 },
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
       },
-      "item": { "S": { "item": "towel", "chance": 3, "amount": [ 1, 2 ] } },
+      "item": { "S": { "item": "towel", "chance": 3, "amount": [1, 2] } },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 0, 22 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 23, 3 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 49, 65 ], "y": [ 0, 22 ], "repeat": 2 }
+        { "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [0, 22], "repeat": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [23, 3], "repeat": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [49, 65], "y": [0, 22], "repeat": 2 }
       ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_flr4_1_9", "hotel_tower_flr4_1_8", "hotel_tower_flr4_1_7" ] ],
+    "om_terrain": [["hotel_tower_flr4_1_9", "hotel_tower_flr4_1_8", "hotel_tower_flr4_1_7"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -468,9 +468,9 @@
         "******%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%%www%%*****",
         "************************************************************************"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "w": "t_window_domestic" },
-      "toilets": { "&": {  } },
+      "palettes": ["hotel_tower_palette.json"],
+      "terrain": { "+": ["t_door_c", "t_door_c", "t_door_o"], "w": "t_window_domestic" },
+      "toilets": { "&": {} },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -478,17 +478,17 @@
         "d": { "item": "book_hotel_tower_bible", "chance": 2 },
         "o": { "item": "hotel_coffee_bar", "chance": 100 }
       },
-      "item": { "S": { "item": "towel", "chance": 3, "amount": [ 1, 2 ] } },
+      "item": { "S": { "item": "towel", "chance": 3, "amount": [1, 2] } },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 0, 22 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 23, 3 ], "repeat": 2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 49, 65 ], "y": [ 0, 22 ], "repeat": 2 }
+        { "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [0, 22], "repeat": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [23, 3], "repeat": 2 },
+        { "monster": "GROUP_ZOMBIE", "x": [49, 65], "y": [0, 22], "repeat": 2 }
       ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_roof_1_9", "hotel_tower_roof_1_8", "hotel_tower_roof_1_7" ] ],
+    "om_terrain": [["hotel_tower_roof_1_9", "hotel_tower_roof_1_8", "hotel_tower_roof_1_7"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -519,9 +519,9 @@
         "      |-----------------------------------------------------------3     ",
         "                                                                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": {
-        ">": [ "t_stairs_down" ],
+        ">": ["t_stairs_down"],
         "#": "t_adobe_brick_wall",
         "_": "t_thconc_floor",
         "+": "t_door_metal_c",
@@ -530,17 +530,20 @@
         "H": "t_generator_broken"
       },
       "furniture": { "Y": "f_standing_tank", "6": "f_water_heater", "7": "f_roof_turbine_vent" },
-      "liquids": { "6": { "liquid": "water", "amount": [ 0, 100 ] }, "Y": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
+      "liquids": {
+        "6": { "liquid": "water", "amount": [0, 100] },
+        "Y": { "liquid": "water_clean", "amount": [100, 1000] }
+      },
       "place_monsters": [
-        { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 7, 23 ], "y": [ 0, 22 ], "repeat": 2 },
-        { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 24, 47 ], "y": [ 23, 3 ], "repeat": 2 },
-        { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 49, 65 ], "y": [ 0, 22 ], "repeat": 2 }
+        { "monster": "GROUP_ROOF_ZOMBIE", "x": [7, 23], "y": [0, 22], "repeat": 2 },
+        { "monster": "GROUP_ROOF_ZOMBIE", "x": [24, 47], "y": [23, 3], "repeat": 2 },
+        { "monster": "GROUP_ROOF_ZOMBIE", "x": [49, 65], "y": [0, 22], "repeat": 2 }
       ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "hotel_tower_b_3", "hotel_tower_b_2", "hotel_tower_b_1" ] ],
+    "om_terrain": [["hotel_tower_b_3", "hotel_tower_b_2", "hotel_tower_b_1"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -571,27 +574,35 @@
         "######|------------|-------------------------------|--------------|#####",
         "########################################################################"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
+      "palettes": ["hotel_tower_palette.json"],
       "set": [
-        { "point": "trap", "id": "tr_rollmat", "x": [ 56, 61 ], "y": 17, "repeat": [ 2, 4 ] },
-        { "point": "trap", "id": "tr_rollmat", "x": [ 56, 61 ], "y": 18, "repeat": [ 2, 4 ] },
-        { "point": "trap", "id": "tr_rollmat", "x": [ 56, 61 ], "y": 19, "repeat": [ 2, 4 ] }
+        { "point": "trap", "id": "tr_rollmat", "x": [56, 61], "y": 17, "repeat": [2, 4] },
+        { "point": "trap", "id": "tr_rollmat", "x": [56, 61], "y": 18, "repeat": [2, 4] },
+        { "point": "trap", "id": "tr_rollmat", "x": [56, 61], "y": 19, "repeat": [2, 4] }
       ],
-      "terrain": { "=": "t_door_locked_interior", ".": "t_thconc_floor", "|": "t_concrete_wall", "-": "t_concrete_wall" },
-      "vendingmachines": { "U": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "terrain": {
+        "=": "t_door_locked_interior",
+        ".": "t_thconc_floor",
+        "|": "t_concrete_wall",
+        "-": "t_concrete_wall"
+      },
+      "vendingmachines": {
+        "U": { "item_group": "vending_drink" },
+        "F": { "item_group": "vending_food" }
+      },
       "items": { "l": { "item": "cleaning", "chance": 60 } },
-      "item": { "r": { "item": "towel", "chance": 2, "amount": [ 1, 2 ] } },
-      "toilets": { "&": {  } },
+      "item": { "r": { "item": "towel", "chance": 2, "amount": [1, 2] } },
+      "toilets": { "&": {} },
       "place_monsters": [
-        { "monster": "GROUP_HOTEL_POOL", "x": [ 24, 46 ], "y": [ 12, 19 ], "repeat": 2 },
-        { "monster": "GROUP_HOTEL_GYM", "x": [ 52, 65 ], "y": [ 12, 21 ], "repeat": 2 }
+        { "monster": "GROUP_HOTEL_POOL", "x": [24, 46], "y": [12, 19], "repeat": 2 },
+        { "monster": "GROUP_HOTEL_GYM", "x": [52, 65], "y": [12, 21], "repeat": 2 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "hotel_tower_1_5B" ],
+    "om_terrain": ["hotel_tower_1_5B"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -621,8 +632,12 @@
         "%c..BB|h.........h|BB..h",
         "%c.LBB|t.........t|BB..c"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "w": "t_window_domestic", "x": "t_console_broken" },
+      "palettes": ["hotel_tower_palette.json"],
+      "terrain": {
+        "+": ["t_door_c", "t_door_c", "t_door_o"],
+        "w": "t_window_domestic",
+        "x": "t_console_broken"
+      },
       "furniture": { "D": "f_desk" },
       "items": {
         "B": { "item": "bed", "chance": 50 },
@@ -630,14 +645,16 @@
         "c": { "item": "magazines", "chance": 15 },
         "d": { "item": "book_hotel_tower_bible", "chance": 2 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 7, 23 ], "repeat": 2 } ],
-      "place_vehicles": [ { "vehicle": "luggage_cart", "x": [ 10, 15 ], "y": [ 11, 19 ], "chance": 100, "repeat": [ 1, 3 ] } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [7, 23], "repeat": 2 }],
+      "place_vehicles": [
+        { "vehicle": "luggage_cart", "x": [10, 15], "y": [11, 19], "chance": 100, "repeat": [1, 3] }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "hotel_tower_flr2_1_5B" ],
+    "om_terrain": ["hotel_tower_flr2_1_5B"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -667,8 +684,12 @@
         "|c..BB|h.........h|BB..h",
         "|c.LBB|t.........t|BB..c"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "w": "t_window_domestic", "x": "t_console_broken" },
+      "palettes": ["hotel_tower_palette.json"],
+      "terrain": {
+        "+": ["t_door_c", "t_door_c", "t_door_o"],
+        "w": "t_window_domestic",
+        "x": "t_console_broken"
+      },
       "furniture": { "D": "f_desk" },
       "items": {
         "B": { "item": "bed", "chance": 50 },
@@ -676,14 +697,16 @@
         "c": { "item": "magazines", "chance": 15 },
         "d": { "item": "book_hotel_tower_bible", "chance": 2 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 21, 23 ] } ],
-      "place_vehicles": [ { "vehicle": "luggage_cart", "x": [ 10, 15 ], "y": [ 11, 19 ], "chance": 100, "repeat": [ 1, 3 ] } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [21, 23] }],
+      "place_vehicles": [
+        { "vehicle": "luggage_cart", "x": [10, 15], "y": [11, 19], "chance": 100, "repeat": [1, 3] }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "hotel_tower_1_5C" ],
+    "om_terrain": ["hotel_tower_1_5C"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -713,9 +736,9 @@
         "|c..BB|...........|BB..h",
         "|c.LBB|h.........h|BB..c"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
+      "palettes": ["hotel_tower_palette.json"],
       "terrain": {
-        "+": [ "t_door_c", "t_door_c", "t_door_o" ],
+        "+": ["t_door_c", "t_door_c", "t_door_o"],
         "G": "t_door_glass_c",
         "w": "t_window_domestic",
         "V": "t_pavement",
@@ -728,15 +751,17 @@
         "c": { "item": "magazines", "chance": 15 },
         "d": { "item": "book_hotel_tower_bible", "chance": 2 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 7, 23 ], "repeat": 2 } ],
-      "place_vehicles": [ { "vehicle": "luggage_cart", "x": [ 3, 21 ], "y": [ 16, 17 ], "chance": 100, "repeat": [ 1, 3 ] } ],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [7, 23], "repeat": 2 }],
+      "place_vehicles": [
+        { "vehicle": "luggage_cart", "x": [3, 21], "y": [16, 17], "chance": 100, "repeat": [1, 3] }
+      ],
       "vehicles": { "V": { "vehicle": "suburban_home", "chance": 100, "rotation": 180 } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "hotel_tower_flr2_1_5C" ],
+    "om_terrain": ["hotel_tower_flr2_1_5C"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -766,9 +791,9 @@
         "|c..BB|h.........h|BB..h",
         "|c.LBB|t.........t|BB..c"
       ],
-      "palettes": [ "hotel_tower_palette.json" ],
+      "palettes": ["hotel_tower_palette.json"],
       "terrain": {
-        "+": [ "t_door_c", "t_door_c", "t_door_o" ],
+        "+": ["t_door_c", "t_door_c", "t_door_o"],
         "G": "t_door_glass_c",
         "w": "t_window_domestic",
         "x": "t_console_broken"
@@ -780,7 +805,7 @@
         "c": { "item": "magazines", "chance": 15 },
         "d": { "item": "book_hotel_tower_bible", "chance": 2 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 7, 23 ], "y": [ 21, 23 ] } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [21, 23] }]
     }
   }
 ]

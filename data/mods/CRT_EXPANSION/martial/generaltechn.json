@@ -10,14 +10,14 @@
       { "stat": "damage", "type": "stab", "scale": 0.86 }
     ],
     "down_dur": 2,
-    "messages": [ "Your hooking attack makes %s stagger and fall", "<npcname> hooks %s" ],
+    "messages": ["Your hooking attack makes %s stagger and fall", "<npcname> hooks %s"],
     "description": "85% moves, 66% Bash, 76% Cut, 86% Stab, Down two turns"
   },
   {
     "type": "technique",
     "id": "INERTIAL",
     "name": "INERTIAL SWING",
-    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "skill_requirements": [{ "name": "melee", "level": 4 }],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "knockback_dist": 1,
@@ -32,7 +32,10 @@
       { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.1 },
       { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.1 }
     ],
-    "messages": [ "Your momentum causes your weapon to glance off of %s", "<npcname> inertially strikes %s" ],
+    "messages": [
+      "Your momentum causes your weapon to glance off of %s",
+      "<npcname> inertially strikes %s"
+    ],
     "aoe": "wide",
     "description": "50% moves, 60% damage, wide arc, damage increased by 10% of STR, min 4 melee"
   },
@@ -40,7 +43,7 @@
     "type": "technique",
     "id": "CHOP",
     "name": "CHOP",
-    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "skill_requirements": [{ "name": "melee", "level": 2 }],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
@@ -55,14 +58,14 @@
       { "stat": "damage", "type": "cut", "scaling-stat": "per", "scale": 0.3 },
       { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.15 }
     ],
-    "messages": [ "You draw back your arm and release a well placed chop %s", "<npcname> chops %s" ],
+    "messages": ["You draw back your arm and release a well placed chop %s", "<npcname> chops %s"],
     "description": "Crit only, 118% move cost, 105% Bash and Stab, 125% Cut, damage increased by 15-30% of PER, min 2 melee"
   },
   {
     "type": "technique",
     "id": "SMASH",
     "name": "SMASH",
-    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "skill_requirements": [{ "name": "melee", "level": 2 }],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
@@ -77,14 +80,17 @@
       { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.15 },
       { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.15 }
     ],
-    "messages": [ "You grip your weapon with two hands and slam it into %s", "<npcname> smashes their weapon onto %s" ],
+    "messages": [
+      "You grip your weapon with two hands and slam it into %s",
+      "<npcname> smashes their weapon onto %s"
+    ],
     "description": "Crit only, 110% move cost, 120% Bash, 105% Stab, 110% Cut, damage increased by 15-25% of STR, min 2 melee"
   },
   {
     "type": "technique",
     "id": "UHAND",
     "name": "UNDERHAND",
-    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "skill_requirements": [{ "name": "melee", "level": 1 }],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
@@ -115,14 +121,14 @@
       { "stat": "damage", "type": "cut", "scale": 0.15 },
       { "stat": "damage", "type": "stab", "scale": 0.35 }
     ],
-    "messages": [ "You quickly shove %s out of the way", "<npcname> quickly shoves %s" ],
+    "messages": ["You quickly shove %s out of the way", "<npcname> quickly shoves %s"],
     "description": "65% moves, dramatically reduced damage, knockback 2 tiles, stun 1 turn"
   },
   {
     "type": "technique",
     "id": "SSHOVE",
     "name": "SHIELDED SHOVE",
-    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "skill_requirements": [{ "name": "melee", "level": 1 }],
     "unarmed_allowed": false,
     "melee_allowed": true,
     "knockback_dist": 2,
@@ -132,20 +138,26 @@
       { "stat": "damage", "type": "cut", "scale": 0 },
       { "stat": "damage", "type": "stab", "scale": 1.1 }
     ],
-    "messages": [ "You quickly shove %s out of the way with your weapon", "<npcname> quickly shoves %s" ],
+    "messages": [
+      "You quickly shove %s out of the way with your weapon",
+      "<npcname> quickly shoves %s"
+    ],
     "description": "75% moves, no cut damage, 110% Bash and Stab damage, knockback 2 tiles, min melee 1"
   },
   {
     "type": "technique",
     "id": "TEAR",
     "name": "TEAR",
-    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "skill_requirements": [{ "name": "melee", "level": 2 }],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
     "weighting": 2,
-    "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 1.1 }, { "stat": "damage", "type": "stab", "scale": 1.15 } ],
-    "messages": [ "You stab into %s and rake your blade out", "<npcname> tears into %s flesh" ],
+    "mult_bonuses": [
+      { "stat": "damage", "type": "cut", "scale": 1.1 },
+      { "stat": "damage", "type": "stab", "scale": 1.15 }
+    ],
+    "messages": ["You stab into %s and rake your blade out", "<npcname> tears into %s flesh"],
     "description": "Crit only, 110% Cut, 115% Stab, min melee 2"
   }
 ]

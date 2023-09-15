@@ -29,10 +29,10 @@
     "id": "MANA_CRYST_MANA",
     "name": { "str": "Mana Solidification" },
     "points": 1,
-    "category": [ "MANATOUCHED" ],
-    "threshreq": [ "THRESH_MANA" ],
+    "category": ["MANATOUCHED"],
+    "threshreq": ["THRESH_MANA"],
     "description": "Your internal ley lines have become much easier for you to control, resulting in you being able to naturally create crystallized mana.",
-    "spells_learned": [ [ "manatouched_crystal", 5 ] ]
+    "spells_learned": [["manatouched_crystal", 5]]
   },
   {
     "type": "mutation",
@@ -41,11 +41,11 @@
     "description": "Your hands glow with mana energy.  You can fire seeker bolts from your fingertips.",
     "points": 2,
     "mana_modifier": 250,
-    "lumination": [ [ "hand_r", 8 ], [ "hand_l", 8 ] ],
-    "prereqs": [ "MANA_LUM" ],
-    "category": [ "MANATOUCHED" ],
-    "threshreq": [ "THRESH_MANA" ],
-    "spells_learned": [ [ "manatouched_seeker_bolts", 0 ] ]
+    "lumination": [["hand_r", 8], ["hand_l", 8]],
+    "prereqs": ["MANA_LUM"],
+    "category": ["MANATOUCHED"],
+    "threshreq": ["THRESH_MANA"],
+    "spells_learned": [["manatouched_seeker_bolts", 0]]
   },
   {
     "type": "mutation",
@@ -53,11 +53,11 @@
     "name": { "str": "Subtle Spell" },
     "description": "You no longer need to move your arms to cast spells, due to your ley lines becoming untethered from your arms.  Arm encumbrance no longer applies to spell failure chance.",
     "points": 3,
-    "lumination": [ [ "arm_r", 4 ], [ "arm_l", 4 ] ],
-    "threshreq": [ "THRESH_MANA" ],
-    "prereqs": [ "MANA_LUM" ],
-    "category": [ "MANATOUCHED" ],
-    "flags": [ "SUBTLE_SPELL" ]
+    "lumination": [["arm_r", 4], ["arm_l", 4]],
+    "threshreq": ["THRESH_MANA"],
+    "prereqs": ["MANA_LUM"],
+    "category": ["MANATOUCHED"],
+    "flags": ["SUBTLE_SPELL"]
   },
   {
     "type": "mutation",
@@ -65,11 +65,11 @@
     "name": { "str": "Silent Spell" },
     "description": "You no longer need to use your voice to enforce your will upon the world.  Mouth encumbrance no longer applies to spell failure chance.",
     "points": 3,
-    "lumination": [ [ "mouth", 4 ] ],
-    "threshreq": [ "THRESH_MANA" ],
-    "prereqs": [ "MANA_LUM" ],
-    "category": [ "MANATOUCHED" ],
-    "flags": [ "SILENT_SPELL" ]
+    "lumination": [["mouth", 4]],
+    "threshreq": ["THRESH_MANA"],
+    "prereqs": ["MANA_LUM"],
+    "category": ["MANATOUCHED"],
+    "flags": ["SILENT_SPELL"]
   },
   {
     "id": "WEAK",
@@ -78,84 +78,107 @@
     "passive_mods": { "str_mod": -2 },
     "points": -1,
     "description": "Your body is unnaturally weak.  -2 Strength.",
-    "category": [ "MANATOUCHED" ],
-    "cancels": [ "STR_UP_2", "STR_UP_3", "STR_UP_4", "STR_ALPHA" ]
+    "category": ["MANATOUCHED"],
+    "cancels": ["STR_UP_2", "STR_UP_3", "STR_UP_4", "STR_ALPHA"]
   },
   {
     "id": "STR_UP_2",
     "type": "mutation",
     "copy-from": "STR_UP_2",
-    "extend": { "cancels": [ "WEAK" ] }
+    "extend": { "cancels": ["WEAK"] }
   },
   {
     "id": "STR_UP_3",
     "type": "mutation",
     "copy-from": "STR_UP_3",
-    "extend": { "cancels": [ "WEAK" ] }
+    "extend": { "cancels": ["WEAK"] }
   },
   {
     "id": "STR_UP_4",
     "type": "mutation",
     "copy-from": "STR_UP_4",
-    "extend": { "cancels": [ "WEAK" ] }
+    "extend": { "cancels": ["WEAK"] }
   },
   {
     "id": "STR_UP_ALPHA",
     "type": "mutation",
     "copy-from": "STR_UP_ALPHA",
-    "extend": { "cancels": [ "WEAK" ] }
+    "extend": { "cancels": ["WEAK"] }
   },
   {
     "type": "mutation",
     "id": "MANA_LUM",
     "name": { "str": "Mana Luminance" },
     "points": 0,
-    "bodytemp_modifiers": [ 100, 100 ],
+    "bodytemp_modifiers": [100, 100],
     "description": "Your body discards unusable mana as light and heat, making you glow softly.",
-    "category": [ "MANATOUCHED" ],
-    "threshreq": [ "THRESH_MANA" ],
-    "lumination": [ [ "torso", 8 ] ]
+    "category": ["MANATOUCHED"],
+    "threshreq": ["THRESH_MANA"],
+    "lumination": [["torso", 8]]
   },
   {
     "type": "mutation",
     "id": "ALBINO",
     "copy-from": "ALBINO",
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": ["MANATOUCHED"] }
   },
   {
     "type": "mutation",
     "id": "ROT2",
     "copy-from": "ROT2",
-    "extend": { "category": [ "MANATOUCHED" ] }
+    "extend": { "category": ["MANATOUCHED"] }
   },
   {
     "id": "sp_mana_siphon",
     "type": "SPELL",
     "name": "Mana Siphon",
     "description": "This is the spell portion of the mana siphon series of mutations.  If you have this spell you probably debugged it in.",
-    "valid_targets": [ "self" ],
+    "valid_targets": ["self"],
     "min_damage": 5,
     "damage_increment": 5.0,
     "max_damage": 180,
     "max_level": 35,
     "effect": "recover_energy",
     "effect_str": "MANA",
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ]
+    "flags": ["SILENT", "NO_LEGS", "NO_HANDS"]
   },
   {
     "type": "enchantment",
     "id": "ench_mana_siphon_1",
-    "hit_you_effect": [ { "id": "sp_mana_siphon", "hit_self": true, "once_in": 5, "message": "You recover some mana." } ]
+    "hit_you_effect": [
+      {
+        "id": "sp_mana_siphon",
+        "hit_self": true,
+        "once_in": 5,
+        "message": "You recover some mana."
+      }
+    ]
   },
   {
     "type": "enchantment",
     "id": "ench_mana_siphon_2",
-    "hit_you_effect": [ { "id": "sp_mana_siphon", "hit_self": true, "min_level": 3, "once_in": 5, "message": "You recover some mana." } ]
+    "hit_you_effect": [
+      {
+        "id": "sp_mana_siphon",
+        "hit_self": true,
+        "min_level": 3,
+        "once_in": 5,
+        "message": "You recover some mana."
+      }
+    ]
   },
   {
     "type": "enchantment",
     "id": "ench_mana_siphon_3",
-    "hit_you_effect": [ { "id": "sp_mana_siphon", "hit_self": true, "min_level": 6, "once_in": 5, "message": "You recover some mana." } ]
+    "hit_you_effect": [
+      {
+        "id": "sp_mana_siphon",
+        "hit_self": true,
+        "min_level": 6,
+        "once_in": 5,
+        "message": "You recover some mana."
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -163,10 +186,10 @@
     "name": { "str": "Mana Siphon" },
     "points": 1,
     "description": "Violence excites your ley lines.  Whenever you hit an enemy in melee, you have a chance of regaining some mana.",
-    "category": [ "MANATOUCHED" ],
-    "threshreq": [ "THRESH_MANA" ],
-    "changes_to": [ "MANA_SIPHON_2" ],
-    "enchantments": [ "ench_mana_siphon_1" ]
+    "category": ["MANATOUCHED"],
+    "threshreq": ["THRESH_MANA"],
+    "changes_to": ["MANA_SIPHON_2"],
+    "enchantments": ["ench_mana_siphon_1"]
   },
   {
     "type": "mutation",
@@ -174,11 +197,11 @@
     "name": { "str": "Mana Drain" },
     "points": 2,
     "description": "Violence excites your ley lines.  Whenever you hit an enemy in melee, you have a chance of regaining some mana.",
-    "category": [ "MANATOUCHED" ],
-    "threshreq": [ "THRESH_MANA" ],
-    "prereqs": [ "MANA_SIPHON_1" ],
-    "changes_to": [ "MANA_SIPHON_3" ],
-    "enchantments": [ "ench_mana_siphon_2" ]
+    "category": ["MANATOUCHED"],
+    "threshreq": ["THRESH_MANA"],
+    "prereqs": ["MANA_SIPHON_1"],
+    "changes_to": ["MANA_SIPHON_3"],
+    "enchantments": ["ench_mana_siphon_2"]
   },
   {
     "type": "mutation",
@@ -186,9 +209,9 @@
     "name": { "str": "Mana Vortex" },
     "points": 3,
     "description": "Violence excites your ley lines.  Whenever you hit an enemy in melee, you have a chance of regaining some mana.",
-    "category": [ "MANATOUCHED" ],
-    "threshreq": [ "THRESH_MANA" ],
-    "prereqs": [ "MANA_SIPHON_2" ],
-    "enchantments": [ "ench_mana_siphon_3" ]
+    "category": ["MANATOUCHED"],
+    "threshreq": ["THRESH_MANA"],
+    "prereqs": ["MANA_SIPHON_2"],
+    "enchantments": ["ench_mana_siphon_3"]
   }
 ]

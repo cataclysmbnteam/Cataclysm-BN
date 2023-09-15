@@ -9,8 +9,8 @@
     "volume": "10 ml",
     "price": 100,
     "price_postapoc": 10,
-    "flags": [ "FANCY" ],
-    "material": [ "wood" ],
+    "flags": ["FANCY"],
+    "material": ["wood"],
     "symbol": "[",
     "color": "brown",
     "use_action": "MEDITATE"
@@ -24,7 +24,7 @@
     "volume": "1 ml",
     "price": 100,
     "price_postapoc": 10,
-    "material": [ "wood" ],
+    "material": ["wood"],
     "symbol": "[",
     "looks_like": "gold_ear",
     "color": "brown"
@@ -39,8 +39,8 @@
     "volume": "10 ml",
     "price": 100,
     "price_postapoc": 10,
-    "material": [ "wood" ],
-    "flags": [ "FANCY" ],
+    "material": ["wood"],
+    "flags": ["FANCY"],
     "symbol": "u",
     "color": "brown",
     "use_action": "MEDITATE"
@@ -55,8 +55,8 @@
     "volume": "10 ml",
     "price": 100,
     "price_postapoc": 10,
-    "flags": [ "FANCY" ],
-    "material": [ "wood", "plastic" ],
+    "flags": ["FANCY"],
+    "material": ["wood", "plastic"],
     "symbol": "[",
     "color": "red"
   },
@@ -69,11 +69,11 @@
     "volume": "10 ml",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "iron" ],
+    "material": ["iron"],
     "symbol": "[",
     "looks_like": "copper_locket",
     "color": "brown",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "diamond_dental_grill",
@@ -86,13 +86,13 @@
     "price_postapoc": 250,
     "bashing": 3,
     "cutting": 3,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "yellow",
-    "covers": [ "mouth" ],
+    "covers": ["mouth"],
     "encumbrance": 10,
-    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+    "flags": ["SUPER_FANCY", "SKINTIGHT"]
   },
   {
     "id": "garnet_dental_grill",
@@ -105,13 +105,13 @@
     "price_postapoc": 100,
     "bashing": 3,
     "cutting": 3,
-    "material": [ "gold", "gemstone" ],
+    "material": ["gold", "gemstone"],
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "red",
-    "covers": [ "mouth" ],
+    "covers": ["mouth"],
     "encumbrance": 10,
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "flags": ["FANCY", "SKINTIGHT"]
   },
   {
     "id": "amethyst_dental_grill",
@@ -193,10 +193,10 @@
     "volume": "50 ml",
     "price": 800,
     "price_postapoc": 10,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": "[",
     "color": "pink",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "blue_topaz_dental_grill",
@@ -215,11 +215,11 @@
     "volume": 0,
     "price": 190000,
     "price_postapoc": 100,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "looks_like": "ring_engagement",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "diving_watch",
@@ -231,14 +231,22 @@
     "price": 12000,
     "price_postapoc": 700,
     "to_hit": -1,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "[",
     "looks_like": "gold_watch",
     "color": "light_gray",
-    "covers": [ "hand_either" ],
+    "covers": ["hand_either"],
     "coverage": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [
+      "WATCH",
+      "ALARMCLOCK",
+      "WATER_FRIENDLY",
+      "THERMOMETER",
+      "BELTED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "OVERSIZE"
+    ]
   },
   {
     "id": "collarpin",
@@ -249,11 +257,11 @@
     "volume": "2 ml",
     "price": 25000,
     "price_postapoc": 10,
-    "material": [ "silver" ],
+    "material": ["silver"],
     "symbol": "[",
     "looks_like": "tieclip",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "copper_bracelet",
@@ -264,7 +272,7 @@
     "volume": "5 ml",
     "price": 2500,
     "price_postapoc": 10,
-    "material": [ "copper" ],
+    "material": ["copper"],
     "symbol": "[",
     "looks_like": "silver_bracelet",
     "color": "brown"
@@ -278,7 +286,7 @@
     "volume": "1 ml",
     "price": 2900,
     "price_postapoc": 10,
-    "material": [ "copper" ],
+    "material": ["copper"],
     "symbol": "[",
     "looks_like": "gold_ear",
     "color": "brown"
@@ -292,12 +300,12 @@
     "volume": "2 ml",
     "price": 500,
     "price_postapoc": 10,
-    "material": [ "copper" ],
+    "material": ["copper"],
     "symbol": "[",
     "looks_like": "tieclip",
     "color": "brown",
     "use_action": { "type": "picklock", "pick_quality": 3 },
-    "qualities": [ [ "LOCKPICK", 3 ] ]
+    "qualities": [["LOCKPICK", 3]]
   },
   {
     "id": "copper_locket",
@@ -308,7 +316,7 @@
     "volume": "10 ml",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "copper" ],
+    "material": ["copper"],
     "symbol": "[",
     "looks_like": "silver_necklace",
     "color": "brown"
@@ -322,7 +330,7 @@
     "volume": "10 ml",
     "price": 3000,
     "price_postapoc": 10,
-    "material": [ "copper" ],
+    "material": ["copper"],
     "symbol": "[",
     "looks_like": "silver_necklace",
     "color": "brown"
@@ -336,7 +344,7 @@
     "volume": "2 ml",
     "price": 2000,
     "price_postapoc": 10,
-    "material": [ "copper" ],
+    "material": ["copper"],
     "symbol": "[",
     "looks_like": "ring_purity",
     "color": "brown"
@@ -350,7 +358,7 @@
     "volume": 0,
     "price": 3000,
     "price_postapoc": 10,
-    "material": [ "silver" ],
+    "material": ["silver"],
     "symbol": "[",
     "color": "light_gray"
   },
@@ -363,7 +371,7 @@
     "volume": 0,
     "price": 7000,
     "price_postapoc": 50,
-    "material": [ "silver", "gold" ],
+    "material": ["silver", "gold"],
     "symbol": "[",
     "color": "light_gray"
   },
@@ -376,11 +384,11 @@
     "volume": 0,
     "price": 3500,
     "price_postapoc": 50,
-    "material": [ "gold", "gemstone" ],
+    "material": ["gold", "gemstone"],
     "looks_like": "cufflinks",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "diamond_gold_cufflinks",
@@ -388,7 +396,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "diamond and gold cufflinks" },
     "description": "A pair of cufflinks with inset diamonds.",
-    "material": [ "gold", "diamond" ],
+    "material": ["gold", "diamond"],
     "color": "white"
   },
   {
@@ -495,11 +503,11 @@
     "volume": 0,
     "price": 3500,
     "price_postapoc": 100,
-    "material": [ "silver", "gemstone" ],
+    "material": ["silver", "gemstone"],
     "looks_like": "cufflinks",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "diamond_silver_cufflinks",
@@ -507,7 +515,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "diamond and silver cufflinks" },
     "description": "A pair of cufflinks with inset diamonds.",
-    "material": [ "silver", "diamond" ],
+    "material": ["silver", "diamond"],
     "color": "white"
   },
   {
@@ -614,11 +622,11 @@
     "volume": 0,
     "price": 3500,
     "price_postapoc": 100,
-    "material": [ "platinum", "gemstone" ],
+    "material": ["platinum", "gemstone"],
     "looks_like": "cufflinks",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "diamond_platinum_cufflinks",
@@ -626,7 +634,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "diamond and platinum cufflinks" },
     "description": "A pair of cufflinks with inset diamonds.",
-    "material": [ "platinum", "diamond" ],
+    "material": ["platinum", "diamond"],
     "color": "white"
   },
   {
@@ -733,7 +741,7 @@
     "volume": "5 ml",
     "price": 1200,
     "price_postapoc": 10,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": "[",
     "color": "dark_gray",
     "material_thickness": 1
@@ -747,10 +755,10 @@
     "volume": "25 ml",
     "price": 46000,
     "price_postapoc": 50,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "gold_dental_grill",
@@ -763,11 +771,11 @@
     "price_postapoc": 50,
     "bashing": 2,
     "cutting": 2,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "mouth" ],
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "covers": ["mouth"],
+    "flags": ["FANCY", "SKINTIGHT"]
   },
   {
     "id": "gold_ear",
@@ -778,10 +786,10 @@
     "volume": "1 ml",
     "price": 13000,
     "price_postapoc": 10,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "gold_hairpin",
@@ -792,12 +800,12 @@
     "volume": "10 ml",
     "price": 5000,
     "price_postapoc": 25,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ],
+    "flags": ["FANCY"],
     "use_action": { "type": "picklock", "pick_quality": 3 },
-    "qualities": [ [ "LOCKPICK", 3 ] ]
+    "qualities": [["LOCKPICK", 3]]
   },
   {
     "id": "gold_locket",
@@ -808,10 +816,10 @@
     "volume": "25 ml",
     "price": 20000,
     "price_postapoc": 25,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "gold_medal",
@@ -822,10 +830,10 @@
     "volume": "25 ml",
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "SUPER_FANCY" ]
+    "flags": ["SUPER_FANCY"]
   },
   {
     "id": "gold_necklace",
@@ -836,10 +844,10 @@
     "volume": "50 ml",
     "price": 40000,
     "price_postapoc": 50,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "gold_ring",
@@ -850,7 +858,7 @@
     "volume": "5 ml",
     "price": 30000,
     "price_postapoc": 50,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": "[",
     "color": "yellow"
   },
@@ -864,12 +872,12 @@
     "price": 50000,
     "price_postapoc": 250,
     "to_hit": -1,
-    "material": [ "steel", "gold" ],
+    "material": ["steel", "gold"],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "hand_either" ],
+    "covers": ["hand_either"],
     "coverage": 5,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": ["WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE"]
   },
   {
     "id": "tieclip",
@@ -880,7 +888,7 @@
     "volume": "5 ml",
     "price": 28000,
     "price_postapoc": 10,
-    "material": [ "silver" ],
+    "material": ["silver"],
     "symbol": "[",
     "color": "light_gray"
   },
@@ -894,12 +902,20 @@
     "price": 18000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "material": [ "steel", "silver" ],
+    "material": ["steel", "silver"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "hand_either" ],
+    "covers": ["hand_either"],
     "coverage": 10,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [
+      "WATCH",
+      "FANCY",
+      "BELTED",
+      "FRAGILE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "WATER_FRIENDLY",
+      "OVERSIZE"
+    ]
   },
   {
     "id": "silver_bracelet",
@@ -910,10 +926,10 @@
     "volume": "25 ml",
     "price": 25000,
     "price_postapoc": 25,
-    "material": [ "silver" ],
+    "material": ["silver"],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "silver_ear",
@@ -924,10 +940,10 @@
     "volume": "1 ml",
     "price": 8000,
     "price_postapoc": 25,
-    "material": [ "silver" ],
+    "material": ["silver"],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "sf_watch",
@@ -940,12 +956,20 @@
     "price": 2200000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "material": [ "gold", "silver" ],
+    "material": ["gold", "silver"],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "hand_either" ],
+    "covers": ["hand_either"],
     "coverage": 10,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [
+      "WATCH",
+      "SUPER_FANCY",
+      "BELTED",
+      "FRAGILE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "WATER_FRIENDLY",
+      "OVERSIZE"
+    ]
   },
   {
     "id": "small_relic",
@@ -956,11 +980,11 @@
     "volume": "15 ml",
     "price": 1000,
     "price_postapoc": 1000,
-    "material": [ "bone", "silver" ],
+    "material": ["bone", "silver"],
     "symbol": "[",
     "color": "white",
     "use_action": "MEDITATE",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "holy_symbol",
@@ -971,11 +995,11 @@
     "volume": "25 ml",
     "price": 5000,
     "price_postapoc": 100,
-    "material": [ "gold" ],
+    "material": ["gold"],
     "symbol": ",",
     "color": "yellow",
     "use_action": "MEDITATE",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "holy_symbol_wood",
@@ -986,7 +1010,7 @@
     "volume": "25 ml",
     "price": 500,
     "price_postapoc": 10,
-    "material": [ "wood", "cotton" ],
+    "material": ["wood", "cotton"],
     "symbol": ",",
     "color": "brown",
     "use_action": "MEDITATE"
@@ -1000,10 +1024,10 @@
     "volume": "1 ml",
     "price": 90000,
     "price_postapoc": 25,
-    "material": [ "stone" ],
+    "material": ["stone"],
     "symbol": "[",
     "color": "green",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "pearl_collar",
@@ -1014,10 +1038,10 @@
     "volume": "300 ml",
     "price": 590000,
     "price_postapoc": 25,
-    "material": [ "stone" ],
+    "material": ["stone"],
     "symbol": "[",
     "color": "white",
-    "flags": [ "SUPER_FANCY" ]
+    "flags": ["SUPER_FANCY"]
   },
   {
     "id": "platinum_watch",
@@ -1030,12 +1054,12 @@
     "price": 10000000,
     "price_postapoc": 1000,
     "to_hit": -1,
-    "material": [ "platinum" ],
+    "material": ["platinum"],
     "symbol": "[",
     "color": "white",
-    "covers": [ "hand_either" ],
+    "covers": ["hand_either"],
     "coverage": 5,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": ["WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE"]
   },
   {
     "id": "platinum_bracelet",
@@ -1046,10 +1070,10 @@
     "volume": "25 ml",
     "price": 38000,
     "price_postapoc": 100,
-    "material": [ "platinum" ],
+    "material": ["platinum"],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "platinum_dental_grill",
@@ -1062,11 +1086,11 @@
     "price_postapoc": 100,
     "bashing": 2,
     "cutting": 2,
-    "material": [ "platinum", "silver" ],
+    "material": ["platinum", "silver"],
     "symbol": "[",
     "color": "white",
-    "covers": [ "mouth" ],
-    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+    "covers": ["mouth"],
+    "flags": ["SUPER_FANCY", "SKINTIGHT"]
   },
   {
     "id": "platinum_ear",
@@ -1077,10 +1101,10 @@
     "volume": "1 ml",
     "price": 12000,
     "price_postapoc": 50,
-    "material": [ "platinum" ],
+    "material": ["platinum"],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "platinum_hairpin",
@@ -1091,12 +1115,12 @@
     "volume": "5 ml",
     "price": 3500,
     "price_postapoc": 50,
-    "material": [ "platinum" ],
+    "material": ["platinum"],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ],
+    "flags": ["FANCY"],
     "use_action": { "type": "picklock", "pick_quality": 3 },
-    "qualities": [ [ "LOCKPICK", 3 ] ]
+    "qualities": [["LOCKPICK", 3]]
   },
   {
     "id": "platinum_locket",
@@ -1107,10 +1131,10 @@
     "volume": "40 ml",
     "price": 16000,
     "price_postapoc": 50,
-    "material": [ "platinum" ],
+    "material": ["platinum"],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "platinum_necklace",
@@ -1121,10 +1145,10 @@
     "volume": "50 ml",
     "price": 50000,
     "price_postapoc": 50,
-    "material": [ "platinum" ],
+    "material": ["platinum"],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "platinum_ring",
@@ -1135,10 +1159,10 @@
     "volume": "5 ml",
     "price": 24000,
     "price_postapoc": 50,
-    "material": [ "platinum" ],
+    "material": ["platinum"],
     "symbol": "[",
     "color": "white",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "ring_engagement",
@@ -1149,10 +1173,10 @@
     "volume": "1 ml",
     "price": 100000,
     "price_postapoc": 25,
-    "material": [ "gold", "diamond" ],
+    "material": ["gold", "diamond"],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "ring_purity",
@@ -1163,10 +1187,10 @@
     "volume": "5 ml",
     "price": 1700,
     "price_postapoc": 10,
-    "material": [ "silver" ],
+    "material": ["silver"],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "ring_signet",
@@ -1177,10 +1201,10 @@
     "volume": "5 ml",
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ "gold", "silver" ],
+    "material": ["gold", "silver"],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "ring_wedding",
@@ -1191,10 +1215,10 @@
     "volume": "5 ml",
     "price": 150000,
     "price_postapoc": 50,
-    "material": [ "gold", "diamond" ],
+    "material": ["gold", "diamond"],
     "symbol": "[",
     "color": "yellow",
-    "flags": [ "SUPER_FANCY" ]
+    "flags": ["SUPER_FANCY"]
   },
   {
     "id": "silver_necklace",
@@ -1205,10 +1229,10 @@
     "volume": "25 ml",
     "price": 12000,
     "price_postapoc": 25,
-    "material": [ "silver" ],
+    "material": ["silver"],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "silver_hairpin",
@@ -1219,12 +1243,12 @@
     "volume": "5 ml",
     "price": 2000,
     "price_postapoc": 10,
-    "material": [ "silver" ],
+    "material": ["silver"],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ],
+    "flags": ["FANCY"],
     "use_action": { "type": "picklock", "pick_quality": 3 },
-    "qualities": [ [ "LOCKPICK", 3 ] ]
+    "qualities": [["LOCKPICK", 3]]
   },
   {
     "id": "silver_locket",
@@ -1235,10 +1259,10 @@
     "volume": "25 ml",
     "price": 4000,
     "price_postapoc": 10,
-    "material": [ "silver" ],
+    "material": ["silver"],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "silver_medal",
@@ -1249,10 +1273,10 @@
     "volume": "50 ml",
     "price": 5000,
     "price_postapoc": 10,
-    "material": [ "silver" ],
+    "material": ["silver"],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "silver_ring",
@@ -1263,10 +1287,10 @@
     "volume": "5 ml",
     "price": 5000,
     "price_postapoc": 10,
-    "material": [ "silver" ],
+    "material": ["silver"],
     "symbol": "[",
     "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "leather_collar",
@@ -1277,10 +1301,10 @@
     "volume": "250 ml",
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "-",
     "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "wristwatch",
@@ -1292,12 +1316,20 @@
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "hand_either" ],
+    "covers": ["hand_either"],
     "coverage": 5,
-    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [
+      "WATCH",
+      "ALARMCLOCK",
+      "BELTED",
+      "FRAGILE",
+      "ALLOWS_NATURAL_ATTACKS",
+      "WATER_FRIENDLY",
+      "OVERSIZE"
+    ]
   },
   {
     "id": "rad_badge",
@@ -1309,10 +1341,10 @@
     "volume": "25 ml",
     "price": 8000,
     "price_postapoc": 500,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": "[",
     "color": "light_blue",
-    "flags": [ "OVERSIZE" ]
+    "flags": ["OVERSIZE"]
   },
   {
     "abstract": "badge_abstract",
@@ -1323,13 +1355,13 @@
     "volume": "5 ml",
     "price": 5000,
     "price_postapoc": 700,
-    "material": [ "silver" ],
+    "material": ["silver"],
     "symbol": "[",
     "color": "yellow",
     "//": "should cover TORSO but give no encumbrance penalties",
     "coverage": 2,
     "material_thickness": 2,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": ["ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY"]
   },
   {
     "id": "badge_cybercop",
@@ -1351,7 +1383,7 @@
     "type": "ARMOR",
     "name": { "str": "detective badge" },
     "description": "A tarnished golden shield gives an air of authority to the wearer.",
-    "material": [ "gold" ],
+    "material": ["gold"],
     "price_postapoc": 500,
     "proportional": { "weight": 2 }
   },
@@ -1375,7 +1407,7 @@
     "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": { "str": "doctor badge" },
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "weight": "10 g",
     "price_postapoc": 10,
     "description": "A plastic name tag marking the wearer as a real doctor of the medical kind."
@@ -1385,7 +1417,7 @@
     "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": { "str": "Foodkid badge" },
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "price_postapoc": 10,
     "weight": "10 g",
     "description": "A star shaped badge.  On it, you can read \"Foodkid\" in bold letters.  This is Foodperson's trusty sidekick's badge."
@@ -1399,10 +1431,10 @@
     "volume": "250 ml",
     "price": 1500,
     "price_postapoc": 10,
-    "material": [ "fur", "plastic" ],
+    "material": ["fur", "plastic"],
     "symbol": "^",
     "color": "brown",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "faux_fur_cat_ears",
@@ -1410,7 +1442,7 @@
     "copy-from": "fur_cat_ears",
     "name": { "str": "pair of faux fur cat ears", "str_pl": "pairs of faux fur cat ears" },
     "description": "A fuzzy pair of garishly colored cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
-    "material": [ "faux_fur" ],
+    "material": ["faux_fur"],
     "color": "pink"
   },
   {
@@ -1423,10 +1455,10 @@
     "price": 1000,
     "price_postapoc": 10,
     "bashing": 4,
-    "material": [ "fur", "plastic" ],
+    "material": ["fur", "plastic"],
     "symbol": "s",
     "color": "brown",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "faux_fur_cat_tail",
@@ -1434,7 +1466,7 @@
     "copy-from": "fur_cat_tail",
     "name": { "str": "faux fur cat tail" },
     "description": "A fuzzy garishly colored tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
-    "material": [ "faux_fur", "plastic" ],
+    "material": ["faux_fur", "plastic"],
     "color": "pink"
   },
   {
@@ -1446,10 +1478,10 @@
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "fur" ],
+    "material": ["fur"],
     "symbol": "-",
     "color": "brown",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "faux_fur_collar",
@@ -1457,7 +1489,7 @@
     "copy-from": "fur_collar",
     "name": { "str": "faux fur kitty collar" },
     "description": "A decorative 'collar' made out of faux fur.  Complete with a little bell hanging from the front.  Don't worry, it's silent.",
-    "material": [ "faux_fur" ],
+    "material": ["faux_fur"],
     "color": "pink"
   },
   {
@@ -1469,10 +1501,10 @@
     "volume": "250 ml",
     "price": 3000,
     "price_postapoc": 10,
-    "material": [ "leather", "plastic" ],
+    "material": ["leather", "plastic"],
     "symbol": "^",
     "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "leather_cat_tail",
@@ -1484,42 +1516,51 @@
     "price": 2500,
     "price_postapoc": 10,
     "bashing": 4,
-    "material": [ "leather", "plastic" ],
+    "material": ["leather", "plastic"],
     "symbol": "s",
     "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "diamond_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of diamond and gold earrings", "str_pl": "pairs of diamond and gold earrings" },
+    "name": {
+      "str": "pair of diamond and gold earrings",
+      "str_pl": "pairs of diamond and gold earrings"
+    },
     "description": "A pair of shiny diamond and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "price": 13000,
     "price_postapoc": 50,
-    "material": [ "gold", "diamond" ],
+    "material": ["gold", "diamond"],
     "color": "white"
   },
   {
     "id": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of garnet and gold earrings", "str_pl": "pairs of garnet and gold earrings" },
+    "name": {
+      "str": "pair of garnet and gold earrings",
+      "str_pl": "pairs of garnet and gold earrings"
+    },
     "description": "A pair of shiny garnet and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "weight": "2700 mg",
     "volume": 0,
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ "gold", "gemstone" ],
+    "material": ["gold", "gemstone"],
     "looks_like": "gold_ear",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "amethyst_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of amethyst and gold earrings", "str_pl": "pairs of amethyst and gold earrings" },
+    "name": {
+      "str": "pair of amethyst and gold earrings",
+      "str_pl": "pairs of amethyst and gold earrings"
+    },
     "description": "A pair of shiny amethyst and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "blue"
   },
@@ -1527,7 +1568,10 @@
     "id": "aquamarine_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of aquamarine and gold earrings", "str_pl": "pairs of aquamarine and gold earrings" },
+    "name": {
+      "str": "pair of aquamarine and gold earrings",
+      "str_pl": "pairs of aquamarine and gold earrings"
+    },
     "description": "A pair of shiny aquamarine and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_blue"
   },
@@ -1535,7 +1579,10 @@
     "id": "emerald_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of emerald and gold earrings", "str_pl": "pairs of emerald and gold earrings" },
+    "name": {
+      "str": "pair of emerald and gold earrings",
+      "str_pl": "pairs of emerald and gold earrings"
+    },
     "description": "A pair of shiny emerald and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
@@ -1543,7 +1590,10 @@
     "id": "alexandrite_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of alexandrite and gold earrings", "str_pl": "pairs of alexandrite and gold earrings" },
+    "name": {
+      "str": "pair of alexandrite and gold earrings",
+      "str_pl": "pairs of alexandrite and gold earrings"
+    },
     "description": "A pair of shiny alexandrite and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
@@ -1551,14 +1601,20 @@
     "id": "ruby_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of ruby and gold earrings", "str_pl": "pairs of ruby and gold earrings" },
+    "name": {
+      "str": "pair of ruby and gold earrings",
+      "str_pl": "pairs of ruby and gold earrings"
+    },
     "description": "A pair of shiny ruby and gold earrings.  You can wear it if you like, but it won't provide any effects."
   },
   {
     "id": "peridot_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of peridot and gold earrings", "str_pl": "pairs of peridot and gold earrings" },
+    "name": {
+      "str": "pair of peridot and gold earrings",
+      "str_pl": "pairs of peridot and gold earrings"
+    },
     "description": "A pair of shiny peridot and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_green"
   },
@@ -1566,7 +1622,10 @@
     "id": "sapphire_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of sapphire and gold earrings", "str_pl": "pairs of sapphire and gold earrings" },
+    "name": {
+      "str": "pair of sapphire and gold earrings",
+      "str_pl": "pairs of sapphire and gold earrings"
+    },
     "description": "A pair of shiny sapphire and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "blue"
   },
@@ -1574,7 +1633,10 @@
     "id": "tourmaline_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of tourmaline and gold earrings", "str_pl": "pairs of tourmaline and gold earrings" },
+    "name": {
+      "str": "pair of tourmaline and gold earrings",
+      "str_pl": "pairs of tourmaline and gold earrings"
+    },
     "description": "A pair of shiny tourmaline and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_red"
   },
@@ -1582,7 +1644,10 @@
     "id": "citrine_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of citrine and gold earrings", "str_pl": "pairs of citrine and gold earrings" },
+    "name": {
+      "str": "pair of citrine and gold earrings",
+      "str_pl": "pairs of citrine and gold earrings"
+    },
     "description": "A pair of shiny citrine and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "yellow"
   },
@@ -1590,7 +1655,10 @@
     "id": "blue_topaz_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of blue topaz and gold earrings", "str_pl": "pairs of blue topaz and gold earrings" },
+    "name": {
+      "str": "pair of blue topaz and gold earrings",
+      "str_pl": "pairs of blue topaz and gold earrings"
+    },
     "description": "A pair of shiny blue topaz and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_blue"
   },
@@ -1598,7 +1666,10 @@
     "id": "opal_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of opal and gold earrings", "str_pl": "pairs of opal and gold earrings" },
+    "name": {
+      "str": "pair of opal and gold earrings",
+      "str_pl": "pairs of opal and gold earrings"
+    },
     "description": "A pair of shiny opal and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
@@ -1606,7 +1677,10 @@
     "id": "pearl_gold_earring",
     "copy-from": "garnet_gold_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of pearl and gold earrings", "str_pl": "pairs of pearl and gold earrings" },
+    "name": {
+      "str": "pair of pearl and gold earrings",
+      "str_pl": "pairs of pearl and gold earrings"
+    },
     "description": "A pair of shiny pearl and gold earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
@@ -1614,33 +1688,42 @@
     "id": "diamond_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of diamond and silver earrings", "str_pl": "pairs of diamond and silver earrings" },
+    "name": {
+      "str": "pair of diamond and silver earrings",
+      "str_pl": "pairs of diamond and silver earrings"
+    },
     "description": "A pair of shiny diamond and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "price": 8000,
     "price_postapoc": 2000,
-    "material": [ "silver", "diamond" ],
+    "material": ["silver", "diamond"],
     "color": "white"
   },
   {
     "id": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of garnet and silver earrings", "str_pl": "pairs of garnet and silver earrings" },
+    "name": {
+      "str": "pair of garnet and silver earrings",
+      "str_pl": "pairs of garnet and silver earrings"
+    },
     "description": "A pair of shiny garnet and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "weight": "2700 mg",
     "volume": 0,
     "price": 6000,
     "price_postapoc": 1000,
-    "material": [ "silver", "gemstone" ],
+    "material": ["silver", "gemstone"],
     "looks_like": "silver_ear",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "amethyst_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of amethyst and silver earrings", "str_pl": "pairs of amethyst and silver earrings" },
+    "name": {
+      "str": "pair of amethyst and silver earrings",
+      "str_pl": "pairs of amethyst and silver earrings"
+    },
     "description": "A pair of shiny amethyst and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "blue"
   },
@@ -1648,7 +1731,10 @@
     "id": "aquamarine_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of aquamarine and silver earrings", "str_pl": "pairs of aquamarine and silver earrings" },
+    "name": {
+      "str": "pair of aquamarine and silver earrings",
+      "str_pl": "pairs of aquamarine and silver earrings"
+    },
     "description": "A pair of shiny aquamarine and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_blue"
   },
@@ -1656,7 +1742,10 @@
     "id": "emerald_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of emerald and silver earrings", "str_pl": "pairs of emerald and silver earrings" },
+    "name": {
+      "str": "pair of emerald and silver earrings",
+      "str_pl": "pairs of emerald and silver earrings"
+    },
     "description": "A pair of shiny emerald and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
@@ -1664,7 +1753,10 @@
     "id": "alexandrite_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of alexandrite and silver earrings", "str_pl": "pairs of alexandrite and silver earrings" },
+    "name": {
+      "str": "pair of alexandrite and silver earrings",
+      "str_pl": "pairs of alexandrite and silver earrings"
+    },
     "description": "A pair of shiny alexandrite and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
@@ -1672,14 +1764,20 @@
     "id": "ruby_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of ruby and silver earrings", "str_pl": "pairs of ruby and silver earrings" },
+    "name": {
+      "str": "pair of ruby and silver earrings",
+      "str_pl": "pairs of ruby and silver earrings"
+    },
     "description": "A pair of shiny ruby and silver earrings.  You can wear it if you like, but it won't provide any effects."
   },
   {
     "id": "peridot_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of peridot and silver earrings", "str_pl": "pairs of peridot and silver earrings" },
+    "name": {
+      "str": "pair of peridot and silver earrings",
+      "str_pl": "pairs of peridot and silver earrings"
+    },
     "description": "A pair of shiny peridot and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_green"
   },
@@ -1687,7 +1785,10 @@
     "id": "sapphire_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of sapphire and silver earrings", "str_pl": "pairs of sapphire and silver earrings" },
+    "name": {
+      "str": "pair of sapphire and silver earrings",
+      "str_pl": "pairs of sapphire and silver earrings"
+    },
     "description": "A pair of shiny sapphire and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "blue"
   },
@@ -1695,7 +1796,10 @@
     "id": "tourmaline_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of tourmaline and silver earrings", "str_pl": "pairs of tourmaline and silver earrings" },
+    "name": {
+      "str": "pair of tourmaline and silver earrings",
+      "str_pl": "pairs of tourmaline and silver earrings"
+    },
     "description": "A pair of shiny tourmaline and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_red"
   },
@@ -1703,7 +1807,10 @@
     "id": "citrine_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of citrine and silver earrings", "str_pl": "pairs of citrine and silver earrings" },
+    "name": {
+      "str": "pair of citrine and silver earrings",
+      "str_pl": "pairs of citrine and silver earrings"
+    },
     "description": "A pair of shiny citrine and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "yellow"
   },
@@ -1711,7 +1818,10 @@
     "id": "blue_topaz_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of blue topaz and silver earrings", "str_pl": "pairs of blue topaz and silver earrings" },
+    "name": {
+      "str": "pair of blue topaz and silver earrings",
+      "str_pl": "pairs of blue topaz and silver earrings"
+    },
     "description": "A pair of shiny blue topaz and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_blue"
   },
@@ -1719,7 +1829,10 @@
     "id": "opal_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of opal and silver earrings", "str_pl": "pairs of opal and silver earrings" },
+    "name": {
+      "str": "pair of opal and silver earrings",
+      "str_pl": "pairs of opal and silver earrings"
+    },
     "description": "A pair of shiny opal and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
@@ -1727,7 +1840,10 @@
     "id": "pearl_silver_earring",
     "copy-from": "garnet_silver_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of pearl and silver earrings", "str_pl": "pairs of pearl and silver earrings" },
+    "name": {
+      "str": "pair of pearl and silver earrings",
+      "str_pl": "pairs of pearl and silver earrings"
+    },
     "description": "A pair of shiny pearl and silver earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
@@ -1735,33 +1851,42 @@
     "id": "diamond_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of diamond and platinum earrings", "str_pl": "pairs of diamond and platinum earrings" },
+    "name": {
+      "str": "pair of diamond and platinum earrings",
+      "str_pl": "pairs of diamond and platinum earrings"
+    },
     "description": "A pair of shiny diamond and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "price": 12000,
     "price_postapoc": 25,
-    "material": [ "platinum", "diamond" ],
+    "material": ["platinum", "diamond"],
     "color": "white"
   },
   {
     "id": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of garnet and platinum earrings", "str_pl": "pairs of garnet and platinum earrings" },
+    "name": {
+      "str": "pair of garnet and platinum earrings",
+      "str_pl": "pairs of garnet and platinum earrings"
+    },
     "description": "A pair of shiny garnet and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "weight": "2700 mg",
     "volume": 0,
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ "platinum", "gemstone" ],
+    "material": ["platinum", "gemstone"],
     "looks_like": "platinum_ear",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "amethyst_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of amethyst and platinum earrings", "str_pl": "pairs of amethyst and platinum earrings" },
+    "name": {
+      "str": "pair of amethyst and platinum earrings",
+      "str_pl": "pairs of amethyst and platinum earrings"
+    },
     "description": "A pair of shiny amethyst and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "blue"
   },
@@ -1769,7 +1894,10 @@
     "id": "aquamarine_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of aquamarine and platinum earrings", "str_pl": "pairs of aquamarine and platinum earrings" },
+    "name": {
+      "str": "pair of aquamarine and platinum earrings",
+      "str_pl": "pairs of aquamarine and platinum earrings"
+    },
     "description": "A pair of shiny aquamarine and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_blue"
   },
@@ -1777,7 +1905,10 @@
     "id": "emerald_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of emerald and platinum earrings", "str_pl": "pairs of emerald and platinum earrings" },
+    "name": {
+      "str": "pair of emerald and platinum earrings",
+      "str_pl": "pairs of emerald and platinum earrings"
+    },
     "description": "A pair of shiny emerald and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
@@ -1785,7 +1916,10 @@
     "id": "alexandrite_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of alexandrite and platinum earrings", "str_pl": "pairs of alexandrite and platinum earrings" },
+    "name": {
+      "str": "pair of alexandrite and platinum earrings",
+      "str_pl": "pairs of alexandrite and platinum earrings"
+    },
     "description": "A pair of shiny alexandrite and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "green"
   },
@@ -1793,14 +1927,20 @@
     "id": "ruby_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of ruby and platinum earrings", "str_pl": "pairs of ruby and platinum earrings" },
+    "name": {
+      "str": "pair of ruby and platinum earrings",
+      "str_pl": "pairs of ruby and platinum earrings"
+    },
     "description": "A pair of shiny ruby and platinum earrings.  You can wear it if you like, but it won't provide any effects."
   },
   {
     "id": "peridot_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of peridot and platinum earrings", "str_pl": "pairs of peridot and platinum earrings" },
+    "name": {
+      "str": "pair of peridot and platinum earrings",
+      "str_pl": "pairs of peridot and platinum earrings"
+    },
     "description": "A pair of shiny peridot and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_green"
   },
@@ -1808,7 +1948,10 @@
     "id": "sapphire_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of sapphire and platinum earrings", "str_pl": "pairs of sapphire and platinum earrings" },
+    "name": {
+      "str": "pair of sapphire and platinum earrings",
+      "str_pl": "pairs of sapphire and platinum earrings"
+    },
     "description": "A pair of shiny sapphire and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "blue"
   },
@@ -1816,7 +1959,10 @@
     "id": "tourmaline_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of tourmaline and platinum earrings", "str_pl": "pairs of tourmaline and platinum earrings" },
+    "name": {
+      "str": "pair of tourmaline and platinum earrings",
+      "str_pl": "pairs of tourmaline and platinum earrings"
+    },
     "description": "A pair of shiny tourmaline and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_red"
   },
@@ -1824,7 +1970,10 @@
     "id": "citrine_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of citrine and platinum earrings", "str_pl": "pairs of citrine and platinum earrings" },
+    "name": {
+      "str": "pair of citrine and platinum earrings",
+      "str_pl": "pairs of citrine and platinum earrings"
+    },
     "description": "A pair of shiny citrine and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "yellow"
   },
@@ -1832,7 +1981,10 @@
     "id": "blue_topaz_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of blue topaz and platinum earrings", "str_pl": "pairs of blue topaz and platinum earrings" },
+    "name": {
+      "str": "pair of blue topaz and platinum earrings",
+      "str_pl": "pairs of blue topaz and platinum earrings"
+    },
     "description": "A pair of shiny blue topaz and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "light_blue"
   },
@@ -1840,7 +1992,10 @@
     "id": "opal_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of opal and platinum earrings", "str_pl": "pairs of opal and platinum earrings" },
+    "name": {
+      "str": "pair of opal and platinum earrings",
+      "str_pl": "pairs of opal and platinum earrings"
+    },
     "description": "A pair of shiny opal and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
@@ -1848,7 +2003,10 @@
     "id": "pearl_platinum_earring",
     "copy-from": "garnet_platinum_earring",
     "type": "ARMOR",
-    "name": { "str": "pair of pearl and platinum earrings", "str_pl": "pairs of pearl and platinum earrings" },
+    "name": {
+      "str": "pair of pearl and platinum earrings",
+      "str_pl": "pairs of pearl and platinum earrings"
+    },
     "description": "A pair of shiny pearl and platinum earrings.  You can wear it if you like, but it won't provide any effects.",
     "color": "white"
   },
@@ -1861,11 +2019,11 @@
     "volume": 0,
     "price": 10000,
     "price_postapoc": 1800,
-    "material": [ "gold", "gemstone" ],
+    "material": ["gold", "gemstone"],
     "looks_like": "gold_ring",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "amethyst_gold_ring",
@@ -1970,7 +2128,7 @@
     "description": "A silver ring with a diamond mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "price": 12000,
     "price_postapoc": 25,
-    "material": [ "silver", "diamond" ],
+    "material": ["silver", "diamond"],
     "color": "white"
   },
   {
@@ -1982,11 +2140,11 @@
     "volume": 0,
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ "silver", "gemstone" ],
+    "material": ["silver", "gemstone"],
     "looks_like": "silver_ring",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "amethyst_silver_ring",
@@ -2091,7 +2249,7 @@
     "description": "A platinum ring with a diamond mounted on top of it.  You can wear it if you like, but it won't provide any effects.",
     "price": 12000,
     "price_postapoc": 50,
-    "material": [ "platinum", "diamond" ],
+    "material": ["platinum", "diamond"],
     "color": "white"
   },
   {
@@ -2103,11 +2261,11 @@
     "volume": 0,
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ "platinum", "gemstone" ],
+    "material": ["platinum", "gemstone"],
     "looks_like": "platinum_ring",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "amethyst_platinum_ring",
@@ -2213,7 +2371,7 @@
     "price": 200000,
     "looks_like": "gold_bracelet",
     "price_postapoc": 25,
-    "material": [ "gold", "diamond" ],
+    "material": ["gold", "diamond"],
     "color": "white"
   },
   {
@@ -2225,11 +2383,11 @@
     "volume": 0,
     "price": 15000,
     "price_postapoc": 25,
-    "material": [ "gold", "gemstone" ],
+    "material": ["gold", "gemstone"],
     "looks_like": "gold_bracelet",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "amethyst_gold_bracelet",
@@ -2335,7 +2493,7 @@
     "price": 200000,
     "looks_like": "silver_bracelet",
     "price_postapoc": 25,
-    "material": [ "silver", "diamond" ],
+    "material": ["silver", "diamond"],
     "color": "white"
   },
   {
@@ -2347,11 +2505,11 @@
     "volume": 0,
     "price": 15000,
     "price_postapoc": 25,
-    "material": [ "silver", "gemstone" ],
+    "material": ["silver", "gemstone"],
     "looks_like": "silver_bracelet",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "amethyst_silver_bracelet",
@@ -2457,7 +2615,7 @@
     "price": 200000,
     "looks_like": "platinum_bracelet",
     "price_postapoc": 50,
-    "material": [ "platinum", "diamond" ],
+    "material": ["platinum", "diamond"],
     "color": "white"
   },
   {
@@ -2469,11 +2627,11 @@
     "volume": 0,
     "price": 15000,
     "price_postapoc": 25,
-    "material": [ "platinum", "gemstone" ],
+    "material": ["platinum", "gemstone"],
     "looks_like": "platinum_bracelet",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "amethyst_platinum_bracelet",
@@ -2579,11 +2737,11 @@
     "volume": 0,
     "price": 50000,
     "price_postapoc": 25,
-    "material": [ "gold", "gemstone" ],
+    "material": ["gold", "gemstone"],
     "looks_like": "gold_necklace",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "diamond_gold_pendant_necklace",
@@ -2591,7 +2749,7 @@
     "type": "ARMOR",
     "name": { "str": "diamond and gold pendant necklace" },
     "description": "A shiny, gold necklace adorned with a diamond pendant.  You can wear it if you like, but it won't provide any effects.",
-    "material": [ "gold", "diamond" ],
+    "material": ["gold", "diamond"],
     "color": "white"
   },
   {
@@ -2698,11 +2856,11 @@
     "volume": 0,
     "price": 50000,
     "price_postapoc": 25,
-    "material": [ "silver", "gemstone" ],
+    "material": ["silver", "gemstone"],
     "looks_like": "silver_necklace",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "diamond_silver_pendant_necklace",
@@ -2710,7 +2868,7 @@
     "type": "ARMOR",
     "name": { "str": "diamond and silver pendant necklace" },
     "description": "A shiny, silver necklace adorned with a diamond pendant.  You can wear it if you like, but it won't provide any effects.",
-    "material": [ "silver", "diamond" ],
+    "material": ["silver", "diamond"],
     "color": "white"
   },
   {
@@ -2817,11 +2975,11 @@
     "volume": 0,
     "price": 50000,
     "price_postapoc": 25,
-    "material": [ "platinum", "gemstone" ],
+    "material": ["platinum", "gemstone"],
     "looks_like": "platinum_necklace",
     "symbol": "[",
     "color": "red",
-    "flags": [ "FANCY" ]
+    "flags": ["FANCY"]
   },
   {
     "id": "diamond_platinum_pendant_necklace",
@@ -2829,7 +2987,7 @@
     "type": "ARMOR",
     "name": { "str": "diamond and platinum pendant necklace" },
     "description": "A shiny, platinum necklace adorned with a diamond pendant.  You can wear it if you like, but it won't provide any effects.",
-    "material": [ "platinum", "diamond" ],
+    "material": ["platinum", "diamond"],
     "color": "white"
   },
   {
@@ -2936,14 +3094,14 @@
     "volume": "100 ml",
     "price": 500000,
     "price_postapoc": 25,
-    "material": [ "platinum", "gemstone" ],
+    "material": ["platinum", "gemstone"],
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "red",
     "coverage": 5,
     "encumbrance": 1,
     "material_thickness": 1,
-    "flags": [ "SUPER_FANCY" ]
+    "flags": ["SUPER_FANCY"]
   },
   {
     "id": "diamond_platinum_tiara",
@@ -2951,7 +3109,7 @@
     "type": "ARMOR",
     "name": { "str": "diamond and platinum tiara" },
     "description": "A shiny, platinum tiara adorned with diamonds.",
-    "material": [ "platinum", "diamond" ],
+    "material": ["platinum", "diamond"],
     "color": "white"
   },
   {
@@ -3058,14 +3216,14 @@
     "volume": "100 ml",
     "price": 400000,
     "price_postapoc": 25,
-    "material": [ "gold", "gemstone" ],
+    "material": ["gold", "gemstone"],
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "red",
     "coverage": 5,
     "encumbrance": 1,
     "material_thickness": 1,
-    "flags": [ "SUPER_FANCY" ]
+    "flags": ["SUPER_FANCY"]
   },
   {
     "id": "diamond_gold_tiara",
@@ -3073,7 +3231,7 @@
     "type": "ARMOR",
     "name": { "str": "diamond and gold tiara" },
     "description": "A shiny, gold tiara adorned with diamonds.",
-    "material": [ "gold", "diamond" ],
+    "material": ["gold", "diamond"],
     "color": "white"
   },
   {
@@ -3180,14 +3338,14 @@
     "volume": "100 ml",
     "price": 200000,
     "price_postapoc": 25,
-    "material": [ "silver", "gemstone" ],
+    "material": ["silver", "gemstone"],
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "red",
     "coverage": 5,
     "encumbrance": 1,
     "material_thickness": 1,
-    "flags": [ "SUPER_FANCY" ]
+    "flags": ["SUPER_FANCY"]
   },
   {
     "id": "diamond_silver_tiara",
@@ -3195,7 +3353,7 @@
     "type": "ARMOR",
     "name": { "str": "diamond and silver tiara" },
     "description": "A shiny, silver tiara adorned with diamonds.",
-    "material": [ "silver", "diamond" ],
+    "material": ["silver", "diamond"],
     "color": "white"
   },
   {

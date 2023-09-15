@@ -221,7 +221,7 @@
     "phase": "liquid",
     "charges": 2,
     "category": "chems",
-    "flags": [ "UNSAFE_CONSUME" ],
+    "flags": ["UNSAFE_CONSUME"],
     "fun": -30
   },
   {
@@ -243,7 +243,7 @@
     "phase": "liquid",
     "charges": 2,
     "category": "chems",
-    "flags": [ "UNSAFE_CONSUME" ],
+    "flags": ["UNSAFE_CONSUME"],
     "fun": -30,
     "freezing_point": -108
   },
@@ -253,7 +253,7 @@
     "name": { "str_sp": "liquid fertilizer" },
     "weight": "67 g",
     "color": "yellow",
-    "flags": [ "FERTILIZER", "NUTRIENT_OVERRIDE", "UNSAFE_CONSUME" ],
+    "flags": ["FERTILIZER", "NUTRIENT_OVERRIDE", "UNSAFE_CONSUME"],
     "use_action": "PLANTBLECH",
     "container": "jug_plastic",
     "comestible_type": "DRINK",
@@ -276,7 +276,7 @@
     "name": { "str_sp": "commercial fertilizer" },
     "weight": "350 g",
     "color": "yellow",
-    "flags": [ "FERTILIZER" ],
+    "flags": ["FERTILIZER"],
     "use_action": "PLANTBLECH",
     "container": "bag_canvas",
     "comestible_type": "FOOD",
@@ -376,7 +376,7 @@
     "name": { "str_sp": "acid water" },
     "weight": "260 g",
     "color": "light_green",
-    "flags": [ "ACID", "UNSAFE_CONSUME" ],
+    "flags": ["ACID", "UNSAFE_CONSUME"],
     "use_action": "BLECH",
     "container": "jug_plastic",
     "comestible_type": "DRINK",
@@ -390,7 +390,11 @@
     "phase": "liquid",
     "category": "chems",
     "fun": -30,
-    "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 2 }, "effects": [ "RECOVER_10" ] }
+    "ammo_data": {
+      "ammo_type": "acid",
+      "damage": { "damage_type": "acid", "amount": 2 },
+      "effects": ["RECOVER_10"]
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -398,7 +402,7 @@
     "name": { "str_sp": "weak acid water" },
     "weight": "255 g",
     "color": "light_green",
-    "flags": [ "ACID", "UNSAFE_CONSUME" ],
+    "flags": ["ACID", "UNSAFE_CONSUME"],
     "use_action": "BLECH",
     "container": "jug_plastic",
     "comestible_type": "DRINK",
@@ -412,7 +416,11 @@
     "phase": "liquid",
     "category": "chems",
     "fun": -15,
-    "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 1 }, "effects": [ "RECOVER_10" ] }
+    "ammo_data": {
+      "ammo_type": "acid",
+      "damage": { "damage_type": "acid", "amount": 1 },
+      "effects": ["RECOVER_10"]
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -420,7 +428,7 @@
     "name": { "str_sp": "concentrated acid" },
     "weight": "250 g",
     "color": "green",
-    "flags": [ "ACID", "DROP_ACTION_ONLY_IF_LIQUID", "UNSAFE_CONSUME" ],
+    "flags": ["ACID", "DROP_ACTION_ONLY_IF_LIQUID", "UNSAFE_CONSUME"],
     "use_action": "BLECH",
     "container": "jug_plastic",
     "comestible_type": "DRINK",
@@ -435,8 +443,12 @@
     "category": "chems",
     "fun": -45,
     "freezing_point": 25,
-    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true },
-    "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 3 }, "effects": [ "RECOVER_10" ] }
+    "drop_action": { "type": "emit_actor", "emits": ["emit_acid_splash"], "scale_qty": true },
+    "ammo_data": {
+      "ammo_type": "acid",
+      "damage": { "damage_type": "acid", "amount": 3 },
+      "effects": ["RECOVER_10"]
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -456,7 +468,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
-    "flags": [ "UNSAFE_CONSUME" ],
+    "flags": ["UNSAFE_CONSUME"],
     "fun": -40
   },
   {
@@ -563,18 +575,18 @@
     "name": { "str_sp": "sulfuric acid" },
     "symbol": "=",
     "color": "white",
-    "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
+    "flags": ["DROP_ACTION_ONLY_IF_LIQUID"],
     "description": "Sulfuric acid: viscous, foul-smelling and extremely corrosive, particularly to organic matter and evil clowns.  Although used to prepare a number of chemicals, it is mostly known as battery acid, due to its widest commercial application.",
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
     "ammo_type": "acid",
     "damage": { "damage_type": "acid", "amount": 6 },
-    "effects": [ "RECOVER_10" ],
+    "effects": ["RECOVER_10"],
     "phase": "liquid",
     "container": "bottle_glass",
     "//freezing_point": 25,
-    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
+    "drop_action": { "type": "emit_actor", "emits": ["emit_acid_drop"], "scale_qty": true }
   },
   {
     "type": "AMMO",
@@ -585,18 +597,18 @@
     "name": { "str_sp": "hydrochloric acid" },
     "symbol": "=",
     "color": "white",
-    "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
+    "flags": ["DROP_ACTION_ONLY_IF_LIQUID"],
     "description": "Hydrochloric acid, also known as muriatic acid.  It is a strong acid that has a distinctive smell, important and frequently used ever since its discovery.  It still has a vast multitude of uses.",
     "volume": "250 ml",
     "weight": "460 g",
     "bashing": 1,
     "ammo_type": "acid",
     "damage": { "damage_type": "acid", "amount": 5 },
-    "effects": [ "RECOVER_10" ],
+    "effects": ["RECOVER_10"],
     "phase": "liquid",
     "container": "bottle_glass",
     "//freezing_point": 25,
-    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
+    "drop_action": { "type": "emit_actor", "emits": ["emit_acid_drop"], "scale_qty": true }
   },
   {
     "type": "AMMO",
@@ -607,18 +619,18 @@
     "name": { "str_sp": "nitric acid" },
     "symbol": "=",
     "color": "white",
-    "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
+    "flags": ["DROP_ACTION_ONLY_IF_LIQUID"],
     "description": "Nitric acid, a strong oxidant and extremely corrosive material.  Mainly used in the production of synthetic fertilizers, for etching of circuit boards and in woodworking.  Remains quite useful both for making a vast array of pyrotechnic and explosive agents and as a direct weapon: not many beings enjoy being doused in nitric acid.",
     "volume": "250 ml",
     "weight": "375 g",
     "bashing": 1,
     "ammo_type": "acid",
     "damage": { "damage_type": "acid", "amount": 4 },
-    "effects": [ "RECOVER_10" ],
+    "effects": ["RECOVER_10"],
     "phase": "liquid",
     "container": "bottle_glass",
     "//freezing_point": -44,
-    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
+    "drop_action": { "type": "emit_actor", "emits": ["emit_acid_drop"], "scale_qty": true }
   },
   {
     "type": "AMMO",
@@ -797,7 +809,7 @@
     "bashing": 1,
     "ammo_type": "acid",
     "damage": { "damage_type": "acid", "amount": 3 },
-    "effects": [ "RECOVER_10" ],
+    "effects": ["RECOVER_10"],
     "phase": "liquid",
     "container": "bottle_glass"
   },
@@ -981,7 +993,7 @@
     "volume": "250 ml",
     "charges": 15,
     "stack_size": 100,
-    "flags": [ "NO_INGEST" ]
+    "flags": ["NO_INGEST"]
   },
   {
     "type": "GENERIC",
@@ -1012,7 +1024,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
-    "flags": [ "UNSAFE_CONSUME" ],
+    "flags": ["UNSAFE_CONSUME"],
     "fun": -20
   },
   {
@@ -1028,7 +1040,7 @@
     "material": "powder",
     "volume": "250 ml",
     "weight": "1 g",
-    "flags": [ "DETERGENT" ],
+    "flags": ["DETERGENT"],
     "ammo_type": "components",
     "container": "box_small",
     "count": 20
@@ -1047,7 +1059,7 @@
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "flags": [ "DETERGENT" ],
+    "flags": ["DETERGENT"],
     "count": 20
   },
   {
@@ -1077,7 +1089,7 @@
     "name": { "str": "nanomaterial canister" },
     "symbol": "=",
     "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": ["TRADER_AVOID"],
     "description": "Steel canisters containing carbon, iron, titanium, copper and other elements in specifically engineered atomic scale configurations.  A nanofabricator can assemble them into usable items.",
     "material": "steel",
     "volume": "15 L",
@@ -1136,7 +1148,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You apply some DMSO.",
-      "effects": [ { "id": "pkill1", "duration": 1440 } ]
+      "effects": [{ "id": "pkill1", "duration": 1440 }]
     }
   },
   {
@@ -1207,7 +1219,7 @@
     "calories": 70,
     "charges": 8,
     "container": "bag_plastic",
-    "flags": [ "EATEN_COLD" ],
+    "flags": ["EATEN_COLD"],
     "description": "These clear cubes of processed seaweed can be dissolved in boiling water to create a very sturdy, temperature resistant gel.  Not only is it good for making gels to separate molecules by size, but it's a great cheat ingredient to make sure your jellies set properly.",
     "material": "junk",
     "volume": "900 ml",
@@ -1230,7 +1242,7 @@
     "symbol": ";",
     "color": "light_gray",
     "looks_like": "link_sheet",
-    "flags": [ "FRAGILE_MELEE" ]
+    "flags": ["FRAGILE_MELEE"]
   },
   {
     "id": "cobalt_60",
@@ -1242,8 +1254,8 @@
     "symbol": "=",
     "color": "green",
     "description": "Radioactive material that used to be a part of some nuclear industry equipment.  You are yet to find some use for it.",
-    "material": [ "steel", "plastic" ],
-    "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
+    "material": ["steel", "plastic"],
+    "flags": ["LEAK_ALWAYS", "RADIOACTIVE"],
     "volume": "250 ml",
     "weight": "80 g"
   },
@@ -1274,7 +1286,7 @@
     "volume": "16L",
     "price": 0,
     "price_postapoc": 10,
-    "material": [ "cotton", "powder" ],
+    "material": ["cotton", "powder"],
     "symbol": ")",
     "color": "brown",
     "looks_like": "bag_canvas"
@@ -1289,7 +1301,7 @@
     "volume": "16L",
     "price": 0,
     "price_postapoc": 10,
-    "material": [ "cotton", "powder" ],
+    "material": ["cotton", "powder"],
     "symbol": ")",
     "color": "brown",
     "looks_like": "bag_canvas"
@@ -1337,13 +1349,13 @@
     "volume": "250 ml",
     "price": 1200,
     "price_postapoc": 250,
-    "material": [ "hydrocarbons" ],
+    "material": ["hydrocarbons"],
     "symbol": "=",
     "color": "red",
     "stack_size": 100,
     "phase": "liquid",
     "explode_in_fire": true,
     "explosion": { "power": 20, "shrapnel": 0 },
-    "flags": [ "NO_DROP", "IRREMOVABLE" ]
+    "flags": ["NO_DROP", "IRREMOVABLE"]
   }
 ]

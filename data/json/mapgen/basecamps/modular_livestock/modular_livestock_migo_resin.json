@@ -22,7 +22,7 @@
     "method": "json",
     "nested_mapgen_id": "fbml_coop_migo_resin",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwwwww",
         "w....w",
@@ -31,21 +31,21 @@
         "w....w",
         "wwdfww"
       ],
-      "palettes": [ "fbml_migo_resin_palette" ]
+      "palettes": ["fbml_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_coop_migo_resin_northeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_coop_migo_resin" ], "x": 15, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbml_coop_migo_resin"], "x": 15, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbml_shack_migo_resin",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "      ",
         "  woww",
@@ -54,21 +54,21 @@
         " orrrw",
         " wwoww"
       ],
-      "palettes": [ "fbml_migo_resin_palette" ]
+      "palettes": ["fbml_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_shack_migo_resin_southeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_shack_migo_resin" ], "x": 15, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbml_shack_migo_resin"], "x": 15, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbml_stable0_migo_resin",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwww.w",
         "w..D..",
@@ -77,21 +77,21 @@
         "w..Fbb",
         "wwwwww"
       ],
-      "palettes": [ "fbml_migo_resin_palette" ]
+      "palettes": ["fbml_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_stable0_migo_resin_southwest",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_stable0_migo_resin" ], "x": 3, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbml_stable0_migo_resin"], "x": 3, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbml_stable1_migo_resin",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwww.w",
         "w..F..",
@@ -100,21 +100,21 @@
         "w..Fb.",
         "w..D.."
       ],
-      "palettes": [ "fbml_migo_resin_palette" ]
+      "palettes": ["fbml_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_stable1_migo_resin_west",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_stable1_migo_resin" ], "x": 3, "y": 9 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbml_stable1_migo_resin"], "x": 3, "y": 9 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbml_stable2_migo_resin",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwwwww",
         "w..F..",
@@ -123,13 +123,13 @@
         "w..Fb.",
         "w..D.."
       ],
-      "palettes": [ "fbml_migo_resin_palette" ]
+      "palettes": ["fbml_migo_resin_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbml_stable2_migo_resin_northwest",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_stable2_migo_resin" ], "x": 3, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbml_stable2_migo_resin"], "x": 3, "y": 3 }] }
   }
 ]

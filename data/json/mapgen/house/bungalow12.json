@@ -56,9 +56,12 @@
         "W": "t_linoleum_gray",
         "Z": "t_linoleum_gray"
       },
-      "furniture": { "&": [ "f_indoor_plant", "f_indoor_plant_y" ], "0": "f_clothing_rail" },
+      "furniture": { "&": ["f_indoor_plant", "f_indoor_plant_y"], "0": "f_clothing_rail" },
       "items": {
-        "0": [ { "item": "dress_shop", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "jackets", "chance": 30, "repeat": [ 1, 2 ] } ]
+        "0": [
+          { "item": "dress_shop", "chance": 30, "repeat": [1, 2] },
+          { "item": "jackets", "chance": 30, "repeat": [1, 2] }
+        ]
       },
       "place_loot": [
         { "item": "laptop", "x": 11, "y": 20, "chance": 100 },
@@ -75,7 +78,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",

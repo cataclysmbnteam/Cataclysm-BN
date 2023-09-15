@@ -8,8 +8,8 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
-    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
-    "flags": [ "BG_SURVIVAL_STORY" ]
+    "types": ["BACKGROUND_SURVIVAL_STORY"],
+    "flags": ["BG_SURVIVAL_STORY"]
   },
   {
     "type": "mutation",
@@ -20,8 +20,8 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
-    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
-    "flags": [ "BG_SURVIVAL_STORY" ]
+    "types": ["BACKGROUND_SURVIVAL_STORY"],
+    "flags": ["BG_SURVIVAL_STORY"]
   },
   {
     "type": "mutation",
@@ -32,8 +32,8 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
-    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
-    "flags": [ "BG_SURVIVAL_STORY" ]
+    "types": ["BACKGROUND_SURVIVAL_STORY"],
+    "flags": ["BG_SURVIVAL_STORY"]
   },
   {
     "type": "mutation",
@@ -44,7 +44,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
-    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
-    "flags": [ "BG_SURVIVAL_STORY" ]
+    "types": ["BACKGROUND_SURVIVAL_STORY"],
+    "flags": ["BG_SURVIVAL_STORY"]
   }
 ]

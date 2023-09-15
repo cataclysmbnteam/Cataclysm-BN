@@ -6,12 +6,12 @@
     "description": "A menacing arachnid with a second set of pedipalps, clacking rabidly as an engorged stinger looms over its body.",
     "default_faction": "scorpion",
     "bodytype": "insect",
-    "species": [ "INSECT" ],
+    "species": ["INSECT"],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 85,
     "speed": 100,
-    "material": [ "iflesh" ],
+    "material": ["iflesh"],
     "symbol": "s",
     "color": "brown",
     "aggression": 40,
@@ -26,8 +26,8 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "special_attacks": [ { "id": "impale" } ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS" ]
+    "special_attacks": [{ "id": "impale" }],
+    "death_function": ["NORMAL"],
+    "flags": ["SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS"]
   }
 ]

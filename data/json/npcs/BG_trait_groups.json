@@ -99,7 +99,11 @@
     "type": "trait_group",
     "id": "BG_survival_story_SOLDIER",
     "subtype": "distribution",
-    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Soldier_1" }, { "trait": "BGSS_Soldier_2" } ]
+    "traits": [
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "trait": "BGSS_Soldier_1" },
+      { "trait": "BGSS_Soldier_2" }
+    ]
   },
   {
     "//": "This group is for NPCs that would have been attempting to maintain order during the Cataclysm.",
@@ -150,6 +154,6 @@
     "type": "trait_group",
     "id": "BG_survival_story_CYBORG",
     "subtype": "distribution",
-    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Cyborg_1" } ]
+    "traits": [{ "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Cyborg_1" }]
   }
 ]

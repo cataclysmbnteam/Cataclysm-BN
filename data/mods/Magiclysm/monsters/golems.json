@@ -6,13 +6,13 @@
     "description": "A large, humanoid golem made from clay.  Its proportions are off and it seems fragile.",
     "default_faction": "robot",
     "bodytype": "human",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "diff": 2,
     "volume": "120 L",
     "weight": "122 kg",
     "hp": 100,
     "speed": 80,
-    "material": [ "clay" ],
+    "material": ["clay"],
     "symbol": "X",
     "color": "brown",
     "aggression": 8,
@@ -28,9 +28,9 @@
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
-    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
+    "anger_triggers": ["PLAYER_CLOSE", "HURT"],
+    "death_function": ["BROKEN"],
+    "flags": ["SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES"]
   },
   {
     "id": "mon_plasticgolem",
@@ -42,7 +42,7 @@
     "weight": "70 kg",
     "hp": 120,
     "speed": 90,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": "G",
     "color": "light_gray",
     "aggression": 30,
@@ -56,9 +56,9 @@
     "melee_cut": 3,
     "vision_day": 30,
     "vision_night": 30,
-    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "LOUDMOVES" ]
+    "anger_triggers": ["PLAYER_CLOSE", "HURT"],
+    "death_function": ["BROKEN"],
+    "flags": ["SEES", "HEARS", "NO_BREATHE", "LOUDMOVES"]
   },
   {
     "id": "mon_stonegolem",
@@ -67,13 +67,13 @@
     "description": "A large, humanoid golem made from stone.  Its fists look similar to rockets.",
     "default_faction": "robot",
     "bodytype": "human",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "diff": 2,
     "volume": "120 L",
     "weight": "162 kg",
     "hp": 250,
     "speed": 60,
-    "material": [ "stone" ],
+    "material": ["stone"],
     "symbol": "X",
     "color": "light_gray",
     "aggression": 8,
@@ -89,10 +89,12 @@
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "rocket_punch", "min_level": 5 }, "cooldown": 10 } ],
-    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
+    "special_attacks": [
+      { "type": "spell", "spell_data": { "id": "rocket_punch", "min_level": 5 }, "cooldown": 10 }
+    ],
+    "anger_triggers": ["PLAYER_CLOSE", "HURT"],
+    "death_function": ["BROKEN"],
+    "flags": ["SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES"]
   },
   {
     "id": "mon_irongolem",
@@ -101,13 +103,13 @@
     "description": "A large, humanoid golem made from iron.  Some sort of noxious gas seems to be seeping from its mouth.",
     "default_faction": "robot",
     "bodytype": "human",
-    "species": [ "ROBOT" ],
+    "species": ["ROBOT"],
     "diff": 2,
     "volume": "120 L",
     "weight": "945 kg",
     "hp": 400,
     "speed": 50,
-    "material": [ "iron" ],
+    "material": ["iron"],
     "symbol": "X",
     "color": "dark_gray",
     "aggression": 9,
@@ -123,9 +125,11 @@
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "gas_attack", "min_level": 5 }, "cooldown": 60 } ],
-    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
-    "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
+    "special_attacks": [
+      { "type": "spell", "spell_data": { "id": "gas_attack", "min_level": 5 }, "cooldown": 60 }
+    ],
+    "anger_triggers": ["PLAYER_CLOSE", "HURT"],
+    "death_function": ["BROKEN"],
+    "flags": ["SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES"]
   }
 ]

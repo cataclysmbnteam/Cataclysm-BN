@@ -15,7 +15,7 @@
     "ammo_type": "9x18",
     "capacity": 8,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "skorpion82mag",
@@ -33,6 +33,6 @@
     "ammo_type": "9x18",
     "capacity": 20,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   }
 ]

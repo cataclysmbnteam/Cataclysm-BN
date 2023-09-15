@@ -22,7 +22,7 @@
     "traits": [
       { "trait": "POISONOUS", "prob": 50 },
       { "trait": "MANDIBLES", "prob": 50 },
-      { "distribution": [ { "trait": "CHITIN3" }, { "trait": "CHITIN_FUR2" } ] }
+      { "distribution": [{ "trait": "CHITIN3" }, { "trait": "CHITIN_FUR2" }] }
     ]
   },
   {
@@ -31,7 +31,7 @@
     "subtype": "collection",
     "traits": [
       { "trait": "THRESH_SPIDER" },
-      { "distribution": [ { "trait": "ARACHNID_ARMS" }, { "trait": "ARACHNID_ARMS_OK" } ] },
+      { "distribution": [{ "trait": "ARACHNID_ARMS" }, { "trait": "ARACHNID_ARMS_OK" }] },
       { "trait": "CHITIN_FUR3" },
       { "trait": "CF_HAIR", "prob": 50 },
       { "trait": "POISONOUS2", "prob": 50 },
@@ -41,7 +41,13 @@
       {
         "distribution": [
           { "trait": "WEB_SPINNER" },
-          { "collection": [ { "trait": "WEB_WEAVER" }, { "trait": "WEB_RAPPEL" }, { "trait": "WEB_ROPE" } ] }
+          {
+            "collection": [
+              { "trait": "WEB_WEAVER" },
+              { "trait": "WEB_RAPPEL" },
+              { "trait": "WEB_ROPE" }
+            ]
+          }
         ]
       }
     ]
@@ -68,13 +74,13 @@
     "type": "trait_group",
     "id": "trait_group_alpha_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "WAKEFUL", "prob": 50 } ]
+    "traits": [{ "trait": "WAKEFUL", "prob": 50 }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_alpha_postthres",
     "subtype": "collection",
-    "traits": [ { "trait": "THRESH_ALPHA" }, { "trait": "WAKEFUL2", "prob": 50 } ]
+    "traits": [{ "trait": "THRESH_ALPHA" }, { "trait": "WAKEFUL2", "prob": 50 }]
   },
   {
     "type": "trait_group",
@@ -104,13 +110,13 @@
     "type": "trait_group",
     "id": "trait_group_fish_nonthres",
     "subtype": "collection",
-    "traits": [  ]
+    "traits": []
   },
   {
     "type": "trait_group",
     "id": "trait_group_fish_postthres",
     "subtype": "collection",
-    "traits": [ { "trait": "THRESH_FISH" } ]
+    "traits": [{ "trait": "THRESH_FISH" }]
   },
   {
     "type": "trait_group",
@@ -119,7 +125,7 @@
     "traits": [
       { "trait": "GOODCARDIO", "prob": 50 },
       { "trait": "SMELLY", "prob": 50 },
-      { "distribution": [ { "trait": "UGLY" }, { "trait": "DEFORMED" }, { "trait": "PRETTY" } ] },
+      { "distribution": [{ "trait": "UGLY" }, { "trait": "DEFORMED" }, { "trait": "PRETTY" }] },
       { "trait": "ANIMALDISCORD", "prob": 50 },
       { "trait": "NIGHTVISION2", "prob": 50 },
       { "trait": "FANGS", "prob": 50 },
@@ -139,13 +145,13 @@
     "type": "trait_group",
     "id": "trait_group_lupine_nonthres",
     "subtype": "collection",
-    "traits": [  ]
+    "traits": []
   },
   {
     "type": "trait_group",
     "id": "trait_group_lupine_postthres",
     "subtype": "collection",
-    "traits": [ { "trait": "THRESH_LUPINE" }, { "trait": "PRED3", "prob": 50 } ]
+    "traits": [{ "trait": "THRESH_LUPINE" }, { "trait": "PRED3", "prob": 50 }]
   },
   {
     "type": "trait_group",
@@ -171,7 +177,7 @@
     "type": "trait_group",
     "id": "trait_group_bird_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "BEAK", "prob": 50 } ]
+    "traits": [{ "trait": "BEAK", "prob": 50 }]
   },
   {
     "type": "trait_group",
@@ -183,7 +189,9 @@
       { "trait": "TALONS", "prob": 50 },
       { "trait": "GIZZARD", "prob": 50 },
       { "trait": "FLEET2", "prob": 50 },
-      { "distribution": [ { "trait": "BEAK_PECK", "prob": 50 }, { "trait": "BEAK_HUM", "prob": 50 } ] }
+      {
+        "distribution": [{ "trait": "BEAK_PECK", "prob": 50 }, { "trait": "BEAK_HUM", "prob": 50 }]
+      }
     ]
   },
   {
@@ -216,7 +224,7 @@
     "type": "trait_group",
     "id": "trait_group_insect_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "WINGS_INSECT", "prob": 50 } ]
+    "traits": [{ "trait": "WINGS_INSECT", "prob": 50 }]
   },
   {
     "type": "trait_group",
@@ -224,9 +232,19 @@
     "subtype": "collection",
     "traits": [
       { "trait": "THRESH_INSECT" },
-      { "distribution": [ { "trait": "WINGS_BUTTERFLY", "prob": 50 }, { "trait": "WINGS_INSECT", "prob": 50 } ] },
+      {
+        "distribution": [
+          { "trait": "WINGS_BUTTERFLY", "prob": 50 },
+          { "trait": "WINGS_INSECT", "prob": 50 }
+        ]
+      },
       { "trait": "PROBOSCIS", "prob": 50 },
-      { "distribution": [ { "trait": "INSECT_ARMS", "prob": 50 }, { "trait": "INSECT_ARMS_OK", "prob": 50 } ] }
+      {
+        "distribution": [
+          { "trait": "INSECT_ARMS", "prob": 50 },
+          { "trait": "INSECT_ARMS_OK", "prob": 50 }
+        ]
+      }
     ]
   },
   {
@@ -255,13 +273,13 @@
     "type": "trait_group",
     "id": "trait_group_troglobite_nonthres",
     "subtype": "collection",
-    "traits": [  ]
+    "traits": []
   },
   {
     "type": "trait_group",
     "id": "trait_group_troglobite_postthres",
     "subtype": "collection",
-    "traits": [ { "trait": "THRESH_TROGLOBITE" }, { "trait": "PAINRESIST_TROGLO", "prob": 50 } ]
+    "traits": [{ "trait": "THRESH_TROGLOBITE" }, { "trait": "PAINRESIST_TROGLO", "prob": 50 }]
   },
   {
     "type": "trait_group",
@@ -295,7 +313,7 @@
       { "trait": "HUNGER3", "prob": 50 },
       { "trait": "THIRST", "prob": 50 },
       { "trait": "ROT2", "prob": 50 },
-      { "distribution": [ { "trait": "UNSTABLE", "prob": 10 }, { "trait": "CHAOTIC", "prob": 10 } ] },
+      { "distribution": [{ "trait": "UNSTABLE", "prob": 10 }, { "trait": "CHAOTIC", "prob": 10 }] },
       { "trait": "CARNIVORE", "prob": 50 },
       { "trait": "SNARL", "prob": 50 },
       { "trait": "SHOUT3", "prob": 50 }
@@ -305,7 +323,7 @@
     "type": "trait_group",
     "id": "trait_group_chimera_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "FANGS", "prob": 50 } ]
+    "traits": [{ "trait": "FANGS", "prob": 50 }]
   },
   {
     "type": "trait_group",
@@ -356,13 +374,17 @@
     "type": "trait_group",
     "id": "trait_group_raptor_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "FANGS", "prob": 50 } ]
+    "traits": [{ "trait": "FANGS", "prob": 50 }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_raptor_postthres",
     "subtype": "collection",
-    "traits": [ { "trait": "THRESH_RAPTOR" }, { "trait": "PRED4", "prob": 50 }, { "trait": "SAPIOVORE", "prob": 50 } ]
+    "traits": [
+      { "trait": "THRESH_RAPTOR" },
+      { "trait": "PRED4", "prob": 50 },
+      { "trait": "SAPIOVORE", "prob": 50 }
+    ]
   },
   {
     "type": "trait_group",
@@ -395,7 +417,7 @@
     "type": "trait_group",
     "id": "trait_group_medical_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "PAINRESIST", "prob": 50 } ]
+    "traits": [{ "trait": "PAINRESIST", "prob": 50 }]
   },
   {
     "type": "trait_group",
@@ -431,7 +453,7 @@
     "type": "trait_group",
     "id": "trait_group_cattle_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "RUMINANT", "prob": 50 }, { "trait": "HUGE" } ]
+    "traits": [{ "trait": "RUMINANT", "prob": 50 }, { "trait": "HUGE" }]
   },
   {
     "type": "trait_group",
@@ -478,7 +500,7 @@
     "type": "trait_group",
     "id": "trait_group_slime_nonthres",
     "subtype": "collection",
-    "traits": [  ]
+    "traits": []
   },
   {
     "type": "trait_group",
@@ -576,7 +598,7 @@
     "type": "trait_group",
     "id": "trait_group_beast_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "CARNIVORE", "prob": 50 } ]
+    "traits": [{ "trait": "CARNIVORE", "prob": 50 }]
   },
   {
     "type": "trait_group",
@@ -611,7 +633,7 @@
     "type": "trait_group",
     "id": "trait_group_rat_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "CLAWS_RAT", "prob": 50 } ]
+    "traits": [{ "trait": "CLAWS_RAT", "prob": 50 }]
   },
   {
     "type": "trait_group",
@@ -644,7 +666,7 @@
     "type": "trait_group",
     "id": "trait_group_mouse_nonthres",
     "subtype": "collection",
-    "traits": [  ]
+    "traits": []
   },
   {
     "type": "trait_group",
@@ -694,13 +716,13 @@
     "type": "trait_group",
     "id": "trait_group_elfa_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "WAKEFUL", "prob": 50 } ]
+    "traits": [{ "trait": "WAKEFUL", "prob": 50 }]
   },
   {
     "type": "trait_group",
     "id": "trait_group_elfa_postthres",
     "subtype": "collection",
-    "traits": [ { "trait": "THRESH_ELFA" }, { "trait": "WAKEFUL3", "prob": 50 } ]
+    "traits": [{ "trait": "THRESH_ELFA" }, { "trait": "WAKEFUL3", "prob": 50 }]
   },
   {
     "type": "trait_group",
@@ -709,7 +731,7 @@
     "traits": [
       { "trait": "LIGHTSTEP", "prob": 50 },
       { "trait": "SMELLY", "prob": 50 },
-      { "distribution": [ { "trait": "PRETTY" }, { "trait": "DEFORMED" }, { "trait": "UGLY" } ] },
+      { "distribution": [{ "trait": "PRETTY" }, { "trait": "DEFORMED" }, { "trait": "UGLY" }] },
       { "trait": "FEL_EYE", "prob": 50 },
       { "trait": "FEL_NV", "prob": 50 },
       { "trait": "FELINE_FUR", "prob": 50 },
@@ -729,7 +751,7 @@
     "type": "trait_group",
     "id": "trait_group_feline_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "FANGS", "prob": 50 }, { "trait": "CARNIVORE", "prob": 50 } ]
+    "traits": [{ "trait": "FANGS", "prob": 50 }, { "trait": "CARNIVORE", "prob": 50 }]
   },
   {
     "type": "trait_group",
@@ -764,7 +786,7 @@
     "type": "trait_group",
     "id": "trait_group_plant_nonthres",
     "subtype": "collection",
-    "traits": [  ]
+    "traits": []
   },
   {
     "type": "trait_group",
@@ -805,7 +827,7 @@
     "type": "trait_group",
     "id": "trait_group_ursine_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "HUGE" } ]
+    "traits": [{ "trait": "HUGE" }]
   },
   {
     "type": "trait_group",
@@ -843,7 +865,10 @@
     "subtype": "collection",
     "traits": [
       { "trait": "LEG_TENTACLES", "prob": 50 },
-      { "distribution": [ { "trait": "ARM_TENTACLES" }, { "trait": "ARM_TENTACLES_4" } ], "prob": 50 },
+      {
+        "distribution": [{ "trait": "ARM_TENTACLES" }, { "trait": "ARM_TENTACLES_4" }],
+        "prob": 50
+      },
       { "trait": "SHELL", "prob": 50 }
     ]
   },
@@ -855,7 +880,11 @@
       { "trait": "THRESH_CEPHALOPOD" },
       { "trait": "MOUTH_TENTACLES", "prob": 50 },
       {
-        "distribution": [ { "trait": "ARM_TENTACLES" }, { "trait": "ARM_TENTACLES_4" }, { "trait": "ARM_TENTACLES_8" } ]
+        "distribution": [
+          { "trait": "ARM_TENTACLES" },
+          { "trait": "ARM_TENTACLES_4" },
+          { "trait": "ARM_TENTACLES_8" }
+        ]
       },
       { "trait": "CLAWS_TENTACLE", "prob": 50 },
       { "trait": "LEG_TENTACLES" },
@@ -868,13 +897,17 @@
     "id": "trait_mutant_npc_common",
     "subtype": "collection",
     "traits": [
-      { "distribution": [ { "trait": "FASTLEARNER" }, { "trait": "SLOWLEARNER" } ], "prob": 10 },
+      { "distribution": [{ "trait": "FASTLEARNER" }, { "trait": "SLOWLEARNER" }], "prob": 10 },
       {
-        "distribution": [ { "trait": "FASTREADER" }, { "trait": "SLOWREADER" }, { "trait": "ILLITERATE", "prob": 5 } ],
+        "distribution": [
+          { "trait": "FASTREADER" },
+          { "trait": "SLOWREADER" },
+          { "trait": "ILLITERATE", "prob": 5 }
+        ],
         "prob": 10
       },
-      { "distribution": [ { "trait": "PARKOUR" }, { "trait": "BADKNEES" } ], "prob": 10 },
-      { "distribution": [ { "trait": "LIAR" } ], "prob": 10 },
+      { "distribution": [{ "trait": "PARKOUR" }, { "trait": "BADKNEES" }], "prob": 10 },
+      { "distribution": [{ "trait": "LIAR" }], "prob": 10 },
       {
         "distribution": [
           { "trait": "MARTIAL_ARTS" },

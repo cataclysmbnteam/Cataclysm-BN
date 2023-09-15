@@ -3,11 +3,11 @@
     "type": "MOD_INFO",
     "id": "more_classes_scenarios",
     "name": "Classes and Scenarios Mod",
-    "authors": [ "Noctifer-de-Mortem" ],
-    "maintainers": [ "Noctifer-de-Mortem" ],
+    "authors": ["Noctifer-de-Mortem"],
+    "maintainers": ["Noctifer-de-Mortem"],
     "description": "Adds new classes and scenarios while rebalancing some existing ones.",
     "category": "rebalance",
-    "dependencies": [ "bn" ],
+    "dependencies": ["bn"],
     "obsolete": true
   }
 ]

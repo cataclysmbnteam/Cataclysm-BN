@@ -5,8 +5,8 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "10 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 6 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["acidchitin_piece", 6]]]
   },
   {
     "result": "chitin_armor_small_quadruped",
@@ -14,8 +14,8 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "10 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chitin_piece", 6 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["chitin_piece", 6]]]
   },
   {
     "result": "chainmail_armor_small_quadruped",
@@ -23,8 +23,8 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "100 s",
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "link_sheet", 3 ] ], [ [ "leather", 3 ] ], [ [ "chain_link", 70 ] ] ]
+    "qualities": [{ "id": "SAW_M_FINE", "level": 1 }],
+    "components": [[["link_sheet", 3]], [["leather", 3]], [["chain_link", 70]]]
   },
   {
     "result": "leather_armor_small_quadruped",
@@ -32,8 +32,8 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "10 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 4 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["leather", 4]]]
   },
   {
     "result": "leatherbone_armor_small_quadruped",
@@ -41,8 +41,8 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "leather", 4 ] ], [ [ "bone", 7 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["leather", 4]], [["bone", 7]]]
   },
   {
     "result": "kevlar_armor_small_quadruped",
@@ -50,15 +50,15 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "10 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "kevlar_plate", 6 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["kevlar_plate", 6]]]
   },
   {
     "result": "rubber_armor_small_quadruped",
     "type": "uncraft",
     "time": "10 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 5 ] ], [ [ "plastic_chunk", 5 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["rag", 5]], [["plastic_chunk", 5]]]
   },
   {
     "result": "superalloy_armor_small_quadruped",
@@ -66,7 +66,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "10 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "alloy_sheet", 6 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["alloy_sheet", 6]]]
   }
 ]

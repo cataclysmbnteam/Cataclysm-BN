@@ -5,7 +5,7 @@
     "reload_noise_volume": 10,
     "name": "base robogun",
     "description": "This is a pseudo item for monster attacks.  If you see this, it's a bug.",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "magenta",
     "weight": "5 kg",
@@ -13,7 +13,7 @@
     "price": 0,
     "durability": 10,
     "reload": 100,
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+    "flags": ["NEVER_JAMS", "TRADER_AVOID"]
   },
   {
     "id": "plasma_ejector",
@@ -21,8 +21,8 @@
     "copy-from": "plasma_gun",
     "name": "integral plasma ejector",
     "skill": "rifle",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],
-    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "STREAM_BIG", "WIDE", "FLAME" ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "2 rd.", 2]],
+    "ammo_effects": ["PLASMA", "EXPLOSIVE", "STREAM_BIG", "WIDE", "FLAME"]
   },
   {
     "id": "railgun",
@@ -31,7 +31,7 @@
     "name": "integral railgun",
     "ammo": "metal_rail",
     "skill": "rifle",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],
-    "ammo_effects": [ "TRAIL" ]
+    "modes": [["DEFAULT", "semi-auto", 1], ["BURST", "2 rd.", 2]],
+    "ammo_effects": ["TRAIL"]
   }
 ]

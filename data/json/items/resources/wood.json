@@ -14,7 +14,7 @@
     "volume": "50 L",
     "bashing": 10,
     "to_hit": -10,
-    "flags": [ "FIREWOOD" ]
+    "flags": ["FIREWOOD"]
   },
   {
     "type": "GENERIC",
@@ -29,20 +29,20 @@
     "volume": "250 ml",
     "bashing": 4,
     "to_hit": 1,
-    "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "FIREWOOD" ]
+    "qualities": [["COOK", 1]],
+    "flags": ["NO_SALVAGE", "TRADER_AVOID", "FIREWOOD"]
   },
   {
     "id": "stick",
     "type": "GENERIC",
-    "weapon_category": [ "BATONS" ],
+    "weapon_category": ["BATONS"],
     "symbol": "/",
     "color": "brown",
     "name": { "str": "heavy stick" },
     "description": "A sturdy, heavy stick.  Makes a decent melee weapon.",
     "material": "wood",
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "TRADER_AVOID", "FIREWOOD" ],
+    "techniques": ["WBLOCK_1"],
+    "flags": ["TRADER_AVOID", "FIREWOOD"],
     "weight": "1700 g",
     "volume": "1250 ml",
     "bashing": 14,
@@ -57,8 +57,8 @@
     "name": { "str": "long stick" },
     "description": "A long stick.  Makes a decent melee weapon, and can be broken into heavy sticks for crafting.",
     "material": "wood",
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "TRADER_AVOID", "FIREWOOD" ],
+    "techniques": ["WBLOCK_1"],
+    "flags": ["TRADER_AVOID", "FIREWOOD"],
     "weight": "3400 g",
     "volume": "2500 ml",
     "looks_like": "stick",
@@ -69,22 +69,22 @@
   {
     "id": "long_pole",
     "type": "GENERIC",
-    "weapon_category": [ "SPEARS" ],
+    "weapon_category": ["SPEARS"],
     "name": { "str": "long pole" },
     "description": "A stout, ten-foot pole.  Could be used similarly to a spear.  The Cataclysm gives fresh meaning to walking softly and carrying a big stick.",
     "//": "a long pole is a single piece of wood, and the heavy stick just isn't large enough.",
     "to_hit": 1,
     "color": "brown",
     "symbol": "/",
-    "material": [ "wood" ],
+    "material": ["wood"],
     "techniques": "WBLOCK_1",
     "weight": "2250 g",
     "volume": "3750 ml",
     "bashing": 25,
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE" ],
+    "flags": ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
     "price": 4000,
     "price_postapoc": 50,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [["HAMMER", 1]]
   },
   {
     "type": "GENERIC",
@@ -96,13 +96,13 @@
     "to_hit": 1,
     "color": "brown",
     "symbol": "/",
-    "material": [ "wood" ],
-    "techniques": [ "WBLOCK_1" ],
+    "material": ["wood"],
+    "techniques": ["WBLOCK_1"],
     "volume": "4400 ml",
     "bashing": 10,
     "price": 1000,
     "price_postapoc": 10,
-    "flags": [ "FIREWOOD" ]
+    "flags": ["FIREWOOD"]
   },
   {
     "type": "GENERIC",
@@ -116,11 +116,11 @@
     "to_hit": -2,
     "color": "brown",
     "symbol": "/",
-    "material": [ "wood" ],
+    "material": ["wood"],
     "bashing": 16,
     "price": 40000,
     "price_postapoc": 50,
-    "flags": [ "FIREWOOD" ]
+    "flags": ["FIREWOOD"]
   },
   {
     "type": "GENERIC",
@@ -134,13 +134,13 @@
     "color": "brown",
     "looks_like": "2x4",
     "symbol": "H",
-    "material": [ "wood" ],
-    "techniques": [ "WBLOCK_1" ],
+    "material": ["wood"],
+    "techniques": ["WBLOCK_1"],
     "volume": "3 L",
     "bashing": 8,
     "price": 8000,
     "price_postapoc": 10,
-    "flags": [ "FIREWOOD" ]
+    "flags": ["FIREWOOD"]
   },
   {
     "type": "GENERIC",
@@ -153,12 +153,12 @@
     "to_hit": 1,
     "color": "brown",
     "symbol": "H",
-    "material": [ "wood" ],
-    "techniques": [ "WBLOCK_1" ],
+    "material": ["wood"],
+    "techniques": ["WBLOCK_1"],
     "volume": "6250 ml",
     "bashing": 8,
     "price": 20000,
     "price_postapoc": 10,
-    "flags": [ "FIREWOOD" ]
+    "flags": ["FIREWOOD"]
   }
 ]

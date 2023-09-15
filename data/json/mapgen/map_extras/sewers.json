@@ -30,7 +30,7 @@
         "     ooooo              ",
         "     o   o              "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -64,7 +64,7 @@
         "           ~~#o  o      ",
         "          ~  #o  o      "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -98,7 +98,7 @@
         "     o   o        o     ",
         "     o   o    ooooo     "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -132,8 +132,8 @@
         "         oo  .pI        ",
         "         o   ..I        "
       ],
-      "palettes": [ "sewers" ],
-      "place_loot": [ { "item": "stepladder", "y": [ 15, 16 ], "x": [ 13, 14 ], "chance": 50 } ]
+      "palettes": ["sewers"],
+      "place_loot": [{ "item": "stepladder", "y": [15, 16], "x": [13, 14], "chance": 50 }]
     }
   },
   {
@@ -167,8 +167,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "sewers" ],
-      "place_loot": [ { "item": "stepladder", "x": [ 9, 10 ], "y": [ 7, 8 ], "chance": 50 } ]
+      "palettes": ["sewers"],
+      "place_loot": [{ "item": "stepladder", "x": [9, 10], "y": [7, 8], "chance": 50 }]
     }
   },
   {
@@ -202,8 +202,8 @@
         "              o    o    ",
         "              oooooo    "
       ],
-      "palettes": [ "sewers" ],
-      "place_loot": [ { "item": "stepladder", "x": [ 15, 16 ], "y": [ 9, 10 ], "chance": 50 } ]
+      "palettes": ["sewers"],
+      "place_loot": [{ "item": "stepladder", "x": [15, 16], "y": [9, 10], "chance": 50 }]
     }
   },
   {
@@ -237,8 +237,8 @@
         "         o              ",
         "         o              "
       ],
-      "palettes": [ "sewers" ],
-      "place_loot": [ { "item": "stepladder", "x": [ 7, 8 ], "y": [ 13, 14 ], "chance": 50 } ]
+      "palettes": ["sewers"],
+      "place_loot": [{ "item": "stepladder", "x": [7, 8], "y": [13, 14], "chance": 50 }]
     }
   },
   {
@@ -272,7 +272,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -306,7 +306,7 @@
         "              o         ",
         "              o         "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -340,7 +340,7 @@
         "              oo        ",
         "              o         "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -374,7 +374,7 @@
         "         o    o         ",
         "         o    o         "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -408,7 +408,7 @@
         "         oo  oo         ",
         "         o    o         "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -442,7 +442,7 @@
         "         o   #o         ",
         "         o   #o         "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -476,7 +476,7 @@
         "         o              ",
         "         o              "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -510,7 +510,7 @@
         "       o o#   o         ",
         "       o o#   o         "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -544,7 +544,7 @@
         "              o         ",
         "              o         "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -578,7 +578,7 @@
         "         o              ",
         "         o              "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -612,7 +612,7 @@
         "         o   ---o       ",
         "         o   --po       "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -646,7 +646,7 @@
         "              o--po     ",
         "              o-ooo     "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -680,7 +680,7 @@
         "         o    o         ",
         "         o    o         "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   },
   {
@@ -714,7 +714,7 @@
         "         o              ",
         "         o              "
       ],
-      "palettes": [ "sewers" ]
+      "palettes": ["sewers"]
     }
   }
 ]

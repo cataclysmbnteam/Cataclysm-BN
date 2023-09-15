@@ -50,15 +50,15 @@
     "id": "MIGO_HEAT_RESIST",
     "name": "Mi-go acclimatization",
     "points": 4,
-    "bodytemp_modifiers": [ -6500, -2500 ],
+    "bodytemp_modifiers": [-6500, -2500],
     "description": "Fleshy fronds grown from your scalp function like organic heat sinks.  They allow you to live comfortably within the mi-go atmosphere.",
     "player_display": true,
-    "threshreq": [ "THRESH_YUGGOTH" ],
+    "threshreq": ["THRESH_YUGGOTH"],
     "starting_trait": false,
-    "types": [ "METABOLISM" ],
+    "types": ["METABOLISM"],
     "active": true,
-    "category": [ "MIGO" ],
-    "prereqs": [ "WARM_NATURED" ]
+    "category": ["MIGO"],
+    "prereqs": ["WARM_NATURED"]
   },
   {
     "type": "mutation",
@@ -68,10 +68,10 @@
     "visibility": 8,
     "ugliness": 5,
     "description": "A set of tentacles surrounds your mouth.  They allow you to eat twice as fast.  Slightly decreases wet penalties.",
-    "prereqs": [ "mouth_TENDRILS" ],
-    "cancels": [ "MANDIBLES" ],
-    "category": [ "MIGO" ],
-    "wet_protection": [ { "part": "mouth", "neutral": 4 } ]
+    "prereqs": ["mouth_TENDRILS"],
+    "cancels": ["MANDIBLES"],
+    "category": ["MIGO"],
+    "wet_protection": [{ "part": "mouth", "neutral": 4 }]
   },
   {
     "type": "mutation",
@@ -81,8 +81,8 @@
     "visibility": 7,
     "ugliness": 6,
     "description": "Skin tabs and odd flaps of skin surround your mouth.  They don't affect your eating, but are unpleasant to look at.",
-    "category": [ "MIGO" ],
-    "leads_to": [ "FACIAL_TENTACLES" ]
+    "category": ["MIGO"],
+    "leads_to": ["FACIAL_TENTACLES"]
   },
   {
     "type": "mutation",
@@ -90,9 +90,9 @@
     "name": "Warm Natured",
     "points": 2,
     "description": "Your body becomes much more efficient at distributing heat from itself.",
-    "category": [ "MIGO" ],
-    "leads_to": [ "MIGO_HEAT_RESIST" ],
-    "bodytemp_modifiers": [ -1250, -500 ]
+    "category": ["MIGO"],
+    "leads_to": ["MIGO_HEAT_RESIST"],
+    "bodytemp_modifiers": [-1250, -500]
   },
   {
     "type": "mutation",
@@ -100,8 +100,8 @@
     "name": "Neural Improvement",
     "points": 1,
     "description": "You see the world a little differently today.  Intelligence + 1",
-    "changes_to": [ "EXPANDED_CONSCIOUSNESS" ],
-    "category": [ "MIGO" ],
+    "changes_to": ["EXPANDED_CONSCIOUSNESS"],
+    "category": ["MIGO"],
     "passive_mods": { "int_mod": 1 }
   },
   {
@@ -110,9 +110,9 @@
     "name": "Expanded Consciousness",
     "points": 2,
     "description": "You are beginning to see a way off this planet.  Intelligence + 2",
-    "prereqs": [ "NEURAL_IMPROVEMENT" ],
-    "changes_to": [ "UPLIFTED" ],
-    "category": [ "MIGO" ],
+    "prereqs": ["NEURAL_IMPROVEMENT"],
+    "changes_to": ["UPLIFTED"],
+    "category": ["MIGO"],
     "passive_mods": { "int_mod": 2 }
   },
   {
@@ -123,9 +123,9 @@
     "visibility": 1,
     "ugliness": 1,
     "description": "As humans uplifted our pets in the final years this process is lifting you to a new level of intelligence.  Intelligence + 4",
-    "prereqs": [ "EXPANDED_CONSCIOUSNESS" ],
-    "changes_to": [ "ALIEN_INT" ],
-    "category": [ "MIGO" ],
+    "prereqs": ["EXPANDED_CONSCIOUSNESS"],
+    "changes_to": ["ALIEN_INT"],
+    "category": ["MIGO"],
     "passive_mods": { "int_mod": 4 }
   },
   {
@@ -136,9 +136,9 @@
     "visibility": 3,
     "ugliness": 6,
     "description": "You can see the connections from A to B to C to D.  You look at fellow survivors like you are imagining taking them apart.  Intelligence + 5",
-    "prereqs": [ "UPLIFTED" ],
-    "category": [ "MIGO" ],
-    "threshreq": [ "THRESH_YUGGOTH" ],
+    "prereqs": ["UPLIFTED"],
+    "category": ["MIGO"],
+    "threshreq": ["THRESH_YUGGOTH"],
     "starting_trait": false,
     "passive_mods": { "int_mod": 5 }
   },
@@ -148,8 +148,8 @@
     "name": "Enhanced Reactions",
     "points": 1,
     "description": "Today is the day to start juggling.  Dexterity + 1",
-    "changes_to": [ "QUICKENING" ],
-    "category": [ "MIGO" ],
+    "changes_to": ["QUICKENING"],
+    "category": ["MIGO"],
     "passive_mods": { "dex_mod": 1 }
   },
   {
@@ -158,9 +158,9 @@
     "name": "Quickening",
     "points": 2,
     "description": "You are starting to move like they do.  Dexterity + 2",
-    "prereqs": [ "ENHANCED_REACTIONS" ],
-    "changes_to": [ "OTHERWORLDLY_GRACE" ],
-    "category": [ "MIGO" ],
+    "prereqs": ["ENHANCED_REACTIONS"],
+    "changes_to": ["OTHERWORLDLY_GRACE"],
+    "category": ["MIGO"],
     "passive_mods": { "dex_mod": 2 }
   },
   {
@@ -169,10 +169,10 @@
     "name": "Otherworldly Grace",
     "points": 3,
     "description": "You no longer move like a human, others find it disconcerting.  Dexterity + 4",
-    "prereqs": [ "ENHANCED_REACTIONS" ],
+    "prereqs": ["ENHANCED_REACTIONS"],
     "threshreq": "THRESH_YUGGOTH",
     "social_modifiers": { "persuade": -10, "lie": -6 },
-    "category": [ "MIGO" ],
+    "category": ["MIGO"],
     "passive_mods": { "dex_mod": 4 }
   },
   {
@@ -181,8 +181,8 @@
     "name": "New Muscles",
     "points": 1,
     "description": "You see some new muscles that you aren't sure you've seen on humans before.  Strength + 1",
-    "changes_to": [ "MUSCLE_FIBER" ],
-    "category": [ "MIGO" ],
+    "changes_to": ["MUSCLE_FIBER"],
+    "category": ["MIGO"],
     "social_modifiers": { "persuade": -3, "intimidate": 2 },
     "passive_mods": { "str_mod": 1 }
   },
@@ -192,8 +192,8 @@
     "name": "Muscle Fiber",
     "points": 2,
     "description": "Fibrous tissue seems to be spreading through your body.  Strength + 2",
-    "prereqs": [ "STR_UP" ],
-    "category": [ "MIGO" ],
+    "prereqs": ["STR_UP"],
+    "category": ["MIGO"],
     "social_modifiers": { "persuade": -3, "intimidate": 2 },
     "ugliness": 2,
     "passive_mods": { "str_mod": 2 }
@@ -205,8 +205,8 @@
     "points": 1,
     "visibility": 4,
     "description": "Your ears have split into a series of tuberous projections.  They waggle towards far away sounds.",
-    "types": [ "EARS" ],
-    "category": [ "MIGO" ],
+    "types": ["EARS"],
+    "category": ["MIGO"],
     "ugliness": 4,
     "hearing_modifier": 1.4
   },
@@ -215,14 +215,14 @@
     "id": "DETACHMENT",
     "name": "Detachment",
     "points": 2,
-    "flags": [ "PRED1" ],
+    "flags": ["PRED1"],
     "description": "When were you ever like these creatures, helpless before the changes ravaging this world.",
     "purifiable": false,
-    "changes_to": [ "PRED2" ],
-    "prereqs": [ "THRESH_YUGGOTH" ],
-    "threshreq": [ "THRESH_YUGGOTH" ],
-    "cancels": [ "PACIFIST" ],
-    "category": [ "MIGO" ]
+    "changes_to": ["PRED2"],
+    "prereqs": ["THRESH_YUGGOTH"],
+    "threshreq": ["THRESH_YUGGOTH"],
+    "cancels": ["PACIFIST"],
+    "category": ["MIGO"]
   },
   {
     "type": "mutation",
@@ -232,12 +232,12 @@
     "description": "You have a sinister aspect to your demeanor, no longer part of this world.  You feel no sorrow at the deaths of humans and your brain now processes combat skills more efficiently as you mentally dissect your opponents.",
     "social_modifiers": { "intimidate": 3, "persuade": -10, "lie": -12 },
     "purifiable": false,
-    "flags": [ "PRED1" ],
-    "prereqs": [ "THRESH_YUGGOTH" ],
-    "prereqs2": [ "DETACHMENT" ],
-    "threshreq": [ "THRESH_YUGGOTH" ],
-    "cancels": [ "PACIFIST" ],
-    "category": [ "MIGO" ]
+    "flags": ["PRED1"],
+    "prereqs": ["THRESH_YUGGOTH"],
+    "prereqs2": ["DETACHMENT"],
+    "threshreq": ["THRESH_YUGGOTH"],
+    "cancels": ["PACIFIST"],
+    "category": ["MIGO"]
   },
   {
     "type": "mutation",
@@ -257,10 +257,10 @@
     "description": "Your sweat now smells otherworldly, and not in a good way.  The mi-go still hate you but at least they aren't offended by your smell.",
     "valid": false,
     "purifiable": false,
-    "types": [ "LEGS" ],
-    "prereqs": [ "SMELLY", "SMELLY2" ],
-    "threshreq": [ "THRESH_YUGGOTH" ],
-    "category": [ "MIGO" ],
+    "types": ["LEGS"],
+    "prereqs": ["SMELLY", "SMELLY2"],
+    "threshreq": ["THRESH_YUGGOTH"],
+    "category": ["MIGO"],
     "ugliness": 1,
     "scent_type": "sc_fetid"
   },
@@ -270,7 +270,7 @@
     "name": "Eerie",
     "points": 1,
     "description": "You are offputting to others.  You're mannerisms have changed as if human interaction is becoming foreign.",
-    "category": [ "MIGO" ],
+    "category": ["MIGO"],
     "social_modifiers": { "persuade": -15, "lie": -10 },
     "ugliness": 2
   },
@@ -282,9 +282,9 @@
     "visibility": 4,
     "ugliness": 8,
     "description": "You have a pair of large, veiny wings.  They don't appear to be made for this atmosphere but they grant a powerful buffeting attack.",
-    "types": [ "WINGS" ],
-    "prereqs": [ "WINGS_STUB" ],
-    "category": [ "MIGO" ],
+    "types": ["WINGS"],
+    "prereqs": ["WINGS_STUB"],
+    "category": ["MIGO"],
     "attacks": {
       "attack_text_u": "You buffet %s with your wings",
       "attack_text_npc": "%1$s buffets %2$s with their wings",
@@ -299,13 +299,13 @@
     "points": 4,
     "description": "You can now breathe the gasses the mi-go thrive in.",
     "starting_trait": false,
-    "category": [ "MIGO" ]
+    "category": ["MIGO"]
   },
   {
     "type": "mutation",
     "id": "SHOUT1",
     "copy-from": "SHOUT1",
-    "extend": { "category": [ "MIGO" ] }
+    "extend": { "category": ["MIGO"] }
   },
   {
     "type": "mutation",
@@ -331,7 +331,7 @@
     "type": "mutation",
     "id": "THICKSKIN",
     "copy-from": "THICKSKIN",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
@@ -339,39 +339,39 @@
     "name": "Hauler",
     "points": 2,
     "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 60%.",
-    "category": [ "MASTODON" ],
-    "cancels": [ "BADBACK" ],
+    "category": ["MASTODON"],
+    "cancels": ["BADBACK"],
     "weight_capacity_modifier": 1.6
   },
   {
     "type": "mutation",
     "id": "BADKNEES",
     "copy-from": "BADKNEES",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "VEGETARIAN",
     "copy-from": "VEGETARIAN",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "SMELLY",
     "copy-from": "SMELLY",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "CLUMSY",
     "copy-from": "CLUMSY",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "SLOWRUNNER",
     "copy-from": "SLOWRUNNER",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
@@ -381,27 +381,27 @@
     "visibility": 2,
     "ugliness": 1,
     "description": "Your skin has patches of light fur.  This has no impact on your life except marking you as not fully human.",
-    "types": [ "SKIN" ],
-    "changes_to": [ "LIGHTFUR" ],
-    "category": [ "MASTODON" ]
+    "types": ["SKIN"],
+    "changes_to": ["LIGHTFUR"],
+    "category": ["MASTODON"]
   },
   {
     "type": "mutation",
     "id": "LIGHTFUR",
     "copy-from": "LIGHTFUR",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "FUR",
     "copy-from": "FUR",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "URSINE_FUR",
     "copy-from": "URSINE_FUR",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
@@ -412,10 +412,10 @@
     "ugliness": 2,
     "mixed_effect": true,
     "description": "Your feet have grown massive and ready to support huge weight.  This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you cannot wear normal size shoes.  Reduces wet effects.",
-    "types": [ "LEGS" ],
-    "category": [ "MASTODON" ],
-    "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
-    "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 2, "cut": 2 } ],
+    "types": ["LEGS"],
+    "category": ["MASTODON"],
+    "wet_protection": [{ "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 }],
+    "armor": [{ "parts": ["foot_l", "foot_r"], "bash": 2, "cut": 2 }],
     "attacks": {
       "attack_text_u": "You kick %s with your massive feet",
       "attack_text_npc": "%1$s kicks %2$s with their massive feet",
@@ -427,13 +427,13 @@
     "type": "mutation",
     "id": "RUMINANT",
     "copy-from": "RUMINANT",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "GRAZER",
     "copy-from": "GRAZER",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
@@ -443,8 +443,8 @@
     "visibility": 3,
     "ugliness": 3,
     "description": "You have a pair of bumps on your face above your mouth and beside your nose.",
-    "category": [ "MASTODON" ],
-    "changes_to": [ "TUSKS" ]
+    "category": ["MASTODON"],
+    "changes_to": ["TUSKS"]
   },
   {
     "type": "mutation",
@@ -454,15 +454,18 @@
     "visibility": 3,
     "ugliness": 1,
     "description": "You have a pair of small tusks on your face.  They allow you to make a weak piercing goring attack.",
-    "types": [ "HORNS" ],
-    "prereqs": [ "FACEBUMPS" ],
-    "changes_to": [ "TUSKS_POINTED" ],
-    "category": [ "MASTODON" ],
+    "types": ["HORNS"],
+    "prereqs": ["FACEBUMPS"],
+    "changes_to": ["TUSKS_POINTED"],
+    "category": ["MASTODON"],
     "attacks": {
       "attack_text_u": "You gore %s with your tusks",
       "attack_text_npc": "%1$s gores %2$s with their tusks",
       "chance": 20,
-      "base_damage": [ { "damage_type": "stab", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
+      "base_damage": [
+        { "damage_type": "stab", "amount": 3 },
+        { "damage_type": "bash", "amount": 3 }
+      ]
     }
   },
   {
@@ -474,12 +477,12 @@
     "ugliness": 2,
     "mixed_effect": true,
     "description": "You have a pair of long, pointed tusks, like someone weaponized an elephant.  They allow you to make a strong piercing headbutt attack, but prevent wearing mouthgear that is not made of fabric.",
-    "types": [ "HORNS" ],
-    "prereqs": [ "HORNS" ],
-    "restricts_gear": [ "mouth" ],
+    "types": ["HORNS"],
+    "prereqs": ["HORNS"],
+    "restricts_gear": ["mouth"],
     "allow_soft_gear": true,
-    "category": [ "MASTODON" ],
-    "threshreq": [ "THRESH_MASTODON" ],
+    "category": ["MASTODON"],
+    "threshreq": ["THRESH_MASTODON"],
     "attacks": {
       "attack_text_u": "You stab %s with your pointed tusks",
       "attack_text_npc": "%1$s stabs %2$s with their pointed tusks",
@@ -491,56 +494,56 @@
     "type": "mutation",
     "id": "MUT_TOUGH",
     "copy-from": "MUT_TOUGH",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "MUT_TOUGH2",
     "copy-from": "MUT_TOUGH2",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "MUT_TOUGH3",
     "copy-from": "MUT_TOUGH3",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "LARGE",
     "copy-from": "LARGE",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "LARGE_OK",
     "copy-from": "LARGE_OK",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "HUGE",
     "copy-from": "HUGE",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "HUGE_OK",
     "copy-from": "HUGE_OK",
-    "extend": { "category": [ "MASTODON" ], "threshreq": [ "THRESH_MASTODON" ] },
+    "extend": { "category": ["MASTODON"], "threshreq": ["THRESH_MASTODON"] },
     "profession": true
   },
   {
     "type": "mutation",
     "id": "SMELLY2",
     "copy-from": "SMELLY2",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "SNOUT",
     "copy-from": "SNOUT",
-    "extend": { "category": [ "MASTODON" ], "changes_to": [ "TRUNK" ] }
+    "extend": { "category": ["MASTODON"], "changes_to": ["TRUNK"] }
   },
   {
     "type": "mutation",
@@ -551,36 +554,36 @@
     "ugliness": 6,
     "mixed_effect": true,
     "description": "Your face resembles that of an elephant, with a significant trunk.  It looks fierce but prevents wearing mouthgear.  Prehensile and able to perform some fine detail work.",
-    "types": [ "MUZZLE" ],
-    "prereqs": [ "SNOUT" ],
-    "category": [ "MASTODON" ],
-    "restricts_gear": [ "mouth" ],
+    "types": ["MUZZLE"],
+    "prereqs": ["SNOUT"],
+    "category": ["MASTODON"],
+    "restricts_gear": ["mouth"],
     "social_modifiers": { "intimidate": 10 },
-    "craft_skill_bonus": [ [ "electronics", 1 ], [ "tailor", 1 ], [ "mechanics", 1 ], [ "cooking", 1 ] ]
+    "craft_skill_bonus": [["electronics", 1], ["tailor", 1], ["mechanics", 1], ["cooking", 1]]
   },
   {
     "type": "mutation",
     "id": "HUNGER",
     "copy-from": "HUNGER",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "MET_RAT",
     "copy-from": "MET_RAT",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "THIRST",
     "copy-from": "THIRST",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "THIRST2",
     "copy-from": "THIRST2",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
@@ -591,30 +594,30 @@
     "ugliness": 2,
     "mixed_effect": true,
     "description": "Your hands have fused into three fingered paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better.",
-    "encumbrance_always": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
-    "restricts_gear": [ "hand_l", "hand_r" ],
-    "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ],
-    "types": [ "HANDS" ],
-    "cancels": [ "TALONS" ],
-    "category": [ "MASTODON" ]
+    "encumbrance_always": [["hand_l", 10], ["hand_r", 10]],
+    "restricts_gear": ["hand_l", "hand_r"],
+    "craft_skill_bonus": [["electronics", -2], ["tailor", -2], ["mechanics", -2]],
+    "types": ["HANDS"],
+    "cancels": ["TALONS"],
+    "category": ["MASTODON"]
   },
   {
     "type": "mutation",
     "id": "HERBIVORE",
     "copy-from": "HERBIVORE",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "PONDEROUS1",
     "copy-from": "PONDEROUS1",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
     "id": "PONDEROUS2",
     "copy-from": "PONDEROUS2",
-    "extend": { "category": [ "MASTODON" ] }
+    "extend": { "category": ["MASTODON"] }
   },
   {
     "type": "mutation",
@@ -623,8 +626,8 @@
     "points": -1,
     "mixed_effect": true,
     "description": "You have a trumpeting elephantine voice.  threatening NPCs will be easier, but lying will very hard.",
-    "changes_to": [ "SNARL" ],
-    "category": [ "MASTODON" ],
+    "changes_to": ["SNARL"],
+    "category": ["MASTODON"],
     "social_modifiers": { "lie": -30, "intimidate": 10 }
   },
   {
@@ -635,7 +638,7 @@
     "points": 0,
     "valid": false,
     "purifiable": false,
-    "cancels": [ "STR_UP" ],
+    "cancels": ["STR_UP"],
     "profession": true,
     "passive_mods": { "str_mod": 7 }
   },
@@ -644,7 +647,7 @@
     "id": "AFS_CRYOADAPTATION",
     "name": { "str": "Cryoadaptation" },
     "description": "An experimental cryosleep procedure has permanently altered your body, allowing you to better tolerate cold temperatures.",
-    "bodytemp_modifiers": [ -850, 850 ],
+    "bodytemp_modifiers": [-850, 850],
     "points": 0,
     "valid": false,
     "purifiable": false,

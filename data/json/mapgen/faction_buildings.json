@@ -1,11 +1,11 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_0", "faction_base_camp_new_0" ],
+    "om_terrain": ["faction_base_camp_0", "faction_base_camp_new_0"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -33,16 +33,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_1" ],
+    "om_terrain": ["faction_base_camp_1"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -70,16 +70,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_2" ],
+    "om_terrain": ["faction_base_camp_2"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -107,16 +107,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_3" ],
+    "om_terrain": ["faction_base_camp_3"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -144,16 +144,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_4" ],
+    "om_terrain": ["faction_base_camp_4"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -181,16 +181,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_5" ],
+    "om_terrain": ["faction_base_camp_5"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -218,16 +218,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_6" ],
+    "om_terrain": ["faction_base_camp_6"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -255,16 +255,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_7" ],
+    "om_terrain": ["faction_base_camp_7"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -292,16 +292,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_8" ],
+    "om_terrain": ["faction_base_camp_8"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -329,16 +329,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_9" ],
+    "om_terrain": ["faction_base_camp_9"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -366,16 +366,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_10" ],
+    "om_terrain": ["faction_base_camp_10"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -403,16 +403,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_11" ],
+    "om_terrain": ["faction_base_camp_11"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -440,16 +440,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_12" ],
+    "om_terrain": ["faction_base_camp_12"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -477,16 +477,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_13" ],
+    "om_terrain": ["faction_base_camp_13"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -514,16 +514,16 @@
         "#,,,,,,,,,,,,,,,,,,,,,,#",
         "#####UUUUUU,,UUUUUUU####"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_14" ],
+    "om_terrain": ["faction_base_camp_14"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -551,16 +551,16 @@
         "#,,,,,,,,,,,,,,,,,,,,,,#",
         "###########,,###########"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_15" ],
+    "om_terrain": ["faction_base_camp_15"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -588,16 +588,16 @@
         "#,,,,,,,,,,,,,,,,,,,,,,#",
         "###########,,###########"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_16" ],
+    "om_terrain": ["faction_base_camp_16"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -625,16 +625,16 @@
         "#,,,,,,,,,,,,,,,,,,,,,,#",
         "###########,,###########"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_17" ],
+    "om_terrain": ["faction_base_camp_17"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -662,16 +662,16 @@
         "#,,,,,,,,,,,,,,,,,,,,,,#",
         "###########44###########"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_18" ],
+    "om_terrain": ["faction_base_camp_18"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -699,16 +699,16 @@
         "#,,,,,,,,,,,,,,,,,,,,,,#",
         "###########44###########"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_19" ],
+    "om_terrain": ["faction_base_camp_19"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -736,16 +736,16 @@
         "#,,,,,,,,,,,,,,,,,,,,,,#",
         "###########44###########"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_camp_20" ],
+    "om_terrain": ["faction_base_camp_20"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -773,16 +773,16 @@
         "#,,,,,,,,,,,,,,,,,,,,,,#",
         "###########44###########"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_farm_0" ],
+    "om_terrain": ["faction_base_farm_0"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -810,16 +810,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_farm_1" ],
+    "om_terrain": ["faction_base_farm_1"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -847,16 +847,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_farm_2" ],
+    "om_terrain": ["faction_base_farm_2"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -884,16 +884,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_farm_3" ],
+    "om_terrain": ["faction_base_farm_3"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -921,16 +921,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_farm_4" ],
+    "om_terrain": ["faction_base_farm_4"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -958,16 +958,16 @@
         ",******,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_garage_0" ],
+    "om_terrain": ["faction_base_garage_0"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -995,16 +995,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_garage_1" ],
+    "om_terrain": ["faction_base_garage_1"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1032,16 +1032,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_garage_2" ],
+    "om_terrain": ["faction_base_garage_2"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1069,16 +1069,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_garage_3" ],
+    "om_terrain": ["faction_base_garage_3"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1106,16 +1106,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_garage_4" ],
+    "om_terrain": ["faction_base_garage_4"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1143,16 +1143,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_garage_5" ],
+    "om_terrain": ["faction_base_garage_5"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1180,16 +1180,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_garage_6" ],
+    "om_terrain": ["faction_base_garage_6"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1217,16 +1217,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_kitchen_0" ],
+    "om_terrain": ["faction_base_kitchen_0"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1254,16 +1254,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_kitchen_1" ],
+    "om_terrain": ["faction_base_kitchen_1"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1291,16 +1291,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_kitchen_2" ],
+    "om_terrain": ["faction_base_kitchen_2"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1328,16 +1328,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_kitchen_3" ],
+    "om_terrain": ["faction_base_kitchen_3"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1365,16 +1365,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_kitchen_4" ],
+    "om_terrain": ["faction_base_kitchen_4"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1402,16 +1402,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_kitchen_5" ],
+    "om_terrain": ["faction_base_kitchen_5"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1439,16 +1439,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_kitchen_6" ],
+    "om_terrain": ["faction_base_kitchen_6"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1476,16 +1476,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_kitchen_7" ],
+    "om_terrain": ["faction_base_kitchen_7"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1513,16 +1513,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_kitchen_8" ],
+    "om_terrain": ["faction_base_kitchen_8"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1550,16 +1550,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_hide_site_0" ],
+    "om_terrain": ["faction_hide_site_0"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1587,16 +1587,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_wall_level_N_0" ],
+    "om_terrain": ["faction_wall_level_N_0"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,U,,,,,,,,,,,",
@@ -1624,16 +1624,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_wall_level_E_0" ],
+    "om_terrain": ["faction_wall_level_E_0"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1661,16 +1661,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_wall_level_S_0" ],
+    "om_terrain": ["faction_wall_level_S_0"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1698,16 +1698,16 @@
         ",,,,,,,,,,,UU,,,,,,,,,,,",
         ",,,,,,,,,,,,U,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_wall_level_W_0" ],
+    "om_terrain": ["faction_wall_level_W_0"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1735,16 +1735,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_wall_level_N_1" ],
+    "om_terrain": ["faction_wall_level_N_1"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,S,,,,,,,,,,,",
@@ -1772,16 +1772,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_wall_level_E_1" ],
+    "om_terrain": ["faction_wall_level_E_1"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1809,16 +1809,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_wall_level_S_1" ],
+    "om_terrain": ["faction_wall_level_S_1"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1846,16 +1846,16 @@
         ",,,,,,,,,,,SS,,,,,,,,,,,",
         ",,,,,,,,,,,,S,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_wall_level_W_1" ],
+    "om_terrain": ["faction_wall_level_W_1"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1883,16 +1883,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_0" ],
+    "om_terrain": ["faction_base_blacksmith_0"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1920,16 +1920,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_1" ],
+    "om_terrain": ["faction_base_blacksmith_1"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1957,16 +1957,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_2" ],
+    "om_terrain": ["faction_base_blacksmith_2"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1994,16 +1994,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_3" ],
+    "om_terrain": ["faction_base_blacksmith_3"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2031,16 +2031,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_4" ],
+    "om_terrain": ["faction_base_blacksmith_4"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2068,16 +2068,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_5" ],
+    "om_terrain": ["faction_base_blacksmith_5"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2105,16 +2105,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_6" ],
+    "om_terrain": ["faction_base_blacksmith_6"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2142,16 +2142,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_7" ],
+    "om_terrain": ["faction_base_blacksmith_7"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2179,16 +2179,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_8" ],
+    "om_terrain": ["faction_base_blacksmith_8"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2216,16 +2216,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_9" ],
+    "om_terrain": ["faction_base_blacksmith_9"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2253,16 +2253,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_10" ],
+    "om_terrain": ["faction_base_blacksmith_10"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2290,16 +2290,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_11" ],
+    "om_terrain": ["faction_base_blacksmith_11"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2327,16 +2327,16 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "faction_base_blacksmith_12" ],
+    "om_terrain": ["faction_base_blacksmith_12"],
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2364,7 +2364,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
@@ -2373,7 +2373,7 @@
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_grass",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2401,7 +2401,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
@@ -2410,7 +2410,7 @@
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_grass",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2438,7 +2438,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
@@ -2447,7 +2447,7 @@
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_grass",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2475,7 +2475,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
@@ -2484,7 +2484,7 @@
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_grass",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2512,7 +2512,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   },
   {
@@ -2521,7 +2521,7 @@
     "method": "json",
     "weight": 250,
     "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "your_followers", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_grass",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2549,7 +2549,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "acidia_camp_palette" ]
+      "palettes": ["acidia_camp_palette"]
     }
   }
 ]

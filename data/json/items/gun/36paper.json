@@ -10,7 +10,7 @@
     "barrel_length": "60 ml",
     "price": 30000,
     "price_postapoc": 3000,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "ammo": "36paper",
     "dispersion": 450,
     "durability": 7,

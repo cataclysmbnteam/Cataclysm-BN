@@ -5,7 +5,7 @@
     "name": "open air",
     "sym": ".",
     "color": "blue",
-    "flags": [ "NO_ROTATE" ]
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -13,8 +13,8 @@
     "name": "test",
     "sym": ".",
     "color": "green",
-    "mapgen": [ { "method": "builtin", "name": "test" } ],
-    "flags": [ "NO_ROTATE" ]
+    "mapgen": [{ "method": "builtin", "name": "test" }],
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -23,7 +23,7 @@
     "sym": "O",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -34,8 +34,8 @@
     "color": "brown",
     "see_cost": 2,
     "extras": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
-    "flags": [ "NO_ROTATE" ]
+    "spawns": { "group": "GROUP_FOREST", "population": [0, 1], "chance": 13 },
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -46,8 +46,8 @@
     "color": "green",
     "see_cost": 3,
     "extras": "forest",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
-    "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
+    "spawns": { "group": "GROUP_FOREST", "population": [0, 3], "chance": 13 },
+    "flags": ["NO_ROTATE", "SOURCE_FORAGE"]
   },
   {
     "type": "overmap_terrain",
@@ -58,9 +58,9 @@
     "color": "green",
     "see_cost": 4,
     "extras": "forest_thick",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
-    "mapgen": [ { "method": "builtin", "name": "forest" } ],
-    "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
+    "spawns": { "group": "GROUP_FOREST", "population": [0, 6], "chance": 15 },
+    "mapgen": [{ "method": "builtin", "name": "forest" }],
+    "flags": ["NO_ROTATE", "SOURCE_FORAGE"]
   },
   {
     "type": "overmap_terrain",
@@ -71,9 +71,9 @@
     "color": "cyan",
     "see_cost": 4,
     "extras": "forest_water",
-    "spawns": { "group": "GROUP_SWAMP", "population": [ 2, 6 ], "chance": 50 },
-    "mapgen": [ { "method": "builtin", "name": "forest" } ],
-    "flags": [ "NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH" ]
+    "spawns": { "group": "GROUP_SWAMP", "population": [2, 6], "chance": 50 },
+    "mapgen": [{ "method": "builtin", "name": "forest" }],
+    "flags": ["NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH"]
   },
   {
     "type": "overmap_terrain",
@@ -85,8 +85,8 @@
     "see_cost": 1,
     "extras": "build",
     "mondensity": 2,
-    "mapgen": [ { "method": "builtin", "name": "parking_lot" } ],
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "mapgen": [{ "method": "builtin", "name": "parking_lot" }],
+    "flags": ["SIDEWALK", "NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -95,7 +95,7 @@
     "sym": "T",
     "color": "magenta",
     "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": ["KNOWN_DOWN", "NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -104,8 +104,8 @@
     "sym": "O",
     "color": "dark_gray",
     "see_cost": 3,
-    "spawns": { "group": "GROUP_STANDING_STONES", "population": [ 1, 4 ], "chance": 100 },
-    "flags": [ "NO_ROTATE" ]
+    "spawns": { "group": "GROUP_STANDING_STONES", "population": [1, 4], "chance": 100 },
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -114,7 +114,7 @@
     "sym": "T",
     "color": "pink",
     "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": ["KNOWN_DOWN", "NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -123,7 +123,7 @@
     "sym": "T",
     "color": "yellow",
     "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": ["KNOWN_DOWN", "NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -132,7 +132,7 @@
     "sym": "M",
     "color": "brown",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -141,7 +141,7 @@
     "sym": "M",
     "color": "brown",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -150,7 +150,7 @@
     "sym": "M",
     "color": "brown",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -159,7 +159,7 @@
     "sym": "C",
     "color": "brown",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+    "flags": ["NO_ROTATE", "SOURCE_SAFETY"]
   },
   {
     "type": "overmap_terrain",
@@ -168,7 +168,7 @@
     "sym": "C",
     "color": "brown",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+    "flags": ["NO_ROTATE", "SOURCE_SAFETY"]
   },
   {
     "type": "overmap_terrain",
@@ -177,7 +177,7 @@
     "sym": "C",
     "color": "brown",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+    "flags": ["NO_ROTATE", "SOURCE_SAFETY"]
   },
   {
     "type": "overmap_terrain",
@@ -186,7 +186,7 @@
     "sym": "C",
     "color": "dark_gray",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "SOURCE_SAFETY" ]
+    "flags": ["KNOWN_DOWN", "NO_ROTATE", "SOURCE_SAFETY"]
   },
   {
     "type": "overmap_terrain",
@@ -195,7 +195,7 @@
     "sym": "8",
     "color": "yellow",
     "see_cost": 3,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": ["NO_ROTATE", "RISK_HIGH"]
   },
   {
     "type": "overmap_terrain",
@@ -204,7 +204,7 @@
     "sym": "%",
     "color": "brown",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
+    "flags": ["KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH"]
   },
   {
     "type": "overmap_terrain",
@@ -213,7 +213,7 @@
     "sym": "%",
     "color": "green",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
+    "flags": ["KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH"]
   },
   {
     "type": "overmap_terrain",
@@ -222,7 +222,7 @@
     "sym": "~",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": ["NO_ROTATE", "RISK_HIGH"]
   },
   {
     "type": "overmap_terrain",
@@ -231,7 +231,7 @@
     "sym": "~",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": ["KNOWN_DOWN", "NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -240,7 +240,7 @@
     "sym": "T",
     "color": "light_red",
     "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
+    "flags": ["KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH"]
   },
   {
     "type": "overmap_terrain",
@@ -249,7 +249,7 @@
     "sym": "T",
     "color": "light_red",
     "see_cost": 5,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
+    "flags": ["KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -258,7 +258,7 @@
     "sym": "T",
     "color": "red",
     "see_cost": 5,
-    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
+    "flags": ["KNOWN_UP", "NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -267,7 +267,7 @@
     "sym": "0",
     "color": "light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+    "flags": ["NO_ROTATE", "SOURCE_SAFETY"]
   },
   {
     "type": "overmap_terrain",
@@ -277,7 +277,7 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -286,7 +286,7 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -295,7 +295,7 @@
     "sym": "^",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": ["NO_ROTATE", "RISK_HIGH"]
   },
   {
     "type": "overmap_terrain",
@@ -304,7 +304,7 @@
     "sym": "^",
     "color": "light_red",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
+    "flags": ["KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH"]
   },
   {
     "type": "overmap_terrain",
@@ -312,7 +312,7 @@
     "name": "ant tunnel",
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "LINEAR" ]
+    "flags": ["LINEAR"]
   },
   {
     "type": "overmap_terrain",
@@ -321,25 +321,25 @@
     "sym": "O",
     "color": "green",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "ants_larvae", "ants_larvae_acid" ],
+    "id": ["ants_larvae", "ants_larvae_acid"],
     "name": "ant larva chamber",
     "sym": "O",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "ants_queen", "ants_queen_acid" ],
+    "id": ["ants_queen", "ants_queen_acid"],
     "name": "ant queen chamber",
     "sym": "O",
     "color": "red",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": ["NO_ROTATE"]
   },
   {
     "type": "overmap_terrain",
@@ -348,6 +348,6 @@
     "sym": "O",
     "color": "cyan",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": ["NO_ROTATE"]
   }
 ]

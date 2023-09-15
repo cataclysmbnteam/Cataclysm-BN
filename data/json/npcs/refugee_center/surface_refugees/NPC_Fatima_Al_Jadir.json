@@ -19,18 +19,21 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "A welder, culturally muslim but only recently practicing since the Cataclysm has made her rethink her connections to her family's religion",
-    "bonus_str": { "rng": [ -1, 3 ] },
-    "bonus_dex": { "rng": [ -2, 2 ] },
-    "bonus_int": { "rng": [ -2, 1 ] },
-    "bonus_per": { "rng": [ -2, 2 ] },
+    "bonus_str": { "rng": [-1, 3] },
+    "bonus_dex": { "rng": [-2, 2] },
+    "bonus_int": { "rng": [-2, 1] },
+    "bonus_per": { "rng": [-2, 2] },
     "worn_override": "REFUGEE_Fatima_worn",
     "carry_override": "REFUGEE_Fatima_carried",
     "weapon_override": "REFUGEE_Fatima_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "traits": [{ "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" }],
     "skills": [
-      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -2, 1 ] } ] } ] } },
-      { "skill": "fabrication", "bonus": { "rng": [ 3, 7 ] } },
-      { "skill": "mechanics", "bonus": { "rng": [ 3, 7 ] } }
+      {
+        "skill": "ALL",
+        "level": { "mul": [{ "one_in": 3 }, { "sum": [{ "dice": [2, 2] }, { "rng": [-2, 1] }] }] }
+      },
+      { "skill": "fabrication", "bonus": { "rng": [3, 7] } },
+      { "skill": "mechanics", "bonus": { "rng": [3, 7] } }
     ]
   },
   {
@@ -53,13 +56,13 @@
     "type": "item_group",
     "id": "REFUGEE_Fatima_carried",
     "subtype": "collection",
-    "entries": [ { "item": "weldtank" } ]
+    "entries": [{ "item": "weldtank" }]
   },
   {
     "type": "item_group",
     "id": "REFUGEE_Fatima_wield",
     "subtype": "collection",
-    "entries": [ { "item": "oxy_torch" } ]
+    "entries": [{ "item": "oxy_torch" }]
   },
   {
     "type": "talk_topic",
@@ -79,7 +82,12 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+              "not": {
+                "npc_has_var": "cleanup_asked",
+                "type": "mission",
+                "context": "Boris_mission_1",
+                "value": "yes"
+              }
             }
           ]
         },
@@ -87,7 +95,10 @@
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Fatima_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Fatima_Situation" },
-      { "text": "How did you wind up here at the center?", "topic": "TALK_REFUGEE_Fatima_Cataclysm" },
+      {
+        "text": "How did you wind up here at the center?",
+        "topic": "TALK_REFUGEE_Fatima_Cataclysm"
+      },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
@@ -101,19 +112,38 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
+      "yes": ["Hello again.", "Good to see you're still around.", "Oh, hi."],
       "no": "Oh, hey, a new face.  Hi, I'm Fatima.  Just visiting I hope?  It's nice to meet new people but there are no beds to share."
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": {
+      "effect": {
+        "u_add_var": "u_met_Fatima_al_Jadir",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes"
+      }
+    },
     "responses": [
       {
         "text": "Nice to meet you too, Fatima.  I'm just passing through.",
-        "condition": { "not": { "u_has_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Fatima_al_Jadir",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_REFUGEE_Fatima_1_firstmeet"
       },
       {
         "text": "Hi, Fatima.  How are things?",
-        "condition": { "u_has_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_Fatima_al_Jadir",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_REFUGEE_Fatima_2"
       },
       { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
@@ -170,7 +200,7 @@
     "difficulty": 2,
     "value": 0,
     "item": "holybook_quran",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "I could use a bit of help to find a copy of the Quran.",
       "offer": "I feel silly asking this, but here goes.  I've never been really into reading holy books and stuff like that.  I usually went to the mosque on Friday, and I try to pray five times a day but I hardly ever manage it.  I guess I'm not a very good Muslim, but with all that's happened I would really love to have a copy of the Quran to read.  This seems like a time to get back in touch with God, you know?",
@@ -186,7 +216,12 @@
       "effect": [
         { "u_buy_item": "FMCNote", "count": 5 },
         { "u_add_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        {
+          "u_adjust_var": "refugee_happiness",
+          "type": "counter",
+          "context": "refugee_center",
+          "adjustment": 1
+        }
       ]
     }
   }

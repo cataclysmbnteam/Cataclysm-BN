@@ -8,7 +8,7 @@
     "volume": "250 ml",
     "price": 350,
     "price_postapoc": 1000,
-    "material": [ "paper", "powder", "lead" ],
+    "material": ["paper", "powder", "lead"],
     "symbol": "=",
     "color": "white",
     "count": 25,
@@ -18,6 +18,6 @@
     "damage": { "damage_type": "bullet", "amount": 33, "armor_penetration": 9 },
     "dispersion": 70,
     "recoil": 580,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER" ]
+    "effects": ["COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER"]
   }
 ]

@@ -10,15 +10,15 @@
     "price_postapoc": "5 USD",
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "wood" ],
+    "material": ["wood"],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "arm_either", "hand_either" ],
+    "covers": ["arm_either", "hand_either"],
     "coverage": 90,
     "encumbrance": 15,
     "material_thickness": 3,
-    "techniques": [ "WBLOCK_2" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+    "techniques": ["WBLOCK_2"],
+    "flags": ["OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN"]
   },
   {
     "id": "shield_wooden_large",
@@ -31,15 +31,15 @@
     "price_postapoc": "750 cent",
     "to_hit": -2,
     "bashing": 10,
-    "material": [ "wood" ],
+    "material": ["wood"],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "arm_either", "hand_either" ],
+    "covers": ["arm_either", "hand_either"],
     "coverage": 90,
     "encumbrance": 25,
     "material_thickness": 3,
-    "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+    "techniques": ["WBLOCK_3"],
+    "flags": ["OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN"]
   },
   {
     "id": "shield_riot",
@@ -52,16 +52,16 @@
     "price_postapoc": "25 USD",
     "to_hit": -1,
     "bashing": 4,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "arm_either", "hand_either" ],
+    "covers": ["arm_either", "hand_either"],
     "coverage": 100,
     "encumbrance": 10,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+    "techniques": ["WBLOCK_3"],
+    "flags": ["OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN"]
   },
   {
     "id": "shield_ballistic",
@@ -74,16 +74,16 @@
     "price_postapoc": "50 USD",
     "to_hit": -3,
     "bashing": 12,
-    "material": [ "ceramic", "kevlar_rigid" ],
+    "material": ["ceramic", "kevlar_rigid"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "arm_either", "hand_either" ],
+    "covers": ["arm_either", "hand_either"],
     "coverage": 100,
     "encumbrance": 30,
     "material_thickness": 5,
     "environmental_protection": 2,
-    "techniques": [ "WBLOCK_2" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+    "techniques": ["WBLOCK_2"],
+    "flags": ["OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN"]
   },
   {
     "id": "shield_leather",
@@ -97,16 +97,16 @@
     "to_hit": -1,
     "bashing": 8,
     "//": "Wood-only to prevent repairing it via sewing.",
-    "material": [ "wood" ],
+    "material": ["wood"],
     "looks_like": "shield_wooden",
     "symbol": "[",
     "color": "blue",
-    "covers": [ "arm_either", "hand_either" ],
+    "covers": ["arm_either", "hand_either"],
     "coverage": 90,
     "encumbrance": 16,
     "material_thickness": 4,
-    "techniques": [ "WBLOCK_2" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "STURDY", "BLOCK_WHILE_WORN" ]
+    "techniques": ["WBLOCK_2"],
+    "flags": ["OVERSIZE", "BELTED", "RESTRICT_HANDS", "STURDY", "BLOCK_WHILE_WORN"]
   },
   {
     "id": "shield_banded",
@@ -119,16 +119,16 @@
     "price_postapoc": "10 USD",
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "wood", "steel" ],
+    "material": ["wood", "steel"],
     "looks_like": "shield_wooden",
     "symbol": "[",
     "color": "blue",
-    "covers": [ "arm_either", "hand_either" ],
+    "covers": ["arm_either", "hand_either"],
     "coverage": 90,
     "encumbrance": 20,
     "material_thickness": 3,
-    "techniques": [ "WBLOCK_2" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY", "NONCONDUCTIVE" ]
+    "techniques": ["WBLOCK_2"],
+    "flags": ["OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "STURDY", "NONCONDUCTIVE"]
   },
   {
     "id": "shield_leather_large",
@@ -144,7 +144,7 @@
     "to_hit": -2,
     "bashing": 10,
     "encumbrance": 26,
-    "techniques": [ "WBLOCK_3" ]
+    "techniques": ["WBLOCK_3"]
   },
   {
     "id": "shield_banded_large",
@@ -160,7 +160,7 @@
     "to_hit": -2,
     "bashing": 10,
     "encumbrance": 30,
-    "techniques": [ "WBLOCK_3" ]
+    "techniques": ["WBLOCK_3"]
   },
   {
     "id": "shield_welded",
@@ -172,16 +172,16 @@
     "price_postapoc": "5 USD",
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "looks_like": "shield_ballistic",
     "symbol": "[",
     "color": "blue",
-    "covers": [ "arm_either", "hand_either" ],
+    "covers": ["arm_either", "hand_either"],
     "coverage": 90,
     "encumbrance": 40,
     "material_thickness": 3,
-    "techniques": [ "WBLOCK_2" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
+    "techniques": ["WBLOCK_2"],
+    "flags": ["OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN"]
   },
   {
     "id": "shield_buckler",
@@ -193,16 +193,16 @@
     "price": "120 USD",
     "price_postapoc": "10 USD",
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "looks_like": "shield_banded",
     "symbol": "[",
     "color": "blue",
-    "covers": [ "arm_either" ],
+    "covers": ["arm_either"],
     "coverage": 50,
     "encumbrance": 10,
     "material_thickness": 3,
-    "techniques": [ "WBLOCK_2" ],
-    "flags": [ "OVERSIZE", "BELTED", "ONLY_ONE", "BLOCK_WHILE_WORN", "STURDY" ]
+    "techniques": ["WBLOCK_2"],
+    "flags": ["OVERSIZE", "BELTED", "ONLY_ONE", "BLOCK_WHILE_WORN", "STURDY"]
   },
   {
     "id": "shield_spiked",
@@ -215,7 +215,7 @@
     "price": "100 USD",
     "price_postapoc": "12 USD",
     "cutting": 8,
-    "extend": { "flags": [ "STAB" ] }
+    "extend": { "flags": ["STAB"] }
   },
   {
     "id": "shield_spiked_large",

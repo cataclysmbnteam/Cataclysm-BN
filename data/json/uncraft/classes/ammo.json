@@ -4,7 +4,7 @@
     "type": "uncraft",
     "//": "Disassemble a single ammo cartridge",
     "time": "5 s",
-    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "qualities": [{ "id": "PULL", "level": 1 }],
     "charges": 1
   }
 ]

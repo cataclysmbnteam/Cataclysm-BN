@@ -2,7 +2,15 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "evac_center_6_z1", "evac_center_7_z1", "evac_center_8_z1", "evac_center_9_z1", "evac_center_10_z1" ] ],
+    "om_terrain": [
+      [
+        "evac_center_6_z1",
+        "evac_center_7_z1",
+        "evac_center_8_z1",
+        "evac_center_9_z1",
+        "evac_center_10_z1"
+      ]
+    ],
     "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -32,14 +40,22 @@
         "                            -5............................................................5-                            ",
         "                             |-----|...............................................|------|                             "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "furniture": { ":": "f_standing_tank", "#": "f_solar_unit", "&": "f_roof_turbine_vent" }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "evac_center_11_z1", "evac_center_12_z1", "evac_center_13_z1", "evac_center_14_z1", "evac_center_15_z1" ] ],
+    "om_terrain": [
+      [
+        "evac_center_11_z1",
+        "evac_center_12_z1",
+        "evac_center_13_z1",
+        "evac_center_14_z1",
+        "evac_center_15_z1"
+      ]
+    ],
     "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -69,7 +85,7 @@
         "                                    |.............................................3                                     ",
         "                                   5-.............................................-5                                    "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": {
         ">": "t_stairs_down",
         "W": "t_brick_wall",
@@ -83,7 +99,15 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "evac_center_16_z1", "evac_center_17_z1", "evac_center_18_z1", "evac_center_19_z1", "evac_center_20_z1" ] ],
+    "om_terrain": [
+      [
+        "evac_center_16_z1",
+        "evac_center_17_z1",
+        "evac_center_18_z1",
+        "evac_center_19_z1",
+        "evac_center_20_z1"
+      ]
+    ],
     "weight": 100,
     "object": {
       "fill_ter": "t_flat_roof",
@@ -113,7 +137,7 @@
         "                                                                                                                        ",
         "                                                                                                                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "furniture": { ":": "f_standing_tank", "#": "f_solar_unit", "&": "f_roof_turbine_vent" }
     }
   },
@@ -121,8 +145,20 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "evac_center_1_z1", "evac_center_2_z1", "evac_center_3_z1", "evac_center_4_z1", "evac_center_5_z1" ],
-      [ "evac_center_21_z1", "evac_center_22_z1", "evac_center_23_z1", "evac_center_24_z1", "evac_center_25_z1" ]
+      [
+        "evac_center_1_z1",
+        "evac_center_2_z1",
+        "evac_center_3_z1",
+        "evac_center_4_z1",
+        "evac_center_5_z1"
+      ],
+      [
+        "evac_center_21_z1",
+        "evac_center_22_z1",
+        "evac_center_23_z1",
+        "evac_center_24_z1",
+        "evac_center_25_z1"
+      ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_open_air" }

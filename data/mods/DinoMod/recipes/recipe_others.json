@@ -9,7 +9,7 @@
     "time": "4 h",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "2x4", 40 ] ], [ [ "nail", 200 ] ], [ [ "hinge", 2 ] ] ]
+    "qualities": [{ "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }],
+    "components": [[["2x4", 40]], [["nail", 200]], [["hinge", 2]]]
   }
 ]

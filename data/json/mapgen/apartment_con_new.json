@@ -53,18 +53,18 @@
         "                      ssss                      ",
         "                      ssss                      "
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "terrain": { ".": "t_floor" },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 24, 43 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 24, 43 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 43], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [24, 43], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 43], "y": [24, 43], "repeat": [1, 2] }
       ]
     },
     "om_terrain": [
-      [ "apartments_con_tower_110", "apartments_con_tower_010" ],
-      [ "apartments_con_tower_100", "apartments_con_tower_000" ]
+      ["apartments_con_tower_110", "apartments_con_tower_010"],
+      ["apartments_con_tower_100", "apartments_con_tower_000"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -123,17 +123,17 @@
         "************************************************",
         "************************************************"
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 24, 43 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 43 ], "y": [ 24, 43 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 43], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [24, 43], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 43], "y": [24, 43], "repeat": [1, 2] }
       ]
     },
     "om_terrain": [
-      [ "apartments_con_tower_111", "apartments_con_tower_011" ],
-      [ "apartments_con_tower_101", "apartments_con_tower_001" ]
+      ["apartments_con_tower_111", "apartments_con_tower_011"],
+      ["apartments_con_tower_101", "apartments_con_tower_001"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -192,17 +192,17 @@
         "************************************************",
         "************************************************"
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 48, 67 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 96, 115 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 96, 115 ], "y": [ 96, 115 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [48, 67], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [96, 115], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [96, 115], "y": [96, 115], "repeat": [1, 2] }
       ]
     },
     "om_terrain": [
-      [ "apartments_con_tower_113", "apartments_con_tower_013" ],
-      [ "apartments_con_tower_102", "apartments_con_tower_002" ]
+      ["apartments_con_tower_113", "apartments_con_tower_013"],
+      ["apartments_con_tower_102", "apartments_con_tower_002"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -261,17 +261,17 @@
         "************************************************",
         "************************************************"
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 48, 67 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 96, 115 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 96, 115 ], "y": [ 96, 115 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [48, 67], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [96, 115], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [96, 115], "y": [96, 115], "repeat": [1, 2] }
       ]
     },
     "om_terrain": [
-      [ "apartments_con_tower_112", "apartments_con_tower_012" ],
-      [ "apartments_con_tower_102", "apartments_con_tower_002" ]
+      ["apartments_con_tower_112", "apartments_con_tower_012"],
+      ["apartments_con_tower_102", "apartments_con_tower_002"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -330,17 +330,17 @@
         "************************************************",
         "************************************************"
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 48, 67 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 96, 115 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 96, 115 ], "y": [ 96, 115 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [48, 67], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [96, 115], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [96, 115], "y": [96, 115], "repeat": [1, 2] }
       ]
     },
     "om_terrain": [
-      [ "apartments_con_tower_113", "apartments_con_tower_013" ],
-      [ "apartments_con_tower_102", "apartments_con_tower_002" ]
+      ["apartments_con_tower_113", "apartments_con_tower_013"],
+      ["apartments_con_tower_102", "apartments_con_tower_002"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -399,17 +399,17 @@
         "************************************************",
         "************************************************"
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 48, 67 ], "y": [ 2, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 96, 115 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 96, 115 ], "y": [ 96, 115 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [48, 67], "y": [2, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [96, 115], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [96, 115], "y": [96, 115], "repeat": [1, 2] }
       ]
     },
     "om_terrain": [
-      [ "apartments_con_tower_112", "apartments_con_tower_012" ],
-      [ "apartments_con_tower_102", "apartments_con_tower_002" ]
+      ["apartments_con_tower_112", "apartments_con_tower_012"],
+      ["apartments_con_tower_102", "apartments_con_tower_002"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -468,12 +468,14 @@
         "************************************************",
         "************************************************"
       ],
-      "palettes": [ "apartment_palette" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [ 0, 1 ] } ]
+      "palettes": ["apartment_palette"],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [4, 23], "y": [2, 23], "repeat": [0, 1] }
+      ]
     },
     "om_terrain": [
-      [ "apartments_con_tower_114", "apartments_con_tower_014" ],
-      [ "apartments_con_tower_104", "apartments_con_tower_004" ]
+      ["apartments_con_tower_114", "apartments_con_tower_014"],
+      ["apartments_con_tower_104", "apartments_con_tower_004"]
     ],
     "type": "mapgen",
     "weight": 250
@@ -508,7 +510,7 @@
         "***zzzzz****************",
         "***zzzzz****************"
       ],
-      "palettes": [ "apartment_palette" ]
+      "palettes": ["apartment_palette"]
     },
     "om_terrain": "apartments_con_tower_015",
     "type": "mapgen",

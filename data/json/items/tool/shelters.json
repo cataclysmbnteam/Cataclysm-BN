@@ -11,7 +11,7 @@
     "price_postapoc": 50,
     "to_hit": -3,
     "bashing": 4,
-    "material": [ "wood", "leather" ],
+    "material": ["wood", "leather"],
     "symbol": ";",
     "color": "brown"
   },
@@ -27,7 +27,7 @@
     "price_postapoc": 1500,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "plastic", "aluminum" ],
+    "material": ["plastic", "aluminum"],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -53,7 +53,7 @@
     "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 4,
-    "material": [ "wood", "leather" ],
+    "material": ["wood", "leather"],
     "symbol": ";",
     "color": "brown",
     "use_action": {
@@ -78,7 +78,7 @@
     "price_postapoc": 1000,
     "to_hit": -3,
     "bashing": 4,
-    "material": [ "plastic", "aluminum" ],
+    "material": ["plastic", "aluminum"],
     "symbol": ";",
     "color": "green",
     "use_action": {

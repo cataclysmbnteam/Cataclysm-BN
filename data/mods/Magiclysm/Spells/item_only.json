@@ -5,8 +5,8 @@
     "name": "Twisted Restoration",
     "//": "Used for potion of Twisted Restoration, not castable",
     "description": "This spell overclocks your heart, generating new flesh and muscle.  It is unwise to use this in immediate danger, and may be fatal if done in critical condition.",
-    "valid_targets": [ "self" ],
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "valid_targets": ["self"],
+    "flags": ["SILENT", "NO_LEGS", "NO_HANDS"],
     "max_level": 1,
     "min_damage": 10,
     "max_damage": 10,
@@ -33,8 +33,8 @@
     "name": "Improved Twisted Restoration",
     "//": "Used for Animist-exclusive potion, not castable",
     "description": "This spell overclocks your heart, generating new flesh and muscle.  It is unwise to use this in immediate danger, and may be fatal if done in critical condition.  Improved brewing mitigates the strain of the spell.",
-    "valid_targets": [ "self" ],
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "valid_targets": ["self"],
+    "flags": ["SILENT", "NO_LEGS", "NO_HANDS"],
     "max_level": 1,
     "min_damage": 8,
     "max_damage": 8,
@@ -46,14 +46,19 @@
     "energy_source": "HP",
     "base_casting_time": 12000,
     "base_energy_cost": 2,
-    "extra_effects": [ { "id": "light_healing" }, { "id": "pain_damage" }, { "id": "stamina_damage" }, { "id": "stamina_damage" } ]
+    "extra_effects": [
+      { "id": "light_healing" },
+      { "id": "pain_damage" },
+      { "id": "stamina_damage" },
+      { "id": "stamina_damage" }
+    ]
   },
   {
     "id": "conj_throwing_blade1",
     "type": "SPELL",
     "name": "Conjure Throwing Blade I",
     "description": "conjures 3 throwing knives",
-    "valid_targets": [ "self" ],
+    "valid_targets": ["self"],
     "effect": "spawn_item",
     "effect_str": "throwing_knife",
     "message": "You activate your ring and three throwing knives appear, ready to throw!",
@@ -70,7 +75,7 @@
     "type": "SPELL",
     "name": "Recover Mana",
     "description": "You regain mana.",
-    "valid_targets": [ "self" ],
+    "valid_targets": ["self"],
     "min_damage": 250,
     "damage_increment": 50.0,
     "max_damage": 2000,
@@ -83,7 +88,7 @@
     "base_energy_cost": 0,
     "energy_increment": 0,
     "final_energy_cost": 0,
-    "flags": [ "SILENT", "NO_LEGS" ],
+    "flags": ["SILENT", "NO_LEGS"],
     "difficulty": 3
   },
   {
@@ -91,8 +96,8 @@
     "type": "SPELL",
     "name": { "str": "Pain" },
     "description": "Increases pain",
-    "valid_targets": [ "self" ],
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
+    "valid_targets": ["self"],
+    "flags": ["SILENT", "NO_LEGS", "NO_HANDS"],
     "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
     "min_damage": -25,
     "max_damage": -225,
@@ -102,6 +107,6 @@
     "effect_str": "PAIN",
     "spell_class": "NONE",
     "message": "Your veins feel like they are on fire!\nYou start regenerating mana!",
-    "extra_effects": [ { "id": "potion_recover_mana" } ]
+    "extra_effects": [{ "id": "potion_recover_mana" }]
   }
 ]

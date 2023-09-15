@@ -4,28 +4,28 @@
     "id": "en_US",
     "name": "English",
     "locale": "en_US.UTF-8",
-    "genders": [ "n" ],
-    "lcids": [ 1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273 ]
+    "genders": ["n"],
+    "lcids": [1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273]
   },
   {
     "id": "de_DE",
     "name": "Deutsch",
     "locale": "de_DE.UTF-8",
-    "genders": [  ],
-    "lcids": [ 1031, 2055, 3079, 4103, 5127 ]
+    "genders": [],
+    "lcids": [1031, 2055, 3079, 4103, 5127]
   },
   {
     "id": "es_AR",
     "name": "Español (Argentina)",
     "locale": "es_AR.UTF-8",
-    "genders": [  ],
-    "lcids": [ 11274 ]
+    "genders": [],
+    "lcids": [11274]
   },
   {
     "id": "es_ES",
     "name": "Español (España)",
     "locale": "es_ES.UTF-8",
-    "genders": [  ],
+    "genders": [],
     "lcids": [
       1034,
       2058,
@@ -52,65 +52,65 @@
     "id": "fr_FR",
     "name": "Français",
     "locale": "fr_FR.UTF-8",
-    "genders": [  ],
-    "lcids": [ 1036, 2060, 3084, 4108, 5132 ]
+    "genders": [],
+    "lcids": [1036, 2060, 3084, 4108, 5132]
   },
   {
     "id": "hu_HU",
     "name": "Magyar",
     "locale": "hu_HU.UTF-8",
-    "genders": [  ],
-    "lcids": [ 1038 ]
+    "genders": [],
+    "lcids": [1038]
   },
   {
     "id": "ja_JP",
     "name": "日本語",
     "locale": "ja_JP.UTF-8",
-    "genders": [  ],
-    "lcids": [ 1041 ]
+    "genders": [],
+    "lcids": [1041]
   },
   {
     "id": "ko_KR",
     "name": "한국어",
     "locale": "ko_KR.UTF-8",
-    "genders": [  ],
-    "lcids": [ 1042 ]
+    "genders": [],
+    "lcids": [1042]
   },
   {
     "id": "pl_PL",
     "name": "Polski",
     "locale": "pl_PL.UTF-8",
-    "genders": [  ],
-    "lcids": [ 1045 ]
+    "genders": [],
+    "lcids": [1045]
   },
   {
     "id": "pt_BR",
     "name": "Português (Brasil)",
     "locale": "pt_BR.UTF-8",
-    "genders": [  ],
-    "lcids": [ 1046, 2070 ]
+    "genders": [],
+    "lcids": [1046, 2070]
   },
   {
     "id": "ru_RU",
     "name": "Русский",
     "locale": "ru_RU.UTF-8",
-    "genders": [  ],
-    "lcids": [ 1049 ]
+    "genders": [],
+    "lcids": [1049]
   },
   {
     "id": "zh_CN",
     "name": "中文 (天朝)",
     "locale": "zh_CN.UTF-8",
-    "genders": [  ],
+    "genders": [],
     "osx": "zh_Hans",
-    "lcids": [ 2052, 3076, 4100 ]
+    "lcids": [2052, 3076, 4100]
   },
   {
     "id": "zh_TW",
     "name": "中文 (台灣)",
     "locale": "zh_TW.UTF-8",
-    "genders": [  ],
+    "genders": [],
     "osx": "zh_Hant",
-    "lcids": [ 1028 ]
+    "lcids": [1028]
   }
 ]

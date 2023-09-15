@@ -11,14 +11,21 @@
       "w": "t_wall_log",
       ";": "t_floor_primitive"
     },
-    "furniture": { "b": "f_bench", "t": "f_table", "x": "f_brazier", "U": "f_birdbath", "l": "f_locker", "B": "f_bookcase" }
+    "furniture": {
+      "b": "f_bench",
+      "t": "f_table",
+      "x": "f_brazier",
+      "U": "f_birdbath",
+      "l": "f_locker",
+      "B": "f_bookcase"
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbms_room0_log",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "  wwww",
         "  ...w",
@@ -27,21 +34,21 @@
         "  ...w",
         "  wwww"
       ],
-      "palettes": [ "fbms_log_palette" ]
+      "palettes": ["fbms_log_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbms_room0_log_east",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbms_room0_log" ], "x": 15, "y": 9 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbms_room0_log"], "x": 15, "y": 9 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbms_room1_log",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwww  ",
         "w...  ",
@@ -50,21 +57,21 @@
         "w...  ",
         "wwww  "
       ],
-      "palettes": [ "fbms_log_palette" ]
+      "palettes": ["fbms_log_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbms_room1_log_west",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbms_room1_log" ], "x": 3, "y": 9 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbms_room1_log"], "x": 3, "y": 9 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbms_room2_log",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "      ",
         "      ",
@@ -73,21 +80,21 @@
         "   w..",
         "   w.."
       ],
-      "palettes": [ "fbms_log_palette" ]
+      "palettes": ["fbms_log_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbms_room2_log_northwest",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbms_room2_log" ], "x": 3, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbms_room2_log"], "x": 3, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbms_room3_log",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "   w..",
         "   w..",
@@ -96,21 +103,21 @@
         "      ",
         "      "
       ],
-      "palettes": [ "fbms_log_palette" ]
+      "palettes": ["fbms_log_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbms_room3_log_southwest",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbms_room3_log" ], "x": 3, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbms_room3_log"], "x": 3, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbms_room4_log",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "      ",
         "      ",
@@ -119,21 +126,21 @@
         "..w   ",
         "..w   "
       ],
-      "palettes": [ "fbms_log_palette" ]
+      "palettes": ["fbms_log_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbms_room4_log_northeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbms_room4_log" ], "x": 15, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbms_room4_log"], "x": 15, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbms_room5_log",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "..w   ",
         "..w   ",
@@ -142,21 +149,21 @@
         "      ",
         "      "
       ],
-      "palettes": [ "fbms_log_palette" ]
+      "palettes": ["fbms_log_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbms_room5_log_southeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbms_room5_log" ], "x": 15, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbms_room5_log"], "x": 15, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbms_room6_log",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "......",
         "......",
@@ -165,21 +172,21 @@
         " .... ",
         "w....w"
       ],
-      "palettes": [ "fbms_log_palette" ]
+      "palettes": ["fbms_log_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbms_room6_log_south",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbms_room6_log" ], "x": 9, "y": 15 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbms_room6_log"], "x": 9, "y": 15 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbms_room7_log",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "w....w",
         " .... ",
@@ -188,21 +195,21 @@
         "......",
         "......"
       ],
-      "palettes": [ "fbms_log_palette" ]
+      "palettes": ["fbms_log_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbms_room7_log_north",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbms_room7_log" ], "x": 9, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbms_room7_log"], "x": 9, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbms_room8_log",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "......",
         "......",
@@ -211,7 +218,7 @@
         "......",
         "......"
       ],
-      "palettes": [ "fbms_log_palette" ]
+      "palettes": ["fbms_log_palette"]
     }
   },
   {
@@ -219,7 +226,7 @@
     "method": "json",
     "nested_mapgen_id": "fbms_room9_log",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "    ..",
         "    ..",
@@ -228,7 +235,7 @@
         "    ..",
         "    .."
       ],
-      "palettes": [ "fbms_log_palette" ]
+      "palettes": ["fbms_log_palette"]
     }
   },
   {
@@ -236,7 +243,7 @@
     "method": "json",
     "nested_mapgen_id": "fbms_room10_log",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "..    ",
         "..    ",
@@ -245,7 +252,7 @@
         "..    ",
         "..    "
       ],
-      "palettes": [ "fbms_log_palette" ]
+      "palettes": ["fbms_log_palette"]
     }
   },
   {
@@ -254,9 +261,9 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbms_room9_log" ], "x": 3, "y": 9 },
-        { "chunks": [ "fbms_room10_log" ], "x": 15, "y": 9 },
-        { "chunks": [ "fbms_room8_log" ], "x": 9, "y": 9 }
+        { "chunks": ["fbms_room9_log"], "x": 3, "y": 9 },
+        { "chunks": ["fbms_room10_log"], "x": 15, "y": 9 },
+        { "chunks": ["fbms_room8_log"], "x": 9, "y": 9 }
       ]
     }
   }

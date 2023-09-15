@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_entry_dn", "mansion_wild_dn", "mansion_e1d" ],
+    "om_terrain": ["mansion_entry_dn", "mansion_wild_dn", "mansion_e1d"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -32,19 +32,21 @@
         "......X].rr.r.X<<X......",
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "items": {
         ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
         "r": { "item": "tool_common_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.1 } ]
+      "place_monsters": [
+        { "monster": "GROUP_MANSION", "x": [2, 21], "y": [17, 21], "density": 0.1 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_entry", "mansion_wild", "mansion_e1" ],
+    "om_terrain": ["mansion_entry", "mansion_wild", "mansion_e1"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -74,23 +76,23 @@
         "ta....XzzzXK.mX>>X......",
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
       "items": {
         ".": { "item": "clutter_mansion" },
         ":": { "item": "clutter_yard" },
         "K": { "item": "crate_cleaning", "chance": 100 },
-        "!": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
+        "!": { "item": "mail", "chance": 30, "repeat": [2, 5] },
         "m": { "item": "cleaning", "chance": 45 },
         "t": { "item": "table_foyer", "chance": 40 },
         "z": { "item": "jackets", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_entry_up", "mansion_wild_up", "mansion_e1u" ],
+    "om_terrain": ["mansion_entry_up", "mansion_wild_up", "mansion_e1u"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -120,7 +122,7 @@
         ".{....X....??....X....{.",
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
       "items": {
         ".": { "item": "clutter_mansion" },
         "?": { "item": "fireplace_fill", "chance": 30 },
@@ -128,13 +130,15 @@
         "c": { "item": "wetbar_stack", "chance": 100 },
         "{": { "item": "suit_of_armor", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.15 } ]
+      "place_monsters": [
+        { "monster": "GROUP_MANSION", "x": [2, 21], "y": [17, 21], "density": 0.15 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_entry_dn", "mansion_wild_dn", "mansion_e2d" ],
+    "om_terrain": ["mansion_entry_dn", "mansion_wild_dn", "mansion_e2d"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -164,7 +168,7 @@
         "...........<<...........",
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "furniture": { "!": "f_arcade_machine" },
       "items": {
         ".": { "item": "clutter_basement" },
@@ -174,13 +178,15 @@
         "m": { "item": "cleaning", "chance": 45 },
         "r": { "item": "wetbar_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 14, 21 ], "density": 0.1 } ]
+      "place_monsters": [
+        { "monster": "GROUP_MANSION", "x": [2, 21], "y": [14, 21], "density": 0.1 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_entry", "mansion_wild", "mansion_e2" ],
+    "om_terrain": ["mansion_entry", "mansion_wild", "mansion_e2"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -210,21 +216,21 @@
         "......XX...>>...XX......",
         "X......XXXXXXXXXX......X"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
       "items": {
         ".": { "item": "clutter_mansion" },
         ":": { "item": "clutter_yard" },
         "t": { "item": "table_foyer", "chance": 40 },
-        "!": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
+        "!": { "item": "mail", "chance": 30, "repeat": [2, 5] },
         "{": { "item": "suit_of_armor", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_entry_up", "mansion_wild_up", "mansion_e2u" ],
+    "om_terrain": ["mansion_entry_up", "mansion_wild_up", "mansion_e2u"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -254,7 +260,7 @@
         "........................",
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
       "items": {
         ".": { "item": "clutter_mansion" },
         "T": { "item": "table_foyer", "chance": 40 },
@@ -265,7 +271,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t1d" ],
+    "om_terrain": ["mansion_t_dn", "mansion_t1d"],
     "weight": 700,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -295,7 +301,7 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "items": {
         "K": { "item": "crate_stack", "chance": 100 },
         "m": { "item": "cleaning", "chance": 45 },
@@ -306,7 +312,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t1" ],
+    "om_terrain": ["mansion_t", "mansion_t1"],
     "weight": 700,
     "object": {
       "fill_ter": "t_floor",
@@ -336,7 +342,7 @@
         ":::::::XXXXXXXXXX:::::::",
         "'''::::::::::::::::::'''"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
       "terrain": { "!": "t_concrete", "/": "t_grass", "|": "t_chainfence_v", "~": "t_water_dp" },
       "furniture": { "!": "f_dive_block" },
       "items": {
@@ -346,13 +352,13 @@
         "?": { "item": "fireplace_fill", "chance": 30 },
         "c": { "item": "wetbar_counter", "chance": 20 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t1u" ],
+    "om_terrain": ["mansion_t_up", "mansion_t1u"],
     "weight": 700,
     "object": {
       "fill_ter": "t_floor",
@@ -382,14 +388,16 @@
         "*******''''''''''*******",
         "************************"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
-      "place_loot": [ { "item": "lawn_dart", "x": [ 7, 16 ], "y": [ 18, 22 ], "chance": 40, "repeat": [ 1, 2 ] } ]
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
+      "place_loot": [
+        { "item": "lawn_dart", "x": [7, 16], "y": [18, 22], "chance": 40, "repeat": [1, 2] }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t2d" ],
+    "om_terrain": ["mansion_t_dn", "mansion_t2d"],
     "weight": 800,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -419,9 +427,9 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "terrain": { "@": "t_carpet_red", "R": "t_carpet_red" },
-      "furniture": { "$": [ "f_shackle", "f_null" ], "@": "f_mannequin" },
+      "furniture": { "$": ["f_shackle", "f_null"], "@": "f_mannequin" },
       "items": {
         ".": { "item": "clutter_basement" },
         "B": { "item": "sex_lair", "chance": 40 },
@@ -434,13 +442,13 @@
         "m": { "item": "tool_common_stack", "chance": 100 },
         "r": { "item": "sewing_room", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 12], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t2" ],
+    "om_terrain": ["mansion_t", "mansion_t2"],
     "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
@@ -470,8 +478,8 @@
         "::::::::::::::::::::::::",
         "''''''''''''''''''''''''"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "toilets": { "P": {  } },
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
+      "toilets": { "P": {} },
       "items": {
         "-": { "item": "clutter_bedroom", "chance": 2 },
         ".": { "item": "clutter_bedroom", "chance": 2 },
@@ -487,13 +495,13 @@
         "v": { "item": "a_television", "chance": 100 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t2u" ],
+    "om_terrain": ["mansion_t_up", "mansion_t2u"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -523,8 +531,8 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
-      "toilets": { "P": {  } },
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
+      "toilets": { "P": {} },
       "items": {
         "-": { "item": "clutter_bedroom", "chance": 2 },
         ".": { "item": "clutter_bedroom", "chance": 2 },
@@ -539,13 +547,13 @@
         "v": { "item": "a_television", "chance": 100 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 11], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t2d" ],
+    "om_terrain": ["mansion_t_dn", "mansion_t2d"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -575,7 +583,7 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "terrain": { "[": "t_chaingate_l", "|": "t_chainfence_v" },
       "items": {
         "(": { "item": "trash_cart", "chance": 40 },
@@ -588,13 +596,13 @@
         "v": { "item": "a_television", "chance": 100 },
         "{": { "item": "suit_of_armor", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 12], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t2" ],
+    "om_terrain": ["mansion_t", "mansion_t2"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -624,10 +632,10 @@
         "::::::::::::::::::::::::",
         "''''''''''''''''''''''''"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
       "terrain": { "%": "t_door_metal_locked", ",": "t_carpet_red" },
       "furniture": { "$": "f_safe_l" },
-      "toilets": { "P": {  } },
+      "toilets": { "P": {} },
       "items": {
         "$": { "item": "mansion_safe", "chance": 100 },
         ",": { "item": "toy_box", "chance": 15 },
@@ -648,14 +656,18 @@
         "v": { "item": "a_television", "chance": 100 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_loot": [ { "group": "corpse_mansion", "x": [ 10, 12 ], "y": [ 5, 7 ], "chance": 50, "repeat": [ 0, 2 ] } ],
-      "place_monsters": [ { "monster": "GROUP_PANICROOM", "x": 11, "y": 6, "chance": 75, "repeat": [ 1, 5 ] } ]
+      "place_loot": [
+        { "group": "corpse_mansion", "x": [10, 12], "y": [5, 7], "chance": 50, "repeat": [0, 2] }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_PANICROOM", "x": 11, "y": 6, "chance": 75, "repeat": [1, 5] }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t2u" ],
+    "om_terrain": ["mansion_t_up", "mansion_t2u"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -685,8 +697,8 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
-      "toilets": { "P": {  } },
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
+      "toilets": { "P": {} },
       "items": {
         "(": { "item": "trash_cart", "chance": 40 },
         ".": { "item": "clutter_bedroom", "chance": 2 },
@@ -700,13 +712,13 @@
         "v": { "item": "a_television", "chance": 100 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 11], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t4d" ],
+    "om_terrain": ["mansion_t_dn", "mansion_t4d"],
     "weight": 1100,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -736,11 +748,11 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "terrain": { "[": "t_chaingate_l", "|": "t_chainfence_v" },
       "place_liquids": [
-        { "liquid": "wine_cabernet", "x": [ 0, 11 ], "y": [ 8, 12 ], "repeat": [ 4, 12 ] },
-        { "liquid": "wine_chardonnay", "x": [ 0, 11 ], "y": [ 8, 12 ], "repeat": [ 2, 6 ] }
+        { "liquid": "wine_cabernet", "x": [0, 11], "y": [8, 12], "repeat": [4, 12] },
+        { "liquid": "wine_chardonnay", "x": [0, 11], "y": [8, 12], "repeat": [2, 6] }
       ],
       "items": {
         ".": { "item": "clutter_basement" },
@@ -752,13 +764,13 @@
         "r": { "item": "pantry", "chance": 40 },
         "t": { "item": "table_wine", "chance": 45 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 12], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t4" ],
+    "om_terrain": ["mansion_t", "mansion_t4"],
     "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
@@ -788,7 +800,7 @@
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
       "terrain": { "F": "t_linoleum_gray" },
       "items": {
         "'": { "item": "clutter_yard" },
@@ -807,13 +819,13 @@
         "c": { "item": "table_sideboard", "chance": 35 },
         "t": { "item": "table_livingroom", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t4u" ],
+    "om_terrain": ["mansion_t_up", "mansion_t4u"],
     "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
@@ -843,8 +855,8 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
-      "toilets": { "P": {  } },
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
+      "toilets": { "P": {} },
       "items": {
         ".": { "item": "clutter_bedroom", "chance": 2 },
         "5": { "item": "stash_drugs", "chance": 20 },
@@ -862,7 +874,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t5d" ],
+    "om_terrain": ["mansion_t_dn", "mansion_t5d"],
     "weight": 400,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -892,9 +904,9 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "terrain": { "o": "t_door_glass_c" },
-      "toilets": { "P": {  } },
+      "toilets": { "P": {} },
       "items": {
         "-": { "item": "clutter_gym", "chance": 6 },
         "/": { "item": "clutter_gym", "chance": 40 },
@@ -904,13 +916,13 @@
         "r": { "item": "cleaning", "chance": 40 },
         "t": { "item": "voyer", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 14 ], "y": [ 2, 9 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 14], "y": [2, 9], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t5" ],
+    "om_terrain": ["mansion_t", "mansion_t5"],
     "weight": 400,
     "object": {
       "fill_ter": "t_floor",
@@ -940,7 +952,7 @@
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
       "items": {
         "'": { "item": "clutter_yard" },
         "(": { "item": "trash_cart" },
@@ -954,13 +966,13 @@
         "r": { "item": "office", "chance": 35 },
         "t": { "item": "table_livingroom", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t5u" ],
+    "om_terrain": ["mansion_t_up", "mansion_t5u"],
     "weight": 400,
     "object": {
       "fill_ter": "t_floor",
@@ -990,10 +1002,10 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
       "terrain": { "C": "t_carpet_red" },
       "furniture": { "V": "f_counter" },
-      "toilets": { "P": {  } },
+      "toilets": { "P": {} },
       "items": {
         "(": { "item": "trash_cart", "chance": 40 },
         ".": { "item": "clutter_bedroom", "chance": 2 },
@@ -1011,13 +1023,13 @@
         "t": { "item": "nightstand", "chance": 35 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 4, 21 ], "y": [ 2, 9 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [4, 21], "y": [2, 9], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t6d" ],
+    "om_terrain": ["mansion_t_dn", "mansion_t6d"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -1047,7 +1059,7 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "terrain": { ")": "t_linoleum_gray", "T": "t_linoleum_gray", "o": "t_carpet_red" },
       "furniture": { "o": "f_trashcan" },
       "items": {
@@ -1066,14 +1078,16 @@
         "r": { "item": "tool_common_stack", "chance": 100 },
         "v": { "item": "a_television", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ],
-      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 14, 15 ], "y": [ 0, 6 ], "chance": 50 } ]
+      "place_monsters": [
+        { "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 12], "density": 0.1 }
+      ],
+      "place_vehicles": [{ "vehicle": "laundry_cart", "x": [14, 15], "y": [0, 6], "chance": 50 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t6" ],
+    "om_terrain": ["mansion_t", "mansion_t6"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1103,8 +1117,8 @@
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "toilets": { "P": {  } },
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
+      "toilets": { "P": {} },
       "items": {
         "'": { "item": "clutter_yard" },
         "-": { "item": "clutter_bedroom", "chance": 2 },
@@ -1123,13 +1137,13 @@
         "t": { "item": "nightstand", "chance": 35 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t6u" ],
+    "om_terrain": ["mansion_t_up", "mansion_t6u"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1159,8 +1173,8 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
-      "toilets": { "P": {  } },
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
+      "toilets": { "P": {} },
       "items": {
         "-": { "item": "clutter_bedroom", "chance": 3 },
         ".": { "item": "clutter_mansion" },
@@ -1180,13 +1194,13 @@
         "t": { "item": "nightstand", "chance": 45 },
         "z": { "item": "dresser_servant", "chance": 45 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 7], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_dn", "mansion_t7d" ],
+    "om_terrain": ["mansion_t_dn", "mansion_t7d"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -1216,7 +1230,7 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "terrain": { "C": "t_carpet_red", "N": "t_carpet_red" },
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
@@ -1229,13 +1243,13 @@
         "T": { "item": "snacks_fancy", "chance": 35 },
         "d": { "item": "mansion_ammo", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 12], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t", "mansion_t7" ],
+    "om_terrain": ["mansion_t", "mansion_t7"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1265,8 +1279,8 @@
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "toilets": { "P": {  } },
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
+      "toilets": { "P": {} },
       "items": {
         "'": { "item": "clutter_yard" },
         "(": { "item": "trash_cart", "chance": 30 },
@@ -1281,13 +1295,13 @@
         "t": { "item": "table_card", "chance": 35 },
         "{": { "item": "suit_of_armor", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_t_up", "mansion_t7u" ],
+    "om_terrain": ["mansion_t_up", "mansion_t7u"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1317,7 +1331,7 @@
         "************************",
         "************************"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
       "terrain": { "C": "t_carpet_red", "N": "t_carpet_red" },
       "furniture": { "C": "f_table" },
       "items": {
@@ -1330,13 +1344,13 @@
         "V": { "item": "a_television", "chance": 100 },
         "t": { "item": "table_foyer", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 8 ], "y": [ 2, 11 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 8], "y": [2, 11], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_dn", "mansion_+1d" ],
+    "om_terrain": ["mansion_+_dn", "mansion_+1d"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -1366,7 +1380,7 @@
         "X######################X",
         "X######################X"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "items": {
         ".": { "item": "clutter_basement" },
         "m": { "item": "cleaning", "chance": 35 },
@@ -1377,7 +1391,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+", "mansion_+1" ],
+    "om_terrain": ["mansion_+", "mansion_+1"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1407,9 +1421,9 @@
         "X::::::::::,,::::::::::X",
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
       "terrain": { "*": "t_shrub", "/": "t_grass", "@": "t_grass", "~": "t_water_sh" },
-      "furniture": { "@": [ "f_statue", "f_statue", "f_statue", "f_null", "f_null" ] },
+      "furniture": { "@": ["f_statue", "f_statue", "f_statue", "f_null", "f_null"] },
       "items": {
         ",": { "item": "clutter_yard" },
         ".": { "item": "clutter_mansion" },
@@ -1417,13 +1431,13 @@
         "n": { "item": "garden_shed", "chance": 40 },
         "t": { "item": "snacks_fancy", "chance": 20 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_up", "mansion_+1u" ],
+    "om_terrain": ["mansion_+_up", "mansion_+1u"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1453,14 +1467,14 @@
         "X*********|__|*********X",
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
       "items": { ",": { "item": "clutter_mansion" } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_dn", "mansion_+2d" ],
+    "om_terrain": ["mansion_+_dn", "mansion_+2d"],
     "weight": 900,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -1490,7 +1504,7 @@
         "Xee11KK.Xkk.......cccccX",
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "terrain": { "$": "t_carpet_red", "%": "t_door_metal_locked" },
       "furniture": { "$": "f_safe_l", "C": "f_table" },
       "items": {
@@ -1511,13 +1525,13 @@
         "v": { "item": "a_television", "chance": 100 },
         "z": { "item": "dresser_shabby", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+", "mansion_+2" ],
+    "om_terrain": ["mansion_+", "mansion_+2"],
     "weight": 900,
     "object": {
       "fill_ter": "t_floor",
@@ -1547,10 +1561,10 @@
         "XP=XPXPX........XPXPX=PX",
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
       "terrain": { "7": "t_linoleum_gray", "T": "t_linoleum_gray" },
       "furniture": { "c": "f_table" },
-      "toilets": { "P": {  } },
+      "toilets": { "P": {} },
       "items": {
         ".": { "item": "clutter_ballroom" },
         "1": { "item": "clutter_ballroom", "chance": 20 },
@@ -1560,13 +1574,13 @@
         "m": { "item": "cleaning", "chance": 40 },
         "t": { "item": "table_ballroom", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_up", "mansion_+2u" ],
+    "om_terrain": ["mansion_+_up", "mansion_+2u"],
     "weight": 900,
     "object": {
       "fill_ter": "t_floor",
@@ -1596,14 +1610,17 @@
         "Xtsss..............ssstX",
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
-      "items": { ".": { "item": "clutter_mansion" }, "t": { "item": "wetbar_counter", "chance": 35 } }
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
+      "items": {
+        ".": { "item": "clutter_mansion" },
+        "t": { "item": "wetbar_counter", "chance": 35 }
+      }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_dn", "mansion_+2d" ],
+    "om_terrain": ["mansion_+_dn", "mansion_+2d"],
     "weight": 800,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -1633,7 +1650,7 @@
         "X.RRR.....X..X......kkkX",
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "terrain": { "%": "t_door_metal_locked", "o": "t_door_locked_interior" },
       "furniture": { "$": "f_gunsafe_ml" },
       "items": {
@@ -1652,13 +1669,13 @@
         "v": { "item": "a_television", "chance": 100 },
         "{": { "item": "suit_of_armor", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+", "mansion_+3" ],
+    "om_terrain": ["mansion_+", "mansion_+3"],
     "weight": 800,
     "object": {
       "fill_ter": "t_floor",
@@ -1688,11 +1705,17 @@
         "X/................X...KX",
         "XXXXXOOXXXX++XXXXXXXXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "terrain": { "%": "t_backboard_in", "'": "t_backboard", "-": "t_floor_waxed_y", "`": "t_floor_waxed", "o": "t_door_glass_c" },
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
+      "terrain": {
+        "%": "t_backboard_in",
+        "'": "t_backboard",
+        "-": "t_floor_waxed_y",
+        "`": "t_floor_waxed",
+        "o": "t_door_glass_c"
+      },
       "furniture": { "2": "f_bench", "3": "f_bench" },
-      "toilets": { "P": {  } },
-      "place_liquids": [ { "liquid": "water", "x": [ 20, 21 ], "y": [ 15, 17 ], "repeat": [ 2, 4 ] } ],
+      "toilets": { "P": {} },
+      "place_liquids": [{ "liquid": "water", "x": [20, 21], "y": [15, 17], "repeat": [2, 4] }],
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
         ".": { "item": "clutter_gym" },
@@ -1708,13 +1731,13 @@
         "m": { "item": "cleaning", "chance": 35 },
         "r": { "item": "sports", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_up", "mansion_+3u" ],
+    "om_terrain": ["mansion_+_up", "mansion_+3u"],
     "weight": 800,
     "object": {
       "fill_ter": "t_floor",
@@ -1744,14 +1767,14 @@
         "X         |............X",
         "XXXXXOOXXXX++XXXXXXXXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
       "items": { ".": { "item": "clutter_mansion" }, "/": { "item": "snacks_fancy", "chance": 20 } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_dn", "mansion_+4d" ],
+    "om_terrain": ["mansion_+_dn", "mansion_+4d"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -1781,9 +1804,9 @@
         "X#########X..X#########X",
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "terrain": { "N": "t_carpet_red" },
-      "toilets": { "P": {  } },
+      "toilets": { "P": {} },
       "items": {
         ")": { "item": "harddrugs", "chance": 30 },
         ".": { "item": "clutter_basement" },
@@ -1794,13 +1817,13 @@
         "Y": { "item": "softdrugs", "chance": 20 },
         "r": { "item": "crate_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 8 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 8], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+", "mansion_+4" ],
+    "om_terrain": ["mansion_+", "mansion_+4"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1830,7 +1853,7 @@
         "X:::::::::X__X:::::::::X",
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
       "terrain": { "'": "t_dirt", "*": "t_shrub" },
       "items": {
         ")": { "item": "trash_cart", "chance": 40 },
@@ -1844,13 +1867,13 @@
         "m": { "item": "garden_shed", "chance": 40 },
         "r": { "item": "cleaning", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_+_up", "mansion_+4u" ],
+    "om_terrain": ["mansion_+_up", "mansion_+4u"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1880,20 +1903,20 @@
         "X*********|__|*********X",
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
       "items": {
         ",": { "item": "clutter_mansion" },
         "-": { "item": "clutter_mansion" },
         ".": { "item": "clutter_mansion" },
         "t": { "item": "table_livingroom", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 7], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_dn", "mansion_c1d" ],
+    "om_terrain": ["mansion_c_dn", "mansion_c1d"],
     "weight": 700,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -1923,7 +1946,7 @@
         "#######X........X....rrX",
         "#######XXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "items": {
         ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
@@ -1935,7 +1958,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c", "mansion_c1" ],
+    "om_terrain": ["mansion_c", "mansion_c1"],
     "weight": 700,
     "object": {
       "fill_ter": "t_floor",
@@ -1965,10 +1988,15 @@
         "'':::::XY===+=jX.......X",
         "'':::::XXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "terrain": { "!": "t_linoleum_gray", "/": "t_linoleum_gray", "@": "t_linoleum_gray", "~": "t_water_pool" },
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
+      "terrain": {
+        "!": "t_linoleum_gray",
+        "/": "t_linoleum_gray",
+        "@": "t_linoleum_gray",
+        "~": "t_water_pool"
+      },
       "furniture": { "!": "f_dive_block" },
-      "toilets": { "P": {  } },
+      "toilets": { "P": {} },
       "items": {
         "'": { "item": "clutter_yard" },
         "/": { "item": "pool_side", "chance": 30 },
@@ -1976,13 +2004,13 @@
         "=": { "item": "pool_side", "chance": 2 },
         "C": { "item": "softdrugs", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_up", "mansion_c1u" ],
+    "om_terrain": ["mansion_c_up", "mansion_c1u"],
     "weight": 700,
     "object": {
       "fill_ter": "t_floor",
@@ -2012,7 +2040,7 @@
         "*******X5a.............X",
         "*******XXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
         ".": { "item": "clutter_mansion" },
@@ -2022,14 +2050,18 @@
         "n": { "item": "wetbar_stack", "chance": 100 },
         "t": { "item": "snacks_fancy", "chance": 30 }
       },
-      "place_loot": [ { "item": "lawn_dart", "x": [ 11, 14 ], "y": [ 4, 6 ], "chance": 40, "repeat": [ 1, 2 ] } ],
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 9, 21 ], "y": [ 17, 21 ], "density": 0.1 } ]
+      "place_loot": [
+        { "item": "lawn_dart", "x": [11, 14], "y": [4, 6], "chance": 40, "repeat": [1, 2] }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_MANSION", "x": [9, 21], "y": [17, 21], "density": 0.1 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_dn", "mansion_c2d" ],
+    "om_terrain": ["mansion_c_dn", "mansion_c2d"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -2059,7 +2091,7 @@
         "#######Xr.rr.rX.....//.X",
         "#######XXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
         ".": { "item": "clutter_basement" },
@@ -2068,13 +2100,13 @@
         "q": { "item": "medieval", "chance": 25 },
         "r": { "item": "pantry", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [8, 21], "y": [8, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c", "mansion_c2" ],
+    "om_terrain": ["mansion_c", "mansion_c2"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2104,8 +2136,8 @@
         "'':::::X...XNY=PX..X..tX",
         "'':::::XXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "toilets": { "P": {  } },
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
+      "toilets": { "P": {} },
       "items": {
         "'": { "item": "clutter_yard" },
         ".": { "item": "clutter_mansion" },
@@ -2119,13 +2151,13 @@
         "v": { "item": "a_television", "chance": 100 },
         "z": { "item": "jackets", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_up", "mansion_c2u" ],
+    "om_terrain": ["mansion_c_up", "mansion_c2u"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2155,8 +2187,8 @@
         "*******XTBBBTZZ-X......X",
         "*******XXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
-      "toilets": { "P": {  } },
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
+      "toilets": { "P": {} },
       "items": {
         "-": { "item": "clutter_bedroom", "chance": 2 },
         ".": { "item": "clutter_bedroom", "chance": 2 },
@@ -2172,13 +2204,13 @@
         "t": { "item": "nightstand", "chance": 40 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 9, 21 ], "y": [ 9, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [9, 21], "y": [9, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_dn", "mansion_c3d" ],
+    "om_terrain": ["mansion_c_dn", "mansion_c3d"],
     "weight": 500,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -2208,20 +2240,20 @@
         "#######X.......X.....KKX",
         "#######XXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "items": {
         ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
         "d": { "item": "office", "chance": 10 },
         "v": { "item": "a_television", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [8, 21], "y": [8, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c", "mansion_c3" ],
+    "om_terrain": ["mansion_c", "mansion_c3"],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -2251,8 +2283,8 @@
         "'':::::X.......lX..X==YX",
         "'':::::XXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "toilets": { "P": {  } },
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
+      "toilets": { "P": {} },
       "items": {
         "'": { "item": "clutter_yard" },
         ".": { "item": "clutter_mansion" },
@@ -2263,13 +2295,13 @@
         "l": { "item": "mansion_bookcase", "chance": 100 },
         "t": { "item": "table_livingroom", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_up", "mansion_c3u" ],
+    "om_terrain": ["mansion_c_up", "mansion_c3u"],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -2299,7 +2331,7 @@
         "*******X...tTt......tTtX",
         "*******XXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
       "furniture": { "c": "f_table" },
       "items": {
         ".": { "item": "clutter_mansion" },
@@ -2309,13 +2341,15 @@
         "d": { "item": "mansion_guns", "chance": 100 },
         "l": { "item": "mansion_bookcase", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 15, 21 ], "y": [ 9, 21 ], "density": 0.1 } ]
+      "place_monsters": [
+        { "monster": "GROUP_MANSION", "x": [15, 21], "y": [9, 21], "density": 0.1 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_dn", "mansion_c4d" ],
+    "om_terrain": ["mansion_c_dn", "mansion_c4d"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -2345,7 +2379,7 @@
         "######X..]....KX====X.rX",
         "######XXXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "terrain": { "T": "t_linoleum_gray" },
       "items": {
         ".": { "item": "clutter_basement" },
@@ -2358,14 +2392,16 @@
         "m": { "item": "hardware_plumbing", "chance": 30 },
         "r": { "item": "tool_common_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 13, 21 ], "y": [ 7, 21 ], "density": 0.1 } ],
-      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 13, 18 ], "y": [ 8, 9 ], "chance": 50 } ]
+      "place_monsters": [
+        { "monster": "GROUP_MANSION", "x": [13, 21], "y": [7, 21], "density": 0.1 }
+      ],
+      "place_vehicles": [{ "vehicle": "laundry_cart", "x": [13, 18], "y": [8, 9], "chance": 50 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c", "mansion_c4" ],
+    "om_terrain": ["mansion_c", "mansion_c4"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2395,8 +2431,8 @@
         "''::::X.tbbbbt..X...TT.X",
         "''::::XXXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
-      "toilets": { "P": {  } },
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
+      "toilets": { "P": {} },
       "items": {
         "'": { "item": "clutter_yard" },
         ".": { "item": "clutter_bedroom" },
@@ -2414,13 +2450,13 @@
         "t": { "item": "nightstand", "chance": 35 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_up", "mansion_c4u" ],
+    "om_terrain": ["mansion_c_up", "mansion_c4u"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2450,8 +2486,8 @@
         "******X         X..XYNPX",
         "******XXXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
-      "toilets": { "P": {  } },
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
+      "toilets": { "P": {} },
       "items": {
         ".": { "item": "clutter_mansion" },
         "1": { "item": "nightstand", "chance": 20 },
@@ -2459,13 +2495,15 @@
         "b": { "item": "bed", "chance": 30 },
         "z": { "item": "dresser_servant", "chance": 45 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 18, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
+      "place_monsters": [
+        { "monster": "GROUP_MANSION", "x": [18, 21], "y": [8, 21], "density": 0.1 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_dn", "mansion_c5d" ],
+    "om_terrain": ["mansion_c_dn", "mansion_c5d"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -2495,10 +2533,10 @@
         "######Xr..r..rrrX..X]]pX",
         "######XXXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_basement"],
       "place_liquids": [
-        { "liquid": "wine_cabernet", "x": [ 14, 22 ], "y": [ 8, 13 ], "repeat": [ 4, 12 ] },
-        { "liquid": "wine_chardonnay", "x": [ 17, 22 ], "y": [ 8, 15 ], "repeat": [ 2, 6 ] }
+        { "liquid": "wine_cabernet", "x": [14, 22], "y": [8, 13], "repeat": [4, 12] },
+        { "liquid": "wine_chardonnay", "x": [17, 22], "y": [8, 15], "repeat": [2, 6] }
       ],
       "items": {
         ".": { "item": "clutter_basement" },
@@ -2508,13 +2546,15 @@
         "r": { "item": "pantry", "chance": 35 },
         "t": { "item": "table_wine", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 11, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
+      "place_monsters": [
+        { "monster": "GROUP_MANSION", "x": [11, 21], "y": [8, 21], "density": 0.1 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c", "mansion_c5" ],
+    "om_terrain": ["mansion_c", "mansion_c5"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2544,7 +2584,7 @@
         "''::::XCCQQCCX.5....5..X",
         "''::::XXXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_outdoors" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_outdoors"],
       "terrain": { ")": "t_linoleum_gray", "F": "t_linoleum_gray" },
       "items": {
         "'": { "item": "clutter_yard" },
@@ -2561,13 +2601,13 @@
         "c": { "item": "table_sideboard", "chance": 40 },
         "t": { "item": "dining", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_MANSION", "x": [2, 21], "y": [2, 21], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mansion_c_up", "mansion_c5u" ],
+    "om_terrain": ["mansion_c_up", "mansion_c5u"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2597,7 +2637,7 @@
         "******X.zzzz.X.........X",
         "******XXXXXXXXXXX++XXXXX"
       ],
-      "palettes": [ "mansion_palette_common", "mansion_palette_air" ],
+      "palettes": ["mansion_palette_common", "mansion_palette_air"],
       "items": {
         "-": { "item": "clutter_mansion", "chance": 2 },
         ".": { "item": "clutter_bedroom", "chance": 2 },
@@ -2608,7 +2648,9 @@
         "t": { "item": "nightstand", "chance": 40 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 12, 21 ], "density": 0.1 } ]
+      "place_monsters": [
+        { "monster": "GROUP_MANSION", "x": [8, 21], "y": [12, 21], "density": 0.1 }
+      ]
     }
   }
 ]

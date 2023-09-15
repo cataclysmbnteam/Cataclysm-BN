@@ -4,7 +4,7 @@
     "type": "SPELL",
     "name": "Activate Test Relic",
     "description": "activates test relic",
-    "valid_targets": [ "self" ],
+    "valid_targets": ["self"],
     "effect": "mod_moves",
     "message": "You activate your relic!",
     "spell_class": "NONE",
@@ -18,12 +18,17 @@
     "category": "spare_parts",
     "weight": "1 kg",
     "volume": "100 ml",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "*",
     "color": "yellow",
     "charges_per_use": 5,
     "max_charges": 20,
-    "use_action": { "type": "cast_spell", "spell_id": "test_relic_act", "no_fail": true, "level": 1 }
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "test_relic_act",
+      "no_fail": true,
+      "level": 1
+    }
   },
   {
     "type": "TOOL_ARMOR",
@@ -33,13 +38,18 @@
     "color": "yellow",
     "name": { "str": "TEST relic tool armor" },
     "description": "A wearable relic for test purposes",
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "weight": "1 kg",
     "volume": "100 ml",
     "charges_per_use": 5,
     "max_charges": 20,
-    "use_action": { "type": "cast_spell", "spell_id": "test_relic_act", "no_fail": true, "level": 1 },
-    "covers": [ "torso" ],
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "test_relic_act",
+      "no_fail": true,
+      "level": 1
+    },
+    "covers": ["torso"],
     "warmth": 1,
     "encumbrance": 1,
     "coverage": 80,
@@ -50,7 +60,9 @@
     "id": "test_relic_recharge_time_none",
     "copy-from": "test_relic_tool",
     "name": "TEST relic recharge time none (silent)",
-    "relic_data": { "recharge_scheme": [ { "type": "time", "req": "none", "interval": "5 s", "rate": 2 } ] }
+    "relic_data": {
+      "recharge_scheme": [{ "type": "time", "req": "none", "interval": "5 s", "rate": 2 }]
+    }
   },
   {
     "type": "TOOL",
@@ -77,7 +89,17 @@
     "copy-from": "test_relic_tool",
     "name": "TEST relic recharge hp equip",
     "relic_data": {
-      "recharge_scheme": [ { "type": "hp", "req": "equipped", "interval": "5 s", "rate": 2, "message": "Prick!", "int_min": 1, "int_max": 3 } ]
+      "recharge_scheme": [
+        {
+          "type": "hp",
+          "req": "equipped",
+          "interval": "5 s",
+          "rate": 2,
+          "message": "Prick!",
+          "int_min": 1,
+          "int_max": 3
+        }
+      ]
     }
   },
   {
@@ -106,7 +128,15 @@
     "copy-from": "test_relic_tool",
     "name": "TEST relic recharge trap none",
     "relic_data": {
-      "recharge_scheme": [ { "type": "trap", "interval": "1 s", "rate": 2, "message": "Portal collapses!", "trap": "tr_portal" } ]
+      "recharge_scheme": [
+        {
+          "type": "trap",
+          "interval": "1 s",
+          "rate": 2,
+          "message": "Portal collapses!",
+          "trap": "tr_portal"
+        }
+      ]
     }
   },
   {
@@ -115,7 +145,15 @@
     "copy-from": "test_relic_tool",
     "name": "TEST relic recharge solar rad",
     "relic_data": {
-      "recharge_scheme": [ { "type": "solar", "req": "rad", "interval": "5 s", "rate": 2, "message": "Sunlight dims around you for a second!" } ]
+      "recharge_scheme": [
+        {
+          "type": "solar",
+          "req": "rad",
+          "interval": "5 s",
+          "rate": 2,
+          "message": "Sunlight dims around you for a second!"
+        }
+      ]
     }
   },
   {
@@ -124,7 +162,15 @@
     "copy-from": "test_relic_tool",
     "name": "TEST relic recharge time wet",
     "relic_data": {
-      "recharge_scheme": [ { "type": "time", "req": "wet", "interval": "5 s", "rate": 2, "message": "You feel extremely wet." } ]
+      "recharge_scheme": [
+        {
+          "type": "time",
+          "req": "wet",
+          "interval": "5 s",
+          "rate": 2,
+          "message": "You feel extremely wet."
+        }
+      ]
     }
   },
   {
@@ -133,7 +179,15 @@
     "copy-from": "test_relic_tool",
     "name": "TEST relic recharge time sleep",
     "relic_data": {
-      "recharge_scheme": [ { "type": "time", "req": "sleep", "interval": "30 minutes", "rate": 2, "message": "You dream of electric sheep." } ]
+      "recharge_scheme": [
+        {
+          "type": "time",
+          "req": "sleep",
+          "interval": "30 minutes",
+          "rate": 2,
+          "message": "You dream of electric sheep."
+        }
+      ]
     }
   },
   {
@@ -141,7 +195,7 @@
     "id": "test_relic_armor_recharge_fatigue_cts",
     "copy-from": "test_relic_tool_armor",
     "name": "TEST relic armor recharge fatigue skin",
-    "ammo": [ "thread" ],
+    "ammo": ["thread"],
     "relic_data": {
       "recharge_scheme": [
         {

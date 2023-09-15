@@ -27,7 +27,7 @@
     "ammo_type": "223",
     "capacity": 25,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "ruger5",
@@ -45,7 +45,7 @@
     "ammo_type": "223",
     "capacity": 5,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "looks_like": "stanag30",
@@ -60,10 +60,10 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 10,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "ruger10",
@@ -99,7 +99,7 @@
     "ammo_type": "223",
     "capacity": 30,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "ruger90",
@@ -132,10 +132,10 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 5,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "stanag20",
@@ -150,10 +150,10 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 20,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "stanag30",
@@ -168,10 +168,10 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 30,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "stanag40",
@@ -183,13 +183,13 @@
     "volume": "600 ml",
     "price": 8500,
     "price_postapoc": 400,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 40,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "stanag50",
@@ -206,11 +206,11 @@
     "material": "aluminum",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 50,
     "reliability": 7,
     "reload_time": 200,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "stanag60",
@@ -225,10 +225,10 @@
     "material": "aluminum",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 60,
     "reliability": 7,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "stanag60drum",
@@ -242,14 +242,14 @@
     "price_postapoc": 800,
     "to_hit": -2,
     "bashing": 4,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 60,
     "reliability": 7,
     "reload_time": 200,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "stanag90",
@@ -263,14 +263,14 @@
     "price_postapoc": 1400,
     "to_hit": -2,
     "bashing": 4,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 90,
     "reliability": 6,
     "reload_time": 200,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "stanag100",
@@ -285,10 +285,10 @@
     "material": "aluminum",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 100,
     "reliability": 7,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "stanag100drum",
@@ -300,14 +300,14 @@
     "volume": "1200 ml",
     "price": 14000,
     "price_postapoc": 1800,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 100,
     "reliability": 6,
     "reload_time": 200,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "stanag150",
@@ -319,14 +319,14 @@
     "volume": "1700 ml",
     "price": 18000,
     "price_postapoc": 2500,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 150,
     "reliability": 7,
     "reload_time": 200,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "g36mag_30rd",
@@ -353,7 +353,7 @@
     "type": "MAGAZINE",
     "name": { "str": "AUG 10-round magazine" },
     "description": "A compact 10-round box magazine for use with the Steyr AUG assault rifle.",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "ammo_type": "223"
   },
   {
@@ -363,7 +363,7 @@
     "type": "MAGAZINE",
     "name": { "str": "AUG 30-round magazine" },
     "description": "A standard capacity 30-round box magazine for use with the Steyr AUG assault rifle.",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "ammo_type": "223"
   },
   {
@@ -375,13 +375,13 @@
     "weight": "190 g",
     "volume": "620 ml",
     "price": 8600,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "223",
     "capacity": 42,
     "reliability": 7,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "augmag_100rd",
@@ -390,7 +390,7 @@
     "type": "MAGAZINE",
     "name": { "str": "AUG 100-round double drum magazine" },
     "description": "A bulky 100-round double drum magazine for use with the Steyr AUG assault rifle.",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "ammo_type": "223"
   },
   {
@@ -406,11 +406,11 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "223", "300blk" ],
+    "ammo_type": ["223", "300blk"],
     "capacity": 5,
     "reliability": 1,
     "reload_time": 150,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "ruger_makeshiftmag",

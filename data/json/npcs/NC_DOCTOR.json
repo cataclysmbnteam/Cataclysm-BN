@@ -26,13 +26,13 @@
     "type": "item_group",
     "id": "NC_DOCTOR_shirt_male",
     "subtype": "distribution",
-    "entries": [ { "item": "polo_shirt", "prob": 50 }, { "item": "dress_shirt", "prob": 50 } ]
+    "entries": [{ "item": "polo_shirt", "prob": 50 }, { "item": "dress_shirt", "prob": 50 }]
   },
   {
     "type": "item_group",
     "id": "NC_DOCTOR_shirt_female",
     "subtype": "distribution",
-    "entries": [ { "item": "polo_shirt", "prob": 50 }, { "item": "dress_shirt", "prob": 50 } ]
+    "entries": [{ "item": "polo_shirt", "prob": 50 }, { "item": "dress_shirt", "prob": 50 }]
   },
   {
     "type": "item_group",
@@ -74,7 +74,11 @@
     "type": "item_group",
     "id": "NC_DOCTOR_eyes",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 50 }, { "item": "glasses_safety", "prob": 50 }, { "item": "sunglasses", "prob": 20 } ]
+    "entries": [
+      { "item": "null", "prob": 50 },
+      { "item": "glasses_safety", "prob": 50 },
+      { "item": "sunglasses", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",

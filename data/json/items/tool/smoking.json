@@ -47,7 +47,7 @@
     "material": "glass",
     "symbol": ",",
     "color": "cyan",
-    "qualities": [ [ "SMOKE_PIPE", 1 ] ]
+    "qualities": [["SMOKE_PIPE", 1]]
   },
   {
     "id": "pipe_glass",
@@ -64,7 +64,7 @@
     "material": "glass",
     "symbol": ",",
     "color": "cyan",
-    "qualities": [ [ "SMOKE_PIPE", 1 ] ]
+    "qualities": [["SMOKE_PIPE", 1]]
   },
   {
     "id": "pipe_tobacco",
@@ -81,6 +81,6 @@
     "material": "wood",
     "symbol": ",",
     "color": "brown",
-    "qualities": [ [ "SMOKE_PIPE", 1 ] ]
+    "qualities": [["SMOKE_PIPE", 1]]
   }
 ]

@@ -32,10 +32,10 @@
         "....___.___._..%%..._._.",
         ".................._....."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "=": "t_region_groundcover_urban",
         "{": "t_region_groundcover_urban",
@@ -58,16 +58,22 @@
         "_": "t_dirt",
         ";": "t_chainfence_posts"
       },
-      "furniture": { "&": "f_wreckage", "=": "f_toilet", "{": "f_dumpster", "?": "f_beaded_door", "!": "f_region_flower" },
+      "furniture": {
+        "&": "f_wreckage",
+        "=": "f_toilet",
+        "{": "f_dumpster",
+        "?": "f_beaded_door",
+        "!": "f_region_flower"
+      },
       "place_items": [
         { "chance": 35, "item": "harddrugs", "x": 9, "y": 6 },
-        { "chance": 45, "item": "harddrugs", "x": 11, "y": [ 5, 6 ] },
+        { "chance": 45, "item": "harddrugs", "x": 11, "y": [5, 6] },
         { "chance": 40, "item": "alcohol", "x": 6, "y": 11 },
         { "chance": 25, "item": "trash", "x": 9, "y": 20 },
         { "chance": 25, "item": "trash", "x": 16, "y": 17 },
-        { "chance": 25, "item": "trash", "x": 4, "y": [ 17, 18 ] },
+        { "chance": 25, "item": "trash", "x": 4, "y": [17, 18] },
         { "chance": 25, "item": "trash", "x": 6, "y": 13 },
-        { "chance": 25, "item": "trash", "x": 8, "y": [ 9, 10 ] },
+        { "chance": 25, "item": "trash", "x": 8, "y": [9, 10] },
         { "chance": 25, "item": "trash", "x": 4, "y": 9 },
         { "chance": 25, "item": "trash", "x": 6, "y": 7 },
         { "chance": 25, "item": "trash", "x": 9, "y": 5 }
@@ -106,7 +112,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -143,10 +149,10 @@
         "....___.___._..%%..._._.",
         ".................._....."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "=": "t_region_groundcover_urban",
         "{": "t_region_groundcover_urban",
@@ -171,7 +177,12 @@
         ";": "t_chainfence_posts",
         "/": "t_window_boarded"
       },
-      "furniture": { "&": "f_wreckage", "=": "f_toilet", "{": "f_dumpster", "!": "f_region_flower" },
+      "furniture": {
+        "&": "f_wreckage",
+        "=": "f_toilet",
+        "{": "f_dumpster",
+        "!": "f_region_flower"
+      },
       "place_item": [
         { "item": "cannabis", "repeat": 1, "x": 5, "y": 15 },
         { "item": "lawnmower", "repeat": 1, "x": 20, "y": 17 },
@@ -179,13 +190,13 @@
       ],
       "place_items": [
         { "chance": 25, "item": "harddrugs", "x": 9, "y": 6 },
-        { "chance": 55, "item": "harddrugs", "x": 11, "y": [ 5, 6 ] },
+        { "chance": 55, "item": "harddrugs", "x": 11, "y": [5, 6] },
         { "chance": 30, "item": "alcohol", "x": 6, "y": 11 },
         { "chance": 25, "item": "trash", "x": 9, "y": 20 },
         { "chance": 25, "item": "trash", "x": 16, "y": 17 },
-        { "chance": 25, "item": "trash", "x": 4, "y": [ 17, 18 ] },
+        { "chance": 25, "item": "trash", "x": 4, "y": [17, 18] },
         { "chance": 25, "item": "trash", "x": 6, "y": 13 },
-        { "chance": 25, "item": "trash", "x": 8, "y": [ 9, 10 ] },
+        { "chance": 25, "item": "trash", "x": 8, "y": [9, 10] },
         { "chance": 25, "item": "trash", "x": 4, "y": 9 },
         { "chance": 25, "item": "trash", "x": 6, "y": 7 },
         { "chance": 25, "item": "trash", "x": 9, "y": 5 },
@@ -226,10 +237,10 @@
         "._%_;$$$$$$$;$$$$$$$;___",
         "__.__%.._%..%_.___._____"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "=": "t_region_groundcover_urban",
         "{": "t_region_groundcover_urban",
@@ -255,7 +266,13 @@
         "/": "t_window_boarded_noglass",
         ",": "t_window_bars"
       },
-      "furniture": { "&": "f_wreckage", "=": "f_toilet", "{": "f_dumpster", "?": "f_beaded_door", "!": "f_region_flower" },
+      "furniture": {
+        "&": "f_wreckage",
+        "=": "f_toilet",
+        "{": "f_dumpster",
+        "?": "f_beaded_door",
+        "!": "f_region_flower"
+      },
       "place_items": [
         { "chance": 15, "item": "child_items", "x": 15, "y": 18 },
         { "chance": 15, "item": "child_items", "x": 6, "y": 16 },
@@ -265,7 +282,7 @@
         { "chance": 10, "item": "trash", "x": 15, "y": 8 },
         { "chance": 10, "item": "trash", "x": 19, "y": 6 },
         { "chance": 10, "item": "trash", "x": 7, "y": 6 },
-        { "chance": 30, "item": "methlab", "x": [ 8, 9 ], "y": 20 },
+        { "chance": 30, "item": "methlab", "x": [8, 9], "y": 20 },
         { "chance": 30, "item": "methlab", "x": 10, "y": 19 },
         { "chance": 15, "item": "harddrugs", "x": 7, "y": 8 },
         { "chance": 15, "item": "harddrugs", "x": 5, "y": 8 },
@@ -273,7 +290,7 @@
         { "chance": 10, "item": "hardware_plumbing", "x": 14, "y": 13 },
         { "chance": 10, "item": "camping", "x": 15, "y": 13 },
         { "chance": 35, "item": "trash", "x": 6, "y": 21 },
-        { "chance": 35, "item": "trash", "x": 19, "y": [ 20, 21 ] },
+        { "chance": 35, "item": "trash", "x": 19, "y": [20, 21] },
         { "chance": 35, "item": "trash", "x": 8, "y": 10 },
         { "chance": 35, "item": "trash", "x": 10, "y": 9 },
         { "chance": 35, "item": "trash", "x": 21, "y": 7 }
@@ -312,7 +329,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -348,7 +365,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ]
+      "palettes": ["basement_empty"]
     }
   }
 ]

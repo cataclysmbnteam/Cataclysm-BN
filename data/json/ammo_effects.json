@@ -18,7 +18,10 @@
       "damage": 0,
       "radius": 0,
       "fire": false,
-      "fragment": { "impact": { "damage_type": "cut", "amount": 0, "armor_multiplier": 3 }, "range": 0 }
+      "fragment": {
+        "impact": { "damage_type": "cut", "amount": 0, "armor_multiplier": 3 },
+        "range": 0
+      }
     },
     "do_flashbang": false,
     "do_emp_blast": false
@@ -42,7 +45,13 @@
   {
     "id": "NAPALM_BIG",
     "type": "ammo_effect",
-    "aoe": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "radius": 3, "size": 4 },
+    "aoe": {
+      "field_type": "fd_fire",
+      "intensity_min": 1,
+      "intensity_max": 1,
+      "radius": 3,
+      "size": 4
+    },
     "explosion": { "damage": 20, "radius": 5, "fire": true }
   },
   {
@@ -100,7 +109,13 @@
   {
     "id": "PLASMA_BUBBLE",
     "type": "ammo_effect",
-    "aoe": { "field_type": "fd_plasma", "intensity_min": 1, "intensity_max": 3, "radius": 1, "chance": 10 }
+    "aoe": {
+      "field_type": "fd_plasma",
+      "intensity_min": 1,
+      "intensity_max": 3,
+      "radius": 1,
+      "chance": 10
+    }
   },
   {
     "id": "EXPLOSIVE_HUGE",
@@ -130,17 +145,32 @@
   {
     "id": "FRAG_BIG",
     "type": "ammo_effect",
-    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 }, "range": 7 } }
+    "explosion": {
+      "fragment": {
+        "impact": { "damage_type": "cut", "amount": 100, "armor_multiplier": 3 },
+        "range": 7
+      }
+    }
   },
   {
     "id": "FRAG",
     "type": "ammo_effect",
-    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 } }
+    "explosion": {
+      "fragment": {
+        "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 },
+        "range": 5
+      }
+    }
   },
   {
     "id": "FRAG_SMALL",
     "type": "ammo_effect",
-    "explosion": { "fragment": { "impact": { "damage_type": "cut", "amount": 30, "armor_multiplier": 3 }, "range": 3 } }
+    "explosion": {
+      "fragment": {
+        "impact": { "damage_type": "cut", "amount": 30, "armor_multiplier": 3 },
+        "range": 3
+      }
+    }
   },
   {
     "id": "MININUKE_MOD",
@@ -185,12 +215,22 @@
   {
     "id": "STREAM_GAS_FUNGICIDAL",
     "type": "ammo_effect",
-    "trail": { "field_type": "fd_fungicidal_gas", "intensity_min": 1, "intensity_max": 2, "chance": 66 }
+    "trail": {
+      "field_type": "fd_fungicidal_gas",
+      "intensity_min": 1,
+      "intensity_max": 2,
+      "chance": 66
+    }
   },
   {
     "id": "STREAM_GAS_INSECTICIDAL",
     "type": "ammo_effect",
-    "trail": { "field_type": "fd_insecticidal_gas", "intensity_min": 1, "intensity_max": 2, "chance": 66 }
+    "trail": {
+      "field_type": "fd_insecticidal_gas",
+      "intensity_min": 1,
+      "intensity_max": 2,
+      "chance": 66
+    }
   },
   {
     "id": "LIGHTNING",

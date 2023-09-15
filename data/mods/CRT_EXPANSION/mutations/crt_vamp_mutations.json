@@ -14,138 +14,138 @@
     "type": "mutation",
     "id": "FLEET",
     "copy-from": "FLEET",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "GOODHEARING",
     "copy-from": "GOODHEARING",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "GOODCARDIO",
     "copy-from": "GOODCARDIO",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "FASTHEALER",
     "copy-from": "FASTHEALER",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "PAINRESIST",
     "copy-from": "PAINRESIST",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "NIGHTVISION",
     "copy-from": "NIGHTVISION",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "DEFT",
     "copy-from": "DEFT",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "TERRIFYING",
     "copy-from": "TERRIFYING",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "LIGHTSTEP",
     "copy-from": "LIGHTSTEP",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "CANNIBAL",
     "copy-from": "CANNIBAL",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "WEAKSCENT",
     "copy-from": "WEAKSCENT",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "PRETTY",
     "copy-from": "PRETTY",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "INSOMNIA",
     "copy-from": "INSOMNIA",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "THINSKIN",
     "copy-from": "THINSKIN",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "WEAKSTOMACH",
     "copy-from": "WEAKSTOMACH",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "ALBINO",
     "copy-from": "ALBINO",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "FLIMSY",
     "copy-from": "FLIMSY",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "NIGHTVISION2",
     "copy-from": "NIGHTVISION2",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "NIGHTVISION3",
     "copy-from": "NIGHTVISION3",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "FANGS",
     "copy-from": "FANGS",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "NAILS",
     "copy-from": "NAILS",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "POISONOUS",
     "copy-from": "POISONOUS",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   },
   {
     "type": "mutation",
     "id": "SUNBURN",
     "copy-from": "SUNBURN",
-    "extend": { "category": [ "VAMP" ] }
+    "extend": { "category": ["VAMP"] }
   }
 ]

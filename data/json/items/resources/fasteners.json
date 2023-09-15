@@ -89,7 +89,7 @@
     "volume": "4 ml",
     "price": 100,
     "price_postapoc": 0,
-    "material": [ "plastic", "cotton" ],
+    "material": ["plastic", "cotton"],
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"

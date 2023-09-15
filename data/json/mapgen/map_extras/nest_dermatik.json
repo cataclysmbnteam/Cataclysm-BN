@@ -31,14 +31,22 @@
         "                        "
       ],
       "terrain": {
-        "t": [ "t_region_tree", "t_region_groundcover" ],
-        ",": [ "t_region_tree" ],
-        "-": [ "t_paper" ],
-        ".": [ "t_floor_paper" ],
-        ":": [ "t_floor_paper" ]
+        "t": ["t_region_tree", "t_region_groundcover"],
+        ",": ["t_region_tree"],
+        "-": ["t_paper"],
+        ".": ["t_floor_paper"],
+        ":": ["t_floor_paper"]
       },
       "monster": { ":": { "monster": "mon_dermatik_larva" } },
-      "place_monsters": [ { "monster": "GROUP_DERMATIK", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 3 ], "density": 0.1 } ]
+      "place_monsters": [
+        {
+          "monster": "GROUP_DERMATIK",
+          "x": [0, 23],
+          "y": [0, 23],
+          "repeat": [0, 3],
+          "density": 0.1
+        }
+      ]
     }
   }
 ]

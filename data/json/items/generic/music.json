@@ -53,7 +53,7 @@
     "symbol": "Γ",
     "color": "dark_gray",
     "volume": "1200 ml",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "weight": "1542 g"
   },
   {
@@ -61,7 +61,7 @@
     "id": "guitar_stand",
     "name": { "str": "guitar stand" },
     "description": "A small, oddly shaped piece of steel hardware with three legs.  When placed on the ground, this can support one guitar in an upright position.",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": "y",
     "color": "dark_gray",
     "volume": "800 ml",
@@ -72,7 +72,7 @@
     "id": "mixer_music",
     "name": { "str": "mixer" },
     "description": "A device with faders, switches, and knobs that mixes input signal and sends it to two output XLR cables.  (left and right)",
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": "□",
     "color": "light_gray",
     "volume": "3 L",

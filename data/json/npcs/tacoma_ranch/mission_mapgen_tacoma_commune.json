@@ -4,7 +4,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_west_wall_door",
     "object": {
-      "mapgensize": [ 2, 2 ],
+      "mapgensize": [2, 2],
       "rows": [
         "q+",
         "  "
@@ -17,7 +17,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_east_wall_door",
     "object": {
-      "mapgensize": [ 2, 2 ],
+      "mapgensize": [2, 2],
       "rows": [
         "+q",
         "  "
@@ -30,7 +30,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_makeshift_bed",
     "object": {
-      "mapgensize": [ 2, 2 ],
+      "mapgensize": [2, 2],
       "rows": [
         "##",
         "  "
@@ -44,7 +44,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_14",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "                    ",
         "                    ",
@@ -75,7 +75,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_15",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "                    ",
         "                    ",
@@ -106,7 +106,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_16_done",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "                    ",
         "                    ",
@@ -141,9 +141,19 @@
         "v": "t_floor",
         "+": "t_door_c"
       },
-      "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" },
+      "furniture": {
+        "c": "f_counter",
+        "C": "f_chair",
+        "t": "f_table",
+        "r": "f_rack",
+        "k": "f_wood_keg",
+        "v": "f_fvat_empty"
+      },
       "//": "there used to be some logic to not place a bartender if there already was one, but it broke a lot and didn't place a bartender at all. Just place the bartender and sometimes the TC bar is so busy that they have two people on staff.",
-      "place_npcs": [ { "class": "ranch_bartender", "x": 12, "y": 12 }, { "class": "scavenger_merc", "x": 5, "y": 11 } ]
+      "place_npcs": [
+        { "class": "ranch_bartender", "x": 12, "y": 12 },
+        { "class": "scavenger_merc", "x": 5, "y": 11 }
+      ]
     }
   },
   {
@@ -151,7 +161,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_bartender_1",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "qqqqqqqqqqqqqqq     ",
         ",,,,,,,,,,,,,,q     ",
@@ -188,7 +198,14 @@
         ",": "t_dirt",
         "q": "t_wall_half"
       },
-      "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" }
+      "furniture": {
+        "c": "f_counter",
+        "C": "f_chair",
+        "t": "f_table",
+        "r": "f_rack",
+        "k": "f_wood_keg",
+        "v": "f_fvat_empty"
+      }
     }
   },
   {
@@ -196,7 +213,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_bartender_2",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "wwww00www00wwww     ",
         "+,,,,,,,,,,,,,w     ",
@@ -234,7 +251,14 @@
         "q": "t_wall_half",
         "0": "t_window_frame"
       },
-      "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" }
+      "furniture": {
+        "c": "f_counter",
+        "C": "f_chair",
+        "t": "f_table",
+        "r": "f_rack",
+        "k": "f_wood_keg",
+        "v": "f_fvat_empty"
+      }
     }
   },
   {
@@ -242,7 +266,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_bartender_3",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "wwww]]www]]wwww     ",
         "+.............w     ",
@@ -280,7 +304,14 @@
         "q": "t_wall_half",
         "0": "t_window_frame"
       },
-      "furniture": { "c": "f_counter", "C": "f_chair", "t": "f_table", "r": "f_rack", "k": "f_wood_keg", "v": "f_fvat_empty" }
+      "furniture": {
+        "c": "f_counter",
+        "C": "f_chair",
+        "t": "f_table",
+        "r": "f_rack",
+        "k": "f_wood_keg",
+        "v": "f_fvat_empty"
+      }
     }
   },
   {
@@ -288,7 +319,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_bar_bartender_4",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "wwww]]www]]wwww     ",
         "+.......CttC..w     ",
@@ -343,7 +374,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_chopshop_10",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "                    ",
         "                    ",
@@ -374,7 +405,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_chopshop_11",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "                    ",
         "                    ",
@@ -405,7 +436,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_chopshop_12_done",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "                    ",
         "                    ",
@@ -428,10 +459,19 @@
         "                    ",
         "                    "
       ],
-      "terrain": { "w": "t_wall", ".": "t_dirtfloor", "+": "t_door_c", "r": "t_dirtfloor", "c": "t_dirtfloor", "b": "t_dirtfloor" },
+      "terrain": {
+        "w": "t_wall",
+        ".": "t_dirtfloor",
+        "+": "t_door_c",
+        "r": "t_dirtfloor",
+        "c": "t_dirtfloor",
+        "b": "t_dirtfloor"
+      },
       "furniture": { "r": "f_rack", "c": "f_counter", "b": "f_makeshift_bed" },
-      "place_vehicles": [ { "vehicle": "armored_car", "chance": 100, "rotation": 0, "x": 15, "y": 7 } ],
-      "place_npcs": [ { "class": "ranch_scrapper_1", "x": 13, "y": 12 } ]
+      "place_vehicles": [
+        { "vehicle": "armored_car", "chance": 100, "rotation": 0, "x": 15, "y": 7 }
+      ],
+      "place_npcs": [{ "class": "ranch_scrapper_1", "x": 13, "y": 12 }]
     }
   },
   {
@@ -439,7 +479,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_8",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "                    ",
         "                    ",
@@ -470,7 +510,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_9",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "                    ",
         "                    ",
@@ -501,7 +541,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_10",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "                    ",
         "                    ",
@@ -525,7 +565,7 @@
         "                    "
       ],
       "terrain": { "w": "t_wall", ".": "t_dirt", "[": "t_window_boarded_noglass" },
-      "place_item": [ { "item": "ax", "x": 13, "y": 18 } ]
+      "place_item": [{ "item": "ax", "x": 13, "y": 18 }]
     }
   },
   {
@@ -533,7 +573,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_clinic_11",
     "object": {
-      "mapgensize": [ 20, 20 ],
+      "mapgensize": [20, 20],
       "rows": [
         "                    ",
         "                    ",
@@ -556,9 +596,16 @@
         "                    ",
         "                    "
       ],
-      "terrain": { "w": "t_wall", ".": "t_floor", "+": "t_door_c", "[": "t_window_boarded_noglass", "c": "t_floor", "t": "t_floor" },
+      "terrain": {
+        "w": "t_wall",
+        ".": "t_floor",
+        "+": "t_door_c",
+        "[": "t_window_boarded_noglass",
+        "c": "t_floor",
+        "t": "t_floor"
+      },
       "furniture": { "c": "f_cupboard", "t": "f_table" },
-      "place_npcs": [ { "class": "ranch_nurse_1", "x": 5, "y": 6 } ]
+      "place_npcs": [{ "class": "ranch_nurse_1", "x": 5, "y": 6 }]
     }
   },
   {
@@ -566,7 +613,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_greenhouse_16",
     "object": {
-      "mapgensize": [ 13, 13 ],
+      "mapgensize": [13, 13],
       "rows": [
         "wwwww.wwwww  ",
         "w.........w  ",
@@ -590,7 +637,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_greenhouse_17_done",
     "object": {
-      "mapgensize": [ 13, 13 ],
+      "mapgensize": [13, 13],
       "rows": [
         "wwwww+wwwww  ",
         "w.........w  ",
@@ -614,7 +661,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_junk_shop_12",
     "object": {
-      "mapgensize": [ 16, 16 ],
+      "mapgensize": [16, 16],
       "rows": [
         "wwwwww          ",
         "w....wwwwwwwwwww",
@@ -641,7 +688,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_junk_shop_13",
     "object": {
-      "mapgensize": [ 16, 16 ],
+      "mapgensize": [16, 16],
       "rows": [
         "wwwwww          ",
         "w....wwww000wwww",
@@ -668,7 +715,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_junk_shop_14_done",
     "object": {
-      "mapgensize": [ 16, 16 ],
+      "mapgensize": [16, 16],
       "rows": [
         "wwwwww          ",
         "w....wwww[[[wwww",
@@ -696,7 +743,7 @@
         "c": "t_dirtfloor"
       },
       "furniture": { "c": "f_counter", "r": "f_rack" },
-      "place_npcs": [ { "class": "ranch_scavenger_1", "x": 9, "y": 12 } ]
+      "place_npcs": [{ "class": "ranch_scavenger_1", "x": 9, "y": 12 }]
     }
   },
   {
@@ -704,7 +751,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_lumbermill_4",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "..........  ",
         "..........  ",
@@ -727,7 +774,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_lumbermill_5",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "            ",
         "            ",
@@ -750,7 +797,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_lumbermill_6",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "            ",
         "            ",
@@ -767,7 +814,11 @@
       ],
       "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor" },
       "furniture": { "r": "f_rack" },
-      "place_item": [ { "item": "frame", "x": 3, "y": 6 }, { "item": "frame", "x": 3, "y": 7 }, { "item": "frame", "x": 3, "y": 8 } ]
+      "place_item": [
+        { "item": "frame", "x": 3, "y": 6 },
+        { "item": "frame", "x": 3, "y": 7 },
+        { "item": "frame", "x": 3, "y": 8 }
+      ]
     }
   },
   {
@@ -775,7 +826,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_lumbermill_7",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "            ",
         "            ",
@@ -799,7 +850,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_lumbermill_8_done",
     "object": {
-      "mapgensize": [ 12, 12 ],
+      "mapgensize": [12, 12],
       "rows": [
         "            ",
         "            ",
@@ -827,12 +878,12 @@
         { "item": "log", "x": 3, "y": 0 },
         { "item": "log", "x": 3, "y": 1 },
         { "item": "log", "x": 3, "y": 1 },
-        { "item": "log", "x": 0, "y": 1, "amount": [ 1, 5 ] },
-        { "item": "log", "x": 1, "y": 1, "amount": [ 1, 5 ] },
-        { "item": "2x4", "x": 3, "y": 9, "amount": [ 1, 10 ] },
+        { "item": "log", "x": 0, "y": 1, "amount": [1, 5] },
+        { "item": "log", "x": 1, "y": 1, "amount": [1, 5] },
+        { "item": "2x4", "x": 3, "y": 9, "amount": [1, 10] },
         { "item": "log", "x": 3, "y": 2 }
       ],
-      "place_npcs": [ { "class": "ranch_woodcutter_1", "x": 4, "y": 7 } ]
+      "place_npcs": [{ "class": "ranch_woodcutter_1", "x": 4, "y": 7 }]
     }
   },
   {
@@ -840,7 +891,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_outhouse_8",
     "object": {
-      "mapgensize": [ 5, 5 ],
+      "mapgensize": [5, 5],
       "rows": [
         "wwww ",
         "..0w ",
@@ -856,7 +907,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_outhouse_9_done",
     "object": {
-      "mapgensize": [ 5, 5 ],
+      "mapgensize": [5, 5],
       "rows": [
         "wwww ",
         "+.0w ",
@@ -865,7 +916,7 @@
         "wwww "
       ],
       "terrain": { "w": "t_wall", "+": "t_door_c", ".": "t_dirtfloor", "0": "t_pit" },
-      "place_npcs": [ { "class": "ranch_ill_1", "x": 2, "y": 1 } ]
+      "place_npcs": [{ "class": "ranch_ill_1", "x": 2, "y": 1 }]
     }
   },
   {
@@ -873,7 +924,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_toolshed_8",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwwwww",
         "w....w",
@@ -890,7 +941,7 @@
     "method": "json",
     "nested_mapgen_id": "tacoma_commune_toolshed_9_done",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwwwww",
         "wccccw",
@@ -899,7 +950,13 @@
         "wwwwww",
         "      "
       ],
-      "terrain": { "w": "t_wall", "+": "t_door_c", "W": "t_window_boarded_noglass", "c": "t_dirtfloor", ".": "t_dirtfloor" },
+      "terrain": {
+        "w": "t_wall",
+        "+": "t_door_c",
+        "W": "t_window_boarded_noglass",
+        "c": "t_dirtfloor",
+        ".": "t_dirtfloor"
+      },
       "furniture": { "c": "f_counter" }
     }
   }

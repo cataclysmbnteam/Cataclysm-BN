@@ -7,7 +7,7 @@
     "difficulty": 1,
     "value": 0,
     "start": "reveal_refugee_center",
-    "origins": [ "ORIGIN_COMPUTER" ],
+    "origins": ["ORIGIN_COMPUTER"],
     "destination": "refctr_S3e"
   }
 ]

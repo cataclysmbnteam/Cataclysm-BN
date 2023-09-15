@@ -4,27 +4,94 @@
     "object": {
       "items": {
         ";": [
-          { "item": "dresser", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 5, "repeat": [1, 2] },
           { "item": "camping", "chance": 5 },
           { "item": "archery", "chance": 2 }
         ],
         ",": [
-          { "item": "dresser", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "dresser", "chance": 5, "repeat": [1, 2] },
           { "item": "camping", "chance": 5 },
           { "item": "archery", "chance": 2 }
         ],
-        "t": [ { "item": "misc_smoking", "chance": 2 }, { "item": "cannedfood", "chance": 2, "repeat": [ 1, 2 ] } ]
+        "t": [
+          { "item": "misc_smoking", "chance": 2 },
+          { "item": "cannedfood", "chance": 2, "repeat": [1, 2] }
+        ]
       },
       "place_vehicles": [
-        { "chance": 5, "fuel": 15, "rotation": 270, "status": -1, "vehicle": "campground_vehicles", "x": 16, "y": 2 },
-        { "chance": 5, "fuel": -1, "rotation": 180, "status": -1, "vehicle": "campground_vehicles", "x": 5, "y": 19 },
-        { "chance": 20, "fuel": 20, "rotation": 0, "status": -1, "vehicle": "lux_rv", "x": 43, "y": 18 },
-        { "chance": 5, "fuel": 15, "rotation": 180, "status": -1, "vehicle": "campground_vehicles", "x": 26, "y": 14 },
-        { "chance": 5, "fuel": 15, "rotation": 360, "status": -1, "vehicle": "campground_vehicles", "x": 18, "y": 32 },
-        { "chance": 5, "fuel": -1, "rotation": 0, "status": -1, "vehicle": "campground_vehicles", "x": 7, "y": 34 },
-        { "chance": 5, "fuel": -1, "rotation": 270, "status": -1, "vehicle": "campground_vehicles", "x": 17, "y": 40 },
+        {
+          "chance": 5,
+          "fuel": 15,
+          "rotation": 270,
+          "status": -1,
+          "vehicle": "campground_vehicles",
+          "x": 16,
+          "y": 2
+        },
+        {
+          "chance": 5,
+          "fuel": -1,
+          "rotation": 180,
+          "status": -1,
+          "vehicle": "campground_vehicles",
+          "x": 5,
+          "y": 19
+        },
+        {
+          "chance": 20,
+          "fuel": 20,
+          "rotation": 0,
+          "status": -1,
+          "vehicle": "lux_rv",
+          "x": 43,
+          "y": 18
+        },
+        {
+          "chance": 5,
+          "fuel": 15,
+          "rotation": 180,
+          "status": -1,
+          "vehicle": "campground_vehicles",
+          "x": 26,
+          "y": 14
+        },
+        {
+          "chance": 5,
+          "fuel": 15,
+          "rotation": 360,
+          "status": -1,
+          "vehicle": "campground_vehicles",
+          "x": 18,
+          "y": 32
+        },
+        {
+          "chance": 5,
+          "fuel": -1,
+          "rotation": 0,
+          "status": -1,
+          "vehicle": "campground_vehicles",
+          "x": 7,
+          "y": 34
+        },
+        {
+          "chance": 5,
+          "fuel": -1,
+          "rotation": 270,
+          "status": -1,
+          "vehicle": "campground_vehicles",
+          "x": 17,
+          "y": 40
+        },
         { "chance": 5, "fuel": -1, "rotation": 0, "status": -1, "vehicle": "rv", "x": 42, "y": 27 },
-        { "chance": 5, "fuel": 15, "rotation": 90, "status": -1, "vehicle": "campground_vehicles", "x": 35, "y": 43 }
+        {
+          "chance": 5,
+          "fuel": 15,
+          "rotation": 90,
+          "status": -1,
+          "vehicle": "campground_vehicles",
+          "x": 35,
+          "y": 43
+        }
       ],
       "rows": [
         "_____________________ssssss_ss_......sssssssss__",
@@ -76,16 +143,19 @@
         "______________sssssss#####sssssssss____ssssss___",
         "____________________ssssss______________________"
       ],
-      "palettes": [ "campground_palette" ],
-      "place_npcs": [  ]
+      "palettes": ["campground_palette"],
+      "place_npcs": []
     },
-    "om_terrain": [ [ "campground_1a_npc", "campground_1b_npc" ], [ "campground_2a_npc", "campground_2b_npc" ] ],
+    "om_terrain": [
+      ["campground_1a_npc", "campground_1b_npc"],
+      ["campground_2a_npc", "campground_2b_npc"]
+    ],
     "type": "mapgen",
     "weight": 100
   },
   {
     "method": "json",
-    "om_terrain": [ "campground_roof_npc" ],
+    "om_terrain": ["campground_roof_npc"],
     "type": "mapgen",
     "weight": 100,
     "object": {

@@ -38,7 +38,7 @@
     "volume": "260000 ml",
     "price": 1000,
     "price_postapoc": 150,
-    "material": [ "steel", "glass" ],
+    "material": ["steel", "glass"],
     "symbol": "{",
     "color": "light_cyan"
   },
@@ -52,7 +52,7 @@
     "volume": "260000 ml",
     "price": 1000,
     "price_postapoc": 150,
-    "material": [ "steel", "glass" ],
+    "material": ["steel", "glass"],
     "symbol": "{",
     "color": "blue"
   },

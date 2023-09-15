@@ -7,7 +7,7 @@
     "weight": "33 g",
     "color": "white",
     "container": "bottle_glass",
-    "flags": [ "EATEN_COLD", "MYCUS_OK", "NUTRIENT_OVERRIDE" ],
+    "flags": ["EATEN_COLD", "MYCUS_OK", "NUTRIENT_OVERRIDE"],
     "symbol": "~",
     "calories": 25,
     "quench": -5,
@@ -18,7 +18,7 @@
     "charges": 5,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "15 hours", "results": [ "wine_mycus", "yeast" ] }
+    "brewable": { "time": "15 hours", "results": ["wine_mycus", "yeast"] }
   },
   {
     "type": "COMESTIBLE",
@@ -28,7 +28,7 @@
     "weight": "33 g",
     "color": "brown",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": ["TRADER_AVOID", "NUTRIENT_OVERRIDE"],
     "symbol": "~",
     "calories": 17,
     "quench": 4,
@@ -39,7 +39,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "12 hours", "results": [ "wash_whiskey", "yeast" ] }
+    "brewable": { "time": "12 hours", "results": ["wash_whiskey", "yeast"] }
   },
   {
     "type": "COMESTIBLE",
@@ -58,12 +58,12 @@
     "quench": 2,
     "healthy": -2,
     "fun": 2,
-    "material": [ "water", "alcohol" ],
+    "material": ["water", "alcohol"],
     "volume": "250 ml",
     "price_postapoc": 10,
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "flags": ["UNSAFE_CONSUME", "NUTRIENT_OVERRIDE"],
     "comestible_type": "DRINK"
   },
   {
@@ -74,7 +74,7 @@
     "weight": "33 g",
     "color": "brown",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": ["TRADER_AVOID", "NUTRIENT_OVERRIDE"],
     "symbol": "~",
     "calories": 17,
     "quench": 4,
@@ -85,7 +85,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "24 hours", "results": [ "gin_mash" ] }
+    "brewable": { "time": "24 hours", "results": ["gin_mash"] }
   },
   {
     "type": "COMESTIBLE",
@@ -104,12 +104,12 @@
     "quench": 2,
     "healthy": -2,
     "fun": 2,
-    "material": [ "water", "alcohol" ],
+    "material": ["water", "alcohol"],
     "volume": "250 ml",
     "price_postapoc": 10,
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "flags": ["UNSAFE_CONSUME", "NUTRIENT_OVERRIDE"],
     "comestible_type": "DRINK"
   },
   {
@@ -130,8 +130,8 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "6 hours", "results": [ "wash_vodka", "yeast" ] }
+    "flags": ["NUTRIENT_OVERRIDE"],
+    "brewable": { "time": "6 hours", "results": ["wash_vodka", "yeast"] }
   },
   {
     "type": "COMESTIBLE",
@@ -150,12 +150,12 @@
     "quench": 2,
     "healthy": -2,
     "fun": 2,
-    "material": [ "water", "alcohol" ],
+    "material": ["water", "alcohol"],
     "volume": "250 ml",
     "price_postapoc": 10,
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "flags": ["UNSAFE_CONSUME", "NUTRIENT_OVERRIDE"],
     "comestible_type": "DRINK"
   },
   {
@@ -166,7 +166,7 @@
     "weight": "33 g",
     "color": "light_cyan",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": ["TRADER_AVOID", "NUTRIENT_OVERRIDE"],
     "symbol": "~",
     "calories": 17,
     "quench": 4,
@@ -177,7 +177,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "12 hours", "results": [ "wash_rum", "yeast" ] }
+    "brewable": { "time": "12 hours", "results": ["wash_rum", "yeast"] }
   },
   {
     "type": "COMESTIBLE",
@@ -196,12 +196,12 @@
     "quench": 2,
     "healthy": -2,
     "fun": 2,
-    "material": [ "water", "alcohol" ],
+    "material": ["water", "alcohol"],
     "volume": "250 ml",
     "price_postapoc": 10,
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "flags": ["UNSAFE_CONSUME", "NUTRIENT_OVERRIDE"],
     "comestible_type": "DRINK"
   },
   {
@@ -212,19 +212,19 @@
     "weight": "46 g",
     "color": "light_red",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": ["TRADER_AVOID", "NUTRIENT_OVERRIDE"],
     "symbol": "~",
     "calories": 17,
     "quench": 6,
     "fun": -5,
     "price": 0,
-    "material": [ "fruit", "water" ],
+    "material": ["fruit", "water"],
     "volume": "250 ml",
     "price_postapoc": 10,
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "12 hours", "results": [ "fruit_wine", "yeast" ] }
+    "brewable": { "time": "12 hours", "results": ["fruit_wine", "yeast"] }
   },
   {
     "type": "COMESTIBLE",
@@ -234,7 +234,7 @@
     "weight": "38 g",
     "color": "yellow",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": ["TRADER_AVOID", "NUTRIENT_OVERRIDE"],
     "symbol": "~",
     "calories": 35,
     "quench": 6,
@@ -247,7 +247,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "5 days", "results": [ "mead", "yeast" ] }
+    "brewable": { "time": "5 days", "results": ["mead", "yeast"] }
   },
   {
     "type": "COMESTIBLE",
@@ -267,8 +267,8 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "1 day 12 hours 40 minutes", "results": [ "dandelion_wine", "yeast" ] }
+    "flags": ["NUTRIENT_OVERRIDE"],
+    "brewable": { "time": "1 day 12 hours 40 minutes", "results": ["dandelion_wine", "yeast"] }
   },
   {
     "type": "COMESTIBLE",
@@ -288,8 +288,8 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "1 day 12 hours 40 minutes", "results": [ "burdock_wine", "yeast" ] }
+    "flags": ["NUTRIENT_OVERRIDE"],
+    "brewable": { "time": "1 day 12 hours 40 minutes", "results": ["burdock_wine", "yeast"] }
   },
   {
     "type": "COMESTIBLE",
@@ -309,8 +309,8 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "1 day 16 hours 50 minutes", "results": [ "pine_wine", "yeast" ] }
+    "flags": ["NUTRIENT_OVERRIDE"],
+    "brewable": { "time": "1 day 16 hours 50 minutes", "results": ["pine_wine", "yeast"] }
   },
   {
     "type": "COMESTIBLE",
@@ -320,7 +320,7 @@
     "weight": "249 g",
     "color": "brown",
     "container": "jug_plastic",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": ["TRADER_AVOID", "NUTRIENT_OVERRIDE"],
     "symbol": "~",
     "calories": 35,
     "quench": 4,
@@ -330,7 +330,7 @@
     "price_postapoc": 10,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "9 hours", "results": [ "hb_beer", "yeast" ] }
+    "brewable": { "time": "9 hours", "results": ["hb_beer", "yeast"] }
   },
   {
     "type": "COMESTIBLE",
@@ -340,18 +340,18 @@
     "weight": "50 g",
     "color": "brown",
     "container": "jug_plastic",
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": ["TRADER_AVOID", "NUTRIENT_OVERRIDE"],
     "symbol": "~",
     "calories": 104,
     "quench": 2,
     "fun": -5,
-    "material": [ "water", "junk" ],
+    "material": ["water", "junk"],
     "volume": "250 ml",
     "price_postapoc": 10,
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "6 hours", "results": [ "wash_moonshine", "yeast" ] }
+    "brewable": { "time": "6 hours", "results": ["wash_moonshine", "yeast"] }
   },
   {
     "type": "COMESTIBLE",
@@ -370,12 +370,12 @@
     "quench": -2,
     "healthy": -10,
     "fun": -20,
-    "material": [ "water", "alcohol" ],
+    "material": ["water", "alcohol"],
     "volume": "250 ml",
     "price_postapoc": 10,
     "charges": 7,
     "phase": "liquid",
-    "flags": [ "UNSAFE_CONSUME", "NUTRIENT_OVERRIDE" ],
+    "flags": ["UNSAFE_CONSUME", "NUTRIENT_OVERRIDE"],
     "comestible_type": "DRINK"
   },
   {
@@ -396,7 +396,7 @@
     "charges": 16,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "7 hours", "results": [ "vinegar" ] }
+    "flags": ["NUTRIENT_OVERRIDE"],
+    "brewable": { "time": "7 hours", "results": ["vinegar"] }
   }
 ]

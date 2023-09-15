@@ -6,19 +6,23 @@
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Jenny Forcette is an experienced mechanical engineer.  Like the other refugees in the center, she's terrified of the outside world.  Unlike many, she has some ideas what to do about it.",
-    "bonus_str": { "rng": [ -4, -2 ] },
-    "bonus_dex": { "rng": [ -2, 1 ] },
-    "bonus_int": { "rng": [ 3, 4 ] },
-    "bonus_per": { "rng": [ -1, 1 ] },
+    "bonus_str": { "rng": [-4, -2] },
+    "bonus_dex": { "rng": [-2, 1] },
+    "bonus_int": { "rng": [3, 4] },
+    "bonus_per": { "rng": [-1, 1] },
     "worn_override": "REFUGEE_Jenny_worn",
     "carry_override": "REFUGEE_Jenny_carried",
     "weapon_override": "REFUGEE_Jenny_wield",
-    "traits": [ { "trait": "PACIFIST" }, { "trait": "Exp_Eng_Mechanical2" }, { "group": "Appearance_Caucasian" } ],
+    "traits": [
+      { "trait": "PACIFIST" },
+      { "trait": "Exp_Eng_Mechanical2" },
+      { "group": "Appearance_Caucasian" }
+    ],
     "skills": [
-      { "skill": "mechanics", "bonus": { "rng": [ 5, 6 ] } },
-      { "skill": "computer", "bonus": { "rng": [ 2, 5 ] } },
-      { "skill": "electronics", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "fabrication", "bonus": { "rng": [ 2, 5 ] } }
+      { "skill": "mechanics", "bonus": { "rng": [5, 6] } },
+      { "skill": "computer", "bonus": { "rng": [2, 5] } },
+      { "skill": "electronics", "bonus": { "rng": [3, 6] } },
+      { "skill": "fabrication", "bonus": { "rng": [2, 5] } }
     ]
   },
   {
@@ -40,13 +44,16 @@
     "type": "item_group",
     "id": "REFUGEE_Jenny_carried",
     "subtype": "collection",
-    "entries": [ { "item": "paper" }, { "item": "soldering_iron", "ammo-item": "battery", "charges": 20 } ]
+    "entries": [
+      { "item": "paper" },
+      { "item": "soldering_iron", "ammo-item": "battery", "charges": 20 }
+    ]
   },
   {
     "type": "item_group",
     "id": "REFUGEE_Jenny_wield",
     "subtype": "collection",
-    "entries": [ { "item": "laptop" } ]
+    "entries": [{ "item": "laptop" }]
   },
   {
     "type": "npc",
@@ -92,7 +99,12 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+              "not": {
+                "npc_has_var": "cleanup_asked",
+                "type": "mission",
+                "context": "Boris_mission_1",
+                "value": "yes"
+              }
             }
           ]
         },
@@ -100,12 +112,22 @@
       },
       {
         "text": "What are you working on?",
-        "condition": { "not": { "u_has_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" } },
+        "condition": {
+          "not": {
+            "u_has_var": "Jenny_mission_3",
+            "type": "mission",
+            "context": "completed",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_REFUGEE_JENNY_Project1"
       },
       { "text": "Tell me a bit about your background.", "topic": "TALK_REFUGEE_JENNY_Background1" },
       { "text": "How are things, living here?", "topic": "TALK_REFUGEE_JENNY_Personal1" },
-      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_JENNY_Refugees1" }
+      {
+        "text": "Can you tell me anything about the other refugees here?",
+        "topic": "TALK_REFUGEE_JENNY_Refugees1"
+      }
     ]
   },
   {
@@ -116,30 +138,64 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hello again.", "Nice to see you again.", "What's up?" ],
+      "yes": ["Hello again.", "Nice to see you again.", "What's up?"],
       "no": "Hi there.  Haven't see you around here before.  I'm Jenny, Jenny Forcette."
     },
     "responses": [
       {
         "text": "Nice meeting you.  What are you doing on that computer?",
-        "effect": { "u_add_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_Jenny_Forcette",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Jenny_Forcette",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_REFUGEE_JENNY_2"
       },
       {
         "text": "Hi, Jenny.  What are you up to these days?",
-        "condition": { "u_has_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_Jenny_Forcette",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_REFUGEE_JENNY_2"
       },
       {
         "text": "Nice meeting you.  I'd best get going, though.",
-        "effect": { "u_add_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": {
+          "u_add_var": "u_met_Jenny_Forcette",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
+        "condition": {
+          "not": {
+            "u_has_var": "u_met_Jenny_Forcette",
+            "type": "general",
+            "context": "meeting",
+            "value": "yes"
+          }
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Sorry Jenny, I can't stay to chat.",
-        "condition": { "u_has_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "u_has_var": "u_met_Jenny_Forcette",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -241,15 +297,27 @@
       "TALK_REFUGEE_JENNY_Refugees2_Others"
     ],
     "responses": [
-      { "text": "Can you tell me about the Free Merchants?", "topic": "TALK_REFUGEE_JENNY_FreeMerchants" },
+      {
+        "text": "Can you tell me about the Free Merchants?",
+        "topic": "TALK_REFUGEE_JENNY_FreeMerchants"
+      },
       { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima" },
       {
         "text": "What has made you friends with Dana, Draco, and Aleesha?",
         "topic": "TALK_REFUGEE_JENNY_Refugees2_Friends"
       },
-      { "text": "Can you tell me about the Borichenkos?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Borichenko" },
-      { "text": "Can you tell me about the Singhs?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Singh" },
-      { "text": "Can you tell me about the others?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Others" }
+      {
+        "text": "Can you tell me about the Borichenkos?",
+        "topic": "TALK_REFUGEE_JENNY_Refugees2_Borichenko"
+      },
+      {
+        "text": "Can you tell me about the Singhs?",
+        "topic": "TALK_REFUGEE_JENNY_Refugees2_Singh"
+      },
+      {
+        "text": "Can you tell me about the others?",
+        "topic": "TALK_REFUGEE_JENNY_Refugees2_Others"
+      }
     ]
   },
   {
@@ -341,7 +409,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "motor",
     "followup": "MISSION_REFUGEE_Jenny_GET_TANK",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "Yeah, if you want to risk your neck out there and bring me what I need, I'm not gonna say no.  I can't, like, pay you or anything though, you know that right?",
       "offer": "Before I get anything going, I'm going to need to set up a compressor.  I have a lot of the stuff for that, but I need a large tank for air, and a good sized electric motor - about 10 kg or so.  I'm also going to need a 60 liter tank, after that.",
@@ -356,8 +424,18 @@
     "end": {
       "effect": [
         { "u_buy_item": "FMCNote", "count": 4 },
-        { "u_add_var": "Jenny_mission_2", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        {
+          "u_add_var": "Jenny_mission_2",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes"
+        },
+        {
+          "u_adjust_var": "refugee_happiness",
+          "type": "counter",
+          "context": "refugee_center",
+          "adjustment": 1
+        }
       ]
     }
   },
@@ -369,7 +447,7 @@
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
     "item": "metal_tank",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "Now that I've got that motor, I can get my compressor mostly built.  I will need a tank though.",
       "offer": "I can get started building the compressor, but I need a large metal tank to store compressed air centrally.  About 60 liters should do…",
@@ -384,8 +462,18 @@
     "end": {
       "effect": [
         { "u_buy_item": "FMCNote", "count": 5 },
-        { "u_add_var": "Jenny_mission_2", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        {
+          "u_add_var": "Jenny_mission_2",
+          "type": "mission",
+          "context": "completed",
+          "value": "yes"
+        },
+        {
+          "u_adjust_var": "refugee_happiness",
+          "type": "counter",
+          "context": "refugee_center",
+          "adjustment": 1
+        }
       ]
     }
   }

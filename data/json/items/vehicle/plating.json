@@ -9,13 +9,13 @@
     "to_hit": -2,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "volume": "1 L",
     "bashing": 5,
     "category": "spare_parts",
     "price": 6000,
     "price_postapoc": 100,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [["COOK", 1]]
   },
   {
     "type": "GENERIC",
@@ -26,7 +26,7 @@
     "to_hit": -2,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "volume": "1250 ml",
     "bashing": 5,
     "category": "veh_parts",
@@ -42,7 +42,7 @@
     "to_hit": -8,
     "color": "brown",
     "symbol": "]",
-    "material": [ "wood" ],
+    "material": ["wood"],
     "volume": "3 L",
     "bashing": 10,
     "category": "veh_parts",
@@ -58,13 +58,13 @@
     "to_hit": -1,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "volume": "3 L",
     "bashing": 6,
     "category": "veh_parts",
     "price": 12000,
     "price_postapoc": 250,
-    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
+    "qualities": [["COOK", 1], ["ANVIL", 2]]
   },
   {
     "type": "GENERIC",
@@ -75,13 +75,13 @@
     "to_hit": -1,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "superalloy" ],
+    "material": ["superalloy"],
     "volume": "3 L",
     "bashing": 6,
     "category": "veh_parts",
     "price": 18500,
     "price_postapoc": 500,
-    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
+    "qualities": [["COOK", 1], ["ANVIL", 2]]
   },
   {
     "type": "GENERIC",
@@ -92,12 +92,12 @@
     "to_hit": -2,
     "color": "light_cyan",
     "symbol": ",",
-    "material": [ "superalloy" ],
+    "material": ["superalloy"],
     "volume": "500 ml",
     "category": "veh_parts",
     "price": 8500,
     "price_postapoc": 500,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [["COOK", 1]]
   },
   {
     "type": "GENERIC",
@@ -108,15 +108,15 @@
     "to_hit": -1,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "volume": "3500 ml",
     "bashing": 6,
     "cutting": 3,
-    "flags": [ "STAB" ],
+    "flags": ["STAB"],
     "category": "veh_parts",
     "price": 18500,
     "price_postapoc": 250,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [["COOK", 1]]
   },
   {
     "type": "GENERIC",
@@ -127,13 +127,13 @@
     "to_hit": -1,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "hardsteel" ],
+    "material": ["hardsteel"],
     "volume": "3 L",
     "bashing": 6,
     "category": "veh_parts",
     "price": 16000,
     "price_postapoc": 500,
-    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
+    "qualities": [["COOK", 1], ["ANVIL", 2]]
   },
   {
     "type": "GENERIC",
@@ -144,13 +144,13 @@
     "to_hit": -1,
     "color": "green",
     "symbol": "]",
-    "material": [ "hardsteel", "ceramic" ],
+    "material": ["hardsteel", "ceramic"],
     "volume": "3 L",
     "bashing": 8,
     "category": "veh_parts",
     "price": 16000,
     "price_postapoc": 750,
-    "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ]
+    "qualities": [["COOK", 1], ["ANVIL", 2]]
   },
   {
     "type": "GENERIC",
@@ -161,7 +161,7 @@
     "description": "Light chitin plating made for a vehicle.",
     "price": 1200,
     "price_postapoc": 250,
-    "material": [ "chitin" ],
+    "material": ["chitin"],
     "weight": "2000 g",
     "volume": "5500 ml",
     "bashing": 8,
@@ -174,7 +174,7 @@
     "copy-from": "chitin_plate",
     "name": { "str": "biosilicified chitin armor kit" },
     "description": "Durable silica-coated chitin plating made for a vehicle.",
-    "material": [ "acidchitin" ],
+    "material": ["acidchitin"],
     "proportional": { "price": 1.333, "weight": 1.2, "volume": 1.18, "bashing": 1.25 }
   },
   {
@@ -186,7 +186,7 @@
     "description": "Bone plating made for a vehicle.",
     "price": 1200,
     "price_postapoc": 100,
-    "material": [ "bone" ],
+    "material": ["bone"],
     "weight": "4000 g",
     "volume": "9500 ml",
     "bashing": 8,

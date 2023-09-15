@@ -50,7 +50,7 @@
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ], "traits": [ "MIGO_BREATHE" ] },
+    "immunity_data": { "body_part_env_resistance": [["mouth", 15]], "traits": ["MIGO_BREATHE"] },
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas"
@@ -70,27 +70,32 @@
       "Sluggish",
       "Encased in foamcrete"
     ],
-    "desc": [ "A partial covering of foamcrete is slowing you down." ],
-    "miss_messages": [ [ "You feel stiff.", 3 ] ],
+    "desc": ["A partial covering of foamcrete is slowing you down."],
+    "miss_messages": [["You feel stiff.", 3]],
     "rating": "bad",
     "max_intensity": 10,
     "int_add_val": 1,
     "int_decay_tick": 600,
-    "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -15 ] },
-    "scaling_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -15 ] },
+    "base_mods": { "dex_mod": [-0.34, -0.17], "speed_mod": [-15] },
+    "scaling_mods": { "dex_mod": [-0.34, -0.17], "speed_mod": [-15] },
     "show_in_info": true
   },
   {
     "type": "effect_type",
     "id": "afs_generic_speed_bonus",
-    "name": [ "Movement Optimization (1)", "Movement Optimization (2)", "Movement Optimization (3)", "Movement Optimization (4)" ],
-    "desc": [ "You move with machine-guided precision." ],
+    "name": [
+      "Movement Optimization (1)",
+      "Movement Optimization (2)",
+      "Movement Optimization (3)",
+      "Movement Optimization (4)"
+    ],
+    "desc": ["You move with machine-guided precision."],
     "rating": "good",
     "max_intensity": 4,
     "int_add_val": 1,
     "int_decay_tick": 500,
-    "base_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 10 ] },
-    "scaling_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 10 ] },
+    "base_mods": { "dex_mod": [0.5], "speed_mod": [10] },
+    "scaling_mods": { "dex_mod": [0.5], "speed_mod": [10] },
     "show_in_info": true
   }
 ]

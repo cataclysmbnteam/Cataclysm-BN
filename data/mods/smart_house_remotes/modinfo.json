@@ -3,11 +3,11 @@
     "type": "MOD_INFO",
     "id": "smart_house_remote_mod",
     "name": "Smart House Remotes",
-    "authors": [ "Olanti" ],
+    "authors": ["Olanti"],
     "description": "Add remotes for controlling garage doors and window curtains.",
     "category": "content",
     "obsolete": true,
     "lua_api_version": 1,
-    "dependencies": [ "bn" ]
+    "dependencies": ["bn"]
   }
 ]

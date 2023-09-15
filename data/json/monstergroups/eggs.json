@@ -80,7 +80,7 @@
     "name": "GROUP_EGG_COCKATRICE",
     "type": "monstergroup",
     "default": "mon_cockatrice_chick",
-    "monsters": [ { "monster": "mon_rattlesnake", "freq": 1, "cost_multiplier": 1 } ]
+    "monsters": [{ "monster": "mon_rattlesnake", "freq": 1, "cost_multiplier": 1 }]
   },
   {
     "name": "GROUP_EGG_SNAKE",
@@ -95,24 +95,24 @@
     "name": "GROUP_EGG_ROACH",
     "type": "monstergroup",
     "default": "mon_giant_cockroach_nymph",
-    "monsters": [ { "monster": "mon_plague_nymph", "freq": 10, "cost_multiplier": 1 } ]
+    "monsters": [{ "monster": "mon_plague_nymph", "freq": 10, "cost_multiplier": 1 }]
   },
   {
     "name": "GROUP_EGG_ROACH_PLAGUE",
     "type": "monstergroup",
     "default": "mon_plague_nymph",
-    "monsters": [ { "monster": "mon_giant_cockroach_nymph", "freq": 10, "cost_multiplier": 1 } ]
+    "monsters": [{ "monster": "mon_giant_cockroach_nymph", "freq": 10, "cost_multiplier": 1 }]
   },
   {
     "name": "GROUP_EGG_LOCUST",
     "type": "monstergroup",
     "default": "mon_locust_nymph",
-    "monsters": [ { "monster": "mon_locust_nymph", "freq": 10, "cost_multiplier": 1 } ]
+    "monsters": [{ "monster": "mon_locust_nymph", "freq": 10, "cost_multiplier": 1 }]
   },
   {
     "name": "GROUP_EGG_ANT",
     "type": "monstergroup",
     "default": "mon_ant_larva",
-    "monsters": [ { "monster": "mon_ant_acid_larva", "freq": 10, "cost_multiplier": 1 } ]
+    "monsters": [{ "monster": "mon_ant_acid_larva", "freq": 10, "cost_multiplier": 1 }]
   }
 ]

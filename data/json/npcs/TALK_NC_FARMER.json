@@ -9,7 +9,11 @@
         "text": "My thoughts exactly.  We have a lot in common, we should travel together!",
         "topic": "TALK_SUGGEST_FOLLOW"
       },
-      { "text": "A daring trader?  Yes.  Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
+      {
+        "text": "A daring trader?  Yes.  Let's trade items.",
+        "topic": "TALK_NONE",
+        "effect": "start_trade"
+      },
       { "text": "I don't have time for this.", "topic": "TALK_DONE" }
     ]
   },
@@ -18,7 +22,10 @@
     "id": "TALK_NC_FARMER_INTRO",
     "dynamic_line": "Hey, you're alive!  Me too.  Been a long while since I've had a conversation.  Uh, with someone else.  Um.",
     "responses": [
-      { "text": "It's not safe here anymore, you need to move on.", "topic": "TALK_NC_FARMER_LEAVE" },
+      {
+        "text": "It's not safe here anymore, you need to move on.",
+        "topic": "TALK_NC_FARMER_LEAVE"
+      },
       { "text": "How did you make it?", "topic": "TALK_NC_FARMER_STORY1" },
       { "text": "What did you do before the Cataclysm?", "topic": "TALK_NC_FARMER_EXPERTISE" },
       { "text": "Have anything to trade?", "topic": "TALK_NONE", "effect": "start_trade" },

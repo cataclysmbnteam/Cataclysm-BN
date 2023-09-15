@@ -10,14 +10,14 @@
     "price": 65000,
     "price_postapoc": 1500,
     "to_hit": -2,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "dark_gray",
     "ammo": "40",
     "range": 1,
     "durability": 7,
     "min_cycle_recoil": 450,
     "magazine_well": "250 ml",
-    "magazines": [ [ "40", [ "90two40mag" ] ] ]
+    "magazines": [["40", ["90two40mag"]]]
   },
   {
     "id": "glock_22",
@@ -31,7 +31,7 @@
     "price_postapoc": 1750,
     "to_hit": -2,
     "ascii_picture": "glock_17",
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "color": "dark_gray",
     "ammo": "40",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
@@ -39,20 +39,20 @@
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 425,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "40", [ "glock40mag", "glock40bigmag" ] ] ]
+    "magazines": [["40", ["glock40mag", "glock40bigmag"]]]
   },
   {
     "id": "px4_40",
@@ -65,14 +65,14 @@
     "price": 65000,
     "price_postapoc": 1500,
     "to_hit": -2,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "color": "dark_gray",
     "ammo": "40",
     "range": 1,
     "durability": 7,
     "min_cycle_recoil": 450,
     "magazine_well": "250 ml",
-    "magazines": [ [ "40", [ "px4_40mag" ] ] ]
+    "magazines": [["40", ["px4_40mag"]]]
   },
   {
     "id": "rifle_40",
@@ -86,7 +86,7 @@
     "price_postapoc": 500,
     "ascii_picture": "ps_pipe_gun",
     "bashing": 10,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "40",
     "barrel_length": "750 ml"
@@ -103,26 +103,26 @@
     "price_postapoc": 1500,
     "to_hit": -2,
     "ascii_picture": "sig_pro_40",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "dark_gray",
     "ammo": "40",
     "durability": 7,
     "min_cycle_recoil": 504,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "40", [ "sig40mag" ] ] ]
+    "magazines": [["40", ["sig40mag"]]]
   },
   {
     "id": "smg_40",
@@ -144,23 +144,23 @@
     "blackpowder_tolerance": 24,
     "min_cycle_recoil": 425,
     "handling": 40,
-    "modes": [ [ "DEFAULT", "burst", 5 ] ],
+    "modes": [["DEFAULT", "burst", 5]],
     "loudness": 25,
     "barrel_length": "250 ml",
     "valid_mod_locations": [
-      [ "accessories", 3 ],
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "magazine", 1 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 3],
+      ["barrel", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["magazine", 1],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
-    "magazines": [ [ "40", [ "smg_40_mag" ] ] ]
+    "magazines": [["40", ["smg_40_mag"]]]
   },
   {
     "id": "surv_six_shooter",
@@ -173,7 +173,7 @@
     "barrel_length": "100 ml",
     "price": 15000,
     "price_postapoc": 750,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "color": "dark_gray",
     "ammo": "40",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
@@ -181,19 +181,19 @@
     "durability": 6,
     "blackpowder_tolerance": 60,
     "loudness": 25,
-    "magazines": [ [ "40", [ "40_speedloader6" ] ] ],
+    "magazines": [["40", ["40_speedloader6"]]],
     "reload": 285,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ],
-      [ "rail mount", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["grip", 1],
+      ["sights", 1],
+      ["stock", 1],
+      ["underbarrel", 1],
+      ["rail mount", 1]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "delete": { "faults": "fault_gun_chamber_spent" }
   },
   {
@@ -208,22 +208,22 @@
     "price_postapoc": 2250,
     "bashing": 10,
     "ascii_picture": "sw_610",
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "dark_gray",
-    "ammo": [ "10mm", "40" ],
+    "ammo": ["10mm", "40"],
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 320,
     "blackpowder_tolerance": 56,
-    "magazines": [ [ "40", [ "40_speedloader6" ] ] ],
+    "magazines": [["40", ["40_speedloader6"]]],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["grip", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ]
   },
   {
@@ -237,11 +237,11 @@
     "price": 54000,
     "price_postapoc": 2000,
     "to_hit": -2,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "color": "dark_gray",
     "ammo": "40",
     "magazine_well": "250 ml",
-    "magazines": [ [ "40", [ "bhp40mag" ] ] ]
+    "magazines": [["40", ["bhp40mag"]]]
   },
   {
     "id": "walther_ppq_40",
@@ -253,12 +253,12 @@
     "volume": "422 ml",
     "price": 72500,
     "price_postapoc": 2000,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "color": "dark_gray",
     "ammo": "40",
     "durability": 9,
     "magazine_well": "250 ml",
-    "magazines": [ [ "40", [ "ppq40mag_10rd", "ppq40mag_12rd", "ppq40mag_14rd" ] ] ]
+    "magazines": [["40", ["ppq40mag_10rd", "ppq40mag_12rd", "ppq40mag_14rd"]]]
   },
   {
     "id": "hptjcp",
@@ -271,11 +271,11 @@
     "price": 7500,
     "price_postapoc": 2000,
     "to_hit": -2,
-    "material": [ "plastic", "steel", "zinc" ],
+    "material": ["plastic", "steel", "zinc"],
     "color": "dark_gray",
     "ammo": "40",
     "durability": 7,
     "magazine_well": "250 ml",
-    "magazines": [ [ "40", [ "hptjcpmag" ] ] ]
+    "magazines": [["40", ["hptjcpmag"]]]
   }
 ]

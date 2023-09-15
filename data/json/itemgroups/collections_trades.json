@@ -7,7 +7,7 @@
       { "group": "tools_general", "prob": 50 },
       { "group": "supplies_hardware", "prob": 50 },
       { "group": "hardware_clothing", "prob": 10 },
-      [ "survnote", 1 ]
+      ["survnote", 1]
     ]
   },
   {
@@ -17,8 +17,11 @@
     "//2": "often spawns a box to hold everything, sometimes a plastic sheet to cover it, and then some stuff in the box.",
     "subtype": "collection",
     "items": [
-      { "distribution": [ { "item": "box_medium", "prob": 75 }, { "item": "box_large", "prob": 25 } ], "prob": 25 },
-      [ "plastic_sheet", 10 ],
+      {
+        "distribution": [{ "item": "box_medium", "prob": 75 }, { "item": "box_large", "prob": 25 }],
+        "prob": 25
+      },
+      ["plastic_sheet", 10],
       {
         "distribution": [
           { "group": "tools_general", "prob": 90 },
@@ -53,7 +56,7 @@
       { "group": "plumbing_clothing", "prob": 100 },
       { "group": "tools_plumbing", "prob": 100 },
       { "group": "supplies_plumbing", "prob": 50 },
-      [ "survnote", 1 ]
+      ["survnote", 1]
     ]
   },
   {
@@ -66,18 +69,18 @@
       { "group": "tools_mechanic", "prob": 150 },
       { "group": "supplies_metal", "prob": 20 },
       { "group": "supplies_mechanics", "prob": 80 },
-      [ "goggles_welding", 50 ],
-      [ "welding_book", 10 ],
-      [ "welding_mask", 30 ],
-      [ "jerrycan", 10 ],
-      [ "jerrycan_big", 10 ],
-      [ "metal_tank", 8 ],
-      { "item": "seatbelt", "prob": 8, "count": [ 1, 4 ] },
-      { "item": "five-point_harness", "prob": 2, "count": [ 1, 2 ] },
-      [ "metal_tank_little", 8 ],
-      [ "cu_pipe", 5 ],
-      [ "eyedrops", 4 ],
-      [ "survnote", 1 ]
+      ["goggles_welding", 50],
+      ["welding_book", 10],
+      ["welding_mask", 30],
+      ["jerrycan", 10],
+      ["jerrycan_big", 10],
+      ["metal_tank", 8],
+      { "item": "seatbelt", "prob": 8, "count": [1, 4] },
+      { "item": "five-point_harness", "prob": 2, "count": [1, 2] },
+      ["metal_tank_little", 8],
+      ["cu_pipe", 5],
+      ["eyedrops", 4],
+      ["survnote", 1]
     ]
   }
 ]

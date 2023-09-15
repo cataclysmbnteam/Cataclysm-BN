@@ -5,20 +5,29 @@
     "name": "Rookie",
     "description": "It's been months since the Cataclysm and somehow you're still greener than a tree.  Maybe you're just a slow learner, who knows.",
     "points": 0,
-    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "gun" } ],
+    "skills": [{ "level": 1, "name": "survival" }, { "level": 1, "name": "gun" }],
     "items": {
       "both": {
-        "items": [ "undershirt", "jacket_leather", "pants", "boots", "sockmitts", "socks_wool", "backpack", "shot_slug" ],
+        "items": [
+          "undershirt",
+          "jacket_leather",
+          "pants",
+          "boots",
+          "sockmitts",
+          "socks_wool",
+          "backpack",
+          "shot_slug"
+        ],
         "entries": [
           { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2 },
           { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
           { "item": "knife_combat", "container-item": "sheath" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "boxer_shorts" ]
+      "male": ["boxer_shorts"],
+      "female": ["boxer_shorts"]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": ["SCEN_ONLY"]
   },
   {
     "type": "profession",
@@ -48,14 +57,19 @@
           "e_tool"
         ],
         "entries": [
-          { "item": "hk_mp5", "ammo-item": "9mmfmj", "charges": 30, "contents-item": "folding_stock" },
+          {
+            "item": "hk_mp5",
+            "ammo-item": "9mmfmj",
+            "charges": 30,
+            "contents-item": "folding_stock"
+          },
           { "item": "mp5mag", "ammo-item": "9mmfmj", "charges": 30, "container-item": "tacvest" },
           { "item": "knife_combat", "container-item": "sheath" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "boxer_shorts" ]
+      "male": ["boxer_shorts"],
+      "female": ["boxer_shorts"]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": ["SCEN_ONLY"]
   }
 ]

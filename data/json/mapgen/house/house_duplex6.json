@@ -32,10 +32,10 @@
         "...```[.....u.....```...",
         "..[............[........"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "j": "t_concrete",
@@ -60,11 +60,11 @@
         "-": "t_linoleum_gray"
       },
       "furniture": { "!": "f_region_flower" },
-      "place_items": [ { "chance": 40, "item": "bags_trip", "x": 6, "y": 20 } ],
+      "place_items": [{ "chance": 40, "item": "bags_trip", "x": 6, "y": 20 }],
       "place_item": [
         { "item": "television", "x": 10, "y": 12 },
-        { "item": "pillow", "chance": 30, "repeat": 3, "x": 2, "y": [ 11, 13 ] },
-        { "item": "pillow", "chance": 30, "repeat": 3, "x": 21, "y": [ 11, 13 ] }
+        { "item": "pillow", "chance": 30, "repeat": 3, "x": 2, "y": [11, 13] },
+        { "item": "pillow", "chance": 30, "repeat": 3, "x": 21, "y": [11, 13] }
       ]
     }
   },
@@ -100,7 +100,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

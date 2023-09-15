@@ -10,12 +10,12 @@
     "description": "A broken turret.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
     "price": 50000,
     "price_postapoc": 10000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "1507 g",
     "volume": "3 L",
     "to_hit": -3,
     "bashing": 8,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "abstract": "broken_milturret_base",
@@ -252,13 +252,13 @@
     "description": "A broken manhack.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
     "price": 9000,
     "price_postapoc": 1000,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "weight": "5400 g",
     "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "type": "GENERIC",
@@ -334,13 +334,13 @@
     "category": "other",
     "description": "A broken eyebot.  Much less threatening now that it won't be calling for backup.  Could be gutted for parts.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "31520 g",
     "volume": "15 L",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "type": "GENERIC",
@@ -352,13 +352,13 @@
     "category": "other",
     "description": "A broken eyebot, now dark and motionless.  Could be stripped down for parts.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "31520 g",
     "volume": "15 L",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "type": "GENERIC",
@@ -376,13 +376,13 @@
     "name": "broken utility robot",
     "category": "other",
     "description": "A broken utility robot, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "140 kg",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "type": "GENERIC",
@@ -401,13 +401,13 @@
     "category": "other",
     "description": "A broken skitterbot.  Its internal weapon modules have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "62650 g",
     "volume": "30 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "type": "GENERIC",
@@ -428,13 +428,13 @@
     "description": "A broken defense robot.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
     "price": 30000,
     "price_postapoc": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "140 kg",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "type": "GENERIC",
@@ -478,13 +478,13 @@
     "description": "A broken miner bot.  Much less threatening now that it's no longer capable of drilling anything.  Could be gutted for parts.",
     "price": 20000,
     "price_postapoc": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "170200 g",
     "volume": "62500 ml",
     "bashing": 6,
     "cutting": 10,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "type": "GENERIC",
@@ -495,13 +495,13 @@
     "category": "other",
     "description": "A broken chickenwalker.  Could be stripped for parts.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "430 kg",
     "volume": "187500 ml",
     "bashing": 10,
     "cutting": 6,
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "type": "GENERIC",
@@ -513,13 +513,13 @@
     "category": "other",
     "description": "A broken chickenwalker.  Its internal weapons have been removed.  Could be gutted for parts or crafted into a salvaged robot.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "430 kg",
     "volume": "187500 ml",
     "bashing": 10,
     "cutting": 6,
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "type": "GENERIC",
@@ -530,13 +530,13 @@
     "category": "other",
     "description": "A broken tank drone.  Could be stripped down for parts.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "1223850 g",
     "volume": "875 L",
     "bashing": 20,
     "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   },
   {
     "type": "GENERIC",
@@ -548,12 +548,12 @@
     "category": "other",
     "description": "A broken tank drone.  Could be gutted for parts or recrafted into a salvaged robot.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "1223850 g",
     "volume": "875 L",
     "bashing": 20,
     "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": ["TRADER_AVOID", "LEAK_DAM", "RADIOACTIVE"]
   }
 ]

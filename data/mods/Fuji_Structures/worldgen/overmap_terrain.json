@@ -229,7 +229,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ],
+    "flags": ["SIDEWALK"],
     "land_use_code": "commercial"
   },
   {
@@ -241,7 +241,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": ["SIDEWALK"]
   },
   {
     "type": "overmap_terrain",
@@ -252,7 +252,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": ["SIDEWALK"]
   },
   {
     "type": "overmap_terrain",
@@ -263,7 +263,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": ["SIDEWALK"]
   },
   {
     "type": "overmap_terrain",
@@ -292,7 +292,7 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": ["SIDEWALK", "GENERIC_LOOT"]
   },
   {
     "type": "overmap_terrain",
@@ -301,7 +301,7 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": ["SIDEWALK", "GENERIC_LOOT"]
   },
   {
     "type": "overmap_terrain",
@@ -310,7 +310,7 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": ["SIDEWALK", "GENERIC_LOOT"]
   },
   {
     "type": "overmap_terrain",
@@ -319,7 +319,7 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": ["SIDEWALK", "GENERIC_LOOT"]
   },
   {
     "type": "overmap_terrain",
@@ -328,7 +328,7 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": ["SIDEWALK", "GENERIC_LOOT"]
   },
   {
     "type": "overmap_terrain",
@@ -337,7 +337,7 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": ["SIDEWALK", "GENERIC_LOOT"]
   },
   {
     "type": "overmap_terrain",
@@ -346,7 +346,7 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": ["SIDEWALK", "GENERIC_LOOT"]
   },
   {
     "type": "overmap_terrain",
@@ -355,7 +355,7 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": ["SIDEWALK", "GENERIC_LOOT"]
   },
   {
     "type": "overmap_terrain",
@@ -364,7 +364,7 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": ["SIDEWALK", "GENERIC_LOOT"]
   },
   {
     "type": "overmap_terrain",
@@ -373,6 +373,6 @@
     "name": "house",
     "color": "light_green",
     "see_cost": 2,
-    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+    "flags": ["SIDEWALK", "GENERIC_LOOT"]
   }
 ]

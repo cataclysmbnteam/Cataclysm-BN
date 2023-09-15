@@ -14,7 +14,7 @@
     "symbol": ";",
     "color": "light_gray",
     "use_action": "WEATHER_TOOL",
-    "flags": [ "BAROMETER" ]
+    "flags": ["BAROMETER"]
   },
   {
     "id": "canister_goo",
@@ -48,18 +48,23 @@
     "price_postapoc": 1000,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "glass", "cotton" ],
+    "material": ["glass", "cotton"],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
     "sub": "hotplate",
     "charges_per_use": 1,
-    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
+    "qualities": [["DISTILL", 1], ["CHEM", 3], ["BOIL", 1]],
     "use_action": "HOTPLATE",
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -76,10 +81,10 @@
     "price_postapoc": 500,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "glass", "cotton" ],
+    "material": ["glass", "cotton"],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 2 ], [ "BOIL", 1 ] ]
+    "qualities": [["DISTILL", 1], ["CHEM", 2], ["BOIL", 1]]
   },
   {
     "id": "electrolysis_kit",
@@ -91,13 +96,19 @@
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 750,
-    "material": [ "steel", "copper", "plastic" ],
+    "material": ["steel", "copper", "plastic"],
     "symbol": ";",
     "ammo": "battery",
     "magazines": [
       [
         "battery",
-        [ "battery_car", "battery_motorbike", "small_storage_battery", "medium_storage_battery", "storage_battery" ]
+        [
+          "battery_car",
+          "battery_motorbike",
+          "small_storage_battery",
+          "medium_storage_battery",
+          "storage_battery"
+        ]
       ]
     ]
   },
@@ -112,14 +123,14 @@
     "price": 25000,
     "to_hit": -4,
     "bashing": 10,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "dark_gray",
     "initial_charges": 20,
     "max_charges": 20,
     "charges_per_use": 1,
     "looks_like": "oxygen_tank",
-    "flags": [  ],
+    "flags": [],
     "explosion": {
       "power": 90100,
       "distance_factor": 0.5,
@@ -140,7 +151,7 @@
     "price_postapoc": 500,
     "to_hit": -4,
     "bashing": 10,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 24,
@@ -163,7 +174,7 @@
     "symbol": ";",
     "color": "light_blue",
     "use_action": "WEATHER_TOOL",
-    "flags": [ "HYGROMETER" ]
+    "flags": ["HYGROMETER"]
   },
   {
     "id": "nitrogen_tank",
@@ -177,7 +188,7 @@
     "price_postapoc": 250,
     "to_hit": -4,
     "bashing": 10,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 24,
@@ -197,7 +208,7 @@
     "price_postapoc": 500,
     "to_hit": -4,
     "bashing": 10,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "blue",
     "initial_charges": 300,
@@ -221,7 +232,7 @@
     "symbol": ";",
     "color": "light_gray",
     "looks_like": "link_sheet",
-    "flags": [ "FRAGILE_MELEE" ]
+    "flags": ["FRAGILE_MELEE"]
   },
   {
     "id": "portal",
@@ -235,7 +246,7 @@
     "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 6,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": ";",
     "color": "magenta",
     "initial_charges": 10,
@@ -256,10 +267,16 @@
     "to_hit": -4,
     "bashing": 1,
     "cutting": 8,
-    "material": [ "plastic", "aluminum" ],
+    "material": ["plastic", "aluminum"],
     "symbol": ";",
     "color": "dark_gray",
-    "use_action": { "type": "place_trap", "trap": "tr_telepad", "moves": 350, "practice": 10, "done_message": "You place the telepad." }
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_telepad",
+      "moves": 350,
+      "practice": 10,
+      "done_message": "You place the telepad."
+    }
   },
   {
     "id": "teleporter",
@@ -273,7 +290,7 @@
     "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 4,
-    "material": [ "plastic", "aluminum" ],
+    "material": ["plastic", "aluminum"],
     "symbol": ";",
     "color": "magenta",
     "initial_charges": 20,
@@ -293,13 +310,13 @@
     "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 1,
-    "material": [ "plastic", "aluminum" ],
+    "material": ["plastic", "aluminum"],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "THERMOMETER", "HYGROMETER", "BAROMETER" ],
+    "flags": ["THERMOMETER", "HYGROMETER", "BAROMETER"],
     "magazines": [
       [
         "battery",
@@ -329,14 +346,19 @@
     "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "ANALYSIS", 1 ] ],
+    "qualities": [["ANALYSIS", 1]],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -353,7 +375,7 @@
     "price_postapoc": 100,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -370,13 +392,18 @@
     "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "symbol": ";",
     "color": "light_gray",
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -394,7 +421,7 @@
     "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "plastic", "glass" ],
+    "material": ["plastic", "glass"],
     "symbol": ";",
     "color": "light_gray",
     "magazines": [
@@ -426,10 +453,10 @@
     "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": [ "REPORT_GRID_CHARGE", "REPORT_GRID_CONNECTIONS", "MODIFY_GRID_CONNECTIONS" ],
+    "use_action": ["REPORT_GRID_CHARGE", "REPORT_GRID_CONNECTIONS", "MODIFY_GRID_CONNECTIONS"],
     "magazines": [
       [
         "battery",
@@ -459,7 +486,7 @@
     "ammo": "battery",
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "plastic", "glass" ],
+    "material": ["plastic", "glass"],
     "symbol": ";",
     "color": "light_gray",
     "magazines": [
@@ -490,7 +517,7 @@
     "price_postapoc": 500,
     "to_hit": -5,
     "bashing": 4,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "n",
     "color": "light_blue"
   },
@@ -507,7 +534,7 @@
     "to_hit": -5,
     "bashing": 2,
     "looks_like": "e_scrap",
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": "#",
     "color": "light_gray"
   },
@@ -523,7 +550,7 @@
     "price_postapoc": 50,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "glass" ],
+    "material": ["glass"],
     "symbol": "^",
     "color": "white"
   },
@@ -540,7 +567,7 @@
     "price_postapoc": 10,
     "to_hit": -5,
     "bashing": 1,
-    "material": [ "glass" ],
+    "material": ["glass"],
     "symbol": "|",
     "color": "white"
   },
@@ -556,7 +583,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 3,
-    "material": [ "steel", "glass" ],
+    "material": ["steel", "glass"],
     "symbol": "G",
     "color": "white"
   },
@@ -572,7 +599,7 @@
     "price_postapoc": 250,
     "to_hit": -5,
     "bashing": 3,
-    "material": [ "steel", "glass" ],
+    "material": ["steel", "glass"],
     "symbol": "G",
     "color": "white"
   },
@@ -588,11 +615,11 @@
     "price_postapoc": 100,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "glass", "plastic" ],
+    "material": ["glass", "plastic"],
     "looks_like": "flask_glass",
     "symbol": "V",
     "color": "light_blue",
-    "qualities": [ [ "SEPARATE", 1 ] ]
+    "qualities": [["SEPARATE", 1]]
   },
   {
     "id": "rotovap",
@@ -606,16 +633,19 @@
     "price_postapoc": 500,
     "to_hit": -5,
     "bashing": 8,
-    "material": [ "steel", "glass" ],
+    "material": ["steel", "glass"],
     "symbol": "R",
     "color": "white",
-    "qualities": [ [ "CONCENTRATE", 1 ] ]
+    "qualities": [["CONCENTRATE", 1]]
   },
   {
     "id": "still_lab",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "fractional distillation apparatus", "str_pl": "fractional distillation apparati" },
+    "name": {
+      "str": "fractional distillation apparatus",
+      "str_pl": "fractional distillation apparati"
+    },
     "description": "One of the classic pieces of mad science glassware, this is basically a small volume still that passes the vapour through a fractional distillation column and then condenses the distillate in a cooled collection column.  A grad student or a robot (is there really any difference?) collects the distillate in fractions so that specific contents can be analyzed.  Going a few milliliters at a time, it would not be very effective to try to distill whiskey in this thing.",
     "weight": "1000 g",
     "volume": "5000 ml",
@@ -623,11 +653,11 @@
     "price_postapoc": 750,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "glass" ],
+    "material": ["glass"],
     "looks_like": "glass_tube_small",
     "symbol": "N",
     "color": "light_blue",
-    "qualities": [ [ "FINE_DISTILL", 1 ] ]
+    "qualities": [["FINE_DISTILL", 1]]
   },
   {
     "id": "gelbox",
@@ -641,7 +671,7 @@
     "price_postapoc": 100,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "looks_like": "geiger_off",
     "symbol": "N",
     "color": "light_blue"
@@ -658,12 +688,12 @@
     "price_postapoc": 500,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "aluminum", "steel", "plastic" ],
+    "material": ["aluminum", "steel", "plastic"],
     "looks_like": "f_centrifuge",
     "symbol": "n",
     "color": "white",
     "ammo": "battery",
-    "qualities": [ [ "CONCENTRATE", 1 ], [ "SEPARATE", 1 ] ],
+    "qualities": [["CONCENTRATE", 1], ["SEPARATE", 1]],
     "magazines": [
       [
         "battery",

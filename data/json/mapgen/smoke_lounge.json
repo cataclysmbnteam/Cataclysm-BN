@@ -4,25 +4,25 @@
     "object": {
       "fill_ter": "t_floor",
       "place_items": [
-        { "chance": 85, "repeat": [ 1, 6 ], "item": "smoke_shop", "x": 21, "y": [ 5, 6 ] },
-        { "chance": 85, "repeat": [ 1, 6 ], "item": "smoke_shop", "x": 21, "y": 3 },
-        { "chance": 85, "repeat": [ 1, 6 ], "item": "smoke_shop", "x": 13, "y": [ 2, 4 ] },
-        { "chance": 65, "item": "trash", "x": [ 8, 9 ], "y": 20 },
+        { "chance": 85, "repeat": [1, 6], "item": "smoke_shop", "x": 21, "y": [5, 6] },
+        { "chance": 85, "repeat": [1, 6], "item": "smoke_shop", "x": 21, "y": 3 },
+        { "chance": 85, "repeat": [1, 6], "item": "smoke_shop", "x": 13, "y": [2, 4] },
+        { "chance": 65, "item": "trash", "x": [8, 9], "y": 20 },
         { "chance": 65, "item": "cubical_office", "x": 18, "y": 21 },
-        { "chance": 85, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 3, "y": 17 },
+        { "chance": 85, "repeat": [1, 4], "item": "smokelounge_items", "x": 3, "y": 17 },
         { "chance": 45, "item": "jackets", "x": 14, "y": 20 },
         { "chance": 45, "item": "jackets", "x": 14, "y": 18 },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": [ 9, 10 ], "y": 18 },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 12, "y": [ 16, 18 ] },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 4, "y": 16 },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 12, "y": [ 10, 13 ] },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 10, "y": [ 10, 13 ] },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 3, "y": 10 },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": [ 5, 10 ], "y": 6 },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": [ 5, 10 ], "y": 4 },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 2, "y": [ 4, 7 ] },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "misc_smoking", "x": 18, "y": [ 8, 9 ] },
-        { "chance": 75, "repeat": [ 1, 8 ], "item": "magazines", "x": 14, "y": 17 },
+        { "chance": 75, "repeat": [1, 4], "item": "smokelounge_items", "x": [9, 10], "y": 18 },
+        { "chance": 75, "repeat": [1, 4], "item": "smokelounge_items", "x": 12, "y": [16, 18] },
+        { "chance": 75, "repeat": [1, 4], "item": "smokelounge_items", "x": 4, "y": 16 },
+        { "chance": 75, "repeat": [1, 4], "item": "smokelounge_items", "x": 12, "y": [10, 13] },
+        { "chance": 75, "repeat": [1, 4], "item": "smokelounge_items", "x": 10, "y": [10, 13] },
+        { "chance": 75, "repeat": [1, 4], "item": "smokelounge_items", "x": 3, "y": 10 },
+        { "chance": 75, "repeat": [1, 4], "item": "smokelounge_items", "x": [5, 10], "y": 6 },
+        { "chance": 75, "repeat": [1, 4], "item": "smokelounge_items", "x": [5, 10], "y": 4 },
+        { "chance": 75, "repeat": [1, 4], "item": "smokelounge_items", "x": 2, "y": [4, 7] },
+        { "chance": 75, "repeat": [1, 4], "item": "misc_smoking", "x": 18, "y": [8, 9] },
+        { "chance": 75, "repeat": [1, 8], "item": "magazines", "x": 14, "y": 17 },
         { "chance": 25, "item": "floor_trash", "x": 20, "y": 17 },
         { "chance": 25, "item": "floor_trash", "x": 8, "y": 14 },
         { "chance": 25, "item": "floor_trash", "x": 16, "y": 12 },
@@ -74,8 +74,8 @@
       "furniture": {
         "#": "f_counter",
         "S": "f_statue",
-        "^": [ "f_indoor_plant_y", "f_indoor_plant" ],
-        "a": [ "f_dumpster", "f_recycle_bin" ],
+        "^": ["f_indoor_plant_y", "f_indoor_plant"],
+        "a": ["f_dumpster", "f_recycle_bin"],
         "b": "f_bench",
         "c": "f_chair",
         "l": "f_locker",
@@ -85,9 +85,14 @@
         "g": "f_stool",
         "Y": "f_trashcan"
       },
-      "vendingmachines": { "M": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
-      "sealed_item": { "1": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" } },
-      "toilets": { "&": {  } }
+      "vendingmachines": {
+        "M": { "item_group": "vending_drink" },
+        "F": { "item_group": "vending_food" }
+      },
+      "sealed_item": {
+        "1": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" }
+      },
+      "toilets": { "&": {} }
     },
     "om_terrain": "smoke_lounge",
     "type": "mapgen",
@@ -125,18 +130,18 @@
         "             |-----3    ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 4, 17 ],
-          "y": [ 6, 12 ]
+          "x": [4, 17],
+          "y": [6, 12]
         }
       ]
     }
@@ -145,12 +150,12 @@
     "method": "json",
     "object": {
       "place_items": [
-        { "chance": 85, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 19, "y": [ 15, 16 ] },
-        { "chance": 85, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 10, "y": 14 },
-        { "chance": 85, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 12, "y": 13 },
-        { "chance": 85, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 19, "y": 12 },
-        { "chance": 85, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 11, "y": [ 12, 13 ] },
-        { "chance": 85, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": [ 12, 15 ], "y": 2 },
+        { "chance": 85, "repeat": [1, 4], "item": "smokelounge_items", "x": 19, "y": [15, 16] },
+        { "chance": 85, "repeat": [1, 4], "item": "smokelounge_items", "x": 10, "y": 14 },
+        { "chance": 85, "repeat": [1, 4], "item": "smokelounge_items", "x": 12, "y": 13 },
+        { "chance": 85, "repeat": [1, 4], "item": "smokelounge_items", "x": 19, "y": 12 },
+        { "chance": 85, "repeat": [1, 4], "item": "smokelounge_items", "x": 11, "y": [12, 13] },
+        { "chance": 85, "repeat": [1, 4], "item": "smokelounge_items", "x": [12, 15], "y": 2 },
         { "chance": 45, "item": "floor_trash", "x": 18, "y": 18 },
         { "chance": 45, "item": "floor_trash", "x": 10, "y": 18 },
         { "chance": 45, "item": "floor_trash", "x": 16, "y": 14 },
@@ -164,15 +169,15 @@
         { "chance": 55, "item": "hatstore_hats", "x": 21, "y": 15 },
         { "chance": 55, "item": "hatstore_hats", "x": 2, "y": 13 },
         { "chance": 45, "item": "jackets", "x": 2, "y": 14 },
-        { "chance": 45, "item": "office", "x": 12, "y": [ 20, 21 ] },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": [ 11, 17 ], "y": 7 },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": 2, "y": [ 7, 11 ] },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "smokelounge_items", "x": [ 11, 17 ], "y": 4 },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "alcohol", "x": 2, "y": [ 2, 6 ] },
+        { "chance": 45, "item": "office", "x": 12, "y": [20, 21] },
+        { "chance": 75, "repeat": [1, 4], "item": "smokelounge_items", "x": [11, 17], "y": 7 },
+        { "chance": 75, "repeat": [1, 4], "item": "smokelounge_items", "x": 2, "y": [7, 11] },
+        { "chance": 75, "repeat": [1, 4], "item": "smokelounge_items", "x": [11, 17], "y": 4 },
+        { "chance": 75, "repeat": [1, 4], "item": "alcohol", "x": 2, "y": [2, 6] },
         { "chance": 15, "item": "bags", "x": 21, "y": 18 },
-        { "chance": 65, "repeat": [ 1, 8 ], "item": "magazines", "x": 11, "y": 16 },
-        { "chance": 65, "repeat": [ 1, 8 ], "item": "magazines", "x": 12, "y": 14 },
-        { "chance": 65, "repeat": [ 1, 8 ], "item": "magazines", "x": 12, "y": 12 }
+        { "chance": 65, "repeat": [1, 8], "item": "magazines", "x": 11, "y": 16 },
+        { "chance": 65, "repeat": [1, 8], "item": "magazines", "x": 12, "y": 14 },
+        { "chance": 65, "repeat": [1, 8], "item": "magazines", "x": 12, "y": 12 }
       ],
       "fill_ter": "t_floor",
       "rows": [
@@ -219,8 +224,8 @@
         "#": "f_table",
         "C": "f_chair",
         "H": "f_sofa",
-        "^": [ "f_indoor_plant_y", "f_indoor_plant" ],
-        "a": [ "f_dumpster", "f_recycle_bin" ],
+        "^": ["f_indoor_plant_y", "f_indoor_plant"],
+        "a": ["f_dumpster", "f_recycle_bin"],
         "c": "f_counter",
         "l": "f_locker",
         "I": "f_desk",
@@ -229,9 +234,14 @@
         "g": "f_stool",
         "Y": "f_trashcan"
       },
-      "vendingmachines": { "M": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
-      "sealed_item": { "1": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" } },
-      "toilets": { "&": {  } }
+      "vendingmachines": {
+        "M": { "item_group": "vending_drink" },
+        "F": { "item_group": "vending_food" }
+      },
+      "sealed_item": {
+        "1": { "item": { "item": "seed_tobacco" }, "furniture": "f_planter_harvest" }
+      },
+      "toilets": { "&": {} }
     },
     "om_terrain": "smoke_lounge_1",
     "type": "mapgen",
@@ -269,18 +279,18 @@
         "           |-------3    ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 3, 17 ],
-          "y": [ 5, 16 ]
+          "x": [3, 17],
+          "y": [5, 16]
         }
       ]
     }

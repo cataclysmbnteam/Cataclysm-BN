@@ -49,9 +49,9 @@
       ],
       "terrain": {
         "#": "t_dirt",
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "4": "t_tree_pine",
-        "_": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ]
+        "_": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"]
       }
     },
     "om_terrain": "landfill",
@@ -108,11 +108,11 @@
       ],
       "terrain": {
         "#": "t_dirt",
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "P": "t_grass",
-        "_": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ]
+        "_": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"]
       },
-      "place_signs": [ { "signage": "<city> Landfill", "x": 14, "y": 1 } ]
+      "place_signs": [{ "signage": "<city> Landfill", "x": 14, "y": 1 }]
     },
     "om_terrain": "landfill",
     "type": "mapgen",
@@ -121,7 +121,13 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_rubble_landfill", ".": "f_null", "7": "f_null", "_": "f_null", "s": "f_null" },
+      "furniture": {
+        "#": "f_rubble_landfill",
+        ".": "f_null",
+        "7": "f_null",
+        "_": "f_null",
+        "s": "f_null"
+      },
       "items": {
         "#": [
           { "item": "road", "chance": 2 },
@@ -140,7 +146,17 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
-      "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 90, "status": -1, "vehicle": "excavator", "x": 4, "y": 14 } ],
+      "place_vehicles": [
+        {
+          "chance": 40,
+          "fuel": 0,
+          "rotation": 90,
+          "status": -1,
+          "vehicle": "excavator",
+          "x": 4,
+          "y": 14
+        }
+      ],
       "rows": [
         "_________......_________",
         "_7_sss_7_......_7_sss_7_",
@@ -169,9 +185,9 @@
       ],
       "terrain": {
         "#": "t_dirt",
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "7": "t_tree_hickory",
-        "_": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        "_": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"],
         "s": "t_shrub"
       }
     },
@@ -182,7 +198,13 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_rubble_landfill", ".": "f_null", "_": "f_null", "s": "f_null", "|": "f_null" },
+      "furniture": {
+        "#": "f_rubble_landfill",
+        ".": "f_null",
+        "_": "f_null",
+        "s": "f_null",
+        "|": "f_null"
+      },
       "items": {
         "#": [
           { "item": "road", "chance": 2 },
@@ -200,7 +222,17 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
-      "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "excavator", "x": 18, "y": 7 } ],
+      "place_vehicles": [
+        {
+          "chance": 40,
+          "fuel": 0,
+          "rotation": 180,
+          "status": -1,
+          "vehicle": "excavator",
+          "x": 18,
+          "y": 7
+        }
+      ],
       "rows": [
         ".........______.........",
         ".........______.........",
@@ -229,8 +261,8 @@
       ],
       "terrain": {
         "#": "t_dirt",
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "_": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
+        "_": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"],
         "s": "t_shrub",
         "|": "t_fence"
       }
@@ -242,7 +274,13 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "#": "f_rubble_landfill", ".": "f_null", "7": "f_null", "_": "f_null", "|": "f_null" },
+      "furniture": {
+        "#": "f_rubble_landfill",
+        ".": "f_null",
+        "7": "f_null",
+        "_": "f_null",
+        "|": "f_null"
+      },
       "items": {
         "#": [
           { "item": "road", "chance": 2 },
@@ -289,9 +327,9 @@
       ],
       "terrain": {
         "#": "t_dirt",
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "7": "t_tree_hickory",
-        "_": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        "_": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"],
         "|": "t_chainfence"
       }
     },

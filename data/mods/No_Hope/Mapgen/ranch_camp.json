@@ -53,9 +53,12 @@
         "..%.....................................................................",
         "..%....................................................................."
       ],
-      "palettes": [ "ranch_camp" ]
+      "palettes": ["ranch_camp"]
     },
-    "om_terrain": [ [ "ranch_camp_1", "ranch_camp_2", "ranch_camp_3" ], [ "ranch_camp_10", "ranch_camp_11", "ranch_camp_12" ] ],
+    "om_terrain": [
+      ["ranch_camp_1", "ranch_camp_2", "ranch_camp_3"],
+      ["ranch_camp_10", "ranch_camp_11", "ranch_camp_12"]
+    ],
     "type": "mapgen",
     "weight": 250
   },
@@ -113,9 +116,12 @@
         "........................................................................",
         "........................................................................"
       ],
-      "palettes": [ "ranch_camp" ]
+      "palettes": ["ranch_camp"]
     },
-    "om_terrain": [ [ "ranch_camp_4", "ranch_camp_5", "ranch_camp_6" ], [ "ranch_camp_13", "ranch_camp_14", "ranch_camp_15" ] ],
+    "om_terrain": [
+      ["ranch_camp_4", "ranch_camp_5", "ranch_camp_6"],
+      ["ranch_camp_13", "ranch_camp_14", "ranch_camp_15"]
+    ],
     "type": "mapgen",
     "weight": 250
   },
@@ -173,9 +179,12 @@
         "............................////~~//.................................%..",
         "............................../////..................................%.."
       ],
-      "palettes": [ "ranch_camp" ]
+      "palettes": ["ranch_camp"]
     },
-    "om_terrain": [ [ "ranch_camp_7", "ranch_camp_8", "ranch_camp_9" ], [ "ranch_camp_16", "ranch_camp_17", "ranch_camp_18" ] ],
+    "om_terrain": [
+      ["ranch_camp_7", "ranch_camp_8", "ranch_camp_9"],
+      ["ranch_camp_16", "ranch_camp_17", "ranch_camp_18"]
+    ],
     "type": "mapgen",
     "weight": 250
   },
@@ -233,10 +242,21 @@
         "..%.....................................................................",
         "..%....................................................................."
       ],
-      "palettes": [ "ranch_camp" ],
-      "place_monsters": [ { "monster": "GROUP_DOMESTIC", "x": [ 10, 23 ], "y": [ 3, 23 ], "repeat": [ 4, 6 ], "density": 0.1 } ]
+      "palettes": ["ranch_camp"],
+      "place_monsters": [
+        {
+          "monster": "GROUP_DOMESTIC",
+          "x": [10, 23],
+          "y": [3, 23],
+          "repeat": [4, 6],
+          "density": 0.1
+        }
+      ]
     },
-    "om_terrain": [ [ "ranch_camp_19", "ranch_camp_20", "ranch_camp_21" ], [ "ranch_camp_28", "ranch_camp_29", "ranch_camp_30" ] ],
+    "om_terrain": [
+      ["ranch_camp_19", "ranch_camp_20", "ranch_camp_21"],
+      ["ranch_camp_28", "ranch_camp_29", "ranch_camp_30"]
+    ],
     "type": "mapgen",
     "weight": 250
   },
@@ -294,9 +314,12 @@
         "........................................................................",
         "........................................................................"
       ],
-      "palettes": [ "ranch_camp" ]
+      "palettes": ["ranch_camp"]
     },
-    "om_terrain": [ [ "ranch_camp_22", "ranch_camp_23", "ranch_camp_24" ], [ "ranch_camp_31", "ranch_camp_32", "ranch_camp_33" ] ],
+    "om_terrain": [
+      ["ranch_camp_22", "ranch_camp_23", "ranch_camp_24"],
+      ["ranch_camp_31", "ranch_camp_32", "ranch_camp_33"]
+    ],
     "type": "mapgen",
     "weight": 250
   },
@@ -354,9 +377,12 @@
         ".....................................................................%..",
         ".....................................................................%.."
       ],
-      "palettes": [ "ranch_camp" ]
+      "palettes": ["ranch_camp"]
     },
-    "om_terrain": [ [ "ranch_camp_25", "ranch_camp_26", "ranch_camp_27" ], [ "ranch_camp_34", "ranch_camp_35", "ranch_camp_36" ] ],
+    "om_terrain": [
+      ["ranch_camp_25", "ranch_camp_26", "ranch_camp_27"],
+      ["ranch_camp_34", "ranch_camp_35", "ranch_camp_36"]
+    ],
     "type": "mapgen",
     "weight": 250
   },
@@ -414,9 +440,12 @@
         "..%.....................................................................",
         "..%....................................................................."
       ],
-      "palettes": [ "ranch_camp" ]
+      "palettes": ["ranch_camp"]
     },
-    "om_terrain": [ [ "ranch_camp_37", "ranch_camp_38", "ranch_camp_39" ], [ "ranch_camp_46", "ranch_camp_47", "ranch_camp_48" ] ],
+    "om_terrain": [
+      ["ranch_camp_37", "ranch_camp_38", "ranch_camp_39"],
+      ["ranch_camp_46", "ranch_camp_47", "ranch_camp_48"]
+    ],
     "type": "mapgen",
     "weight": 250
   },
@@ -474,10 +503,21 @@
         "........x.....x...............................................xxxxxx....",
         "........xxxxxxx.................................x.............x........."
       ],
-      "palettes": [ "ranch_camp" ],
-      "place_monsters": [ { "monster": "GROUP_DOMESTIC", "x": [ 3, 23 ], "y": [ 3, 23 ], "repeat": [ 4, 6 ], "density": 0.1 } ]
+      "palettes": ["ranch_camp"],
+      "place_monsters": [
+        {
+          "monster": "GROUP_DOMESTIC",
+          "x": [3, 23],
+          "y": [3, 23],
+          "repeat": [4, 6],
+          "density": 0.1
+        }
+      ]
     },
-    "om_terrain": [ [ "ranch_camp_40", "ranch_camp_41", "ranch_camp_42" ], [ "ranch_camp_49", "ranch_camp_50", "ranch_camp_51" ] ],
+    "om_terrain": [
+      ["ranch_camp_40", "ranch_camp_41", "ranch_camp_42"],
+      ["ranch_camp_49", "ranch_camp_50", "ranch_camp_51"]
+    ],
     "type": "mapgen",
     "weight": 250
   },
@@ -535,9 +575,12 @@
         "..x...x.x...x........................................................%..",
         ".....................................................................%.."
       ],
-      "palettes": [ "ranch_camp" ]
+      "palettes": ["ranch_camp"]
     },
-    "om_terrain": [ [ "ranch_camp_43", "ranch_camp_44", "ranch_camp_45" ], [ "ranch_camp_52", "ranch_camp_53", "ranch_camp_54" ] ],
+    "om_terrain": [
+      ["ranch_camp_43", "ranch_camp_44", "ranch_camp_45"],
+      ["ranch_camp_52", "ranch_camp_53", "ranch_camp_54"]
+    ],
     "type": "mapgen",
     "weight": 250
   },
@@ -595,39 +638,42 @@
         "..%..................................//.W;;;;V;;;;V;;;;W;;;;V;;;;V;;;;W.",
         "..%..................................../W;;;;W;;;;W;;;;W;;;;W;;;;W;;;;W."
       ],
-      "palettes": [ "ranch_camp" ],
+      "palettes": ["ranch_camp"],
       "items": { ";": { "item": "farming_tools", "chance": 1 } },
       "place_item": [
-        { "item": "cattlefodder", "x": [ 41, 44 ], "y": [ 25, 29 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 41, 44 ], "y": [ 31, 35 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 41, 44 ], "y": [ 37, 41 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 41, 44 ], "y": [ 43, 47 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 51, 54 ], "y": [ 25, 29 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 56, 59 ], "y": [ 25, 29 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 66, 69 ], "y": [ 25, 29 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 66, 69 ], "y": [ 31, 35 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 66, 69 ], "y": [ 37, 41 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 51, 54 ], "y": [ 43, 47 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 56, 59 ], "y": [ 43, 47 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 66, 69 ], "y": [ 43, 47 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 51, 54 ], "y": [ 35, 37 ], "amount": [ 0, 1 ] },
-        { "item": "cattlefodder", "x": [ 56, 59 ], "y": [ 35, 37 ], "amount": [ 0, 1 ] },
-        { "item": "birdfood", "x": [ 62, 64 ], "y": 5, "amount": [ 0, 1 ], "repeat": [ 3, 6 ] },
+        { "item": "cattlefodder", "x": [41, 44], "y": [25, 29], "amount": [0, 2] },
+        { "item": "cattlefodder", "x": [41, 44], "y": [31, 35], "amount": [0, 2] },
+        { "item": "cattlefodder", "x": [41, 44], "y": [37, 41], "amount": [0, 2] },
+        { "item": "cattlefodder", "x": [41, 44], "y": [43, 47], "amount": [0, 2] },
+        { "item": "cattlefodder", "x": [51, 54], "y": [25, 29], "amount": [0, 2] },
+        { "item": "cattlefodder", "x": [56, 59], "y": [25, 29], "amount": [0, 2] },
+        { "item": "cattlefodder", "x": [66, 69], "y": [25, 29], "amount": [0, 2] },
+        { "item": "cattlefodder", "x": [66, 69], "y": [31, 35], "amount": [0, 2] },
+        { "item": "cattlefodder", "x": [66, 69], "y": [37, 41], "amount": [0, 2] },
+        { "item": "cattlefodder", "x": [51, 54], "y": [43, 47], "amount": [0, 2] },
+        { "item": "cattlefodder", "x": [56, 59], "y": [43, 47], "amount": [0, 2] },
+        { "item": "cattlefodder", "x": [66, 69], "y": [43, 47], "amount": [0, 2] },
+        { "item": "cattlefodder", "x": [51, 54], "y": [35, 37], "amount": [0, 1] },
+        { "item": "cattlefodder", "x": [56, 59], "y": [35, 37], "amount": [0, 1] },
+        { "item": "birdfood", "x": [62, 64], "y": 5, "amount": [0, 1], "repeat": [3, 6] },
         { "item": "stepladder", "x": 65, "y": 5 },
-        { "item": "wheat", "x": [ 50, 55 ], "y": [ 6, 8 ], "amount": [ 2, 8 ], "repeat": [ 3, 6 ] }
+        { "item": "wheat", "x": [50, 55], "y": [6, 8], "amount": [2, 8], "repeat": [3, 6] }
       ],
       "place_monster": [
-        { "monster": "mon_horse", "x": [ 42, 43 ], "y": [ 25, 47 ], "repeat": [ 2, 4 ], "chance": 10 },
-        { "monster": "mon_cow", "x": [ 67, 68 ], "y": [ 25, 47 ], "repeat": [ 2, 4 ], "chance": 10 },
-        { "monster": "mon_pig", "x": [ 52, 58 ], "y": [ 26, 28 ], "repeat": [ 2, 4 ], "chance": 10 },
-        { "monster": "mon_pig", "x": [ 52, 58 ], "y": [ 26, 28 ], "repeat": [ 2, 4 ], "chance": 10 },
-        { "monster": "mon_sheep", "x": [ 52, 58 ], "y": 36, "repeat": [ 2, 4 ], "chance": 10 },
-        { "monster": "mon_sheep", "x": [ 52, 58 ], "y": 36, "repeat": [ 2, 4 ], "chance": 10 },
-        { "monster": "mon_chicken", "x": [ 52, 58 ], "y": [ 44, 46 ], "repeat": [ 2, 6 ], "chance": 10 },
-        { "monster": "mon_chicken", "x": [ 52, 58 ], "y": [ 44, 46 ], "repeat": [ 2, 6 ], "chance": 10 }
+        { "monster": "mon_horse", "x": [42, 43], "y": [25, 47], "repeat": [2, 4], "chance": 10 },
+        { "monster": "mon_cow", "x": [67, 68], "y": [25, 47], "repeat": [2, 4], "chance": 10 },
+        { "monster": "mon_pig", "x": [52, 58], "y": [26, 28], "repeat": [2, 4], "chance": 10 },
+        { "monster": "mon_pig", "x": [52, 58], "y": [26, 28], "repeat": [2, 4], "chance": 10 },
+        { "monster": "mon_sheep", "x": [52, 58], "y": 36, "repeat": [2, 4], "chance": 10 },
+        { "monster": "mon_sheep", "x": [52, 58], "y": 36, "repeat": [2, 4], "chance": 10 },
+        { "monster": "mon_chicken", "x": [52, 58], "y": [44, 46], "repeat": [2, 6], "chance": 10 },
+        { "monster": "mon_chicken", "x": [52, 58], "y": [44, 46], "repeat": [2, 6], "chance": 10 }
       ]
     },
-    "om_terrain": [ [ "ranch_camp_55", "ranch_camp_56", "ranch_camp_57" ], [ "ranch_camp_64", "ranch_camp_65", "ranch_camp_66" ] ],
+    "om_terrain": [
+      ["ranch_camp_55", "ranch_camp_56", "ranch_camp_57"],
+      ["ranch_camp_64", "ranch_camp_65", "ranch_camp_66"]
+    ],
     "type": "mapgen",
     "weight": 250
   },
@@ -685,7 +731,7 @@
         "..///.WWW=========WWW.............................%.....................",
         "....//////////////5...............................%....................."
       ],
-      "palettes": [ "ranch_camp" ],
+      "palettes": ["ranch_camp"],
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "E": { "item": "homebooks", "chance": 50 },
@@ -696,10 +742,15 @@
         "n": { "item": "hardware", "chance": 30 },
         "r": { "item": "home_hw", "chance": 60 }
       },
-      "toilets": { "t": {  } },
-      "place_vehicles": [ { "vehicle": "farm_vehicles", "x": 13, "y": 41, "chance": 50, "rotation": 180 } ]
+      "toilets": { "t": {} },
+      "place_vehicles": [
+        { "vehicle": "farm_vehicles", "x": 13, "y": 41, "chance": 50, "rotation": 180 }
+      ]
     },
-    "om_terrain": [ [ "ranch_camp_58", "ranch_camp_59", "ranch_camp_60" ], [ "ranch_camp_67", "ranch_camp_68", "ranch_camp_69" ] ],
+    "om_terrain": [
+      ["ranch_camp_58", "ranch_camp_59", "ranch_camp_60"],
+      ["ranch_camp_67", "ranch_camp_68", "ranch_camp_69"]
+    ],
     "type": "mapgen",
     "weight": 250
   },
@@ -757,9 +808,12 @@
         ".....................................................................%..",
         ".....................................................................%.."
       ],
-      "palettes": [ "ranch_camp" ]
+      "palettes": ["ranch_camp"]
     },
-    "om_terrain": [ [ "ranch_camp_61", "ranch_camp_62", "ranch_camp_63" ], [ "ranch_camp_70", "ranch_camp_71", "ranch_camp_72" ] ],
+    "om_terrain": [
+      ["ranch_camp_61", "ranch_camp_62", "ranch_camp_63"],
+      ["ranch_camp_70", "ranch_camp_71", "ranch_camp_72"]
+    ],
     "type": "mapgen",
     "weight": 250
   },
@@ -793,9 +847,9 @@
         "........................................................................",
         "........................................................................"
       ],
-      "palettes": [ "ranch_camp" ]
+      "palettes": ["ranch_camp"]
     },
-    "om_terrain": [ [ "ranch_camp_73", "ranch_camp_74", "ranch_camp_75" ] ],
+    "om_terrain": [["ranch_camp_73", "ranch_camp_74", "ranch_camp_75"]],
     "type": "mapgen",
     "weight": 250
   },
@@ -829,9 +883,9 @@
         "...........................________,,________...........................",
         "...........................__________________..........................."
       ],
-      "palettes": [ "ranch_camp" ]
+      "palettes": ["ranch_camp"]
     },
-    "om_terrain": [ [ "ranch_camp_76", "ranch_camp_77", "ranch_camp_78" ] ],
+    "om_terrain": [["ranch_camp_76", "ranch_camp_77", "ranch_camp_78"]],
     "type": "mapgen",
     "weight": 250
   },
@@ -865,9 +919,9 @@
         "........................................................................",
         "........................................................................"
       ],
-      "palettes": [ "ranch_camp" ]
+      "palettes": ["ranch_camp"]
     },
-    "om_terrain": [ [ "ranch_camp_79", "ranch_camp_80", "ranch_camp_81" ] ],
+    "om_terrain": [["ranch_camp_79", "ranch_camp_80", "ranch_camp_81"]],
     "type": "mapgen",
     "weight": 250
   },
@@ -903,8 +957,14 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof", "2": "t_wall_metal", "<": "t_ladder_up", ">": "t_ladder_down", "#": "t_grate" }
+      "palettes": ["roof_palette"],
+      "terrain": {
+        ".": "t_shingle_flat_roof",
+        "2": "t_wall_metal",
+        "<": "t_ladder_up",
+        ">": "t_ladder_down",
+        "#": "t_grate"
+      }
     }
   },
   {
@@ -939,7 +999,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "2": "t_wall_metal", "<": "t_ladder_up", ">": "t_ladder_down", "#": "t_grate" }
     }
   },
@@ -975,14 +1035,14 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "#": "t_grate", ">": "t_ladder_down", ".": "t_metal_flat_roof" }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "ranch_camp_67_roof", "ranch_camp_68_roof" ] ],
+    "om_terrain": [["ranch_camp_67_roof", "ranch_camp_68_roof"]],
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -1011,14 +1071,17 @@
         "      ...............                           ",
         "                                                "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof", "_": "t_tar_flat_roof" }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "ranch_camp_65_roof", "ranch_camp_66_roof" ], [ "ranch_camp_74_roof", "ranch_camp_75_roof" ] ],
+    "om_terrain": [
+      ["ranch_camp_65_roof", "ranch_camp_66_roof"],
+      ["ranch_camp_74_roof", "ranch_camp_75_roof"]
+    ],
     "object": {
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
@@ -1071,7 +1134,7 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

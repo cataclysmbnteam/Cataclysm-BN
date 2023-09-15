@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "house_18" ],
+    "om_terrain": ["house_18"],
     "weight": 200,
     "object": {
       "fill_ter": "t_floor",
@@ -32,7 +32,7 @@
         ".#d@@s +Dz|g|zD+ III #..",
         ".##oo######*######oo##.."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "#": "t_adobe_brick_wall",
         "p": "t_sidewalk",
@@ -42,8 +42,11 @@
         "$": "t_linoleum_gray",
         "t": "t_linoleum_gray"
       },
-      "place_loot": [ { "item": "television", "x": 4, "y": 2, "chance": 70 }, { "item": "television", "x": 15, "y": 7, "chance": 70 } ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 8 } ]
+      "place_loot": [
+        { "item": "television", "x": 4, "y": 2, "chance": 70 },
+        { "item": "television", "x": 15, "y": 7, "chance": 70 }
+      ],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [2, 21], "y": [2, 21], "chance": 8 }]
     }
   },
   {
@@ -78,7 +81,7 @@
         " |...................3  ",
         " |-------------------3  "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

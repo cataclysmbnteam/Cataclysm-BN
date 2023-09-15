@@ -9,8 +9,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_black", "hair_crewcut" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_black", "hair_crewcut"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_black_mohawk",
@@ -22,8 +22,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_black", "hair_mohawk" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_black", "hair_mohawk"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_black_fro",
@@ -35,8 +35,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_black", "hair_fro" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_black", "hair_fro"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_black_short",
@@ -48,8 +48,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_black", "hair_short" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_black", "hair_short"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_black_medium",
@@ -61,8 +61,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_black", "hair_medium" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_black", "hair_medium"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_black_long",
@@ -74,8 +74,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_black", "hair_long" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_black", "hair_long"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_brown_crewcut",
@@ -87,8 +87,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_brown", "hair_crewcut" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_brown", "hair_crewcut"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_brown_mohawk",
@@ -100,8 +100,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_brown", "hair_mohawk" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_brown", "hair_mohawk"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_brown_fro",
@@ -113,8 +113,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_brown", "hair_fro" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_brown", "hair_fro"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_brown_short",
@@ -126,8 +126,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_brown", "hair_short" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_brown", "hair_short"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_brown_medium",
@@ -139,8 +139,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_brown", "hair_medium" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_brown", "hair_medium"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_brown_long",
@@ -152,8 +152,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_brown", "hair_long" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_brown", "hair_long"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_blond_crewcut",
@@ -165,8 +165,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_blond", "hair_crewcut" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_blond", "hair_crewcut"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_blond_mohawk",
@@ -178,8 +178,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_blond", "hair_mohawk" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_blond", "hair_mohawk"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_blond_fro",
@@ -191,8 +191,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_blond", "hair_fro" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_blond", "hair_fro"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_blond_short",
@@ -204,8 +204,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_blond", "hair_short" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_blond", "hair_short"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_blond_medium",
@@ -217,8 +217,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_blond", "hair_medium" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_blond", "hair_medium"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_blond_long",
@@ -230,8 +230,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_blond", "hair_long" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_blond", "hair_long"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_red_crewcut",
@@ -243,8 +243,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_red", "hair_crewcut" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_red", "hair_crewcut"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_red_mohawk",
@@ -256,8 +256,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_red", "hair_mohawk" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_red", "hair_mohawk"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_red_fro",
@@ -269,8 +269,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_red", "hair_fro" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_red", "hair_fro"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_red_short",
@@ -282,8 +282,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_red", "hair_short" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_red", "hair_short"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_red_medium",
@@ -295,8 +295,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_red", "hair_medium" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_red", "hair_medium"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_red_long",
@@ -308,8 +308,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_red", "hair_long" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_red", "hair_long"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_gray_crewcut",
@@ -321,8 +321,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_gray", "hair_crewcut" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_gray", "hair_crewcut"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_gray_mohawk",
@@ -334,8 +334,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_gray", "hair_mohawk" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_gray", "hair_mohawk"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_gray_fro",
@@ -347,8 +347,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_gray", "hair_fro" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_gray", "hair_fro"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_gray_short",
@@ -360,8 +360,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_gray", "hair_short" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_gray", "hair_short"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_gray_medium",
@@ -373,8 +373,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_gray", "hair_medium" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_gray", "hair_medium"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_gray_long",
@@ -386,8 +386,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_gray", "hair_long" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_gray", "hair_long"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_white_crewcut",
@@ -399,8 +399,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_white", "hair_crewcut" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_white", "hair_crewcut"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_white_mohawk",
@@ -412,8 +412,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_white", "hair_mohawk" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_white", "hair_mohawk"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_white_fro",
@@ -425,8 +425,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_white", "hair_fro" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_white", "hair_fro"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_white_short",
@@ -438,8 +438,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_white", "hair_short" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_white", "hair_short"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_white_medium",
@@ -451,8 +451,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_white", "hair_medium" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_white", "hair_medium"],
+    "types": ["hair_style"]
   },
   {
     "id": "hair_white_long",
@@ -464,8 +464,8 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "flags": [ "hair_white", "hair_long" ],
-    "types": [ "hair_style" ]
+    "flags": ["hair_white", "hair_long"],
+    "types": ["hair_style"]
   },
   {
     "id": "HAIR_BALD",
@@ -477,7 +477,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "types": [ "hair_style" ]
+    "types": ["hair_style"]
   },
   {
     "id": "SKIN_DARK",
@@ -489,7 +489,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "types": [ "skin_tone" ]
+    "types": ["skin_tone"]
   },
   {
     "id": "SKIN_LIGHT",
@@ -501,7 +501,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "types": [ "skin_tone" ]
+    "types": ["skin_tone"]
   },
   {
     "id": "SKIN_MEDIUM",
@@ -513,7 +513,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "types": [ "skin_tone" ]
+    "types": ["skin_tone"]
   },
   {
     "id": "SKIN_PINK",
@@ -525,7 +525,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "types": [ "skin_tone" ]
+    "types": ["skin_tone"]
   },
   {
     "id": "SKIN_TAN",
@@ -537,7 +537,7 @@
     "valid": false,
     "purifiable": false,
     "player_display": false,
-    "types": [ "skin_tone" ]
+    "types": ["skin_tone"]
   },
   {
     "id": "FACIAL_HAIR_NONE",
@@ -549,7 +549,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_GOATEE",
@@ -561,7 +561,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_CIRCLE",
@@ -573,7 +573,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_ROYALE",
@@ -585,7 +585,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_ANCHOR",
@@ -597,7 +597,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_SHORTBOXED",
@@ -609,7 +609,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_CHEVRON",
@@ -621,7 +621,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_3DAYSTUBBLE",
@@ -633,7 +633,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_HORSESHOE",
@@ -645,7 +645,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_MUSTACHE",
@@ -657,7 +657,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_MUTTONCHOPS",
@@ -669,7 +669,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_GUNSLINGER",
@@ -681,7 +681,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_CHIN_STRIP",
@@ -693,7 +693,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_CHIN_CURTAIN",
@@ -705,7 +705,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_CHIN_STRAP",
@@ -717,7 +717,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_BEARD",
@@ -729,7 +729,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_HANDLEBAR",
@@ -741,7 +741,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_NECKBEARD",
@@ -753,7 +753,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_PENCIL",
@@ -765,7 +765,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_SHENANDOAH",
@@ -777,7 +777,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_SIDEBURNS",
@@ -789,7 +789,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_SOUL_PATCH",
@@ -801,7 +801,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_TOOTHBRUSH",
@@ -813,7 +813,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_VANDYKE",
@@ -825,7 +825,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_WALRUS",
@@ -837,7 +837,7 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   },
   {
     "id": "FACIAL_HAIR_ZAPPA",
@@ -849,6 +849,6 @@
     "starting_trait": true,
     "purifiable": false,
     "player_display": false,
-    "types": [ "facial_hair" ]
+    "types": ["facial_hair"]
   }
 ]

@@ -33,10 +33,10 @@
         "................[...[...",
         "[......................."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "K": "t_concrete",
@@ -51,10 +51,16 @@
         "~": "t_thconc_floor"
       },
       "furniture": { "!": "f_region_flower" },
-      "place_items": [ { "item": "stash_wood", "x": 12, "y": 11, "chance": 100, "repeat": [ 2, 6 ] } ],
+      "place_items": [{ "item": "stash_wood", "x": 12, "y": 11, "chance": 100, "repeat": [2, 6] }],
       "place_nested": [
         {
-          "chunks": [ [ "null", 25 ], [ "playset_4x4_2", 25 ], [ "firepit_5x5_1", 25 ], [ "firepit_5x5_2", 25 ], [ "playset_4x4_1", 25 ] ],
+          "chunks": [
+            ["null", 25],
+            ["playset_4x4_2", 25],
+            ["firepit_5x5_1", 25],
+            ["firepit_5x5_2", 25],
+            ["playset_4x4_1", 25]
+          ],
           "x": 3,
           "y": 19
         }
@@ -128,7 +134,7 @@
         { "chance": 15, "item": "tools_lighting_industrial", "x": 5, "y": 8 },
         { "chance": 20, "item": "pizza_trash", "x": 10, "y": 10 },
         { "chance": 15, "item": "misc_smoking", "x": 5, "y": 3 },
-        { "chance": 10, "item": "tools_carpentry", "x": [ 9, 10 ], "y": 4 },
+        { "chance": 10, "item": "tools_carpentry", "x": [9, 10], "y": 4 },
         { "chance": 20, "item": "hardware_trash", "x": 9, "y": 16 },
         { "chance": 20, "item": "hardware_trash", "x": 7, "y": 7 },
         { "chance": 10, "item": "hand_tools", "x": 3, "y": 10 },
@@ -145,8 +151,8 @@
         { "chance": 25, "item": "hardware_bulk", "x": 10, "y": 1 },
         { "chance": 15, "item": "hardware_bulk", "x": 10, "y": 2 },
         { "chance": 25, "item": "plumbing_bulk", "x": 17, "y": 11 },
-        { "chance": 15, "item": "plumbing_bulk", "x": [ 17, 18 ], "y": 10 },
-        { "chance": 15, "item": "book_military", "x": [ 6, 7 ], "y": 11 },
+        { "chance": 15, "item": "plumbing_bulk", "x": [17, 18], "y": 10 },
+        { "chance": 15, "item": "book_military", "x": [6, 7], "y": 11 },
         { "chance": 15, "item": "hardware_bulk", "x": 3, "y": 11 },
         { "chance": 10, "item": "tools_construction", "x": 10, "y": 7 },
         { "chance": 10, "item": "tools_construction", "x": 9, "y": 6 },
@@ -219,14 +225,14 @@
         "t": "f_toilet",
         "{": "f_dumpster"
       },
-      "place_item": [ { "chance": 20, "item": "mag_carpentry", "repeat": 1, "x": 5, "y": 3 } ],
+      "place_item": [{ "chance": 20, "item": "mag_carpentry", "repeat": 1, "x": 5, "y": 3 }],
       "place_items": [
         { "chance": 10, "item": "power_tools", "x": 14, "y": 6 },
         { "chance": 40, "item": "clothing_work_boots", "x": 5, "y": 2 },
         { "chance": 35, "item": "pizza_trash", "x": 16, "y": 16 },
         { "chance": 20, "item": "tools_construction", "x": 17, "y": 8 },
-        { "chance": 10, "item": "tools_construction", "x": [ 9, 10 ], "y": 7 },
-        { "chance": 10, "item": "tools_construction", "x": [ 8, 9 ], "y": 4 },
+        { "chance": 10, "item": "tools_construction", "x": [9, 10], "y": 7 },
+        { "chance": 10, "item": "tools_construction", "x": [8, 9], "y": 4 },
         { "chance": 25, "item": "floor_trash", "x": 9, "y": 2 },
         { "chance": 30, "item": "floor_trash", "x": 5, "y": 1 },
         { "chance": 10, "item": "hand_tools", "x": 7, "y": 15 },
@@ -239,7 +245,7 @@
         { "chance": 30, "item": "hardware", "x": 3, "y": 10 },
         { "chance": 30, "item": "hardware", "x": 13, "y": 4 },
         { "chance": 10, "item": "tools_common", "x": 7, "y": 11 },
-        { "chance": 10, "item": "tools_common", "x": [ 9, 10 ], "y": 6 },
+        { "chance": 10, "item": "tools_common", "x": [9, 10], "y": 6 },
         { "chance": 20, "item": "tools_common", "x": 9, "y": 3 },
         { "chance": 25, "item": "hardware_bulk", "x": 14, "y": 3 },
         { "chance": 25, "item": "hardware_bulk", "x": 15, "y": 3 },
@@ -267,7 +273,7 @@
         { "chance": 10, "item": "trash", "x": 4, "y": 3 },
         { "chance": 20, "item": "trash", "x": 1, "y": 3 }
       ],
-      "place_toilets": [ { "x": 20, "y": 11 } ]
+      "place_toilets": [{ "x": 20, "y": 11 }]
     }
   },
   {
@@ -302,7 +308,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   }

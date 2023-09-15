@@ -4,9 +4,9 @@
     "name": "GROUP_NECROMORPH",
     "default": "mon_slasher_weak",
     "monsters": [
-      { "monster": "mon_slasher_weak", "freq": 300, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_slasher_weak", "freq": 300, "cost_multiplier": 2, "pack_size": [2, 4] },
       { "monster": "mon_waster", "freq": 50, "cost_multiplier": 2 },
-      { "monster": "mon_slasher", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_slasher", "freq": 100, "cost_multiplier": 0, "pack_size": [1, 2] }
     ]
   },
   {
@@ -14,9 +14,9 @@
     "name": "GROUP_LAB",
     "default": "mon_zombie_scientist",
     "monsters": [
-      { "monster": "mon_slasher_weak", "freq": 75, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_slasher_weak", "freq": 75, "cost_multiplier": 2, "pack_size": [2, 4] },
       { "monster": "mon_waster", "freq": 50, "cost_multiplier": 2 },
-      { "monster": "mon_slasher", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_slasher", "freq": 100, "cost_multiplier": 0, "pack_size": [1, 2] }
     ]
   },
   {
@@ -24,9 +24,9 @@
     "name": "GROUP_LAB_SURFACE",
     "default": "mon_zombie_scientist",
     "monsters": [
-      { "monster": "mon_slasher_weak", "freq": 75, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_slasher_weak", "freq": 75, "cost_multiplier": 3, "pack_size": [2, 4] },
       { "monster": "mon_waster", "freq": 50, "cost_multiplier": 3 },
-      { "monster": "mon_slasher", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_slasher", "freq": 100, "cost_multiplier": 0, "pack_size": [1, 2] }
     ]
   },
   {
@@ -36,7 +36,7 @@
     "monsters": [
       { "monster": "mon_twitcher", "freq": 20, "cost_multiplier": 3 },
       { "monster": "mon_waster", "freq": 200, "cost_multiplier": 2 },
-      { "monster": "mon_leaper", "freq": 150, "cost_multiplier": 1, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_leaper", "freq": 150, "cost_multiplier": 1, "pack_size": [1, 2] }
     ]
   },
   {
@@ -47,13 +47,13 @@
     "monsters": [
       { "monster": "mon_twitcher", "freq": 20, "cost_multiplier": 3 },
       { "monster": "mon_waster", "freq": 200, "cost_multiplier": 2 },
-      { "monster": "mon_leaper", "freq": 150, "cost_multiplier": 1, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_leaper", "freq": 150, "cost_multiplier": 1, "pack_size": [1, 2] }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_LAB_CYBORG",
     "default": "mon_broken_cyborg",
-    "monsters": [ { "monster": "mon_twitcher", "freq": 10, "cost_multiplier": 2 } ]
+    "monsters": [{ "monster": "mon_twitcher", "freq": 10, "cost_multiplier": 2 }]
   }
 ]

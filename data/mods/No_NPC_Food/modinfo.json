@@ -3,11 +3,11 @@
     "type": "MOD_INFO",
     "id": "no_npc_food",
     "name": "Disable NPC Needs",
-    "authors": [ "Coolthulhu" ],
-    "maintainers": [ "Coolthulhu" ],
+    "authors": ["Coolthulhu"],
+    "maintainers": ["Coolthulhu"],
     "description": "Makes NPCs not require food, water or rest.",
     "category": "rebalance",
-    "dependencies": [ "bn" ]
+    "dependencies": ["bn"]
   },
   {
     "type": "EXTERNAL_OPTION",

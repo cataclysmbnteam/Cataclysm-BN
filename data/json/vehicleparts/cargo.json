@@ -14,11 +14,19 @@
     "item": "bag_canvas",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": {
+        "skills": [["mechanics", 0]],
+        "time": "30 m",
+        "using": [["vehicle_nail_install", 1]]
+      },
+      "removal": {
+        "skills": [["mechanics", 0]],
+        "time": "15 m",
+        "using": [["vehicle_nail_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 2]], "time": "30 m", "using": [["adhesive", 2]] }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE" ],
+    "flags": ["CARGO", "BOARDABLE", "COVERED", "FOLDABLE"],
     "breaks_into": "ig_vp_cloth"
   },
   {
@@ -36,11 +44,23 @@
     "item": "basket",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "welding_standard", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": "350 s", "using": [ [ "welding_standard", 2 ] ] }
+      "install": {
+        "skills": [["mechanics", 1]],
+        "time": "450 s",
+        "using": [["welding_standard", 2]]
+      },
+      "removal": {
+        "skills": [["mechanics", 1]],
+        "time": "450 s",
+        "qualities": [{ "id": "SAW_M", "level": 1 }]
+      },
+      "repair": {
+        "skills": [["mechanics", 1], ["fabrication", 2]],
+        "time": "350 s",
+        "using": [["welding_standard", 2]]
+      }
     },
-    "flags": [ "CARGO", "BOARDABLE" ],
+    "flags": ["CARGO", "BOARDABLE"],
     "damage_reduction": { "all": 6 }
   },
   {
@@ -71,11 +91,19 @@
     "size": 200,
     "damage_modifier": 60,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 2]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "qualities": [{ "id": "SAW_M", "level": 1 }]
+      },
+      "repair": { "skills": [["mechanics", 2]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
+    "flags": ["UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION"],
     "damage_reduction": { "all": 6 }
   },
   {
@@ -94,11 +122,23 @@
     "item": "folding_basket",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "using": [ [ "welding_standard", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "450 s", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": "350 s", "using": [ [ "welding_standard", 2 ] ] }
+      "install": {
+        "skills": [["mechanics", 1]],
+        "time": "450 s",
+        "using": [["welding_standard", 2]]
+      },
+      "removal": {
+        "skills": [["mechanics", 1]],
+        "time": "450 s",
+        "qualities": [{ "id": "SAW_M", "level": 1 }]
+      },
+      "repair": {
+        "skills": [["mechanics", 1], ["fabrication", 2]],
+        "time": "350 s",
+        "using": [["welding_standard", 2]]
+      }
     },
-    "flags": [ "CARGO", "BOARDABLE", "FOLDABLE" ],
+    "flags": ["CARGO", "BOARDABLE", "FOLDABLE"],
     "damage_reduction": { "all": 4 }
   },
   {
@@ -117,11 +157,15 @@
     "item": "bike_basket",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ], "time": "250 s", "using": [ [ "welding_standard", 1 ] ] }
+      "install": { "skills": [["mechanics", 1]], "time": "150 s", "using": [["vehicle_screw", 1]] },
+      "removal": { "skills": [["mechanics", 1]], "time": "150 s", "using": [["vehicle_screw", 1]] },
+      "repair": {
+        "skills": [["mechanics", 1], ["fabrication", 1]],
+        "time": "250 s",
+        "using": [["welding_standard", 1]]
+      }
     },
-    "flags": [ "CARGO", "BOARDABLE", "FOLDABLE" ],
+    "flags": ["CARGO", "BOARDABLE", "FOLDABLE"],
     "damage_reduction": { "all": 6 }
   },
   {
@@ -154,11 +198,11 @@
     "size": 60,
     "damage_modifier": 60,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [["mechanics", 1]], "time": "60 m", "using": [["vehicle_screw", 1]] },
+      "removal": { "skills": [["mechanics", 1]], "time": "30 m", "using": [["vehicle_screw", 1]] },
+      "repair": { "skills": [["mechanics", 2]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
+    "flags": ["UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION"],
     "damage_reduction": { "all": 6 }
   },
   {
@@ -176,11 +220,11 @@
     "item": "frame",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ] ] }
+      "install": { "skills": [["mechanics", 0]], "time": "30 m", "using": [["vehicle_screw", 1]] },
+      "removal": { "skills": [["mechanics", 0]], "time": "15 m", "using": [["vehicle_screw", 1]] },
+      "repair": { "skills": [["mechanics", 1]], "time": "30 m", "using": [["adhesive", 1]] }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
+    "flags": ["CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO"],
     "breaks_into": "ig_vp_frame",
     "damage_reduction": { "all": 28 }
   },
@@ -210,13 +254,21 @@
     "durability": 250,
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": 1000,
-    "breaks_into": [  ],
+    "breaks_into": [],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 3]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 3]],
+        "time": "30 m",
+        "using": [["vehicle_weld_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 4]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ],
+    "flags": ["UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE"],
     "damage_reduction": { "all": 26 }
   },
   {
@@ -232,16 +284,16 @@
     "durability": 150,
     "description": "A collection of pipes and frames for supporting a bike or other small vehicle and carrying it on your vehicle.  Move a single tile wide vehicle so that all of that vehicle's tiles are next to bike racks, and then 'e'xamine any bike rack to mount that vehicle onto the bike rack.  'e'xamine the bike rack to unmount the carried vehicle.",
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 8 ] },
-      { "item": "steel_chunk", "count": [ 6, 8 ] },
-      { "item": "scrap", "count": [ 6, 8 ] }
+      { "item": "steel_lump", "count": [6, 8] },
+      { "item": "steel_chunk", "count": [6, 8] },
+      { "item": "scrap", "count": [6, 8] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [["mechanics", 1]], "time": "60 m", "using": [["vehicle_bolt", 1]] },
+      "removal": { "skills": [["mechanics", 1]], "time": "30 m", "using": [["vehicle_bolt", 1]] },
+      "repair": { "skills": [["mechanics", 2]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "BIKE_RACK_VEH", "MULTISQUARE" ],
+    "flags": ["BIKE_RACK_VEH", "MULTISQUARE"],
     "damage_reduction": { "all": 10 }
   },
   {
@@ -259,11 +311,11 @@
     "size": 60,
     "damage_modifier": 60,
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [["mechanics", 1]], "time": "60 m", "using": [["vehicle_bolt", 1]] },
+      "removal": { "skills": [["mechanics", 1]], "time": "30 m", "using": [["vehicle_bolt", 1]] },
+      "repair": { "skills": [["mechanics", 2]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION" ],
+    "flags": ["UNMOUNT_ON_DAMAGE", "PROTRUSION"],
     "damage_reduction": { "all": 10 }
   }
 ]

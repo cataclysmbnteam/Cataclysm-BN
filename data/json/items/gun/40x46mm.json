@@ -10,21 +10,21 @@
     "barrel_length": "250 ml",
     "price": 40000,
     "price_postapoc": 750,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "ammo": "40x46mm",
     "dispersion": 550,
     "durability": 6,
     "clip_size": 1,
     "reload": 350,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["grip mount", 1],
+      ["rail mount", 1],
+      ["stock mount", 1],
+      ["underbarrel mount", 1]
     ]
   },
   {
@@ -57,21 +57,21 @@
     "barrel_length": "250 ml",
     "price": 400000,
     "price_postapoc": 2500,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "ammo": "40x46mm",
     "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "dispersion": 150,
     "clip_size": 1,
     "reload": 250,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["grip mount", 1],
+      ["rail mount", 1],
+      ["stock", 1],
+      ["underbarrel mount", 1]
     ]
   },
   {
@@ -91,14 +91,14 @@
     "clip_size": 6,
     "reload": 300,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["grip mount", 1],
+      ["rail mount", 1],
+      ["stock", 1],
+      ["underbarrel mount", 1]
     ]
   },
   {
@@ -114,23 +114,23 @@
     "price_postapoc": 8000,
     "to_hit": -1,
     "bashing": 8,
-    "material": [ "superalloy", "ceramic" ],
+    "material": ["superalloy", "ceramic"],
     "ammo": "40x46mm",
     "dispersion": 140,
     "durability": 9,
     "clip_size": 4,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 4],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["rail", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
-    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": ["RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS"]
   },
   {
     "id": "triple_launcher_simple",
@@ -140,7 +140,10 @@
     "description": "A homemade triple-barrel 40mm grenade launcher.  Capable of launching all three grenades at once, it is extremely powerful for a homemade weapon.",
     "clip_size": 3,
     "price_postapoc": 1750,
-    "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ], [ "MULTI", "multi", 3, [ "NPC_AVOID", "SIMULTANEOUS" ] ] ],
+    "modes": [
+      ["DEFAULT", "single", 1, "NPC_AVOID"],
+      ["MULTI", "multi", 3, ["NPC_AVOID", "SIMULTANEOUS"]]
+    ],
     "proportional": { "weight": 1.5, "volume": 1.8, "price": 2 },
     "barrel_length": "500 ml"
   },
@@ -164,9 +167,9 @@
     "dispersion": 300,
     "durability": 10,
     "reload": 400,
-    "modes": [ [ "DEFAULT", "semi", 1, "NPC_AVOID" ] ],
+    "modes": [["DEFAULT", "semi", 1, "NPC_AVOID"]],
     "clip_size": 6,
-    "flags": [ "MOUNTED_GUN" ]
+    "flags": ["MOUNTED_GUN"]
   },
   {
     "id": "afs_bionic_rocket",
@@ -178,14 +181,14 @@
     "price": 0,
     "to_hit": -2,
     "bashing": 9,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "looks_like": "bio_int_enhancer",
     "color": "magenta",
-    "ammo": [ "40x46mm", "40x53mm" ],
+    "ammo": ["40x46mm", "40x53mm"],
     "dispersion": 80,
     "durability": 6,
     "clip_size": 3,
     "reload": 150,
-    "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID", "RELOAD_ONE" ]
+    "flags": ["NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID", "RELOAD_ONE"]
   }
 ]

@@ -32,10 +32,10 @@
         ".$$$$$$$$$$$$$$$$$$$$$$.",
         ".......%...%........%..."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         ",": "t_carpet_purple",
         "@": "t_carpet_purple",
@@ -78,8 +78,8 @@
         { "chance": 35, "item": "alcohol", "x": 10, "y": 15 },
         { "chance": 35, "item": "alcohol", "x": 10, "y": 13 }
       ],
-      "place_monsters": [ { "chance": 5, "density": 1, "monster": "GROUP_ZOMBIE", "x": 7, "y": 10 } ],
-      "place_vehicles": [ { "vehicle": "bikeshop", "x": 19, "y": 14, "rotation": 270, "chance": 20 } ]
+      "place_monsters": [{ "chance": 5, "density": 1, "monster": "GROUP_ZOMBIE", "x": 7, "y": 10 }],
+      "place_vehicles": [{ "vehicle": "bikeshop", "x": 19, "y": 14, "rotation": 270, "chance": 20 }]
     }
   },
   {
@@ -114,7 +114,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -150,25 +150,31 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "nested": {
         "1": {
-          "chunks": [ [ "null", 60 ], [ "8x8_gym_W", 20 ], [ "8x8_gym_S", 20 ], [ "room_8x8_hobby_S", 30 ], [ "room_8x8_hobby_W", 30 ] ]
+          "chunks": [
+            ["null", 60],
+            ["8x8_gym_W", 20],
+            ["8x8_gym_S", 20],
+            ["room_8x8_hobby_S", 30],
+            ["room_8x8_hobby_W", 30]
+          ]
         },
         "2": {
           "chunks": [
-            [ "null", 50 ],
-            [ "5x5_holdout_N", 2 ],
-            [ "livingroom_5x5_S_1", 30 ],
-            [ "livingroom_5x5_E_1", 30 ],
-            [ "livingroom_5x5_N_1", 30 ],
-            [ "livingroom_5x5_W_1", 30 ],
-            [ "livingroom_5x5_S_2", 30 ],
-            [ "livingroom_5x5_E_2", 30 ],
-            [ "livingroom_5x5_N_2", 30 ],
-            [ "livingroom_5x5_W_2", 30 ],
-            [ "home_office_4x4_N", 10 ],
-            [ "home_office_4x4_S", 10 ]
+            ["null", 50],
+            ["5x5_holdout_N", 2],
+            ["livingroom_5x5_S_1", 30],
+            ["livingroom_5x5_E_1", 30],
+            ["livingroom_5x5_N_1", 30],
+            ["livingroom_5x5_W_1", 30],
+            ["livingroom_5x5_S_2", 30],
+            ["livingroom_5x5_E_2", 30],
+            ["livingroom_5x5_N_2", 30],
+            ["livingroom_5x5_W_2", 30],
+            ["home_office_4x4_N", 10],
+            ["home_office_4x4_S", 10]
           ]
         }
       }

@@ -8,14 +8,14 @@
     "price": 720000,
     "to_hit": -2,
     "bashing": 10,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "color": "cyan",
     "range": 10,
     "ranged_damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 15 },
     "dispersion": 500,
     "ups_charges": 25,
-    "ammo_effects": [ "LASER", "BEANBAG" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "ammo_effects": ["LASER", "BEANBAG"],
+    "flags": ["NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE"]
   },
   {
     "id": "afs_sentinel_laser",
@@ -27,9 +27,9 @@
     "range": 10,
     "ranged_damage": { "damage_type": "heat", "amount": 25, "armor_penetration": 4 },
     "ups_charges": 30,
-    "modes": [ [ "MULTI", "trilaser", 3 ] ],
-    "ammo_effects": [ "LASER" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "modes": [["MULTI", "trilaser", 3]],
+    "ammo_effects": ["LASER"],
+    "flags": ["NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE"]
   },
   {
     "id": "afs_sentinel_laser_mon",
@@ -37,6 +37,6 @@
     "copy-from": "afs_sentinel_laser",
     "name": { "str": "wrist-trilaser" },
     "ups_charges": 0,
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": ["NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE"]
   }
 ]

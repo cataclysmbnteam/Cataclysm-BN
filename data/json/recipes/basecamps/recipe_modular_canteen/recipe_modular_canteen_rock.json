@@ -9,24 +9,28 @@
     "never_learn": true,
     "construction_blueprint": "faction_base_canteen_rock",
     "blueprint_name": "build the central kitchen room",
-    "blueprint_requires": [ { "id": "fbmk_0" } ],
-    "blueprint_provides": [ { "id": "fbmk_center" } ],
-    "blueprint_excludes": [ { "id": "fbmk_center" } ],
+    "blueprint_requires": [{ "id": "fbmk_0" }],
+    "blueprint_provides": [{ "id": "fbmk_center" }],
+    "blueprint_excludes": [{ "id": "fbmk_center" }],
     "blueprint_needs": {
       "time": "1 d 20 h 35 m",
-      "skills": [ [ "fabrication", 6 ] ],
+      "skills": [["fabrication", 6]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
         "components": [
-          [ [ "2x4", 59 ] ],
-          [ [ "glass_sheet", 3 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "mortar_adobe", 12 ], [ "mortar_build", 12 ] ],
-          [ [ "nail", 126 ] ],
-          [ [ "pebble", 300 ] ],
-          [ [ "rock", 144 ] ],
-          [ [ "wood_panel", 1 ] ]
+          [["2x4", 59]],
+          [["glass_sheet", 3]],
+          [["hinge", 2]],
+          [["mortar_adobe", 12], ["mortar_build", 12]],
+          [["nail", 126]],
+          [["pebble", 300]],
+          [["rock", 144]],
+          [["wood_panel", 1]]
         ]
       }
     }
@@ -41,24 +45,28 @@
     "never_learn": true,
     "construction_blueprint": "faction_base_canteen2_rock",
     "blueprint_name": "finish the rock wall central kitchen room",
-    "blueprint_requires": [ { "id": "fbmk_center" } ],
-    "blueprint_provides": [ { "id": "fbmk_center2" } ],
-    "blueprint_excludes": [ { "id": "fbmk_center2" } ],
+    "blueprint_requires": [{ "id": "fbmk_center" }],
+    "blueprint_provides": [{ "id": "fbmk_center2" }],
+    "blueprint_excludes": [{ "id": "fbmk_center2" }],
     "blueprint_needs": {
       "time": "2 d 13 h 25 m",
-      "skills": [ [ "fabrication", 6 ] ],
+      "skills": [["fabrication", 6]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
         "components": [
-          [ [ "2x4", 43 ] ],
-          [ [ "glass_sheet", 1 ] ],
-          [ [ "hinge", 4 ] ],
-          [ [ "mortar_adobe", 18 ], [ "mortar_build", 18 ] ],
-          [ [ "nail", 102 ] ],
-          [ [ "pebble", 450 ] ],
-          [ [ "rock", 216 ] ],
-          [ [ "wood_panel", 2 ] ]
+          [["2x4", 43]],
+          [["glass_sheet", 1]],
+          [["hinge", 4]],
+          [["mortar_adobe", 18], ["mortar_build", 18]],
+          [["nail", 102]],
+          [["pebble", 450]],
+          [["rock", 216]],
+          [["wood_panel", 2]]
         ]
       }
     }
@@ -73,22 +81,26 @@
     "never_learn": true,
     "construction_blueprint": "faction_base_smoking_area_rock",
     "blueprint_name": "build a rock wall roofed area for smoking racks",
-    "blueprint_requires": [ { "id": "fbmk_center2" } ],
-    "blueprint_provides": [ { "id": "fbmk_smoking_area" } ],
-    "blueprint_excludes": [ { "id": "fbmk_smoking_area" } ],
+    "blueprint_requires": [{ "id": "fbmk_center2" }],
+    "blueprint_provides": [{ "id": "fbmk_smoking_area" }],
+    "blueprint_excludes": [{ "id": "fbmk_smoking_area" }],
     "blueprint_needs": {
       "time": "2 d 10 h 25 m",
-      "skills": [ [ "fabrication", 6 ] ],
+      "skills": [["fabrication", 6]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
         "components": [
-          [ [ "2x4", 180 ] ],
-          [ [ "mortar_adobe", 12 ], [ "mortar_build", 12 ] ],
-          [ [ "nail", 448 ] ],
-          [ [ "pebble", 300 ] ],
-          [ [ "rock", 144 ] ],
-          [ [ "wood_panel", 22 ] ]
+          [["2x4", 180]],
+          [["mortar_adobe", 12], ["mortar_build", 12]],
+          [["nail", 448]],
+          [["pebble", 300]],
+          [["rock", 144]],
+          [["wood_panel", 22]]
         ]
       }
     }
@@ -103,22 +115,22 @@
     "never_learn": true,
     "construction_blueprint": "fbmk_canteen_pantry_rock",
     "blueprint_name": "build a rock wall pantry",
-    "blueprint_requires": [ { "id": "fbmk_center2" } ],
-    "blueprint_provides": [ { "id": "fbmk_pantry_room" } ],
-    "blueprint_excludes": [ { "id": "fbmk_pantry_room" } ],
+    "blueprint_requires": [{ "id": "fbmk_center2" }],
+    "blueprint_provides": [{ "id": "fbmk_pantry_room" }],
+    "blueprint_excludes": [{ "id": "fbmk_pantry_room" }],
     "blueprint_needs": {
       "time": "4 d 1 h 40 m",
-      "skills": [ [ "fabrication", 6 ] ],
+      "skills": [["fabrication", 6]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [[{ "id": "DIG", "level": 2 }], [{ "id": "HAMMER", "level": 2 }]],
         "components": [
-          [ [ "2x4", 30 ], [ "log", 4 ] ],
-          [ [ "glass_sheet", 2 ] ],
-          [ [ "mortar_adobe", 30 ], [ "mortar_build", 30 ] ],
-          [ [ "nail", 60 ] ],
-          [ [ "pebble", 750 ] ],
-          [ [ "rock", 360 ] ]
+          [["2x4", 30], ["log", 4]],
+          [["glass_sheet", 2]],
+          [["mortar_adobe", 30], ["mortar_build", 30]],
+          [["nail", 60]],
+          [["pebble", 750]],
+          [["rock", 360]]
         ]
       }
     }
@@ -133,24 +145,28 @@
     "never_learn": true,
     "construction_blueprint": "fbmk_canteen_dining_west_rock",
     "blueprint_name": "build W rock wall",
-    "blueprint_requires": [ { "id": "fbmk_pantry_room" } ],
-    "blueprint_provides": [ { "id": "fbmk_canteen_dining_west" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_west" } ],
+    "blueprint_requires": [{ "id": "fbmk_pantry_room" }],
+    "blueprint_provides": [{ "id": "fbmk_canteen_dining_west" }],
+    "blueprint_excludes": [{ "id": "fbmk_canteen_dining_west" }],
     "blueprint_needs": {
       "time": "1 d 20 h 20 m",
-      "skills": [ [ "fabrication", 6 ] ],
+      "skills": [["fabrication", 6]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
         "components": [
-          [ [ "2x4", 56 ] ],
-          [ [ "glass_sheet", 2 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "mortar_adobe", 12 ], [ "mortar_build", 12 ] ],
-          [ [ "nail", 126 ] ],
-          [ [ "pebble", 300 ] ],
-          [ [ "rock", 144 ] ],
-          [ [ "wood_panel", 1 ] ]
+          [["2x4", 56]],
+          [["glass_sheet", 2]],
+          [["hinge", 2]],
+          [["mortar_adobe", 12], ["mortar_build", 12]],
+          [["nail", 126]],
+          [["pebble", 300]],
+          [["rock", 144]],
+          [["wood_panel", 1]]
         ]
       }
     }
@@ -165,22 +181,22 @@
     "never_learn": true,
     "construction_blueprint": "fbmk_canteen_dining_east_rock",
     "blueprint_name": "build E rock wall",
-    "blueprint_requires": [ { "id": "fbmk_canteen_dining_west" }, { "id": "fbmk_smoking_area" } ],
-    "blueprint_provides": [ { "id": "fbmk_canteen_dining_east" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_east" } ],
+    "blueprint_requires": [{ "id": "fbmk_canteen_dining_west" }, { "id": "fbmk_smoking_area" }],
+    "blueprint_provides": [{ "id": "fbmk_canteen_dining_east" }],
+    "blueprint_excludes": [{ "id": "fbmk_canteen_dining_east" }],
     "blueprint_needs": {
       "time": "2 d 3 h 35 m",
-      "skills": [ [ "fabrication", 6 ] ],
+      "skills": [["fabrication", 6]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [[{ "id": "DIG", "level": 2 }], [{ "id": "HAMMER", "level": 2 }]],
         "components": [
-          [ [ "2x4", 57 ] ],
-          [ [ "glass_sheet", 3 ] ],
-          [ [ "mortar_adobe", 14 ], [ "mortar_build", 14 ] ],
-          [ [ "nail", 120 ] ],
-          [ [ "pebble", 350 ] ],
-          [ [ "rock", 168 ] ]
+          [["2x4", 57]],
+          [["glass_sheet", 3]],
+          [["mortar_adobe", 14], ["mortar_build", 14]],
+          [["nail", 120]],
+          [["pebble", 350]],
+          [["rock", 168]]
         ]
       }
     }
@@ -195,24 +211,28 @@
     "never_learn": true,
     "construction_blueprint": "fbmk_canteen_dining_center_rock",
     "blueprint_name": "build center of the rock dining hall",
-    "blueprint_requires": [ { "id": "fbmk_canteen_dining_east" } ],
-    "blueprint_provides": [ { "id": "fbmk_canteen_dining_center" } ],
-    "blueprint_excludes": [ { "id": "fbmk_canteen_dining_center" } ],
+    "blueprint_requires": [{ "id": "fbmk_canteen_dining_east" }],
+    "blueprint_provides": [{ "id": "fbmk_canteen_dining_center" }],
+    "blueprint_excludes": [{ "id": "fbmk_canteen_dining_center" }],
     "blueprint_needs": {
       "time": "19 h 15 m",
-      "skills": [ [ "fabrication", 6 ] ],
+      "skills": [["fabrication", 6]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [
+          [{ "id": "DIG", "level": 2 }],
+          [{ "id": "HAMMER", "level": 2 }],
+          [{ "id": "SAW_W", "level": 2 }]
+        ],
         "components": [
-          [ [ "2x4", 29 ] ],
-          [ [ "glass_sheet", 1 ] ],
-          [ [ "hinge", 2 ] ],
-          [ [ "mortar_adobe", 4 ], [ "mortar_build", 4 ] ],
-          [ [ "nail", 66 ] ],
-          [ [ "pebble", 100 ] ],
-          [ [ "rock", 48 ] ],
-          [ [ "wood_panel", 1 ] ]
+          [["2x4", 29]],
+          [["glass_sheet", 1]],
+          [["hinge", 2]],
+          [["mortar_adobe", 4], ["mortar_build", 4]],
+          [["nail", 66]],
+          [["pebble", 100]],
+          [["rock", 48]],
+          [["wood_panel", 1]]
         ]
       }
     }

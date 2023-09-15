@@ -9,7 +9,7 @@
     "volume": "3 L",
     "price": 85000,
     "price_postapoc": 3000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "brown",
     "ammo": "3006",
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
@@ -18,7 +18,7 @@
     "blackpowder_tolerance": 24,
     "barrel_length": "500 ml",
     "magazine_well": "250 ml",
-    "magazines": [ [ "3006", [ "blrmag" ] ] ]
+    "magazines": [["3006", ["blrmag"]]]
   },
   {
     "id": "garand",
@@ -31,27 +31,27 @@
     "price": 90000,
     "price_postapoc": 3500,
     "ascii_picture": "m1_garand",
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "3006",
     "dispersion": 150,
     "min_cycle_recoil": 3420,
     "reload": 150,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 4],
+      ["barrel", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "3006", [ "garandclip" ] ] ]
+    "magazines": [["3006", ["garandclip"]]]
   },
   {
     "id": "m1903",
@@ -63,7 +63,7 @@
     "volume": "3 L",
     "price": 80000,
     "price_postapoc": 3250,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "3006",
     "dispersion": 120,
@@ -71,21 +71,21 @@
     "clip_size": 5,
     "barrel_length": "1000 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 4],
+      ["barrel", 1],
+      ["bore", 1],
+      ["brass catcher", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["grip mount", 1],
+      ["rail mount", 1],
+      ["stock", 1],
+      ["underbarrel mount", 1]
     ],
-    "magazines": [ [ "3006", [ "3006_clip" ] ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "magazines": [["3006", ["3006_clip"]]],
+    "flags": ["RELOAD_ONE"]
   },
   {
     "id": "m1918",
@@ -98,14 +98,14 @@
     "price": 350000,
     "price_postapoc": 4000,
     "ascii_picture": "1918_BAR",
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "dark_gray",
     "ammo": "3006",
     "dispersion": 180,
     "min_cycle_recoil": 3420,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 3 ] ],
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 3]],
     "barrel_length": "1000 ml",
-    "magazines": [ [ "3006", [ "m1918mag", "m1918bigmag" ] ] ]
+    "magazines": [["3006", ["m1918mag", "m1918bigmag"]]]
   },
   {
     "id": "remington_700",
@@ -118,14 +118,14 @@
     "price": 87000,
     "price_postapoc": 3500,
     "ascii_picture": "rem700_3006",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "brown",
     "ammo": "3006",
     "dispersion": 90,
     "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_length": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
+    "flags": ["RELOAD_ONE", "NEVER_JAMS"]
   },
   {
     "id": "rifle_3006",
@@ -138,7 +138,7 @@
     "volume": "3 L",
     "price": 110000,
     "price_postapoc": 500,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "3006",
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },

@@ -3,7 +3,7 @@
     "id": "fd_gum_web",
     "type": "field_type",
     "legacy_enum_id": 5,
-    "immune_mtypes": [ "mon_spider_gum" ],
+    "immune_mtypes": ["mon_spider_gum"],
     "intensity_levels": [
       {
         "name": "flimsy gum webs",

@@ -12,27 +12,27 @@
     "price_postapoc": 3000,
     "to_hit": -2,
     "bashing": 7,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "color": "dark_gray",
     "ammo": "46",
     "dispersion": 260,
     "min_cycle_recoil": 81,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 5 ] ],
-    "built_in_mods": [ "wire_stock" ],
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 5]],
+    "built_in_mods": ["wire_stock"],
     "valid_mod_locations": [
-      [ "accessories", 3 ],
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 3],
+      ["barrel", 1],
+      ["brass catcher", 1],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
     "magazine_well": "250 ml",
-    "magazines": [ [ "46", [ "hk46mag", "hk46bigmag" ] ] ]
+    "magazines": [["46", ["hk46mag", "hk46bigmag"]]]
   }
 ]

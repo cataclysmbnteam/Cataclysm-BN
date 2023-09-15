@@ -9,17 +9,17 @@
     "volume": "1500 ml",
     "price": 4500,
     "price_postapoc": 250,
-    "material": [ "cotton", "plastic" ],
+    "material": ["cotton", "plastic"],
     "symbol": "[",
     "looks_like": "cowboy_hat",
     "color": "white",
-    "covers": [ "head", "eyes", "mouth" ],
+    "covers": ["head", "eyes", "mouth"],
     "coverage": 100,
     "encumbrance": 20,
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": ["VARSIZE", "OUTER"]
   },
   {
     "id": "chainmail_hood",
@@ -31,15 +31,15 @@
     "price": 5012,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": ["iron", "cotton"],
     "symbol": "[",
     "looks_like": "balclava",
     "color": "light_red",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "coverage": 95,
     "encumbrance": 10,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": ["VARSIZE", "STURDY", "HELMET_COMPAT"]
   },
   {
     "id": "hood_fsurvivor",
@@ -52,17 +52,17 @@
     "price_postapoc": 4000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "nomex" ],
+    "material": ["kevlar", "nomex"],
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "light_gray",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "coverage": 100,
     "encumbrance": 30,
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
+    "flags": ["VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT"]
   },
   {
     "id": "hood_lsurvivor",
@@ -75,17 +75,17 @@
     "price_postapoc": 3000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "cotton" ],
+    "material": ["kevlar", "cotton"],
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "green",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "coverage": 100,
     "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
+    "flags": ["VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT"]
   },
   {
     "id": "hood_rain",
@@ -96,16 +96,16 @@
     "volume": "750 ml",
     "price": 2000,
     "price_postapoc": 250,
-    "material": [ "plastic", "cotton" ],
+    "material": ["plastic", "cotton"],
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "yellow",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "coverage": 100,
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATERPROOF", "OUTER", "HELMET_COMPAT" ]
+    "flags": ["WATERPROOF", "OUTER", "HELMET_COMPAT"]
   },
   {
     "id": "hood_survivor",
@@ -118,18 +118,18 @@
     "price_postapoc": 4000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "leather" ],
+    "material": ["kevlar", "leather"],
     "symbol": "[",
     "looks_like": "hood_rain",
     "color": "brown",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
+    "techniques": ["WBLOCK_1"],
+    "flags": ["VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT"]
   },
   {
     "id": "hood_wsurvivor",
@@ -142,17 +142,17 @@
     "price_postapoc": 3500,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "fur" ],
+    "material": ["kevlar", "fur"],
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "light_gray",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "coverage": 100,
     "encumbrance": 37,
     "warmth": 75,
     "material_thickness": 5,
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
+    "flags": ["VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT"]
   },
   {
     "id": "hood_xlsurvivor",
@@ -165,18 +165,18 @@
     "price_postapoc": 2500,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "leather" ],
+    "material": ["kevlar", "leather"],
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "brown",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
+    "techniques": ["WBLOCK_1"],
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT"]
   },
   {
     "id": "nomex_hood",
@@ -188,16 +188,16 @@
     "price": 5000,
     "price_postapoc": 500,
     "to_hit": -5,
-    "material": [ "nomex" ],
+    "material": ["nomex"],
     "symbol": "[",
     "looks_like": "hood_rain",
     "color": "light_gray",
-    "covers": [ "head" ],
+    "covers": ["head"],
     "coverage": 100,
     "encumbrance": 6,
     "warmth": 5,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+    "flags": ["VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY"]
   }
 ]

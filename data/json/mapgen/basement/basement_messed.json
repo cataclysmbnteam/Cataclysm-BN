@@ -47,27 +47,27 @@
         "<": "t_stairs_up",
         "|": "t_wall"
       },
-      "liquids": { "E": { "liquid": "water", "amount": [ 0, 100 ] } },
+      "liquids": { "E": { "liquid": "water", "amount": [0, 100] } },
       "furniture": {
         "c": "f_counter",
         "r": "f_rack",
         "E": "f_water_heater",
-        "W": [ "f_water_purifier", "f_home_furnace" ],
+        "W": ["f_water_purifier", "f_home_furnace"],
         "a": [
-          [ "f_table", 30 ],
-          [ "f_armchair", 30 ],
-          [ "f_chair", 60 ],
-          [ "f_counter", 30 ],
-          [ "f_cupboard", 30 ],
-          [ "f_floor_lamp", 15 ],
-          [ "f_desk", 30 ],
-          [ "f_null", 50 ]
+          ["f_table", 30],
+          ["f_armchair", 30],
+          ["f_chair", 60],
+          ["f_counter", 30],
+          ["f_cupboard", 30],
+          ["f_floor_lamp", 15],
+          ["f_desk", 30],
+          ["f_null", 50]
         ],
         "H": "f_bookcase",
         "b": "f_workbench"
       },
       "items": {
-        ".": [ { "item": "trash", "chance": 5 } ],
+        ".": [{ "item": "trash", "chance": 5 }],
         "r": [
           { "item": "livingroom", "chance": 30 },
           { "item": "bedroom", "chance": 30 },
@@ -78,13 +78,13 @@
           { "item": "sports", "chance": 30 }
         ],
         "H": [
-          { "item": "magazines", "chance": 60, "repeat": [ 0, 3 ] },
+          { "item": "magazines", "chance": 60, "repeat": [0, 3] },
           { "item": "homebooks", "chance": 50 },
           { "item": "exotic_books", "chance": 5 }
         ],
-        "b": [ { "item": "home_hw", "chance": 60 }, { "item": "mechanics", "chance": 30 } ]
+        "b": [{ "item": "home_hw", "chance": 60 }, { "item": "mechanics", "chance": 30 }]
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 13 ], "y": [ 4, 9 ] } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [4, 13], "y": [4, 9] }]
     }
   }
 ]

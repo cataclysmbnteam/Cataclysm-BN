@@ -12,7 +12,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "m235" ],
+    "ammo_type": ["m235"],
     "capacity": 4
   }
 ]

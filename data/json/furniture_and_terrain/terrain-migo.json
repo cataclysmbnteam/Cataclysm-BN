@@ -9,14 +9,22 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_resin_roof",
-    "flags": [ "NOITEM", "PERMEABLE", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "flags": [
+      "NOITEM",
+      "PERMEABLE",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "AUTO_WALL_SYMBOL",
+      "BLOCK_WIND"
+    ],
     "bash": {
       "str_min": 250,
       "str_max": 700,
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
-      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
+      "items": [{ "item": "resin_chunk", "count": [10, 40] }]
     }
   },
   {
@@ -29,14 +37,14 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_resin_roof",
-    "flags": [ "NOITEM", "WALL", "PERMEABLE", "TRANSPARENT", "INDOORS", "NONFLAMMABLE", "MINEABLE" ],
+    "flags": ["NOITEM", "WALL", "PERMEABLE", "TRANSPARENT", "INDOORS", "NONFLAMMABLE", "MINEABLE"],
     "bash": {
       "str_min": 70,
       "str_max": 300,
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_floor_resin",
-      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+      "items": [{ "item": "resin_chunk", "count": [2, 5] }]
     }
   },
   {
@@ -48,14 +56,22 @@
     "color": "dark_gray",
     "move_cost": 2,
     "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "NONFLAMMABLE" ],
+    "flags": [
+      "TRANSPARENT",
+      "SUPPORTS_ROOF",
+      "COLLAPSES",
+      "INDOORS",
+      "FLAT",
+      "ROAD",
+      "NONFLAMMABLE"
+    ],
     "bash": {
       "str_min": 250,
       "str_max": 700,
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_null",
-      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
+      "items": [{ "item": "resin_chunk", "count": [10, 40] }]
     }
   },
   {
@@ -67,14 +83,14 @@
     "color": "light_gray",
     "looks_like": "t_floor_resin",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "COLLAPSES", "FLAT", "ROAD", "NONFLAMMABLE" ],
+    "flags": ["TRANSPARENT", "COLLAPSES", "FLAT", "ROAD", "NONFLAMMABLE"],
     "bash": {
       "str_min": 250,
       "str_max": 700,
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_null",
-      "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
+      "items": [{ "item": "resin_chunk", "count": [10, 40] }]
     }
   },
   {
@@ -86,8 +102,14 @@
     "color": "dark_gray",
     "looks_like": "t_floor_resin",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAT", "NONFLAMMABLE" ],
-    "bash": { "str_min": 250, "str_max": 700, "sound": "boom!", "sound_fail": "whack!", "bash_below": true }
+    "flags": ["TRANSPARENT", "FLAT", "NONFLAMMABLE"],
+    "bash": {
+      "str_min": 250,
+      "str_max": 700,
+      "sound": "boom!",
+      "sound_fail": "whack!",
+      "bash_below": true
+    }
   },
   {
     "type": "terrain",
@@ -99,16 +121,19 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_resin_roof",
-    "flags": [ "DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "NONFLAMMABLE" ],
+    "flags": ["DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "NONFLAMMABLE"],
     "open": "t_resin_hole_o",
-    "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_resin_hole",
+      "items": [{ "item": "resin_chunk", "count": [2, 5] }]
+    },
     "bash": {
       "str_min": 90,
       "str_max": 120,
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
-      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+      "items": [{ "item": "resin_chunk", "count": [2, 5] }]
     }
   },
   {
@@ -120,8 +145,11 @@
     "color": "light_gray",
     "move_cost": 2,
     "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE" ],
-    "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
+    "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE"],
+    "deconstruct": {
+      "ter_set": "t_resin_hole",
+      "items": [{ "item": "resin_chunk", "count": [2, 5] }]
+    },
     "close": "t_resin_hole_c",
     "bash": {
       "str_min": 90,
@@ -129,7 +157,7 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_resin_hole",
-      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+      "items": [{ "item": "resin_chunk", "count": [2, 5] }]
     }
   },
   {
@@ -141,14 +169,14 @@
     "color": "light_gray",
     "move_cost": 4,
     "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE" ],
+    "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE"],
     "bash": {
       "str_min": 100,
       "str_max": 500,
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_floor_resin",
-      "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ]
+      "items": [{ "item": "resin_chunk", "count": [2, 5] }]
     }
   }
 ]

@@ -9,8 +9,8 @@
     "price": 150000,
     "price_postapoc": 1000,
     "//": "Like the LAW, this thing is basically a tube with a lever.  It's even cheaper in terms of construction, but there's a premium due to being imported.  Also not disposable.",
-    "material": [ "steel", "wood" ],
-    "extend": { "flags": [ "BACKBLAST" ] },
+    "material": ["steel", "wood"],
+    "extend": { "flags": ["BACKBLAST"] },
     "ammo": "RPG-7",
     "weight": "7000 g",
     "volume": "4500 ml",
@@ -19,13 +19,13 @@
     "clip_size": 1,
     "reload": 150,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 4],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["sights", 1],
+      ["sling", 1],
+      ["rail mount", 1],
+      ["underbarrel mount", 1]
     ]
   }
 ]

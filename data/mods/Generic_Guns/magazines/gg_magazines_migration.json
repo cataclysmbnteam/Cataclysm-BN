@@ -1,6 +1,6 @@
 [
   {
-    "id": [ "belt40mm" ],
+    "id": ["belt40mm"],
     "type": "MIGRATION",
     "replace": "grenade_belt"
   },
@@ -74,12 +74,12 @@
     "replace": "pistol_mag_hc"
   },
   {
-    "id": [ "deaglemag" ],
+    "id": ["deaglemag"],
     "type": "MIGRATION",
     "replace": "pistol_magnum_mag"
   },
   {
-    "id": [ "hptjhpmag", "8x40_10_mag" ],
+    "id": ["hptjhpmag", "8x40_10_mag"],
     "type": "MIGRATION",
     "replace": "pistol_magnum_mag_hc"
   },
@@ -110,47 +110,62 @@
     "replace": "pistol_smg_mag"
   },
   {
-    "id": [ "thompson_bigmag", "thompson_drum", "5x50_100_mag", "5x50_50_mag", "mp5bigmag", "hk46bigmag", "fnp90mag", "ppshdrum" ],
+    "id": [
+      "thompson_bigmag",
+      "thompson_drum",
+      "5x50_100_mag",
+      "5x50_50_mag",
+      "mp5bigmag",
+      "hk46bigmag",
+      "fnp90mag",
+      "ppshdrum"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_smg_mag_hc"
   },
   {
-    "id": [ "22_speedloader8", "marlin_tubeloader" ],
+    "id": ["22_speedloader8", "marlin_tubeloader"],
     "type": "MIGRATION",
     "replace": "pistol_tiny_speedloader"
   },
   {
-    "id": [ "38_speedloader", "38_speedloader5", "9mm_speedloader7", "40_speedloader6" ],
+    "id": ["38_speedloader", "38_speedloader5", "9mm_speedloader7", "40_speedloader6"],
     "type": "MIGRATION",
     "replace": "pistol_speedloader"
   },
   {
-    "id": [ "44_speedloader6", "454_speedloader5", "460_speedloader6", "500_speedloader5", "8x40_speedloader5" ],
+    "id": [
+      "44_speedloader6",
+      "454_speedloader5",
+      "460_speedloader6",
+      "500_speedloader5",
+      "8x40_speedloader5"
+    ],
     "type": "MIGRATION",
     "replace": "magnum_speedloader"
   },
   {
-    "id": [ "mosquitomag", "ruger1022mag", "sw22mag", "j22mag", "wp22mag", "kp32mag" ],
+    "id": ["mosquitomag", "ruger1022mag", "sw22mag", "j22mag", "wp22mag", "kp32mag"],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"
   },
   {
-    "id": [ "a180mag", "ruger1022bigmag" ],
+    "id": ["a180mag", "ruger1022bigmag"],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag_hc"
   },
   {
-    "id": [ "belt223", "belt308" ],
+    "id": ["belt223", "belt308"],
     "type": "MIGRATION",
     "replace": "rifle_belt"
   },
   {
-    "id": [ "m107a1mag", "as50mag", "tac50mag" ],
+    "id": ["m107a1mag", "as50mag", "tac50mag"],
     "type": "MIGRATION",
     "replace": "rifle_huge_amr_mag"
   },
   {
-    "id": [ "belt50" ],
+    "id": ["belt50"],
     "type": "MIGRATION",
     "replace": "rifle_huge_belt"
   },
@@ -235,22 +250,22 @@
     "replace": "rifle_sniper_mag"
   },
   {
-    "id": [ "ruger10", "stanag10", "hk417mag_10rd" ],
+    "id": ["ruger10", "stanag10", "hk417mag_10rd"],
     "type": "MIGRATION",
     "replace": "rifle_sniper_mag_hc"
   },
   {
-    "id": [ "saiga410mag_10rd", "saiga10mag", "USAS10mag", "USAS20mag", "shotbelt_20" ],
+    "id": ["saiga410mag_10rd", "saiga10mag", "USAS10mag", "USAS20mag", "shotbelt_20"],
     "type": "MIGRATION",
     "replace": "shot_mag"
   },
   {
-    "id": [ "20x66_40_mag", "saiga410mag_30rd", "saiga30mag" ],
+    "id": ["20x66_40_mag", "saiga410mag_30rd", "saiga30mag"],
     "type": "MIGRATION",
     "replace": "shot_mag_hc"
   },
   {
-    "id": [ "shot_speedloader6", "shot_speedloader8" ],
+    "id": ["shot_speedloader6", "shot_speedloader8"],
     "type": "MIGRATION",
     "replace": "shot_speedloader"
   }

@@ -10,22 +10,22 @@
     "price": 41500,
     "price_postapoc": 2250,
     "bashing": 2,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
-    "ammo": [ "45colt", "410shot" ],
+    "ammo": ["45colt", "410shot"],
     "dispersion": 520,
     "durability": 6,
     "clip_size": 2,
     "blackpowder_tolerance": 80,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["grip", 1],
+      ["mechanism", 2],
+      ["sights mount", 1],
+      ["stock mount", 1],
+      ["underbarrel mount", 1]
     ]
   },
   {
@@ -38,7 +38,7 @@
     "volume": "1601 ml",
     "price": 132000,
     "price_postapoc": 2500,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "45colt",
     "ranged_damage": { "damage_type": "bullet", "amount": 5 },
@@ -47,7 +47,7 @@
     "clip_size": 14,
     "blackpowder_tolerance": 56,
     "reload_noise": "chik chik.",
-    "flags": [ "RELOAD_ONE" ]
+    "flags": ["RELOAD_ONE"]
   },
   {
     "id": "colt_saa",
@@ -61,7 +61,7 @@
     "price": 47900,
     "price_postapoc": 2500,
     "to_hit": -1,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "ammo": "45colt",
     "dispersion": 360,
     "blackpowder_tolerance": 56,

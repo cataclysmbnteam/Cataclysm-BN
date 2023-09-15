@@ -23,7 +23,10 @@
     "type": "talk_topic",
     "dynamic_line": "The door was good heavy steel with no window, and there was a staff room with a fully stocked fridge, so when it became clear that nothing was going to get any better on its own, I set up shop.  I stayed down there for a couple days.  I could hear explosions and screaming for the first while, then just guns and explosions, and then it got <really> quiet.  Eventually, I ran out of snacks, so I worked up the nerve to climb out a window and check out the city by night.  I used that place as a base for a little while, but the area around the hospital was too hot to keep it up, so I made my way out to greener pastures.  And here I am.",
     "responses": [
-      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      {
+        "text": "Thanks for telling me that.  <done_conversation_section>",
+        "topic": "TALK_FRIEND"
+      },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }

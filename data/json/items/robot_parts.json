@@ -6,7 +6,7 @@
     "description": "This is a template for robot module.  If found in a game it is a bug.",
     "symbol": "%",
     "color": "cyan",
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "weight": "250 g",
     "volume": "500 ml",
     "price": 32000,
@@ -137,7 +137,7 @@
     "volume": "500 ml",
     "price": 40000,
     "price_postapoc": 100,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "category": "spare_parts"
   },
   {
@@ -151,7 +151,7 @@
     "volume": "10 L",
     "price": 100000,
     "price_postapoc": 250,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "category": "spare_parts"
   },
   {
@@ -165,7 +165,7 @@
     "volume": "5 L",
     "price": 100000,
     "price_postapoc": 250,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "category": "spare_parts"
   },
   {
@@ -179,7 +179,7 @@
     "volume": "30 L",
     "price": 600000,
     "price_postapoc": 250,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "category": "spare_parts"
   },
   {
@@ -193,7 +193,7 @@
     "volume": "10 L",
     "price": 100000,
     "price_postapoc": 100,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "category": "spare_parts"
   },
   {
@@ -207,7 +207,7 @@
     "volume": "40000 ml",
     "price": 100000,
     "price_postapoc": 100,
-    "material": [ "steel", "superalloy" ],
+    "material": ["steel", "superalloy"],
     "category": "spare_parts"
   },
   {
@@ -221,7 +221,7 @@
     "volume": "40000 ml",
     "price": 100000,
     "price_postapoc": 100,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "category": "spare_parts"
   }
 ]

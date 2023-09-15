@@ -10,16 +10,16 @@
     "price_postapoc": 3000,
     "to_hit": -5,
     "bashing": 6,
-    "material": [ "bronze" ],
+    "material": ["bronze"],
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "yellow",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 90,
     "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": ["VARSIZE", "OUTER", "STURDY"]
   },
   {
     "id": "armor_lamellar",
@@ -30,17 +30,17 @@
     "volume": "9250 ml",
     "price": 26000,
     "price_postapoc": 2500,
-    "material": [ "leather", "cotton" ],
+    "material": ["leather", "cotton"],
     "symbol": "[",
     "looks_like": "vest_leather",
     "copy-from": "armor_chitin",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 80,
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 8,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": ["VARSIZE", "STURDY"]
   },
   {
     "id": "armor_lorica",
@@ -53,16 +53,16 @@
     "price_postapoc": 3500,
     "to_hit": -5,
     "bashing": 6,
-    "material": [ "iron", "leather" ],
+    "material": ["iron", "leather"],
     "symbol": "[",
     "looks_like": "armor_lamellar",
     "color": "light_gray",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 90,
     "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": ["VARSIZE", "OUTER", "STURDY"]
   },
   {
     "id": "bookplate",
@@ -74,16 +74,16 @@
     "price": 4200,
     "price_postapoc": 100,
     "to_hit": -1,
-    "material": [ "paper" ],
+    "material": ["paper"],
     "symbol": "O",
     "looks_like": "armor_scrapsuit",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 80,
     "encumbrance": 20,
     "warmth": 10,
     "material_thickness": 12,
-    "flags": [ "BELTED" ]
+    "flags": ["BELTED"]
   },
   {
     "id": "chainmail_vest",
@@ -95,15 +95,15 @@
     "price": 10000,
     "price_postapoc": 2000,
     "to_hit": -1,
-    "material": [ "iron", "cotton" ],
+    "material": ["iron", "cotton"],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_red",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": ["VARSIZE", "STURDY"]
   },
   {
     "id": "chestguard_hard",
@@ -116,17 +116,17 @@
     "price": 60000,
     "price_postapoc": 500,
     "to_hit": -2,
-    "material": [ "plastic", "neoprene" ],
+    "material": ["plastic", "neoprene"],
     "symbol": "H",
     "looks_like": "cuirass_lightplate",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 90,
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "OUTER" ]
+    "flags": ["WATER_FRIENDLY", "STURDY", "OUTER"]
   },
   {
     "id": "cuirass_lightplate",
@@ -138,16 +138,16 @@
     "price": 20000,
     "price_postapoc": 4000,
     "to_hit": -1,
-    "material": [ "steel", "leather" ],
+    "material": ["steel", "leather"],
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 95,
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": ["VARSIZE", "OUTER", "STURDY"]
   },
   {
     "id": "cuirass_scrap",
@@ -161,16 +161,16 @@
     "to_hit": -1,
     "bashing": 2,
     "cutting": 3,
-    "material": [ "steel", "iron" ],
+    "material": ["steel", "iron"],
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 80,
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OUTER" ]
+    "flags": ["OUTER"]
   },
   {
     "id": "fencing_jacket",
@@ -182,17 +182,17 @@
     "volume": "2500 ml",
     "price": 3000,
     "price_postapoc": 100,
-    "material": [ "cotton", "nylon" ],
+    "material": ["cotton", "nylon"],
     "symbol": "[",
     "looks_like": "coat_lab",
     "color": "white",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 100,
     "encumbrance": 5,
     "warmth": 25,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded", "alloy_padded" ],
-    "flags": [ "STURDY" ]
+    "valid_mods": ["steel_padded", "alloy_padded"],
+    "flags": ["STURDY"]
   },
   {
     "id": "jacket_leather_mod",
@@ -204,18 +204,18 @@
     "price": 17900,
     "price_postapoc": 1500,
     "to_hit": 1,
-    "material": [ "leather", "iron" ],
+    "material": ["leather", "iron"],
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "dark_gray",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 85,
     "encumbrance": 24,
     "storage": "1 L",
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": ["VARSIZE", "POCKETS", "OUTER"]
   },
   {
     "id": "jacket_leather_bone",
@@ -223,7 +223,7 @@
     "name": { "str": "occult bone armor" },
     "description": "A black jacket made from thick leather and covered with intricately carved bones.  You've never seen patterns like those before, each time you look at them you spot a new one as if they were changing on their own.",
     "copy-from": "jacket_leather_mod",
-    "material": [ "leather", "bone" ]
+    "material": ["leather", "bone"]
   },
   {
     "id": "lame_foil",
@@ -235,15 +235,15 @@
     "volume": "2500 ml",
     "price": 3000,
     "price_postapoc": 250,
-    "material": [ "cotton", "budget_steel" ],
+    "material": ["cotton", "budget_steel"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 100,
     "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": ["VARSIZE", "OUTER"]
   },
   {
     "id": "lame_saber",
@@ -255,15 +255,15 @@
     "volume": "2500 ml",
     "price": 8500,
     "price_postapoc": 250,
-    "material": [ "cotton", "budget_steel" ],
+    "material": ["cotton", "budget_steel"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 100,
     "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "OUTER" ]
+    "flags": ["VARSIZE", "OUTER"]
   },
   {
     "id": "football_armor",
@@ -275,16 +275,16 @@
     "volume": "7 L",
     "price": 11000,
     "price_postapoc": 250,
-    "material": [ "plastic", "cotton" ],
+    "material": ["plastic", "cotton"],
     "symbol": "[",
     "looks_like": "chestguard_hard",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 45,
     "encumbrance": 35,
     "warmth": 10,
     "material_thickness": 6,
-    "flags": [ "BELTED" ]
+    "flags": ["BELTED"]
   },
   {
     "id": "kevlar",
@@ -298,16 +298,16 @@
     "price_postapoc": 1250,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar" ],
+    "material": ["kevlar"],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 85,
     "encumbrance": 5,
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "STURDY", "SKINTIGHT" ]
+    "flags": ["STURDY", "SKINTIGHT"]
   },
   {
     "id": "lsurvivor_armor",
@@ -318,18 +318,18 @@
     "volume": "6 L",
     "price": 60000,
     "price_postapoc": 4000,
-    "material": [ "kevlar", "cotton" ],
+    "material": ["kevlar", "cotton"],
     "symbol": "[",
     "looks_like": "lsurvivor_suit",
     "color": "green",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 95,
     "encumbrance": 16,
     "storage": "2500 ml",
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
+    "flags": ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY"]
   },
   {
     "id": "motorbike_armor",
@@ -342,18 +342,18 @@
     "price": 15000,
     "price_postapoc": 1000,
     "bashing": 8,
-    "material": [ "kevlar", "cotton" ],
+    "material": ["kevlar", "cotton"],
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "dark_gray",
-    "covers": [ "torso", "arms" ],
+    "covers": ["torso", "arms"],
     "coverage": 95,
     "encumbrance": 30,
     "storage": "500 ml",
     "warmth": 35,
     "material_thickness": 4,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": ["VARSIZE", "WATERPROOF"]
   },
   {
     "id": "plastron_cotton",
@@ -365,14 +365,14 @@
     "volume": "500 ml",
     "price": 1600,
     "price_postapoc": 50,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "color": "white",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 65,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "SKINTIGHT" ]
+    "flags": ["SKINTIGHT"]
   },
   {
     "id": "plastron_plastic",
@@ -383,15 +383,15 @@
     "volume": "850 ml",
     "price": 3000,
     "price_postapoc": 50,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": "[",
     "color": "white",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 35,
     "encumbrance": 2,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "SKINTIGHT" ]
+    "flags": ["SKINTIGHT"]
   },
   {
     "id": "vest_leather_mod",
@@ -403,17 +403,17 @@
     "price": 17900,
     "price_postapoc": 750,
     "to_hit": 1,
-    "material": [ "leather", "iron" ],
+    "material": ["leather", "iron"],
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 90,
     "encumbrance": 24,
     "storage": "1 L",
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": ["VARSIZE", "POCKETS", "OUTER"]
   }
 ]

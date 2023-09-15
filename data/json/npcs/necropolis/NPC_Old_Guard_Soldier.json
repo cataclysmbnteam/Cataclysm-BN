@@ -40,13 +40,13 @@
           "If you need something you'll need to talk to someone else.",
           {
             "u_male": true,
-            "yes": [ "Sir.", "Dude, if you can hold your own you should look into enlisting." ],
-            "no": [ "Ma'am", "Hey miss, don't you think it would be safer if you stuck with me?" ]
+            "yes": ["Sir.", "Dude, if you can hold your own you should look into enlisting."],
+            "no": ["Ma'am", "Hey miss, don't you think it would be safer if you stuck with me?"]
           },
           "I don't know how bad things have gotten out there, but this place seriously isn't safe for civilians."
         ]
       }
     },
-    "responses": [ { "text": "Don't mind me…", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "Don't mind me…", "topic": "TALK_DONE" }]
   }
 ]

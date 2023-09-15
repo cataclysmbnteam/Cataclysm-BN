@@ -7,14 +7,20 @@
     "volume": "0 ml",
     "price": 12000,
     "price_postapoc": 250,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ":",
     "color": "light_gray",
     "location": "barrel",
-    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "SHOTGUNS" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
+    "mod_target_category": [
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["SHOTGUNS"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"]
+    ],
     "dispersion_modifier": 75,
     "loudness_modifier": 5,
-    "flags": [ "IRREMOVABLE" ]
+    "flags": ["IRREMOVABLE"]
   },
   {
     "id": "upstest",
@@ -26,18 +32,18 @@
     "price": 20000,
     "price_postapoc": 0,
     "bashing": 5,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ":",
     "color": "light_gray",
     "location": "barrel",
     "mod_target_category": [
-      [ "PISTOLS" ],
-      [ "REVOLVERS" ],
-      [ "SUBMACHINE_GUNS" ],
-      [ "RIFLES" ],
-      [ "SHOTGUNS" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ]
+      ["PISTOLS"],
+      ["REVOLVERS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["SHOTGUNS"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"]
     ],
     "damage_modifier": { "damage_type": "stab", "amount": 500 },
     "dispersion_modifier": 500,

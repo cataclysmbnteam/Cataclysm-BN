@@ -6,8 +6,16 @@
     "color": "white",
     "name": { "str": "corpse" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "FIELD_DRESS", "name": { "str": "carcass", "str_pl": "carcasses" } },
-      { "type": "FLAG", "condition": "FIELD_DRESS_FAILED", "name": { "str": "carcass", "str_pl": "carcasses" } },
+      {
+        "type": "FLAG",
+        "condition": "FIELD_DRESS",
+        "name": { "str": "carcass", "str_pl": "carcasses" }
+      },
+      {
+        "type": "FLAG",
+        "condition": "FIELD_DRESS_FAILED",
+        "name": { "str": "carcass", "str_pl": "carcasses" }
+      },
       { "type": "FLAG", "condition": "SKINNED", "name": { "str_sp": "skinned %s" } },
       { "type": "FLAG", "condition": "QUARTERED", "name": "carcass quarter" }
     ],
@@ -15,7 +23,7 @@
     "//": "most of the properties depend on the monster type and are created at runtime!",
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "NO_UNLOAD", "TRADER_AVOID", "CORPSE" ]
+    "flags": ["NO_UNLOAD", "TRADER_AVOID", "CORPSE"]
   },
   {
     "type": "GENERIC",
@@ -28,7 +36,7 @@
     "material": "hflesh",
     "price": 0,
     "volume": "7500 ml",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": ["TRADER_AVOID"]
   },
   {
     "type": "GENERIC",

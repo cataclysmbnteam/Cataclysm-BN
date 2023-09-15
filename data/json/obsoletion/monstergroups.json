@@ -4,9 +4,9 @@
     "name": "GROUP_ZOMBIE_MID",
     "default": "mon_zombie_tough",
     "monsters": [
-      { "monster": "mon_zombie", "freq": 10, "cost_multiplier": 10, "pack_size": [ 25, 30 ] },
+      { "monster": "mon_zombie", "freq": 10, "cost_multiplier": 10, "pack_size": [25, 30] },
       { "monster": "mon_zombie_fat", "freq": 75, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_fat", "freq": 3, "cost_multiplier": 3, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie_fat", "freq": 3, "cost_multiplier": 3, "pack_size": [3, 5] },
       { "monster": "mon_zombie_tough", "freq": 75, "cost_multiplier": 1 },
       { "monster": "mon_zombie_anklebiter", "freq": 2, "cost_multiplier": 1 },
       { "monster": "mon_zombie_sproglodyte", "freq": 1, "cost_multiplier": 1 },
@@ -15,7 +15,7 @@
       { "monster": "mon_zombie_snotgobbler", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_zombie_waif", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_zombie_child", "freq": 2, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_dog", "freq": 1, "cost_multiplier": 24, "pack_size": [ 8, 12 ] },
+      { "monster": "mon_zombie_dog", "freq": 1, "cost_multiplier": 24, "pack_size": [8, 12] },
       { "monster": "mon_dog_skeleton", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_dog_zombie_cop", "freq": 30, "cost_multiplier": 4 },
       { "monster": "mon_dog_zombie_rot", "freq": 30, "cost_multiplier": 3 },
@@ -29,7 +29,7 @@
       { "monster": "mon_zombie_smoker", "freq": 30, "cost_multiplier": 2 },
       { "monster": "mon_zombie_shady", "freq": 30, "cost_multiplier": 2 },
       { "monster": "mon_zombie_gasbag", "freq": 10, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_gasbag", "freq": 10, "cost_multiplier": 5, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie_gasbag", "freq": 10, "cost_multiplier": 5, "pack_size": [3, 5] },
       { "monster": "mon_zombie_swimmer", "freq": 30, "cost_multiplier": 2 },
       { "monster": "mon_zombie_shrieker", "freq": 30, "cost_multiplier": 2 },
       { "monster": "mon_zombie_spitter", "freq": 10, "cost_multiplier": 2 },
@@ -59,6 +59,6 @@
     "name": "GROUP_COFFEE_SHOP_SPITTER",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [ { "monster": "mon_zombie_spitter", "freq": 65, "cost_multiplier": 5 } ]
+    "monsters": [{ "monster": "mon_zombie_spitter", "freq": 65, "cost_multiplier": 5 }]
   }
 ]

@@ -5,9 +5,9 @@
     "name": "Evacuee",
     "points": 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
-    "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
+    "allowed_locs": ["sloc_shelter", "sloc_shelter_vandalized"],
     "start_name": "Evac Shelter",
-    "flags": [ "CITY_START" ]
+    "flags": ["CITY_START"]
   },
   {
     "type": "scenario",
@@ -29,7 +29,7 @@
       "sloc_cemetery"
     ],
     "start_name": "In Town",
-    "flags": [ "CITY_START" ]
+    "flags": ["CITY_START"]
   },
   {
     "type": "scenario",
@@ -37,9 +37,14 @@
     "name": "Large Building",
     "points": -2,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
-    "allowed_locs": [ "sloc_mall_loading_area", "sloc_mall_food_court", "sloc_apartments_rooftop", "sloc_hospital" ],
+    "allowed_locs": [
+      "sloc_mall_loading_area",
+      "sloc_mall_food_court",
+      "sloc_apartments_rooftop",
+      "sloc_hospital"
+    ],
     "start_name": "In Large Building",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "flags": ["SUR_START", "CITY_START", "LONE_START"]
   },
   {
     "type": "scenario",
@@ -65,7 +70,7 @@
       "sloc_town_hall"
     ],
     "start_name": "In Town",
-    "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
+    "flags": ["SUR_START", "CITY_START", "LONE_START"]
   },
   {
     "type": "scenario",
@@ -84,13 +89,13 @@
       "sloc_cabin_lake"
     ],
     "start_name": "Safe Building",
-    "flags": [ "LONE_START" ]
+    "flags": ["LONE_START"]
   },
   {
     "type": "scenario",
     "name": "Infected",
     "description": "In the chaos and panic of evacuation, you got bitten by something!  You didn't get proper medical care, and now the wound has started turning green.",
-    "flags": [ "INFECTED", "CITY_START" ],
+    "flags": ["INFECTED", "CITY_START"],
     "id": "infected",
     "points": -4,
     "start_name": "In Town",
@@ -112,13 +117,13 @@
       "sloc_cemetery",
       "sloc_mansion"
     ],
-    "missions": [ "MISSION_INFECTED_START_FIND_ANTIBIOTICS" ]
+    "missions": ["MISSION_INFECTED_START_FIND_ANTIBIOTICS"]
   },
   {
     "type": "scenario",
     "name": "Burning Building",
     "description": "The building you had chosen to reside in has suddenly caught fire!  You might want to leave.",
-    "flags": [ "FIRE_START", "CITY_START" ],
+    "flags": ["FIRE_START", "CITY_START"],
     "id": "fire",
     "points": -2,
     "start_name": "In Town",
@@ -161,8 +166,8 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "professions": [ "svictim", "naked", "tweaker", "crackhead", "convict_ratman", "broken_cyborg" ],
-    "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START" ]
+    "professions": ["svictim", "naked", "tweaker", "crackhead", "convict_ratman", "broken_cyborg"],
+    "flags": ["FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START"]
   },
   {
     "type": "scenario",
@@ -171,11 +176,11 @@
     "points": -8,
     "description": "Som nigromancie hath brought yow hidder!  Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God.",
     "start_name": "Wilderness",
-    "allowed_locs": [ "sloc_forest", "sloc_field" ],
-    "professions": [ "churl" ],
-    "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "WAYFARER", "SPIRITUAL" ],
-    "forbidden_traits": [ "FASTREADER", "SLOWREADER" ],
-    "flags": [ "CHALLENGE", "LONE_START" ]
+    "allowed_locs": ["sloc_forest", "sloc_field"],
+    "professions": ["churl"],
+    "forced_traits": ["ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "WAYFARER", "SPIRITUAL"],
+    "forbidden_traits": ["FASTREADER", "SLOWREADER"],
+    "flags": ["CHALLENGE", "LONE_START"]
   },
   {
     "type": "scenario",
@@ -216,10 +221,17 @@
       "prof_feral_armored",
       "prof_feral_lumberjack"
     ],
-    "traits": [ "RADIOGENIC", "ROT2", "SAPROVORE", "SORES", "UNSTABLE" ],
-    "forced_traits": [ "PSYCHOPATH", "SCHIZOPHRENIC", "CARNIVORE" ],
-    "forbidden_traits": [ "ANIMALEMPATH", "ANIMALDISCORD", "ANTIWHEAT", "ANTIFRUIT", "MEATARIAN", "SQUEAMISH" ],
-    "flags": [ "CHALLENGE", "LONE_START", "SUM_START", "CITY_START" ]
+    "traits": ["RADIOGENIC", "ROT2", "SAPROVORE", "SORES", "UNSTABLE"],
+    "forced_traits": ["PSYCHOPATH", "SCHIZOPHRENIC", "CARNIVORE"],
+    "forbidden_traits": [
+      "ANIMALEMPATH",
+      "ANIMALDISCORD",
+      "ANTIWHEAT",
+      "ANTIFRUIT",
+      "MEATARIAN",
+      "SQUEAMISH"
+    ],
+    "flags": ["CHALLENGE", "LONE_START", "SUM_START", "CITY_START"]
   },
   {
     "type": "scenario",
@@ -238,7 +250,13 @@
       "cykotic",
       "convict_political"
     ],
-    "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
+    "allowed_locs": [
+      "sloc_lab_random",
+      "sloc_lab_escape_cells",
+      "sloc_lab_finale",
+      "sloc_ice_lab_stairs",
+      "sloc_ice_lab_finale"
+    ],
     "traits": [
       "ELFAEYES",
       "NIGHTVISION2",
@@ -291,7 +309,7 @@
       "SMALL",
       "LARGE"
     ],
-    "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
+    "flags": ["CHALLENGE", "CITY_START", "LONE_START"]
   },
   {
     "type": "scenario",
@@ -300,9 +318,15 @@
     "points": -8,
     "description": "You were deemed non-essential and made to stay behind during the lab evacuation.  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
-    "professions": [ "labtech", "security", "medic", "bionic_installer", "bio_medic" ],
-    "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
-    "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
+    "professions": ["labtech", "security", "medic", "bionic_installer", "bio_medic"],
+    "allowed_locs": [
+      "sloc_lab_random",
+      "sloc_lab_escape_cells",
+      "sloc_lab_finale",
+      "sloc_ice_lab_stairs",
+      "sloc_ice_lab_finale"
+    ],
+    "flags": ["CHALLENGE", "CITY_START", "LONE_START"]
   },
   {
     "type": "scenario",
@@ -310,9 +334,9 @@
     "name": "Challenge - Bordered",
     "points": -2,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  The only thing that really bothers you is a mysterious sky-high wall seen in the distance.",
-    "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
+    "allowed_locs": ["sloc_shelter", "sloc_shelter_vandalized"],
     "start_name": "Evac Shelter",
-    "flags": [ "CHALLENGE", "CITY_START", "BORDERED" ]
+    "flags": ["CHALLENGE", "CITY_START", "BORDERED"]
   },
   {
     "type": "scenario",
@@ -330,7 +354,7 @@
       "sloc_campground"
     ],
     "start_name": "Outside Town",
-    "flags": [ "SUR_START", "WIN_START", "LONE_START" ],
+    "flags": ["SUR_START", "WIN_START", "LONE_START"],
     "add_professions": true,
     "professions": [
       "sheltered_survivor",
@@ -361,7 +385,7 @@
       "sloc_lighthouse_ground"
     ],
     "start_name": "Outside Town",
-    "flags": [ "SUM_ADV_START", "LONE_START" ],
+    "flags": ["SUM_ADV_START", "LONE_START"],
     "add_professions": true,
     "professions": [
       "sheltered_survivor",
@@ -380,9 +404,9 @@
     "name": "Sheltered",
     "points": -3,
     "description": "When the apocalypse broke out, you were funneled into the nearest shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the Cataclysm, you will be forced to face the outside world.",
-    "allowed_locs": [ "sloc_lmoe_empty", "sloc_shelter" ],
+    "allowed_locs": ["sloc_lmoe_empty", "sloc_shelter"],
     "start_name": "Enclosed Shelter",
-    "flags": [ "WIN_START", "LONE_START" ],
+    "flags": ["WIN_START", "LONE_START"],
     "professions": [
       "sheltered_militia",
       "sheltered_survivor",
@@ -402,12 +426,12 @@
     "name": "Challenge - Abandoned",
     "points": -8,
     "description": "Sickly and frail, you have spent years in the patient's ward of the hospital.  When yours was evacuated, you were left behind because you were a lost cause.  You awaken to the sound of movement around the hospital.",
-    "allowed_locs": [ "sloc_hospital" ],
+    "allowed_locs": ["sloc_hospital"],
     "start_name": "Hospital",
-    "forced_traits": [ "FLIMSY2" ],
-    "forbidden_traits": [ "TOUGH" ],
-    "professions": [ "unemployed", "bionic_patient", "patient", "broken_cyborg", "senior" ],
-    "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
+    "forced_traits": ["FLIMSY2"],
+    "forbidden_traits": ["TOUGH"],
+    "professions": ["unemployed", "bionic_patient", "patient", "broken_cyborg", "senior"],
+    "flags": ["CHALLENGE", "CITY_START", "LONE_START"]
   },
   {
     "type": "scenario",
@@ -415,7 +439,7 @@
     "name": "Prison",
     "points": -4,
     "description": "When the Cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight… you might need to expedite your escape plans.",
-    "allowed_locs": [ "sloc_prison" ],
+    "allowed_locs": ["sloc_prison"],
     "start_name": "Prison",
     "professions": [
       "convict",
@@ -427,7 +451,7 @@
       "k9_cop",
       "cop"
     ],
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": ["CITY_START", "LONE_START"]
   },
   {
     "type": "scenario",
@@ -435,7 +459,7 @@
     "name": "Challenge - Island Prison",
     "points": -6,
     "description": "You were at a high-security prison right before the Cataclysm.  You managed to make it outside the inner walls…  Too bad it's located on a remote island, and now you need to find out how to escape it too.",
-    "allowed_locs": [ "sloc_prison_alcatraz" ],
+    "allowed_locs": ["sloc_prison_alcatraz"],
     "start_name": "Island prison",
     "professions": [
       "convict",
@@ -447,7 +471,7 @@
       "k9_cop",
       "cop"
     ],
-    "flags": [ "LONE_START", "CHALLENGE", "OUTDOOR" ]
+    "flags": ["LONE_START", "CHALLENGE", "OUTDOOR"]
   },
   {
     "type": "scenario",
@@ -455,10 +479,10 @@
     "name": "Challenge - Mi-Go Camp",
     "points": -8,
     "description": "You find yourself in the most alien place you've ever seen.  The hot humid air and the organic aspect of the structure makes you feel like you're trapped inside a giant creature.  Whatever it is, you need to get out of here before They find you.",
-    "allowed_locs": [ "sloc_mi-go_camp" ],
+    "allowed_locs": ["sloc_mi-go_camp"],
     "start_name": "Mi-Go Camp",
-    "professions": [ "captive", "rescuer" ],
-    "flags": [ "LONE_START", "CHALLENGE", "WIN_START" ]
+    "professions": ["captive", "rescuer"],
+    "flags": ["LONE_START", "CHALLENGE", "WIN_START"]
   },
   {
     "type": "scenario",
@@ -467,7 +491,7 @@
     "points": 2,
     "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not.  Once the Cataclysm struck, you left the lab, and wandered aimlessly, ending up in a forest.",
     "start_name": "Wilderness",
-    "allowed_locs": [ "sloc_forest", "sloc_field" ],
+    "allowed_locs": ["sloc_forest", "sloc_field"],
     "professions": [
       "unemployed",
       "mutant_patient",
@@ -530,7 +554,7 @@
       "SMALL",
       "LARGE"
     ],
-    "flags": [ "LONE_START" ]
+    "flags": ["LONE_START"]
   },
   {
     "type": "scenario",
@@ -538,10 +562,10 @@
     "name": "The Mascot Rises",
     "points": 0,
     "description": "You just finished your shift and got back in the break room when you heard the alarms and the security door shutting down behind you.  There's a lot of customers out there and you're not sure Foodplace's delicious food™ is going to be enough for them.",
-    "allowed_locs": [ "sloc_restaraunt_foodplace_break_room" ],
-    "professions": [ "true_foodperson", "fastfoodcook", "chef", "unemployed" ],
+    "allowed_locs": ["sloc_restaraunt_foodplace_break_room"],
+    "professions": ["true_foodperson", "fastfoodcook", "chef", "unemployed"],
     "start_name": "Foodplace Break Room",
-    "flags": [ "CITY_START" ]
+    "flags": ["CITY_START"]
   },
   {
     "type": "scenario",
@@ -550,11 +574,11 @@
     "points": 2,
     "description": "While the world was falling apart someone called to order some of Foodplace's delicious food™ and they sent you to do the delivery.  You're not sure about much, but one thing is certain: that delicious food™ is going to get delivered even if that's the last thing you do!",
     "vehicle": "food_truck_delivery_mission",
-    "professions": [ "true_foodperson", "pizzaboy", "unemployed" ],
+    "professions": ["true_foodperson", "pizzaboy", "unemployed"],
     "start_name": "A Stop On The Road",
-    "allowed_locs": [ "sloc_gas_station" ],
-    "missions": [ "MISSION_LAST_DELIVERY" ],
-    "flags": [ "LONE_START" ]
+    "allowed_locs": ["sloc_gas_station"],
+    "missions": ["MISSION_LAST_DELIVERY"],
+    "flags": ["LONE_START"]
   },
   {
     "type": "scenario",
@@ -563,8 +587,14 @@
     "points": 0,
     "description": "You find yourself amongst trees.  The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
     "start_name": "Wilderness",
-    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_campsite", "sloc_campground", "sloc_deserted_island" ],
-    "flags": [ "LONE_START" ]
+    "allowed_locs": [
+      "sloc_field",
+      "sloc_forest",
+      "sloc_campsite",
+      "sloc_campground",
+      "sloc_deserted_island"
+    ],
+    "flags": ["LONE_START"]
   },
   {
     "type": "scenario",
@@ -573,7 +603,7 @@
     "points": -5,
     "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
     "start_name": "Crash site",
-    "allowed_locs": [ "sloc_field", "sloc_forest" ],
+    "allowed_locs": ["sloc_field", "sloc_forest"],
     "professions": [
       "soldier",
       "specops",
@@ -587,7 +617,7 @@
       "mili_pilot"
     ],
     "map_extra": "mx_helicopter",
-    "flags": [ "HELI_CRASH", "LONE_START" ]
+    "flags": ["HELI_CRASH", "LONE_START"]
   },
   {
     "type": "scenario",
@@ -595,11 +625,21 @@
     "name": "One Last Assassination",
     "points": 0,
     "description": "Your mission required you to eliminate a certain high-ranking individual in hiding. Your mark seems to have turned feral while escaping and the world appears to be ending, but not even that can stop you from finishing your mission.",
-    "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
+    "allowed_locs": ["sloc_shelter", "sloc_shelter_vandalized"],
     "start_name": "Evac Shelter",
-    "professions": [ "assassin", "hitman", "scoundrel", "gangster", "specops", "bionic_hitman", "bio_gangster", "razorgirl", "bio_sniper" ],
-    "flags": [ "CITY_START" ],
-    "missions": [ "MISSION_ASSASSINATION" ]
+    "professions": [
+      "assassin",
+      "hitman",
+      "scoundrel",
+      "gangster",
+      "specops",
+      "bionic_hitman",
+      "bio_gangster",
+      "razorgirl",
+      "bio_sniper"
+    ],
+    "flags": ["CITY_START"],
+    "missions": ["MISSION_ASSASSINATION"]
   },
   {
     "type": "scenario",
@@ -608,9 +648,17 @@
     "points": 1,
     "description": "You were participating in a mining operation when you found… something.  You're not sure what, but it sure is dark down here.",
     "start_name": "Bottom of a mine",
-    "allowed_locs": [ "sloc_mine_finale" ],
-    "professions": [ "miner", "labtech", "security", "bionic_worker", "archaeologist", "drone_op", "demolition_expert" ],
-    "flags": [ "CITY_START", "LONE_START" ]
+    "allowed_locs": ["sloc_mine_finale"],
+    "professions": [
+      "miner",
+      "labtech",
+      "security",
+      "bionic_worker",
+      "archaeologist",
+      "drone_op",
+      "demolition_expert"
+    ],
+    "flags": ["CITY_START", "LONE_START"]
   },
   {
     "type": "scenario",
@@ -619,20 +667,20 @@
     "points": 2,
     "description": "Once it became clear that the world was ending you took to the skies, hoping that your flying skills could lead you to safety.  With no safe landing zones, knowing fuel will soon be a concern, you made a quick landing to plan your next move.",
     "start_name": "Emergency Landing Site",
-    "allowed_locs": [ "sloc_field", "sloc_forest" ],
-    "missions": [ "MISSION_HELICOPTER_REFUEL" ],
-    "professions": [ "heli_pilot_scenario", "gyro_pilot", "mili_pilot_blackhawk" ],
-    "flags": [ "LONE_START" ]
+    "allowed_locs": ["sloc_field", "sloc_forest"],
+    "missions": ["MISSION_HELICOPTER_REFUEL"],
+    "professions": ["heli_pilot_scenario", "gyro_pilot", "mili_pilot_blackhawk"],
+    "flags": ["LONE_START"]
   },
   {
     "type": "scenario",
     "id": "cyberpunk",
     "name": "High Tech, Low Life",
     "description": "Before the world ended, bionics were reserved for the rich and the famous.  You might not have been either, but you wanted in.  Hidden offices sequestered away in basements, anesthetic smuggled out of hospitals, and desperate people with little to lose could get you what you wanted.  If you went too deep, however, your augmentation may have come at a price...",
-    "flags": [ "CITY_START", "LONE_START" ],
+    "flags": ["CITY_START", "LONE_START"],
     "points": 2,
     "start_name": "Shady Basement",
-    "allowed_locs": [ "sloc_basement_bionic" ],
+    "allowed_locs": ["sloc_basement_bionic"],
     "professions": [
       "cyberjunkie",
       "faulty_bionic",
@@ -656,9 +704,18 @@
     "points": 3,
     "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
     "start_name": "Military Base Warehouse",
-    "allowed_locs": [ "sloc_military_base_warehouse" ],
-    "professions": [ "unemployed", "soldier", "specops", "bio_soldier", "bio_sniper", "labtech", "medic", "mili_pilot" ],
-    "flags": [ "CHALLENGE", "LONE_START" ]
+    "allowed_locs": ["sloc_military_base_warehouse"],
+    "professions": [
+      "unemployed",
+      "soldier",
+      "specops",
+      "bio_soldier",
+      "bio_sniper",
+      "labtech",
+      "medic",
+      "mili_pilot"
+    ],
+    "flags": ["CHALLENGE", "LONE_START"]
   },
   {
     "type": "scenario",
@@ -667,7 +724,7 @@
     "points": 0,
     "description": "You thought things couldn't get any worse when the cops came over to bust your wild party, even though you booked it at a private resort.  When the guests started fighting with the police you tried to get them to calm down, only to find out they hungered for more.",
     "start_name": "Private resort",
-    "allowed_locs": [ "sloc_private_resort" ],
+    "allowed_locs": ["sloc_private_resort"],
     "professions": [
       "frat",
       "gangster",
@@ -682,6 +739,6 @@
       "roadie",
       "bio_gangster"
     ],
-    "flags": [ "CHALLENGE", "LONE_START" ]
+    "flags": ["CHALLENGE", "LONE_START"]
   }
 ]

@@ -26,7 +26,11 @@
     "type": "item_group",
     "id": "NC_COWBOY_shoes",
     "subtype": "distribution",
-    "entries": [ { "item": "sneakers", "prob": 20 }, { "item": "boots_western", "prob": 10 }, { "item": "boots", "prob": 60 } ]
+    "entries": [
+      { "item": "sneakers", "prob": 20 },
+      { "item": "boots_western", "prob": 10 },
+      { "item": "boots", "prob": 60 }
+    ]
   },
   {
     "type": "item_group",
@@ -69,7 +73,7 @@
     "type": "item_group",
     "id": "NC_COWBOY_vest",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 20 }, { "item": "kevlar", "prob": 50 } ]
+    "entries": [{ "item": "null", "prob": 20 }, { "item": "kevlar", "prob": 50 }]
   },
   {
     "type": "item_group",
@@ -86,7 +90,7 @@
     "type": "item_group",
     "id": "NC_COWBOY_holster",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 25 }, { "item": "holster", "prob": 75 } ]
+    "entries": [{ "item": "null", "prob": 25 }, { "item": "holster", "prob": 75 }]
   },
   {
     "type": "item_group",

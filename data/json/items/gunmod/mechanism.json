@@ -10,21 +10,21 @@
     "integral_weight": "0 g",
     "price": 1500,
     "price_postapoc": 500,
-    "material": [ "steel", "superalloy" ],
+    "material": ["steel", "superalloy"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "mechanism",
     "mod_target_category": [
-      [ "PISTOLS" ],
-      [ "REVOLVERS" ],
-      [ "SUBMACHINE_GUNS" ],
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "SHOTGUNS" ],
-      [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ],
-      [ "FLAMETHROWERS" ]
+      ["PISTOLS"],
+      ["REVOLVERS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"],
+      ["GRENADE_LAUNCHERS"],
+      ["ROCKET_LAUNCHERS"],
+      ["FLAMETHROWERS"]
     ],
     "install_time": "30 m",
     "dispersion_modifier": -1
@@ -40,14 +40,14 @@
     "integral_weight": "0 g",
     "price": 65000,
     "price_postapoc": 500,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ":",
     "color": "red",
     "location": "mechanism",
-    "mod_targets": [ "ar15" ],
+    "mod_targets": ["ar15"],
     "install_time": "5 m",
     "dispersion_modifier": 10,
-    "mode_modifier": [ [ "AUTO", "auto", 4 ] ]
+    "mode_modifier": [["AUTO", "auto", 4]]
   },
   {
     "id": "llink",
@@ -59,16 +59,16 @@
     "integral_volume": "0 ml",
     "price": 24000,
     "price_postapoc": 500,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ":",
     "color": "red",
     "location": "mechanism",
-    "mod_targets": [ "ar15" ],
+    "mod_targets": ["ar15"],
     "install_time": "25 m",
-    "min_skills": [ [ "weapon", 5 ] ],
+    "min_skills": [["weapon", 5]],
     "dispersion_modifier": 40,
-    "mode_modifier": [ [ "DEFAULT", "auto", 6 ] ],
-    "flags": [ "INSTALL_DIFFICULT" ]
+    "mode_modifier": [["DEFAULT", "auto", 6]],
+    "flags": ["INSTALL_DIFFICULT"]
   },
   {
     "id": "waterproof_gunmod",
@@ -80,23 +80,23 @@
     "integral_volume": "0 ml",
     "price": 50000,
     "price_postapoc": 750,
-    "material": [ "plastic" ],
+    "material": ["plastic"],
     "symbol": ":",
     "color": "dark_gray",
     "location": "mechanism",
     "mod_target_category": [
-      [ "PISTOLS" ],
-      [ "REVOLVERS" ],
-      [ "SUBMACHINE_GUNS" ],
-      [ "RIFLES" ],
-      [ "MACHINE_GUNS" ],
-      [ "GATLING_GUNS" ],
-      [ "SHOTGUNS" ],
-      [ "GRENADE_LAUNCHERS" ],
-      [ "ROCKET_LAUNCHERS" ],
-      [ "FLAMETHROWERS" ]
+      ["PISTOLS"],
+      ["REVOLVERS"],
+      ["SUBMACHINE_GUNS"],
+      ["RIFLES"],
+      ["MACHINE_GUNS"],
+      ["GATLING_GUNS"],
+      ["SHOTGUNS"],
+      ["GRENADE_LAUNCHERS"],
+      ["ROCKET_LAUNCHERS"],
+      ["FLAMETHROWERS"]
     ],
     "install_time": "10 m",
-    "flags": [ "WATERPROOF_GUN" ]
+    "flags": ["WATERPROOF_GUN"]
   }
 ]

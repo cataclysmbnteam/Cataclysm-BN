@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "bunker" ],
+    "om_terrain": ["bunker"],
     "object": {
       "rows": [
         "                        ",
@@ -31,7 +31,7 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": ["t_grass", "t_grass", "t_grass", "t_dirt"],
         "#": "t_floor",
         "*": "t_door_c",
         "+": "t_chaingate_l",
@@ -60,7 +60,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "bunker_basement" ],
+    "om_terrain": ["bunker_basement"],
     "weight": 1000,
     "object": {
       "//": "TODO: When it was hardcoded, each room had at most one of the bots, grenades, etc. groups in it, but the way it is now, it's possible for a room to have items from both the bots and grenades group in it.",
@@ -101,8 +101,8 @@
         "|": "t_ballistic_glass"
       },
       "furniture": { "r": "f_rack" },
-      "items": { "r": { "item": "bunker_basement_loot", "chance": 15, "repeat": [ 2, 8 ] } },
-      "place_nested": [ { "chunks": [ [ "null", 9 ], "bunker_mech_spawn" ], "x": 5, "y": 5 } ]
+      "items": { "r": { "item": "bunker_basement_loot", "chance": 15, "repeat": [2, 8] } },
+      "place_nested": [{ "chunks": [["null", 9], "bunker_mech_spawn"], "x": 5, "y": 5 }]
     }
   },
   {
@@ -111,15 +111,21 @@
     "nested_mapgen_id": "bunker_mech_spawn",
     "weight": 25,
     "object": {
-      "mapgensize": [ 3, 3 ],
-      "place_loot": [ { "group": "mech_power_cell_spawn", "x": [ 0, 2 ], "y": 2 } ],
-      "place_monster": [ { "monster": [ "mon_mech_combat", "mon_mech_lifter", "mon_mech_recon" ], "x": [ 0, 1 ], "y": [ 0, 1 ] } ]
+      "mapgensize": [3, 3],
+      "place_loot": [{ "group": "mech_power_cell_spawn", "x": [0, 2], "y": 2 }],
+      "place_monster": [
+        {
+          "monster": ["mon_mech_combat", "mon_mech_lifter", "mon_mech_recon"],
+          "x": [0, 1],
+          "y": [0, 1]
+        }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "bunker_basement" ],
+    "om_terrain": ["bunker_basement"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -149,7 +155,7 @@
         "#MMMMMMMMMMMMMMMMMMMMMM#",
         "########################"
       ],
-      "palettes": [ "basement_bunker" ],
+      "palettes": ["basement_bunker"],
       "furniture": {
         "r": "f_rack",
         "f": "f_fridge",
@@ -184,25 +190,28 @@
         "t": { "item": "dining", "chance": 45 },
         "A": { "item": "autodoc_supplies", "chance": 100 }
       },
-      "place_fields": [ { "field": "fd_blood", "x": 2, "y": 3 }, { "field": "fd_blood", "x": 3, "y": 3 } ],
+      "place_fields": [
+        { "field": "fd_blood", "x": 2, "y": 3 },
+        { "field": "fd_blood", "x": 3, "y": 3 }
+      ],
       "place_loot": [
-        { "group": "surgery", "x": [ 14, 16 ], "y": 4, "chance": 70, "repeat": [ 1, 3 ] },
-        { "group": "bunker_basement_drugs", "x": [ 14, 16 ], "y": 4, "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "mags_milspec", "x": [ 2, 6 ], "y": 8, "chance": 100, "repeat": [ 3, 5 ] },
-        { "group": "ammo_milspec", "x": [ 2, 6 ], "y": 8, "chance": 100, "repeat": [ 30, 250 ] },
-        { "group": "grenades", "x": [ 2, 6 ], "y": 8, "chance": 100, "repeat": [ 5, 15 ] },
-        { "group": "mil_hw", "x": [ 7, 8 ], "y": 8, "chance": 100, "repeat": [ 15, 40 ] },
-        { "group": "pwr_armor", "x": [ 7, 8 ], "y": 6, "chance": 20, "repeat": [ 1, 2 ] },
-        { "group": "pwr_armor_acc", "x": [ 7, 8 ], "y": 6, "chance": 40, "repeat": [ 1, 2 ] },
-        { "group": "mil_armor", "x": [ 7, 8 ], "y": 6, "chance": 65, "repeat": [ 1, 2 ] },
-        { "group": "guns_rifle_milspec", "x": [ 2, 6 ], "y": 6, "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "guns_rifle_milspec", "x": 5, "y": [ 19, 20 ], "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "guns_launcher_milspec", "x": [ 2, 6 ], "y": 6, "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "gear_soldier_sidearm", "x": [ 2, 6 ], "y": 6, "chance": 90, "repeat": [ 1, 3 ] },
-        { "group": "sopmod_2", "x": [ 2, 6 ], "y": 6, "chance": 100, "repeat": [ 2, 3 ] },
+        { "group": "surgery", "x": [14, 16], "y": 4, "chance": 70, "repeat": [1, 3] },
+        { "group": "bunker_basement_drugs", "x": [14, 16], "y": 4, "chance": 80, "repeat": [1, 3] },
+        { "group": "mags_milspec", "x": [2, 6], "y": 8, "chance": 100, "repeat": [3, 5] },
+        { "group": "ammo_milspec", "x": [2, 6], "y": 8, "chance": 100, "repeat": [30, 250] },
+        { "group": "grenades", "x": [2, 6], "y": 8, "chance": 100, "repeat": [5, 15] },
+        { "group": "mil_hw", "x": [7, 8], "y": 8, "chance": 100, "repeat": [15, 40] },
+        { "group": "pwr_armor", "x": [7, 8], "y": 6, "chance": 20, "repeat": [1, 2] },
+        { "group": "pwr_armor_acc", "x": [7, 8], "y": 6, "chance": 40, "repeat": [1, 2] },
+        { "group": "mil_armor", "x": [7, 8], "y": 6, "chance": 65, "repeat": [1, 2] },
+        { "group": "guns_rifle_milspec", "x": [2, 6], "y": 6, "chance": 80, "repeat": [1, 3] },
+        { "group": "guns_rifle_milspec", "x": 5, "y": [19, 20], "chance": 80, "repeat": [1, 3] },
+        { "group": "guns_launcher_milspec", "x": [2, 6], "y": 6, "chance": 80, "repeat": [1, 3] },
+        { "group": "gear_soldier_sidearm", "x": [2, 6], "y": 6, "chance": 90, "repeat": [1, 3] },
+        { "group": "sopmod_2", "x": [2, 6], "y": 6, "chance": 100, "repeat": [2, 3] },
         { "group": "fridge", "x": 7, "y": 15, "chance": 70, "repeat": 3 },
-        { "group": "bunker_basement_food", "x": [ 5, 6 ], "y": 15, "chance": 75, "repeat": [ 1, 10 ] },
-        { "group": "dining", "x": [ 8, 9 ], "y": 15, "chance": 75, "repeat": [ 1, 2 ] },
+        { "group": "bunker_basement_food", "x": [5, 6], "y": 15, "chance": 75, "repeat": [1, 10] },
+        { "group": "dining", "x": [8, 9], "y": 15, "chance": 75, "repeat": [1, 2] },
         { "group": "oven", "x": 4, "y": 15, "chance": 70 },
         { "group": "cleaning", "x": 2, "y": 17, "chance": 70 },
         { "group": "bionics_mil", "x": 16, "y": 4, "chance": 65 },
@@ -221,7 +230,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "bunker_basement" ],
+    "om_terrain": ["bunker_basement"],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -251,7 +260,7 @@
         "#MMMMMMMMMMMMMMMMMMMMMM#",
         "########################"
       ],
-      "palettes": [ "basement_bunker" ],
+      "palettes": ["basement_bunker"],
       "furniture": {
         "r": "f_rack",
         "f": "f_fridge",
@@ -287,21 +296,21 @@
         "A": { "item": "autodoc_supplies", "chance": 100 }
       },
       "place_loot": [
-        { "group": "surgery", "x": [ 14, 16 ], "y": 4, "chance": 70, "repeat": [ 1, 3 ] },
-        { "group": "bunker_basement_drugs", "x": [ 14, 16 ], "y": 4, "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "mags_milspec", "x": [ 2, 6 ], "y": 8, "chance": 100, "repeat": [ 2, 6 ] },
-        { "group": "ammo_milspec", "x": [ 2, 6 ], "y": 8, "chance": 100, "repeat": [ 30, 150 ] },
-        { "group": "grenades", "x": [ 2, 6 ], "y": 8, "chance": 100, "repeat": [ 10, 30 ] },
-        { "group": "mil_hw", "x": [ 7, 8 ], "y": 8, "chance": 100, "repeat": [ 5, 10 ] },
-        { "group": "mil_armor", "x": [ 7, 8 ], "y": 6, "chance": 65, "repeat": [ 1, 2 ] },
-        { "group": "guns_rifle_milspec", "x": [ 2, 6 ], "y": 6, "chance": 80, "repeat": [ 1, 2 ] },
-        { "group": "guns_rifle_milspec", "x": 5, "y": [ 19, 20 ], "chance": 80, "repeat": [ 1, 2 ] },
-        { "group": "guns_launcher_milspec", "x": [ 2, 6 ], "y": 6, "chance": 90, "repeat": [ 1, 2 ] },
-        { "group": "gear_soldier_sidearm", "x": [ 2, 6 ], "y": 6, "chance": 90, "repeat": [ 1, 2 ] },
-        { "group": "sopmod_2", "x": [ 2, 6 ], "y": 6, "chance": 100, "repeat": [ 2, 3 ] },
+        { "group": "surgery", "x": [14, 16], "y": 4, "chance": 70, "repeat": [1, 3] },
+        { "group": "bunker_basement_drugs", "x": [14, 16], "y": 4, "chance": 80, "repeat": [1, 3] },
+        { "group": "mags_milspec", "x": [2, 6], "y": 8, "chance": 100, "repeat": [2, 6] },
+        { "group": "ammo_milspec", "x": [2, 6], "y": 8, "chance": 100, "repeat": [30, 150] },
+        { "group": "grenades", "x": [2, 6], "y": 8, "chance": 100, "repeat": [10, 30] },
+        { "group": "mil_hw", "x": [7, 8], "y": 8, "chance": 100, "repeat": [5, 10] },
+        { "group": "mil_armor", "x": [7, 8], "y": 6, "chance": 65, "repeat": [1, 2] },
+        { "group": "guns_rifle_milspec", "x": [2, 6], "y": 6, "chance": 80, "repeat": [1, 2] },
+        { "group": "guns_rifle_milspec", "x": 5, "y": [19, 20], "chance": 80, "repeat": [1, 2] },
+        { "group": "guns_launcher_milspec", "x": [2, 6], "y": 6, "chance": 90, "repeat": [1, 2] },
+        { "group": "gear_soldier_sidearm", "x": [2, 6], "y": 6, "chance": 90, "repeat": [1, 2] },
+        { "group": "sopmod_2", "x": [2, 6], "y": 6, "chance": 100, "repeat": [2, 3] },
         { "group": "fridge", "x": 7, "y": 15, "chance": 70, "repeat": 3 },
-        { "group": "bunker_basement_food", "x": [ 5, 6 ], "y": 15, "chance": 75, "repeat": [ 1, 2 ] },
-        { "group": "dining", "x": [ 8, 9 ], "y": 15, "chance": 75, "repeat": [ 1, 2 ] },
+        { "group": "bunker_basement_food", "x": [5, 6], "y": 15, "chance": 75, "repeat": [1, 2] },
+        { "group": "dining", "x": [8, 9], "y": 15, "chance": 75, "repeat": [1, 2] },
         { "group": "oven", "x": 4, "y": 15, "chance": 70 },
         { "group": "cleaning", "x": 2, "y": 17, "chance": 70 },
         { "group": "bionics_mil", "x": 16, "y": 4, "chance": 65 },
@@ -349,12 +358,12 @@
   {
     "type": "item_group",
     "id": "bunker_basement_drugs",
-    "items": [ { "group": "drugs_pharmacy", "prob": 70 }, { "group": "drugs_soldier", "prob": 50 } ]
+    "items": [{ "group": "drugs_pharmacy", "prob": 70 }, { "group": "drugs_soldier", "prob": 50 }]
   },
   {
     "type": "item_group",
     "id": "bunker_basement_food",
-    "items": [ { "group": "cannedfood", "prob": 80 }, { "group": "pasta", "prob": 50 } ]
+    "items": [{ "group": "cannedfood", "prob": 80 }, { "group": "pasta", "prob": 50 }]
   },
   {
     "type": "item_group",
@@ -381,7 +390,7 @@
       { "group": "clothing_tactical_leg", "prob": 15 },
       { "group": "clothing_tactical_torso", "prob": 15 },
       { "group": "underwear" },
-      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
+      { "distribution": [{ "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 }] },
       {
         "distribution": [
           { "group": "clothing_glasses", "prob": 60 },

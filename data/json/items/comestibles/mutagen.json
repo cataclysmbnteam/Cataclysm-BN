@@ -18,8 +18,8 @@
     "healthy": -2,
     "addiction_potential": 2,
     "addiction_type": "mutagen",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
-    "vitamins": [  ],
+    "flags": ["NUTRIENT_OVERRIDE"],
+    "vitamins": [],
     "material": "water",
     "freezing_point": 17
   },
@@ -41,7 +41,7 @@
     "addiction_potential": 6,
     "container": "test_tube",
     "tool": "syringe",
-    "flags": [ "NO_INGEST" ]
+    "flags": ["NO_INGEST"]
   },
   {
     "id": "iv_mutagen",
@@ -474,7 +474,7 @@
     "healthy": -6,
     "stim": -5,
     "use_action": "PURIFY_SMART",
-    "flags": [ "NPC_SAFE", "TRADER_AVOID", "NUTRIENT_OVERRIDE", "NO_INGEST" ]
+    "flags": ["NPC_SAFE", "TRADER_AVOID", "NUTRIENT_OVERRIDE", "NO_INGEST"]
   },
   {
     "type": "COMESTIBLE",
@@ -485,7 +485,7 @@
     "color": "pink",
     "spoils_in": "2 days",
     "use_action": { "type": "mutagen", "is_weak": true },
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": ["TRADER_AVOID", "NUTRIENT_OVERRIDE"],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -12,
@@ -506,7 +506,7 @@
     "color": "brown",
     "spoils_in": "2 days",
     "use_action": { "type": "mutagen", "is_weak": true },
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": ["TRADER_AVOID", "NUTRIENT_OVERRIDE"],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
@@ -527,7 +527,7 @@
     "color": "brown",
     "spoils_in": "2 days",
     "use_action": { "type": "mutagen", "is_weak": true },
-    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
+    "flags": ["TRADER_AVOID", "NUTRIENT_OVERRIDE"],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
@@ -556,13 +556,13 @@
     "addiction_potential": 5,
     "calories": 87,
     "description": "A frothing slurry of alcohol-soaked zombie flesh and rotten blood, it smells almost as bad as it looks.  Will make you mutate uncontrollably.",
-    "material": [ "alcohol", "flesh" ],
+    "material": ["alcohol", "flesh"],
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": ["NUTRIENT_OVERRIDE"],
     "fun": -40,
-    "vitamins": [ [ "mutant_toxin", 2000 ] ]
+    "vitamins": [["mutant_toxin", 2000]]
   },
   {
     "type": "COMESTIBLE",
@@ -582,12 +582,12 @@
     "description": "Improvised, uncontrolled mutagen.  It tastes horrible too!",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "alcohol", "junk" ],
+    "material": ["alcohol", "junk"],
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": ["NUTRIENT_OVERRIDE"],
     "fun": -15,
-    "vitamins": [ [ "mutant_toxin", 2000 ] ]
+    "vitamins": [["mutant_toxin", 2000]]
   }
 ]

@@ -52,7 +52,7 @@
         "w": "t_null",
         "q": "t_floor_noroof"
       },
-      "place_loot": [ { "item": "television", "x": 20, "y": 10 } ]
+      "place_loot": [{ "item": "television", "x": 20, "y": 10 }]
     }
   },
   {
@@ -61,7 +61,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "````````````````````````",

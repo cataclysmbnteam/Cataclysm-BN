@@ -15,7 +15,10 @@
     "dynamic_line": "OK, so, the first dream I had every night for three weeks.  I dreamed that I was running through the woods with a stick, fighting giant spiders.  For reals!  Every night.",
     "responses": [
       { "text": "OK, that doesn't seem that unusual though.", "topic": "BGSS_DREAMER_STORY3a" },
-      { "text": "Wow, crazy, I can't believe you really dreamed <the_cataclysm>.", "topic": "BGSS_DREAMER_STORY3b" },
+      {
+        "text": "Wow, crazy, I can't believe you really dreamed <the_cataclysm>.",
+        "topic": "BGSS_DREAMER_STORY3b"
+      },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]

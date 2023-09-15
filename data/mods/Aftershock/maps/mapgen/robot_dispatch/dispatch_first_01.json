@@ -32,7 +32,7 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "robot_dispatch" ],
+      "palettes": ["robot_dispatch"],
       "terrain": {
         "#": [
           "t_grass",

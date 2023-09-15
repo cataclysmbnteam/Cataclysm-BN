@@ -9,9 +9,9 @@
     "symbol": "=",
     "color": "yellow",
     "description": "Some free-floating battery charge.  This can be reloaded into rechargable battery cells, but can never be unloaded.",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": ["TRADER_AVOID"],
     "material": "iron",
-    "effects": [ "COOKOFF" ],
+    "effects": ["COOKOFF"],
     "volume": "100 ml",
     "//": "Setting battery volume to 0 causes weirdness in vehicle tests.  Please don't do that.",
     "ammo_type": "battery",
@@ -29,8 +29,8 @@
     "symbol": "=",
     "color": "green",
     "description": "Did your neighbors brag about their cool beta-decay powered nightlights?  Do them one better!  The CuppaTech 4 radioisotope thermoelectric generator is a three kilogram chunk of metal - mostly lead - with a slug of curium-244 encased within.  It is capable of generating somewhere between 100-150 Watts of thermal energy, although its electrical generation capacity is minimal at only 2 Watts.  Careful!  Curium is great at making heat, and also releases deadly gamma radiation.  Keep away from cellular life forms.",
-    "material": [ "steel", "lead" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
+    "material": ["steel", "lead"],
+    "flags": ["LEAK_DAM", "RADIOACTIVE"],
     "volume": "500 ml",
     "weight": "4000 g"
   },
@@ -59,7 +59,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": ["TRADER_AVOID"],
     "volume": "0 ml",
     "ammo_type": "money"
   },
@@ -74,7 +74,7 @@
     "color": "light_gray",
     "description": "A small quantity of thread that could be used to refill a sewing kit.",
     "material": "cotton",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": ["NO_SALVAGE"],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "thread",
@@ -166,7 +166,7 @@
     "weight": "4 g",
     "ammo_type": "tape",
     "count": 200,
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": ["UNRECOVERABLE"]
   },
   {
     "type": "AMMO",
@@ -184,7 +184,7 @@
     "ammo_type": "components",
     "stack_size": 200,
     "count": 30,
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": ["UNRECOVERABLE"]
   },
   {
     "type": "AMMO",
@@ -196,7 +196,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Plastic jacketed copper cable of the type used in small electronics.",
-    "material": [ "plastic", "copper" ],
+    "material": ["plastic", "copper"],
     "volume": "750 ml",
     "weight": "2 g",
     "ammo_type": "components",
@@ -212,13 +212,13 @@
     "symbol": "=",
     "color": "green",
     "description": "This power cell was designed to store enormous amounts of power, using plutonium-244 and now-irreplaceable compounds to make compact reactors more practical than ever.  Unfortunately it cannot be recharged by conventional means: expended cells had to be sent to a central reprocessing facility that almost certainly doesn't exist anymore.",
-    "material": [ "steel", "plastic" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
+    "material": ["steel", "plastic"],
+    "flags": ["LEAK_DAM", "RADIOACTIVE"],
     "volume": "250 ml",
     "weight": "80 g",
     "ammo_type": "plutonium",
     "count": 5,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ],
+    "effects": ["COOKOFF", "NEVER_MISFIRES"],
     "fuel": { "energy": 10 }
   },
   {
@@ -231,7 +231,7 @@
     "symbol": "=",
     "color": "green",
     "description": "Highly radioactive slurry.  It is probably best to get far away from this.",
-    "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
+    "flags": ["LEAK_ALWAYS", "RADIOACTIVE"],
     "volume": "250 ml",
     "weight": "25500 mg",
     "ammo_type": "reactor_slurry",
@@ -249,7 +249,7 @@
     "symbol": "=",
     "color": "green",
     "description": "Highly radioactive slurry.  It is probably best to get far away from this.",
-    "flags": [ "LEAK_ALWAYS", "RADIOACTIVE" ],
+    "flags": ["LEAK_ALWAYS", "RADIOACTIVE"],
     "volume": "250 ml",
     "weight": "25500 mg",
     "ammo_type": "reactor_slurry",
@@ -267,7 +267,7 @@
     "category": "spare_parts",
     "material": "stone",
     "ammo_type": "rock",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": ["TRADER_AVOID"],
     "weight": "657 g",
     "volume": "250 ml",
     "bashing": 7,
@@ -276,9 +276,9 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "qualities": [ [ "HAMMER", 1 ] ],
+    "qualities": [["HAMMER", 1]],
     "dont_recover_one_in": 80,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": ["NEVER_MISFIRES", "NON-FOULING"]
   },
   {
     "type": "AMMO",
@@ -298,7 +298,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 10,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": ["NEVER_MISFIRES", "NON-FOULING"]
   },
   {
     "type": "AMMO",
@@ -319,7 +319,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 40,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": ["NEVER_MISFIRES"]
   },
   {
     "type": "AMMO",
@@ -340,7 +340,7 @@
     "dispersion": 12,
     "loudness": 0,
     "count": 20,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": ["NEVER_MISFIRES"]
   },
   {
     "type": "AMMO",
@@ -362,7 +362,7 @@
     "loudness": 0,
     "count": 50,
     "dont_recover_one_in": 1000,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": ["NEVER_MISFIRES", "NON-FOULING"]
   },
   {
     "type": "AMMO",
@@ -383,7 +383,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": ["NOGIB", "NEVER_MISFIRES", "NON-FOULING"]
   },
   {
     "type": "AMMO",
@@ -396,7 +396,7 @@
     "color": "brown",
     "description": "Feathers from a bird.  Useful for fletching arrows.",
     "material": "cotton",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": ["NO_SALVAGE"],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -414,7 +414,7 @@
     "color": "brown",
     "description": "Fluffy down feathers from a bird.  Useful for making cozy bedclothes.",
     "material": "cotton",
-    "flags": [ "NO_SALVAGE" ],
+    "flags": ["NO_SALVAGE"],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
@@ -430,7 +430,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "A 120mm high-explosive anti-tank round.  It could ruin anyone's whole day.",
-    "material": [ "steel", "powder" ],
+    "material": ["steel", "powder"],
     "volume": "250 ml",
     "weight": "22725 g",
     "ammo_type": "120mm",
@@ -438,7 +438,7 @@
     "range": 80,
     "dispersion": 5,
     "recoil": 30,
-    "effects": [ "EXPLOSIVE_HUGE", "TRAIL" ]
+    "effects": ["EXPLOSIVE_HUGE", "TRAIL"]
   },
   {
     "type": "AMMO",
@@ -449,19 +449,25 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "A canister of pressurized hydrogen so heavily compressed it has turned solid.  With proper equipment, it could be heated to plasma.",
-    "material": [ "steel", "powder" ],
+    "material": ["steel", "powder"],
     "volume": "2500 ml",
     "weight": "183 g",
     "ammo_type": "plasma",
     "damage": { "damage_type": "heat", "amount": 35, "armor_penetration": 8 },
     "range": 12,
     "count": 25,
-    "effects": [ "INCENDIARY" ],
-    "flags": [ "UNRECOVERABLE" ],
+    "effects": ["INCENDIARY"],
+    "flags": ["UNRECOVERABLE"],
     "fuel": {
       "//": "Compressed gaseous hydrogen has 9.2 MJ/L.  This stuff has a very high energy density but is also bulky and explosive.",
       "energy": 4000,
-      "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1, "fiery": true, "size_factor": 0.15 }
+      "explosion_data": {
+        "chance_hot": 2,
+        "chance_cold": 2,
+        "factor": 1,
+        "fiery": true,
+        "size_factor": 0.15
+      }
     }
   },
   {
@@ -476,12 +482,12 @@
     "description": "Firearm-quality gunpowder.",
     "container": "bottle_plastic",
     "material": "powder",
-    "flags": [ "TINDER" ],
+    "flags": ["TINDER"],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 454,
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "type": "AMMO",
@@ -499,7 +505,7 @@
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "type": "AMMO",
@@ -528,12 +534,12 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a shotgun shell.",
-    "material": [ "steel", "powder" ],
+    "material": ["steel", "powder"],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "type": "AMMO",
@@ -545,12 +551,12 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a small caliber pistol round.",
-    "material": [ "steel", "powder" ],
+    "material": ["steel", "powder"],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "type": "AMMO",
@@ -562,12 +568,12 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a large caliber pistol round.",
-    "material": [ "steel", "powder" ],
+    "material": ["steel", "powder"],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "type": "AMMO",
@@ -579,12 +585,12 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a small caliber rifle round.",
-    "material": [ "steel", "powder" ],
+    "material": ["steel", "powder"],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "type": "AMMO",
@@ -596,12 +602,12 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Primer from a large caliber rifle round.",
-    "material": [ "steel", "powder" ],
+    "material": ["steel", "powder"],
     "volume": "250 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 200,
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "type": "AMMO",
@@ -613,7 +619,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Rubber slugs from a shotgun beanbag round.  You could use them to make new beanbag rounds.",
-    "material": [ "plastic", "rubber" ],
+    "material": ["plastic", "rubber"],
     "volume": "250 ml",
     "weight": "2 g",
     "ammo_type": "components",
@@ -632,7 +638,7 @@
     "volume": "250 ml",
     "weight": "38 g",
     "ammo_type": "components",
-    "flags": [ "NO_SALVAGE" ]
+    "flags": ["NO_SALVAGE"]
   },
   {
     "type": "AMMO",
@@ -676,7 +682,7 @@
     "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
     "volume": "0 ml",
     "ammo_type": "NULL",
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": ["UNRECOVERABLE"]
   },
   {
     "type": "AMMO",
@@ -870,7 +876,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "description": "A hand built rocket, consisting of a spike welded onto a pipe that was filled with improvised rocket fuel.  Horribly inaccurate, as can be expected of this grade of weapon, but packs a fierce punch… if it hits.",
-    "material": [ "steel", "powder" ],
+    "material": ["steel", "powder"],
     "volume": "1500 ml",
     "weight": "1510 g",
     "ammo_type": "homebrew_rocket",
@@ -878,7 +884,7 @@
     "range": 18,
     "dispersion": 180,
     "recoil": 130,
-    "effects": [ "COOKOFF", "TRAIL" ]
+    "effects": ["COOKOFF", "TRAIL"]
   },
   {
     "type": "AMMO",
@@ -889,7 +895,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "description": "A hand built rocket, consisting of a simple explosive warhead attached onto a pipe, filled with improvised rocket fuel.  Not very powerful, but can be made from scratch.",
-    "material": [ "steel", "powder" ],
+    "material": ["steel", "powder"],
     "volume": "1250 ml",
     "weight": "990 g",
     "ammo_type": "homebrew_rocket",
@@ -897,7 +903,7 @@
     "range": 23,
     "dispersion": 170,
     "recoil": 130,
-    "effects": [ "COOKOFF", "TRAIL", "EXPLOSIVE" ]
+    "effects": ["COOKOFF", "TRAIL", "EXPLOSIVE"]
   },
   {
     "type": "AMMO",
@@ -908,7 +914,7 @@
     "symbol": ",",
     "color": "red",
     "description": "A hand built rocket, consisting of a container of flammable gel attached onto a pipe, filled with improvised rocket fuel.  Short-range incendiary - handle with care!",
-    "material": [ "steel", "powder" ],
+    "material": ["steel", "powder"],
     "volume": "1500 ml",
     "weight": "1190 g",
     "ammo_type": "homebrew_rocket",
@@ -916,7 +922,7 @@
     "range": 13,
     "dispersion": 200,
     "recoil": 130,
-    "effects": [ "COOKOFF", "TRAIL", "NAPALM" ]
+    "effects": ["COOKOFF", "TRAIL", "NAPALM"]
   },
   {
     "type": "AMMO",
@@ -992,12 +998,12 @@
     "price_postapoc": 0,
     "bashing": 1,
     "material": "wood",
-    "flags": [ "NO_SALVAGE", "TINDER" ],
+    "flags": ["NO_SALVAGE", "TINDER"],
     "symbol": "=",
     "color": "brown",
     "count": 50,
     "ammo_type": "tinder",
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": ["NEVER_MISFIRES"]
   },
   {
     "type": "AMMO",
@@ -1018,7 +1024,7 @@
     "dispersion": 15,
     "loudness": 0,
     "count": 7,
-    "effects": [ "NEVER_MISFIRES" ],
+    "effects": ["NEVER_MISFIRES"],
     "use_action": "RPGDIE"
   },
   {
@@ -1040,7 +1046,7 @@
     "dispersion": 10,
     "loudness": 0,
     "count": 7,
-    "effects": [ "NEVER_MISFIRES" ],
+    "effects": ["NEVER_MISFIRES"],
     "use_action": "RPGDIE"
   },
   {
@@ -1079,7 +1085,7 @@
     "loudness": 0,
     "to_hit": -1,
     "dont_recover_one_in": 1000,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": ["NEVER_MISFIRES", "NON-FOULING"]
   },
   {
     "type": "AMMO",
@@ -1099,6 +1105,6 @@
     "loudness": 0,
     "count": 30,
     "dont_recover_one_in": 1000,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": ["NEVER_MISFIRES", "NON-FOULING"]
   }
 ]

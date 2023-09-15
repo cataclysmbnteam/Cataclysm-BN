@@ -10,7 +10,7 @@
     "price": 1000,
     "price_postapoc": 1000,
     "bashing": 1,
-    "material": [ "plastic", "aluminum" ],
+    "material": ["plastic", "aluminum"],
     "symbol": ";",
     "color": "light_blue",
     "ammo": "battery",

@@ -15,7 +15,7 @@
     "id": "NC_ROBOFAC_FREE_MERCHANT",
     "name": { "str": "Caravaneer" },
     "job_description": "I'm the owner of a trade caravan.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [{ "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
     "bonus_int": { "one_in": 4 },
@@ -24,26 +24,31 @@
     "skills": [
       {
         "skill": "ALL",
-        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+        "level": {
+          "mul": [
+            { "one_in": 3 },
+            { "sum": [{ "dice": [2, 2] }, { "constant": -2 }, { "one_in": 4 }] }
+          ]
+        }
       },
       { "skill": "mechanics", "bonus": { "one_in": 2 } },
       { "skill": "computer", "bonus": { "one_in": 2 } },
-      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 3, 5 ] } }
+      { "skill": "electronics", "bonus": { "rng": [0, 2] } },
+      { "skill": "speech", "bonus": { "rng": [1, 3] } },
+      { "skill": "barter", "bonus": { "rng": [3, 5] } }
     ]
   },
   {
     "type": "item_group",
     "id": "NC_ROBOFAC_FREE_MERCHANT_storage",
     "subtype": "distribution",
-    "entries": [ { "item": "duffelbag", "prob": 100 } ]
+    "entries": [{ "item": "duffelbag", "prob": 100 }]
   },
   {
     "type": "item_group",
     "id": "NC_ROBOFAC_FREE_MERCHANT_coat",
     "subtype": "distribution",
-    "entries": [ { "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 } ]
+    "entries": [{ "item": "trenchcoat", "prob": 80 }, { "item": "vest", "prob": 60 }]
   },
   {
     "type": "item_group",
@@ -95,7 +100,7 @@
         "You see anything you want, marshal?",
         "Oh, a U.S. marshal, how quaint."
       ],
-      "no": [ "Welcome...", "Here to trade, I hope?", "Safe travels, scavenger." ]
+      "no": ["Welcome...", "Here to trade, I hope?", "Safe travels, scavenger."]
     },
     "responses": [
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_ROBOFAC_FREE_MERCHANT" },
@@ -111,6 +116,6 @@
       "yes": "I keep to my own business, and you keep to yours, marshal.  Seems like a fair deal?",
       "no": "We have been supplying this lab here with food from a few hunting and farming communities nearby.  The roads are though and dangerous, but it makes good money, and beats scavenging the cities for scraps."
     },
-    "responses": [ { "text": "Keep safe, then.", "topic": "TALK_ROBOFAC_FREE_MERCHANT" } ]
+    "responses": [{ "text": "Keep safe, then.", "topic": "TALK_ROBOFAC_FREE_MERCHANT" }]
   }
 ]

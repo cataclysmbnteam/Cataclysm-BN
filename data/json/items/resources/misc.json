@@ -2,32 +2,32 @@
   {
     "id": "bee_sting",
     "type": "GENERIC",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "bee sting" },
     "description": "A six-inch stinger from a giant bee.  Makes a mediocre melee weapon.",
     "weight": "540 g",
     "to_hit": -1,
     "color": "white",
     "symbol": ",",
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "volume": "250 ml",
     "cutting": 10,
-    "flags": [ "STAB" ],
+    "flags": ["STAB"],
     "price": 3000,
     "price_postapoc": 0
   },
   {
     "id": "broom",
     "type": "GENERIC",
-    "weapon_category": [ "QUARTERSTAVES" ],
+    "weapon_category": ["QUARTERSTAVES"],
     "name": { "str": "broom" },
     "description": "A long-handled broom.  Makes a terrible weapon unless you're chasing cats.",
     "weight": "929 g",
     "to_hit": 1,
     "color": "yellow",
     "symbol": "/",
-    "material": [ "wood" ],
-    "techniques": [ "WBLOCK_1" ],
+    "material": ["wood"],
+    "techniques": ["WBLOCK_1"],
     "volume": "1250 ml",
     "bashing": 4,
     "price": 2400,
@@ -41,28 +41,28 @@
     "name": { "str": "ceramic shard" },
     "description": "A broken ceramic shard.  It is heavy and has a somewhat sharp edge, but it's too irregular to cut properly.",
     "material": "ceramic",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": ["TRADER_AVOID"],
     "weight": "750 g",
     "volume": "250 ml",
     "bashing": 5,
     "cutting": 2,
     "to_hit": -1,
-    "qualities": [ [ "BUTCHER", -66 ] ]
+    "qualities": [["BUTCHER", -66]]
   },
   {
     "id": "fighter_sting",
     "type": "GENERIC",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "fungal fighter sting" },
     "description": "A short dart from a fungal fighter.  Makes a poor melee weapon.",
     "weight": "270 g",
     "to_hit": -1,
     "color": "green",
     "symbol": ",",
-    "material": [ "veggy" ],
+    "material": ["veggy"],
     "volume": "250 ml",
     "cutting": 8,
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": ["STAB", "SHEATH_KNIFE"],
     "price": 500,
     "price_postapoc": 0
   },
@@ -77,12 +77,12 @@
     "price": 10000,
     "price_postapoc": 100,
     "container": "bag_plastic",
-    "material": [ "powder" ],
+    "material": ["powder"],
     "symbol": "=",
     "color": "dark_gray",
     "count": 200,
     "ammo_type": "components",
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "id": "mattress",
@@ -94,10 +94,10 @@
     "volume": "300000 ml",
     "price": 1000,
     "price_postapoc": 500,
-    "material": [ "cotton", "steel" ],
+    "material": ["cotton", "steel"],
     "symbol": "0",
     "color": "white",
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": ["NONCONDUCTIVE"],
     "use_action": { "type": "deploy_furn", "furn_type": "f_floor_mattress" }
   },
   {
@@ -110,7 +110,7 @@
     "volume": "300000 ml",
     "price": 1000,
     "price_postapoc": 750,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "0",
     "color": "white",
     "use_action": { "type": "deploy_furn", "furn_type": "f_down_mattress" }
@@ -126,12 +126,12 @@
     "price": 500,
     "price_postapoc": 500,
     "container": "bag_plastic",
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": ",",
     "color": "dark_gray",
     "count": 50,
     "ammo_type": "components",
-    "effects": [ "COOKOFF" ]
+    "effects": ["COOKOFF"]
   },
   {
     "type": "GENERIC",
@@ -146,7 +146,7 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -3,
-    "qualities": [ [ "BUTCHER", -50 ] ]
+    "qualities": [["BUTCHER", -50]]
   },
   {
     "id": "ugl_buttstock",
@@ -158,7 +158,7 @@
     "description": "A collapsible buttstock designed for the M320 grenade launcher.  When combined with this stock, the M320 can be used as a standalone weapon",
     "price": 10000,
     "price_postapoc": 250,
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "weight": "600 g",
     "volume": "250 ml",
     "to_hit": 1
@@ -166,17 +166,17 @@
   {
     "id": "wasp_sting",
     "type": "GENERIC",
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": ["KNIVES"],
     "name": { "str": "wasp sting" },
     "description": "A six-inch stinger from a giant wasp.  Makes a poor melee weapon.",
     "weight": "540 g",
     "to_hit": -1,
     "color": "dark_gray",
     "symbol": ",",
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "volume": "250 ml",
     "cutting": 8,
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": ["STAB", "SHEATH_KNIFE"],
     "price": 1000,
     "price_postapoc": 0
   }

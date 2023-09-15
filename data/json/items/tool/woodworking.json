@@ -3,7 +3,7 @@
     "id": "ax",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "2H_AXES" ],
+    "weapon_category": ["2H_AXES"],
     "name": { "str": "wood axe" },
     "description": "This is a large, two-handed wood axe.  It makes a good melee weapon, but is a bit slow to recover between swings.",
     "weight": "2267 g",
@@ -13,12 +13,12 @@
     "to_hit": 1,
     "bashing": 20,
     "cutting": 30,
-    "material": [ "wood", "steel" ],
+    "material": ["wood", "steel"],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -36 ] ],
-    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
+    "qualities": [["AXE", 2], ["BUTCHER", -36]],
+    "techniques": ["WBLOCK_1", "BRUTAL", "SWEEP"],
+    "flags": ["NONCONDUCTIVE", "SHEATH_AXE"]
   },
   {
     "id": "chainsaw_off",
@@ -32,16 +32,16 @@
     "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 10,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "/",
     "color": "red",
     "ammo": "gasoline",
     "charges_per_use": 50,
     "max_charges": 450,
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 4 ] ],
+    "qualities": [["AXE", 4]],
     "use_action": "CHAINSAW_OFF",
-    "flags": [ "NONCONDUCTIVE", "POWERED" ]
+    "flags": ["NONCONDUCTIVE", "POWERED"]
   },
   {
     "id": "chainsaw_on",
@@ -56,9 +56,9 @@
     "charges_per_use": 0,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
-    "qualities": [ [ "BUTCHER", -100 ] ],
+    "qualities": [["BUTCHER", -100]],
     "use_action": "CHAINSAW_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "FRAGILE_MELEE" ]
+    "flags": ["MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "FRAGILE_MELEE"]
   },
   {
     "id": "circsaw_off",
@@ -73,17 +73,27 @@
     "to_hit": -3,
     "bashing": 2,
     "cutting": 4,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "/",
     "color": "yellow",
     "ammo": "battery",
     "charges_per_use": 5,
-    "use_action": { "target": "circsaw_on", "msg": "You turn on the circular saw.", "active": true, "type": "transform" },
-    "flags": [ "NONCONDUCTIVE" ],
+    "use_action": {
+      "target": "circsaw_on",
+      "msg": "You turn on the circular saw.",
+      "active": true,
+      "type": "transform"
+    },
+    "flags": ["NONCONDUCTIVE"],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -100,16 +110,16 @@
     "power_draw": 1200000,
     "charges_per_use": 0,
     "revert_to": "circsaw_off",
-    "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -40 ] ],
+    "qualities": [["CUT", 1], ["SAW_W", 2], ["BUTCHER", -40]],
     "use_action": "CIRCSAW_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "flags": ["MESSY", "TRADER_AVOID", "NONCONDUCTIVE"],
     "magazine_well": "500 ml"
   },
   {
     "id": "copper_ax",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "1H_AXES" ],
+    "weapon_category": ["1H_AXES"],
     "name": { "str": "copper axe" },
     "description": "This is a decent-sized chunk of worked copper affixed to a wooden shaft, to make a crude yet effective axe.",
     "weight": "3700 g",
@@ -119,33 +129,33 @@
     "bashing": 30,
     "cutting": 20,
     "to_hit": -2,
-    "material": [ "wood", "copper" ],
+    "material": ["wood", "copper"],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "AXE", 2 ], [ "BUTCHER", -44 ] ],
-    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_AXE" ]
+    "qualities": [["AXE", 2], ["BUTCHER", -44]],
+    "techniques": ["WBLOCK_1", "BRUTAL", "SWEEP"],
+    "flags": ["NONCONDUCTIVE", "SHEATH_AXE"]
   },
   {
     "id": "hatchet",
     "type": "GENERIC",
     "category": "weapons",
-    "weapon_category": [ "HAND_AXES" ],
+    "weapon_category": ["HAND_AXES"],
     "symbol": ";",
     "color": "light_gray",
     "name": { "str": "hatchet" },
     "description": "A one-handed hatchet.  Makes a great melee weapon, and is useful both for chopping things and for use as a hammer.",
     "price": 2500,
     "price_postapoc": 500,
-    "material": [ "steel", "wood" ],
-    "techniques": [ "WBLOCK_1" ],
+    "material": ["steel", "wood"],
+    "techniques": ["WBLOCK_1"],
     "weight": "907 g",
     "volume": "1 L",
     "bashing": 17,
     "cutting": 28,
     "to_hit": -2,
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
-    "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 16 ] ]
+    "flags": ["DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE"],
+    "qualities": [["AXE", 2], ["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]]
   },
   {
     "id": "elec_chainsaw_off",
@@ -159,19 +169,24 @@
     "price_postapoc": 500,
     "to_hit": -3,
     "bashing": 10,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "/",
     "color": "red",
     "ammo": "battery",
     "charges_per_use": 125,
     "techniques": "SWEEP",
-    "qualities": [ [ "AXE", 4 ] ],
+    "qualities": [["AXE", 4]],
     "use_action": "ELEC_CHAINSAW_OFF",
-    "flags": [ "NONCONDUCTIVE", "POWERED" ],
+    "flags": ["NONCONDUCTIVE", "POWERED"],
     "magazines": [
       [
         "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        [
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_disposable_cell"
+        ]
       ]
     ],
     "magazine_well": "500 ml"
@@ -188,16 +203,16 @@
     "power_draw": 170000,
     "charges_per_use": 0,
     "revert_to": "elec_chainsaw_off",
-    "qualities": [ [ "BUTCHER", -100 ] ],
+    "qualities": [["BUTCHER", -100]],
     "use_action": "ELEC_CHAINSAW_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "FRAGILE_MELEE" ],
+    "flags": ["MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "FRAGILE_MELEE"],
     "magazine_well": "500 ml"
   },
   {
     "id": "primitive_adze",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "HOOKED_POLES" ],
+    "weapon_category": ["HOOKED_POLES"],
     "name": { "str": "stone adze" },
     "description": "This is a stone adze, somewhat useful for smoothing wood objects.",
     "weight": "1300 g",
@@ -207,17 +222,17 @@
     "bashing": 9,
     "cutting": 15,
     "to_hit": -2,
-    "material": [ "stone", "wood" ],
+    "material": ["stone", "wood"],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "SAW_W", 1 ], [ "BUTCHER", -56 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "qualities": [["SAW_W", 1], ["BUTCHER", -56]],
+    "flags": ["BELT_CLIP"]
   },
   {
     "id": "primitive_axe",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "1H_AXES" ],
+    "weapon_category": ["1H_AXES"],
     "name": { "str": "stone axe" },
     "description": "This is a stone with a narrow edge affixed to a stick.  It can chop wood, but requires much more effort than a modern axe.",
     "weight": "3154 g",
@@ -227,11 +242,11 @@
     "bashing": 9,
     "cutting": 15,
     "to_hit": -2,
-    "material": [ "wood", "stone" ],
+    "material": ["wood", "stone"],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -70 ], [ "HAMMER", 1 ] ],
-    "flags": [ "BELT_CLIP", "SHEATH_AXE" ]
+    "qualities": [["AXE", 1], ["BUTCHER", -70], ["HAMMER", 1]],
+    "flags": ["BELT_CLIP", "SHEATH_AXE"]
   },
   {
     "id": "saw",
@@ -245,10 +260,10 @@
     "price_postapoc": 100,
     "to_hit": -2,
     "cutting": 1,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
-    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
+    "qualities": [["AXE", 1], ["SAW_W", 2], ["BUTCHER", -90]],
+    "flags": ["NONCONDUCTIVE", "BELT_CLIP"]
   }
 ]

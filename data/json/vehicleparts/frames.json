@@ -9,13 +9,24 @@
     "durability": 50,
     "description": "A light metal framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
     "folded_volume": 10,
-    "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
+    "breaks_into": [
+      { "item": "steel_chunk", "count": [0, 2] },
+      { "item": "scrap", "count": [1, 2] }
+    ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 2]],
+        "time": "60 m",
+        "using": [["welding_standard", 5]]
+      },
+      "removal": {
+        "skills": [["mechanics", 2]],
+        "time": "30 m",
+        "qualities": [{ "id": "SAW_M", "level": 1 }]
+      },
+      "repair": { "skills": [["mechanics", 3]], "time": "60 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
+    "flags": ["INITIAL_PART", "MOUNTABLE", "FOLDABLE"],
     "damage_reduction": { "all": 8 }
   },
   {
@@ -30,13 +41,24 @@
     "durability": 15,
     "description": "A light wooden framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
     "folded_volume": 15,
-    "breaks_into": [ { "item": "splinter", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 1, 15 ] } ],
+    "breaks_into": [
+      { "item": "splinter", "count": [0, 6] },
+      { "item": "nail", "charges": [1, 15] }
+    ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": {
+        "skills": [["mechanics", 1]],
+        "time": "30 m",
+        "using": [["vehicle_nail_install", 1]]
+      },
+      "removal": {
+        "skills": [["mechanics", 1]],
+        "time": "15 m",
+        "using": [["vehicle_nail_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 3]], "time": "30 m", "using": [["adhesive", 2]] }
     },
-    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
+    "flags": ["INITIAL_PART", "MOUNTABLE", "FOLDABLE"],
     "damage_reduction": { "all": 12 }
   },
   {
@@ -49,11 +71,15 @@
     "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "ig_vp_frame",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
+      "install": {
+        "skills": [["mechanics", 1]],
+        "time": "20 m",
+        "using": [["welding_standard", 10]]
+      },
+      "removal": { "skills": [["mechanics", 1]], "time": "10 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [["mechanics", 1]], "time": "5 m", "using": [["welding_standard", 5]] }
     },
-    "flags": [ "MOUNTABLE" ],
+    "flags": ["MOUNTABLE"],
     "damage_reduction": { "all": 52 }
   },
   {
@@ -66,11 +92,22 @@
     "broken_color": "brown",
     "durability": 150,
     "description": "A wooden framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Wood and nail construction means it can be constructed and added to the vehicle without welding tools.",
-    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+    "breaks_into": [
+      { "item": "splinter", "count": [7, 9] },
+      { "item": "nail", "charges": [5, 10] }
+    ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": {
+        "skills": [["mechanics", 0]],
+        "time": "30 m",
+        "using": [["vehicle_nail_install", 1]]
+      },
+      "removal": {
+        "skills": [["mechanics", 0]],
+        "time": "15 m",
+        "using": [["vehicle_nail_removal", 1]]
+      },
+      "repair": { "skills": [["mechanics", 2]], "time": "30 m", "using": [["adhesive", 2]] }
     },
     "damage_reduction": { "all": 52 }
   },
@@ -84,10 +121,17 @@
     "broken_color": "brown",
     "durability": 100,
     "description": "A light wooden framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Wood and rope constructions means it can be constructed and added to the vehicle without welding tools or nails.",
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
+    "breaks_into": [
+      { "item": "splinter", "count": [3, 5] },
+      { "item": "string_36", "count": [10, 15] }
+    ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
+      "install": {
+        "skills": [["mechanics", 0]],
+        "time": "10 m",
+        "using": [["rope_natural_short", 1]]
+      },
+      "repair": { "skills": [["mechanics", 0]], "time": "5 m", "using": [["adhesive", 1]] }
     },
     "damage_reduction": { "all": 46 }
   },
@@ -102,11 +146,19 @@
     "description": "A heavy metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.",
     "breaks_into": "ig_vp_hdframe",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "40 m", "using": [ [ "welding_standard", 20 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "welding_standard", 10 ] ] }
+      "install": {
+        "skills": [["mechanics", 3]],
+        "time": "40 m",
+        "using": [["welding_standard", 20]]
+      },
+      "removal": { "skills": [["mechanics", 2]], "time": "20 m", "using": "vehicle_weld_removal" },
+      "repair": {
+        "skills": [["mechanics", 3]],
+        "time": "10 m",
+        "using": [["welding_standard", 10]]
+      }
     },
-    "flags": [ "MOUNTABLE" ],
+    "flags": ["MOUNTABLE"],
     "damage_reduction": { "all": 112 }
   },
   {
@@ -120,11 +172,23 @@
     "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "ig_vp_xlframe",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 20 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "qualities": [ { "id": "SAW_M", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 10 ] ] }
+      "install": {
+        "skills": [["mechanics", 1]],
+        "time": "60 m",
+        "using": [["welding_standard", 20]]
+      },
+      "removal": {
+        "skills": [["mechanics", 1]],
+        "time": "30 m",
+        "qualities": [{ "id": "SAW_M", "level": 1 }]
+      },
+      "repair": {
+        "skills": [["mechanics", 2]],
+        "time": "60 m",
+        "using": [["welding_standard", 10]]
+      }
     },
-    "flags": [ "MOUNTABLE" ],
+    "flags": ["MOUNTABLE"],
     "damage_reduction": { "all": 28 }
   },
   {
@@ -162,35 +226,35 @@
     "copy-from": "frame",
     "type": "vehicle_part",
     "symbol": "c",
-    "extend": { "flags": [ "INITIAL_PART" ] }
+    "extend": { "flags": ["INITIAL_PART"] }
   },
   {
     "id": "frame_wood_cross",
     "copy-from": "frame_wood",
     "type": "vehicle_part",
     "symbol": "c",
-    "extend": { "flags": [ "INITIAL_PART" ] }
+    "extend": { "flags": ["INITIAL_PART"] }
   },
   {
     "id": "frame_wood_light_cross",
     "copy-from": "frame_wood_light",
     "type": "vehicle_part",
     "symbol": "c",
-    "extend": { "flags": [ "INITIAL_PART" ] }
+    "extend": { "flags": ["INITIAL_PART"] }
   },
   {
     "id": "hdframe_cross",
     "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "c",
-    "extend": { "flags": [ "INITIAL_PART" ] }
+    "extend": { "flags": ["INITIAL_PART"] }
   },
   {
     "id": "xlframe_cross",
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "c",
-    "extend": { "flags": [ "INITIAL_PART" ] }
+    "extend": { "flags": ["INITIAL_PART"] }
   },
   {
     "id": "frame_horizontal",

@@ -8,11 +8,11 @@
     "volume": "250 ml",
     "price": 1900,
     "price_postapoc": 1500,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 10,
     "encumbrance": 1,
     "material_thickness": 1,
@@ -42,7 +42,7 @@
       ],
       "draw_cost": 20
     },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE", "FANCY" ]
+    "flags": ["WATER_FRIENDLY", "WAIST", "OVERSIZE", "FANCY"]
   },
   {
     "id": "bandolier_rifle",
@@ -53,11 +53,11 @@
     "volume": "250 ml",
     "price": 1900,
     "price_postapoc": 1500,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 10,
     "encumbrance": 1,
     "material_thickness": 1,
@@ -83,7 +83,7 @@
       ],
       "draw_cost": 20
     },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+    "flags": ["WATER_FRIENDLY", "WAIST", "OVERSIZE"]
   },
   {
     "id": "bandolier_shotgun",
@@ -94,16 +94,21 @@
     "volume": "500 ml",
     "price": 1900,
     "price_postapoc": 1500,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 10,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 25, "ammo": [ "410shot", "shot", "20x66mm", "signal_flare" ], "draw_cost": 25 },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+    "use_action": {
+      "type": "bandolier",
+      "capacity": 25,
+      "ammo": ["410shot", "shot", "20x66mm", "signal_flare"],
+      "draw_cost": 25
+    },
+    "flags": ["WATER_FRIENDLY", "WAIST", "OVERSIZE"]
   },
   {
     "id": "torso_bandolier_shotgun",
@@ -114,16 +119,21 @@
     "volume": "1 L",
     "price": 3900,
     "price_postapoc": 2500,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 12,
     "encumbrance": 3,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 50, "ammo": [ "410shot", "shot", "20x66mm", "signal_flare" ], "draw_cost": 35 },
-    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
+    "use_action": {
+      "type": "bandolier",
+      "capacity": 50,
+      "ammo": ["410shot", "shot", "20x66mm", "signal_flare"],
+      "draw_cost": 35
+    },
+    "flags": ["WATER_FRIENDLY", "OVERSIZE", "BELTED"]
   },
   {
     "id": "flintlock_pouch",
@@ -134,21 +144,21 @@
     "volume": "500 ml",
     "price": 4900,
     "price_postapoc": 1000,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "ammo_pouch",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 10,
     "encumbrance": 2,
     "material_thickness": 1,
     "use_action": {
       "type": "bandolier",
       "capacity": 20,
-      "ammo": [ "flintlock", "36paper", "44paper", "blunderbuss", "shotcanister", "shotpaper" ],
+      "ammo": ["flintlock", "36paper", "44paper", "blunderbuss", "shotcanister", "shotpaper"],
       "draw_cost": 20
     },
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+    "flags": ["WATER_FRIENDLY", "WAIST", "OVERSIZE"]
   },
   {
     "id": "bandolier_wrist",
@@ -159,11 +169,11 @@
     "volume": "250 ml",
     "price": 2900,
     "price_postapoc": 500,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "hand_either" ],
+    "covers": ["hand_either"],
     "coverage": 5,
     "encumbrance": 1,
     "material_thickness": 1,
@@ -189,7 +199,7 @@
       ],
       "draw_cost": 20
     },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": ["WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS"]
   },
   {
     "id": "grenade_pouch",
@@ -200,16 +210,21 @@
     "volume": "250 ml",
     "price": 5900,
     "price_postapoc": 750,
-    "material": [ "cotton", "plastic" ],
+    "material": ["cotton", "plastic"],
     "symbol": "[",
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
-    "covers": [ "leg_either" ],
+    "covers": ["leg_either"],
     "coverage": 10,
     "encumbrance": 4,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 4, "ammo": [ "40x46mm", "40x53mm" ], "draw_cost": 20 },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "use_action": {
+      "type": "bandolier",
+      "capacity": 4,
+      "ammo": ["40x46mm", "40x53mm"],
+      "draw_cost": 20
+    },
+    "flags": ["WATER_FRIENDLY", "BELTED", "OVERSIZE"]
   },
   {
     "id": "stone_pouch",
@@ -221,16 +236,16 @@
     "price": 5900,
     "price_postapoc": 750,
     "rigid": false,
-    "material": [ "cotton", "leather" ],
+    "material": ["cotton", "leather"],
     "symbol": "[",
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
-    "covers": [ "leg_either" ],
+    "covers": ["leg_either"],
     "coverage": 10,
     "encumbrance": 4,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 10, "ammo": [ "rock" ], "draw_cost": 20 },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "use_action": { "type": "bandolier", "capacity": 10, "ammo": ["rock"], "draw_cost": 20 },
+    "flags": ["WATER_FRIENDLY", "BELTED", "OVERSIZE"]
   },
   {
     "id": "grenadebandolier",
@@ -242,11 +257,11 @@
     "price": 3000,
     "price_postapoc": 1250,
     "rigid": false,
-    "material": [ "cotton" ],
+    "material": ["cotton"],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 15,
     "material_thickness": 2,
     "use_action": {
@@ -256,8 +271,8 @@
       "multi": 4,
       "max_volume": "750 ml",
       "draw_cost": 30,
-      "flags": [ "GRENADE" ]
+      "flags": ["GRENADE"]
     },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": ["WATER_FRIENDLY", "BELTED"]
   }
 ]

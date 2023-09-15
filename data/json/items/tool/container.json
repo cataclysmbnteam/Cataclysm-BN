@@ -17,7 +17,7 @@
     "contains": "750 ml",
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
+    "qualities": [["CONTAIN", 1], ["BOIL", 2]]
   },
   {
     "id": "bottle_folding",

@@ -9,30 +9,30 @@
     "never_learn": true,
     "construction_blueprint": "fbms_room0_wad_east",
     "blueprint_name": "east storage wing",
-    "blueprint_requires": [ { "id": "fbms_0" } ],
-    "blueprint_provides": [ { "id": "fbms_east" } ],
-    "blueprint_excludes": [ { "id": "fbms_east" } ],
+    "blueprint_requires": [{ "id": "fbms_0" }],
+    "blueprint_provides": [{ "id": "fbms_east" }],
+    "blueprint_excludes": [{ "id": "fbms_east" }],
     "blueprint_needs": {
       "time": "1 d 20 h",
-      "skills": [ [ "survival", 3 ], [ "fabrication", 4 ] ],
+      "skills": [["survival", 3], ["fabrication", 4]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [[{ "id": "CUT" }], [{ "id": "HAMMER", "level": 2 }]],
         "components": [
-          [ [ "2x4", 168 ], [ "stick", 168 ] ],
-          [ [ "birchbark", 144 ], [ "pine_bough", 144 ] ],
+          [["2x4", 168], ["stick", 168]],
+          [["birchbark", 144], ["pine_bough", 144]],
           [
-            [ "cattail_stalk", 96 ],
-            [ "dogbane", 96 ],
-            [ "material_sand", 240 ],
-            [ "pebble", 240 ],
-            [ "pine_bough", 96 ],
-            [ "straw_pile", 96 ],
-            [ "withered", 96 ]
+            ["cattail_stalk", 96],
+            ["dogbane", 96],
+            ["material_sand", 240],
+            ["pebble", 240],
+            ["pine_bough", 96],
+            ["straw_pile", 96],
+            ["withered", 96]
           ],
-          [ [ "material_soil", 960 ] ],
-          [ [ "log", 24 ] ],
-          [ [ "water", 120 ], [ "water_clean", 120 ] ]
+          [["material_soil", 960]],
+          [["log", 24]],
+          [["water", 120], ["water_clean", 120]]
         ]
       }
     }
@@ -47,30 +47,30 @@
     "never_learn": true,
     "construction_blueprint": "fbms_room1_wad_west",
     "blueprint_name": "east storage wing",
-    "blueprint_requires": [ { "id": "fbms_0" } ],
-    "blueprint_provides": [ { "id": "fbms_west" } ],
-    "blueprint_excludes": [ { "id": "fbms_west" } ],
+    "blueprint_requires": [{ "id": "fbms_0" }],
+    "blueprint_provides": [{ "id": "fbms_west" }],
+    "blueprint_excludes": [{ "id": "fbms_west" }],
     "blueprint_needs": {
       "time": "1 d 20 h",
-      "skills": [ [ "survival", 3 ], [ "fabrication", 4 ] ],
+      "skills": [["survival", 3], ["fabrication", 4]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [[{ "id": "CUT" }], [{ "id": "HAMMER", "level": 2 }]],
         "components": [
-          [ [ "2x4", 168 ], [ "stick", 168 ] ],
-          [ [ "birchbark", 144 ], [ "pine_bough", 144 ] ],
+          [["2x4", 168], ["stick", 168]],
+          [["birchbark", 144], ["pine_bough", 144]],
           [
-            [ "cattail_stalk", 96 ],
-            [ "dogbane", 96 ],
-            [ "material_sand", 240 ],
-            [ "pebble", 240 ],
-            [ "pine_bough", 96 ],
-            [ "straw_pile", 96 ],
-            [ "withered", 96 ]
+            ["cattail_stalk", 96],
+            ["dogbane", 96],
+            ["material_sand", 240],
+            ["pebble", 240],
+            ["pine_bough", 96],
+            ["straw_pile", 96],
+            ["withered", 96]
           ],
-          [ [ "material_soil", 960 ] ],
-          [ [ "log", 24 ] ],
-          [ [ "water", 120 ], [ "water_clean", 120 ] ]
+          [["material_soil", 960]],
+          [["log", 24]],
+          [["water", 120], ["water_clean", 120]]
         ]
       }
     }
@@ -85,30 +85,30 @@
     "never_learn": true,
     "construction_blueprint": "fbms_room2_wad_northwest",
     "blueprint_name": "northwest storeroom corner",
-    "blueprint_requires": [ { "id": "fbms_west" } ],
-    "blueprint_provides": [ { "id": "fbms_northwest" } ],
-    "blueprint_excludes": [ { "id": "fbms_northwest" } ],
+    "blueprint_requires": [{ "id": "fbms_west" }],
+    "blueprint_provides": [{ "id": "fbms_northwest" }],
+    "blueprint_excludes": [{ "id": "fbms_northwest" }],
     "blueprint_needs": {
       "time": "15 h 30 m",
-      "skills": [ [ "survival", 3 ], [ "fabrication", 4 ] ],
+      "skills": [["survival", 3], ["fabrication", 4]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [[{ "id": "CUT" }], [{ "id": "HAMMER", "level": 2 }]],
         "components": [
-          [ [ "2x4", 61 ], [ "stick", 61 ] ],
-          [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
+          [["2x4", 61], ["stick", 61]],
+          [["birchbark", 48], ["pine_bough", 48]],
           [
-            [ "cattail_stalk", 36 ],
-            [ "dogbane", 36 ],
-            [ "material_sand", 90 ],
-            [ "pebble", 90 ],
-            [ "pine_bough", 36 ],
-            [ "straw_pile", 36 ],
-            [ "withered", 36 ]
+            ["cattail_stalk", 36],
+            ["dogbane", 36],
+            ["material_sand", 90],
+            ["pebble", 90],
+            ["pine_bough", 36],
+            ["straw_pile", 36],
+            ["withered", 36]
           ],
-          [ [ "material_soil", 340 ] ],
-          [ [ "log", 8 ] ],
-          [ [ "water", 45 ], [ "water_clean", 45 ] ]
+          [["material_soil", 340]],
+          [["log", 8]],
+          [["water", 45], ["water_clean", 45]]
         ]
       }
     }
@@ -123,30 +123,30 @@
     "never_learn": true,
     "construction_blueprint": "fbms_room3_wad_southwest",
     "blueprint_name": "southwest storeroom corner",
-    "blueprint_requires": [ { "id": "fbms_west" } ],
-    "blueprint_provides": [ { "id": "fbms_southwest" } ],
-    "blueprint_excludes": [ { "id": "fbms_southwest" } ],
+    "blueprint_requires": [{ "id": "fbms_west" }],
+    "blueprint_provides": [{ "id": "fbms_southwest" }],
+    "blueprint_excludes": [{ "id": "fbms_southwest" }],
     "blueprint_needs": {
       "time": "15 h 30 m",
-      "skills": [ [ "survival", 3 ], [ "fabrication", 4 ] ],
+      "skills": [["survival", 3], ["fabrication", 4]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [[{ "id": "CUT" }], [{ "id": "HAMMER", "level": 2 }]],
         "components": [
-          [ [ "2x4", 61 ], [ "stick", 61 ] ],
-          [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
+          [["2x4", 61], ["stick", 61]],
+          [["birchbark", 48], ["pine_bough", 48]],
           [
-            [ "cattail_stalk", 36 ],
-            [ "dogbane", 36 ],
-            [ "material_sand", 90 ],
-            [ "pebble", 90 ],
-            [ "pine_bough", 36 ],
-            [ "straw_pile", 36 ],
-            [ "withered", 36 ]
+            ["cattail_stalk", 36],
+            ["dogbane", 36],
+            ["material_sand", 90],
+            ["pebble", 90],
+            ["pine_bough", 36],
+            ["straw_pile", 36],
+            ["withered", 36]
           ],
-          [ [ "material_soil", 340 ] ],
-          [ [ "log", 8 ] ],
-          [ [ "water", 45 ], [ "water_clean", 45 ] ]
+          [["material_soil", 340]],
+          [["log", 8]],
+          [["water", 45], ["water_clean", 45]]
         ]
       }
     }
@@ -161,30 +161,30 @@
     "never_learn": true,
     "construction_blueprint": "fbms_room4_wad_northeast",
     "blueprint_name": "northeast storeroom corner",
-    "blueprint_requires": [ { "id": "fbms_east" } ],
-    "blueprint_provides": [ { "id": "fbms_northeast" } ],
-    "blueprint_excludes": [ { "id": "fbms_northeast" } ],
+    "blueprint_requires": [{ "id": "fbms_east" }],
+    "blueprint_provides": [{ "id": "fbms_northeast" }],
+    "blueprint_excludes": [{ "id": "fbms_northeast" }],
     "blueprint_needs": {
       "time": "15 h 30 m",
-      "skills": [ [ "survival", 3 ], [ "fabrication", 4 ] ],
+      "skills": [["survival", 3], ["fabrication", 4]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [[{ "id": "CUT" }], [{ "id": "HAMMER", "level": 2 }]],
         "components": [
-          [ [ "2x4", 61 ], [ "stick", 61 ] ],
-          [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
+          [["2x4", 61], ["stick", 61]],
+          [["birchbark", 48], ["pine_bough", 48]],
           [
-            [ "cattail_stalk", 36 ],
-            [ "dogbane", 36 ],
-            [ "material_sand", 90 ],
-            [ "pebble", 90 ],
-            [ "pine_bough", 36 ],
-            [ "straw_pile", 36 ],
-            [ "withered", 36 ]
+            ["cattail_stalk", 36],
+            ["dogbane", 36],
+            ["material_sand", 90],
+            ["pebble", 90],
+            ["pine_bough", 36],
+            ["straw_pile", 36],
+            ["withered", 36]
           ],
-          [ [ "material_soil", 340 ] ],
-          [ [ "log", 8 ] ],
-          [ [ "water", 45 ], [ "water_clean", 45 ] ]
+          [["material_soil", 340]],
+          [["log", 8]],
+          [["water", 45], ["water_clean", 45]]
         ]
       }
     }
@@ -199,30 +199,30 @@
     "never_learn": true,
     "construction_blueprint": "fbms_room5_wad_southeast",
     "blueprint_name": "southeast storeroom corner",
-    "blueprint_requires": [ { "id": "fbms_east" } ],
-    "blueprint_provides": [ { "id": "fbms_southeast" } ],
-    "blueprint_excludes": [ { "id": "fbms_southeast" } ],
+    "blueprint_requires": [{ "id": "fbms_east" }],
+    "blueprint_provides": [{ "id": "fbms_southeast" }],
+    "blueprint_excludes": [{ "id": "fbms_southeast" }],
     "blueprint_needs": {
       "time": "15 h 30 m",
-      "skills": [ [ "survival", 3 ], [ "fabrication", 4 ] ],
+      "skills": [["survival", 3], ["fabrication", 4]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [[{ "id": "CUT" }], [{ "id": "HAMMER", "level": 2 }]],
         "components": [
-          [ [ "2x4", 61 ], [ "stick", 61 ] ],
-          [ [ "birchbark", 48 ], [ "pine_bough", 48 ] ],
+          [["2x4", 61], ["stick", 61]],
+          [["birchbark", 48], ["pine_bough", 48]],
           [
-            [ "cattail_stalk", 36 ],
-            [ "dogbane", 36 ],
-            [ "material_sand", 90 ],
-            [ "pebble", 90 ],
-            [ "pine_bough", 36 ],
-            [ "straw_pile", 36 ],
-            [ "withered", 36 ]
+            ["cattail_stalk", 36],
+            ["dogbane", 36],
+            ["material_sand", 90],
+            ["pebble", 90],
+            ["pine_bough", 36],
+            ["straw_pile", 36],
+            ["withered", 36]
           ],
-          [ [ "material_soil", 340 ] ],
-          [ [ "log", 8 ] ],
-          [ [ "water", 45 ], [ "water_clean", 45 ] ]
+          [["material_soil", 340]],
+          [["log", 8]],
+          [["water", 45], ["water_clean", 45]]
         ]
       }
     }
@@ -237,32 +237,32 @@
     "never_learn": true,
     "construction_blueprint": "fbms_room6_wad_south",
     "blueprint_name": "south storeroom entrance",
-    "blueprint_requires": [ { "id": "fbms_southeast" }, { "id": "fbms_southwest" } ],
-    "blueprint_provides": [ { "id": "fbms_south" } ],
-    "blueprint_excludes": [ { "id": "fbms_south" } ],
+    "blueprint_requires": [{ "id": "fbms_southeast" }, { "id": "fbms_southwest" }],
+    "blueprint_provides": [{ "id": "fbms_south" }],
+    "blueprint_excludes": [{ "id": "fbms_south" }],
     "blueprint_needs": {
       "time": "2 d 11 h 20 m",
-      "skills": [ [ "survival", 3 ], [ "fabrication", 4 ] ],
+      "skills": [["survival", 3], ["fabrication", 4]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [[{ "id": "CUT" }], [{ "id": "HAMMER", "level": 2 }]],
         "components": [
-          [ [ "2x4", 182 ] ],
-          [ [ "birchbark", 288 ], [ "pine_bough", 288 ] ],
+          [["2x4", 182]],
+          [["birchbark", 288], ["pine_bough", 288]],
           [
-            [ "cattail_stalk", 40 ],
-            [ "dogbane", 40 ],
-            [ "material_sand", 100 ],
-            [ "pebble", 100 ],
-            [ "pine_bough", 40 ],
-            [ "straw_pile", 40 ],
-            [ "withered", 40 ]
+            ["cattail_stalk", 40],
+            ["dogbane", 40],
+            ["material_sand", 100],
+            ["pebble", 100],
+            ["pine_bough", 40],
+            ["straw_pile", 40],
+            ["withered", 40]
           ],
-          [ [ "material_soil", 1160 ] ],
-          [ [ "log", 48 ] ],
-          [ [ "nail", 48 ] ],
-          [ [ "rope_6", 4 ], [ "rope_makeshift_6", 4 ] ],
-          [ [ "water", 50 ], [ "water_clean", 50 ] ]
+          [["material_soil", 1160]],
+          [["log", 48]],
+          [["nail", 48]],
+          [["rope_6", 4], ["rope_makeshift_6", 4]],
+          [["water", 50], ["water_clean", 50]]
         ]
       }
     }
@@ -277,32 +277,32 @@
     "never_learn": true,
     "construction_blueprint": "fbms_room7_wad_north",
     "blueprint_name": "north storeroom entrance",
-    "blueprint_requires": [ { "id": "fbms_northeast" }, { "id": "fbms_northwest" } ],
-    "blueprint_provides": [ { "id": "fbms_north" } ],
-    "blueprint_excludes": [ { "id": "fbms_north" } ],
+    "blueprint_requires": [{ "id": "fbms_northeast" }, { "id": "fbms_northwest" }],
+    "blueprint_provides": [{ "id": "fbms_north" }],
+    "blueprint_excludes": [{ "id": "fbms_north" }],
     "blueprint_needs": {
       "time": "2 d 11 h 20 m",
-      "skills": [ [ "survival", 3 ], [ "fabrication", 4 ] ],
+      "skills": [["survival", 3], ["fabrication", 4]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [[{ "id": "CUT" }], [{ "id": "HAMMER", "level": 2 }]],
         "components": [
-          [ [ "2x4", 182 ] ],
-          [ [ "birchbark", 288 ], [ "pine_bough", 288 ] ],
+          [["2x4", 182]],
+          [["birchbark", 288], ["pine_bough", 288]],
           [
-            [ "cattail_stalk", 40 ],
-            [ "dogbane", 40 ],
-            [ "material_sand", 100 ],
-            [ "pebble", 100 ],
-            [ "pine_bough", 40 ],
-            [ "straw_pile", 40 ],
-            [ "withered", 40 ]
+            ["cattail_stalk", 40],
+            ["dogbane", 40],
+            ["material_sand", 100],
+            ["pebble", 100],
+            ["pine_bough", 40],
+            ["straw_pile", 40],
+            ["withered", 40]
           ],
-          [ [ "material_soil", 1160 ] ],
-          [ [ "log", 48 ] ],
-          [ [ "nail", 48 ] ],
-          [ [ "rope_6", 4 ], [ "rope_makeshift_6", 4 ] ],
-          [ [ "water", 50 ], [ "water_clean", 50 ] ]
+          [["material_soil", 1160]],
+          [["log", 48]],
+          [["nail", 48]],
+          [["rope_6", 4], ["rope_makeshift_6", 4]],
+          [["water", 50], ["water_clean", 50]]
         ]
       }
     }
@@ -317,20 +317,20 @@
     "never_learn": true,
     "construction_blueprint": "fbms_room8_wad_center",
     "blueprint_name": "north storeroom entrance",
-    "blueprint_requires": [ { "id": "fbms_north" }, { "id": "fbms_south" } ],
-    "blueprint_provides": [ { "id": "fbms_center" } ],
-    "blueprint_excludes": [ { "id": "fbms_center" } ],
+    "blueprint_requires": [{ "id": "fbms_north" }, { "id": "fbms_south" }],
+    "blueprint_provides": [{ "id": "fbms_center" }],
+    "blueprint_excludes": [{ "id": "fbms_center" }],
     "blueprint_needs": {
       "time": "5 d",
-      "skills": [ [ "fabrication", 4 ] ],
+      "skills": [["fabrication", 4]],
       "inline": {
-        "tools": [  ],
-        "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+        "tools": [],
+        "qualities": [[{ "id": "HAMMER", "level": 2 }]],
         "components": [
-          [ [ "2x4", 240 ], [ "stick", 240 ], [ "stick_long", 120 ] ],
-          [ [ "birchbark", 720 ], [ "pine_bough", 720 ] ],
-          [ [ "log", 120 ] ],
-          [ [ "material_soil", 2400 ] ]
+          [["2x4", 240], ["stick", 240], ["stick_long", 120]],
+          [["birchbark", 720], ["pine_bough", 720]],
+          [["log", 120]],
+          [["material_soil", 2400]]
         ]
       }
     }

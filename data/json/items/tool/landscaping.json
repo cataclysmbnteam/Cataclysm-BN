@@ -3,7 +3,7 @@
     "id": "digging_stick",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "CLUBS" ],
+    "weapon_category": ["CLUBS"],
     "name": { "str": "digging stick" },
     "description": "This is a large stick, with the end carved into a broad blade for digging.  It could be used to dig shallow pits, but not deep ones.",
     "weight": "1133 g",
@@ -15,8 +15,8 @@
     "material": "wood",
     "symbol": "/",
     "color": "brown",
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "DIG", 1 ] ]
+    "techniques": ["WBLOCK_1"],
+    "qualities": [["DIG", 1]]
   },
   {
     "id": "g_shovel",
@@ -34,13 +34,13 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 1 ] ]
+    "qualities": [["DIG", 1], ["BUTCHER", -4], ["CUT", 1]]
   },
   {
     "id": "hoe",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "HOOKED_POLES" ],
+    "weapon_category": ["HOOKED_POLES"],
     "name": { "str": "hoe" },
     "description": "This is a farming implement.  You can use it to turn tillable land into a slow-to-cross pile of dirt, or dig a shallow pit.",
     "weight": "1088 g",
@@ -50,10 +50,10 @@
     "to_hit": 1,
     "bashing": 10,
     "cutting": 6,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "DIG", 1 ] ],
+    "qualities": [["DIG", 1]],
     "techniques": "WBLOCK_1",
     "use_action": "MAKEMOUND"
   },
@@ -61,7 +61,7 @@
     "id": "primitive_shovel",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "CLUBS" ],
+    "weapon_category": ["CLUBS"],
     "name": { "str": "stone shovel" },
     "description": "This is a flattened stone affixed to a stick.  It works passably well as a shovel but really can't compare to a real shovel.",
     "weight": "1581 g",
@@ -70,16 +70,16 @@
     "price_postapoc": 0,
     "bashing": 15,
     "cutting": 1,
-    "material": [ "stone", "wood" ],
+    "material": ["stone", "wood"],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "DIG", 2 ], [ "COOK", 1 ], [ "BUTCHER", -96 ] ]
+    "qualities": [["DIG", 2], ["COOK", 1], ["BUTCHER", -96]]
   },
   {
     "id": "scythe",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "HOOKED_POLES" ],
+    "weapon_category": ["HOOKED_POLES"],
     "name": { "str": "scythe" },
     "description": "This is an old-fashioned farming tool used to cut tall grass.  While it may be a giant blade on the end of a stick, it is incredibly awkward to use for anything but its intended purpose.",
     "weight": "3013 g",
@@ -89,18 +89,18 @@
     "to_hit": -6,
     "bashing": 6,
     "cutting": 14,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "WIDE", "BRUTAL" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "techniques": ["WIDE", "BRUTAL"],
+    "qualities": [["CUT", 1], ["BUTCHER", -22]],
+    "flags": ["DURABLE_MELEE", "NONCONDUCTIVE"]
   },
   {
     "id": "shovel",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "CLUBS" ],
+    "weapon_category": ["CLUBS"],
     "name": { "str": "shovel" },
     "description": "This is a digging tool.  Use it to dig pits adjacent to your location.",
     "weight": "1315 g",
@@ -110,18 +110,18 @@
     "to_hit": 3,
     "bashing": 17,
     "cutting": 27,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "DIG", 3 ], [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE" ]
+    "qualities": [["DIG", 3], ["COOK", 1], ["BUTCHER", -70]],
+    "techniques": ["WBLOCK_1"],
+    "flags": ["NONCONDUCTIVE"]
   },
   {
     "id": "sickle",
     "type": "GENERIC",
     "category": "tools",
-    "weapon_category": [ "SHORT_SWORDS", "HOOKED_POLES" ],
+    "weapon_category": ["SHORT_SWORDS", "HOOKED_POLES"],
     "name": { "str": "sickle" },
     "description": "This is an old-fashioned farming tool used to cut tall grass.  While it may be a massive curved blade on a handle, it is incredibly awkward to use for anything but its intended purpose.",
     "weight": "1432 g",
@@ -131,12 +131,12 @@
     "to_hit": -2,
     "bashing": 3,
     "cutting": 20,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": "/",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 7 ] ],
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 7]],
+    "techniques": ["WBLOCK_1"],
+    "flags": ["DURABLE_MELEE"]
   },
   {
     "id": "trimmer_off",
@@ -151,14 +151,14 @@
     "to_hit": -1,
     "bashing": 4,
     "cutting": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "/",
     "color": "green",
     "ammo": "gasoline",
     "max_charges": 600,
     "charges_per_use": 5,
     "use_action": "TRIMMER_OFF",
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": ["NONCONDUCTIVE"]
   },
   {
     "id": "trimmer_on",
@@ -171,7 +171,7 @@
     "charges_per_use": 0,
     "revert_to": "trimmer_off",
     "use_action": "TRIMMER_ON",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "qualities": [["CUT", 1], ["BUTCHER", -60]],
+    "flags": ["MESSY", "TRADER_AVOID", "NONCONDUCTIVE"]
   }
 ]

@@ -16,30 +16,30 @@
     "type": "monstergroup",
     "name": "GROUP_TURRET",
     "default": "mon_turret_light",
-    "monsters": [ { "monster": "mon_turret_medium", "freq": 50, "cost_multiplier": 2 } ]
+    "monsters": [{ "monster": "mon_turret_medium", "freq": 50, "cost_multiplier": 2 }]
   },
   {
     "name": "GROUP_HAZMATBOT",
     "type": "monstergroup",
     "default": "mon_hazmatbot",
-    "monsters": [ { "monster": "mon_hazmatbot", "freq": 40, "cost_multiplier": 1 } ]
+    "monsters": [{ "monster": "mon_hazmatbot", "freq": 40, "cost_multiplier": 1 }]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ROBOT_EYEBOT",
     "default": "mon_eyebot",
-    "monsters": [ { "monster": "mon_eyebot", "freq": 100, "cost_multiplier": 0 } ]
+    "monsters": [{ "monster": "mon_eyebot", "freq": 100, "cost_multiplier": 0 }]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_ROBOT_SECUBOT",
     "default": "mon_secubot",
-    "monsters": [ { "monster": "mon_secubot", "freq": 100, "cost_multiplier": 0 } ]
+    "monsters": [{ "monster": "mon_secubot", "freq": 100, "cost_multiplier": 0 }]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_TURRET_RIOT",
     "default": "mon_turret_riot",
-    "monsters": [ { "monster": "mon_turret_riot", "freq": 100, "cost_multiplier": 0 } ]
+    "monsters": [{ "monster": "mon_turret_riot", "freq": 100, "cost_multiplier": 0 }]
   }
 ]

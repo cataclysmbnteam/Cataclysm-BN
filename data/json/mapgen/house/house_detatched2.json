@@ -32,11 +32,13 @@
         "$[%%%....%%!####%%..%%%$",
         "$$$$$$$$$$$$$$$$$$$$$$$$"
       ],
-      "palettes": [ "standard_domestic_palette" ],
-      "place_vehicles": [ { "vehicle": "bikeshop", "x": 3, "y": 16, "rotation": 270, "chance": 100 } ],
+      "palettes": ["standard_domestic_palette"],
+      "place_vehicles": [
+        { "vehicle": "bikeshop", "x": 3, "y": 16, "rotation": 270, "chance": 100 }
+      ],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "#": "t_adobe_brick_wall",
@@ -103,7 +105,7 @@
         "            ....        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -139,8 +141,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
-      "nested": { "1": { "chunks": [ [ "null", 60 ], [ "8x8_gym_E", 10 ], [ "room_8x8_hobby_E", 30 ] ] } }
+      "palettes": ["basement_empty"],
+      "nested": { "1": { "chunks": [["null", 60], ["8x8_gym_E", 10], ["room_8x8_hobby_E", 30]] } }
     }
   }
 ]

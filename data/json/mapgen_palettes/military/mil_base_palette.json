@@ -3,12 +3,12 @@
     "type": "palette",
     "id": "mil_base_palette",
     "terrain": {
-      " ": [ [ "t_region_groundcover", 750 ], "t_pit_shallow", "t_dirtmound" ],
+      " ": [["t_region_groundcover", 750], "t_pit_shallow", "t_dirtmound"],
       ";": "t_region_groundcover",
       ",": "t_dirt",
       "N": "t_region_groundcover_barren",
       "}": "t_region_groundcover_barren",
-      "x": [ [ "t_chainfence", 10 ], "t_chainfence_posts", "t_region_groundcover_barren" ],
+      "x": [["t_chainfence", 10], "t_chainfence_posts", "t_region_groundcover_barren"],
       "X": "t_chainfence",
       "G": "t_chaingate_c",
       ".": "t_thconc_floor",
@@ -28,12 +28,12 @@
       "s": "t_sidewalk",
       "{": "t_sidewalk",
       "I": "t_column",
-      "b": [ [ "t_brick_wall", 100 ], "t_pit_shallow" ],
+      "b": [["t_brick_wall", 100], "t_pit_shallow"],
       "F": "t_fence_barbed",
       "f": "t_fence_wire",
-      "+": [ [ "t_door_c", 2 ], "t_door_o" ],
-      "=": [ [ "t_door_locked_interior", 3 ], "t_door_c", "t_door_o" ],
-      "d": [ "t_door_metal_c", "t_door_metal_o" ],
+      "+": [["t_door_c", 2], "t_door_o"],
+      "=": [["t_door_locked_interior", 3], "t_door_c", "t_door_o"],
+      "d": ["t_door_metal_c", "t_door_metal_o"],
       "z": "t_door_metal_pickable",
       "D": "t_door_metal_locked",
       "g": "t_reinforced_glass_shutter",
@@ -42,8 +42,8 @@
       "w": "t_window_domestic",
       "]": "t_bars",
       "(": "t_door_bar_locked",
-      ")": [ "t_door_bar_c", "t_door_bar_o", "t_door_bar_locked" ],
-      "m": [ [ "t_region_groundcover_urban", 60 ], [ "t_pit_shallow", 2 ], "t_dirtmound" ],
+      ")": ["t_door_bar_c", "t_door_bar_o", "t_door_bar_locked"],
+      "m": [["t_region_groundcover_urban", 60], ["t_pit_shallow", 2], "t_dirtmound"],
       "n": "t_dirtmound",
       "&": "t_grate",
       "e": "t_gates_mech_control",
@@ -86,7 +86,7 @@
       "{": "f_dumpster",
       "N": "f_sandbag_half",
       "1": "f_large_canvas_wall",
-      "2": [ "f_large_canvas_door", "f_large_canvas_door_o" ],
+      "2": ["f_large_canvas_door", "f_large_canvas_door_o"],
       "3": "f_large_groundsheet",
       "4": "f_center_groundsheet",
       "R": "f_firering",
@@ -109,10 +109,10 @@
       "!": "f_dryer"
     },
     "liquids": {
-      "6": { "liquid": "water", "amount": [ 0, 100 ] },
-      "7": { "liquid": "water_sewage", "amount": [ 0, 200 ] },
-      "H": { "liquid": "diesel", "amount": [ 0, 30000 ] }
+      "6": { "liquid": "water", "amount": [0, 100] },
+      "7": { "liquid": "water_sewage", "amount": [0, 200] },
+      "H": { "liquid": "diesel", "amount": [0, 30000] }
     },
-    "toilets": { "T": {  } }
+    "toilets": { "T": {} }
   }
 ]

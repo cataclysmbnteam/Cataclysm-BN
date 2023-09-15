@@ -7,7 +7,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+    "flags": ["SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION"]
   },
   {
     "type": "overmap_terrain",
@@ -26,7 +26,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+    "flags": ["SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION"]
   },
   {
     "type": "overmap_terrain",
@@ -45,7 +45,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+    "flags": ["SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION"]
   },
   {
     "type": "overmap_terrain",
@@ -64,7 +64,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+    "flags": ["SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION"]
   },
   {
     "type": "overmap_terrain",
@@ -90,7 +90,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "power_plant_small_2", "power_plant_small_3", "power_plant_small_4" ],
+    "id": ["power_plant_small_2", "power_plant_small_3", "power_plant_small_4"],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "local power plant",
     "sym": "P",
@@ -98,7 +98,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "power_plant_small_2_roof", "power_plant_small_3_roof", "power_plant_small_4_roof" ],
+    "id": ["power_plant_small_2_roof", "power_plant_small_3_roof", "power_plant_small_4_roof"],
     "copy-from": "power_plant_small_2",
     "name": "local power plant roof"
   },
@@ -221,7 +221,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+    "extend": { "flags": ["SOURCE_CONSTRUCTION", "SOURCE_FABRICATION"] }
   },
   {
     "type": "overmap_terrain",
@@ -230,7 +230,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+    "extend": { "flags": ["SOURCE_CONSTRUCTION", "SOURCE_FABRICATION"] }
   },
   {
     "type": "overmap_terrain",
@@ -239,7 +239,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+    "extend": { "flags": ["SOURCE_CONSTRUCTION", "SOURCE_FABRICATION"] }
   },
   {
     "type": "overmap_terrain",
@@ -248,7 +248,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+    "extend": { "flags": ["SOURCE_CONSTRUCTION", "SOURCE_FABRICATION"] }
   },
   {
     "type": "overmap_terrain",
@@ -289,7 +289,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+    "extend": { "flags": ["SOURCE_CONSTRUCTION", "SOURCE_FABRICATION"] }
   },
   {
     "type": "overmap_terrain",
@@ -298,7 +298,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+    "extend": { "flags": ["SOURCE_CONSTRUCTION", "SOURCE_FABRICATION"] }
   },
   {
     "type": "overmap_terrain",
@@ -307,7 +307,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+    "extend": { "flags": ["SOURCE_CONSTRUCTION", "SOURCE_FABRICATION"] }
   },
   {
     "type": "overmap_terrain",
@@ -316,7 +316,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+    "extend": { "flags": ["SOURCE_CONSTRUCTION", "SOURCE_FABRICATION"] }
   },
   {
     "type": "overmap_terrain",
@@ -357,7 +357,7 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "sym": "L",
     "color": "green",
-    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+    "flags": ["SOURCE_CONSTRUCTION", "SOURCE_FABRICATION"]
   },
   {
     "type": "overmap_terrain",
@@ -366,7 +366,7 @@
     "copy-from": "generic_city_building",
     "sym": "x",
     "color": "i_light_gray",
-    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+    "extend": { "flags": ["SOURCE_CONSTRUCTION", "SOURCE_FABRICATION"] }
   },
   {
     "type": "overmap_terrain",
@@ -1029,7 +1029,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_air_runway_l", "s_air_runway_B", "s_air_runway_term", "s_air_runway", "s_air_runway_hangars", "s_air_runway_r" ],
+    "id": [
+      "s_air_runway_l",
+      "s_air_runway_B",
+      "s_air_runway_term",
+      "s_air_runway",
+      "s_air_runway_hangars",
+      "s_air_runway_r"
+    ],
     "name": "private airport runway",
     "sym": "-",
     "color": "blue",
@@ -1039,7 +1046,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_air_helicopter_pad" ],
+    "id": ["s_air_helicopter_pad"],
     "name": "helicopter pad",
     "sym": "H",
     "color": "i_cyan",
@@ -1063,7 +1070,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "industrial_center_loading_bay_roof", "industrial_center_warehouse_roof" ],
+    "id": ["industrial_center_loading_bay_roof", "industrial_center_warehouse_roof"],
     "copy-from": "industrial_center_warehouse",
     "name": "warehouse roof"
   },
@@ -1120,7 +1127,7 @@
     "name": "medical center",
     "sym": "<",
     "color": "i_light_red",
-    "extend": { "flags": [ "SOURCE_MEDICINE" ] }
+    "extend": { "flags": ["SOURCE_MEDICINE"] }
   },
   {
     "type": "overmap_terrain",
@@ -1135,7 +1142,7 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "sym": "<",
     "color": "light_gray",
-    "extend": { "flags": [ "SOURCE_ELECTRONICS" ] }
+    "extend": { "flags": ["SOURCE_ELECTRONICS"] }
   },
   {
     "type": "overmap_terrain",
@@ -1160,7 +1167,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "industrial_center_parking_lot_1", "industrial_center_parking_lot_2" ],
+    "id": ["industrial_center_parking_lot_1", "industrial_center_parking_lot_2"],
     "copy-from": "parking_2x1_0"
   },
   {
@@ -1205,16 +1212,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mine_entrance", "mine_entrance_loading_zone" ],
+    "id": ["mine_entrance", "mine_entrance_loading_zone"],
     "name": "mine entrance",
     "sym": "M",
     "color": "magenta",
     "see_cost": 5,
-    "flags": [ "KNOWN_DOWN" ]
+    "flags": ["KNOWN_DOWN"]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mine_entrance_roof", "mine_entrance_loading_zone_roof" ],
+    "id": ["mine_entrance_roof", "mine_entrance_loading_zone_roof"],
     "name": "mine entrance roof",
     "sym": "M",
     "color": "magenta",
@@ -1227,21 +1234,21 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mine_shaft_middle", "mine_shaft_middle_east" ],
+    "id": ["mine_shaft_middle", "mine_shaft_middle_east"],
     "name": "mine shaft",
     "sym": "O",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
+    "flags": ["KNOWN_UP", "KNOWN_DOWN"]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "mine_shaft_lower", "mine_shaft_lower_east" ],
+    "id": ["mine_shaft_lower", "mine_shaft_lower_east"],
     "name": "mine shaft",
     "sym": "O",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "KNOWN_UP" ]
+    "flags": ["KNOWN_UP"]
   },
   {
     "type": "overmap_terrain",
@@ -1279,6 +1286,6 @@
     "sym": "O",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "KNOWN_UP" ]
+    "flags": ["KNOWN_UP"]
   }
 ]

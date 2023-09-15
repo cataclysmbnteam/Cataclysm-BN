@@ -5,7 +5,7 @@
       "furniture": {
         ".": "f_null",
         "P": "f_sign",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage" ],
+        "^": ["f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage"],
         "&": [
           "f_rubble",
           "f_rubble",
@@ -83,14 +83,17 @@
         "________________________"
       ],
       "terrain": {
-        ".": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        ".": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"],
         "P": "t_chainfence",
         "&": "t_dirt",
         "^": "t_dirt",
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "_": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "|": "t_chainfence"
       },
-      "place_signs": [ { "signage": "<city> Dump", "x": 9, "y": 2 }, { "signage": "<city> Dump", "x": 14, "y": 2 } ]
+      "place_signs": [
+        { "signage": "<city> Dump", "x": 9, "y": 2 },
+        { "signage": "<city> Dump", "x": 14, "y": 2 }
+      ]
     },
     "om_terrain": "dump",
     "type": "mapgen",
@@ -102,7 +105,7 @@
       "furniture": {
         ".": "f_null",
         "P": "f_sign",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage" ],
+        "^": ["f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage"],
         "&": [
           "f_rubble",
           "f_rubble",
@@ -180,14 +183,27 @@
         "________________________"
       ],
       "terrain": {
-        ".": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        ".": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"],
         "P": "t_chainfence",
         "&": "t_dirt",
         "^": "t_dirt",
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_shrub", "t_dirt" ],
+        "_": [
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_shrub",
+          "t_dirt"
+        ],
         "|": "t_chainfence"
       },
-      "place_signs": [ { "signage": "<city> Dump", "x": 8, "y": 2 }, { "signage": "<city> Dump", "x": 15, "y": 2 } ]
+      "place_signs": [
+        { "signage": "<city> Dump", "x": 8, "y": 2 },
+        { "signage": "<city> Dump", "x": 15, "y": 2 }
+      ]
     },
     "om_terrain": "dump",
     "type": "mapgen",
@@ -321,8 +337,8 @@
         "........................"
       ],
       "terrain": {
-        "#": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
-        "&": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        "#": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"],
+        "&": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"],
         ".": [
           "t_grass",
           "t_grass",
@@ -339,11 +355,11 @@
           "t_dirt",
           "t_dirt"
         ],
-        "P": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
-        "_": [ "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        "P": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"],
+        "_": ["t_dirt", "t_dirt", "t_dirt", "t_grass"],
         "d": "t_grass"
       },
-      "place_signs": [ { "signage": "DUMP", "x": 1, "y": 1 }, { "signage": "DUMP", "x": 22, "y": 1 } ]
+      "place_signs": [{ "signage": "DUMP", "x": 1, "y": 1 }, { "signage": "DUMP", "x": 22, "y": 1 }]
     },
     "om_terrain": "dump",
     "type": "mapgen",
@@ -356,7 +372,7 @@
         ".": "f_null",
         "7": "f_null",
         "P": "f_sign",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage" ],
+        "^": ["f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage"],
         "_": "f_null",
         "r": [
           "f_rubble",
@@ -436,15 +452,15 @@
         "........................"
       ],
       "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "7": "t_tree_birch",
         "P": "t_grass",
         "^": "t_dirt",
-        "_": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        "_": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"],
         "r": "t_dirt",
         "|": "t_concrete_wall"
       },
-      "place_signs": [ { "signage": "<city> Area Dump", "x": 17, "y": 2 } ]
+      "place_signs": [{ "signage": "<city> Area Dump", "x": 17, "y": 2 }]
     },
     "om_terrain": "dump",
     "type": "mapgen",
@@ -456,7 +472,7 @@
       "furniture": {
         ".": "f_null",
         "7": "f_null",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage" ],
+        "^": ["f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage"],
         "_": "f_null",
         "r": [
           "f_rubble",
@@ -535,10 +551,10 @@
         "........................"
       ],
       "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         "7": "t_tree_maple",
         "^": "t_dirt",
-        "_": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        "_": ["t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass"],
         "r": "t_dirt"
       }
     },

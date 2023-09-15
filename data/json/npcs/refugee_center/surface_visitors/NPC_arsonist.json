@@ -23,17 +23,17 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" }
     ],
-    "bonus_dex": { "rng": [ -2, 0 ] },
-    "bonus_int": { "rng": [ -2, 0 ] },
-    "bonus_per": { "rng": [ 0, 2 ] },
+    "bonus_dex": { "rng": [-2, 0] },
+    "bonus_int": { "rng": [-2, 0] },
+    "bonus_per": { "rng": [0, 2] },
     "shopkeeper_item_group": "NC_ARSONIST_STOCK",
     "carry_override": "NC_ARSONIST_STOCK",
     "skills": [
-      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ 0, -4 ] } ] } },
-      { "skill": "gun", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "pistol", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "throw", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } }
+      { "skill": "ALL", "level": { "sum": [{ "dice": [3, 2] }, { "rng": [0, -4] }] } },
+      { "skill": "gun", "bonus": { "rng": [1, 3] } },
+      { "skill": "pistol", "bonus": { "rng": [1, 3] } },
+      { "skill": "throw", "bonus": { "rng": [0, 2] } },
+      { "skill": "barter", "bonus": { "rng": [2, 4] } }
     ]
   },
   {
@@ -53,7 +53,12 @@
       { "text": "What's with your ears?", "topic": "TALK_ARSONIST_MUTATION" },
       {
         "text": "How are you doing these days?",
-        "condition": { "u_has_var": "TALK_ARSONIST_SUPPLIED", "type": "talk", "context": "flag", "value": "yes" },
+        "condition": {
+          "u_has_var": "TALK_ARSONIST_SUPPLIED",
+          "type": "talk",
+          "context": "flag",
+          "value": "yes"
+        },
         "topic": "TALK_ARSONIST_TRADING"
       },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
@@ -63,13 +68,13 @@
     "type": "talk_topic",
     "id": "TALK_ARSONIST_NEW",
     "dynamic_line": "Guess that makes two of us.  Well, kind of.  I don't think we're open, though.  Full up as hell; it's almost a crowd downstairs.  Did you see the trader at the entrance?  There's the one to ask.",
-    "responses": [ { "text": "Sucks…", "topic": "TALK_ARSONIST" } ]
+    "responses": [{ "text": "Sucks…", "topic": "TALK_ARSONIST" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ARSONIST_DOING_REBAR",
     "dynamic_line": "Well, there's a guy downstairs who got a working pneumatic cannon.  It shoots metal like… like a cannon without the bang.  Cost-efficient as hell.  And there's no shortage of improvised weapons you can make.  The big thing though, seems to be continuing construction of fortifications.  Very few of those monsters seem to be able to break through a fence or wall constructed with the stuff.",
-    "responses": [ { "text": "Well, then…", "topic": "TALK_ARSONIST" } ]
+    "responses": [{ "text": "Well, then…", "topic": "TALK_ARSONIST" }]
   },
   {
     "type": "talk_topic",
@@ -84,19 +89,19 @@
     "type": "talk_topic",
     "id": "TALK_ARSONIST_WORLD_OPTIMISTIC",
     "dynamic_line": "Most of the emergency camps have dissolved by now.  The cities are mobbed, the forests crawling with glowing eyes and zombies.  Some insane shit out there, and everyone with a radio seems to feel like documenting their last awful moments.",
-    "responses": [ { "text": "I feel bad for asking.", "topic": "TALK_ARSONIST" } ]
+    "responses": [{ "text": "I feel bad for asking.", "topic": "TALK_ARSONIST" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ARSONIST_JOIN",
     "dynamic_line": "I don't know.  I mean, if you can make yourself useful.  But that's become a real hazy thing nowadays.  It depends who you ask.  The merchant definitely doesn't want me here when I'm not selling, but… some people get away with it.",
-    "responses": [ { "text": "…", "topic": "TALK_ARSONIST" } ]
+    "responses": [{ "text": "…", "topic": "TALK_ARSONIST" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ARSONIST_MUTATION",
     "dynamic_line": {
-      "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
+      "u_has_any_trait": ["CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS"],
       "yes": "Same way you got yours, I bet.  Keep quiet about it, some people here look down on people like us.",
       "no": "Ssh.  Some people in here hate… mutations.  This was an accident."
     },
@@ -121,7 +126,7 @@
     "description": "Bring the arsonist 42 kg of commercial fertilizer",
     "difficulty": 1,
     "value": 500,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "goal": "MGOAL_FIND_ITEM",
     "item": "fertilizer_commercial",
     "count": 120,
@@ -147,20 +152,24 @@
     "type": "talk_topic",
     "id": "TALK_ARSONIST_TRADING",
     "dynamic_line": "I made some nice things with that ammonium nitrate you got me.  Want to trade?",
-    "responses": [ { "text": "I'll buy.", "effect": "start_trade", "topic": "TALK_ARSONIST" } ]
+    "responses": [{ "text": "I'll buy.", "effect": "start_trade", "topic": "TALK_ARSONIST" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ARSONIST_MUTATION_INSULT",
     "dynamic_line": {
-      "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
+      "u_has_any_trait": ["CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS"],
       "yes": "As if you're one to talk.  Screw You.",
       "no": "Screw You!"
     },
     "responses": [
       {
         "text": "…",
-        "success": { "effect": "end_conversation", "opinion": { "trust": -1, "fear": -2, "value": -1, "anger": 1 }, "topic": "TALK_DONE" }
+        "success": {
+          "effect": "end_conversation",
+          "opinion": { "trust": -1, "fear": -2, "value": -1, "anger": 1 },
+          "topic": "TALK_DONE"
+        }
       }
     ]
   }

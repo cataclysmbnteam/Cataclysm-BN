@@ -68,8 +68,8 @@
       "s": "f_sink",
       "t": "f_table",
       "f": "f_filing_cabinet",
-      "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      "y": ["f_indoor_plant_y", "f_indoor_plant"]
     },
-    "toilets": { "&": {  } }
+    "toilets": { "&": {} }
   }
 ]

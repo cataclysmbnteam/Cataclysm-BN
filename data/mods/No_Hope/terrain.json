@@ -2,7 +2,7 @@
   {
     "type": "terrain",
     "id": "t_wall",
-    "alias": [ "t_wall_h", "t_wall_v" ],
+    "alias": ["t_wall_h", "t_wall_v"],
     "name": "wall",
     "description": "The stereotypical wall with wooden support structure filled with insulation and drywalled.  Paint job is the all too common and neutral off-white or cream color, it could use more vibrant paint.",
     "symbol": "LINE_OXOX",
@@ -10,7 +10,16 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "FLAMMABLE_HARD",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND"
+    ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -23,7 +32,7 @@
   {
     "type": "terrain",
     "id": "t_wall_r",
-    "alias": [ "t_wall_h_r", "t_wall_v_r" ],
+    "alias": ["t_wall_h_r", "t_wall_v_r"],
     "looks_like": "t_wall",
     "name": "red wall",
     "description": "Wall painted red.",
@@ -55,7 +64,7 @@
   {
     "type": "terrain",
     "id": "t_wall_w",
-    "alias": [ "t_wall_h_w", "t_wall_v_w" ],
+    "alias": ["t_wall_h_w", "t_wall_v_w"],
     "looks_like": "t_wall",
     "name": "white wall",
     "description": "Wall painted white.",
@@ -87,7 +96,7 @@
   {
     "type": "terrain",
     "id": "t_wall_b",
-    "alias": [ "t_wall_h_b", "t_wall_v_b" ],
+    "alias": ["t_wall_h_b", "t_wall_v_b"],
     "looks_like": "t_wall",
     "name": "blue wall",
     "description": "Wall painted blue.",
@@ -119,7 +128,7 @@
   {
     "type": "terrain",
     "id": "t_wall_g",
-    "alias": [ "t_wall_h_g", "t_wall_v_g" ],
+    "alias": ["t_wall_h_g", "t_wall_v_g"],
     "looks_like": "t_wall",
     "name": "green wall",
     "description": "Wall painted green.",
@@ -151,7 +160,7 @@
   {
     "type": "terrain",
     "id": "t_wall_y",
-    "alias": [ "t_wall_h_y", "t_wall_v_y" ],
+    "alias": ["t_wall_h_y", "t_wall_v_y"],
     "looks_like": "t_wall",
     "name": "yellow wall",
     "description": "Wall painted yellow.",
@@ -183,7 +192,7 @@
   {
     "type": "terrain",
     "id": "t_wall_P",
-    "alias": [ "t_wall_h_P", "t_wall_v_P" ],
+    "alias": ["t_wall_h_P", "t_wall_v_P"],
     "looks_like": "t_wall",
     "name": "pink wall",
     "description": "Wall painted pink.",
@@ -214,7 +223,7 @@
   {
     "type": "terrain",
     "id": "t_wall_p",
-    "alias": [ "t_wall_h_p", "t_wall_v_p" ],
+    "alias": ["t_wall_h_p", "t_wall_v_p"],
     "looks_like": "t_wall",
     "name": "purple wall",
     "description": "Wall painted purple.",
@@ -253,15 +262,26 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 4 } ] },
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE_HARD",
+      "SUPPORTS_ROOF",
+      "COLLAPSES",
+      "INDOORS",
+      "FLAT",
+      "EASY_DECONSTRUCT"
+    ],
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [{ "item": "r_carpet", "charges": 1 }, { "item": "nail", "charges": 4 }]
+    },
     "bash": {
       "sound": "rrrrip!",
       "ter_set": "t_floor",
       "str_min": 5,
       "str_max": 15,
       "str_min_supported": 100,
-      "items": [ { "item": "rag", "count": [ 0, 1 ] }, { "item": "nail", "charges": [ 1, 4 ] } ]
+      "items": [{ "item": "rag", "count": [0, 1] }, { "item": "nail", "charges": [1, 4] }]
     }
   },
   {
@@ -276,7 +296,7 @@
     "light_emitted": 120,
     "roof": "t_flat_roof",
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
+    "flags": ["TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT"],
     "bash": {
       "str_min": 4,
       "str_max": 12,
@@ -285,7 +305,7 @@
       "sound_vol": 16,
       "sound_fail_vol": 10,
       "ter_set": "t_carpet_red",
-      "items": [ { "item": "glass_shard", "count": [ 0, 2 ] } ]
+      "items": [{ "item": "glass_shard", "count": [0, 2] }]
     }
   },
   {
@@ -298,8 +318,14 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "connects_to": "RAIL",
-    "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
-    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "flags": ["TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD"],
+    "bash": {
+      "ter_set": "t_null",
+      "str_min": 75,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "bash_below": true
+    }
   },
   {
     "type": "terrain",
@@ -313,7 +339,13 @@
     "light_emitted": 120,
     "connects_to": "RAIL",
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
-    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+    "flags": ["TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD"],
+    "bash": {
+      "ter_set": "t_null",
+      "str_min": 75,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "bash_below": true
+    }
   }
 ]

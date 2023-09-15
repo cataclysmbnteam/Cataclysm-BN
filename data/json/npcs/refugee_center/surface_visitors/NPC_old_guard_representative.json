@@ -13,7 +13,7 @@
   {
     "id": "TALK_OLD_GUARD_REP",
     "type": "talk_topic",
-    "dynamic_line": { "u_has_any_trait": [ "PROF_FED" ], "yes": "Marshal…", "no": "Citizen…" },
+    "dynamic_line": { "u_has_any_trait": ["PROF_FED"], "yes": "Marshal…", "no": "Citizen…" },
     "responses": [
       {
         "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
@@ -21,7 +21,12 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+              "not": {
+                "npc_has_var": "cleanup_asked",
+                "type": "mission",
+                "context": "Boris_mission_1",
+                "value": "yes"
+              }
             }
           ]
         },
@@ -31,7 +36,10 @@
       },
       { "text": "Who are you?", "topic": "TALK_OLD_GUARD_REP_NEW" },
       { "text": "Heard anything about the outside world?", "topic": "TALK_OLD_GUARD_REP_WORLD" },
-      { "text": "Is there any way I can join the 'Old Guard'?", "topic": "TALK_OLD_GUARD_REP_ASK_JOIN" },
+      {
+        "text": "Is there any way I can join the 'Old Guard'?",
+        "topic": "TALK_OLD_GUARD_REP_ASK_JOIN"
+      },
       { "text": "Does the Old Guard need anything?", "topic": "TALK_MISSION_LIST" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ],
@@ -60,7 +68,7 @@
     "id": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE",
     "type": "talk_topic",
     "dynamic_line": "Well… I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain order.  They don't care much about looters since they understand most everyone is dead, but if you have something they need… you WILL give it to them.  Since most survivors here have nothing they want, they are welcomed as champions.",
-    "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
+    "responses": [{ "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" }]
   },
   {
     "id": "TALK_OLD_GUARD_REP_WORLD",
@@ -76,26 +84,33 @@
     "id": "TALK_OLD_GUARD_REP_WORLD_2NDFLEET",
     "type": "talk_topic",
     "dynamic_line": "I don't know much about how it formed but it is the armada of military and commercial ships that's floating off the coast.  They have everything from supertankers and carriers to fishing trawlers… even a few NATO ships.  Most civilians are offered a cabin on one of the liners to retire to if they serve as a federal employee for a few years.",
-    "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
+    "responses": [{ "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" }]
   },
   {
     "id": "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS",
     "type": "talk_topic",
     "dynamic_line": "They may just be propaganda but apparently one or two cities were successful in 'walling themselves off.'  Around here I was told that there were a few places like this one but I couldn't tell you where.",
-    "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
+    "responses": [{ "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" }]
   },
   {
     "id": "TALK_OLD_GUARD_REP_ASK_JOIN",
     "type": "talk_topic",
     "dynamic_line": "You can't actually join unless you go through a recruiter.  We can usually use help though, ask me from time to time if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among the most powerful men left in the world.",
-    "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
+    "responses": [{ "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" }]
   },
   {
     "id": "TALK_OLD_GUARD_REP_Refuse_Boris_Mission_1",
     "type": "talk_topic",
     "dynamic_line": "I'm sorry, but I can't leave my post here, and I just don't have the human resources even for a project like that.",
-    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
-    "responses": [ { "text": "Well, thanks anyway…", "topic": "TALK_OLD_GUARD_REP" } ]
+    "speaker_effect": {
+      "effect": {
+        "npc_add_var": "cleanup_asked",
+        "type": "mission",
+        "context": "Boris_mission_1",
+        "value": "yes"
+      }
+    },
+    "responses": [{ "text": "Well, thanks anyway…", "topic": "TALK_OLD_GUARD_REP" }]
   },
   {
     "id": "TALK_OLD_GUARD_REP_Accept_Boris_Mission_1",
@@ -103,11 +118,21 @@
     "dynamic_line": "It's your lucky day: I just made contact with a couple volunteers like yourself, and that's exactly the sort of project I can put them to.",
     "speaker_effect": {
       "effect": [
-        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 2 }
+        {
+          "npc_add_var": "cleanup_asked",
+          "type": "mission",
+          "context": "Boris_mission_1",
+          "value": "yes"
+        },
+        {
+          "u_adjust_var": "Boris_mission_1",
+          "type": "mission",
+          "context": "cleanup_promises",
+          "adjustment": 2
+        }
       ]
     },
-    "responses": [ { "text": "Thanks, that's great news!", "topic": "TALK_OLD_GUARD_REP" } ]
+    "responses": [{ "text": "Thanks, that's great news!", "topic": "TALK_OLD_GUARD_REP" }]
   },
   {
     "id": "MISSION_OLD_GUARD_REP_1",
@@ -118,7 +143,12 @@
     "difficulty": 5,
     "value": 50000,
     "start": {
-      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1, "search_range": 60 },
+      "assign_mission_target": {
+        "om_terrain": "bandit_cabin",
+        "om_special": "bandit_cabin",
+        "reveal_radius": 1,
+        "search_range": 60
+      },
       "update_mapgen": {
         "set": [
           { "point": "trap", "id": "tr_landmine_buried", "x": 7, "y": 6 },
@@ -126,10 +156,10 @@
           { "point": "trap", "id": "tr_landmine_buried", "x": 8, "y": 5 },
           { "point": "trap", "id": "tr_landmine_buried", "x": 0, "y": 11 }
         ],
-        "place_npcs": [ { "class": "bandit", "x": 12, "y": 12, "target": true } ]
+        "place_npcs": [{ "class": "bandit", "x": 12, "y": 12, "target": true }]
       }
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_OLD_GUARD_REP_2",
     "dialogue": {
       "describe": "We need help…",
@@ -153,14 +183,17 @@
     "value": 50000,
     "start": {
       "update_mapgen": [
-        { "om_terrain": "evac_center_19", "place_npcs": [ { "class": "evac_guard3", "x": 12, "y": 12, "target": true } ] },
+        {
+          "om_terrain": "evac_center_19",
+          "place_npcs": [{ "class": "evac_guard3", "x": 12, "y": 12, "target": true }]
+        },
         {
           "om_terrain": "evac_center_7",
-          "place_npcs": [ { "class": "scavenger_hunter", "x": [ 9, 15 ], "y": [ 9, 15 ] } ]
+          "place_npcs": [{ "class": "scavenger_hunter", "x": [9, 15], "y": [9, 15] }]
         }
       ]
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_OLD_GUARD_REP_3",
     "dialogue": {
       "describe": "We need help…",
@@ -183,15 +216,20 @@
     "difficulty": 5,
     "value": 100000,
     "start": {
-      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": 30 },
+      "assign_mission_target": {
+        "om_terrain": "field",
+        "reveal_radius": 5,
+        "random": true,
+        "search_range": 30
+      },
       "update_mapgen": {
         "place_monster": [
           { "monster": "mon_graboid", "name": "Little Guy", "x": 12, "y": 12, "target": true },
-          { "monster": "mon_graboid", "x": [ 9, 15 ], "y": [ 9, 15 ] }
+          { "monster": "mon_graboid", "x": [9, 15], "y": [9, 15] }
         ]
       }
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_OLD_GUARD_REP_4",
     "dialogue": {
       "describe": "We need help…",
@@ -221,7 +259,7 @@
         "min_distance": 10,
         "search_range": 120
       },
-      "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": 17, "y": 9, "target": true } ] },
+      "update_mapgen": { "place_npcs": [{ "class": "bandit", "x": 17, "y": 9, "target": true }] },
       "effect": [
         { "u_buy_item": "ruger_redhawk" },
         { "u_buy_item": "44magnum", "count": 17 },
@@ -230,7 +268,7 @@
         { "u_add_trait": "PROF_FED" }
       ]
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_OLD_GUARD_REP_5",
     "dialogue": {
       "describe": "We need help…",
@@ -254,9 +292,14 @@
     "value": 200000,
     "item": "necropolis_datasheet",
     "start": {
-      "assign_mission_target": { "om_terrain": "necropolis_a_29", "om_special": "Necropolis", "reveal_radius": 5, "search_range": 360 }
+      "assign_mission_target": {
+        "om_terrain": "necropolis_a_29",
+        "om_special": "Necropolis",
+        "reveal_radius": 5,
+        "search_range": 360
+      }
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
     "dialogue": {
       "describe": "We need help…",

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "gym" ],
+    "om_terrain": ["gym"],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -66,13 +66,13 @@
         "^": "f_indoor_plant",
         "f": "f_trashcan"
       },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "place_items": [
-        { "item": "boxing_clothes", "x": [ 3, 11 ], "y": [ 18, 18 ], "chance": 80, "repeat": [ 3, 5 ] },
-        { "item": "boxing_clothes", "x": [ 3, 11 ], "y": [ 18, 18 ], "chance": 40, "repeat": [ 1, 2 ] },
-        { "item": "boxing_books", "x": [ 17, 19 ], "y": [ 18, 18 ], "chance": 80, "repeat": [ 1, 3 ] },
-        { "item": "boxing_misc", "x": [ 16, 20 ], "y": [ 22, 22 ], "chance": 60, "repeat": [ 1, 4 ] },
-        { "item": "vending_drink", "x": [ 10, 11 ], "y": [ 16, 16 ], "chance": 70 }
+        { "item": "boxing_clothes", "x": [3, 11], "y": [18, 18], "chance": 80, "repeat": [3, 5] },
+        { "item": "boxing_clothes", "x": [3, 11], "y": [18, 18], "chance": 40, "repeat": [1, 2] },
+        { "item": "boxing_books", "x": [17, 19], "y": [18, 18], "chance": 80, "repeat": [1, 3] },
+        { "item": "boxing_misc", "x": [16, 20], "y": [22, 22], "chance": 60, "repeat": [1, 4] },
+        { "item": "vending_drink", "x": [10, 11], "y": [16, 16], "chance": 70 }
       ]
     }
   },
@@ -136,25 +136,25 @@
         "t": "f_table",
         "0": "f_floor_canvas"
       },
-      "place_loot": [ { "item": "television", "x": 16, "y": 19 } ],
+      "place_loot": [{ "item": "television", "x": 16, "y": 19 }],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 20 ],
-            [ "roof_2x2_utilities", 30 ],
-            [ "roof_2x2_golf", 20 ],
-            [ "roof_3x3_wine", 30 ],
-            [ "roof_4x4_utility_1", 30 ],
-            [ "roof_4x4_party", 15 ],
-            [ "roof_16x16_help", 3 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 20],
+            ["roof_2x2_utilities", 30],
+            ["roof_2x2_golf", 20],
+            ["roof_3x3_wine", 30],
+            ["roof_4x4_utility_1", 30],
+            ["roof_4x4_party", 15],
+            ["roof_16x16_help", 3]
           ],
           "x": 4,
           "y": 8
         },
-        { "chunks": [ [ "roof_4x4_survivor", 20 ], [ "null", 80 ] ], "x": 9, "y": 16 }
+        { "chunks": [["roof_4x4_survivor", 20], ["null", 80]], "x": 9, "y": 16 }
       ]
     }
   },

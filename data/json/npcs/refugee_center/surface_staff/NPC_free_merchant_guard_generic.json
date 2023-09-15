@@ -18,10 +18,13 @@
       "Keep civil or I'll bring the pain.",
       "Just on watch, move along.",
       "Don't distract me.  I'm on watch.",
-      { "is_day": [ "Hello.  Welcome to our safe zone." ], "no": [ "Good evening.  Welcome to our safe zone." ] },
       {
-        "u_male": [ "Sir.", "Rough out there, isn't it?" ],
-        "no": [ "Ma'am", "Ma'am, you really shouldn't be traveling out there." ]
+        "is_day": ["Hello.  Welcome to our safe zone."],
+        "no": ["Good evening.  Welcome to our safe zone."]
+      },
+      {
+        "u_male": ["Sir.", "Rough out there, isn't it?"],
+        "no": ["Ma'am", "Ma'am, you really shouldn't be traveling out there."]
       }
     ],
     "responses": [
@@ -31,7 +34,12 @@
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
             {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+              "not": {
+                "npc_has_var": "cleanup_asked",
+                "type": "mission",
+                "context": "Boris_mission_1",
+                "value": "yes"
+              }
             }
           ]
         },
@@ -51,7 +59,7 @@
       "Gotta earn my keep.",
       "It's honest work, and now and then I get to take a zombie down."
     ],
-    "responses": [ { "text": "Well, bye.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "Well, bye.", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
@@ -63,7 +71,14 @@
       "I'd rather stand around looking threatening than scrub gore out of the tiles.",
       "Not unless you pay me.  Try the shopkeep, they can sell our services just like anything else."
     ],
-    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
-    "responses": [ { "text": "Well, thanks anyway.", "topic": "TALK_DONE" } ]
+    "speaker_effect": {
+      "effect": {
+        "npc_add_var": "cleanup_asked",
+        "type": "mission",
+        "context": "Boris_mission_1",
+        "value": "yes"
+      }
+    },
+    "responses": [{ "text": "Well, thanks anyway.", "topic": "TALK_DONE" }]
   }
 ]

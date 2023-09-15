@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "pump_station_1" ],
+    "om_terrain": ["pump_station_1"],
     "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -33,8 +33,8 @@
         "...|--|  |ssssssz|    w."
       ],
       "set": [
-        { "point": "terrain", "id": "t_dirt", "x": [ 23, 23 ], "y": [ 0, 23 ], "repeat": [ 6, 10 ] },
-        { "point": "terrain", "id": "t_dirt", "x": [ 0, 2 ], "y": [ 14, 23 ], "repeat": [ 8, 15 ] }
+        { "point": "terrain", "id": "t_dirt", "x": [23, 23], "y": [0, 23], "repeat": [6, 10] },
+        { "point": "terrain", "id": "t_dirt", "x": [0, 2], "y": [14, 23], "repeat": [8, 15] }
       ],
       "terrain": {
         "*": "t_door_bar_locked",
@@ -63,17 +63,25 @@
         "z": "f_crate_c"
       },
       "place_loot": [
-        { "group": "office", "x": [ 12, 13 ], "y": [ 18, 20 ], "chance": 85, "repeat": [ 1, 3 ] },
-        { "group": "office", "x": [ 5, 6 ], "y": [ 15, 17 ], "chance": 90, "repeat": [ 1, 3 ] },
-        { "group": "manuals", "x": [ 4, 4 ], "y": [ 17, 18 ], "chance": 75, "repeat": [ 1, 2 ] },
-        { "group": "sewage_plant", "x": [ 4, 5 ], "y": [ 20, 22 ], "chance": 70, "repeat": [ 1, 3 ] },
-        { "group": "home_hw", "x": [ 20, 21 ], "y": [ 12, 13 ], "chance": 75, "repeat": [ 1, 2 ] },
-        { "group": "home_hw", "x": [ 20, 21 ], "y": [ 19, 20 ], "chance": 75, "repeat": [ 1, 2 ] },
-        { "group": "home_hw", "x": [ 21, 21 ], "y": [ 2, 10 ], "chance": 85, "repeat": [ 1, 3 ] },
-        { "group": "home_hw", "x": [ 17, 20 ], "y": [ 2, 10 ], "chance": 55, "repeat": [ 1, 2 ] }
+        { "group": "office", "x": [12, 13], "y": [18, 20], "chance": 85, "repeat": [1, 3] },
+        { "group": "office", "x": [5, 6], "y": [15, 17], "chance": 90, "repeat": [1, 3] },
+        { "group": "manuals", "x": [4, 4], "y": [17, 18], "chance": 75, "repeat": [1, 2] },
+        { "group": "sewage_plant", "x": [4, 5], "y": [20, 22], "chance": 70, "repeat": [1, 3] },
+        { "group": "home_hw", "x": [20, 21], "y": [12, 13], "chance": 75, "repeat": [1, 2] },
+        { "group": "home_hw", "x": [20, 21], "y": [19, 20], "chance": 75, "repeat": [1, 2] },
+        { "group": "home_hw", "x": [21, 21], "y": [2, 10], "chance": 85, "repeat": [1, 3] },
+        { "group": "home_hw", "x": [17, 20], "y": [2, 10], "chance": 55, "repeat": [1, 2] }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 5, 21 ], "y": [ 8, 23 ], "chance": 3 } ],
-      "place_vehicles": [ { "vehicle": "pump_station_vehicles", "x": [ 7, 9 ], "y": [ 4, 6 ], "chance": 20, "rotation": 90 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [5, 21], "y": [8, 23], "chance": 3 }],
+      "place_vehicles": [
+        {
+          "vehicle": "pump_station_vehicles",
+          "x": [7, 9],
+          "y": [4, 6],
+          "chance": 20,
+          "rotation": 90
+        }
+      ]
     }
   },
   {
@@ -108,34 +116,34 @@
         "   |.....3 |---3 |....3 ",
         "   |.....3       |....3 "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "nested": {
-        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
-        "R": { "chunks": [ "roof_2x2_infrastructure_1" ] },
-        "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
+        "U": { "chunks": ["roof_2x2_infrastructure"] },
+        "R": { "chunks": ["roof_2x2_infrastructure_1"] },
+        "Z": { "chunks": ["roof_2x2_infrastructure_2"] }
       },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
           "x": 18,
-          "y": [ 6, 7 ]
+          "y": [6, 7]
         },
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
           "x": 5,
-          "y": [ 20, 21 ]
+          "y": [20, 21]
         }
       ]
     }
@@ -143,7 +151,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "pump_station_2" ],
+    "om_terrain": ["pump_station_2"],
     "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -174,9 +182,9 @@
         "........................"
       ],
       "set": [
-        { "point": "terrain", "id": "t_dirt", "x": [ 23, 23 ], "y": [ 0, 23 ], "repeat": [ 6, 10 ] },
-        { "point": "terrain", "id": "t_dirt", "x": [ 3, 22 ], "y": [ 15, 23 ], "repeat": [ 40, 90 ] },
-        { "point": "terrain", "id": "t_dirt", "x": [ 0, 2 ], "y": [ 0, 23 ], "repeat": [ 15, 30 ] }
+        { "point": "terrain", "id": "t_dirt", "x": [23, 23], "y": [0, 23], "repeat": [6, 10] },
+        { "point": "terrain", "id": "t_dirt", "x": [3, 22], "y": [15, 23], "repeat": [40, 90] },
+        { "point": "terrain", "id": "t_dirt", "x": [0, 2], "y": [0, 23], "repeat": [15, 30] }
       ],
       "terrain": {
         "*": "t_door_bar_locked",
@@ -196,17 +204,17 @@
       },
       "furniture": { "L": "f_locker", "r": "f_rack", "z": "f_crate_c" },
       "place_loot": [
-        { "group": "home_hw", "x": [ 10, 11 ], "y": [ 13, 13 ], "chance": 75, "repeat": [ 1, 3 ] },
-        { "group": "sewage_plant", "x": [ 4, 5 ], "y": [ 0, 2 ], "chance": 70, "repeat": [ 1, 3 ] },
-        { "group": "sewage_plant", "x": [ 4, 5 ], "y": [ 4, 6 ], "chance": 70, "repeat": [ 1, 3 ] },
-        { "group": "sewage_plant", "x": [ 4, 5 ], "y": [ 8, 13 ], "chance": 60, "repeat": [ 1, 2 ] },
-        { "item": "55gal_drum", "x": [ 21, 21 ], "y": [ 11, 13 ], "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "55gal_drum", "x": [ 10, 13 ], "y": [ 4, 4 ], "chance": 30, "repeat": [ 1, 2 ] },
-        { "item": "pipe", "x": [ 16, 16 ], "y": [ 0, 1 ], "chance": 60, "repeat": [ 1, 3 ] },
-        { "item": "pipe", "x": [ 12, 13 ], "y": [ 1, 2 ], "chance": 75, "repeat": [ 1, 5 ] },
-        { "item": "steel_plate", "x": [ 12, 13 ], "y": [ 1, 2 ], "chance": 40, "repeat": [ 1, 3 ] }
+        { "group": "home_hw", "x": [10, 11], "y": [13, 13], "chance": 75, "repeat": [1, 3] },
+        { "group": "sewage_plant", "x": [4, 5], "y": [0, 2], "chance": 70, "repeat": [1, 3] },
+        { "group": "sewage_plant", "x": [4, 5], "y": [4, 6], "chance": 70, "repeat": [1, 3] },
+        { "group": "sewage_plant", "x": [4, 5], "y": [8, 13], "chance": 60, "repeat": [1, 2] },
+        { "item": "55gal_drum", "x": [21, 21], "y": [11, 13], "chance": 50, "repeat": [1, 2] },
+        { "item": "55gal_drum", "x": [10, 13], "y": [4, 4], "chance": 30, "repeat": [1, 2] },
+        { "item": "pipe", "x": [16, 16], "y": [0, 1], "chance": 60, "repeat": [1, 3] },
+        { "item": "pipe", "x": [12, 13], "y": [1, 2], "chance": 75, "repeat": [1, 5] },
+        { "item": "steel_plate", "x": [12, 13], "y": [1, 2], "chance": 40, "repeat": [1, 3] }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 21 ], "y": [ 0, 13 ], "chance": 3 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [4, 21], "y": [0, 13], "chance": 3 }]
     }
   },
   {
@@ -241,20 +249,20 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ">": "t_ladder_down" },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_4x4_party", 15 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_4x4_utility_1", 30 ],
-            [ "roof_6x6_survivor", 20 ],
-            [ "roof_6x6_utility", 20 ]
+            ["null", 20],
+            ["roof_4x4_party", 15],
+            ["roof_4x4_utility", 40],
+            ["roof_4x4_utility_1", 30],
+            ["roof_6x6_survivor", 20],
+            ["roof_6x6_utility", 20]
           ],
-          "x": [ 6, 13 ],
-          "y": [ 5, 7 ]
+          "x": [6, 13],
+          "y": [5, 7]
         }
       ]
     }
@@ -262,7 +270,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "pump_station_3" ],
+    "om_terrain": ["pump_station_3"],
     "weight": 250,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -301,13 +309,13 @@
         "x": "t_bridge",
         "~": "t_sewage"
       },
-      "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
+      "place_monsters": [{ "monster": "GROUP_SEWER", "x": [1, 22], "y": [1, 22], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "pump_station_4" ],
+    "om_terrain": ["pump_station_4"],
     "weight": 250,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -337,14 +345,20 @@
         "RRRR~x2RRRRRRRRRRRRRRRRR",
         "RRRR~x2RRRRRRRRRRRRRRRRR"
       ],
-      "terrain": { "2": "t_sewage_pipe", "R": "t_rock", "^": "t_ladder_up", "x": "t_bridge", "~": "t_sewage" },
-      "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
+      "terrain": {
+        "2": "t_sewage_pipe",
+        "R": "t_rock",
+        "^": "t_ladder_up",
+        "x": "t_bridge",
+        "~": "t_sewage"
+      },
+      "place_monsters": [{ "monster": "GROUP_SEWER", "x": [1, 22], "y": [1, 22], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "pump_station_5" ],
+    "om_terrain": ["pump_station_5"],
     "weight": 250,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -388,8 +402,10 @@
         "~": "t_sewage"
       },
       "furniture": { "L": "f_locker", "c": "f_counter" },
-      "place_loot": [ { "group": "sewage_plant", "x": [ 10, 10 ], "y": [ 15, 16 ], "chance": 85, "repeat": [ 1, 3 ] } ],
-      "place_monsters": [ { "monster": "GROUP_SEWER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
+      "place_loot": [
+        { "group": "sewage_plant", "x": [10, 10], "y": [15, 16], "chance": 85, "repeat": [1, 3] }
+      ],
+      "place_monsters": [{ "monster": "GROUP_SEWER", "x": [1, 22], "y": [1, 22], "density": 0.1 }]
     }
   }
 ]

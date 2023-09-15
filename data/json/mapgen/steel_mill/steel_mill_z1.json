@@ -3,11 +3,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "steel_mill_0_1", "steel_mill_0_2", "steel_mill_0_3", "steel_mill_0_4" ],
-      [ "steel_mill_1_1", "steel_mill_1_2", "steel_mill_1_3", "steel_mill_1_4" ],
-      [ "steel_mill_2_1", "steel_mill_2_2", "steel_mill_2_3", "steel_mill_2_4" ],
-      [ "steel_mill_3_1", "steel_mill_3_2", "steel_mill_3_3", "steel_mill_rail_1" ],
-      [ "steel_mill_4_1", "steel_mill_4_2", "steel_mill_4_3", "steel_mill_rail_2" ]
+      ["steel_mill_0_1", "steel_mill_0_2", "steel_mill_0_3", "steel_mill_0_4"],
+      ["steel_mill_1_1", "steel_mill_1_2", "steel_mill_1_3", "steel_mill_1_4"],
+      ["steel_mill_2_1", "steel_mill_2_2", "steel_mill_2_3", "steel_mill_2_4"],
+      ["steel_mill_3_1", "steel_mill_3_2", "steel_mill_3_3", "steel_mill_rail_1"],
+      ["steel_mill_4_1", "steel_mill_4_2", "steel_mill_4_3", "steel_mill_rail_2"]
     ],
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -133,30 +133,150 @@
         "v................................................                       ^X^^X^        ^X^^X^   v",
         "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv =H==H= vvvvvv =H==H= vvv"
       ],
-      "terrain": {  },
-      "furniture": {  },
-      "palettes": [ "steel_mill_palette" ],
+      "terrain": {},
+      "furniture": {},
+      "palettes": ["steel_mill_palette"],
       "place_monsters": [
-        { "monster": "GROUP_STEEL_MILL", "x": [ 1, 22 ], "y": [ 1, 22 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 73, 94 ], "y": [ 1, 22 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 49, 70 ], "y": [ 25, 46 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 73, 94 ], "y": [ 25, 46 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 25, 46 ], "y": [ 49, 70 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 49, 70 ], "y": [ 49, 70 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 73, 94 ], "y": [ 49, 70 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 1, 22 ], "y": [ 73, 94 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 25, 46 ], "y": [ 73, 94 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 49, 70 ], "y": [ 73, 94 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 73, 94 ], "y": [ 73, 94 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 1, 22 ], "y": [ 97, 118 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 25, 46 ], "y": [ 97, 118 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 49, 70 ], "y": [ 97, 118 ], "repeat": [ 0, 1 ], "density": 1 },
-        { "monster": "GROUP_STEEL_MILL", "x": [ 73, 94 ], "y": [ 97, 118 ], "repeat": [ 0, 1 ], "density": 1 }
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [1, 22],
+          "y": [1, 22],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [25, 46],
+          "y": [1, 22],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [49, 70],
+          "y": [1, 22],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [73, 94],
+          "y": [1, 22],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [1, 22],
+          "y": [25, 46],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [25, 46],
+          "y": [25, 46],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [49, 70],
+          "y": [25, 46],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [73, 94],
+          "y": [25, 46],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [1, 22],
+          "y": [49, 70],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [25, 46],
+          "y": [49, 70],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [49, 70],
+          "y": [49, 70],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [73, 94],
+          "y": [49, 70],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [1, 22],
+          "y": [73, 94],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [25, 46],
+          "y": [73, 94],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [49, 70],
+          "y": [73, 94],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [73, 94],
+          "y": [73, 94],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [1, 22],
+          "y": [97, 118],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [25, 46],
+          "y": [97, 118],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [49, 70],
+          "y": [97, 118],
+          "repeat": [0, 1],
+          "density": 1
+        },
+        {
+          "monster": "GROUP_STEEL_MILL",
+          "x": [73, 94],
+          "y": [97, 118],
+          "repeat": [0, 1],
+          "density": 1
+        }
       ]
     }
   }

@@ -5,7 +5,11 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
       "fill_ter": "t_floor",
       "rows": [
         "...---..................",
@@ -51,10 +55,10 @@
       "furniture": { "?": "f_table", "$": "f_rack", "&": "f_rack" },
       "items": {
         "?": { "item": "table_foyer", "chance": 50 },
-        "&": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] },
-        "$": [ { "item": "sports", "chance": 30 }, { "item": "camping", "chance": 30 } ]
+        "&": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [1, 2] },
+        "$": [{ "item": "sports", "chance": 30 }, { "item": "camping", "chance": 30 }]
       },
-      "place_loot": [ { "item": "television", "x": 12, "y": 11 } ]
+      "place_loot": [{ "item": "television", "x": 12, "y": 11 }]
     }
   },
   {
@@ -63,7 +67,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",

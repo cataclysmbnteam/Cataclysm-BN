@@ -10,17 +10,17 @@
     "price": 1000000000,
     "//2": "because nobody would have that amount after the world ends, it's worth $1000 in barter",
     "price_postapoc": 100000,
-    "material": [ "glass", "superalloy", "platinum" ],
+    "material": ["glass", "superalloy", "platinum"],
     "symbol": "[",
     "color": "cyan",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "looks_like": "molle_pack",
     "coverage": 30,
     "encumbrance": 10,
     "storage": "100 L",
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "BELTED", "ONLY_ONE", "LEAK_DAM" ]
+    "flags": ["BELTED", "ONLY_ONE", "LEAK_DAM"]
   },
   {
     "id": "afs_titanium_vest",
@@ -31,11 +31,11 @@
     "volume": "500 ml",
     "price": 1000,
     "to_hit": -3,
-    "material": [ "titanium", "cotton" ],
+    "material": ["titanium", "cotton"],
     "symbol": "[",
     "looks_like": "armor_scrapsuit",
     "color": "white",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 80,
     "encumbrance": 4,
     "material_thickness": 2
@@ -51,7 +51,7 @@
     "charges_per_use": 1,
     "use_action": "DIRECTIONAL_HOLOGRAM",
     "artifact_data": { "charge_type": "ARTC_TIME" },
-    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "STURDY", "OUTER", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": ["OVERSIZE", "HOOD", "WATERPROOF", "STURDY", "OUTER", "NO_UNLOAD", "NO_RELOAD"]
   },
   {
     "id": "afs_sentinel_cloak",
@@ -60,16 +60,20 @@
     "name": { "str": "sentinel-lx cloak" },
     "description": "The vantablack cloak of sentinel-lx hangs around ones shoulders as a solid, unnatural shadow.  Made from woven graphene, its lightweight and resistant, but cannot be repaired",
     "price": 1500000,
-    "material": [ "graphene_weave" ],
+    "material": ["graphene_weave"],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "torso", "head", "arms", "legs" ],
+    "covers": ["torso", "head", "arms", "legs"],
     "coverage": 85,
     "encumbrance": 4,
     "warmth": 30,
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
+    "flags": ["OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY"],
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [{ "value": "BONUS_DODGE", "add": 1 }] }
+      ]
+    }
   },
   {
     "id": "xl_jeans",
@@ -81,7 +85,7 @@
     "copy-from": "jeans",
     "storage": "750 ml",
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+    "flags": ["VARSIZE", "POCKETS", "OVERSIZE"]
   },
   {
     "id": "xl_technician_pants_gray",
@@ -99,7 +103,7 @@
       { "id": "xl_technician_pants_gray", "text": "A pair of XL gray work pants." },
       { "id": "xl_technician_pants_lightblue", "text": "A pair of XL light-blue work pants." }
     ],
-    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+    "flags": ["VARSIZE", "POCKETS", "OVERSIZE"]
   },
   {
     "id": "xl_technician_shirt_gray",
@@ -111,53 +115,68 @@
     "volume": "350 ml",
     "copy-from": "technician_shirt_gray",
     "snippet_category": [
-      { "id": "xl_technician_shirt_blue", "text": "An XL blue work t-shirt with a small front pocket." },
-      { "id": "xl_technician_shirt_gray", "text": "An XL gray work t-shirt with a small front pocket." },
-      { "id": "xl_technician_shirt_lightblue", "text": "An XL light-blue work t-shirt with a small front pocket." }
+      {
+        "id": "xl_technician_shirt_blue",
+        "text": "An XL blue work t-shirt with a small front pocket."
+      },
+      {
+        "id": "xl_technician_shirt_gray",
+        "text": "An XL gray work t-shirt with a small front pocket."
+      },
+      {
+        "id": "xl_technician_shirt_lightblue",
+        "text": "An XL light-blue work t-shirt with a small front pocket."
+      }
     ],
-    "flags": [ "VARSIZE", "OVERSIZE" ]
+    "flags": ["VARSIZE", "OVERSIZE"]
   },
   {
     "id": "q_solarpack",
     "type": "TOOL_ARMOR",
-    "name": { "str": "quantum solar backpack (folded)", "str_pl": "quantum solar backpacks (folded)" },
+    "name": {
+      "str": "quantum solar backpack (folded)",
+      "str_pl": "quantum solar backpacks (folded)"
+    },
     "description": "Personal portable charging system consisting of an array of quantum solar panels neatly folded in a form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system.  Cutting edge technology.",
     "weight": "7500 g",
     "volume": "5 L",
     "price": 1500000,
     "bashing": 10,
     "to_hit": -1,
-    "material": [ "glass", "steel" ],
+    "material": ["glass", "steel"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 40,
     "encumbrance": 12,
     "material_thickness": 3,
-    "use_action": [ "SOLARPACK" ],
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
+    "use_action": ["SOLARPACK"],
+    "flags": ["FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK"]
   },
   {
     "id": "q_solarpack_on",
     "type": "TOOL_ARMOR",
     "repairs_like": "q_solarpack",
-    "name": { "str": "quantum solar backpack (unfolded)", "str_pl": "quantum solar backpacks (unfolded)" },
+    "name": {
+      "str": "quantum solar backpack (unfolded)",
+      "str_pl": "quantum solar backpacks (unfolded)"
+    },
     "description": "Unfolded array of portable quantum solar panels ready to push some power into an active cable charger system.",
     "weight": "7500 g",
     "volume": "15 L",
     "price": 1500000,
     "bashing": 4,
     "to_hit": -2,
-    "material": [ "glass", "steel" ],
+    "material": ["glass", "steel"],
     "symbol": "[",
     "color": "blue",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 40,
     "encumbrance": 20,
     "material_thickness": 1,
-    "use_action": [ "SOLARPACK_OFF" ],
+    "use_action": ["SOLARPACK_OFF"],
     "solar_efficiency": 0.3,
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
+    "flags": ["FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON"]
   },
   {
     "id": "xlswat_armor",
@@ -172,19 +191,19 @@
     "price": 585000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar", "cotton" ],
+    "material": ["kevlar", "cotton"],
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "covers": [ "legs", "torso", "arms" ],
+    "covers": ["legs", "torso", "arms"],
     "coverage": 95,
     "encumbrance": 25,
     "storage": "8 L",
     "warmth": 35,
     "material_thickness": 9,
-    "valid_mods": [ "steel_padded" ],
+    "valid_mods": ["steel_padded"],
     "environmental_protection": 4,
-    "flags": [ "OVERSIZE", "POCKETS", "STURDY" ]
+    "flags": ["OVERSIZE", "POCKETS", "STURDY"]
   },
   {
     "id": "xlballistic_vest_empty",
@@ -196,15 +215,15 @@
     "weight": "4 kg",
     "volume": "7 L",
     "price": 160000,
-    "material": [ "nylon" ],
+    "material": ["nylon"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 85,
     "encumbrance": 6,
     "warmth": 15,
     "material_thickness": 8,
-    "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY" ]
+    "flags": ["OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY"]
   },
   {
     "id": "xlballistic_vest_esapi",
@@ -215,15 +234,15 @@
     "weight": "12 kg",
     "volume": "9 L",
     "price": 280000,
-    "material": [ "nylon", "ceramic" ],
+    "material": ["nylon", "ceramic"],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 85,
     "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 26,
-    "flags": [ "OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR" ]
+    "flags": ["OVERSIZE", "STURDY", "OUTER", "WATER_FRIENDLY", "NO_REPAIR"]
   },
   {
     "id": "xlboots_combat",
@@ -238,17 +257,17 @@
     "price_postapoc": 14000,
     "to_hit": -1,
     "bashing": 1,
-    "material": [ "kevlar", "leather" ],
+    "material": ["kevlar", "leather"],
     "symbol": "[",
     "looks_like": "boots",
     "color": "dark_gray",
-    "covers": [ "feet" ],
+    "covers": ["feet"],
     "coverage": 100,
     "encumbrance": 25,
     "warmth": 25,
     "material_thickness": 5,
     "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY"]
   },
   {
     "id": "xlgloves_tactical",
@@ -261,16 +280,16 @@
     "volume": "750 ml",
     "price": 5200,
     "to_hit": 2,
-    "material": [ "kevlar", "leather" ],
+    "material": ["kevlar", "leather"],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "dark_gray",
-    "covers": [ "hands" ],
+    "covers": ["hands"],
     "coverage": 100,
     "encumbrance": 13,
     "warmth": 20,
     "material_thickness": 5,
-    "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "STURDY"]
   },
   {
     "id": "tripaw_xlgloves_tactical",
@@ -283,16 +302,16 @@
     "volume": "750 ml",
     "price": 5200,
     "to_hit": 2,
-    "material": [ "kevlar", "leather" ],
+    "material": ["kevlar", "leather"],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "dark_gray",
-    "covers": [ "hands" ],
+    "covers": ["hands"],
     "coverage": 100,
     "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "STURDY" ]
+    "flags": ["OVERSIZE", "VARSIZE", "STURDY"]
   },
   {
     "id": "xlleather_belt",
@@ -302,7 +321,7 @@
     "weight": "150 g",
     "volume": "350 ml",
     "copy-from": "leather_belt",
-    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": ["WAIST", "WATER_FRIENDLY", "OVERSIZE"]
   },
   {
     "id": "xlpolice_belt",
@@ -312,7 +331,7 @@
     "weight": "450 g",
     "volume": "2500 ml",
     "copy-from": "police_belt",
-    "flags": [ "WAIST", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": ["WAIST", "WATER_FRIENDLY", "OVERSIZE"]
   },
   {
     "id": "xltac_fullhelmet",
@@ -324,7 +343,7 @@
     "weight": "1324 g",
     "volume": "2 L",
     "copy-from": "tac_fullhelmet",
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "OVERSIZE" ]
+    "flags": ["VARSIZE", "STURDY", "SUN_GLASSES", "OVERSIZE"]
   },
   {
     "type": "ARMOR",
@@ -334,7 +353,7 @@
     "weight": "120 g",
     "volume": "250 ml",
     "copy-from": "legpouch_large",
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "flags": ["WATER_FRIENDLY", "BELTED", "OVERSIZE"]
   },
   {
     "id": "afs_herc_rig",
@@ -346,10 +365,10 @@
     "looks_like": "tacvest",
     "price": 7400,
     "price_postapoc": 5000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 20,
     "encumbrance": 8,
     "material_thickness": 2,
@@ -361,8 +380,8 @@
       "max_volume": "4 L",
       "max_weight": "12 kg",
       "draw_cost": 50,
-      "flags": [ "BELT_CLIP" ]
+      "flags": ["BELT_CLIP"]
     },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": ["WATER_FRIENDLY", "BELTED"]
   }
 ]

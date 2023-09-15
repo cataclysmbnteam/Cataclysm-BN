@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "house_08" ],
+    "om_terrain": ["house_08"],
     "weight": 300,
     "object": {
       "fill_ter": "t_floor",
@@ -32,40 +32,47 @@
         ".======================.",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "set": [
-        { "point": "terrain", "id": "t_tree_apple", "x": [ 0, 14 ], "y": [ 0, 0 ], "repeat": [ 1, 2 ] },
-        { "point": "terrain", "id": "t_tree", "x": [ 2, 11 ], "y": [ 16, 21 ], "repeat": [ 2, 6 ] },
-        { "point": "terrain", "id": "t_tree_young", "x": [ 2, 11 ], "y": [ 16, 21 ], "repeat": [ 3, 5 ] }
+        { "point": "terrain", "id": "t_tree_apple", "x": [0, 14], "y": [0, 0], "repeat": [1, 2] },
+        { "point": "terrain", "id": "t_tree", "x": [2, 11], "y": [16, 21], "repeat": [2, 6] },
+        { "point": "terrain", "id": "t_tree_young", "x": [2, 11], "y": [16, 21], "repeat": [3, 5] }
       ],
       "terrain": {
         "#": "t_rock_wall",
         "[": "t_door_glass_c",
         "=": "t_fence",
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ]
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"]
       },
       "place_loot": [
-        { "group": "livingroom", "x": [ 9, 21 ], "y": [ 2, 7 ], "chance": 90, "repeat": [ 1, 4 ] },
-        { "group": "guns_pistol_common", "x": 4, "y": 10, "chance": 10, "ammo": 90, "magazine": 100 }
+        { "group": "livingroom", "x": [9, 21], "y": [2, 7], "chance": 90, "repeat": [1, 4] },
+        {
+          "group": "guns_pistol_common",
+          "x": 4,
+          "y": 10,
+          "chance": 10,
+          "ammo": 90,
+          "magazine": 100
+        }
       ],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 50 ],
-            [ "roof_6x6_garden_4", 15 ],
-            [ "roof_6x6_garden_1", 15 ],
-            [ "greenhouse_6x6_herbal", 25 ],
-            [ "greenhouse_6x6_vegetable", 25 ],
-            [ "pond_6x6", 25 ],
-            [ "shed_6x6_junk", 25 ],
-            [ "shed_6x6_bike", 25 ],
-            [ "shed_6x6_woodworker", 25 ]
+            ["null", 50],
+            ["roof_6x6_garden_4", 15],
+            ["roof_6x6_garden_1", 15],
+            ["greenhouse_6x6_herbal", 25],
+            ["greenhouse_6x6_vegetable", 25],
+            ["pond_6x6", 25],
+            ["shed_6x6_junk", 25],
+            ["shed_6x6_bike", 25],
+            ["shed_6x6_woodworker", 25]
           ],
           "x": 15,
           "y": 15
         }
       ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [2, 21], "y": [2, 21], "chance": 2 }]
     }
   },
   {
@@ -100,7 +107,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
@@ -136,29 +143,29 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "nested": {
         "2": {
           "chunks": [
-            [ "null", 70 ],
-            [ "room_6x6_guns_E", 2 ],
-            [ "room_6x6_guns_S", 2 ],
-            [ "room_6x6_junk_E", 30 ],
-            [ "room_6x6_junk_S", 30 ],
-            [ "room_6x6_office_E", 30 ],
-            [ "room_6x6_office_S", 30 ],
-            [ "room_6x6_brewer_E", 10 ],
-            [ "room_6x6_brewer_S", 10 ]
+            ["null", 70],
+            ["room_6x6_guns_E", 2],
+            ["room_6x6_guns_S", 2],
+            ["room_6x6_junk_E", 30],
+            ["room_6x6_junk_S", 30],
+            ["room_6x6_office_E", 30],
+            ["room_6x6_office_S", 30],
+            ["room_6x6_brewer_E", 10],
+            ["room_6x6_brewer_S", 10]
           ]
         },
         "1": {
           "chunks": [
-            [ "null", 70 ],
-            [ "room_10x10_woodworker_W", 20 ],
-            [ "room_10x10_guns_W", 7 ],
-            [ "room_10x10_pool_W", 2 ],
-            [ "room_10x10_junk_W", 30 ],
-            [ "room_10x10_recording_studio_W", 20 ]
+            ["null", 70],
+            ["room_10x10_woodworker_W", 20],
+            ["room_10x10_guns_W", 7],
+            ["room_10x10_pool_W", 2],
+            ["room_10x10_junk_W", 30],
+            ["room_10x10_recording_studio_W", 20]
           ]
         }
       }

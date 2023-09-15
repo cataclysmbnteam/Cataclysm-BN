@@ -44,7 +44,10 @@
   },
   {
     "type": "dream",
-    "messages": [ "You have a vivid dream of strolling through the woods.", "You dream of drinking copious amounts of warm water." ],
+    "messages": [
+      "You have a vivid dream of strolling through the woods.",
+      "You dream of drinking copious amounts of warm water."
+    ],
     "category": "WENDIGO",
     "strength": 2
   },

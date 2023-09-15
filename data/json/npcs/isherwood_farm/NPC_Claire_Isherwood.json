@@ -17,7 +17,7 @@
     "id": "NC_ISHERWOOD_CLAIRE",
     "name": { "str": "Claire Isherwood" },
     "job_description": "I'm the matriarch of the Isherwood family",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [{ "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }],
     "common": false,
     "bonus_per": { "one_in": 4 },
     "worn_override": "NC_Isherwood_female_worn",
@@ -27,33 +27,42 @@
     "skills": [
       {
         "skill": "ALL",
-        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+        "level": {
+          "mul": [
+            { "one_in": 3 },
+            { "sum": [{ "dice": [2, 2] }, { "constant": -2 }, { "one_in": 4 }] }
+          ]
+        }
       },
-      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "cooking", "bonus": { "rng": [ 4, 8 ] } },
-      { "skill": "firstaid", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
-      { "skill": "rifle", "bonus": { "rng": [ 4, 8 ] } }
+      { "skill": "barter", "bonus": { "rng": [2, 4] } },
+      { "skill": "cooking", "bonus": { "rng": [4, 8] } },
+      { "skill": "firstaid", "bonus": { "rng": [3, 6] } },
+      { "skill": "survival", "bonus": { "rng": [3, 6] } },
+      { "skill": "pistol", "bonus": { "rng": [3, 6] } },
+      { "skill": "rifle", "bonus": { "rng": [4, 8] } }
     ]
   },
   {
     "type": "item_group",
     "id": "NC_ISHERWOOD_CLAIRE_storage",
     "subtype": "distribution",
-    "entries": [ { "item": "backpack_hiking", "prob": 100 } ]
+    "entries": [{ "item": "backpack_hiking", "prob": 100 }]
   },
   {
     "id": "NC_ISHERWOOD_CLAIRE_gloves",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "gloves_leather", "prob": 45 }, { "item": "gloves_light", "prob": 20 } ]
+    "entries": [{ "item": "gloves_leather", "prob": 45 }, { "item": "gloves_light", "prob": 20 }]
   },
   {
     "id": "NC_ISHERWOOD_CLAIRE_pants",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "jeans", "prob": 50 }, { "item": "pants_cargo", "prob": 70 }, { "item": "leather_belt", "prob": 30 } ]
+    "entries": [
+      { "item": "jeans", "prob": 50 },
+      { "item": "pants_cargo", "prob": 70 },
+      { "item": "leather_belt", "prob": 30 }
+    ]
   },
   {
     "id": "NC_ISHERWOOD_CLAIRE_shoes",
@@ -70,13 +79,21 @@
     "id": "NC_ISHERWOOD_CLAIRE_torso",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "tank_top", "prob": 50 }, { "item": "dress", "prob": 45 }, { "item": "jacket_light", "prob": 40 } ]
+    "entries": [
+      { "item": "tank_top", "prob": 50 },
+      { "item": "dress", "prob": 45 },
+      { "item": "jacket_light", "prob": 40 }
+    ]
   },
   {
     "type": "item_group",
     "id": "NC_ISHERWOOD_CLAIRE_hat",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 40 }, { "item": "cowboy_hat", "prob": 40 }, { "item": "straw_hat", "prob": 20 } ]
+    "entries": [
+      { "item": "null", "prob": 40 },
+      { "item": "cowboy_hat", "prob": 40 },
+      { "item": "straw_hat", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",
@@ -109,7 +126,11 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Is that a U.S. Marshal's badge you're wearing?",
-      "no": { "u_male": true, "yes": "Hello, what brings you here?", "no": "Hi, what brings you here?" }
+      "no": {
+        "u_male": true,
+        "yes": "Hello, what brings you here?",
+        "no": "Hi, what brings you here?"
+      }
     },
     "responses": [
       {
@@ -135,7 +156,12 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            {
+              "u_has_var": "u_met_Jack_Isherwood",
+              "type": "general",
+              "context": "meeting",
+              "value": "yes"
+            }
           ]
         }
       },
@@ -162,8 +188,14 @@
     "id": "TALK_ISHERWOOD_CLAIRE_TALK1",
     "dynamic_line": "I live here with my husband, Jack.  He is working out in his shop.",
     "responses": [
-      { "text": "You are lucky to have your family still together.", "topic": "TALK_ISHERWOOD_CLAIRE2" },
-      { "text": "Must be nice, to have the quiet place amid so much madness.", "topic": "TALK_CLAIRE_FARM" },
+      {
+        "text": "You are lucky to have your family still together.",
+        "topic": "TALK_ISHERWOOD_CLAIRE2"
+      },
+      {
+        "text": "Must be nice, to have the quiet place amid so much madness.",
+        "topic": "TALK_CLAIRE_FARM"
+      },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -182,8 +214,14 @@
     "id": "TALK_ISHERWOOD_CLAIRE_TALK3",
     "dynamic_line": "Well, nice to meet you.  I imagine Jack was boasting about my herbal remedies, he's proud of what we've put together here.",
     "responses": [
-      { "text": "He did mention you make remedies, are they effective?", "topic": "TALK_CLAIRE_MEDICINE" },
-      { "text": "Must be nice, to have the quiet place amid so much madness.", "topic": "TALK_CLAIRE_FARM" },
+      {
+        "text": "He did mention you make remedies, are they effective?",
+        "topic": "TALK_CLAIRE_MEDICINE"
+      },
+      {
+        "text": "Must be nice, to have the quiet place amid so much madness.",
+        "topic": "TALK_CLAIRE_FARM"
+      },
       { "text": "I'd like to ask you something else…", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -205,12 +243,22 @@
       {
         "text": "I'd like to ask you something else…",
         "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS",
-        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": {
+          "u_add_var": "u_learned_about_barry",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       },
       {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": {
+          "u_add_var": "u_learned_about_barry",
+          "type": "general",
+          "context": "meeting",
+          "value": "yes"
+        }
       }
     ]
   },
@@ -254,7 +302,7 @@
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
     "dynamic_line": "You should get off our land, you have no business here.",
-    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "…", "topic": "TALK_DONE" }]
   },
   {
     "type": "talk_topic",
@@ -265,7 +313,10 @@
       { "text": "Your daughter lives down the road?", "topic": "TALK_CLAIRE_DAUGHTER" },
       { "text": "Where is your brother's place?", "topic": "TALK_CLAIRE_BROTHER" },
       { "text": "A farm must be a pretty safe place these days.", "topic": "TALK_CLAIRE_FARM" },
-      { "text": "You are lucky to have your family still together.", "topic": "TALK_ISHERWOOD_CLAIRE2" },
+      {
+        "text": "You are lucky to have your family still together.",
+        "topic": "TALK_ISHERWOOD_CLAIRE2"
+      },
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_ISHERWOOD_CLAIRE" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -280,7 +331,7 @@
     "value": 20000,
     "item": "raw_dandelion",
     "count": 50,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "has_generic_rewards": false,
     "followup": "MISSION_ISHERWOOD_CLAIRE_2",
     "end": {
@@ -320,7 +371,7 @@
         { "u_buy_item": "bee_balm_tea", "container": "jar_glass_sealed", "count": 2 }
       ]
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "I could use some seeds from the forest.",
@@ -341,18 +392,33 @@
     "goal": "MGOAL_FIND_MONSTER",
     "difficulty": 4,
     "value": 100000,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "has_generic_rewards": false,
     "start": {
-      "assign_mission_target": { "om_terrain": "cabin_isherwood", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
-      "update_mapgen": { "place_monster": [ { "monster": "mon_cat", "pack_size": [ 3, 6 ], "x": 20, "y": 22, "target": true } ] },
-      "effect": [ { "u_buy_item": "chicken_cage", "count": 1 } ]
+      "assign_mission_target": {
+        "om_terrain": "cabin_isherwood",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 20,
+        "min_distance": 8
+      },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_cat", "pack_size": [3, 6], "x": 20, "y": 22, "target": true }
+        ]
+      },
+      "effect": [{ "u_buy_item": "chicken_cage", "count": 1 }]
     },
     "end": {
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
         { "u_buy_item": "isherwood_herbal_remedies", "count": 1 },
-        { "u_add_var": "u_did_claire_missions", "type": "general", "context": "recruit", "value": "yes" }
+        {
+          "u_add_var": "u_did_claire_missions",
+          "type": "general",
+          "context": "recruit",
+          "value": "yes"
+        }
       ]
     },
     "dialogue": {

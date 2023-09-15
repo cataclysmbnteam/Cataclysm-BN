@@ -14,12 +14,12 @@
     "description": "A delicious grilled cheese sandwich, because everything is better with melted cheese.",
     "price": 550,
     "price_postapoc": 200,
-    "material": [ "milk", "wheat" ],
+    "material": ["milk", "wheat"],
     "primary_material": "wheat",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 10,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [["vitA", 18], ["calcium", 50], ["iron", 12]]
   },
   {
     "type": "COMESTIBLE",
@@ -44,12 +44,12 @@
     "description": "A sandwich of meat, vegetables, and cheese with condiments.  Tasty and nutritious!",
     "price": 1200,
     "price_postapoc": 300,
-    "material": [ "flesh", "veggy", "wheat", "milk" ],
+    "material": ["flesh", "veggy", "wheat", "milk"],
     "primary_material": "processed_food",
     "volume": "1500 ml",
     "charges": 2,
     "fun": 12,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
+    "vitamins": [["vitA", 8], ["vitC", 26], ["calcium", 8], ["iron", 49], ["vitB", 389]]
   },
   {
     "type": "COMESTIBLE",
@@ -67,10 +67,10 @@
     "description": "A refreshing cucumber sandwich.  Not very filling, but quite tasty.",
     "price": 250,
     "volume": "1250 ml",
-    "material": [ "wheat", "veggy" ],
-    "flags": [ "EATEN_COLD" ],
+    "material": ["wheat", "veggy"],
+    "flags": ["EATEN_COLD"],
     "fun": 8,
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 30 ] ]
+    "vitamins": [["vitC", 9], ["calcium", 16], ["iron", 30]]
   },
   {
     "type": "COMESTIBLE",
@@ -86,11 +86,11 @@
     "description": "A simple cheese sandwich.",
     "price": 500,
     "price_postapoc": 200,
-    "material": [ "milk", "wheat" ],
+    "material": ["milk", "wheat"],
     "primary_material": "wheat",
     "volume": "500 ml",
     "fun": 8,
-    "vitamins": [ [ "vitA", 18 ], [ "calcium", 50 ], [ "iron", 12 ] ]
+    "vitamins": [["vitA", 18], ["calcium", 50], ["iron", 12]]
   },
   {
     "type": "COMESTIBLE",
@@ -107,11 +107,11 @@
     "description": "A delicious jam sandwich.",
     "price": 200,
     "price_postapoc": 200,
-    "material": [ "fruit", "wheat" ],
+    "material": ["fruit", "wheat"],
     "primary_material": "wheat",
     "volume": "500 ml",
     "fun": 15,
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+    "vitamins": [["vitC", 6], ["calcium", 7], ["iron", 12]]
   },
   {
     "type": "COMESTIBLE",
@@ -127,7 +127,7 @@
     "description": "An 'open-faced sandwich' consisting of sliced white bread, a healthy crust-to-crust slathering of butter, and sprinkles.  Supposedly a staple of birthday parties in Australia.",
     "price": 85,
     "price_postapoc": 300,
-    "material": [ "junk", "wheat" ],
+    "material": ["junk", "wheat"],
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 10
@@ -148,11 +148,11 @@
     "description": "A delicious honey sandwich.",
     "price": 500,
     "price_postapoc": 300,
-    "material": [ "honey", "wheat" ],
+    "material": ["honey", "wheat"],
     "primary_material": "wheat",
     "volume": "500 ml",
     "fun": 10,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ] ]
+    "vitamins": [["calcium", 10], ["iron", 24]]
   },
   {
     "type": "COMESTIBLE",
@@ -185,18 +185,22 @@
     "description": "Bread and vegetables, that's it.",
     "price": 800,
     "price_postapoc": 250,
-    "material": [ "veggy", "wheat" ],
+    "material": ["veggy", "wheat"],
     "volume": "750 ml",
-    "flags": [ "EATEN_COLD" ],
+    "flags": ["EATEN_COLD"],
     "fun": 1,
-    "vitamins": [ [ "vitA", 16 ], [ "vitC", 36 ], [ "calcium", 14 ], [ "iron", 28 ] ]
+    "vitamins": [["vitA", 16], ["vitC", 36], ["calcium", 14], ["iron", 28]]
   },
   {
     "type": "COMESTIBLE",
     "id": "sandwich_t",
     "name": { "str": "meat sandwich", "str_pl": "meat sandwiches" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" } },
+      {
+        "type": "FLAG",
+        "condition": "CANNIBALISM",
+        "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" }
+      },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "mutant %s" } }
     ],
     "weight": "233 g",
@@ -209,11 +213,11 @@
     "description": "Bread and meat, that's it.",
     "price": 900,
     "price_postapoc": 250,
-    "material": [ "flesh", "wheat" ],
+    "material": ["flesh", "wheat"],
     "volume": "1 L",
     "charges": 2,
     "fun": 2,
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 6 ], [ "iron", 47 ], [ "vitB", 389 ] ]
+    "vitamins": [["vitC", 8], ["calcium", 6], ["iron", 47], ["vitB", 389]]
   },
   {
     "type": "COMESTIBLE",
@@ -233,7 +237,7 @@
     "material": "wheat",
     "volume": "250 ml",
     "fun": 3,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 28 ] ]
+    "vitamins": [["calcium", 10], ["iron", 28]]
   },
   {
     "type": "COMESTIBLE",
@@ -250,11 +254,11 @@
     "description": "A delicious peanut butter and jelly sandwich.  It reminds you of the times your mother would make you lunch.",
     "price": 175,
     "price_postapoc": 175,
-    "material": [ "fruit", "wheat" ],
+    "material": ["fruit", "wheat"],
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
+    "vitamins": [["vitC", 3], ["calcium", 7], ["iron", 14]]
   },
   {
     "type": "COMESTIBLE",
@@ -271,11 +275,11 @@
     "description": "Some damned fool put honey on this peanut butter sandwich, who in their right mind- oh wait this is pretty good.",
     "price": 175,
     "price_postapoc": 175,
-    "material": [ "wheat", "honey" ],
+    "material": ["wheat", "honey"],
     "primary_material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
+    "vitamins": [["calcium", 8], ["iron", 16]]
   },
   {
     "type": "COMESTIBLE",
@@ -295,7 +299,7 @@
     "material": "wheat",
     "volume": "250 ml",
     "fun": 6,
-    "vitamins": [ [ "calcium", 12 ], [ "iron", 28 ] ]
+    "vitamins": [["calcium", 12], ["iron", 28]]
   },
   {
     "type": "COMESTIBLE",
@@ -311,10 +315,10 @@
     "description": "A delicious fish sandwich.",
     "price": 800,
     "price_postapoc": 250,
-    "material": [ "flesh", "wheat" ],
+    "material": ["flesh", "wheat"],
     "volume": "750 ml",
     "fun": 14,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 19 ], [ "iron", 17 ] ]
+    "vitamins": [["vitA", 4], ["vitC", 5], ["calcium", 19], ["iron", 17]]
   },
   {
     "type": "COMESTIBLE",
@@ -330,10 +334,10 @@
     "description": "A delicious fish bagel with spinach and eggs.",
     "price": 800,
     "price_postapoc": 350,
-    "material": [ "flesh", "wheat" ],
+    "material": ["flesh", "wheat"],
     "volume": "750 ml",
     "fun": 14,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 5 ], [ "calcium", 12 ], [ "iron", 24 ] ]
+    "vitamins": [["vitA", 4], ["vitC", 5], ["calcium", 12], ["iron", 24]]
   },
   {
     "type": "COMESTIBLE",
@@ -350,12 +354,12 @@
     "description": "A bacon, lettuce, and tomato sandwich on toasted bread.",
     "price": 400,
     "price_postapoc": 250,
-    "material": [ "flesh", "veggy", "wheat", "tomato" ],
+    "material": ["flesh", "veggy", "wheat", "tomato"],
     "primary_material": "processed_food",
     "volume": "1 L",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 5,
-    "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 20 ] ]
+    "vitamins": [["vitA", 8], ["vitC", 10], ["calcium", 7], ["iron", 18], ["vitB", 20]]
   }
 ]

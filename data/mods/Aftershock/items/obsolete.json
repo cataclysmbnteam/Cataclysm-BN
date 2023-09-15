@@ -2,7 +2,7 @@
   {
     "type": "vehicle_part",
     "id": "afs_hauling_space",
-    "categories": [ "Cargo", "Hull" ],
+    "categories": ["Cargo", "Hull"],
     "copy-from": "cargo_space",
     "name": { "str": "hauling space" },
     "looks_like": "cargo_space",
@@ -11,16 +11,19 @@
     "durability": 400,
     "description": "A huge, empty space used in truck trailers to transport vast quantities of stuff.",
     "size": 6000,
-    "breaks_into": [ { "item": "steel_lump", "count": [ 12, 18 ] }, { "item": "scrap", "count": [ 12, 18 ] } ],
-    "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
+    "breaks_into": [
+      { "item": "steel_lump", "count": [12, 18] },
+      { "item": "scrap", "count": [12, 18] }
+    ],
+    "flags": ["AISLE", "BOARDABLE", "CARGO", "ROOF"]
   },
   {
     "id": "afs_solderers_item",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "precision solderers" },
-    "flags": [ "TRADER_AVOID" ],
-    "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ], [ "BIONIC_ASSEMBLY", 2 ] ]
+    "flags": ["TRADER_AVOID"],
+    "qualities": [["SAW_M_FINE", 1], ["SCREW_FINE", 1], ["CUT_FINE", 2], ["BIONIC_ASSEMBLY", 2]]
   },
   {
     "id": "afs_bio_precision_solderers",
@@ -41,7 +44,7 @@
     "color": "cyan",
     "symbol": "]",
     "looks_like": "cargo_aisle",
-    "material": [ "steel" ],
+    "material": ["steel"],
     "volume": "100 L",
     "bashing": 2,
     "category": "veh_parts",
@@ -61,7 +64,7 @@
     "price": 100,
     "volume": "500 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "looks_like": "flour",
     "fun": -5
   },
@@ -76,8 +79,8 @@
     "volume": "2500 ml",
     "price": 100000000,
     "price_postapoc": 50000,
-    "material": [ "superalloy", "kevlar" ],
-    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
+    "material": ["superalloy", "kevlar"],
+    "covers": ["torso", "arms", "hands", "legs", "feet"],
     "coverage": 100,
     "material_thickness": 2,
     "encumbrance": 7,
@@ -108,14 +111,14 @@
     "volume": "2 L",
     "price": 10000000,
     "price_postapoc": 5000,
-    "material": [ "superalloy", "plastic" ],
-    "covers": [ "head", "eyes", "mouth" ],
+    "material": ["superalloy", "plastic"],
+    "covers": ["head", "eyes", "mouth"],
     "coverage": 100,
     "material_thickness": 2,
     "encumbrance": 15,
     "warmth": 20,
     "environmental_protection": 11,
-    "qualities": [ [ "GLARE", 3 ] ],
+    "qualities": [["GLARE", 3]],
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -126,7 +129,7 @@
       "need_charges": 1,
       "need_charges_msg": "The helmet's batteries are dead."
     },
-    "flags": [ "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
+    "flags": ["WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY"],
     "looks_like": "depowered_helmet",
     "magazines": [
       [
@@ -148,12 +151,20 @@
     "id": "afs_hev_helmet_on",
     "type": "TOOL_ARMOR",
     "copy-from": "afs_hev_helmet",
-    "name": { "str": "hazardous environment helmet (on)", "str_pl": "hazardous environment helmets (on)" },
+    "name": {
+      "str": "hazardous environment helmet (on)",
+      "str_pl": "hazardous environment helmets (on)"
+    },
     "description": "Meant to pair with a compatible HEV suit, this helmet's physical protection is basic at best, but makes up for it with an air recycler that provides excellent protection from airborne contaminants.  Its light is on, illuminating the area at a cost of batteries.",
     "revert_to": "afs_hev_helmet",
     "turns_per_charge": 20,
-    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "afs_hev_helmet" },
-    "flags": [ "LIGHT_500", "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
+    "use_action": {
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "The %s flicks off.",
+      "target": "afs_hev_helmet"
+    },
+    "flags": ["LIGHT_500", "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY"],
     "looks_like": "depowered_helmet"
   },
   {
@@ -165,16 +176,21 @@
     "volume": "2 L",
     "price": 500,
     "bashing": 4,
-    "material": [ "leather" ],
+    "material": ["leather"],
     "symbol": "[",
     "looks_like": "quiver",
     "color": "dark_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 20,
     "encumbrance": 5,
     "material_thickness": 1,
-    "use_action": { "type": "bandolier", "capacity": 40, "ammo": [ "arrow", "bolt" ], "draw_cost": 20 },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "use_action": {
+      "type": "bandolier",
+      "capacity": 40,
+      "ammo": ["arrow", "bolt"],
+      "draw_cost": 20
+    },
+    "flags": ["BELTED", "OVERSIZE", "WATER_FRIENDLY"]
   },
   {
     "id": "afs_quilt",
@@ -185,16 +201,16 @@
     "volume": "5 L",
     "price": 5500,
     "to_hit": -1,
-    "material": [ "wool" ],
+    "material": ["wool"],
     "symbol": "[",
     "color": "white",
-    "covers": [ "torso", "arms", "hands", "legs", "feet" ],
+    "covers": ["torso", "arms", "hands", "legs", "feet"],
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 100,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": ["OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
     "looks_like": "down_blanket"
   },
   {
@@ -210,7 +226,10 @@
     "id": "afs_survivor_belt",
     "copy-from": "survivor_belt",
     "type": "ARMOR",
-    "name": { "str": "survivor utility belt (holster)", "str_pl": "survivor utility belts (holster)" },
+    "name": {
+      "str": "survivor utility belt (holster)",
+      "str_pl": "survivor utility belts (holster)"
+    },
     "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a clip for holding various equipment.  Durable and carefully crafted to be comfortable to wear.  Activate to clip something to it.",
     "use_action": [
       {
@@ -220,7 +239,7 @@
         "max_volume": "1500 ml",
         "max_weight": 2000,
         "draw_cost": 50,
-        "flags": [ "BELT_CLIP" ]
+        "flags": ["BELT_CLIP"]
       },
       "CROWBAR",
       "HAMMER"
@@ -241,16 +260,16 @@
     "volume": "1500 ml",
     "price": 5000,
     "to_hit": -3,
-    "material": [ "leather", "steel" ],
+    "material": ["leather", "steel"],
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "brown",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 100,
     "encumbrance": 16,
     "warmth": 25,
     "material_thickness": 3,
-    "flags": [ "RAINPROOF", "STURDY", "OUTER", "ONLY_ONE", "VARSIZE" ]
+    "flags": ["RAINPROOF", "STURDY", "OUTER", "ONLY_ONE", "VARSIZE"]
   },
   {
     "id": "afs_mbr_titanium",
@@ -263,11 +282,11 @@
     "price": 110000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar", "titanium" ],
+    "material": ["kevlar", "titanium"],
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_gray",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 85,
     "encumbrance": 7,
     "storage": "2500 ml",
@@ -281,9 +300,9 @@
       "min_volume": "250 ml",
       "max_volume": "1 L",
       "draw_cost": 60,
-      "flags": [ "MAG_COMPACT" ]
+      "flags": ["MAG_COMPACT"]
     },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": ["STURDY", "OUTER"]
   },
   {
     "id": "afs_sunesthesia",
@@ -294,7 +313,7 @@
     "stim": -30,
     "phase": "solid",
     "color": "light_red",
-    "flags": [ "LIGHT_4", "EATEN_HOT" ],
+    "flags": ["LIGHT_4", "EATEN_HOT"],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You go limp and collapse as the sunesthesia knocks you senseless.",
@@ -315,16 +334,16 @@
     "volume": "1500 ml",
     "price": 1000,
     "to_hit": -3,
-    "material": [ "cotton", "steel" ],
+    "material": ["cotton", "steel"],
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "white",
-    "covers": [ "torso" ],
+    "covers": ["torso"],
     "coverage": 95,
     "encumbrance": 14,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OUTER", "VARSIZE" ]
+    "flags": ["OUTER", "VARSIZE"]
   },
   {
     "id": "afs_rebar_rifle",
@@ -339,10 +358,10 @@
     "price_postapoc": 50000,
     "to_hit": -3,
     "bashing": 10,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "symbol": "(",
     "color": "brown",
-    "ammo": [ "metal_rail" ],
+    "ammo": ["metal_rail"],
     "ranged_damage": { "damage_type": "stab", "amount": 20 },
     "skill": "rifle",
     "dispersion": 90,
@@ -351,14 +370,14 @@
     "clip_size": 1,
     "reload": 1200,
     "valid_mod_locations": [
-      [ "emitter", 1 ],
-      [ "grip", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "sights", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["emitter", 1],
+      ["grip", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["sights", 1],
+      ["rail mount", 1],
+      ["underbarrel mount", 1]
     ],
-    "ammo_effects": [ "TRAIL" ]
+    "ammo_effects": ["TRAIL"]
   }
 ]

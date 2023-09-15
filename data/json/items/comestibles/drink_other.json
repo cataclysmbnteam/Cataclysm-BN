@@ -19,7 +19,7 @@
     "volume": "500 ml",
     "charges": 8,
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 1
   },
   {
@@ -42,9 +42,9 @@
     "//": "need 40 charges of maple sap to make 16 charges of maple syrup",
     "proportional": { "calories": 0.4 },
     "fun": 1,
-    "flags": [ "EATEN_COLD", "RAW" ],
+    "flags": ["EATEN_COLD", "RAW"],
     "phase": "liquid",
-    "vitamins": [  ],
+    "vitamins": [],
     "freezing_point": 30
   },
   {
@@ -56,7 +56,7 @@
     "description": "A gloppy mix of egg, oil, and salt that is traditionally used to moisten sandwiches.",
     "price": 187,
     "price_postapoc": 500,
-    "material": [ "junk", "egg" ],
+    "material": ["junk", "egg"],
     "weight": "15 g",
     "volume": "250 ml",
     "comestible_type": "DRINK",
@@ -77,7 +77,7 @@
     "description": "A viscous paste of tomato, salt, and vinegar.",
     "price": 1875,
     "price_postapoc": 100,
-    "material": [ "veggy", "junk" ],
+    "material": ["veggy", "junk"],
     "weight": "18 g",
     "volume": "250 ml",
     "comestible_type": "DRINK",
@@ -107,7 +107,7 @@
     "spoils_in": 600,
     "charges": 48,
     "phase": "liquid",
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [["iron", 2]]
   },
   {
     "id": "honey_bottled",
@@ -128,7 +128,7 @@
     "charges": 16,
     "healthy": 1,
     "fun": 3,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": ["NUTRIENT_OVERRIDE"],
     "phase": "liquid"
   },
   {
@@ -151,8 +151,8 @@
     "calories": 190,
     "charges": 8,
     "phase": "liquid",
-    "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 6 ] ],
+    "flags": ["USE_EAT_VERB"],
+    "vitamins": [["iron", 6]],
     "fun": 2
   },
   {
@@ -197,13 +197,13 @@
     "description": "Thin yellow vegetable oil used for cooking.",
     "price": 40,
     "price_postapoc": 500,
-    "material": [ "oil", "veggy" ],
+    "material": ["oil", "veggy"],
     "volume": "250 ml",
     "charges": 16,
     "phase": "liquid",
     "fun": -25,
-    "flags": [ "NUTRIENT_OVERRIDE" ],
-    "vitamins": [  ],
+    "flags": ["NUTRIENT_OVERRIDE"],
+    "vitamins": [],
     "freezing_point": 14
   },
   {
@@ -212,7 +212,7 @@
     "name": { "str_sp": "animal cooking oil" },
     "copy-from": "cooking_oil",
     "description": "Thin yellow animal oil used for cooking.",
-    "material": [ "flesh", "oil" ]
+    "material": ["flesh", "oil"]
   },
   {
     "type": "COMESTIBLE",
@@ -234,8 +234,8 @@
     "phase": "liquid",
     "charges": 4,
     "fun": 2,
-    "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "calcium", 18 ], [ "iron", 23 ] ],
+    "flags": ["USE_EAT_VERB"],
+    "vitamins": [["calcium", 18], ["iron", 23]],
     "freezing_point": -20
   },
   {

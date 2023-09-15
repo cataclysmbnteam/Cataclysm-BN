@@ -3,21 +3,21 @@
     "method": "json",
     "object": {
       "place_item": [
-        { "item": "log", "repeat": [ 1, 10 ], "x": 18, "y": 3 },
-        { "item": "log", "repeat": [ 1, 10 ], "x": 19, "y": 3 },
-        { "item": "log", "repeat": [ 1, 10 ], "x": 20, "y": 3 },
-        { "item": "log", "repeat": [ 1, 10 ], "x": 21, "y": 3 },
-        { "item": "stick", "repeat": [ 1, 16 ], "x": 23, "y": 3 },
-        { "item": "log", "repeat": [ 1, 10 ], "x": 18, "y": 4 },
-        { "item": "log", "repeat": [ 1, 10 ], "x": 19, "y": 4 },
-        { "item": "log", "repeat": [ 1, 10 ], "x": 20, "y": 4 },
-        { "item": "log", "repeat": [ 1, 10 ], "x": 21, "y": 4 },
-        { "item": "stick", "repeat": [ 1, 16 ], "x": 23, "y": 4 },
-        { "item": "log", "repeat": [ 1, 10 ], "x": 18, "y": 5 },
-        { "item": "log", "repeat": [ 1, 10 ], "x": 19, "y": 5 },
-        { "item": "log", "repeat": [ 1, 10 ], "x": 20, "y": 5 },
-        { "item": "log", "repeat": [ 1, 10 ], "x": 21, "y": 5 },
-        { "item": "stick", "repeat": [ 1, 16 ], "x": 23, "y": 5 }
+        { "item": "log", "repeat": [1, 10], "x": 18, "y": 3 },
+        { "item": "log", "repeat": [1, 10], "x": 19, "y": 3 },
+        { "item": "log", "repeat": [1, 10], "x": 20, "y": 3 },
+        { "item": "log", "repeat": [1, 10], "x": 21, "y": 3 },
+        { "item": "stick", "repeat": [1, 16], "x": 23, "y": 3 },
+        { "item": "log", "repeat": [1, 10], "x": 18, "y": 4 },
+        { "item": "log", "repeat": [1, 10], "x": 19, "y": 4 },
+        { "item": "log", "repeat": [1, 10], "x": 20, "y": 4 },
+        { "item": "log", "repeat": [1, 10], "x": 21, "y": 4 },
+        { "item": "stick", "repeat": [1, 16], "x": 23, "y": 4 },
+        { "item": "log", "repeat": [1, 10], "x": 18, "y": 5 },
+        { "item": "log", "repeat": [1, 10], "x": 19, "y": 5 },
+        { "item": "log", "repeat": [1, 10], "x": 20, "y": 5 },
+        { "item": "log", "repeat": [1, 10], "x": 21, "y": 5 },
+        { "item": "stick", "repeat": [1, 16], "x": 23, "y": 5 }
       ],
       "furniture": {
         "#": "f_null",
@@ -100,33 +100,33 @@
     "method": "json",
     "object": {
       "place_item": [
-        { "item": "stick", "repeat": [ 1, 16 ], "x": 0, "y": 3 },
-        { "item": "stick", "repeat": [ 1, 16 ], "x": 1, "y": 3 },
-        { "item": "stick", "repeat": [ 1, 16 ], "x": 2, "y": 3 },
-        { "item": "material_cement", "repeat": [ 1, 10 ], "x": 5, "y": 3 },
-        { "item": "material_cement", "repeat": [ 1, 10 ], "x": 6, "y": 3 },
-        { "item": "material_cement", "repeat": [ 1, 10 ], "x": 7, "y": 3 },
-        { "item": "fertilizer_commercial", "repeat": [ 1, 6 ], "x": 9, "y": 3 },
-        { "item": "fertilizer_commercial", "repeat": [ 1, 6 ], "x": 10, "y": 3 },
-        { "item": "fertilizer_commercial", "repeat": [ 1, 6 ], "x": 11, "y": 3 },
-        { "item": "stick", "repeat": [ 1, 16 ], "x": 0, "y": 4 },
-        { "item": "stick", "repeat": [ 1, 16 ], "x": 1, "y": 4 },
-        { "item": "stick", "repeat": [ 1, 16 ], "x": 2, "y": 4 },
-        { "item": "material_cement", "repeat": [ 1, 10 ], "x": 5, "y": 4 },
-        { "item": "material_cement", "repeat": [ 1, 10 ], "x": 6, "y": 4 },
-        { "item": "material_cement", "repeat": [ 1, 10 ], "x": 7, "y": 4 },
-        { "item": "fertilizer_commercial", "repeat": [ 1, 6 ], "x": 9, "y": 4 },
-        { "item": "fertilizer_commercial", "repeat": [ 1, 6 ], "x": 10, "y": 4 },
-        { "item": "fertilizer_commercial", "repeat": [ 1, 6 ], "x": 11, "y": 4 },
-        { "item": "stick", "repeat": [ 1, 16 ], "x": 0, "y": 5 },
-        { "item": "stick", "repeat": [ 1, 16 ], "x": 1, "y": 5 },
-        { "item": "stick", "repeat": [ 1, 16 ], "x": 2, "y": 5 },
-        { "item": "material_cement", "repeat": [ 1, 10 ], "x": 5, "y": 5 },
-        { "item": "material_cement", "repeat": [ 1, 10 ], "x": 6, "y": 5 },
-        { "item": "material_cement", "repeat": [ 1, 10 ], "x": 7, "y": 5 },
-        { "item": "fertilizer_commercial", "repeat": [ 1, 6 ], "x": 9, "y": 5 },
-        { "item": "fertilizer_commercial", "repeat": [ 1, 6 ], "x": 10, "y": 5 },
-        { "item": "fertilizer_commercial", "repeat": [ 1, 6 ], "x": 11, "y": 5 }
+        { "item": "stick", "repeat": [1, 16], "x": 0, "y": 3 },
+        { "item": "stick", "repeat": [1, 16], "x": 1, "y": 3 },
+        { "item": "stick", "repeat": [1, 16], "x": 2, "y": 3 },
+        { "item": "material_cement", "repeat": [1, 10], "x": 5, "y": 3 },
+        { "item": "material_cement", "repeat": [1, 10], "x": 6, "y": 3 },
+        { "item": "material_cement", "repeat": [1, 10], "x": 7, "y": 3 },
+        { "item": "fertilizer_commercial", "repeat": [1, 6], "x": 9, "y": 3 },
+        { "item": "fertilizer_commercial", "repeat": [1, 6], "x": 10, "y": 3 },
+        { "item": "fertilizer_commercial", "repeat": [1, 6], "x": 11, "y": 3 },
+        { "item": "stick", "repeat": [1, 16], "x": 0, "y": 4 },
+        { "item": "stick", "repeat": [1, 16], "x": 1, "y": 4 },
+        { "item": "stick", "repeat": [1, 16], "x": 2, "y": 4 },
+        { "item": "material_cement", "repeat": [1, 10], "x": 5, "y": 4 },
+        { "item": "material_cement", "repeat": [1, 10], "x": 6, "y": 4 },
+        { "item": "material_cement", "repeat": [1, 10], "x": 7, "y": 4 },
+        { "item": "fertilizer_commercial", "repeat": [1, 6], "x": 9, "y": 4 },
+        { "item": "fertilizer_commercial", "repeat": [1, 6], "x": 10, "y": 4 },
+        { "item": "fertilizer_commercial", "repeat": [1, 6], "x": 11, "y": 4 },
+        { "item": "stick", "repeat": [1, 16], "x": 0, "y": 5 },
+        { "item": "stick", "repeat": [1, 16], "x": 1, "y": 5 },
+        { "item": "stick", "repeat": [1, 16], "x": 2, "y": 5 },
+        { "item": "material_cement", "repeat": [1, 10], "x": 5, "y": 5 },
+        { "item": "material_cement", "repeat": [1, 10], "x": 6, "y": 5 },
+        { "item": "material_cement", "repeat": [1, 10], "x": 7, "y": 5 },
+        { "item": "fertilizer_commercial", "repeat": [1, 6], "x": 9, "y": 5 },
+        { "item": "fertilizer_commercial", "repeat": [1, 6], "x": 10, "y": 5 },
+        { "item": "fertilizer_commercial", "repeat": [1, 6], "x": 11, "y": 5 }
       ],
       "furniture": {
         "#": "f_counter",
@@ -149,12 +149,34 @@
         "S": "f_sink"
       },
       "place_items": [
-        { "chance": 75, "repeat": [ 1, 8 ], "item": "clothing_work_gloves", "x": [ 14, 15 ], "y": [ 15, 16 ] },
-        { "chance": 70, "repeat": [ 1, 3 ], "item": "tools_earthworking", "x": [ 14, 18 ], "y": 18 },
-        { "chance": 75, "repeat": [ 1, 4 ], "item": "supplies_farming", "x": [ 17, 18 ], "y": [ 15, 16 ] },
-        { "chance": 35, "repeat": 2, "item": "trash", "x": 9, "y": [ 15, 14 ] }
+        {
+          "chance": 75,
+          "repeat": [1, 8],
+          "item": "clothing_work_gloves",
+          "x": [14, 15],
+          "y": [15, 16]
+        },
+        { "chance": 70, "repeat": [1, 3], "item": "tools_earthworking", "x": [14, 18], "y": 18 },
+        {
+          "chance": 75,
+          "repeat": [1, 4],
+          "item": "supplies_farming",
+          "x": [17, 18],
+          "y": [15, 16]
+        },
+        { "chance": 35, "repeat": 2, "item": "trash", "x": 9, "y": [15, 14] }
       ],
-      "place_vehicles": [ { "chance": 55, "fuel": 15, "rotation": 90, "status": -1, "vehicle": "pickup", "x": 5, "y": 18 } ],
+      "place_vehicles": [
+        {
+          "chance": 55,
+          "fuel": 15,
+          "rotation": 90,
+          "status": -1,
+          "vehicle": "pickup",
+          "x": 5,
+          "y": 18
+        }
+      ],
       "rows": [
         "_____________......_____",
         "|||||||||||||......||||_",
@@ -187,7 +209,13 @@
         "l": "t_floor",
         "S": "t_floor",
         "T": "t_floor",
-        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "+": [
+          ["t_door_b", 20],
+          ["t_door_frame", 10],
+          ["t_door_o", 70],
+          ["t_door_c", 5],
+          ["t_door_locked_interior", 3]
+        ],
         "-": "t_brick_wall",
         ".": "t_dirt",
         "P": "t_dirt",
@@ -198,13 +226,13 @@
         "n": "t_dirt",
         "o": "t_dirt",
         "s": "t_grass",
-        "w": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
+        "w": [["t_window_frame", 70], ["t_window_empty", 20], ["t_window", 5]],
         "{": "t_floor",
         "4": "t_gutter_downspout",
         "|": "t_chainfence"
       },
-      "place_loot": [ { "item": "stepladder", "x": 9, "y": 17, "chance": 50 } ],
-      "toilets": { "T": {  } },
+      "place_loot": [{ "item": "stepladder", "x": 9, "y": 17, "chance": 50 }],
+      "toilets": { "T": {} },
       "place_signs": [
         { "signage": "CEMENT", "x": 4, "y": 5 },
         { "signage": "FERTILIZER", "x": 8, "y": 5 },
@@ -248,7 +276,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_tar_flat_roof" }
     }
   }

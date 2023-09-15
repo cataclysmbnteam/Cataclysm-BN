@@ -38,7 +38,7 @@
       "o": "f_bookcase",
       "t": "f_table",
       "C": "f_crate_c",
-      "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      "y": ["f_indoor_plant_y", "f_indoor_plant"]
     }
   }
 ]

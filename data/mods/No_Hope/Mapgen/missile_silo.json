@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "silo" ],
+    "om_terrain": ["silo"],
     "weight": 400,
     "object": {
       "rows": [
@@ -33,13 +33,13 @@
       ],
       "terrain": {
         " ": [
-          [ "t_grass", 20 ],
-          [ "t_grass_dead", 3 ],
-          [ "t_grass_tall", 5 ],
-          [ "t_grass_long", 3 ],
-          [ "t_dirt", 5 ],
-          [ "t_shrub", 2 ],
-          [ "t_tree", 1 ]
+          ["t_grass", 20],
+          ["t_grass_dead", 3],
+          ["t_grass_tall", 5],
+          ["t_grass_long", 3],
+          ["t_dirt", 5],
+          ["t_shrub", 2],
+          ["t_tree", 1]
         ],
         ".": "t_pavement",
         ",": "t_floor",
@@ -55,18 +55,21 @@
         "#": "t_door_metal_locked",
         "s": "t_pavement",
         "v": "t_dirt",
-        "S": [ "t_grass_dead", "t_grass", "t_grass_long", "t_dirt", "t_grass_tall" ],
-        "T": [ "t_grass_dead", "t_grass", "t_grass_long", "t_dirt", "t_grass_tall" ]
+        "S": ["t_grass_dead", "t_grass", "t_grass_long", "t_dirt", "t_grass_tall"],
+        "T": ["t_grass_dead", "t_grass", "t_grass_long", "t_dirt", "t_grass_tall"]
       },
       "furniture": { "s": "f_sign_warning", "v": "f_vent_pipe" },
       "signs": { "s": { "signage": "Restricted area!  Violators will be shot!" } },
-      "monster": { "S": { "monster": "mon_turret_searchlight" }, "T": { "monster": "mon_turret_rifle" } }
+      "monster": {
+        "S": { "monster": "mon_turret_searchlight" },
+        "T": { "monster": "mon_turret_rifle" }
+      }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "silo_1" ],
+    "om_terrain": ["silo_1"],
     "weight": 400,
     "object": {
       "fill_ter": "t_floor",
@@ -141,16 +144,19 @@
         "t": { "item": "dining", "chance": 45 },
         "b": { "item": "bunker_basement_books", "chance": 70, "repeat": 2 }
       },
-      "item": { "e": { "item": "microwave", "chance": 70 }, "T": { "item": "militarymap", "chance": 30 } },
-      "toilets": { "&": {  } },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 75 ] } },
+      "item": {
+        "e": { "item": "microwave", "chance": 70 },
+        "T": { "item": "militarymap", "chance": 30 }
+      },
+      "toilets": { "&": {} },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [0, 75] } },
       "monster": { ".": { "monster": "mon_zombie_soldier", "chance": 10 } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "silo_2" ],
+    "om_terrain": ["silo_2"],
     "weight": 400,
     "object": {
       "fill_ter": "t_rock",
@@ -252,20 +258,23 @@
       },
       "item": {
         "3": { "item": "coat_lab", "chance": 50, "repeat": 2 },
-        "8": { "item": "water_clean", "chance": 70, "repeat": [ 1, 2 ] },
+        "8": { "item": "water_clean", "chance": 70, "repeat": [1, 2] },
         "c": { "item": "coat_lab", "chance": 50 },
-        "T": [ { "item": "glass" }, { "item": "whiskey" }, { "item": "death_note" } ]
+        "T": [{ "item": "glass" }, { "item": "whiskey" }, { "item": "death_note" }]
       },
-      "place_loot": [ { "group": "bunker_basement_suicide", "x": 19, "y": 1 } ],
-      "place_fields": [ { "field": "fd_blood", "x": 18, "y": 1 }, { "field": "fd_blood", "x": 19, "y": 1 } ],
-      "toilets": { "&": {  } },
+      "place_loot": [{ "group": "bunker_basement_suicide", "x": 19, "y": 1 }],
+      "place_fields": [
+        { "field": "fd_blood", "x": 18, "y": 1 },
+        { "field": "fd_blood", "x": 19, "y": 1 }
+      ],
+      "toilets": { "&": {} },
       "monster": { ",": { "monster": "mon_zombie_scientist", "chance": 10 } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "silo_3" ],
+    "om_terrain": ["silo_3"],
     "weight": 400,
     "object": {
       "fill_ter": "t_rock",
@@ -324,8 +333,16 @@
         "g": "t_generator_broken",
         "%": "t_machinery_electronic"
       },
-      "furniture": { "a": "f_air_conditioner", "5": "f_utility_shelf", "6": "f_locker", "4": "f_speaker_cabinet" },
-      "items": { "5": { "item": "radiation_meds", "chance": 60, "repeat": 2 }, "6": { "item": "radiation_equipment", "chance": 60 } },
+      "furniture": {
+        "a": "f_air_conditioner",
+        "5": "f_utility_shelf",
+        "6": "f_locker",
+        "4": "f_speaker_cabinet"
+      },
+      "items": {
+        "5": { "item": "radiation_meds", "chance": 60, "repeat": 2 },
+        "6": { "item": "radiation_equipment", "chance": 60 }
+      },
       "place_graffiti": [
         {
           "text": "Entrance is restricted to authorized environmental-protected personnel with clearance level 4 or above only!",
@@ -333,14 +350,14 @@
           "y": 20
         }
       ],
-      "set": [ { "square": "radiation", "amount": [ 100, 120 ], "x": 0, "y": 0, "x2": 23, "y2": 23 } ],
+      "set": [{ "square": "radiation", "amount": [100, 120], "x": 0, "y": 0, "x2": 23, "y2": 23 }],
       "monster": { ",": { "monster": "mon_irradiated_wanderer_1", "chance": 10 } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "silo_4" ],
+    "om_terrain": ["silo_4"],
     "weight": 400,
     "object": {
       "fill_ter": "t_rock",
@@ -415,31 +432,37 @@
         "t": "f_trashcan",
         "W": "f_water_dispenser"
       },
-      "toilets": { "@": {  } },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 75 ] } },
+      "toilets": { "@": {} },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [0, 75] } },
       "items": {
         "b": { "item": "army_bed", "chance": 60 },
         "t": { "item": "trash_cart", "chance": 60 },
         "l": { "item": "bunker_basement_clothing", "chance": 50 },
         "L": [
-          { "item": "guns_rifle_milspec", "chance": 80, "repeat": [ 1, 2 ] },
-          { "item": "mags_milspec", "chance": 80, "repeat": [ 1, 2 ] },
-          { "item": "ammo_milspec", "chance": 50, "repeat": [ 15, 60 ] }
+          { "item": "guns_rifle_milspec", "chance": 80, "repeat": [1, 2] },
+          { "item": "mags_milspec", "chance": 80, "repeat": [1, 2] },
+          { "item": "ammo_milspec", "chance": 50, "repeat": [15, 60] }
         ],
         "r": [
-          { "item": "grenades", "chance": 50, "repeat": [ 3, 9 ] },
-          { "item": "mil_armor", "chance": 65, "repeat": [ 1, 2 ] },
-          { "item": "gear_soldier_sidearm", "chance": 90, "repeat": [ 1, 2 ] }
+          { "item": "grenades", "chance": 50, "repeat": [3, 9] },
+          { "item": "mil_armor", "chance": 65, "repeat": [1, 2] },
+          { "item": "gear_soldier_sidearm", "chance": 90, "repeat": [1, 2] }
         ]
       },
-      "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],
+      "place_graffiti": [
+        {
+          "text": "Warning!  Automatic security measures engaged due to the lockdown order!",
+          "x": 17,
+          "y": 20
+        }
+      ],
       "monster": { ",": { "monster": "mon_turret_rifle" } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "silo_finale" ],
+    "om_terrain": ["silo_finale"],
     "weight": 400,
     "object": {
       "fill_ter": "t_rock",
@@ -487,18 +510,29 @@
         "x": "t_console_broken",
         "%": "t_machinery_electronic"
       },
-      "furniture": { "1": "f_speaker_cabinet", "4": "f_speaker_cabinet", "a": "f_air_conditioner", "c": "f_chair" },
+      "furniture": {
+        "1": "f_speaker_cabinet",
+        "4": "f_speaker_cabinet",
+        "a": "f_air_conditioner",
+        "c": "f_chair"
+      },
       "computers": {
         "6": {
           "name": "Missile Controls",
           "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 10,
-          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ],
-          "options": [ { "name": "Disarm Missile", "action": "miss_disarm" } ]
+          "failures": [{ "action": "alarm" }, { "action": "damage" }, { "action": "secubots" }],
+          "options": [{ "name": "Disarm Missile", "action": "miss_disarm" }]
         }
       },
-      "place_graffiti": [ { "text": "Warning!  Automatic security measures engaged due to the lockdown order!", "x": 17, "y": 20 } ],
-      "place_monster": [ { "monster": "mon_zombie_hazmat", "x": 8, "y": 15 } ]
+      "place_graffiti": [
+        {
+          "text": "Warning!  Automatic security measures engaged due to the lockdown order!",
+          "x": 17,
+          "y": 20
+        }
+      ],
+      "place_monster": [{ "monster": "mon_zombie_hazmat", "x": 8, "y": 15 }]
     }
   }
 ]

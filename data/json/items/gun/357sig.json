@@ -9,12 +9,12 @@
     "volume": "549 ml",
     "price": 50000,
     "price_postapoc": 2250,
-    "material": [ "steel", "aluminum", "plastic" ],
+    "material": ["steel", "aluminum", "plastic"],
     "color": "dark_gray",
     "ammo": "357sig",
     "durability": 7,
     "magazine_well": "250 ml",
-    "magazines": [ [ "357sig", [ "p226mag_12rd_357sig" ] ] ]
+    "magazines": [["357sig", ["p226mag_12rd_357sig"]]]
   },
   {
     "id": "glock_31",
@@ -26,8 +26,8 @@
     "ascii_picture": "glock_20",
     "volume": "443 ml",
     "price_postapoc": 2250,
-    "ammo": [ "357sig" ],
-    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag" ] ] ]
+    "ammo": ["357sig"],
+    "magazines": [["357sig", ["glock40mag", "glock40bigmag"]]]
   },
   {
     "id": "p320_357sig",
@@ -41,11 +41,11 @@
     "price_postapoc": 2250,
     "to_hit": -2,
     "ascii_picture": "sig_p320",
-    "material": [ "plastic", "steel" ],
+    "material": ["plastic", "steel"],
     "color": "dark_gray",
     "ammo": "357sig",
     "durability": 6,
     "magazine_well": "250 ml",
-    "magazines": [ [ "357sig", [ "p320mag_13rd_357sig" ] ] ]
+    "magazines": [["357sig", ["p320mag_13rd_357sig"]]]
   }
 ]

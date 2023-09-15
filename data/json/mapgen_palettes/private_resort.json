@@ -66,7 +66,7 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "r": "t_carpet_red",
-      "+": [ [ "t_door_c", 3 ], [ "t_door_o", 1 ] ],
+      "+": [["t_door_c", 3], ["t_door_o", 1]],
       "H": "t_floor_waxed",
       "I": "t_little_column",
       "P": "t_concrete",
@@ -171,7 +171,7 @@
     },
     "terrain": {
       "W": "t_wall_w",
-      "+": [ [ "t_door_c", 3 ], [ "t_door_o", 1 ] ],
+      "+": [["t_door_c", 3], ["t_door_o", 1]],
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "*": "t_open_air",

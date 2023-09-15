@@ -5,8 +5,8 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "10 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plut_cell", 10 ] ], [ [ "scrap", 5 ] ], [ [ "e_scrap", 5 ] ], [ [ "cable", 10 ] ] ]
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["plut_cell", 10]], [["scrap", 5]], [["e_scrap", 5]], [["cable", 10]]]
   },
   {
     "result": "robopart_tazer",
@@ -14,8 +14,8 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 3 ] ], [ [ "scrap", 2 ] ], [ [ "e_scrap", 1 ] ], [ [ "cable", 1 ] ] ]
+    "qualities": [{ "id": "SCREW", "level": 1 }],
+    "components": [[["power_supply", 3]], [["scrap", 2]], [["e_scrap", 1]], [["cable", 1]]]
   },
   {
     "result": "robopart_flash",
@@ -23,14 +23,14 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "power_supply", 3 ] ],
-      [ [ "lens", 1 ] ],
-      [ [ "lightstrip_inactive", 8 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 1 ] ]
+      [["power_supply", 3]],
+      [["lens", 1]],
+      [["lightstrip_inactive", 8]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 1]]
     ]
   },
   {
@@ -39,15 +39,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 1 ] ]
+      [["pipe", 1]],
+      [["spring", 1]],
+      [["clockworks", 3]],
+      [["wire", 5]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 1]]
     ]
   },
   {
@@ -56,15 +56,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 1 ] ]
+      [["pipe", 1]],
+      [["spring", 1]],
+      [["clockworks", 3]],
+      [["wire", 5]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 1]]
     ]
   },
   {
@@ -73,15 +73,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 1 ] ]
+      [["pipe", 1]],
+      [["spring", 1]],
+      [["clockworks", 3]],
+      [["wire", 5]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 1]]
     ]
   },
   {
@@ -90,15 +90,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 1 ] ]
+      [["pipe", 1]],
+      [["spring", 1]],
+      [["clockworks", 3]],
+      [["wire", 5]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 1]]
     ]
   },
   {
@@ -107,15 +107,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 1 ] ]
+      [["pipe", 1]],
+      [["spring", 1]],
+      [["clockworks", 3]],
+      [["wire", 5]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 1]]
     ]
   },
   {
@@ -124,15 +124,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 1 ] ]
+      [["pipe", 1]],
+      [["spring", 1]],
+      [["clockworks", 3]],
+      [["wire", 5]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 1]]
     ]
   },
   {
@@ -141,15 +141,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 1 ] ]
+      [["pipe", 1]],
+      [["spring", 1]],
+      [["clockworks", 3]],
+      [["wire", 5]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 1]]
     ]
   },
   {
@@ -158,15 +158,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 1 ] ]
+      [["pipe", 1]],
+      [["spring", 1]],
+      [["clockworks", 3]],
+      [["wire", 5]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 1]]
     ]
   },
   {
@@ -175,15 +175,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 1 ] ]
+      [["pipe", 1]],
+      [["spring", 1]],
+      [["clockworks", 3]],
+      [["wire", 5]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 1]]
     ]
   },
   {
@@ -192,15 +192,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 1 ] ]
+      [["pipe", 1]],
+      [["spring", 1]],
+      [["clockworks", 3]],
+      [["wire", 5]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 1]]
     ]
   },
   {
@@ -209,15 +209,15 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pipe", 1 ] ],
-      [ [ "hose", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 1 ] ]
+      [["pipe", 1]],
+      [["hose", 1]],
+      [["clockworks", 3]],
+      [["wire", 5]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 1]]
     ]
   },
   {
@@ -226,14 +226,14 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "lens", 3 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 5 ] ],
-      [ [ "cable", 10 ] ]
+      [["lens", 3]],
+      [["power_supply", 1]],
+      [["clockworks", 3]],
+      [["scrap", 2]],
+      [["e_scrap", 5]],
+      [["cable", 10]]
     ]
   },
   {
@@ -242,14 +242,14 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "metal_tank_little", 2 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 5 ] ],
-      [ [ "cable", 10 ] ]
+      [["metal_tank_little", 2]],
+      [["power_supply", 1]],
+      [["clockworks", 3]],
+      [["scrap", 2]],
+      [["e_scrap", 5]],
+      [["cable", 10]]
     ]
   },
   {
@@ -258,14 +258,14 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "lens", 3 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 5 ] ],
-      [ [ "cable", 10 ] ]
+      [["lens", 3]],
+      [["power_supply", 1]],
+      [["clockworks", 3]],
+      [["scrap", 2]],
+      [["e_scrap", 5]],
+      [["cable", 10]]
     ]
   },
   {
@@ -274,14 +274,14 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "lens", 3 ] ],
-      [ [ "power_supply", 5 ] ],
-      [ [ "clockworks", 3 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 5 ] ],
-      [ [ "cable", 10 ] ]
+      [["lens", 3]],
+      [["power_supply", 5]],
+      [["clockworks", 3]],
+      [["scrap", 2]],
+      [["e_scrap", 5]],
+      [["cable", 10]]
     ]
   },
   {
@@ -290,15 +290,15 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "6 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "pipe", 3 ] ],
-      [ [ "power_supply", 5 ] ],
-      [ [ "clockworks", 1 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "cable", 30 ] ]
+      [["pipe", 3]],
+      [["power_supply", 5]],
+      [["clockworks", 1]],
+      [["wire", 5]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["cable", 30]]
     ]
   },
   {
@@ -307,18 +307,18 @@
     "time": "4 m",
     "difficulty": 3,
     "skill_used": "electronics",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "lens", 3 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 1 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "turret_chassis", 1 ] ]
+      [["ai_module", 1]],
+      [["sensor_module", 1]],
+      [["memory_module", 1]],
+      [["pathfinding_module", 1]],
+      [["identification_module", 1]],
+      [["lens", 3]],
+      [["scrap", 2]],
+      [["e_scrap", 1]],
+      [["robot_controls", 1]],
+      [["turret_chassis", 1]]
     ]
   },
   {
@@ -327,18 +327,18 @@
     "time": "5 m",
     "difficulty": 3,
     "skill_used": "electronics",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "lens", 3 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 2 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "turret_chassis", 1 ] ]
+      [["ai_module", 1]],
+      [["sensor_module", 1]],
+      [["memory_module", 1]],
+      [["pathfinding_module", 1]],
+      [["identification_module", 1]],
+      [["lens", 3]],
+      [["scrap", 2]],
+      [["e_scrap", 2]],
+      [["robot_controls", 1]],
+      [["turret_chassis", 1]]
     ]
   },
   {
@@ -347,19 +347,19 @@
     "time": "6 m",
     "difficulty": 4,
     "skill_used": "electronics",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [{ "id": "SCREW", "level": 1 }],
     "components": [
-      [ [ "ai_module", 1 ] ],
-      [ [ "sensor_module", 1 ] ],
-      [ [ "memory_module", 1 ] ],
-      [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module", 1 ] ],
-      [ [ "lens", 3 ] ],
-      [ [ "scrap", 2 ] ],
-      [ [ "e_scrap", 5 ] ],
-      [ [ "cable", 5 ] ],
-      [ [ "robot_controls", 1 ] ],
-      [ [ "turret_chassis", 1 ] ]
+      [["ai_module", 1]],
+      [["sensor_module", 1]],
+      [["memory_module", 1]],
+      [["pathfinding_module", 1]],
+      [["identification_module", 1]],
+      [["lens", 3]],
+      [["scrap", 2]],
+      [["e_scrap", 5]],
+      [["cable", 5]],
+      [["robot_controls", 1]],
+      [["turret_chassis", 1]]
     ]
   }
 ]

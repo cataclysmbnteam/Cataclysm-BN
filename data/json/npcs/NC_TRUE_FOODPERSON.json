@@ -21,7 +21,7 @@
     "id": "NC_TRUE_FOODPERSON_melee",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "bat", "prob": 50 }, { "item": "null", "prob": 50 } ]
+    "entries": [{ "item": "bat", "prob": 50 }, { "item": "null", "prob": 50 }]
   },
   {
     "type": "item_group",

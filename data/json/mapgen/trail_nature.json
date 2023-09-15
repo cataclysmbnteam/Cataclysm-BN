@@ -62,7 +62,7 @@
         "p": "t_dirt",
         "s": "t_grass"
       },
-      "place_signs": [ { "signage": "Please don't litter, keep the trail nice!", "x": 9, "y": 4 } ]
+      "place_signs": [{ "signage": "Please don't litter, keep the trail nice!", "x": 9, "y": 4 }]
     },
     "om_terrain": "NatureTrail_1a",
     "type": "mapgen",

@@ -125,15 +125,18 @@
         "v": "f_vending_c",
         "{": "f_rack"
       },
-      "place_item": [ { "item": "rock", "repeat": 1, "x": 9, "y": 15 }, { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 } ],
+      "place_item": [
+        { "item": "rock", "repeat": 1, "x": 9, "y": 15 },
+        { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 }
+      ],
       "place_items": [
-        { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ] },
+        { "chance": 55, "item": "toy_store", "x": 12, "y": [6, 7] },
         { "chance": 75, "item": "vending_food", "x": 20, "y": 2 },
         { "chance": 55, "item": "trash", "x": 13, "y": 15 },
         { "chance": 55, "item": "trash", "x": 13, "y": 10 },
         { "chance": 55, "item": "snacks", "x": 10, "y": 11 },
-        { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4 },
-        { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ] },
+        { "chance": 55, "item": "snacks", "x": [7, 8], "y": 4 },
+        { "chance": 55, "item": "candy_shop", "x": 10, "y": [6, 7] },
         { "chance": 75, "item": "shirts", "x": 10, "y": 12 },
         { "chance": 75, "item": "shirts", "x": 4, "y": 11 },
         { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 }
@@ -211,13 +214,13 @@
         "{": "f_rack"
       },
       "place_items": [
-        { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ] },
+        { "chance": 55, "item": "toy_store", "x": 12, "y": [6, 7] },
         { "chance": 75, "item": "vending_food", "x": 20, "y": 2 },
         { "chance": 55, "item": "trash", "x": 13, "y": 15 },
         { "chance": 55, "item": "trash", "x": 13, "y": 10 },
         { "chance": 55, "item": "snacks", "x": 10, "y": 11 },
-        { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4 },
-        { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ] },
+        { "chance": 55, "item": "snacks", "x": [7, 8], "y": 4 },
+        { "chance": 55, "item": "candy_shop", "x": 10, "y": [6, 7] },
         { "chance": 75, "item": "shirts", "x": 10, "y": 12 },
         { "chance": 75, "item": "shirts", "x": 4, "y": 11 },
         { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 }
@@ -225,11 +228,14 @@
       "place_item": [
         { "item": "rock", "repeat": 1, "x": 9, "y": 15 },
         { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 },
-        { "item": "glass_shard", "repeat": [ 4, 8 ], "x": 10, "y": 22 },
-        { "item": "glass_shard", "repeat": [ 4, 8 ], "x": 11, "y": [ 21, 23 ] }
+        { "item": "glass_shard", "repeat": [4, 8], "x": 10, "y": 22 },
+        { "item": "glass_shard", "repeat": [4, 8], "x": 11, "y": [21, 23] }
       ],
-      "place_monster": [ { "monster": "mon_coyote", "x": 8, "y": 16 }, { "monster": "mon_coyote", "x": 9, "y": 17 } ],
-      "place_monsters": [ { "monster": "GROUP_BEARS", "x": 8, "y": 20 } ]
+      "place_monster": [
+        { "monster": "mon_coyote", "x": 8, "y": 16 },
+        { "monster": "mon_coyote", "x": 9, "y": 17 }
+      ],
+      "place_monsters": [{ "monster": "GROUP_BEARS", "x": 8, "y": 20 }]
     }
   },
   {
@@ -264,7 +270,7 @@
         "Q  |...............3    ",
         "Q  |...............3    "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "Q": "t_open_air_rooved" }
     }
   },
@@ -324,7 +330,14 @@
         "|": "t_brick_wall",
         "M": "t_gutter_downspout"
       },
-      "furniture": { "&": "f_trashcan", "^": "f_indoor_plant", "b": "f_bench", "c": "f_chair", "h": "f_hay", "{": "f_locker" },
+      "furniture": {
+        "&": "f_trashcan",
+        "^": "f_indoor_plant",
+        "b": "f_bench",
+        "c": "f_chair",
+        "h": "f_hay",
+        "{": "f_locker"
+      },
       "place_item": [
         { "item": "stick", "repeat": 1, "x": 9, "y": 2 },
         { "item": "stick", "repeat": 1, "x": 9, "y": 5 },
@@ -386,7 +399,7 @@
         "Q                  Q    ",
         "QQQQQQQQQQQQQQQQQQQQQQQQ"
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "Q": "t_open_air_rooved" }
     }
   },
@@ -533,7 +546,7 @@
         { "monster": "mon_otter", "x": 19, "y": 14 },
         { "monster": "mon_otter", "x": 19, "y": 15 }
       ],
-      "place_toilets": [ { "x": 5, "y": 2 }, { "x": 7, "y": 2 }, { "x": 7, "y": 7 } ]
+      "place_toilets": [{ "x": 5, "y": 2 }, { "x": 7, "y": 2 }, { "x": 7, "y": 7 }]
     }
   },
   {
@@ -624,10 +637,10 @@
         { "item": "pine_bough", "repeat": 1, "x": 16, "y": 10 },
         { "item": "stick", "repeat": 1, "x": 6, "y": 15 },
         { "item": "steel_lump", "chance": 25, "x": 7, "y": 16 },
-        { "item": "steel_chunk", "repeat": [ 1, 3 ], "x": 7, "y": 16 },
-        { "item": "scrap", "repeat": [ 1, 4 ], "x": 7, "y": 16 },
-        { "item": "steel_chunk", "repeat": [ 1, 2 ], "x": [ 6, 8 ], "y": 17 },
-        { "item": "scrap", "repeat": [ 1, 2 ], "x": [ 6, 8 ], "y": 17 }
+        { "item": "steel_chunk", "repeat": [1, 3], "x": 7, "y": 16 },
+        { "item": "scrap", "repeat": [1, 4], "x": 7, "y": 16 },
+        { "item": "steel_chunk", "repeat": [1, 2], "x": [6, 8], "y": 17 },
+        { "item": "scrap", "repeat": [1, 2], "x": [6, 8], "y": 17 }
       ],
       "place_monster": [
         { "monster": "mon_deer", "x": 20, "y": 2 },
@@ -640,8 +653,8 @@
         { "monster": "mon_otter", "x": 19, "y": 14 },
         { "monster": "mon_otter", "x": 19, "y": 15 }
       ],
-      "place_monsters": [ { "monster": "GROUP_MOOSE", "x": 7, "y": 14 } ],
-      "place_toilets": [ { "x": 5, "y": 2 }, { "x": 7, "y": 2 }, { "x": 7, "y": 7 } ]
+      "place_monsters": [{ "monster": "GROUP_MOOSE", "x": 7, "y": 14 }],
+      "place_toilets": [{ "x": 5, "y": 2 }, { "x": 7, "y": 2 }, { "x": 7, "y": 7 }]
     }
   },
   {
@@ -676,7 +689,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "Q": "t_open_air_rooved" }
     }
   },
@@ -746,10 +759,12 @@
         { "chance": 55, "item": "trash", "x": 22, "y": 14 },
         { "chance": 55, "item": "trash", "x": 6, "y": 12 },
         { "chance": 55, "item": "trash", "x": 6, "y": 3 },
-        { "chance": 55, "item": "fridgesnacks", "x": [ 15, 16 ], "y": 21 },
-        { "chance": 35, "item": "fridge", "x": [ 18, 19 ], "y": 21 }
+        { "chance": 55, "item": "fridgesnacks", "x": [15, 16], "y": 21 },
+        { "chance": 35, "item": "fridge", "x": [18, 19], "y": 21 }
       ],
-      "sealed_item": { "^": { "item": { "item": "seed_sugar_beet" }, "furniture": "f_plant_seed" } },
+      "sealed_item": {
+        "^": { "item": { "item": "seed_sugar_beet" }, "furniture": "f_plant_seed" }
+      },
       "place_monster": [
         { "monster": "mon_crow", "x": 9, "y": 3 },
         { "monster": "mon_crow", "x": 11, "y": 3 },
@@ -795,7 +810,7 @@
         "  5--------------------3",
         "QQQQQQQQQQQQQQQQQQQQQQQQ"
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "Q": "t_open_air_rooved" }
     }
   },
@@ -832,7 +847,13 @@
         "...d....................",
         "........................"
       ],
-      "terrain": { ".": "t_grass", "7": "t_tree_hickory", "T": "t_tree", "_": "t_sand", "d": "t_dirt" },
+      "terrain": {
+        ".": "t_grass",
+        "7": "t_tree_hickory",
+        "T": "t_tree",
+        "_": "t_sand",
+        "d": "t_dirt"
+      },
       "furniture": { "#": "f_bench", "&": "f_trashcan", "t": "f_table" },
       "place_items": [
         { "chance": 15, "item": "glasses", "x": 6, "y": 12 },
@@ -971,7 +992,7 @@
         "                       Q",
         "                       Q"
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "Q": "t_open_air_rooved" }
     }
   },
@@ -1083,7 +1104,7 @@
         "    QQQQQQQQQQQQQQQQQQQQ",
         "QQQQQQQQQQQQQQQQQQQQQQQQ"
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { "Q": "t_open_air_rooved", ".": "t_shingle_flat_roof" }
     }
   }

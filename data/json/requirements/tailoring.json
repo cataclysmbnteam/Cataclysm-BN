@@ -3,84 +3,95 @@
     "id": "armor_acidchitin",
     "type": "requirement",
     "//": "Shaping and attaching a biosillicified chitin plate to something, per 112 g of biosillicified chitin.  Time needed is 10 minutes per unit.",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["acidchitin_piece", 1]], [["filament", 1, "LIST"]]]
   },
   {
     "id": "armor_chainmail_assembling",
     "type": "requirement",
     "//": "Assembling chainmail rings into finished products, and riveting rings closed, per 1025 g of steel.  It is assumed that each ring used comes with a prepared rivet.  Time needed is 1 hour per unit (most of the time goes into making rings and then chainmail sheets first)",
-    "tools": [ [ [ "pliers", -1 ], [ "multitool", -1 ], [ "toolset", -1 ] ], [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-    "components": [ [ [ "link_sheet", 1 ] ], [ [ "chain_link", 25 ] ] ]
+    "tools": [
+      [["pliers", -1], ["multitool", -1], ["toolset", -1]],
+      [["boltcutters", -1], ["toolset", -1]]
+    ],
+    "components": [[["link_sheet", 1]], [["chain_link", 25]]]
   },
   {
     "id": "armor_chitin",
     "type": "requirement",
     "//": "Shaping and attaching a chitin plate to something, per 90 g of chitin.  Time needed is 10 minutes per unit.",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "chitin_piece", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["chitin_piece", 1]], [["filament", 1, "LIST"]]]
   },
   {
     "id": "armor_kevlar_plate",
     "type": "requirement",
     "//": "Shaping and attaching a rigid Kevlar plate to something, per 300 g of rigid Kevlar.  Time needed is 10 minutes per unit.",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "kevlar_plate", 1 ] ], [ [ "superglue", 1 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [[["kevlar_plate", 1]], [["superglue", 1]]]
   },
   {
     "id": "armor_steel_plate",
     "type": "requirement",
     "//": "Attaching a steel plate to some flexible material like cloth or leather, as well as working it into shape needed, per 251 g of steel.  Time needed is 20 minutes per unit.",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "DRILL", "level": 1 }
+    ],
+    "components": [[["sheet_metal_small", 1]], [["filament", 1, "LIST"]]]
   },
   {
     "id": "armor_paper",
     "type": "requirement",
     "//": "Joining multiple sheets of paper together using duct tape, per 19 g of paper.  Time needed is 2 minutes per unit.",
-    "components": [ [ [ "paper", 5 ] ], [ [ "duct_tape", 1 ] ] ]
+    "components": [[["paper", 5]], [["duct_tape", 1]]]
   },
   {
     "id": "armor_paper_lamellar",
     "type": "requirement",
     "//": "Layering paper sheets, cutting holes in them, laminating them with glue, and connecting multiple of resulting plates with cordage, per 162 g of paper.  Time needed is 50 minutes per unit.",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "paper", 50 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "components": [
+      [["paper", 50]],
+      [["superglue", 1], ["bone_glue", 1]],
+      [["cordage_short", 2, "LIST"]]
+    ]
   },
   {
     "id": "armor_wood",
     "type": "requirement",
     "//": "Shaping and tying together multiple wood pieces of same size with lots of cordage, per 1463 g of wood.  Time needed is 30 minutes per unit.  Works for lamellar wooden armor as well as for planks tied to limbs.",
-    "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "cordage", 2, "LIST" ] ] ]
+    "qualities": [{ "id": "SAW_W", "level": 2 }, { "id": "CUT", "level": 1 }],
+    "components": [[["2x4", 1]], [["cordage", 2, "LIST"]]]
   },
   {
     "id": "plastic_molding",
     "type": "requirement",
     "//": "Melting and reshaping plastic items, per 70 g of plastic. Usually takes 30 minutes per unit.",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "tools": [[["mold_plastic", -1]], [["surface_heat", 10, "LIST"]]],
+    "components": [[["plastic_chunk", 1]]]
   },
   {
     "id": "tailoring_cotton_knitting",
     "type": "requirement",
     "//": "Crafting cotton items via knitting, using thread or plant fiber.",
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "thread", 1 ], [ "plant_fibre", 1 ] ] ]
+    "qualities": [{ "id": "KNIT", "level": 1 }],
+    "components": [[["thread", 1], ["plant_fibre", 1]]]
   },
   {
     "id": "tailoring_wool_knitting",
     "type": "requirement",
     "//": "Crafting wool items via knitting.",
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 1 ] ] ]
+    "qualities": [{ "id": "KNIT", "level": 1 }],
+    "components": [[["yarn", 1]]]
   },
   {
     "id": "tailoring_leather_patchwork",
     "type": "requirement",
     "//": "275g per unit. Crafting leather items, per 296 g of leather; 21 g + excessive weight of material is wasted, producing leather patches as byproducts.  Time needed is usually 60 minutes per unit if hand-stitching.",
-    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "tanned_hide", 1 ] ], [ [ "filament", 7, "LIST" ] ] ]
+    "qualities": [{ "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 }],
+    "components": [[["tanned_hide", 1]], [["filament", 7, "LIST"]]]
   }
 ]

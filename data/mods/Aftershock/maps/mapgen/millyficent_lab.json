@@ -2,10 +2,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mortuary_2story" ],
+    "om_terrain": ["mortuary_2story"],
     "weight": 100,
     "object": {
-      "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "whately_family", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         "..,,,,,...uuuu...,,,,,..",
@@ -54,7 +54,7 @@
         ">": "t_wood_stairs_down",
         "<": "t_wood_stairs_up"
       },
-      "toilets": { "&": { "amount": [ 0, 50 ] } },
+      "toilets": { "&": { "amount": [0, 50] } },
       "furniture": {
         "C": "f_coffin_c",
         "D": "f_desk",
@@ -62,23 +62,38 @@
         "h": "f_chair",
         "L": "f_locker",
         "O": "f_coffin_o",
-        "P": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "P": ["f_indoor_plant_y", "f_indoor_plant"],
         "T": "f_table",
         "a": "f_dahlia",
         "c": "f_sofa",
         "d": "f_rack",
-        "f": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+        "f": [
+          "f_datura",
+          "f_bluebell",
+          "f_mutpoppy",
+          "f_dahlia",
+          "f_flower_tulip",
+          "f_chamomile",
+          "f_flower_spurge",
+          "f_lily"
+        ],
         "i": "f_sink",
         "l": "f_bookcase"
       },
-      "place_signs": [ { "signage": "Whately Family Mortuary Services.  Serving New England for three hundred years.'", "x": 15, "y": 11 } ],
+      "place_signs": [
+        {
+          "signage": "Whately Family Mortuary Services.  Serving New England for three hundred years.'",
+          "x": 15,
+          "y": 11
+        }
+      ],
       "place_items": [
-        { "item": "cleaning", "x": 3, "y": [ 19, 20 ], "chance": 50 },
+        { "item": "cleaning", "x": 3, "y": [19, 20], "chance": 50 },
         { "item": "dissection", "x": 3, "y": 21, "chance": 70 },
-        { "item": "church", "x": [ 16, 18 ], "y": [ 14, 20 ], "chance": 50 },
+        { "item": "church", "x": [16, 18], "y": [14, 20], "chance": 50 },
         { "item": "lab_torso", "x": 8, "y": 19, "chance": 50 },
         { "item": "bionics_common", "x": 8, "y": 19, "chance": 30 },
-        { "item": "homebooks", "x": [ 5, 6 ], "y": 17, "chance": 50 },
+        { "item": "homebooks", "x": [5, 6], "y": 17, "chance": 50 },
         { "item": "magazines", "x": 3, "y": 17, "chance": 50 }
       ],
       "place_loot": [
@@ -87,17 +102,17 @@
         { "group": "corpse_female_mortuary", "x": 6, "y": 21, "chance": 40 },
         { "group": "corpse_viewing", "x": 20, "y": 17, "chance": 50 }
       ],
-      "place_vehicles": [ { "vehicle": "hearse", "x": 12, "y": 7, "chance": 90 } ]
+      "place_vehicles": [{ "vehicle": "hearse", "x": 12, "y": 7, "chance": 90 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mortuary_basement" ],
+    "om_terrain": ["mortuary_basement"],
     "weight": 200,
     "object": {
-      "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "rotation": [ 0, 3 ],
+      "faction_owner": [{ "id": "whately_family", "x": [0, 23], "y": [0, 23] }],
+      "rotation": [0, 3],
       "fill_ter": "t_rock",
       "rows": [
         "                        ",
@@ -154,7 +169,10 @@
         "8": "t_console_broken",
         "*": "t_thconc_floor_olight"
       },
-      "liquids": { "E": { "liquid": "water", "amount": [ 0, 100 ] }, "W": { "liquid": "water_clean", "amount": [ 0, 75 ] } },
+      "liquids": {
+        "E": { "liquid": "water", "amount": [0, 100] },
+        "W": { "liquid": "water_clean", "amount": [0, 75] }
+      },
       "furniture": {
         "T": "f_workbench",
         "G": "f_glass_cabinet",
@@ -163,7 +181,7 @@
         "A": "f_air_filter",
         "C": "f_air_conditioner",
         "E": "f_water_heater",
-        "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
+        "X": ["f_crate_c", "f_crate_o", "f_cardboard_box"],
         "U": "f_utility_shelf",
         "H": "f_bookcase",
         "F": "f_glass_fridge",
@@ -183,26 +201,32 @@
           { "item": "home_hw", "chance": 50 },
           { "item": "supplies_electronics", "chance": 50 }
         ],
-        "c": [ { "item": "home_hw", "chance": 70 } ],
-        "X": [ { "item": "electronics", "chance": 70 } ],
-        "b": [ { "item": "chem_home", "chance": 30 } ],
-        "D": [ { "item": "chem_home", "chance": 60 } ],
-        "i": [ { "item": "trash", "chance": 60 } ],
-        "F": [ { "item": "chem_home", "chance": 50 }, { "item": "supplies_reagents_lab", "chance": 20 } ],
-        "T": [ { "item": "chem_home", "chance": 30 }, { "item": "electronics", "chance": 50 } ],
-        "f": [ { "item": "file_room", "chance": 70, "repeat": [ 1, 5 ] } ],
-        "G": [ { "item": "office_paper", "chance": 30 } ],
-        "H": [ { "item": "magazines", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "lab_bookshelves", "chance": 20 } ]
+        "c": [{ "item": "home_hw", "chance": 70 }],
+        "X": [{ "item": "electronics", "chance": 70 }],
+        "b": [{ "item": "chem_home", "chance": 30 }],
+        "D": [{ "item": "chem_home", "chance": 60 }],
+        "i": [{ "item": "trash", "chance": 60 }],
+        "F": [
+          { "item": "chem_home", "chance": 50 },
+          { "item": "supplies_reagents_lab", "chance": 20 }
+        ],
+        "T": [{ "item": "chem_home", "chance": 30 }, { "item": "electronics", "chance": 50 }],
+        "f": [{ "item": "file_room", "chance": 70, "repeat": [1, 5] }],
+        "G": [{ "item": "office_paper", "chance": 30 }],
+        "H": [
+          { "item": "magazines", "chance": 40, "repeat": [1, 2] },
+          { "item": "lab_bookshelves", "chance": 20 }
+        ]
       },
-      "toilets": { "&": { "amount": [ 0, 50 ] } }
+      "toilets": { "&": { "amount": [0, 50] } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mortuary_2story_second" ],
+    "om_terrain": ["mortuary_2story_second"],
     "object": {
-      "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "faction_owner": [{ "id": "whately_family", "x": [0, 23], "y": [0, 23] }],
       "fill_ter": "t_floor",
       "rows": [
         "________________________",
@@ -230,7 +254,7 @@
         "__||||||||||||||w||w||__",
         "________________________"
       ],
-      "toilets": { "&": {  } },
+      "toilets": { "&": {} },
       "terrain": {
         ".": "t_floor",
         "#": "t_brick_wall",
@@ -251,7 +275,7 @@
       },
       "furniture": {
         "T": "f_trashcan",
-        "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "1": ["f_indoor_plant", "f_indoor_plant_y"],
         "5": "f_server",
         "8": "f_sample_freezer",
         "a": "f_autoclave",
@@ -293,10 +317,10 @@
           { "item": "home_hw", "chance": 50 },
           { "item": "supplies_electronics", "chance": 50 }
         ],
-        "B": [ { "item": "exotic_books", "chance": 70 } ],
-        "T": [ { "item": "SUS_office_filing_cabinet", "chance": 70 } ]
+        "B": [{ "item": "exotic_books", "chance": 70 }],
+        "T": [{ "item": "SUS_office_filing_cabinet", "chance": 70 }]
       },
-      "place_npcs": [ { "class": "millyficent_whately", "x": 17, "y": 14 } ]
+      "place_npcs": [{ "class": "millyficent_whately", "x": 17, "y": 14 }]
     }
   },
   {
@@ -331,19 +355,19 @@
         "  |------------------3  ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
-      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] } },
+      "palettes": ["roof_palette"],
+      "nested": { "U": { "chunks": ["roof_2x2_infrastructure"] } },
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50]
           ],
-          "x": [ 4, 17 ],
-          "y": [ 14, 19 ]
+          "x": [4, 17],
+          "y": [14, 19]
         }
       ]
     }
@@ -352,12 +376,18 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "whately_cousin_update",
-    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "whately_cousin", "x": 0, "y": 0 } ] }
+    "object": {
+      "mapgensize": [1, 1],
+      "place_npcs": [{ "class": "whately_cousin", "x": 0, "y": 0 }]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "whately_bioturret_update",
-    "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_migoturret_whately", "x": 0, "y": 0 } ] }
+    "object": {
+      "mapgensize": [1, 1],
+      "place_monster": [{ "monster": "mon_migoturret_whately", "x": 0, "y": 0 }]
+    }
   }
 ]

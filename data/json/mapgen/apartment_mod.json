@@ -2,7 +2,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "apartments_mod_tower_NW", "apartments_mod_tower_NE" ], [ "apartments_mod_tower_SW", "apartments_mod_tower_SE" ] ],
+    "om_terrain": [
+      ["apartments_mod_tower_NW", "apartments_mod_tower_NE"],
+      ["apartments_mod_tower_SW", "apartments_mod_tower_SE"]
+    ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -56,12 +59,12 @@
         "                    ppsssspp                    ",
         "                      ssss                      "
       ],
-      "palettes": [ "apartment_palette" ],
+      "palettes": ["apartment_palette"],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 24, 47 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 24, 47 ], "repeat": [ 1, 2 ] },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 0, 23 ], "repeat": [ 1, 2 ] }
+        { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [0, 23], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [24, 47], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [24, 47], "repeat": [1, 2] },
+        { "monster": "GROUP_ZOMBIE", "x": [24, 47], "y": [0, 23], "repeat": [1, 2] }
       ]
     }
   }

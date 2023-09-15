@@ -44,16 +44,22 @@
     "subtype": "collection",
     "traits": [
       { "trait": "THRESH_STEGO" },
-      { "distribution": [ { "trait": "TOUGH3" }, { "trait": "TOUGH2" } ] },
+      { "distribution": [{ "trait": "TOUGH3" }, { "trait": "TOUGH2" }] },
       { "trait": "COLDBLOOD4", "prob": 50 },
-      { "distribution": [ { "trait": "MUT_TOUGH3" }, { "trait": "MUT_TOUGH2" }, { "trait": "MUT_TOUGH" } ] },
+      {
+        "distribution": [
+          { "trait": "MUT_TOUGH3" },
+          { "trait": "MUT_TOUGH2" },
+          { "trait": "MUT_TOUGH" }
+        ]
+      },
       { "trait": "PER_UP_3" },
       { "trait": "GRAZER", "prob": 50 },
       { "trait": "HUGE_OK", "prob": 20 },
       { "trait": "LARGE_OK", "prob": 40 },
       { "trait": "TAIL_HORNED", "prob": 40 },
       { "trait": "THICKSKIN3", "prob": 50 },
-      { "distribution": [ { "trait": "GRAZER" }, { "trait": "RUMINANT" } ] }
+      { "distribution": [{ "trait": "GRAZER" }, { "trait": "RUMINANT" }] }
     ]
   },
   {
@@ -75,7 +81,14 @@
     "subtype": "collection",
     "traits": [
       { "trait": "THRESH_TYRANT" },
-      { "distribution": [ { "trait": "PRED3" }, { "trait": "PRED2" }, { "trait": "PRED4" }, { "trait": "PRED1" } ] },
+      {
+        "distribution": [
+          { "trait": "PRED3" },
+          { "trait": "PRED2" },
+          { "trait": "PRED4" },
+          { "trait": "PRED1" }
+        ]
+      },
       { "trait": "SAPIOVORE", "prob": 50 },
       { "trait": "GLASSJAW", "prob": 50 },
       { "trait": "ANIMALDISCORD", "prob": 50 },
@@ -83,7 +96,7 @@
       { "trait": "LARGE_OK", "prob": 40 },
       { "trait": "TYRANT_TEETH", "prob": 40 },
       { "trait": "COLDBLOOD4", "prob": 50 },
-      { "distribution": [ { "trait": "MUT_TOUGH2" }, { "trait": "MUT_TOUGH" } ] }
+      { "distribution": [{ "trait": "MUT_TOUGH2" }, { "trait": "MUT_TOUGH" }] }
     ]
   }
 ]

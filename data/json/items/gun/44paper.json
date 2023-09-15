@@ -10,7 +10,7 @@
     "barrel_length": "50 ml",
     "price": 43000,
     "price_postapoc": 3000,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "ammo": "44paper",
     "dispersion": 400,
     "durability": 7,
@@ -27,7 +27,7 @@
     "price": 120000,
     "price_postapoc": 4000,
     "bashing": 4,
-    "material": [ "steel", "wood" ],
+    "material": ["steel", "wood"],
     "color": "brown",
     "ammo": "44paper",
     "dispersion": 420,
@@ -35,15 +35,15 @@
     "blackpowder_tolerance": 56,
     "clip_size": 9,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "grip", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ]
+      ["accessories", 2],
+      ["barrel", 1],
+      ["bore", 1],
+      ["grip", 1],
+      ["stock", 1],
+      ["underbarrel", 1],
+      ["rail mount", 1],
+      ["sights mount", 1]
     ],
-    "built_in_mods": [ "lemat_revolver_shotgun" ]
+    "built_in_mods": ["lemat_revolver_shotgun"]
   }
 ]

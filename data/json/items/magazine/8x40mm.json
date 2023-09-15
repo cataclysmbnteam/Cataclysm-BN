@@ -9,14 +9,14 @@
     "volume": "750 ml",
     "price": 40000,
     "price_postapoc": 750,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "8x40mm",
     "capacity": 100,
     "reliability": 10,
     "reload_time": 50,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   },
   {
     "id": "8x40_10_mag",
@@ -28,14 +28,14 @@
     "volume": "250 ml",
     "price": 9000,
     "price_postapoc": 250,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "8x40mm",
     "capacity": 10,
     "reliability": 10,
     "reload_time": 40,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "8x40_250_mag",
@@ -47,7 +47,7 @@
     "volume": "2 L",
     "price": 70000,
     "price_postapoc": 1000,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "8x40mm",
@@ -65,14 +65,14 @@
     "volume": "500 ml",
     "price": 12500,
     "price_postapoc": 500,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "8x40mm",
     "capacity": 25,
     "reliability": 10,
     "reload_time": 50,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "8x40_500_mag",
@@ -84,7 +84,7 @@
     "volume": "4 L",
     "price": 100000,
     "price_postapoc": 1000,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "8x40mm",
@@ -101,14 +101,14 @@
     "volume": "500 ml",
     "price": 25000,
     "price_postapoc": 500,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "8x40mm",
     "capacity": 50,
     "reliability": 10,
     "reload_time": 50,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "8x40_speedloader5",
@@ -120,11 +120,11 @@
     "volume": "250 ml",
     "price": 8000,
     "price_postapoc": 250,
-    "material": [ "superalloy", "plastic" ],
+    "material": ["superalloy", "plastic"],
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "8x40mm",
     "capacity": 5,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": ["SPEEDLOADER"]
   }
 ]

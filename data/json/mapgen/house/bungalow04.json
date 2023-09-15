@@ -40,11 +40,11 @@
       ],
       "terrain": {
         "#": "t_adobe_brick_wall",
-        "0": [ [ "t_shrub", 2 ], "t_shrub_strawberry", "t_shrub_blueberry" ],
+        "0": [["t_shrub", 2], "t_shrub_strawberry", "t_shrub_blueberry"],
         "=": "t_shrub_lilac",
         "_": "t_linoleum_gray",
         ",": "t_dirt",
-        "%": [ [ "t_region_tree_nut", 5 ], [ "t_region_tree_shade", 4 ], [ "t_region_tree_fruit", 2 ] ],
+        "%": [["t_region_tree_nut", 5], ["t_region_tree_shade", 4], ["t_region_tree_fruit", 2]],
         "W": "t_linoleum_gray",
         "Z": "t_linoleum_gray",
         "~": "t_carpet_red",
@@ -62,11 +62,24 @@
         "b": "t_carpet_red",
         "&": "t_dirtmound"
       },
-      "furniture": { "!": [ "f_indoor_plant", "f_indoor_plant_y" ], "$": "f_table", "&": "f_region_flower" },
-      "items": { "$": { "item": "table_foyer", "chance": 50 }, "/": { "item": "hydro", "chance": 40 } },
+      "furniture": {
+        "!": ["f_indoor_plant", "f_indoor_plant_y"],
+        "$": "f_table",
+        "&": "f_region_flower"
+      },
+      "items": {
+        "$": { "item": "table_foyer", "chance": 50 },
+        "/": { "item": "hydro", "chance": 40 }
+      },
       "place_loot": [
         { "item": "television", "x": 6, "y": 9 },
-        { "group": "tools_earthworking", "x": [ 18, 20 ], "y": [ 10, 10 ], "chance": 50, "repeat": [ 1, 2 ] }
+        {
+          "group": "tools_earthworking",
+          "x": [18, 20],
+          "y": [10, 10],
+          "chance": 50,
+          "repeat": [1, 2]
+        }
       ]
     }
   },
@@ -76,7 +89,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",

@@ -76,8 +76,8 @@
         "w": "t_water_dp"
       },
       "place_monsters": [
-        { "monster": "GROUP_POND_BIRD", "x": [ 16, 23 ], "y": [ 11, 17 ], "repeat": 2 },
-        { "monster": "GROUP_POND_FISH", "x": [ 12, 23 ], "y": [ 8, 20 ], "repeat": 3 }
+        { "monster": "GROUP_POND_BIRD", "x": [16, 23], "y": [11, 17], "repeat": 2 },
+        { "monster": "GROUP_POND_FISH", "x": [12, 23], "y": [8, 20], "repeat": 3 }
       ]
     },
     "om_terrain": "PublicPond_1a",
@@ -155,10 +155,10 @@
         "s": "t_swater_dp",
         "|": "t_rock"
       },
-      "place_signs": [ { "signage": "NO lifeguard on duty, swim at own risk!", "x": 17, "y": 7 } ],
+      "place_signs": [{ "signage": "NO lifeguard on duty, swim at own risk!", "x": 17, "y": 7 }],
       "place_monsters": [
-        { "monster": "GROUP_POND_FISH", "x": [ 4, 11 ], "y": [ 7, 18 ], "repeat": 2 },
-        { "monster": "GROUP_POND_BIRD", "x": [ 6, 16 ], "y": [ 4, 21 ], "repeat": 3 }
+        { "monster": "GROUP_POND_FISH", "x": [4, 11], "y": [7, 18], "repeat": 2 },
+        { "monster": "GROUP_POND_BIRD", "x": [6, 16], "y": [4, 21], "repeat": 3 }
       ]
     },
     "om_terrain": "PublicPond_1b",

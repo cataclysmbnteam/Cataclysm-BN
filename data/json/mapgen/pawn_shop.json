@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "pawn" ],
+    "om_terrain": ["pawn"],
     "weight": 300,
     "object": {
       "fill_ter": "t_floor",
@@ -33,7 +33,7 @@
         "..............'U<U''U''."
       ],
       "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         " ": "t_floor",
         "'": "t_pavement",
         "U": "t_pavement",
@@ -50,8 +50,8 @@
         "<": "t_ladder_up"
       },
       "furniture": {
-        "U": [ "f_dumpster", "f_recycle_bin" ],
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "U": ["f_dumpster", "f_recycle_bin"],
+        "y": ["f_indoor_plant_y", "f_indoor_plant"],
         "X": "f_safe_l",
         "d": "f_desk",
         "#": "f_table",
@@ -62,17 +62,17 @@
         "{": "f_rack",
         "}": "f_rack"
       },
-      "toilets": { "&": {  } },
-      "items": { "X": { "item": "my_precious", "chance": 80, "repeat": [ 1, 3 ] } },
+      "toilets": { "&": {} },
+      "items": { "X": { "item": "my_precious", "chance": 80, "repeat": [1, 3] } },
       "place_loot": [
-        { "group": "pawn", "x": 2, "y": [ 7, 21 ], "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "pawn", "x": [ 6, 7 ], "y": [ 7, 20 ], "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "pawn", "x": [ 11, 12 ], "y": [ 7, 17 ], "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "pawn", "x": [ 16, 17 ], "y": [ 11, 14 ], "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "pawn", "x": 21, "y": [ 7, 15 ], "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "office", "x": 18, "y": [ 17, 19 ], "chance": 90 },
-        { "group": "homeguns", "x": 21, "y": [ 18, 21 ], "chance": 50, "repeat": [ 1, 2 ] },
-        { "group": "harddrugs", "x": [ 16, 17 ], "y": 21, "chance": 20, "repeat": [ 1, 2 ] }
+        { "group": "pawn", "x": 2, "y": [7, 21], "chance": 80, "repeat": [1, 3] },
+        { "group": "pawn", "x": [6, 7], "y": [7, 20], "chance": 80, "repeat": [1, 3] },
+        { "group": "pawn", "x": [11, 12], "y": [7, 17], "chance": 80, "repeat": [1, 3] },
+        { "group": "pawn", "x": [16, 17], "y": [11, 14], "chance": 80, "repeat": [1, 3] },
+        { "group": "pawn", "x": 21, "y": [7, 15], "chance": 80, "repeat": [1, 3] },
+        { "group": "office", "x": 18, "y": [17, 19], "chance": 90 },
+        { "group": "homeguns", "x": 21, "y": [18, 21], "chance": 50, "repeat": [1, 2] },
+        { "group": "harddrugs", "x": [16, 17], "y": 21, "chance": 20, "repeat": [1, 2] }
       ]
     }
   },
@@ -108,33 +108,35 @@
         " |-------------###----3 ",
         "               #>#      "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ">": "t_ladder_down" },
-      "place_items": [ { "item": "roof_trash", "x": [ 3, 20 ], "y": [ 8, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [3, 20], "y": [8, 20], "chance": 50, "repeat": [1, 3] }
+      ],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ],
-            [ "roof_2x2_golf", 20 ],
-            [ "roof_3x3_wine", 30 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50],
+            ["roof_2x2_golf", 20],
+            ["roof_3x3_wine", 30]
           ],
-          "x": [ 3, 18 ],
-          "y": [ 7, 8 ]
+          "x": [3, 18],
+          "y": [7, 8]
         },
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_4x4_party", 15 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_6x6_survivor", 20 ],
-            [ "roof_6x6_utility", 20 ]
+            ["null", 20],
+            ["roof_4x4_party", 15],
+            ["roof_4x4_utility", 40],
+            ["roof_6x6_survivor", 20],
+            ["roof_6x6_utility", 20]
           ],
-          "x": [ 3, 15 ],
-          "y": [ 10, 13 ]
+          "x": [3, 15],
+          "y": [10, 13]
         }
       ]
     }
@@ -142,7 +144,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "pawn_1" ],
+    "om_terrain": ["pawn_1"],
     "weight": 300,
     "object": {
       "fill_ter": "t_floor",
@@ -173,7 +175,7 @@
         "......8U8888<U8........."
       ],
       "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         " ": "t_floor",
         "'": "t_sidewalk",
         "^": "t_door_c",
@@ -194,31 +196,31 @@
         "d": "f_desk",
         "#": "f_counter",
         "h": "f_chair",
-        "C": [ "f_displaycase", "f_displaycase", "f_displaycase", "f_displaycase_b" ],
+        "C": ["f_displaycase", "f_displaycase", "f_displaycase", "f_displaycase_b"],
         "%": "f_sink",
         "{": "f_rack",
         "}": "f_rack",
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
-        "U": [ "f_dumpster", "f_recycle_bin" ]
+        "y": ["f_indoor_plant_y", "f_indoor_plant"],
+        "U": ["f_dumpster", "f_recycle_bin"]
       },
-      "toilets": { "&": {  } },
-      "items": { "X": { "item": "my_precious", "chance": 80, "repeat": [ 1, 3 ] } },
+      "toilets": { "&": {} },
+      "items": { "X": { "item": "my_precious", "chance": 80, "repeat": [1, 3] } },
       "place_loot": [
-        { "group": "pawn", "x": 2, "y": [ 3, 15 ], "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "pawn", "x": 21, "y": [ 3, 15 ], "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "pawn", "x": [ 5, 18 ], "y": 3, "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "pawn", "x": [ 5, 18 ], "y": 5, "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "pawn", "x": [ 5, 18 ], "y": 7, "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "pawn", "x": [ 5, 18 ], "y": 9, "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "pawn", "x": [ 5, 18 ], "y": 11, "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "pawn", "x": [ 5, 18 ], "y": 13, "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "pawn", "x": [ 5, 18 ], "y": 15, "chance": 80, "repeat": [ 1, 3 ] },
-        { "group": "homeguns", "x": 14, "y": [ 18, 21 ], "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "homeguns", "x": 21, "y": [ 18, 21 ], "chance": 70, "repeat": [ 1, 2 ] },
-        { "group": "pawn", "x": [ 15, 20 ], "y": 21, "chance": 70, "repeat": [ 1, 3 ] },
-        { "group": "office", "x": [ 8, 10 ], "y": 18, "chance": 90 },
-        { "group": "homeguns", "x": 12, "y": [ 18, 21 ], "chance": 50, "repeat": [ 1, 2 ] },
-        { "group": "harddrugs", "x": 6, "y": [ 18, 20 ], "chance": 20, "repeat": [ 1, 2 ] }
+        { "group": "pawn", "x": 2, "y": [3, 15], "chance": 80, "repeat": [1, 3] },
+        { "group": "pawn", "x": 21, "y": [3, 15], "chance": 80, "repeat": [1, 3] },
+        { "group": "pawn", "x": [5, 18], "y": 3, "chance": 80, "repeat": [1, 3] },
+        { "group": "pawn", "x": [5, 18], "y": 5, "chance": 80, "repeat": [1, 3] },
+        { "group": "pawn", "x": [5, 18], "y": 7, "chance": 80, "repeat": [1, 3] },
+        { "group": "pawn", "x": [5, 18], "y": 9, "chance": 80, "repeat": [1, 3] },
+        { "group": "pawn", "x": [5, 18], "y": 11, "chance": 80, "repeat": [1, 3] },
+        { "group": "pawn", "x": [5, 18], "y": 13, "chance": 80, "repeat": [1, 3] },
+        { "group": "pawn", "x": [5, 18], "y": 15, "chance": 80, "repeat": [1, 3] },
+        { "group": "homeguns", "x": 14, "y": [18, 21], "chance": 70, "repeat": [1, 2] },
+        { "group": "homeguns", "x": 21, "y": [18, 21], "chance": 70, "repeat": [1, 2] },
+        { "group": "pawn", "x": [15, 20], "y": 21, "chance": 70, "repeat": [1, 3] },
+        { "group": "office", "x": [8, 10], "y": 18, "chance": 90 },
+        { "group": "homeguns", "x": 12, "y": [18, 21], "chance": 50, "repeat": [1, 2] },
+        { "group": "harddrugs", "x": 6, "y": [18, 20], "chance": 20, "repeat": [1, 2] }
       ]
     }
   },
@@ -254,33 +256,35 @@
         " |---------###--------- ",
         "           #>#          "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ">": "t_ladder_down" },
-      "place_items": [ { "item": "roof_trash", "x": [ 3, 20 ], "y": [ 8, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [3, 20], "y": [8, 20], "chance": 50, "repeat": [1, 3] }
+      ],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ],
-            [ "roof_2x2_golf", 20 ],
-            [ "roof_3x3_wine", 30 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50],
+            ["roof_2x2_golf", 20],
+            ["roof_3x3_wine", 30]
           ],
-          "x": [ 3, 18 ],
-          "y": [ 7, 8 ]
+          "x": [3, 18],
+          "y": [7, 8]
         },
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_4x4_party", 15 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_6x6_survivor", 20 ],
-            [ "roof_6x6_utility", 20 ]
+            ["null", 20],
+            ["roof_4x4_party", 15],
+            ["roof_4x4_utility", 40],
+            ["roof_6x6_survivor", 20],
+            ["roof_6x6_utility", 20]
           ],
-          "x": [ 3, 15 ],
-          "y": [ 10, 13 ]
+          "x": [3, 15],
+          "y": [10, 13]
         }
       ]
     }
@@ -288,7 +292,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "pawn_pf" ],
+    "om_terrain": ["pawn_pf"],
     "weight": 50,
     "object": {
       "rows": [
@@ -318,7 +322,7 @@
         "........................"
       ],
       "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
         " ": "t_floor",
         "{": "t_floor",
         "}": "t_floor",
@@ -350,11 +354,11 @@
         "$": "f_rack",
         "}": "f_rack"
       },
-      "toilets": { "&": {  } },
+      "toilets": { "&": {} },
       "items": {
-        "}": { "item": "mussto_stringinst", "chance": 80, "repeat": [ 1, 3 ] },
-        "{": { "item": "pawn_shop_electronics", "chance": 80, "repeat": [ 1, 3 ] },
-        "d": { "item": "elecsto_persele", "chance": 80, "repeat": [ 1, 3 ] },
+        "}": { "item": "mussto_stringinst", "chance": 80, "repeat": [1, 3] },
+        "{": { "item": "pawn_shop_electronics", "chance": 80, "repeat": [1, 3] },
+        "d": { "item": "elecsto_persele", "chance": 80, "repeat": [1, 3] },
         "@": { "item": "armor_suit", "chance": 100 }
       },
       "place_loot": [
@@ -363,13 +367,15 @@
         { "item": "chainsaw_off", "x": 16, "y": 11 },
         { "item": "radio_car", "x": 18, "y": 10 }
       ],
-      "place_vehicles": [ { "chance": 100, "fuel": 15, "vehicle": "motorcycle", "x": 13, "y": 2, "rotation": 0 } ]
+      "place_vehicles": [
+        { "chance": 100, "fuel": 15, "vehicle": "motorcycle", "x": 13, "y": 2, "rotation": 0 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "pawn_pf_under" ],
+    "om_terrain": ["pawn_pf_under"],
     "object": {
       "rows": [
         "........................",
@@ -428,8 +434,8 @@
         "p": "f_drill_press"
       },
       "items": {
-        "t": { "item": "bondage", "chance": 80, "repeat": [ 2, 4 ] },
-        "f": { "item": "office", "chance": 80, "repeat": [ 1, 2 ] },
+        "t": { "item": "bondage", "chance": 80, "repeat": [2, 4] },
+        "f": { "item": "office", "chance": 80, "repeat": [1, 2] },
         "G": { "item": "Gimp", "chance": 100 },
         "M": { "item": "Maynard", "chance": 100 }
       },
@@ -439,9 +445,15 @@
         { "item": "m1911", "chance": 100, "x": 15, "y": 6 },
         { "item": "katana", "chance": 100, "x": 12, "y": 16 }
       ],
-      "liquids": { "w": { "liquid": "water", "amount": [ 1, 3 ] }, "h": { "liquid": "water", "amount": [ 1, 2 ] } },
-      "place_fields": [ { "field": "fd_blood", "x": 12, "y": 7 }, { "field": "fd_blood", "x": 10, "y": 6 } ],
-      "place_monster": [ { "monster": "mon_zombie_cop", "chance": 100, "x": 10, "y": 6 } ]
+      "liquids": {
+        "w": { "liquid": "water", "amount": [1, 3] },
+        "h": { "liquid": "water", "amount": [1, 2] }
+      },
+      "place_fields": [
+        { "field": "fd_blood", "x": 12, "y": 7 },
+        { "field": "fd_blood", "x": 10, "y": 6 }
+      ],
+      "place_monster": [{ "monster": "mon_zombie_cop", "chance": 100, "x": 10, "y": 6 }]
     }
   },
   {
@@ -476,33 +488,35 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ">": "t_ladder_down" },
-      "place_items": [ { "item": "roof_trash", "x": [ 6, 18 ], "y": [ 6, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_items": [
+        { "item": "roof_trash", "x": [6, 18], "y": [6, 18], "chance": 50, "repeat": [1, 3] }
+      ],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 40 ],
-            [ "roof_2x2_utilities", 50 ],
-            [ "roof_2x2_golf", 20 ],
-            [ "roof_3x3_wine", 30 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 40],
+            ["roof_2x2_utilities", 50],
+            ["roof_2x2_golf", 20],
+            ["roof_3x3_wine", 30]
           ],
-          "x": [ 6, 15 ],
-          "y": [ 7, 8 ]
+          "x": [6, 15],
+          "y": [7, 8]
         },
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_4x4_party", 15 ],
-            [ "roof_4x4_utility", 40 ],
-            [ "roof_6x6_survivor", 20 ],
-            [ "roof_6x6_utility", 20 ]
+            ["null", 20],
+            ["roof_4x4_party", 15],
+            ["roof_4x4_utility", 40],
+            ["roof_6x6_survivor", 20],
+            ["roof_6x6_utility", 20]
           ],
-          "x": [ 6, 15 ],
-          "y": [ 10, 13 ]
+          "x": [6, 15],
+          "y": [10, 13]
         }
       ]
     }
@@ -537,12 +551,12 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      [ "helmet_plate", 100 ],
-      [ "boots_plate", 100 ],
-      [ "armguard_lightplate", 100 ],
-      [ "gloves_plate", 100 ],
-      [ "legguard_lightplate", 100 ],
-      [ "armor_plate", 100 ]
+      ["helmet_plate", 100],
+      ["boots_plate", 100],
+      ["armguard_lightplate", 100],
+      ["gloves_plate", 100],
+      ["legguard_lightplate", 100],
+      ["armor_plate", 100]
     ]
   },
   {
@@ -550,43 +564,43 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "leather_belt", 50 ],
-      [ "blindfold", 50 ],
-      [ "bondage_mask", 50 ],
-      [ "bondage_mask_zipped", 50 ],
-      [ "bondage_suit", 40 ],
-      [ "leather_collar", 50 ],
-      [ "vibrator", 50 ],
-      [ "bullwhip", 50 ],
-      [ "candle", 50 ],
-      [ "rope_6", 20 ],
-      [ "vibrator", 30 ],
-      [ "camisole", 25 ],
-      [ "panties", 40 ],
-      [ "bra", 40 ],
-      [ "hot_pants_leather", 30 ],
-      [ "boxer_shorts", 30 ],
-      [ "mag_porn", 20 ],
-      [ "briefs", 30 ],
+      ["leather_belt", 50],
+      ["blindfold", 50],
+      ["bondage_mask", 50],
+      ["bondage_mask_zipped", 50],
+      ["bondage_suit", 40],
+      ["leather_collar", 50],
+      ["vibrator", 50],
+      ["bullwhip", 50],
+      ["candle", 50],
+      ["rope_6", 20],
+      ["vibrator", 30],
+      ["camisole", 25],
+      ["panties", 40],
+      ["bra", 40],
+      ["hot_pants_leather", 30],
+      ["boxer_shorts", 30],
+      ["mag_porn", 20],
+      ["briefs", 30],
       { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic" },
-      [ "bikini_top_leather", 25 ],
-      [ "skirt_leather", 25 ],
-      [ "honey_bottled", 20 ],
-      [ "nanoskirt", 25 ],
-      [ "mag_dude", 20 ],
-      [ "chaps_leather", 25 ],
-      [ "novel_romance", 10 ],
-      [ "novel_erotic", 10 ],
-      [ "leather_cat_ears", 25 ],
-      [ "leather_cat_tail", 25 ],
-      [ "rope_30", 5 ]
+      ["bikini_top_leather", 25],
+      ["skirt_leather", 25],
+      ["honey_bottled", 20],
+      ["nanoskirt", 25],
+      ["mag_dude", 20],
+      ["chaps_leather", 25],
+      ["novel_romance", 10],
+      ["novel_erotic", 10],
+      ["leather_cat_ears", 25],
+      ["leather_cat_tail", 25],
+      ["rope_30", 5]
     ]
   },
   {
     "type": "item_group",
     "id": "Gimp",
     "subtype": "collection",
-    "items": [ { "item": "bondage_mask_zipped" }, { "item": "bondage_suit" }, { "item": "corpse" } ]
+    "items": [{ "item": "bondage_mask_zipped" }, { "item": "bondage_suit" }, { "item": "corpse" }]
   },
   {
     "type": "item_group",

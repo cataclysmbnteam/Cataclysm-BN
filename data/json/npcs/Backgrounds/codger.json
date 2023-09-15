@@ -5,7 +5,10 @@
     "dynamic_line": "Well now, that's a hell of a story, so settle in.  It all goes back to about five years ago, after I retired from my job at the mill.  Times was tough, but we got by.",
     "responses": [
       { "text": "Okay, please continue.", "topic": "BGSS_CODGER_STORY2" },
-      { "text": "On second thought, let's talk about something else.", "topic": "BGSS_CODGER_STORY2" }
+      {
+        "text": "On second thought, let's talk about something else.",
+        "topic": "BGSS_CODGER_STORY2"
+      }
     ]
   },
   {
@@ -24,7 +27,10 @@
     "dynamic_line": "Rusty G - that's my ol' pal Marty Gumps - were in the passenger seat with his trusty 18 gauge lyin' on his lap.  That were his dog's name, only we all just called him 18 gauge for short.",
     "responses": [
       { "text": "18 gauge, the dog.  Got it.", "topic": "BGSS_CODGER_STORY4a" },
-      { "text": "I think I see some zombies coming.  We should cut this short.", "topic": "BGSS_CODGER_STORY4b" },
+      {
+        "text": "I think I see some zombies coming.  We should cut this short.",
+        "topic": "BGSS_CODGER_STORY4b"
+      },
       { "text": "Shut up, you old fart.", "topic": "BGSS_CODGER_STORY4b" }
     ]
   },
@@ -34,7 +40,10 @@
     "dynamic_line": "Dammit I'm gettin' there, bite yer tongue.  As I was sayin', Rusty G - that's my ol' pal Marty Gumps - were in the passenger seat with his trusty 18 gauge lyin' on his lap.  That were his dog's name, only we all just called him 18 gauge for short.",
     "responses": [
       { "text": "18 gauge, the dog.  Got it.", "topic": "BGSS_CODGER_STORY4a" },
-      { "text": "I think I see some zombies coming.  We should cut this short.", "topic": "BGSS_CODGER_STORY4b" },
+      {
+        "text": "I think I see some zombies coming.  We should cut this short.",
+        "topic": "BGSS_CODGER_STORY4b"
+      },
       { "text": "Shut up, you old fart.", "topic": "BGSS_CODGER_STORY4b" }
     ]
   },
@@ -65,7 +74,10 @@
     "responses": [
       { "text": "I catch your drift.", "topic": "BGSS_CODGER_STORY6" },
       { "text": "Are you done yet?  Seriously!", "topic": "BGSS_CODGER_STORY6" },
-      { "text": "For the love of all that is holy, PLEASE shut the hell up!", "topic": "BGSS_CODGER_STORY6" }
+      {
+        "text": "For the love of all that is holy, PLEASE shut the hell up!",
+        "topic": "BGSS_CODGER_STORY6"
+      }
     ]
   },
   {

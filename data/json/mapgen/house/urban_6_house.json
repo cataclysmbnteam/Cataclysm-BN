@@ -1,7 +1,7 @@
 [
   {
     "method": "json",
-    "om_terrain": [ [ "urban_6_1", "urban_6_2" ] ],
+    "om_terrain": [["urban_6_1", "urban_6_2"]],
     "type": "mapgen",
     "object": {
       "fill_ter": "t_floor",
@@ -31,10 +31,10 @@
         ".................!``!......._______________.....",
         ".................%``%.....p._______________....."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "!": "t_region_groundcover_urban",
         "#": "t_adobe_brick_wall",
         "_": "t_pavement",
@@ -79,7 +79,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_6_3", "urban_6_4" ] ],
+    "om_terrain": [["urban_6_3", "urban_6_4"]],
     "type": "mapgen",
     "object": {
       "fill_ter": "t_floor",
@@ -109,7 +109,7 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "~": "t_open_air",
         "#": "t_adobe_brick_wall",
@@ -129,7 +129,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_6_5", "urban_6_6" ] ],
+    "om_terrain": [["urban_6_5", "urban_6_6"]],
     "type": "mapgen",
     "object": {
       "fill_ter": "t_shingle_flat_roof",
@@ -159,13 +159,13 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "terrain": { ".": "t_shingle_flat_roof" }
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_6_1_basement", "urban_6_2_basement" ] ],
+    "om_terrain": [["urban_6_1_basement", "urban_6_2_basement"]],
     "type": "mapgen",
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -195,22 +195,29 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "basement_empty" ],
+      "palettes": ["basement_empty"],
       "terrain": { "v": "t_dirtfloor", "~": "t_dirtfloor" },
       "nested": {
-        "1": { "chunks": [ [ "null", 60 ], [ "8x8_gym_E", 20 ], [ "room_8x8_hobby_E", 20 ], [ "room_8x8_junk_E", 40 ] ] },
+        "1": {
+          "chunks": [
+            ["null", 60],
+            ["8x8_gym_E", 20],
+            ["room_8x8_hobby_E", 20],
+            ["room_8x8_junk_E", 40]
+          ]
+        },
         "2": {
           "chunks": [
-            [ "null", 10 ],
-            [ "livingroom_5x5_S_1", 30 ],
-            [ "livingroom_5x5_N_1", 30 ],
-            [ "livingroom_5x5_W_1", 30 ],
-            [ "livingroom_5x5_S_2", 30 ],
-            [ "livingroom_5x5_E_2", 30 ],
-            [ "livingroom_5x5_N_2", 30 ],
-            [ "livingroom_5x5_W_2", 30 ],
-            [ "home_office_4x4_N", 20 ],
-            [ "home_office_4x4_S", 20 ]
+            ["null", 10],
+            ["livingroom_5x5_S_1", 30],
+            ["livingroom_5x5_N_1", 30],
+            ["livingroom_5x5_W_1", 30],
+            ["livingroom_5x5_S_2", 30],
+            ["livingroom_5x5_E_2", 30],
+            ["livingroom_5x5_N_2", 30],
+            ["livingroom_5x5_W_2", 30],
+            ["home_office_4x4_N", 20],
+            ["home_office_4x4_S", 20]
           ]
         }
       }

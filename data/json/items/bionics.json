@@ -7,21 +7,24 @@
     "weight": "2041 g",
     "volume": "2500 ml",
     "bashing": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ":",
     "color": "yellow",
     "price_postapoc": 1000,
     "use_action": "install_bionic",
-    "flags": [ "CBM" ],
+    "flags": ["CBM"],
     "is_upgrade": false,
-    "faults": [ "fault_bionic_nonsterile" ]
+    "faults": ["fault_bionic_nonsterile"]
   },
   {
     "abstract": "bionic_general_npc_usable",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": { "str": "abstract bionic module (npc usable)", "str_pl": "abstract bionic modules (npc usable)" },
-    "extend": { "flags": [ "BIONIC_NPC_USABLE" ] }
+    "name": {
+      "str": "abstract bionic module (npc usable)",
+      "str_pl": "abstract bionic modules (npc usable)"
+    },
+    "extend": { "flags": ["BIONIC_NPC_USABLE"] }
   },
   {
     "abstract": "bionic_general_faulty",
@@ -33,7 +36,7 @@
     "weight": "500 g",
     "description": "This CBM is broken beyond repair, you can't do anything with it.",
     "//": "Needed for dissection of faulty CBMs from dead PCs and NPCs to convert the harvest result into a burnt-out bionic automatically.",
-    "extend": { "flags": [ "BIONIC_FAULTY" ] }
+    "extend": { "flags": ["BIONIC_FAULTY"] }
   },
   {
     "id": "bio_adrenaline",

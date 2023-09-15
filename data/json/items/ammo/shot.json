@@ -4,44 +4,60 @@
     "copy-from": "shot_bird",
     "type": "AMMO",
     "name": { "str": "birdshot, black powder" },
-    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "proportional": {
+      "price": 0.6,
+      "damage": { "damage_type": "bullet", "amount": 0.8 },
+      "dispersion": 1.2
+    },
+    "extend": { "effects": ["RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   },
   {
     "id": "bp_shot_dragon",
     "copy-from": "shot_dragon",
     "type": "AMMO",
     "name": { "str": "dragon's breath shell, black powder" },
-    "proportional": { "price": 0.6, "damage": { "damage_type": "heat", "amount": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "proportional": {
+      "price": 0.6,
+      "damage": { "damage_type": "heat", "amount": 0.8 },
+      "dispersion": 1.2
+    },
+    "extend": { "effects": ["RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   },
   {
     "id": "bp_shot_00",
     "copy-from": "shot_00",
     "type": "AMMO",
     "name": { "str": "00 shot, black powder" },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": ["RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   },
   {
     "id": "bp_shot_flechette",
     "copy-from": "shot_flechette",
     "type": "AMMO",
     "name": { "str": "flechette shell, black powder" },
-    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "proportional": {
+      "price": 0.6,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.8 },
+      "dispersion": 1.2
+    },
+    "extend": { "effects": ["RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   },
   {
     "id": "bp_shot_slug",
     "copy-from": "shot_slug",
     "type": "AMMO",
     "name": { "str": "shotgun slug, black powder" },
-    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.8 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "proportional": {
+      "price": 0.6,
+      "damage": { "damage_type": "bullet", "amount": 0.8, "armor_penetration": 0.8 },
+      "dispersion": 1.2
+    },
+    "extend": { "effects": ["RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   },
   {
     "abstract": "shot_abstract",
@@ -52,8 +68,8 @@
     "volume": "250 ml",
     "price": 500,
     "price_postapoc": 800,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "plastic", "powder" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
+    "material": ["plastic", "powder"],
     "symbol": "=",
     "color": "red",
     "count": 20,
@@ -64,7 +80,7 @@
     "damage": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2.0 },
     "recoil": 2500,
     "loudness": 160,
-    "effects": [ "COOKOFF", "SHOT" ]
+    "effects": ["COOKOFF", "SHOT"]
   },
   {
     "id": "shot_00",
@@ -81,11 +97,11 @@
     "description": "A beanbag round for shotguns, not deadly but designed to disable.",
     "price": 500,
     "price_postapoc": 200,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
     "count": 10,
     "damage": { "damage_type": "bash", "amount": 5 },
     "proportional": { "recoil": 0.4, "loudness": 0.6 },
-    "extend": { "effects": [ "BEANBAG", "NOGIB" ] }
+    "extend": { "effects": ["BEANBAG", "NOGIB"] }
   },
   {
     "id": "shot_bird",
@@ -99,8 +115,8 @@
     "damage": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3.0 },
     "dispersion": 1000,
     "loudness": 80,
-    "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
-    "extend": { "effects": [ "NOGIB" ] }
+    "shape": ["cone", { "half_angle": 15, "length": 8 }],
+    "extend": { "effects": ["NOGIB"] }
   },
   {
     "id": "shot_dragon",
@@ -110,12 +126,12 @@
     "description": "A shotgun shell filled with magnesium pellets or shards, used mostly as a distress flare or pyrotechnics tool.  When the round is fired, high temperature sparks and flames shoot out of the barrel, igniting everything in their path.",
     "price": 1000,
     "price_postapoc": 1600,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
     "damage": { "damage_type": "heat", "amount": 30 },
     "proportional": { "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2 },
     "range": 0,
-    "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
-    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
+    "shape": ["cone", { "half_angle": 15, "length": 8 }],
+    "extend": { "effects": ["INCENDIARY", "STREAM", "NOGIB"] }
   },
   {
     "id": "shot_flechette",
@@ -125,10 +141,17 @@
     "description": "A shotgun shell filled with tiny steel darts.  Extremely damaging, plus the spread makes it very accurate at short range.  Slices through most forms of armor with ease.",
     "price": 2000,
     "price_postapoc": 800,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
     "count": 10,
     "//": "Balanced as standard AP.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -20, "armor_penetration": 30, "armor_multiplier": -1.0 } }
+    "relative": {
+      "damage": {
+        "damage_type": "bullet",
+        "amount": -20,
+        "armor_penetration": 30,
+        "armor_multiplier": -1.0
+      }
+    }
   },
   {
     "id": "shot_he",
@@ -139,10 +162,10 @@
     "description": "A shotgun shell shooting a small explosive.  Damaging, but rather inaccurate and short ranged.  Banned in several states.",
     "price": 3000,
     "price_postapoc": 1600,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
     "count": 5,
     "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 0 },
-    "extend": { "effects": [ "EXPLOSIVE" ] }
+    "extend": { "effects": ["EXPLOSIVE"] }
   },
   {
     "id": "shot_scrap",
@@ -150,9 +173,13 @@
     "type": "AMMO",
     "name": { "str": "00 shot, scrap loaded" },
     "description": "A shotgun shell filled with whatever was lying around.  They are more damaging than birdshot, but fairly inaccurate.",
-    "proportional": { "price": 0.4, "damage": { "damage_type": "bullet", "amount": 0.6 }, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "proportional": {
+      "price": 0.4,
+      "damage": { "damage_type": "bullet", "amount": 0.6 },
+      "dispersion": 1.2
+    },
+    "extend": { "effects": ["RECYCLED"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   },
   {
     "id": "bp_shot_scrap",
@@ -160,8 +187,8 @@
     "type": "AMMO",
     "name": { "str": "00 shot, black powder, scrap loaded" },
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 } },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+    "extend": { "effects": ["RECYCLED", "MUZZLE_SMOKE"] },
+    "delete": { "effects": ["NEVER_MISFIRES"], "flags": ["IRREPLACEABLE_CONSUMABLE"] }
   },
   {
     "id": "shot_slug",
@@ -171,11 +198,19 @@
     "description": "A heavy metal slug used with shotguns to give them the range capabilities of a rifle.  Extremely damaging but rather inaccurate.",
     "price": 400,
     "price_postapoc": 400,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
     "dispersion": 80,
     "//": "Balanced as FMJ",
-    "relative": { "range": 12, "damage": { "damage_type": "bullet", "amount": -15, "armor_penetration": 18, "armor_multiplier": -0.5 } },
+    "relative": {
+      "range": 12,
+      "damage": {
+        "damage_type": "bullet",
+        "amount": -15,
+        "armor_penetration": 18,
+        "armor_multiplier": -0.5
+      }
+    },
     "proportional": { "recoil": 1.4 },
-    "delete": { "effects": [ "SHOT" ] }
+    "delete": { "effects": ["SHOT"] }
   }
 ]

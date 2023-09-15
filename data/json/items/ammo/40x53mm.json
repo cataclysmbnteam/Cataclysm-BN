@@ -6,8 +6,8 @@
     "price": 10000,
     "price_postapoc": 6000,
     "volume": "260 ml",
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "steel", "powder" ],
+    "flags": ["IRREPLACEABLE_CONSUMABLE"],
+    "material": ["steel", "powder"],
     "symbol": "=",
     "color": "yellow",
     "count": 10,
@@ -17,7 +17,7 @@
     "damage": { "damage_type": "bullet", "amount": 80 },
     "dispersion": 30,
     "recoil": 225,
-    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+    "effects": ["COOKOFF", "NEVER_MISFIRES"]
   },
   {
     "id": "40x53mm_m1001",
@@ -31,7 +31,7 @@
     "damage": { "damage_type": "bullet", "amount": 91, "armor_penetration": 78 },
     "recoil": 1000,
     "casing": "40x53mm_m169_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "extend": { "effects": ["SHOT"] }
   },
   {
     "id": "40x53mm_m430a1",
@@ -42,7 +42,7 @@
     "weight": "340 g",
     "damage": { "damage_type": "bullet", "amount": 250, "armor_penetration": 45 },
     "casing": "40x53mm_m169_casing",
-    "extend": { "effects": [ "FRAG" ] }
+    "extend": { "effects": ["FRAG"] }
   },
   {
     "id": "40x53mm_buckshot_m169",
@@ -55,7 +55,7 @@
     "damage": { "damage_type": "bullet", "amount": 130 },
     "recoil": 1200,
     "casing": "40x53mm_m169_casing",
-    "extend": { "effects": [ "SHOT" ] }
+    "extend": { "effects": ["SHOT"] }
   },
   {
     "id": "40x53mm_slug_m169",

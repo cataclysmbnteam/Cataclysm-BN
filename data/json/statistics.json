@@ -11,7 +11,7 @@
     "type": "event_transformation",
     "event_type": "character_wakes_up",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
-    "drop_fields": [ "character" ]
+    "drop_fields": ["character"]
   },
   {
     "id": "num_avatar_wake_ups",
@@ -25,14 +25,14 @@
     "type": "event_transformation",
     "event_type": "character_kills_monster",
     "value_constraints": { "killer": { "equals_statistic": "avatar_id" } },
-    "drop_fields": [ "killer" ]
+    "drop_fields": ["killer"]
   },
   {
     "id": "avatar_species_kills",
     "type": "event_transformation",
     "event_transformation": "avatar_kills",
     "new_fields": { "species": { "species_of_monster": "victim_type" } },
-    "drop_fields": [ "victim_type" ]
+    "drop_fields": ["victim_type"]
   },
   {
     "id": "avatar_zombie_kills",
@@ -112,13 +112,20 @@
     "id": "moves_expand_pre_move_mode",
     "type": "event_transformation",
     "event_type": "avatar_moves",
-    "new_fields": { "swimming": { "is_swimming_terrain": "terrain" }, "mounted": { "is_mounted": "mount" } }
+    "new_fields": {
+      "swimming": { "is_swimming_terrain": "terrain" },
+      "mounted": { "is_mounted": "mount" }
+    }
   },
   {
     "id": "moves_walked",
     "type": "event_transformation",
     "event_transformation": "moves_expand_pre_move_mode",
-    "value_constraints": { "movement_mode": { "equals": "walk" }, "mounted": { "equals": false }, "swimming": { "equals": false } }
+    "value_constraints": {
+      "movement_mode": { "equals": "walk" },
+      "mounted": { "equals": false },
+      "swimming": { "equals": false }
+    }
   },
   {
     "id": "moves_mounted",
@@ -130,13 +137,21 @@
     "id": "moves_ran",
     "type": "event_transformation",
     "event_transformation": "moves_expand_pre_move_mode",
-    "value_constraints": { "movement_mode": { "equals": "run" }, "mounted": { "equals": false }, "swimming": { "equals": false } }
+    "value_constraints": {
+      "movement_mode": { "equals": "run" },
+      "mounted": { "equals": false },
+      "swimming": { "equals": false }
+    }
   },
   {
     "id": "moves_crouched",
     "type": "event_transformation",
     "event_transformation": "moves_expand_pre_move_mode",
-    "value_constraints": { "movement_mode": { "equals": "crouch" }, "mounted": { "equals": false }, "swimming": { "equals": false } }
+    "value_constraints": {
+      "movement_mode": { "equals": "crouch" },
+      "mounted": { "equals": false },
+      "swimming": { "equals": false }
+    }
   },
   {
     "id": "moves_swam",
@@ -240,7 +255,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "ALPHA" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_bear",
@@ -253,7 +268,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "URSINE" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_beast",
@@ -266,7 +281,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "BEAST" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_bird",
@@ -279,7 +294,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "BIRD" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_cattle",
@@ -292,7 +307,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "CATTLE" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_cephalopod",
@@ -305,7 +320,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "CEPHALOPOD" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_chimera",
@@ -318,7 +333,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "CHIMERA" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_feline",
@@ -331,7 +346,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "FELINE" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_fey",
@@ -344,7 +359,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "ELFA" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_fish",
@@ -357,7 +372,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "FISH" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_insect",
@@ -370,7 +385,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "INSECT" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_lizard",
@@ -383,7 +398,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "LIZARD" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_medical",
@@ -396,7 +411,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "MEDICAL" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_mouse",
@@ -409,7 +424,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "MOUSE" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_mycus",
@@ -422,7 +437,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mycus_threshold",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
-    "drop_fields": [ "character" ]
+    "drop_fields": ["character"]
   },
   {
     "id": "num_avatar_mutation_threshold_plant",
@@ -435,7 +450,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "PLANT" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_rat",
@@ -448,7 +463,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "RAT" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_raptor",
@@ -461,7 +476,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "RAPTOR" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_slime",
@@ -474,7 +489,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "SLIME" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_spider",
@@ -487,7 +502,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "SPIDER" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_troglobite",
@@ -500,7 +515,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "TROGLOBITE" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_avatar_mutation_threshold_wolf",
@@ -513,7 +528,7 @@
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "category": { "equals": "LUPINE" } },
-    "drop_fields": [ "category" ]
+    "drop_fields": ["category"]
   },
   {
     "id": "num_gains_archery",
@@ -526,8 +541,11 @@
     "id": "avatar_gains_archery",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "archery" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "archery" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_barter",
@@ -540,8 +558,11 @@
     "id": "avatar_gains_barter",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "barter" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "barter" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_bashing",
@@ -554,8 +575,11 @@
     "id": "avatar_gains_bashing",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "bashing" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "bashing" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_computer",
@@ -568,8 +592,11 @@
     "id": "avatar_gains_computer",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "computer" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "computer" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_cooking",
@@ -582,8 +609,11 @@
     "id": "avatar_gains_cooking",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "cooking" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "cooking" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_cutting",
@@ -596,8 +626,11 @@
     "id": "avatar_gains_cutting",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "cutting" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "cutting" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_dodge",
@@ -610,8 +643,11 @@
     "id": "avatar_gains_dodge",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "dodge" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "dodge" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_driving",
@@ -624,8 +660,11 @@
     "id": "avatar_gains_driving",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "driving" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "driving" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_electronics",
@@ -638,8 +677,11 @@
     "id": "avatar_gains_electronics",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "electronics" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "electronics" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_fabrication",
@@ -652,8 +694,11 @@
     "id": "avatar_gains_fabrication",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "fabrication" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "fabrication" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_firstaid",
@@ -666,8 +711,11 @@
     "id": "avatar_gains_firstaid",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "firstaid" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "firstaid" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_gun",
@@ -680,8 +728,11 @@
     "id": "avatar_gains_gun",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "gun" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "gun" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_launcher",
@@ -694,8 +745,11 @@
     "id": "avatar_gains_launcher",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "launcher" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "launcher" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_mechanics",
@@ -708,8 +762,11 @@
     "id": "avatar_gains_mechanics",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "mechanics" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "mechanics" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_melee",
@@ -722,8 +779,11 @@
     "id": "avatar_gains_melee",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "melee" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "melee" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_pistol",
@@ -736,8 +796,11 @@
     "id": "avatar_gains_pistol",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "pistol" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "pistol" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_rifle",
@@ -750,8 +813,11 @@
     "id": "avatar_gains_rifle",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "rifle" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "rifle" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_shotgun",
@@ -764,8 +830,11 @@
     "id": "avatar_gains_shotgun",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "shotgun" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "shotgun" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_smg",
@@ -778,8 +847,11 @@
     "id": "avatar_gains_smg",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "smg" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "smg" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_speech",
@@ -792,8 +864,11 @@
     "id": "avatar_gains_speech",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "speech" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "speech" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_stabbing",
@@ -806,8 +881,11 @@
     "id": "avatar_gains_stabbing",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "stabbing" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "stabbing" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_survival",
@@ -820,8 +898,11 @@
     "id": "avatar_gains_survival",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "survival" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "survival" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_swimming",
@@ -834,8 +915,11 @@
     "id": "avatar_gains_swimming",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "swimming" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "swimming" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_tailor",
@@ -848,8 +932,11 @@
     "id": "avatar_gains_tailor",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "tailor" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "tailor" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_throw",
@@ -862,8 +949,11 @@
     "id": "avatar_gains_throw",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "throw" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "throw" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_traps",
@@ -876,8 +966,11 @@
     "id": "avatar_gains_traps",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "traps" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "traps" }
+    },
+    "drop_fields": ["character", "skill"]
   },
   {
     "id": "num_gains_unarmed",
@@ -890,7 +983,10 @@
     "id": "avatar_gains_unarmed",
     "type": "event_transformation",
     "event_type": "gains_skill_level",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" }, "skill": { "equals": "unarmed" } },
-    "drop_fields": [ "character", "skill" ]
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": "unarmed" }
+    },
+    "drop_fields": ["character", "skill"]
   }
 ]

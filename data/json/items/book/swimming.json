@@ -8,7 +8,7 @@
     "volume": "250 ml",
     "price": 460,
     "price_postapoc": 250,
-    "material": [ "paper" ],
+    "material": ["paper"],
     "symbol": "?",
     "color": "pink",
     "skill": "swimming",
@@ -20,13 +20,16 @@
   {
     "id": "manual_swimming",
     "type": "BOOK",
-    "name": { "str": "Water Survival Training Field Manual", "str_pl": "copies of Water Survival Training Field Manual" },
+    "name": {
+      "str": "Water Survival Training Field Manual",
+      "str_pl": "copies of Water Survival Training Field Manual"
+    },
     "description": "A commercially produced survival guide that details swimming and deep water survival techniques tailored to emergency scenarios.",
     "weight": "400 g",
     "volume": "500 ml",
     "price": 2200,
     "price_postapoc": 750,
-    "material": [ "paper" ],
+    "material": ["paper"],
     "symbol": "?",
     "color": "green",
     "skill": "swimming",

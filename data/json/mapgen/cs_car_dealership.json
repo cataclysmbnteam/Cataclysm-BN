@@ -1,7 +1,7 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "cs_car_dealership" ],
+    "om_terrain": ["cs_car_dealership"],
     "method": "json",
     "weight": 1000,
     "object": {
@@ -64,10 +64,38 @@
         "v": "f_vending_c"
       },
       "place_vehicles": [
-        { "vehicle": "oa_vg_cd_vehicles", "x": 4, "y": 5, "rotation": 270, "chance": 70, "fuel": 0 },
-        { "vehicle": "oa_vg_cd_vehicles", "x": 11, "y": 5, "rotation": 270, "chance": 70, "fuel": 0 },
-        { "vehicle": "oa_vg_cd_vehicles", "x": 18, "y": 5, "rotation": 270, "chance": 70, "fuel": 0 },
-        { "vehicle": "oa_vg_cd_vehicles", "x": 18, "y": 15, "rotation": 270, "chance": 70, "fuel": 0 }
+        {
+          "vehicle": "oa_vg_cd_vehicles",
+          "x": 4,
+          "y": 5,
+          "rotation": 270,
+          "chance": 70,
+          "fuel": 0
+        },
+        {
+          "vehicle": "oa_vg_cd_vehicles",
+          "x": 11,
+          "y": 5,
+          "rotation": 270,
+          "chance": 70,
+          "fuel": 0
+        },
+        {
+          "vehicle": "oa_vg_cd_vehicles",
+          "x": 18,
+          "y": 5,
+          "rotation": 270,
+          "chance": 70,
+          "fuel": 0
+        },
+        {
+          "vehicle": "oa_vg_cd_vehicles",
+          "x": 18,
+          "y": 15,
+          "rotation": 270,
+          "chance": 70,
+          "fuel": 0
+        }
       ],
       "items": {
         "s": { "item": "oa_discarded_news", "chance": 20 },
@@ -80,15 +108,18 @@
         "v": { "item": "vending_drink_items", "chance": 80 }
       },
       "place_items": [
-        { "item": "oa_custom_trash", "chance": 60, "repeat": [ 0, 4 ], "x": 2, "y": 22 },
-        { "item": "oa_custom_trash", "chance": 60, "repeat": [ 0, 4 ], "x": 3, "y": 22 },
+        { "item": "oa_custom_trash", "chance": 60, "repeat": [0, 4], "x": 2, "y": 22 },
+        { "item": "oa_custom_trash", "chance": 60, "repeat": [0, 4], "x": 3, "y": 22 },
         { "item": "oa_ig_cd_fuel", "chance": 30, "x": 6, "y": 19 },
-        { "item": "fridgesnacks", "chance": 60, "repeat": [ 0, 6 ], "x": 4, "y": 16 },
-        { "item": "vending_food_items", "chance": 60, "repeat": [ 3, 6 ], "x": 7, "y": 13 },
-        { "item": "vending_drink_items", "chance": 60, "repeat": [ 3, 6 ], "x": 8, "y": 13 }
+        { "item": "fridgesnacks", "chance": 60, "repeat": [0, 6], "x": 4, "y": 16 },
+        { "item": "vending_food_items", "chance": 60, "repeat": [3, 6], "x": 7, "y": 13 },
+        { "item": "vending_drink_items", "chance": 60, "repeat": [3, 6], "x": 8, "y": 13 }
       ],
-      "add": [ { "item": "microwave", "x": 5, "y": 16, "chance": 2 }, { "item": "coffeemaker", "x": 6, "y": 16, "chance": 2 } ],
-      "toilets": { "T": {  } }
+      "add": [
+        { "item": "microwave", "x": 5, "y": 16, "chance": 2 },
+        { "item": "coffeemaker", "x": 6, "y": 16, "chance": 2 }
+      ],
+      "toilets": { "T": {} }
     }
   },
   {
@@ -133,7 +164,9 @@
         "5": "t_gutter_drop"
       },
       "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe", "A": "f_air_conditioner" },
-      "place_items": [ { "item": "roof_trash", "x": [ 4, 12 ], "y": [ 14, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+      "place_items": [
+        { "item": "roof_trash", "x": [4, 12], "y": [14, 19], "chance": 50, "repeat": [1, 3] }
+      ]
     }
   }
 ]

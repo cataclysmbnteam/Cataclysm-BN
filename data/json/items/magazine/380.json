@@ -15,7 +15,7 @@
     "ammo_type": "380",
     "capacity": 6,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "fn1910mag",
@@ -33,7 +33,7 @@
     "ammo_type": "380",
     "capacity": 6,
     "reliability": 6,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "rugerlcpmag",
@@ -51,7 +51,7 @@
     "ammo_type": "380",
     "capacity": 6,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "mac11mag",
@@ -69,7 +69,7 @@
     "ammo_type": "380",
     "capacity": 32,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "hptcf380mag_8rd",
@@ -87,7 +87,7 @@
     "ammo_type": "380",
     "capacity": 8,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "hptcf380mag_10rd",
@@ -105,7 +105,7 @@
     "ammo_type": "380",
     "capacity": 10,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "taurus_spectrum_mag",
@@ -123,6 +123,6 @@
     "ammo_type": "380",
     "capacity": 6,
     "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   }
 ]

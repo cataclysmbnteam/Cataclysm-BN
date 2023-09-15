@@ -56,7 +56,7 @@
       "v": "f_pinball_machine",
       "x": "f_pinball_machine",
       "y": "f_indoor_plant",
-      "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
+      "z": [["f_cardboard_box", 5], "f_crate_c"]
     },
     "terrain": {
       "#": "t_shrub",
@@ -146,7 +146,7 @@
       "z": "t_floor",
       "|": "t_brick_wall"
     },
-    "toilets": { "t": {  } }
+    "toilets": { "t": {} }
   },
   {
     "type": "palette",
@@ -193,11 +193,11 @@
       "n": "f_dishwasher",
       "r": "f_wood_keg",
       "s": "f_metal_butcher_rack",
-      "u": [ "f_vending_c", "f_vending_reinforced" ],
+      "u": ["f_vending_c", "f_vending_reinforced"],
       "v": "f_gun_safe_el",
       "w": "f_safe_l",
-      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
-      "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
+      "y": ["f_indoor_plant", "f_indoor_plant_y"],
+      "z": [["f_cardboard_box", 5], "f_crate_c"]
     },
     "terrain": {
       "Ŋ": "t_elevator_control_off",
@@ -216,9 +216,9 @@
       "H": "t_laminated_glass",
       "#": "t_glass_railing",
       "+": "t_laminated_door_glass_c",
-      "=": [ "t_door_c", "t_door_locked" ],
+      "=": ["t_door_c", "t_door_locked"],
       "p": "t_column",
-      "x": [ "t_machinery_light", "t_machinery_heavy", "t_machinery_old", "t_machinery_electronic" ],
+      "x": ["t_machinery_light", "t_machinery_heavy", "t_machinery_old", "t_machinery_electronic"],
       "2": "t_wall_g",
       "5": "t_wall_wood",
       "6": "t_carpet_red",
@@ -227,6 +227,6 @@
       "9": "t_carpet_yellow",
       "?": "t_console_broken"
     },
-    "toilets": { "t": {  } }
+    "toilets": { "t": {} }
   }
 ]

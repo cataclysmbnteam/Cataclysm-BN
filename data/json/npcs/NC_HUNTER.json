@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "NC_HUNTER_shirt",
     "subtype": "distribution",
-    "entries": [ { "item": "tshirt", "prob": 20 }, { "item": "tank_top", "prob": 20 } ]
+    "entries": [{ "item": "tshirt", "prob": 20 }, { "item": "tank_top", "prob": 20 }]
   },
   {
     "type": "item_group",
@@ -45,7 +45,7 @@
     "type": "item_group",
     "id": "NC_HUNTER_extra",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 5 }, { "item": "backpack_leather", "prob": 25 } ]
+    "entries": [{ "item": "null", "prob": 5 }, { "item": "backpack_leather", "prob": 25 }]
   },
   {
     "type": "item_group",

@@ -6,12 +6,16 @@
     "name": { "str": "seven league boots", "str_pl": "pairs of seven league boots" },
     "looks_like": "boots_hiking",
     "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement a lot less work.",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -30 } ] } ] },
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [{ "value": "MOVE_COST", "add": -30 }] }
+      ]
+    },
     "encumbrance": 8,
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": ["WATERPROOF", "STURDY"]
   },
   {
     "id": "mboots_haste",
@@ -22,15 +26,15 @@
     "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement a lot less work.",
     "relic_data": {
       "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -20 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 10 } ] }
+        { "has": "WORN", "condition": "ALWAYS", "values": [{ "value": "MOVE_COST", "add": -20 }] },
+        { "has": "WORN", "condition": "ALWAYS", "values": [{ "value": "SPEED", "add": 10 }] }
       ]
     },
     "encumbrance": 8,
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": ["WATERPROOF", "STURDY"]
   },
   {
     "id": "mboots_escape",
@@ -43,12 +47,18 @@
     "max_charges": 24,
     "charges_per_use": 24,
     "artifact_data": { "charge_type": "ARTC_TIME" },
-    "use_action": { "type": "cast_spell", "spell_id": "magus_escape", "no_fail": true, "level": 10, "need_worn": true },
+    "use_action": {
+      "type": "cast_spell",
+      "spell_id": "magus_escape",
+      "no_fail": true,
+      "level": 10,
+      "need_worn": true
+    },
     "encumbrance": 8,
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": ["WATERPROOF", "STURDY"]
   },
   {
     "id": "mboots_grounding",
@@ -61,7 +71,11 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -20 } ] } ] }
+    "flags": ["WATERPROOF", "STURDY"],
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [{ "value": "ARMOR_ELEC", "add": -20 }] }
+      ]
+    }
   }
 ]

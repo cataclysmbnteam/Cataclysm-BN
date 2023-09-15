@@ -41,14 +41,14 @@
     "type": "mapgen",
     "update_mapgen_id": "faction_base_workshop_0",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_0" ], "x": 15, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbml_0"], "x": 15, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmw_room0_wood",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wwwoww",
         ".....w",
@@ -57,21 +57,21 @@
         ".....w",
         ".....w"
       ],
-      "palettes": [ "fbmw_wood_palette" ]
+      "palettes": ["fbmw_wood_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room0_wood_northeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmw_room0_wood" ], "x": 15, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmw_room0_wood"], "x": 15, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmw_room3_wood",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "   wwo",
         "   wr.",
@@ -80,21 +80,21 @@
         "   wr.",
         "   wr."
       ],
-      "palettes": [ "fbmw_wood_palette" ]
+      "palettes": ["fbmw_wood_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room3_wood_north",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmw_room3_wood" ], "x": 9, "y": 3 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmw_room3_wood"], "x": 9, "y": 3 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmw_room4_wood",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         ".....d",
         "....xw",
@@ -103,21 +103,21 @@
         "....rw",
         "....rw"
       ],
-      "palettes": [ "fbmw_wood_palette" ]
+      "palettes": ["fbmw_wood_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room4_wood_east",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmw_room4_wood" ], "x": 15, "y": 9 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmw_room4_wood"], "x": 15, "y": 9 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmw_room5_wood",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "   wr.",
         "   wt.",
@@ -126,21 +126,21 @@
         "   o..",
         "   w.."
       ],
-      "palettes": [ "fbmw_wood_palette" ]
+      "palettes": ["fbmw_wood_palette"]
     }
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "fbmw_room5_wood_center",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmw_room5_wood" ], "x": 9, "y": 9 } ] }
+    "object": { "place_nested": [{ "chunks": ["fbmw_room5_wood"], "x": 9, "y": 9 }] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmw_room6_wood",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "www   ",
         "rkr   ",
@@ -149,7 +149,7 @@
         "...   ",
         "...   "
       ],
-      "palettes": [ "fbmw_wood_palette" ]
+      "palettes": ["fbmw_wood_palette"]
     }
   },
   {
@@ -157,7 +157,7 @@
     "update_mapgen_id": "fbmw_room6_wood_north",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbmw_room6_wood" ], "x": 9, "y": 3 } ],
+      "place_nested": [{ "chunks": ["fbmw_room6_wood"], "x": 9, "y": 3 }],
       "place_loot": [
         { "item": "tongs", "x": 19, "y": 5, "chance": 100 },
         { "item": "chisel", "x": 19, "y": 5, "chance": 100 },
@@ -171,7 +171,7 @@
     "method": "json",
     "nested_mapgen_id": "fbmw_room7_wood",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "   www",
         "   wrr",
@@ -180,7 +180,7 @@
         "   wr.",
         "   wr."
       ],
-      "palettes": [ "fbmw_wood_palette" ]
+      "palettes": ["fbmw_wood_palette"]
     }
   },
   {
@@ -188,7 +188,7 @@
     "method": "json",
     "nested_mapgen_id": "fbmw_room8_wood",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "   wwo",
         "     b",
@@ -197,7 +197,7 @@
         "      ",
         "      "
       ],
-      "palettes": [ "fbmw_wood_palette" ]
+      "palettes": ["fbmw_wood_palette"]
     }
   },
   {
@@ -205,7 +205,7 @@
     "method": "json",
     "nested_mapgen_id": "fbmw_room9_wood",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "wow   ",
         "bb    ",
@@ -214,7 +214,7 @@
         "      ",
         "      "
       ],
-      "palettes": [ "fbmw_wood_palette" ]
+      "palettes": ["fbmw_wood_palette"]
     }
   },
   {
@@ -223,9 +223,9 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbmw_room7_wood" ], "x": 3, "y": 3 },
-        { "chunks": [ "fbmw_room8_wood" ], "x": 3, "y": 9 },
-        { "chunks": [ "fbmw_room9_wood" ], "x": 9, "y": 9 }
+        { "chunks": ["fbmw_room7_wood"], "x": 3, "y": 3 },
+        { "chunks": ["fbmw_room8_wood"], "x": 3, "y": 9 },
+        { "chunks": ["fbmw_room9_wood"], "x": 9, "y": 9 }
       ]
     }
   },
@@ -234,7 +234,7 @@
     "method": "json",
     "nested_mapgen_id": "fbmw_room11_wood",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "....ww",
         ".....w",
@@ -243,7 +243,7 @@
         "......",
         ".....w"
       ],
-      "palettes": [ "fbmw_wood_palette" ]
+      "palettes": ["fbmw_wood_palette"]
     }
   },
   {
@@ -251,7 +251,7 @@
     "method": "json",
     "nested_mapgen_id": "fbmw_room12_wood",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [6, 6],
       "rows": [
         "   ww.",
         "   w..",
@@ -260,7 +260,7 @@
         "   ...",
         "   w.."
       ],
-      "palettes": [ "fbmw_wood_palette" ]
+      "palettes": ["fbmw_wood_palette"]
     }
   },
   {
@@ -268,9 +268,15 @@
     "update_mapgen_id": "fbmw_room11to12_wood_southeast",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbmw_room11_wood" ], "x": 15, "y": 15 }, { "chunks": [ "fbmw_room12_wood" ], "x": 9, "y": 15 } ],
-      "place_loot": [ { "item": "wrench", "x": 19, "y": 7, "chance": 100 }, { "item": "pliers", "x": 19, "y": 7, "chance": 100 } ],
-      "set": [ { "point": "furniture", "id": "f_drophammer", "x": 19, "y": 12 } ]
+      "place_nested": [
+        { "chunks": ["fbmw_room11_wood"], "x": 15, "y": 15 },
+        { "chunks": ["fbmw_room12_wood"], "x": 9, "y": 15 }
+      ],
+      "place_loot": [
+        { "item": "wrench", "x": 19, "y": 7, "chance": 100 },
+        { "item": "pliers", "x": 19, "y": 7, "chance": 100 }
+      ],
+      "set": [{ "point": "furniture", "id": "f_drophammer", "x": 19, "y": 12 }]
     }
   }
 ]

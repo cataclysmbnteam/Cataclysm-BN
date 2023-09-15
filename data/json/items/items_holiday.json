@@ -16,7 +16,7 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
+    "ammo": ["battery"],
     "use_action": {
       "target": "plastic_jack_o_lantern_lit",
       "msg": "You light the candle in the jack o'lantern.",
@@ -49,7 +49,7 @@
       "msg": "The candle winks out inside the lantern.",
       "menu_text": "Extinguish"
     },
-    "flags": [ "LIGHT_6", "TRADER_AVOID" ]
+    "flags": ["LIGHT_6", "TRADER_AVOID"]
   },
   {
     "id": "decorative_wreath",

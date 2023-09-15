@@ -11,7 +11,7 @@
     "price": 310000,
     "price_postapoc": 2250,
     "bashing": 8,
-    "material": [ "superalloy", "ceramic" ],
+    "material": ["superalloy", "ceramic"],
     "color": "dark_gray",
     "ammo": "20x66mm",
     "range": 6,
@@ -21,17 +21,17 @@
     "clip_size": 5,
     "barrel_length": "750 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 4],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
-    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "PUMP_ACTION" ]
+    "flags": ["RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "PUMP_ACTION"]
   },
   {
     "id": "rm20",
@@ -44,26 +44,26 @@
     "price": 1320000,
     "price_postapoc": 10000,
     "bashing": 11,
-    "material": [ "superalloy", "ceramic" ],
+    "material": ["superalloy", "ceramic"],
     "color": "dark_gray",
     "ammo": "20x66mm",
     "dispersion": 335,
     "durability": 9,
-    "modes": [ [ "DEFAULT", "semi", 1 ], [ "AUTO", "auto", 2 ] ],
+    "modes": [["DEFAULT", "semi", 1], ["AUTO", "auto", 2]],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      ["accessories", 4],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["muzzle", 1],
+      ["rail", 1],
+      ["sights", 1],
+      ["sling", 1],
+      ["stock", 1],
+      ["underbarrel", 1]
     ],
     "magazine_well": "500 ml",
-    "magazines": [ [ "20x66mm", [ "20x66_20_mag", "20x66_40_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "magazines": [["20x66mm", ["20x66_20_mag", "20x66_40_mag"]]],
+    "flags": ["WATERPROOF_GUN", "NEVER_JAMS"]
   },
   {
     "id": "rm228",
@@ -77,24 +77,24 @@
     "price_postapoc": 10000,
     "to_hit": -2,
     "bashing": 6,
-    "material": [ "superalloy", "ceramic" ],
+    "material": ["superalloy", "ceramic"],
     "color": "dark_gray",
     "ammo": "20x66mm",
     "skill": "pistol",
     "dispersion": 400,
     "durability": 9,
-    "default_mods": [ "pistol_stock" ],
+    "default_mods": ["pistol_stock"],
     "handling": 15,
     "valid_mod_locations": [
-      [ "accessories", 3 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 3],
+      ["grip", 1],
+      ["mechanism", 4],
+      ["rail", 1],
+      ["sights", 1],
+      ["stock", 1],
+      ["underbarrel mount", 1]
     ],
-    "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "magazines": [["20x66mm", ["20x66_10_mag"]]],
+    "flags": ["WATERPROOF_GUN", "NEVER_JAMS"]
   }
 ]

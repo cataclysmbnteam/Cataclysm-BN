@@ -5,7 +5,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_basement_palette" ],
+      "palettes": ["standard_domestic_palette", "standard_domestic_basement_palette"],
       "fill_ter": "t_thconc_floor",
       "rows": [
         "^^^^^^^^^^^^^^^^^^^^^^^^",
@@ -71,7 +71,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": ["standard_domestic_palette", "standard_domestic_lino_bathroom"],
       "fill_ter": "t_floor_waxed",
       "rows": [
         ".0000000.p..............",
@@ -100,7 +100,7 @@
         "........................"
       ],
       "terrain": {
-        ",": [ "t_shrub", "t_shrub", "t_shrub_strawberry", "t_shrub_blueberry" ],
+        ",": ["t_shrub", "t_shrub", "t_shrub_strawberry", "t_shrub_blueberry"],
         "%": [
           "t_tree",
           "t_tree_pine",
@@ -125,7 +125,7 @@
         "$": "t_floor_noroof"
       },
       "furniture": { "!": "f_table", "$": "f_table" },
-      "place_loot": [ { "item": "television", "x": 15, "y": 2 } ]
+      "place_loot": [{ "item": "television", "x": 15, "y": 2 }]
     }
   },
   {
@@ -134,7 +134,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
+      "palettes": ["standard_domestic_palette", "standard_domestic_lino_bathroom"],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "........................",
@@ -164,7 +164,10 @@
       ],
       "terrain": { ".": "t_open_air", "|": "t_strconc_wall", "_": "t_linoleum_gray" },
       "furniture": { "!": "f_table", "$": "f_clothing_rail" },
-      "items": { "!": { "item": "nightstand", "chance": 30 }, "$": { "item": "clothing_outdoor_shoes", "chance": 30 } }
+      "items": {
+        "!": { "item": "nightstand", "chance": 30 },
+        "$": { "item": "clothing_outdoor_shoes", "chance": 30 }
+      }
     }
   },
   {
@@ -173,7 +176,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "fill_ter": "t_open_air",
       "rows": [
         "                        ",

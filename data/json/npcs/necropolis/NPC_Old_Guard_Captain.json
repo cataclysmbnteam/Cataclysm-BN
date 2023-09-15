@@ -35,7 +35,12 @@
         "topic": "TALK_OLD_GUARD_NEC_CPT_REPORT",
         "condition": {
           "and": [
-            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" },
+            {
+              "u_has_var": "npc_necro_gave_clearance",
+              "value": "yes",
+              "type": "dialogue",
+              "context": "necropolis"
+            },
             { "u_has_mission": "MISSION_OLD_GUARD_REP_5" },
             { "not": { "u_has_item": "necropolis_datasheet" } }
           ]
@@ -44,24 +49,39 @@
       {
         "text": "What are you doing down here?",
         "topic": "TALK_OLD_GUARD_NEC_CPT_GOAL",
-        "condition": { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+        "condition": {
+          "u_has_var": "npc_necro_gave_clearance",
+          "value": "yes",
+          "type": "dialogue",
+          "context": "necropolis"
+        }
       },
       {
         "text": "Can you tell me about this facility?",
         "topic": "TALK_OLD_GUARD_NEC_CPT_VAULT",
-        "condition": { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+        "condition": {
+          "u_has_var": "npc_necro_gave_clearance",
+          "value": "yes",
+          "type": "dialogue",
+          "context": "necropolis"
+        }
       },
       {
         "text": "What do you need done?",
         "topic": "TALK_MISSION_LIST",
         "switch": true,
-        "condition": { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+        "condition": {
+          "u_has_var": "npc_necro_gave_clearance",
+          "value": "yes",
+          "type": "dialogue",
+          "context": "necropolis"
+        }
       },
       {
         "text": "I've had experience with Old Guard matters before, I can help.",
         "topic": "TALK_OLD_GUARD_NEC_CPT_MARSHAL",
         "switch": true,
-        "condition": { "or": [ { "u_is_wearing": "badge_marshal" }, { "u_has_trait": "PROF_FED" } ] }
+        "condition": { "or": [{ "u_is_wearing": "badge_marshal" }, { "u_has_trait": "PROF_FED" }] }
       },
       {
         "text": "This seems like a military matter to me, I'm here to assist.",
@@ -75,7 +95,12 @@
         "condition": {
           "and": [
             "has_assigned_mission",
-            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+            {
+              "u_has_var": "npc_necro_gave_clearance",
+              "value": "yes",
+              "type": "dialogue",
+              "context": "necropolis"
+            }
           ]
         }
       },
@@ -85,7 +110,12 @@
         "condition": {
           "and": [
             "has_many_assigned_missions",
-            { "u_has_var": "npc_necro_gave_clearance", "value": "yes", "type": "dialogue", "context": "necropolis" }
+            {
+              "u_has_var": "npc_necro_gave_clearance",
+              "value": "yes",
+              "type": "dialogue",
+              "context": "necropolis"
+            }
           ]
         }
       },
@@ -100,34 +130,56 @@
       "yes": "We can use all the help we can get.  I'll send word out to the others that you're cleared to be here, but be careful.  There are still some hotspots contaminated with radiation in this sector, and the lower level is in even worse shape.",
       "no": "I was expecting someone wearing their badge, but alright.  I'll give you clearance but try to be careful down here.  I don't want over-eager civilian contractors, or whatever you may be, getting themselves killed just for our sake."
     },
-    "speaker_effect": { "effect": { "u_add_var": "npc_necro_gave_clearance", "type": "dialogue", "context": "necropolis", "value": "yes" } },
-    "responses": [ { "text": "I'll do what I can.", "topic": "TALK_OLD_GUARD_NEC_CPT" } ]
+    "speaker_effect": {
+      "effect": {
+        "u_add_var": "npc_necro_gave_clearance",
+        "type": "dialogue",
+        "context": "necropolis",
+        "value": "yes"
+      }
+    },
+    "responses": [{ "text": "I'll do what I can.", "topic": "TALK_OLD_GUARD_NEC_CPT" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_NEC_CPT_MILITARY",
     "dynamic_line": "Not like I could look up personnel records from down here.  Our team in the comms center might be able to uplink with some old registries but then I'd have to give you clearance to go wandering around down here anyway.  I'll take your word for it but watch yourself down here, this place is dangerous.",
-    "speaker_effect": { "effect": { "u_add_var": "npc_necro_gave_clearance", "type": "dialogue", "context": "necropolis", "value": "yes" } },
-    "responses": [ { "text": "Understood.", "topic": "TALK_OLD_GUARD_NEC_CPT" } ]
+    "speaker_effect": {
+      "effect": {
+        "u_add_var": "npc_necro_gave_clearance",
+        "type": "dialogue",
+        "context": "necropolis",
+        "value": "yes"
+      }
+    },
+    "responses": [{ "text": "Understood.", "topic": "TALK_OLD_GUARD_NEC_CPT" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_NEC_CPT_REPORT",
     "dynamic_line": "Alright, I've got a sitrep written out.  As helpful as it'd be to have you here, getting this back to the others could also help get us reinforcements somewhere down the line.  Not a lot of this place is operational anymore, but we're expecting comms to provide a link to other assets in the region if we can get it in full working order.",
     "speaker_effect": { "effect": { "u_buy_item": "necropolis_datasheet" } },
-    "responses": [ { "text": "Thank you.", "topic": "TALK_NONE" }, { "text": "Thank you, that's all for now.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Thank you.", "topic": "TALK_NONE" },
+      { "text": "Thank you, that's all for now.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_NEC_CPT_GOAL",
     "dynamic_line": "I'm leading what remains of my company on a mission to re-secure this facility.  We entered the complex with two dozen men and immediately went about securing this control room.  From here I dispatched my men to secure vital systems located on this floor and the floors below this one.  If we are successful, this facility can be cleared and used as a permanent base of operations in the region.  Most importantly it will allow us to redirect refugee traffic away from overcrowded outposts and free up more of our forces to conduct recovery operations.",
-    "responses": [ { "text": "Seems like a decent plan…", "topic": "TALK_NONE" } ]
+    "responses": [{ "text": "Seems like a decent plan…", "topic": "TALK_NONE" }]
   },
   {
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_NEC_CPT_VAULT",
     "dynamic_line": "This facility was constructed to provide a safe haven in the event of a global conflict.  The vault can support several thousand people for a few years if all systems are operational and sufficient notification is given.  Unfortunately, the power system was damaged or sabotaged at some point and released a single extremely lethal burst of radiation.  The catastrophic event lasted for several minutes and resulted in the deaths of most people located on the 2nd and lower floors.  Those working on this floor were able to seal the access ways to the lower floors before succumbing to radiation sickness.  The only other thing the logs tell us is that all water pressure was diverted to the lower levels.",
-    "responses": [ { "text": "Whatever they did it must have worked since we are still alive…", "topic": "TALK_NONE" } ]
+    "responses": [
+      {
+        "text": "Whatever they did it must have worked since we are still alive…",
+        "topic": "TALK_NONE"
+      }
+    ]
   },
   {
     "id": "MISSION_OLD_GUARD_NEC_1",
@@ -137,7 +189,7 @@
     "difficulty": 2,
     "value": 250000,
     "item": "necropolis_freq",
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "followup": "MISSION_OLD_GUARD_NEC_2",
     "dialogue": {
       "describe": "We need help…",
@@ -160,10 +212,15 @@
     "value": 250000,
     "monster_type": "mon_charred_nightmare",
     "start": {
-      "assign_mission_target": { "om_terrain": "necropolis_c_44", "om_special": "Necropolis", "z": -2, "search_range": 360 }
+      "assign_mission_target": {
+        "om_terrain": "necropolis_c_44",
+        "om_special": "Necropolis",
+        "z": -2,
+        "search_range": 360
+      }
     },
     "monster_kill_goal": 20,
-    "origins": [ "ORIGIN_SECONDARY" ],
+    "origins": ["ORIGIN_SECONDARY"],
     "dialogue": {
       "describe": "We need help…",
       "offer": "Your assistance is greatly appreciated, we need to clear out the more ruthless monsters that are wandering up from the lower levels.  If you could cull twenty or so of what we refer to as 'nightmares' my men would be much safer.  If you've cleared out most of this floor then the lower levels should be your next target. ",

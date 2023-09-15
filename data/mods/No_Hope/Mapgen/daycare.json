@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_daycare" ],
+    "om_terrain": ["s_daycare"],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -34,17 +34,23 @@
       ],
       "terrain": {
         " ": "t_floor",
-        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "+": [
+          ["t_door_b", 20],
+          ["t_door_frame", 10],
+          ["t_door_o", 70],
+          ["t_door_c", 5],
+          ["t_door_locked_interior", 3]
+        ],
         "-": "t_wall_y",
-        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
+        ".": [["t_grass", 5], ["t_grass_long", 2], "t_dirt"],
         "1": [
-          [ "t_window_frame", 70 ],
-          [ "t_window_empty", 20 ],
-          [ "t_window_domestic", 5 ],
+          ["t_window_frame", 70],
+          ["t_window_empty", 20],
+          ["t_window_domestic", 5],
           "t_window_no_curtains",
           "t_window_open",
           "t_window_no_curtains_open",
-          [ "t_curtains", 5 ]
+          ["t_curtains", 5]
         ],
         "2": "t_sidewalk",
         "3": "t_tree_young",
@@ -82,24 +88,27 @@
         "J": "f_oven",
         "K": "f_sofa",
         "B": "f_bookcase",
-        "X": [ "f_indoor_plant", "f_indoor_plant_y" ]
+        "X": ["f_indoor_plant", "f_indoor_plant_y"]
       },
-      "toilets": { "&": {  } },
+      "toilets": { "&": {} },
       "items": {
         "B": { "item": "novels", "chance": 30 },
         "#": { "item": "child_items", "chance": 30 },
-        "f": { "item": "fridgesnacks", "chance": 20, "repeat": [ 2, 4 ] }
+        "f": { "item": "fridgesnacks", "chance": 20, "repeat": [2, 4] }
       },
       "place_items": [
-        { "item": "daycare_misc", "x": [ 3, 7 ], "y": [ 12, 16 ], "chance": 35, "repeat": [ 1, 5 ] },
-        { "item": "daycare_kitchen", "x": 21, "y": [ 20, 21 ], "chance": 80, "repeat": [ 1, 5 ] }
+        { "item": "daycare_misc", "x": [3, 7], "y": [12, 16], "chance": 35, "repeat": [1, 5] },
+        { "item": "daycare_kitchen", "x": 21, "y": [20, 21], "chance": 80, "repeat": [1, 5] }
       ],
       "place_monsters": [
-        { "monster": "GROUP_MAYBE_ZOMBIE", "x": [ 13, 20 ], "y": 19 },
-        { "monster": "GROUP_SCHOOL", "x": [ 3, 7 ], "y": [ 12, 16 ] },
-        { "monster": "GROUP_SCHOOL", "x": [ 3, 10 ], "y": [ 4, 8 ] }
+        { "monster": "GROUP_MAYBE_ZOMBIE", "x": [13, 20], "y": 19 },
+        { "monster": "GROUP_SCHOOL", "x": [3, 7], "y": [12, 16] },
+        { "monster": "GROUP_SCHOOL", "x": [3, 10], "y": [4, 8] }
       ],
-      "place_vehicles": [ { "vehicle": "tricycle", "x": 12, "y": 17, "chance": 5 }, { "vehicle": "tricycle", "x": 2, "y": 10, "chance": 15 } ]
+      "place_vehicles": [
+        { "vehicle": "tricycle", "x": 12, "y": 17, "chance": 5 },
+        { "vehicle": "tricycle", "x": 2, "y": 10, "chance": 15 }
+      ]
     }
   },
   {
@@ -134,19 +143,19 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "roof_palette" ],
+      "palettes": ["roof_palette"],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 20 ],
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 20 ],
-            [ "roof_2x2_utilities", 20 ],
-            [ "roof_4x4_utility", 20 ]
+            ["null", 20],
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 20],
+            ["roof_2x2_utilities", 20],
+            ["roof_4x4_utility", 20]
           ],
-          "x": [ 3, 15 ],
-          "y": [ 11, 17 ]
+          "x": [3, 15],
+          "y": [11, 17]
         }
       ]
     }

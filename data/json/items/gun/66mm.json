@@ -15,13 +15,13 @@
     "barrel_length": "500 ml",
     "dispersion": 300,
     "durability": 7,
-    "modes": [ [ "DEFAULT", "single shot", 1, "NPC_AVOID" ], [ "BURST", "all barrels", 4, "NPC_AVOID" ] ],
-    "magazines": [ [ "m235", [ "m74_clip" ] ] ],
+    "modes": [["DEFAULT", "single shot", 1, "NPC_AVOID"], ["BURST", "all barrels", 4, "NPC_AVOID"]],
+    "magazines": [["m235", ["m74_clip"]]],
     "reload": 600,
     "loudness": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "sling", 1 ] ],
-    "flags": [ "BACKBLAST", "NEVER_JAMS", "PYROMANIAC_WEAPON" ],
-    "faults": [  ]
+    "valid_mod_locations": [["accessories", 4], ["barrel", 1], ["grip", 1], ["sling", 1]],
+    "flags": ["BACKBLAST", "NEVER_JAMS", "PYROMANIAC_WEAPON"],
+    "faults": []
   },
   {
     "id": "LAW",
@@ -33,7 +33,7 @@
     "price": 200000,
     "//": "A tube with a lever.  Unsurprisingly, dirt cheap (at least for a rocket launcher).",
     "material": "aluminum",
-    "extend": { "flags": [ "NO_RELOAD", "NO_UNLOAD", "BACKBLAST", "TRADER_AVOID" ] },
+    "extend": { "flags": ["NO_RELOAD", "NO_UNLOAD", "BACKBLAST", "TRADER_AVOID"] },
     "ammo": "66mm",
     "weight": "700 g",
     "volume": "2500 ml",
@@ -44,12 +44,12 @@
     "clip_size": 1,
     "reload": 150,
     "valid_mod_locations": [
-      [ "accessories", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      ["accessories", 1],
+      ["sling", 1],
+      ["grip mount", 1],
+      ["rail mount", 1],
+      ["sights mount", 1],
+      ["underbarrel mount", 1]
     ]
   }
 ]

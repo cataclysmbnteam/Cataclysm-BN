@@ -3,10 +3,10 @@
     "type": "MOD_INFO",
     "id": "modular_turrets",
     "name": "Modular Turrets",
-    "authors": [ "Sunshine" ],
+    "authors": ["Sunshine"],
     "description": "Gives turrets swappable firearm modules, which can be reclaimed from broken robots.",
     "category": "creatures",
-    "dependencies": [ "bn" ],
+    "dependencies": ["bn"],
     "obsolete": true
   }
 ]

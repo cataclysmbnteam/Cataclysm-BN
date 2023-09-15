@@ -11,7 +11,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_1" ],
+    "om_terrain": ["urban_35_1"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -41,8 +41,8 @@
         "lg  |    CSSCCC6CCC|  | ",
         "lg  v         h    v  v "
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         " ": { "item": "hospital_lab", "chance": 1 },
         "C": { "item": "hospital_lab", "chance": 30 },
@@ -51,13 +51,13 @@
         "r": { "item": "hospital_lab", "chance": 60 },
         "u": { "item": "hospital_lab", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.6 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [5, 22], "density": 0.6 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_2" ],
+    "om_terrain": ["urban_35_2"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -87,7 +87,7 @@
         "                   cl%%%",
         "                   cl%%%"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
+      "palettes": ["acidia_commercial_palette"],
       "items": {
         " ": { "item": "hospital_lab", "chance": 1 },
         "c": { "item": "dissection", "chance": 30 },
@@ -97,15 +97,15 @@
         "u": { "item": "hospital_lab", "chance": 40 }
       },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 7 ], "y": [ 5, 22 ], "density": 0.6 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 8, 18 ], "y": [ 17, 22 ], "density": 0.8 }
+        { "monster": "GROUP_ZOMBIE", "x": [1, 7], "y": [5, 22], "density": 0.6 },
+        { "monster": "GROUP_ZOMBIE", "x": [8, 18], "y": [17, 22], "density": 0.8 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_3" ],
+    "om_terrain": ["urban_35_3"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -135,7 +135,7 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
+      "palettes": ["acidia_commercial_palette"],
       "items": {
         " ": { "item": "hospital_lab", "chance": 1 },
         "C": { "item": "hospital_lab", "chance": 30 },
@@ -143,13 +143,13 @@
         "g": { "item": "virology_lab_fridge", "chance": 60 },
         "r": { "item": "hospital_lab", "chance": 60 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 7 ], "density": 0.5 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 7], "density": 0.5 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_4" ],
+    "om_terrain": ["urban_35_4"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -179,19 +179,19 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
+      "palettes": ["acidia_commercial_palette"],
       "items": {
         " ": { "item": "hospital_lab", "chance": 1 },
         "O": { "item": "dissection", "chance": 60 },
         "t": { "item": "dissection", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 18 ], "y": [ 1, 6 ], "density": 0.6 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 18], "y": [1, 6], "density": 0.6 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_5" ],
+    "om_terrain": ["urban_35_5"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -221,8 +221,8 @@
         "lbbb  |        J        ",
         "l-----|  |-----|--++---|"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         "(": { "item": "waitingroom", "chance": 30 },
         "C": { "item": "office", "chance": 30 },
@@ -233,13 +233,13 @@
         "t": { "item": "surgery", "chance": 30 },
         "u": { "item": "ambulance_equipment", "chance": 60 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 22], "density": 0.6 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_6" ],
+    "om_terrain": ["urban_35_6"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -269,20 +269,20 @@
         "                    l#;;",
         "---++--|  |--+--|-+-l#;;"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
+      "palettes": ["acidia_commercial_palette"],
       "items": {
         "(": { "item": "waitingroom", "chance": 30 },
         "C": { "item": "surgery", "chance": 30 },
         "t": { "item": "surgery", "chance": 30 },
         "u": { "item": "ambulance_equipment", "chance": 60 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 22], "density": 0.6 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_7" ],
+    "om_terrain": ["urban_35_7"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -312,8 +312,8 @@
         ";;;;________________,;;;",
         ";;;;________________,;;;"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         "C": { "item": "surgery", "chance": 30 },
         "L": { "item": "cleaning", "chance": 60 },
@@ -321,14 +321,16 @@
         "r": { "item": "hospital_bed", "chance": 50 },
         "u": { "item": "ambulance_equipment", "chance": 60 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 } ],
-      "place_vehicles": [ { "vehicle": "ambulance", "x": 15, "y": 15, "chance": 180, "rotation": 180 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 22], "density": 0.6 }],
+      "place_vehicles": [
+        { "vehicle": "ambulance", "x": 15, "y": 15, "chance": 180, "rotation": 180 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_8" ],
+    "om_terrain": ["urban_35_8"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -358,7 +360,7 @@
         ";;;,________________;;;;",
         ";;;,________________;;;;"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
+      "palettes": ["acidia_commercial_palette"],
       "terrain": { "?": "t_linoleum_white" },
       "items": {
         "?": { "item": "vending_drink", "chance": 40 },
@@ -368,14 +370,14 @@
         "t": { "item": "surgery", "chance": 30 },
         "u": { "item": "ambulance_equipment", "chance": 60 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 } ],
-      "place_vehicles": [ { "vehicle": "ambulance", "x": 5, "y": 14, "chance": 90, "rotation": 180 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 22], "density": 0.6 }],
+      "place_vehicles": [{ "vehicle": "ambulance", "x": 5, "y": 14, "chance": 90, "rotation": 180 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_9" ],
+    "om_terrain": ["urban_35_9"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -405,9 +407,9 @@
         "lbbb  |                 ",
         "l-----|  |-----|----+--|"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
+      "palettes": ["acidia_commercial_palette"],
       "terrain": { "?": "t_linoleum_white" },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "items": {
         "?": { "item": "vending_drink", "chance": 70 },
         "@": { "item": "waitingroom", "chance": 30 },
@@ -418,13 +420,13 @@
         "e": { "item": "hospital_bed", "chance": 50 },
         "r": { "item": "hospital_bed", "chance": 50 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [5, 22], "density": 0.5 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_10" ],
+    "om_terrain": ["urban_35_10"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -454,21 +456,21 @@
         "   |T2s|   bbe  ebb l...",
         "   |S2s|   bb    bb v..."
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         "O": { "item": "harddrugs", "chance": 70 },
         "b": { "item": "bed", "chance": 60 },
         "c": { "item": "livingroom", "chance": 20 },
         "e": { "item": "hospital_bed", "chance": 50 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 16, 22 ], "density": 0.5 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 19], "y": [16, 22], "density": 0.5 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_11" ],
+    "om_terrain": ["urban_35_11"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -498,8 +500,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         "L": { "item": "cleaning", "chance": 70 },
         "b": { "item": "bed", "chance": 60 },
@@ -507,13 +509,13 @@
         "e": { "item": "hospital_bed", "chance": 50 },
         "r": { "item": "hospital_bed", "chance": 50 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 7 ], "density": 0.5 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 7], "density": 0.5 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_12" ],
+    "om_terrain": ["urban_35_12"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -543,20 +545,20 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         "b": { "item": "bed", "chance": 60 },
         "c": { "item": "livingroom", "chance": 20 },
         "e": { "item": "hospital_bed", "chance": 50 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 1, 7 ], "density": 0.5 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 19], "y": [1, 7], "density": 0.5 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_13" ],
+    "om_terrain": ["urban_35_13"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -586,8 +588,8 @@
         "lbbb  |                 ",
         "l-----|  |-----|----+--|"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         "C": { "item": "surgery", "chance": 30 },
         "L": { "item": "cleaning", "chance": 70 },
@@ -598,15 +600,15 @@
         "u": { "item": "ambulance_equipment", "chance": 60 }
       },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 },
-        { "monster": "GROUP_HOSPITAL_INCUBATOR", "x": [ 19, 22 ], "y": [ 5, 11 ], "density": 0.5 }
+        { "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [5, 22], "density": 0.5 },
+        { "monster": "GROUP_HOSPITAL_INCUBATOR", "x": [19, 22], "y": [5, 11], "density": 0.5 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_14" ],
+    "om_terrain": ["urban_35_14"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -636,8 +638,8 @@
         "   |T2s|   bbe  ebb l...",
         "   |S2s|   bb    bb v..."
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         "C": { "item": "hospital_incubator", "chance": 30 },
         "L": { "item": "cleaning", "chance": 70 },
@@ -649,15 +651,15 @@
         "u": { "item": "ambulance_equipment", "chance": 60 }
       },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 16, 22 ], "density": 0.5 },
-        { "monster": "GROUP_HOSPITAL_INCUBATOR", "x": [ 1, 6 ], "y": [ 5, 14 ], "density": 0.5 }
+        { "monster": "GROUP_ZOMBIE", "x": [1, 19], "y": [16, 22], "density": 0.5 },
+        { "monster": "GROUP_HOSPITAL_INCUBATOR", "x": [1, 6], "y": [5, 14], "density": 0.5 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_15" ],
+    "om_terrain": ["urban_35_15"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -687,8 +689,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         "L": { "item": "cleaning", "chance": 70 },
         "b": { "item": "bed", "chance": 60 },
@@ -696,13 +698,13 @@
         "e": { "item": "hospital_bed", "chance": 50 },
         "r": { "item": "hospital_bed", "chance": 50 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 7 ], "density": 0.5 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 7], "density": 0.5 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_16" ],
+    "om_terrain": ["urban_35_16"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -732,20 +734,20 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "toilets": { "T": {  } },
+      "palettes": ["acidia_commercial_palette"],
+      "toilets": { "T": {} },
       "items": {
         "b": { "item": "bed", "chance": 60 },
         "c": { "item": "livingroom", "chance": 20 },
         "e": { "item": "hospital_bed", "chance": 50 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 1, 7 ], "density": 0.5 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 19], "y": [1, 7], "density": 0.5 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_17" ],
+    "om_terrain": ["urban_35_17"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -775,9 +777,9 @@
         "l htth  htth  htth     v",
         "l                      l"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
+      "palettes": ["acidia_commercial_palette"],
       "terrain": { "?": "t_linoleum_white" },
-      "toilets": { "T": {  } },
+      "toilets": { "T": {} },
       "items": {
         "?": { "item": "vending_drink", "chance": 70 },
         "A": { "item": "magazines", "chance": 15 },
@@ -788,13 +790,13 @@
         "r": { "item": "kitchen", "chance": 60 },
         "t": { "item": "office_breakroom", "chance": 15 }
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 } ]
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [5, 22], "density": 0.5 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_18" ],
+    "om_terrain": ["urban_35_18"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -824,7 +826,7 @@
         "RRRRR;;;RRRR;;;RRRRR8...",
         "RRRRR;;;;;;;;;;RRRRR8..."
       ],
-      "palettes": [ "acidia_commercial_palette" ],
+      "palettes": ["acidia_commercial_palette"],
       "items": {
         "C": { "item": "kitchen", "chance": 25 },
         "c": { "item": "dining", "chance": 25 },
@@ -833,15 +835,15 @@
         "r": { "item": "cannedfood", "chance": 60 }
       },
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 16, 22 ], "density": 0.1 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 6 ], "y": [ 5, 14 ], "density": 0.3 }
+        { "monster": "GROUP_ZOMBIE", "x": [1, 19], "y": [16, 22], "density": 0.1 },
+        { "monster": "GROUP_ZOMBIE", "x": [1, 6], "y": [5, 14], "density": 0.3 }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_19" ],
+    "om_terrain": ["urban_35_19"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -871,16 +873,19 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "toilets": { "T": {  } },
-      "items": { "L": { "item": "cleaning", "chance": 70 }, "t": { "item": "office_breakroom", "chance": 15 } },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 7 ], "density": 0.5 } ]
+      "palettes": ["acidia_commercial_palette"],
+      "toilets": { "T": {} },
+      "items": {
+        "L": { "item": "cleaning", "chance": 70 },
+        "t": { "item": "office_breakroom", "chance": 15 }
+      },
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 22], "y": [1, 7], "density": 0.5 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_20" ],
+    "om_terrain": ["urban_35_20"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -910,14 +915,14 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 1, 7 ], "density": 0.1 } ]
+      "palettes": ["acidia_commercial_palette"],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [1, 19], "y": [1, 7], "density": 0.1 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_21" ],
+    "om_terrain": ["urban_35_21"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -947,14 +952,14 @@
         "8RRRRRRRRRRRRRRRRRRRRRR8",
         "8RRRRRRRRRRRRRRRRRRRRRR8"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 5, 20 ], "density": 0.06 } ]
+      "palettes": ["acidia_commercial_palette"],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [3, 20], "y": [5, 20], "density": 0.06 }]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_22" ],
+    "om_terrain": ["urban_35_22"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -984,13 +989,13 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_commercial_palette" ]
+      "palettes": ["acidia_commercial_palette"]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "urban_35_23" ],
+    "om_terrain": ["urban_35_23"],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -1020,8 +1025,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "acidia_commercial_palette" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 1, 6 ], "density": 0.06 } ]
+      "palettes": ["acidia_commercial_palette"],
+      "place_monsters": [{ "monster": "GROUP_ZOMBIE", "x": [3, 20], "y": [1, 6], "density": 0.06 }]
     }
   }
 ]

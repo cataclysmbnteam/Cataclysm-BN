@@ -7,39 +7,51 @@
       "file": "ASCIITiles.png",
       "transparency": { "R": 0, "G": 0, "B": 0 },
       "tiles": [
-        { "id": [ "!nothing", "tr_ledge" ], "fg": 0, "rotates": false },
+        { "id": ["!nothing", "tr_ledge"], "fg": 0, "rotates": false },
         { "id": "lighting_boomered_light", "fg": 1, "rotates": false },
         { "id": "lighting_boomered_dark", "fg": 2, "rotates": false },
         { "id": "lighting_lowlight_light", "fg": 3, "rotates": false },
         { "id": "lighting_lowlight_dark", "fg": 4, "rotates": false },
-        { "id": [ "cursor", "highlight", "line_target", "line_trail" ], "fg": 5 },
+        { "id": ["cursor", "highlight", "line_target", "line_trail"], "fg": 5 },
         { "id": "highlight_item", "fg": 6, "rotates": false },
         { "id": "animation_line", "bg": 7 },
         { "id": "ruined_chunks", "fg": 8 },
-        { "id": [ "t_shrub_blackberry" ], "fg": 67, "bg": 2603 },
-        { "id": [ "t_shrub_blackberry_harvested" ], "fg": 68, "bg": 2603 },
-        { "id": [ "t_shrub_strawberry", "t_shrub_raspberry", "t_shrub_ruse" ], "fg": 69, "bg": 2603 },
+        { "id": ["t_shrub_blackberry"], "fg": 67, "bg": 2603 },
+        { "id": ["t_shrub_blackberry_harvested"], "fg": 68, "bg": 2603 },
+        { "id": ["t_shrub_strawberry", "t_shrub_raspberry", "t_shrub_ruse"], "fg": 69, "bg": 2603 },
         {
-          "id": [ "t_shrub_strawberry_harvested", "t_shrub_raspberry_harvested", "t_shrub_rose_harvested" ],
+          "id": [
+            "t_shrub_strawberry_harvested",
+            "t_shrub_raspberry_harvested",
+            "t_shrub_rose_harvested"
+          ],
           "fg": 70,
           "bg": 2603
         },
-        { "id": [ "t_shrub_peanut" ], "fg": 71, "bg": 2603 },
-        { "id": [ "t_shrub_peanut_harvested" ], "fg": 72, "bg": 2603 },
-        { "id": [ "t_shrub_grape" ], "fg": 73, "bg": 2603 },
-        { "id": [ "t_shrub_grape_harvested" ], "fg": 74, "bg": 2603 },
-        { "id": [ "t_shrub_blueberry", "t_shrub_huckleberry", "t_shrub_hydrangea" ], "fg": 75, "bg": 2603 },
+        { "id": ["t_shrub_peanut"], "fg": 71, "bg": 2603 },
+        { "id": ["t_shrub_peanut_harvested"], "fg": 72, "bg": 2603 },
+        { "id": ["t_shrub_grape"], "fg": 73, "bg": 2603 },
+        { "id": ["t_shrub_grape_harvested"], "fg": 74, "bg": 2603 },
         {
-          "id": [ "t_shrub_blueberry_harvested", "t_shrub_huckleberry_harvested", "t_shrub_hydrangea_harvested" ],
+          "id": ["t_shrub_blueberry", "t_shrub_huckleberry", "t_shrub_hydrangea"],
+          "fg": 75,
+          "bg": 2603
+        },
+        {
+          "id": [
+            "t_shrub_blueberry_harvested",
+            "t_shrub_huckleberry_harvested",
+            "t_shrub_hydrangea_harvested"
+          ],
           "fg": 76,
           "bg": 2603
         },
-        { "id": [ "t_shrub_lilac" ], "fg": 77, "bg": 2603 },
-        { "id": [ "t_shrub_lilac_harvested" ], "fg": 78, "bg": 2603 },
+        { "id": ["t_shrub_lilac"], "fg": 77, "bg": 2603 },
+        { "id": ["t_shrub_lilac_harvested"], "fg": 78, "bg": 2603 },
         { "id": "unknown", "fg": 79, "rotates": false },
         { "id": "weather_snowflake", "bg": 95 },
-        { "id": [ "player_female", "player_male" ], "fg": 144, "rotates": false },
-        { "id": [ "t_open_air", "t_open_air_rooved" ], "bg": 811 },
+        { "id": ["player_female", "player_male"], "fg": 144, "rotates": false },
+        { "id": ["t_open_air", "t_open_air_rooved"], "bg": 811 },
         { "id": "lighting_hidden", "fg": 1067, "bg": 1067, "rotates": false },
         {
           "id": "explosion_weak",
@@ -55,7 +67,7 @@
             { "id": "unconnected", "fg": 1290 }
           ]
         },
-        { "id": [ "animation_bullet_normal", "animation_bullet_shrapnel" ], "fg": 1375 },
+        { "id": ["animation_bullet_normal", "animation_bullet_shrapnel"], "fg": 1375 },
         { "id": "infrared_creature", "fg": 1423 },
         {
           "id": "explosion",
@@ -91,12 +103,12 @@
         { "id": "t_grass_tall", "bg": 2403 },
         { "id": "t_grass_long", "bg": 2418 },
         { "id": "weather_rain_drop", "bg": 3191 },
-        { "id": [ "npc_female", "npc_male" ], "fg": 3728 }
+        { "id": ["npc_female", "npc_male"], "fg": 3728 }
       ]
     },
     {
       "file": "fallback.png",
-      "tiles": [  ],
+      "tiles": [],
       "ascii": [
         { "offset": 0, "bold": true, "color": "WHITE" },
         { "offset": 256, "bold": false, "color": "WHITE" },
@@ -118,4 +130,3 @@
     }
   ]
 }
-

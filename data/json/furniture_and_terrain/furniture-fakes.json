@@ -21,9 +21,9 @@
     "color": "white",
     "move_cost_mod": 2,
     "required_str": 0,
-    "deconstruct": { "items": [  ] },
-    "bash": { "str_min": 0, "str_max": 0, "items": [  ] },
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "NOCOLLIDE" ],
+    "deconstruct": { "items": [] },
+    "bash": { "str_min": 0, "str_max": 0, "items": [] },
+    "flags": ["PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "NOCOLLIDE"],
     "examine_action": "workbench",
     "workbench": { "multiplier": 0.7, "mass": 1000000, "volume": "1000L" }
   },
@@ -37,6 +37,6 @@
     "color": "black",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": [ "NOITEM" ]
+    "flags": ["NOITEM"]
   }
 ]

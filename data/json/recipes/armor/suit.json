@@ -6,16 +6,16 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "skills_required": [ "tailor", 5 ],
+    "skills_required": ["tailor", 5],
     "time": "3 h",
-    "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_tailor", 8 ], [ "textbook_fireman", 6 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
+    "book_learn": [["tailor_portfolio", 7], ["textbook_tailor", 8], ["textbook_fireman", 6]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "tools": [[["welder", 112], ["welder_crude", 168], ["soldering_iron", 168], ["toolset", 168]]],
     "components": [
-      [ [ "cleansuit", 1 ] ],
-      [ [ "duct_tape", 600 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ],
-      [ [ "plastic_sheet", 1 ] ]
+      [["cleansuit", 1]],
+      [["duct_tape", 600]],
+      [["kevlar", 1], ["modularvest", 1], ["swat_armor", 1], ["kevlar_plate", 24]],
+      [["plastic_sheet", 1]]
     ]
   },
   {
@@ -25,16 +25,16 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "skills_required": [ "tailor", 7 ],
+    "skills_required": ["tailor", 7],
     "time": "3 h 40 m",
-    "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_fireman", 7 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
+    "book_learn": [["tailor_portfolio", 7], ["textbook_fireman", 7]],
+    "qualities": [{ "id": "CUT", "level": 1 }],
+    "tools": [[["welder", 112], ["welder_crude", 168], ["soldering_iron", 168], ["toolset", 168]]],
     "components": [
-      [ [ "hazmat_suit", 1 ] ],
-      [ [ "duct_tape", 800 ] ],
-      [ [ "swat_armor", 1 ], [ "kevlar_plate", 48 ] ],
-      [ [ "plastic_sheet", 1 ] ]
+      [["hazmat_suit", 1]],
+      [["duct_tape", 800]],
+      [["swat_armor", 1], ["kevlar_plate", 48]],
+      [["plastic_sheet", 1]]
     ]
   },
   {
@@ -44,26 +44,26 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "cooking",
     "difficulty": 3,
-    "skills_required": [ "tailor", 3 ],
+    "skills_required": ["tailor", 3],
     "time": "1 h",
     "book_learn": [
-      [ "textbook_tailor", 4 ],
-      [ "tailor_portfolio", 5 ],
-      [ "textbook_survival", 3 ],
-      [ "trappers_companion", 3 ],
-      [ "survival_book", 3 ],
-      [ "textbook_armwest", 6 ],
-      [ "textbook_armschina", 6 ]
+      ["textbook_tailor", 4],
+      ["tailor_portfolio", 5],
+      ["textbook_survival", 3],
+      ["trappers_companion", 3],
+      ["survival_book", 3],
+      ["textbook_armwest", 6],
+      ["textbook_armschina", 6]
     ],
-    "using": [ [ "sewing_standard", 4 ] ],
-    "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "using": [["sewing_standard", 4]],
+    "qualities": [{ "id": "COOK", "level": 3 }],
+    "tools": [[["surface_heat", 20, "LIST"]]],
     "components": [
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
-      [ [ "wax", 2 ], [ "any_tallow", 8, "LIST" ], [ "vinegar", 10 ], [ "pine_bough", 20 ] ],
-      [ [ "salt", 50 ] ],
-      [ [ "armor_larmor", 1 ] ],
-      [ [ "armguard_larmor", 1 ] ]
+      [["water", 10], ["water_clean", 10]],
+      [["wax", 2], ["any_tallow", 8, "LIST"], ["vinegar", 10], ["pine_bough", 20]],
+      [["salt", 50]],
+      [["armor_larmor", 1]],
+      [["armguard_larmor", 1]]
     ]
   },
   {
@@ -75,9 +75,9 @@
     "difficulty": 4,
     "time": "1 h 40 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "chitin_piece", 36 ] ], [ [ "leather", 36 ] ] ]
+    "book_learn": [["textbook_tailor", 3], ["tailor_portfolio", 3]],
+    "using": [["cordage", 2]],
+    "components": [[["chitin_piece", 36]], [["leather", 36]]]
   },
   {
     "result": "armor_acidchitin",
@@ -88,10 +88,10 @@
     "difficulty": 5,
     "time": "3 h 20 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "cordage", 2 ] ],
-    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "acidchitin_piece", 36 ] ], [ [ "fabric_hides_proper", 36, "LIST" ] ] ]
+    "book_learn": [["textbook_tailor", 3], ["tailor_portfolio", 3]],
+    "using": [["cordage", 2]],
+    "qualities": [{ "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 }],
+    "components": [[["acidchitin_piece", 36]], [["fabric_hides_proper", 36, "LIST"]]]
   },
   {
     "result": "armor_farmor",
@@ -102,8 +102,8 @@
     "difficulty": 5,
     "time": "28 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 68 ] ],
-    "components": [ [ [ "fur", 48 ] ] ]
+    "using": [["sewing_standard", 68]],
+    "components": [[["fur", 48]]]
   },
   {
     "result": "armor_larmor",
@@ -115,8 +115,8 @@
     "difficulty": 5,
     "time": "28 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 52 ] ],
-    "components": [ [ [ "fabric_hides_proper", 30, "LIST" ] ] ]
+    "using": [["sewing_standard", 52]],
+    "components": [[["fabric_hides_proper", 30, "LIST"]]]
   },
   {
     "result": "armor_lightplate",
@@ -126,9 +126,9 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "9 h 20 m",
-    "book_learn": [ [ "textbook_armwest", 7 ] ],
-    "using": [ [ "blacksmithing_advanced", 80 ], [ "steel_standard", 20 ] ],
-    "components": [ [ [ "fabric_hides_proper", 20, "LIST" ] ] ]
+    "book_learn": [["textbook_armwest", 7]],
+    "using": [["blacksmithing_advanced", 80], ["steel_standard", 20]],
+    "components": [[["fabric_hides_proper", 20, "LIST"]]]
   },
   {
     "result": "armor_lightplate",
@@ -141,8 +141,12 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "components": [ [ [ "cuirass_lightplate", 1 ] ], [ [ "armguard_lightplate", 1 ] ], [ [ "legguard_lightplate", 1 ] ] ]
+    "flags": ["NO_RESIZE"],
+    "components": [
+      [["cuirass_lightplate", 1]],
+      [["armguard_lightplate", 1]],
+      [["legguard_lightplate", 1]]
+    ]
   },
   {
     "result": "armor_nomad",
@@ -153,14 +157,14 @@
     "difficulty": 5,
     "time": "1 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 90 ] ],
+    "using": [["sewing_standard", 90]],
     "components": [
-      [ [ "duster", 1 ] ],
-      [ [ "vest", 1 ], [ "tacvest", 1 ] ],
-      [ [ "ragpouch", 1 ], [ "leather_pouch", 1 ], [ "dump_pouch", 1 ], [ "fanny", 1 ] ],
-      [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
-      [ [ "pants_cargo", 1 ], [ "pants_army", 1 ] ],
-      [ [ "leather", 24 ] ]
+      [["duster", 1]],
+      [["vest", 1], ["tacvest", 1]],
+      [["ragpouch", 1], ["leather_pouch", 1], ["dump_pouch", 1], ["fanny", 1]],
+      [["tool_belt", 1], ["legrig", 1]],
+      [["pants_cargo", 1], ["pants_army", 1]],
+      [["leather", 24]]
     ]
   },
   {
@@ -172,14 +176,14 @@
     "difficulty": 4,
     "time": "1 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 90 ] ],
+    "using": [["sewing_standard", 90]],
     "components": [
-      [ [ "tunic", 1 ] ],
-      [ [ "shorts_cargo", 1 ], [ "shorts_denim", 1 ] ],
-      [ [ "vest", 1 ], [ "tacvest", 1 ] ],
-      [ [ "ragpouch", 2 ], [ "dump_pouch", 2 ], [ "fanny", 2 ] ],
-      [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
-      [ [ "rag", 20 ] ]
+      [["tunic", 1]],
+      [["shorts_cargo", 1], ["shorts_denim", 1]],
+      [["vest", 1], ["tacvest", 1]],
+      [["ragpouch", 2], ["dump_pouch", 2], ["fanny", 2]],
+      [["tool_belt", 1], ["legrig", 1]],
+      [["rag", 20]]
     ]
   },
   {
@@ -189,14 +193,19 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "skills_required": [ "tailor", 3 ],
+    "skills_required": ["tailor", 3],
     "time": "28 m",
-    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
-    "using": [ [ "sewing_standard", 26 ] ],
+    "book_learn": [
+      ["textbook_tailor", 5],
+      ["tailor_portfolio", 5],
+      ["textbook_armwest", 4],
+      ["textbook_armschina", 4]
+    ],
+    "using": [["sewing_standard", 26]],
     "components": [
-      [ [ "steel_chunk", 6 ], [ "scrap", 18 ], [ "sheet_metal_small", 6 ] ],
-      [ [ "armor_larmor", 1 ] ],
-      [ [ "armguard_larmor", 1 ] ]
+      [["steel_chunk", 6], ["scrap", 18], ["sheet_metal_small", 6]],
+      [["armor_larmor", 1]],
+      [["armguard_larmor", 1]]
     ]
   },
   {
@@ -207,9 +216,9 @@
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": "10 h",
-    "book_learn": [ [ "textbook_armwest", 8 ] ],
-    "using": [ [ "blacksmithing_advanced", 120 ], [ "steel_standard", 30 ] ],
-    "components": [ [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
+    "book_learn": [["textbook_armwest", 8]],
+    "using": [["blacksmithing_advanced", 120], ["steel_standard", 30]],
+    "components": [[["fabric_hides_proper", 16, "LIST"]]]
   },
   {
     "result": "armor_samurai",
@@ -219,9 +228,9 @@
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": "9 h 20 m",
-    "book_learn": [ [ "textbook_armeast", 8 ] ],
-    "using": [ [ "blacksmithing_advanced", 64 ], [ "steel_standard", 16 ] ],
-    "components": [ [ [ "fabric_hides_proper", 28, "LIST" ] ], [ [ "fabric_standard", 10, "LIST" ] ] ]
+    "book_learn": [["textbook_armeast", 8]],
+    "using": [["blacksmithing_advanced", 64], ["steel_standard", 16]],
+    "components": [[["fabric_hides_proper", 28, "LIST"]], [["fabric_standard", 10, "LIST"]]]
   },
   {
     "result": "armor_scavenger",
@@ -230,17 +239,17 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 8,
-    "skills_required": [ "fabrication", 3 ],
+    "skills_required": ["fabrication", 3],
     "time": "1 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 18 ] ],
+    "using": [["sewing_standard", 90], ["soldering_standard", 18]],
     "components": [
-      [ [ "jacket_army", 1 ] ],
-      [ [ "vest", 1 ], [ "tacvest", 1 ], [ "mbag", 1 ], [ "runner_bag", 1 ] ],
-      [ [ "fanny", 2 ], [ "dump_pouch", 1 ] ],
-      [ [ "tool_belt", 1 ], [ "legrig", 1 ] ],
-      [ [ "pants_army", 1 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+      [["jacket_army", 1]],
+      [["vest", 1], ["tacvest", 1], ["mbag", 1], ["runner_bag", 1]],
+      [["fanny", 2], ["dump_pouch", 1]],
+      [["tool_belt", 1], ["legrig", 1]],
+      [["pants_army", 1]],
+      [["kevlar", 1], ["modularvest", 1], ["swat_armor", 1], ["kevlar_plate", 24]]
     ]
   },
   {
@@ -253,10 +262,10 @@
     "time": "1 h 40 m",
     "reversible": true,
     "autolearn": true,
-    "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "cordage", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 170 ], [ "sheet_metal_small", 34 ] ] ]
+    "book_learn": [["recipe_melee", 2]],
+    "using": [["cordage", 4]],
+    "qualities": [{ "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 }],
+    "components": [[["scrap", 170], ["sheet_metal_small", 34]]]
   },
   {
     "result": "armor_scrapsuit",
@@ -268,9 +277,9 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "cuirass_scrap", 1 ] ], [ [ "armguard_scrap", 1 ] ], [ [ "legguard_scrap", 1 ] ] ]
+    "book_learn": [["recipe_melee", 2]],
+    "using": [["cordage", 1]],
+    "components": [[["cuirass_scrap", 1]], [["armguard_scrap", 1]], [["legguard_scrap", 1]]]
   },
   {
     "result": "chainmail_hauberk",
@@ -282,8 +291,13 @@
     "time": "18 m",
     "reversible": true,
     "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "gambeson", 1 ] ] ]
+    "flags": ["NO_RESIZE"],
+    "components": [
+      [["chainmail_vest", 1]],
+      [["chainmail_arms", 1]],
+      [["chainmail_legs", 1]],
+      [["gambeson", 1]]
+    ]
   },
   {
     "result": "chainmail_suit",
@@ -295,13 +309,13 @@
     "time": "20 m",
     "reversible": true,
     "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
+    "flags": ["NO_RESIZE"],
     "components": [
-      [ [ "chainmail_hood", 1 ] ],
-      [ [ "chainmail_vest", 1 ] ],
-      [ [ "chainmail_arms", 1 ] ],
-      [ [ "chainmail_legs", 1 ] ],
-      [ [ "gambeson", 1 ] ]
+      [["chainmail_hood", 1]],
+      [["chainmail_vest", 1]],
+      [["chainmail_arms", 1]],
+      [["chainmail_legs", 1]],
+      [["gambeson", 1]]
     ]
   },
   {
@@ -315,8 +329,8 @@
     "time": "2 m",
     "reversible": true,
     "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ] ]
+    "flags": ["NO_RESIZE"],
+    "components": [[["chainmail_hood", 1]], [["chainmail_hauberk", 1]]]
   },
   {
     "result": "chainmail_suit_faraday",
@@ -325,20 +339,24 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
     "difficulty": 7,
-    "skills_required": [ "electronics", 3 ],
+    "skills_required": ["electronics", 3],
     "time": "180 m",
-    "book_learn": [ [ "textbook_fabrication", 6 ], [ "advanced_electronics", 6 ], [ "textbook_electronics", 6 ] ],
-    "using": [ [ "chainmail_standard", 20 ] ],
+    "book_learn": [
+      ["textbook_fabrication", 6],
+      ["advanced_electronics", 6],
+      ["textbook_electronics", 6]
+    ],
+    "using": [["chainmail_standard", 20]],
     "components": [
-      [ [ "link_sheet", 2 ], [ "chainmail_hood", 1 ] ],
-      [ [ "link_sheet", 7 ], [ "chainmail_vest", 1 ] ],
-      [ [ "link_sheet", 3 ], [ "chainmail_arms", 1 ] ],
-      [ [ "link_sheet", 4 ], [ "chainmail_legs", 1 ] ],
-      [ [ "link_sheet", 2 ], [ "chainmail_hands", 1 ] ],
-      [ [ "link_sheet", 2 ], [ "chainmail_feet", 1 ] ],
-      [ [ "chain_link", 500 ] ],
-      [ [ "wire", 5 ] ],
-      [ [ "rag", 26 ] ]
+      [["link_sheet", 2], ["chainmail_hood", 1]],
+      [["link_sheet", 7], ["chainmail_vest", 1]],
+      [["link_sheet", 3], ["chainmail_arms", 1]],
+      [["link_sheet", 4], ["chainmail_legs", 1]],
+      [["link_sheet", 2], ["chainmail_hands", 1]],
+      [["link_sheet", 2], ["chainmail_feet", 1]],
+      [["chain_link", 500]],
+      [["wire", 5]],
+      [["rag", 26]]
     ]
   },
   {
@@ -351,8 +369,8 @@
     "time": "25 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "rag", 20 ] ] ]
+    "using": [["sewing_standard", 18]],
+    "components": [[["rag", 20]]]
   },
   {
     "result": "cloak_fur",
@@ -361,13 +379,13 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 2,
-    "skills_required": [ "survival", 1 ],
+    "skills_required": ["survival", 1],
     "time": "25 m",
     "reversible": true,
     "autolearn": true,
-    "book_learn": [ [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
-    "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "fur", 15 ] ] ]
+    "book_learn": [["textbook_survival", 1], ["survival_book", 1]],
+    "using": [["sewing_standard", 18]],
+    "components": [[["fur", 15]]]
   },
   {
     "result": "cloak_leather",
@@ -379,8 +397,8 @@
     "time": "25 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "leather", 20 ] ] ]
+    "using": [["sewing_standard", 18]],
+    "components": [[["leather", 20]]]
   },
   {
     "result": "cloak_wool",
@@ -392,8 +410,8 @@
     "time": "25 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "felt_patch", 18 ] ] ]
+    "using": [["sewing_standard", 18]],
+    "components": [[["felt_patch", 18]]]
   },
   {
     "result": "entry_suit",
@@ -402,16 +420,16 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "skills_required": [ "tailor", 6 ],
+    "skills_required": ["tailor", 6],
     "time": "2 h 40 m",
-    "book_learn": [ [ "textbook_fireman", 8 ], [ "tailor_portfolio", 8 ] ],
-    "using": [ [ "sewing_standard", 200 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "book_learn": [["textbook_fireman", 8], ["tailor_portfolio", 8]],
+    "using": [["sewing_standard", 200]],
+    "tools": [[["welder", 28], ["welder_crude", 42], ["soldering_iron", 42], ["toolset", 42]]],
     "components": [
-      [ [ "nomex", 40 ] ],
-      [ [ "kevlar_plate", 8 ] ],
-      [ [ "duct_tape", 200 ], [ "superglue", 5 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+      [["nomex", 40]],
+      [["kevlar_plate", 8]],
+      [["duct_tape", 200], ["superglue", 5]],
+      [["kevlar", 1], ["modularvest", 1], ["swat_armor", 1], ["kevlar_plate", 24]]
     ]
   },
   {
@@ -421,29 +439,29 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 8,
-    "skills_required": [ "fabrication", 7 ],
+    "skills_required": ["fabrication", 7],
     "time": "5 h 20 m",
     "autolearn": true,
-    "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_fireman", 7 ] ],
-    "using": [ [ "sewing_standard", 200 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "book_learn": [["tailor_portfolio", 7], ["textbook_fireman", 7]],
+    "using": [["sewing_standard", 200]],
+    "tools": [[["welder", 28], ["welder_crude", 42], ["soldering_iron", 42], ["toolset", 42]]],
     "components": [
-      [ [ "fabric_standard", 4, "LIST" ] ],
-      [ [ "nomex_suit", 1 ], [ "entry_suit", 1 ], [ "nomex", 20 ] ],
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [["fabric_standard", 4, "LIST"]],
+      [["nomex_suit", 1], ["entry_suit", 1], ["nomex", 20]],
+      [["coat_rain", 1], ["jacket_windbreaker", 1], ["jacket_evac", 1], ["coat_gut", 1]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 6],
+        ["leather_pouch", 4],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 200 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+      [["duct_tape", 200]],
+      [["kevlar", 1], ["modularvest", 1], ["swat_armor", 1], ["kevlar_plate", 24]]
     ]
   },
   {
@@ -455,9 +473,9 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
-    "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "sewing_standard", 30 ] ],
-    "components": [ [ [ "rag", 26 ] ] ]
+    "book_learn": [["textbook_armwest", 3]],
+    "using": [["sewing_standard", 30]],
+    "components": [[["rag", 26]]]
   },
   {
     "result": "h20survivor_suit",
@@ -466,27 +484,27 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 7,
-    "skills_required": [ "fabrication", 6 ],
+    "skills_required": ["fabrication", 6],
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "using": [["sewing_standard", 200]],
+    "tools": [[["welder", 56], ["welder_crude", 84], ["soldering_iron", 84], ["toolset", 84]]],
     "components": [
-      [ [ "fabric_standard", 10, "LIST" ] ],
-      [ [ "wetsuit", 1 ], [ "wetsuit_spring", 1 ] ],
+      [["fabric_standard", 10, "LIST"]],
+      [["wetsuit", 1], ["wetsuit_spring", 1]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 6],
+        ["leather_pouch", 4],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 400 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+      [["duct_tape", 400]],
+      [["kevlar", 1], ["modularvest", 1], ["swat_armor", 1], ["kevlar_plate", 24]]
     ]
   },
   {
@@ -496,29 +514,29 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 7,
-    "skills_required": [ "fabrication", 7 ],
+    "skills_required": ["fabrication", 7],
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "using": [["sewing_standard", 200]],
+    "tools": [[["welder", 56], ["welder_crude", 84], ["soldering_iron", 84], ["toolset", 84]]],
     "components": [
-      [ [ "fabric_standard", 20, "LIST" ] ],
-      [ [ "fabric_hides_proper", 20, "LIST" ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [["fabric_standard", 20, "LIST"]],
+      [["fabric_hides_proper", 20, "LIST"]],
+      [["steel_chunk", 4], ["scrap", 12]],
+      [["coat_rain", 1], ["jacket_windbreaker", 1], ["jacket_evac", 1], ["coat_gut", 1]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 6],
+        ["leather_pouch", 4],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 300 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+      [["duct_tape", 300]],
+      [["kevlar", 1], ["modularvest", 1], ["swat_armor", 1], ["kevlar_plate", 24]]
     ]
   },
   {
@@ -528,29 +546,29 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 7,
-    "skills_required": [ "fabrication", 9 ],
+    "skills_required": ["fabrication", 9],
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "using": [["sewing_standard", 200]],
+    "tools": [[["welder", 56], ["welder_crude", 84], ["soldering_iron", 84], ["toolset", 84]]],
     "components": [
-      [ [ "rag", 20 ] ],
-      [ [ "leather", 20 ] ],
-      [ [ "alloy_sheet", 26 ] ],
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [["rag", 20]],
+      [["leather", 20]],
+      [["alloy_sheet", 26]],
+      [["coat_rain", 1], ["jacket_windbreaker", 1], ["jacket_evac", 1], ["coat_gut", 1]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 6],
+        ["leather_pouch", 4],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 300 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+      [["duct_tape", 300]],
+      [["kevlar", 1], ["modularvest", 1], ["swat_armor", 1], ["kevlar_plate", 24]]
     ]
   },
   {
@@ -561,9 +579,9 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "48 m",
-    "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "rag", 20 ] ] ]
+    "book_learn": [["textbook_tailor", 4], ["manual_tailor", 5], ["tailor_portfolio", 4]],
+    "using": [["sewing_standard", 20]],
+    "components": [[["rag", 20]]]
   },
   {
     "result": "jumpsuit_xl",
@@ -573,9 +591,9 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "1 h 26 m",
-    "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 40 ] ],
-    "components": [ [ [ "rag", 30 ] ] ]
+    "book_learn": [["textbook_tailor", 4], ["manual_tailor", 5], ["tailor_portfolio", 4]],
+    "using": [["sewing_standard", 40]],
+    "components": [[["rag", 30]]]
   },
   {
     "result": "jumpsuit_xl",
@@ -586,9 +604,9 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "time": "38 m",
-    "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "jumpsuit", 1 ] ], [ [ "rag", 10 ] ] ]
+    "book_learn": [["textbook_tailor", 4], ["manual_tailor", 5], ["tailor_portfolio", 4]],
+    "using": [["sewing_standard", 20]],
+    "components": [[["jumpsuit", 1]], [["rag", 10]]]
   },
   {
     "result": "kimono",
@@ -598,9 +616,9 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "2 h 30 m",
-    "book_learn": [ [ "tailor_japanese", 4 ] ],
-    "using": [ [ "sewing_standard", 35 ] ],
-    "components": [ [ [ "rag", 25 ] ] ]
+    "book_learn": [["tailor_japanese", 4]],
+    "using": [["sewing_standard", 35]],
+    "components": [[["rag", 25]]]
   },
   {
     "result": "lsurvivor_suit",
@@ -609,27 +627,27 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [ "fabrication", 6 ],
+    "skills_required": ["fabrication", 6],
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 100 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "using": [["sewing_standard", 100]],
+    "tools": [[["welder", 28], ["welder_crude", 42], ["soldering_iron", 42], ["toolset", 42]]],
     "components": [
-      [ [ "rag", 30 ] ],
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [["rag", 30]],
+      [["coat_rain", 1], ["jacket_windbreaker", 1], ["jacket_evac", 1], ["coat_gut", 1]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 6],
+        ["leather_pouch", 4],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 200 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+      [["duct_tape", 200]],
+      [["kevlar", 1], ["modularvest", 1], ["swat_armor", 1], ["kevlar_plate", 24]]
     ]
   },
   {
@@ -640,9 +658,9 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "time": "24 m",
-    "book_learn": [ [ "textbook_fireman", 6 ], [ "tailor_portfolio", 7 ] ],
-    "using": [ [ "sewing_standard", 40 ] ],
-    "components": [ [ [ "nomex", 18 ] ] ]
+    "book_learn": [["textbook_fireman", 6], ["tailor_portfolio", 7]],
+    "using": [["sewing_standard", 40]],
+    "components": [[["nomex", 18]]]
   },
   {
     "result": "shark_suit_faraday",
@@ -654,8 +672,8 @@
     "time": "12 m",
     "reversible": true,
     "autolearn": true,
-    "flags": [ "NO_RESIZE" ],
-    "components": [ [ [ "shark_suit", 1 ] ], [ [ "cable", 50 ] ] ]
+    "flags": ["NO_RESIZE"],
+    "components": [[["shark_suit", 1]], [["cable", 50]]]
   },
   {
     "result": "survivor_suit",
@@ -664,28 +682,28 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 6,
-    "skills_required": [ "fabrication", 6 ],
+    "skills_required": ["fabrication", 6],
     "time": "4 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 150 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "using": [["sewing_standard", 150]],
+    "tools": [[["welder", 28], ["welder_crude", 42], ["soldering_iron", 42], ["toolset", 42]]],
     "components": [
-      [ [ "fabric_standard", 20, "LIST" ] ],
-      [ [ "fabric_hides_proper", 20, "LIST" ] ],
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [["fabric_standard", 20, "LIST"]],
+      [["fabric_hides_proper", 20, "LIST"]],
+      [["coat_rain", 1], ["jacket_windbreaker", 1], ["jacket_evac", 1], ["coat_gut", 1]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 6],
+        ["leather_pouch", 4],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 300 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+      [["duct_tape", 300]],
+      [["kevlar", 1], ["modularvest", 1], ["swat_armor", 1], ["kevlar_plate", 24]]
     ]
   },
   {
@@ -695,11 +713,16 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "electronics",
     "difficulty": 4,
-    "skills_required": [ "tailor", 2 ],
+    "skills_required": ["tailor", 2],
     "time": "7 h",
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "sewing_standard", 52 ], [ "soldering_standard", 100 ] ],
-    "components": [ [ [ "rag", 40 ] ], [ [ "element", 18 ] ], [ [ "cable", 37 ] ] ]
+    "book_learn": [
+      ["textbook_fabrication", 3],
+      ["tailor_portfolio", 4],
+      ["textbook_tailor", 3],
+      ["atomic_survival", 3]
+    ],
+    "using": [["sewing_standard", 52], ["soldering_standard", 100]],
+    "components": [[["rag", 40]], [["element", 18]], [["cable", 37]]]
   },
   {
     "result": "thermal_outfit",
@@ -709,16 +732,21 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "electronics",
     "difficulty": 4,
-    "skills_required": [ "tailor", 2 ],
+    "skills_required": ["tailor", 2],
     "time": "5 m",
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "sewing_standard", 15 ], [ "soldering_standard", 10 ] ],
+    "book_learn": [
+      ["textbook_fabrication", 3],
+      ["tailor_portfolio", 4],
+      ["textbook_tailor", 3],
+      ["atomic_survival", 3]
+    ],
+    "using": [["sewing_standard", 15], ["soldering_standard", 10]],
     "components": [
-      [ [ "thermal_suit", 1 ] ],
-      [ [ "thermal_gloves", 1 ] ],
-      [ [ "thermal_socks", 1 ] ],
-      [ [ "thermal_mask", 1 ] ],
-      [ [ "cable", 5 ] ]
+      [["thermal_suit", 1]],
+      [["thermal_gloves", 1]],
+      [["thermal_socks", 1]],
+      [["thermal_mask", 1]],
+      [["cable", 5]]
     ]
   },
   {
@@ -728,11 +756,16 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "electronics",
     "difficulty": 4,
-    "skills_required": [ "tailor", 2 ],
+    "skills_required": ["tailor", 2],
     "time": "3 h 20 m",
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
-    "using": [ [ "sewing_standard", 30 ], [ "soldering_standard", 60 ] ],
-    "components": [ [ [ "rag", 30 ], [ "union_suit", 1 ] ], [ [ "element", 12 ] ], [ [ "cable", 20 ] ] ]
+    "book_learn": [
+      ["textbook_fabrication", 3],
+      ["tailor_portfolio", 4],
+      ["textbook_tailor", 3],
+      ["atomic_survival", 3]
+    ],
+    "using": [["sewing_standard", 30], ["soldering_standard", 60]],
+    "components": [[["rag", 30], ["union_suit", 1]], [["element", 12]], [["cable", 20]]]
   },
   {
     "result": "tunic_rag",
@@ -743,8 +776,8 @@
     "time": "6 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "sheet", 1 ] ] ]
+    "using": [["cordage", 1]],
+    "components": [[["sheet", 1]]]
   },
   {
     "result": "union_suit",
@@ -757,10 +790,10 @@
     "time": "3 m 30 s",
     "reversible": true,
     "decomp_learn": 0,
-    "book_learn": [ [ "mag_tailor", 0 ], [ "manual_tailor", 0 ], [ "textbook_tailor", 0 ] ],
-    "using": [ [ "sewing_standard", 20 ] ],
-    "flags": [ "NO_RESIZE" ],
-    "components": [ [ [ "long_undertop", 1 ] ], [ [ "long_underpants", 1 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+    "book_learn": [["mag_tailor", 0], ["manual_tailor", 0], ["textbook_tailor", 0]],
+    "using": [["sewing_standard", 20]],
+    "flags": ["NO_RESIZE"],
+    "components": [[["long_undertop", 1]], [["long_underpants", 1]], [["cordage", 1, "LIST"]]]
   },
   {
     "result": "wetsuit",
@@ -770,10 +803,10 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "10 h",
-    "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
-    "using": [ [ "sewing_standard", 50 ] ],
-    "tools": [ [ [ "soldering_iron", 20 ], [ "welder", 20 ], [ "hotplate", 20 ], [ "toolset", 20 ] ] ],
-    "components": [ [ [ "neoprene", 12 ] ], [ [ "rag", 12 ] ] ]
+    "book_learn": [["textbook_tailor", 4], ["manual_tailor", 5], ["tailor_portfolio", 4]],
+    "using": [["sewing_standard", 50]],
+    "tools": [[["soldering_iron", 20], ["welder", 20], ["hotplate", 20], ["toolset", 20]]],
+    "components": [[["neoprene", 12]], [["rag", 12]]]
   },
   {
     "result": "wetsuit_spring",
@@ -783,10 +816,10 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "7 h 30 m",
-    "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
-    "using": [ [ "sewing_standard", 40 ] ],
-    "tools": [ [ [ "soldering_iron", 15 ], [ "welder", 15 ], [ "hotplate", 15 ], [ "toolset", 15 ] ] ],
-    "components": [ [ [ "neoprene", 8 ] ], [ [ "rag", 8 ] ] ]
+    "book_learn": [["textbook_tailor", 3], ["manual_tailor", 4], ["tailor_portfolio", 3]],
+    "using": [["sewing_standard", 40]],
+    "tools": [[["soldering_iron", 15], ["welder", 15], ["hotplate", 15], ["toolset", 15]]],
+    "components": [[["neoprene", 8]], [["rag", 8]]]
   },
   {
     "result": "wool_suit",
@@ -797,8 +830,8 @@
     "difficulty": 3,
     "time": "10 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 150 ] ],
-    "components": [ [ [ "felt_patch", 24 ] ] ]
+    "using": [["sewing_standard", 150]],
+    "components": [[["felt_patch", 24]]]
   },
   {
     "result": "wsurvivor_suit",
@@ -807,29 +840,29 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 6,
-    "skills_required": [ "fabrication", 6 ],
+    "skills_required": ["fabrication", 6],
     "time": "5 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
-    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "using": [["sewing_standard", 200]],
+    "tools": [[["welder", 28], ["welder_crude", 42], ["soldering_iron", 42], ["toolset", 42]]],
     "components": [
-      [ [ "fabric_standard", 10, "LIST" ] ],
-      [ [ "leather", 20 ] ],
-      [ [ "fur", 20 ] ],
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [["fabric_standard", 10, "LIST"]],
+      [["leather", 20]],
+      [["fur", 20]],
+      [["coat_rain", 1], ["jacket_windbreaker", 1], ["jacket_evac", 1], ["coat_gut", 1]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 6],
+        ["leather_pouch", 4],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 300 ] ],
-      [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 24 ] ]
+      [["duct_tape", 300]],
+      [["kevlar", 1], ["modularvest", 1], ["swat_armor", 1], ["kevlar_plate", 24]]
     ]
   },
   {
@@ -839,29 +872,29 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 8,
-    "skills_required": [ "fabrication", 8 ],
+    "skills_required": ["fabrication", 8],
     "time": "9 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
-    "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
+    "using": [["sewing_standard", 200]],
+    "tools": [[["welder", 112], ["welder_crude", 168], ["soldering_iron", 168], ["toolset", 168]]],
     "components": [
-      [ [ "fabric_standard", 30, "LIST" ] ],
-      [ [ "fabric_hides_proper", 40, "LIST" ] ],
-      [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
-      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
+      [["fabric_standard", 30, "LIST"]],
+      [["fabric_hides_proper", 40, "LIST"]],
+      [["steel_chunk", 8], ["scrap", 24]],
+      [["coat_rain", 2], ["jacket_windbreaker", 2], ["jacket_evac", 2], ["coat_gut", 2]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 6],
+        ["leather_pouch", 4],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 400 ] ],
-      [ [ "kevlar", 2 ], [ "modularvest", 2 ], [ "swat_armor", 2 ], [ "kevlar_plate", 48 ] ]
+      [["duct_tape", 400]],
+      [["kevlar", 2], ["modularvest", 2], ["swat_armor", 2], ["kevlar_plate", 48]]
     ]
   },
   {
@@ -871,29 +904,29 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 6,
-    "skills_required": [ "fabrication", 6 ],
+    "skills_required": ["fabrication", 6],
     "time": "5 h 20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
-    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "using": [["sewing_standard", 200]],
+    "tools": [[["welder", 56], ["welder_crude", 84], ["soldering_iron", 84], ["toolset", 84]]],
     "components": [
-      [ [ "fabric_standard", 30, "LIST" ] ],
-      [ [ "fabric_hides_proper", 40, "LIST" ] ],
-      [ [ "scrap", 8 ] ],
-      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
+      [["fabric_standard", 30, "LIST"]],
+      [["fabric_hides_proper", 40, "LIST"]],
+      [["scrap", 8]],
+      [["coat_rain", 2], ["jacket_windbreaker", 2], ["jacket_evac", 2], ["coat_gut", 2]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 6],
+        ["leather_pouch", 4],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 400 ] ],
-      [ [ "kevlar", 2 ], [ "modularvest", 2 ], [ "swat_armor", 2 ], [ "kevlar_plate", 42 ] ]
+      [["duct_tape", 400]],
+      [["kevlar", 2], ["modularvest", 2], ["swat_armor", 2], ["kevlar_plate", 42]]
     ]
   },
   {
@@ -903,29 +936,29 @@
     "subcategory": "CSC_ARMOR_SUIT",
     "skill_used": "tailor",
     "difficulty": 8,
-    "skills_required": [ "fabrication", 10 ],
+    "skills_required": ["fabrication", 10],
     "time": "9 h",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 200 ] ],
-    "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
+    "using": [["sewing_standard", 200]],
+    "tools": [[["welder", 112], ["welder_crude", 168], ["soldering_iron", 168], ["toolset", 168]]],
     "components": [
-      [ [ "rag", 30 ] ],
-      [ [ "leather", 40 ] ],
-      [ [ "alloy_sheet", 32 ] ],
-      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
+      [["rag", 30]],
+      [["leather", 40]],
+      [["alloy_sheet", 32]],
+      [["coat_rain", 2], ["jacket_windbreaker", 2], ["jacket_evac", 2], ["coat_gut", 2]],
       [
-        [ "tacvest", 1 ],
-        [ "legrig", 1 ],
-        [ "vest", 1 ],
-        [ "tool_belt", 1 ],
-        [ "ragpouch", 6 ],
-        [ "leather_pouch", 4 ],
-        [ "dump_pouch", 1 ],
-        [ "purse", 2 ],
-        [ "fanny", 2 ]
+        ["tacvest", 1],
+        ["legrig", 1],
+        ["vest", 1],
+        ["tool_belt", 1],
+        ["ragpouch", 6],
+        ["leather_pouch", 4],
+        ["dump_pouch", 1],
+        ["purse", 2],
+        ["fanny", 2]
       ],
-      [ [ "duct_tape", 400 ] ],
-      [ [ "kevlar", 2 ], [ "modularvest", 2 ], [ "swat_armor", 2 ], [ "kevlar_plate", 48 ] ]
+      [["duct_tape", 400]],
+      [["kevlar", 2], ["modularvest", 2], ["swat_armor", 2], ["kevlar_plate", 48]]
     ]
   },
   {
@@ -936,9 +969,9 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "1 h 30 m",
-    "book_learn": [ [ "tailor_japanese", 3 ] ],
-    "using": [ [ "sewing_standard", 18 ] ],
-    "components": [ [ [ "rag", 16 ] ] ]
+    "book_learn": [["tailor_japanese", 3]],
+    "using": [["sewing_standard", 18]],
+    "components": [[["rag", 16]]]
   },
   {
     "result": "zentai",
@@ -948,8 +981,8 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "2 h",
-    "book_learn": [ [ "mag_animecon", 1 ] ],
-    "using": [ [ "sewing_standard", 36 ] ],
-    "components": [ [ [ "nylon", 34 ] ] ]
+    "book_learn": [["mag_animecon", 1]],
+    "using": [["sewing_standard", 36]],
+    "components": [[["nylon", 34]]]
   }
 ]

@@ -8,7 +8,7 @@
     "material": "brass",
     "symbol": "=",
     "color": "yellow",
-    "damage_states": [ 0, 0 ]
+    "damage_states": [0, 0]
   },
   {
     "id": "223_casing",
@@ -39,7 +39,7 @@
     "symbol": "=",
     "color": "yellow",
     "description": "An unfired, like-new .22 round casing, with the primer still intact.",
-    "material": [ "powder", "brass" ],
+    "material": ["powder", "brass"],
     "volume": "3 ml",
     "weight": "1 g"
   },
@@ -437,7 +437,7 @@
     "material": "plastic",
     "symbol": "=",
     "color": "red",
-    "damage_states": [ 0, 0 ]
+    "damage_states": [0, 0]
   },
   {
     "id": "410shot_hull",
@@ -452,7 +452,7 @@
     "symbol": "=",
     "looks_like": "shot_hull",
     "color": "red",
-    "damage_states": [ 0, 0 ]
+    "damage_states": [0, 0]
   },
   {
     "id": "300blk_casing",

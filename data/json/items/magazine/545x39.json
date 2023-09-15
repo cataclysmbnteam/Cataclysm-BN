@@ -9,13 +9,13 @@
     "volume": "500 ml",
     "price": 1500,
     "price_postapoc": 100,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": "545x39",
     "capacity": 30,
     "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": ["MAG_COMPACT"]
   },
   {
     "id": "rpk74mag",
@@ -35,6 +35,6 @@
     "capacity": 45,
     "reliability": 8,
     "reload_time": 130,
-    "flags": [ "MAG_BULKY" ]
+    "flags": ["MAG_BULKY"]
   }
 ]

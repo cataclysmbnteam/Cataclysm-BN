@@ -18,7 +18,7 @@
     "material": "wheat",
     "volume": "1 L",
     "charges": 12,
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 2 ], [ "iron", 9 ] ],
+    "vitamins": [["vitC", 7], ["calcium", 2], ["iron", 9]],
     "fun": 8
   },
   {
@@ -38,8 +38,8 @@
     "material": "wheat",
     "milling": { "into": "flour", "conversion_rate": 15 },
     "volume": "250 ml",
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ] ],
+    "flags": ["RAW"],
+    "vitamins": [["calcium", 4], ["iron", 40]],
     "fun": -10
   },
   {
@@ -57,10 +57,10 @@
     "description": "Whole wheat or barley kernels that have been boiled in water.  Very bland on their own, but will do if you can't prepare them in a different way.",
     "price": 20,
     "price_postapoc": 100,
-    "material": [ "wheat" ],
+    "material": ["wheat"],
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 34 ] ],
+    "flags": ["EATEN_HOT"],
+    "vitamins": [["calcium", 5], ["iron", 34]],
     "fun": -1
   },
   {
@@ -79,8 +79,8 @@
     "price_postapoc": 100,
     "material": "wheat",
     "volume": "62 ml",
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "flags": ["RAW"],
+    "vitamins": [["calcium", 1], ["iron", 10]],
     "fun": -8
   },
   {
@@ -99,8 +99,8 @@
     "price_postapoc": 100,
     "material": "wheat",
     "volume": "62 ml",
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "flags": ["RAW"],
+    "vitamins": [["calcium", 1], ["iron", 10]],
     "fun": -8
   },
   {
@@ -120,8 +120,8 @@
     "price_postapoc": 50,
     "material": "wheat",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ]
+    "flags": ["EATEN_HOT", "TRADER_AVOID"],
+    "vitamins": [["calcium", 1], ["iron", 10]]
   },
   {
     "type": "COMESTIBLE",
@@ -138,9 +138,9 @@
     "price": 150,
     "price_postapoc": 100,
     "material": "wheat",
-    "flags": [ "RAW" ],
+    "flags": ["RAW"],
     "volume": "62 ml",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 10 ] ],
+    "vitamins": [["calcium", 1], ["iron", 10]],
     "fun": -6
   },
   {
@@ -158,11 +158,11 @@
     "description": "When the cheese starts flowing, Kraft gets your noodle going.",
     "price": 380,
     "price_postapoc": 50,
-    "material": [ "wheat", "milk" ],
+    "material": ["wheat", "milk"],
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "TRADER_AVOID" ],
+    "flags": ["EATEN_HOT", "TRADER_AVOID"],
     "fun": 5,
-    "vitamins": [ [ "calcium", 10 ], [ "iron", 11 ] ]
+    "vitamins": [["calcium", 10], ["iron", 11]]
   },
   {
     "type": "COMESTIBLE",
@@ -179,11 +179,11 @@
     "description": "This enriched white flour is useful for baking.",
     "price": 450,
     "price_postapoc": 100,
-    "material": [ "wheat", "powder" ],
+    "material": ["wheat", "powder"],
     "volume": "250 ml",
-    "flags": [ "RAW" ],
+    "flags": ["RAW"],
     "charges": 10,
-    "vitamins": [ [ "iron", 3 ] ],
+    "vitamins": [["iron", 3]],
     "fun": -5
   },
   {
@@ -203,9 +203,9 @@
     "material": "wheat",
     "volume": "250 ml",
     "cooks_like": "oatmeal_cooked",
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ],
+    "flags": ["NUTRIENT_OVERRIDE", "RAW"],
     "charges": 16,
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [["iron", 2]],
     "fun": -2
   },
   {
@@ -225,8 +225,8 @@
     "material": "wheat",
     "volume": "250 ml",
     "milling": { "into": "flour", "conversion_rate": 4 },
-    "flags": [ "RAW" ],
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
+    "flags": ["RAW"],
+    "vitamins": [["calcium", 3], ["iron", 20]],
     "fun": -10
   },
   {
@@ -245,9 +245,9 @@
     "price_postapoc": 50,
     "material": "wheat",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": ["EATEN_HOT", "NUTRIENT_OVERRIDE"],
     "fun": 2,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ]
+    "vitamins": [["calcium", 1], ["iron", 12]]
   },
   {
     "type": "COMESTIBLE",
@@ -266,9 +266,9 @@
     "material": "wheat",
     "volume": "375 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 30 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [["vitA", 1], ["vitC", 30], ["calcium", 1], ["iron", 1]]
   },
   {
     "type": "COMESTIBLE",
@@ -284,13 +284,13 @@
     "description": "Fluffy and delicious pancakes with real maple syrup.",
     "price": 550,
     "price_postapoc": 50,
-    "material": [ "wheat", "milk" ],
+    "material": ["wheat", "milk"],
     "primary_material": "wheat",
     "volume": "250 ml",
     "charges": 4,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 3,
-    "vitamins": [ [ "vitA", 1 ], [ "calcium", 6 ], [ "iron", 4 ] ]
+    "vitamins": [["vitA", 1], ["calcium", 6], ["iron", 4]]
   },
   {
     "type": "COMESTIBLE",
@@ -304,7 +304,7 @@
     "price": 650,
     "price_postapoc": 75,
     "fun": 4,
-    "vitamins": [ [ "vitA", 2 ], [ "vitC", 30 ], [ "calcium", 4 ], [ "iron", 3 ] ]
+    "vitamins": [["vitA", 2], ["vitC", 30], ["calcium", 4], ["iron", 3]]
   },
   {
     "type": "COMESTIBLE",
@@ -320,13 +320,13 @@
     "description": "Slices of bread dipped in a milk and egg mixture then fried.",
     "price": 600,
     "price_postapoc": 100,
-    "material": [ "wheat", "milk", "egg" ],
+    "material": ["wheat", "milk", "egg"],
     "primary_material": "wheat",
     "volume": "250 ml",
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 8,
-    "vitamins": [ [ "vitA", 4 ], [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [["vitA", 4], ["calcium", 3], ["iron", 5]]
   },
   {
     "type": "COMESTIBLE",
@@ -341,12 +341,12 @@
     "description": "Hey it's waffle time, it's waffle time.  Won't you have some waffles of mine?",
     "price": 550,
     "price_postapoc": 200,
-    "material": [ "wheat", "milk" ],
+    "material": ["wheat", "milk"],
     "primary_material": "wheat",
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 5,
-    "vitamins": [ [ "vitA", 3 ], [ "calcium", 15 ], [ "iron", 9 ] ]
+    "vitamins": [["vitA", 3], ["calcium", 15], ["iron", 9]]
   },
   {
     "type": "COMESTIBLE",
@@ -362,12 +362,12 @@
     "description": "Crunchy and delicious waffles with real maple syrup, made sweeter and healthier with the addition of wholesome fruit.",
     "price": 600,
     "price_postapoc": 250,
-    "material": [ "wheat", "fruit", "milk" ],
+    "material": ["wheat", "fruit", "milk"],
     "primary_material": "wheat",
     "volume": "375 ml",
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 6,
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [["vitA", 6], ["vitC", 120], ["calcium", 2], ["iron", 2]]
   },
   {
     "type": "COMESTIBLE",
@@ -387,7 +387,7 @@
     "material": "wheat",
     "volume": "1 L",
     "charges": 8,
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 12 ] ],
+    "vitamins": [["calcium", 5], ["iron", 12]],
     "fun": 2
   },
   {
@@ -406,13 +406,13 @@
     "description": "A delicious baked pie with a sweet fruit filling.",
     "price": 1250,
     "price_postapoc": 800,
-    "material": [ "wheat", "fruit" ],
+    "material": ["wheat", "fruit"],
     "volume": "2 L",
     "charges": 8,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 3,
     "//": "these vitamins are only for pies that may spawn.  generally they will be inherited from the fruit used.",
-    "vitamins": [ [ "vitA", 3 ], [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 3 ] ]
+    "vitamins": [["vitA", 3], ["vitC", 6], ["calcium", 1], ["iron", 3]]
   },
   {
     "type": "COMESTIBLE",
@@ -428,13 +428,13 @@
     "description": "A delicious pizza with molten cheese on top.",
     "price": 990,
     "price_postapoc": 600,
-    "material": [ "wheat", "milk" ],
+    "material": ["wheat", "milk"],
     "primary_material": "wheat",
     "volume": "1 L",
     "charges": 4,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 10,
-    "vitamins": [ [ "vitA", 12 ], [ "vitC", 4 ], [ "calcium", 25 ], [ "iron", 23 ] ]
+    "vitamins": [["vitA", 12], ["vitC", 4], ["calcium", 25], ["iron", 23]]
   },
   {
     "type": "COMESTIBLE",
@@ -452,11 +452,11 @@
     "description": "A tasty and nutritious mixture of oats, honey, and other ingredients that has been baked until crisp.",
     "price": 350,
     "price_postapoc": 450,
-    "material": [ "wheat", "fruit" ],
+    "material": ["wheat", "fruit"],
     "primary_material": "wheat",
     "volume": "250 ml",
     "charges": 4,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 7 ] ],
+    "vitamins": [["calcium", 2], ["iron", 7]],
     "fun": 3
   },
   {
@@ -475,13 +475,13 @@
     "description": "A sweet and delicious baked pie with pure maple syrup.",
     "price": 1850,
     "price_postapoc": 1500,
-    "material": [ "wheat", "milk" ],
+    "material": ["wheat", "milk"],
     "primary_material": "wheat",
     "volume": "1 L",
     "charges": 8,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 6,
-    "vitamins": [ [ "vitA", 2 ], [ "calcium", 4 ], [ "iron", 8 ] ]
+    "vitamins": [["vitA", 2], ["calcium", 4], ["iron", 8]]
   },
   {
     "type": "COMESTIBLE",
@@ -500,7 +500,7 @@
     "price_postapoc": 100,
     "material": "wheat",
     "volume": "250 ml",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 18 ] ]
+    "vitamins": [["calcium", 1], ["iron", 18]]
   },
   {
     "type": "COMESTIBLE",
@@ -517,11 +517,11 @@
     "description": "This traditional Scottish treat is a sweet and filling little boiled cake studded with dried fruit.",
     "price": 195,
     "price_postapoc": 125,
-    "material": [ "wheat", "fruit" ],
+    "material": ["wheat", "fruit"],
     "volume": "250 ml",
     "stack_size": 1,
     "fun": 9,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 6 ], [ "iron", 8 ] ]
+    "vitamins": [["vitC", 2], ["calcium", 6], ["iron", 8]]
   },
   {
     "type": "COMESTIBLE",
@@ -538,13 +538,13 @@
     "description": "Filling bread buns, taste good with tea on a Sunday morning breakfast.",
     "price": 550,
     "price_postapoc": 500,
-    "material": [ "wheat", "milk" ],
+    "material": ["wheat", "milk"],
     "primary_material": "wheat",
     "volume": "750 ml",
     "charges": 6,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 6,
-    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [["vitA", 8], ["calcium", 2], ["iron", 4]]
   },
   {
     "id": "sponge_cake",
@@ -564,8 +564,8 @@
     "calories": 278,
     "fun": 4,
     "spoils_in": 420,
-    "vitamins": [ [ "vitA", 8 ], [ "calcium", 2 ], [ "iron", 5 ] ],
-    "flags": [ "EATEN_HOT" ]
+    "vitamins": [["vitA", 8], ["calcium", 2], ["iron", 5]],
+    "flags": ["EATEN_HOT"]
   },
   {
     "id": "space_cake",

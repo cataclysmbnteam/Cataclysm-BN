@@ -16,7 +16,7 @@
     "material": "fruit",
     "phase": "liquid",
     "fun": 2,
-    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
+    "flags": ["USE_EAT_VERB", "EATEN_COLD"]
   },
   {
     "type": "COMESTIBLE",
@@ -36,7 +36,7 @@
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
     "charges": 5,
-    "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [["vitC", 21], ["calcium", 2], ["iron", 4]],
     "fun": 3
   },
   {
@@ -55,7 +55,7 @@
     "material": "fruit",
     "phase": "liquid",
     "fun": 3,
-    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
+    "flags": ["USE_EAT_VERB", "EATEN_COLD"]
   },
   {
     "type": "COMESTIBLE",
@@ -75,7 +75,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "fun": 5,
-    "vitamins": [ [ "vitA", 4 ], [ "vitC", 9 ], [ "iron", 4 ] ]
+    "vitamins": [["vitA", 4], ["vitC", 9], ["iron", 4]]
   },
   {
     "type": "COMESTIBLE",
@@ -97,7 +97,7 @@
     "volume": "500 ml",
     "fun": 7,
     "charges": 2,
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 4 ], [ "iron", 6 ] ]
+    "vitamins": [["vitC", 26], ["calcium", 4], ["iron", 6]]
   },
   {
     "type": "COMESTIBLE",
@@ -113,11 +113,11 @@
     "description": "Tangy yellow powder that smells strongly of lemons.  Can be mixed with water to make lemonade.",
     "price": 10,
     "price_postapoc": 10,
-    "material": [ "powder", "fruit" ],
+    "material": ["powder", "fruit"],
     "primary_material": "powder",
     "volume": "250 ml",
     "charges": 10,
-    "vitamins": [ [ "vitC", 7 ] ],
+    "vitamins": [["vitC", 7]],
     "fun": 1
   },
   {
@@ -139,8 +139,8 @@
     "phase": "liquid",
     "fun": 2,
     "//": "this item is intended to generally be inherited from the fruit that was cooked.",
-    "vitamins": [ [ "vitC", 20 ] ],
-    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
+    "vitamins": [["vitC", 20]],
+    "flags": ["USE_EAT_VERB", "EATEN_COLD"]
   },
   {
     "type": "COMESTIBLE",
@@ -161,7 +161,7 @@
     "phase": "liquid",
     "charges": 8,
     "fun": 10,
-    "flags": [ "USE_EAT_VERB" ]
+    "flags": ["USE_EAT_VERB"]
   },
   {
     "type": "COMESTIBLE",
@@ -222,7 +222,7 @@
     "volume": "250 ml",
     "charges": 4,
     "fun": 3,
-    "vitamins": [ [ "iron", 2 ] ]
+    "vitamins": [["iron", 2]]
   },
   {
     "type": "COMESTIBLE",
@@ -244,6 +244,6 @@
     "volume": "250 ml",
     "stack_size": 2,
     "fun": 1,
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 10 ] ]
+    "vitamins": [["vitC", 3], ["calcium", 2], ["iron", 10]]
   }
 ]

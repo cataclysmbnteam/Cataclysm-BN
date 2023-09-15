@@ -37,7 +37,7 @@
     ]
   },
   {
-    "id": [ "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM", "TALK_RADIO" ],
+    "id": ["TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM", "TALK_RADIO"],
     "type": "talk_topic",
     "dynamic_line": {
       "is_by_radio": " *pshhhttt* I'm reading you boss, over.",
@@ -124,7 +124,7 @@
       {
         "text": "Please go to this location.",
         "topic": "TALK_GOTO_LOCATION",
-        "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
+        "condition": { "or": ["is_by_radio", "u_has_camp"] },
         "effect": "goto_location"
       },
       {
@@ -148,13 +148,24 @@
           }
         },
         "success": { "topic": "TALK_SHELTER_DENY_ADVICE" },
-        "failure": { "topic": "TALK_SHELTER_ADVICE", "effect": { "npc_add_effect": "asked_to_hint", "duration": 300 } }
+        "failure": {
+          "topic": "TALK_SHELTER_ADVICE",
+          "effect": { "npc_add_effect": "asked_to_hint", "duration": 300 }
+        }
       },
       {
         "text": "Mind if we just chat for a bit about your history?",
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
-          "and": [ "at_safe_space", { "or": [ { "npc_has_trait_flag": "BG_SURVIVAL_STORY" }, { "npc_has_trait": "NPC_STATIC_NPC" } ] } ]
+          "and": [
+            "at_safe_space",
+            {
+              "or": [
+                { "npc_has_trait_flag": "BG_SURVIVAL_STORY" },
+                { "npc_has_trait": "NPC_STATIC_NPC" }
+              ]
+            }
+          ]
         },
         "//": "If the NPC already has a BG story, or started out as a static NPC (and so probably doesn't need a random bg story), then go on.",
         "switch": true
@@ -326,12 +337,20 @@
         "effect": { "toggle_npc_rule": "use_guns" }
       },
       {
-        "truefalsetext": { "condition": { "npc_rule": "use_silent" }, "true": "Don't worry about noise.", "false": "Use only silent weapons." },
+        "truefalsetext": {
+          "condition": { "npc_rule": "use_silent" },
+          "true": "Don't worry about noise.",
+          "false": "Use only silent weapons."
+        },
         "topic": "TALK_COMBAT_COMMANDS",
         "effect": { "toggle_npc_rule": "use_silent" }
       },
       {
-        "truefalsetext": { "condition": { "npc_rule": "use_grenades" }, "true": "Don't use grenades anymore.", "false": "You can use grenades." },
+        "truefalsetext": {
+          "condition": { "npc_rule": "use_grenades" },
+          "true": "Don't use grenades anymore.",
+          "false": "You can use grenades."
+        },
         "topic": "TALK_COMBAT_COMMANDS",
         "effect": { "toggle_npc_rule": "use_grenades" }
       },
@@ -562,7 +581,11 @@
           "npc_aim_rule": "AIM_WHEN_CONVENIENT",
           "no": {
             "npc_aim_rule": "AIM_STRICTLY_PRECISE",
-            "no": { "npc_aim_rule": "AIM_PRECISE", "no": "*will not bother to aim at all.", "yes": "*will take time and aim carefully." },
+            "no": {
+              "npc_aim_rule": "AIM_PRECISE",
+              "no": "*will not bother to aim at all.",
+              "yes": "*will take time and aim carefully."
+            },
             "yes": "*will only shoot after taking a long time to aim."
           },
           "yes": "*will aim when it's convenient."
@@ -605,9 +628,16 @@
     "responses": [
       {
         "text": "Come on, we're friends.",
-        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 6 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "trial": {
+          "type": "PERSUADE",
+          "difficulty": 0,
+          "mod": [["TRUST", 6], ["VALUE", 2], ["ANGER", -6]]
+        },
         "success": { "topic": "TALK_TRAIN" },
-        "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 3600 } }
+        "failure": {
+          "topic": "TALK_DENY_PERSONAL",
+          "effect": { "npc_add_effect": "asked_to_train", "duration": 3600 }
+        }
       },
       { "text": "Never mind then.", "topic": "TALK_NONE" },
       { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
@@ -623,7 +653,10 @@
             { "npc_override": "allow_pick_up", "yes": "OVERRIDE: " },
             {
               "npc_rule": "allow_pick_up",
-              "yes": { "has_pickup_list": "<ally_rule_allow_pick_up_true_list_text>", "no": "<ally_rule_allow_pick_up_true_text>" },
+              "yes": {
+                "has_pickup_list": "<ally_rule_allow_pick_up_true_list_text>",
+                "no": "<ally_rule_allow_pick_up_true_text>"
+              },
               "no": "<ally_rule_allow_pick_up_false_text>"
             }
           ]
@@ -718,32 +751,56 @@
         "effect": "copy_npc_rules"
       },
       {
-        "truefalsetext": { "condition": { "npc_rule": "allow_pick_up" }, "true": "Don't pick up items.", "false": "You can pick up items now." },
+        "truefalsetext": {
+          "condition": { "npc_rule": "allow_pick_up" },
+          "true": "Don't pick up items.",
+          "false": "You can pick up items now."
+        },
         "topic": "TALK_MISC_RULES",
         "effect": { "toggle_npc_rule": "allow_pick_up" }
       },
       {
-        "truefalsetext": { "condition": { "npc_rule": "allow_bash" }, "true": "Don't bash obstacles.", "false": "You can bash obstacles." },
+        "truefalsetext": {
+          "condition": { "npc_rule": "allow_bash" },
+          "true": "Don't bash obstacles.",
+          "false": "You can bash obstacles."
+        },
         "topic": "TALK_MISC_RULES",
         "effect": { "toggle_npc_rule": "allow_bash" }
       },
       {
-        "truefalsetext": { "condition": { "npc_rule": "allow_sleep" }, "true": "Stay awake.", "false": "Sleep when you feel tired." },
+        "truefalsetext": {
+          "condition": { "npc_rule": "allow_sleep" },
+          "true": "Stay awake.",
+          "false": "Sleep when you feel tired."
+        },
         "topic": "TALK_MISC_RULES",
         "effect": { "toggle_npc_rule": "allow_sleep" }
       },
       {
-        "truefalsetext": { "condition": { "npc_rule": "allow_complain" }, "true": "Stay quiet.", "false": "Tell me when you need something." },
+        "truefalsetext": {
+          "condition": { "npc_rule": "allow_complain" },
+          "true": "Stay quiet.",
+          "false": "Tell me when you need something."
+        },
         "topic": "TALK_MISC_RULES",
         "effect": { "toggle_npc_rule": "allow_complain" }
       },
       {
-        "truefalsetext": { "condition": { "npc_rule": "allow_pulp" }, "true": "Leave corpses alone.", "false": "Smash zombie corpses." },
+        "truefalsetext": {
+          "condition": { "npc_rule": "allow_pulp" },
+          "true": "Leave corpses alone.",
+          "false": "Smash zombie corpses."
+        },
         "topic": "TALK_MISC_RULES",
         "effect": { "toggle_npc_rule": "allow_pulp" }
       },
       {
-        "truefalsetext": { "condition": { "npc_rule": "close_doors" }, "true": "Leave doors open.", "false": "Close the doors." },
+        "truefalsetext": {
+          "condition": { "npc_rule": "close_doors" },
+          "true": "Leave doors open.",
+          "false": "Close the doors."
+        },
         "topic": "TALK_MISC_RULES",
         "effect": { "toggle_npc_rule": "close_doors" }
       },
@@ -775,7 +832,12 @@
     "type": "talk_topic",
     "dynamic_line": "You're really leaving?",
     "responses": [
-      { "text": "Yeah, I'm sure.  Bye.", "topic": "TALK_DONE", "effect": "leave", "opinion": { "trust": -2, "anger": 1 } },
+      {
+        "text": "Yeah, I'm sure.  Bye.",
+        "topic": "TALK_DONE",
+        "effect": "leave",
+        "opinion": { "trust": -2, "anger": 1 }
+      },
       { "text": "Nah, I'm just kidding.", "topic": "TALK_NONE" }
     ]
   },
@@ -783,7 +845,11 @@
     "id": "TALK_RADIO",
     "type": "talk_topic",
     "responses": [
-      { "text": "Please go to this location…", "topic": "TALK_GOTO_LOCATION_RADIO", "effect": "goto_location" },
+      {
+        "text": "Please go to this location…",
+        "topic": "TALK_GOTO_LOCATION_RADIO",
+        "effect": "goto_location"
+      },
       { "text": "Stay at your current position.", "topic": "TALK_DONE", "effect": "assign_guard" },
       {
         "text": "Show me what needs to be done at the camp.",
@@ -796,7 +862,10 @@
   {
     "id": "TALK_ACTIVITIES",
     "type": "talk_topic",
-    "dynamic_line": { "npc_has_activity": "I'm currently <current_activity>.", "no": "I'm not doing much currently." },
+    "dynamic_line": {
+      "npc_has_activity": "I'm currently <current_activity>.",
+      "no": "I'm not doing much currently."
+    },
     "responses": [
       { "text": "I meant what are your goals?", "topic": "TALK_DESCRIBE_MISSION" },
       { "text": "Carry on.", "topic": "TALK_DONE" },
@@ -878,13 +947,13 @@
     "id": "TALK_GOTO_LOCATION_RADIO",
     "type": "talk_topic",
     "dynamic_line": "*pssshht* ten-four, I'll make my way there, over.",
-    "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "Affirmative.", "topic": "TALK_DONE" }]
   },
   {
     "id": "TALK_GOTO_LOCATION",
     "type": "talk_topic",
     "dynamic_line": "Sure thing, I'll make my way there.",
-    "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
+    "responses": [{ "text": "Affirmative.", "topic": "TALK_DONE" }]
   },
   {
     "id": "TALK_FRIEND_CHAT",
@@ -932,7 +1001,10 @@
         "text": "Oh you know, not bad, not bad…",
         "topic": "TALK_DONE",
         "switch": true,
-        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+        "effect": [
+          "morale_chat_activity",
+          { "npc_add_effect": "asked_to_socialize", "duration": 7000 }
+        ]
       }
     ]
   },
@@ -940,6 +1012,6 @@
     "id": "TRADE_HALLU",
     "type": "talk_topic",
     "dynamic_line": "<hallu_dont_trade>",
-    "responses": [ { "text": "Fair enough.", "topic": "TALK_NONE" } ]
+    "responses": [{ "text": "Fair enough.", "topic": "TALK_NONE" }]
   }
 ]

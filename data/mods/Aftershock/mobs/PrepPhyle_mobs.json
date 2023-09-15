@@ -24,10 +24,24 @@
     "vision_day": 30,
     "vision_night": 8,
     "harvest": "CBM_DOG",
-    "reproduction": { "baby_monster": "afs_mon_cyber_mastiff_pup", "baby_count": 7, "baby_timer": 320 },
+    "reproduction": {
+      "baby_monster": "afs_mon_cyber_mastiff_pup",
+      "baby_count": 7,
+      "baby_timer": 320
+    },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
-    "flags": [ "ANIMAL", "PET_MOUNTABLE", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ],
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ]
+    "flags": [
+      "ANIMAL",
+      "PET_MOUNTABLE",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ],
+    "anger_triggers": ["FRIEND_DIED", "FRIEND_ATTACKED", "HURT"]
   },
   {
     "id": "afs_mon_cyber_mastiff_pup",
@@ -37,13 +51,13 @@
     "default_faction": "PrepNet",
     "bodytype": "quadruped",
     "looks_like": "mon_dog_gpyrenees_pup",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
+    "categories": ["WILDLIFE"],
+    "species": ["MAMMAL"],
     "volume": "750 ml",
     "weight": "1 kg",
     "hp": 15,
     "speed": 65,
-    "material": [ "flesh" ],
+    "material": ["flesh"],
     "symbol": "d",
     "color": "light_gray",
     "aggression": -12,
@@ -57,9 +71,18 @@
     "harvest": "mammal_tiny",
     "path_settings": { "max_dist": 10 },
     "upgrades": { "age_grow": 42, "into": "afs_mon_cyber_mastiff" },
-    "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "death_function": [ "NORMAL" ],
-    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "fear_triggers": ["FRIEND_ATTACKED", "FRIEND_DIED", "HURT"],
+    "death_function": ["NORMAL"],
+    "special_attacks": [["EAT_FOOD", 100]],
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   }
 ]

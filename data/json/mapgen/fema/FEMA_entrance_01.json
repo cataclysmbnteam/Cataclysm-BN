@@ -34,10 +34,13 @@
         ".......................z"
       ],
       "rotation": 2,
-      "palettes": [ "FEMA_camp" ],
+      "palettes": ["FEMA_camp"],
       "terrain": { "z": "t_dirt" },
-      "place_loot": [ { "item": "american_flag", "x": 9, "y": 21, "chance": 75 } ],
-      "monster": { "Z": { "monster": "mon_zombie_soldier" }, "z": { "monster": "mon_zombie_soldier" } }
+      "place_loot": [{ "item": "american_flag", "x": 9, "y": 21, "chance": 75 }],
+      "monster": {
+        "Z": { "monster": "mon_zombie_soldier" },
+        "z": { "monster": "mon_zombie_soldier" }
+      }
     }
   }
 ]

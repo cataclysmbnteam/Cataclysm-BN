@@ -17,9 +17,9 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": ["NUTRIENT_OVERRIDE"],
     "charges": 4,
-    "vitamins": [ [ "iron", 9 ] ],
+    "vitamins": [["iron", 9]],
     "fun": 2
   },
   {
@@ -39,7 +39,7 @@
     "material": "fruit",
     "volume": "250 ml",
     "fun": -2,
-    "vitamins": [ [ "vitA", 12 ], [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [["vitA", 12], ["vitC", 12], ["calcium", 1], ["iron", 1]]
   },
   {
     "type": "COMESTIBLE",
@@ -59,10 +59,10 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": ["NUTRIENT_OVERRIDE", "RAW", "SMOKABLE"],
     "smoking_result": "pistachio_roasted",
     "charges": 4,
-    "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "vitamins": [["vitA", 1], ["vitC", 1], ["calcium", 3], ["iron", 7]],
     "fun": 1
   },
   {
@@ -73,7 +73,7 @@
     "healthy": 2,
     "description": "A handful of roasted nuts from a pistachio tree.",
     "price": 150,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 3
   },
   {
@@ -94,9 +94,9 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": ["NUTRIENT_OVERRIDE", "RAW", "SMOKABLE"],
     "smoking_result": "almond_roasted",
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 6 ] ],
+    "vitamins": [["calcium", 6], ["iron", 6]],
     "charges": 4,
     "fun": 1
   },
@@ -127,7 +127,7 @@
     "description": "A handful of roasted nuts from an almond tree.",
     "price": 150,
     "price_postapoc": 600,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 3
   },
   {
@@ -148,9 +148,9 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": ["NUTRIENT_OVERRIDE"],
     "charges": 4,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ],
+    "vitamins": [["calcium", 1], ["iron", 12]],
     "fun": 3
   },
   {
@@ -171,10 +171,10 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": ["NUTRIENT_OVERRIDE", "RAW", "SMOKABLE"],
     "smoking_result": "pecan_roasted",
     "charges": 4,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [["calcium", 2], ["iron", 4]],
     "fun": 1
   },
   {
@@ -184,7 +184,7 @@
     "copy-from": "pecan",
     "description": "A handful of roasted nuts from a pecan tree.",
     "price": 150,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 3
   },
   {
@@ -205,9 +205,9 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ],
+    "flags": ["NUTRIENT_OVERRIDE", "RAW"],
     "charges": 4,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [["calcium", 1], ["iron", 3]],
     "fun": 3
   },
   {
@@ -227,8 +227,8 @@
     "price_postapoc": 400,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW" ],
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 9 ] ],
+    "flags": ["NUTRIENT_OVERRIDE", "RAW"],
+    "vitamins": [["vitC", 5], ["iron", 9]],
     "charges": 4
   },
   {
@@ -246,12 +246,12 @@
     "description": "A handful of raw hard nuts from a walnut tree.",
     "price": 0,
     "price_postapoc": 600,
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": ["NUTRIENT_OVERRIDE", "RAW", "SMOKABLE"],
     "smoking_result": "walnut_roasted",
     "material": "nut",
     "volume": "250 ml",
     "charges": 4,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [["calcium", 2], ["iron", 4]],
     "fun": -1
   },
   {
@@ -262,7 +262,7 @@
     "healthy": 1,
     "description": "A handful of roasted nuts from a walnut tree.",
     "price": 90,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 1
   },
   {
@@ -280,12 +280,12 @@
     "description": "A handful of raw hard nuts from a chestnut tree.",
     "price": 0,
     "price_postapoc": 100,
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": ["NUTRIENT_OVERRIDE", "RAW", "SMOKABLE"],
     "smoking_result": "chestnut_roasted",
     "material": "nut",
     "charges": 4,
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 13 ], [ "iron", 1 ] ],
+    "vitamins": [["vitC", 13], ["iron", 1]],
     "fun": -10
   },
   {
@@ -296,7 +296,7 @@
     "healthy": 1,
     "description": "A handful of roasted nuts from a chestnut tree.",
     "price": 90,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 1
   },
   {
@@ -314,12 +314,12 @@
     "description": "A handful of raw hard nuts from a hazelnut tree.",
     "price": 0,
     "price_postapoc": 500,
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": ["NUTRIENT_OVERRIDE", "RAW", "SMOKABLE"],
     "smoking_result": "hazelnut_roasted",
     "material": "nut",
     "volume": "250 ml",
     "charges": 4,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "vitamins": [["vitC", 2], ["calcium", 3], ["iron", 7]],
     "fun": -1
   },
   {
@@ -339,9 +339,9 @@
     "price_postapoc": 600,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "NUTRIENT_OVERRIDE", "EATEN_HOT" ],
+    "flags": ["NUTRIENT_OVERRIDE", "EATEN_HOT"],
     "charges": 4,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [["calcium", 8], ["iron", 4]],
     "fun": 4
   },
   {
@@ -361,9 +361,9 @@
     "price_postapoc": 500,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "NUTRIENT_OVERRIDE", "EATEN_HOT" ],
+    "flags": ["NUTRIENT_OVERRIDE", "EATEN_HOT"],
     "charges": 4,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [["calcium", 8], ["iron", 4]],
     "fun": 4
   },
   {
@@ -374,7 +374,7 @@
     "healthy": 1,
     "description": "A handful of roasted nuts from a hazelnut tree.",
     "price": 90,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 1
   },
   {
@@ -392,12 +392,12 @@
     "description": "A handful of raw hard nuts from a hickory tree.",
     "price": 0,
     "price_postapoc": 200,
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": ["NUTRIENT_OVERRIDE", "RAW", "SMOKABLE"],
     "smoking_result": "hickory_nut_roasted",
     "material": "nut",
     "volume": "250 ml",
     "charges": 4,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [["calcium", 2], ["iron", 8]],
     "fun": -10
   },
   {
@@ -409,7 +409,7 @@
     "description": "A handful of roasted nuts from a hickory tree.",
     "price": 90,
     "price_postapoc": 500,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 1
   },
   {
@@ -427,11 +427,11 @@
     "description": "Delicious hickory nut ambrosia.  A drink worthy of the gods.",
     "price": 100,
     "price_postapoc": 400,
-    "material": [ "nut", "milk" ],
+    "material": ["nut", "milk"],
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 5,
     "freezing_point": -80
   },
@@ -452,10 +452,10 @@
     "price_postapoc": 200,
     "material": "nut",
     "volume": "250 ml",
-    "flags": [ "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
+    "flags": ["NUTRIENT_OVERRIDE", "RAW", "SMOKABLE"],
     "smoking_result": "acorn_roasted",
     "charges": 4,
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [["calcium", 1], ["iron", 2]],
     "fun": -20
   },
   {
@@ -467,7 +467,7 @@
     "description": "A handful roasted nuts from an oak tree.",
     "price": 90,
     "price_postapoc": 200,
-    "flags": [ "EATEN_HOT" ],
+    "flags": ["EATEN_HOT"],
     "fun": 1
   },
   {
@@ -485,7 +485,7 @@
     "price": 90,
     "price_postapoc": 300,
     "material": "nut",
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [["calcium", 1], ["iron", 2]],
     "volume": "250 ml",
     "milling": { "into": "flour", "conversion_rate": 8 }
   }

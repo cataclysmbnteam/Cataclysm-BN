@@ -9,7 +9,7 @@
     "price": 600000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "alien_resin" ],
+    "material": ["alien_resin"],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -19,7 +19,7 @@
       "hostile_msg": "The brain blaster swivels towards you.  You feel a buzzing in the air.",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "cooking", "computer" ]
+      "skills": ["cooking", "computer"]
     }
   },
   {
@@ -32,7 +32,7 @@
     "price": 50000000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -43,7 +43,7 @@
       "//": "Milspec, but was deployed in active service implying a reliable IFF",
       "difficulty": 9,
       "moves": 250,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -58,7 +58,7 @@
     "price": 100000000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -69,7 +69,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a robo-tank?",
       "difficulty": 10,
       "moves": 500,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -84,7 +84,7 @@
     "price": 100000000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -95,7 +95,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage.  What did you expect of a chicken walker?",
       "difficulty": 10,
       "moves": 500,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -109,7 +109,7 @@
     "price": 100000000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -120,7 +120,7 @@
       "//": "No observed open deployment, likely a prototype or secret project",
       "difficulty": 15,
       "moves": 500,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -132,13 +132,13 @@
     "category": "other",
     "description": "A broken tribot.  Now that its legs lie broken and immobile, the world seems a little less threatening.  Could be gutted for parts.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "430000 g",
     "volume": "187500 ml",
     "bashing": 10,
     "cutting": 6,
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": ["TRADER_AVOID", "NO_REPAIR"]
   },
   {
     "type": "GENERIC",
@@ -149,13 +149,13 @@
     "category": "other",
     "description": "A broken tank drone.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "1223850 g",
     "volume": "875 L",
     "bashing": 20,
     "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": ["TRADER_AVOID", "NO_REPAIR"]
   },
   {
     "type": "GENERIC",
@@ -166,13 +166,13 @@
     "category": "other",
     "description": "A broken chicken walker.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
     "price": 1000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "1023850 g",
     "volume": "1100 L",
     "bashing": 20,
     "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": ["TRADER_AVOID", "NO_REPAIR"]
   },
   {
     "id": "bot_sentinel_lx",
@@ -184,7 +184,7 @@
     "price": 600000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "green",
     "use_action": {
@@ -192,7 +192,7 @@
       "monster_id": "afs_mon_sentinel_lx",
       "difficulty": 4,
       "moves": 100,
-      "skills": [ "computer" ]
+      "skills": ["computer"]
     }
   },
   {
@@ -206,7 +206,7 @@
     "to_hit": -3,
     "bashing": 6,
     "cutting": 6,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ",",
     "color": "light_green",
     "use_action": {
@@ -217,7 +217,7 @@
       "difficulty": 4,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -231,7 +231,7 @@
     "price_postapoc": 12000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "white",
     "use_action": {
@@ -239,7 +239,7 @@
       "monster_id": "mon_laserturret_x-ray",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -254,7 +254,7 @@
       "monster_id": "mon_utilibot_beehive",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -262,7 +262,7 @@
     "type": "TOOL",
     "looks_like": "mon_tripod",
     "name": "inactive medibot",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "70 kg",
     "volume": "50 L",
     "price": 10000,
@@ -276,9 +276,9 @@
       "monster_id": "mon_medibot",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": ["LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID"]
   },
   {
     "abstract": "bot_utilibot_base",
@@ -291,10 +291,10 @@
     "volume": "62500 ml",
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "aluminum" ],
+    "material": ["steel", "aluminum"],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": ["LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID"]
   },
   {
     "abstract": "bot_hack_base",
@@ -308,7 +308,7 @@
     "to_hit": -3,
     "bashing": 4,
     "cutting": 4,
-    "material": [ "aluminum", "plastic" ],
+    "material": ["aluminum", "plastic"],
     "symbol": ";",
     "color": "light_green"
   },
@@ -328,7 +328,7 @@
       "difficulty": 1,
       "moves": 60,
       "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -336,7 +336,7 @@
     "type": "TOOL",
     "name": "inactive military robot",
     "looks_like": "mon_secubot",
-    "material": [ "steel", "kevlar" ],
+    "material": ["steel", "kevlar"],
     "weight": "140 kg",
     "volume": "62500 ml",
     "price": 10000,
@@ -345,7 +345,7 @@
     "bashing": 8,
     "symbol": ";",
     "color": "light_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": ["LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID"]
   },
   {
     "id": "bot_milbot_308",
@@ -359,7 +359,7 @@
       "monster_id": "mon_milbot_308",
       "difficulty": 0,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -374,7 +374,7 @@
       "monster_id": "mon_eyebot_heater",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -382,7 +382,7 @@
     "type": "TOOL",
     "name": "inactive defense robot",
     "looks_like": "mon_riotbot",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "140 kg",
     "volume": "62500 ml",
     "price": 10000,
@@ -391,14 +391,14 @@
     "bashing": 8,
     "symbol": ";",
     "color": "light_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": ["LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID"]
   },
   {
     "abstract": "bot_skitterbot_base",
     "type": "TOOL",
     "name": "inactive skitterbot",
     "looks_like": "broken_skitterbot",
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "62650 g",
     "volume": "30 L",
     "price": 10000,
@@ -407,7 +407,7 @@
     "bashing": 6,
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": ["LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID"]
   },
   {
     "id": "bot_skitterbot_rat",
@@ -421,7 +421,7 @@
       "monster_id": "mon_skitterbot_rat",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -436,7 +436,7 @@
       "monster_id": "mon_skitterbot_grab",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -451,7 +451,7 @@
       "monster_id": "mon_skitterbot_hunter",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -461,7 +461,7 @@
     "looks_like": "broken_eyebot",
     "price": 10000,
     "price_postapoc": 10000,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "weight": "62650 g",
     "volume": "30 L",
     "bashing": 4,
@@ -469,7 +469,7 @@
     "to_hit": -3,
     "symbol": ";",
     "color": "light_green",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": ["LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID"]
   },
   {
     "id": "bot_eyebot_heater",
@@ -483,7 +483,7 @@
       "monster_id": "mon_eyebot_heater",
       "difficulty": 1,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -497,7 +497,7 @@
     "price_postapoc": 12000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "white",
     "use_action": {
@@ -505,7 +505,7 @@
       "monster_id": "mon_laserturret_xray",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   }
 ]

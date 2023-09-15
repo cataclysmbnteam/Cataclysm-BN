@@ -3,7 +3,7 @@
     "//": "nano_fabricator room",
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_finale_1level" ],
+    "om_terrain": ["lab_finale_1level"],
     "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -33,16 +33,25 @@
         ".Yxx..g..........g..xxY.",
         "......g..........g......"
       ],
-      "palettes": [ "lab_palette", "lab_loot_research" ],
+      "palettes": ["lab_palette", "lab_loot_research"],
       "furniture": { "R": "f_rack" },
       "terrain": { "?": "t_nanofab", "r": "t_metal_floor", "/": "t_nanofab_body" },
-      "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
-      "place_nested": [ { "chunks": [ "lab_finale_loot" ], "x": 6, "y": 11 } ],
-      "place_loot": [ { "group": "mech_power_cell_spawn", "x": [ 4, 5 ], "y": [ 3, 5 ] } ],
+      "mapping": {
+        "r": { "item": { "item": "standard_template_construct" } },
+        "R": { "item": { "item": "nanomaterial" } }
+      },
+      "place_nested": [{ "chunks": ["lab_finale_loot"], "x": 6, "y": 11 }],
+      "place_loot": [{ "group": "mech_power_cell_spawn", "x": [4, 5], "y": [3, 5] }],
       "place_monster": [
-        { "monster": "mon_secubot", "x": [ 1, 4 ], "y": [ 20, 22 ], "chance": 90 },
-        { "monster": "mon_secubot", "x": [ 19, 20 ], "y": [ 20, 22 ], "chance": 90 },
-        { "monster": "mon_zombie_scientist", "x": [ 2, 20 ], "y": [ 1, 9 ], "chance": 90, "repeat": [ 1, 2 ] },
+        { "monster": "mon_secubot", "x": [1, 4], "y": [20, 22], "chance": 90 },
+        { "monster": "mon_secubot", "x": [19, 20], "y": [20, 22], "chance": 90 },
+        {
+          "monster": "mon_zombie_scientist",
+          "x": [2, 20],
+          "y": [1, 9],
+          "chance": 90,
+          "repeat": [1, 2]
+        },
         { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 100 }
       ]
     }
@@ -51,7 +60,7 @@
     "//": "portal room",
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_finale_1level" ],
+    "om_terrain": ["lab_finale_1level"],
     "weight": 50,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -81,11 +90,11 @@
         ".CCCCxxxxx....xCCxxCCCx-",
         "........................"
       ],
-      "palettes": [ "lab_palette", "lab_loot_research" ],
+      "palettes": ["lab_palette", "lab_loot_research"],
       "furniture": { "R": "f_rack", "D": "f_desk" },
       "fields": { "Q": { "field": "fd_fatigue", "intensity": 3 } },
       "mapping": {
-        "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
+        "R": { "item": [{ "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" }] },
         "D": {
           "item": [
             { "item": "sample_t_substrate" },
@@ -95,10 +104,10 @@
           ]
         }
       },
-      "place_nested": [ { "chunks": [ "lab_finale_loot" ], "x": 4, "y": 1 } ],
+      "place_nested": [{ "chunks": ["lab_finale_loot"], "x": 4, "y": 1 }],
       "place_monster": [
-        { "monster": "mon_hound_tindalos", "x": [ 7, 8 ], "y": [ 17, 18 ], "chance": 90 },
-        { "monster": "mon_hound_tindalos", "x": [ 16, 17 ], "y": [ 17, 18 ], "chance": 90 },
+        { "monster": "mon_hound_tindalos", "x": [7, 8], "y": [17, 18], "chance": 90 },
+        { "monster": "mon_hound_tindalos", "x": [16, 17], "y": [17, 18], "chance": 90 },
         { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 100 }
       ]
     }
@@ -107,7 +116,7 @@
     "//": "resonance cascade finale",
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_finale_1level" ],
+    "om_terrain": ["lab_finale_1level"],
     "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -137,7 +146,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "lab_palette" ],
+      "palettes": ["lab_palette"],
       "monster": { "?": { "monster": "mon_turret_light" } },
       "terrain": { "o": "t_radio_tower" },
       "computers": {
@@ -149,17 +158,17 @@
             { "name": "Toggle Portal", "action": "portal", "security": 8 },
             { "name": "Activate Resonance Cascade", "action": "cascade", "security": 10 }
           ],
-          "failures": [ { "action": "damage" }, { "action": "secubots" } ]
+          "failures": [{ "action": "damage" }, { "action": "secubots" }]
         }
       },
-      "place_nested": [ { "chunks": [ "lab_finale_loot" ], "x": 4, "y": 13 } ]
+      "place_nested": [{ "chunks": ["lab_finale_loot"], "x": 4, "y": 13 }]
     }
   },
   {
     "//": "cvd forge",
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "lab_finale_1level" ],
+    "om_terrain": ["lab_finale_1level"],
     "weight": 100,
     "object": {
       "fill_ter": "t_thconc_floor",
@@ -189,8 +198,8 @@
         "x......hx|....|.........",
         "---------|....|........."
       ],
-      "palettes": [ "lab_palette" ],
-      "place_nested": [ { "chunks": [ "lab_finale_loot" ], "x": 5, "y": 8 } ],
+      "palettes": ["lab_palette"],
+      "place_nested": [{ "chunks": ["lab_finale_loot"], "x": 5, "y": 8 }],
       "monster": { "?": { "monster": "mon_turret_light" } },
       "terrain": { "o": "t_cvdbody", "O": "t_cvdmachine" }
     }
@@ -201,16 +210,16 @@
     "nested_mapgen_id": "lab_finale_loot",
     "weight": 25,
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [3, 3],
       "rows": [
         "r  ",
         "r  ",
         "R  "
       ],
-      "palettes": [ "lab_palette" ],
+      "palettes": ["lab_palette"],
       "mapping": {
-        "r": { "item": [ { "item": "iv_mutagen_medical", "chance": 100, "repeat": [ 2, 2 ] } ] },
-        "R": { "item": [ { "item": "purifier_smart_shot", "chance": 100 } ] }
+        "r": { "item": [{ "item": "iv_mutagen_medical", "chance": 100, "repeat": [2, 2] }] },
+        "R": { "item": [{ "item": "purifier_smart_shot", "chance": 100 }] }
       }
     }
   },
@@ -220,16 +229,16 @@
     "nested_mapgen_id": "lab_finale_loot",
     "weight": 25,
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [3, 3],
       "rows": [
         "r  ",
         "r  ",
         "R  "
       ],
-      "palettes": [ "lab_palette" ],
+      "palettes": ["lab_palette"],
       "mapping": {
-        "r": { "item": [ { "item": "iv_mutagen_raptor", "chance": 100, "repeat": [ 2, 2 ] } ] },
-        "R": { "item": [ { "item": "purifier_smart_shot", "chance": 100 } ] }
+        "r": { "item": [{ "item": "iv_mutagen_raptor", "chance": 100, "repeat": [2, 2] }] },
+        "R": { "item": [{ "item": "purifier_smart_shot", "chance": 100 }] }
       }
     }
   },
@@ -239,16 +248,16 @@
     "nested_mapgen_id": "lab_finale_loot",
     "weight": 25,
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [3, 3],
       "rows": [
         "r  ",
         "r  ",
         "R  "
       ],
-      "palettes": [ "lab_palette" ],
+      "palettes": ["lab_palette"],
       "mapping": {
-        "r": { "item": [ { "item": "iv_mutagen_alpha", "chance": 100, "repeat": [ 2, 2 ] } ] },
-        "R": { "item": [ { "item": "purifier_smart_shot", "chance": 100 } ] }
+        "r": { "item": [{ "item": "iv_mutagen_alpha", "chance": 100, "repeat": [2, 2] }] },
+        "R": { "item": [{ "item": "purifier_smart_shot", "chance": 100 }] }
       }
     }
   },
@@ -258,16 +267,16 @@
     "nested_mapgen_id": "lab_finale_loot",
     "weight": 25,
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [3, 3],
       "rows": [
         "r  ",
         "r  ",
         "R  "
       ],
-      "palettes": [ "lab_palette" ],
+      "palettes": ["lab_palette"],
       "mapping": {
-        "r": { "item": [ { "item": "iv_mutagen_chimera", "chance": 100, "repeat": [ 2, 2 ] } ] },
-        "R": { "item": [ { "item": "purifier_smart_shot", "chance": 100 } ] }
+        "r": { "item": [{ "item": "iv_mutagen_chimera", "chance": 100, "repeat": [2, 2] }] },
+        "R": { "item": [{ "item": "purifier_smart_shot", "chance": 100 }] }
       }
     }
   },
@@ -277,15 +286,15 @@
     "nested_mapgen_id": "lab_finale_loot",
     "weight": 100,
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [3, 3],
       "rows": [
         "r  ",
         "r  ",
         "R  "
       ],
-      "palettes": [ "lab_palette" ],
+      "palettes": ["lab_palette"],
       "mapping": {
-        "r": { "item": [ { "item": "plut_cell", "chance": 100, "repeat": [ 3, 8 ] } ] },
+        "r": { "item": [{ "item": "plut_cell", "chance": 100, "repeat": [3, 8] }] },
         "R": {
           "item": [
             { "item": "UPS_off", "chance": 100 },
@@ -306,17 +315,20 @@
     "nested_mapgen_id": "lab_finale_loot",
     "weight": 100,
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [3, 3],
       "rows": [
         "r  ",
         "r  ",
         "R  "
       ],
-      "palettes": [ "lab_palette" ],
+      "palettes": ["lab_palette"],
       "mapping": {
-        "r": { "item": [ { "item": "mininuke", "chance": 100, "repeat": [ 12, 20 ] } ] },
+        "r": { "item": [{ "item": "mininuke", "chance": 100, "repeat": [12, 20] }] },
         "R": {
-          "item": [ { "item": "recipe_atomic_battery", "chance": 100 }, { "item": "plut_cell", "chance": 100, "repeat": [ 8, 16 ] } ]
+          "item": [
+            { "item": "recipe_atomic_battery", "chance": 100 },
+            { "item": "plut_cell", "chance": 100, "repeat": [8, 16] }
+          ]
         }
       }
     }
@@ -327,16 +339,21 @@
     "nested_mapgen_id": "lab_finale_loot",
     "weight": 100,
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [3, 3],
       "rows": [
         "r  ",
         "r  ",
         "R  "
       ],
-      "palettes": [ "lab_palette" ],
+      "palettes": ["lab_palette"],
       "mapping": {
-        "r": { "item": [ { "item": "plut_cell", "chance": 100, "repeat": [ 4, 10 ] } ] },
-        "R": { "item": [ { "item": "rm13_armor", "chance": 100 }, { "item": "recipe_caseless", "chance": 100 } ] }
+        "r": { "item": [{ "item": "plut_cell", "chance": 100, "repeat": [4, 10] }] },
+        "R": {
+          "item": [
+            { "item": "rm13_armor", "chance": 100 },
+            { "item": "recipe_caseless", "chance": 100 }
+          ]
+        }
       }
     }
   },
@@ -346,14 +363,14 @@
     "nested_mapgen_id": "lab_finale_loot",
     "weight": 100,
     "object": {
-      "mapgensize": [ 3, 3 ],
+      "mapgensize": [3, 3],
       "rows": [
         "r  ",
         "r  ",
         "r  "
       ],
-      "palettes": [ "lab_palette" ],
-      "mapping": { "r": { "items": [ { "item": "bionics", "chance": 100, "repeat": [ 2, 4 ] } ] } }
+      "palettes": ["lab_palette"],
+      "mapping": { "r": { "items": [{ "item": "bionics", "chance": 100, "repeat": [2, 4] }] } }
     }
   }
 ]

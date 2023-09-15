@@ -3,7 +3,7 @@
     "type": "SPECIES",
     "id": "DEMON_SPIDER",
     "name": { "str": "demon spider" },
-    "anger_triggers": [ "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ]
+    "anger_triggers": ["FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
   },
   {
     "id": "demon_spider_queen",
@@ -14,7 +14,13 @@
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "demon_chitin_piece", "type": "bone", "mass_ratio": 0.04 },
       { "drop": "demon_chitin_plate", "type": "skin", "mass_ratio": 0.01 },
-      { "drop": "demon_spider_fang", "base_num": [ 0, 0 ], "scale_num": [ 0.1, 0.6 ], "max": 2, "type": "flesh" }
+      {
+        "drop": "demon_spider_fang",
+        "base_num": [0, 0],
+        "scale_num": [0.1, 0.6],
+        "max": 2,
+        "type": "flesh"
+      }
     ]
   },
   {
@@ -29,8 +35,8 @@
     "description": "Despite it being the size of a small dog, you can tell this is a very young spider.  Its red color is why you gave it this name; you have never seen this creature before the Cataclysm.  It is quick, and its large fangs drip with venom.",
     "default_faction": "demon_spider",
     "bodytype": "spider",
-    "species": [ "DEMON_SPIDER" ],
-    "material": [ "iflesh", "demon_chitin" ],
+    "species": ["DEMON_SPIDER"],
+    "material": ["iflesh", "demon_chitin"],
     "diff": 2,
     "volume": "30000 ml",
     "weight": "40750 g",
@@ -54,9 +60,16 @@
     "vision_day": 5,
     "vision_night": 7,
     "harvest": "demon_spider",
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ]
+    "anger_triggers": [
+      "FRIEND_ATTACKED",
+      "FRIEND_DIED",
+      "HURT",
+      "STALK",
+      "PLAYER_WEAK",
+      "PLAYER_CLOSE"
+    ],
+    "death_function": ["NORMAL"],
+    "flags": ["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON"]
   },
   {
     "id": "mon_demon_spider",
@@ -65,8 +78,8 @@
     "name": "demon spider",
     "default_faction": "demon_spider",
     "bodytype": "spider",
-    "species": [ "DEMON_SPIDER" ],
-    "material": [ "iflesh", "demon_chitin" ],
+    "species": ["DEMON_SPIDER"],
+    "material": ["iflesh", "demon_chitin"],
     "diff": 7,
     "weight": "125 kg",
     "//": "monster can't be any bigger because of limits of volume on tiles.  if there is a way designed around this, it should be about 3500 L",
@@ -91,10 +104,19 @@
     "vision_day": 6,
     "vision_night": 12,
     "harvest": "demon_spider",
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "burning_hands", "min_level": 4 }, "cooldown": 20 } ],
-    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ]
+    "special_attacks": [
+      { "type": "spell", "spell_data": { "id": "burning_hands", "min_level": 4 }, "cooldown": 20 }
+    ],
+    "anger_triggers": [
+      "FRIEND_ATTACKED",
+      "FRIEND_DIED",
+      "HURT",
+      "STALK",
+      "PLAYER_WEAK",
+      "PLAYER_CLOSE"
+    ],
+    "death_function": ["NORMAL"],
+    "flags": ["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON"]
   },
   {
     "id": "mon_demon_spider_queen",
@@ -112,7 +134,19 @@
     "vision_day": 12,
     "vision_night": 18,
     "harvest": "demon_spider_queen",
-    "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "STUN_IMMUNE" ],
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "mon_summon_demon_spiderlings" }, "cooldown": 256 } ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "VENOM",
+      "WEBWALK",
+      "CLIMBS",
+      "HARDTOSHOOT",
+      "PUSH_MON",
+      "STUN_IMMUNE"
+    ],
+    "special_attacks": [
+      { "type": "spell", "spell_data": { "id": "mon_summon_demon_spiderlings" }, "cooldown": 256 }
+    ]
   }
 ]

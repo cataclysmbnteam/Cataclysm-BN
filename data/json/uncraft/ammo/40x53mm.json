@@ -5,8 +5,17 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "3 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "40x53mm_m169_casing", 1 ] ], [ [ "combatnail", 100 ] ], [ [ "gunpowder", 35 ] ], [ [ "lgrifle_primer", 1 ] ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "PULL", "level": 1 }
+    ],
+    "components": [
+      [["40x53mm_m169_casing", 1]],
+      [["combatnail", 100]],
+      [["gunpowder", 35]],
+      [["lgrifle_primer", 1]]
+    ],
     "charges": 1
   },
   {
@@ -15,13 +24,17 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "3 m",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "PULL", "level": 1 }
+    ],
     "components": [
-      [ [ "40x53mm_m169_casing", 1 ] ],
-      [ [ "chem_compositionb", 32 ] ],
-      [ [ "gunpowder", 35 ] ],
-      [ [ "impact_fuze", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ]
+      [["40x53mm_m169_casing", 1]],
+      [["chem_compositionb", 32]],
+      [["gunpowder", 35]],
+      [["impact_fuze", 1]],
+      [["lgrifle_primer", 1]]
     ],
     "charges": 1
   }

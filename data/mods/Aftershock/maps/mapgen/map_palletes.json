@@ -15,7 +15,7 @@
       "/": "t_wall_wood",
       "=": "t_wall_glass",
       "(": "t_reinforced_glass",
-      ",": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt" ],
+      ",": ["t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt"],
       "s": "t_sidewalk",
       "g": "t_bridge",
       "_": "t_pavement",
@@ -55,7 +55,7 @@
       "^": "f_indoor_plant",
       "x": "f_safe_l"
     },
-    "toilets": { ";": {  } },
+    "toilets": { ";": {} },
     "items": { "d": { "item": "office", "chance": 70 } }
   }
 ]

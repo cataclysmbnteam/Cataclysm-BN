@@ -10,7 +10,7 @@
     "price_postapoc": 12000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": ";",
     "color": "white",
     "use_action": {
@@ -18,7 +18,7 @@
       "monster_id": "mon_laserturret",
       "difficulty": 6,
       "moves": 100,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -31,7 +31,7 @@
     "price": 50000000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -42,7 +42,7 @@
       "//": "Milspec, but was deployed in active service implying a reliable IFF",
       "difficulty": 9,
       "moves": 250,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -57,7 +57,7 @@
     "price": 100000000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -68,7 +68,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage. What did you expect of a robo-tank?",
       "difficulty": 10,
       "moves": 500,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -83,7 +83,7 @@
     "price": 100000000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -94,7 +94,7 @@
       "//": "Milspec, clearly designed with little concern for collateral damage.  What did you expect of a chicken walker?",
       "difficulty": 10,
       "moves": 500,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -108,7 +108,7 @@
     "price": 100000000,
     "to_hit": -3,
     "bashing": 8,
-    "material": [ "steel" ],
+    "material": ["steel"],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
@@ -119,7 +119,7 @@
       "//": "No observed open deployment, likely a prototype or secret project",
       "difficulty": 15,
       "moves": 500,
-      "skills": [ "electronics", "computer" ]
+      "skills": ["electronics", "computer"]
     }
   },
   {
@@ -133,13 +133,13 @@
     "price": 16000,
     "to_hit": 3,
     "bashing": 18,
-    "material": [ "wood", "nomex" ],
+    "material": ["wood", "nomex"],
     "symbol": "/",
     "color": "brown",
     "initial_charges": 25,
     "max_charges": 25,
     "charges_per_use": 1,
-    "techniques": [ "WBLOCK_1" ],
+    "techniques": ["WBLOCK_1"],
     "use_action": {
       "target": "battletorch_lit",
       "msg": "You light the Louisville Slaughterer.",
@@ -148,7 +148,7 @@
       "menu_text": "Light",
       "type": "transform"
     },
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": ["DURABLE_MELEE"]
   },
   {
     "id": "battletorch_lit",
@@ -161,14 +161,14 @@
     "price": 16000,
     "to_hit": 3,
     "bashing": 18,
-    "material": [ "wood", "nomex" ],
+    "material": ["wood", "nomex"],
     "symbol": "/",
     "color": "red",
     "initial_charges": 25,
     "max_charges": 25,
     "turns_per_charge": 120,
     "revert_to": "battletorch_done",
-    "techniques": [ "WBLOCK_1" ],
+    "techniques": ["WBLOCK_1"],
     "use_action": [
       { "type": "firestarter", "moves": 30 },
       {
@@ -179,7 +179,15 @@
         "type": "transform"
       }
     ],
-    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [
+      "FIRE",
+      "LIGHT_310",
+      "CHARGEDIM",
+      "FLAMING",
+      "DURABLE_MELEE",
+      "TRADER_AVOID",
+      "WATER_EXTINGUISH"
+    ]
   },
   {
     "id": "firemachete_off",
@@ -196,7 +204,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
-    "ammo": [ "gasoline" ],
+    "ammo": ["gasoline"],
     "charges_per_use": 1,
     "max_charges": 50,
     "techniques": "WBLOCK_2",
@@ -210,8 +218,8 @@
       "failure_message": "Click.",
       "lacks_fuel_message": "Click."
     },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 12]],
+    "flags": ["FIRE", "DURABLE_MELEE", "SHEATH_SWORD"]
   },
   {
     "id": "firemachete_on",
@@ -228,11 +236,11 @@
     "material": "steel",
     "symbol": "/",
     "color": "red",
-    "ammo": [ "gasoline" ],
+    "ammo": ["gasoline"],
     "max_charges": 50,
     "turns_per_charge": 180,
     "revert_to": "firemachete_off",
-    "techniques": [ "WBLOCK_2" ],
+    "techniques": ["WBLOCK_2"],
     "use_action": [
       {
         "type": "fireweapon_on",
@@ -247,7 +255,15 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [
+      "FIRE",
+      "LIGHT_240",
+      "CHARGEDIM",
+      "FLAMING",
+      "DURABLE_MELEE",
+      "TRADER_AVOID",
+      "WATER_EXTINGUISH"
+    ]
   },
   {
     "id": "zweifire_off",
@@ -264,10 +280,10 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
+    "ammo": ["gasoline"],
     "charges_per_use": 1,
     "max_charges": 50,
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
+    "techniques": ["WBLOCK_1", "WIDE", "BRUTAL", "SWEEP"],
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "zweifire_on",
@@ -276,8 +292,8 @@
       "success_message": "Die Klinge deines Schwertes brennt!",
       "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr."
     },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 1]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND"]
   },
   {
     "id": "zweifire_on",
@@ -294,11 +310,11 @@
     "material": "steel",
     "symbol": "/",
     "color": "red",
-    "ammo": [ "gasoline" ],
+    "ammo": ["gasoline"],
     "max_charges": 50,
     "turns_per_charge": 180,
     "revert_to": "zweifire_off",
-    "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
+    "techniques": ["WBLOCK_1", "WIDE", "BRUTAL", "SWEEP"],
     "use_action": [
       {
         "type": "fireweapon_on",
@@ -310,7 +326,16 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH", "ALWAYS_TWOHAND" ]
+    "flags": [
+      "FIRE",
+      "LIGHT_240",
+      "CHARGEDIM",
+      "FLAMING",
+      "DURABLE_MELEE",
+      "TRADER_AVOID",
+      "WATER_EXTINGUISH",
+      "ALWAYS_TWOHAND"
+    ]
   },
   {
     "id": "broadfire_off",
@@ -327,7 +352,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
+    "ammo": ["gasoline"],
     "charges_per_use": 1,
     "max_charges": 50,
     "techniques": "WBLOCK_2",
@@ -339,8 +364,8 @@
       "success_message": "Charge!",
       "lacks_fuel_message": "No strength to fight!"
     },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 6]],
+    "flags": ["DURABLE_MELEE", "SHEATH_SWORD"]
   },
   {
     "id": "broadfire_on",
@@ -361,7 +386,7 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ]
+    "flags": ["FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID"]
   },
   {
     "id": "firekatana_off",
@@ -377,10 +402,10 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
+    "ammo": ["gasoline"],
     "charges_per_use": 1,
     "max_charges": 50,
-    "techniques": [ "RAPID", "WBLOCK_2" ],
+    "techniques": ["RAPID", "WBLOCK_2"],
     "use_action": {
       "type": "fireweapon_off",
       "target_id": "firekatana_on",
@@ -389,8 +414,8 @@
       "success_message": "The Sun rises.",
       "lacks_fuel_message": "Time stands still."
     },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
-    "flags": [ "FIRE", "DURABLE_MELEE", "SHEATH_SWORD" ]
+    "qualities": [["CUT", 1], ["BUTCHER", 6]],
+    "flags": ["FIRE", "DURABLE_MELEE", "SHEATH_SWORD"]
   },
   {
     "id": "firekatana_on",
@@ -406,11 +431,11 @@
     "material": "steel",
     "symbol": "/",
     "color": "red",
-    "ammo": [ "gasoline" ],
+    "ammo": ["gasoline"],
     "max_charges": 50,
     "turns_per_charge": 180,
     "revert_to": "firekatana_off",
-    "techniques": [ "RAPID", "WBLOCK_2" ],
+    "techniques": ["RAPID", "WBLOCK_2"],
     "use_action": [
       {
         "type": "fireweapon_on",
@@ -422,7 +447,15 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [
+      "FIRE",
+      "LIGHT_240",
+      "CHARGEDIM",
+      "FLAMING",
+      "DURABLE_MELEE",
+      "TRADER_AVOID",
+      "WATER_EXTINGUISH"
+    ]
   },
   {
     "id": "shishkebab_off",
@@ -435,10 +468,10 @@
     "price": 10000,
     "bashing": 4,
     "cutting": 14,
-    "material": [ "steel", "plastic" ],
+    "material": ["steel", "plastic"],
     "symbol": "/",
     "color": "light_gray",
-    "ammo": [ "gasoline" ],
+    "ammo": ["gasoline"],
     "charges_per_use": 1,
     "max_charges": 50,
     "use_action": {
@@ -451,9 +484,9 @@
       "failure_message": "Aw, dangit.  It fails to start!",
       "lacks_fuel_message": "This thing needs some fuel!"
     },
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -30 ] ],
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "SHEATH_SWORD" ]
+    "qualities": [["CUT", 1], ["BUTCHER", -30]],
+    "techniques": ["WBLOCK_1"],
+    "flags": ["FIRE", "SHEATH_SWORD"]
   },
   {
     "id": "shishkebab_on",
@@ -477,6 +510,6 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
+    "flags": ["FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID"]
   }
 ]

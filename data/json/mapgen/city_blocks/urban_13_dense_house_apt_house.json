@@ -1,7 +1,7 @@
 [
   {
     "method": "json",
-    "om_terrain": [ [ "urban_13_2", "urban_13_1" ] ],
+    "om_terrain": [["urban_13_2", "urban_13_1"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -32,7 +32,7 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "%": "t_rock",
         "~": "t_dirtfloor",
@@ -61,14 +61,21 @@
         "!": "t_linoleum_gray"
       },
       "furniture": { "!": "f_counter" },
-      "place_item": [ { "item": "television", "x": 17, "y": 5 } ],
-      "items": { "!": [ { "item": "laundry", "chance": 20, "repeat": [ 1, 3 ] }, { "item": "cleaning", "chance": 10 } ] },
-      "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 19, 20 ], "y": [ 13, 18 ], "chance": 100, "repeat": 2 } ]
+      "place_item": [{ "item": "television", "x": 17, "y": 5 }],
+      "items": {
+        "!": [
+          { "item": "laundry", "chance": 20, "repeat": [1, 3] },
+          { "item": "cleaning", "chance": 10 }
+        ]
+      },
+      "place_vehicles": [
+        { "vehicle": "laundry_cart", "x": [19, 20], "y": [13, 18], "chance": 100, "repeat": 2 }
+      ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_13_3", "urban_13_4" ] ],
+    "om_terrain": [["urban_13_3", "urban_13_4"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -99,10 +106,10 @@
         "````````````````````````````````````##```##`````",
         "````````````````````````````````````````````````"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
-        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
-        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "%": ["t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative"],
+        "[": [["t_region_tree_fruit", 2], ["t_region_tree_nut", 2], "t_region_tree_shade"],
         "=": "t_carpet_green",
         "_": "t_pavement",
         "`": "t_concrete",
@@ -144,19 +151,24 @@
         { "item": "television", "x": 34, "y": 20 },
         { "item": "television", "x": 24, "y": 4 }
       ],
-      "items": { "!": [ { "item": "laundry", "chance": 20, "repeat": [ 1, 3 ] }, { "item": "cleaning", "chance": 10 } ] },
-      "place_vehicles": [ { "vehicle": "bikeshop", "x": 25, "y": 1, "rotation": 180, "chance": 60 } ],
+      "items": {
+        "!": [
+          { "item": "laundry", "chance": 20, "repeat": [1, 3] },
+          { "item": "cleaning", "chance": 10 }
+        ]
+      },
+      "place_vehicles": [{ "vehicle": "bikeshop", "x": 25, "y": 1, "rotation": 180, "chance": 60 }],
       "place_nested": [
         {
           "chunks": [
-            [ "null", 1 ],
-            [ "bedroom_4x4_adult_2_N", 20 ],
-            [ "bedroom_4x4_adult_2_N", 20 ],
-            [ "bedroom_4x4_adult_2_E", 20 ],
-            [ "bedroom_4x4_adult_3_S", 20 ],
-            [ "bedroom_4x4_adult_3_N", 20 ],
-            [ "bedroom_4x4_adult_3_E", 20 ],
-            [ "bedroom_4x4_adult_3_W", 20 ]
+            ["null", 1],
+            ["bedroom_4x4_adult_2_N", 20],
+            ["bedroom_4x4_adult_2_N", 20],
+            ["bedroom_4x4_adult_2_E", 20],
+            ["bedroom_4x4_adult_3_S", 20],
+            ["bedroom_4x4_adult_3_N", 20],
+            ["bedroom_4x4_adult_3_E", 20],
+            ["bedroom_4x4_adult_3_W", 20]
           ],
           "x": 27,
           "y": 4
@@ -166,7 +178,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_13_5", "urban_13_6" ] ],
+    "om_terrain": [["urban_13_5", "urban_13_6"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -197,7 +209,7 @@
         "______~~~___________________________~~~~~~~_____",
         "________________________________________________"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": ["standard_domestic_palette"],
       "terrain": {
         "=": "t_carpet_green",
         "_": "t_open_air",
@@ -220,12 +232,12 @@
         "-": "t_linoleum_gray",
         "Q": "t_linoleum_gray"
       },
-      "place_item": [ { "item": "television", "x": 24, "y": 19 } ]
+      "place_item": [{ "item": "television", "x": 24, "y": 19 }]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_13_7", "urban_13_8" ] ],
+    "om_terrain": [["urban_13_7", "urban_13_8"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -256,8 +268,8 @@
         "________________________________________________",
         "________________________________________________"
       ],
-      "palettes": [ "standard_domestic_palette" ],
-      "liquids": { ")": { "liquid": "water", "amount": [ 0, 1000 ] } },
+      "palettes": ["standard_domestic_palette"],
+      "liquids": { ")": { "liquid": "water", "amount": [0, 1000] } },
       "terrain": {
         "=": "t_carpet_green",
         "_": "t_open_air",
@@ -284,27 +296,30 @@
         ")": "t_flat_roof"
       },
       "furniture": { ")": "f_standing_tank" },
-      "place_item": [ { "item": "television", "x": 24, "y": 4 }, { "item": "television", "x": 23, "y": 16 } ],
+      "place_item": [
+        { "item": "television", "x": 24, "y": 4 },
+        { "item": "television", "x": 23, "y": 16 }
+      ],
       "place_nested": [
         {
           "chunks": [
-            [ "roof_2x2_utilities_b", 15 ],
-            [ "roof_2x2_utilities_c", 5 ],
-            [ "roof_2x2_utilities_d", 10 ],
-            [ "roof_2x2_utilities", 10 ],
-            [ "roof_2x2_golf", 10 ],
-            [ "roof_3x3_wine", 10 ],
-            [ "roof_4x4_party", 5 ]
+            ["roof_2x2_utilities_b", 15],
+            ["roof_2x2_utilities_c", 5],
+            ["roof_2x2_utilities_d", 10],
+            ["roof_2x2_utilities", 10],
+            ["roof_2x2_golf", 10],
+            ["roof_3x3_wine", 10],
+            ["roof_4x4_party", 5]
           ],
-          "x": [ 35, 39 ],
-          "y": [ 8, 13 ]
+          "x": [35, 39],
+          "y": [8, 13]
         }
       ]
     }
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_13_9", "urban_13_10" ] ],
+    "om_terrain": [["urban_13_9", "urban_13_10"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -335,8 +350,8 @@
         "________________________________________________",
         "________________________________________________"
       ],
-      "palettes": [ "standard_domestic_palette" ],
-      "liquids": { ")": { "liquid": "water", "amount": [ 0, 1000 ] } },
+      "palettes": ["standard_domestic_palette"],
+      "liquids": { ")": { "liquid": "water", "amount": [0, 1000] } },
       "terrain": {
         "=": "t_carpet_green",
         " ": "t_carpet_green",
@@ -366,15 +381,15 @@
         ")": "t_flat_roof"
       },
       "furniture": { ")": "f_standing_tank" },
-      "place_item": [ { "item": "television", "x": 24, "y": 14 } ],
+      "place_item": [{ "item": "television", "x": 24, "y": 14 }],
       "nested": {
         "}": {
           "chunks": [
-            [ "roof_6x6_greenhouse_1", 20 ],
-            [ "roof_6x6_greenhouse_2", 20 ],
-            [ "roof_6x6_garden_3", 20 ],
-            [ "roof_6x6_garden_1", 20 ],
-            [ "roof_6x6_garden_2", 20 ]
+            ["roof_6x6_greenhouse_1", 20],
+            ["roof_6x6_greenhouse_2", 20],
+            ["roof_6x6_garden_3", 20],
+            ["roof_6x6_garden_1", 20],
+            ["roof_6x6_garden_2", 20]
           ]
         }
       }
@@ -382,7 +397,7 @@
   },
   {
     "method": "json",
-    "om_terrain": [ [ "urban_13_11", "urban_13_12" ] ],
+    "om_terrain": [["urban_13_11", "urban_13_12"]],
     "type": "mapgen",
     "weight": 250,
     "object": {
@@ -413,7 +428,7 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "roof_palette" ]
+      "palettes": ["roof_palette"]
     }
   }
 ]
