@@ -108,9 +108,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         dest_loc.y = rng( you.posy() - 1, you.posy() + 1 );
         dest_loc.z = you.posz();
     } else {
-        dest_loc.x = you.posx() + d.x;
-        dest_loc.y = you.posy() + d.y;
-        dest_loc.z = you.posz() + d.z;
+        dest_loc = you.pos() + d;
     }
 
     if( dest_loc == you.pos() ) {
