@@ -38,6 +38,7 @@ option(JSON_FORMAT "Build JSON formatter" "OFF")
 option(CATA_CCACHE "Try to find and build with ccache" "ON")
 option(TESTS "Compile Cata's tests" "ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
+option(TRACY "Use Tracy profiler" "OFF")
 set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
         "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
@@ -211,6 +212,7 @@ message(STATUS "SOUND                         : ${SOUND}")
 message(STATUS "LUA                           : ${LUA}")
 message(STATUS "BACKTRACE                     : ${BACKTRACE}")
 message(STATUS "LIBBACKTRACE                  : ${LIBBACKTRACE}")
+message(STATUS "TRACY                         : ${TRACY}")
 message(STATUS "USE_XDG_DIR                   : ${USE_XDG_DIR}")
 message(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}")
 message(STATUS "UNITY_BUILD                   : ${USE_UNITY_BUILD}")
@@ -269,6 +271,21 @@ endif ()
 #set(THREADS_USE_PTHREADS_WIN32 True)
 set(CMAKE_THREAD_PREFER_PTHREAD True)
 find_package(Threads REQUIRED)
+
+if (TRACY)
+    include(FetchContent)
+    add_compile_definitions(CATA_PROFILE)
+
+    FetchContent_Declare(
+        tracy
+        GIT_REPOSITORY https://github.com/wolfpld/tracy.git
+        GIT_TAG master
+        GIT_SHALLOW TRUE
+        GIT_PROGRESS TRUE)
+    FetchContent_MakeAvailable(tracy)
+
+    target_compile_options(TracyClient PRIVATE "-Wno-everything")
+endif ()
 
 # Check for build types and libraries
 if (TILES)

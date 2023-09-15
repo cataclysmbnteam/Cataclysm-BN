@@ -124,6 +124,10 @@ if (TILES)
         target_link_libraries(cataclysm-tiles-common PUBLIC backtrace)
     endif ()
 
+    if (TRACY)
+        target_link_libraries(cataclysm-tiles PUBLIC TracyClient)
+    endif ()
+
     if (RELEASE)
         install(TARGETS cataclysm-tiles RUNTIME)
     endif ()
@@ -190,6 +194,10 @@ if (CURSES)
 
     if (LIBBACKTRACE)
         target_link_libraries(cataclysm-common PUBLIC backtrace)
+    endif ()
+
+    if (TRACY)
+        target_link_libraries(cataclysm-common PUBLIC TracyClient)
     endif ()
 
     if (RELEASE)
