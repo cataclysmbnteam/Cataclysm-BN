@@ -61,6 +61,7 @@ auto dest( const elevator::tiles &elevator_here,
 auto choose_floor( const tripoint &examp, const tripoint_abs_omt &this_omt,
                    const tripoint &sm_orig ) -> int
 {
+    constexpr int retval_offset = 10000; // workaround for uilist retval autoassign when retval == -1
     const auto this_floor = _( " (this floor)" );
 
     map &here = get_map();
@@ -79,10 +80,10 @@ auto choose_floor( const tripoint &examp, const tripoint_abs_omt &this_omt,
         const auto floor_name = z == examp.z ? this_floor : "";
         const std::string name = string_format( "%3iF %s%s", z, omt_name, floor_name );
 
-        choice.addentry( z, z != examp.z, MENU_AUTOASSIGN, name );
+        choice.addentry( z + retval_offset, z != examp.z, MENU_AUTOASSIGN, name );
     }
     choice.query();
-    return choice.ret;
+    return choice.ret - retval_offset;
 }
 
 enum class overlap_status { outside, inside, overlap };
