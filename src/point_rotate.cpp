@@ -1,3 +1,4 @@
+#include "point_rotate.h"
 #include "overmapbuffer.h"
 #include "omdata.h"
 #include "point.h"
