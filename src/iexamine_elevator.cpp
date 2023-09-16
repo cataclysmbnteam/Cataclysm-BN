@@ -129,6 +129,12 @@ auto vehicles_on( const elevator::tiles &tiles ) -> elevator_vehicles
     return { false, ret };
 }
 
+auto warn_blocking( const elevator_vehicles &vehs, std::string_view location ) -> void
+{
+    const auto &first_veh_name = vehs.v.front()->name;
+    popup( string_format( _( "%1$s %2$s is blocking the elevator." ), first_veh_name, location ) );
+}
+
 auto move_creatures_away( const elevator::tiles &dest ) -> void
 {
     map &here = get_map();
@@ -208,9 +214,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
     const auto elevator_here = elevator::here( p );
     const auto vehs = elevator::vehicles_on( elevator_here );
     if( vehs.blocking ) {
-        const auto &first_veh_name = vehs.v.front()->name;
-        popup( string_format( _( "The %s is blocking the elevator." ), first_veh_name ) );
-        return;
+        return warn_blocking( vehs, _( "here" ) );
     }
 
     const int movez = elevator::choose_floor( examp, this_omt, sm_orig );
@@ -222,6 +226,10 @@ void iexamine::elevator( player &p, const tripoint &examp )
     const int turns = get_rot_delta( this_omt, that_omt );
 
     const auto elevator_dest = elevator::dest( elevator_here, sm_orig, turns, movez );
+    const auto vehicles_dest = elevator::vehicles_on( elevator_dest );
+    if( !vehicles_dest.v.empty() ) {
+        return warn_blocking( vehicles_dest, _( "at the destination floor" ) );
+    }
 
     elevator::move_creatures_away( elevator_dest );
     elevator::move_items( elevator_here, elevator_dest );
