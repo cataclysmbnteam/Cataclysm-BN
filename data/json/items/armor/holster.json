@@ -45,7 +45,7 @@
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "use_action": {
       "type": "holster",
-      "max_volume": "400 ml",
+      "max_volume": "500 ml",
       "min_volume": "100 ml",
       "max_weight": 1000,
       "draw_cost": 150,
@@ -89,7 +89,7 @@
     "coverage": 2,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "max_volume": "800 ml", "min_volume": "300 ml", "skills": [ "pistol", "smg", "shotgun" ] },
+    "use_action": { "type": "holster", "max_volume": "1 L", "min_volume": "250 ml", "skills": [ "pistol", "smg", "shotgun" ] },
     "flags": [ "WAIST", "OVERSIZE" ]
   },
   {
@@ -163,7 +163,7 @@
     "coverage": 10,
     "encumbrance": 4,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "min_volume": "750 ml", "max_volume": "1250 ml", "skills": [ "pistol", "smg", "shotgun" ] },
+    "use_action": { "type": "holster", "min_volume": "750 ml", "max_volume": "1500 ml", "skills": [ "pistol", "smg", "shotgun" ] },
     "flags": [ "WAIST", "OVERSIZE" ]
   }
 ]
