@@ -11,17 +11,31 @@
 #include "ui.h"
 #include "vpart_range.h"
 #include "point_rotate.h"
-
 namespace
 {
 
-using elevator_tiles = std::vector<tripoint>;
-auto get_elevator_here( const Character &you ) -> elevator_tiles
+// still not sure whether there's a utility function for this
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
+auto move_item( map &here, const tripoint &src, const tripoint &dest ) -> void
+{
+    map_stack items = here.i_at( src );
+    for( auto it = items.begin(); it != items.end(); ) {
+        here.add_item_or_charges( dest, *it );
+        it = here.i_rem( src, it );
+    }
+};
+
+namespace elevator
+{
+
+using tiles = std::vector<tripoint>;
+
+auto here( const Character &you ) -> elevator::tiles
 {
     const auto &here = get_map();
     const auto &points = closest_points_first( you.pos(), SEEX - 1 );
 
-    elevator_tiles tiles;
+    elevator::tiles tiles;
     std::copy_if( points.begin(), points.end(), std::back_inserter( tiles ),
     [&here]( const tripoint & pos ) {
         return here.has_flag( TFLAG_ELEVATOR, pos );
@@ -30,12 +44,12 @@ auto get_elevator_here( const Character &you ) -> elevator_tiles
     return tiles;
 }
 
-auto get_elevator_dest( const elevator_tiles &elevator_here,
-                        const tripoint &sm_orig,
-                        int turns,
-                        int movez ) -> elevator_tiles
+auto dest( const elevator::tiles &elevator_here,
+           const tripoint &sm_orig,
+           int turns,
+           int movez ) -> elevator::tiles
 {
-    elevator_tiles tiles;
+    elevator::tiles tiles;
     std::transform( elevator_here.begin(), elevator_here.end(), std::back_inserter( tiles ),
     [turns, &sm_orig, movez]( tripoint const & p ) {
         return rotate_point_sm( { p.xy(), movez }, sm_orig, turns );
@@ -44,40 +58,36 @@ auto get_elevator_dest( const elevator_tiles &elevator_here,
     return tiles;
 }
 
-auto choose_elevator_destz( const tripoint &examp, const tripoint_abs_omt &this_omt,
-                            const tripoint &sm_orig ) -> int
+auto choose_floor( const tripoint &examp, const tripoint_abs_omt &this_omt,
+                   const tripoint &sm_orig ) -> int
 {
     const auto this_floor = _( " (this floor)" );
 
     map &here = get_map();
     uilist choice;
-    choice.title = _( "Select destination floor" );
+    choice.title = _( "Please select destination floor" );
     for( int z = OVERMAP_HEIGHT; z >= -OVERMAP_DEPTH; z-- ) {
         const tripoint_abs_omt that_omt{ this_omt.xy(), z };
         const int delta = get_rot_delta( this_omt, that_omt );
         const tripoint zp =
             rotate_point_sm( { examp.xy(), z }, sm_orig, delta );
 
-        if( here.ter( zp )->examine == &iexamine::elevator ) {
-            const std::string omt_name = overmap_buffer.ter_existing( that_omt )->get_name();
-            const auto floor_name = z == examp.z ? this_floor : "";
-            const std::string name = string_format( "%3iF %s%s", z, omt_name, floor_name );
-
-            choice.addentry( z, z != examp.z, MENU_AUTOASSIGN, name );
+        if( here.ter( zp )->examine != &iexamine::elevator ) {
+            continue;
         }
+        const std::string omt_name = overmap_buffer.ter_existing( that_omt )->get_name();
+        const auto floor_name = z == examp.z ? this_floor : "";
+        const std::string name = string_format( "%3iF %s%s", z, omt_name, floor_name );
+
+        choice.addentry( z, z != examp.z, MENU_AUTOASSIGN, name );
     }
     choice.query();
     return choice.ret;
 }
 
-} // namespace
-
-namespace
-{
-
 enum class overlap_status { outside, inside, overlap };
 
-auto vehicle_status( const wrapped_vehicle &veh, const elevator_tiles &tiles ) -> overlap_status
+auto vehicle_status( const wrapped_vehicle &veh, const elevator::tiles &tiles ) -> overlap_status
 {
     const auto &ps = veh.v->get_all_parts();
     const int all_vparts_count = ps.part_count();
@@ -101,7 +111,7 @@ struct elevator_vehicles {
     std::vector<vehicle *> v;
 };
 
-auto get_vehicles_on_elevator( const elevator_tiles &tiles ) -> elevator_vehicles
+auto vehicles_on( const elevator::tiles &tiles ) -> elevator_vehicles
 {
     const VehicleList vehs = get_map().get_vehicles();
     std::vector<vehicle *> ret;
@@ -118,23 +128,7 @@ auto get_vehicles_on_elevator( const elevator_tiles &tiles ) -> elevator_vehicle
     return { false, ret };
 }
 
-} // namespace
-
-namespace
-{
-
-// still not sure whether there's a utility function for this
-// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
-auto move_item( map &here, const tripoint &src, const tripoint &dest ) -> void
-{
-    map_stack items = here.i_at( src );
-    for( auto it = items.begin(); it != items.end(); ) {
-        here.add_item_or_charges( dest, *it );
-        it = here.i_rem( src, it );
-    }
-};
-
-auto move_creatures_away_from( const elevator_tiles &dest ) -> void
+auto move_creatures_away( const elevator::tiles &dest ) -> void
 {
     map &here = get_map();
 
@@ -161,7 +155,44 @@ auto move_creatures_away_from( const elevator_tiles &dest ) -> void
     }
 }
 
-} //namespace
+auto move_items( const elevator::tiles from, const elevator::tiles dest ) -> void
+{
+    map &here = get_map();
+
+    for( decltype( from )::size_type i = 0; i < from.size(); i++ ) {
+        const tripoint &src = from[i];
+        move_item( here, src, dest[i] );
+    }
+}
+
+auto move_creatures( const elevator::tiles from, const elevator::tiles dest ) -> void
+{
+    for( Creature &critter : g->all_creatures() ) {
+        const auto eit = std::find( from.cbegin(), from.cend(), critter.pos() );
+        if( eit != from.cend() ) {
+            critter.setpos( dest[ std::distance( from.cbegin(), eit ) ] );
+        }
+    }
+}
+
+auto move_vehicles( const elevator_vehicles &vehs, const tripoint &sm_orig, int movez,
+                    int turns ) -> void
+{
+    map &here = get_map();
+
+    for( vehicle *v : vehs.v ) {
+        const tripoint p = rotate_point_sm( { v->global_pos3().xy(), movez }, sm_orig, turns );
+        here.displace_vehicle( *v, p - v->global_pos3() );
+        v->turn( turns * 90_degrees );
+        v->face = tileray( v->turn_dir );
+        v->precalc_mounts( 0, v->turn_dir, v->pivot_anchor[0] );
+    }
+    here.reset_vehicle_cache();
+}
+
+} //namespace elevator
+
+} // namespace
 
 /**
  * If underground, move 2 levels up else move 2 levels down. Stable movement between levels 0 and -2.
@@ -173,15 +204,15 @@ void iexamine::elevator( player &p, const tripoint &examp )
     const tripoint_abs_omt this_omt = project_to<coords::omt>( here.getglobal( examp ) );
     const tripoint sm_orig = here.getlocal( project_to<coords::ms>( this_omt ) );
 
-    const auto elevator_here = get_elevator_here( p );
-    const auto vehs = get_vehicles_on_elevator( elevator_here );
+    const auto elevator_here = elevator::here( p );
+    const auto vehs = elevator::vehicles_on( elevator_here );
     if( vehs.blocking ) {
         const auto &first_veh_name = vehs.v.front()->name;
         popup( string_format( _( "The %s is blocking the elevator." ), first_veh_name ) );
         return;
     }
 
-    const int movez = choose_elevator_destz( examp, this_omt, sm_orig );
+    const int movez = elevator::choose_floor( examp, this_omt, sm_orig );
     if( movez < -OVERMAP_DEPTH ) {
         return;
     }
@@ -189,33 +220,12 @@ void iexamine::elevator( player &p, const tripoint &examp )
     const tripoint_abs_omt that_omt{ this_omt.xy(), movez };
     const int turns = get_rot_delta( this_omt, that_omt );
 
-    const auto elevator_dest = get_elevator_dest( elevator_here, sm_orig, turns, movez );
+    const auto elevator_dest = elevator::dest( elevator_here, sm_orig, turns, movez );
 
-    move_creatures_away_from( elevator_dest );
-
-    // move along every item in the elevator
-    for( decltype( elevator_here )::size_type i = 0; i < elevator_here.size(); i++ ) {
-        const tripoint &src = elevator_here[i];
-        move_item( here, src, elevator_dest[i] );
-    }
-
-    // move along all creatures on the elevator
-    for( Creature &critter : g->all_creatures() ) {
-        const auto eit = std::find( elevator_here.cbegin(), elevator_here.cend(), critter.pos() );
-        if( eit != elevator_here.cend() ) {
-            critter.setpos( elevator_dest[ std::distance( elevator_here.cbegin(), eit ) ] );
-        }
-    }
-
-    // move vehicles
-    for( vehicle *v : vehs.v ) {
-        const tripoint p = rotate_point_sm( { v->global_pos3().xy(), movez }, sm_orig, turns );
-        here.displace_vehicle( *v, p - v->global_pos3() );
-        v->turn( turns * 90_degrees );
-        v->face = tileray( v->turn_dir );
-        v->precalc_mounts( 0, v->turn_dir, v->pivot_anchor[0] );
-    }
-    here.reset_vehicle_cache();
+    elevator::move_creatures_away( elevator_dest );
+    elevator::move_items( elevator_here, elevator_dest );
+    elevator::move_creatures( elevator_here, elevator_dest );
+    elevator::move_vehicles( vehs, sm_orig, movez, turns );
 
     g->vertical_shift( movez );
     cata_event_dispatch::avatar_moves( *p.as_avatar(), here, old_abs_pos.raw() );
