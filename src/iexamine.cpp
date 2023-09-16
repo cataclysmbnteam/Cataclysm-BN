@@ -242,7 +242,6 @@ static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 static const std::string flag_WALL( "WALL" );
 static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
-static const std::string flag_ELEVATOR( "ELEVATOR" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -876,101 +875,6 @@ void iexamine::toilet( player &p, const tripoint &examp )
         // TODO: use me
         ( void ) p;
         liquid_handler::handle_liquid_from_ground( water, examp );
-    }
-}
-
-/**
- * If underground, move 2 levels up else move 2 levels down. Stable movement between levels 0 and -2.
- */
-void iexamine::elevator( player &p, const tripoint &examp )
-{
-    map &here = get_map();
-    if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
-        return;
-    }
-    int movez = ( examp.z < 0 ? 2 : -2 );
-
-    tripoint original_floor_omt = ms_to_omt_copy( here.getabs( examp ) );
-    tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
-
-
-    // first find critters in the destination elevator and move them out of the way
-    for( Creature &critter : g->all_creatures() ) {
-        if( critter.is_player() ) {
-            continue;
-        }
-
-        if( !here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
-            continue;
-        }
-
-        tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
-        if( critter_omt != new_floor_omt ) {
-            continue;
-        }
-
-        for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
-            if( !here.has_flag( flag_ELEVATOR, candidate ) &&
-                here.passable( candidate ) &&
-                !g->critter_at( candidate ) ) {
-                critter.setpos( candidate );
-                break;
-            }
-        }
-    }
-
-    // TODO: do we have struct or pair to indicate from -> to?
-    const auto move_item = [&]( map_stack & items, const tripoint & src, const tripoint & dest ) {
-        for( auto it = items.begin(); it != items.end(); ) {
-            here.add_item_or_charges( dest, *it );
-            it = here.i_rem( src, it );
-        }
-    };
-
-    const auto first_elevator_tile = [&]( const tripoint & pos ) -> tripoint {
-        for( const tripoint &candidate : closest_points_first( pos, 10 ) )
-        {
-            if( here.has_flag( flag_ELEVATOR, candidate ) ) {
-                return candidate;
-            }
-        }
-        return pos;
-    };
-
-    // move along every item in the elevator
-    for( const tripoint &pos : closest_points_first( p.pos(), 10 ) ) {
-        if( here.has_flag( flag_ELEVATOR, pos ) ) {
-            map_stack items = here.i_at( pos );
-            tripoint dest = first_elevator_tile( pos + tripoint( 0, 0, movez ) );
-            move_item( items, pos, dest );
-        }
-    }
-
-    // move the player
-    g->vertical_move( movez, false );
-
-    // finally, bring along everyone who was in the elevator with the player
-    for( Creature &critter : g->all_creatures() ) {
-        if( critter.is_player() ) {
-            continue;
-        }
-
-        if( !here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
-            continue;
-        }
-
-        tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
-        if( critter_omt != original_floor_omt ) {
-            continue;
-        }
-
-        for( const tripoint &candidate : closest_points_first( p.pos(), 10 ) ) {
-            if( here.has_flag( flag_ELEVATOR, candidate ) && candidate != p.pos() &&
-                !g->critter_at( candidate ) ) {
-                critter.setpos( candidate );
-                break;
-            }
-        }
     }
 }
 
