@@ -60,7 +60,7 @@
     "description": "The hunter is a smaller lizardfolk than a warrior, but equally as deadly, with their lithe figures and accurate javelin throws.",
     "copy-from": "mon_lizardfolk_warrior",
     "symbol": "L",
-	"dodge": 3,
+    "dodge": 3,
     "special_attacks": [
       {
         "type": "gun",
