@@ -233,34 +233,34 @@ various tile identifiers, different orientations, etc. The ordering of the overl
 displaying mutations can be controlled as well. The ordering can be used to override the default
 ordering provided in `mutation_ordering.json`. Example:
 
-```cpp
-{                                             // whole file is a single object
-  "tile_info": [                              // tile_info is mandatory
+```json
+{ // whole file is a single object
+  "tile_info": [ // tile_info is mandatory
     {
       "height": 32,
       "width": 32,
-      "iso" : true,                             //  Optional. Indicates an isometric tileset. Defaults to false.
-      "pixelscale" : 2                          //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
+      "iso": true, //  Optional. Indicates an isometric tileset. Defaults to false.
+      "pixelscale": 2 //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
     }
   ],
-  "tiles-new": [                              // tiles-new is an array of sprite sheets
-    {                                           //   alternately, just one "tiles" array
-      "file": "tiles.png",                      // file containing sprites in a grid
-      "tiles": [                                // array with one entry per tile
+  "tiles-new": [ // tiles-new is an array of sprite sheets
+    { //   alternately, just one "tiles" array
+      "file": "tiles.png", // file containing sprites in a grid
+      "tiles": [ // array with one entry per tile
         {
-          "id": "10mm",                         // id is how the game maps things to sprites
-          "fg": 1,                              //   lack of prefix mostly indicates items
-          "bg": 632,                            // fg and bg can be sprite indexes in the image
+          "id": "10mm", // id is how the game maps things to sprites
+          "fg": 1, //   lack of prefix mostly indicates items
+          "bg": 632, // fg and bg can be sprite indexes in the image
           "rotates": false
         },
         {
-          "id": "t_wall",                       // "t_" indicates terrain
-          "fg": [2918, 2919, 2918, 2919],       // 2 or 4 sprite numbers indicates pre-rotated
+          "id": "t_wall", // "t_" indicates terrain
+          "fg": [2918, 2919, 2918, 2919], // 2 or 4 sprite numbers indicates pre-rotated
           "bg": 633,
           "rotates": true,
           "multitile": true,
-          "additional_tiles": [                 // connected/combined versions of sprite
-            {                                   //   or variations, see below
+          "additional_tiles": [ // connected/combined versions of sprite
+            { //   or variations, see below
               "id": "center",
               "fg": [2919, 2918, 2919, 2918]
             },
@@ -283,14 +283,14 @@ ordering provided in `mutation_ordering.json`. Example:
           ]
         },
         {
-          "id": "vp_atomic_lamp",               // "vp_" vehicle part
+          "id": "vp_atomic_lamp", // "vp_" vehicle part
           "fg": 3019,
           "bg": 632,
           "rotates": false,
           "multitile": true,
           "additional_tiles": [
             {
-              "id": "broken",                   // variant sprite
+              "id": "broken", // variant sprite
               "fg": 3021
             }
           ]
@@ -299,45 +299,45 @@ ordering provided in `mutation_ordering.json`. Example:
           "id": "t_dirt",
           "rotates": false,
           "fg": [
-            { "weight":50, "sprite":640},       // weighted random variants
-            { "weight":1, "sprite":3620},
-            { "weight":1, "sprite":3621},
-            { "weight":1, "sprite":3622}
+            { "weight": 50, "sprite": 640 }, // weighted random variants
+            { "weight": 1, "sprite": 3620 },
+            { "weight": 1, "sprite": 3621 },
+            { "weight": 1, "sprite": 3622 }
           ]
         },
         {
           "id": [
-            "overlay_mutation_GOURMAND",        // character overlay for mutation
-            "overlay_mutation_male_GOURMAND",   // overlay for specified gender
-            "overlay_mutation_active_GOURMAND"  // overlay for activated mutation
+            "overlay_mutation_GOURMAND", // character overlay for mutation
+            "overlay_mutation_male_GOURMAND", // overlay for specified gender
+            "overlay_mutation_active_GOURMAND" // overlay for activated mutation
           ],
           "fg": 4040
         }
       ]
     },
-    {                                           // second entry in tiles-new
-      "file": "moretiles.png",                  // another sprite sheet
+    { // second entry in tiles-new
+      "file": "moretiles.png", // another sprite sheet
       "tiles": [
         {
-          "id": ["xxx","yyy"],                  // define two ids at once
+          "id": ["xxx", "yyy"], // define two ids at once
           "fg": 1,
           "bg": 234
         }
       ]
-    }d
+    }
   ],
   "overlay_ordering": [
     {
-      "id" : "WINGS_BAT",                         // mutation name, in a string or array of strings
-      "order" : 1000                              // range from 0 - 9999, 9999 being the topmost layer
+      "id": "WINGS_BAT", // mutation name, in a string or array of strings
+      "order": 1000 // range from 0 - 9999, 9999 being the topmost layer
     },
     {
-      "id" : [ "PLANTSKIN", "BARK" ],             // mutation name, in a string or array of strings
-      "order" : 3500                              // order is applied to all items in the array
+      "id": ["PLANTSKIN", "BARK"], // mutation name, in a string or array of strings
+      "order": 3500 // order is applied to all items in the array
     },
     {
-      "id" : "bio_armor_torso",                   // Overlay order of bionics is controlled in the same way
-      "order" : 500
+      "id": "bio_armor_torso", // Overlay order of bionics is controlled in the same way
+      "order": 500
     }
   ]
 }

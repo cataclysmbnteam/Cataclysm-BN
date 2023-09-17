@@ -2,8 +2,8 @@
 title: Design document
 ---
 
-See [Game Balance](https://github.com/cataclysmbnteam/Cataclysm-BN/wiki/Game-Balance) and
-[Lore](https://github.com/cataclysmbnteam/Cataclysm-BN/wiki/LORE) for more detailed discussion
+See [Game Balance](../../mod/json/explanation/game_balance.md) and
+[Lore](../../game/lore/factions.md) for more detailed discussion
 coresponding to particular elements of the CDDA design document. This document covers the core
 philosphy of CBN.
 

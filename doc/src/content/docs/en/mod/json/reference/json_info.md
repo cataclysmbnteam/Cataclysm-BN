@@ -2,15 +2,23 @@
 title: JSON INFO
 ---
 
-Use the `Home` key to return to the top.
+:::note
 
-# Introduction
+This document is being split into multiple pages.
+
+:::
+
+:::danger
+
+Many of the JSON files are not documented yet or is outdated. Check relevent source files to be sure.
+
+:::
 
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are
 probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to
 learn more about what to find where and what each file and property does.
 
-# Navigating the JSON
+## Navigating the JSON
 
 A lot of the JSON involves cross-references to other JSON entities. To make it easier to navigate,
 we provide a script `tools/json_tools/cddatags.py` that can build a `tags` file for you.
@@ -28,165 +36,12 @@ positioning your cursor over an id and hitting the appropriate key combination.
 - In Notepad++ go to "Plugins" -> "Plugins Admin" and enable the "TagLEET" plugin. Then select any
   id and press Alt+Space to open the references window.
 
-# File descriptions
+## The `type` Property
 
-Here's a quick summary of what each of the JSON files contain, broken down by folder. This list is
-not comprehensive, but covers the broad strokes.
-
-## `data/json/`
-
-| Filename                   | Description                                                           |
-| -------------------------- | --------------------------------------------------------------------- |
-| achievements.json          | achievements                                                          |
-| anatomy.json               | a listing of player body parts - do not edit                          |
-| ascii_arts.json            | ascii arts for item descriptions                                      |
-| bionics.json               | bionics, does NOT include bionic effects                              |
-| body_parts.json            | an expansion of anatomy.json - do not edit                            |
-| clothing_mods.json         | definition of clothing mods                                           |
-| construction.json          | definition of construction menu tasks                                 |
-| default_blacklist.json     | a standard blacklist of joke monsters                                 |
-| doll_speech.json           | talk doll speech messages                                             |
-| dreams.json                | dream text and linked mutation categories                             |
-| disease.json               | disease definitions                                                   |
-| effects.json               | common effects and their effects                                      |
-| emit.json                  | smoke and gas emissions                                               |
-| flags.json                 | common flags and their descriptions                                   |
-| furniture.json             | furniture, and features treated like furniture                        |
-| game_balance.json          | various options to tweak game balance                                 |
-| gates.json                 | gate terrain definitions                                              |
-| harvest.json               | item drops for butchering corpses                                     |
-| health_msgs.json           | messages displayed when the player wakes                              |
-| item_actions.json          | descriptions of standard item actions                                 |
-| item_category.json         | item categories and their default sort                                |
-| item_groups.json           | item spawn groups                                                     |
-| lab_notes.json             | lab computer messages                                                 |
-| martialarts.json           | martial arts styles and buffs                                         |
-| materials.json             | material types                                                        |
-| monster_attacks.json       | monster attacks                                                       |
-| monster_drops.json         | monster item drops on death                                           |
-| monster_factions.json      | monster factions                                                      |
-| monstergroups.json         | monster spawn groups                                                  |
-| monstergroups_egg.json     | monster spawn groups from eggs                                        |
-| monsters.json              | monster descriptions, mostly zombies                                  |
-| morale_types.json          | morale modifier messages                                              |
-| mutation_category.json     | messages for mutation categories                                      |
-| mutation_ordering.json     | draw order for mutation and CBM overlays in tiles mode                |
-| mutations.json             | traits/mutations                                                      |
-| names.json                 | names used for NPC/player name generation                             |
-| overmap_connections.json   | connections for roads and tunnels in the overmap                      |
-| overmap_terrain.json       | overmap terrain                                                       |
-| player_activities.json     | player activities                                                     |
-| professions.json           | profession definitions                                                |
-| recipes.json               | crafting/disassembly recipes                                          |
-| regional_map_settings.json | settings for the entire map generation                                |
-| road_vehicles.json         | vehicle spawn information for roads                                   |
-| rotatable_symbols.json     | rotatable symbols - do not edit                                       |
-| scent_types.json           | type of scent available                                               |
-| scores.json                | scores                                                                |
-| skills.json                | skill descriptions and ID's                                           |
-| snippets.json              | flier/poster descriptions                                             |
-| species.json               | monster species                                                       |
-| speech.json                | monster vocalizations                                                 |
-| statistics.json            | statistics and transformations used to define scores and achievements |
-| start_locations.json       | starting locations for scenarios                                      |
-| techniques.json            | generic for items and martial arts                                    |
-| terrain.json               | terrain types and definitions                                         |
-| test_regions.json          | test regions                                                          |
-| tips.json                  | tips of the day                                                       |
-| tool_qualities.json        | standard tool qualities and their actions                             |
-| traps.json                 | standard traps                                                        |
-| tutorial.json              | messages for the tutorial (that is out of date)                       |
-| vehicle_groups.json        | vehicle spawn groups                                                  |
-| vehicle_parts.json         | vehicle parts, does NOT affect flag effects                           |
-| vitamin.json               | vitamins and their deficiencies                                       |
-
-selected subfolders
-
-## `data/json/items/`
-
-See below for specifics on the various items
-
-| Filename                     | Description                                                        |
-| ---------------------------- | ------------------------------------------------------------------ |
-| ammo.json                    | common base components like batteries and marbles                  |
-| ammo_types.json              | standard ammo types by gun                                         |
-| archery.json                 | bows and arrows                                                    |
-| armor.json                   | armor and clothing                                                 |
-| bionics.json                 | Compact Bionic Modules (CBMs)                                      |
-| biosignatures.json           | animal waste                                                       |
-| books.json                   | books                                                              |
-| chemicals_and_resources.json | chemical precursors                                                |
-| comestibles.json             | food/drinks                                                        |
-| containers.json              | containers                                                         |
-| crossbows.json               | crossbows and bolts                                                |
-| fake.json                    | fake items for bionics or mutations                                |
-| fuel.json                    | liquid fuels                                                       |
-| grenades.json                | grenades and throwable explosives                                  |
-| handloaded_bullets.json      | random ammo                                                        |
-| melee.json                   | anything that doesn't go in the other item jsons, melee weapons    |
-| migration.json               | conversions of non-existent items from save games to current items |
-| newspaper.json               | flyers, newspapers, and survivor notes. snippets.json for messages |
-| obsolete.json                | items being removed from the game                                  |
-| ranged.json                  | guns                                                               |
-| software.json                | software for SD-cards and USB sticks                               |
-| tool_armor.json              | clothes and armor that can be (a)ctivated                          |
-| toolmod.json                 | modifications of tools                                             |
-| tools.json                   | tools and items that can be (a)ctivated                            |
-| vehicle_parts.json           | components of vehicles when they aren't on the vehicle             |
-
-### `data/json/items/comestibles`
-
-## `data/json/requirements/`
-
-Standard components and tools for crafting
-
-| Filename                  | Description                               |
-| ------------------------- | ----------------------------------------- |
-| ammo.json                 | ammo components                           |
-| cooking_components.json   | common ingredient sets                    |
-| cooking_requirements.json | cooking tools and heat sources            |
-| materials.json            | thread, fabric, and other basic materials |
-| toolsets.json             | sets of tools commonly used together      |
-| uncraft.json              | common results of taking stuff apart      |
-| vehicle.json              | tools to work on vehicles                 |
-
-## `data/json/vehicles/`
-
-Groups of vehicle definitions with self-explanatory names of files:
-
-| Filename             |
-| -------------------- |
-| bikes.json           |
-| boats.json           |
-| cars.json            |
-| carts.json           |
-| custom_vehicles.json |
-| emergency.json       |
-| farm.json            |
-| helicopters.json     |
-| military.json        |
-| trains.json          |
-| trucks.json          |
-| utility.json         |
-| vans_busses.json     |
-| vehicles.json        |
-
-# Generic properties and formatting
-
-This section describes properties and formatting applied to all of the JSON files.
-
-## Generic properties
-
-A few properties are applicable to most if not all json files and do not need to be described for
-each json file. These properties are:
-
-| Identifier                            | Description                                                                                                                                                                                                                                                                                     |
-| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type                                  | The type of object this json entry is describing. Setting this entry to 'armor' for example means the game will expect properties specific to armor in that entry. Also ties in with 'copy-from' (see below), if you want to inherit properties of another object, it must be of the same tipe. |
-| [copy-from](./items/JSON_INHERITANCE) | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item **of the same type** and only provide entries that should change from the item you copied from.                                                                                   |
-| [extends](./items/JSON_INHERITANCE)   | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.                                                                                                                                                                       |
-| [delete](./items/JSON_INHERITANCE)    | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.                                                                                                                                                                                   |
-| [abstract](./items/JSON_INHERITANCE)  | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'.                                                                                                                                                 |
+Entries are distinguished by their `type` property. This property is mandatory for all entries.
+Setting this entry to 'armor' for example means the game will expect properties specific to armor in
+that entry. Also ties in with [`copy-from`](./items/json_inheritance.md#copy-from), if you want to
+[inherit properties of another object](./items/json_inheritance.md), it must be of the same tipe.
 
 ## Formatting
 
@@ -238,11 +93,9 @@ entries does not matter.
 }
 ```
 
-Currently, only some JSON values support this syntax (see
-[here](../../i18n/reference/translation#supported-json-values) for a list of supported values and
-more detailed explanation).
+[Currently, only some JSON values support this syntax](../../../i18n/reference/translation#supported-json-values).
 
-# Description and content of each JSON file
+## Description and content of each JSON file
 
 This section describes each json file and their contents. Each json has their own unique properties
 that are not shared with other Json files (for example 'chapters' property used in books does not
@@ -455,8 +308,8 @@ item in `data/json/items/bionics.json`. Even for a faulty bionic.
 
 ### Item Groups
 
-Item groups have been expanded, look at [the detailed docs](../../../../../../ITEM_SPAWN) to their
-new description. The syntax listed here is still valid.
+Item groups have been expanded, look at [the detailed docs](./items/item_spawn.md) to their new
+description. The syntax listed here is still valid.
 
 | Identifier | Description                                                                                                                                                        |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -1563,7 +1416,7 @@ See also VEHICLE_JSON.md
                                             * (you can't stack non-stackable part flags). */
 ```
 
-# `data/json/items/` JSONs
+## `data/json/items/` JSONs
 
 ### Generic Items
 
@@ -2628,7 +2481,7 @@ One can also put the snippets directly in the item definition:
 This will automatically create a snippet category specific to that item and populate that category
 with the given snippets. The format also support snippet ids like above.
 
-# `json/` JSONs
+## `json/` JSONs
 
 ### Harvest
 
@@ -2851,7 +2704,7 @@ Same as for furniture, see below in the chapter "Common to furniture and terrain
 
 Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use
 negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player
-uses 2\*50 = 100 move points when moving across the terrain.
+uses `2 * 50 = 100` move points when moving across the terrain.
 
 #### `light_emitted`
 
@@ -3135,12 +2988,12 @@ required if `breakable` is set to true and `break_ter_type` is defined.
 This determines the minimum prying quality needed to attempt to pry open the terrain / furniture,
 and the chance of successfully prying it open. From iuse.cpp:
 
-```json
+```cpp
 int diff = pry->difficulty;
 diff -= ( ( pry_level - pry->pry_quality ) * pry->pry_bonus_mult );
 ```
 
-```json
+```cpp
 if( dice( 4, diff ) < dice( 4, p->str_cur ) ) {
     p->add_msg_if_player( m_good, pry->success_message );
 ```
@@ -3225,510 +3078,4 @@ give more produce from harvest, for numbers less than one it will give less prod
         ]
     }
 ]
-```
-
-# Scenarios
-
-Scenarios are specified as JSON object with `type` member set to `scenario`.
-
-```json
-{
-    "type": "scenario",
-    "id": "schools_out",
-    ...
-}
-```
-
-The id member should be the unique id of the scenario.
-
-The following properties (mandatory, except if noted otherwise) are supported:
-
-## `description`
-
-(string)
-
-The in-game description.
-
-## `name`
-
-(string or object with members "male" and "female")
-
-The in-game name, either one gender-neutral string, or an object with gender specific names.
-Example:
-
-```json
-"name": {
-    "male": "Runaway groom",
-    "female": "Runaway bride"
-}
-```
-
-## `points`
-
-(integer)
-
-Point cost of scenario. Positive values cost points and negative values grant points.
-
-## `items`
-
-(optional, object with optional members "both", "male" and "female")
-
-Items the player starts with when selecting this scenario. One can specify different items based on
-the gender of the character. Each lists of items should be an array of items ids. Ids may appear
-multiple times, in which case the item is created multiple times.
-
-Example:
-
-```json
-"items": {
-    "both": [
-        "pants",
-        "rock",
-        "rock"
-    ],
-    "male": [ "briefs" ],
-    "female": [ "panties" ]
-}
-```
-
-This gives the player pants, two rocks and (depending on the gender) briefs or panties.
-
-Mods can modify the lists of an existing scenario via "add:both" / "add:male" / "add:female" and
-"remove:both" / "remove:male" / "remove:female".
-
-Example for mods:
-
-```json
-{
-  "type": "scenario",
-  "id": "schools_out",
-  "edit-mode": "modify",
-  "items": {
-    "remove:both": ["rock"],
-    "add:female": ["2x4"]
-  }
-}
-```
-
-## `flags`
-
-(optional, array of strings)
-
-A list of flags. TODO: document those flags here.
-
-Mods can modify this via "add:flags" and "remove:flags".
-
-## `cbms`
-
-(optional, array of strings)
-
-A list of CBM ids that are implanted in the character.
-
-Mods can modify this via "add:CBMs" and "remove:CBMs".
-
-## `traits", "forced_traits", "forbidden_traits`
-
-(optional, array of strings)
-
-Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during
-the character creation. Traits in "forced_traits" are automatically added to character. Traits in
-"traits" enables them to be chosen, even if they are not starting traits.
-
-Mods can modify this via "add:traits" / "add:forced_traits" / "add:forbidden_traits" and
-"remove:traits" / "remove:forced_traits" / "remove:forbidden_traits".
-
-## `allowed_locs`
-
-(optional, array of strings)
-
-A list of starting location ids (see start_locations.json) that can be chosen when using this
-scenario.
-
-## `start_name`
-
-(string)
-
-The name that is shown for the starting location. This is useful if the scenario allows several
-starting locations, but the game can not list them all at once in the scenario description. Example:
-if the scenario allows to start somewhere in the wilderness, the starting locations would contain
-forest and fields, but its "start_name" may simply be "wilderness".
-
-## `professions`
-
-(optional, array of strings)
-
-A list of allowed professions that can be chosen when using this scenario. The first entry is the
-default profession. If this is empty, all professions are allowed.
-
-## `map_special`
-
-(optional, string)
-
-Add a map special to the starting location, see JSON_FLAGS for the possible specials.
-
-## `missions`
-
-(optional, array of strings)
-
-A list of mission ids that will be started and assigned to the player at the start of the game. Only
-missions with the ORIGIN_GAME_START origin are allowed. The last mission in the list will be the
-active mission, if multiple missions are assigned.
-
-# Starting locations
-
-Starting locations are specified as JSON object with "type" member set to "start_location":
-
-```json
-{
-    "type": "start_location",
-    "id": "field",
-    "name": "An empty field",
-    "target": "field",
-    ...
-}
-```
-
-The id member should be the unique id of the location.
-
-The following properties (mandatory, except if noted otherwise) are supported:
-
-## `name`
-
-(string)
-
-The in-game name of the location.
-
-## `target`
-
-(string)
-
-The id of an overmap terrain type (see overmap_terrain.json) of the starting location. The game will
-chose a random place with that terrain.
-
-## `flags`
-
-(optional, array of strings)
-
-Arbitrary flags. Mods can modify this via "add:flags" / "remove:flags". TODO: document them.
-
-### `tile_config`
-
-Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various
-tile identifiers, different orientations, etc. The ordering of the overlays used for displaying
-mutations can be controlled as well. The ordering can be used to override the default ordering
-provided in `mutation_ordering.json`. Example:
-
-```json
-{ // whole file is a single object
-  "tile_info": [ // tile_info is mandatory
-    {
-      "height": 32,
-      "width": 32,
-      "iso": true, //  Optional. Indicates an isometric tileset. Defaults to false.
-      "pixelscale": 2 //  Optional. Sets a multiplier for resizing a tileset. Defaults to 1.
-    }
-  ],
-  "tiles-new": [ // tiles-new is an array of sprite sheets
-    { //   alternately, just one "tiles" array
-      "file": "tiles.png", // file containing sprites in a grid
-      "tiles": [ // array with one entry per tile
-        {
-          "id": "10mm", // id is how the game maps things to sprites
-          "fg": 1, //   lack of prefix mostly indicates items
-          "bg": 632, // fg and bg can be sprite indexes in the image
-          "rotates": false
-        },
-        {
-          "id": "t_wall", // "t_" indicates terrain
-          "fg": [2918, 2919, 2918, 2919], // 2 or 4 sprite numbers indicates pre-rotated
-          "bg": 633,
-          "rotates": true,
-          "multitile": true,
-          "additional_tiles": [ // connected/combined versions of sprite
-            { //   or variations, see below
-              "id": "center",
-              "fg": [2919, 2918, 2919, 2918]
-            },
-            {
-              "id": "corner",
-              "fg": [2924, 2922, 2922, 2923]
-            },
-            {
-              "id": "end_piece",
-              "fg": [2918, 2919, 2918, 2919]
-            },
-            {
-              "id": "t_connection",
-              "fg": [2919, 2918, 2919, 2918]
-            },
-            {
-              "id": "unconnected",
-              "fg": 2235
-            }
-          ]
-        },
-        {
-          "id": "vp_atomic_lamp", // "vp_" vehicle part
-          "fg": 3019,
-          "bg": 632,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "broken", // variant sprite
-              "fg": 3021
-            }
-          ]
-        },
-        {
-          "id": "t_dirt",
-          "rotates": false,
-          "fg": [
-            { "weight": 50, "sprite": 640 }, // weighted random variants
-            { "weight": 1, "sprite": 3620 },
-            { "weight": 1, "sprite": 3621 },
-            { "weight": 1, "sprite": 3622 }
-          ]
-        },
-        {
-          "id": [
-            "overlay_mutation_GOURMAND", // character overlay for mutation
-            "overlay_mutation_male_GOURMAND", // overlay for specified gender
-            "overlay_mutation_active_GOURMAND" // overlay for activated mutation
-          ],
-          "fg": 4040
-        }
-      ]
-    },
-    { // second entry in tiles-new
-      "file": "moretiles.png", // another sprite sheet
-      "tiles": [
-        {
-          "id": ["xxx", "yyy"], // define two ids at once
-          "fg": 1,
-          "bg": 234
-        }
-      ]
-    }
-  ],
-  "overlay_ordering": [
-    {
-      "id": "WINGS_BAT", // mutation name, in a string or array of strings
-      "order": 1000 // range from 0 - 9999, 9999 being the topmost layer
-    },
-    {
-      "id": ["PLANTSKIN", "BARK"], // mutation name, in a string or array of strings
-      "order": 3500 // order is applied to all items in the array
-    },
-    {
-      "id": "bio_armor_torso", // Overlay order of bionics is controlled in the same way
-      "order": 500
-    }
-  ]
-}
-```
-
-# Mutation overlay ordering
-
-The file `mutation_ordering.json` defines the order that visual mutation and bionic overlays are
-rendered on a character ingame. The layering value from 0 (bottom) - 9999 (top) sets the order.
-
-Example:
-
-```json
-[
-  {
-    "type": "overlay_order",
-    "overlay_ordering": [
-      {
-        "id": [
-          "BEAUTIFUL",
-          "BEAUTIFUL2",
-          "BEAUTIFUL3",
-          "LARGE",
-          "PRETTY",
-          "RADIOACTIVE1",
-          "RADIOACTIVE2",
-          "RADIOACTIVE3",
-          "REGEN"
-        ],
-        "order": 1000
-      },
-      {
-        "id": ["HOOVES", "ROOTS1", "ROOTS2", "ROOTS3", "TALONS"],
-        "order": 4500
-      },
-      {
-        "id": "FLOWERS",
-        "order": 5000
-      },
-      {
-        "id": [
-          "PROF_CYBERCOP",
-          "PROF_FED",
-          "PROF_PD_DET",
-          "PROF_POLICE",
-          "PROF_SWAT",
-          "PHEROMONE_INSECT"
-        ],
-        "order": 8500
-      },
-      {
-        "id": [
-          "bio_armor_arms",
-          "bio_armor_legs",
-          "bio_armor_torso",
-          "bio_armor_head",
-          "bio_armor_eyes"
-        ],
-        "order": 500
-      }
-    ]
-  }
-]
-```
-
-## `id`
-
-(string)
-
-The internal ID of the mutation. Can be provided as a single string, or an array of strings. The
-order value provided will be applied to all items in the array.
-
-## `order`
-
-(integer)
-
-The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 being the topmost drawn
-layer. Mutations that are not in any list will default to 9999.
-
-# MOD_INFO
-
-Also see [MODDING.md](../../../../../../MODDING).
-
-Object with `MOD_INFO` type describes the mod itself. Each mod must have exactly one `MOD_INFO`, and
-unlike other types of objects from mods it is loaded on game launch, before the title screen shows
-up. As such, any and all errors related to it will show up before the title screen shows up.
-
-Current convention is to put your `MOD_INFO` in `mod_info.json` file within the root directory of
-the mod.
-
-Example:
-
-```json
-[
-  {
-    "type": "MOD_INFO",
-
-    // Mod's unique identifier, prefer to use only ASCII letters, numbers and underscore for clarity.
-    "id": "better_zeds",
-    // Mod's category, see MODDING.md for list of supported values.
-    "category": "content",
-    // Mod's display name, in English.
-    "name": "Better Zombies",
-    // Mod's description, in English.
-    "description": "Reworks all base game zombies and adds 100+ new variants.",
-    // Original author(s) of the mod.
-    "authors": ["That Guy", "His Friend"],
-    // If the author(s) abandoned the mod for some reason, this entry lists current maintainers.
-    "maintainers": ["Mr. BugFixer", "BugFixer Jr."],
-    // Mod version string. This is for users' and maintainers' convenience, so you can use whatever is most convenient here (e.g. date).
-    "version": "02 Dec 2021",
-    // List of mod's dependencies. Dependencies are guaranteed to be loaded before the mod is loaded.
-    "dependencies": ["bn", "zed_templates"],
-    // List of mods that are incompatible with this mod.
-    "conflicts": ["worse_zeds"],
-    // Special flag for core game data, can only be used by total overhaul mods. Only 1 core mod can be loaded at a time.
-    "core": false,
-    // Marks mod as obsolete. Obsolete mods don't show up in mod selection list by default, and have a warning on them.
-    "obsolete": false,
-    // Path of mod's files relative to the modinfo.json file. The game automatically loads all files from the folder with modinfo.json,
-    // and all the subfolders, so this field is only useful when you for whatever reason want to stick your modinfo.json in a subfolder of your mod.
-    "path": "../common-data/"
-  }
-]
-```
-
-## 
-
-# MOD tileset
-
-MOD tileset defines additional sprite sheets. It is specified as JSON object with `type` member set
-to `mod_tileset`.
-
-Example:
-
-```json
-[
-  {
-    "type": "mod_tileset",
-    "compatibility": ["MshockXottoplus"],
-    "tiles-new": [
-      {
-        "file": "test_tile.png",
-        "tiles": [
-          {
-            "id": "player_female",
-            "fg": 1,
-            "bg": 0
-          },
-          {
-            "id": "player_male",
-            "fg": 2,
-            "bg": 0
-          }
-        ]
-      }
-    ]
-  }
-]
-```
-
-## `compatibility`
-
-(string)
-
-The internal ID of the compatible tilesets. MOD tileset is only applied when base tileset's ID
-exists in this field.
-
-## `tiles-new`
-
-Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from
-the same folder json file exists.
-
-# Field types
-
-```json
-{
-  "type": "field_type", // this is a field type
-  "id": "fd_gum_web", // id of the field
-  "immune_mtypes": ["mon_spider_gum"], // list of monster immune to this field
-  "intensity_levels": [
-    {
-      "name": "shadow", // name of this level of intensity
-      "light_override": 3.7
-    }
-    //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
-  ],
-  "bash": {
-    "str_min": 1, // lower bracket of bashing damage required to bash
-    "str_max": 3, // higher bracket
-    "sound_vol": 2, // noise made when succesfully bashing the field
-    "sound_fail_vol": 2, // noise made when failing to bash the field
-    "sound": "shwip", // sound on success
-    "sound_fail": "shwomp", // sound on failure
-    "msg_success": "You brush the gum web aside.", // message on success
-    "move_cost": 120, // how many moves it costs to succesfully bash that field (default: 100)
-    "items": [ // item dropped upon succesful bashing
-      { "item": "2x4", "count": [5, 8] },
-      { "item": "nail", "charges": [6, 8] },
-      {
-        "item": "splinter",
-        "count": [3, 6]
-      },
-      { "item": "rag", "count": [40, 55] },
-      { "item": "scrap", "count": [10, 20] }
-    ]
-  }
-}
 ```

@@ -225,9 +225,7 @@ $ git push origin new_feature
 
 ### 모든 풀 리퀘스트에는 `"Summary"`줄이 있어야 합니다.
 
-개요(summary)는
-[변경 내역](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/changelog.txt)에 추가할
-한 줄 요약입니다.
+개요(summary)는 [변경 내역](../game/changelog.md)에 추가할 한 줄 요약입니다.
 
 개요 형식: `SUMMARY: 카테고리 "설명"`
 
@@ -237,8 +235,7 @@ Infrastructure, Build, I18N이 있습니다.
 예시: `SUMMARY: Content "Adds new mutation category 'Mouse'"` (해석:
 `SUMMARY: Content "새로운 변이 카테고리 'Mouse'를 추가합니다."`)
 
-[변경 내역 가이드라인](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/CHANGELOG_GUIDELINES.md)에서
-카테고리에 대한 설명을 볼 수 있습니다.
+[변경 내역 가이드라인](./changelog_guidelines.md)에서 카테고리에 대한 설명을 볼 수 있습니다.
 
 ### 키워드로 이슈 닫기
 

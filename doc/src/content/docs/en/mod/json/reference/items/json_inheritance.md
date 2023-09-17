@@ -5,6 +5,29 @@ title: JSON Inheritance
 To reduce duplication in the JSON data it is possible for some types to inherit from an existing
 type.
 
+## Properties
+
+### `abstract`
+
+Creates an abstract item (an item that does not end up in the game and solely exists in the json to
+be copied-from). Use this _instead of_ `"id"`.
+
+### `copy-from`
+
+The identifier of the item you wish to copy properties from. This allows you to make an exact copy
+of an item **of the same type** and only provide entries that should change from the item you copied
+from.
+
+### `extends`
+
+Modders can add an `"extends"` field to their definition to append entries to a list instead of
+overriding the entire list.
+
+### `delete`
+
+Modders can also add a `"delete"` field that removes elements from lists instead of overriding the
+entire list.
+
 ## Examples
 
 In the following condensed example `556` ammo is derived from `223` ammo via `copy-from`:

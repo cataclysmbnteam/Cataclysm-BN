@@ -4,7 +4,9 @@ title: Changelog
 
 This is an incomplete list compiled for convenience, see pull requests for all changes.
 
-Starts with [revision 10614 (just before pockets)](https://github.com/cataclysmbnteam/Cataclysm-BN/commit/8cea0fce70c87ea93c6fd4e409c68558e24ce42e) of [CleverRaven/Cataclysm-DDA.](https://github.com/CleverRaven/Cataclysm-DDA)
+Starts with
+[revision 10614 (just before pockets)](https://github.com/cataclysmbnteam/Cataclysm-BN/commit/8cea0fce70c87ea93c6fd4e409c68558e24ce42e)
+of [CleverRaven/Cataclysm-DDA.](https://github.com/CleverRaven/Cataclysm-DDA)
 
 ## Stable v 0.3
 

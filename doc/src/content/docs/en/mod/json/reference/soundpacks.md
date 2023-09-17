@@ -120,7 +120,7 @@ played instead. The file name of the sound effect is relative to the soundpack d
 file name is set to "sfx.wav" and your soundpack is in `data/sound/mypack`, the file must be placed
 at `data/sound/mypack/sfx.wav`.
 
-## JSON Format Sound Effects List
+## Sound effects list
 
 A full list of sound effect id's and variants is given in the following. Each line in the list has
 the following format:

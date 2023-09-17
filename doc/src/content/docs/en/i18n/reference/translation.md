@@ -208,7 +208,7 @@ reported by the `translation` class.
 
 ### Lua
 
-[The 4 translation functions are exposed to the Lua code](../../mod/lua/guides/modding.md#translation-functions).
+[The 4 translation functions are exposed to the Lua code](../../mod/lua/tutorial/modding.md#translation-functions).
 
 ### Recommendations
 

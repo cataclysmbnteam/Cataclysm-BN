@@ -245,8 +245,8 @@ to explain the problem your PR is solving in full detail.
 
 ### All PRs should have a `"Summary"` line
 
-Summary is a one-line description of your change that will be extracted and added to the project
-changelog at https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/changelog.txt
+Summary is a one-line description of your change that will be extracted and added to the
+[project changelog](../game/changelog.md)
 
 The format is: `SUMMARY: Category "description"`
 
@@ -255,7 +255,7 @@ Performance, Infrastructure, Build, I18N.
 
 Example: `SUMMARY: Content "Adds new mutation category 'Mouse'"`
 
-See the [Changelog Guidelines](./changelog) for explanations of the categories.
+See the [Changelog Guidelines](./changelog_guidelines.md) for explanations of the categories.
 
 ### Closing issues using keywords
 
