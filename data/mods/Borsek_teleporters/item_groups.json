@@ -14,7 +14,7 @@
     "type": "item_group",
     "items": [ [ "schematics_teleportation", 10 ] ]
   },
-    {
+  {
     "id": "teleport",
     "type": "item_group",
     "items": [ [ "schematics_teleportation", 10 ] ]
