@@ -229,6 +229,28 @@ resistances &resistances::operator+=( const resistances &other )
     return *this;
 }
 
+template<>
+std::string io::enum_to_string<damage_type>( damage_type dt )
+{
+    // Not using name_by_dt because game gets stuck during launch
+    switch( dt ) {
+        case DT_NULL: return "DT_NULL";
+        case DT_TRUE: return "DT_TRUE";
+        case DT_BIOLOGICAL: return "DT_BIOLOGICAL";
+        case DT_BASH: return "DT_BASH";
+        case DT_CUT: return "DT_CUT";
+        case DT_ACID: return "DT_ACID";
+        case DT_STAB: return "DT_STAB";
+        case DT_HEAT: return "DT_HEAT";
+        case DT_COLD: return "DT_COLD";
+        case DT_ELECTRIC: return "DT_ELECTRIC";
+        case DT_BULLET: return "DT_BULLET";
+        case NUM_DT: break;
+    }
+    debugmsg( "Invalid damage_type" );
+    abort();
+}
+
 static const std::map<std::string, damage_type> dt_map = {
     { translate_marker_context( "damage type", "true" ), DT_TRUE },
     { translate_marker_context( "damage type", "biological" ), DT_BIOLOGICAL },

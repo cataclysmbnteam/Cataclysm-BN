@@ -22,6 +22,14 @@ static std::map< activity_id, activity_type > activity_type_all;
 
 /** @relates string_id */
 template<>
+bool string_id<activity_type>::is_valid() const
+{
+    const auto found = activity_type_all.find( *this );
+    return found != activity_type_all.end();
+}
+
+/** @relates string_id */
+template<>
 const activity_type &string_id<activity_type>::obj() const
 {
     const auto found = activity_type_all.find( *this );

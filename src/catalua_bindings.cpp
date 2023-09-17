@@ -1,8 +1,8 @@
 #ifdef LUA
 #include "catalua_bindings.h"
 
+#include "action.h"
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "catalua_bindings_utils.h"
 #include "catalua_impl.h"
@@ -20,6 +20,7 @@
 #include "itype.h"
 #include "map.h"
 #include "messages.h"
+#include "monfaction.h"
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
@@ -28,6 +29,9 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "units_energy.h"
+#include "units_mass.h"
+#include "units_volume.h"
 
 std::string_view luna::detail::current_comment;
 
@@ -112,97 +116,82 @@ static auto item_stack_lua_pairs( item_stack &stk )
                             sol::lua_nil );
 }
 
-void cata::detail::reg_creature_family( sol::state &lua )
+void cata::detail::reg_units( sol::state &lua )
 {
+#define UT_CLASS units::angle
     {
-        // Specifying base classes here allows us to pass derived classes
-        // from Lua to C++ functions that expect base class.
-        sol::usertype<Creature> ut =
-            luna::new_usertype<Creature>(
+        sol::usertype<UT_CLASS> ut =
+            luna::new_usertype<UT_CLASS>(
                 lua,
                 luna::no_bases,
                 luna::no_constructor
             );
-
-        // TODO: typesafe coords
-        DOC( "Position within map" );
-        luna::set_fx( ut, "get_pos_ms", &Creature::pos );
-
-        luna::set_fx( ut, "is_monster", &Creature::is_monster );
-        luna::set_fx( ut, "as_monster", sol::resolve<monster*()>( &Creature::as_monster ) );
-        luna::set_fx( ut, "is_npc", &Creature::is_npc );
-        luna::set_fx( ut, "as_npc", sol::resolve<npc*()>( &Creature::as_npc ) );
-        luna::set_fx( ut, "is_avatar", &Creature::is_avatar );
-        luna::set_fx( ut, "as_avatar", sol::resolve<avatar*()>( &Creature::as_avatar ) );
-
-        luna::set_fx( ut, "has_effect", []( const Creature & cr, const efftype_id & eff,
-        sol::optional<const bodypart_str_id &> bpid ) -> bool {
-            if( bpid.has_value() )
-            {
-                return cr.has_effect( eff, *bpid );
-            } else
-            {
-                return cr.has_effect( eff );
-            }
-        } );
-
-        luna::set_fx( ut, "get_effect_dur", []( const Creature & cr, const efftype_id & eff,
-        sol::optional<const bodypart_str_id &> bpid ) -> time_duration {
-            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
-            return cr.get_effect_dur( eff, bp );
-        } );
-
-        luna::set_fx( ut, "get_effect_int", []( const Creature & cr, const efftype_id & eff,
-        sol::optional<const bodypart_str_id &> bpid ) -> int {
-            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
-            return cr.get_effect_int( eff, bp );
-        } );
-
-        DOC( "Effect type, duration, bodypart and intensity" );
-        luna::set_fx( ut, "add_effect", []( Creature & cr, const efftype_id & eff,
-                                            const time_duration & dur,
-                                            sol::optional<const bodypart_str_id &> bpid,
-                                            sol::optional<int> intensity
-        ) {
-            int eint = intensity ? *intensity : 0;
-            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
-            cr.add_effect( eff, dur, bp, eint );
-        } );
-
-        luna::set_fx( ut, "remove_effect", []( Creature & cr, const efftype_id & eff,
-        sol::optional<const bodypart_str_id &> bpid ) -> bool {
-            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
-            return cr.remove_effect( eff, bp );
-        } );
+        luna::set_fx( ut, "from_radians", &units::from_radians<double> );
+        luna::set_fx( ut, "to_radians", &units::to_radians );
+        luna::set_fx( ut, "from_degrees", &units::from_degrees<double> );
+        luna::set_fx( ut, "to_degrees", &units::to_degrees );
+        luna::set_fx( ut, "from_arcmin", &units::from_arcmin<double> );
+        luna::set_fx( ut, "to_arcmin", &units::to_arcmin );
     }
-
+#undef UT_CLASS // #define UT_CLASS units::angle
+#define UT_CLASS units::energy
     {
-        luna::new_usertype<monster>(
-            lua,
-            luna::bases<Creature>(),
-            luna::no_constructor
-        );
-        luna::new_usertype<Character>(
-            lua,
-            luna::bases<Creature>(),
-            luna::no_constructor
-        );
-        luna::new_usertype<player>(
-            lua,
-            luna::bases<Character, Creature>(),
-            luna::no_constructor
-        );
-        luna::new_usertype<npc>(
-            lua,
-            luna::bases<player, Character, Creature>(),
-            luna::no_constructor
-        );
-        luna::new_usertype<avatar>(
-            lua,
-            luna::bases<player, Character, Creature>(),
-            luna::no_constructor
-        );
+        sol::usertype<UT_CLASS> ut =
+            luna::new_usertype<UT_CLASS>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
+        luna::set_fx( ut, "from_joule", &units::from_joule<double> );
+        luna::set_fx( ut, "to_joule", &units::to_joule<double> );
+        luna::set_fx( ut, "from_kilojoule", &units::from_kilojoule<double> );
+        luna::set_fx( ut, "to_kilojoule", &units::to_kilojoule<double> );
+
+        luna::set_fx( ut, sol::meta_function::equal_to, &UT_CLASS::operator== );
+        luna::set_fx( ut, sol::meta_function::less_than, &UT_CLASS::operator< );
+        luna::set_fx( ut, sol::meta_function::less_than_or_equal_to, &UT_CLASS::operator<= );
     }
+#undef UT_CLASS // #define UT_CLASS units::energy
+#define UT_CLASS units::mass
+    {
+        sol::usertype<UT_CLASS> ut =
+            luna::new_usertype<UT_CLASS>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
+        luna::set_fx( ut, "from_milligram", &units::from_milligram<double> );
+        luna::set_fx( ut, "to_milligram", &units::to_milligram<double> );
+        luna::set_fx( ut, "from_gram", &units::from_gram<double> );
+        luna::set_fx( ut, "to_gram", &units::to_gram<double> );
+        luna::set_fx( ut, "from_kilogram", &units::from_kilogram<double> );
+        luna::set_fx( ut, "to_kilogram", &units::to_kilogram<double> );
+        luna::set_fx( ut, "from_newton", &units::from_newton<double> );
+        luna::set_fx( ut, "to_newton", &units::to_newton<double> );
+
+        luna::set_fx( ut, sol::meta_function::equal_to, &UT_CLASS::operator== );
+        luna::set_fx( ut, sol::meta_function::less_than, &UT_CLASS::operator< );
+        luna::set_fx( ut, sol::meta_function::less_than_or_equal_to, &UT_CLASS::operator<= );
+    }
+#undef UT_CLASS // #define UT_CLASS units::mass
+#define UT_CLASS units::volume
+    {
+        sol::usertype<UT_CLASS> ut =
+            luna::new_usertype<UT_CLASS>(
+                lua,
+                luna::no_bases,
+                luna::no_constructor
+            );
+        luna::set_fx( ut, "from_milliliter", &units::from_milliliter<double> );
+        luna::set_fx( ut, "from_liter", &units::from_liter<double> );
+        luna::set_fx( ut, "to_milliliter", &units::to_milliliter<double> );
+        luna::set_fx( ut, "to_liter", &units::to_liter );
+
+        luna::set_fx( ut, sol::meta_function::equal_to, &UT_CLASS::operator== );
+        luna::set_fx( ut, sol::meta_function::less_than, &UT_CLASS::operator< );
+        luna::set_fx( ut, sol::meta_function::less_than_or_equal_to, &UT_CLASS::operator<= );
+    }
+#undef UT_CLASS // #define UT_CLASS units::volume
 }
 
 void cata::detail::reg_item( sol::state &lua )
@@ -465,6 +454,7 @@ void cata::detail::reg_debug_api( sol::state &lua )
         return g->save();
     } );
 
+
     luna::finalize_lib( lib );
 }
 
@@ -501,15 +491,16 @@ void cata::detail::reg_game_api( sol::state &lua )
     luna::set_fx( lib, "get_avatar", &get_avatar );
     luna::set_fx( lib, "get_map", &get_map );
     luna::set_fx( lib, "get_distribution_grid_tracker", &get_distribution_grid_tracker );
-    luna::set_fx( lib, "get_character_name", []( const Character & you ) -> std::string {
-        return you.name;
-    } );
+    // Now handled in Character bindings.
+    //luna::set_fx( lib, "get_character_name", []( const Character & you ) -> std::string {
+    //    return you.name;
+    //} );
     luna::set_fx( lib, "add_msg", sol::overload(
-                      add_msg_lua,
-    []( sol::variadic_args va ) {
-        add_msg_lua( game_message_type::m_neutral, va );
-    }
-                  ) );
+        add_msg_lua,
+        []( sol::variadic_args va ) {
+            add_msg_lua( game_message_type::m_neutral, va );
+        }
+    ) );
 
     luna::set_fx( lib, "current_turn", []() -> time_point { return calendar::turn; } );
     luna::set_fx( lib, "turn_zero", []() -> time_point { return calendar::turn_zero; } );
@@ -529,6 +520,69 @@ void cata::detail::reg_game_api( sol::state &lua )
         vec.push_back( f );
         hooks.push_back( on_every_x_hooks{ interval, vec } );
     } );
+
+    luna::set_fx( lib, "get_creature_at", []( const tripoint &p,
+    std::optional<bool> allow_hallucination ) -> Creature * {
+        if( allow_hallucination ) {
+            return g->critter_at<Creature>( p, *allow_hallucination );
+        }
+        return g->critter_at<Creature>( p );
+    } );
+    luna::set_fx( lib, "get_monster_at", []( const tripoint &p,
+    std::optional<bool> allow_hallucination ) -> monster * {
+        if( allow_hallucination ) {
+            return g->critter_at<monster>( p, *allow_hallucination );
+        }
+        return g->critter_at<monster>( p );
+    } );
+    luna::set_fx( lib, "get_character_at", []( const tripoint &p,
+    std::optional<bool> allow_hallucination ) -> Character * {
+        if( allow_hallucination ) {
+            return g->critter_at<Character>( p, *allow_hallucination );
+        }
+        return g->critter_at<Character>( p );
+    } );
+    //luna::set_fx( lib, "get_player_at", []( const tripoint &p,
+    //std::optional<bool> allow_hallucination ) -> player * {
+    //    if( allow_hallucination ) {
+    //        return g->critter_at<player>( p, *allow_hallucination );
+    //    }
+    //    return g->critter_at<player>( p );
+    //} );
+    luna::set_fx( lib, "get_npc_at", []( const tripoint &p,
+    std::optional<bool> allow_hallucination ) -> npc * {
+        if( allow_hallucination ) {
+            return g->critter_at<npc>( p, *allow_hallucination );
+        }
+        return g->critter_at<npc>( p );
+    } );
+
+    luna::set_fx( lib, "choose_adjacent", []( const std::string &message,
+    std::optional<bool> allow_vertical ) -> std::optional<tripoint> {
+        if( allow_vertical ) {
+            return choose_adjacent( message, *allow_vertical );
+        }
+        return choose_adjacent( message );
+    } );
+    luna::set_fx( lib, "choose_direction", []( const std::string &message,
+    std::optional<bool> allow_vertical ) -> std::optional<tripoint> {
+        if( allow_vertical ) {
+            return choose_direction( message, *allow_vertical );
+        }
+        return choose_direction( message );
+    } );
+    luna::set_fx( lib, "look_around", []() { return g->look_around(); } );
+
+    luna::set_fx( lib, "play_variant_sound",
+        sol::overload(
+            sol::resolve<void( const std::string &, const std::string &, int )>( &sfx::play_variant_sound ),
+            sol::resolve<void( const std::string &, const std::string &, int,
+                units::angle, double, double )>( &sfx::play_variant_sound )
+        ) );
+    luna::set_fx( lib, "play_ambient_variant_sound", &sfx::play_ambient_variant_sound );
+
+    luna::set_fx( lib, "add_npc_follower", []( npc &p ) { g->add_npc_follower( p.getID() ); } );
+    luna::set_fx( lib, "remove_npc_follower", []( npc &p ) { g->remove_npc_follower( p.getID() ); } );
 
     luna::finalize_lib( lib );
 }
@@ -597,6 +651,14 @@ void cata::detail::reg_colors( sol::state &lua )
 void cata::detail::reg_enums( sol::state &lua )
 {
     reg_enum<game_message_type>( lua );
+    reg_enum<add_type>( lua );
+    reg_enum<Creature::Attitude>( lua );
+    reg_enum<body_part>( lua );
+    reg_enum<character_movemode>( lua );
+    reg_enum<damage_type>( lua );
+    reg_enum<mf_attitude>( lua );
+    reg_enum<npc_attitude>( lua );
+    reg_enum<npc_need>( lua );
 }
 
 void cata::detail::reg_hooks_examples( sol::state &lua )
@@ -798,7 +860,8 @@ void cata::reg_all_bindings( sol::state &lua )
     reg_debug_api( lua );
     reg_game_api( lua );
     reg_locale_api( lua );
-    reg_creature_family( lua );
+    reg_units( lua );
+    reg_creature_family( lua ); // Defined in catalua_bindings_creature.cpp
     reg_point_tripoint( lua );
     reg_item( lua );
     reg_map( lua );

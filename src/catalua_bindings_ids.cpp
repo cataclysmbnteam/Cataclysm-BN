@@ -1,16 +1,25 @@
 #ifdef LUA
 #include "catalua_bindings.h"
 
+#include "activity_type.h"
+#include "bionics.h"
 #include "bodypart.h"
 #include "catalua_luna_doc.h"
 #include "catalua_luna.h"
+#include "disease.h"
 #include "effect.h"
 #include "faction.h"
 #include "field_type.h"
 #include "itype.h"
 #include "json.h"
 #include "mapdata.h"
+#include "morale_types.h"
+#include "monfaction.h"
+#include "mutation.h"
+#include "skill.h"
 #include "type_id.h"
+
+#include "recipe.h"
 
 
 template<typename T, bool do_int_id>
@@ -100,6 +109,15 @@ void cata::detail::reg_game_ids( sol::state &lua )
     reg_id<body_part_type, true>( lua );
     reg_id<effect_type, false>( lua );
     reg_id<field_type, true>( lua );
+    reg_id<mutation_branch, false>( lua );
+    reg_id<bionic_data, false>( lua );
+    reg_id<disease_type, false>( lua );
+    // FIXME: int_id<monfaction> lacks is_valid(), and throws a linker error during reg_id,
+    // when fixed, change the false below this line to true.
+    reg_id<monfaction, false>( lua );
+    reg_id<Skill, false>( lua );
+    reg_id<activity_type, false>( lua );
+    reg_id<morale_type_data, false>( lua );
 }
 
 void cata::detail::reg_types( sol::state &lua )

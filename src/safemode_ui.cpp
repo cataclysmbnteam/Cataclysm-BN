@@ -401,6 +401,9 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                         break;
                     case Creature::A_ANY:
                         attitude = Creature::A_HOSTILE;
+                        break;
+                    default:
+                        attitude = Creature::A_ANY;
                 }
             } else if( column == COLUMN_PROXIMITY && ( current_tab[line].category == SOUND ||
                        !current_tab[line].whitelist ) ) {

@@ -18,6 +18,8 @@ void reg_colors( sol::state &lua );
 void reg_constants( sol::state &lua );
 void reg_coords_library( sol::state &lua );
 void reg_creature_family( sol::state &lua );
+void reg_character( sol::state &lua );
+void reg_npc( sol::state &lua );
 void reg_debug_api( sol::state &lua );
 void reg_distribution_grid( sol::state &lua );
 void reg_enums( sol::state &lua );
@@ -32,6 +34,7 @@ void reg_time_types( sol::state &lua );
 void reg_game_ids( sol::state &lua );
 void reg_types( sol::state &lua );
 void reg_ui_elements( sol::state &lua );
+void reg_units( sol::state &lua );
 
 } // namespace detail
 

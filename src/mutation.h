@@ -13,6 +13,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "creature.h"
 #include "damage.h"
 #include "hash_utils.h"
@@ -397,6 +398,8 @@ struct mutation_branch {
          * Return the idents of all trait groups that are known.
          */
         static std::vector<trait_group::Trait_group_tag> get_all_group_names();
+
+        LUA_TYPE_OPS( mutation_branch, id );
 };
 
 struct mutation_category_trait {

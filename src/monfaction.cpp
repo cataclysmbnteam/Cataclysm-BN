@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "debug.h"
+#include "enum_conversions.h"
 #include "int_id.h"
 #include "json.h"
 #include "string_id.h"
@@ -217,6 +218,20 @@ static void prealloc( const std::set< std::string > &facs )
     for( const auto &f : facs ) {
         monfactions::get_or_add_faction( mfaction_str_id( f ) );
     }
+}
+
+template<>
+std::string io::enum_to_string<mf_attitude>( mf_attitude att )
+{
+    switch( att ) {
+        case MFA_BY_MOOD: return "ByMood";
+        case MFA_NEUTRAL: return "Neutral";
+        case MFA_FRIENDLY: return "Friendly";
+        case MFA_HATE: return "Hate";
+        case NUM_MFA: break;
+    }
+    debugmsg( "Invalid mf_attitude" );
+    abort();
 }
 
 // Get pointers to factions from 'keys' and add them to 'map' with value == 'value'

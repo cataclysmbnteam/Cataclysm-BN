@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 
+#include "enum_traits.h"
 #include "type_id.h"
 
 class item;
@@ -30,6 +31,11 @@ enum damage_type : int {
     DT_ELECTRIC, // e.g. electrical discharge
     DT_BULLET, // bullets and other fast moving projectiles
     NUM_DT
+};
+
+template<>
+struct enum_traits<damage_type> {
+    static constexpr damage_type last = NUM_DT;
 };
 
 struct damage_unit {

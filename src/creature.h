@@ -19,6 +19,7 @@
 #include "units.h"
 #include "cached_options.h"
 #include "enums.h"
+#include "enum_traits.h"
 
 enum game_message_type : int;
 class nc_color;
@@ -167,7 +168,8 @@ class Creature
             A_HOSTILE,
             A_NEUTRAL,
             A_FRIENDLY,
-            A_ANY
+            A_ANY,
+            NUM_A
         };
 
         /**
@@ -900,6 +902,11 @@ class Creature
     private:
         int pain = 0;
         bool underwater = false;
+};
+
+template<>
+struct enum_traits<Creature::Attitude> {
+    static constexpr Creature::Attitude last = Creature::NUM_A;
 };
 
 #endif // CATA_SRC_CREATURE_H
