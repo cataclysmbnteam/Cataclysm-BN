@@ -467,7 +467,7 @@
     "volume": "500 ml",
     "charges": 6,
     "flags": [ "EATEN_HOT" ],
-    "fun": -8,
+    "fun": -2,
     "vitamins": [ [ "iron", 3 ] ]
   },
   {

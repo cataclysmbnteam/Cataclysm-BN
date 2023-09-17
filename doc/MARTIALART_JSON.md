@@ -103,30 +103,36 @@ The bonuses arrays contain any number of bonus entries like this:
 }
 ```
 
-"stat": affected statistic, any of: "hit", "dodge", "block", "speed", "movecost", "damage", "armor", "arpen",
-"type": damage type for the affected statistic ("bash", "cut", "heat", etc.), only needed if the affected statistic is "damage", "armor", or "arpen".
-"scale": the value of the bonus itself.
-"scaling-stat": scaling stat, any of: "str", "dex", "int", "per". Optional. If the scaling stat is specified, the value of the bonus is multiplied by the corresponding user stat.
+"stat": affected statistic, any of: "hit", "dodge", "block", "speed", "movecost", "damage", "armor",
+"arpen", "type": damage type for the affected statistic ("bash", "cut", "heat", etc.), only needed
+if the affected statistic is "damage", "armor", or "arpen". "scale": the value of the bonus itself.
+"scaling-stat": scaling stat, any of: "str", "dex", "int", "per". Optional. If the scaling stat is
+specified, the value of the bonus is multiplied by the corresponding user stat.
 
 Bonuses must be written in the correct order.
 
-Tokens of `useless` type will not cause an error, but will not have any effect.
-For example, `speed` in a technique will have no effect (`movecost` should be used for techniques).
+Tokens of `useless` type will not cause an error, but will not have any effect. For example, `speed`
+in a technique will have no effect (`movecost` should be used for techniques).
 
 Currently extra elemental damage is not applied, but extra elemental armor is (after regular armor).
 
-Examples:
-Incoming bashing damage is decreased by 30% of strength value. Only useful on buffs:
-* `flat_bonuses : [ { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 0.3 } ]`
+Examples: Incoming bashing damage is decreased by 30% of strength value. Only useful on buffs:
+
+- `flat_bonuses : [ { "stat": "armor", "type": "bash", "scaling-stat": "str", "scale": 0.3 } ]`
 
 All cutting damage dealt is multiplied by `(10% of dexterity)*(damage)`:
-* `mult_bonuses : [ { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.1 } ]`
+
+- `mult_bonuses : [ { "stat": "damage", "type": "cut", "scaling-stat": "dex", "scale": 0.1 } ]`
 
 Move cost is decreased by 100% of strength value
-* `flat_bonuses : [ { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 } ]`
+
+- `flat_bonuses : [ { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 } ]`
 
 ### Place relevant items in the world and chargen
 
-Starting trait selection of your martial art goes in mutations.json. Place your art in the right category (self-defense, Shaolin animal form, melee style, etc)
+Starting trait selection of your martial art goes in mutations.json. Place your art in the right
+category (self-defense, Shaolin animal form, melee style, etc)
 
-Use json/itemgroups/ to place your martial art book and any martial weapons you've made for the art into spawns in various locations in the world. If you don't place your weapons in there, only recipes to craft them will be an option.
+Use json/itemgroups/ to place your martial art book and any martial weapons you've made for the art
+into spawns in various locations in the world. If you don't place your weapons in there, only
+recipes to craft them will be an option.
