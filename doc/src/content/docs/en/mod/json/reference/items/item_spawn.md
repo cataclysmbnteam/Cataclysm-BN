@@ -216,7 +216,7 @@ most useful when the group is very specific to the place it is used and wont eve
 else.
 
 As an example: monster death drops (`death_drops` entry in the `MONSTER` object, check
-[here](../JSON_INFO)) can do this. If the monster is very specific (e.g. a special robot, a unique
+[here](../json_info)) can do this. If the monster is very specific (e.g. a special robot, a unique
 endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
 
 Therefore, this snippet:

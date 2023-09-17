@@ -1,6 +1,10 @@
 ---
-title: Monster types
+title: Monsters
+tableOfContents:
+  maxHeadingLevel: 4
 ---
+
+## Monster types
 
 Monster types are specified as JSON object with "type" member set to "MONSTER":
 
@@ -596,27 +600,27 @@ to contain _only_ the "SHRIEK" attack:
 Some properties allow adding and removing entries, as documented above, usually via members with the
 "add:"/"remove:" prefix.
 
-# Monster special attack types
+## Monster special attack types
 
 The listed attack types can be as monster special attacks (see "special_attacks").
 
-## "leap"
+### "leap"
 
 Makes the monster leap a few tiles. It supports the following additional properties:
 
-### "max_range"
+#### "max_range"
 
 (Required) Maximal range of attack.
 
-### "min_range"
+#### "min_range"
 
 (Required) Minimal range needed for attack.
 
-### "allow_no_target"
+#### "allow_no_target"
 
 This prevents monster from using the ability on empty space.
 
-### "move_cost"
+#### "move_cost"
 
 Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
 
@@ -624,39 +628,39 @@ Turns needed to complete special attack. 100 move_cost with 100 speed is equal t
 
 Minimal range and maximal range to consider for using specific attack.
 
-## "bite"
+### "bite"
 
 Makes monster use teeth to bite opponent. Some monsters can give infection by doing so.
 
-### "damage_max_instance"
+#### "damage_max_instance"
 
 Max damage it can deal on one bite.
 
-### "min_mul", "max_mul"
+#### "min_mul", "max_mul"
 
 How hard is to get free of bite without killing attacker.
 
-### "move_cost"
+#### "move_cost"
 
 Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
 
-### "accuracy"
+#### "accuracy"
 
 (Integer) How accurate it is. Not many monsters use it though.
 
-### "no_infection_chance"
+#### "no_infection_chance"
 
 Chance to not give infection.
 
-## "gun"
+### "gun"
 
 Fires a gun at a target. If friendly, will avoid harming the player.
 
-### "gun_type"
+#### "gun_type"
 
 (Required) Valid item id of a gun that will be used to perform the attack.
 
-### "ammo_type"
+#### "ammo_type"
 
 (Required) Valid item id of the ammo the gun will be loaded with. Monster should also have a
 "starting_ammo" field with this ammo. For example
@@ -666,72 +670,72 @@ Fires a gun at a target. If friendly, will avoid harming the player.
 "starting_ammo" : {"50bmg":100}
 ```
 
-### "max_ammo"
+#### "max_ammo"
 
 Cap on ammo. If ammo goes above this value for any reason, a debug message will be printed.
 
-### "fake_str"
+#### "fake_str"
 
 Strength stat of the fake NPC that will execute the attack. 8 if not specified.
 
-### "fake_dex"
+#### "fake_dex"
 
 Dexterity stat of the fake NPC that will execute the attack. 8 if not specified.
 
-### "fake_int"
+#### "fake_int"
 
 Intelligence stat of the fake NPC that will execute the attack. 8 if not specified.
 
-### "fake_per"
+#### "fake_per"
 
 Perception stat of the fake NPC that will execute the attack. 8 if not specified.
 
-### "fake_skills"
+#### "fake_skills"
 
 Array of 2 element arrays of skill id and skill level pairs.
 
-### "move_cost"
+#### "move_cost"
 
 Move cost of executing the attack
 
 // If true, gives "grace period" to player
 
-### "require_targeting_player"
+#### "require_targeting_player"
 
 If true, the monster will need to "target" the player, wasting `targeting_cost` moves, putting the
 attack on cooldown and making warning sounds, unless it attacked something that needs to be targeted
 recently.
 
-### "require_targeting_npc"
+#### "require_targeting_npc"
 
 As above, but with npcs.
 
-### "require_targeting_monster"
+#### "require_targeting_monster"
 
 As above, but with monsters.
 
-### "targeting_timeout"
+#### "targeting_timeout"
 
 Targeting status will be applied for this many turns. Note that targeting applies to turret, not
 targets.
 
-### "targeting_timeout_extend"
+#### "targeting_timeout_extend"
 
 Successfully attacking will extend the targeting for this many turns. Can be negative.
 
-### "targeting_cost"
+#### "targeting_cost"
 
 Move cost of targeting the player. Only applied if attacking the player and didn't target player
 within last 5 turns.
 
-### "no_crits"
+#### "no_crits"
 
 If true then attacking create will be unable to score ranged critical hit on target, also good hits
 no longer has high change to go to the head, instead there is high change to score hit to the body
 and limbs. If false then default behavior used - critical hits are allowed and good hit has high
 chance to reach head.
 
-### "laser_lock"
+#### "laser_lock"
 
 If true and attacking a creature that isn't laser-locked but needs to be targeted, the monster will
 act as if it had no targeting status (and waste time targeting), the target will become
@@ -739,30 +743,30 @@ laser-locked, and if the target is the player, it will cause a warning.
 
 Laser-locking affects the target, but isn't tied to specific attacker.
 
-### "range"
+#### "range"
 
 Maximum range at which targets will be acquired.
 
-### "range_no_burst"
+#### "range_no_burst"
 
 Maximum range at which targets will be attacked with a burst (if applicable).
 
-### "burst_limit"
+#### "burst_limit"
 
 Limit on burst size.
 
-### "description"
+#### "description"
 
 Description of the attack being executed if seen by the player.
 
-### "targeting_sound"
+#### "targeting_sound"
 
 Description of the sound made when targeting.
 
-### "targeting_volume"
+#### "targeting_volume"
 
 Volume of the sound made when targeting.
 
-### "no_ammo_sound"
+#### "no_ammo_sound"
 
 Description of the sound made when out of ammo.

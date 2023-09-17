@@ -1,14 +1,14 @@
 ---
-title: Changes so far
+title: Changelog
 ---
 
 This is an incomplete list compiled for convenience, see pull requests for all changes.
 
-Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
+Starts with [revision 10614 (just before pockets)](https://github.com/cataclysmbnteam/Cataclysm-BN/commit/8cea0fce70c87ea93c6fd4e409c68558e24ce42e) of [CleverRaven/Cataclysm-DDA.](https://github.com/CleverRaven/Cataclysm-DDA)
 
-# Changelog Stable v 0.3
+## Stable v 0.3
 
-## Gameplay:
+### Gameplay
 
 - New scenario: Play as Feral and befriend with zombies (on certain conditions).
 - Added ability to manually connect and disconnect multiple power grids via voltmeter and some
@@ -19,7 +19,7 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
   - Items turn into shrapnel.
   - Custom animations.
 
-## Balance:
+### Balance
 
 - Improved mechs.
 - Added craftable helicopter rotors.
@@ -28,13 +28,13 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
 - Yet more tweaks to bows (decreased damage, strength cap is now a soft cap).
 - Tweaked power armor spawn locations.
 
-## New content:
+### New content
 
 - Added new CBMs. Some CBMs ported from existing mods.
 - A lot of locations reworked and improved.
 - Expansion to the Old Guard faction.
 
-## Infrastructure:
+### Infrastructure
 
 - Lab Finale rework.
 - Updates to build files.
@@ -43,7 +43,7 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
 - Improve code for NPC method of attack, generally improving their ability to choose weapons and
   attacks. Allows them to reload magazines and perform combat reloads with single shot weapons.
 
-## Bugfixes:
+### Bugfixes
 
 - Multiple bugfixes related to NPC AI weapon selection and ranged attacks.
 - Fixes to off-road vehicle behavior.
@@ -51,14 +51,14 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
   mods enabled.
 - Fixes to monster attacks and movement over z-levels.
 
-## Ported from later versions of DDA:
+### Ported from later versions of DDA
 
 - Feral humans (with additional tweaks).
 - Additional achievements.
 
-# Changelog Stable v 0.2
+## Stable v 0.2
 
-## Gameplay:
+### Gameplay
 
 - Rework teleglow, nether attention, stare monattack.
 - AI now can target and shoot moving cars.
@@ -70,7 +70,7 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
 - Melee skill actually impacts attack stamina usage.
 - Add the ability to mark items as favorite from the multidrop menu.
 
-## Balance:
+### Balance
 
 - Finished ammo and armor rebalance. Armour piercing ammunition now more effective agaisnt armored
   targets, but armor in certain cases provides somewhat better protection against gunshots. Changes
@@ -85,21 +85,21 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
 - Shadow and cult creature updates from Arcana.
 - Adjustments to mi-go locations, atmosphere field.
 
-## Quality of Life:
+### Quality of Life
 
 - Added ability Submit bug report directly from game.
 - Reduce blinking effects speed (300 -> 800ms), and add an option to change it in game.
 - Deactivate pet robots in pet menu instead of query.
 - While flying, warn when letting go of control or stop driving.
 
-## Infrastructure:
+### Infrastructure
 
 - Migrate to C++17.
 - Implement relic recharge.
 - Grid constructions now use workshop category.
 - Allow marking construction recipes as favorite, sort recipes by name in construction UI.
 
-## New Content:
+### New Content
 
 - Added new electric grid appliances.
 - Adds grid forge rigs, chemistry sets, and chemlabs.
@@ -109,7 +109,7 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
 - Added new helicopter parts group to helipad.
 - Add mountable autodoc and autodoc couch.
 
-## Ported from later versions of DDA:
+### Ported from later versions of DDA
 
 - Port complete leash and lead system.
 - Port over fix for spellcasting monsters and summon spells.
@@ -119,13 +119,13 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
 - add NPCs to biker_dump.
 - Port Barbaran Montante and rebalance.
 
-## Other:
+### Other
 
 - Add missing damage sources kills and suicide to kills list.
 
-# Changelog Stable v 0.1
+## Stable v 0.1
 
-## Gameplay:
+### Gameplay
 
 - Victory condition: <details><summary>spoilers</summary>Somewhere in the rectangular region of the
   overmap from (0'0, 0'0) to (0'179, 0'179), there's a central lab (accessible from a tile named
@@ -201,7 +201,7 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
 - Reworked food temerature mechanics. Removed "mushy" mechanics. Rot still affected by temperature.
   Note that freezers still work as intended and prevent rot, and fire makes you warm.
 
-## Quality of life:
+### Quality of life
 
 - Crafting defaults to in inventory/on the ground, best workbench in radius is used anyway
 - Can read items on the floor, in vehicles etc. Reading doesn't automatically pick up books, but
@@ -218,14 +218,14 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
 - Added accurate firearm dispersion/recoil stats that include all the modifiers (from skill,
   bionics, encumbrance and so on)
 
-## New content:
+### New content
 
 - Medical zombie tree, focused on debuffing
 - New automated gun turrets replacing CROWS based ones. Less deadly, but don't drop tons of valuable
   rifle ammo.
 - Bionic scanner, to detect which corpses are worth cutting up
 
-## Performance:
+### Performance
 
 - Fires do not produce hot air and smoke, no longer affected by wind
 - Option to disable event bus system (in Debug tab) - removes one big cycle hog, but also
@@ -234,7 +234,7 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
 - Removed slow fd_clairvoyant check which only benefited Magiclysm, but slowed down everyone
 - Cache list of all vehicles on map, since getting it is slow in 3D mode
 
-## Ported from later versions of DDA:
+### Ported from later versions of DDA
 
 - Ground vehicle z-level transitions and z+1 bridges. Ramps can be enabled through "Z-levels" world
   setting, new bridge generation - through "Elevated bridges" mod.
@@ -243,7 +243,7 @@ Starts with revision 10614 (just before pockets) of CleverRaven/Cataclysm-DDA.
 - Various under-the-hood improvements, such as refactors and optimizations.
 - Hundreds of bugfixes and small changes.
 
-## Other:
+### Other
 
 - 3rd party mods translation support
 - UnDeadPeople tileset included

@@ -116,10 +116,11 @@ rule in the `Makefile` to do this for you; just run `make ctags` or `make etags`
 
 ## clang-tidy
 
-Cataclysm has a [clang-tidy configuration file](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/.clang-tidy) and if you have
-`clang-tidy` available you can run it to perform static analysis of the codebase. We test with
-`clang-tidy` from LLVM 12.0.0 with CI, so for the most consistent results, you might want to use
-that version.
+Cataclysm has a
+[clang-tidy configuration file](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/.clang-tidy)
+and if you have `clang-tidy` available you can run it to perform static analysis of the codebase. We
+test with `clang-tidy` from LLVM 12.0.0 with CI, so for the most consistent results, you might want
+to use that version.
 
 To run it, you have a few options.
 

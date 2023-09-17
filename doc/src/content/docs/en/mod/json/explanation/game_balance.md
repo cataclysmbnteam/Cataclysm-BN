@@ -428,7 +428,7 @@ follows:
 3. AP variants are considered to have 130% combined damage, 70% damage and 60% arpen (example: 70
    damage, 60 arpen)
 
-# LIQUIDS:
+## Liquids
 
 Multi-charge items are weighed by the charge/use. If you have an item that contains 40 uses, it'll
 weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL
@@ -451,7 +451,7 @@ divide the "shelf" price by this value to arrive at the correct price to list in
 
 - gallon jug: 15
 
-# Diamond weapons
+## Diamond weapons
 
 Diamond weapons should be uniform in their CVD machine requirements. Coal requirements are
 `floor((weapon_volume+1)/2)*25`. Hydrogen requirements are `coal_requirements/2.5`.

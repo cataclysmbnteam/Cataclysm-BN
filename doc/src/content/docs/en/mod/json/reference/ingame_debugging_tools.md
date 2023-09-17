@@ -7,7 +7,7 @@ new additions.
 
 Below are listed some major ones.
 
-# Debug Message
+## Debug Message
 
 Also known as `debugmsg`, or "Red text over black screen". Shows up when the game encounters an
 error in data files or an inconsistency within its internal state.
@@ -33,7 +33,7 @@ In code, you can invoke a debug message like this:
 debugmsg( "Failed to open file, code %d", 123 );
 ```
 
-# Debug log
+## Debug log
 
 Debug log contains various status messages produced by the game, including general info, warnings or
 hard errors. It's usually the go-to place for initial diagnostic of most bugs.
@@ -55,7 +55,7 @@ In code, you can print to the log like this:
 DebugLogFL( DL::Info, DC::Map ) << "My " << "logged" << " info!";
 ```
 
-# Crash log
+## Crash log
 
 Crash log contains backtrace after game crash. It's extremely helpful for solving crashes, as it
 essentially holds the info about what code (and where) experienced the crash.
@@ -70,7 +70,7 @@ backtraces enabled. Some builds also support optional `libbacktace` that may mak
 more readable. If it takes a long time (up to half a minute) to generate backtraces on Linux,
 consider compiling with `clang++` instead of `g++`.
 
-# Debug mode
+## Debug mode
 
 Not to be confused with [debug menu](#debug-menu), debug mode makes the game produce a lot of noisy
 messages in the log, and enables additional functionality in some UI windows.
@@ -90,7 +90,7 @@ by pressing `?`.
 
 In code, you can check for debug mode via `debug_mode` variable found in `cached_options.h`.
 
-# Debug menu
+## Debug menu
 
 Also known as "cheat menu", not to be confused with [debug mode](#debug-mode). The best friend when
 it comes to testing.
@@ -106,7 +106,7 @@ There's a somewhat hidden feature called "Debug Mutations", which resembles chea
 games and grants your character immunity to some game mechanics. To quickly access them, press
 `p`(Player)->`u`(Mutate)->`/`(Filter) and enter `Debug` in the search box.
 
-# Additional JSON checks
+## Additional JSON checks
 
 It's possible to enable additional JSON data checks, mostly useful for content makers. The list
 includes, but not limited to, the following:
@@ -128,7 +128,7 @@ TODO: rename the option to imply all listed checks, maybe also enable it by defa
 
 ![image](https://user-images.githubusercontent.com/60584843/192119882-5c45ed88-2dee-495a-8457-c767dbe2d53d.png)
 
-# Tileset reload and report
+## Tileset reload and report
 
 Useful for tileset makers, this feature reloads the active tileset from disk, redraws the screen and
 writes completeness report to the [debug log](#debug-log).

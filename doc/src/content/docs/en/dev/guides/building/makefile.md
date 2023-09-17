@@ -460,14 +460,14 @@ The app stores data files on the device in
 `/sdcard/Android/data/com.cleverraven/cataclysmdda/files`. The data is backwards compatible with the
 desktop version.
 
-# Mac OS X
+## Mac OS X
 
 To build Cataclysm on Mac you'll need
 [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the
 [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm
 using the [cataclysm](https://formulae.brew.sh/formula/cataclysm) forumla.
 
-## Simple build using Homebrew
+### Simple build using Homebrew
 
 Homebrew installation will come with tiles and sound support enabled.
 

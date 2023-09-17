@@ -1,5 +1,7 @@
 ---
 title: NPCs
+tableOfContents:
+  maxHeadingLevel: 4
 ---
 
 ## Writing Dialogues
@@ -532,7 +534,7 @@ will generate separate responses from the item itself.
 The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple
 effects should be arranged in a list and are processed in the order listed.
 
-#### Missions
+### Missions
 
 | Effect            | Description                                                     |
 | ----------------- | --------------------------------------------------------------- |
@@ -542,7 +544,7 @@ effects should be arranged in a list and are processed in the order listed.
 | `clear_mission`   | Clears the mission from the your character's assigned missions. |
 | `mission_reward`  | Gives the player the mission's reward.                          |
 
-#### Stats / Morale
+### Stats / Morale
 
 | Effect               | Description                                                                                                                                                                                                               |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -554,7 +556,7 @@ effects should be arranged in a list and are processed in the order listed.
 | `player_weapon_away` | Makes your character put away (unwield) their weapon.                                                                                                                                                                     |
 | `player_weapon_drop` | Makes your character drop their weapon.                                                                                                                                                                                   |
 
-#### Character effects / Mutations
+### Character effects / Mutations
 
 | Effect                                                                                                                                                                                                 | Description                                                                                                                                                                                                                                                                                                       |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -570,7 +572,7 @@ effects should be arranged in a list and are processed in the order listed.
 | `u_learn_recipe: recipe_string`                                                                                                                                                                        | Your character will learn and memorize the recipe `recipe_string`.                                                                                                                                                                                                                                                |
 | `npc_first_topic: topic_string`                                                                                                                                                                        | NPC permanently changes first dialogue topic to `topic_string`.                                                                                                                                                                                                                                                   |
 
-#### Trade / Items
+### Trade / Items
 
 | Effect                                                                                                                                                                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -629,7 +631,7 @@ effects should be arranged in a list and are processed in the order listed.
 | `set_npc_aim_rule: rule_string`        | Sets the NPC follower AI rule for aiming speed to the value of `rule_string`.                                                                                   |
 | `npc_die`                              | The NPC will die at the end of the conversation.                                                                                                                |
 
-#### Map Updates
+### Map Updates
 
 `mapgen_update: mapgen_update_id_string`<br/> `mapgen_update:` _list of `mapgen_update_id_string`s_,
 (optional `assign_mission_target` parameters) | With no other parameters, updates the overmap tile
@@ -638,13 +640,13 @@ at the player's current location with the changes described in `mapgen_update_id
 location of the overmap tile that gets updated. See [the missions docs](missions_json) for
 `assign_mission_target` parameters and [the mapgen docs](../map/mapgen) for `mapgen_update`.
 
-#### Deprecated
+### Deprecated
 
 | Effect                                                                     | Description                                                                                                                                        |
 | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `deny_follow`<br/> `deny_lead`<br/> `deny_train`<br/> `deny_personal_info` | Sets the appropriate effect on the NPC for a few hours.<br/>These are _deprecated_ in favor of the more flexible `npc_add_effect` described above. |
 
-#### Sample effects
+### Sample effects
 
 ```json
 { "topic": "TALK_EVAC_GUARD3_HOSTILE", "effect": [ { "u_faction_rep": -15 }, { "npc_change_faction": "hells_raiders" } ] }
