@@ -6,7 +6,7 @@ import starlight from "@astrojs/starlight"
 import starlightLinksValidator from "starlight-links-validator"
 import { loadEnv } from "vite"
 
-import { alternativeTipSyntax, fixRelativeLinks } from "./remark.js"
+import { fixRelativeLinks } from "./remark.js"
 
 const envPath = join(fileURLToPath(import.meta.url), "..")
 const env = loadEnv("development", envPath, "CUSTOM")
@@ -31,7 +31,7 @@ export default defineConfig({
   site,
   redirects: { "/": `/en/` },
   markdown: {
-    remarkPlugins: [fixRelativeLinks, alternativeTipSyntax],
+    remarkPlugins: [fixRelativeLinks],
   },
   integrations: [
     starlightLinksValidator(),
