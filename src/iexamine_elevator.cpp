@@ -69,9 +69,9 @@ auto choose_floor( const tripoint &examp, const tripoint_abs_omt &this_omt,
     choice.title = _( "Please select destination floor" );
     for( int z = OVERMAP_HEIGHT; z >= -OVERMAP_DEPTH; z-- ) {
         const tripoint_abs_omt that_omt{ this_omt.xy(), z };
-        const int delta = get_rot_delta( this_omt, that_omt );
+        const int turns = get_rot_turns( this_omt, that_omt );
         const tripoint zp =
-            rotate_point_sm( { examp.xy(), z }, sm_orig, delta );
+            rotate_point_sm( { examp.xy(), z }, sm_orig, turns );
 
         if( here.ter( zp )->examine != &iexamine::elevator ) {
             continue;
@@ -201,9 +201,6 @@ auto move_vehicles( const elevator_vehicles &vehs, const tripoint &sm_orig, int 
 
 } // namespace
 
-/**
- * If underground, move 2 levels up else move 2 levels down. Stable movement between levels 0 and -2.
- */
 void iexamine::elevator( player &p, const tripoint &examp )
 {
     map &here = get_map();
@@ -223,7 +220,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
     }
 
     const tripoint_abs_omt that_omt{ this_omt.xy(), movez };
-    const int turns = get_rot_delta( this_omt, that_omt );
+    const int turns = get_rot_turns( this_omt, that_omt );
 
     const auto elevator_dest = elevator::dest( elevator_here, sm_orig, turns, movez );
     const auto vehicles_dest = elevator::vehicles_on( elevator_dest );

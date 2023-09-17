@@ -30,7 +30,8 @@ auto rotate_point_sm( const tripoint &p, const tripoint &orig, int turns ) -> tr
     return tripoint{ rd + orig.xy() };
 }
 
-auto get_rot_delta( const tripoint_abs_omt &here, const tripoint_abs_omt &there ) -> int
+/** @return The difference in rotation between two overmap terrain points. */
+auto get_rot_turns( const tripoint_abs_omt &here, const tripoint_abs_omt &there ) -> int
 {
     const auto this_dir = overmap_buffer.ter( there )->get_dir();
     const auto that_dir = overmap_buffer.ter( here )->get_dir();
