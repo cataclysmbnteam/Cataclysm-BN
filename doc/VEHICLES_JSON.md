@@ -1,6 +1,7 @@
 # Vehicle prototypes JSON file contents
 
-Vehicle prototypes are used to spawn stock vehicles. After a vehicle has been spawned, it is saved in a different format.
+Vehicle prototypes are used to spawn stock vehicles. After a vehicle has been spawned, it is saved
+in a different format.
 
 Vehicle prototypes do not currently accept copy-from
 
@@ -35,27 +36,32 @@ Vehicle prototypes do not currently accept copy-from
 ]
 ```
 
-.* Important! *. Vehicle parts must be defined in the same order you would install them in the game (ie, frames and mount points first).  You also cannot break the normal rules of installation (you can't stack non-stackable part flags).
+.* Important! *. Vehicle parts must be defined in the same order you would install them in the game
+(ie, frames and mount points first). You also cannot break the normal rules of installation (you
+can't stack non-stackable part flags).
 
 ### Parts list
-The part list contains an arbitary number of lines. Each line is of the form:
-    { "x": X, "y": Y, "part": PARTID, ... }
-or
-    { "x": X, "y": Y, "parts": [ PARTID1, ... ] }
 
-In the first form, the line defines a single part at location X,Y of vehicle part type PARTID. It can have the optional "ammo", "ammo_types", "ammo_qty", or "fuel" keys with an appropriate value following.
+The part list contains an arbitary number of lines. Each line is of the form: { "x": X, "y": Y,
+"part": PARTID, ... } or { "x": X, "y": Y, "parts": [ PARTID1, ... ] }
 
-In the second form, the line defines several parts at location X, Y. Each part is either defined by its PARTID string, or can be an object of the form
-    { "part": PARTID, ... }
-with any of the optional keys  "ammo", "ammo_types", "ammo_qty", or "fuel" as above.
+In the first form, the line defines a single part at location X,Y of vehicle part type PARTID. It
+can have the optional "ammo", "ammo_types", "ammo_qty", or "fuel" keys with an appropriate value
+following.
 
-Several different lines can have the same X, Y co-ordinates and each one adds additional parts to that location. Parts must be added in the correct order ie: A wheel hub must be added prior to the wheel, but after the frame.
+In the second form, the line defines several parts at location X, Y. Each part is either defined by
+its PARTID string, or can be an object of the form { "part": PARTID, ... } with any of the optional
+keys "ammo", "ammo_types", "ammo_qty", or "fuel" as above.
+
+Several different lines can have the same X, Y co-ordinates and each one adds additional parts to
+that location. Parts must be added in the correct order ie: A wheel hub must be added prior to the
+wheel, but after the frame.
 
 ### Items list
-The items list contains an arbitrary number of lines. Each line is of the form:
-    { "x": X, "y": Y, TYPE: DATA },
-and describes the items that may spawn at that location.
-TYPE and DATA may be one of:
+
+The items list contains an arbitrary number of lines. Each line is of the form: { "x": X, "y": Y,
+TYPE: DATA }, and describes the items that may spawn at that location. TYPE and DATA may be one of:
+
 ```C++
 "items": "itemid"                              // single item of that type
 "items": [ "itemid1", "itemid2", ... ]         // all the items in the array
@@ -63,6 +69,8 @@ TYPE and DATA may be one of:
                                                // whether the group is a collection or distribution
 "item_groups": [ "groupid1", "groupid2" ... ]  // one or more items for each group
 ```
-the optional keyword "chance" provides an X in 100 chance that a particular item definition will spawn.
+
+the optional keyword "chance" provides an X in 100 chance that a particular item definition will
+spawn.
 
 Multiple lines of items may share the same X and Y values.

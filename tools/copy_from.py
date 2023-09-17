@@ -16,11 +16,11 @@ def get_data(argsDict, resource_name):
               with open(resource_filename) as resource_file:
                   resource += json.load(resource_file)
           except FileNotFoundError:
-              exit("Failed: could not find {}".format(resource_filename))
+              exit(f"Failed: could not find {resource_filename}")
        else:
-           print("Invalid filename {}".format(resource_filename))
+           print(f"Invalid filename {resource_filename}")
    if not resource:
-        exit("Failed: {} was empty".format(resource_filename))
+        exit(f"Failed: {resource_filename} was empty")
    return resource
 
 

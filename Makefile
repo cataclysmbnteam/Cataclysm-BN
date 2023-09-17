@@ -53,7 +53,7 @@
 #  make TILES=1 SOUND=1
 # Disable backtrace support, not available on all platforms
 #  make BACKTRACE=0
-# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW builds)
+# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW and Linux builds)
 #  make LIBBACKTRACE=1
 # Compile localization files for specified languages
 #  make localization LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
@@ -399,7 +399,11 @@ ifeq ($(RELEASE), 1)
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
   ifndef DEBUG_SYMBOLS
-    DEBUGSYMS =
+  	ifeq ($(LIBBACKTRACE), 1)
+      DEBUGSYMS = -g1
+    else
+      DEBUGSYMS =
+    endif
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
@@ -763,9 +767,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
   ifeq ($(BACKTRACE),1)
     LDFLAGS += -ldbghelp
-    ifeq ($(LIBBACKTRACE),1)
-      LDFLAGS += -lbacktrace
-    endif
   endif
 endif
 
@@ -773,6 +774,7 @@ ifeq ($(BACKTRACE),1)
   DEFINES += -DBACKTRACE
   ifeq ($(LIBBACKTRACE),1)
       DEFINES += -DLIBBACKTRACE
+      LDFLAGS += -lbacktrace
   endif
 endif
 
@@ -827,7 +829,7 @@ ifeq ($(LUA), 1)
   DEFINES += -DLUA
   LUA_OBJS = $(sort $(LUA_SOURCES:$(LUA_SRC_DIR)/%.c=$(ODIRLUA)/%.o))
 else
-  LUA_OBJS = 
+  LUA_OBJS =
 endif
 
 ifdef LANGUAGES
