@@ -50,7 +50,7 @@
    "to_hit": -4,
    "bashing": 1,
    "use_action": "teleporter_anchor_use",
-   "looks_like": "tr_firewood_source"
+   "looks_like": "telepad"
   },
   {
    "id": "teleporter_station_undeployed",
@@ -68,7 +68,7 @@
    "to_hit": -4,
    "bashing": 1,
    "use_action": "teleporter_station_use",
-   "looks_like": "f_fridge"
+   "looks_like": "f_MRI"
   },
   {
     "id": "schematics_teleportation",
@@ -76,5 +76,5 @@
     "name": { "str_sp": "Teleporter network schematics" },
     "description": "A disjointed collection of lab book pages , post-it notes, and computer printouts containing some funky physics equations and circuit diagrams. They seem to be describing some form of stable teleportation technology.",
     "copy-from": "schematics_generic"
-  },
+  }
 ]
