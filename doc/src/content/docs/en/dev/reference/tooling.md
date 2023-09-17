@@ -141,12 +141,12 @@ grep '"file": "' build/compile_commands.json | \
 To focus on a subset of files add their names into the `egrep` regex in the middle of the
 command-line.
 
-### Custom clang-tidy plugin
+## Custom clang-tidy plugin
 
 We have written our own clang-tidy checks in a custom plugin. Unfortunately, `clang-tidy` as
 distributed by LLVM doesn't support plugins, so making this work requires some extra steps.
 
-#### Ubuntu Focal
+### Ubuntu Focal
 
 If you are on Ubuntu Focal then you might be able to get it working the same way our CI does. Add
 the LLVM 12 Focal source [listed here](https://apt.llvm.org/) to your `sources.list`, install the
@@ -188,9 +188,9 @@ Then, assuming `build` is your Cataclysm build directory, you can run the tests 
 lit -v build/tools/clang-tidy-plugin/test
 ```
 
-#### Windows
+### Windows
 
-##### Build LLVM
+#### Build LLVM
 
 To build LLVM on Windows, you'll first need to get some tools installed.
 
@@ -248,7 +248,7 @@ mingw32-make -j4 clang-tidy clangTidyMain FileCheck
 Here `clang-tidy` is only added to trigger the building of several targets that are needed to build
 our custom clang-tidy executable later.
 
-##### Build clang-tidy with custom checks
+#### Build clang-tidy with custom checks
 
 After building clang-tidy as a library from the LLVM source, the next step is to build clang-tidy as
 an executable, with the custom checks from the CDDA source.
@@ -408,7 +408,7 @@ that worked).
 
 Then run:
 
-```
+```sh
 iwyu_tool.py -p $CMAKE_BUILD_DIR/compile_commands.json -- -Xiwyu --mapping_file=$PWD/tools/iwyu/cata.imp | fix_includes.py --nosafe_headers --reorder
 ```
 
@@ -434,7 +434,7 @@ We have to use IWYU pragmas in some situations. Some of the reasons are:
   the following command to get a list of headers which are not currently associated to any cpp file
   (requires GNU sed):
 
-```
+```sh
 diff <(ls src/*.h | sed 's!.*/!!') <(for i in src/*.cpp; do echo $i; sed -n '/^#include/{p; :loop n; p; /^$/q; b loop}' $i; done | grep 'e "' | grep -o '"[^"]*"' | sort -u | tr -d '"')
 ```
 

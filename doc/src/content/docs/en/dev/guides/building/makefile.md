@@ -308,10 +308,15 @@ Make sure that all dependency tools are in search `PATH` before compiling.
 ### Setup
 
 To set up the compiling environment execute the following commands
-`git clone https://github.com/tpoechtrager/osxcross.git` to clone the toolchain `cd osxcross`
-`cp ~/MacOSX10.11.sdk.tar.bz2 ./tarballs/` copy prepared MacOSX SDK tarball on place.
+```
+git clone https://github.com/tpoechtrager/osxcross.git #clone the toolchain
+cd osxcross
+cp ~/MacOSX10.11.sdk.tar.bz2 ./tarballs/ # copy prepared MacOSX SDK tarball on place.
+OSX_VERSION_MIN=11 ./build.sh # build everything
+```
+
 [Read more about it](https://github.com/tpoechtrager/osxcross/blob/master/README.md#packaging-the-sdk)
-`OSX_VERSION_MIN=10.7 ./build.sh to build everything` Note the targeted minimum supported version of
+ Note the targeted minimum supported version of
 OSX.
 
 Have a prepackaged set of libs and frameworks in place, since compiling with `osxcross` built-in
@@ -361,9 +366,9 @@ Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable
 
 The Android build uses [Gradle](https://gradle.org/) to compile the java and native C++ code, and is
 based heavily off SDL's
-[Android project template](https://hg.libsdl.org/SDL/file/f1084c419f33/android-project). See the
+[Android project template](https://github.com/libsdl-org/SDL/tree/main/android-project). See the
 official SDL documentation
-[README-android.md](https://hg.libsdl.org/SDL/file/f1084c419f33/docs/README-android.md) for further
+[README-android.md](https://github.com/libsdl-org/SDL/blob/main/docs/README-android.md) for further
 information.
 
 The Gradle project lives in the repository under `android/`. You can build it via the command line
@@ -519,16 +524,16 @@ from source.
 
 The SDL framework files can be downloaded here:
 
-- [**SDL2**](http://www.libsdl.org/download-2.0.php)
-- [**SDL2_image**](http://www.libsdl.org/projects/SDL_image/)
-- [**SDL2_ttf**](http://www.libsdl.org/projects/SDL_ttf/)
+- [SDL2](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.3)
+- [SDL2_image](https://github.com/libsdl-org/SDL_image)
+- [SDL2_ttf](https://github.com/libsdl-org/SDL_ttf)
 
 Copy `SDL2.framework`, `SDL2_image.framework`, and `SDL2_ttf.framework` to `/Library/Frameworks` or
 `/Users/name/Library/Frameworks`.
 
 If you want sound support, you will need an additional SDL framework:
 
-- [**SDL2_mixer**](https://www.libsdl.org/projects/SDL_mixer/)
+- [SDL2_mixer](https://github.com/libsdl-org/SDL_mixer) (optional, for sound support)
 
 Copy `SDL2_mixer.framework` to `/Library/Frameworks` or `/Users/name/Library/Frameworks`.
 

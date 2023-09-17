@@ -214,19 +214,19 @@ backtrace).
 
 Get the tools:
 
-- CMake from the official site - https://cmake.org/download/.
-- Microsoft compiler - https://visualstudio.microsoft.com/downloads/?q=build+tools , choose "Build
+- CMake from the official site - <https://cmake.org/download/>.
+- Microsoft compiler - <https://visualstudio.microsoft.com/downloads/?q=build+tools> , choose "Build
   Tools for Visual Studio 2017". When installing chose "Visual C++ Build Tools" options.
   - alternatively, you can get download and install the complete Visual Studio, but that's not
     required.
 
 Get the required libraries:
 
-- `SDL2` - https://www.libsdl.org/download-2.0.php (you need the "(Visual C++ 32/64-bit)" version.
+- [SDL2](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.3) (you need the "(Visual C++ 32/64-bit)" version.
   Same below)
-- `SDL2_ttf` - https://www.libsdl.org/projects/SDL_ttf/
-- `SDL2_image` - https://www.libsdl.org/projects/SDL_image/
-- `SDL2_mixer` (optional, for sound support) - https://www.libsdl.org/projects/SDL_mixer/
+- [SDL2_ttf](https://github.com/libsdl-org/SDL_ttf)
+- [SDL2_image](https://github.com/libsdl-org/SDL_image)
+- [SDL2_mixer](https://github.com/libsdl-org/SDL_mixer) (optional, for sound support)
 - Unsupported (and unused in the following instructions) optional libs:
   - `ncurses` - ???
 

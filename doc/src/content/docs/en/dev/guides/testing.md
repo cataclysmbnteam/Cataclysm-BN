@@ -7,7 +7,7 @@ found in the `tests/` directory. These tests are written in the
 [Catch2 framework](https://github.com/catchorg/Catch2).
 
 Run `tests/cata_test --help` to see the available command-line options, and/or consult the
-[Catch2 tutorial](https://github.com/catchorg/Catch2/blob/master/docs/tutorial.md) for a more
+[Catch2 tutorial](https://github.com/catchorg/Catch2/blob/devel/docs/tutorial.md) for a more
 thorough introduction.
 
 ## Guidelines
