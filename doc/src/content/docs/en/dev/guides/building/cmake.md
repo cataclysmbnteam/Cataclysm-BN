@@ -1,9 +1,5 @@
 ---
 title: CMake
-sidebar:
-  badge:
-    text: Recommended
-    variant: success
 ---
 
 :::caution
