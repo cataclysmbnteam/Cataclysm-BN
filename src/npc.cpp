@@ -2904,14 +2904,22 @@ std::string io::enum_to_string<npc_need>( npc_need need )
     // Thought about using npc::need_data, however,
     // 'Accessing a nonexistent element through this operator ([]) is undefined behavior.'
     switch( need ) {
-        case need_none: return "need_none";
-        case need_ammo: return "need_ammo";
-        case need_weapon: return "need_weapon";
-        case need_gun: return "need_gun";
-        case need_food: return "need_food";
-        case need_drink: return "need_drink";
-        case need_safety: return "need_safety";
-        case num_needs: break;
+        case need_none:
+            return "need_none";
+        case need_ammo:
+            return "need_ammo";
+        case need_weapon:
+            return "need_weapon";
+        case need_gun:
+            return "need_gun";
+        case need_food:
+            return "need_food";
+        case need_drink:
+            return "need_drink";
+        case need_safety:
+            return "need_safety";
+        case num_needs:
+            break;
     }
     debugmsg( "Invalid npc_need" );
     abort();

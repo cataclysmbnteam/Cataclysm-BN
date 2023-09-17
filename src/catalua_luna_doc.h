@@ -116,7 +116,7 @@ LUNA_ID( ter_t, "Ter" )
 
 // Enums
 LUNA_ENUM( add_type, "AddictionType" )
-LUNA_ENUM( Creature::Attitude, "CreatureAttitude")
+LUNA_ENUM( Creature::Attitude, "CreatureAttitude" )
 LUNA_ENUM( body_part, "BodyPart" )
 LUNA_ENUM( character_movemode, "CharacterMoveMode" )
 LUNA_ENUM( damage_type, "DamageType" )

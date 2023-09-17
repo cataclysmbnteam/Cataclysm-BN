@@ -1907,11 +1907,16 @@ template<>
 std::string io::enum_to_string<Creature::Attitude>( Creature::Attitude att )
 {
     switch( att ) {
-        case Creature::A_HOSTILE: return "Hostile";
-        case Creature::A_NEUTRAL: return "Neutral";
-        case Creature::A_FRIENDLY: return "Friendly";
-        case Creature::A_ANY: return "Any";
-        case Creature::NUM_A: break;
+        case Creature::A_HOSTILE:
+            return "Hostile";
+        case Creature::A_NEUTRAL:
+            return "Neutral";
+        case Creature::A_FRIENDLY:
+            return "Friendly";
+        case Creature::A_ANY:
+            return "Any";
+        case Creature::NUM_A:
+            break;
     }
     debugmsg( "Invalid Creature::Attitude" );
     abort();

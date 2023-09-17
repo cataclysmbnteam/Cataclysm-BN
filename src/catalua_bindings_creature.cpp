@@ -35,12 +35,12 @@
 #define SET_FX(func_name) luna::set_fx ( ut, #func_name, &UT_CLASS::func_name)
 // SET_FX with Type
 #define SET_FX_T(func_name, func_type) luna::set_fx( ut, #func_name, \
-    sol::resolve< func_type >( &UT_CLASS::func_name))
+        sol::resolve< func_type >( &UT_CLASS::func_name))
 // SET_FX with Lua Name
 //#define SET_FX_LN(func_name, lua_name_str) luna::set_fx ( ut, lua_name_str, &UT_CLASS::func_name)
 // SET_FX with Lua Name and Type
 #define SET_FX_LN_T(func_name, lua_name_str, func_type) luna::set_fx( ut, lua_name_str, \
-    sol::resolve< func_type >( &UT_CLASS::func_name))
+        sol::resolve< func_type >( &UT_CLASS::func_name))
 
 void cata::detail::reg_creature_family( sol::state &lua )
 {
@@ -155,7 +155,7 @@ void cata::detail::reg_creature_family( sol::state &lua )
 
         luna::set_fx( ut, "has_effect_with_flag", []( const Creature & cr,
         const std::string & flag, sol::optional<const bodypart_str_id &> bpid ) -> bool {
-            body_part bp = bpid ? ( *bpid) -> token : num_bp;
+            body_part bp = bpid ? ( *bpid ) -> token : num_bp;
             return cr.has_effect_with_flag( flag, bp );
         } );
 
@@ -194,7 +194,7 @@ void cata::detail::reg_creature_family( sol::state &lua )
         SET_FX_T( remove_value, void( const std::string & ) );
         SET_FX_T( get_value, std::string( const std::string & ) const );
 
-        SET_FX_T( get_weight, units::mass () const );
+        SET_FX_T( get_weight, units::mass() const );
 
         SET_FX_T( has_trait, bool( const trait_id & ) const );
 
@@ -234,12 +234,13 @@ void cata::detail::reg_creature_family( sol::state &lua )
         SET_FX_T( get_size, m_size() const );
         //SET_FX_T( get_hp, int( const bodypart_id & ) const );
         //SET_FX_T( get_hp, int() const );
-        luna::set_fx( ut, "get_hp", [](const Creature & cr,
-        sol::optional<const bodypart_id &> bpid) -> int {
-            if( bpid.has_value() ) {
-                return cr.get_hp(*bpid);
-            }
-            else {
+        luna::set_fx( ut, "get_hp", []( const Creature & cr,
+        sol::optional<const bodypart_id &> bpid ) -> int {
+            if( bpid.has_value() )
+            {
+                return cr.get_hp( *bpid );
+            } else
+            {
                 return cr.get_hp();
             }
         } );
@@ -247,10 +248,11 @@ void cata::detail::reg_creature_family( sol::state &lua )
         //SET_FX_T( get_hp_max, int() const );
         luna::set_fx( ut, "get_hp_max", []( const Creature & cr,
         sol::optional<const bodypart_id &> bpid ) -> int {
-            if( bpid.has_value() ) {
-                return cr.get_hp_max(*bpid);
-            }
-            else {
+            if( bpid.has_value() )
+            {
+                return cr.get_hp_max( *bpid );
+            } else
+            {
                 return cr.get_hp_max();
             }
         } );
@@ -328,7 +330,7 @@ void cata::detail::reg_creature_family( sol::state &lua )
         //SET_FX_T( mod_dodge_bonus, void( float ) );
         //SET_FX_T( mod_hit_bonus, void( float ) );
 
-        luna::set_fx( ut, "get_weight_capacity", []( Creature & cr) -> std::int64_t {
+        luna::set_fx( ut, "get_weight_capacity", []( Creature & cr ) -> std::int64_t {
             return cr.weight_capacity().value();
         } );
 
@@ -468,11 +470,11 @@ void cata::detail::reg_character( sol::state &lua )
 #define UT_CLASS Character
     {
         sol::usertype<UT_CLASS> ut =
-            luna::new_usertype<UT_CLASS>(
-                lua,
-                luna::bases<Creature>(),
-                luna::no_constructor
-            );
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::bases<Creature>(),
+            luna::no_constructor
+        );
         // These vim commands may not be perfect, but it beats doing everything manually.
         //// Get rid of comments
         //%s@\s*//.*@@g
@@ -693,13 +695,14 @@ void cata::detail::reg_character( sol::state &lua )
         //SET_FX_T( recalc_speed_bonus, void() );
 
         //SET_FX_T( get_faction, faction *() const );
-        luna::set_fx( ut, "get_faction_id", []( const UT_CLASS &charac ) -> faction_id {
+        luna::set_fx( ut, "get_faction_id", []( const UT_CLASS & charac ) -> faction_id {
             faction *fac = charac.get_faction();
             return fac == nullptr ? faction_id::NULL_ID() : fac->id;
         } );
         //SET_FX_LN_T( set_fac_id, "set_faction_id", void( const std::string & ) );
-        luna::set_fx( ut, "set_faction_id", []( UT_CLASS &charac, faction_id id ) {
-                charac.set_fac_id( id.str() );
+        luna::set_fx( ut, "set_faction_id", []( UT_CLASS & charac, faction_id id )
+        {
+            charac.set_fac_id( id.str() );
         } );
 
         //SET_FX_T( unimpaired_range, int() const );
@@ -751,7 +754,7 @@ void cata::detail::reg_character( sol::state &lua )
 
         //SET_FX_T( temp_equalizer, void( const bodypart_id &bp1, const bodypart_id &bp2 ) );
 
-        SET_FX_T( blood_loss, int( const bodypart_id &bp ) const );
+        SET_FX_T( blood_loss, int( const bodypart_id & bp ) const );
 
         //SET_FX_T( environmental_revert_effect, void() );
 
@@ -888,11 +891,11 @@ void cata::detail::reg_character( sol::state &lua )
         //SET_FX_T( get_armor_fire,
         //std::map<bodypart_id, int>( const std::map<bodypart_id, std::vector<const item *>> & ) const );
 
-        SET_FX_T( has_base_trait, bool( const trait_id &b ) const );
+        SET_FX_T( has_base_trait, bool( const trait_id & b ) const );
 
-        SET_FX_T( has_trait_flag, bool( const std::string &b ) const );
+        SET_FX_T( has_trait_flag, bool( const std::string & b ) const );
 
-        SET_FX_T( has_opposite_trait, bool( const trait_id &flag ) const );
+        SET_FX_T( has_opposite_trait, bool( const trait_id & flag ) const );
 
         //SET_FX_T( toggle_trait, void( const trait_id & ) );
 
@@ -911,10 +914,10 @@ void cata::detail::reg_character( sol::state &lua )
 
         //SET_FX_T( hp_to_bp, static body_part( hp_part hpart ) );
 
-        SET_FX_T( can_mount, bool( const monster &critter ) const );
-        SET_FX_T( mount_creature, void( monster &z ) );
+        SET_FX_T( can_mount, bool( const monster & critter ) const );
+        SET_FX_T( mount_creature, void( monster & z ) );
         SET_FX_T( is_mounted, bool() const );
-        SET_FX_T( check_mount_will_move, bool( const tripoint &dest_loc ) );
+        SET_FX_T( check_mount_will_move, bool( const tripoint & dest_loc ) );
         SET_FX_T( check_mount_is_spooked, bool() );
         SET_FX_T( dismount, void() );
         SET_FX_T( forced_dismount, void() );
@@ -937,9 +940,9 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( can_run, bool() );
 
-        SET_FX_T( hurtall, void( int dam, Creature *source, bool ) );
+        SET_FX_T( hurtall, void( int dam, Creature * source, bool ) );
 
-        SET_FX_T( hitall, int( int dam, int vary, Creature *source ) );
+        SET_FX_T( hitall, int( int dam, int vary, Creature * source ) );
 
         //SET_FX_T( on_hurt, void( Creature *source, bool disturb ) );
 
@@ -1012,9 +1015,9 @@ void cata::detail::reg_character( sol::state &lua )
 
         //SET_FX_T( mutation_chances,( std::map<trait_id, float>() const ) );
 
-        SET_FX_T( has_child_flag, bool( const trait_id &flag ) const );
+        SET_FX_T( has_child_flag, bool( const trait_id & flag ) const );
 
-        SET_FX_T( remove_child_flag, void( const trait_id &flag ) );
+        SET_FX_T( remove_child_flag, void( const trait_id & flag ) );
 
         //SET_FX_T( set_highest_cat_level, void() );
 
@@ -1046,9 +1049,9 @@ void cata::detail::reg_character( sol::state &lua )
 
         //SET_FX_T( amount_of_storage_bionics, std::pair<int, int>() const );
 
-        SET_FX_T( has_bionic, bool( const bionic_id &b ) const );
+        SET_FX_T( has_bionic, bool( const bionic_id & b ) const );
 
-        SET_FX_T( has_active_bionic, bool( const bionic_id &b ) const );
+        SET_FX_T( has_active_bionic, bool( const bionic_id & b ) const );
 
         SET_FX_T( has_any_bionic, bool() const );
 
@@ -1288,7 +1291,7 @@ void cata::detail::reg_character( sol::state &lua )
         // TODO: wrap me
         //SET_FX_T( can_wield, ret_val<bool>( const item & ) const );
 
-        SET_FX_T( wield, bool( item &target ) );
+        SET_FX_T( wield, bool( item & target ) );
 
         // TODO: wrap me
         //SET_FX_T( can_unwield, ret_val<bool>( const item & ) const );
@@ -1327,7 +1330,7 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( worn_with_flag, bool( const std::string &, const bodypart_id & ) const );
 
         SET_FX_T( item_worn_with_flag,
-            const item *( const std::string &, const bodypart_id & ) const );
+                  const item * ( const std::string &, const bodypart_id & ) const );
 
         //SET_FX_T( get_overlay_ids, std::vector<std::string>() const );
 
@@ -1407,9 +1410,9 @@ void cata::detail::reg_character( sol::state &lua )
         //SET_FX_T( stop_hauling, void() );
         SET_FX_T( is_hauling, bool() const );
 
-        SET_FX_T( has_item_with_flag, bool( const std::string &flag, bool need_charges ) const );
+        SET_FX_T( has_item_with_flag, bool( const std::string & flag, bool need_charges ) const );
         SET_FX_T( all_items_with_flag,
-            std::vector<const item *>( const std::string &flag ) const );
+                  std::vector<const item *>( const std::string & flag ) const );
 
         //SET_FX_T( has_charges,
         //bool( const itype_id &it, int quantity,
@@ -1431,10 +1434,10 @@ void cata::detail::reg_character( sol::state &lua )
         //SET_FX_T( check_outbounds_activity, bool( const player_activity &, bool ) );
 
         SET_FX_T( assign_activity,
-            void( const activity_id &, int, int, int, const std::string & ) );
+                  void( const activity_id &, int, int, int, const std::string & ) );
         //SET_FX_T( assign_activity, void( const player_activity &act, bool allow_resume ) );
 
-        SET_FX_T( has_activity, bool( const activity_id &type ) const );
+        SET_FX_T( has_activity, bool( const activity_id & type ) const );
         //SET_FX_T( has_activity, bool( const std::vector<activity_id> &types ) const );
 
         //SET_FX_T( resume_backlog_activity, void() );
@@ -1545,7 +1548,7 @@ void cata::detail::reg_character( sol::state &lua )
         SET_FX_T( rooted, void() );
 
         SET_FX_T( fall_asleep, void() );
-        SET_FX_T( fall_asleep, void( const time_duration &duration ) );
+        SET_FX_T( fall_asleep, void( const time_duration & duration ) );
 
         //SET_FX_T( is_snuggling, std::string() const );
 
@@ -1679,8 +1682,8 @@ void cata::detail::reg_character( sol::state &lua )
 
         SET_FX_T( get_morale_level, int() const );
         SET_FX_T( add_morale,
-            void( const morale_type &, int, int, const time_duration &, const time_duration &,
-                bool, const itype * ) );
+                  void( const morale_type &, int, int, const time_duration &, const time_duration &,
+                        bool, const itype * ) );
         SET_FX_T( has_morale, bool( const morale_type & ) const );
         SET_FX_T( get_morale, int( const morale_type & ) const );
         SET_FX_T( rem_morale, void( const morale_type & ) );
@@ -1710,13 +1713,13 @@ void cata::detail::reg_character( sol::state &lua )
 
         //SET_FX_T( sound_hallu, void() );
 
-        SET_FX_T( drench, void( int saturation, const body_part_set &flags, bool ignore_waterproof ) );
+        SET_FX_T( drench, void( int saturation, const body_part_set & flags, bool ignore_waterproof ) );
 
         //SET_FX_T( apply_wetness_morale, void( int temperature ) );
         //SET_FX_T( short_description_parts, std::vector<std::string>() const );
         //SET_FX_T( short_description, std::string() const );
 
-        SET_FX_T( can_hear, bool( const tripoint &source, int volume ) const );
+        SET_FX_T( can_hear, bool( const tripoint & source, int volume ) const );
 
         SET_FX_T( hearing_ability, float() const );
 
@@ -1759,14 +1762,14 @@ void cata::detail::reg_character( sol::state &lua )
 #define UT_CLASS character_id
     {
         sol::usertype<UT_CLASS> ut =
-            luna::new_usertype<UT_CLASS>(
-                lua,
-                luna::no_bases,
-                luna::constructors <
-                UT_CLASS(),
-                UT_CLASS( int )
-                >()
-            );
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::no_bases,
+            luna::constructors <
+            UT_CLASS(),
+            UT_CLASS( int )
+            > ()
+        );
 
         SET_FX( is_valid );
         SET_FX( get_value );
@@ -1779,11 +1782,11 @@ void cata::detail::reg_npc( sol::state &lua )
 #define UT_CLASS npc
     {
         sol::usertype<UT_CLASS> ut =
-            luna::new_usertype<UT_CLASS>(
-                lua,
-                luna::bases<player, Character, Creature>(),
-                luna::no_constructor
-            );
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::bases<player, Character, Creature>(),
+            luna::no_constructor
+        );
         //Delete any private/protected methods:
         //%s@\(private:\|protected:\)\_.\{-}\(public:\|};\)@\2
         //Delete the public labels:
@@ -1800,7 +1803,7 @@ void cata::detail::reg_npc( sol::state &lua )
         //%s@ *{\(}\|\_.\{-}\n^}\)@;
         //
         //Push most method declarations into a single line
-        //%s@\((\|,\)\n *@\1 
+        //%s@\((\|,\)\n *@\1
         //
         //Remove default values.
         //%s@ *= *\_.\{-}\( )\|;\|,\)@\1@g
@@ -1906,7 +1909,7 @@ void cata::detail::reg_npc( sol::state &lua )
         //bool( const player &p, npc_factions::relationship flag ) const );
 
         //SET_FX_T( set_fac, void( const faction_id &id ) );
-        SET_FX_LN_T( set_fac, "set_faction_id", void( const faction_id &id ) );
+        SET_FX_LN_T( set_fac, "set_faction_id", void( const faction_id & id ) );
 
         // Already handled in Character bindings
         //SET_FX_T( get_fac_id, faction_id() const );
@@ -1947,15 +1950,15 @@ void cata::detail::reg_npc( sol::state &lua )
         SET_FX_T( is_enemy, bool() const );
 
         SET_FX_T( is_following, bool() const );
-        SET_FX_T( is_obeying, bool( const Character &p ) const );
+        SET_FX_T( is_obeying, bool( const Character & p ) const );
 
-        SET_FX_T( is_friendly, bool( const Character &p ) const );
+        SET_FX_T( is_friendly, bool( const Character & p ) const );
 
         SET_FX_T( is_leader, bool() const );
 
         SET_FX_T( is_walking_with, bool() const );
 
-        SET_FX_T( is_ally, bool( const Character &p ) const );
+        SET_FX_T( is_ally, bool( const Character & p ) const );
 
         SET_FX_T( is_player_ally, bool() const );
 
@@ -2020,9 +2023,9 @@ void cata::detail::reg_npc( sol::state &lua )
         //
         //SET_FX_T( regen_ai_cache, void() );
         //SET_FX_T( current_target, const Creature *() const );
-        SET_FX_T( current_target, Creature *() );
+        SET_FX_T( current_target, Creature * () );
         //SET_FX_T( current_ally, const Creature *() const );
-        SET_FX_T( current_ally, Creature *() );
+        SET_FX_T( current_ally, Creature * () );
         //SET_FX_T( good_escape_direction, tripoint( bool include_pos ) );
 
         SET_FX_T( danger_assessment, float() );
@@ -2067,14 +2070,14 @@ void cata::detail::reg_npc( sol::state &lua )
         //SET_FX_T( complain_about,
         //bool( const std::string &, const time_duration &, const std::string &,
         //bool, sounds::sound_t ) );
-        luna::set_fx( ut, "complain_about", []( UT_CLASS & npchar, const std::string &issue,
-        const time_duration &dur, const std::string &speech, std::optional<bool> force ) -> bool {
+        luna::set_fx( ut, "complain_about", []( UT_CLASS & npchar, const std::string & issue,
+        const time_duration & dur, const std::string & speech, std::optional<bool> force ) -> bool {
             return npchar.complain_about( issue, dur, speech, force ? *force : false );
         } );
 
         SET_FX_T( warn_about,
-        void( const std::string &type, const time_duration &, const std::string &,
-            int, const tripoint & ) );
+                  void( const std::string & type, const time_duration &, const std::string &,
+                        int, const tripoint & ) );
 
         SET_FX_T( complain, bool() );
 
@@ -2231,13 +2234,13 @@ void cata::detail::reg_npc( sol::state &lua )
 #define UT_CLASS npc_personality
     {
         sol::usertype<UT_CLASS> ut =
-            luna::new_usertype<UT_CLASS>(
-                lua,
-                luna::no_bases,
-                luna::constructors <
-                UT_CLASS()
-                >()
-            );
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::no_bases,
+            luna::constructors <
+            UT_CLASS()
+            > ()
+        );
         SET_MEMB( aggression );
         SET_MEMB( bravery );
         SET_MEMB( collector );
@@ -2248,14 +2251,14 @@ void cata::detail::reg_npc( sol::state &lua )
 #define UT_CLASS npc_opinion
     {
         sol::usertype<UT_CLASS> ut =
-            luna::new_usertype<UT_CLASS>(
-                lua,
-                luna::no_bases,
-                luna::constructors <
-                UT_CLASS(),
-                UT_CLASS( int, int, int, int, int )
-                >()
-            );
+        luna::new_usertype<UT_CLASS>(
+            lua,
+            luna::no_bases,
+            luna::constructors <
+            UT_CLASS(),
+            UT_CLASS( int, int, int, int, int )
+            > ()
+        );
         SET_MEMB( trust );
         SET_MEMB( fear );
         SET_MEMB( value );

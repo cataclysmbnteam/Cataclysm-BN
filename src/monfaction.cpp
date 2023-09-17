@@ -224,11 +224,16 @@ template<>
 std::string io::enum_to_string<mf_attitude>( mf_attitude att )
 {
     switch( att ) {
-        case MFA_BY_MOOD: return "ByMood";
-        case MFA_NEUTRAL: return "Neutral";
-        case MFA_FRIENDLY: return "Friendly";
-        case MFA_HATE: return "Hate";
-        case NUM_MFA: break;
+        case MFA_BY_MOOD:
+            return "ByMood";
+        case MFA_NEUTRAL:
+            return "Neutral";
+        case MFA_FRIENDLY:
+            return "Friendly";
+        case MFA_HATE:
+            return "Hate";
+        case NUM_MFA:
+            break;
     }
     debugmsg( "Invalid mf_attitude" );
     abort();
