@@ -9,7 +9,7 @@ import { loadEnv } from "vite"
 import { fixRelativeLinks } from "./remark.js"
 
 const envPath = join(fileURLToPath(import.meta.url), "..")
-const env = loadEnv("development", envPath, "CUSTOM")
+const env = loadEnv("", envPath, "CUSTOM")
 
 console.log(env)
 
@@ -21,10 +21,10 @@ const itemGuide = "https://cbn-guide.mythoscraft.org"
 const discord = "https://discord.gg/XW7XhXuZ89"
 
 const docModes = (dir: string) => [
-  { label: "Tutorial", autogenerate: { directory: `${dir}/tutorial` } },
-  { label: "Guides", autogenerate: { directory: `${dir}/guides` } },
-  { label: "Reference", autogenerate: { directory: `${dir}/reference` } },
-  { label: "Explanation", autogenerate: { directory: `${dir}/explanation` } },
+  { label: "tutorial", autogenerate: { directory: `${dir}/tutorial` } },
+  { label: "guides", autogenerate: { directory: `${dir}/guides` } },
+  { label: "reference", autogenerate: { directory: `${dir}/reference` } },
+  { label: "explanation", autogenerate: { directory: `${dir}/explanation` } },
 ]
 
 export default defineConfig({
@@ -45,7 +45,10 @@ export default defineConfig({
       logo: { src: "./src/assets/icon-round.svg" },
       social: { github, discord },
       /* https://starlight.astro.build/guides/css-and-tailwind/#color-theme-editor */
-      customCss: ["./src/styles/theme.css"],
+      customCss: [
+        "./src/styles/theme.css",
+        "./src/styles/capitalize.css",
+      ],
       editLink: { baseUrl: `${github}/edit/upload/doc` },
       lastUpdated: true,
       navbar: {
