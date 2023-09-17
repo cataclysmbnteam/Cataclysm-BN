@@ -137,3 +137,13 @@ root and run:
 ```sh
 (Cataclysm-BN) $ deno task docs
 ```
+
+## License
+
+- By contributing to markdown files (including, but not limited to `.md` and `.mdx` files), you
+  agree to license your contributions under
+  [CC-BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), the same license as the game.
+
+- By contributing to source code of documentation page (including, but not limited to `.ts` and
+  `.astro` files), you agree to license your contributions under
+  [AGPL 3.0](https://www.gnu.org/licenses/agpl-3.0.en.html).

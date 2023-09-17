@@ -16,10 +16,14 @@ title: 기여하기
 
 [pr]: https://docs.github.com/ko/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
 
-> 카타클리즘: 밝은 밤은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 라이선스에 따라
-> 배포됩니다. 게임의 코드와 콘텐츠는 어떠한 목적에도 사용, 수정, 재배포할 수 있습니다. 자세한 내용은
-> http://creativecommons.org/licenses/by-sa/3.0/ 를 참고해주세요. 그 말은, 이 프로젝트에 기여하면,
-> 그 기여물도 동일한 라이선스에 의해 보호받는다는 것이며, 이 라이선스는 취소될 수 없다는 것입니다.
+:::note{title="CC-BY-SA 3.0"}
+
+카타클리즘: 밝은 밤은 크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 라이선스에 따라
+배포됩니다. 게임의 코드와 콘텐츠는 어떠한 목적에도 사용, 수정, 재배포할 수 있습니다. 자세한 내용은
+http://creativecommons.org/licenses/by-sa/3.0/ 를 참고해주세요. 그 말은, 이 프로젝트에 기여하면, 그
+기여물도 동일한 라이선스에 의해 보호받는다는 것이며, 이 라이선스는 취소될 수 없다는 것입니다.
+
+:::
 
 ## 가이드라인
 
