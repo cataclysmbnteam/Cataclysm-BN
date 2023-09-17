@@ -1,0 +1,37 @@
+name: autofix.ci  # needed to securely identify the workflow
+
+on:
+  pull_request:
+    paths: ["**.json", "**.cpp", "**.hpp", "**.h", "**.c"]
+
+permissions:
+  contents: read
+
+jobs:
+  autofix:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - run: sudo apt-get install astyle
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: format C++ files
+        run: make astyle
+
+      - name: format markdown files
+        run: deno fmt
+
+      - name: json formatting
+        run: make style-all-json-parallel RELEASE=1
+
+      - uses: autofix-ci/action@8caa572fd27b0019a65e4c695447089c8d3138b9
+        if: ${{ always() }}
+        with:
+          commit-message: "style(autofix.ci): automated formatting"

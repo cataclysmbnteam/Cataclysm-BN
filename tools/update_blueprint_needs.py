@@ -88,14 +88,14 @@ def main(argv):
                         reqs += line
                 if complete:
                     update_blueprints[ident] = json.loads(reqs);
-                    print("{} needs updating".format(ident))
+                    print(f"{ident} needs updating")
 
     if len(update_blueprints) == 0:
         print("no inconsistency reported in the test log")
         return
 
     for json_dir in json_dirs:
-        print("walking dir {}".format(json_dir))
+        print(f"walking dir {json_dir}")
         for root, dirs, files in os.walk(json_dir):
             for file in files:
                 json_path = os.path.join(root, file)
@@ -118,7 +118,7 @@ def main(argv):
                         else:
                             ident = obj["result"]
                             if "id_suffix" in obj:
-                                ident += "_" + obj["id_suffix"]
+                                ident += f"_{obj['id_suffix']}"
                         if ident in update_blueprints:
                             if suppress:
                                 obj["check_blueprint_needs"] = False
@@ -126,7 +126,7 @@ def main(argv):
                                 obj["blueprint_needs"] = update_blueprints[ident]
                             if not changed:
                                 changed = True
-                                print("updating {}".format(json_path))
+                                print(f"updating {json_path}")
                 if changed:
                     dump_json_and_lint(content, json_path)
 

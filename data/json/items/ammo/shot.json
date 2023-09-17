@@ -60,8 +60,8 @@
     "stack_size": 20,
     "ammo_type": "shot",
     "casing": "shot_hull",
-    "range": 12,
-    "damage": { "damage_type": "bullet", "amount": 50 },
+    "range": 20,
+    "damage": { "damage_type": "bullet", "amount": 80, "armor_multiplier": 2.0 },
     "recoil": 2500,
     "loudness": 160,
     "effects": [ "COOKOFF", "SHOT" ]
@@ -96,7 +96,7 @@
     "price": 100,
     "price_postapoc": 400,
     "range": 0,
-    "damage": { "damage_type": "bullet", "amount": 20, "armor_multiplier": 2.0 },
+    "damage": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3.0 },
     "dispersion": 1000,
     "loudness": 80,
     "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
@@ -111,7 +111,7 @@
     "price": 1000,
     "price_postapoc": 1600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "damage": { "damage_type": "heat", "amount": 10 },
+    "damage": { "damage_type": "heat", "amount": 30 },
     "proportional": { "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2 },
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
@@ -128,7 +128,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "//": "Balanced as standard AP.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -15, "armor_penetration": 30 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -20, "armor_penetration": 30, "armor_multiplier": -1.0 } }
   },
   {
     "id": "shot_he",
@@ -141,7 +141,7 @@
     "price_postapoc": 1600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 5,
-    "damage": { "damage_type": "bullet", "amount": 10, "armor_penetration": 0 },
+    "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 0 },
     "extend": { "effects": [ "EXPLOSIVE" ] }
   },
   {
@@ -172,9 +172,9 @@
     "price": 400,
     "price_postapoc": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "dispersion": 100,
+    "dispersion": 80,
     "//": "Balanced as FMJ",
-    "relative": { "range": 12, "damage": { "damage_type": "bullet", "amount": -10, "armor_penetration": 18 } },
+    "relative": { "range": 12, "damage": { "damage_type": "bullet", "amount": -15, "armor_penetration": 18, "armor_multiplier": -0.5 } },
     "proportional": { "recoil": 1.4 },
     "delete": { "effects": [ "SHOT" ] }
   }

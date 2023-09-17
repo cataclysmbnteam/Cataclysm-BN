@@ -11,8 +11,8 @@ JSON_DIR = os.path.join(TOP_DIR, "data")
 TAGS_FILE = os.path.join(TOP_DIR, "tags")
 
 def make_tags_line(id_key, id, filename):
-    pattern = '/"{id_key}": "{id}"/'.format(id_key=id_key, id=id)
-    return '\t'.join((id, filename, pattern)).encode('utf-8')
+    pattern = f'/"{id_key}": "{id}"/'
+    return f"{id}\t{filename}\t{pattern}".encode('utf-8')
 
 def is_json_tag_line(line):
     return b'.json\t' in line
@@ -41,8 +41,7 @@ e.g. ctags.""")
                         json_data = json.load(file)
                     except Exception as err:
                         sys.stderr.write(
-                                "Problem reading file %s, reason: %s" %
-                                (filename, err))
+                                f"Problem reading file {filename}, reason: {err}")
                         continue
                     if type(json_data) == dict:
                         json_data = [json_data]
