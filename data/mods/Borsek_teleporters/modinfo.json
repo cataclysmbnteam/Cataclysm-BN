@@ -4,7 +4,7 @@
     "id": "teleportation_tech",
     "name": "Teleportation",
     "authors": [ "Borsek" ],
-    "description": "Add craftable and buildable teleporters for use (with vehicles in the future) and static bases.",
+    "description": "Add craftable and buildable teleporters for use with vehicles and static bases.",
     "category": "content",
     "obsolete": false,
     "lua_api_version": 1,

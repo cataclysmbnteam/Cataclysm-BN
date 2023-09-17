@@ -46,14 +46,8 @@ local storage = game.mod_storage[ game.current_mod ]
 
 --Feature frenzy																												<- not done
 - can draw vehicle power to charge stations
-- removable bases and anchors
-- add book that teaches this tech
-- make item graphics/switch to better stuff than a fridge or log
-
-
-- personal teleporter costs a teleporter, 5 proc units, assorted (s)crap, high-cap heavy battery as fuel
-- base costs 10 advanced solar panels, 5 teleporters, teleporter controls (50 proc units, 5 antennae, heavy frame, assorted (s)crap
-- target anchor costs a solar panel, heavy frame
+- removable bases and anchors (requires saving of abs_ms, function to remove it)
+- add book spawn to labs <- ask if done with itemgroups
 
 ]]--
 
