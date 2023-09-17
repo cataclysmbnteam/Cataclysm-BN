@@ -1,5 +1,5 @@
 ---
-title: building UDP tileset
+title: Building UDP tileset
 ---
 
 Currently https://github.com/Theawesomeboophis working on UndeadPeople tileset.

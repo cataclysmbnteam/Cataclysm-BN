@@ -7,7 +7,7 @@ translations depending on the gender of the conversation participants. This two 
 configuration.
 
 1. The dialogue must have the relevant genders listed in the json file defining it. See
-   [the NPC docs](../../json/reference/npc/NPCs).
+   [the NPC docs](../../mod/json/reference/creatures/npcs).
 2. Each language must specify the genders it wishes to use via `genders` list of the language's
    entry in `data/raw/languages.json`. Don't add genders there until you're sure you will need them,
    because it will make more work for you. Current choices are: `m` (male), `f` (female), `n`

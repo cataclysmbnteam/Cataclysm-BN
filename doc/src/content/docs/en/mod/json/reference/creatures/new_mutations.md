@@ -1,5 +1,5 @@
 ---
-title: mutation system
+title: new mutation system
 ---
 
 At the moment the system only covers untargeted mutations. The targeted ones (alpha mutagen etc.)

@@ -1,5 +1,5 @@
 ---
-title: changes so far
+title: Changes so far
 ---
 
 This is an incomplete list compiled for convenience, see pull requests for all changes.

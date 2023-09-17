@@ -1,5 +1,5 @@
 ---
-title: MAPGEN
+title: Mapgen
 ---
 
 # How buildings and terrain are generated

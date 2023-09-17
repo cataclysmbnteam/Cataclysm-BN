@@ -103,7 +103,7 @@ _Note:_ You can also configure keybindings for aforementioned commands in `Tools
 
 ## JSON style
 
-See the [JSON style guide](../../json/explanation/json_style).
+See the [JSON style guide](../../mod/json/explanation/json_style).
 
 ## ctags
 
@@ -116,7 +116,7 @@ rule in the `Makefile` to do this for you; just run `make ctags` or `make etags`
 
 ## clang-tidy
 
-Cataclysm has a [clang-tidy configuration file](../../../../../../../.clang-tidy) and if you have
+Cataclysm has a [clang-tidy configuration file](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/.clang-tidy) and if you have
 `clang-tidy` available you can run it to perform static analysis of the codebase. We test with
 `clang-tidy` from LLVM 12.0.0 with CI, so for the most consistent results, you might want to use
 that version.

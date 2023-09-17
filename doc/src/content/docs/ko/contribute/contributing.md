@@ -43,7 +43,7 @@ title: 기여하기
 ### JSON 스타일
 
 `tools/format` 경로에 있는 포매터로 일관된 JSON 스타일을 강제하고 있습니다.
-[JSON Style Guide](../json/explanation/json_style) 을 참고해주세요.
+[JSON Style Guide](../mod/json/explanation/json_style) 을 참고해주세요.
 
 ### 마크다운
 

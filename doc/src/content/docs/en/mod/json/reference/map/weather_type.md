@@ -1,5 +1,5 @@
 ---
-title: Weather_type
+title: Weather Types
 ---
 
 Weather type specifies conditions under which it can occur (temperature, humidity, pressure,

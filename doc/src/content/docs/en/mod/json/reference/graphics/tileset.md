@@ -1,5 +1,5 @@
 ---
-title: TILESETS
+title: Tilesets
 ---
 
 A tileset provides graphic images for the game. Each tileset has one or more tilesheets of image

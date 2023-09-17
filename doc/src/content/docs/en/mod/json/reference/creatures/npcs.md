@@ -1,6 +1,8 @@
 ---
-title: Writing dialogues
+title: NPCs
 ---
+
+## Writing Dialogues
 
 TODO: document the "npc" structure, used to load NPC template
 
@@ -11,7 +13,7 @@ talk topic. This goes on until the dialogue is finished, or the NPC turns hostil
 Note that it is perfectly fine to have a response that switches the topic back to itself.
 
 NPC missions are controlled by a separate but related JSON structure and are documented in
-[the missions docs](MISSIONS_JSON).
+[the missions docs](./missions_json.md).
 
 Two topics are special:
 
@@ -633,7 +635,7 @@ effects should be arranged in a list and are processed in the order listed.
 (optional `assign_mission_target` parameters) | With no other parameters, updates the overmap tile
 at the player's current location with the changes described in `mapgen_update_id` (or for each
 `mapgen_update_id` in the list). The `assign_mission_target` parameters can be used to change the
-location of the overmap tile that gets updated. See [the missions docs](MISSIONS_JSON) for
+location of the overmap tile that gets updated. See [the missions docs](missions_json) for
 `assign_mission_target` parameters and [the mapgen docs](../map/mapgen) for `mapgen_update`.
 
 #### Deprecated
