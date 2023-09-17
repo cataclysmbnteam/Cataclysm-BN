@@ -218,8 +218,8 @@ end
 #### Translation functions
 
 To make the mod translatable to other languages, get your text via functions bound in `locale`
-library. See [translation API](../explanation/lua_integration.md) for detailed explanation of
-their C++ counterparts.
+library. See [translation API](../explanation/lua_integration.md) for detailed explanation of their
+C++ counterparts.
 
 Usage examples are shown below:
 

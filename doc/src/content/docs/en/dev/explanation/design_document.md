@@ -3,9 +3,8 @@ title: Design document
 ---
 
 See [Game Balance](../../mod/json/explanation/game_balance.md) and
-[Lore](../../game/lore/factions.md) for more detailed discussion
-coresponding to particular elements of the CDDA design document. This document covers the core
-philosphy of CBN.
+[Lore](../../game/lore/factions.md) for more detailed discussion coresponding to particular elements
+of the CDDA design document. This document covers the core philosphy of CBN.
 
 One of the primary priorities of Cataclysm Bright Nights is fun.
 

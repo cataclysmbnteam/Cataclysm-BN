@@ -222,8 +222,8 @@ Get the tools:
 
 Get the required libraries:
 
-- [SDL2](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.3) (you need the "(Visual C++ 32/64-bit)" version.
-  Same below)
+- [SDL2](https://github.com/libsdl-org/SDL/releases/tag/release-2.28.3) (you need the "(Visual C++
+  32/64-bit)" version. Same below)
 - [SDL2_ttf](https://github.com/libsdl-org/SDL_ttf)
 - [SDL2_image](https://github.com/libsdl-org/SDL_image)
 - [SDL2_mixer](https://github.com/libsdl-org/SDL_mixer) (optional, for sound support)

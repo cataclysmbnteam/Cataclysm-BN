@@ -308,6 +308,7 @@ Make sure that all dependency tools are in search `PATH` before compiling.
 ### Setup
 
 To set up the compiling environment execute the following commands
+
 ```
 git clone https://github.com/tpoechtrager/osxcross.git #clone the toolchain
 cd osxcross
@@ -316,8 +317,7 @@ OSX_VERSION_MIN=11 ./build.sh # build everything
 ```
 
 [Read more about it](https://github.com/tpoechtrager/osxcross/blob/master/README.md#packaging-the-sdk)
- Note the targeted minimum supported version of
-OSX.
+Note the targeted minimum supported version of OSX.
 
 Have a prepackaged set of libs and frameworks in place, since compiling with `osxcross` built-in
 MacPorts is rather difficult and not supported at the moment. Your directory tree should look like:
@@ -464,52 +464,6 @@ To build a signed release APK (ie. one that can be installed on a device),
 The app stores data files on the device in
 `/sdcard/Android/data/com.cleverraven/cataclysmdda/files`. The data is backwards compatible with the
 desktop version.
-
-## Mac OS X
-
-To build Cataclysm on Mac you'll need
-[Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the
-[Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm
-using the [cataclysm](https://formulae.brew.sh/formula/cataclysm) forumla.
-
-### Simple build using Homebrew
-
-Homebrew installation will come with tiles and sound support enabled.
-
-Once you have Homebrew installed, open Terminal and run one of the following commands.
-
-For a stable tiles build:
-
-```sh
-brew install cataclysm
-```
-
-For an experimental tiles build built from the current HEAD of
-[upload](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/upload/):
-
-```sh
-brew install cataclysm --HEAD
-```
-
-Whichever build you choose, Homebrew will install the appropriate dependencies as needed. The
-installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in
-`/usr/local/bin`.
-
-To launch Cataclysm, just open Terminal and run `cataclysm`.
-
-To update a stable tiles build simply run:
-
-```sh
-brew upgrade cataclysm
-```
-
-To update an experimental build, you must uninstall Cataclysm then reinstall with `--HEAD`,
-triggering a new build from source.
-
-```sh
-brew uninstall cataclysm
-brew install cataclysm --HEAD
-```
 
 ## Advanced info for Developers
 

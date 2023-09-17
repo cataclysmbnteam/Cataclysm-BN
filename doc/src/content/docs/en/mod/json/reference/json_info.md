@@ -10,7 +10,8 @@ This document is being split into multiple pages.
 
 :::danger
 
-Many of the JSON files are not documented yet or is outdated. Check relevent source files to be sure.
+Many of the JSON files are not documented yet or is outdated. Check relevent source files to be
+sure.
 
 :::
 
