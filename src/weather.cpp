@@ -1124,10 +1124,12 @@ int weather_manager::get_temperature( const tripoint &location ) const
         temp_mod += get_heat_radiation( location, false );
         temp_mod += get_convection_temperature( location );
     }
-    //underground temperature = average New England temperature = 43F/6C rounded to int
-    const int temp = ( location.z < 0 ? units::to_fahrenheit( temperatures::annual_average ) :
-                       temperature ) +
-                     ( g->new_game ? 0 : g->m.get_temperature( location ) + temp_mod );
+    const int temp = ( location.z < 0
+                       ? units::to_fahrenheit( temperatures::annual_average )
+                       : temperature ) +
+                     ( g->new_game
+                       ? 0
+                       : g->m.get_temperature( location ) + temp_mod );
 
     temperature_cache.emplace( std::make_pair( location, temp ) );
     return temp;
