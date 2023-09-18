@@ -70,13 +70,7 @@
     "coverage": 5,
     "encumbrance": 1,
     "material_thickness": 1,
-    "use_action": {
-      "type": "holster",
-      "min_volume": "15 ml",
-      "max_volume": "250 ml",
-      "draw_cost": 50,
-      "skills": [ "pistol" ]
-    },
+    "use_action": { "type": "holster", "min_volume": "15 ml", "max_volume": "250 ml", "draw_cost": 50, "skills": [ "pistol" ] },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
