@@ -31,7 +31,15 @@
   {
     "type": "item_group",
     "id": "npc_underwear_feet_female",
-    "items": [ [ "socks", 50 ], [ "socks_ankle", 30 ], [ "socks_wool", 10 ], [ "stockings", 20 ], [ "tights", 20 ], [ "null", 5 ] ]
+    "items": [
+      [ "socks", 50 ],
+      [ "socks_ankle", 30 ],
+      [ "socks_wool", 10 ],
+      [ "stockings", 15 ],
+      [ "stockings", 5 ],
+      [ "tights", 20 ],
+      [ "null", 5 ]
+    ]
   },
   {
     "type": "item_group",
@@ -108,7 +116,9 @@
     "items": [
       [ "null", 60 ],
       [ "gloves_leather", 20 ],
-      [ "gloves_fingerless", 20 ],
+      [ "gloves_fingerless", 10 ],
+      [ "gloves_fingerless_light", 5 ],
+      [ "gloves_fingerless_wool", 5 ],
       [ "fire_gauntlets", 20 ],
       [ "gloves_work", 10 ],
       [ "gloves_fingerless_mod", 5 ],

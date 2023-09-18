@@ -450,9 +450,9 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": "1 h",
+    "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "components": [ [ [ "yarn", 75 ] ] ]
+    "using": [ [ "tailoring_wool_knitting", 80 ] ]
   },
   {
     "result": "socks_ankle",
@@ -476,6 +476,18 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 6 ] ],
     "components": [ [ [ "rag", 8 ] ] ]
+  },
+  {
+    "result": "stockings_wool",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "90 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "tailoring_wool_knitting", 320 ] ]
   },
   {
     "result": "straw_sandals",
