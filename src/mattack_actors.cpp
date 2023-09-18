@@ -30,6 +30,7 @@
 #include "sounds.h"
 #include "translations.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_range.h"
 
 static const efftype_id effect_badpoison( "badpoison" );

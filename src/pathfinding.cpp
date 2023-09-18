@@ -19,6 +19,7 @@
 #include "trap.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "line.h"
 #include "type_id.h"
