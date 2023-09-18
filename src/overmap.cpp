@@ -1649,7 +1649,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     place_specials( enabled_specials );
     place_forest_trailheads();
 
-    polish_river();
+    polish_river( north, east, south, west );
 
     // TODO: there is no reason we can't generate the sublevels in one pass
     //       for that matter there is no reason we can't as we add the entrance ways either
@@ -3972,15 +3972,6 @@ void overmap::connect_closest_points( const std::vector<point_om_omt> &points, i
     }
 }
 
-void overmap::polish_river()
-{
-    for( int x = 0; x < OMAPX; x++ ) {
-        for( int y = 0; y < OMAPY; y++ ) {
-            good_river( { x, y, 0 } );
-        }
-    }
-}
-
 // Changes neighboring empty rock to partial rock
 void overmap::chip_rock( const tripoint_om_omt &p )
 {
@@ -4020,95 +4011,117 @@ bool overmap::check_overmap_special_type( const overmap_special_id &id,
     return found_id->second == id;
 }
 
-void overmap::good_river( const tripoint_om_omt &p )
+void overmap::polish_river( const overmap *north, const overmap *east, const overmap *south,
+                            const overmap *west )
 {
-    if( !is_ot_match( "river", ter( p ), ot_match_type::prefix ) ) {
-        return;
-    }
-    if( ( p.x() == 0 ) || ( p.x() == OMAPX - 1 ) ) {
-        if( !is_river_or_lake( ter( p + point_north ) ) ) {
-            ter_set( p, oter_id( "river_north" ) );
-        } else if( !is_river_or_lake( ter( p + point_south ) ) ) {
-            ter_set( p, oter_id( "river_south" ) );
-        } else {
-            ter_set( p, oter_id( "river_center" ) );
-        }
-        return;
-    }
-    if( ( p.y() == 0 ) || ( p.y() == OMAPY - 1 ) ) {
-        if( !is_river_or_lake( ter( p + point_west ) ) ) {
-            ter_set( p, oter_id( "river_west" ) );
-        } else if( !is_river_or_lake( ter( p + point_east ) ) ) {
-            ter_set( p, oter_id( "river_east" ) );
-        } else {
-            ter_set( p, oter_id( "river_center" ) );
-        }
-        return;
-    }
-    if( is_river_or_lake( ter( p + point_west ) ) ) {
-        if( is_river_or_lake( ter( p + point_north ) ) ) {
-            if( is_river_or_lake( ter( p + point_south ) ) ) {
-                if( is_river_or_lake( ter( p + point_east ) ) ) {
-                    // River on N, S, E, W;
-                    // but we might need to take a "bite" out of the corner
-                    if( !is_river_or_lake( ter( p + point_north_west ) ) ) {
-                        ter_set( p, oter_id( "river_c_not_nw" ) );
-                    } else if( !is_river_or_lake( ter( p + point_north_east ) ) ) {
-                        ter_set( p, oter_id( "river_c_not_ne" ) );
-                    } else if( !is_river_or_lake( ter( p + point_south_west ) ) ) {
-                        ter_set( p, oter_id( "river_c_not_sw" ) );
-                    } else if( !is_river_or_lake( ter( p + point_south_east ) ) ) {
-                        ter_set( p, oter_id( "river_c_not_se" ) );
+    for( int x = 0; x < OMAPX; x++ ) {
+        for( int y = 0; y < OMAPY; y++ ) {
+            const tripoint_om_omt p = { x, y, 0 };
+
+            if( !is_ot_match( "river", ter( p ), ot_match_type::prefix ) ) {
+                continue;
+            }
+
+            // For ungenerated overmaps we're assuming that terra incognita is covered by water, and leaving polishing to its mapgen
+            bool water_north = y != 0 ? is_river_or_lake( ter( { x, y - 1, 0} ) ) :
+                               north != nullptr ? is_river_or_lake( north->ter( { x, OMAPY - 1, 0 } ) ) : true;
+            bool water_west = x != 0 ? is_river_or_lake( ter( { x - 1, y, 0} ) ) :
+                              west != nullptr ? is_river_or_lake( west->ter( { OMAPX - 1, y, 0 } ) ) : true;
+            bool water_south = y != OMAPY - 1 ? is_river_or_lake( ter( { x, y + 1, 0} ) ) :
+                               south != nullptr ? is_river_or_lake( south->ter( { x, 0, 0 } ) ) : true;
+            bool water_east = x != OMAPX - 1 ? is_river_or_lake( ter( { x + 1, y, 0} ) ) :
+                              east != nullptr ? is_river_or_lake( east->ter( { 0, y, 0 } ) ) : true;
+
+            if( water_west ) {
+                if( water_north ) {
+                    if( water_south ) {
+                        if( water_east ) {
+                            // River on N, S, E, W;
+                            // but we might need to take a "bite" out of the corner
+                            if( ( x > 0 && y > 0 &&
+                                  !is_river_or_lake( ter( { x - 1, y - 1, 0} ) ) ) ||
+                                ( x > 0 && y == 0 && north != nullptr &&
+                                  !is_river_or_lake( north->ter( { x - 1, OMAPY - 1, 0} ) ) ) ||
+                                ( x == 0 && y > 0 && west != nullptr &&
+                                  !is_river_or_lake( west->ter( { OMAPX - 1, y - 1, 0} ) ) )
+                              ) {
+                                ter_set( p, oter_id( "river_c_not_nw" ) );
+                            } else if( ( x < OMAPX - 1 && y > 0 &&
+                                         !is_river_or_lake( ter( { x + 1, y - 1, 0} ) ) ) ||
+                                       ( x < OMAPX - 1 && y == 0 && north != nullptr &&
+                                         !is_river_or_lake( north->ter( { x + 1, OMAPY - 1, 0 } ) ) ) ||
+                                       ( x == OMAPX - 1 && y > 0 && east != nullptr &&
+                                         !is_river_or_lake( east->ter( { 0, y - 1, 0 } ) ) )
+                                     ) {
+                                ter_set( p, oter_id( "river_c_not_ne" ) );
+                            } else if( ( x > 0 && y < OMAPY - 1 &&
+                                         !is_river_or_lake( ter( { x - 1, y + 1, 0} ) ) ) ||
+                                       ( x > 0 && y == OMAPY - 1 && south != nullptr &&
+                                         !is_river_or_lake( south->ter( { x - 1, 0, 0} ) ) ) ||
+                                       ( x == 0 && y < OMAPY - 1 && west != nullptr &&
+                                         !is_river_or_lake( west->ter( { OMAPX - 1, y + 1, 0} ) ) )
+                                     ) {
+                                ter_set( p, oter_id( "river_c_not_sw" ) );
+                            } else if( ( x < OMAPX - 1 && y < OMAPY - 1 &&
+                                         !is_river_or_lake( ter( { x + 1, y + 1, 0} ) ) ) ||
+                                       ( x < OMAPX - 1 && y == OMAPY - 1 && south != nullptr &&
+                                         !is_river_or_lake( south->ter( { x + 1, 0, 0 } ) ) ) ||
+                                       ( x == OMAPX - 1 && y < OMAPY - 1 && east != nullptr &&
+                                         !is_river_or_lake( east->ter( { 0, y + 1, 0 } ) ) )
+                                     ) {
+                                ter_set( p, oter_id( "river_c_not_se" ) );
+                            } else {
+                                ter_set( p, oter_id( "river_center" ) );
+                            }
+                        } else {
+                            ter_set( p, oter_id( "river_east" ) );
+                        }
                     } else {
-                        ter_set( p, oter_id( "river_center" ) );
+                        if( water_east ) {
+                            ter_set( p, oter_id( "river_south" ) );
+                        } else {
+                            ter_set( p, oter_id( "river_se" ) );
+                        }
                     }
                 } else {
-                    ter_set( p, oter_id( "river_east" ) );
+                    if( water_south ) {
+                        if( water_east ) {
+                            ter_set( p, oter_id( "river_north" ) );
+                        } else {
+                            ter_set( p, oter_id( "river_ne" ) );
+                        }
+                    } else {
+                        if( water_east ) { // Means it's swampy
+                            ter_set( p, oter_id( "forest_water" ) );
+                        }
+                    }
                 }
             } else {
-                if( is_river_or_lake( ter( p + point_east ) ) ) {
-                    ter_set( p, oter_id( "river_south" ) );
+                if( water_north ) {
+                    if( water_south ) {
+                        if( water_east ) {
+                            ter_set( p, oter_id( "river_west" ) );
+                        } else { // Should never happen
+                            ter_set( p, oter_id( "forest_water" ) );
+                        }
+                    } else {
+                        if( water_east ) {
+                            ter_set( p, oter_id( "river_sw" ) );
+                        } else { // Should never happen
+                            ter_set( p, oter_id( "forest_water" ) );
+                        }
+                    }
                 } else {
-                    ter_set( p, oter_id( "river_se" ) );
+                    if( water_south ) {
+                        if( water_east ) {
+                            ter_set( p, oter_id( "river_nw" ) );
+                        } else { // Should never happen
+                            ter_set( p, oter_id( "forest_water" ) );
+                        }
+                    } else { // Should never happen
+                        ter_set( p, oter_id( "forest_water" ) );
+                    }
                 }
-            }
-        } else {
-            if( is_river_or_lake( ter( p + point_south ) ) ) {
-                if( is_river_or_lake( ter( p + point_east ) ) ) {
-                    ter_set( p, oter_id( "river_north" ) );
-                } else {
-                    ter_set( p, oter_id( "river_ne" ) );
-                }
-            } else {
-                if( is_river_or_lake( ter( p + point_east ) ) ) { // Means it's swampy
-                    ter_set( p, oter_id( "forest_water" ) );
-                }
-            }
-        }
-    } else {
-        if( is_river_or_lake( ter( p + point_north ) ) ) {
-            if( is_river_or_lake( ter( p + point_south ) ) ) {
-                if( is_river_or_lake( ter( p + point_east ) ) ) {
-                    ter_set( p, oter_id( "river_west" ) );
-                } else { // Should never happen
-                    ter_set( p, oter_id( "forest_water" ) );
-                }
-            } else {
-                if( is_river_or_lake( ter( p + point_east ) ) ) {
-                    ter_set( p, oter_id( "river_sw" ) );
-                } else { // Should never happen
-                    ter_set( p, oter_id( "forest_water" ) );
-                }
-            }
-        } else {
-            if( is_river_or_lake( ter( p + point_south ) ) ) {
-                if( is_river_or_lake( ter( p + point_east ) ) ) {
-                    ter_set( p, oter_id( "river_nw" ) );
-                } else { // Should never happen
-                    ter_set( p, oter_id( "forest_water" ) );
-                }
-            } else { // Should never happen
-                ter_set( p, oter_id( "forest_water" ) );
             }
         }
     }
