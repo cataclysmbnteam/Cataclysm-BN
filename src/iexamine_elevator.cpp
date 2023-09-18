@@ -10,7 +10,9 @@
 #include "point.h"
 #include "ui.h"
 #include "vpart_range.h"
+#include "vehicle_part.h"
 #include "point_rotate.h"
+
 namespace
 {
 
