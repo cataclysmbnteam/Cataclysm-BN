@@ -364,7 +364,7 @@
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 60 },
       {
         "collection": [
-          { "distribution": [ { "group": "gloves_liner", "prob": 75 }, { "item": "gloves_liner_wool", "prob": 25 } ], "prob": 20 },
+          { "distribution": [ { "item": "gloves_liner", "prob": 75 }, { "item": "gloves_liner_wool", "prob": 25 } ], "prob": 20 },
           { "item": "winter_gloves_army" }
         ],
         "prob": 60

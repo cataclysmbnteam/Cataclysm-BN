@@ -167,7 +167,7 @@
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 80 },
       {
         "collection": [
-          { "distribution": [ { "group": "gloves_liner", "prob": 75 }, { "item": "gloves_liner_wool", "prob": 25 } ], "prob": 60 },
+          { "distribution": [ { "item": "gloves_liner", "prob": 75 }, { "item": "gloves_liner_wool", "prob": 25 } ], "prob": 60 },
           { "item": "winter_gloves_army" }
         ],
         "prob": 80
@@ -2027,7 +2027,7 @@
       [ "mask_bal", 5 ],
       [ "vest", 15 ],
       [ "gloves_fingerless", 15 ],
-      [ "gloves_fingerless_light", 5 ],
+      [ "gloves_light_fingerless", 5 ],
       [ "gloves_tactical", 20 ],
       [ "glasses_bal", 20 ],
       [ "elbow_pads", 40 ],
@@ -2287,8 +2287,8 @@
       [ "gloves_fsurvivor", 2 ],
       [ "gloves_h20survivor", 1 ],
       [ "gloves_fingerless", 20 ],
-      [ "gloves_fingerless_light", 4 ],
-      [ "gloves_fingerless_fur", 4 ],
+      [ "gloves_light_fingerless", 4 ],
+      [ "gloves_fur_fingerless", 4 ],
       [ "gloves_fingerless_mod", 20 ],
       [ "gloves_tactical", 12 ],
       [ "gauntlets_larmor", 14 ],
@@ -2638,7 +2638,7 @@
       { "item": "gloves_wool", "prob": 15 },
       { "item": "gloves_winter", "prob": 10 },
       { "item": "gloves_fingerless", "prob": 10 },
-      { "item": "gloves_fingerless_light", "prob": 5 },
+      { "item": "gloves_light_fingerless", "prob": 5 },
       { "item": "gloves_liner", "prob": 15 },
       { "item": "mittens", "prob": 5 },
       { "item": "thermal_gloves", "prob": 2 }
@@ -2927,7 +2927,7 @@
       { "item": "gloves_leather", "prob": 60 },
       { "item": "gloves_light", "prob": 60 },
       { "item": "gloves_fingerless", "prob": 20 },
-      { "item": "gloves_fingerless_light", "prob": 20 },
+      { "item": "gloves_light_fingerless", "prob": 20 },
       { "item": "gloves_wool", "prob": 25 },
       { "item": "gloves_winter", "prob": 15 },
       { "item": "mittens", "prob": 30 },

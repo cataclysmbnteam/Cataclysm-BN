@@ -322,7 +322,7 @@
       { "item": "gloves_liner", "prob": 25 },
       { "item": "gloves_leather", "prob": 45 },
       { "item": "gloves_fingerless", "prob": 10 },
-      { "item": "gloves_fingerless_light", "prob": 10 },
+      { "item": "gloves_light_fingerless", "prob": 10 },
       { "item": "gloves_work", "prob": 2 },
       { "item": "bandana", "prob": 35 },
       { "item": "scarf", "prob": 45 },

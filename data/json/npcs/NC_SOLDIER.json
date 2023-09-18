@@ -24,7 +24,7 @@
       { "item": "null", "prob": 20 },
       { "item": "gloves_tactical", "prob": 50 },
       { "item": "gloves_fingerless", "prob": 20 },
-      { "item": "gloves_fingerless_light", "prob": 10 },
+      { "item": "gloves_light_fingerless", "prob": 10 },
       { "item": "winter_gloves_army", "prob": 10 }
     ]
   },
