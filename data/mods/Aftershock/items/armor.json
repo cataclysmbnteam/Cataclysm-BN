@@ -360,7 +360,6 @@
       "holster_msg": "You stash your %s.",
       "max_volume": "4 L",
       "max_weight": "12 kg",
-      "draw_cost": 50,
       "flags": [ "BELT_CLIP" ]
     },
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
