@@ -159,6 +159,21 @@
     "components": [ [ [ "fabric_hides_proper", 18, "LIST" ] ] ]
   },
   {
+    "result": "boots_plarmor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "tailor", 3 ],
+    "time": "40 m",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
+    "autolearn": [ [ "fabrication", 4 ], [ "tailor", 5 ] ],
+    "using": [ [ "sewing_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "steel_tiny", 2, "LIST" ], [ "sheet_metal_small", 2 ] ], [ [ "boots_larmor", 1 ] ] ]
+  },
+  {
     "result": "boots_lsurvivor",
     "type": "recipe",
     "category": "CC_ARMOR",

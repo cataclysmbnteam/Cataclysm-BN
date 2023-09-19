@@ -37,6 +37,21 @@
     "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ] ]
   },
   {
+    "result": "gauntlets_plarmor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "tailor", 3 ],
+    "time": "28 m",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
+    "autolearn": [ [ "fabrication", 4 ], [ "tailor", 5 ] ],
+    "using": [ [ "sewing_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "steel_tiny", 1, "LIST" ], [ "sheet_metal_small", 1 ] ], [ [ "gauntlets_larmor", 1 ] ] ]
+  },
+  {
     "result": "gloves_bag",
     "type": "recipe",
     "category": "CC_ARMOR",
