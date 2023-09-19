@@ -1,4 +1,5 @@
-#include "vehicle.h" // IWYU pragma: associated
+#include "vehicle.h"
+#include "vehicle_part.h" // IWYU pragma: associated
 #include "vehicle_move.h" // IWYU pragma: associated
 
 #include <cassert>

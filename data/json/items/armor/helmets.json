@@ -355,6 +355,17 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ]
   },
   {
+    "id": "helmet_plarmor",
+    "copy-from": "helmet_larmor",
+    "type": "ARMOR",
+    "name": { "str": "plated leather helmet" },
+    "description": "A thick leather helmet that has been reinforced with strategically-placed metal plates.  Provides excellent protection for the head.",
+    "material": [ "leather", "iron" ],
+    "looks_like": "helmet_galea",
+    "proportional": { "price": 4, "price_postapoc": 1.2 },
+    "relative": { "weight": "500 g", "encumbrance": 4 }
+  },
+  {
     "id": "helmet_skull",
     "type": "ARMOR",
     "name": { "str": "large wolf skull" },

@@ -98,6 +98,7 @@
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "vitamin.h"
 #include "vpart_position.h"

@@ -397,9 +397,10 @@
       },
       {
         "distribution": [
-          { "item": "boots_plate", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "boots_plate", "prob": 40, "damage": [ 1, 4 ] },
           { "item": "chainmail_feet", "prob": 30, "damage": [ 1, 4 ] },
-          { "item": "boots_larmor", "prob": 20, "damage": [ 1, 4 ] }
+          { "item": "boots_larmor", "prob": 20, "damage": [ 1, 4 ] },
+          { "item": "boots_plarmor", "prob": 10, "damage": [ 1, 4 ] }
         ],
         "prob": 80
       },

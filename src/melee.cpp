@@ -61,6 +61,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weighted_list.h"
 

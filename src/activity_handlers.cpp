@@ -103,6 +103,7 @@
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
