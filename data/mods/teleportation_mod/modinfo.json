@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "teleportation_tech",
+    "name": "Teleportation",
+    "authors": [ "Borsek" ],
+    "description": "Add craftable and buildable teleporters.",
+    "category": "content",
+    "obsolete": false,
+    "lua_api_version": 1,
+    "dependencies": [ "bn" ]
+  }
+]
