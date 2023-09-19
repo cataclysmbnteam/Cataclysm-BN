@@ -30,7 +30,7 @@
     "material": "mushroom",
     "volume": "250 ml",
     "fun": 1,
-    "flags": [ "SMOKABLE" ],
+    "flags": [ "SMOKABLE", "UNSAFE_CONSUME" ],
     "smoking_result": "dry_mushroom",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
   },
@@ -45,7 +45,8 @@
     "price": 1500,
     "price_postapoc": 50,
     "fun": 4,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ],
+    "delete": { "flags": [ "UNSAFE_CONSUME" ] }
   },
   {
     "type": "COMESTIBLE",
