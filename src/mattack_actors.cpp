@@ -524,7 +524,7 @@ auto find_target_vehicle( monster &z, int range ) -> std::optional<tripoint>
             std::vector<tripoint> line = here.find_clear_path( z.pos(), v.v->global_pos3() );
             tripoint prev_point = z.pos();
             for( tripoint &i : line ) {
-                if( here.floor_between( prev_point, i ) ) {
+                if( !z.sees( i ) ||  here.floor_between( prev_point, i ) ) {
                     break;
                 }
                 optional_vpart_position vp = here.veh_at( i );
