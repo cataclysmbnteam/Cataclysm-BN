@@ -1649,7 +1649,7 @@ void overmap::generate( const overmap *north, const overmap *east,
     place_specials( enabled_specials );
     place_forest_trailheads();
 
-    polish_river( north, east, south, west );
+    polish_rivers( north, east, south, west );
 
     // TODO: there is no reason we can't generate the sublevels in one pass
     //       for that matter there is no reason we can't as we add the entrance ways either
@@ -4011,8 +4011,8 @@ bool overmap::check_overmap_special_type( const overmap_special_id &id,
     return found_id->second == id;
 }
 
-void overmap::polish_river( const overmap *north, const overmap *east, const overmap *south,
-                            const overmap *west )
+void overmap::polish_rivers( const overmap *north, const overmap *east, const overmap *south,
+                             const overmap *west )
 {
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
