@@ -1,3 +1,4 @@
+#include <optional>
 #include "game.h"
 #include "iexamine.h"
 #include "mapdata.h"
@@ -15,6 +16,16 @@
 
 namespace
 {
+
+/// poor person's https://en.cppreference.com/w/cpp/utility/optional/and_then
+template <typename T, typename Fn>
+auto and_then( std::optional<T> const &opt, Fn &&f ) -> std::optional<std::invoke_result_t<Fn, T>>
+{
+    if( opt ) {
+        return std::optional{f( *opt )};
+    }
+    return std::nullopt;
+}
 
 // still not sure whether there's a utility function for this
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
@@ -60,13 +71,27 @@ auto dest( const elevator::tiles &elevator_here,
     return tiles;
 }
 
+/// allow using misaligned elevators.
+/// doesn't prevent you being stuck in the wall tho cause i was lazy
+auto find_elevators_nearby( const tripoint &pos ) -> std::optional<tripoint>
+{
+    constexpr int max_misalign = 3;
+    map &here = get_map();
+
+    for( const auto &p : closest_points_first( pos, max_misalign ) ) {
+        if( here.has_flag( TFLAG_ELEVATOR, p ) ) {
+            return p;
+        }
+    }
+    return {};
+}
+
 auto choose_floor( const tripoint &examp, const tripoint_abs_omt &this_omt,
                    const tripoint &sm_orig ) -> int
 {
     constexpr int retval_offset = 10000; // workaround for uilist retval autoassign when retval == -1
     const auto this_floor = _( " (this floor)" );
 
-    map &here = get_map();
     uilist choice;
     choice.title = _( "Please select destination floor" );
     for( int z = OVERMAP_HEIGHT; z >= -OVERMAP_DEPTH; z-- ) {
@@ -75,7 +100,7 @@ auto choose_floor( const tripoint &examp, const tripoint_abs_omt &this_omt,
         const tripoint zp =
             rotate_point_sm( { examp.xy(), z }, sm_orig, turns );
 
-        if( here.ter( zp )->examine != &iexamine::elevator ) {
+        if( !find_elevators_nearby( zp ) ) {
             continue;
         }
         const std::string omt_name = overmap_buffer.ter_existing( that_omt )->get_name();
@@ -199,6 +224,19 @@ auto move_vehicles( const elevator_vehicles &vehs, const tripoint &sm_orig, int 
     here.reset_vehicle_cache();
 }
 
+auto move_player( player &p, const int movez, tripoint_abs_ms old_abs_pos ) -> void
+{
+    map &here = get_map();
+
+    g->vertical_shift( movez );
+    // yes, this is inefficient, but i'm lazy
+    and_then( elevator::find_elevators_nearby( p.pos() ), []( const tripoint & pos ) {
+        return g->place_player( pos );
+    } );
+
+    cata_event_dispatch::avatar_moves( *p.as_avatar(), here, old_abs_pos.raw() );
+}
+
 } //namespace elevator
 
 } // namespace
@@ -234,7 +272,5 @@ void iexamine::elevator( player &p, const tripoint &examp )
     elevator::move_items( elevator_here, elevator_dest );
     elevator::move_creatures( elevator_here, elevator_dest );
     elevator::move_vehicles( vehs, sm_orig, movez, turns );
-
-    g->vertical_shift( movez );
-    cata_event_dispatch::avatar_moves( *p.as_avatar(), here, old_abs_pos.raw() );
+    elevator::move_player( p, movez, old_abs_pos );
 }
