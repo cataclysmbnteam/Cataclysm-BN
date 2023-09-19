@@ -486,37 +486,45 @@ int gun_actor::get_max_range()  const
     }
     return max_range;
 }
-
-static std::optional<tripoint> find_target_vehicle( monster &z, int range )
+namespace
 {
+
+auto find_target_vehicle( monster &z, int range ) -> std::optional<tripoint>
+{
+    const auto is_different_plane = []( const wrapped_vehicle & v, const monster & m ) -> bool {
+        return !fov_3d && v.pos.z != m.pos().z;
+    };
+
     map &here = get_map();
     bool found = false;
     tripoint aim_at;
     for( wrapped_vehicle &v : here.get_vehicles() ) {
-        if( ( !fov_3d && v.pos.z != z.pos().z ) || v.v->velocity == 0 ) {
+        if( is_different_plane( v, z ) || v.v->velocity == 0 ) {
             continue;
         }
 
         bool found_controls = false;
 
         for( const vpart_reference &vp : v.v->get_avail_parts( "CONTROLS" ) ) {
-            if( z.sees( vp.pos() ) ) {
-                int new_dist = rl_dist( z.pos(), vp.pos() );
-                if( new_dist <= range ) {
+            if( !z.sees( vp.pos() ) ) {
+                continue;
+            }
 
-                    aim_at = vp.pos();
-                    range = new_dist;
-                    found = true;
-                    found_controls = true;
-                }
+            int new_dist = rl_dist( z.pos(), vp.pos() );
+            if( new_dist <= range ) {
+                aim_at = vp.pos();
+                range = new_dist;
+                found = true;
+                found_controls = true;
             }
         }
+
 
         if( !found_controls ) {
             std::vector<tripoint> line = here.find_clear_path( z.pos(), v.v->global_pos3() );
             tripoint prev_point = z.pos();
             for( tripoint &i : line ) {
-                if( here.floor_between( prev_point, i ) ) {
+                if( !z.sees( i ) ||  here.floor_between( prev_point, i ) ) {
                     break;
                 }
                 optional_vpart_position vp = here.veh_at( i );
@@ -542,6 +550,9 @@ static std::optional<tripoint> find_target_vehicle( monster &z, int range )
         return std::optional<tripoint>();
     }
 }
+
+} // namespace
+
 
 bool gun_actor::call( monster &z ) const
 {
