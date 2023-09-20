@@ -1,10 +1,15 @@
 {
   "tasks": {
-    "tools": "deno run --watch -A"
+    "tools": "deno run --watch -A",
+
+    "doc": "deno task doc:cli & deno task doc:lua && deno fmt",
+    "doc:cli": "deno run -A ./tools/gen_cli_docs.ts",
+    "doc:lua": "./cataclysm-tiles --lua-doc && cp config/lua_doc.md doc/src/content/docs/en/mod/lua/reference/lua.md"
   },
   "test": { "include": ["./tools"] },
   "lint": { "include": ["./tools"] },
   "fmt": {
+    "exclude": ["./doc/dist", "./doc/.astro"],
     "include": ["./tools", "./doc", "*.md"],
     "semiColons": false,
     "lineWidth": 100

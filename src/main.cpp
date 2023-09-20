@@ -256,7 +256,7 @@ int main( int argc, char *argv[] )
                 },
                 {
                     "--jsonverify", nullptr,
-                    "Checks the CDDA json files",
+                    "Checks the BN json files",
                     section_default,
                     [&verifyexit]( int, const char ** ) -> int {
                         verifyexit = true;
@@ -265,7 +265,7 @@ int main( int argc, char *argv[] )
                 },
                 {
                     "--check-mods", "[mods…]",
-                    "Checks the json files belonging to CDDA mods",
+                    "Checks the json files belonging to BN mods",
                     section_default,
                     [&check_mods, &opts]( int n, const char *params[] ) -> int {
                         check_mods = true;

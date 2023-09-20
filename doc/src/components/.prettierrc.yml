@@ -1,0 +1,6 @@
+semi: false
+arrowParens: always
+singleQuote: false
+jsxSingleQuote: false
+printWidth: 100
+trailingComma: all
