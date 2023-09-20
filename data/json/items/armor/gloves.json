@@ -223,7 +223,7 @@
   {
     "id": "gloves_fingerless",
     "type": "ARMOR",
-    "name": { "str": "pair of fingerless gloves", "str_pl": "pairs of fingerless gloves" },
+    "name": { "str": "pair of fingerless leather gloves", "str_pl": "pairs of fingerless leather gloves" },
     "description": "A pair of leather gloves with no fingers, allowing greater manual dexterity.",
     "weight": "100 g",
     "volume": "250 ml",
@@ -302,6 +302,21 @@
     "encumbrance": 30,
     "warmth": 70,
     "material_thickness": 3
+  },
+  {
+    "id": "gloves_fur_fingerless",
+    "copy-from": "gloves_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of fingerless fur gloves", "str_pl": "pairs of fingerless fur gloves" },
+    "description": "A pair of fur gloves with no fingers, cutting down on warmth but making them less cumbersome.",
+    "weight": "250 g",
+    "price": "15 USD",
+    "price_postapoc": "125 cent",
+    "looks_like": "gloves_fingerless",
+    "coverage": 50,
+    "warmth": 28,
+    "relative": { "encumbrance": -10 },
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
   },
   {
     "id": "gloves_hsurvivor",
@@ -412,6 +427,21 @@
     "flags": [ "WATER_FRIENDLY" ]
   },
   {
+    "id": "gloves_light_fingerless",
+    "copy-from": "gloves_light",
+    "type": "ARMOR",
+    "name": { "str": "pair of fingerless light gloves", "str_pl": "pairs of fingerless light gloves" },
+    "description": "A pair of cotton gloves with no fingers, allowing greater manual dexterity.",
+    "weight": "75 g",
+    "price": "4 USD",
+    "price_postapoc": "1 USD",
+    "looks_like": "gloves_fingerless",
+    "coverage": 50,
+    "warmth": 8,
+    "relative": { "encumbrance": -2 },
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
+  },
+  {
     "id": "gloves_liner",
     "type": "ARMOR",
     "name": { "str": "pair of glove liners", "str_pl": "pairs of glove liners" },
@@ -431,6 +461,21 @@
     "warmth": 15,
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ]
+  },
+  {
+    "id": "gloves_liner_wool",
+    "copy-from": "gloves_liner",
+    "type": "ARMOR",
+    "name": { "str": "pair of wool glove liners", "str_pl": "pairs of wool glove liners" },
+    "description": "A pair of relatively thin wool gloves.  Often used as a liner beneath other gloves.",
+    "weight": "130 g",
+    "price": "18 USD",
+    "material": [ "wool" ],
+    "color": "blue",
+    "encumbrance": 5,
+    "warmth": 45,
+    "material_thickness": 2,
+    "delete": { "flags": [ "WATER_FRIENDLY" ] }
   },
   {
     "id": "gloves_lsurvivor",
@@ -628,6 +673,21 @@
     "encumbrance": 20,
     "warmth": 60,
     "material_thickness": 3
+  },
+  {
+    "id": "gloves_wool_fingerless",
+    "copy-from": "gloves_wool",
+    "type": "ARMOR",
+    "name": { "str": "pair of fingerless wool gloves", "str_pl": "pairs of fingerless wool gloves" },
+    "description": "A thick pair of wool gloves with no fingers, cutting down on warmth but making them less cumbersome.",
+    "weight": "150 g",
+    "price": "10 USD",
+    "price_postapoc": "25 cent",
+    "looks_like": "gloves_fingerless",
+    "coverage": 50,
+    "warmth": 24,
+    "relative": { "encumbrance": -10 },
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
   },
   {
     "id": "gloves_work",

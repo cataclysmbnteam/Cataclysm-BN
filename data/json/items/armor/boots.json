@@ -1379,6 +1379,20 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "stockings_wool",
+    "copy-from": "stockings",
+    "type": "ARMOR",
+    "name": { "str": "pair of wool stockings", "str_pl": "pairs of wool stockings" },
+    "description": "Long woolen socks that reach above the knees to help protect from the cold.",
+    "weight": "125 g",
+    "price": "15 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "wool" ],
+    "color": "blue",
+    "encumbrance": 7,
+    "warmth": 40
+  },
+  {
     "id": "stockings_tent_legs",
     "type": "ARMOR",
     "name": { "str": "pair of tentacle stockings", "str_pl": "pairs of tentacle stockings" },
