@@ -3195,6 +3195,11 @@ bool find_auto_consume( player &p, const consume_type type )
         {
             return false;
         }
+        /* Avoid items that may softlock with a Y/N query */
+        if( comest.has_use() )
+        {
+            return false;
+        }
         return true;
     };
 
