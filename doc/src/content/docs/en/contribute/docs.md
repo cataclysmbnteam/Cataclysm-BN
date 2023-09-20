@@ -103,7 +103,8 @@ as you go.
 To run the documentation site locally, you need to:
 
 - install [node](https://nodejs.org/en) for dev server
-- (optional) [pnpm](https://pnpm.io) as faster and more space efficient alternative to node's stock npm
+- (optional) [pnpm](https://pnpm.io) as faster and more space efficient alternative to node's stock
+  npm
 - (optional) [deno](https://deno.com) to format and generate automated documentation
 
 ### Setup dev server
@@ -119,6 +120,7 @@ To run the documentation site locally, you need to:
 ```
 
 Or, if you're not using pnpm:
+
 ```sh
 (Cataclysm-BN) $ cd doc
 (Cataclysm-BN/doc) $ npm install # 'npm i' for short
