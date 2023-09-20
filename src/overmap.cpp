@@ -4090,10 +4090,8 @@ void overmap::polish_rivers( const overmap *north, const overmap *east, const ov
                         } else {
                             ter_set( p, oter_id( "river_ne" ) );
                         }
-                    } else {
-                        if( water_east ) { // Means it's swampy
-                            ter_set( p, oter_id( "forest_water" ) );
-                        }
+                    } else { // Means it's swampy
+                        ter_set( p, oter_id( "forest_water" ) );
                     }
                 }
             } else {
