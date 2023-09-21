@@ -4261,7 +4261,7 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
 
             if( belongs_to_connection( con.connection, oter ) ) {
                 ++score; // Found another one satisfied connection.
-            } else if( !oter || con.existing || !con.connection->pick_subtype_for( oter ) ) {
+            } else if( !oter || con.existing || !con.connection->can_start_at( oter ) ) {
                 valid = false;
                 break;
             }
