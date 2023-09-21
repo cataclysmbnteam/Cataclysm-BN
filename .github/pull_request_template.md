@@ -4,8 +4,8 @@ Leave the headings unless they don't apply to your PR, and remove the comment bl
 NOTE: Please grant permission for repository maintainers to edit your PR.  It is EXTREMELY common for PRs to be held up due to trivial changes being requested and the author being unavailable to make them.
 
 CODE STYLE: please follow below guide.
-JSON: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/JSON_STYLE.md
-C++ and Markdown: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/CODE_STYLE.md
+JSON: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/src/content/docs/en/mod/json/explanation/json_style.md
+C++ and Markdown: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/doc/src/content/docs/en/dev/explanation/code_style.md
 
 !!!!!!!!!! WARNING !!!!!!!!!!
 
@@ -38,7 +38,7 @@ Do not enter the square brackets [].  Category must be one of these:
 - I18N
 
 For more on the meaning of each category, see:
-https://github.com/cataclysmbnteam/Cataclysm-BN/blob/master/doc/CHANGELOG_GUIDELINES.md
+https://github.com/cataclysmbnteam/Cataclysm-BN/blob/master/doc/src/content/docs/en/contribute/changelog_guidelines.md
 
 If approved and merged, your summary will be added to the project changelog:
 https://github.com/cataclysmbnteam/Cataclysm-BN/blob/master/data/changelog.txt
