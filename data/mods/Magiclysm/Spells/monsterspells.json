@@ -134,7 +134,7 @@
     "energy_source": "MANA",
     "damage_type": "fire"
   },
-    {
+  {
     "id": "krab_gaze",
     "type": "SPELL",
     "name": { "str": "Krabgek Gaze" },
@@ -154,7 +154,7 @@
     "base_energy_cost": 2,
     "damage_type": "bio"
   },
-    {
+  {
     "id": "ooze_acidicspray",
     "type": "SPELL",
     "name": { "str": "Ooze Acidic Spray" },
