@@ -911,7 +911,7 @@
     "name": { "str": "mininuke" },
     "//": "This is based on the Davy Crockett nuclear artillery shell, all other man-portable nuclear weapons have far too high a yield.",
     "description": "This is an extremely powerful weapon, a portable nuclear bomb.  Use it to activate the timer.  You guess that the explosion would be large enough to take out a small house.",
-    "weight": "23000 g",
+    "weight": "23 kg",
     "volume": "16 L",
     "price": 180000,
     "price_postapoc": 10000,
@@ -930,7 +930,7 @@
     "name": { "str": "mininuke" },
     "//": "This is based on the Davy Crockett nuclear artillery shell, all other man-portable nuclear weapons have far too high a yield.",
     "description": "This miniature nuclear bomb has a light blinking on the side, showing that it will soon explode.  You should probably get far, far away from it.",
-    "weight": "23000 g",
+    "weight": "23 kg",
     "volume": "16 L",
     "price": 0,
     "price_postapoc": 0,
@@ -950,7 +950,7 @@
       "sound_volume": 2,
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
-      "explosion": { "damage": 300, "radius": 20 }
+      "explosion": { "damage": 1000, "radius": 20 }
     },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "CLOSES_PORTAL" ]
   },
