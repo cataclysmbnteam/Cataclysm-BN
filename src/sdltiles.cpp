@@ -91,6 +91,7 @@
 #include "inventory.h"
 #include "map.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "worldfactory.h"
 #endif

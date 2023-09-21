@@ -114,7 +114,7 @@ static bool capturing = false;
 static std::string captured;
 
 
-#if defined(_WIN32) and defined(LIBBACKTRACE)
+#if defined(_WIN32) && defined(LIBBACKTRACE)
 // Get the image base of a module from its PE header
 static uintptr_t get_image_base( const char *const path )
 {
@@ -685,7 +685,8 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
                        filename.c_str(), std::ios::out | std::ios::app );
             *file << "\n\n-----------------------------------------\n";
             *file << get_time() << " : Starting log.\n";
-            DebugLog( DL::Info, DC::Main ) << "Cataclysm BN version " << getVersionString();
+            DebugLog( DL::Info, DC::Main ) << "Cataclysm BN version " << getVersionString() << " " <<
+                                           game_info::bitness_string();
             if( rename_failed ) {
                 DebugLog( DL::Info, DC::Main ) << "Moving the previous log file to "
                                                << oldfile << " failed.\n"
@@ -1728,16 +1729,28 @@ std::string game_info::operating_system_version()
 #endif
 }
 
-std::string game_info::bitness()
+std::optional<int> game_info::bitness()
 {
     if( sizeof( void * ) == 8 ) {
-        return "64-bit";
+        return 64;
     }
 
     if( sizeof( void * ) == 4 ) {
-        return "32-bit";
+        return 32;
     }
 
+    return std::nullopt;
+}
+
+std::string game_info::bitness_string()
+{
+    auto b = bitness();
+    if( b && *b == 32 ) {
+        return "32-bit";
+    }
+    if( b && *b == 64 ) {
+        return "64-bit";
+    }
     return "Unknown";
 }
 
@@ -1799,7 +1812,7 @@ std::string game_info::game_report()
     report <<
            "- OS: " << operating_system() << "\n" <<
            "    - OS Version: " << os_version << "\n" <<
-           "- Game Version: " << game_version() << " [" << bitness() << "]\n" <<
+           "- Game Version: " << game_version() << " [" << bitness_string() << "]\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
            "- LAPI Version: " << cata::get_lapi_version_string() << "\n" <<
            "- Game Language: " << lang_translated << " [" << lang << "]\n" <<
@@ -1808,4 +1821,38 @@ std::string game_info::game_report()
     return report.str();
 }
 
-// vim:tw=72:sw=4:fdm=marker:fdl=0:
+std::optional<int> get_os_bitness()
+{
+#if defined(_WIN32)
+    SYSTEM_INFO si;
+    GetNativeSystemInfo( &si );
+    switch( si.wProcessorArchitecture ) {
+        case PROCESSOR_ARCHITECTURE_AMD64:
+            return 64;
+
+        case PROCESSOR_ARCHITECTURE_INTEL:
+            return 32;
+
+        default:
+            // FIXME: other architectures?
+            break;
+    }
+#elif defined(__linux__) && !defined(__ANDROID__)
+    std::string output;
+    output = shell_exec( "getconf LONG_BIT" );
+
+    if( !output.empty() ) {
+        // remove trailing '\n', if any.
+        output.erase( std::remove( output.begin(), output.end(), '\n' ),
+                      output.end() );
+    }
+
+    if( output == "64" ) {
+        return 64;
+    } else if( output == "32" ) {
+        return 32;
+    }
+#endif
+    // FIXME: osx, android
+    return std::nullopt;
+}

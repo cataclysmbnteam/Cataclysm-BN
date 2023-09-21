@@ -13,7 +13,7 @@
  * and the member/method that contains/returns the id as id_getter.
  *
  * Example implementation:
- * ```c++
+ * ```cpp
  * class ter_t {
  *   ter_str_id id;
  *   ...

@@ -1144,7 +1144,19 @@
     "description": "Society drove you to the fringes and set you wandering, with no home, no family, no friends, until you could only find solace in the bottom of a bottle.  But society doesn't mean a thing anymore, and for all the crap thrown your way, you're still standing.  God damn, you need a drink.",
     "points": -1,
     "items": {
-      "both": [ "pants", "knit_scarf", "whiskey", "gin", "bum_wine", "ragpouch", "bindle", "can_beans", "pockknife", "matches" ],
+      "both": [
+        "pants",
+        "gloves_light_fingerless",
+        "knit_scarf",
+        "whiskey",
+        "gin",
+        "bum_wine",
+        "ragpouch",
+        "bindle",
+        "can_beans",
+        "pockknife",
+        "matches"
+      ],
       "male": [ "undershirt" ],
       "female": [ "camisole" ]
     },
@@ -3722,7 +3734,7 @@
           "socks",
           "elbow_pads",
           "knee_pads",
-          "gloves_fingerless",
+          "gloves_light_fingerless",
           "helmet_skid",
           "roller_blades",
           "wristwatch",
@@ -3749,7 +3761,7 @@
           "jeans",
           "socks",
           "sneakers",
-          "gloves_fingerless",
+          "gloves_light_fingerless",
           "slingpack",
           "matches",
           "hairpin",

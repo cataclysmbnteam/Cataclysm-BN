@@ -55,6 +55,7 @@
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -2140,12 +2141,15 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         while( m.is_bashable( loc ) ) { // one is not enough
             m.destroy( loc, true );
         }
-        if( one_in( 5 ) && !tr.has_flag( flag_LIQUID ) ) {
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 10 ) );
+        if( m.ter( loc ) == t_pit ) {
+            m.ter_set( loc, t_pit_shallow );
         }
     } else if( ter_furn_has_flag( tr, fid, TFLAG_FLAMMABLE_ASH ) ) {
         while( m.is_bashable( loc ) ) {
             m.destroy( loc, true );
+        }
+        if( m.ter( loc ) == t_pit ) {
+            m.ter_set( loc, t_pit_shallow );
         }
         m.furn_set( loc, f_ash );
     }

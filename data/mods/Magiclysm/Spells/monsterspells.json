@@ -110,5 +110,30 @@
     "base_casting_time": 160,
     "effect": "summon",
     "effect_str": "mon_demon_spiderling"
+  },
+  {
+    "id": "monster_burning_hands",
+    "type": "SPELL",
+    "name": { "str": "Burning Hands" },
+    "description": "Separated from the player burning hands, because I'm not trying to accidentally buff Demon Spiders again.",
+    "effect": "cone_attack",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "max_level": 20,
+    "min_damage": 8,
+    "max_damage": 65,
+    "damage_increment": 4.0,
+    "min_range": 3,
+    "max_range": 5,
+    "range_increment": 0.25,
+    "min_aoe": 25,
+    "max_aoe": 60,
+    "aoe_increment": 5.0,
+    "spell_class": "KELVINIST",
+    "base_casting_time": 100,
+    "base_energy_cost": 150,
+    "energy_source": "MANA",
+    "difficulty": 2,
+    "damage_type": "fire"
   }
 ]

@@ -29,7 +29,8 @@
     "price": 0,
     "price_postapoc": 0,
     "volume": "250 ml",
-    "fun": -10
+    "fun": -10,
+    "flags": [ "UNSAFE_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",
@@ -207,7 +208,8 @@
     "material": "powder",
     "volume": "250 ml",
     "charges": 4,
-    "fun": -10
+    "fun": -10,
+    "flags": [ "UNSAFE_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",
@@ -568,7 +570,7 @@
     "price": 80,
     "price_postapoc": 0,
     "material": "hflesh",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "UNSAFE_CONSUME" ],
     "volume": "250 ml",
     "fun": -30
   },

@@ -39,6 +39,7 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 class basecamp;

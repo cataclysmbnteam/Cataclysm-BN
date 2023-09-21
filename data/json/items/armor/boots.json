@@ -304,6 +304,17 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "boots_plarmor",
+    "copy-from": "boots_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of plated leather boots", "str_pl": "pairs of plated leather boots" },
+    "description": "Thick leather boots that have been reinforced with strategically-placed metal plates.  Strong yet light.",
+    "material": [ "leather", "iron" ],
+    "looks_like": "boots_plate",
+    "proportional": { "price": 4, "price_postapoc": 1.2 },
+    "relative": { "weight": "500 g", "encumbrance": 4 }
+  },
+  {
     "id": "boots_lsurvivor",
     "type": "ARMOR",
     "name": { "str": "pair of light survivor boots", "str_pl": "pairs of light survivor boots" },
@@ -450,7 +461,7 @@
     "price_postapoc": 750,
     "coverage": 95,
     "proportional": { "weight": 1.2, "volume": 1.2, "price": 2, "encumbrance": 2 },
-    "use_action": { "type": "holster", "max_volume": "250 ml", "max_weight": 600, "draw_cost": 80, "multi": 2, "skills": [ "pistol" ] },
+    "use_action": { "type": "holster", "max_volume": "250 ml", "max_weight": 600, "draw_cost": 150, "multi": 2, "skills": [ "pistol" ] },
     "extend": { "flags": [ "FANCY" ] }
   },
   {
@@ -1366,6 +1377,20 @@
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "stockings_wool",
+    "copy-from": "stockings",
+    "type": "ARMOR",
+    "name": { "str": "pair of wool stockings", "str_pl": "pairs of wool stockings" },
+    "description": "Long woolen socks that reach above the knees to help protect from the cold.",
+    "weight": "125 g",
+    "price": "15 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "wool" ],
+    "color": "blue",
+    "encumbrance": 7,
+    "warmth": 40
   },
   {
     "id": "stockings_tent_legs",

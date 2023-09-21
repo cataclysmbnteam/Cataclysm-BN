@@ -21,6 +21,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 
 static std::vector<const vpart_info *> turret_types()
 {

@@ -61,6 +61,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weighted_list.h"
 
@@ -650,16 +651,15 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     const int melee = get_skill_level( skill_melee );
 
     // Previously calculated as 2_gram * std::max( 1, str_cur )
-    // using 16_gram normalizes it to 8 str. Same effort expenditure
-    // for each strike, regardless of weight. This is compensated
-    // for by the additional move cost as weapon weight increases
     const int weight_cost = cur_weapon.weight() / ( 16_gram );
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
                                  2.0f );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
+    const float strbonus = 1 / ( 2 + ( str_cur * 0.25f ) );
     const float skill_cost = std::max( 0.667f, static_cast<float>( ( 30.0f - melee ) / 30.0f ) );
-    /** @EFFECT_MELEE reduces stamina cost of melee attacks */
-    const int mod_sta = ( weight_cost + encumbrance_cost - deft_bonus + 50 ) * -1 * skill_cost;
+    /** @EFFECT_MELEE and @EFFECT_STR reduce stamina cost of melee attacks */
+    const int mod_sta = -( weight_cost + encumbrance_cost - deft_bonus + 50 ) * skill_cost *
+                        ( 0.75f + strbonus );
     mod_stamina( std::min( -50, mod_sta ) );
     add_msg( m_debug, "Stamina burn: %d", std::min( -50, mod_sta ) );
     mod_moves( -move_cost );
@@ -2286,7 +2286,7 @@ int Character::attack_cost( const item &weap ) const
     /** @EFFECT_MELEE increases melee attack speed */
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
-    const int dexbonus = dex_cur / 2;
+    const int dexbonus = dex_cur;
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();

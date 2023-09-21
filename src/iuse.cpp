@@ -114,6 +114,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
@@ -2621,7 +2622,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     // We also must tone down the yield of dirt to avoid potential problems,
     // the old math was generating more than the tile volume limit.
     //
-    // So to keep it simple, 50 liters for shallow pits, 100 for deep pit. We're basically
+    // So to keep it simple, 200 liters for shallow pits, 400 for deep pit. We're basically
     // assuming that the first step is about one-third of the total work.
 
     constexpr int deep_pit_time = 120;
@@ -2647,7 +2648,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
         result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
     }
 
-    return { moves, static_cast<int>( dig_minutes / 60 ), "digging_soil_loam_50L", result_terrain };
+    return { moves, static_cast<int>( dig_minutes / 15 ), "digging_soil_loam_50L", result_terrain };
 }
 
 int iuse::dig( player *p, item *it, bool t, const tripoint & )
@@ -3437,7 +3438,6 @@ int iuse::teleport( player *p, item *it, bool, const tripoint & )
 
 int iuse::can_goo( player *p, item *it, bool, const tripoint & )
 {
-    it->convert( itype_canister_empty );
     int tries = 0;
     tripoint goop;
     goop.z = p->posz();
@@ -3447,6 +3447,7 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
         tries++;
     } while( g->m.impassable( goop ) && tries < 10 );
     if( tries == 10 ) {
+        add_msg( _( "Nothing happens." ) );
         return 0;
     }
     if( monster *const mon_ptr = g->critter_at<monster>( goop ) ) {
@@ -3481,9 +3482,12 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
                 add_msg( m_warning, _( "A nearby splatter of goo forms into a goo pit." ) );
             }
             g->m.trap_set( goop, tr_goo );
-        } else {
-            return 0;
         }
+    }
+    if( it->charges <= it->type->charges_to_use() ) {
+        it->charges = 0;
+        it->convert( itype_canister_empty );
+        return 0;
     }
     return it->type->charges_to_use();
 }
