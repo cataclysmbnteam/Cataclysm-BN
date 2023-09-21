@@ -158,7 +158,7 @@
     "id": "ooze_acidicspray",
     "type": "SPELL",
     "name": { "str": "Ooze Acidic Spray" },
-    "description": "Somone's pudding recipe has gone *very* awry... (Monster Spell)",
+    "description": "Someone's pudding recipe has gone *very* awry…  (Monster Spell)",
     "valid_targets": [ "ally", "hostile", "ground" ],
     "effect": "cone_attack",
     "effect_str": "bio_acidburn",
