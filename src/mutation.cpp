@@ -103,10 +103,10 @@ bool Character::has_trait( const trait_id &b ) const
     return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
 }
 
-bool Character::has_trait_flag( const trait_flag_id &b ) const
+bool Character::has_trait_flag( const trait_flag_str_id &b ) const
 {
     for( const mutation_branch *mut : cached_mutations ) {
-        if( mut->flags.count( trait_flag_str_id( b ) ) > 0 ) {
+        if( mut->flags.count( b ) > 0 ) {
             return true;
         }
     }

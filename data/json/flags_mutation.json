@@ -74,6 +74,10 @@
     "type": "mutation_flag"
   },
   {
+    "id": "NEED_ACTIVE_TO_MELEE",
+    "type": "mutation_flag"
+  },
+  {
     "id": "NO_THIRST",
     "type": "mutation_flag"
   },

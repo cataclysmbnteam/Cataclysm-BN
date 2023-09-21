@@ -74,7 +74,6 @@ const json_trait_flag &json_trait_flag::get( const std::string &id )
 void json_trait_flag::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "conflicts", conflicts_ );
-    optional( jo, was_loaded, "restriction", restriction_ );
 }
 
 void json_trait_flag::check_consistency()

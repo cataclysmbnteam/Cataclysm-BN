@@ -16,7 +16,7 @@ class json_trait_flag
 
     public:
         // used by generic_factory
-        trait_flag_str_id id = json_trait_flag::NULL_ID();
+        trait_flag_str_id id = trait_flag_str_id::NULL_ID();
         bool was_loaded = false;
 
         json_trait_flag() = default;
@@ -35,9 +35,7 @@ class json_trait_flag
         static const std::vector<json_trait_flag> &get_all();
 
     private:
-        translation info_;
-        translation restriction_;
-        std::set<std::string> conflicts_;
+        std::set<trait_flag_str_id> conflicts_;
 
         /** Load flag definition from JSON */
         void load( const JsonObject &jo, const std::string &src );
