@@ -73,7 +73,6 @@ static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_lying_down( "lying_down" );
-static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_mutating( "mutating" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -1292,12 +1291,8 @@ void Character::hardcoded_effects( effect &it )
                 }
             }
         }
-    } else if( id == effect_mending ) {
-        if( !is_limb_broken( convert_bp( bp ) ) ) {
-            it.set_duration( 0_turns );
-        }
     } else if( id == effect_disabled ) {
-        if( !is_limb_broken( convert_bp( bp ) ) ) {
+        if( get_part_hp_cur( convert_bp( bp ) ) >= get_part_hp_max( convert_bp( bp ) ) ) {
             remove_effect( effect_disabled );
         }
     } else if( id == effect_panacea ) {

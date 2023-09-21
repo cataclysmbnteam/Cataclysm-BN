@@ -140,6 +140,7 @@ static const efftype_id effect_cough_suppress( "cough_suppress" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
@@ -167,7 +168,6 @@ static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_melatonin_supplements( "melatonin" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_masked_scent( "masked_scent" );
-static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -287,7 +287,6 @@ static const trait_id trait_INFRARED( "INFRARED" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_LIZ_IR( "LIZ_IR" );
-static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
@@ -1257,14 +1256,15 @@ int Character::get_working_leg_count() const
 
 bool Character::is_limb_disabled( const bodypart_id &limb ) const
 {
-    return get_part_hp_cur( limb ) <= get_part_hp_max( limb ) * .125;
+    return is_limb_broken( limb ) ||
+           ( get_part_hp_cur( limb ) <= get_part_hp_max( limb ) * 0.125 );
 }
 
 // this is the source of truth on if a limb is broken so all code to determine
 // if a limb is broken should point here to make any future changes to breaking easier
 bool Character::is_limb_broken( const bodypart_id &limb ) const
 {
-    return get_part_hp_cur( limb ) <= 0;
+    return has_effect( effect_disabled, limb.id() );
 }
 
 bool Character::can_run()
@@ -4580,8 +4580,17 @@ void Character::regen( int rate_multiplier )
 
     float rest = rest_quality();
     float heal_rate = healing_rate( rest ) * to_turns<int>( 5_minutes );
+    const float broken_regen_mod = clamp( mutation_value( "mending_modifier" ), 0.25f, 1.0f );
     if( heal_rate > 0.0f ) {
-        healall( roll_remainder( rate_multiplier * heal_rate ) );
+        const int base_heal = roll_remainder( rate_multiplier * heal_rate );
+        const int broken_heal = roll_remainder( base_heal * broken_regen_mod );
+
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            const bool is_broken = is_limb_broken( bp ) &&
+                                   !worn_with_flag( flag_SPLINT, bp );
+            heal( bp, is_broken ? broken_heal : base_heal );
+            mod_part_healed_total( bp, is_broken ? broken_heal : base_heal );
+        }
     } else if( heal_rate < 0.0f ) {
         int rot_rate = roll_remainder( rate_multiplier * -heal_rate );
         // Has to be in loop because some effects depend on rounding
@@ -4595,9 +4604,13 @@ void Character::regen( int rate_multiplier )
         const bodypart_id &bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
         float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
 
-        int healing_apply = roll_remainder( healing );
+        const bool is_broken = is_limb_broken( bp ) &&
+                               !worn_with_flag( flag_SPLINT, bp );
+        const int healing_apply = roll_remainder( is_broken ? healing *broken_regen_mod : healing );
+
         healed_bp( i, healing_apply );
         heal( bp, healing_apply );
+
         if( damage_bandaged[i] > 0 ) {
             damage_bandaged[i] -= healing_apply;
             if( damage_bandaged[i] <= 0 ) {
@@ -4707,9 +4720,6 @@ void Character::update_body( const time_point &from, const time_point &to )
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
-        // Note: mend ticks once per 5 minutes, but wants rate in TURNS, not 5 minute intervals
-        // TODO: change @ref med to take time_duration
-        mend( five_mins * to_turns<int>( 5_minutes ) );
     }
     if( ticks_between( from, to, 24_hours ) > 0 ) {
         enforce_minimum_healing();
@@ -5800,15 +5810,11 @@ hp_part Character::body_window( const std::string &menu_header,
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( bp );
-        const bool limb_is_mending = limb_is_broken &&
-                                     ( worn_with_flag( flag_SPLINT, bp ) || has_trait( trait_REGEN_LIZ ) );
 
         if( show_all ) {
             e.allowed = true;
         } else if( has_curable_effect ) {
             e.allowed = true;
-        } else if( limb_is_broken ) {
-            e.allowed = false;
         } else if( current_hp < maximal_hp && ( e.bonus != 0 || bandage_power > 0.0f  ||
                                                 disinfectant_power > 0.0f ) ) {
             e.allowed = true;
@@ -5837,21 +5843,21 @@ hp_part Character::body_window( const std::string &menu_header,
 
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
         std::string hp_str;
-        if( limb_is_mending ) {
-            desc += colorize( _( "It is broken but has been set and just needs time to heal." ),
+        if( limb_is_broken ) {
+            const nc_color color = worn_with_flag( flag_SPLINT, bp ) ||
+                                   ( mutation_value( "mending_modifier" ) >= 1.0f ) ?
+                                   c_blue :
+                                   c_light_red;
+            desc += colorize( _( "It is broken and must heal fully before it becomes functional again." ),
                               c_blue ) + "\n";
-            const auto &eff = get_effect( effect_mending, bp_token );
-            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
+            const int mend_perc = 100 * current_hp / maximal_hp;
 
             if( precise ) {
-                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), c_blue );
+                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), color );
             } else {
                 const int num = mend_perc / 20;
-                hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
+                hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), color );
             }
-        } else if( limb_is_broken ) {
-            desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
-            hp_str = "==%==";
         } else if( precise ) {
             hp_str = string_format( "%d", current_hp );
         } else {
@@ -8431,11 +8437,6 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
         i_rem( &weapon );
     }
-    if( has_effect( effect_mending, part_to_damage->token ) ) {
-        effect &e = get_effect( effect_mending, part_to_damage->token );
-        float remove_mend = dam / 20.0f;
-        e.mod_duration( -e.get_max_duration() * remove_mend );
-    }
 
     if( dam > get_painkiller() ) {
         on_hurt( source );
@@ -8646,10 +8647,13 @@ int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
 
 void Character::heal( const bodypart_id &healed, int dam )
 {
-    if( !is_limb_broken( healed ) ) {
-        int effective_heal = std::min( dam, get_part_hp_max( healed ) - get_part_hp_cur( healed ) );
-        mod_part_hp_cur( healed, effective_heal );
-        g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
+    const int max_hp = get_part_hp_max( healed );
+    const int cur_hp = get_part_hp_cur( healed );
+    const int effective_heal = std::min( dam, max_hp - cur_hp );
+    mod_part_hp_cur( healed, effective_heal );
+    g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
+    if( cur_hp + dam >= max_hp ) {
+        remove_effect( effect_disabled, healed.id() );
     }
 }
 
