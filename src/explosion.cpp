@@ -93,11 +93,15 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
-static float obstacle_blast_percentage( float range, float distance )
+namespace
+{
+
+auto obstacle_blast_percentage( float range, float distance ) -> float
 {
     return distance > range ? 0.0f : distance > range / 2 ? 0.5f : 1.0f;
 }
-static float critter_blast_percentage( Creature *c, float range, float distance )
+
+auto critter_blast_percentage( Creature *c, float range, float distance ) -> float
 {
     const float radius_reduction = distance > range ? 0.0f : distance > range / 2 ? 0.5f : 1.0f;
 
@@ -117,11 +121,13 @@ static float critter_blast_percentage( Creature *c, float range, float distance 
     }
 }
 
-static float item_blast_percentage( float range, float distance )
+auto item_blast_percentage( float range, float distance ) -> float
 {
     const float radius_reduction = 1.0f - distance / range;
     return radius_reduction;
 }
+
+} // namespace
 
 explosion_data load_explosion_data( const JsonObject &jo )
 {
