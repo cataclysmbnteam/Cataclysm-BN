@@ -8,6 +8,7 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <numeric>
 #include <optional>
 #include <queue>
 #include <random>
@@ -125,6 +126,39 @@ auto item_blast_percentage( float range, float distance ) -> float
 {
     const float radius_reduction = 1.0f - distance / range;
     return radius_reduction;
+}
+
+auto distance_between( const tripoint &from, const tripoint &to ) -> float
+{
+    return trigdist ? trig_dist( from, to ) : square_dist( from, to );
+}
+
+auto diminish_by_distance( float power, float distance ) -> float
+{
+    if( distance <= 1.0f ) {
+        return power;
+    }
+    return power /  std::pow( distance, 3 );
+}
+
+auto terrain_toughness_between( const tripoint &from, const tripoint &to ) -> int
+{
+    map &here = get_map();
+    const auto line = line_to( from, to, 0, 0 );
+    const auto toughness = [&here]( const tripoint & p ) -> float {
+        const int ter = here.ter( p ).obj().bash.str_max;
+        const int furn = here.furn( p ).obj().bash.str_max;
+
+        return std::max( ter, 0 ) + std::max( furn, 0 );
+    };
+
+    const int sum_toughness = std::accumulate( line.begin(), line.end(),  0,
+    [&]( int sum, const tripoint & p ) -> int {
+        const float dist = distance_between( from, p );
+        return sum + diminish_by_distance( toughness( p ), dist );
+    } );
+
+    return sum_toughness;
 }
 
 } // namespace
@@ -451,16 +485,19 @@ void ExplosionProcess::fill_maps()
         }
 
         // Uses this ternany check instead of rl_dist because it converts trig_dist's distance to int implicitly
-        const float distance = (
-                                   trigdist ?
-                                   trig_dist( center, target ) :
-                                   square_dist( center, target )
-                               );
+        const float distance = distance_between( center, target );
         const float z_distance = abs( target.z - center.z );
         const float z_aware_distance = distance + ( ExplosionConstants::Z_LEVEL_DIST - 1 ) * z_distance;
-        // We static_cast<int> in order to keep parity with legacy blasts using rl_dist for distance
-        //   which, as stated above, converts trig_dist into int implicitly
-        if( blast_radius > 0 && static_cast<int>( z_aware_distance ) <= blast_radius ) {
+        const float toughness = terrain_toughness_between( center, target );
+        const float adjusted_power = diminish_by_distance( blast_power, z_distance );
+
+        if( target.z <= 0 ) {
+            add_msg( m_debug, "z: %d, distance: %f, z_aware_distance: %f, toughness: %f, adjusted_power: %f",
+                     target.z, distance, z_aware_distance, toughness, adjusted_power );
+        }
+        if( blast_radius > 0
+            && z_aware_distance <= blast_radius
+            && adjusted_power > toughness ) {
             blast_map.push_back( { z_aware_distance, target } );
         }
 
