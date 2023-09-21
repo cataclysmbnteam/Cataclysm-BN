@@ -148,6 +148,11 @@ inline constexpr units::temperature operator"" _c( const unsigned long long v )
     return units::from_celsius<int>( v );
 }
 
+inline constexpr units::temperature operator"" _c( const long double v )
+{
+    return units::from_celsius<double>( static_cast<double>( v ) );
+}
+
 inline constexpr units::temperature operator"" _f( const unsigned long long v )
 {
     return units::from_fahrenheit<int>( v );
