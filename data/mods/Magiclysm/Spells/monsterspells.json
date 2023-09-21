@@ -138,7 +138,7 @@
     "id": "krab_gaze",
     "type": "SPELL",
     "name": { "str": "Krabgek Gaze" },
-    "description": "Carcinization ray, go! (Krabgek version of Necrotic Gaze for balance purposes)",
+    "description": "Carcinization ray, go!  (Krabgek version of Necrotic Gaze for balance purposes)",
     "valid_targets": [ "hostile" ],
     "effect": "target_attack",
     "energy_source": "HP",
