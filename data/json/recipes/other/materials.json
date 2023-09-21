@@ -1048,15 +1048,25 @@
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
-      [
-        [ "tin", 12 ],
-        [ "material_aluminium_ingot", 1 ],
-        [ "aluminum_foil", 40 ],
-        [ "chem_aluminium_powder", 15 ],
-        [ "can_drink_unsealed", 2 ]
-      ],
-      [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
+      [ [ "tin", 10 ], [ "aluminum_foil", 10 ], [ "chem_aluminium_powder", 15 ], [ "can_drink_unsealed", 2 ] ],
+      [ [ "copper_scrap_equivalent", 4, "LIST" ] ]
     ]
+  },
+  {
+    "result": "scrap_bronze",
+    "id_suffix": "bulk",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "90 m",
+    "charges": 10,
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ], [ [ "copper_scrap_equivalent", 40, "LIST" ] ] ]
   },
   {
     "type": "recipe",
