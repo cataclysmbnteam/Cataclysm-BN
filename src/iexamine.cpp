@@ -5165,7 +5165,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             for( int i = 0; i < num_hp_parts; i++ ) {
                 const bodypart_id &part = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
                 const bool broken = patient.is_limb_broken( part );
-                // Skip part if not broken or already healed 50%
                 if( !broken ) {
                     continue;
                 }

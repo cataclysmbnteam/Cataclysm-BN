@@ -742,7 +742,7 @@ class Character : public Creature, public visitable<Character>
         int get_working_arm_count() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
-        /** Returns true if the limb is disabled(12.5% or less hp and not broken)*/
+        /** Returns true if the limb is disabled (12.5% or less hp, or broken)*/
         bool is_limb_disabled( const bodypart_id &limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( const bodypart_id &limb ) const;
