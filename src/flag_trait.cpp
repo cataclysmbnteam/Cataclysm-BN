@@ -6,8 +6,6 @@
 #include "type_id.h"
 #include "generic_factory.h"
 
-const trait_flag_str_id trait_flag_NULL = trait_flag_str_id( "null" ); // intentionally invalid flag
-
 namespace
 {
 generic_factory<json_trait_flag> json_trait_flags_all( "json_trait_flags" );

@@ -9,8 +9,6 @@
 #include "type_id.h"
 class JsonObject;
 
-extern const trait_flag_str_id trait_flag_NULL;
-
 class json_trait_flag
 {
         friend class DynamicDataLoader;
@@ -18,7 +16,7 @@ class json_trait_flag
 
     public:
         // used by generic_factory
-        trait_flag_str_id id = trait_flag_NULL;
+        trait_flag_str_id id = json_trait_flag::NULL_ID();
         bool was_loaded = false;
 
         json_trait_flag() = default;
