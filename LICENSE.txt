@@ -2,6 +2,8 @@ Cataclysm is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unpo
 
 Documentation site (doc/*, excluding doc/src/content/docs/*) is licensed under the AGPL 3.0-only license, see doc/LICENSE for text of license.
 
+Scripts (scripts/*) are licensed under the AGPL 3.0-only license, see doc/LICENSE for text of license.
+
 GNU Unifont (data/font/unifont.ttf) is licensed under GNU General Public License v2+ with the GNU font embedding exception. Visit http://unifoundry.com/LICENSE.txt for details.
 
 Terminus Font (data/font/terminus.ttf) is licensed under the SIL Open Font License (see LICENSE-OFL-Terminus-Font.txt).
