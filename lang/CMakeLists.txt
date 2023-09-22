@@ -1,80 +1,68 @@
-MESSAGE(STATUS "Process LANGUAGES variable --\n")
+message(STATUS "Process LANGUAGES variable --\n")
 
-IF (LANGUAGES STREQUAL none)
-    MESSAGE(STATUS "Not compiling any languages.\n")
+if (LANGUAGES STREQUAL none)
+    message(STATUS "Not compiling any languages.\n")
     return()
-ENDIF()
+endif ()
 
-FIND_PACKAGE(Gettext)
+find_package(Gettext)
 
-IF (NOT GETTEXT_FOUND)
-    MESSAGE(FATAL_ERROR
+if (NOT GETTEXT_FOUND)
+    message(
+        FATAL_ERROR
             "Gettext not found. Install gettext package or disable
              compilation of language files with: -DLANGUAGES=none \nSee INSTALL file for details and more info\n"
     )
-ENDIF (NOT GETTEXT_FOUND)
+endif (NOT GETTEXT_FOUND)
 
-IF (LANGUAGES STREQUAL all)
+if (LANGUAGES STREQUAL all)
     set(LANGUAGES "")
-    file (GLOB PO_FILES
-      ${CMAKE_SOURCE_DIR}/lang/po/*.po
-    )
+    file(GLOB PO_FILES ${CMAKE_SOURCE_DIR}/lang/po/*.po)
     foreach (PO_FILE ${PO_FILES})
-      get_filename_component(LANG ${PO_FILE} NAME_WE)
-      list(APPEND LANGUAGES ${LANG})
+        get_filename_component(LANG ${PO_FILE} NAME_WE)
+        list(APPEND LANGUAGES ${LANG})
     endforeach ()
     list(REMOVE_DUPLICATES LANGUAGES)
     # End of special case
-ENDIF()
+endif ()
 
 foreach (LANG ${LANGUAGES})
-    MESSAGE(STATUS "Add translation for ${LANG}: ${LANG}.po")
+    message(STATUS "Add translation for ${LANG}: ${LANG}.po")
 endforeach ()
-MESSAGE("\n")
+message("\n")
 
-add_custom_target (
-    translations_prepare
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-)
+add_custom_target(translations_prepare WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 # Auto-Compile translation on release builds only
-IF (RELEASE)
-    add_custom_target (
-      translations_compile
-      ALL
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-      DEPENDS translations_prepare
-    )
-ELSE (RELEASE)
-    add_custom_target (
-      translations_compile
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-      DEPENDS translations_prepare
-    )
-ENDIF (RELEASE)
+if (RELEASE)
+    add_custom_target(
+        translations_compile ALL
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        DEPENDS translations_prepare)
+else (RELEASE)
+    add_custom_target(
+        translations_compile
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        DEPENDS translations_prepare)
+endif (RELEASE)
 
 foreach (LANG ${LANGUAGES})
-    add_custom_command (
-      TARGET translations_prepare
-      PRE_BUILD
-      COMMAND ${CMAKE_COMMAND}
-              -E make_directory ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    )
-    add_custom_command (
-      TARGET translations_compile
-      PRE_BUILD
-      COMMAND 
-      ${GETTEXT_MSGFMT_EXECUTABLE} -f ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po
-             -o ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-bn.mo
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    )
-    IF(RELEASE)
-      IF (${CMAKE_SYSTEM_NAME} MATCHES Windows)
-        #install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
-      ELSE (${CMAKE_SYSTEM_NAME} MATCHES Windows)
-        install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${LOCALE_DIR})
-      ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Windows)
-    ENDIF(RELEASE)
-endforeach()
-
+    add_custom_command(
+        TARGET translations_prepare
+        PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+    add_custom_command(
+        TARGET translations_compile
+        PRE_BUILD
+        COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -f ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po -o
+                ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-bn.mo
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+    if (RELEASE)
+        if (${CMAKE_SYSTEM_NAME} MATCHES Windows)
+            #install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
+        else (${CMAKE_SYSTEM_NAME} MATCHES Windows)
+            install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${LOCALE_DIR})
+        endif (${CMAKE_SYSTEM_NAME} MATCHES Windows)
+    endif (RELEASE)
+endforeach ()
