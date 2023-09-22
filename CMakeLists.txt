@@ -19,10 +19,9 @@ option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files." "ON")
 set(LANGUAGES
     ""
-    CACHE
-        STRING
-        "Compile localization files for specified languages. List of language ids separated by semicolon. Set to 'all' or leave empty to compile all, set to 'none' to compile none."
-)
+    CACHE STRING "Compile localization files for specified languages. \
+        List of language ids separated by semicolon. \
+        Set to 'all' or leave empty to compile all, set to 'none' to compile none.")
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."
        "ON")
 option(USE_UNITY_BUILD "Use unity build." "OFF")
@@ -175,10 +174,8 @@ if (GIT_BINARY)
 else ()
     find_package(Git)
     if (NOT GIT_FOUND)
-        message(
-            WARNING
-                "Git binary not found. Build version will be set to NULL. Install Git package or use -DGIT_BINARY to set path to git binary."
-        )
+        message(WARNING "Git binary not found. Build version will be set to NULL. \
+                Install Git package or use -DGIT_BINARY to set path to git binary.")
     endif ()
 endif ()
 
@@ -278,9 +275,10 @@ set(CMAKE_CXX_STANDARD 17)
 if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
     message(
         FATAL_ERROR
-            "This project requires an out of source build. Remove the file 'CMakeCache.txt' found in this directory before continuing, create a separate build
-       directory and run 'cmake [options] <srcs>' from there.\nSee INSTALL file for details and more info\n"
-    )
+            "This project requires an out of source build. \
+            Remove the file 'CMakeCache.txt' found in this directory before continuing, \
+            create a separate build directory and run 'cmake [options] <srcs>' from there. \
+            See INSTALL file for details and more info.")
 endif ()
 
 #SET(THREADS_USE_PTHREADS_WIN32 True)
@@ -295,9 +293,10 @@ if (TILES)
     if (NOT SDL2_FOUND)
         message(
             FATAL_ERROR
-                "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling
-           without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
-        )
+                "This project requires SDL2 to be installed to be compiled in graphical mode. \
+                Please install the SDL2 development libraries, or try compiling \
+                without the -DTILES=1 for a text only compilation. \
+                See INSTALL file for details and more info.")
     endif ()
 
     if (NOT DYNAMIC_LINKING)
@@ -315,9 +314,10 @@ if (TILES)
     if (NOT SDL2_TTF_FOUND)
         message(
             FATAL_ERROR
-                "This project requires SDL2_ttf to be installed to be compiled in graphical mode. Please install the SDL2_ttf development libraries, or try
-         compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and moreinfo\n"
-        )
+                "This project requires SDL2_ttf to be installed to be compiled in graphical mode. \
+                Please install the SDL2_ttf development libraries, or try compiling \
+                without the -DTILES=1 for a text only compilation. \
+                See INSTALL file for details and more info.")
     endif ()
 
     message(STATUS "Searching for SDL2_image library --\n")
@@ -325,9 +325,10 @@ if (TILES)
     if (NOT SDL2_IMAGE_FOUND)
         message(
             FATAL_ERROR
-                "This project requires SDL2_image to be installed to be compiled in graphical mode. Please install the SDL2_image development libraries, or try
-         compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
-        )
+                "This project requires SDL2_image to be installed to be compiled in graphical mode. \
+                Please install the SDL2_image development libraries, or try compiling \
+                without the -DTILES=1 for a text only compilation. \
+                See INSTALL file for details and more info.")
     endif ()
     add_definitions(-DTILES)
 endif ()
@@ -341,9 +342,10 @@ if (CURSES)
     if (NOT CURSES_FOUND)
         message(
             FATAL_ERROR
-                "This project requires ncurses to be installed to be compiled in text only mode. Please install the ncurses development libraries, or try compiling
-         with the -DTILES=1 for a graphical compilation.\nSee INSTALL file for details and more info\n"
-        )
+                "This project requires ncurses to be installed to be compiled in text only mode. \
+                Please install the ncurses development libraries, or try compiling \
+                with the -DTILES=1 for a graphical compilation. \
+                See INSTALL file for details and more info.")
     endif ()
 endif ()
 
@@ -352,8 +354,8 @@ if (SOUND)
     if (NOT TILES)
         message(
             FATAL_ERROR
-                "You must enable graphical support with -DTILES=1 to be able to enable sound support.\nSee INSTALL file for details and more info\n"
-        )
+                "You must enable graphical support with -DTILES=1 to be able to enable sound support. \
+                See INSTALL file for details and more info.")
     endif ()
 
     # Sound requires SDL_mixer library
@@ -362,8 +364,8 @@ if (SOUND)
     if (NOT SDL2_MIXER_FOUND)
         message(
             FATAL_ERROR
-                "You need the SDL2_mixer development library to be able to compile with sound enabled.\nSee INSTALL file for details and more info\n"
-        )
+                "You need the SDL2_mixer development library to be able to compile with sound enabled. \
+                See INSTALL file for details and more info.")
     endif ()
 endif ()
 

@@ -10,9 +10,9 @@ find_package(Gettext)
 if (NOT GETTEXT_FOUND)
     message(
         FATAL_ERROR
-            "Gettext not found. Install gettext package or disable
-             compilation of language files with: -DLANGUAGES=none \nSee INSTALL file for details and more info\n"
-    )
+            "Gettext not found. Install gettext package or disable \
+             compilation of language files with: -DLANGUAGES=none. \
+             See INSTALL file for details and more info.\n")
 endif ()
 
 if (LANGUAGES STREQUAL all)
