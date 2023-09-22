@@ -24,9 +24,8 @@
 카타클리즘을 멈출 방법을 찾거나.... 가장 강력한 괴물 중 하나가 되세요.
 
 > 카타클리즘: 밝은 밤(Cataclysm: Bright Nights)은 카타클리즘: 어두운 나날(Cataclysm: Dark Days
-> Ahead)의 포크입니다.
-> [위키](https://github.com/cataclysmbnteam/cataclysm-BN/wiki/Changes-so-far)에서 어떤 차이가 있는지
-> 확인하세요.
+> Ahead)의 포크입니다. [위키](https://docs.cataclysmbn.org/ko/game/changelog/)에서 어떤 차이가
+> 있는지 확인하세요.
 
 ## 다운로드
 
