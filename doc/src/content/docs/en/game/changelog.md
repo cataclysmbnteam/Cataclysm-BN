@@ -134,9 +134,8 @@ of [CleverRaven/Cataclysm-DDA.](https://github.com/CleverRaven/Cataclysm-DDA)
   "access shaft" on z = -1) that has a red-colored "L" tile at its bottom z-level. Find the lab,
   reach the bottom, then either sacrifice your own life or put in a mininuke.</details>
 - (Currently WIP, but already functional) Electric grid system, without use of vehicles, but able to
-  connect to them. See
-  [Electric Grids page](https://github.com/cataclysmbnteam/Cataclysm-BN/wiki/Electric-grids) for
-  more info.
+  connect to them. See [Electric Grids page](../mod/json/explanation/electric_grids.md) for more
+  info.
 - Lower height levels (z-levels) drawn.
 - Angled vehicles don't develop "holes" in their normally-impenetrable walls. This affects all
   relevant game mechanics such as monster and player movement, line of sight calculation, light and
