@@ -3,12 +3,12 @@ if (GIT_EXECUTABLE)
         COMMAND ${GIT_EXECUTABLE} describe --tags --always --dirty --match "[0-9A-Z]*.[0-9A-Z]*"
         OUTPUT_VARIABLE VERSION
         OUTPUT_STRIP_TRAILING_WHITESPACE)
-else (GIT_EXECUTABLE)
+else ()
     message(
         WARNING
             "Git binary not found. Build version will be set to NULL. Install Git package or use -DGIT_BINARY to set path to git binary."
     )
     set(VERSION "NULL")
-endif (GIT_EXECUTABLE)
+endif ()
 
 configure_file(${SRC} ${DST} @ONLY)

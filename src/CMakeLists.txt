@@ -13,9 +13,9 @@ file(GLOB CATACLYSM_BN_HEADERS ${CMAKE_SOURCE_DIR}/src/*.h)
 
 if (LUA)
     file(GLOB LUA_C_SOURCES ${CMAKE_SOURCE_DIR}/src/lua/*.c)
-else (LUA)
+else ()
     set(LUA_C_SOURCES "")
-endif (LUA)
+endif ()
 
 # Get GIT version strings
 add_custom_target(
@@ -45,15 +45,15 @@ if (TILES)
     if (WIN32)
         add_definitions(-DUSE_WINMAIN)
         add_executable(cataclysm-tiles WIN32 ${MAIN_CPP} ${MESSAGES_CPP} ${RESOURCE_RC})
-    else (WIN32)
+    else ()
         add_executable(cataclysm-tiles ${MAIN_CPP} ${MESSAGES_CPP})
-    endif (WIN32)
+    endif ()
 
     if (LUA)
         target_compile_definitions(cataclysm-tiles-common PUBLIC LUA)
         target_include_directories(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/src)
         target_include_directories(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/src/lua)
-    endif (LUA)
+    endif ()
 
     add_dependencies(cataclysm-tiles-common get_version)
 
@@ -62,11 +62,11 @@ if (TILES)
 
     if (CMAKE_USE_PTHREADS_INIT)
         target_compile_options(cataclysm-tiles-common PUBLIC "-pthread")
-    endif (CMAKE_USE_PTHREADS_INIT)
+    endif ()
 
     if (CMAKE_THREAD_LIBS_INIT)
         target_link_libraries(cataclysm-tiles-common ${CMAKE_THREAD_LIBS_INIT})
-    endif (CMAKE_THREAD_LIBS_INIT)
+    endif ()
 
     if (NOT DYNAMIC_LINKING)
         # SDL, SDL_Image, SDL_ttf deps are required for static build
@@ -76,7 +76,7 @@ if (TILES)
                    ${ZLIB_INCLUDE_DIRS} ${BZIP2_INCLUDE_DIR})
         target_link_libraries(cataclysm-tiles-common ${FREETYPE_LIBRARIES} ${PNG_LIBRARIES}
                               ${JPEG_LIBRARIES} ${ZLIB_LIBRARIES} ${BZIP2_LIBRARIES})
-    endif (NOT DYNAMIC_LINKING)
+    endif ()
 
     target_include_directories(
         cataclysm-tiles-common PUBLIC ${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIRS}
@@ -92,7 +92,7 @@ if (TILES)
         target_link_libraries(cataclysm-tiles-common ${VORBISFILE_LIBRARY})
         target_include_directories(cataclysm-tiles-common PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
         target_link_libraries(cataclysm-tiles-common ${SDL2_MIXER_LIBRARIES})
-    endif (SOUND)
+    endif ()
 
     if (WIN32)
         # Global settings for Windows targets (at end)
@@ -105,17 +105,17 @@ if (TILES)
 
         if (BACKTRACE)
             target_link_libraries(cataclysm-tiles-common dbghelp.lib)
-        endif (BACKTRACE)
-    endif (WIN32)
+        endif ()
+    endif ()
 
     if (LIBBACKTRACE)
         target_link_libraries(cataclysm-tiles-common backtrace)
-    endif (LIBBACKTRACE)
+    endif ()
 
     if (RELEASE)
         install(TARGETS cataclysm-tiles DESTINATION ${BIN_PREFIX})
-    endif (RELEASE)
-endif (TILES)
+    endif ()
+endif ()
 
 # Build curses version if requested
 if (CURSES)
@@ -129,15 +129,15 @@ if (CURSES)
 
     if (WIN32)
         add_executable(cataclysm ${MAIN_CPP} ${MESSAGES_CPP} ${RESOURCE_RC})
-    else (WIN32)
+    else ()
         add_executable(cataclysm ${MAIN_CPP} ${MESSAGES_CPP})
-    endif (WIN32)
+    endif ()
 
     if (LUA)
         target_compile_definitions(cataclysm-common PUBLIC LUA)
         target_include_directories(cataclysm-common PUBLIC ${CMAKE_SOURCE_DIR}/src)
         target_include_directories(cataclysm-common PUBLIC ${CMAKE_SOURCE_DIR}/src/lua)
-    endif (LUA)
+    endif ()
 
     add_dependencies(cataclysm-common get_version)
     target_link_libraries(cataclysm cataclysm-common)
@@ -147,11 +147,11 @@ if (CURSES)
 
     if (CMAKE_USE_PTHREADS_INIT)
         target_compile_options(cataclysm-common PUBLIC "-pthread")
-    endif (CMAKE_USE_PTHREADS_INIT)
+    endif ()
 
     if (CMAKE_THREAD_LIBS_INIT)
         target_link_libraries(cataclysm-common ${CMAKE_THREAD_LIBS_INIT})
-    endif (CMAKE_THREAD_LIBS_INIT)
+    endif ()
 
     if (WIN32)
         # Global settings for Windows targets (at end)
@@ -164,17 +164,17 @@ if (CURSES)
 
         if (BACKTRACE)
             target_link_libraries(cataclysm-common dbghelp.lib)
-        endif (BACKTRACE)
-    endif (WIN32)
+        endif ()
+    endif ()
 
     if (LIBBACKTRACE)
         target_link_libraries(cataclysm-common backtrace)
-    endif (LIBBACKTRACE)
+    endif ()
 
     if (RELEASE)
         install(TARGETS cataclysm DESTINATION ${BIN_PREFIX})
-    endif (RELEASE)
-endif (CURSES)
+    endif ()
+endif ()
 
 if (MINGW AND NOT RELEASE)
     # Try to Install shared libraries for dev builds
@@ -244,11 +244,11 @@ if (MINGW AND NOT RELEASE)
                 ${RuntimeLib_vorb_f}
                 ${RuntimeLib_mod}
                 ${RuntimeLib_mpeg})
-        endif (SOUND)
-    endif (TILES)
+        endif ()
+    endif ()
 
     install(FILES ${RuntimeLib_GCC_ALL} ${RuntimeLib_SDL} ${RuntimeLib_SDL_SOUND}
             DESTINATION ${BIN_PREFIX})
-endif (MINGW AND NOT RELEASE)
+endif ()
 
 # vim:noet

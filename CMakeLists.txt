@@ -75,7 +75,7 @@ endif ()
 
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
-endif (NOT CMAKE_BUILD_TYPE)
+endif ()
 
 add_definitions(-DCMAKE)
 
@@ -85,22 +85,22 @@ if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
          "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
     message(STATUS "${PROJECT_NAME} build version is  : ${GIT_VERSION}\n")
     add_definitions(-DGIT_VERSION)
-else (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
+else ()
     message("")
-endif (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
+endif ()
 
 #OS Check Placeholders. Will be used for BINDIST
 if (${CMAKE_SYSTEM_NAME} MATCHES Linux)
     set(_OS_LINUX_ 1)
-endif (${CMAKE_SYSTEM_NAME} MATCHES Linux)
+endif ()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
     set(_OS_FREEBSD_ 1)
-endif (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+endif ()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES Darwin)
     set(_OS_DARWIN_ 1)
-endif (${CMAKE_SYSTEM_NAME} MATCHES Darwin)
+endif ()
 
 include(CheckCXXCompilerFlag)
 
@@ -117,7 +117,7 @@ if (NOT DYNAMIC_LINKING)
     check_cxx_compiler_flag(-static HAVE_STATIC_FLAG)
     if (HAVE_STATIC_FLAG)
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
-    endif (HAVE_STATIC_FLAG)
+    endif ()
     # Workaround for cmake link library guesser
     set(CMAKE_EXE_LINK_DYNAMIC_C_FLAGS) # remove -Wl,-Bdynamic
     set(CMAKE_EXE_LINK_DYNAMIC_CXX_FLAGS)
@@ -125,71 +125,71 @@ if (NOT DYNAMIC_LINKING)
     set(CMAKE_SHARED_LIBRARY_CXX_FLAGS)
     set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS) # remove -rdynamic
     set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS)
-else (NOT DYNAMIC_LINKING)
+else ()
     if (MINGW AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         # Avoid depending on MinGW runtime DLLs
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
-    endif (MINGW AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-endif (NOT DYNAMIC_LINKING)
+    endif ()
+endif ()
 
 # System specific actions
 if (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-bn)
-    endif (NOT DATA_PREFIX)
+    endif ()
     if (NOT BIN_PREFIX)
         set(BIN_PREFIX ${CMAKE_INSTALL_PREFIX}/bin)
-    endif (NOT BIN_PREFIX)
+    endif ()
     if (NOT DESKTOP_ENTRY_PATH)
         set(DESKTOP_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/applications)
-    endif (NOT DESKTOP_ENTRY_PATH)
+    endif ()
     if (NOT PIXMAPS_ENTRY_PATH)
         set(PIXMAPS_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor)
-    endif (NOT PIXMAPS_ENTRY_PATH)
+    endif ()
     if (NOT PIXMAPS_UNITY_ENTRY_PATH)
         set(PIXMAPS_UNITY_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/icons/ubuntu-mono-dark)
-    endif (NOT PIXMAPS_UNITY_ENTRY_PATH)
+    endif ()
     if (NOT MANPAGE_ENTRY_PATH)
         set(MANPAGE_ENTRY_PATH ${CMAKE_INSTALL_PREFIX}/share/man)
-    endif (NOT MANPAGE_ENTRY_PATH)
-endif (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+    endif ()
+endif ()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES Windows)
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX})
-    endif (NOT DATA_PREFIX)
+    endif ()
     if (NOT BIN_PREFIX)
         set(BIN_PREFIX ${CMAKE_INSTALL_PREFIX})
-    endif (NOT BIN_PREFIX)
-endif (${CMAKE_SYSTEM_NAME} MATCHES Windows)
+    endif ()
+endif ()
 
 message(STATUS "${PROJECT_NAME} build options --\n")
 
 # Preset variables
 if (NOT LANGUAGES)
     set(LANGUAGES all)
-endif (NOT LANGUAGES)
+endif ()
 
 if (GIT_BINARY)
     set(GIT_EXECUTABLE ${GIT_BINARY})
-else (GIT_BINARY)
+else ()
     find_package(Git)
     if (NOT GIT_FOUND)
         message(
             WARNING
                 "Git binary not found. Build version will be set to NULL. Install Git package or use -DGIT_BINARY to set path to git binary."
         )
-    endif (NOT GIT_FOUND)
-endif (GIT_BINARY)
+    endif ()
+endif ()
 
 if (PREFIX)
     add_definitions(-DPREFIX=${PREFIX})
-endif (PREFIX)
+endif ()
 
 # Can't compile curses and tiles build's at same time
 if (TILES)
     set(CURSES OFF)
-endif (TILES)
+endif ()
 
 # Set build types and display info
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
@@ -204,7 +204,7 @@ if (CMAKE_BUILD_TYPE STREQUAL Debug)
         ${CMAKE_SOURCE_DIR}
         CACHE PATH "Single Directory for all Executables.")
     set(BIN_PREFIX ${CMAKE_SOURCE_DIR})
-else (CMAKE_BUILD_TYPE STREQUAL Debug)
+else ()
     message(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
     message(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
     message(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
@@ -216,8 +216,8 @@ else (CMAKE_BUILD_TYPE STREQUAL Debug)
     # Use PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
     if (PREFIX AND NOT WIN32)
         add_definitions(-DDATA_DIR_PREFIX)
-    endif (PREFIX AND NOT WIN32)
-endif (CMAKE_BUILD_TYPE STREQUAL Debug)
+    endif ()
+endif ()
 
 message(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
 message(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
@@ -281,7 +281,7 @@ if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
             "This project requires an out of source build. Remove the file 'CMakeCache.txt' found in this directory before continuing, create a separate build
        directory and run 'cmake [options] <srcs>' from there.\nSee INSTALL file for details and more info\n"
     )
-endif (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+endif ()
 
 #SET(THREADS_USE_PTHREADS_WIN32 True)
 set(CMAKE_THREAD_PREFER_PTHREAD True)
@@ -298,7 +298,7 @@ if (TILES)
                 "This project requires SDL2 to be installed to be compiled in graphical mode. Please install the SDL2 development libraries, or try compiling
            without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
         )
-    endif (NOT SDL2_FOUND)
+    endif ()
 
     if (NOT DYNAMIC_LINKING)
         # SDL, SDL_Image, SDL_ttf deps are required for static build
@@ -308,7 +308,7 @@ if (TILES)
         find_package(JPEG REQUIRED)
         find_package(ZLIB REQUIRED)
         find_package(BZip2 REQUIRED)
-    endif (NOT DYNAMIC_LINKING)
+    endif ()
 
     message(STATUS "Searching for SDL2_TTF library --")
     find_package(SDL2_ttf)
@@ -318,7 +318,7 @@ if (TILES)
                 "This project requires SDL2_ttf to be installed to be compiled in graphical mode. Please install the SDL2_ttf development libraries, or try
          compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and moreinfo\n"
         )
-    endif (NOT SDL2_TTF_FOUND)
+    endif ()
 
     message(STATUS "Searching for SDL2_image library --\n")
     find_package(SDL2_image)
@@ -328,9 +328,9 @@ if (TILES)
                 "This project requires SDL2_image to be installed to be compiled in graphical mode. Please install the SDL2_image development libraries, or try
          compiling without the -DTILES=1 for a text only compilation.\nSee INSTALL file for details and more info\n"
         )
-    endif (NOT SDL2_IMAGE_FOUND)
+    endif ()
     add_definitions(-DTILES)
-endif (TILES)
+endif ()
 
 if (CURSES)
     # Find the ncurses library for a text based compile
@@ -344,8 +344,8 @@ if (CURSES)
                 "This project requires ncurses to be installed to be compiled in text only mode. Please install the ncurses development libraries, or try compiling
          with the -DTILES=1 for a graphical compilation.\nSee INSTALL file for details and more info\n"
         )
-    endif (NOT CURSES_FOUND)
-endif (CURSES)
+    endif ()
+endif ()
 
 if (SOUND)
     # You need TILES to be able to use SOUND
@@ -354,7 +354,7 @@ if (SOUND)
             FATAL_ERROR
                 "You must enable graphical support with -DTILES=1 to be able to enable sound support.\nSee INSTALL file for details and more info\n"
         )
-    endif (NOT TILES)
+    endif ()
 
     # Sound requires SDL_mixer library
     message(STATUS "Searching for SDL2_mixer library --\n")
@@ -364,20 +364,20 @@ if (SOUND)
             FATAL_ERROR
                 "You need the SDL2_mixer development library to be able to compile with sound enabled.\nSee INSTALL file for details and more info\n"
         )
-    endif (NOT SDL2_MIXER_FOUND)
-endif (SOUND)
+    endif ()
+endif ()
 
 if (BACKTRACE)
     add_definitions(-DBACKTRACE)
     if (LIBBACKTRACE)
         add_definitions(-DLIBBACKTRACE)
-    endif (LIBBACKTRACE)
-endif (BACKTRACE)
+    endif ()
+endif ()
 
 # Ok. Now create build and install recipes
 if (USE_HOME_DIR)
     add_definitions(-DUSE_HOME_DIR)
-endif (USE_HOME_DIR)
+endif ()
 
 add_subdirectory(src)
 add_subdirectory(data)

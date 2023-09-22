@@ -13,11 +13,11 @@ set(CATACLYSM_DATA_DIRS
 
 if (SOUND)
     set(CATACLYSM_DATA_DIRS ${CATACLYSM_DATA_DIRS} ${CMAKE_SOURCE_DIR}/data/sound)
-endif (SOUND)
+endif ()
 
 if (TILES)
     set(CATACLYSM_DATA_DIRS ${CATACLYSM_DATA_DIRS} ${CMAKE_SOURCE_DIR}/gfx)
-endif (TILES)
+endif ()
 
 set(CATACLYSM_DATA_FILES ${CMAKE_SOURCE_DIR}/data/changelog.txt
                          ${CMAKE_SOURCE_DIR}/data/cataicon.ico ${CMAKE_SOURCE_DIR}/LICENSE.txt)
@@ -25,4 +25,4 @@ set(CATACLYSM_DATA_FILES ${CMAKE_SOURCE_DIR}/data/changelog.txt
 if (RELEASE)
     install(DIRECTORY ${CATACLYSM_DATA_DIRS} DESTINATION ${DATA_PREFIX})
     install(FILES ${CATACLYSM_DATA_FILES} DESTINATION ${DATA_PREFIX})
-endif (RELEASE)
+endif ()

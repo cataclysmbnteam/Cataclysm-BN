@@ -8,25 +8,25 @@ if (BUILD_TESTING)
         add_executable(cata_test-tiles ${CATACLYSM_BN_TEST_SOURCES})
         if (LUA)
             target_compile_definitions(cata_test-tiles PUBLIC LUA)
-        endif (LUA)
+        endif ()
         target_link_libraries(cata_test-tiles cataclysm-tiles-common)
         add_test(
             NAME test-tiles
             COMMAND sh -c "$<TARGET_FILE:cata_test-tiles> --rng-seed `shuf -i 0-1000000000 -n 1`"
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-    endif (TILES)
+    endif ()
 
     if (CURSES)
         add_executable(cata_test ${CATACLYSM_BN_TEST_SOURCES})
         if (LUA)
             target_compile_definitions(cata_test PUBLIC LUA)
-        endif (LUA)
+        endif ()
         target_link_libraries(cata_test cataclysm-common)
         add_test(
             NAME test
             COMMAND sh -c "$<TARGET_FILE:cata_test> --rng-seed `shuf -i 0-1000000000 -n 1`"
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-    endif (CURSES)
-endif (BUILD_TESTING)
+    endif ()
+endif ()
 
 # vim:noet

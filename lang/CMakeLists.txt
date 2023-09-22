@@ -13,7 +13,7 @@ if (NOT GETTEXT_FOUND)
             "Gettext not found. Install gettext package or disable
              compilation of language files with: -DLANGUAGES=none \nSee INSTALL file for details and more info\n"
     )
-endif (NOT GETTEXT_FOUND)
+endif ()
 
 if (LANGUAGES STREQUAL all)
     set(LANGUAGES "")
@@ -39,12 +39,12 @@ if (RELEASE)
         translations_compile ALL
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         DEPENDS translations_prepare)
-else (RELEASE)
+else ()
     add_custom_target(
         translations_compile
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
         DEPENDS translations_prepare)
-endif (RELEASE)
+endif ()
 
 foreach (LANG ${LANGUAGES})
     add_custom_command(
@@ -61,8 +61,8 @@ foreach (LANG ${LANGUAGES})
     if (RELEASE)
         if (${CMAKE_SYSTEM_NAME} MATCHES Windows)
             #install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
-        else (${CMAKE_SYSTEM_NAME} MATCHES Windows)
+        else ()
             install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${LOCALE_DIR})
-        endif (${CMAKE_SYSTEM_NAME} MATCHES Windows)
-    endif (RELEASE)
+        endif ()
+    endif ()
 endforeach ()
