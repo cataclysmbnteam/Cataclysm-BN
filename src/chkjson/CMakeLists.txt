@@ -1,5 +1,5 @@
 # JSON check utility
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.16)
 
 set(CHKJSON_SOURCES ${CMAKE_SOURCE_DIR}/src/json.cpp ${CMAKE_SOURCE_DIR}/src/chkjson/chkjson.cpp)
 
