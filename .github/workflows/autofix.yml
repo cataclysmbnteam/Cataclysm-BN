@@ -28,6 +28,9 @@ jobs:
       - name: format markdown files
         run: deno fmt
 
+      - name: format CMake files
+        run: make cmake-format
+
       - name: json formatting
         run: make style-all-json-parallel RELEASE=1
 
