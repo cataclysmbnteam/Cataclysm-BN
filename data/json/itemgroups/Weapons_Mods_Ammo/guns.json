@@ -724,7 +724,8 @@
       { "group": "nested_mossberg_930", "prob": 15 },
       { "group": "nested_shotgun_410", "prob": 30 },
       { "group": "nested_shotgun_d", "prob": 30 },
-      { "group": "nested_shotgun_s", "prob": 30 }
+      { "group": "nested_shotgun_s", "prob": 30 },
+      { "group": "nested_shotgun_paper", "prob": 30 }
     ]
   },
   {
@@ -741,7 +742,8 @@
       { "group": "everyday_mossberg_930", "prob": 15 },
       { "group": "everyday_shotgun_410", "prob": 30 },
       { "group": "everyday_shotgun_d", "prob": 30 },
-      { "group": "everyday_shotgun_s", "prob": 30 }
+      { "group": "everyday_shotgun_s", "prob": 30 },
+      { "group": "everyday_shotgun_paper", "prob": 30 }
     ]
   },
   {
@@ -758,7 +760,8 @@
       { "item": "mossberg_930", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "shotgun_410", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "shotgun_d", "prob": 30, "charges-min": 0, "charges-max": 0 },
-      { "item": "shotgun_s", "prob": 30 }
+      { "item": "shotgun_s", "prob": 30 },
+      { "item": "shotgun_paper", "prob": 30 }
     ]
   },
   {
@@ -1136,6 +1139,7 @@
       { "group": "everyday_shotgun_410", "prob": 10 },
       { "group": "everyday_shotgun_s", "prob": 10 },
       { "group": "everyday_shotgun_d", "prob": 10 },
+      { "group": "everyday_shotgun_paper", "prob": 10 },
       { "group": "everyday_sten", "prob": 20 },
       { "group": "everyday_sks", "prob": 10 },
       { "group": "everyday_aksemi", "prob": 5 }
