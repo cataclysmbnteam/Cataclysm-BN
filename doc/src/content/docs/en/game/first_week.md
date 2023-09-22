@@ -18,7 +18,11 @@ You need a good weapon, this is usually the cudgel in the early game. If you did
 
 You likely won't start with the perfect insulation from the weather, so you need to manage your temperature as slowdown penalties from the heat or cold will kill you quickly via slowing you down in combat. If its too hot this is easy you just take off layers. If it's too cold you'll need to craft what clothes you can or loot what you can but don't waste too much time on this. You'll likely find the clothes you need.
 
-**You want to minimize how many enemies you take on at once until you learn the game and the limits of your character, usually 1 enemy at a time is ideal**
+:::note
+
+You want to minimize how many enemies you take on at once until you learn the game and the limits of your character, usually 1 enemy at a time is ideal
+
+:::
 
 # Going into town
 
