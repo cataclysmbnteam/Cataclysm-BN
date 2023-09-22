@@ -1,9 +1,5 @@
 ---
-title: German
----
-
-This file contains notes/discussion regarding translation for German, written in German.
-
+title: German Style Guide
 ---
 
 Diese Datei enthält Anmerkungen für alle, die das Spiel ins Deutsche übersetzen wollen.

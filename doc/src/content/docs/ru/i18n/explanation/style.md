@@ -1,5 +1,5 @@
 ---
-title: Russian
+title: Russian Style Guide
 ---
 
 This file contains notes/discussion regarding translation for Russian, written in Russian.
