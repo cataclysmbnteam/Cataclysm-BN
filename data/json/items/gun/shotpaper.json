@@ -10,6 +10,7 @@
     "price": "500 USD",
     "price_postapoc": "1750 cent",
     "material": [ "steel", "wood" ],
+    "looks_like": "shotgun_s",
     "ammo": "shotpaper",
     "dispersion": 200,
     "durability": 7,
