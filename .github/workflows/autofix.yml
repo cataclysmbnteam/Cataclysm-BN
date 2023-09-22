@@ -18,6 +18,8 @@ jobs:
 
       - run: sudo apt-get install astyle
 
+      - run: sudo pip install cmakelang
+
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
