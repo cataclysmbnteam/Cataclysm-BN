@@ -58,11 +58,6 @@ foreach (LANG ${LANGUAGES})
         COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} -f ${CMAKE_SOURCE_DIR}/lang/po/${LANG}.po -o
                 ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-bn.mo
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-    if (RELEASE)
-        if ("${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
-            #install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
-        else ()
-            install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${LOCALE_DIR})
-        endif ()
-    endif ()
+    # FIXME: check if this works
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
 endforeach ()
