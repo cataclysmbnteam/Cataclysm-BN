@@ -5,12 +5,12 @@ Being the most difficult part of Cataclysm, surviving in the woods with nothing 
 
 **This guide ASSUMES you are not playing with mods that changes this too much, specifically changing foraging drops. You'll die if they removed trash from shrubs.**
 
-# Day 1 requirements
+## Day 1 requirements
 
-* Fire drill (1 Survival) or any fire starting device
-* Fire ring (20 rocks)
-* A water source & cooking container
-* Improvised shelter (2 survival) or sleep will be hard
+- Fire drill (1 Survival) or any fire starting device
+- Fire ring (20 rocks)
+- A water source & cooking container
+- Improvised shelter (2 survival) or sleep will be hard
 
 The reason you need a fire is you can't see to craft at night, and the cold kills. You can't boil water without fire. You don't want to use fire without a fire ring, as it's incredibly annoying. Fires outside a container randomly stop and don't tell you how long they will last. You can break small boulders with long sticks. You can forage shrubs by activating them, and this will give you tons of litter and trash, including containers for liquids. You can find a glass/steel bottle or cans. Once you can boil and make fire you've survived short term.
 
@@ -20,14 +20,14 @@ An improvised shelter makes sleeping easier and only requires a digging stick, 2
 
 ## Natural resources
 
-* Shrubs
-* Food trees
-* Berry bushes
-* Fish
-* Young trees
-* Grass tiles
-* Clay
-* Cattails
+- Shrubs
+- Food trees
+- Berry bushes
+- Fish
+- Young trees
+- Grass tiles
+- Clay
+- Cattails
 
 Shrubs can be foraged once per season for trash, the most valuable resource of the woods as it is your only source of steel. Depending on your season, in spring and summer you will be relying on berries for calories and possibly hydration but shrubs will give plenty of food later on. If you can get fish it will be an excellent source of calories. You'll need a river and a basic fishing rod.
 
@@ -37,13 +37,13 @@ Grass can be removed with a digging stick or shovel to give piles of straw, whic
 
 Clay terrain must be extracted in the construction menu. It can rarely be found from digging a large pit. You will need lots of it so find a river bank.
 
-# Week 1 requirements
+## Week 1 requirements
 
-* Food preservation
-* Water storage
-* Weapons
-* Firewood
-* Clothes
+- Food preservation
+- Water storage
+- Weapons
+- Firewood
+- Clothes
 
 To preserve food you need a charcoal kiln and smoking rack to smoke meat or dehydrate what you farm. You need cooking 2 so boil some water and cook the assorted food you find, this will likely come without training. The kiln is fabrication 3 and requires you to dig soil but you likely have some if you made an improvised shelter. Place wood in the kiln and light it, you'll get tons of charcoal once it'sd one.
 
@@ -55,12 +55,12 @@ Firewood is going to be from chopping trees into logs with a stone axe. You may 
 
 Clothes are going to be made from rags made of plant fibers. Get knitting needles.
 
-# Longterm goals
+## Longterm goals
 
-* Shelter
-* Working forge
-* Vehicles
-* Electronics
+- Shelter
+- Working forge
+- Vehicles
+- Electronics
 
 Building a house is time consuming, painful, and not rewarding. If you choose to stay in the woods forever and not live in a pre-spawned structure or a car then you'll want to do it eventually. With a pickaxe you can live in the ground but otherwise you'll want to check a few of the walls and floors in the construction menu to see which kind of house to build. Log cabins are fairly sturdy and cheap but always at risk of fire. Mortar is not an obtainable item for you, so go with adobe mortar which limits you to stone walls or adobe brick.
 
@@ -70,4 +70,4 @@ Depending on your mapgen you'll either graduate to messing with real cars, or be
 
 Electronics is specifically listed as long as you are playing with normal mapgen. If it doesn't spawn in your world you're out of luck. See normal gameplay for how to get started, but the jist is to deconstruct electronic furniture in town and make any low level craft you can to advance, such as flash lights and electric firestarters. If you get a solar panel, mounted battery and oven you'll be in a good position.
 
-# That's about all you can do without going into the city.
+## That's about all you can do without going into the city.
