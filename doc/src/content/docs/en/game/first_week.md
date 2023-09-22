@@ -8,9 +8,9 @@ While daunting, the game is a lot easier than some might think. You can do a gre
 
 # First steps
 
-* Makeshift crowbar
-* Cudgel (or other weapons)
-* Clothes
+- Makeshift crowbar
+- Cudgel (or other weapons)
+- Clothes
 
 If you've started in the evac shelter, grab a rock outside and smash a locker and a bench. A makeshift crowbar will help you open doors quietly and just takes a pipe and a tool with hammering.
 
