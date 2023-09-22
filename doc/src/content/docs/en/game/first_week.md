@@ -6,7 +6,7 @@ title: first week
 
 While daunting, the game is a lot easier than some might think. You can do a great deal to prepare yourself for combat, but remember the zombies always get tougher thanks to evolution. It only gets more dangerous.
 
-# First steps
+## First steps
 
 - Makeshift crowbar
 - Cudgel (or other weapons)
