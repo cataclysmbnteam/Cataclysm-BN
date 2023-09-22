@@ -12,7 +12,7 @@ if (NOT GETTEXT_FOUND)
         FATAL_ERROR
             "Gettext not found. Install gettext package or disable \
              compilation of language files with: -DLANGUAGES=none. \
-             See INSTALL file for details and more info.\n")
+             See CMake compiling guide for details and more info.")
 endif ()
 
 if (LANGUAGES STREQUAL all)
