@@ -30,7 +30,6 @@ ${desc}.`
 
 export const sectionToMarkdown = ({ title, flags }: Section): string => /*md*/ `
 ## ${title}
-
 ${flags.map(flagToMarkdown).join("\n")}`
 
 const toMarkdown = (text: string): string => {
@@ -56,7 +55,6 @@ The game executable can not only run your favorite roguelike,
 but also provides a number of command line options to help modders and developers.
 
 ---
-
 ${sections}
 `
 }
