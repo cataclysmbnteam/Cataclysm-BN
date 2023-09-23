@@ -780,11 +780,6 @@
   },
   {
     "type": "recipe",
-    "result": "bowl_pewteruncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "brew_bum_wine",
     "obsolete": true
   },
@@ -2021,11 +2016,6 @@
   {
     "type": "recipe",
     "result": "tieclipuncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "tin_plateuncraft",
     "obsolete": true
   },
   {
