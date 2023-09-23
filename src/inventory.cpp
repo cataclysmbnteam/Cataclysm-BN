@@ -25,6 +25,7 @@
 #include "options.h"
 #include "translations.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "calendar.h"
 #include "character.h"

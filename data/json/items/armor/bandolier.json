@@ -145,7 +145,7 @@
     "use_action": {
       "type": "bandolier",
       "capacity": 20,
-      "ammo": [ "flintlock", "36paper", "44paper", "blunderbuss", "shotcanister", "shotpaper" ],
+      "ammo": [ "flintlock", "flintlockshot", "36paper", "44paper", "blunderbuss", "shotcanister", "shotpaper" ],
       "draw_cost": 20
     },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]

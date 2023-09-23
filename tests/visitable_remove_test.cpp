@@ -23,6 +23,7 @@
 #include "state_helpers.h"
 #include "type_id.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"

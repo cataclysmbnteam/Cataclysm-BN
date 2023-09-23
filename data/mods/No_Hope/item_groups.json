@@ -362,7 +362,13 @@
       { "item": "elbow_pads", "prob": 10 },
       { "item": "knee_pads", "prob": 60 },
       { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 60 },
-      { "collection": [ { "item": "gloves_liner", "prob": 20 }, { "item": "winter_gloves_army" } ], "prob": 60 },
+      {
+        "collection": [
+          { "distribution": [ { "item": "gloves_liner", "prob": 75 }, { "item": "gloves_liner_wool", "prob": 25 } ], "prob": 20 },
+          { "item": "winter_gloves_army" }
+        ],
+        "prob": 60
+      },
       { "item": "ballistic_vest_esapi", "prob": 20 },
       { "item": "molle_pack", "prob": 60 },
       { "group": "clothing_tactical_leg", "prob": 15 },

@@ -347,7 +347,7 @@
       { "item": "steel_chunk", "prob": 15, "count": [ 1, 5 ] },
       { "item": "copper", "prob": 10, "count": [ 1, 5 ] },
       { "item": "tin", "prob": 10, "count": [ 1, 5 ] },
-      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] },
+      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 10 ] },
       { "item": "scrap_copper", "prob": 5, "count": [ 1, 10 ] },
       { "item": "wire", "prob": 5 },
       { "item": "scrap", "prob": 70, "count": [ 1, 10 ] }

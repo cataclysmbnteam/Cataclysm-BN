@@ -12,6 +12,7 @@
 #include "player_helpers.h"
 #include "state_helpers.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "type_id.h"
 
 #include "catch/catch.hpp"

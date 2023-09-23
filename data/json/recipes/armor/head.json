@@ -469,6 +469,21 @@
     "components": [ [ [ "fabric_hides_proper", 16, "LIST" ] ] ]
   },
   {
+    "result": "helmet_plarmor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "tailor", 3 ],
+    "time": "28 m",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
+    "autolearn": [ [ "fabrication", 4 ], [ "tailor", 5 ] ],
+    "using": [ [ "sewing_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "steel_tiny", 2, "LIST" ], [ "sheet_metal_small", 2 ] ], [ [ "helmet_larmor", 1 ] ] ]
+  },
+  {
     "result": "helmet_nasal",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -1533,5 +1548,17 @@
     "time": "10 s",
     "autolearn": true,
     "components": [ [ [ "ear_plugs", 1 ] ], [ [ "filament", 100, "LIST" ], [ "cordage_short", 2, "LIST" ] ] ]
+  },
+  {
+    "result": "maid_hat",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "30 m",
+    "book_learn": [ [ "textbook_tailor", 3 ] ],
+    "using": [ [ "sewing_standard", 3 ] ],
+    "components": [ [ [ "rag", 4 ] ] ]
   }
 ]

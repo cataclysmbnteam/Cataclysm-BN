@@ -28,6 +28,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 
 static const itype_id itype_apparatus( "apparatus" );

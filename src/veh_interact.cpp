@@ -68,6 +68,7 @@
 #include "veh_type.h"
 #include "veh_utils.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"

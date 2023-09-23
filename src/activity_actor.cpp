@@ -49,6 +49,7 @@
 #include "uistate.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const itype_id itype_bone_human( "bone_human" );
@@ -457,10 +458,11 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
                                   calendar::turn ) );
     }
 
-    const int helpersize = character_funcs::get_crafting_helpers( who, 3 ).size();
-    who.mod_stored_nutr( 5 - helpersize );
-    who.mod_thirst( 5 - helpersize );
-    who.mod_fatigue( 10 - ( helpersize * 2 ) );
+    const int act_exertion = act.moves_total;
+
+    who.mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 80_seconds ) ) );
+    who.mod_thirst( std::max( 1, act_exertion / to_moves<int>( 12_minutes ) ) );
+    who.mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
     if( grave ) {
         who.add_msg_if_player( m_good, _( "You finish exhuming a grave." ) );
     } else {
@@ -528,9 +530,11 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                                   calendar::turn ) );
     }
 
-    who.mod_stored_kcal( -40 );
-    who.mod_thirst( 5 );
-    who.mod_fatigue( 10 );
+    const int act_exertion = act.moves_total;
+
+    who.mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 80_seconds ) ) );
+    who.mod_thirst( std::max( 1, act_exertion / to_moves<int>( 12_minutes ) ) );
+    who.mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
     who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
                            here.ter( location ).obj().name() );
 

@@ -104,6 +104,7 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -120,7 +121,6 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_infected( "infected" );
-static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
@@ -240,7 +240,6 @@ static const std::string flag_SPLINT( "SPLINT" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 static const std::string flag_WALL( "WALL" );
 static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
-static const std::string flag_ELEVATOR( "ELEVATOR" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -873,92 +872,6 @@ void iexamine::toilet( player &p, const tripoint &examp )
         // TODO: use me
         ( void ) p;
         liquid_handler::handle_liquid( **water );
-    }
-}
-
-/**
- * If underground, move 2 levels up else move 2 levels down. Stable movement between levels 0 and -2.
- */
-void iexamine::elevator( player &p, const tripoint &examp )
-{
-    map &here = get_map();
-    if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
-        return;
-    }
-    int movez = ( examp.z < 0 ? 2 : -2 );
-
-    tripoint original_floor_omt = ms_to_omt_copy( here.getabs( examp ) );
-    tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
-
-
-    // first find critters in the destination elevator and move them out of the way
-    for( Creature &critter : g->all_creatures() ) {
-        if( critter.is_player() ) {
-            continue;
-        } else if( here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
-            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
-            if( critter_omt == new_floor_omt ) {
-                for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
-                    if( !here.has_flag( flag_ELEVATOR, candidate ) &&
-                        here.passable( candidate ) &&
-                        !g->critter_at( candidate ) ) {
-                        critter.setpos( candidate );
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    // TODO: do we have struct or pair to indicate from -> to?
-    const auto move_item = [&]( map_stack & items, const tripoint & src, const tripoint & dest ) {
-        for( auto it = items.begin(); it != items.end(); ) {
-            detached_ptr<item> det;
-            it = here.i_rem( src, it, &det );
-            here.add_item_or_charges( dest, std::move( det ) );
-        }
-    };
-
-    const auto first_elevator_tile = [&]( const tripoint & pos ) -> tripoint {
-        for( const tripoint &candidate : closest_points_first( pos, 10 ) )
-        {
-            if( here.has_flag( flag_ELEVATOR, candidate ) ) {
-                return candidate;
-            }
-        }
-        return pos;
-    };
-
-    // move along every item in the elevator
-    for( const tripoint &pos : closest_points_first( p.pos(), 10 ) ) {
-        if( here.has_flag( flag_ELEVATOR, pos ) ) {
-            map_stack items = here.i_at( pos );
-            tripoint dest = first_elevator_tile( pos + tripoint( 0, 0, movez ) );
-            move_item( items, pos, dest );
-        }
-    }
-
-    // move the player
-    g->vertical_move( movez, false );
-
-    // finally, bring along everyone who was in the elevator with the player
-    for( Creature &critter : g->all_creatures() ) {
-        if( critter.is_player() ) {
-            continue;
-        } else if( here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
-            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
-
-            if( critter_omt == original_floor_omt ) {
-                for( const tripoint &candidate : closest_points_first( p.pos(), 10 ) ) {
-                    if( here.has_flag( flag_ELEVATOR, candidate ) &&
-                        candidate != p.pos() &&
-                        !g->critter_at( candidate ) ) {
-                        critter.setpos( candidate );
-                        break;
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -5194,11 +5107,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             for( int i = 0; i < num_hp_parts; i++ ) {
                 const bodypart_id &part = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
                 const bool broken = patient.is_limb_broken( part );
-                effect &existing_effect = patient.get_effect( effect_mending, part->token );
-                // Skip part if not broken or already healed 50%
-                if( !broken || ( !existing_effect.is_null() &&
-                                 existing_effect.get_duration() >
-                                 existing_effect.get_max_duration() - 5_days - 1_turns ) ) {
+                if( !broken ) {
                     continue;
                 }
                 broken_limbs_count++;
@@ -5229,9 +5138,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.add_msg_player_or_npc( m_good, _( "The machine rapidly sets and splints your broken %s." ),
                                                    _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
                                                    body_part_name( part ) );
-                    patient.add_effect( effect_mending, 0_turns, part->token );
-                    effect &mending_effect = patient.get_effect( effect_mending, part->token );
-                    mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
+                    // TODO: Prevent exploits with hp draining stuff?
+                    int heal_amt = patient.get_part_hp_max( part ) / 2 - patient.get_part_hp_cur( part );
+                    if( heal_amt > 0 ) {
+                        patient.heal( part, heal_amt );
+                    }
                 }
             }
             if( broken_limbs_count == 0 ) {

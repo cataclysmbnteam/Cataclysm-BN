@@ -29,6 +29,7 @@
 #include "uistate.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 int advanced_inv_area::get_item_count() const

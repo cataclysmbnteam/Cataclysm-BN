@@ -21,6 +21,7 @@
 #include "trap.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );

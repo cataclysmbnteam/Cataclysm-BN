@@ -32,6 +32,7 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_group.h"
 
 class npc;
@@ -463,60 +464,60 @@ void vpart_info::finalize()
 {
     DynamicDataLoader::get_instance().load_deferred( deferred );
 
-    for( auto &e : vpart_info_all ) {
-        if( e.second.folded_volume > 0_ml ) {
-            e.second.set_flag( "FOLDABLE" );
+    for( auto &[_id, info] : vpart_info_all ) {
+        if( info.folded_volume > 0_ml ) {
+            info.set_flag( "FOLDABLE" );
         }
 
-        for( const auto &f : e.second.flags ) {
+        for( const auto &f : info.flags ) {
             auto b = vpart_bitflag_map.find( f );
             if( b != vpart_bitflag_map.end() ) {
-                e.second.bitflags.set( b->second );
+                info.bitflags.set( b->second );
             }
         }
 
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle
-        if( e.second.location == "on_roof" ) {
-            e.second.z_order = 9;
-            e.second.list_order = 3;
-        } else if( e.second.location == "on_cargo" ) {
-            e.second.z_order = 8;
-            e.second.list_order = 6;
-        } else if( e.second.location == "center" ) {
-            e.second.z_order = 7;
-            e.second.list_order = 7;
-        } else if( e.second.location == "under" ) {
+        if( info.location == "on_roof" ) {
+            info.z_order = 9;
+            info.list_order = 3;
+        } else if( info.location == "on_cargo" ) {
+            info.z_order = 8;
+            info.list_order = 6;
+        } else if( info.location == "center" ) {
+            info.z_order = 7;
+            info.list_order = 7;
+        } else if( info.location == "under" ) {
             // Have wheels show up over frames
-            e.second.z_order = 6;
-            e.second.list_order = 10;
-        } else if( e.second.location == "structure" ) {
-            e.second.z_order = 5;
-            e.second.list_order = 1;
-        } else if( e.second.location == "engine_block" ) {
+            info.z_order = 6;
+            info.list_order = 10;
+        } else if( info.location == "structure" ) {
+            info.z_order = 5;
+            info.list_order = 1;
+        } else if( info.location == "engine_block" ) {
             // Should be hidden by frames
-            e.second.z_order = 4;
-            e.second.list_order = 8;
-        } else if( e.second.location == "on_battery_mount" ) {
+            info.z_order = 4;
+            info.list_order = 8;
+        } else if( info.location == "on_battery_mount" ) {
             // Should be hidden by frames
-            e.second.z_order = 3;
-            e.second.list_order = 10;
-        } else if( e.second.location == "fuel_source" ) {
+            info.z_order = 3;
+            info.list_order = 10;
+        } else if( info.location == "fuel_source" ) {
             // Should be hidden by frames
-            e.second.z_order = 3;
-            e.second.list_order = 9;
-        } else if( e.second.location == "roof" ) {
+            info.z_order = 3;
+            info.list_order = 9;
+        } else if( info.location == "roof" ) {
             // Shouldn't be displayed
-            e.second.z_order = -1;
-            e.second.list_order = 4;
-        } else if( e.second.location == "armor" ) {
+            info.z_order = -1;
+            info.list_order = 4;
+        } else if( info.location == "armor" ) {
             // Shouldn't be displayed (the color is used, but not the symbol)
-            e.second.z_order = -2;
-            e.second.list_order = 2;
+            info.z_order = -2;
+            info.list_order = 2;
         } else {
             // Everything else
-            e.second.z_order = 0;
-            e.second.list_order = 5;
+            info.z_order = 0;
+            info.list_order = 5;
         }
     }
 }
@@ -539,42 +540,42 @@ void vpart_info::check()
             part.removal_moves = part.install_moves / 2;
         }
 
-        for( auto &e : part.install_skills ) {
-            if( !e.first.is_valid() ) {
-                debugmsg( "vehicle part %s has unknown install skill %s", part.id.c_str(), e.first.c_str() );
+        for( const auto &[skill, level] : part.install_skills ) {
+            if( !skill.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown install skill %s", part.id.c_str(), skill.c_str() );
             }
         }
 
-        for( auto &e : part.removal_skills ) {
-            if( !e.first.is_valid() ) {
-                debugmsg( "vehicle part %s has unknown removal skill %s", part.id.c_str(), e.first.c_str() );
+        for( const auto &[skill, level] : part.removal_skills ) {
+            if( !skill.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown removal skill %s", part.id.c_str(), skill.c_str() );
             }
         }
 
-        for( auto &e : part.repair_skills ) {
-            if( !e.first.is_valid() ) {
-                debugmsg( "vehicle part %s has unknown repair skill %s", part.id.c_str(), e.first.c_str() );
+        for( const auto &[skill, level] : part.repair_skills ) {
+            if( !skill.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown repair skill %s", part.id.c_str(), skill.c_str() );
             }
         }
 
-        for( const auto &e : part.install_reqs ) {
-            if( !e.first.is_valid() || e.second <= 0 ) {
+        for( const auto &[skill, multiplier] : part.install_reqs ) {
+            if( !skill.is_valid() || multiplier <= 0 ) {
                 debugmsg( "vehicle part %s has unknown or incorrectly specified install requirements %s",
-                          part.id.c_str(), e.first.c_str() );
+                          part.id.c_str(), skill.c_str() );
             }
         }
 
-        for( const auto &e : part.install_reqs ) {
-            if( !( e.first.is_null() || e.first.is_valid() ) || e.second < 0 ) {
+        for( const auto &[req, multiplier] : part.install_reqs ) {
+            if( !( req.is_null() || req.is_valid() ) || multiplier < 0 ) {
                 debugmsg( "vehicle part %s has unknown or incorrectly specified removal requirements %s",
-                          part.id.c_str(), e.first.c_str() );
+                          part.id.c_str(), req.c_str() );
             }
         }
 
-        for( const auto &e : part.repair_reqs ) {
-            if( !( e.first.is_null() || e.first.is_valid() ) || e.second < 0 ) {
+        for( const auto &[req, multiplier] : part.repair_reqs ) {
+            if( !( req.is_null() || req.is_valid() ) || multiplier < 0 ) {
                 debugmsg( "vehicle part %s has unknown or incorrectly specified repair requirements %s",
-                          part.id.c_str(), e.first.c_str() );
+                          part.id.c_str(), req.c_str() );
             }
         }
 

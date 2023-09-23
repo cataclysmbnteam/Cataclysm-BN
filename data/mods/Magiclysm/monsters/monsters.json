@@ -66,7 +66,7 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "bio_acidicspray" },
+        "spell_data": { "id": "ooze_acidicspray" },
         "cooldown": 20,
         "monster_message": "The black pudding burns %3$s with acid!"
       }
@@ -110,7 +110,7 @@
       },
       {
         "type": "spell",
-        "spell_data": { "id": "necrotic_gaze" },
+        "spell_data": { "id": "krab_gaze" },
         "cooldown": 5,
         "monster_message": "The krabgek gazes at %3$s!"
       }

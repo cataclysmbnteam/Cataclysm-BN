@@ -14,6 +14,7 @@
 #include "point.h"
 #include "sounds.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "debug.h"
 #include "rng.h"

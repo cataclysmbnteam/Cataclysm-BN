@@ -37,7 +37,7 @@
 #   Run: make NATIVE=win32
 # OS X
 #   Run: make NATIVE=osx OSX_MIN=11
-#     It is highly recommended to supply OSX_MIN > 10.11
+#     It is highly recommended to supply OSX_MIN > 11
 #     otherwise optimizations are automatically disabled with -O0
 
 # Build types:
@@ -1210,6 +1210,25 @@ check: version $(BUILD_PREFIX)cataclysm.a
 
 clean-tests:
 	$(MAKE) -C tests clean
+
+cmake-format:
+	cmake-format -i \
+		./CMakeLists.txt \
+		./.github/vcpkg_triplets/x64-windows-static.cmake \
+		./.github/vcpkg_triplets/x64-windows.cmake \
+		./.github/vcpkg_triplets/x86-windows-static.cmake \
+		./.github/vcpkg_triplets/x86-windows.cmake  \
+		./cmake_uninstall.cmake.in \
+		./CMakeLists.txt \
+		./data/CMakeLists.txt \
+		./lang/CMakeLists.txt \
+		./src/chkjson/CMakeLists.txt \
+		./src/CMakeLists.txt \
+		./src/version.cmake \
+		./tests/CMakeLists.txt \
+		./tools/clang-tidy-plugin/CMakeLists.txt \
+		./tools/format/CMakeLists.txt \
+    -c .cmake-format.yml
 
 .PHONY: tests check ctags etags clean-tests install lint
 

@@ -25,6 +25,7 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
+#include "mtype.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
@@ -104,6 +105,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_SLUDGEPROOF: return "SLUDGEPROOF";
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
         case MF_COLDPROOF: return "COLDPROOF";
+        case MF_BIOPROOF: return "BIOPROOF";
         case MF_FIREY: return "FIREY";
         case MF_QUEEN: return "QUEEN";
         case MF_ELECTRONIC: return "ELECTRONIC";
