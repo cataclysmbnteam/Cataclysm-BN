@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - upload
+    paths-ignore:
+      - doc/**
   pull_request:
     branches:
       - upload
+    paths-ignore:
+      - doc/**
 
 jobs:
   skip-duplicates:
