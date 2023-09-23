@@ -1568,7 +1568,7 @@ static void visit_salvage_products( const item &it, std::function<void( const it
 {
     for( const material_id &material : it.made_of() ) {
         if( const std::optional<itype_id> id = material->salvaged_into() ) {
-            item* tmp = item::spawn_temporary( *id );
+            item *tmp = item::spawn_temporary( *id );
             func( *tmp );
         }
     }
@@ -1724,7 +1724,8 @@ int salvage_actor::cut_up( player &p, item &it, item &cut ) const
     for( const material_id &material : cut_material_components ) {
         if( const std::optional<itype_id> id = material->salvaged_into() ) {
             materials_salvaged[*id] = 0;
-            weight_to_item_map[ item::spawn_temporary( *id, calendar::turn_zero, item::solitary_tag{} )->weight() ] = *id;
+            weight_to_item_map[ item::spawn_temporary( *id, calendar::turn_zero, item::solitary_tag{} )->weight() ]
+                = *id;
         }
     }
     while( remaining_weight > 0_gram && !weight_to_item_map.empty() ) {

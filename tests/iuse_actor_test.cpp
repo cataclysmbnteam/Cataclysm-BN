@@ -95,7 +95,7 @@ auto cut_up_yields( const std::string &target ) -> void
     REQUIRE( smallest_yield_mass != units::mass_max );
 
     units::mass cut_up_target_mass = cut_up_target->weight();
-    item& item_to_cut = *cut_up_target;
+    item &item_to_cut = *cut_up_target;
     here.add_item_or_charges( you.pos(), std::move( cut_up_target ) );
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
