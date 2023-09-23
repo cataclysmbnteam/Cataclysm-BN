@@ -609,6 +609,11 @@ void mutation_branch::check_consistency()
         for( const enchantment_id &ench : mdata.enchantments ) {
             ench->check();
         }
+        for( const auto &flag : mdata.flags ) {
+            if( !flag.is_valid() ) {
+                debugmsg( "mutation %s refers to undefined mutation flag %s", mid, flag );
+            }
+        }
         ::check_consistency( mdata.prereqs, mid, "prereq" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
         ::check_consistency( mdata.threshreq, mid, "threshreq" );
