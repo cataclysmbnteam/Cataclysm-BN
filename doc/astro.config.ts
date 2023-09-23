@@ -11,8 +11,6 @@ import { fixRelativeLinks } from "./remark.js"
 const envPath = join(fileURLToPath(import.meta.url), "..")
 const env = loadEnv("", envPath, "CUSTOM")
 
-console.log(env)
-
 const { CUSTOM_SITE_URL, CUSTOM_REPO_URL } = env
 
 const site = CUSTOM_SITE_URL || "https://docs.cataclysmbn.org"
@@ -26,6 +24,8 @@ const docModes = (dir: string) => [
   { label: "reference", autogenerate: { directory: `${dir}/reference` } },
   { label: "explanation", autogenerate: { directory: `${dir}/explanation` } },
 ]
+
+console.log({ ...env, site, github })
 
 export default defineConfig({
   site,
