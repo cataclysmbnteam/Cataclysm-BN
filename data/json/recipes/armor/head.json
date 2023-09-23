@@ -1555,7 +1555,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 4,
     "time": "30 m",
     "book_learn": [ [ "textbook_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 3 ] ],
