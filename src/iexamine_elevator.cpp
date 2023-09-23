@@ -1,4 +1,6 @@
 #include <optional>
+
+#include "cata_algo.h"
 #include "game.h"
 #include "iexamine.h"
 #include "mapdata.h"
@@ -16,16 +18,6 @@
 
 namespace
 {
-
-/// poor person's https://en.cppreference.com/w/cpp/utility/optional/and_then
-template <typename T, typename Fn>
-auto and_then( std::optional<T> const &opt, Fn &&f ) -> std::optional<std::invoke_result_t<Fn, T>>
-{
-    if( opt ) {
-        return std::optional{f( *opt )};
-    }
-    return std::nullopt;
-}
 
 // still not sure whether there's a utility function for this
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
@@ -230,7 +222,7 @@ auto move_player( player &p, const int movez, tripoint_abs_ms old_abs_pos ) -> v
 
     g->vertical_shift( movez );
     // yes, this is inefficient, but i'm lazy
-    and_then( elevator::find_elevators_nearby( p.pos() ), []( const tripoint & pos ) {
+    cata::and_then( elevator::find_elevators_nearby( p.pos() ), []( const tripoint & pos ) {
         return g->place_player( pos );
     } );
 

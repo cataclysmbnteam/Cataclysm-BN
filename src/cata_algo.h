@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <optional>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -119,6 +120,17 @@ std::vector<std::vector<T>> find_cycles( const std::unordered_map<T, std::vector
 
     return result;
 }
+
+/// poor person's https://en.cppreference.com/w/cpp/utility/optional/and_then
+template <typename T, typename Fn>
+auto and_then( std::optional<T> const &opt, Fn &&f ) -> std::optional<std::invoke_result_t<Fn, T>>
+{
+    if( opt ) {
+        return std::optional{f( *opt )};
+    }
+    return std::nullopt;
+}
+
 
 } // namespace cata
 
