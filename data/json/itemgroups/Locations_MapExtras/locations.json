@@ -1044,8 +1044,12 @@
       [ "flintlock_pouch", 30 ],
       [ "flintlock_ammo", 60 ],
       [ "flintlock_shot", 40 ],
+      [ "shotgun_paper", 50 ],
       [ "colt_army", 50 ],
       [ "colt_navy", 50 ],
+      [ "shot_paper_00", 25 ],
+      [ "shot_paper_bird", 15 ],
+      [ "shot_paper_slug", 10 ],
       [ "36navy", 50 ],
       [ "44army", 50 ]
     ]
