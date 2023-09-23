@@ -126,16 +126,21 @@ template<class T>
 void conditional_t<T>::set_has_trait_flag( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string &trait_flag_to_check = jo.get_string( member );
-    condition = [trait_flag_to_check, is_npc]( const T & d ) {
+    const std::string &raw = jo.get_string( member );
+    const trait_flag_str_id trait_flag_to_check( raw );
+    if( !trait_flag_to_check.is_valid() ) {
+        jo.show_warning( string_format( "Invalid trait flag %s", raw ), member );
+    }
+    const bool check_threshold = trait_flag_to_check == trait_flag_str_id( "MUTATION_THRESHOLD" );
+    condition = [trait_flag_to_check, check_threshold, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
+        if( check_threshold ) {
             return actor->crossed_threshold();
         }
-        return actor->has_trait_flag( trait_flag_str_id( trait_flag_to_check ) );
+        return actor->has_trait_flag( trait_flag_to_check );
     };
 }
 
