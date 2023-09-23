@@ -62,7 +62,7 @@
       "PAY_BOT",
       "PET_HARNESSABLE",
       "PATH_AVOID_DANGER_2",
-	  "BIOPROOF"
+      "BIOPROOF"
     ]
   },
   {
@@ -114,7 +114,17 @@
     "vision_day": 50,
     "revert_to_itype": "bot_hazmatbot",
     "death_function": [ "EXPLODE" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1", "BIOPROOF" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_haulerbot",
@@ -140,7 +150,17 @@
     "vision_day": 50,
     "revert_to_itype": "bot_haulerbot",
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PACIFIST", "PET_HARNESSABLE", "BIOPROOF" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_2",
+      "PACIFIST",
+      "PET_HARNESSABLE",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_molebot",
@@ -232,6 +252,17 @@
     "special_attacks": [ [ "OPERATE", 30 ], [ "PARROT", 20 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PUSH_MON", "HEARS", "PACIFIST", "GRABS", "INTERIOR_AMMO", "BIOPROOF" ]
+    "flags": [
+      "SEES",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PUSH_MON",
+      "HEARS",
+      "PACIFIST",
+      "GRABS",
+      "INTERIOR_AMMO",
+      "BIOPROOF"
+    ]
   }
 ]

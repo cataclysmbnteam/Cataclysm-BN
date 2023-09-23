@@ -66,7 +66,17 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "ID_CARD_DESPAWN", "CONSOLE_DESPAWN", "BIOPROOF" ]
+    "flags": [
+      "SEES",
+      "NOHEAD",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "ID_CARD_DESPAWN",
+      "CONSOLE_DESPAWN",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_turret_riot",
@@ -184,7 +194,7 @@
       "DROPS_AMMO",
       "ID_CARD_DESPAWN",
       "CONSOLE_DESPAWN",
-	  "BIOPROOF"
+      "BIOPROOF"
     ]
   },
   {
@@ -249,7 +259,7 @@
       "DROPS_AMMO",
       "ID_CARD_DESPAWN",
       "CONSOLE_DESPAWN",
-	  "BIOPROOF"
+      "BIOPROOF"
     ]
   },
   {
@@ -314,7 +324,7 @@
       "DROPS_AMMO",
       "CONSOLE_DESPAWN",
       "ID_CARD_DESPAWN",
-	  "BIOPROOF"
+      "BIOPROOF"
     ]
   }
 ]

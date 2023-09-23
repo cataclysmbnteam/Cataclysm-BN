@@ -31,7 +31,17 @@
     "special_attacks": [ [ "COPBOT", 3 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1", "BIOPROOF" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_riotbot",
@@ -63,7 +73,17 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1", "BIOPROOF" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "PATH_AVOID_DANGER_1",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_secubot",
@@ -113,7 +133,17 @@
     ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO", "BIOPROOF" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "LOUDMOVES",
+      "DROPS_AMMO",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_talon_m202a1",
@@ -163,7 +193,17 @@
     ],
     "death_drops": {  },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO", "BIOPROOF" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "NO_BREATHE",
+      "PATH_AVOID_DANGER_1",
+      "LOUDMOVES",
+      "DROPS_AMMO",
+      "BIOPROOF"
+    ]
   },
   {
     "id": "mon_skitterbot",
@@ -240,7 +280,7 @@
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2",
       "DROPS_AMMO",
-	  "BIOPROOF"
+      "BIOPROOF"
     ]
   },
   {
@@ -284,7 +324,7 @@
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2",
       "LOUDMOVES",
-	  "BIOPROOF"
+      "BIOPROOF"
     ]
   },
   {
@@ -330,7 +370,7 @@
       "PATH_AVOID_DANGER_2",
       "LOUDMOVES",
       "DROPS_AMMO",
-	  "BIOPROOF"
+      "BIOPROOF"
     ]
   },
   {
@@ -376,7 +416,7 @@
       "PATH_AVOID_DANGER_2",
       "LOUDMOVES",
       "DROPS_AMMO",
-	  "BIOPROOF"
+      "BIOPROOF"
     ]
   }
 ]
