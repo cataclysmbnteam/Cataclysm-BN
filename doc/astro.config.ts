@@ -29,7 +29,7 @@ console.log({ ...env, site, github })
 
 export default defineConfig({
   site,
-  redirects: { "/": `/en/` },
+  redirects: { "/": `./en/` },
   markdown: {
     remarkPlugins: [fixRelativeLinks],
   },
