@@ -2,7 +2,7 @@ name: autofix.ci  # needed to securely identify the workflow
 
 on:
   pull_request:
-    paths: ["**.json", "**.cpp", "**.hpp", "**.h", "**.c"]
+    paths: ["**.json", "**.cpp", "**.hpp", "**.h", "**.c", "**.md", "**.ts"]
 
 permissions:
   contents: read
@@ -25,7 +25,7 @@ jobs:
       - name: format C++ files
         run: make astyle
 
-      - name: format markdown files
+      - name: format markdown and typescript files
         run: deno fmt
 
       - name: json formatting
