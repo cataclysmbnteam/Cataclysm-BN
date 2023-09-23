@@ -1,3 +1,4 @@
+#include "detached_ptr.h"
 #include "game.h"
 #include "iexamine.h"
 #include "mapdata.h"
@@ -16,16 +17,14 @@
 namespace
 {
 
-// still not sure whether there's a utility function for this
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 auto move_item( map &here, const tripoint &src, const tripoint &dest ) -> void
 {
-    map_stack items = here.i_at( src );
-    for( auto it = items.begin(); it != items.end(); ) {
-        here.add_item_or_charges( dest, *it );
-        it = here.i_rem( src, it );
-    }
-};
+    map_stack items_src = here.i_at( src );
+    map_stack items_dest = here.i_at( dest );
+
+    items_src.move_all_to( &items_dest );
+}
 
 namespace elevator
 {
