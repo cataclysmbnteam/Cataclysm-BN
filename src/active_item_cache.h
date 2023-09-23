@@ -31,7 +31,7 @@ struct hash<special_item_type> {
 class active_item_cache
 {
     private:
-        std::unordered_map<int, std::vector<cache_reference<item>>> active_items;
+        std::unordered_map<int, std::pair<int, std::vector<cache_reference<item>>>> active_items;
         std::unordered_map<special_item_type, std::vector<cache_reference<item>>> special_items;
 
     public:

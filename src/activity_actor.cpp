@@ -1202,7 +1202,7 @@ void throw_activity_actor::do_turn( player_activity &act, Character &who )
         int extra_cost = who.item_handling_cost( *it, true, INVENTORY_HANDLING_PENALTY / 2 );
         who.mod_moves( -extra_cost );
     }
-    detached_ptr<item> det = target->count_by_charges() ? target->split( 1 ) : target->detach();
+    detached_ptr<item> det = target->split( 1 );
     ranged::throw_item( who, trajectory.back(), std::move( det ), blind_throw_pos );
 }
 

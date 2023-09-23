@@ -256,7 +256,7 @@ static bool perform_liquid_transfer( item &liquid, liquid_dest_opt &target )
                 return get_player_character().pour_into( *target.it, std::move( it ) );
             } );
             g->u.mod_moves( -100 );
-            return true;
+            return false;
         case LD_VEH:
             liquid.attempt_split( 0, [&target]( detached_ptr<item> &&det ) {
                 return g->u.pour_into( *target.veh, std::move( det ) );
@@ -264,7 +264,7 @@ static bool perform_liquid_transfer( item &liquid, liquid_dest_opt &target )
 
             g->u.mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
 
-            return true;
+            return false;
         case LD_KEG:
         case LD_GROUND:
             if( target.dest_opt == LD_KEG ) {
@@ -275,7 +275,7 @@ static bool perform_liquid_transfer( item &liquid, liquid_dest_opt &target )
                 here.add_item_or_charges( target.pos, liquid.detach() );
             }
             g->u.mod_moves( -100 );
-            return true;
+            return false;
         case LD_NULL:
         default:
             return false;

@@ -21,8 +21,10 @@ void safe_reference<T>::serialize_global( JsonOut &json )
         //TODO!: better format
         safe_reference<T>::id_type id = it.second->id;
         uint32_t count = it.second->json_count;
-        json.write( id );
-        json.write( count );
+        if( count != 0 ) {
+            json.write( id );
+            json.write( count );
+        }
     }
     json.end_array();
 }

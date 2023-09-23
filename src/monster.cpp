@@ -1146,7 +1146,10 @@ detached_ptr<item> monster::remove_tack_item()
 
 item *monster::get_tack_item() const
 {
-    return &*tack_item;
+    if( tack_item ) {
+        return &*tack_item;
+    }
+    return nullptr;
 }
 
 detached_ptr<item> monster::set_tied_item( detached_ptr<item> &&it )
@@ -1161,7 +1164,10 @@ detached_ptr<item> monster::remove_tied_item()
 
 item *monster::get_tied_item() const
 {
-    return &*tied_item;
+    if( tied_item ) {
+        return &*tied_item;
+    }
+    return nullptr;
 }
 
 detached_ptr<item> monster::set_armor_item( detached_ptr<item> &&it )
@@ -1176,7 +1182,10 @@ detached_ptr<item> monster::remove_armor_item()
 
 item *monster::get_armor_item() const
 {
-    return &*armor_item;
+    if( armor_item ) {
+        return &*armor_item;
+    }
+    return nullptr;
 }
 
 detached_ptr<item> monster::set_storage_item( detached_ptr<item> &&it )
@@ -1191,7 +1200,10 @@ detached_ptr<item> monster::remove_storage_item()
 
 item *monster::get_storage_item() const
 {
-    return &*storage_item;
+    if( storage_item ) {
+        return &*storage_item;
+    }
+    return nullptr;
 }
 
 detached_ptr<item> monster::set_battery_item( detached_ptr<item> &&it )
@@ -1206,7 +1218,10 @@ detached_ptr<item> monster::remove_battery_item()
 
 item *monster::get_battery_item() const
 {
-    return &*battery_item;
+    if( battery_item ) {
+        return &*battery_item;
+    }
+    return nullptr;
 }
 
 tripoint monster::move_target()
