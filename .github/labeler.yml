@@ -12,3 +12,6 @@ mods:
 
 translation:
   - lang/**/*
+
+docs:
+  - docs/**/*
