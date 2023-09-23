@@ -358,6 +358,10 @@ much faster.
 
 Override default Git binary name or path.
 
+- USE_PREFIX_DATA_DIR=`<boolean>`
+
+Use UNIX system directories for game data in release build.
+
 So a CMake command for building Cataclysm-BN in release mode with tiles and sound support will look
 as follows, provided it is run in build directory located in the project.
 

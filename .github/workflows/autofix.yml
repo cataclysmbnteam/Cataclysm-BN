@@ -18,6 +18,8 @@ jobs:
 
       - run: sudo apt-get install astyle
 
+      - run: sudo pip install cmakelang
+
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
@@ -27,6 +29,9 @@ jobs:
 
       - name: format markdown files
         run: deno fmt
+
+      - name: format CMake files
+        run: make cmake-format
 
       - name: json formatting
         run: make style-all-json-parallel RELEASE=1
