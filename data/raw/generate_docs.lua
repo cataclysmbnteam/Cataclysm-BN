@@ -56,7 +56,7 @@ local fmt_constructors = function(typename, ctors)
     else
         local ret = ""
         for k,v in pairs(ctors) do
-            ret=ret.."- `"..fmt_one_constructor(typename, v).."`\n"
+            ret=ret.."#### `"..fmt_one_constructor(typename, v).."`\n"
         end
         return ret
     end
@@ -64,9 +64,9 @@ end
 
 local fmt_one_member = function(typename, member)
     local ret = "#### "..tostring(member.name).."\n";
-    
+
     if member.comment then
-        ret=ret.."  // "..member.comment.."\n"
+        ret=ret..member.comment.."\n"
     end
 
     if member.type == "var" then
@@ -140,23 +140,39 @@ local fmt_enum_entries = function(typename, entries)
 end
 
 doc_gen_func.impl = function()
-    local ret = "# Lua documentation\n\n"
+    local ret = [[---
+title: Lua API reference
+editUrl: false
+sidebar:
+  badge:
+    text: Generated
+    status: note
+---
+
+:::note
+
+This page is auto-generated from [`data/raw/generate_docs.lua`][generate_docs]
+and should not be edited directly.
+
+[generate_docs]: https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/raw/generate_docs.lua
+
+:::
+
+]]
 
     local dt = catadoc
-
-    ret = ret.."# Types\n\n"
 
     local types_table = dt["#types"]
 
     local types_sorted = sorted_by(types_table)
     for _,it in pairs(types_sorted) do
         local typename = it.k
-        local dt_type = it.v 
+        local dt_type = it.v
         local type_comment = dt_type.type_comment
         ret = ret.."## "..typename.."\n"
 
         if type_comment then
-            ret = ret.."// "..type_comment.."\n"
+            ret = ret..type_comment.."\n"
         end
 
         local bases = dt_type["#bases"]
@@ -182,7 +198,7 @@ doc_gen_func.impl = function()
     local enums_sorted = sorted_by(enums_table)
     for _,it in pairs(enums_sorted) do
         local typename = it.k
-        local dt_type = it.v 
+        local dt_type = it.v
         ret = ret.."## "..typename.."\n"
 
         local entries = dt_type["entries"]
@@ -200,12 +216,12 @@ doc_gen_func.impl = function()
     local libs_sorted = sorted_by( libs_table )
     for _,it in pairs(libs_sorted) do
         local typename = it.k
-        local dt_lib = it.v 
+        local dt_lib = it.v
         local lib_comment = dt_lib.lib_comment
         ret = ret.."## "..typename.."\n"
 
         if lib_comment then
-            ret = ret.."// "..lib_comment.."\n"
+            ret = ret..lib_comment.."\n"
         end
 
         local members = dt_lib["#member"]

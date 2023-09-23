@@ -54,6 +54,8 @@
       [ "sleeveless_trenchcoat", 5 ],
       [ "sleeveless_duster", 5 ],
       [ "gloves_fingerless", 20 ],
+      [ "gloves_light_fingerless", 5 ],
+      [ "gloves_wool_fingerless", 5 ],
       [ "backpack", 38 ],
       [ "backpack_leather", 28 ],
       [ "holster", 8 ],

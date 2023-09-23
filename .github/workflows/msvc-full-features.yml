@@ -17,6 +17,7 @@ on:
     - 'tools/**'
     - '!tools/format/**'
     - 'utilities/**'
+    - 'scripts/**'
   pull_request:
     branches:
     - upload
@@ -33,6 +34,7 @@ on:
     - 'tools/**'
     - '!tools/format/**'
     - 'utilities/**'
+    - 'scripts/**'
 
 # We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:

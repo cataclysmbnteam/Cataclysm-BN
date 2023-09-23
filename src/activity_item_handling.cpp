@@ -70,6 +70,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -3191,6 +3192,11 @@ bool find_auto_consume( player &p, const consume_type type )
         }
         /* Unsafe to drink or eat */
         if( comest.has_flag( flag_UNSAFE_CONSUME ) )
+        {
+            return false;
+        }
+        /* Avoid items that may softlock with a Y/N query */
+        if( comest.has_use() )
         {
             return false;
         }

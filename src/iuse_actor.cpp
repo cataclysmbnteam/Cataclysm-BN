@@ -80,6 +80,7 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vitamin.h"
@@ -3940,18 +3941,6 @@ static hp_part pick_part_to_heal(
             ( bite && patient.has_effect( effect_bite, bp->token ) ) ||
             ( bleed && patient.has_effect( effect_bleed, bp->token ) ) ) {
             return healed_part;
-        }
-
-        if( patient.is_limb_broken( bp ) ) {
-            if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
-                add_msg( m_info, _( "That arm is broken.  It needs surgical attention or a splint." ) );
-            } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
-                add_msg( m_info, _( "That leg is broken.  It needs surgical attention or a splint." ) );
-            } else {
-                add_msg( m_info, "That body part is bugged.  It needs developer's attention." );
-            }
-
-            continue;
         }
 
         if( force || patient.get_part_hp_cur( bp ) < patient.get_part_hp_max( bp ) ) {

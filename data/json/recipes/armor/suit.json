@@ -192,12 +192,10 @@
     "skills_required": [ "tailor", 3 ],
     "time": "28 m",
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
-    "using": [ [ "sewing_standard", 26 ] ],
-    "components": [
-      [ [ "steel_chunk", 6 ], [ "scrap", 18 ], [ "sheet_metal_small", 6 ] ],
-      [ [ "armor_larmor", 1 ] ],
-      [ [ "armguard_larmor", 1 ] ]
-    ]
+    "autolearn": [ [ "fabrication", 4 ], [ "tailor", 5 ] ],
+    "using": [ [ "sewing_standard", 45 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "steel_tiny", 9, "LIST" ], [ "sheet_metal_small", 9 ] ], [ [ "armor_larmor", 1 ] ], [ [ "armguard_larmor", 1 ] ] ]
   },
   {
     "result": "armor_plate",

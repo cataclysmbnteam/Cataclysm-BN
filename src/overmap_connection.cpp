@@ -91,6 +91,12 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
     return result;
 }
 
+bool overmap_connection::can_start_at( const oter_id &ground ) const
+{
+    const overmap_connection::subtype *subtype = overmap_connection::pick_subtype_for( ground );
+    return subtype != nullptr && subtype->allows_turns();
+}
+
 bool overmap_connection::has( const oter_id &oter ) const
 {
     return std::find_if( subtypes.cbegin(), subtypes.cend(), [&oter]( const subtype & elem ) {
