@@ -618,6 +618,7 @@
     "storage": "7500 ml",
     "warmth": 15,
     "material_thickness": 4,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
@@ -707,6 +708,7 @@
     "storage": "2500 ml",
     "warmth": 25,
     "material_thickness": 2,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "FANCY", "POCKETS" ]
   },
   {

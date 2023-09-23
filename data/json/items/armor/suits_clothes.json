@@ -20,6 +20,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -67,6 +68,7 @@
     "warmth": 50,
     "material_thickness": 5,
     "environmental_protection": 2,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "OUTER" ]
   },
   {
@@ -187,6 +189,7 @@
     "warmth": 50,
     "material_thickness": 7,
     "environmental_protection": 2,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "OUTER" ]
   },
   {
@@ -208,6 +211,7 @@
     "encumbrance": 20,
     "warmth": 50,
     "material_thickness": 3,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE" ]
   },
   {

@@ -244,6 +244,7 @@
     "covers": [ "arms" ],
     "coverage": 30,
     "material_thickness": 5,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -266,6 +267,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
   }
 ]
