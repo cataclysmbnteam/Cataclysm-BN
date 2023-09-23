@@ -1367,8 +1367,7 @@ bool monster::is_immune_damage( const damage_type dt ) const
         case DT_TRUE:
             return false;
         case DT_BIOLOGICAL:
-            // NOTE: Unused
-            return false;
+            return has_flag( MF_BIOPROOF );
         case DT_BASH:
             return false;
         case DT_CUT:
