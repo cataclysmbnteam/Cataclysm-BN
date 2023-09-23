@@ -143,7 +143,7 @@
     "color": "dark_gray",
     "covers": [ "mouth", "eyes" ],
     "coverage": 95,
-    "encumbrance": 20,
+    "encumbrance": 15,
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
