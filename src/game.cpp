@@ -636,7 +636,6 @@ bool game::start_game()
     }
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
-    get_weather().temperature = SPRING_TEMPERATURE;
     get_weather().update_weather();
     u.next_climate_control_check = calendar::before_time_starts; // Force recheck at startup
     u.last_climate_control_ret = false;
