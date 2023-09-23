@@ -100,6 +100,7 @@
 #include "units_utility.h"
 #include "url_utility.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "veh_type.h"
 #include "vitamin.h"
 #include "vpart_position.h"

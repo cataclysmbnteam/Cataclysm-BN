@@ -849,7 +849,7 @@ class item : public location_visitable<item>, public game_object<item>
          * @param time Time point to which rot is calculated
          * @param temp Temperature at which the rot is calculated
          */
-        time_duration calc_rot( time_point time, int temp ) const;
+        auto calc_rot( time_point time, const units::temperature temp ) const -> time_duration;
 
         /**
          * Time that this item is guaranteed to stay fresh.

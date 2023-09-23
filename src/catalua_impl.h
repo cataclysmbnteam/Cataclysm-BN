@@ -31,4 +31,39 @@ void run_lua_script( sol::state &lua, const std::string &script_name );
 void run_console_input( sol::state &lua, const std::string &chunk );
 void check_func_result( sol::protected_function_result &res );
 
+// Numbers in Lua can be either integers or floating-point,
+// but you can't determine that with simple get_type()
+bool is_number_integer( sol::state_view lua, sol::object val );
+
+// Returns type name as registered with luna.
+// If type was not registered with luna, or the value is not a userdata, returns nullopt.
+std::optional<std::string> get_luna_type( sol::object val );
+
+/**
+ * Compare 2 Lua values for equality (by value).
+ *
+ * May contain unhandled cases, use with care.
+ */
+bool compare_values( sol::object a, sol::object b );
+
+/**
+ * Compare 2 Lua tables for equality (by value).
+ *
+ * May contain unhandled cases, use with care.
+ */
+bool compare_tables( sol::table a, sol::table b );
+
+/**
+ * @brief Find key of equivalent value in provided table.
+ *
+ * Since userdata and tables are compared by their reference when used as keys,
+ * if we want to find value with a different userdata instance
+ * we first need to find a key that is equal *by value* to the one we want to use.
+ *
+ * @param t table to search in for the key
+ * @param desired_key found key will be equal to this value
+ * @returns sol::nil on failure, key object from table \p t on success
+ */
+sol::object find_equivalent_key( sol::table t, sol::object desired_key );
+
 #endif // CATA_SRC_CATALUA_IMPL_H

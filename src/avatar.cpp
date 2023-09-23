@@ -73,6 +73,7 @@
 #include "ui.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_READ( "ACT_READ" );

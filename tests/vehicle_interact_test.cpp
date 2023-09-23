@@ -18,6 +18,7 @@
 #include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 
 static void test_repair( std::vector<detached_ptr<item>> &tools, bool expect_craftable )
 {

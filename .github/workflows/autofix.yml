@@ -2,7 +2,7 @@ name: autofix.ci  # needed to securely identify the workflow
 
 on:
   pull_request:
-    paths: ["**.json", "**.cpp", "**.hpp", "**.h", "**.c"]
+    paths: ["**.json", "**.cpp", "**.hpp", "**.h", "**.c", "**.md", "**.ts"]
 
 permissions:
   contents: read
@@ -18,6 +18,8 @@ jobs:
 
       - run: sudo apt-get install astyle
 
+      - run: sudo pip install cmakelang
+
       - uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
@@ -25,8 +27,11 @@ jobs:
       - name: format C++ files
         run: make astyle
 
-      - name: format markdown files
+      - name: format markdown and typescript files
         run: deno fmt
+
+      - name: format CMake files
+        run: make cmake-format
 
       - name: json formatting
         run: make style-all-json-parallel RELEASE=1

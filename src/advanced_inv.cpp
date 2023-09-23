@@ -53,6 +53,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 
 #if defined(__ANDROID__)

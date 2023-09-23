@@ -256,7 +256,7 @@ int main( int argc, char *argv[] )
                 },
                 {
                     "--jsonverify", nullptr,
-                    "Checks the CDDA json files",
+                    "Checks the BN json files",
                     section_default,
                     [&verifyexit]( int, const char ** ) -> int {
                         verifyexit = true;
@@ -265,7 +265,7 @@ int main( int argc, char *argv[] )
                 },
                 {
                     "--check-mods", "[mods…]",
-                    "Checks the json files belonging to CDDA mods",
+                    "Checks the json files belonging to BN mods",
                     section_default,
                     [&check_mods, &opts]( int n, const char *params[] ) -> int {
                         check_mods = true;
@@ -423,6 +423,7 @@ int main( int argc, char *argv[] )
                     "If set, will generate Lua docs and exit",
                     section_default,
                     [&]( int, const char ** ) -> int {
+                        test_mode = true;
                         lua_doc_mode = true;
                         return 0;
                     }
@@ -734,6 +735,7 @@ int main( int argc, char *argv[] )
     cata::startup_lua_test();
 
     if( lua_doc_mode ) {
+        init_colors();
         if( cata::generate_lua_docs() ) {
             cata_printf( "Lua doc: Done!\n" );
             return 0;

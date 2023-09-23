@@ -53,6 +53,7 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );

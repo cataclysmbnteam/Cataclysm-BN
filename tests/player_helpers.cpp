@@ -98,6 +98,9 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.set_stamina( dummy.get_stamina_max() );
     dummy.set_movement_mode( CMM_WALK );
 
+    // Set HP to max here and also later, for disabled/broken limbs
+    dummy.set_all_parts_hp_to_max();
+
     // Make sure we don't carry around weird effects.
     dummy.clear_effects(); // mark effects for removal
     dummy.process_effects(); // actually remove them

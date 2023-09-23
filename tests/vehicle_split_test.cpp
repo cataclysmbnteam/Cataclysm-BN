@@ -7,6 +7,7 @@
 #include "character.h"
 #include "map.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "type_id.h"
 #include "point.h"
 #include "state_helpers.h"

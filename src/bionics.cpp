@@ -78,6 +78,7 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
@@ -98,7 +99,6 @@ static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_heating_bionic( "heating_bionic" );
 static const efftype_id effect_iodine( "iodine" );
-static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
@@ -187,7 +187,6 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
-static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
@@ -1673,18 +1672,6 @@ void Character::process_bionic( bionic &bio )
             }
             if( calendar::once_every( 2_minutes ) ) {
                 std::vector<bodypart_id> damaged_hp_parts;
-                std::vector<effect *> mending_list;
-
-                for( const bodypart_id &bp : get_all_body_parts( true ) ) {
-                    const int hp_cur = get_part_hp_cur( bp );
-                    if( !is_limb_broken( bp ) && hp_cur < get_part_hp_max( bp ) ) {
-                        damaged_hp_parts.push_back( bp );
-                    } else if( has_effect( effect_mending, bp.id() ) &&
-                               ( has_trait( trait_REGEN_LIZ ) || worn_with_flag( flag_SPLINT, bp ) ) ) {
-                        effect *e = &get_effect( effect_mending, bp->token );
-                        mending_list.push_back( e );
-                    }
-                }
                 if( !damaged_hp_parts.empty() ) {
                     // Essential parts are considered 10 HP lower than non-essential parts for the purpose of determining priority.
                     // I'd use the essential_value, but it's tied up in the heal_actor class of iuse_actor.
@@ -1697,16 +1684,6 @@ void Character::process_bionic( bionic &bio )
                             return;
                         }
                         heal( bpid, 1 );
-                        mod_power_level( -bio.info().power_trigger );
-                        mod_stored_kcal( -bio.info().kcal_trigger );
-                    }
-                }
-                if( !mending_list.empty() ) {
-                    for( effect *e : mending_list ) {
-                        if( !can_use_bionic() ) {
-                            return;
-                        }
-                        e->mod_duration( e->get_max_duration() / 100 );
                         mod_power_level( -bio.info().power_trigger );
                         mod_stored_kcal( -bio.info().kcal_trigger );
                     }

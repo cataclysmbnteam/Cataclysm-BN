@@ -1804,21 +1804,9 @@
   },
   {
     "type": "effect_type",
-    "id": "mending",
-    "name": [ "Started recovery", "Recovering", "Mostly recovered" ],
-    "desc": [ "This damaged limb is slowly regaining its functions." ],
-    "//": "Duration is 10 days, but the actual time taken is probabilistic.",
-    "max_duration": "10 d",
-    "int_dur_factor": "60 h",
-    "max_intensity": 3,
-    "rating": "good",
-    "permanent": true
-  },
-  {
-    "type": "effect_type",
     "id": "disabled",
     "name": [ { "ctxt": "physically", "str": "Disabled" } ],
-    "desc": [ "This limb is damaged beyond use and may require a splint to recover." ],
+    "desc": [ "This limb is damaged beyond use and must fully heal to recover.  Using a splint may speed up the process." ],
     "//": "This sounds weird. We need <bp_affected> tag or something",
     "apply_message": "Your limb breaks!",
     "remove_message": "The broken limb has mended.",

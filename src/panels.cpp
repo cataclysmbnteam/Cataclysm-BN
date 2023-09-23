@@ -57,10 +57,10 @@
 #include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weather.h"
 
-static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
@@ -68,7 +68,7 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_got_checked( "got_checked" );
 
-static const std::string flag_SPLINT( "SPLINT" );
+static const flag_str_id flag_SPLINT( "SPLINT" );
 
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
@@ -771,36 +771,36 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             wprintz( w, color, sym );
         }
     };
+
     const bodypart_id bp = convert_bp( avatar::hp_to_bp( static_cast<hp_part>( limb_index ) ) ).id();
+    const int hp_cur = u.get_part_hp_cur( bp );
+    const int hp_max = u.get_part_hp_max( bp );
+
+    std::optional<nc_color> color_override;
+
     if( u.is_limb_broken( bp.id() ) && ( limb_index >= hp_arm_l &&
                                          limb_index <= hp_leg_r ) ) {
         //Limb is broken
-        std::string limb = "~~%~~";
-        nc_color color = c_light_red;
+        const int mend_perc =  100 * hp_cur / hp_max;
+        bool splinted = u.worn_with_flag( flag_SPLINT.str(), bp ) ||
+                        ( u.mutation_value( "mending_modifier" ) >= 1.0f );
+        nc_color color = splinted ? c_blue : c_dark_gray;
 
-        if( u.worn_with_flag( flag_SPLINT,  bp ) || u.has_trait( trait_REGEN_LIZ ) ) {
-            static const efftype_id effect_mending( "mending" );
-            const auto &eff = u.get_effect( effect_mending, bp->token );
-            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
-
-            if( is_self_aware || u.has_effect( effect_got_checked ) ) {
-                limb = string_format( "=%2d%%=", mend_perc );
-                color = c_blue;
-            } else {
-                const int num = mend_perc / 20;
-                print_symbol_num( w, num, "#", c_blue );
-                print_symbol_num( w, 5 - num, "=", c_blue );
-                return;
-            }
+        if( is_self_aware || u.has_effect( effect_got_checked ) ) {
+            color_override = color;
+        } else {
+            const int num = mend_perc / 20;
+            print_symbol_num( w, num, "#", color );
+            print_symbol_num( w, 5 - num, "=", color );
+            return;
         }
-
-        wprintz( w, color, limb );
-        return;
     }
 
-    const int hp_cur = u.get_part_hp_cur( bp );
-    const int hp_max = u.get_part_hp_max( bp );
+
     std::pair<std::string, nc_color> hp = get_hp_bar( hp_cur, hp_max );
+    if( color_override ) {
+        hp.second = *color_override;
+    }
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", hp_cur );

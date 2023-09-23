@@ -18,6 +18,7 @@
 #include "uistate.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>

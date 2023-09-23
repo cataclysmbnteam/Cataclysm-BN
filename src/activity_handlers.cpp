@@ -101,6 +101,7 @@
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
@@ -4360,12 +4361,18 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         here.ter_set( pos, t_dirt );
     }
+    int act_exertion = to_moves<int>( time_duration::from_minutes( 15 ) );
+    if( old_ter == t_pit_shallow ) {
+        act_exertion = to_moves<int>( time_duration::from_minutes( 10 ) );
+    } else if( old_ter == t_dirtmound ) {
+        act_exertion = to_moves<int>( time_duration::from_minutes( 5 ) );
+    }
     const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
+    act_exertion = act_exertion * ( 10 - helpersize ) / 10;
+    p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 20_seconds ) ) );
+    p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 3_minutes ) ) );
+    p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 90_seconds ) ) );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
-
     act->set_to_null();
 }
 

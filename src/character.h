@@ -749,10 +749,8 @@ class Character : public Creature, public location_visitable<Character>
         int get_working_arm_count() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
-        /** Returns true if the limb is disabled(12.5% or less hp)*/
+        /** Returns true if the limb is disabled (12.5% or less hp, or broken)*/
         bool is_limb_disabled( const bodypart_id &limb ) const;
-        /** Returns true if the limb is hindered(40% or less hp) */
-        bool is_limb_hindered( hp_part limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( const bodypart_id &limb ) const;
         /** source of truth of whether a Character can run */
@@ -2126,8 +2124,6 @@ class Character : public Creature, public location_visitable<Character>
         void suffer();
         /** Handles mitigation and application of radiation */
         bool irradiate( float rads, bool bypass = false );
-        /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
-        void mend( int rate_multiplier );
 
         /** Creates an auditory hallucination */
         void sound_hallu();

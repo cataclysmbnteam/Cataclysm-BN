@@ -400,7 +400,8 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "price": 0,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "UNSAFE_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",
@@ -792,7 +793,8 @@
     "description": "This is a chunk of fungal matter from some sort of alien mushroom creature.  Eating unfamiliar mushrooms is a bad idea.",
     "price": 0,
     "price_postapoc": 0,
-    "smoking_result": "dry_veggy_tainted"
+    "smoking_result": "dry_veggy_tainted",
+    "extend": { "flags": [ "UNSAFE_CONSUME" ] }
   },
   {
     "type": "COMESTIBLE",

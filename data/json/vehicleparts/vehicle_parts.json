@@ -13,7 +13,7 @@
     "type": "item_group",
     "id": "ig_vp_xlframe",
     "subtype": "collection",
-    "entries": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] } ]
+    "entries": [ { "item": "material_aluminium_ingot", "count": [ 2, 10 ] } ]
   },
   {
     "type": "item_group",

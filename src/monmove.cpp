@@ -46,6 +46,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const efftype_id effect_ai_waiting( "ai_waiting" );
