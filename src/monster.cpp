@@ -757,7 +757,7 @@ std::string monster::extended_description() const
     using flag_description = std::pair<m_flag, std::string>;
     const auto describe_flags = [this, &ss](
                                     const std::string & format,
-                                    const std::vector<flag_description> &flags_names,
+                                    const std::vector<flag_description> &&flags_names,
     const std::string &if_empty = "" ) {
         std::string flag_descriptions = enumerate_as_string( flags_names.begin(),
         flags_names.end(), [this]( const flag_description & fd ) {
@@ -791,6 +791,16 @@ std::string monster::extended_description() const
         {m_flag::MF_SEES, pgettext( "Sight as sense", "sight" )},
         {m_flag::MF_SMELLS, pgettext( "Smell as sense", "smell" )},
     }, _( "It doesn't have senses." ) );
+
+    describe_properties( _( "It is immune to %s." ), {
+        {m_flag::MF_FIREPROOF, pgettext( "Fire as immunity", "fire" )},
+        {m_flag::MF_COLDPROOF, pgettext( "Cold as immunity", "cold" )},
+        {m_flag::MF_ACIDPROOF, pgettext( "Acid as immunity", "acid" )},
+        {m_flag::MF_STUN_IMMUNE, pgettext( "Stun as immunity", "stun" )},
+        {m_flag::MF_SLUDGEPROOF, pgettext( "Sludge as immunity", "sludge" )},
+        {m_flag::MF_BIOPROOF, pgettext( "Smoke as immunity", "smoke" )},
+        {m_flag::MF_BIOPROOF, pgettext( "Poision as immunity", "poison" )},
+    } );
 
     describe_properties( _( "It can %s." ), {
         {swims(), pgettext( "Swim as an action", "swim" )},
