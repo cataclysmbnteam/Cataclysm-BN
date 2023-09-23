@@ -6,7 +6,7 @@ on:
       - upload
     paths-ignore:
       - 'doc/**'
-
+      - 'scripts/**'
 
 env:
   VCPKG_BINARY_SOURCES: "default"
