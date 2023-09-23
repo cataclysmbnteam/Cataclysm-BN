@@ -80,9 +80,10 @@ static void cut_up_yields( const std::string &target )
 
     CAPTURE( target );
     salvage_actor test_actor;
-    item cut_up_target{ target };
-    item tool{ "knife_butcher" };
-    const std::vector<material_id> &target_materials = cut_up_target.made_of();
+    detached_ptr<item> cut_up_target = item::spawn( target );
+    detached_ptr<item> tool = item::spawn( "knife_butcher" );
+
+    const std::vector<material_id> &target_materials = cut_up_target->made_of();
     units::mass smallest_yield_mass = units::mass_max;
     for( const material_id &mater : target_materials ) {
         if( const std::optional<itype_id> item_id = mater->salvaged_into() ) {
@@ -91,19 +92,19 @@ static void cut_up_yields( const std::string &target )
     }
     REQUIRE( smallest_yield_mass != units::mass_max );
 
-    units::mass cut_up_target_mass = cut_up_target.weight();
-    item &spawned_item = here.add_item_or_charges( guy.pos(), cut_up_target );
-    item_location item_loc( map_cursor( guy.pos() ), &spawned_item );
+    units::mass cut_up_target_mass = cut_up_target->weight();
+    detached_ptr<item> item_to_cut = here.add_item_or_charges( guy.pos(), std::move( cut_up_target ) );
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
 
-    test_actor.cut_up( guy, tool, item_loc );
+    test_actor.cut_up( guy, *tool, *item_to_cut );
 
     map_stack salvaged_items = here.i_at( guy.pos() );
-    units::mass salvaged_mass = 0_gram;
-    for( const item &salvage : salvaged_items ) {
-        salvaged_mass += salvage.weight();
-    }
+    const units::mass salvaged_mass = std::accumulate( salvaged_items.begin(), salvaged_items.end(),
+    0_gram, []( const units::mass acc, const item * salvage ) {
+        return acc + salvage->weight();
+    } );
+
     CHECK( salvaged_mass <= cut_up_target_mass );
     CHECK( salvaged_mass >= ( cut_up_target_mass * 0.99 ) - smallest_yield_mass );
 }
