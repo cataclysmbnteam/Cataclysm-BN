@@ -65,6 +65,9 @@ location_ptr<T, error_if_null> &location_ptr<T, error_if_null>::operator=
         ptr->remove_location();
         ptr->destroy();
     }
+    if( source.ptr ) {
+        source.ptr->remove_location();
+    }
     ptr = source.ptr;
     update_location();
     source.ptr = nullptr;
