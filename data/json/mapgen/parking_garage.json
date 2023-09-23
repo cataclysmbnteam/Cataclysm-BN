@@ -32,7 +32,7 @@
       "c": "t_linoleum_white",
       "r": "t_linoleum_white",
       "x": "t_console_broken",
-      "X": "t_gates_mech_control",
+      "X": "t_gates_control_concrete",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
       "I": "t_column",
