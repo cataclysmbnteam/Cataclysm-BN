@@ -3,7 +3,11 @@ title: forest survival
 ---
 Being the most difficult part of Cataclysm, surviving in the woods with nothing is one of the most rewarding experiences. This guide will cover a tasklist that should keep you alive. Should you fall behind, continue the previous steps before moving onto the next day's tasks. The exception is day 1. Day 1 tasks are in order of severity.
 
-**This guide ASSUMES you are not playing with mods that changes this too much, specifically changing foraging drops. You'll die if they removed trash from shrubs.**
+:::caution
+
+This guide ASSUMES you are not playing with mods that changes this too much, specifically changing foraging drops. You'll die if they removed trash from shrubs.
+
+:::
 
 ## Day 1 requirements
 

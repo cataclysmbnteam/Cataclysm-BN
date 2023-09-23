@@ -67,7 +67,11 @@ Without a hacksaw you can't remove most parts. This means adding parts will be j
 
 Without fuel you won't be going anywhere. Gas stations come to mind, but you can actually craft diesel with the right book and cooking level. You can also opt for a solar car but it won't go far and you need a lot of panels and the electric motors.
 
-**Your first week was a success if you lived long enough to loot a gun store, find a working car, and have otherwise kept up with your survival needs.**
+:::note
+
+Your first week was a success if you lived long enough to loot a gun store, find a working car, and have otherwise kept up with your survival needs.
+
+:::
 
 ## Bonus Tasks
 
