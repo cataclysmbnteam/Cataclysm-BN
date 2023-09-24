@@ -5,6 +5,10 @@
 #include "cata_tiles.h"
 #endif // TILES
 
+#if defined(__ANDROID__)
+#   include "options_android.h"
+#endif
+
 auto options_manager::add_options_graphics() -> void
 {
     const auto add_empty_line = [&]() {
