@@ -169,6 +169,7 @@
     "warmth": 5,
     "material_thickness": 1,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "WATER_FRIENDLY" ]
   },
   {
@@ -193,6 +194,7 @@
     "warmth": 5,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "WATER_FRIENDLY", "STURDY" ]
   },
   {

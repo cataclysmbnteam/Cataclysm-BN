@@ -495,6 +495,7 @@
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 4,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES" ]
   },
   {
@@ -540,6 +541,7 @@
     "warmth": 40,
     "material_thickness": 3,
     "environmental_protection": 7,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
   },
   {
@@ -701,6 +703,7 @@
     "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "FANCY", "STAB" ]
   },
   {
