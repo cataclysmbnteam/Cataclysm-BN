@@ -1,7 +1,7 @@
 # 카타클리즘: 밝은 밤
 
 <header align="center">
-  <a><img src="doc/src/content/docs/en/contribute/img/readme-title.png" title="우측 위부터 시계방향으로 Chaosvolt (x2), ExecutorBill, scarf005의 스크린샷"></a>
+  <a><img src="doc/src/assets/img/readme-title.png" title="우측 위부터 시계방향으로 Chaosvolt (x2), ExecutorBill, scarf005의 스크린샷"></a>
 
 [![en][icon-en]][en] [![ko][icon-ko]][ko]
 
@@ -113,11 +113,11 @@
 
 게임 내에서 `Submit a bug report on github`를 실행하여 이슈를 제출할 수 있습니다.
 
-|              1. 옵션 (ESC) -> 디버그 메뉴 (a)               |                         2. 정보 (i)                         |
-| :---------------------------------------------------------: | :---------------------------------------------------------: |
-| ![](doc/src/content/docs/en/contribute/img/readme-bug1.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug2.png) |
-|                   3. 버그 리포트 제출 (U)                   |                  4. 이슈 링크가 생성됩니다                  |
-| ![](doc/src/content/docs/en/contribute/img/readme-bug3.png) | ![](doc/src/content/docs/en/contribute/img/readme-bug4.png) |
+|      1. 옵션 (ESC) -> 디버그 메뉴 (a)       |                 2. 정보 (i)                 |
+| :-----------------------------------------: | :-----------------------------------------: |
+| ![](doc/src/assets/img/bug_report/bug1.png) | ![](doc/src/assets/img/bug_report/bug2.png) |
+|           3. 버그 리포트 제출 (U)           |          4. 이슈 링크가 생성됩니다          |
+| ![](doc/src/assets/img/bug_report/bug3.png) | ![](doc/src/assets/img/bug_report/bug4.png) |
 
 `버전 및 환경 설정(Version and configuration)` 항목이 채워진 이슈가 브라우저에서 열립니다.
 
