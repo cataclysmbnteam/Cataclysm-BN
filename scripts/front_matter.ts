@@ -27,8 +27,7 @@ export const toFrontmatter = (text: string): string => {
 ---
 title: ${heading}
 ---
-${content.join("\n")}
-`
+${content.join("\n")}`
 }
 
 if (import.meta.main) {
