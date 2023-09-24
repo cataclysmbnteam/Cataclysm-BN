@@ -3764,12 +3764,29 @@ pf::directed_path<point_om_omt> overmap::lay_out_connection(
             }
         }
 
-        const int dist = subtype->is_orthogonal() ?
-                         manhattan_dist( dest, cur.pos ) :
-                         trig_dist( dest, cur.pos );
-        const int existency_mult = existing_connection ? 1 : 5; // Prefer existing connections.
+        if( prev && prev->dir == om_direction::type::invalid && cur.dir != om_direction::type::invalid ) {
+            // Non-linear connections starting near overmap border should always be perpendicular to that border
+            const oter_id &prev_id = ter( tripoint_om_omt( prev->pos, z ) );
 
-        return pf::node_score( subtype->basic_cost, existency_mult * dist );
+            if( !connection.can_start_at( prev_id ) && !inbounds( cur.pos, 1 ) &&
+                inbounds( prev->pos + om_direction::displace( om_direction::opposite( cur.dir ), 1 ) ) ) {
+                return pf::node_score::rejected;
+            }
+        }
+
+        int score = subtype->is_orthogonal() ?
+                    manhattan_dist( dest, cur.pos ) :
+                    trig_dist( dest, cur.pos );
+        if( !existing_connection ) {
+            // Prefer existing connections
+            score *= 5;
+        }
+        if( !inbounds( cur.pos, 1 ) ) {
+            // Roads running next to overmap edge often looks unnatural and weird, better avoid them
+            score *= 2;
+        }
+
+        return pf::node_score( subtype->basic_cost, score );
     };
 
     return pf::greedy_path( source, dest, point_om_omt( OMAPX, OMAPY ), estimate );
@@ -3935,6 +3952,8 @@ void overmap::build_connection(
             ter_set( pos, subtype->terrain->get_linear( new_line ) );
         } else if( new_dir != om_direction::type::invalid ) {
             ter_set( pos, subtype->terrain->get_rotated( new_dir ) );
+        } else if( prev_dir != om_direction::type::invalid ) {
+            ter_set( pos, subtype->terrain->get_rotated( prev_dir ) );
         }
 
         prev_dir = new_dir;
