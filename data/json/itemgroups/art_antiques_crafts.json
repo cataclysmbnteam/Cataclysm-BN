@@ -97,6 +97,7 @@
       { "item": "nodachi_inferior", "prob": 2 },
       { "item": "knife_baselard", "prob": 2 },
       { "item": "gambeson", "prob": 3 },
+      { "item": "cap_arming", "prob": 2 },
       { "item": "tunic", "prob": 1 },
       { "item": "armor_lamellar", "prob": 2 },
       { "item": "armor_lightplate", "prob": 1 },
