@@ -1,6 +1,8 @@
 # Cataclysm BN client
 cmake_minimum_required(VERSION 3.16)
 
+include(SetupLibrary.cmake)
+
 set(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
 set(MESSAGES_CPP ${CMAKE_SOURCE_DIR}/src/messages.cpp)
 set(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
@@ -31,16 +33,10 @@ add_custom_command(
         ${CMAKE_SOURCE_DIR}/src/version.cmake
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
+
 # Build tiles version if requested
 if (TILES)
-    add_library(cataclysm-tiles-common OBJECT ${CATACLYSM_BN_SOURCES} ${CATACLYSM_BN_HEADERS}
-                                              ${LUA_C_SOURCES})
-    target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
-
-    if (USE_PCH_HEADER)
-        target_precompile_headers(cataclysm-tiles-common PRIVATE
-                                  ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
-    endif ()
+    setup_library(cataclysm-tiles-common)
 
     if (WIN32)
         add_definitions(-DUSE_WINMAIN)
@@ -49,24 +45,8 @@ if (TILES)
         add_executable(cataclysm-tiles ${MAIN_CPP} ${MESSAGES_CPP})
     endif ()
 
-    if (LUA)
-        target_compile_definitions(cataclysm-tiles-common PUBLIC LUA)
-        target_include_directories(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/src)
-        target_include_directories(cataclysm-tiles-common PUBLIC ${CMAKE_SOURCE_DIR}/src/lua)
-    endif ()
-
-    add_dependencies(cataclysm-tiles-common get_version)
-
     target_link_libraries(cataclysm-tiles cataclysm-tiles-common)
     target_compile_definitions(cataclysm-tiles-common PUBLIC TILES)
-
-    if (CMAKE_USE_PTHREADS_INIT)
-        target_compile_options(cataclysm-tiles-common PUBLIC "-pthread")
-    endif ()
-
-    if (CMAKE_THREAD_LIBS_INIT)
-        target_link_libraries(cataclysm-tiles-common ${CMAKE_THREAD_LIBS_INIT})
-    endif ()
 
     if (NOT DYNAMIC_LINKING)
         # SDL, SDL_Image, SDL_ttf deps are required for static build
@@ -94,38 +74,15 @@ if (TILES)
         target_link_libraries(cataclysm-tiles-common ${SDL2_MIXER_LIBRARIES})
     endif ()
 
-    if (WIN32)
-        # Global settings for Windows targets (at end)
-        target_link_libraries(cataclysm-tiles-common gdi32.lib)
-        target_link_libraries(cataclysm-tiles-common winmm.lib)
-        target_link_libraries(cataclysm-tiles-common imm32.lib)
-        target_link_libraries(cataclysm-tiles-common ole32.lib)
-        target_link_libraries(cataclysm-tiles-common oleaut32.lib)
-        target_link_libraries(cataclysm-tiles-common version.lib)
-
-        if (BACKTRACE)
-            target_link_libraries(cataclysm-tiles-common dbghelp.lib)
-        endif ()
-    endif ()
-
-    if (LIBBACKTRACE)
-        target_link_libraries(cataclysm-tiles-common backtrace)
-    endif ()
-
     if (RELEASE)
         install(TARGETS cataclysm-tiles DESTINATION ${BIN_PREFIX})
     endif ()
+
 endif ()
 
 # Build curses version if requested
 if (CURSES)
-    add_library(cataclysm-common OBJECT ${CATACLYSM_BN_SOURCES} ${CATACLYSM_BN_HEADERS}
-                                        ${LUA_C_SOURCES})
-    target_include_directories(cataclysm-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
-
-    if (USE_PCH_HEADER)
-        target_precompile_headers(cataclysm-common PRIVATE ${CMAKE_SOURCE_DIR}/pch/main-pch.hpp)
-    endif ()
+    setup_library(cataclysm-common)
 
     if (WIN32)
         add_executable(cataclysm ${MAIN_CPP} ${MESSAGES_CPP} ${RESOURCE_RC})
@@ -133,47 +90,15 @@ if (CURSES)
         add_executable(cataclysm ${MAIN_CPP} ${MESSAGES_CPP})
     endif ()
 
-    if (LUA)
-        target_compile_definitions(cataclysm-common PUBLIC LUA)
-        target_include_directories(cataclysm-common PUBLIC ${CMAKE_SOURCE_DIR}/src)
-        target_include_directories(cataclysm-common PUBLIC ${CMAKE_SOURCE_DIR}/src/lua)
-    endif ()
-
-    add_dependencies(cataclysm-common get_version)
     target_link_libraries(cataclysm cataclysm-common)
 
     target_include_directories(cataclysm-common PUBLIC ${CURSES_INCLUDE_DIR})
     target_link_libraries(cataclysm-common ${CURSES_LIBRARIES})
 
-    if (CMAKE_USE_PTHREADS_INIT)
-        target_compile_options(cataclysm-common PUBLIC "-pthread")
-    endif ()
-
-    if (CMAKE_THREAD_LIBS_INIT)
-        target_link_libraries(cataclysm-common ${CMAKE_THREAD_LIBS_INIT})
-    endif ()
-
-    if (WIN32)
-        # Global settings for Windows targets (at end)
-        target_link_libraries(cataclysm-common gdi32.lib)
-        target_link_libraries(cataclysm-common winmm.lib)
-        target_link_libraries(cataclysm-common imm32.lib)
-        target_link_libraries(cataclysm-common ole32.lib)
-        target_link_libraries(cataclysm-common oleaut32.lib)
-        target_link_libraries(cataclysm-common version.lib)
-
-        if (BACKTRACE)
-            target_link_libraries(cataclysm-common dbghelp.lib)
-        endif ()
-    endif ()
-
-    if (LIBBACKTRACE)
-        target_link_libraries(cataclysm-common backtrace)
-    endif ()
-
     if (RELEASE)
         install(TARGETS cataclysm DESTINATION ${BIN_PREFIX})
     endif ()
+
 endif ()
 
 if (MINGW AND NOT RELEASE)
