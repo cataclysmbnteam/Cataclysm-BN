@@ -798,8 +798,7 @@ std::string monster::extended_description() const
         {m_flag::MF_ACIDPROOF, pgettext( "Acid as immunity", "acid" )},
         {m_flag::MF_STUN_IMMUNE, pgettext( "Stun as immunity", "stun" )},
         {m_flag::MF_SLUDGEPROOF, pgettext( "Sludge as immunity", "sludge" )},
-        {m_flag::MF_BIOPROOF, pgettext( "Smoke as immunity", "smoke" )},
-        {m_flag::MF_BIOPROOF, pgettext( "Poision as immunity", "poison" )},
+        {m_flag::MF_BIOPROOF, pgettext( "Biological hazards as immunity", "biohazards" )},
     } );
 
     describe_properties( _( "It can %s." ), {
