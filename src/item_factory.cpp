@@ -2498,19 +2498,39 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.phase = jo.get_enum_value<phase_id>( "phase" );
     }
 
-    if( jo.has_array( "magazines" ) ) {
-        def.magazine_default.clear();
-        def.magazines.clear();
+    bool assigned_magazines = assign( jo, "magazines", def.magazines );
+    if( assigned_magazines ) {
+        if( jo.has_array( "magazines" ) ) {
+            def.magazine_default.clear();
+            for( JsonArray arr : jo.get_array( "magazines" ) ) {
+                ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
+                JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
 
-        for( JsonArray arr : jo.get_array( "magazines" ) ) {
-            ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
-            JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
+                // The first magazine for this ammo type is the default
+                def.magazine_default[ ammo ] = itype_id( compat.get_string( 0 ) );
+            }
+        }
+        // Hacky, but needed to preserve the "first magazine is default" functionality
+        if( jo.has_object( "extend" ) ) {
+            JsonObject jo_extend = jo.get_object( "extend" );
+            jo_extend.allow_omitted_members();
+            if( jo_extend.has_array( "magazines" ) ) {
+                for( JsonArray arr : jo_extend.get_array( "magazines" ) ) {
+                    ammotype ammo( arr.get_string( 0 ) );
+                    JsonArray compat = arr.get_array( 1 );
 
-            // the first magazine for this ammo type is the default
-            def.magazine_default[ ammo ] = itype_id( compat.get_string( 0 ) );
-
-            while( compat.has_more() ) {
-                def.magazines[ ammo ].insert( itype_id( compat.next_string() ) );
+                    if( def.magazine_default.count( ammo ) == 0 ) {
+                        def.magazine_default[ ammo ] = itype_id( compat.get_string( 0 ) );
+                    }
+                }
+            }
+        }
+        // TODO: Implement after figuring out what to do with magazine_default
+        if( jo.has_object( "delete" ) ) {
+            JsonObject jo_delete = jo.get_object( "delete" );
+            jo_delete.allow_omitted_members();
+            if( jo_delete.has_array( "magazines" ) ) {
+                jo.throw_error( "Deleting magazines is not supported yet" );
             }
         }
     }

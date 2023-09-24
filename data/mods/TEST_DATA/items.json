@@ -565,5 +565,18 @@
     "cutting": 32,
     "price": 7500,
     "price_postapoc": 300
+  },
+  {
+    "id": "glockmag_test",
+    "copy-from": "glockmag",
+    "name": { "str": "TEST Magazine" },
+    "type": "MAGAZINE"
+  },
+  {
+    "id": "glock_19",
+    "copy-from": "glock_19",
+    "name": { "str": "Glock 19" },
+    "type": "GUN",
+    "extend": { "magazines": [ [ "9mm", [ "glockmag_test" ] ] ] }
   }
 ]
