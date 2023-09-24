@@ -1,33 +1,17 @@
 ---
-title: Opening Issues
-sidebar:
-  badge:
-    text: Outdated
-    variant: caution
+title: Issues and Discussions
 ---
 
-:::caution
-
-This document is from DDA and does not necessarily up-to-date with BN guidelines.
-
-:::
-
-GitHub issues are used for everything from bug reporting to suggesting long-term ideas. You can make
-everything run much smoother by following some simple rules.
-
-### Rule zero
-
-Always give your issue a meaningful title as this is the first thing anyone will see.
-
-Note: `[CR]` and `[WIP]` "tags" are meaningful only for PRs. All open issues by definition are
-request for comments and work in progress.
+GitHub issues are used for bug reporting. For questions and feature requests, we recommend using
+github discussions. Please give your issue a meaningful title as this is the first thing anyone will
+see.
 
 ### Bug reports
 
-Before you submit a bug always search the current list of issues to see if it has been reported
+Before submitting a bug, please search the current list of issues to see if it has been reported
 already.
 
-Your bug report has to include:
+A bug report has to include:
 
 - On what OS did you experience the problem (Windows, Linux, OS X etc.)
 - What version were you playing:
@@ -36,7 +20,7 @@ Your bug report has to include:
   e.g. 3245)
 - Description of the problem written in a way that enables anyone to try and recreate it
 
-Your bug report may include:
+A bug report may include:
 
 - Screenshot(s) as some things are best explained visually
 - Save file (e.g. link to a dropbox upload)
@@ -50,38 +34,34 @@ The OS and BN version are very important - with the pace of changes here it is p
 have encountered has already been fixed. After that reproducibility is the key, so write your report
 with all the necessary details.
 
+:::tip
+
+All these information can be automatically filled on Debug menu. Check
+[the issue form](https://github.com/cataclysmbnteam/Cataclysm-BN/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml)
+for details.
+
+:::
+
 ### Enhancements and addition ideas
 
-We have hundreds of issues open - most of them are ideas and suggestions. If you have a general idea
-or anything that can't be easily described in terms of _current_ code changes you'd be better off
-suggesting it in the appropriate section of [the forum](https://discourse.cataclysmdda.org/). You'll
-also get much broader exposure for your idea there. After developing a polished idea on the forum,
-it should be easy to make a GitHub issue for it.
+For ideas, we recommend using
+[github discussions](https://github.com/cataclysmbnteam/Cataclysm-BN/discussions/categories/ideas)
+over issues as it supports threads and voting.
 
 Please first search if something like what you have on mind has been already proposed. If so, feel
-free to join the discussion! If your idea is related but sufficiently different, open a new issue
-and refer to the older discussion (use GitHub's `#issue_number` reference system).
-
-Remember to take part in the discussion of your suggestions.
+free to join the discussion! If your idea is related but sufficiently different, open a new
+discussion and refer to the older discussion (use GitHub's `#issue_number` reference system).
 
 ### Questions
 
-You should direct your questions to the forum or ask on IRC. You should also read the included
-documentation and additional text files, e.g. [compiling](../../dev/guides/building/cmake.md) if you
-have problems building.
+It is recommended to ask questions on
+[github discussions](https://github.com/cataclysmbnteam/Cataclysm-BN/discussions/categories/q-a) so
+that it's easy to find them later. However, it's perfectly fine to ask questions on
+[discord](https://discord.gg/XW7XhXuZ89).
 
-## Bounties
+:::note
 
-Placing a bounty _does not_ necessarily mean that change will be incorporated into the main game.
-Please coordinate in the issue you intend to place a bounty on to determine if it is a change the
-project will accept, and keep in mind that placing a bounty will not confer special status on the
-issue. A good way of thinking about bounties is as encouragement for contributors to work on a
-particular issue, and certainly not as "paying for features".
+If you weren't able to find an answer to your question on docs site, please open an discussion so we
+could improve the docs.
 
-## Issue resolution
-
-We do not assign people to issues. If you plan to work on a bug fix or a validated idea feel free to
-just comment about that. Actual PRs are of much greater value than any assignments. In general the
-first correct PR about something will be the PR that will get merged, but remember: we are using
-Git - you can collaborate with someone else easily by sending them patches or PRs against their PR
-branch.
+:::
