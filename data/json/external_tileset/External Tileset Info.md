@@ -15,6 +15,8 @@ Links to relevant pull requests, for content covered below:
 - Utility light can be switched off: [#1003](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/1003)
 - Mi-go nerve cluster: [#1962](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/1962)
 - Scaled bear: [#1371](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/1371)
+- Buckler and welded shield: [#2878](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2878)
+- Battle masks and bronze arm guards: [#3221](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3221)
 
 ## Undead People
 
@@ -39,6 +41,10 @@ The following is a current list of sprites this folder adds to the UDP tileset, 
 * New worn sprite for `compgreatbow`, as compound greatbow in DDA can't be worn thus UDP lacks a worn sprite for it (which we'd liklely need to edit to resemble composite bow anyway).
 * Katar, including sprite for wielded state. Item specific to BN.
 * Sai (weapon, not to be confused with telecoms location), including sprite for wielded state. Item specific to BN.
+* Welded shield, including worn and wielded. Item specific to BN.
+* Buckler, including worn and wielded. Item specific to BN.
+* Battle masks, iron and bronze, including worn sprites. Items specific to BN.
+* Bronze arm guards, including worn sprites. Item specific to BN.
 
 ### External_Tileset_DP_Large.png
 

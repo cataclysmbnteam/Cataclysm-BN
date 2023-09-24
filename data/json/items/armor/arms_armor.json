@@ -145,7 +145,7 @@
     "id": "armguard_bronze",
     "copy-from": "armguard_metal",
     "type": "ARMOR",
-    "name": { "str": "pair of bronze arm guards", "str_pl": "pairs of arm guards" },
+    "name": { "str": "pair of bronze arm guards", "str_pl": "pairs of bronze arm guards" },
     "description": "A pair of arm guards hammered out from sheets of bronze, for a classical take on the Post-Apocalyptic Warrior look.",
     "weight": "1500 g",
     "price": "400 USD",
