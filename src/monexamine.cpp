@@ -583,13 +583,7 @@ void monexamine::push( monster &z )
     avatar &you = get_avatar();
     you.moves -= 30;
 
-    ///\EFFECT_STR increases chance to successfully push your pet
-    if( !one_in( you.str_cur ) ) {
-        add_msg( _( "You pushed the %s." ), pet_name );
-    } else {
-        add_msg( _( "You pushed the %s, but it resisted." ), pet_name );
-        return;
-    }
+    add_msg( _( "You pushed the %s." ), pet_name );
 
     point delta( z.posx() - you.posx(), z.posy() - you.posy() );
     z.move_to( tripoint( z.posx() + delta.x, z.posy() + delta.y, z.posz() ) );
