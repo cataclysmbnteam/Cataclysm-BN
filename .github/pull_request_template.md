@@ -35,7 +35,7 @@ This section should consist of exactly one line, formatted like the example abov
 - I18N
 
 For more on the meaning of each category, see:
-https://docs.cataclysmbn.org/en/contribute/changelog_guidelines/
+https://docs.cataclysmbn.org/en/contribute/reference/changelog_guidelines
 
 If the PR is a port or adaptation of DDA content, please indicate it to be so.
 -->

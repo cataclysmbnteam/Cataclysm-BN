@@ -76,7 +76,7 @@ Gameplay and developing documentation is available in the [doc](./doc/src/conten
 in markdown format. You can also
 
 - visit the [official docs](https://docs.cataclysmbn.org/en/) site
-- [build and serve the documentation locally](./doc/src/content/docs/en/contribute/docs.md)
+- [build and serve the documentation locally](./doc/src/content/docs/en/contribute/tutorial/docs.md)
 
 ## Community
 

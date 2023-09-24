@@ -52,12 +52,12 @@ this is the most straightforward way to update the documentation site.
 ![comparing changes page](https://github.com/scarf005/Cataclysm-BN/assets/54838975/3551797e-847b-45fe-8869-8b0b15bfb948)
 
 4. You will be redirected to the `Comparing changes` page. Click the `Create pull request` button to
-   [create a pull request](./contributing.md#pull-request-notes).
+   [create a pull request](../explanation/pr_style.md).
 
 ![open a pull request page](https://github.com/scarf005/Cataclysm-BN/assets/54838975/2a987c19-b165-43c2-a5a2-639f22202926)
 
 5. Fill in the `Open a pull request` page and click the `Create pull request` button to
-   [open a PR](./contributing.md#pull-request-notes).
+   [open a PR](../explanation/pr_style.md).
 
 ### Creating a new page
 

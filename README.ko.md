@@ -75,7 +75,8 @@
 있습니다. 또는
 
 - [공식 문서 사이트](https://docs.cataclysmbn.org/ko/)를 방문하거나
-- [로컬에서 사이트를 빌드하고 실행](./doc/src/content/docs/en/contribute/docs.md)할 수 있습니다.
+- [로컬에서 사이트를 빌드하고 실행](./doc/src/content/docs/en/contribute/tutorial/docs.md)할 수
+  있습니다.
 
 ## 커뮤니티
 
