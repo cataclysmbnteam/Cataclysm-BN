@@ -85,6 +85,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "environmental_protection": 6,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ]
   },
   {
@@ -142,6 +143,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "STURDY" ]
   },
   {
@@ -164,6 +166,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "STURDY" ]
   },
   {
@@ -709,6 +712,7 @@
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 5,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {

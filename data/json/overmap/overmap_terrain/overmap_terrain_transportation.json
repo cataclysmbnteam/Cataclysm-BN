@@ -96,7 +96,8 @@
     "copy-from": "generic_bridge",
     "name": "bridgehead (ground)",
     "sym": "v",
-    "extras": "bridgehead_ground"
+    "extras": "bridgehead_ground",
+    "flags": [ "RIVER" ]
   },
   {
     "type": "overmap_terrain",

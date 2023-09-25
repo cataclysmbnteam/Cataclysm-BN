@@ -1,4 +1,3 @@
-!src/chkjson
 *.7z
 *.a
 *.d
@@ -41,7 +40,6 @@ cataclysm-tiles
 cataclysm-tiles.exe.manifest
 cataclysm-vcpkg
 cataclysmdda-*
-chkjson*
 debug.log
 logg.txt
 

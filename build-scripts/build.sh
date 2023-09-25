@@ -24,9 +24,6 @@ then
     make style-all-json-parallel RELEASE=1
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
-    # Also build chkjson (even though we're not using it), to catch any
-    # compile errors there
-    make -j "$num_jobs" chkjson
 elif [ -n "$JUST_JSON" ]
 then
     echo "Early exit on just-json change"

@@ -5,18 +5,18 @@ title: Guide for basic mapgen
 This guide will cover the basics of mapgen, which files you need to edit, the tags in each file and
 the differences in creating specials or regular city buildings.
 
-[For full technical information about mapgen entries, visit here](../reference/map/mapgen)
+[For full technical information about mapgen entries, visit here](../../reference/map/mapgen)
 
 First, lets cover some basic concepts and the files you'll add or edit.
 
-#### General comments:
+## General comments:
 
 CDDA mapgen is surprisingly powerful once you get used to working with it. You can use lots of
 tricks to add variability and interest to your maps. Most advanced mapgen techniques will go into a
 different tutorial. This one covers basic concepts and how to create a basic single OMT (overmap
 terrain tile)sized building. We will touch on palette usage and how to add a roof as well.
 
-#### Specials vs. city buildings:
+## Specials vs. city buildings:
 
 A special is a building that spawns outside the city and requires additional information to spawn,
 like its distance from cities and valid OMT terrain types. They also used to be the only multi-tile
@@ -31,7 +31,7 @@ Important policy: since the roof project, all buildings are now multi-tile acros
 buildings should always get a JSON roof added. Soon, all basements will also be custom fit to the
 ground floor mapgen, so it is good practice to include dedicated downstairs if you want a basement.
 
-#### The Files & their purpose:
+## The Files & their purpose:
 
 1. You will add a new mapgen file in:
    [data/json/mapgen](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/upload/data/json/mapgen)
@@ -64,7 +64,7 @@ ground floor mapgen, so it is good practice to include dedicated downstairs if y
    - Please avoid editing existing mapgen palettes because you may affect existing maps using a
      combination of the palette and the mapgen file.
 
-#### Starting the mapgen entry:
+## Starting the mapgen entry:
 
 When I start a new map project, I generally will add in all the entries I need for it to spawn in
 game from the outset. This way I can test it as I work on it and adjust it as needed. So, I
@@ -83,15 +83,15 @@ Before beginning you’ll want to make some decisions:
    - Will I be using the mapgen object data in combination with a palette (see the mall 2nd floor if
      you want a master class in combined usage of both types)?
 
-#### The mapgen map:
+## The mapgen map:
 
 This covers the mapgen file map flags and what they do in layman’s terms. You can get more extensive
-information from [MAPGEN](../reference/map/mapgen).
+information from [MAPGEN](../../reference/map/mapgen).
 
 the mapgen file has some meta data tags and the `"object"` data which defines everything to make the
 map.
 
-##### The metadata:
+### The metadata:
 
 Sample:
 
@@ -116,7 +116,7 @@ Sample:
    determine how often each spawns in relation to the other. Say the furnished house is at 100, and
    the abandoned one is at 20. So, it'll spawn 5x less than the furnished house.
 
-##### The object data:
+### The object data:
 
 This is the section of tags that defines your map, its terrains, furniture, and various spawn types.
 There are several ways to place items (and nested maps). These deserve their own tutorial. For this
@@ -289,7 +289,7 @@ can put any item_group into the machines, like those bullet ones_.
 
 6. Item spawns: There are many ways to place items. This tutorial will only cover explicit symbol
    placement which is the easiest. There is documentation all about loot spawns you can read for
-   further information. See: [ITEM_SPAWN.md](../reference/items/ITEM_SPAWN).
+   further information. See: [ITEM_SPAWN.md](../../reference/items/ITEM_SPAWN).
 
 our sample uses "items": for its tag. others include: "place_item", "place_items", "place_loot".
 Some of these allow for individual item placement and others groups, or both. This will be covered
@@ -434,7 +434,7 @@ finally for flowers (which are furniture):
 "p": "f_region_flower"
 ```
 
-#### Adding the roof!
+## Adding the roof!
 
 Almost all CDDA buildings are now roof-capable and we'd love to keep it that way. Make sure to
 submit a roof map with your building. This can go into the same file as your ground floor and any
@@ -494,9 +494,9 @@ sample roof:
    "t_shingle_flat_roof" in this mapgen which will override the palettes entry for
    `".": "t_flat_roof"`. (more on this in advanced mapgen).
 
-I have a separate roof document at: [JSON_ROOF_MAPGEN](./JSON_ROOF_MAPGEN).
+I have a separate roof document at: [JSON_ROOF_MAPGEN](../JSON_ROOF_MAPGEN).
 
-#### Linking various mapgen maps using multitile_city_buildings.json
+## Linking various mapgen maps using multitile_city_buildings.json
 
 This file is found at:
 [data/json/overmap/multitile_city_buildings.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/json/overmap/multitile_city_buildings.json).
@@ -535,7 +535,7 @@ A standard entry:
      is the generic basement mapgen group and thus doesn't get `_north` (this will change as we add
      dedicated stairs to our houses).
 
-#### Setting overmap spawns using regional_map_settings.json
+## Setting overmap spawns using regional_map_settings.json
 
 [data/json/regional_map_settings.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/json/regional_map_settings.json)
 
@@ -545,7 +545,7 @@ A standard entry:
    complain which is why the are often the same name.
 4. Choose a good weight for your building.
 
-#### Linking and spawning specials:
+## Linking and spawning specials:
 
 Put the entry in:
 [data/json/overmap/overmap_special/specials.json](https://github.com/cataclysmbnteam/Cataclysm-BN/blob/upload/data/json/overmap/overmap_special/specials.json).
@@ -596,11 +596,11 @@ Example:
    percentage so `[ 1, 10 ]` wouldn't be 1 to 10 times per overmap but a 1 in 10% chance to spawn on
    the overmap. So 10% chance to spawn once per overmap.
 8. `"flags"`: These are flags you can use to further define the special. For a list of flags see:
-   [JSON_FLAGS](../reference/JSON_FLAGS).
+   [JSON_FLAGS](../../reference/JSON_FLAGS).
 
-Read: [OVERMAP](../reference/map/OVERMAP) for more details.
+Read: [OVERMAP](../../reference/map/OVERMAP) for more details.
 
-#### Overmap_terrain entries:
+## Overmap_terrain entries:
 
 Choose a file for your building type at:
 [data/json/overmap/overmap_terrain](https://github.com/cataclysmbnteam/Cataclysm-BN/tree/upload/data/json/overmap/overmap_terrain).
@@ -644,9 +644,9 @@ You need one entry per mapgen ID:
    appropriate for your location. Others further define the mapgen, like having sidewalks generate.
 
 For further information see:
-[Overmap Terrain section of OVERMAP](../reference/map/OVERMAP#overmap-terrain).
+[Overmap Terrain section of OVERMAP](../../reference/map/OVERMAP#overmap-terrain).
 
-#### Palettes:
+## Palettes:
 
 As mentioned earlier, palettes can hold almost all the information that the object entry contains,
 except for `rows` and `fill_ter`. Their main purpose is to reduce the need to add the same basic
@@ -738,7 +738,7 @@ are designed to work together for houses using nested mapgen. There is a palette
 foundation, another for the nests, and finally another one I've designed for domestic outdoor nested
 chunks.
 
-#### Final comments:
+## Final comments:
 
 The information here should be enough for you got get around mapgen and start making maps but there
 are a lot of variations that will be covered in focused.
