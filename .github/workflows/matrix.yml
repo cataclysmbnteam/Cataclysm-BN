@@ -34,7 +34,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - compiler: g++-12
+          - title: GCC 12, Ubuntu, Curses
+            compiler: g++-12
             os: ubuntu-22.04
             cmake: 0
             tiles: 0
@@ -42,9 +43,10 @@ jobs:
             lua: 0
             test-stage: 1
             libbacktrace: 1
-            title: GCC 12, Ubuntu, Curses
             native: linux64
-          - compiler: g++-12
+
+          - title: GCC 12, Ubuntu, Tiles, Sound, Lua, CMake, Languages
+            compiler: g++-12
             os: ubuntu-22.04
             cmake: 1
             tiles: 1
@@ -52,8 +54,9 @@ jobs:
             lua: 1
             languages: all
             native: linux64
-            title: GCC 12, Ubuntu, Tiles, Sound, Lua, CMake, Languages
-          - compiler: g++-12
+
+          - title: GCC 12, Ubuntu, Tiles, Sound, Lua
+            compiler: g++-12
             os: ubuntu-22.04
             cmake: 0
             tiles: 1
@@ -61,9 +64,10 @@ jobs:
             lua: 1
             test-stage: 1
             libbacktrace: 1
-            title: GCC 12, Ubuntu, Tiles, Sound, Lua
             native: linux64
-          - compiler: g++-12
+
+          - title: GCC 12, Ubuntu, Tiles, NoSound, ASan
+            compiler: g++-12
             os: ubuntu-22.04
             cmake: 0
             tiles: 1
@@ -71,8 +75,9 @@ jobs:
             lua: 0
             sanitize: address
             native: linux64
-            title: GCC 12, Ubuntu, Tiles, NoSound, ASan
-          - compiler: clang++-14
+
+          - title: Clang 14, Ubuntu, Tiles, NoSound, ASan, UBSan
+            compiler: clang++-14
             os: ubuntu-22.04
             cmake: 0
             tiles: 1
@@ -80,8 +85,9 @@ jobs:
             lua: 0
             sanitize: address,undefined
             native: linux64
-            title: Clang 14, Ubuntu, Tiles, NoSound, ASan, UBSan
-          - compiler: clang++
+
+          - title: Clang 14, macOS 12, Tiles, Sound, Localize, Lua
+            compiler: clang++
             os: macos-12
             cmake: 0
             tiles: 1
@@ -90,7 +96,7 @@ jobs:
             test-stage: 1
             native: osx
             grep_clang_version_rxp: "14\\.[0-9]+\\.[0-9]+"
-            title: Clang 14, macOS 12, Tiles, Sound, Localize, Lua
+
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
