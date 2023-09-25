@@ -245,6 +245,13 @@ jobs:
         if: ${{ env.SKIP == 'false' && env.SKIP_TESTS == 'false' }}
         run: bash ./build-scripts/gha_test_only.sh
 
+      - name: emit success artifact
+        if: ${{ success() && matrix.ccache_key == 'linux-gcc-12-cmake-lua' }}
+        uses:  actions/upload-artifact@v3.1.3
+        with:
+          name: ${{ github.event.number }}
+          path: ${{ github.event.number }}
+
       - name: upload artifacts if failed
         uses: actions/upload-artifact@v3.1.3
         if: failure()
