@@ -144,26 +144,31 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
+
       - name: install dependencies (ubuntu)
         if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
         run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev ccache gettext parallel
           sudo locale-gen en_US.UTF-8 de_DE.UTF-8
+
       - name: install SDL2 dependencies (ubuntu)
         if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
         run: |
             sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev
+
       - name: check compiler (mac)
         if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
         run: |
           ${{ matrix.compiler }} --version
           # Ensure that it is actually needed version
           ${{ matrix.compiler }} --version | grep -q -E "${{ matrix.grep_clang_version_rxp }}"
+
       - name: install dependencies (mac)
         if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
         run: |
           HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
+          
       - name: prepare
         if: ${{ env.SKIP == 'false' }}
         run: bash ./build-scripts/requirements.sh
