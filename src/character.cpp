@@ -378,6 +378,11 @@ static const flag_str_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" )
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
+static const trait_flag_str_id trait_flag_PRED1( "PRED1" );
+static const trait_flag_str_id trait_flag_PRED2( "PRED2" );
+static const trait_flag_str_id trait_flag_PRED3( "PRED3" );
+static const trait_flag_str_id trait_flag_PRED4( "PRED4" );
+
 namespace io
 {
 
@@ -3446,16 +3451,16 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
             amount = 0;
         }
     }
-    if( has_trait_flag( trait_flag_str_id( "PRED2" ) ) && skill.is_combat_skill() ) {
+    if( has_trait_flag( trait_flag_PRED2 ) && skill.is_combat_skill() ) {
         if( one_in( 3 ) ) {
             amount *= 2;
         }
     }
-    if( has_trait_flag( trait_flag_str_id( "PRED3" ) ) && skill.is_combat_skill() ) {
+    if( has_trait_flag( trait_flag_PRED3 ) && skill.is_combat_skill() ) {
         amount *= 2;
     }
 
-    if( has_trait_flag( trait_flag_str_id( "PRED4" ) ) && skill.is_combat_skill() ) {
+    if( has_trait_flag( trait_flag_PRED4 ) && skill.is_combat_skill() ) {
         amount *= 3;
     }
 
@@ -3490,7 +3495,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
         if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) &&
-            ( !( has_trait_flag( trait_flag_str_id( "PRED4" ) ) &&
+            ( !( has_trait_flag( trait_flag_PRED4 ) &&
                  skill.is_combat_skill() ) ) ) {
             focus_pool--;
         }
@@ -3606,9 +3611,9 @@ void Character::do_skill_rust()
         SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
-            ( ( has_trait_flag( trait_flag_str_id( "PRED2" ) ) && calendar::once_every( 8_hours ) ) ||
-              ( has_trait_flag( trait_flag_str_id( "PRED3" ) ) && calendar::once_every( 4_hours ) ) ||
-              ( has_trait_flag( trait_flag_str_id( "PRED4" ) ) && calendar::once_every( 3_hours ) ) ) ) {
+            ( ( has_trait_flag( trait_flag_PRED2 ) && calendar::once_every( 8_hours ) ) ||
+              ( has_trait_flag( trait_flag_PRED3 ) && calendar::once_every( 4_hours ) ) ||
+              ( has_trait_flag( trait_flag_PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
             if( one_in( 13 ) ) {
                 // They've already passed the roll to avoid rust at
