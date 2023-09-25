@@ -4592,7 +4592,6 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 
     if( acid_blood ) {
         item acid( "acid", calendar::turn );
-        it->put_in( acid );
         if( one_in( 3 ) ) {
             if( it->inc_damage( DT_ACID ) ) {
                 p->add_msg_if_player( m_info, _( "…but acidic blood melts the %s, destroying it!" ),
@@ -4602,6 +4601,9 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
             }
             p->add_msg_if_player( m_info, _( "…but acidic blood damages the %s!" ), it->tname() );
         }
+        if( !liquid_handler::handle_liquid( acid, nullptr, 1, nullptr ) ) {
+            it->put_in( acid );
+        }
         return it->type->charges_to_use();
     }
 
@@ -4609,7 +4611,9 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         return it->type->charges_to_use();
     }
 
-    it->put_in( blood );
+    if( !liquid_handler::handle_liquid( blood, nullptr, 1, nullptr ) ) {
+        it->put_in( blood );
+    }
     return it->type->charges_to_use();
 }
 
