@@ -188,6 +188,15 @@ jobs:
       - name: build and test
         if: ${{ env.SKIP == 'false' }}
         run: bash ./build-scripts/build.sh
+
+      - name: post-build ccache stats and cleanup
+        if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
+        run: |
+          ccache --show-stats --verbose
+          ccache --max-size ${{ env.CCACHE_LIMIT }}
+          ccache --cleanup
+          ccache --show-stats --verbose
+
       - name: upload artifacts if failed
         uses: actions/upload-artifact@v1
         if: failure()
