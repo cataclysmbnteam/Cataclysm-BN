@@ -50,6 +50,8 @@ jobs:
             test-stage: 1
             libbacktrace: 1
             native: linux64
+            ccache_limit: 2G
+            ccache_key: linux-gcc-12
 
           - title: GCC 12, Ubuntu, Tiles, Sound, Lua, CMake, Languages
             compiler: g++-12
@@ -60,6 +62,8 @@ jobs:
             lua: 1
             languages: all
             native: linux64
+            ccache_limit: 4G
+            ccache_key: linux-gcc-12-cmake-lua
 
           - title: GCC 12, Ubuntu, Tiles, Sound, Lua
             compiler: g++-12
@@ -71,6 +75,8 @@ jobs:
             test-stage: 1
             libbacktrace: 1
             native: linux64
+            ccache_limit: 3G
+            ccache_key: linux-gcc-12-lua
 
           - title: GCC 12, Ubuntu, Tiles, NoSound, ASan
             compiler: g++-12
@@ -81,6 +87,8 @@ jobs:
             lua: 0
             sanitize: address
             native: linux64
+            ccache_limit: 4G
+            ccache_key: linux-gcc-12-asan
 
           - title: Clang 14, Ubuntu, Tiles, NoSound, ASan, UBSan
             compiler: clang++-14
@@ -91,6 +99,8 @@ jobs:
             lua: 0
             sanitize: address,undefined
             native: linux64
+            ccache_limit: 4G
+            ccache_key: linux-llvm-14-asan
 
           - title: Clang 14, macOS 12, Tiles, Sound, Localize, Lua
             compiler: clang++
@@ -102,6 +112,8 @@ jobs:
             test-stage: 1
             native: osx
             grep_clang_version_rxp: "14\\.[0-9]+\\.[0-9]+"
+            ccache_limit: 3G
+            ccache_key: macos-llvm-14
 
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
@@ -120,6 +132,9 @@ jobs:
       NATIVE: ${{ matrix.native }}
       RELEASE: 1
       SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' }}
+
+      CCACHE_LIMIT: ${{ matrix.ccache_limit }}
+
     steps:
       - name: checkout repository
         if: ${{ env.SKIP == 'false' }}
