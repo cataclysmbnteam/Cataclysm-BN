@@ -5,8 +5,8 @@
 #include <set>
 #include <string>
 
-#include "translations.h"
 #include "type_id.h"
+
 class JsonObject;
 
 class json_trait_flag
@@ -37,7 +37,7 @@ class json_trait_flag
     private:
         std::set<trait_flag_str_id> conflicts_;
 
-        /** Load flag definition from JSON */
+        /** Load flag definition from JSON (NO-OP) */
         void load( const JsonObject &jo, const std::string &src );
 
         /** Load all flags from JSON */

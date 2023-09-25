@@ -99,23 +99,19 @@
   },
   {
     "id": "PRED1",
-    "type": "mutation_flag",
-    "conflicts": [ "PRED2", "PRED3", "PRED4" ]
+    "type": "mutation_flag"
   },
   {
     "id": "PRED2",
-    "type": "mutation_flag",
-    "conflicts": [ "PRED1", "PRED3", "PRED4" ]
+    "type": "mutation_flag"
   },
   {
     "id": "PRED3",
-    "type": "mutation_flag",
-    "conflicts": [ "PRED1", "PRED2", "PRED4" ]
+    "type": "mutation_flag"
   },
   {
     "id": "PRED4",
-    "type": "mutation_flag",
-    "conflicts": [ "PRED1", "PRED2", "PRED3" ]
+    "type": "mutation_flag"
   },
   {
     "id": "SAPIOVORE",

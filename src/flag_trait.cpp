@@ -71,9 +71,8 @@ const json_trait_flag &json_trait_flag::get( const std::string &id )
     return f_id.is_valid() ? *f_id : null_value;
 }
 
-void json_trait_flag::load( const JsonObject &jo, const std::string & )
+void json_trait_flag::load( const JsonObject &, const std::string & )
 {
-    optional( jo, was_loaded, "conflicts", conflicts_ );
 }
 
 void json_trait_flag::check_consistency()
