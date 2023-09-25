@@ -104,7 +104,6 @@ jobs:
       SANITIZE: ${{ matrix.sanitize }}
       TEST_STAGE: ${{ matrix.test-stage }}
       LANGUAGES: ${{ matrix.languages }}
-      EXTRA_TEST_OPTS:
       LIBBACKTRACE: ${{ matrix.libbacktrace }}
       NATIVE: ${{ matrix.native }}
       RELEASE: 1
