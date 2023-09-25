@@ -134,6 +134,9 @@ jobs:
       SKIP: ${{ needs.skip-duplicates.outputs.should_skip == 'true' }}
 
       CCACHE_LIMIT: ${{ matrix.ccache_limit }}
+      CCACHE_FILECLONE: true
+      CCACHE_HARDLINK: true
+      CCACHE_NOCOMPRESS: true
 
     steps:
       - name: checkout repository
