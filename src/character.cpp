@@ -383,6 +383,10 @@ static const trait_flag_str_id trait_flag_PRED2( "PRED2" );
 static const trait_flag_str_id trait_flag_PRED3( "PRED3" );
 static const trait_flag_str_id trait_flag_PRED4( "PRED4" );
 
+static const trait_flag_str_id flag_NO_THIRST( "NO_THIRST" );
+static const trait_flag_str_id flag_NO_RADIATION( "NO_RADIATION" );
+static const trait_flag_str_id flag_NON_THRESH( "NON_THRESH" );
+
 namespace io
 {
 
@@ -4441,7 +4445,7 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
 
 void Character::mod_thirst( int nthirst )
 {
-    if( has_trait_flag( trait_flag_str_id( "NO_THIRST" ) ) ) {
+    if( has_trait_flag( flag_NO_THIRST ) ) {
         return;
     }
     set_thirst( std::max( -100, thirst + nthirst ) );
@@ -7087,7 +7091,7 @@ void Character::set_rad( int new_rad )
 
 void Character::mod_rad( int mod )
 {
-    if( has_trait_flag( trait_flag_str_id( "NO_RADIATION" ) ) ) {
+    if( has_trait_flag( flag_NO_RADIATION ) ) {
         return;
     }
     set_rad( std::max( 0, get_rad() + mod ) );
@@ -7813,7 +7817,7 @@ void Character::set_highest_cat_level()
         // Then use the map to set the category levels
         for( const std::pair<const trait_id, int> &i : dependency_map ) {
             const mutation_branch &mdata = i.first.obj();
-            if( !mdata.flags.count( trait_flag_str_id( "NON_THRESH" ) ) ) {
+            if( !mdata.flags.count( flag_NON_THRESH ) ) {
                 for( const std::string &cat : mdata.category ) {
                     // Decay category strength based on how far it is from the current mutation
                     mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );

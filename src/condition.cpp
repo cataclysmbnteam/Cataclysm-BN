@@ -46,7 +46,7 @@ class basecamp;
 class recipe;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
-
+static const trait_flag_str_id flag_MUTATION_THRESHOLD( "MUTATION_THRESHOLD" );
 // throws an error on failure, so no need to return
 std::string get_talk_varname( const JsonObject &jo, const std::string &member, bool check_value )
 {
@@ -131,7 +131,7 @@ void conditional_t<T>::set_has_trait_flag( const JsonObject &jo, const std::stri
     if( !trait_flag_to_check.is_valid() ) {
         jo.show_warning( string_format( "Invalid trait flag %s", raw ), member );
     }
-    const bool check_threshold = trait_flag_to_check == trait_flag_str_id( "MUTATION_THRESHOLD" );
+    const bool check_threshold = trait_flag_to_check == flag_MUTATION_THRESHOLD;
     condition = [trait_flag_to_check, check_threshold, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
