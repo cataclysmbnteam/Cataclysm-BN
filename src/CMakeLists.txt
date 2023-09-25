@@ -33,7 +33,6 @@ add_custom_command(
         ${CMAKE_SOURCE_DIR}/src/version.cmake
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-
 # Build tiles version if requested
 if (TILES)
     setup_library(cataclysm-tiles-common)
