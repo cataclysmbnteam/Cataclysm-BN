@@ -197,6 +197,10 @@ jobs:
           ccache --cleanup
           ccache --show-stats --verbose
 
+      - name: clear ccache on PRs
+        if: ${{ github.ref_name != 'upload' && env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
+        run: ccache --clear
+
       - name: upload artifacts if failed
         uses: actions/upload-artifact@v1
         if: failure()
