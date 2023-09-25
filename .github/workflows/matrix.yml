@@ -246,7 +246,7 @@ jobs:
         run: bash ./build-scripts/gha_test_only.sh
 
       - name: upload artifacts if failed
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3.1.3
         if: failure()
         with:
           name: cata_test
