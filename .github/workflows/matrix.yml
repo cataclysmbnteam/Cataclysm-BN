@@ -118,12 +118,12 @@ jobs:
         if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
         run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
-            libsdl2-mixer-dev libpulse-dev ccache gettext parallel
-      # ubuntu 22.04 has GCC 12 and clang 14
-      # - name: install missing compiler (ubuntu)
-      #   if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.compiler == 'g++-11' }}
-      #   run: sudo apt-get install ${{ matrix.compiler }}
+          sudo apt-get install libncursesw5-dev ccache gettext parallel
+          sudo locale-gen en_US.UTF-8 de_DE.UTF-8
+      - name: install SDL2 dependencies (ubuntu)
+        if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
+        run: |
+            sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev
       - name: check compiler (mac)
         if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
         run: |
