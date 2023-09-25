@@ -16,6 +16,12 @@ on:
       - doc/**
       - 'scripts/**'
 
+# Cancel all previous instances in favor of latest revision of a PR.
+# Allow running upload builds to complete to help with ccache refreshes.
+concurrency:
+  group: general-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   skip-duplicates:
     continue-on-error: true
