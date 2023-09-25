@@ -2,17 +2,26 @@
 title: Edge cases
 ---
 
-There are issues specific to Cataclysm: BN which translators should be aware of. These include the
-use of terms like `%s` and `%3$d` (leave them as they are), and the use of tags like `<name>`, which
-shouldn't be translated.
+There are issues specific to Cataclysm: BN which translators should be aware of. For example:
 
-Information about these and any other issues specific to individual languages, can be found in
-Cataclysm: BN's [language notes folder][notes].
+## Special Symbols
 
-[notes]: https://github.com/cataclysmbnteam/Cataclysm-BN/tree/upload/lang/notes
+Some translation texts will have special symbols or formatting, such as
 
-General notes for all translators are in `README_all_translators.txt`, and notes specific to a
-language may be stored as `<lang_id>.txt`, for example `de.txt` for German.
+- [`%s` and `%3$d` (should be leave them as they are)](../explanation/file_format.md#format-strings-and-newlines)
+- [`<name>` (shouldn't be translated)](../explanation/file_format.md#special-tags-in-strings)
 
-Cataclysm: BN has more than 14000 translatable strings, but don't be discouraged. The more
-translators there are, the easier it becomes 😄.
+To learn more, please read the [file format explanation](../explanation/file_format.md).
+
+## Language Specific Guidelines
+
+Check the following files for specific guidelines:
+
+- [General notes for all translators (mostly english)](../explanation/style_all.md)
+- [Notes specific to a language](../explanation/style.md)
+
+Cataclysm: BN has more than 46,000 translatable strings (last updated at 2023-09-22 [^1]), but don't
+be discouraged. The more translators there are, the easier it becomes!
+
+[^1]: Transifex API does not expose a public endpoint (at least without bearer token), so we were
+unable to update the number automatically.)

@@ -1,8 +1,8 @@
 import { join } from "node:path"
 import { fileURLToPath } from "node:url"
 
-import { defineConfig } from "astro/config"
 import starlight from "@astrojs/starlight"
+import { defineConfig } from "astro/config"
 import starlightLinksValidator from "starlight-links-validator"
 import { loadEnv } from "vite"
 
@@ -40,7 +40,9 @@ export default defineConfig({
       defaultLocale: "en",
       locales: {
         en: { label: "English" },
+        de: { label: "Deutsch", lang: "de-DE" },
         ko: { label: "한국어", lang: "ko-KR" },
+        ru: { label: "Русский", lang: "ru-RU" },
       },
       logo: { src: "./src/assets/icon-round.svg" },
       social: { github, discord },

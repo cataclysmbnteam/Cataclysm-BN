@@ -1,8 +1,8 @@
 ---
-title: translation style guide
+title: General Style Guide
 ---
 
-Follow these conventions when adding or editing in-game text:
+Please follow these conventions when adding or editing in-game text:
 
 1. Use US English spelling.
 2. Use double sentence spacing after periods. This means that a period that ends a sentence should
