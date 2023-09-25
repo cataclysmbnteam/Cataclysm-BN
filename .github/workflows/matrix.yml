@@ -225,9 +225,9 @@ jobs:
 
       - uses: ammaraskar/gcc-problem-matcher@master
 
-      - name: build and test
+      - name: build
         if: ${{ env.SKIP == 'false' }}
-        run: bash ./build-scripts/build.sh
+        run: bash ./build-scripts/gha_compile_only.sh
 
       - name: post-build ccache stats and cleanup
         if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
@@ -240,6 +240,10 @@ jobs:
       - name: clear ccache on PRs
         if: ${{ github.ref_name != 'upload' && env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
         run: ccache --clear
+
+      - name: run tests
+        if: ${{ env.SKIP == 'false' && env.SKIP_TESTS == 'false' }}
+        run: bash ./build-scripts/gha_test_only.sh
 
       - name: upload artifacts if failed
         uses: actions/upload-artifact@v1
