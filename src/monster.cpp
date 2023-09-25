@@ -792,7 +792,7 @@ std::string monster::extended_description() const
         {m_flag::MF_SMELLS, pgettext( "Smell as sense", "smell" )},
     }, _( "It doesn't have senses." ) );
 
-    describe_properties( _( "It is immune to %s." ), {
+    describe_flags( _( "It is immune to %s." ), {
         {m_flag::MF_FIREPROOF, pgettext( "Fire as immunity", "fire" )},
         {m_flag::MF_COLDPROOF, pgettext( "Cold as immunity", "cold" )},
         {m_flag::MF_ACIDPROOF, pgettext( "Acid as immunity", "acid" )},
