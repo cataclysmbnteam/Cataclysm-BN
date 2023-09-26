@@ -28,7 +28,7 @@ auto move_item( map &here, const tripoint &src, const tripoint &dest ) -> void
         here.add_item_or_charges( dest, *it );
         it = here.i_rem( src, it );
     }
-};
+}
 
 namespace elevator
 {
