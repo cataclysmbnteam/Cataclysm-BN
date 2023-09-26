@@ -5336,13 +5336,13 @@ bool item::has_flag( const std::string &f ) const
     auto mods = is_gun() ? gunmods() : toolmods();
     if(
         std::any_of( mods.begin(), mods.end(),
-            [&f]( const item *e ){
-                return ( !e->is_gun() && e->has_flag( f ) );
-            }
-        ) && json_flag::get( f ).inherit() ) {
+    [&f]( const item * e ) {
+    return ( !e->is_gun() && e->has_flag( f ) );
+    }
+                   ) && json_flag::get( f ).inherit() ) {
         return true;
     }
-    
+
     // other item type flags
     if( type->has_flag( f ) ) {
         return true;
