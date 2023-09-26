@@ -294,7 +294,7 @@ int main( int argc, const char *argv[] )
     // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!
     int result = session.applyCommandLine( arg_vec.size(), arg_vec.data() );
     if( result != 0 || session.configData().showHelp ) {
-        cata_printf( "CataclysmDDA specific options:\n" );
+        cata_printf( "Cataclysm: BN specific options:\n" );
         cata_printf( "  --mods=<mod1,mod2,…>         Loads the list of mods before executing tests.\n" );
         cata_printf( "  --user-dir=<dir>             Set user dir (where test world will be created).\n" );
         cata_printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
