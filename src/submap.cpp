@@ -36,6 +36,19 @@ void submap::swap( submap &first, submap &second )
     std::swap( first.fld, second.fld );
     std::swap( first.trp, second.trp );
     std::swap( first.rad, second.rad );
+    std::swap( first.is_uniform, second.is_uniform );
+    std::swap( first.active_items, second.active_items );
+    std::swap( first.field_count, second.field_count );
+    std::swap( first.last_touched, second.last_touched );
+    std::swap( first.spawns, second.spawns );
+    std::swap( first.vehicles, second.vehicles );
+    std::swap( first.partial_constructions, second.partial_constructions );
+    std::swap( first.camp, second.camp );
+    std::swap( first.active_furniture, second.active_furniture );
+    std::swap( first.is_uniform, second.is_uniform );
+    std::swap( first.computers, second.computers );
+    std::swap( first.legacy_computer, second.legacy_computer );
+    std::swap( first.temperature, second.temperature );
 
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
