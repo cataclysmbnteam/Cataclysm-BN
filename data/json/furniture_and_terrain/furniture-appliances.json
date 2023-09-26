@@ -911,6 +911,87 @@
   },
   {
     "type": "furniture",
+    "id": "f_battery_small",
+    "copy-from": "f_battery",
+    "name": "mounted small storage battery",
+    "description": "A small storage battery, connected to building's electric grid.",
+    "symbol": ":",
+    "color": "blue_white",
+    "move_cost_mod": 2,
+    "coverage": 10,
+    "active": [ "battery", { "max_stored": 500 } ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "small_storage_battery", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_battery_car",
+    "copy-from": "f_battery_small",
+    "name": "mounted car battery",
+    "description": "A lead-acid battery salvaged from a vehicle and connected to building's electric grid.",
+    "symbol": ":",
+    "color": "blue_white",
+    "active": [ "battery", { "max_stored": 2500 } ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "battery_car", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_battery_motorbike",
+    "copy-from": "f_battery_small",
+    "name": "mounted motorbike battery",
+    "description": "A small lead-acid battery salvaged from a vehicle and connected to building's electric grid.",
+    "symbol": ":",
+    "color": "blue_white",
+    "active": [ "battery", { "max_stored": 500 } ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "battery_motorbike", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_battery_motorbike_small",
+    "copy-from": "f_battery_small",
+    "name": "mounted small motorbike battery",
+    "description": "A tiny lead-acid battery salvaged from a vehicle and connected to building's electric grid.  Better than nothing if you're desperate to turn the lights back on.",
+    "symbol": ":",
+    "color": "blue_white",
+    "active": [ "battery", { "max_stored": 150 } ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 2, 5 ] },
+        { "item": "battery_motorbike_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_charger",
     "looks_like": "f_utility_shelf",
     "name": "battery charger",
