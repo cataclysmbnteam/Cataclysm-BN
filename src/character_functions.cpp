@@ -40,7 +40,6 @@ static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
@@ -48,6 +47,11 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+
+static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
+static const trait_flag_str_id trait_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
+static const trait_flag_str_id trait_flag_SPIRITUAL( "SPIRITUAL" );
 
 static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
@@ -101,13 +105,13 @@ void siphon( Character &ch, vehicle &veh, const itype_id &desired_liquid )
 bool is_book_morale_boosted( const Character &ch, const item &book )
 {
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( ch.has_trait_flag( "CANNIBAL" ) || ch.has_trait_flag( "PSYCHOPATH" ) ||
-          ch.has_trait_flag( "SAPIOVORE" ) ) &&
+    if( ( ch.has_trait_flag( trait_flag_CANNIBAL ) || ch.has_trait_flag( trait_flag_PSYCHOPATH ) ||
+          ch.has_trait_flag( trait_flag_SAPIOVORE ) ) &&
         book.has_flag( "CANNIBAL" ) ) {
         return true;
-    } else if( ch.has_trait_flag( "SPIRITUAL" ) && book.has_flag( "INSPIRATIONAL" ) ) {
+    } else if( ch.has_trait_flag( trait_flag_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         return true;
-    } else if( ch.has_trait_flag( "PSYCHOPATH" ) && book.has_flag( "MORBID" ) ) {
+    } else if( ch.has_trait_flag( trait_flag_PSYCHOPATH ) && book.has_flag( "MORBID" ) ) {
         return true;
     } else {
         return false;
@@ -136,7 +140,7 @@ int get_book_fun_for( const Character &ch, const item &book )
     }
 
     // Separate bonus for spiritual characters.
-    if( ch.has_trait_flag( "SPIRITUAL" ) && book.has_flag( "INSPIRATIONAL" ) ) {
+    if( ch.has_trait_flag( trait_flag_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         fun_bonus += 2;
     }
 
