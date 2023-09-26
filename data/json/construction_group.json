@@ -301,6 +301,11 @@
   },
   {
     "type": "construction_group",
+    "id": "rewire_street_light",
+    "name": "Rewire Street Light"
+  },
+  {
+    "type": "construction_group",
     "id": "build_improvised_shelter",
     "name": "Build Improvised Shelter"
   },
