@@ -122,6 +122,10 @@
     "type": "mutation_flag"
   },
   {
+    "id": "SPIRITUAL",
+    "type": "mutation_flag"
+  },
+  {
     "id": "SUBTLE_SPELL",
     "type": "mutation_flag"
   },
