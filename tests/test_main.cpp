@@ -99,7 +99,9 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
                                     option_overrides_t &option_overrides,
                                     const std::string &user_dir )
 {
-    remove_directory( user_dir );
+    if( !remove_tree( user_dir ) ) {
+        assert( !"Unable to remove user_dir directory.  Check permissions." );
+    }
     if( !assure_dir_exist( user_dir ) ) {
         assert( !"Unable to make user_dir directory.  Check permissions." );
     }
