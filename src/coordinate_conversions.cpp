@@ -1,7 +1,5 @@
 #include "coordinate_conversions.h"
 
-#include "game_constants.h"
-
 namespace
 {
 
@@ -149,15 +147,6 @@ auto ms_to_sm_remain( int &x, int &y ) -> point
     return point( divide( x, SEEX, x ), divide( y, SEEY, y ) );
 }
 
-auto sm_to_ms_copy( point p ) -> point
-{
-    return point( p.x * SEEX, p.y * SEEY );
-}
-
-auto sm_to_ms_copy( const tripoint &p ) -> tripoint
-{
-    return tripoint( p.x * SEEX, p.y * SEEY, p.z );
-}
 
 void sm_to_ms( int &x, int &y )
 {
