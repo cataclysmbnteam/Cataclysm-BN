@@ -299,7 +299,10 @@
     "transforms_into": "f_street_light_rewired_off",
     "prompt": "Switch off the street light.",
     "message": "You switch off the street light.",
-    "active": [ "charge_watcher", { "min_power": 15, "transform": { "id": "f_street_light_rewired_on", "msg": "The street light lights up." } } ]
+    "active": [
+      "charge_watcher",
+      { "min_power": 15, "transform": { "id": "f_street_light_rewired_on", "msg": "The street light lights up." } }
+    ]
   },
   {
     "type": "furniture",
