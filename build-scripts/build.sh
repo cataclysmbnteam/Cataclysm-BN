@@ -24,9 +24,6 @@ then
     make style-all-json-parallel RELEASE=1
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
-    # Also build chkjson (even though we're not using it), to catch any
-    # compile errors there
-    make -j "$num_jobs" chkjson
 elif [ -n "$JUST_JSON" ]
 then
     echo "Early exit on just-json change"
@@ -80,6 +77,7 @@ then
         -DCMAKE_BUILD_TYPE="$build_type" \
         -DTILES=${TILES:-0} \
         -DSOUND=${SOUND:-0} \
+        -DLIBBACKTRACE=${LIBBACKTRACE:-0} \
         "${cmake_extra_opts[@]}" \
         ..
     if [ -n "$CATA_CLANG_TIDY" ]
@@ -149,7 +147,7 @@ else
     else
         export BACKTRACE=1
     fi
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LANGUAGES="all" LINTJSON=0
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LANGUAGES="all" LINTJSON=0 LIBBACKTRACE="$LIBBACKTRACE"
 
     export UBSAN_OPTIONS=print_stacktrace=1
     if [ "$OS" == "macos-12" ]
@@ -176,7 +174,13 @@ else
         # Use a blacklist of mods that currently fail to load cleanly.  Hopefully this list will
         # shrink over time.
         blacklist=build-scripts/mod_test_blacklist
-        mods="$(./build-scripts/get_all_mods.py $blacklist)"
+        if [ "$LUA" == "1" ]
+        then
+            do_lua="1"
+        else
+            do_lua="0"
+        fi
+        mods="$(./build-scripts/get_all_mods.py $blacklist $do_lua)"
         run_tests ./tests/cata_test --user-dir=all_modded --mods="$mods" '~*'
     fi
 fi

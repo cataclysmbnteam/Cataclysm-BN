@@ -46,6 +46,7 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -171,6 +172,7 @@
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "wcwidth.h"
@@ -226,6 +228,7 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_evil( "evil" );
+static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
@@ -260,6 +263,7 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
@@ -298,7 +302,7 @@ static void achievement_attained( const achievement *a )
 game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
-    achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained ),
+    achievements_tracker_ptr( *stats_tracker_ptr, *kill_tracker_ptr, achievement_attained ),
     grid_tracker_ptr( MAPBUFFER ),
     m( *map_ptr ),
     u( *u_ptr ),
@@ -320,8 +324,8 @@ game::game() :
 {
     first_redraw_since_waiting_started = true;
     reset_light_level();
-    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*kill_tracker_ptr );
+    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*memorial_logger_ptr );
     events().subscribe( &*achievements_tracker_ptr );
     events().subscribe( &*spell_events_ptr );
@@ -514,7 +518,7 @@ void game::setup()
 
     stats().clear();
     // reset kill counts
-    kill_tracker_ptr->clear();
+    get_kill_tracker().clear();
     achievements_tracker_ptr->clear();
     // reset follower list
     follower_ids.clear();
@@ -627,9 +631,11 @@ bool game::start_game()
                            get_option<int>( "DISTANCE_INITIAL_VISIBILITY" ), 0 );
 
     u.moves = 0;
+    if( u.has_trait( trait_PROF_FERAL ) ) {
+        u.add_effect( effect_feral_killed_recently, 3_days );
+    }
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
-    get_weather().temperature = SPRING_TEMPERATURE;
     get_weather().update_weather();
     u.next_climate_control_check = calendar::before_time_starts; // Force recheck at startup
     u.last_climate_control_ret = false;
@@ -876,11 +882,6 @@ void game::reload_npcs()
     // and not invoke "on_load" for those NPCs that avoided unloading this way.
     unload_npcs();
     load_npcs();
-}
-
-const kill_tracker &game::get_kill_tracker() const
-{
-    return *kill_tracker_ptr;
 }
 
 void game::create_starting_npcs()
@@ -1517,6 +1518,8 @@ bool game::do_turn()
     mon_info_update();
     u.process_turn();
 
+    cata::run_on_every_x_hooks( *DynamicDataLoader::get_instance().lua );
+
     explosion_handler::get_explosion_queue().execute();
     cleanup_dead();
 
@@ -1577,14 +1580,6 @@ bool game::do_turn()
     u.update_bodytemp( m, weather );
     character_funcs::update_body_wetness( u, get_weather().get_precise() );
     u.apply_wetness_morale( weather.temperature );
-
-    if( calendar::once_every( 1_minutes ) ) {
-        u.update_morale();
-    }
-
-    if( calendar::once_every( 9_turns ) ) {
-        u.check_and_recover_morale();
-    }
 
     if( !u.is_deaf() ) {
         sfx::remove_hearing_loss();
@@ -2211,6 +2206,8 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_color" );
     ctxt.register_action( "open_world_mods" );
     ctxt.register_action( "debug" );
+    ctxt.register_action( "lua_console" );
+    ctxt.register_action( "lua_reload" );
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_scent_type" );
     ctxt.register_action( "debug_temp" );
@@ -2625,6 +2622,10 @@ bool game::load( const save_t &name )
 
     u.reset();
 
+    cata::load_world_lua_state( get_world_base_save_path() + "/lua_state.json" );
+
+    cata::run_on_game_load_hooks( *DynamicDataLoader::get_instance().lua );
+
     return true;
 }
 
@@ -2719,6 +2720,11 @@ stats_tracker &game::stats()
     return *stats_tracker_ptr;
 }
 
+kill_tracker &game::get_kill_tracker()
+{
+    return *kill_tracker_ptr;
+}
+
 memorial_logger &game::memorial()
 {
     return *memorial_logger_ptr;
@@ -2729,8 +2735,17 @@ spell_events &game::spell_events_subscriber()
     return *spell_events_ptr;
 }
 
+static bool save_uistate_data( const game &g )
+{
+    return write_to_file( g.get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
+        JsonOut jsout( fout );
+        uistate.serialize( jsout );
+    }, _( "uistate data" ) );
+}
+
 bool game::save()
 {
+    cata::run_on_game_save_hooks( *DynamicDataLoader::get_instance().lua );
     try {
         if( !save_player_data() ||
             !save_factions_missions_npcs() ||
@@ -2739,10 +2754,9 @@ bool game::save()
             !get_auto_pickup().save_character() ||
             !get_auto_notes_settings().save() ||
             !get_safemode().save_character() ||
-        !write_to_file( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
-        JsonOut jsout( fout );
-            uistate.serialize( jsout );
-        }, _( "uistate data" ) ) ) {
+            !cata::save_world_lua_state( g->get_world_base_save_path() + "/lua_state.json" ) ||
+            !save_uistate_data( *this )
+          ) {
             return false;
         } else {
             world_generator->last_world_name = world_generator->active_world->world_name;
@@ -5473,7 +5487,22 @@ void game::examine( const tripoint &examp )
     if( c != nullptr ) {
         monster *mon = dynamic_cast<monster *>( c );
         if( mon != nullptr ) {
-            add_msg( _( "There is a %s." ), mon->get_name() );
+            if( mon->battery_item && mon->has_effect( effect_pet ) ) {
+                const itype &type = *mon->type->mech_battery;
+                int max_charge = type.magazine->capacity;
+                float charge_percent;
+                if( mon->battery_item ) {
+                    charge_percent = static_cast<float>( mon->battery_item->ammo_remaining() ) / max_charge * 100;
+                } else {
+                    charge_percent = 0.0;
+                }
+                add_msg( _( "There is a %s.  Battery level: %d%%" ), mon->get_name(),
+                         static_cast<int>( charge_percent ) );
+            } else {
+                add_msg( _( "There is a %s." ), mon->get_name() );
+            }
+
+
             if( mon->has_effect( effect_pet ) && !u.is_mounted() ) {
                 if( monexamine::pet_menu( *mon ) ) {
                     return;
@@ -8694,19 +8723,25 @@ bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 {
+    static const iexamine_function ledge_examine = iexamine_function_from_string( "ledge" );
     std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
 
-    if( !harmful_stuff.empty() &&
-        !query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ) {
+    if( harmful_stuff.empty() ) {
+        return true;
+    }
+
+    if( !( harmful_stuff.size() == 1 && m.tr_at( dest_loc ).loadid == tr_ledge ) ) {
+        return query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ;
+    }
+
+    if( !u.is_mounted() ) {
+        ledge_examine( u, dest_loc );
         return false;
     }
-    if( !harmful_stuff.empty() && u.is_mounted() &&
-        m.tr_at( dest_loc ).loadid == tr_ledge ) {
-        add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
-                 u.mounted_creature->get_name() );
-        return false;
-    }
-    return true;
+
+    add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
+             u.mounted_creature->get_name() );
+    return false;
 }
 
 std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) const
@@ -8867,24 +8902,26 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
         const auto dangerous_terrain_opt = get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" );
         const auto harmful_text = enumerate_as_string( harmful_stuff );
-        const auto warn_msg = [&]( const char *const msg ) {
-            add_msg( m_warning, msg, harmful_text );
+        const auto looks_risky = _( "Stepping into that %1$s looks risky.  %2$s" );
+
+        const auto warn_msg = [&]( std::string_view action ) {
+            add_msg( m_warning, looks_risky, harmful_text, action.data() );
         };
 
         if( dangerous_terrain_opt == "IGNORE" ) {
-            warn_msg( _( "Stepping into that %1$s looks risky, but you enter anyway." ) );
+            warn_msg( _( "But you enter anyway." ) );
         } else if( dangerous_terrain_opt == "ALWAYS" && !prompt_dangerous_tile( dest_loc ) ) {
             return true;
         } else if( dangerous_terrain_opt == "RUNNING" &&
                    ( !u.movement_mode_is( CMM_RUN ) || !prompt_dangerous_tile( dest_loc ) ) ) {
-            warn_msg( _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ) );
+            warn_msg( _( "Run into it if you wish to enter anyway." ) );
             return true;
         } else if( dangerous_terrain_opt == "CROUCHING" &&
                    ( !u.movement_mode_is( CMM_CROUCH ) || !prompt_dangerous_tile( dest_loc ) ) ) {
-            warn_msg( _( "Stepping into that %1$s looks risky.  Crouch and move into it if you wish to enter anyway." ) );
+            warn_msg( _( "Crouch and move into it if you wish to enter anyway." ) );
             return true;
         } else if( dangerous_terrain_opt == "NEVER" && !u.movement_mode_is( CMM_RUN ) ) {
-            warn_msg( _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ) );
+            warn_msg( _( "Run into it if you wish to enter anyway." ) );
             return true;
         }
     }
@@ -9572,14 +9609,21 @@ bool game::grabbed_furn_move( const tripoint &dp )
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
+    int adjusted_str = u.get_str();
+    if( u.is_mounted() ) {
+        auto mons = u.mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
+            adjusted_str = mons->mech_str_addition();
+        }
+    }
     if( !canmove ) {
         // TODO: What is something?
         add_msg( _( "The %s collides with something." ), furntype.name() );
         u.moves -= 50;
         return true;
         ///\EFFECT_STR determines ability to drag furniture
-    } else if( str_req > u.get_str() &&
-               one_in( std::max( 20 - str_req - u.get_str(), 2 ) ) ) {
+    } else if( str_req > adjusted_str &&
+               one_in( std::max( 20 - str_req - adjusted_str, 2 ) ) ) {
         add_msg( m_bad, _( "You strain yourself trying to move the heavy %s!" ),
                  furntype.name() );
         u.moves -= 100;
@@ -9593,10 +9637,10 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     u.moves -= str_req * 10;
     // Additional penalty if we can't comfortably move it.
-    if( str_req > u.get_str() ) {
+    if( str_req > adjusted_str ) {
         int move_penalty = std::pow( str_req, 2.0 ) + 100.0;
         if( move_penalty <= 1000 ) {
-            if( u.get_str() >= str_req - 3 ) {
+            if( adjusted_str >= str_req - 3 ) {
                 u.moves -= std::max( 3000, move_penalty * 10 );
                 add_msg( m_bad, _( "The %s is really heavy!" ), furntype.name() );
                 if( one_in( 3 ) ) {
@@ -10026,9 +10070,10 @@ void game::vertical_move( int movez, bool force, bool peeking )
             }
         }
 
-        const int cost = map_funcs::climbing_cost( m, u.pos(), stairs );
 
-        if( cost == 0 ) {
+        const auto cost = map_funcs::climbing_cost( m, u.pos(), stairs );
+
+        if( !cost.has_value() ) {
             if( u.has_trait( trait_WEB_ROPE ) )  {
                 if( pts.empty() ) {
                     add_msg( m_info, _( "There is nothing above you that you can attach a web to." ) );
@@ -10056,14 +10101,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         }
 
-        if( cost <= 0 || pts.empty() ) {
+        if( pts.empty() ) {
             add_msg( m_info,
                      _( "You can't climb here - there is no terrain above you that would support your weight." ) );
             return;
         } else {
             // TODO: Make it an extended action
             climbing = true;
-            move_cost = cost;
+            move_cost = cost.value();
 
             const std::optional<tripoint> pnt = point_selection_menu( pts );
             if( !pnt ) {
@@ -11040,9 +11085,21 @@ void game::shift_monsters( const tripoint &shift )
     critter_tracker->rebuild_cache();
 }
 
+double npc_overmap::spawn_chance_in_hour( int npc_num, double density )
+{
+    static constexpr int days_in_year = 14 * 4;
+    const double expected_npc_count = days_in_year * density;
+    const double overcrowding_ratio = npc_num / expected_npc_count;
+    if( overcrowding_ratio < 1.0 ) {
+        return std::min( 1.0, density / 24.0 );
+    }
+    return ( 1.0 / 24.0 ) / overcrowding_ratio;
+}
+
 void game::perhaps_add_random_npc()
 {
-    if( !calendar::once_every( 1_hours ) ) {
+    static constexpr time_duration spawn_interval = 1_hours;
+    if( !calendar::once_every( spawn_interval ) ) {
         return;
     }
     // Create a new NPC?
@@ -11051,32 +11108,34 @@ void game::perhaps_add_random_npc()
         return;
     }
 
-    float density = get_option<float>( "NPC_DENSITY" );
-    static constexpr int density_search_radius = 60;
-    const float npc_num = overmap_buffer.get_npcs_near_player( density_search_radius ).size();
-    if( npc_num > 0.0 ) {
-        // 100%, 80%, 64%, 52%, 41%, 33%...
-        density *= std::pow( 0.8f, npc_num );
-    }
-
-    if( !x_in_y( density, 100 ) ) {
+    // We want the "NPC_DENSITY" to denote number of NPCs per week, per overmap, or so
+    // But soft-cap it at about a standard year (4*14 days) worth
+    const int npc_num = overmap_buffer.get_npcs_near_player(
+                            npc_overmap::density_search_radius ).size();
+    const double chance = npc_overmap::spawn_chance_in_hour( npc_num,
+                          get_option<float>( "NPC_DENSITY" ) );
+    add_msg( m_debug, "Random NPC spawn chance %0.3f%%", chance * 100 );
+    if( !x_in_y( chance, 1.0f ) ) {
         return;
     }
+
     bool spawn_allowed = false;
     tripoint_abs_omt spawn_point;
     int counter = 0;
     while( !spawn_allowed ) {
-        if( counter >= 10 ) {
+        if( counter >= 100 ) {
             return;
         }
-        static constexpr int radius_spawn_range = 120;
+        // Shouldn't be larger than search radius or it might get swarmy at the edges
+        static constexpr int radius_spawn_range = npc_overmap::density_search_radius;
         const tripoint_abs_omt u_omt = u.global_omt_location();
         spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
                                      rng( -radius_spawn_range, radius_spawn_range ) );
         spawn_point.z() = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
-        // shouldn't spawn on lakes or rivers.
-        if( !is_river_or_lake( oter ) ) {
+        // Shouldn't spawn on lakes or rivers.
+        // TODO: Prefer greater distance
+        if( !is_river_or_lake( oter ) || rl_dist( u_omt.xy(), spawn_point.xy() ) < 30 ) {
             spawn_allowed = true;
         }
         counter += 1;
@@ -11100,6 +11159,7 @@ void game::perhaps_add_random_npc()
     tmp->long_term_goal_action();
     tmp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
+    dbg( DL::Debug ) << "Spawning a random NPC at " << spawn_point;
     // This will make the new NPC active- if its nearby to the player
     load_npcs();
 }

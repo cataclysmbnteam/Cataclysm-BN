@@ -20,6 +20,7 @@
 #include "trap.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
@@ -654,7 +655,7 @@ bool unload_item( avatar &you, item_location loc )
         return false;
     }
     // Unload a container consuming moves per item successfully removed
-    if( it.is_container() || it.is_bandolier() ) {
+    if( it.is_container() || it.is_bandolier() || it.type->can_use( "holster" ) ) {
         if( it.contents.empty() ) {
             add_msg( m_info, _( "The %s is already empty!" ), it.tname() );
             return false;

@@ -16,6 +16,7 @@ on:
       - "tools/**"
       - "!tools/format/**"
       - "utilities/**"
+      - 'scripts/**'
 
 # We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:

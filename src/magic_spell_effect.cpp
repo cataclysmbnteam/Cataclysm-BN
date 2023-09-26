@@ -51,6 +51,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const ammo_effect_str_id ammo_effect_magic( "magic" );
@@ -740,7 +741,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
         granted.set_flag( "FIT" );
         you.wear_item( granted, false );
     } else if( !you.is_armed() ) {
-        you.primary_weapon() = granted;
+        you.set_primary_weapon( granted );
     } else {
         you.i_add( granted );
     }

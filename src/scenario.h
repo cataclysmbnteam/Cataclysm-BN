@@ -116,8 +116,9 @@ class scenario
 };
 
 struct scen_blacklist {
-    std::set<string_id<scenario>> scenarios;
-    bool whitelist = false;
+    std::set<string_id<scenario>> whitelist_scenarios;
+    std::set<string_id<scenario>> blacklist_scenarios;
+    std::set<string_id<scenario>> allowed_scenarios;
 
     static void load_scen_blacklist( const JsonObject &jo, const std::string &src );
     void load( const JsonObject &jo, const std::string & );

@@ -37,6 +37,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
@@ -47,6 +48,7 @@ static const std::string flag_FLOTATION( "FLOTATION" );
 static const std::string flag_GOES_DOWN( "GOES_DOWN" );
 static const std::string flag_GOES_UP( "GOES_UP" );
 static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
+static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 class inventory;
@@ -266,6 +268,10 @@ std::string action_ident( action_id act )
             return "help";
         case ACTION_DEBUG:
             return "debug";
+        case ACTION_LUA_CONSOLE:
+            return "lua_console";
+        case ACTION_LUA_RELOAD:
+            return "lua_reload";
         case ACTION_DISPLAY_SCENT:
             return "debug_scent";
         case ACTION_DISPLAY_SCENT_TYPE:
@@ -394,6 +400,8 @@ bool can_action_change_worldstate( const action_id act )
         // Debug Functions
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
+        case ACTION_LUA_CONSOLE:
+        case ACTION_LUA_RELOAD:
         case ACTION_DISPLAY_SCENT:
         case ACTION_DISPLAY_SCENT_TYPE:
         case ACTION_DISPLAY_TEMPERATURE:
@@ -625,7 +633,7 @@ static bool can_pickup_at( const tripoint &p )
         const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
-    return here.has_items( p ) || veh_has_items;
+    return ( here.has_items( p ) && !here.has_flag( flag_SEALED, p ) ) || veh_has_items;
 }
 
 bool can_interact_at( action_id action, const tripoint &p )
@@ -918,7 +926,8 @@ action_id handle_main_menu()
     register_actions( {
         ACTION_HELP, ACTION_KEYBINDINGS, ACTION_OPTIONS, ACTION_AUTOPICKUP, ACTION_AUTONOTES,
         ACTION_SAFEMODE, ACTION_DISTRACTION_MANAGER, ACTION_COLOR, ACTION_WORLD_MODS,
-        ACTION_ACTIONMENU, ACTION_QUICKSAVE, ACTION_SAVE, ACTION_DEBUG
+        ACTION_ACTIONMENU, ACTION_QUICKSAVE, ACTION_SAVE, ACTION_DEBUG, ACTION_LUA_CONSOLE,
+        ACTION_LUA_RELOAD
     } );
 
     uilist smenu;

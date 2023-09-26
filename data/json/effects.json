@@ -739,6 +739,31 @@
   },
   {
     "type": "effect_type",
+    "id": "feral_killed_recently",
+    "max_duration": "200 d",
+    "max_intensity": 200,
+    "int_dur_factor": "1 d",
+    "name": [ "Lucidity" ],
+    "desc": [
+      "You could always go for more bloodshed, but the voices in your head are staying quiet for now.  You currently won't suffer the side effects of your deteriorating mind and body."
+    ],
+    "remove_message": "You can hear the whispering again.  Need more meat.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "feral_infighting_punishment",
+    "max_duration": "7 d",
+    "max_intensity": 7,
+    "int_dur_factor": "1 d",
+    "name": [ "Inner turmoil" ],
+    "desc": [ "You don't feel like you anymore.  The others seem to regard you as prey." ],
+    "apply_message": "You feel like you shouldn't have done that…",
+    "remove_message": "You feel normal again.",
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "no_sight",
     "name": [ "Poor sight" ],
     "desc": [ "You can't see very far from this spot." ],
@@ -1426,8 +1451,19 @@
     "max_intensity": 6,
     "int_dur_factor": "200 s",
     "miss_messages": [ [ "You're winded.", 3 ] ],
-    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -3 ], "speed_mod": [ -20 ] },
-    "scaling_mods": { "speed_mod": [ -40 ] }
+    "harmful_cough": false,
+    "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -3 ], "speed_mod": [ -20 ], "cough_chance": [ 15 ] },
+    "scaling_mods": { "speed_mod": [ -40 ], "stamina_min": [ -2 ], "cough_chance": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "cough_aggravated_asthma",
+    "//": "This effect is applied whenever a character with the asthmatic trait suffers from a harmful_cough effect, increasing the chance of an asthma attack.",
+    "name": [ "Bronchospasms" ],
+    "desc": [
+      "Something in the air is making it harder to breathe, aggravating your asthma.  Increases the chance of suffering an asthma attack."
+    ],
+    "max_duration": "5 m"
   },
   {
     "type": "effect_type",
@@ -1768,21 +1804,9 @@
   },
   {
     "type": "effect_type",
-    "id": "mending",
-    "name": [ "Started recovery", "Recovering", "Mostly recovered" ],
-    "desc": [ "This damaged limb is slowly regaining its functions." ],
-    "//": "Duration is 10 days, but the actual time taken is probabilistic.",
-    "max_duration": "10 d",
-    "int_dur_factor": "60 h",
-    "max_intensity": 3,
-    "rating": "good",
-    "permanent": true
-  },
-  {
-    "type": "effect_type",
     "id": "disabled",
     "name": [ { "ctxt": "physically", "str": "Disabled" } ],
-    "desc": [ "This limb is damaged beyond use and may require a splint to recover." ],
+    "desc": [ "This limb is damaged beyond use and must fully heal to recover.  Using a splint may speed up the process." ],
     "//": "This sounds weird. We need <bp_affected> tag or something",
     "apply_message": "Your limb breaks!",
     "remove_message": "The broken limb has mended.",

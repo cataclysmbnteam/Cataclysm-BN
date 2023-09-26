@@ -1,0 +1,34 @@
+[
+  {
+    "id": "shotgun_paper",
+    "copy-from": "shotgun_1shot",
+    "type": "GUN",
+    "name": { "str": "20ga muzzleloading shotgun" },
+    "description": "A percussion cap fired shotgun, most likely a modern reproduction.  Favored over flintlocks for modern day blackpowder hunting, this one is chambered in .62 caliber or 20 gauge.",
+    "weight": "3500 g",
+    "volume": "2250 ml",
+    "price": "500 USD",
+    "price_postapoc": "1750 cent",
+    "material": [ "steel", "wood" ],
+    "looks_like": "shotgun_s",
+    "ammo": "shotpaper",
+    "dispersion": 200,
+    "durability": 7,
+    "clip_size": 1,
+    "reload": 750,
+    "barrel_length": "500 ml",
+    "blackpowder_tolerance": 96,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "muzzle", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "NEVER_JAMS" ]
+  }
+]

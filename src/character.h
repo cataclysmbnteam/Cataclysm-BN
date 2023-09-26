@@ -703,7 +703,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
-        bool has_trait_flag( const std::string &b ) const;
+        bool has_trait_flag( const trait_flag_str_id &b ) const;
         /** Returns true if character has a trait which cancels the entered trait. */
         bool has_opposite_trait( const trait_id &flag ) const;
 
@@ -742,10 +742,8 @@ class Character : public Creature, public visitable<Character>
         int get_working_arm_count() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
-        /** Returns true if the limb is disabled(12.5% or less hp)*/
+        /** Returns true if the limb is disabled (12.5% or less hp, or broken)*/
         bool is_limb_disabled( const bodypart_id &limb ) const;
-        /** Returns true if the limb is hindered(40% or less hp) */
-        bool is_limb_hindered( hp_part limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( const bodypart_id &limb ) const;
         /** source of truth of whether a Character can run */
@@ -1221,6 +1219,11 @@ class Character : public Creature, public visitable<Character>
         /*@}*/
 
         /**
+         * Use this when primary weapon might not exist yet.
+         */
+        void set_primary_weapon( const item &new_weapon );
+
+        /**
          * Try to find a container/s on character containing ammo of type it.typeId() and
          * add charges until the container is full.
          * @param unloading Do not try to add to a container when the item was intentionally unloaded.
@@ -1575,8 +1578,7 @@ class Character : public Creature, public visitable<Character>
         std::optional<tripoint> destination_point;
         inventory inv;
         itype_id last_item;
-    private:
-        item weapon;
+
     public:
 
         int scent = 0;
@@ -2013,7 +2015,7 @@ class Character : public Creature, public visitable<Character>
         bool change_side( item &it, bool interactive = true );
         bool change_side( item_location &loc, bool interactive = true );
 
-        bool get_check_encumbrance() {
+        bool get_check_encumbrance() const {
             return check_encumbrance;
         }
         void set_check_encumbrance( bool new_check ) {
@@ -2059,8 +2061,6 @@ class Character : public Creature, public visitable<Character>
         void suffer();
         /** Handles mitigation and application of radiation */
         bool irradiate( float rads, bool bypass = false );
-        /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
-        void mend( int rate_multiplier );
 
         /** Creates an auditory hallucination */
         void sound_hallu();
@@ -2222,6 +2222,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_chemimbalance();
         void suffer_from_schizophrenia();
         void suffer_from_asthma( int current_stim );
+        void suffer_feral_kill_withdrawl();
         void suffer_in_sunlight();
         void suffer_from_sunburn();
         void suffer_from_other_mutations();

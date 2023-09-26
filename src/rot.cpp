@@ -3,6 +3,7 @@
 #include "item_location.h"
 #include "map.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vpart_position.h"

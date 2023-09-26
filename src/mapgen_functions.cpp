@@ -40,7 +40,9 @@ static const itype_id itype_jackhammer( "jackhammer" );
 static const itype_id itype_mask_dust( "mask_dust" );
 
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );
+static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
@@ -113,6 +115,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
             { "river_curved",     &mapgen_river_curved },
+            { "river_shore",      &mapgen_river_shore },
             { "parking_lot",      &mapgen_parking_lot },
             { "cavern", &mapgen_cavern },
             { "open_air", &mapgen_open_air },
@@ -145,7 +148,9 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "ants_four_way",    &mapgen_ants_four_way },
             { "ants_food", &mapgen_ants_food },
             { "ants_larvae", &mapgen_ants_larvae },
+            { "ants_larvae_acid", &mapgen_ants_larvae_acid },
             { "ants_queen", &mapgen_ants_queen },
+            { "ants_queen_acid", &mapgen_ants_queen_acid },
             { "tutorial", &mapgen_tutorial },
             { "lake_shore", &mapgen_lake_shore },
         }
@@ -1695,8 +1700,7 @@ void mapgen_river_curved_not( mapgendata &dat )
             int circle_edge = ( ( SEEX * 2 - x ) * ( SEEX * 2 - x ) ) + ( y * y );
             if( circle_edge <= 8 ) {
                 m->ter_set( point( x, y ), grass_or_dirt() );
-            }
-            if( circle_edge == 9 && one_in( 25 ) ) {
+            } else if( circle_edge == 9 && one_in( 25 ) ) {
                 m->ter_set( point( x, y ), clay_or_sand() );
             } else if( circle_edge <= 36 ) {
                 m->ter_set( point( x, y ), t_water_moving_sh );
@@ -1773,6 +1777,59 @@ void mapgen_river_curved( mapgendata &dat )
     }
     if( dat.terrain_type() == "river_nw" ) {
         m->rotate( 3 );
+    }
+}
+
+void mapgen_river_shore( mapgendata &dat )
+{
+    map *const m = &dat.m;
+    fill_background( m, t_water_moving_dp );
+
+    bool ground_neswx[8] = {};
+    // N E S W NE SE SW NW
+    for( int dir = 0; dir < 8; dir++ ) {
+        ground_neswx[dir] = !( dat.t_nesw[dir]->is_river() ||
+                               dat.t_nesw[dir]->is_lake() ||
+                               dat.t_nesw[dir]->is_lake_shore() );
+    }
+
+    // Draw shores on sides
+    for( int dir = 0; dir < 4; dir++ ) {
+        if( ground_neswx[dir] ) {
+            m->rotate( 4 - dir );
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                int ground_edge = rng( 1, 3 );
+                int shallow_edge = rng( 4, 6 );
+                line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
+                if( one_in( 25 ) ) {
+                    m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
+                }
+                line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
+            }
+            m->rotate( dir );
+        }
+    }
+
+    // Bite corner, unless there's a shore already
+    for( int dir = 0; dir < 4; dir++ ) {
+        if( ground_neswx[dir + 4] && !ground_neswx[dir] && !ground_neswx[( dir + 1 ) % 4] ) {
+            m->rotate( 4 - dir );
+            int north_edge = rng( 16, 18 );
+            int east_edge = rng( 4, 8 );
+            for( int x = north_edge; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < east_edge; y++ ) {
+                    int circle_edge = ( ( SEEX * 2 - x ) * ( SEEX * 2 - x ) ) + ( y * y );
+                    if( circle_edge <= 8 ) {
+                        m->ter_set( point( x, y ), grass_or_dirt() );
+                    } else if( circle_edge == 9 && one_in( 25 ) ) {
+                        m->ter_set( point( x, y ), clay_or_sand() );
+                    } else if( circle_edge <= 36 ) {
+                        m->ter_set( point( x, y ), t_water_moving_sh );
+                    }
+                }
+            }
+            m->rotate( dir );
+        }
     }
 }
 
@@ -2324,19 +2381,6 @@ static void mapgen_ants_generic( mapgendata &dat )
             }
         }
     }
-    if( dat.terrain_type() == "ants_food" ) {
-        m->place_items( item_group_id( "ant_food" ), 92, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                        true, dat.when() );
-    } else {
-        m->place_items( item_group_id( "ant_egg" ),  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                        true, dat.when() );
-    }
-    if( dat.terrain_type() == "ants_queen" ) {
-        m->add_spawn( mon_ant_queen, 1, { SEEX, SEEY, m->get_abs_sub().z } );
-    } else if( dat.terrain_type() == "ants_larvae" ) {
-        m->add_spawn( mon_ant_larva, 10, { SEEX, SEEY, m->get_abs_sub().z } );
-    }
-
 }
 
 void mapgen_ants_food( mapgendata &dat )
@@ -2350,19 +2394,35 @@ void mapgen_ants_food( mapgendata &dat )
 void mapgen_ants_larvae( mapgendata &dat )
 {
     mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ),  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                        true,
                        dat.when() );
     dat.m.add_spawn( mon_ant_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
+void mapgen_ants_larvae_acid( mapgendata &dat )
+{
+    mapgen_ants_generic( dat );
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    dat.m.add_spawn( mon_ant_acid_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
+}
+
 void mapgen_ants_queen( mapgendata &dat )
 {
     mapgen_ants_generic( dat );
-    dat.m.place_items( item_group_id( "ant_egg" ),  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                        true,
                        dat.when() );
     dat.m.add_spawn( mon_ant_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
+}
+
+void mapgen_ants_queen_acid( mapgendata &dat )
+{
+    mapgen_ants_generic( dat );
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    dat.m.add_spawn( mon_ant_acid_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_tutorial( mapgendata &dat )

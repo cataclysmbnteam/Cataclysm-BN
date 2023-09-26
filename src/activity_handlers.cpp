@@ -103,6 +103,7 @@
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
@@ -202,6 +203,8 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_under_op( "under_operation" );
 
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
@@ -236,6 +239,7 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
+static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
@@ -243,9 +247,9 @@ static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const species_id HUMAN( "HUMAN" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
-static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
-static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
-static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
+static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
+static const trait_flag_str_id trait_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -485,10 +489,19 @@ static void extract_or_wreck_cbms( const std::list<item> &cbms, int roll,
         // This complicates things
         if( it.is_bionic() ) {
             if( check_butcher_cbm( roll ) || it.typeId() == itype_burnt_out_bionic ) {
-                add_msg( m_good, _( "You discover a %s!" ), it.tname() );
+                if( it.has_flag( "BIONIC_FAULTY" ) ) {
+                    it.convert( itype_burnt_out_bionic );
+                    // We don't need the non-sterile fault on a piece of burnt-out bionic
+                    if( it.has_fault( fault_bionic_nonsterile ) ) {
+                        it.faults.erase( fault_bionic_nonsterile );
+                    }
+                }
+                add_msg( m_good, _( "You discover: %s!" ), it.tname() );
             } else {
-                // We convert instead of recreating so that it keeps flags and faults
                 it.convert( itype_burnt_out_bionic );
+                if( it.has_fault( fault_bionic_nonsterile ) ) {
+                    it.faults.erase( fault_bionic_nonsterile );
+                }
                 add_msg( m_bad, _( "Your imprecise surgery damaged a bionic, producing a %s." ), it.tname() );
             }
         } else {
@@ -496,7 +509,11 @@ static void extract_or_wreck_cbms( const std::list<item> &cbms, int roll,
                 add_msg( m_bad, _( "Your imprecise surgery destroyed some organs." ) );
                 continue;
             } else {
-                add_msg( m_good, _( "You discover a %s!" ), it.tname() );
+                // If we have non-bionic loot in a harvest's bionic_group it doesn't need to be marked non-sterile either.
+                if( it.has_fault( fault_bionic_nonsterile ) ) {
+                    it.faults.erase( fault_bionic_nonsterile );
+                }
+                add_msg( m_good, _( "You discover: %s!" ), it.tname() );
             }
         }
 
@@ -4151,20 +4168,13 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
+void activity_handlers::chop_tree_do_turn( player_activity *act, player * )
 {
     map &here = get_map();
     sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
         sounds::sound( here.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
-    }
-    if( calendar::once_every( 6_minutes ) ) {
-        p->mod_fatigue( 1 );
-    }
-    if( calendar::once_every( 12_minutes ) ) {
-        p->mod_stored_nutr( 1 );
-        p->mod_thirst( 1 );
     }
 }
 
@@ -4236,6 +4246,31 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     act->set_to_null();
+
+    // Quality of tool used and assistants can together both reduce intensity of work.
+    if( act->targets.empty() ) {
+        debugmsg( "woodcutting item location not set" );
+        resume_for_multi_activities( *p );
+        return;
+    }
+
+    item_location &loc = act->targets[ 0 ];
+    item *it = loc.get_item();
+    if( it == nullptr ) {
+        debugmsg( "woodcutting item location lost" );
+        resume_for_multi_activities( *p );
+        return;
+    }
+
+    int act_exertion = iuse::chop_moves( *p, *it );
+    p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
+    act_exertion = act_exertion * ( 10 - helpers.size() ) / 10;
+
+    p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 80_seconds ) ) );
+    p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 12_minutes ) ) );
+    p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
+
     resume_for_multi_activities( *p );
 }
 
@@ -4278,6 +4313,23 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
+
+    // Quality of tool used and assistants can together both reduce intensity of work.
+    item_location &loc = act->targets[ 0 ];
+    item *it = loc.get_item();
+    if( it == nullptr ) {
+        debugmsg( "woodcutting item location lost" );
+        return;
+    }
+
+    int act_exertion = iuse::chop_moves( *p, *it );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
+    act_exertion = act_exertion * ( 10 - helpers.size() ) / 10;
+
+    p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 80_seconds ) ) );
+    p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 12_minutes ) ) );
+    p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
+
     resume_for_multi_activities( *p );
 }
 
@@ -4370,12 +4422,18 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         here.ter_set( pos, t_dirt );
     }
+    int act_exertion = to_moves<int>( time_duration::from_minutes( 15 ) );
+    if( old_ter == t_pit_shallow ) {
+        act_exertion = to_moves<int>( time_duration::from_minutes( 10 ) );
+    } else if( old_ter == t_dirtmound ) {
+        act_exertion = to_moves<int>( time_duration::from_minutes( 5 ) );
+    }
     const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
+    act_exertion = act_exertion * ( 10 - helpersize ) / 10;
+    p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 20_seconds ) ) );
+    p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 3_minutes ) ) );
+    p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 90_seconds ) ) );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
-
     act->set_to_null();
 }
 
@@ -4808,7 +4866,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             }
         }
     }
-    if( !act->targets.empty() ) {
+    if( !act->targets.empty() && act->targets.front() ) {
         item &it = *act->targets.front();
         if( !it.has_flag( "USE_PLAYER_ENERGY" ) ) {
             p->consume_charges( it, it.type->charges_to_use() );

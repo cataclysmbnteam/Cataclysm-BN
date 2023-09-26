@@ -25,6 +25,7 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
+#include "mtype.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
@@ -104,6 +105,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_SLUDGEPROOF: return "SLUDGEPROOF";
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
         case MF_COLDPROOF: return "COLDPROOF";
+        case MF_BIOPROOF: return "BIOPROOF";
         case MF_FIREY: return "FIREY";
         case MF_QUEEN: return "QUEEN";
         case MF_ELECTRONIC: return "ELECTRONIC";
@@ -392,6 +394,12 @@ void MonsterGenerator::finalize_mtypes()
     for( const auto &mon : mon_templates->get_all() ) {
         if( !mon.has_flag( MF_NOT_HALLU ) ) {
             hallucination_monsters.push_back( mon.id );
+        }
+
+        for( auto &attack : mon.special_attacks ) {
+            const mattack_actor &actor = *attack.second;
+            mattack_actor &actor_nonconst_hack = const_cast<mattack_actor &>( actor );
+            actor_nonconst_hack.finalize();
         }
     }
 }
@@ -943,6 +951,11 @@ void MonsterGenerator::load_species( const JsonObject &jo, const std::string &sr
 
 void species_type::load( const JsonObject &jo, const std::string & )
 {
+    name.make_plural();
+    if( !jo.has_member( "name" ) ) {
+        debugmsg( "Species %s lacks a name field, will default to id string.", id.c_str() );
+    }
+    optional( jo, was_loaded, "name", name, no_translation( id.c_str() ) );
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };

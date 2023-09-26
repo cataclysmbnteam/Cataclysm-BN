@@ -155,7 +155,7 @@
     "category": [ "MEDICAL" ],
     "healing_awake": 0.2,
     "healing_resting": 0.5,
-    "mending_modifier": 2.0
+    "mending_modifier": 0.5
   },
   {
     "type": "mutation",
@@ -356,9 +356,10 @@
     "type": "mutation",
     "id": "DEFT",
     "name": { "str": "Deft" },
-    "points": 1,
-    "description": "While you're not any better at melee combat, you are better at recovering from a miss, and will be able to attempt another strike faster.",
+    "points": 2,
+    "description": "Your attacks are 10% faster overall.  You are also better at recovering from a miss, and will be able to attempt another strike faster.",
     "starting_trait": true,
+    "attackcost_modifier": 0.9,
     "category": [ "BIRD", "BEAST", "RAPTOR", "MOUSE", "FELINE" ]
   },
   {
@@ -722,37 +723,34 @@
     "id": "SLOWHEALER",
     "name": { "str": "Slow Healer" },
     "points": -2,
-    "description": "Your wounds heal a little slower than most.  Your HP whilst asleep, as well as your broken limbs, heal at 75% of the regular rate.",
+    "description": "Your wounds heal a little slower than most.  Your HP whilst asleep heals at 75% of the regular rate.",
     "starting_trait": true,
     "types": [ "HEALING" ],
-    "healing_resting": -0.25,
-    "mending_modifier": 0.5
+    "healing_resting": -0.25
   },
   {
     "type": "mutation",
     "id": "SLOWHEALER2",
     "name": { "str": "Poor Healer" },
     "points": -4,
-    "description": "Your health recovery is severely impaired.  Your HP whilst asleep, as well as your broken limbs, heal at 33% of the regular rate.",
+    "description": "Your health recovery is severely impaired.  Your HP whilst asleep heals at 33% of the regular rate.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
     "types": [ "HEALING" ],
-    "healing_resting": -0.66,
-    "mending_modifier": 0.33
+    "healing_resting": -0.66
   },
   {
     "type": "mutation",
     "id": "SLOWHEALER3",
     "name": { "str": "Imperceptive Healer" },
     "points": -8,
-    "description": "Wounds are incredibly dangerous to you, as they barely heal at all.  Your HP whilst asleep, as well as your broken limbs, heal at 10% of the regular rate.",
+    "description": "Wounds are incredibly dangerous to you, as they barely heal at all.  Your HP whilst asleep heals at 10% of the regular rate.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
     "types": [ "HEALING" ],
-    "healing_resting": -0.9,
-    "mending_modifier": 0.1
+    "healing_resting": -0.9
   },
   {
     "type": "mutation",
@@ -1377,34 +1375,34 @@
     "category": [ "PLANT", "LIZARD" ],
     "healing_awake": 0.66,
     "healing_resting": 0.5,
-    "mending_modifier": 4.0
+    "mending_modifier": 0.5
   },
   {
     "type": "mutation",
     "id": "REGEN",
     "name": { "str": "Regeneration" },
     "points": 6,
-    "description": "Your flesh regenerates from wounds incredibly quickly.  You heal 150% faster whilst asleep and 200% faster whilst awake.  Your broken limbs also heal 16 times faster than usual.",
+    "description": "Your flesh regenerates from wounds incredibly quickly.  You heal 150% faster whilst asleep and 200% faster whilst awake.  You do not require splints to heal broken limbs.",
     "types": [ "HEALING" ],
     "prereqs": [ "FASTHEALER2" ],
     "category": [ "SLIME", "TROGLOBITE" ],
     "healing_awake": 2.0,
     "healing_resting": 1.5,
-    "mending_modifier": 16.0
+    "mending_modifier": 1.0
   },
   {
     "type": "mutation",
     "id": "REGEN_LIZ",
     "name": { "str": "Reptilian Healing" },
-    "points": 5,
+    "//": "Not worth a point, barely more than flavor.",
+    "points": 0,
     "valid": false,
     "purifiable": false,
-    "description": "Your broken limbs mend themselves without significant difficulty.  You do not require splints and broken limbs heal 20 times faster than usual.",
-    "cancels": [ "ROT1", "ROT2", "ROT3" ],
-    "prereqs": [ "FASTHEALER2" ],
+    "description": "Your broken limbs mend themselves without significant difficulty.  You do not require splints.",
+    "prereqs": [ "FASTHEALER" ],
     "threshreq": [ "THRESH_LIZARD" ],
     "category": [ "LIZARD" ],
-    "mending_modifier": 20.0
+    "mending_modifier": 1.0
   },
   {
     "type": "mutation",
@@ -6456,5 +6454,16 @@
     "valid": false,
     "purifiable": false,
     "profession": false
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_FERAL",
+    "name": { "str": "Lost To The Cataclysm" },
+    "points": 0,
+    "description": "Something inside you snapped.  Whether through wallowing in decay or by otherworldly influence, the living shun you while the undead mostly ignore you.  Your mind and body will deteriorate if you don't keep killing the living and sane.  Your fellow lost and damned will suffice too, but that might cause the others to mistake you for the living.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true,
+    "scent_type": "sc_fetid"
   }
 ]

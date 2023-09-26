@@ -50,7 +50,7 @@ bool is_json_check_strict( const std::string &src )
 
 /** @relates int_id */
 template<>
-inline bool int_id<ter_t>::is_valid() const
+bool int_id<ter_t>::is_valid() const
 {
     return terrain_data.is_valid( *this );
 }
@@ -194,6 +194,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "SUSPENDED",                TFLAG_SUSPENDED },      // This furniture is suspended between other terrain, and will cause a cascading failure on break.
         { "FRIDGE",                   TFLAG_FRIDGE },         // This is an active fridge.
         { "FREEZER",                  TFLAG_FREEZER },        // This is an active freezer.
+        { "ELEVATOR",                 TFLAG_ELEVATOR },       // This is an elevator.
     }
 };
 

@@ -10,9 +10,11 @@
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "point.h"
 #include "sounds.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "debug.h"
 #include "rng.h"
@@ -154,7 +156,13 @@ bool game::grabbed_veh_move( const tripoint &dp )
     // for smaller vehicles, offroad_str_req_cap sanity-checks our results.
     int str_req = std::min( get_vehicle_str_requirement( grabbed_vehicle ),
                             offroad_str_req_cap( grabbed_vehicle ) );
-    const int str = u.get_str();
+    int str = u.get_str();
+    if( u.is_mounted() ) {
+        auto mons = u.mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
+            str = mons->mech_str_addition();
+        }
+    }
     add_msg( m_debug, "str_req: %d", str_req );
 
     //final strength check and outcomes

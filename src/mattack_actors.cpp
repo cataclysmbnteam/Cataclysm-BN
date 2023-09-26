@@ -30,6 +30,7 @@
 #include "sounds.h"
 #include "translations.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_range.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
@@ -179,6 +180,10 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
               to_translation( "%1$s casts %2$s at %3$s!" ) );
     spell_data = intermediate.get_spell();
     spell_data.set_message( monster_message );
+}
+
+void mon_spellcasting_actor::finalize()
+{
     avatar fake_player;
     move_cost = spell_data.casting_time( fake_player );
 }
@@ -481,37 +486,45 @@ int gun_actor::get_max_range()  const
     }
     return max_range;
 }
-
-static std::optional<tripoint> find_target_vehicle( monster &z, int range )
+namespace
 {
+
+auto find_target_vehicle( monster &z, int range ) -> std::optional<tripoint>
+{
+    const auto is_different_plane = []( const wrapped_vehicle & v, const monster & m ) -> bool {
+        return !fov_3d && v.pos.z != m.pos().z;
+    };
+
     map &here = get_map();
     bool found = false;
     tripoint aim_at;
     for( wrapped_vehicle &v : here.get_vehicles() ) {
-        if( ( !fov_3d && v.pos.z != z.pos().z ) || v.v->velocity == 0 ) {
+        if( is_different_plane( v, z ) || v.v->velocity == 0 ) {
             continue;
         }
 
         bool found_controls = false;
 
         for( const vpart_reference &vp : v.v->get_avail_parts( "CONTROLS" ) ) {
-            if( z.sees( vp.pos() ) ) {
-                int new_dist = rl_dist( z.pos(), vp.pos() );
-                if( new_dist <= range ) {
+            if( !z.sees( vp.pos() ) ) {
+                continue;
+            }
 
-                    aim_at = vp.pos();
-                    range = new_dist;
-                    found = true;
-                    found_controls = true;
-                }
+            int new_dist = rl_dist( z.pos(), vp.pos() );
+            if( new_dist <= range ) {
+                aim_at = vp.pos();
+                range = new_dist;
+                found = true;
+                found_controls = true;
             }
         }
+
 
         if( !found_controls ) {
             std::vector<tripoint> line = here.find_clear_path( z.pos(), v.v->global_pos3() );
             tripoint prev_point = z.pos();
             for( tripoint &i : line ) {
-                if( here.floor_between( prev_point, i ) ) {
+                if( !z.sees( i ) ||  here.floor_between( prev_point, i ) ) {
                     break;
                 }
                 optional_vpart_position vp = here.veh_at( i );
@@ -537,6 +550,9 @@ static std::optional<tripoint> find_target_vehicle( monster &z, int range )
         return std::optional<tripoint>();
     }
 }
+
+} // namespace
+
 
 bool gun_actor::call( monster &z ) const
 {
@@ -577,6 +593,10 @@ bool gun_actor::call( monster &z ) const
         }
     }
 
+    // One last check to make sure we're not firing on a friendly
+    if( target && z.attitude_to( *target ) == Creature::A_FRIENDLY ) {
+        return false;
+    }
     int dist = rl_dist( z.pos(), aim_at );
     for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
@@ -669,7 +689,7 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         tmp.set_skill_level( pr.first, pr.second );
     }
 
-    tmp.primary_weapon() = gun;
+    tmp.set_primary_weapon( gun );
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
     if( g->u.sees( z ) ) {

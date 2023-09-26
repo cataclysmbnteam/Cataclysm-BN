@@ -128,6 +128,39 @@
     "flags": [ "WATER_FRIENDLY", "STURDY" ]
   },
   {
+    "id": "mask_cavalry_iron",
+    "repairs_like": "helmet_plarmor",
+    "type": "ARMOR",
+    "name": { "str": "iron battle mask" },
+    "description": "A full-face mask made of iron, in the vein of Roman cavalry masks.  Provides decent protection and gives an imposing post-apocalyptic look.",
+    "weight": "900 g",
+    "volume": "750 ml",
+    "price": "300 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "iron" ],
+    "symbol": "[",
+    "looks_like": "mask_bal",
+    "color": "dark_gray",
+    "covers": [ "mouth", "eyes" ],
+    "coverage": 95,
+    "encumbrance": 15,
+    "warmth": 10,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "STURDY" ]
+  },
+  {
+    "id": "mask_cavalry_bronze",
+    "copy-from": "mask_cavalry_iron",
+    "type": "ARMOR",
+    "name": { "str": "bronze battle mask" },
+    "description": "A full-face mask made of bronze, in the vein of Roman cavalry masks.  Provides decent protection and gives an imposing post-apocalyptic look.",
+    "weight": "950 g",
+    "price": "500 USD",
+    "material": [ "bronze" ],
+    "color": "yellow"
+  },
+  {
     "id": "mask_dust",
     "repairs_like": "tshirt",
     "type": "ARMOR",
@@ -169,6 +202,7 @@
     "warmth": 5,
     "material_thickness": 1,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "WATER_FRIENDLY" ]
   },
   {
@@ -193,6 +227,7 @@
     "warmth": 5,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "WATER_FRIENDLY", "STURDY" ]
   },
   {

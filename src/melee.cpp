@@ -61,6 +61,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weighted_list.h"
 
@@ -112,6 +113,9 @@ static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
+static const trait_flag_str_id trait_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
+static const trait_flag_str_id trait_flag_UNARMED_BONUS( "UNARMED_BONUS" );
+
 static const efftype_id effect_amigara( "amigara" );
 
 static const species_id HUMAN( "HUMAN" );
@@ -148,7 +152,19 @@ item &Character::used_weapon()
 
 const item &Character::primary_weapon() const
 {
-    return weapon;
+    if( get_body().find( body_part_arm_r ) == get_body().end() ) {
+        debugmsg( "primary_weapon called before set_anatomy" );
+        return null_item_reference();
+    }
+
+    // TODO: Remove unconst hacks
+    const std::shared_ptr<item> &wielded_const = get_part( body_part_arm_r ).wielding.wielded;
+    std::shared_ptr<item> &wielded = const_cast<std::shared_ptr<item> &>( wielded_const );
+    if( wielded == nullptr ) {
+        wielded = std::make_shared<item>();
+    }
+
+    return *wielded;
 }
 
 item &Character::primary_weapon()
@@ -156,10 +172,29 @@ item &Character::primary_weapon()
     return const_cast<item &>( const_cast<const Character *>( this )->primary_weapon() );
 }
 
+void Character::set_primary_weapon( const item &new_weapon )
+{
+    auto &body = get_body();
+    auto iter = body.find( body_part_arm_r );
+    if( iter != body.end() ) {
+        bodypart &part = get_part( body_part_arm_r );
+        if( part.wielding.wielded == nullptr ) {
+            part.wielding.wielded = std::make_shared<item>( new_weapon );
+        } else {
+            *part.wielding.wielded = new_weapon;
+        }
+    }
+}
+
 std::vector<item *> Character::wielded_items()
 {
-    if( !weapon.is_null() ) {
-        return {&weapon};
+    if( get_body().find( body_part_arm_r ) == get_body().end() ) {
+        return {};
+    }
+    const bodypart &right_arm = get_part( body_part_arm_r );
+    const auto wielded = right_arm.wielding.wielded;
+    if( wielded != nullptr && !wielded->is_null() ) {
+        return {& *wielded};
     }
 
     return {};
@@ -167,11 +202,8 @@ std::vector<item *> Character::wielded_items()
 
 std::vector<const item *> Character::wielded_items() const
 {
-    if( !weapon.is_null() ) {
-        return {&weapon};
-    }
-
-    return {};
+    const auto nonconst_ret = const_cast<Character *>( this )->wielded_items();
+    return std::vector<const item *>( nonconst_ret.begin(), nonconst_ret.end() );
 }
 
 bool Character::is_armed() const
@@ -622,16 +654,15 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     const int melee = get_skill_level( skill_melee );
 
     // Previously calculated as 2_gram * std::max( 1, str_cur )
-    // using 16_gram normalizes it to 8 str. Same effort expenditure
-    // for each strike, regardless of weight. This is compensated
-    // for by the additional move cost as weapon weight increases
     const int weight_cost = cur_weapon.weight() / ( 16_gram );
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
                                  2.0f );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
+    const float strbonus = 1 / ( 2 + ( str_cur * 0.25f ) );
     const float skill_cost = std::max( 0.667f, static_cast<float>( ( 30.0f - melee ) / 30.0f ) );
-    /** @EFFECT_MELEE reduces stamina cost of melee attacks */
-    const int mod_sta = ( weight_cost + encumbrance_cost - deft_bonus + 50 ) * -1 * skill_cost;
+    /** @EFFECT_MELEE and @EFFECT_STR reduce stamina cost of melee attacks */
+    const int mod_sta = -( weight_cost + encumbrance_cost - deft_bonus + 50 ) * skill_cost *
+                        ( 0.75f + strbonus );
     mod_stamina( std::min( -50, mod_sta ) );
     add_msg( m_debug, "Stamina burn: %d", std::min( -50, mod_sta ) );
     mod_moves( -move_cost );
@@ -938,12 +969,13 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             for( const trait_id &mut : get_mutations() ) {
-                if( mut->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut ) ) {
+                if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
+                    !has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int bash_bonus = mut->bash_dmg_bonus;
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && bash_bonus > 0 ) {
+                if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && bash_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += bash_bonus + unarmed_bonus;
@@ -1026,12 +1058,13 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
             }
 
             for( const trait_id &mut : get_mutations() ) {
-                if( mut->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut ) ) {
+                if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
+                    !has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int cut_bonus = mut->cut_dmg_bonus;
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
+                if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += cut_bonus + unarmed_bonus;
@@ -1098,7 +1131,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
             for( const trait_id &mut : get_mutations() ) {
                 int stab_bonus = mut->pierce_dmg_bonus;
                 int unarmed_bonus = 0;
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && stab_bonus > 0 ) {
+                if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && stab_bonus > 0 ) {
                     unarmed_bonus = std::min( unarmed_skill / 2, 4 );
                 }
 
@@ -2256,7 +2289,7 @@ int Character::attack_cost( const item &weap ) const
     /** @EFFECT_MELEE increases melee attack speed */
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
-    const int dexbonus = dex_cur / 2;
+    const int dexbonus = dex_cur;
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
@@ -2311,14 +2344,8 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
     const double more = std::max( val_gun, val_melee );
     const double less = std::min( val_gun, val_melee );
 
-    // discourage wielding helmets, but not worn firearms
-    int armor_penalty = 1;
-    if( weap.is_armor() && !weap.is_gun() ) {
-        armor_penalty = 0;
-    }
-
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
-    const double my_val = ( more + ( less / 2.0 ) ) * armor_penalty;
+    const double my_val = ( more + ( less / 2.0 ) );
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
     return my_val;
 }

@@ -94,6 +94,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -2525,7 +2526,8 @@ bool map::is_bashable( const tripoint &p, const bool allow_floor ) const
 bool map::is_bashable_ter( const tripoint &p, const bool allow_floor ) const
 {
     const auto &ter_bash = ter( p ).obj().bash;
-    return ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor );
+    return ter_bash.str_max != -1 && ( ( !ter_bash.bash_below &&
+                                         !ter( p ).obj().has_flag( "VEH_TREAT_AS_BASH_BELOW" ) ) || allow_floor );
 }
 
 bool map::is_bashable_furn( const tripoint &p ) const
@@ -3978,11 +3980,18 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
     avatar &you = get_avatar();
     const auto &ter = this->ter( p ).obj();
     const auto &furn = this->furn( p ).obj();
+
     if( ter.open ) {
         if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
             return false;
         }
-
+        if( you.is_mounted() ) {
+            auto mon = you.mounted_creature.get();
+            if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                add_msg( m_info, _( "You can't open things while you're riding." ) );
+                return false;
+            }
+        }
         if( !check_only ) {
             sounds::sound( p, 6, sounds::sound_t::movement, _( "swish" ), true,
                            "open_door", ter.id.str() );
@@ -4000,6 +4009,13 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         if( has_flag( "OPENCLOSE_INSIDE", p ) && !inside ) {
             return false;
         }
+        if( you.is_mounted() ) {
+            auto mon = you.mounted_creature.get();
+            if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                add_msg( m_info, _( "You can't open things while you're riding." ) );
+                return false;
+            }
+        }
 
         if( !check_only ) {
             sounds::sound( p, 6, sounds::sound_t::movement, _( "swish" ), true,
@@ -4011,6 +4027,13 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
     } else if( const optional_vpart_position vp = veh_at( p ) ) {
         int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
         if( openable >= 0 ) {
+            if( you.is_mounted() ) {
+                auto mon = you.mounted_creature.get();
+                if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                    add_msg( m_info, _( "You can't open things while you're riding." ) );
+                    return false;
+                }
+            }
             if( !check_only ) {
                 if( !vp->vehicle().handle_potential_theft( you ) ) {
                     return false;
@@ -5480,9 +5503,16 @@ int map::get_field_intensity( const tripoint &p, const field_type_id &type ) con
     return ( field_ptr == nullptr ? 0 : field_ptr->get_field_intensity() );
 }
 
+
+bool map::has_field_at( const tripoint &p, bool check_bounds )
+{
+    const tripoint sm = ms_to_sm_copy( p );
+    return ( !check_bounds || inbounds( p ) ) && get_cache( p.z ).field_cache[sm.x + sm.y * MAPSIZE];
+}
+
 field_entry *map::get_field( const tripoint &p, const field_type_id &type )
 {
-    if( !inbounds( p ) ) {
+    if( !inbounds( p ) || !has_field_at( p, false ) ) {
         return nullptr;
     }
 

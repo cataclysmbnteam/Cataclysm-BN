@@ -269,8 +269,8 @@
       "skills": [ [ "fabrication", 3 ], [ "cooking", 2 ] ],
       "inline": {
         "tools": [  ],
-        "qualities": [ [ { "id": "SAW_W" } ], [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "2x4", 32 ], [ "stick", 32 ] ], [ [ "material_soil", 2 ] ], [ [ "rock", 56 ] ] ]
+        "qualities": [ [ { "id": "CUT" } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ] ],
+        "components": [ [ [ "2x4", 32 ], [ "stick", 32 ], [ "stick_long", 16 ] ], [ [ "material_soil", 2 ] ], [ [ "rock", 56 ] ] ]
       }
     }
   },
@@ -571,7 +571,7 @@
       "inline": {
         "tools": [ [ [ "fake_gridsolderingiron", 20 ], [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
         "qualities": [ [ { "id": "SCREW" } ] ],
-        "components": [ [ [ "cable", 5 ] ], [ [ "forge", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 25 ] ] ]
+        "components": [ [ [ "cable", 5 ] ], [ [ "forge", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "solder_wire", 20 ] ] ]
       }
     }
   },
@@ -615,8 +615,8 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_adobe", 1 ], [ "mortar_build", 1 ] ],
           [ [ "rock", 40 ] ],
-          [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
           [ [ "water", 2 ], [ "water_clean", 2 ] ]
         ]
       }

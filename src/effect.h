@@ -11,6 +11,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "hash_utils.h"
 #include "translations.h"
 #include "type_id.h"
@@ -93,6 +94,8 @@ class effect_type
         static void register_ma_buff_effect( const effect_type &eff );
 
         static void check_consistency();
+
+        LUA_TYPE_OPS( effect_type, id );
 
     private:
         bool permanent = false;

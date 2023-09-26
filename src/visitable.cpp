@@ -29,6 +29,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 
 static const itype_id itype_apparatus( "apparatus" );
@@ -743,11 +744,13 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
             iter = stack.erase( iter );
 
             if( --count == 0 ) {
+                here.update_submap_active_item_status( *cur );
                 return res;
             }
         } else {
             iter->contents.remove_internal( filter, count, res );
             if( count == 0 ) {
+                here.update_submap_active_item_status( *cur );
                 return res;
             }
             ++iter;

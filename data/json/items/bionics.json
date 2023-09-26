@@ -31,7 +31,9 @@
     "price": 0,
     "price_postapoc": 0,
     "weight": "500 g",
-    "description": "This CBM is broken beyond repair, you can't do anything with it."
+    "description": "This CBM is broken beyond repair, you can't do anything with it.",
+    "//": "Needed for dissection of faulty CBMs from dead PCs and NPCs to convert the harvest result into a burnt-out bionic automatically.",
+    "extend": { "flags": [ "BIONIC_FAULTY" ] }
   },
   {
     "id": "bio_adrenaline",
@@ -72,7 +74,7 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Arms Alloy Plating CBM" },
-    "description": "Alloy plating that replaces the flesh on the user's arms.  Provides passive protection and can be used in conjunction with bionic martial arts.",
+    "description": "Alloy plating that replaces the flesh on the user's arms.  Provides 6 bash and cut protection, 5 ballistic protection, and can be used in conjunction with bionic martial arts.",
     "price": 350000,
     "difficulty": 3,
     "installation_data": "AID_bio_armor_arms"
@@ -83,7 +85,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Protective Lenses CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A bionic package that seals the user's eye sockets with highly protective mirrored lenses and re-routes their tear ducts to their mouth.  When the user cries, they must spit out or swallow their tears.",
+    "description": "A bionic package that seals the user's eye sockets with highly protective mirrored lenses and re-routes their tear ducts to their mouth.  Provides 3 bash and cut protection, and 7 environmental protection.",
     "price": 550000,
     "weight": "500 g",
     "difficulty": 5
@@ -94,7 +96,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Head Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Alloy plating that replaces the flesh on the user's head, protecting both their head and jaw regions.",
+    "description": "Alloy plating that replaces the flesh on the user's head, protecting both their head and jaw regions.  Provides 6 bash and cut protection, and 5 ballistic protection.",
     "price": 350000,
     "weight": "1000 g",
     "difficulty": 5
@@ -105,7 +107,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Legs Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Alloy plating that replaces the flesh on the user's legs.  Provides passive protection and can be used in conjunction with bionic martial arts.",
+    "description": "Alloy plating that replaces the flesh on the user's legs.  Provides 6 bash and cut protection, 5 ballistic protection, and can be used in conjunction with bionic martial arts.",
     "price": 350000,
     "difficulty": 3,
     "installation_data": "AID_bio_armor_legs"
@@ -116,7 +118,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Torso Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Alloy plating that replaces the flesh on the user's torso, protecting it from physical trauma.",
+    "description": "Alloy plating that replaces the flesh on the user's torso, protecting it from physical trauma.  Provides 6 bash and cut protection, and 5 ballistic protection.",
     "price": 350000,
     "weight": "3000 g",
     "difficulty": 4
@@ -195,7 +197,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Subdermal Carbon Filament CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A thin armor made of carbon nanotubes, implanted just beneath the skin.  This reduces bashing damage by 2 and cutting damage by 4.",
+    "description": "A thin armor made of carbon nanotubes, implanted just beneath the skin.  This reduces all bashing damage by 5%, cutting damage by 10%, and ballistic damage by 15%.",
     "price": 750000,
     "difficulty": 9
   },
@@ -1096,7 +1098,7 @@
     "id": "bio_deformity",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Pieces Of Junk", "str_pl": "Pieces of Junk" },
+    "name": { "str": "Bionic-Induced Deformity", "str_pl": "Bionic-Induced Deformities" },
     "description": "A jumble of broken metal pieces that were removed during reconstructive surgery.",
     "difficulty": 5
   },
@@ -1104,7 +1106,7 @@
     "id": "bio_dis_acid",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Acidic Leaking CBM" },
+    "name": { "str": "Acidic Discharge" },
     "description": "This CBM has been breached in several places and some acid is leaking from it.",
     "weight": "700 g",
     "difficulty": 11
@@ -1113,7 +1115,7 @@
     "id": "bio_dis_shock",
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
-    "name": { "str": "Faulty Electric System" },
+    "name": { "str": "Electrical Discharge" },
     "description": "This CBM is a mess of naked wire and burnt resistors.",
     "weight": "700 g",
     "difficulty": 5
@@ -1283,7 +1285,6 @@
     "name": { "str": "Linguistic Coprocessor CBM" },
     "description": "A microcomputer installed into the left hemisphere of your brain to increase the speed that it processes language.  When installed, it provides a passive boost to reading speed.",
     "price": 100000,
-    "price_postapoc": 50000,
     "difficulty": 5
   },
   {
@@ -1292,8 +1293,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Dopamine Stimulators CBM" },
     "description": "A set of tiny bionic nerve stimulators that install into the reward center of your brain.  When run with bionic power, it periodically releases a hit of dopamine and other reward chemicals, inducing a state of euphoria and suppressing fear.",
-    "price": 1000000,
-    "price_postapoc": 100000,
+    "price": 100000,
     "difficulty": 8
   },
   {
@@ -1310,7 +1310,15 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Perpetual Generator CBM" },
-    "description": "Installed within you is a perpetual generator powered by nonsensoleum.  When activated it's power gen doubles.  If you are seeing this, you'd better be debugging.",
+    "description": "Installed within you is a perpetual generator powered by nonsensoleum.  When activated its power gen doubles.  If you are seeing this, you'd better be debugging.",
+    "price": 0
+  },
+  {
+    "id": "debug_bio_fuel_cell",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Debug Fuel Cell CBM" },
+    "description": "The power of the sun, in the palm of my hand!  Installed within you is a perpetual generator powered by nonsensoleum.  When activated its power gen doubles.  If you are seeing this, you'd better be debugging.",
     "price": 0
   }
 ]

@@ -91,6 +91,7 @@
 #include "inventory.h"
 #include "map.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "worldfactory.h"
 #endif
@@ -3520,6 +3521,7 @@ void catacurses::init_interface()
 
     get_options().init();
     get_options().load();
+    get_options().save();
 
     font_loader fl;
     fl.load();

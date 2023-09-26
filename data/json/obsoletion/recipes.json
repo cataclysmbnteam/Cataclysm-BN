@@ -780,11 +780,6 @@
   },
   {
     "type": "recipe",
-    "result": "bowl_pewteruncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "brew_bum_wine",
     "obsolete": true
   },
@@ -2025,11 +2020,6 @@
   },
   {
     "type": "recipe",
-    "result": "tin_plateuncraft",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "toaster",
     "obsolete": true
   },
@@ -3166,6 +3156,12 @@
   {
     "result": "chem_zinc_powder",
     "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jug_plastic",
+    "id_suffix": "plastic-mod",
     "obsolete": true
   }
 ]

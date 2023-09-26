@@ -95,9 +95,11 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
+#include "units_temperature.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -156,7 +158,7 @@ static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
 static const species_id ROBOT( "ROBOT" );
 
-static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
+static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
 
@@ -281,6 +283,9 @@ static const std::string has_thievery_witness( "has_thievery_witness" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 
 static const matec_id rapid_strike( "RAPID" );
+
+static const std::string flag_COLD( "COLD" );
+static const std::string flag_VERY_COLD( "VERY_COLD" );
 
 class npc_class;
 
@@ -2458,10 +2463,27 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( parts->test( iteminfo_parts::GUNMOD_USEDON ) ) {
-        std::string used_on_str = _( "Used on: " ) +
-        enumerate_as_string( mod.usable.begin(), mod.usable.end(), []( const gun_type_type & used_on ) {
-            return string_format( "<info>%s</info>", used_on.name() );
-        } );
+        std::string used_on_str = _( "<bold>Used on:</bold>" );
+
+        if( !mod.usable.empty() ) {
+            used_on_str += _( "\n  Specific: " ) + enumerate_as_string( mod.usable.begin(),
+            mod.usable.end(), []( const itype_id & used_on ) {
+                return string_format( "<info>%s</info>", used_on->nname( 1 ) );
+            } );
+        }
+
+        if( !mod.usable_category.empty() ) {
+            used_on_str += _( "\n  Category: " );
+            std::vector<std::string> combination;
+            for( const std::unordered_set<weapon_category_id> &catgroup : mod.usable_category ) {
+                combination.emplace_back( ( "[" ) + enumerate_as_string( catgroup.begin(),
+                catgroup.end(), []( const weapon_category_id & wcid ) {
+                    return string_format( "<info>%s</info>", wcid->name().translated() );
+                }, enumeration_conjunction::none ) + ( "]" ) );
+            }
+            used_on_str += enumerate_as_string( combination, enumeration_conjunction::or_ );
+        }
+
         info.push_back( iteminfo( "GUNMOD", used_on_str ) );
     }
 
@@ -4699,6 +4721,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( is_fresh() ) {
             tagtext += _( " (fresh)" );
         }
+        if( has_flag( flag_COLD ) ) {
+            tagtext += _( " (cold)" );
+        } else if( has_flag( flag_VERY_COLD ) ) {
+            tagtext += _( " (very cold)" );
+        }
     }
 
     const sizing sizing_level = get_sizing( you, get_encumber( you ) != 0 );
@@ -5584,78 +5611,57 @@ int item::spoilage_sort_order() const
     return bottom;
 }
 
+namespace
+{
+
 /**
- * Food decay calculation.
- * Calculate how much food rots per hour, based on 10 = 1 minute of decay @ 65 F.
+ * Hardcoded lookup table for food rots per hour calculation.
+ *
  * IRL this tends to double every 10c a few degrees above freezing, but past a certain
  * point the rate decreases until even extremophiles find it too hot. Here we just stop
- * further acceleration at 105 F. This should only need to run once when the game starts.
- * @see calc_rot_array
- * @see rot_chart
+ * further acceleration at 40C.
+ *
+ * Original formula:
+ * @see https://github.com/cataclysmbnteam/Cataclysm-BN/blob/033901af4b52ad0bfcfd6abfe06bca4e403d44b1/src/item.cpp#L5612-L5640
  */
-static int calc_hourly_rotpoints_at_temp( const int temp )
+constexpr auto rot_chart = std::array<int, 44>
 {
-    // default temp = 65, so generic->rotten() assumes 600 decay points per hour
-    const int dropoff = 38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
-    const int cutoff = 105;     // stop torturing the player at this temperature, which is
-    const int cutoffrot = 21240; // ..almost 6 times the base rate. bacteria hate the heat too
+    0, 372, 744, 1118, 1219, 1273, 1388, 1514, 1651, 1800,
+    1880, 2050, 2235, 2438, 2658, 2776, 3027, 3301, 3600, 3926,
+    4100, 4471, 4875, 5317, 5798, 6054, 6602, 7200, 7852, 8562,
+    8941, 9751, 10633, 11595, 12645, 13205, 14400, 15703, 17125, 18674,
+    19501,
+};
 
-    const int dsteps = dropoff - units::to_fahrenheit( temperatures::freezing );
-    const int dstep = ( 215.46 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
-
-    if( temp < units::to_fahrenheit( temperatures::freezing ) ) {
-        return 0;
-    } else if( temp > cutoff ) {
-        return cutoffrot;
-    } else if( temp < dropoff ) {
-        return ( temp - units::to_fahrenheit( temperatures::freezing ) ) * dstep;
-    } else {
-        return std::lround( 215.46 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
-    }
-}
-
-/**
- * Initialize the rot table.
- * @see rot_chart
- */
-static std::vector<int> calc_rot_array( const size_t cap )
-{
-    std::vector<int> ret;
-    ret.reserve( cap );
-    for( size_t i = 0; i < cap; ++i ) {
-        ret.push_back( calc_hourly_rotpoints_at_temp( static_cast<int>( i ) ) );
-    }
-    return ret;
-}
+} // namespace
 
 /**
  * Get the hourly rot for a given temperature from the precomputed table.
  * @see rot_chart
  */
-int get_hourly_rotpoints_at_temp( const int temp )
+auto get_hourly_rotpoints_at_temp( const units::temperature temp ) -> int
 {
     /**
      * Precomputed rot lookup table.
      */
-    static const std::vector<int> rot_chart = calc_rot_array( 200 );
-
-    if( temp < 0 ) {
+    if( temp < temperatures::freezing ) {
         return 0;
     }
-    if( temp > 150 ) {
+    if( temp > 40_c ) {
         return 21240;
     }
-    return rot_chart[temp];
+    const int temp_c = units::to_celsius( temp );
+    return rot_chart[temp_c];
 }
 
-time_duration item::calc_rot( time_point time, int temp ) const
+auto item::calc_rot( time_point time, const units::temperature temp ) const -> time_duration
 {
     // Avoid needlessly calculating already rotten things.  Corpses should
     // always rot away and food rots away at twice the shelf life.  If the food
     // is in a sealed container they won't rot away, this avoids needlessly
     // calculating their rot in that case.
     if( !is_corpse() && get_relative_rot() > 2.0 ) {
-        return time_duration::from_seconds( 0 );
+        return 0_seconds;
     }
 
     // rot modifier
@@ -5664,7 +5670,7 @@ time_duration item::calc_rot( time_point time, int temp ) const
         factor = 0.75;
     }
 
-    time_duration added_rot = time_duration::from_seconds( 0 );
+    time_duration added_rot = 0_seconds;
     // simulation of different age of food at the start of the game and good/bad storage
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
     // positive = food was produced some time before calendar::start and/or bad storage
@@ -5673,34 +5679,38 @@ time_duration item::calc_rot( time_point time, int temp ) const
         time_duration spoil_variation = get_shelf_life() * 0.2f;
         added_rot += rng( -spoil_variation, spoil_variation );
     }
-
     time_duration time_delta = time - last_rot_check;
     added_rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
     return added_rot;
 }
 
-static int temperature_flag_to_highest_temperature( temperature_flag temperature )
+namespace
+{
+
+auto temperature_flag_to_highest_temperature( temperature_flag temperature ) -> units::temperature
 {
     switch( temperature ) {
         case temperature_flag::TEMP_NORMAL:
-            return INT_MAX;
         case temperature_flag::TEMP_HEATER:
-            return INT_MAX;
+            return units::temperature_max;
         case temperature_flag::TEMP_FRIDGE:
-            return to_fahrenheit( temperatures::fridge );
+            return temperatures::fridge;
         case temperature_flag::TEMP_FREEZER:
-            return to_fahrenheit( temperatures::freezer );
+            return temperatures::freezer;
         case temperature_flag::TEMP_ROOT_CELLAR:
-            return to_fahrenheit( temperatures::root_cellar );
+            return temperatures::root_cellar;
     }
 
-    return INT_MAX;
+    return units::temperature_max;
 }
+
+} // namespace
+
 
 time_duration item::minimum_freshness_duration( temperature_flag temperature ) const
 {
-    int temperature_f = temperature_flag_to_highest_temperature( temperature );
-    unsigned long long rot_per_hour = get_hourly_rotpoints_at_temp( temperature_f );
+    const units::temperature temp = temperature_flag_to_highest_temperature( temperature );
+    unsigned long long rot_per_hour = get_hourly_rotpoints_at_temp( temp );
 
     if( rot_per_hour <= 0 || !type->comestible ) {
         return calendar::INDEFINITELY_LONG_DURATION;
@@ -7192,19 +7202,6 @@ skill_id item::gun_skill() const
     return type->gun->skill_used;
 }
 
-gun_type_type item::gun_type() const
-{
-    if( !is_gun() ) {
-        return gun_type_type( std::string() );
-    }
-    if( has_flag( flag_CROSSBOW ) ) {
-        return gun_type_type( translate_marker_context( "gun_type_type", "crossbow" ) );
-    }
-    // TODO: move to JSON and remove extraction of this from "GUN" (via skill id)
-    //and from "GUNMOD" (via "mod_targets") in lang/extract_json_strings.py
-    return gun_type_type( gun_skill().str() );
-}
-
 skill_id item::melee_skill() const
 {
     if( !is_melee() ) {
@@ -7767,9 +7764,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         debugmsg( "Tried checking compatibility of non-gunmod" );
         return ret_val<bool>::make_failure();
     }
-    static const gun_type_type pistol_gun_type( translate_marker_context( "gun_type_type", "pistol" ) );
-    static const skill_id skill_archery( "archery" );
-    static const std::string bow_hack_str( "bow" );
+    const islot_gunmod &g_mod = *mod.type->gunmod;
 
     if( !is_gun() ) {
         return ret_val<bool>::make_failure( _( "isn't a weapon" ) );
@@ -7780,24 +7775,30 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( gunmod_find( mod.typeId() ) ) {
         return ret_val<bool>::make_failure( _( "already has a %s" ), mod.tname( 1 ) );
 
-    } else if( !get_mod_locations().count( mod.type->gunmod->location ) ) {
+    } else if( !get_mod_locations().count( g_mod.location ) ) {
         return ret_val<bool>::make_failure( _( "doesn't have a slot for this mod" ) );
 
-    } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
+    } else if( get_free_mod_locations( g_mod.location ) <= 0 ) {
         return ret_val<bool>::make_failure( _( "doesn't have enough room for another %s mod" ),
                                             mod.type->gunmod->location.name() );
 
-        // TODO: Get rid of the "archery"->"bow" hack
-    } else if( !mod.type->gunmod->usable.count( gun_type() ) &&
-               !mod.type->gunmod->usable.count( typeId().str() ) &&
-               !( gun_skill() == skill_archery && mod.type->gunmod->usable.count( bow_hack_str ) > 0 ) ) {
-        return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
+    } else if( !g_mod.usable.empty() || !g_mod.usable_category.empty() ) {
+        bool usable = g_mod.usable.count( this->typeId() );
+        for( const std::unordered_set<weapon_category_id> &mod_cat : g_mod.usable_category ) {
+            if( usable ) {
+                break;
+            }
+            if( std::all_of( mod_cat.begin(), mod_cat.end(), [this]( const weapon_category_id & wcid ) {
+            return this->type->weapon_category.count( wcid );
+            } ) ) {
+                usable = true;
+            }
+        }
+        if( !usable ) {
+            return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
+        }
 
-    } else if( typeId() == itype_hand_crossbow &&
-               !mod.type->gunmod->usable.count( pistol_gun_type ) ) {
-        return ret_val<bool>::make_failure( _( "isn't big enough to use that mod" ) );
-
-    } else if( mod.type->gunmod->location.str() == "underbarrel" &&
+    } else if( g_mod.location.str() == "underbarrel" &&
                !mod.has_flag( flag_PUMP_RAIL_COMPATIBLE ) && has_flag( flag_PUMP_ACTION ) ) {
         return ret_val<bool>::make_failure( _( "can only accept small mods on that slot" ) );
 
@@ -8991,7 +8992,7 @@ bool item::process_rot( const bool seals, const tripoint &pos,
 
     // process rot at most once every 100_turns (10 min)
     // note we're also gated by item::processing_speed
-    time_duration smallest_interval = 10_minutes;
+    constexpr time_duration smallest_interval = 10_minutes;
 
     units::temperature temp = units::from_fahrenheit( weather.get_temperature( pos ) );
     temp = clip_by_temperature_flag( temp, flag );
@@ -9023,17 +9024,13 @@ bool item::process_rot( const bool seals, const tripoint &pos,
                         calendar::config, seed );
                 env_temperature_raw = weather_temperature + local_mod;
             } else {
-                env_temperature_raw = units::from_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE ) + local_mod;
+                env_temperature_raw = temperatures::annual_average + local_mod;
             }
 
             units::temperature env_temperature_clipped = clip_by_temperature_flag( env_temperature_raw, flag );
 
-            // Lookup table is in F
-            int final_temperature_in_fahrenheit = static_cast<int>( std::round( units::to_fahrenheit<float>
-                                                  ( env_temperature_clipped ) ) );
-
             // Calculate item rot
-            rot += calc_rot( time, final_temperature_in_fahrenheit );
+            rot += calc_rot( time, env_temperature_clipped );
             last_rot_check = time;
 
             if( has_rotten_away() && carrier == nullptr && !seals ) {
@@ -9046,13 +9043,23 @@ bool item::process_rot( const bool seals, const tripoint &pos,
     // Remaining <1 h from above
     // and items that are held near the player
     if( now - time > smallest_interval ) {
-        int final_temperature_in_fahrenheit = static_cast<int>( std::round( units::to_fahrenheit<float>
-                                              ( temp ) ) );
-
-        rot += calc_rot( now, final_temperature_in_fahrenheit );
+        rot += calc_rot( now, temp );
         last_rot_check = now;
 
         return has_rotten_away() && carrier == nullptr && !seals;
+    }
+    // If we're still here, mark how cold it is so we can apply tagtext to items
+    // FIXME: this might cause issues with performance, move the comparision
+    // directly to item::tname once #2250 lands
+    if( temp <= temperatures::freezing ) {
+        unset_flag( flag_COLD );
+        set_flag( flag_VERY_COLD );
+    } else if( temp <= temperatures::root_cellar ) {
+        set_flag( flag_COLD );
+        unset_flag( flag_VERY_COLD );
+    } else {
+        unset_flag( flag_COLD );
+        unset_flag( flag_VERY_COLD );
     }
 
     return false;
@@ -10140,24 +10147,37 @@ bool item::has_clothing_mod() const
     return false;
 }
 
+namespace
+{
+const std::string &get_clothing_mod_val_key( clothing_mod_type type )
+{
+    const static auto cache = ( []() {
+        std::array<std::string, clothing_mods::all_clothing_mod_types.size()> res;
+        for( const clothing_mod_type &type : clothing_mods::all_clothing_mod_types ) {
+            res[type] = CLOTHING_MOD_VAR_PREFIX
+                        + clothing_mods::string_from_clothing_mod_type( clothing_mods::all_clothing_mod_types[type] );
+        }
+        return res;
+    } )();
+
+    return cache[ type ];
+}
+} // namespace
+
 float item::get_clothing_mod_val( clothing_mod_type type ) const
 {
-    const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
-                                type );
-    return get_var( key, 0.0 );
+    return get_var( get_clothing_mod_val_key( type ), 0.0f );
 }
 
 void item::update_clothing_mod_val()
 {
     for( const clothing_mod_type &type : clothing_mods::all_clothing_mod_types ) {
-        const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
-                                    type );
         float tmp = 0.0;
         for( const clothing_mod &cm : clothing_mods::get_all_with( type ) ) {
             if( has_own_flag( cm.flag ) ) {
                 tmp += cm.get_mod_val( type, *this );
             }
         }
-        set_var( key, tmp );
+        set_var( get_clothing_mod_val_key( type ), tmp );
     }
 }

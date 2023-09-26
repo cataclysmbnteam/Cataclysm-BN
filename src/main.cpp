@@ -21,6 +21,7 @@
 #else
 #   include <csignal>
 #endif
+#include "catalua.h"
 #include "color.h"
 #include "crash.h"
 #include "cursesdef.h"
@@ -193,6 +194,7 @@ int main( int argc, char *argv[] )
     int seed = time( nullptr );
     bool verifyexit = false;
     bool check_mods = false;
+    bool lua_doc_mode = false;
     std::string dump;
     dump_mode dmode = dump_mode::TSV;
     std::vector<std::string> opts;
@@ -237,7 +239,7 @@ int main( int argc, char *argv[] )
         const char *section_default = nullptr;
         const char *section_map_sharing = "Map sharing";
         const char *section_user_directory = "User directories";
-        const std::array<arg_handler, 13> first_pass_arguments = {{
+        const std::array<arg_handler, 14> first_pass_arguments = {{
                 {
                     "--seed", "<string of letters and or numbers>",
                     "Sets the random number generator's seed value",
@@ -254,7 +256,7 @@ int main( int argc, char *argv[] )
                 },
                 {
                     "--jsonverify", nullptr,
-                    "Checks the CDDA json files",
+                    "Checks the BN json files",
                     section_default,
                     [&verifyexit]( int, const char ** ) -> int {
                         verifyexit = true;
@@ -263,7 +265,7 @@ int main( int argc, char *argv[] )
                 },
                 {
                     "--check-mods", "[mods…]",
-                    "Checks the json files belonging to CDDA mods",
+                    "Checks the json files belonging to BN mods",
                     section_default,
                     [&check_mods, &opts]( int n, const char *params[] ) -> int {
                         check_mods = true;
@@ -413,6 +415,16 @@ int main( int argc, char *argv[] )
                     section_default,
                     []( int, const char ** ) -> int {
                         dont_debugmsg = true;
+                        return 0;
+                    }
+                },
+                {
+                    "--lua-doc", nullptr,
+                    "If set, will generate Lua docs and exit",
+                    section_default,
+                    [&]( int, const char ** ) -> int {
+                        test_mode = true;
+                        lua_doc_mode = true;
                         return 0;
                     }
                 }
@@ -649,6 +661,7 @@ int main( int argc, char *argv[] )
 #if !defined(TILES)
     get_options().init();
     get_options().load();
+    get_options().save();
     set_language(); // Have to set locale before initializing ncurses
 #endif
 
@@ -717,6 +730,20 @@ int main( int argc, char *argv[] )
     sigIntHandler.sa_flags = 0;
     sigaction( SIGINT, &sigIntHandler, nullptr );
 #endif
+
+    DebugLog( DL::Info, DC::Main ) << "LAPI version: " << cata::get_lapi_version_string();
+    cata::startup_lua_test();
+
+    if( lua_doc_mode ) {
+        init_colors();
+        if( cata::generate_lua_docs() ) {
+            cata_printf( "Lua doc: Done!\n" );
+            return 0;
+        } else {
+            cata_printf( "Lua doc: Failed.\n" );
+            return 1;
+        }
+    }
 
     prompt_select_lang_on_startup();
     replay_buffered_debugmsg_prompts();

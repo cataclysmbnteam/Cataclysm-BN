@@ -39,6 +39,20 @@
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
+    "id": "pointy_stick_long",
+    "copy-from": "pointy_stick",
+    "looks_like": "spear_wood",
+    "type": "GENERIC",
+    "weapon_category": [ "SPEARS" ],
+    "name": { "str": "long pointy stick" },
+    "description": "A stout wood pole with one end sharpened.  More clunky than a properly-made spear, but still has some heft to it.",
+    "volume": "2500 ml",
+    "weight": "1800 g",
+    "bashing": 8,
+    "techniques": [ "WBLOCK_1" ],
+    "extend": { "flags": [ "REACH_ATTACK", "SHEATH_SPEAR" ] }
+  },
+  {
     "id": "spear_wood",
     "type": "GENERIC",
     "category": "weapons",
@@ -300,6 +314,27 @@
     "techniques": [ "WIDE", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -22 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ]
+  },
+  {
+    "id": "makeshift_halberd",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": { "str": "makeshift glaive" },
+    "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
+    "description": "This is a large blade attached to a long stick.  It could do a considerable amount of damage.",
+    "weight": "1800 g",
+    "volume": "3 L",
+    "price": 5000,
+    "price_postapoc": 250,
+    "to_hit": 2,
+    "bashing": 13,
+    "cutting": 36,
+    "material": [ "steel", "wood" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "techniques": "WBLOCK_1",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
+    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
   },
   {
     "id": "glaive",

@@ -23,7 +23,6 @@
       "holster_msg": "You clip your %s to your %s",
       "max_volume": "2 L",
       "max_weight": 3600,
-      "draw_cost": 50,
       "flags": [ "BELT_CLIP" ]
     },
     "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
@@ -125,7 +124,6 @@
       "holster_msg": "You tuck your %s into your %s",
       "max_volume": "500 ml",
       "max_weight": 400,
-      "draw_cost": 60,
       "flags": [ "BELT_CLIP" ]
     },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
@@ -169,7 +167,6 @@
       "holster_msg": "You attach your %s to your %s.",
       "max_volume": "2250 ml",
       "max_weight": 3600,
-      "draw_cost": 50,
       "flags": [ "BELT_CLIP" ]
     },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
@@ -198,7 +195,6 @@
       "holster_msg": "You sheath your %s",
       "min_volume": "250 ml",
       "max_volume": "1 L",
-      "draw_cost": 3,
       "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
     },
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ]
@@ -231,7 +227,6 @@
       "min_volume": "40 ml",
       "max_volume": "1500 ml",
       "max_weight": "1500 g",
-      "draw_cost": 50,
       "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ]
     },
     "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
@@ -259,7 +254,6 @@
       "max_volume": "1250 ml",
       "max_weight": "1500 g",
       "min_volume": "40 ml",
-      "draw_cost": 60,
       "flags": [ "BELT_CLIP" ]
     },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]

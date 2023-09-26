@@ -43,6 +43,7 @@
       "NOHEAD",
       "NO_BREATHE",
       "RIDEABLE_MECH",
+      "MECH_DEFENSIVE",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2"
     ]
@@ -91,6 +92,7 @@
       "NOHEAD",
       "NO_BREATHE",
       "RIDEABLE_MECH",
+      "MECH_DEFENSIVE",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_2",
       "LOUDMOVES"
@@ -100,7 +102,7 @@
     "id": "mon_mech_lifter",
     "type": "MONSTER",
     "name": { "str": "X-01: 'Jack' Lifting Mech" },
-    "description": "The Boeing-Daewoo LMES (Lifting Mechanical Exoskeleton Suit), a recent acquisition by the US military, it was designed to be piloted by an operator to load and unload heavy material, and for limited combat support roles, it was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits it can act as a UPS from its large battery.",
+    "description": "The Boeing-Daewoo LMES (Lifting Mechanical Exoskeleton Suit), a recent acquisition by the US military, it was designed to be piloted by an operator to load and unload heavy material, and for limited combat support roles, it was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  It lacks any integral weaponry, but the user can fire from the open cockpit, even using the frame to support heavier firearms.  You may be able to hack it to accept you as its pilot.  Like all mech-suits it can act as a UPS from its large battery.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
     "diff": 5,

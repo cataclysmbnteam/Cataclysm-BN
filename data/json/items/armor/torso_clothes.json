@@ -20,6 +20,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -234,6 +235,7 @@
     "storage": "2250 ml",
     "warmth": 30,
     "material_thickness": 3,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
   },
   {

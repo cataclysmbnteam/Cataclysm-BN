@@ -130,7 +130,6 @@
     "points": 2,
     "description": "Your body is simply immune to diseases.  You will never catch an ambient disease.",
     "prereqs": [ "DISRESISTANT" ],
-    "flags": [ "NO_DISEASE" ],
     "valid": false
   },
   {

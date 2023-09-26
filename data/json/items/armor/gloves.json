@@ -85,6 +85,7 @@
     "warmth": 25,
     "material_thickness": 4,
     "environmental_protection": 6,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ]
   },
   {
@@ -142,6 +143,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "STURDY" ]
   },
   {
@@ -164,6 +166,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "STURDY" ]
   },
   {
@@ -190,6 +193,17 @@
     "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
+    "id": "gauntlets_plarmor",
+    "copy-from": "gauntlets_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of plated leather gauntlets", "str_pl": "pairs of plated leather gauntlets" },
+    "description": "Heavy fingerless leather gloves that have been reinforced with strategically-placed metal plates.  Flexible and tough.",
+    "material": [ "leather", "iron" ],
+    "looks_like": "gloves_plate",
+    "proportional": { "price": 4, "price_postapoc": 1.2 },
+    "relative": { "weight": "250 g", "encumbrance": 4 }
+  },
+  {
     "id": "gloves_bag",
     "type": "ARMOR",
     "name": { "str": "pair of bag gloves", "str_pl": "pairs of bag gloves" },
@@ -212,7 +226,7 @@
   {
     "id": "gloves_fingerless",
     "type": "ARMOR",
-    "name": { "str": "pair of fingerless gloves", "str_pl": "pairs of fingerless gloves" },
+    "name": { "str": "pair of fingerless leather gloves", "str_pl": "pairs of fingerless leather gloves" },
     "description": "A pair of leather gloves with no fingers, allowing greater manual dexterity.",
     "weight": "100 g",
     "volume": "250 ml",
@@ -291,6 +305,21 @@
     "encumbrance": 30,
     "warmth": 70,
     "material_thickness": 3
+  },
+  {
+    "id": "gloves_fur_fingerless",
+    "copy-from": "gloves_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of fingerless fur gloves", "str_pl": "pairs of fingerless fur gloves" },
+    "description": "A pair of fur gloves with no fingers, cutting down on warmth but making them less cumbersome.",
+    "weight": "250 g",
+    "price": "15 USD",
+    "price_postapoc": "125 cent",
+    "looks_like": "gloves_fingerless",
+    "coverage": 50,
+    "warmth": 28,
+    "relative": { "encumbrance": -10 },
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
   },
   {
     "id": "gloves_hsurvivor",
@@ -401,6 +430,21 @@
     "flags": [ "WATER_FRIENDLY" ]
   },
   {
+    "id": "gloves_light_fingerless",
+    "copy-from": "gloves_light",
+    "type": "ARMOR",
+    "name": { "str": "pair of fingerless light gloves", "str_pl": "pairs of fingerless light gloves" },
+    "description": "A pair of cotton gloves with no fingers, allowing greater manual dexterity.",
+    "weight": "75 g",
+    "price": "4 USD",
+    "price_postapoc": "1 USD",
+    "looks_like": "gloves_fingerless",
+    "coverage": 50,
+    "warmth": 8,
+    "relative": { "encumbrance": -2 },
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
+  },
+  {
     "id": "gloves_liner",
     "type": "ARMOR",
     "name": { "str": "pair of glove liners", "str_pl": "pairs of glove liners" },
@@ -420,6 +464,21 @@
     "warmth": 15,
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ]
+  },
+  {
+    "id": "gloves_liner_wool",
+    "copy-from": "gloves_liner",
+    "type": "ARMOR",
+    "name": { "str": "pair of wool glove liners", "str_pl": "pairs of wool glove liners" },
+    "description": "A pair of relatively thin wool gloves.  Often used as a liner beneath other gloves.",
+    "weight": "130 g",
+    "price": "18 USD",
+    "material": [ "wool" ],
+    "color": "blue",
+    "encumbrance": 5,
+    "warmth": 45,
+    "material_thickness": 2,
+    "delete": { "flags": [ "WATER_FRIENDLY" ] }
   },
   {
     "id": "gloves_lsurvivor",
@@ -498,7 +557,7 @@
     "price_postapoc": 3000,
     "to_hit": -2,
     "bashing": 7,
-    "material": [ "iron", "leather" ],
+    "material": [ "steel", "leather" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
     "color": "light_gray",
@@ -619,6 +678,21 @@
     "material_thickness": 3
   },
   {
+    "id": "gloves_wool_fingerless",
+    "copy-from": "gloves_wool",
+    "type": "ARMOR",
+    "name": { "str": "pair of fingerless wool gloves", "str_pl": "pairs of fingerless wool gloves" },
+    "description": "A thick pair of wool gloves with no fingers, cutting down on warmth but making them less cumbersome.",
+    "weight": "150 g",
+    "price": "10 USD",
+    "price_postapoc": "25 cent",
+    "looks_like": "gloves_fingerless",
+    "coverage": 50,
+    "warmth": 24,
+    "relative": { "encumbrance": -10 },
+    "extend": { "flags": [ "ALLOWS_NATURAL_ATTACKS" ] }
+  },
+  {
     "id": "gloves_work",
     "type": "ARMOR",
     "name": { "str": "pair of work gloves", "str_pl": "pairs of work gloves" },
@@ -638,6 +712,7 @@
     "warmth": 25,
     "material_thickness": 3,
     "environmental_protection": 5,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {

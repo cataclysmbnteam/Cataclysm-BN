@@ -411,6 +411,10 @@
     "move_cost": 0,
     "coverage": 50,
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE", "MINEABLE" ],
+    "deconstruct": {
+      "ter_set": "t_bridge",
+      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "steel_plate", "count": [ 0, 2 ] } ]
+    },
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -431,6 +435,14 @@
     "move_cost": 0,
     "coverage": 50,
     "flags": [ "NOITEM", "REDUCE_SCENT", "MOUNTABLE" ],
+    "deconstruct": {
+      "ter_set": "t_bridge",
+      "items": [
+        { "item": "steel_lump", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -643,31 +655,6 @@
       ]
     },
     "examine_action": "water_source"
-  },
-  {
-    "type": "terrain",
-    "id": "t_water_dispenser",
-    "name": "water dispenser",
-    "looks_like": "f_sink",
-    "description": "A machine with several taps that dispenses clean water.",
-    "symbol": "W",
-    "color": "light_blue",
-    "move_cost": 0,
-    "coverage": 40,
-    "flags": [ "TRANSPARENT" ],
-    "bash": {
-      "str_min": 15,
-      "str_max": 80,
-      "sound": "whack!",
-      "sound_fail": "thunk.",
-      "ter_set": "t_concrete",
-      "items": [
-        { "item": "steel_chunk", "count": [ 0, 2 ] },
-        { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "pipe", "count": [ 0, 2 ] }
-      ]
-    },
-    "examine_action": "clean_water_source"
   },
   {
     "type": "terrain",
