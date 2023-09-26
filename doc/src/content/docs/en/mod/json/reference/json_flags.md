@@ -1178,10 +1178,41 @@ example, impale and scratch.
 
 ## Mutations
 
-#### Flags
+#### Mutation Flags
 
+Mutation flags use a different JSON type from other flags, see json/flags_mutation.json. Primary
+difference is that `conflicts` and `requires` are the only additional properties that can be added
+to them.
+
+The following show all trait flags that are currently used by the game's code. Trait flags must also
+be defined in JSON if they are to be used in NPC dialogue conditions.
+
+- `CANNIBAL` No morale penalty from butchery human corpses, skips warning you about human meat.
+  NOTE: this only skips the warning, the actual morale effects of eating human flesh still require
+  one of the relevant traits. Custom traits with this flag will skip the warning and suffer the
+  morale penalty.
+- `NEED_ACTIVE_TO_MELEE` A mutation with this flag will only provide unarmed bonuses if it's been
+  toggled on.
 - `NO_RADIATION` This mutation grants immunity to radiations.
 - `NO_THIRST` Your thirst is not modified by food or drinks.
+- `NON_THRESH` Mutations with this flag will not count towards the mutation strength (and thus
+  ability to breach a mutation threshold) of any categories it counts as belonging to.
+- `PRED1` Reduces morale impact of enzlaving zombie corpses, reduces morale impact of killing
+  monsters with the `GUILT` flag.
+- `PRED2` Increases EXP gain from combat, negates skill rust of combat skills (if skill rust is
+  enabled), reduces morale impact of enzlaving zombie corpses, reduces morale impact of killing
+  monsters with the `GUILT` flag.
+- `PRED3` Increases EXP gain from combat, negates skill rust of combat skills (if skill rust is
+  enabled), increases tolerance for enzlaving zombies while already depressed, negates morale impact
+  of killing monsters with the `GUILT` flag.
+- `PRED4` Increases EXP gain from combat, prevents EXP gain from combat from affecting focus,
+  negates skill rust of combat skills (if skill rust is enabled), negates morale impact of enzlaving
+  zombie corpses, increases tolerance for enzlaving zombies while already depressed, negates morale
+  impact of killing monsters with the `GUILT` flag.
+- `PSYCHOPATH` No morale penalty from butchering human corpses.
+- `SAPIVORE` No morale penalty from butcheing human corpses.
+- `SILENT_SPELL` Negates the negative impact of mouth encumbrance on spells with the `VERBAL` flag.
+- `SUBTLE_SPELL` Negates the negative impact of arm encumbrance on spells with the `SOMATIC` flag.
 - `UNARMED_BONUS` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
 
 ### Categories

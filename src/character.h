@@ -703,7 +703,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
-        bool has_trait_flag( const std::string &b ) const;
+        bool has_trait_flag( const trait_flag_str_id &b ) const;
         /** Returns true if character has a trait which cancels the entered trait. */
         bool has_opposite_trait( const trait_id &flag ) const;
 

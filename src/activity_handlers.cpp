@@ -247,9 +247,9 @@ static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const species_id HUMAN( "HUMAN" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
-static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
-static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
-static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
+static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
+static const trait_flag_str_id trait_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_painkiller( "bio_painkiller" );

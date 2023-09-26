@@ -118,6 +118,8 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
+
 static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 static const std::string flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
 static const std::string flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
@@ -755,7 +757,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( "CANNIBAL" ) ) {
+    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( trait_flag_CANNIBAL ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ),
                          edible_rating::cannibalism );
     }
