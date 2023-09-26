@@ -3,7 +3,6 @@
     "type": "palette",
     "id": "megastore",
     "terrain": {
-      "'": "t_dirt",
       "#": "t_open_air",
       "*": "t_open_air_rooved",
       "~": "t_flat_roof",
@@ -28,7 +27,6 @@
       "Y": "t_switchgear_s"
     },
     "furniture": {
-      "'": "f_street_light",
       "a": "f_armchair",
       "A": "f_sofa",
       "b": "f_bookcase",
@@ -206,12 +204,14 @@
       ],
       "rotation": 0,
       "terrain": {
+        "'": "t_dirt",
         ".": "t_pavement",
         "_": "t_pavement_y",
         "#": [ "t_underbrush", "t_grass" ],
         "T": [ "t_tree_young", "t_tree" ],
         "W": "t_sidewalk"
       },
+      "furniture": { "'": "f_street_light" },
       "vehicles": { "v": { "vehicle": "city_vehicles", "chance": 10 } }
     }
   },
