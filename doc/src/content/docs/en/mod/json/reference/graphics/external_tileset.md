@@ -33,7 +33,7 @@ Links to relevant pull requests, for content covered below:
 - Buckler and welded shield: [#2878](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2878)
 - Battle masks and bronze arm guards:
   [#3221](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3221)
-- Rewired street lights: 
+- Rewired street lights:
 
 ## Undead People
 
