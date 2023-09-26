@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "megastore",
     "terrain": {
+      "'": "t_dirt",
       "#": "t_open_air",
       "*": "t_open_air_rooved",
       "~": "t_flat_roof",
@@ -27,6 +28,7 @@
       "Y": "t_switchgear_s"
     },
     "furniture": {
+      "'": "f_street_light",
       "a": "f_armchair",
       "A": "f_sofa",
       "b": "f_bookcase",
@@ -177,7 +179,7 @@
     "object": {
       "fill_ter": "t_pavement",
       "rows": [
-        "#W....................WT",
+        "'W....................WT",
         "W......................W",
         "........................",
         "______............______",

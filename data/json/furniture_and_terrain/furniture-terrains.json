@@ -723,6 +723,16 @@
     "coverage": 40,
     "required_str": 32,
     "flags": [ "BASHABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 8 },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "amplifier", "count": 4 },
+        { "item": "light_bulb", "count": 4 },
+        { "item": "cable", "charges": 4 },
+        { "item": "plastic_chunk", "count": 4 }
+      ]
+    },
     "bash": {
       "str_min": 30,
       "str_max": 100,
