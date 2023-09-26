@@ -2,8 +2,10 @@
 
 #include "game_constants.h"
 
+namespace
+{
 
-static auto divide( int v, int m ) -> int
+auto divide( int v, int m ) -> int
 {
     if( v >= 0 ) {
         return v / m;
@@ -11,12 +13,15 @@ static auto divide( int v, int m ) -> int
     return ( v - m + 1 ) / m;
 }
 
-static auto divide( int v, int m, int &r ) -> int
+auto divide( int v, int m, int &r ) -> int
 {
     const int result = divide( v, m );
     r = v - result * m;
     return result;
 }
+
+} // namespace
+
 
 auto omt_to_om_copy( point p ) -> point
 {
