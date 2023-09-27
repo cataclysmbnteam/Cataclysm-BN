@@ -253,7 +253,12 @@ void Character::suffer_while_underwater()
             mod_power_level( -bio_gills->power_trigger );
         } else {
             add_msg_if_player( m_bad, _( "You're drowning!" ) );
-            apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
+            // NPCs are not currently programmed to avoid or get out of deep water,
+            // so disable drowning damage for them.
+            // https://github.com/cataclysmbnteam/Cataclysm-BN/issues/3266
+            if( !is_npc() ) {
+                apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
+            }
         }
     }
     if( has_trait( trait_FRESHWATEROSMOSIS ) && !get_map().has_flag_ter( "SALT_WATER", pos() ) &&
