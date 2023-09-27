@@ -509,7 +509,7 @@ character_id Character::getID() const
 
 auto Character::is_dead_state() const -> bool
 {
-    if (cached_dead_state.has_value() ) {
+    if( cached_dead_state.has_value() ) {
         return cached_dead_state.value();
     }
 
@@ -520,8 +520,9 @@ auto Character::is_dead_state() const -> bool
     return *cached_dead_state;
 }
 
-void Character::set_part_hp_cur( const bodypart_id& id, int set ) {
-    if ( set < 0 ) {
+void Character::set_part_hp_cur( const bodypart_id &id, int set )
+{
+    if( set < 0 ) {
         cached_dead_state.reset();
     }
     Creature::set_part_hp_cur( id, set );
