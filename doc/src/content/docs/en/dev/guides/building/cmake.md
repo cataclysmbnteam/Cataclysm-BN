@@ -362,6 +362,10 @@ much faster.
 
 [libbacktrace]: https://github.com/ianlancetaylor/libbacktrace
 
+- TRACY=`<boolean>`
+
+Use tracy profiler. See [Profiling with tracy](../tracy.md) for more information.
+
 - GIT_BINARY=`<str>`
 
 Override default Git binary name or path.
