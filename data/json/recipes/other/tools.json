@@ -2721,5 +2721,16 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "HAMMER_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "nail", 1 ], [ "screwdriver", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "splinter", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "stone_chisel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rock", 1 ], [ "sharp_rock", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   }
 ]
