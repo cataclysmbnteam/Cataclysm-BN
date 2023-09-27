@@ -522,7 +522,7 @@ class Creature
 
         int get_part_healed_total( const bodypart_id &id ) const;
 
-        void set_part_hp_cur( const bodypart_id &id, int set );
+        virtual void set_part_hp_cur( const bodypart_id &id, int set );
         void set_part_hp_max( const bodypart_id &id, int set );
         void set_part_healed_total( const bodypart_id &id, int set );
         void mod_part_hp_cur( const bodypart_id &id, int mod );

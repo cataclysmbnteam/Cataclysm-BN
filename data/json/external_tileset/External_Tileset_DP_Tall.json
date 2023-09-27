@@ -12,7 +12,9 @@
           { "id": "corpse_mon_bear_armored", "fg": 3 },
           { "id": "t_tree_cherry_season_spring", "fg": 4 },
           { "id": "t_tree_cherry_harvested_season_spring", "fg": 5 },
-          { "id": "t_tree_cherry_season_summer", "fg": 6 }
+          { "id": "t_tree_cherry_season_summer", "fg": 6 },
+          { "id": [ "f_street_light_rewired_off", "f_street_light_rewired" ], "fg": 7 },
+          { "id": "f_street_light_rewired_on", "fg": 8 }
         ],
         "sprite_width": 64,
         "sprite_height": 80,

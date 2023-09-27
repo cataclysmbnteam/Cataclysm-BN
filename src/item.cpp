@@ -5329,26 +5329,27 @@ bool item::has_own_flag( const std::string &f ) const
 
 bool item::has_flag( const std::string &f ) const
 {
-    bool ret = false;
-
-    if( json_flag::get( f ).inherit() ) {
-        for( const item *e : is_gun() ? gunmods() : toolmods() ) {
-            // gunmods fired separately do not contribute to base gun flags
-            if( !e->is_gun() && e->has_flag( f ) ) {
-                return true;
-            }
-        }
+    // Check if we have any gun/toolmods with the flag, and if we do
+    // check if that flag should be inherited.
+    // `json_flag::get` is pretty expensive so it's faster to do it
+    // last as frequently there are no gun/toolmods with the flag f
+    auto mods = is_gun() ? gunmods() : toolmods();
+    if(
+        std::any_of( mods.begin(), mods.end(),
+    [&f]( const item * e ) {
+    return ( !e->is_gun() && e->has_flag( f ) );
+    }
+                   ) && json_flag::get( f ).inherit() ) {
+        return true;
     }
 
     // other item type flags
-    ret = type->has_flag( f );
-    if( ret ) {
-        return ret;
+    if( type->has_flag( f ) ) {
+        return true;
     }
 
     // now check for item specific flags
-    ret = has_own_flag( f );
-    return ret;
+    return has_own_flag( f );
 }
 
 bool item::has_flag( const flag_str_id &flag ) const

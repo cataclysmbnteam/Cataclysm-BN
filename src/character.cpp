@@ -1,4 +1,5 @@
 #include "character.h"
+#include "bodypart.h"
 #include "character_encumbrance.h"
 
 #include <algorithm>
@@ -221,6 +222,7 @@ static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
@@ -505,13 +507,25 @@ character_id Character::getID() const
     return this->id;
 }
 
-bool Character::is_dead_state() const
+auto Character::is_dead_state() const -> bool
 {
-    const auto all_bps = get_all_body_parts( true );
+    if( cached_dead_state.has_value() ) {
+        return cached_dead_state.value();
+    }
 
-    return std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
+    const auto all_bps = get_all_body_parts( true );
+    cached_dead_state = std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
         return bp->essential && get_part_hp_cur( bp ) <= 0;
     } );
+    return *cached_dead_state;
+}
+
+void Character::set_part_hp_cur( const bodypart_id &id, int set )
+{
+    if( set < 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::set_part_hp_cur( id, set );
 }
 
 field_type_id Character::bloodType() const
@@ -1604,6 +1618,7 @@ void Character::recalc_hp()
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base() );
+    cached_dead_state.reset();
 }
 
 void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max )
@@ -1612,7 +1627,7 @@ void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_ma
         bodypart &bp = get_part( part.first );
         int new_max = ( part.first->base_hp + str_max * 3 + hp_adjustment ) * hp_mod;
 
-        if( has_trait( trait_id( "GLASSJAW" ) ) && part.first == bodypart_str_id( "head" ) ) {
+        if( has_trait( trait_GLASSJAW ) && part.first == bodypart_str_id( "head" ) ) {
             new_max *= 0.8;
         }
 

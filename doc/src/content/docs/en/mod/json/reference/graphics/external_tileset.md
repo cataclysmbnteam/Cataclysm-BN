@@ -33,6 +33,7 @@ Links to relevant pull requests, for content covered below:
 - Buckler and welded shield: [#2878](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2878)
 - Battle masks and bronze arm guards:
   [#3221](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3221)
+- Rewired street lights: [3273](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3273)
 
 ## Undead People
 
@@ -79,3 +80,4 @@ Ultica are planned for the future.
 - Scaled bear, including corpse. Monster specific to BN.
 - Cherry tree uses summer sprite (plus cherry blossom coloration), summer sprite depicted without
   berries, due to harvest season being moved in BN.
+- Rewired street light, including active state. Furniture specific to BN.
