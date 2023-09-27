@@ -291,27 +291,21 @@ static bool perform_liquid_transfer( detached_ptr<item> &&liquid, liquid_dest_op
             you.consume_item( std::move( liquid ) );
             return true;
         case LD_ITEM:
-            you.pour_into( *target.it, std::move( liquid ) );
+            liquid = you.pour_into( *target.it, std::move( liquid ) );
             you.mod_moves( -100 );
             return true;
         case LD_VEH:
-            liquid->attempt_split( 0, [&target, &you]( detached_ptr<item> &&det ) {
-                return you.pour_into( *target.veh, std::move( det ) );
-            } );
-
+            liquid = you.pour_into( *target.veh, std::move( liquid ) );
             you.mod_moves( -1000 ); // consistent with veh_interact::do_refill activity
-
             return true;
         case LD_KEG:
         case LD_GROUND:
-            liquid->attempt_split( 0, [&target, &here]( detached_ptr<item> &&det ) {
-                if( target.dest_opt == LD_KEG ) {
-                    return iexamine::pour_into_keg( target.pos, std::move( det ) );
-                } else {
-                    here.add_item_or_charges( target.pos, std::move( det ) );
-                    return detached_ptr<item>();
-                }
-            } );
+            if( target.dest_opt == LD_KEG ) {
+                liquid = iexamine::pour_into_keg( target.pos, std::move( liquid ) );
+            } else {
+                here.add_item_or_charges( target.pos, std::move( liquid ) );
+            }
+
             you.mod_moves( -100 );
             return true;
         case LD_NULL:

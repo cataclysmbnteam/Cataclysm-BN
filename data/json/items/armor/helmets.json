@@ -406,6 +406,28 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "cap_arming",
+    "repairs_like": "gambeson",
+    "type": "ARMOR",
+    "name": { "str": "arming cap" },
+    "description": "This goes inside a helmet to help keep your head warm in cold climates.",
+    "weight": "165 g",
+    "volume": "250 ml",
+    "price": "20 USD",
+    "price_postapoc": "250 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "helmet_liner",
+    "color": "light_gray",
+    "covers": [ "head" ],
+    "coverage": 90,
+    "encumbrance": 15,
+    "warmth": 30,
+    "material_thickness": 5,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "STURDY" ]
+  },
+  {
     "id": "helmet_lobster",
     "repairs_like": "xlkevlar",
     "type": "ARMOR",
@@ -495,6 +517,7 @@
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 4,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES" ]
   },
   {
@@ -540,6 +563,7 @@
     "warmth": 40,
     "material_thickness": 3,
     "environmental_protection": 7,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
   },
   {
@@ -701,6 +725,7 @@
     "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "FANCY", "STAB" ]
   },
   {

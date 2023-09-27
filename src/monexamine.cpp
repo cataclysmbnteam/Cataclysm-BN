@@ -66,8 +66,7 @@ static const species_id ZOMBIE( "ZOMBIE" );
 bool monexamine::pet_menu( monster &z )
 {
     enum choices {
-        swap_pos = 0,
-        push_zlave,
+        push_zlave = 0,
         lead,
         stop_lead,
         rename,
@@ -109,7 +108,6 @@ bool monexamine::pet_menu( monster &z )
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
 
-    amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_zlave, true, 'p', _( "Push %s" ), pet_name );
     if( z.has_effect( effect_leashed ) ) {
         if( z.has_effect( effect_led_by_leash ) ) {
@@ -252,9 +250,6 @@ bool monexamine::pet_menu( monster &z )
     int choice = amenu.ret;
 
     switch( choice ) {
-        case swap_pos:
-            swap( z );
-            break;
         case push_zlave:
             push( z );
             break;
@@ -507,8 +502,7 @@ bool monexamine::pay_bot( monster &z )
 bool monexamine::mfriend_menu( monster &z )
 {
     enum choices {
-        swap_pos = 0,
-        push_monster,
+        push_monster = 0,
         rename,
         attack
     };
@@ -518,7 +512,6 @@ bool monexamine::mfriend_menu( monster &z )
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
 
-    amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
     amenu.addentry( attack, true, 'a', _( "Attack" ) );
@@ -527,9 +520,6 @@ bool monexamine::mfriend_menu( monster &z )
     const int choice = amenu.ret;
 
     switch( choice ) {
-        case swap_pos:
-            swap( z );
-            break;
         case push_monster:
             push( z );
             break;
@@ -586,44 +576,13 @@ void monexamine::mount_pet( monster &z )
     get_avatar().mount_creature( z );
 }
 
-void monexamine::swap( monster &z )
-{
-    std::string pet_name = z.get_name();
-    avatar &you = get_avatar();
-    you.moves -= 150;
-
-    ///\EFFECT_STR increases chance to successfully swap positions with your pet
-    ///\EFFECT_DEX increases chance to successfully swap positions with your pet
-    if( !one_in( ( you.str_cur + you.dex_cur ) / 6 ) ) {
-        bool t = z.has_effect( effect_tied );
-        if( t ) {
-            z.remove_effect( effect_tied );
-        }
-
-        g->swap_critters( you, z );
-
-        if( t ) {
-            z.add_effect( effect_tied, 1_turns, num_bp );
-        }
-        add_msg( _( "You swap positions with your %s." ), pet_name );
-    } else {
-        add_msg( _( "You fail to budge your %s!" ), pet_name );
-    }
-}
-
 void monexamine::push( monster &z )
 {
     std::string pet_name = z.get_name();
     avatar &you = get_avatar();
     you.moves -= 30;
 
-    ///\EFFECT_STR increases chance to successfully push your pet
-    if( !one_in( you.str_cur ) ) {
-        add_msg( _( "You pushed the %s." ), pet_name );
-    } else {
-        add_msg( _( "You pushed the %s, but it resisted." ), pet_name );
-        return;
-    }
+    add_msg( _( "You pushed the %s." ), pet_name );
 
     point delta( z.posx() - you.posx(), z.posy() - you.posy() );
     z.move_to( tripoint( z.posx() + delta.x, z.posy() + delta.y, z.posz() ) );

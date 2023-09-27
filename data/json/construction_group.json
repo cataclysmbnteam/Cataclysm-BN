@@ -966,6 +966,26 @@
   },
   {
     "type": "construction_group",
+    "id": "install_small_battery",
+    "name": "Install Small Storage Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_car_battery",
+    "name": "Install Car Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_motorbike_battery",
+    "name": "Install Motorbike Battery"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_small_motorbike_battery",
+    "name": "Install Small Motorbike Battery"
+  },
+  {
+    "type": "construction_group",
     "id": "install_upgraded_solar_panel",
     "name": "Install Upgraded Solar Panel"
   },

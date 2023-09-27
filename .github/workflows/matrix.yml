@@ -7,6 +7,9 @@ on:
     paths-ignore:
       - doc/**
       - 'scripts/**'
+  merge_group:
+    branches:
+      - upload
   pull_request:
     branches:
       - upload

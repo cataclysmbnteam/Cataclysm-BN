@@ -1360,6 +1360,8 @@ npc_action npc::method_of_attack()
     bool can_use_gun = ( ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) ) &&
                          ( ai_cache.danger >= 3 || emergency() || dist < 0 ) );
     bool use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
+    const bool not_engaged_yet = !critter->has_effect( effect_hit_by_player ) &&
+                                 rules.engagement == combat_engagement::HIT;
 
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
@@ -1428,7 +1430,7 @@ npc_action npc::method_of_attack()
         return npc_aim;
     }
     add_msg( m_debug, "%s can't figure out what to do", disp_name() );
-    return ( dont_move || !same_z ) ? npc_undecided : npc_melee;
+    return ( dont_move || !same_z || not_engaged_yet ) ? npc_undecided : npc_melee;
 }
 
 npc_action npc::address_needs()

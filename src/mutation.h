@@ -265,7 +265,7 @@ struct mutation_branch {
         std::vector<trait_id> replacements; // Mutations that replace this one
         std::vector<trait_id> additions; // Mutations that add to this one
         std::vector<std::string> category; // Mutation Categories
-        std::set<std::string> flags; // Mutation flags
+        std::set<trait_flag_str_id> flags; // Mutation flags
         std::map<body_part, tripoint> protection; // Mutation wet effects
         std::map<body_part, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item

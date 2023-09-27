@@ -723,6 +723,16 @@
     "coverage": 40,
     "required_str": 32,
     "flags": [ "BASHABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 8 },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "amplifier", "count": 4 },
+        { "item": "light_bulb", "count": 2 },
+        { "item": "cable", "charges": 4 },
+        { "item": "plastic_chunk", "count": 4 }
+      ]
+    },
     "bash": {
       "str_min": 30,
       "str_max": 100,
@@ -732,7 +742,7 @@
         { "item": "pipe", "count": [ 1, 7 ] },
         { "item": "scrap", "count": [ 3, 12 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },
-        { "item": "light_bulb", "count": [ 0, 3 ] },
+        { "item": "light_bulb", "count": [ 0, 2 ] },
         { "item": "cable", "charges": [ 1, 2 ] },
         { "item": "plastic_chunk", "count": [ 2, 4 ] }
       ]

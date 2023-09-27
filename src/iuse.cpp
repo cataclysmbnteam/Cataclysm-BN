@@ -4594,7 +4594,6 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 
     bool drew_blood = false;
     bool acid_blood = false;
-    const mtype *blood_mtype = nullptr;
     for( auto &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it->is_corpse() &&
             query_yn( _( "Draw blood from %s?" ),
@@ -4604,8 +4603,6 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
             auto bloodtype( map_it->get_mtype()->bloodType() );
             if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
-            } else {
-                blood_mtype = map_it->get_mtype();
             }
         }
     }
@@ -4622,7 +4619,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     }
 
     if( acid_blood ) {
-        it->put_in( item::spawn( "acid", calendar::turn ) );
+        detached_ptr<item> acid = item::spawn( "acid", calendar::turn );
         if( one_in( 3 ) ) {
             if( it->inc_damage( DT_ACID ) ) {
                 p->add_msg_if_player( m_info, _( "…but acidic blood melts the %s, destroying it!" ),
@@ -4632,6 +4629,9 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
             }
             p->add_msg_if_player( m_info, _( "…but acidic blood damages the %s!" ), it->tname() );
         }
+        if( !liquid_handler::handle_liquid( std::move( acid ), 1 ) ) {
+            it->put_in( std::move( acid ) );
+        }
         return it->type->charges_to_use();
     }
 
@@ -4640,10 +4640,9 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     }
 
     detached_ptr<item> blood = item::spawn( "blood", calendar::turn );
-    if( blood_mtype != nullptr ) {
-        blood->set_mtype( blood_mtype );
+    if( !liquid_handler::handle_liquid( std::move( blood ), 1 ) ) {
+        it->put_in( std::move( blood ) );
     }
-    it->put_in( std::move( blood ) );
     return it->type->charges_to_use();
 }
 

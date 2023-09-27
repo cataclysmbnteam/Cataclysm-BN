@@ -43,7 +43,17 @@
             "fg": [ { "weight": 10, "sprite": 32 }, { "weight": 10, "sprite": 33 }, { "weight": 10, "sprite": 34 } ],
             "animated": false
           },
-          { "id": "corpse_mon_feral_human_chainsaw", "fg": 35 }
+          { "id": "corpse_mon_feral_human_chainsaw", "fg": 35 },
+          { "id": "shield_welded", "fg": 36 },
+          { "id": [ "overlay_worn_shield_welded", "overlay_wielded_shield_welded" ], "fg": 37 },
+          { "id": "shield_buckler", "fg": 38 },
+          { "id": [ "overlay_worn_shield_buckler", "overlay_wielded_shield_buckler" ], "fg": 39 },
+          { "id": "mask_cavalry_iron", "fg": 40 },
+          { "id": "overlay_worn_mask_cavalry_iron", "fg": 41 },
+          { "id": "mask_cavalry_bronze", "fg": 42 },
+          { "id": "overlay_worn_mask_cavalry_bronze", "fg": 43 },
+          { "id": "armguard_bronze", "fg": 44 },
+          { "id": "overlay_worn_armguard_bronze", "fg": 45 }
         ],
         "sprite_width": 32,
         "sprite_height": 32
