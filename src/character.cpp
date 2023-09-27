@@ -514,15 +514,18 @@ auto Character::is_dead_state() const -> bool
     }
 
     const auto all_bps = get_all_body_parts( true );
-    cached_dead_state = std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
+    const bool is_dead = std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
         return bp->essential && get_part_hp_cur( bp ) <= 0;
     } );
-    return *cached_dead_state;
+    if( is_dead ) {
+        cached_dead_state = true;
+    }
+    return is_dead;
 }
 
 void Character::set_part_hp_cur( const bodypart_id &id, int set )
 {
-    if( set < 0 ) {
+    if( set <= 0 ) {
         cached_dead_state.reset();
     }
     Creature::set_part_hp_cur( id, set );
