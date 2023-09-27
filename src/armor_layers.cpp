@@ -490,7 +490,7 @@ void show_armor_layers_ui( Character &who )
     int leftListLines = 0;
     int rightListLines = 0;
 
-    std::vector<uint> tmp_worn;
+    std::vector<int> tmp_worn;
     std::array<std::string, 13> armor_cat = {{
             _( "Torso" ), _( "Head" ), _( "Eyes" ), _( "Mouth" ), _( "L. Arm" ), _( "R. Arm" ),
             _( "L. Hand" ), _( "R. Hand" ), _( "L. Leg" ), _( "R. Leg" ), _( "L. Foot" ),
