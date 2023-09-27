@@ -498,8 +498,8 @@ void show_armor_layers_ui( Character &who )
         }
     };
 
-    auto access_tmp_worn = [&]( uint index ) {
-        uint worn_index = tmp_worn[index];
+    auto access_tmp_worn = [&]( int index ) {
+        int worn_index = tmp_worn[index];
         location_vector<item>::iterator it = who.worn.begin();
         std::advance( it, worn_index );
         return it;
@@ -732,14 +732,14 @@ void show_armor_layers_ui( Character &who )
         tmp_worn.clear();
         if( tabindex == num_bp ) {
             // All
-            uint i = 0;
+            int i = 0;
             for( auto it = who.worn.begin(); it != who.worn.end(); ++it ) {
                 tmp_worn.push_back( i++ );
             }
         } else {
             // bp_*
             body_part bp = static_cast<body_part>( tabindex );
-            uint i = 0;
+            int i = 0;
             for( auto it = who.worn.begin(); it != who.worn.end(); ++it ) {
                 if( ( *it )->covers( bp ) ) {
                     tmp_worn.push_back( i );
@@ -763,7 +763,7 @@ void show_armor_layers_ui( Character &who )
         // Helper function for moving items in the list
         auto shift_selected_item = [&]() {
             if( selected >= 0 ) {
-                uint temp = tmp_worn[selected];
+                int temp = tmp_worn[selected];
                 tmp_worn[selected] = tmp_worn[leftListIndex];
                 tmp_worn[leftListIndex] = temp;
                 selected = leftListIndex;
