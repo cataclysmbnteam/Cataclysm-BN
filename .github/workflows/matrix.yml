@@ -8,8 +8,7 @@ on:
       - doc/**
       - 'scripts/**'
   merge_group:
-    branches:
-      - upload
+    types: [checks_requested]
   pull_request:
     branches:
       - upload
