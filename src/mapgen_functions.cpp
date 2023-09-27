@@ -2963,6 +2963,10 @@ void mapgen_lake_shore( mapgendata &dat )
         return id != river_center && id.obj().is_river();
     };
 
+    const auto is_water = [&]( const oter_id & id ) {
+        return id.obj().is_river() || id.obj().is_lake() || id.obj().is_lake_shore();
+    };
+
     const bool n_lake  = is_lake( dat.north() );
     const bool e_lake  = is_lake( dat.east() );
     const bool s_lake  = is_lake( dat.south() );
@@ -3044,147 +3048,103 @@ void mapgen_lake_shore( mapgendata &dat )
     const bool s_river_bank = is_river_bank( dat.south() );
     const bool w_river_bank = is_river_bank( dat.west() );
 
+    const bool n_water  = n_lake || n_shore || n_river_bank;
+    const bool e_water  = e_lake || e_shore || e_river_bank;
+    const bool s_water  = s_lake || s_shore || s_river_bank;
+    const bool w_water  = w_lake || w_shore || w_river_bank;
+    const bool nw_water = is_water( dat.nwest() );
+    const bool ne_water = is_water( dat.neast() );
+    const bool se_water = is_water( dat.seast() );
+    const bool sw_water = is_water( dat.swest() );
+
     // This is length we end up pushing things about by as a baseline.
+    const int mx = SEEX * 2 - 1;
+    const int my = SEEY * 2 - 1;
     const int sector_length = SEEX * 2 / 3;
+    const int lake_beach = sector_length * 2;
+    const int river_beach = sector_length / 2;
 
     // Define the corners of the map. These won't change.
-    static constexpr point nw_corner{};
-    static constexpr point ne_corner( SEEX * 2 - 1, 0 );
-    static constexpr point se_corner( SEEX * 2 - 1, SEEY * 2 - 1 );
-    static constexpr point sw_corner( 0, SEEY * 2 - 1 );
+    static constexpr point nw_corner{ 0, 0 };
+    static constexpr point ne_corner( mx, 0 );
+    static constexpr point se_corner( mx, my );
+    static constexpr point sw_corner( 0, my );
 
-    // Define the four points that make up our polygon that we'll later pull line segments from for
-    // the actual shoreline.
-    point nw = nw_corner;
-    point ne = ne_corner;
-    point se = se_corner;
-    point sw = sw_corner;
+    std::vector<point> shore_points;
 
-    std::vector<std::vector<point>> line_segments;
-
-    // This section is about pushing the straight N, S, E, or W borders inward when adjacent to an actual lake.
-    if( n_lake ) {
-        nw.y += sector_length;
-        ne.y += sector_length;
-    }
-
-    if( s_lake ) {
-        sw.y -= sector_length;
-        se.y -= sector_length;
-    }
-
-    if( w_lake ) {
-        nw.x += sector_length;
-        sw.x += sector_length;
-    }
-
-    if( e_lake ) {
-        ne.x -= sector_length;
-        se.x -= sector_length;
-    }
-
-    // This section is about pushing the corners inward when adjacent to a lake that curves into a river bank.
+    // We need to detect whether river bank is touching this map with its side, or corner, and where.
+    // Checking our surrounding can give just enough information for that
     if( n_river_bank ) {
-        if( w_lake && nw_lake ) {
-            nw.x += sector_length;
+        if( nw_water && ( !ne_water || !e_water ) ) {
+            shore_points.push_back( { ne_corner.x - river_beach, ne_corner.y } );
         }
-
-        if( e_lake && ne_lake ) {
-            ne.x -= sector_length;
-        }
-    }
-
-    if( e_river_bank ) {
-        if( s_lake && se_lake ) {
-            se.y -= sector_length;
-        }
-
-        if( n_lake && ne_lake ) {
-            ne.y += sector_length;
-        }
-    }
-
-    if( s_river_bank ) {
-        if( w_lake && sw_lake ) {
-            sw.x += sector_length;
-        }
-
-        if( e_lake && se_lake ) {
-            se.x -= sector_length;
+        if( ne_water && ( !nw_water || !w_water ) ) {
+            shore_points.push_back( { nw_corner.x + river_beach, nw_corner.y } );
         }
     }
 
     if( w_river_bank ) {
-        if( s_lake && sw_lake ) {
-            sw.y -= sector_length;
+        if( sw_water && ( !nw_water || !n_water ) ) {
+            shore_points.push_back( { nw_corner.x, nw_corner.y + river_beach } );
         }
-
-        if( n_lake && nw_lake ) {
-            nw.y += sector_length;
-        }
-    }
-
-    // This section is about pushing the corners inward when we've got a lake in the corner that
-    // either has lake adjacent to it and us, or more shore adjacent to it and us. Note that in the
-    // case of having two shores adjacent, we end up adding a new line segment that isn't part of
-    // our original set--we end up cutting the corner off our polygonal box.
-    if( nw_lake ) {
-        if( n_lake && w_lake ) {
-            nw.x += sector_length / 2;
-            nw.y += sector_length / 2;
-        } else if( n_shore && w_shore ) {
-            point n = nw_corner;
-            point w = nw_corner;
-
-            n.x += sector_length;
-            w.y += sector_length;
-
-            line_segments.push_back( { n, w } );
+        if( nw_water && ( !sw_water || !s_water ) ) {
+            shore_points.push_back( { sw_corner.x, sw_corner.y - river_beach } );
         }
     }
 
-    if( ne_lake ) {
-        if( n_lake && e_lake ) {
-            ne.x -= sector_length / 2;
-            ne.y += sector_length / 2;
-        } else if( n_shore && e_shore ) {
-            point n = ne_corner;
-            point e = ne_corner;
-
-            n.x -= sector_length;
-            e.y += sector_length;
-
-            line_segments.push_back( { n, e } );
+    if( s_river_bank ) {
+        if( se_water && ( !sw_water || !w_water ) ) {
+            shore_points.push_back( { sw_corner.x + river_beach, sw_corner.y } );
+        }
+        if( sw_water && ( !se_water || !e_water ) ) {
+            shore_points.push_back( { se_corner.x - river_beach, se_corner.y } );
         }
     }
 
-    if( sw_lake ) {
-        if( s_lake && w_lake ) {
-            sw.x += sector_length / 2;
-            sw.y -= sector_length / 2;
-        } else if( s_shore && w_shore ) {
-            point s = sw_corner;
-            point w = sw_corner;
-
-            s.x += sector_length;
-            w.y -= sector_length;
-
-            line_segments.push_back( { s, w } );
+    if( e_river_bank ) {
+        if( ne_water && ( !se_water || !s_water ) ) {
+            shore_points.push_back( { se_corner.x, se_corner.y - river_beach } );
+        }
+        if( se_water && ( !ne_water || !n_water ) ) {
+            shore_points.push_back( { ne_corner.x, ne_corner.y + river_beach } );
         }
     }
 
-    if( se_lake ) {
-        if( s_lake && e_lake ) {
-            se.x -= sector_length / 2;
-            se.y -= sector_length / 2;
-        } else if( s_shore && e_shore ) {
-            point s = se_corner;
-            point e = se_corner;
+    // Shores are weird beings, they can be found not only on coast, but also in open ground,
+    // and in middle of lake. We need to connect to those ones which neighbouring same lake surface
+    if( n_shore ) {
+        if( nw_lake || w_lake ) {
+            shore_points.push_back( { ne_corner.x - lake_beach, ne_corner.y } );
+        }
+        if( ne_lake || e_lake ) {
+            shore_points.push_back( { nw_corner.x + lake_beach, nw_corner.y } );
+        }
+    }
 
-            s.x -= sector_length;
-            e.y -= sector_length;
+    if( w_shore ) {
+        if( sw_lake || s_lake ) {
+            shore_points.push_back( { nw_corner.x, nw_corner.y + lake_beach } );
+        }
+        if( nw_lake || n_lake ) {
+            shore_points.push_back( { sw_corner.x, sw_corner.y - lake_beach } );
+        }
+    }
 
-            line_segments.push_back( { s, e } );
+    if( s_shore ) {
+        if( se_lake || e_lake ) {
+            shore_points.push_back( { sw_corner.x + lake_beach, sw_corner.y } );
+        }
+        if( sw_lake || w_lake ) {
+            shore_points.push_back( { se_corner.x - lake_beach, se_corner.y } );
+        }
+    }
+
+    if( e_shore ) {
+        if( ne_lake || n_lake ) {
+            shore_points.push_back( { se_corner.x, se_corner.y - lake_beach } );
+        }
+        if( se_lake || s_lake ) {
+            shore_points.push_back( { ne_corner.x, ne_corner.y + lake_beach } );
         }
     }
 
@@ -3193,20 +3153,58 @@ void mapgen_lake_shore( mapgendata &dat )
     // at the map boundaries, but have subsequently been perturbed by the adjacent terrains.
     // Let's look at them and see which ones differ from their original state and should
     // form our shoreline.
-    if( nw.y != nw_corner.y || ne.y != ne_corner.y ) {
-        line_segments.push_back( { nw, ne } );
+
+    // Return whether two points are on same edge
+    const auto is_same_edge = [&]( point  p1, point  p2 ) {
+        return ( p1.x == 0 && p2.x == 0 ) || ( p1.x == mx && p2.x == mx ) ||
+               ( p1.y == 0 && p2.y == 0 ) || ( p1.y == my && p2.y == my );
+    };
+
+    // Make a lines out of closest shore points
+    std::vector<std::vector<point>> line_segments;
+    while( !shore_points.empty() ) {
+        point p = shore_points.back();
+        shore_points.pop_back();
+
+        if( shore_points.empty() ) {
+            // No pair. Let's mirror it make at least some shoreline, if there's none
+            if( line_segments.empty() ) {
+                line_segments.push_back( { p, { mx - p.x, my - p.y } } );
+            }
+            break;
+        }
+
+        // Find closest valid shore point
+        std::sort( shore_points.begin(), shore_points.end(), [&]( const point & p1, const point & p2 ) {
+            return trig_dist( p1, p ) < trig_dist( p2, p );
+        } );
+        auto other = std::find_if( shore_points.begin(), shore_points.end(), [&]( const point & other ) {
+            return !is_same_edge( p, other );
+        } );
+
+        if( other == shore_points.end() ) {
+            // No off-edge point. That must be reef side, grab whatever we have, and connect them in middle
+            point mid = { mx / 2, my / 2 };
+            line_segments.push_back( { mid, p } );
+            line_segments.push_back( { mid, shore_points.back() } );
+            break;
+        }
+
+        // Make a shore line with given two points
+        line_segments.push_back( { p, *other } );
+        shore_points.erase( other );
     }
 
-    if( ne.x != ne_corner.x || se.x != se_corner.x ) {
-        line_segments.push_back( { ne, se } );
-    }
-
-    if( se.y != se_corner.y || sw.y != sw_corner.y ) {
-        line_segments.push_back( { se, sw } );
-    }
-
-    if( sw.x != sw_corner.x || nw.x != nw_corner.x ) {
-        line_segments.push_back( { sw, nw } );
+    // We have no shores at all, make a small reef surrounded by water
+    if( line_segments.empty() ) {
+        point nw_inner = { nw_corner.x + sector_length, nw_corner.y + sector_length };
+        point ne_inner = { ne_corner.x - sector_length, ne_corner.y + sector_length };
+        point se_inner = { se_corner.x - sector_length, se_corner.y - sector_length };
+        point sw_inner = { sw_corner.x + sector_length, sw_corner.y - sector_length };
+        line_segments.insert( line_segments.end(), {
+            {ne_inner, nw_inner}, {nw_inner, sw_inner},
+            {sw_inner, se_inner}, {se_inner, ne_inner}
+        } );
     }
 
     static constexpr inclusive_rectangle<point> map_boundaries( nw_corner, se_corner );
