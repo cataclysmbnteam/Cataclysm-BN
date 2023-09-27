@@ -107,7 +107,7 @@ bool is_book_morale_boosted( const Character &ch, const item &book )
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
     if( ( ch.has_trait_flag( trait_flag_CANNIBAL ) || ch.has_trait_flag( trait_flag_PSYCHOPATH ) ||
           ch.has_trait_flag( trait_flag_SAPIOVORE ) ) &&
-        book.has_flag( "CANNIBAL" ) ) {
+        book.has_flag( "BOOK_CANNIBAL" ) ) {
         return true;
     } else if( ch.has_trait_flag( trait_flag_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
         return true;
