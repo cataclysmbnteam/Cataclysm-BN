@@ -250,6 +250,89 @@
   },
   {
     "type": "furniture",
+    "id": "f_street_light_rewired_off",
+    "copy-from": "f_floor_lamp_base",
+    "name": "rewired street light (off)",
+    "description": "A source of light used to illuminate streets and the surrounding area.  It's been rewired to draw power from a local grid, but is currently switched off.",
+    "symbol": "Y",
+    "color": "light_gray",
+    "looks_like": "f_street_light",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 32,
+    "flags": [ "BASHABLE" ],
+    "examine_action": "transform",
+    "transforms_into": "f_street_light_rewired_on",
+    "prompt": "Switch on the street light.",
+    "message": "You switch on the street light.",
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 8 },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "amplifier", "count": 6 },
+        { "item": "light_bulb", "count": 2 },
+        { "item": "cable", "charges": 6 },
+        { "item": "plastic_chunk", "count": 4 }
+      ]
+    },
+    "bash": {
+      "str_min": 30,
+      "str_max": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 7 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "amplifier", "count": [ 1, 5 ] },
+        { "item": "light_bulb", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_street_light_rewired",
+    "copy-from": "f_street_light_rewired_off",
+    "name": "rewired street light (no power)",
+    "description": "A source of light used to illuminate streets and the surrounding area.  It's been rewired to draw power from a local grid, but lacks power at the moment.",
+    "symbol": "Y",
+    "color": "light_gray",
+    "looks_like": "f_street_light",
+    "examine_action": "transform",
+    "transforms_into": "f_street_light_rewired_off",
+    "prompt": "Switch off the street light.",
+    "message": "You switch off the street light.",
+    "active": [
+      "charge_watcher",
+      { "min_power": 15, "transform": { "id": "f_street_light_rewired_on", "msg": "The street light lights up." } }
+    ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_street_light_rewired_on",
+    "copy-from": "f_street_light_rewired_off",
+    "name": "rewired street light (on)",
+    "description": "A source of light used to illuminate streets and the surrounding area.  It's been rewired to draw power from a local grid, brightening up the night once again.",
+    "symbol": "Y",
+    "color": "yellow",
+    "looks_like": "f_street_light",
+    "examine_action": "transform",
+    "transforms_into": "f_street_light_rewired_off",
+    "prompt": "Switch off the street light.",
+    "message": "You switch off the street light.",
+    "light_emitted": 320,
+    "active": [
+      "steady_consumer",
+      {
+        "power": 1,
+        "consume_every": "50 s",
+        "transform": { "id": "f_street_light_rewired", "msg": "The street light flickers and dies." }
+      }
+    ]
+  },
+  {
+    "type": "furniture",
     "abstract": "f_glass_fridge_base",
     "name": "abstract glass fridge",
     "looks_like": "f_glass_fridge",

@@ -4696,5 +4696,18 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_furniture": "f_floor_lamp_off"
+  },
+  {
+    "type": "construction",
+    "id": "constr_rewire_street_light",
+    "group": "rewire_street_light",
+    "category": "WORKSHOP",
+    "required_skills": [ [ "electronics", 4 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "components": [ [ [ "cable", 2 ] ], [ [ "amplifier", 2 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_furniture": "f_street_light",
+    "post_furniture": "f_street_light_rewired_off"
   }
 ]
