@@ -8,7 +8,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "_||w||sss||www||1|ww|1||",
-        "_|^.&|sss|^#t#.|w|Ht|w||",
+        "'|^.&|sss|^#t#.|w|Ht|w||",
         "_|...|DD||............#|",
         "_|...-..bbc......#....t|",
         "_|#..-....c....#tt....#|",
@@ -39,6 +39,7 @@
         "1": "t_tree_young",
         "D": "t_door_glass_c",
         "W": "t_window_domestic",
+        "'": "t_grass",
         "_": "t_grass",
         "a": "t_pavement",
         "d": "t_door_o",
@@ -50,6 +51,7 @@
         "|": "t_brick_wall"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_chair",
         "&": "f_trashcan",
         "H": "f_armchair",
