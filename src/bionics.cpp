@@ -468,9 +468,9 @@ void deactivate_weapon_cbm( npc &who )
     for( bionic &i : *who.my_bionics ) {
         if( i.powered && i.info().has_flag( flag_BIONIC_WEAPON ) ) {
             who.deactivate_bionic( i );
+            who.clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
         }
     }
-    who.clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
 }
 
 std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
