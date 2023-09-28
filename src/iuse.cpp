@@ -2387,6 +2387,8 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
     }
     const std::set<ter_id> allowed_ter_id {
         t_fence,
+        t_window_reinforced,
+        t_window_reinforced_noglass,
         t_window_boarded,
         t_window_boarded_noglass,
         t_door_boarded,
@@ -2425,6 +2427,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
     }
 
     if( type == t_fence || type == t_window_boarded || type == t_window_boarded_noglass ||
+        type == t_window_reinforced || type == t_window_reinforced_noglass ||
         type == t_door_boarded || type == t_door_boarded_damaged ||
         type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
         type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
