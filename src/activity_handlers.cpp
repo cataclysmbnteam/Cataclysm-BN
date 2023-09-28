@@ -4131,6 +4131,11 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
         boards = 3;
         newter = t_fence_post;
         p->add_msg_if_player( _( "You pry out the fence post." ) );
+    } else if( type == t_window_reinforced_noglass ) {
+        nails = 16;
+        boards = 8;
+        newter = t_window_boarded_noglass;
+        p->add_msg_if_player( _( "You pry the boards from the window." ) );
     } else if( type == t_window_reinforced ) {
         nails = 16;
         boards = 8;
