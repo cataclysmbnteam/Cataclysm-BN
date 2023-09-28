@@ -105,13 +105,10 @@ bool Character::has_trait( const trait_id &b ) const
 
 bool Character::has_trait_flag( const trait_flag_str_id &b ) const
 {
-    for( const mutation_branch *mut : cached_mutations ) {
-        if( mut->flags.count( b ) > 0 ) {
-            return true;
-        }
-    }
-
-    return false;
+    return std::any_of( cached_mutations.cbegin(), cached_mutations.cend(),
+    [&b]( const mutation_branch * mut ) -> bool {
+        return mut->flags.count( b );
+    } );
 }
 
 bool Character::has_base_trait( const trait_id &b ) const

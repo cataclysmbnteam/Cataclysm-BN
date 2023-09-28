@@ -249,7 +249,13 @@ class Character : public Creature, public location_visitable<Character>
         void setID( character_id i, bool force = false );
 
         /** Returns true if the character should be dead */
-        bool is_dead_state() const override;
+        auto is_dead_state() const -> bool override;
+
+    private:
+        mutable std::optional<bool> cached_dead_state;
+
+    public:
+        void set_part_hp_cur( const bodypart_id &id, int set ) override;
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;

@@ -670,7 +670,12 @@ void npc::regen_ai_cache()
     ai_cache.can_heal.clear_all();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
-    ai_cache.my_weapon_value = npc_ai::wielded_value( *this );
+    // This value is actually used in only one place, npc::character_danger, and only if
+    // the single caller evaluate_enemy is passed an NPC or Player
+    // Should be fine to update this every minute since it's an expensive call.
+    if( calendar::once_every( 1_minutes ) ) {
+        ai_cache.my_weapon_value = npc_ai::wielded_value( *this );
+    }
     ai_cache.dangerous_explosives = find_dangerous_explosives();
 
     assess_danger();
@@ -2454,6 +2459,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     if( moved ) {
         const tripoint old_pos = pos();
         setpos( p );
+        set_underwater( g->m.is_divable( p ) );
         if( old_pos.x - p.x < 0 ) {
             facing = FD_RIGHT;
         } else {
