@@ -955,7 +955,7 @@ void monster::move()
 
             bool can_z_move = true;
             if( candidate.z != posz() ) {
-                bool can_z_attack = true;
+                bool can_z_attack = fov_3d;
                 if( !here.valid_move( pos(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
                     can_z_move = false;
