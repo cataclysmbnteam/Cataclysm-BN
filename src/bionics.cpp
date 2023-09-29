@@ -200,7 +200,6 @@ static const std::string flag_PERSONAL( "PERSONAL" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
-static const std::string flag_SPLINT( "SPLINT" );
 
 static const flag_str_id flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
