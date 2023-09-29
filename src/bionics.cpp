@@ -495,7 +495,7 @@ std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
     return cbm_list;
 }
 
-const std::map<item, bionic_id> npc::check_toggle_cbm()
+std::map<item, bionic_id> npc::check_toggle_cbm()
 {
     std::map<item, bionic_id> res;
     const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
