@@ -106,7 +106,7 @@ jobs:
             libbacktrace: 1
             native: linux64
             ccache_limit: 3G
-            ccache_key: linux-gcc-12-lua
+            ccache_key: linux-gcc-12-tiles
 
           - title: GCC 12, Ubuntu, Tiles, NoSound, ASan
             compiler: g++-12
