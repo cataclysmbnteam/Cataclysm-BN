@@ -79,10 +79,13 @@
 		   "B": { "item": "bed", "chance": 100, "repeat": [ 1, 2 ] },
 		   "C": { "item": "dry_goods", "chance": 100, "repeat": [ 2, 3 ] },
 		   "R": [
-		  { "item": "tools_earthworking", "chance": 40 },
+		  { "item": "tools_earthworking", "chance": 35 },
           { "item": "tailoring_fabric", "chance": 65 },
           { "item": "home_hw", "chance": 50 },
-          { "item": "tools_common", "chance": 50 }
+          { "item": "tools_common", "chance": 50 },
+		  { "item": "kitchen_counters", "chance": 50},
+		  { "item": "tinware", "chance": 50},
+		  { "item": "supplies_hardware", "chance": 25}
 		   ],
 		   "r": [
 		   { "item": "goblin_slinger_drops", "chance": 50 },
