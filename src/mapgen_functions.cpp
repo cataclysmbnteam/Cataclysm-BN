@@ -2984,59 +2984,28 @@ void mapgen_lake_shore( mapgendata &dat )
         return;
     }
 
-    // I'm pretty unhappy with this block of if statements that follows, but got frustrated/sidetracked
-    // in finding a more elegant solution. This is functional, but improvements that maintain the result
-    // are welcome. The basic jist is as follows:
-    //
-    // Given our current location and the 8 adjacent locations, we classify them all as lake, lake shore,
-    // river bank, or something else that we don't care about. We then create a polygon with four points,
-    // one in each corner of our location. Then, based on the permutations of possible adjacent location
-    // types, we manipulate the four points of our polygon to generate the rough outline of our shore. The
-    // area inside the polygon will retain our ground we generated, while the area outside will get turned
-    // into the shoreline with shallow and deep water.
-    //
-    // For example, if we have forests to the west, the lake to the east, and more shore north and south of
-    // us, like this...
-    //
-    //     | --- | --- | --- |
-    //     | F   | S   | L   |
-    //     | --- | --- | --- |
-    //     | F   | S   | L   |
-    //     | --- | --- | --- |
-    //     | F   | S   | L   |
-    //     | --- | --- | --- |
-    //
-    // ...then what we want to do with our polygon is push our eastern points to the west. If the north location
-    // were instead a continuation of the lake, with a commensurate shoreline like this...
-    //
-    //     | --- | --- | --- |
-    //     | S   | L   | L   |
-    //     | --- | --- | --- |
-    //     | S   | S   | L   |
-    //     | --- | --- | --- |
-    //     | F   | S   | L   |
-    //     | --- | --- | --- |
-    //
-    // ...then we still need to push our eastern points to the west, but we also need to push our northern
-    // points south, and since we don't want such a blocky shoreline at our corners, we also want to
-    // push the north-eastern point even further south-west.
-    //
-    // Things get even more complicated when we transition into a river bank--they have their own style of
-    // mapgen, and while things don't have to be seamless, I did want the lake shores to fairly smoothly
-    // transition into them, so if we have a river bank adjacent like this...
-    //
-    //     | --- | --- | --- |
-    //     | F   | R   | L   |
-    //     | --- | --- | --- |
-    //     | F   | S   | L   |
-    //     | --- | --- | --- |
-    //     | F   | S   | L   |
-    //     | --- | --- | --- |
-    //
-    // ...then we need to push our adjacent corners in even more for a good transition.
-    //
-    // At the end of all this, we'll have our basic four point polygon that we'll then inspect and use
-    // to create the line-segments that will form our shoreline, but more on in a bit.
+    // Each shore have up to 8 connection points where coast line can be attached. Let's say
+    // we have river_north at the west, it will be attached to slot 2.  Another shore at the
+    // north, with one mutual lake at NE, it will be attached to slot 1. One more shore at east
+    // with two mutual lakes at SE and NE, that'll make it attach to both 6 and 7 slots. That's
+    // what we need to get in the end:
+
+    //  -1----0-
+    // |....    |      Overmap:
+    // 2........7        FSL
+    // | .......|        R@S
+    // 3  ......6        LLL
+    // |        |
+    //  -4----5-
+
+    // So far we have four points(1, 2, 6 and 7) which need to be connected to matching pairs.
+    // To do so first we need to know where the water is relating to our points.  If there's two
+    // points on one side(1+2, 3+4, 5+6, 7+8) it means that's a shore with a ground is between
+    // of those points. If we have only one point on side it means that water is directed toward
+    // middle of side. So, to find a pair for a point we're determining direction, and then
+    // checking other points either clockwise, or counter clockwise. At the end we'll have two
+    // lines 1->7 and 2->6 which will for our shore lines after some jittering.
+
 
     const bool n_shore = is_shore( dat.north() );
     const bool e_shore = is_shore( dat.east() );
@@ -3071,42 +3040,43 @@ void mapgen_lake_shore( mapgendata &dat )
     static constexpr point sw_corner( 0, my );
 
     std::vector<point> shore_points;
+    std::map<int, point> slots;
 
     // We need to detect whether river bank is touching this map with its side, or corner, and where.
     // Checking our surrounding can give just enough information for that
     if( n_river_bank ) {
         if( nw_water && ( !ne_water || !e_water ) ) {
-            shore_points.push_back( { ne_corner.x - river_beach, ne_corner.y } );
+            slots[0] = { ne_corner.x - river_beach, ne_corner.y };
         }
         if( ne_water && ( !nw_water || !w_water ) ) {
-            shore_points.push_back( { nw_corner.x + river_beach, nw_corner.y } );
+            slots[1] = { nw_corner.x + river_beach, nw_corner.y };
         }
     }
 
     if( w_river_bank ) {
         if( sw_water && ( !nw_water || !n_water ) ) {
-            shore_points.push_back( { nw_corner.x, nw_corner.y + river_beach } );
+            slots[2] = { nw_corner.x, nw_corner.y + river_beach };
         }
         if( nw_water && ( !sw_water || !s_water ) ) {
-            shore_points.push_back( { sw_corner.x, sw_corner.y - river_beach } );
+            slots[3] = { sw_corner.x, sw_corner.y - river_beach };
         }
     }
 
     if( s_river_bank ) {
         if( se_water && ( !sw_water || !w_water ) ) {
-            shore_points.push_back( { sw_corner.x + river_beach, sw_corner.y } );
+            slots[4] = { sw_corner.x + river_beach, sw_corner.y };
         }
         if( sw_water && ( !se_water || !e_water ) ) {
-            shore_points.push_back( { se_corner.x - river_beach, se_corner.y } );
+            slots[5] = { se_corner.x - river_beach, se_corner.y };
         }
     }
 
     if( e_river_bank ) {
         if( ne_water && ( !se_water || !s_water ) ) {
-            shore_points.push_back( { se_corner.x, se_corner.y - river_beach } );
+            slots[6] = { se_corner.x, se_corner.y - river_beach };
         }
         if( se_water && ( !ne_water || !n_water ) ) {
-            shore_points.push_back( { ne_corner.x, ne_corner.y + river_beach } );
+            slots[7] = { ne_corner.x, ne_corner.y + river_beach };
         }
     }
 
@@ -3114,85 +3084,88 @@ void mapgen_lake_shore( mapgendata &dat )
     // and in middle of lake. We need to connect to those ones which neighbouring same lake surface
     if( n_shore ) {
         if( nw_lake || w_lake ) {
-            shore_points.push_back( { ne_corner.x - lake_beach, ne_corner.y } );
+            slots[0] = { ne_corner.x - lake_beach, ne_corner.y };
         }
         if( ne_lake || e_lake ) {
-            shore_points.push_back( { nw_corner.x + lake_beach, nw_corner.y } );
+            slots[1] = { nw_corner.x + lake_beach, nw_corner.y };
         }
     }
 
     if( w_shore ) {
         if( sw_lake || s_lake ) {
-            shore_points.push_back( { nw_corner.x, nw_corner.y + lake_beach } );
+            slots[2] = { nw_corner.x, nw_corner.y + lake_beach };
         }
         if( nw_lake || n_lake ) {
-            shore_points.push_back( { sw_corner.x, sw_corner.y - lake_beach } );
+            slots[3] = { sw_corner.x, sw_corner.y - lake_beach };
         }
     }
 
     if( s_shore ) {
         if( se_lake || e_lake ) {
-            shore_points.push_back( { sw_corner.x + lake_beach, sw_corner.y } );
+            slots[4] = { sw_corner.x + lake_beach, sw_corner.y };
         }
         if( sw_lake || w_lake ) {
-            shore_points.push_back( { se_corner.x - lake_beach, se_corner.y } );
+            slots[5] = { se_corner.x - lake_beach, se_corner.y };
         }
     }
 
     if( e_shore ) {
         if( ne_lake || n_lake ) {
-            shore_points.push_back( { se_corner.x, se_corner.y - lake_beach } );
+            slots[6] = { se_corner.x, se_corner.y - lake_beach };
         }
         if( se_lake || s_lake ) {
-            shore_points.push_back( { ne_corner.x, ne_corner.y + lake_beach } );
+            slots[7] = { ne_corner.x, ne_corner.y + lake_beach };
         }
     }
 
-    // Ok, all of the fiddling with the polygon corners is done.
-    // At this point we've got four points that make up four line segments that started out
-    // at the map boundaries, but have subsequently been perturbed by the adjacent terrains.
-    // Let's look at them and see which ones differ from their original state and should
-    // form our shoreline.
-
-    // Return whether two points are on same edge
-    const auto is_same_edge = [&]( point  p1, point  p2 ) {
-        return ( p1.x == 0 && p2.x == 0 ) || ( p1.x == mx && p2.x == mx ) ||
-               ( p1.y == 0 && p2.y == 0 ) || ( p1.y == my && p2.y == my );
-    };
-
-    // Make a lines out of closest shore points
     std::vector<std::vector<point>> line_segments;
-    while( !shore_points.empty() ) {
-        point p = shore_points.back();
-        shore_points.pop_back();
+    // Ok, now we know everything we need about adjacent terrain, time to link the points
 
-        if( shore_points.empty() ) {
-            // No pair. Let's mirror it make at least some shoreline, if there's none
-            if( line_segments.empty() ) {
-                line_segments.push_back( { p, { mx - p.x, my - p.y } } );
+    bool open[8] = { false };
+    for( int i = 0; i < 8; i++ ) {
+        open[i] = slots.count( i );
+        // Shores with two connections per side have overlapping offsets, we need to swap them
+        if( i % 2 && open[i] && open[i - 1] ) {
+            point p = slots[i];
+            slots[i] = slots[i - 1];
+            slots[i - 1] = p;
+        }
+    }
+
+    for( int i = 0; i < 8; i++ ) {
+        if( !open[i] ) {
+            continue;
+        }
+
+        // Check the next slot, and inverse direction if any
+        int next = i % 2 == 0 ? 1 : -1;
+        int dir = slots.count( i + next ) ? -next : next;
+
+        // Now make a full round loop from our current point
+        int pair = i;
+        for( int j = modulo( i + dir, 8 ); j != i; j = modulo( j + dir, 8 ) ) {
+            if( open[j] ) {
+                pair = j;
+                break;
             }
-            break;
         }
 
-        // Find closest valid shore point
-        std::sort( shore_points.begin(), shore_points.end(), [&]( const point & p1, const point & p2 ) {
-            return trig_dist( p1, p ) < trig_dist( p2, p );
-        } );
-        auto other = std::find_if( shore_points.begin(), shore_points.end(), [&]( const point & other ) {
-            return !is_same_edge( p, other );
-        } );
-
-        if( other == shore_points.end() ) {
-            // No off-edge point. That must be reef side, grab whatever we have, and connect them in middle
+        if( pair == i ) {
+            // No pair. Let's mirror it make at least some shoreline
+            line_segments.push_back( { slots[i], { mx - slots[i].x, my - slots[i].y } } );
+        } else if( pair == i + next ) {
+            // We returned to our neighbour on same side, let's connect them in the middle
             point mid = { mx / 2, my / 2 };
-            line_segments.push_back( { mid, p } );
-            line_segments.push_back( { mid, shore_points.back() } );
-            break;
+            line_segments.push_back( { mid, slots[i] } );
+            line_segments.push_back( { mid, slots[pair] } );
+        } else {
+            // Make a shore line with given two points
+            line_segments.push_back( { slots[i], slots[pair] } );
         }
 
-        // Make a shore line with given two points
-        line_segments.push_back( { p, *other } );
-        shore_points.erase( other );
+        // Close both points, so we won't link anything to them again
+        open[i] = false;
+        open[pair] = false;
     }
 
     // We have no shores at all, make a small reef surrounded by water
