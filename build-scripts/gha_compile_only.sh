@@ -45,6 +45,7 @@ then
         -DCMAKE_BUILD_TYPE="$build_type" \
         -DTILES=${TILES:-0} \
         -DSOUND=${SOUND:-0} \
+        -DLUA=${LUA:-0} \
         ..
 
     make -j$num_jobs
