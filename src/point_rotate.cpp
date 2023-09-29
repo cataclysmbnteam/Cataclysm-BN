@@ -9,6 +9,7 @@ auto rotate( point p, point dim, int turns ) -> point
         case 1:
             return { dim.y - p.y - 1, p.x };
         case 2:
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             return { dim.x - p.x - 1, dim.y - p.y - 1 };
         case 3:
             return { p.y, dim.x - p.x - 1 };
