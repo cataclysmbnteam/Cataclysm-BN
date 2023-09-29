@@ -95,6 +95,7 @@ jobs:
             native: linux64
             ccache_limit: 4G
             ccache_key: linux-gcc-12-cmake-tiles
+            upload-artifact: true
 
           - title: GCC 12, Ubuntu, Tiles, Sound, Lua
             compiler: g++-12
@@ -247,7 +248,7 @@ jobs:
         run: bash ./build-scripts/gha_test_only.sh
 
       - name: emit success artifact
-        if: ${{ success() && matrix.ccache_key == 'linux-gcc-12-cmake-lua' }}
+        if: ${{ success() && matrix.upload-artifact == 'true' }}
         uses:  actions/upload-artifact@v3.1.3
         with:
           name: ${{ github.event.number }}
