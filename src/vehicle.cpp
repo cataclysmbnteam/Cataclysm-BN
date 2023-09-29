@@ -4218,7 +4218,7 @@ bool vehicle::has_sufficient_rotorlift() const
 // requires vehicle to have sufficient rotor lift, not suitable for checking if it has rotor.
 bool vehicle::is_rotorcraft() const
 {
-    return has_part( "ROTOR" ) && has_sufficient_rotorlift() && player_in_control( g->u );
+    return has_part( "ROTOR" ) && has_sufficient_rotorlift();
 }
 
 int vehicle::get_z_change() const
