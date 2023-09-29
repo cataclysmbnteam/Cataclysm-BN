@@ -721,7 +721,7 @@
     "color": "light_gray",
     "move_cost_mod": -1,
     "coverage": 40,
-    "required_str": 32,
+    "required_str": -1,
     "flags": [ "BASHABLE" ],
     "deconstruct": {
       "items": [

@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "..d....d.ss.........d...",
+        "..d....d.ss.........d..'",
         ".........ss..dd.........",
         "ssssssssssssssssssssssss",
         "ssssssssssssssssssssssss",
@@ -42,12 +42,14 @@
         "p": "t_grass",
         "|": "t_wall_wood",
         "X": "t_console_broken",
+        "'": "t_dirt",
         "s": "t_sidewalk",
         "U": "t_sidewalk",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "&": "f_trashcan",
         "l": "f_stool",
@@ -156,7 +158,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "sssssssssssssssssssssss_",
+        "sssssssssssssssssssssss'",
         "ssssssssssssssssssssssss",
         "__ppppppppss||------||__",
         "__p_9_9__pss+.......y|__",
@@ -188,6 +190,7 @@
         "_": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
         "p": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
         "d": "t_dirt",
+        "'": "t_sidewalk",
         "s": "t_sidewalk",
         "|": "t_adobe_brick_wall",
         "X": "t_console_broken",
@@ -222,6 +225,7 @@
         ]
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "l": "f_stool",
         "{": "f_rack",

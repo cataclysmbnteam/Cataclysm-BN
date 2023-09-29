@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "..........==========...,",
+        "..........==========...`",
         ".,........=...======....",
         "..b.b.b.b.=.b.======.b..",
         ".booooooob=bggGGGGGGggb.",
@@ -37,6 +37,7 @@
         ",": "t_dirt",
         " ": "t_floor",
         "'": "t_thconc_floor",
+        "`": "t_dirt",
         "=": "t_sidewalk",
         "b": "t_shrub",
         "o": "t_wall_p",
@@ -49,6 +50,7 @@
         "C": "t_dirt"
       },
       "furniture": {
+        "`": "f_street_light",
         "C": "f_dumpster",
         "s": "f_sink",
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
