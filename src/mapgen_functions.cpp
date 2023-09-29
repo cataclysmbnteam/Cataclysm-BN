@@ -3034,7 +3034,7 @@ void mapgen_lake_shore( mapgendata &dat )
     const int river_beach = sector_length / 2;
 
     // Define the corners of the map. These won't change.
-    // NOLINTNEXTLINE(cata-point-initialization)
+    // NOLINTNEXTLINE(cata-point-initialization, cata-use-named-point-constants)
     static constexpr point nw_corner{ 0, 0 };
     static constexpr point ne_corner( mx, 0 );
     static constexpr point se_corner( mx, my );
