@@ -256,6 +256,12 @@ class Character : public Creature, public location_visitable<Character>
 
     public:
         void set_part_hp_cur( const bodypart_id &id, int set ) override;
+        void set_part_hp_max( const bodypart_id &id, int set ) override;
+
+        void mod_part_hp_cur( const bodypart_id &id, int mod ) override;
+        void mod_part_hp_max( const bodypart_id &id, int mod ) override;
+
+        void set_all_parts_hp_cur( int set ) override;
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;

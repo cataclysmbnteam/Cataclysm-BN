@@ -30,6 +30,7 @@
 #include "consumption.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "damage.h"
 #include "debug.h"
 #include "disease.h"
@@ -834,13 +835,10 @@ auto Character::is_dead_state() const -> bool
     }
 
     const auto all_bps = get_all_body_parts( true );
-    const bool is_dead = std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
+    cached_dead_state = std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
         return bp->essential && get_part_hp_cur( bp ) <= 0;
     } );
-    if( is_dead ) {
-        cached_dead_state = true;
-    }
-    return is_dead;
+    return cached_dead_state.value();
 }
 
 void Character::set_part_hp_cur( const bodypart_id &id, int set )
@@ -849,6 +847,38 @@ void Character::set_part_hp_cur( const bodypart_id &id, int set )
         cached_dead_state.reset();
     }
     Creature::set_part_hp_cur( id, set );
+}
+
+void Character::set_part_hp_max( const bodypart_id &id, int set )
+{
+    if( set <= 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::set_part_hp_max( id, set );
+}
+
+void Character::mod_part_hp_cur( const bodypart_id &id, int mod )
+{
+    if( mod < 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::mod_part_hp_cur( id, mod );
+}
+
+void Character::mod_part_hp_max( const bodypart_id &id, int mod )
+{
+    if( mod < 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::mod_part_hp_max( id, mod );
+}
+
+void Character::set_all_parts_hp_cur( int set )
+{
+    if( set <= 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::set_all_parts_hp_cur( set );
 }
 
 field_type_id Character::bloodType() const
