@@ -93,7 +93,7 @@ jobs:
             languages: all
             native: linux64
             ccache_limit: 4G
-            ccache_key: linux-gcc-12-cmake-lua
+            ccache_key: linux-gcc-12-cmake-tiles
 
           - title: GCC 12, Ubuntu, Tiles, Sound, Lua
             compiler: g++-12
