@@ -48,7 +48,7 @@
     "object": {
       "fill_ter": "t_grass",
       "rows": [
-        "                                                                                                                        ",
+        "                       '                       '                       '                       '                       '",
         "                                                                                                                        ",
         "                    HHHHHHHHHHHHHHHHHHH HHHHHHHHHHHHHHHHHHH HHHHHHHHHHHHHHHHHHH HHHHHHHHHHHHHHHHHH RR                   ",
         "                     ,,,,,,,,,,,,,,,,,   ,,,,,,,,,,,,,,,,,   ,,,,,,,,,,,,,,,,,   ,,,,,,,,,,,,,,,,,,,,,                  ",
@@ -178,7 +178,7 @@
         "          ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp   --+-+-- ",
         "                      ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,         ,,R|I!|!I| ",
         "                     HHHHHHHHHHHHHHHHHH,HHHHHHHHHHHHHHHHHHH,HHHHHHHHHHHHHHHHHHH,HHHHHHHHHHHHHHHHHHH         --W-|-!|!-| ",
-        "                      ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,    ' ,V|C!F|;!|!;| ",
+        "                      ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,      ,V|C!F|;!|!;| ",
         "                     HHHHHHHHHHHHHHHHHH,HHHHHHHHHHHHHHHHHHH,HHHHHHHHHHHHHHHHHHH,HHHHHHHHHHHHHHHHHHH       ,V--+-------- ",
         "                                                                                                                        "
       ],

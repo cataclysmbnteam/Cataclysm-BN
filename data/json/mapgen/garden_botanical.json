@@ -7,8 +7,8 @@
     "object": {
       "fill_ter": "t_grass",
       "rows": [
+        "ccccccccccccccccccccc'ccccccccccccccccccccccccc'",
         "cccccccccccccccccccccccccccccccccccccccccccccccc",
-        "cccccccccccccccccccccccccccccccccccccccccccccc'c",
         "...#.#.#.#...#...X...P____P...7..#........#.....",
         "..._____.....4...P.#.______.#.P...T..#..._____#.",
         ".#.______..#.P......________......P.....______..",

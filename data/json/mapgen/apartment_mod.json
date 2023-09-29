@@ -53,8 +53,8 @@
         "    |aaaaa|----ww--|  ssss  |--ww----|aaaaa|    ",
         "                      ssss                      ",
         "                    ppsssspp                    ",
-        "                  ' ppsssspp '                  ",
-        "                      ssss                      "
+        "                    ppsssspp                    ",
+        "'                     ssss '                    "
       ],
       "palettes": [ "apartment_palette" ],
       "place_monsters": [

@@ -7,12 +7,12 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
+        "____,____,____,____,___'",
         "____,____,____,____,____",
         "____,____,____,____,____",
         "____,____,____,____,____",
         "____,____,____,____,____",
-        "____,____,____,____,____",
-        "FFFFFFFFFFFFFFFFFFFFFF'F",
+        "FFFFFFFFFFFFFFFFFFFFFFFF",
         "FFFFFFFFFFFFFFFFFFFFFFFF",
         "|--OOOOOO--++--OOOOOO--|",
         "|l                    l|",
@@ -38,7 +38,7 @@
         ",": "t_pavement_y",
         "-": "t_wall_w",
         ".": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ], [ "t_underbrush", 10 ] ],
-        "'": "t_sidewalk",
+        "'": "t_pavement",
         "F": "t_sidewalk",
         "O": "t_window",
         "_": "t_pavement",

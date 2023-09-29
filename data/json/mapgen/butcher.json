@@ -6,8 +6,8 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
+        "bbbbbbbbbbbbbbbbbbbbbbb'",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
-        "bbbbbbbbbbbbbbbbbbbbbb'b",
         "   addddddaeeadddddda   ",
         "   affffffa..affffffa   ",
         "   a......h.........a   ",
@@ -212,8 +212,8 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
+        "bbbbbbbbbbbbbbbbbbbbbbb'",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
-        "bbbbbbbbbbbbbbbbbbbbbb'b",
         "   addddddaeeadddddda   ",
         "   akkkkkk....kkkkkka   ",
         "   a................a   ",
@@ -414,8 +414,8 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
+        "bbbbbbbbbbbbbbbbbbbbbbb'",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
-        "bbbbbbbbbbbbbbbbbbbbbb'b",
         "   addddddaeeadddddda   ",
         "   akkkkkk....kkkkkka   ",
         "   a................a   ",

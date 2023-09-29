@@ -50,8 +50,8 @@
         "   R,Q|..A.FFFI.o|.Y|......|Y.|o...ICxC.^|Q,R   ",
         "   |RR|--ww---ww-|--|w-GG-w|--|-ww---ww--|RR|   ",
         "                      ssss                      ",
-        "                    ' ssss '                    ",
-        "                      ssss                      "
+        "                      ssss                      ",
+        "'                     ssss '                    "
       ],
       "palettes": [ "apartment_palette" ],
       "terrain": { ".": "t_floor" },

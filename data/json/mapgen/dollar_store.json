@@ -7,10 +7,10 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "..d....d.ss.........d...",
+        "..d....d.ss.........d..'",
         ".........ss..dd.........",
         "ssssssssssssssssssssssss",
-        "ssssssssssssssssssssss's",
+        "ssssssssssssssssssssssss",
         "....pppp.ss.pppppppp....",
         "...||-P-|++|-P-|---|||..",
         ".d.|&_______________&|..",
@@ -42,7 +42,7 @@
         "p": "t_grass",
         "|": "t_wall_wood",
         "X": "t_console_broken",
-        "'": "t_sidewalk",
+        "'": "t_dirt",
         "s": "t_sidewalk",
         "U": "t_sidewalk",
         "4": "t_gutter_downspout",
@@ -158,8 +158,8 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "ssssssssssssssssssssssss",
         "sssssssssssssssssssssss'",
+        "ssssssssssssssssssssssss",
         "__ppppppppss||------||__",
         "__p_9_9__pss+.......y|__",
         "__ppppppppss+........|d_",

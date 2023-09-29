@@ -13,12 +13,12 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
+        ".______________________'",
         ".______________________.",
         ".______________________.",
         ".______________________.",
         ".______________________.",
-        ".______________________.",
-        ".sssssssssssssssssssss'.",
+        ".ssssssssssssssssssssss.",
         ".ssssssssssssssssssssss.",
         ".ssssssssssssssssssssss.",
         ".ssssssssssssssssssllss.",
@@ -48,7 +48,7 @@
         "B": "t_floor",
         "%": "t_floor",
         "_": "t_pavement",
-        "'": "t_sidewalk",
+        "'": "t_dirt",
         "l": "t_sidewalk",
         "s": "t_sidewalk",
         "4": "t_gutter_downspout",

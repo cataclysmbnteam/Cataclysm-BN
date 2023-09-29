@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ".`''''`''''`''''`''''`1.",
+        ".`''''`''''`''''`''''`.1",
         ".`''''`''''`''''`''''`..",
         ".`''''`''''`''''`''''`..",
         ".`''''`''''`''''`''''`..",
@@ -36,7 +36,7 @@
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         " ": "t_floor",
         ",": "t_thconc_floor",
-        "1": "t_pavement",
+        "1": "t_dirt",
         "y": "t_thconc_floor",
         "&": "t_thconc_floor",
         "%": "t_thconc_floor",

@@ -34,7 +34,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "'''''''''''`~     ,     ",
+        "'''''''''''~~     ,    `",
         "'''''''''''~~     ,     ",
         "'''''''''''~~     ,     ",
         "''~~~~~~~~~~~~    ,     ",
@@ -84,7 +84,7 @@
         "Q": "t_linoleum_white",
         "'": "t_grass",
         "4": "t_gutter_downspout",
-        "`": "t_sidewalk",
+        "`": "t_pavement",
         "~": "t_sidewalk"
       },
       "furniture": {
