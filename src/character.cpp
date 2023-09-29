@@ -529,28 +529,32 @@ void Character::set_part_hp_cur( const bodypart_id &id, int set )
     Creature::set_part_hp_cur( id, set );
 }
 
-void Character::set_part_hp_max( const bodypart_id &id, int set ) {
+void Character::set_part_hp_max( const bodypart_id &id, int set )
+{
     if( set <= 0 ) {
         cached_dead_state.reset();
     }
     Creature::set_part_hp_max( id, set );
 }
 
-void Character::mod_part_hp_cur( const bodypart_id &id, int mod ) {
+void Character::mod_part_hp_cur( const bodypart_id &id, int mod )
+{
     if( mod < 0 ) {
         cached_dead_state.reset();
     }
     Creature::mod_part_hp_cur( id, mod );
 }
 
-void Character::mod_part_hp_max( const bodypart_id &id, int mod ) {
+void Character::mod_part_hp_max( const bodypart_id &id, int mod )
+{
     if( mod < 0 ) {
         cached_dead_state.reset();
     }
     Creature::mod_part_hp_max( id, mod );
 }
 
-void Character::set_all_parts_hp_cur( int set ) {
+void Character::set_all_parts_hp_cur( int set )
+{
     if( set <= 0 ) {
         cached_dead_state.reset();
     }
