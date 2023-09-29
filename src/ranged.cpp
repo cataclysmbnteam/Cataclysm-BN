@@ -871,7 +871,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
     int hits = 0; // total shots on target
     while( curshot != shots ) {
         if( !!ammo && !gun.ammo_remaining() ) {
-            gun.reload( get_avatar(), std::move( ammo ), 1 );
+            gun.reload( get_avatar(), ammo, 1 );
         }
         if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
             who.moves -= 50;
