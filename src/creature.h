@@ -523,14 +523,14 @@ class Creature
         int get_part_healed_total( const bodypart_id &id ) const;
 
         virtual void set_part_hp_cur( const bodypart_id &id, int set );
-        void set_part_hp_max( const bodypart_id &id, int set );
+        virtual void set_part_hp_max( const bodypart_id &id, int set );
         void set_part_healed_total( const bodypart_id &id, int set );
-        void mod_part_hp_cur( const bodypart_id &id, int mod );
-        void mod_part_hp_max( const bodypart_id &id, int mod );
+        virtual void mod_part_hp_cur( const bodypart_id &id, int mod );
+        virtual void mod_part_hp_max( const bodypart_id &id, int mod );
         void mod_part_healed_total( const bodypart_id &id, int mod );
 
 
-        void set_all_parts_hp_cur( int set );
+        virtual void set_all_parts_hp_cur( int set );
         void set_all_parts_hp_to_max();
 
         virtual int get_speed_base() const;
