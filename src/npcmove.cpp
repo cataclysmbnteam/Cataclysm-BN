@@ -2024,20 +2024,23 @@ double npc::confidence_mult() const
     return 1.0f;
 }
 
-int npc::confident_shoot_range( const item &it, int recoil ) const
+auto npc::confident_shoot_range( const item &it, int recoil ) const -> int
 {
-    int res = 0;
-    if( !it.is_gun() ) {
-        return res;
+    const auto &modes = it.gun_all_modes();
+    if( modes.empty() ) {
+        return 0;
     }
-    const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> lhs,
-    const std::pair<gun_mode_id, gun_mode> &rhs ) {
+
+    using Mode = std::pair<gun_mode_id, gun_mode>;
+
+    /// we want the mode with the least recoil, so we can shoot more accurately
+    /// which means choosing modes that fires less bullets
+    const auto find_least_firing_mode = []( const Mode & lhs, const Mode & rhs ) {
         return lhs.second.qty < rhs.second.qty;
     };
-    std::map<gun_mode_id, gun_mode> modes = it.gun_all_modes();
-    auto best = std::min_element( modes.begin(), modes.end(), gun_mode_cmp );
-    res = confident_gun_mode_range( ( *best ).second, recoil );
-    return res;
+
+    const auto best = std::min_element( modes.begin(), modes.end(), find_least_firing_mode );
+    return confident_gun_mode_range( ( *best ).second, recoil );
 }
 
 int npc::confident_gun_mode_range( const gun_mode &gun, int at_recoil ) const
