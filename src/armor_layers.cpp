@@ -763,6 +763,11 @@ void show_armor_layers_ui( Character &who )
         // Helper function for moving items in the list
         auto shift_selected_item = [&]() {
             if( selected >= 0 ) {
+                auto selected_it = access_tmp_worn( selected );
+                auto left_it = access_tmp_worn( leftListIndex );
+
+                std::swap( *selected_it, *left_it );
+
                 int temp = tmp_worn[selected];
                 tmp_worn[selected] = tmp_worn[leftListIndex];
                 tmp_worn[leftListIndex] = temp;
