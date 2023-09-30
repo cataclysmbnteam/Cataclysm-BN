@@ -2092,20 +2092,24 @@ double item::ideal_ranged_dps( const Character &who, gun_mode &mode ) const
         itype_id ammo = ammo_default();
         gun_damage.add( ammo->ammo->damage );
     }
+
     const int burst_size = std::max( 1, mode.qty );
     const float damage_factor = gun_damage.total_damage() * burst_size;
 
     int move_cost = ranged::time_to_attack( who, *this, item_location() );
     if( ammo_remaining() == 0 ) {
-        int reload_cost = get_reload_time() + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
+        const int base_reload_cost = get_reload_time() + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
+        const int ammo_size = magazine_integral() ? 1 : ammo_capacity();
+
         // HACK: Doesn't check how much ammo they'll actually get from the reload. Because we don't know.
         // DPS is less impacted the larger the magazine being swapped.
-        reload_cost /= magazine_integral() ? 1 : ammo_capacity() / burst_size;
+        const int reload_cost = base_reload_cost / ammo_size * burst_size;
+
         move_cost += reload_cost;
     }
     std::vector<ranged::aim_type> aim_types = ranged::get_aim_types( who, *this );
-    auto regular = std::find_if( aim_types.begin(),
-    aim_types.end(), []( ranged::aim_type at ) {
+    const auto regular = std::find_if( aim_types.begin(), aim_types.end(),
+    []( ranged::aim_type at ) {
         return at.action == std::string( "AIMED_SHOT" );
     } );
     if( regular == aim_types.end() ) {
@@ -2114,7 +2118,7 @@ double item::ideal_ranged_dps( const Character &who, gun_mode &mode ) const
     }
     move_cost += ranged::gun_engagement_moves( who, *this, ( *regular ).threshold );
 
-    double dps = damage_factor / ( move_cost / 100.0f );
+    const double dps = damage_factor / ( move_cost / 100.0f );
 
     return dps;
 }
