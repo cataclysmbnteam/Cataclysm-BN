@@ -22,6 +22,7 @@
     "copy-from": "shot_00",
     "type": "AMMO",
     "name": { "str": "00 shot, black powder" },
+    "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -56,6 +57,7 @@
     "material": [ "plastic", "powder" ],
     "symbol": "=",
     "color": "red",
+    "dispersion": 10,
     "count": 20,
     "stack_size": 20,
     "ammo_type": "shot",
@@ -97,7 +99,6 @@
     "price_postapoc": 400,
     "range": 0,
     "damage": { "damage_type": "bullet", "amount": 50, "armor_multiplier": 3.0 },
-    "dispersion": 1000,
     "loudness": 80,
     "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "extend": { "effects": [ "NOGIB" ] }
@@ -150,7 +151,8 @@
     "type": "AMMO",
     "name": { "str": "00 shot, scrap loaded" },
     "description": "A shotgun shell filled with whatever was lying around.  They are more damaging than birdshot, but fairly inaccurate.",
-    "proportional": { "price": 0.4, "damage": { "damage_type": "bullet", "amount": 0.6 }, "dispersion": 1.2 },
+    "dispersion": 60,
+    "proportional": { "price": 0.4, "damage": { "damage_type": "bullet", "amount": 0.75, "armor_multiplier": 1.25 } },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
