@@ -1,6 +1,6 @@
 [
   {
-	"type": "item_group",
+    "type": "item_group",
     "subtype": "collection",
     "id": "goblin_warrior_drops",
     "entries": [
@@ -13,7 +13,7 @@
     ]
   },
   {
-	"type": "item_group",
+    "type": "item_group",
     "subtype": "collection",
     "id": "goblin_slinger_drops",
     "entries": [
@@ -26,7 +26,7 @@
     ]
   },
   {
-	"type": "item_group",
+    "type": "item_group",
     "subtype": "collection",
     "id": "goblin_chieftain_drops",
     "entries": [

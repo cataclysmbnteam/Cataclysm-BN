@@ -359,7 +359,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 8,
-	"autolearn": true,
+    "autolearn": true,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ], [ "recipe_melee", 7 ] ],
     "using": [ [ "blacksmithing_advanced", 12 ] ],
@@ -372,7 +372,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 9,
-	"autolearn": true,
+    "autolearn": true,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapeast", 8 ] ],
     "using": [ [ "blacksmithing_advanced", 8 ] ],
@@ -385,7 +385,7 @@
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 8,
-	"autolearn": true,
+    "autolearn": true,
     "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
     "using": [ [ "blacksmithing_advanced", 16 ] ],
@@ -398,10 +398,15 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 7,
-	"autolearn": true,
+    "autolearn": true,
     "time": "7 h 40 m",
     "book_learn": [ [ "textbook_armschina", 6 ] ],
     "using": [ [ "blacksmithing_advanced", 4 ] ],
-    "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "stick_long", 1 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ], [ [ "dragon_bone", 4 ] ] ]
+    "components": [
+      [ [ "filament", 100, "LIST" ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "fabric_hides_any", 2, "LIST" ] ],
+      [ [ "dragon_bone", 4 ] ]
+    ]
   }
 ]

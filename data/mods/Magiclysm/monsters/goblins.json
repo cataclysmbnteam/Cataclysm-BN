@@ -27,7 +27,7 @@
     "armor_bullet": 5,
     "armor_stab": 6,
     "harvest": "human",
-	"//": "We haven't demihuman, so I went with the Troll solution of just going human.",
+    "//": "We haven't demihuman, so I went with the Troll solution of just going human.",
     "death_function": [ "NORMAL" ],
     "death_drops": "goblin_warrior_drops",
     "special_attacks": [ [ "crush", 5 ], { "type": "bite", "cooldown": 5 } ],
@@ -51,7 +51,7 @@
     "description": "A short green humanoid who slings rocks just about as well as it slings insults.  They have quite a penchant for taunting, and they're dodgier in more ways than one.",
     "copy-from": "mon_goblin_warrior",
     "melee_skill": 2,
-	"dodge": 5,
+    "dodge": 5,
     "death_drops": "goblin_slinger_drops",
     "starting_ammo": { "pebble": 30 },
     "extend": {
