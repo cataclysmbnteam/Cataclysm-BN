@@ -4742,7 +4742,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
     std::vector<item *> active_items = current_submap.active_items.get_for_processing();
     const point grid_offset( gridp.x * SEEX, gridp.y * SEEY );
     for( item *&active_item_ref : active_items ) {
-        if( !active_item_ref ) {
+        if( !active_item_ref || !active_item_ref->is_loaded() ) {
             // The item was destroyed, so skip it.
             continue;
         }
