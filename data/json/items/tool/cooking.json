@@ -512,7 +512,7 @@
       "target": "pickle",
       "msg": "You open the jar, exposing it to the atmosphere.",
       "container": "jar_glass",
-      "target_charges": 6,
+      "target_charges": 2,
       "menu_text": "Open jar",
       "type": "transform"
     }
@@ -535,7 +535,7 @@
       "target": "sauerkraut",
       "msg": "You open the jar, exposing it to the atmosphere.",
       "container": "jar_glass",
-      "target_charges": 4,
+      "target_charges": 2,
       "menu_text": "Open jar",
       "type": "transform"
     }

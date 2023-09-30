@@ -16,13 +16,13 @@
       { "item": "fish_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_canned", "prob": 20, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "veggy_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "apple_canned", "prob": 30, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "apple_canned", "prob": 30, "charges": 24, "container-item": "jar_3l_glass_sealed" },
       { "item": "can_tomato", "prob": 40, "charges": 24, "container-item": "jar_3l_glass_sealed" },
       { "item": "meat_pickled", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "potted_meat", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "veggy_pickled", "prob": 20, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "sauce_red", "prob": 60, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "sauce_red", "prob": 60, "charges": 48, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" }
     ]
   },
@@ -249,7 +249,7 @@
       { "item": "potted_meat", "prob": 6, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_canned", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "veggy_canned", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "apple_canned", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "apple_canned", "prob": 4, "charges": 24, "container-item": "jar_3l_glass_sealed" },
       { "item": "offal_canned", "prob": 1, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "can_tomato", "prob": 4, "charges": 24, "container-item": "jar_3l_glass_sealed" },
       { "item": "fish_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
@@ -257,7 +257,7 @@
       { "item": "potted_meat", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "veggy_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "fish_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "sauce_red", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "sauce_red", "prob": 4, "charges": 48, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "group": "big_canned_food", "prob": 4 }
     ]
@@ -270,8 +270,8 @@
       { "item": "can_beans", "prob": 4, "charges": 12, "container-item": "can_food_big" },
       { "item": "can_tomato", "prob": 4, "charges": 24, "container-item": "can_food_big" },
       { "item": "can_pineapple", "prob": 3, "charges": 12, "container-item": "can_food_big" },
-      { "item": "can_corn", "prob": 3, "charges": 6, "container-item": "can_food_big" },
-      { "item": "sauce_red", "prob": 3, "charges": 96, "container-item": "can_food_big" },
+      { "item": "can_corn", "prob": 3, "charges": 12, "container-item": "can_food_big" },
+      { "item": "sauce_red", "prob": 3, "charges": 48, "container-item": "can_food_big" },
       { "item": "coffee_raw", "prob": 6, "charges": 240, "container-item": "can_food_big" }
     ]
   },
