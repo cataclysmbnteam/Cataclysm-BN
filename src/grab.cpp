@@ -51,7 +51,7 @@ auto get_grabbed_vehicle_movecost( vehicle *veh ) -> int
     const auto &map = get_map();
     const tripoint &vehpos = veh->global_pos3();
 
-    static const auto get_wheel_pos = [&]( const int p ) {
+    const auto get_wheel_pos = [&]( const int p ) {
         return vehpos + veh->part( p ).precalc[0];
     };
 

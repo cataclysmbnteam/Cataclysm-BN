@@ -200,7 +200,6 @@ static const std::string flag_PERSONAL( "PERSONAL" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
-static const std::string flag_SPLINT( "SPLINT" );
 
 static const flag_str_id flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
@@ -495,7 +494,7 @@ std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
     return cbm_list;
 }
 
-const std::map<item, bionic_id> npc::check_toggle_cbm()
+std::map<item, bionic_id> npc::check_toggle_cbm()
 {
     std::map<item, bionic_id> res;
     const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;

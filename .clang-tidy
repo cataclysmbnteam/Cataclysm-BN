@@ -86,6 +86,7 @@ Checks: >
   -readability-redundant-access-specifiers,
   -readability-use-anyofallof,
 
+WarningsAsErrors: '*'
 HeaderFilterRegex: "(src|(test(?!.*catch.*catch.h))|tools).*"
 FormatStyle: none
 CheckOptions:

@@ -127,7 +127,6 @@ static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 
 static const skill_id skill_archery( "archery" );
-static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
@@ -872,7 +871,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
     int hits = 0; // total shots on target
     while( curshot != shots ) {
         if( !!ammo && !gun.ammo_remaining() ) {
-            gun.reload( get_avatar(), std::move( ammo ), 1 );
+            gun.reload( get_avatar(), ammo, 1 );
         }
         if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
             who.moves -= 50;
