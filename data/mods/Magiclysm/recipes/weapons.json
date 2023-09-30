@@ -351,5 +351,62 @@
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "dbone_battleaxe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "autolearn": true,
+    "time": "8 h",
+    "book_learn": [ [ "textbook_weapwest", 8 ], [ "recipe_melee", 7 ] ],
+    "using": [ [ "blacksmithing_advanced", 12 ] ],
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ], [ [ "dragon_bone", 12 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dbone_tachi",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "autolearn": true,
+    "time": "8 h",
+    "book_learn": [ [ "textbook_weapeast", 8 ] ],
+    "using": [ [ "blacksmithing_advanced", 8 ] ],
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fabric_hides_any", 2, "LIST" ] ], [ [ "dragon_bone", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dbone_longsword",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "autolearn": true,
+    "time": "7 h",
+    "book_learn": [ [ "textbook_weapwest", 7 ] ],
+    "using": [ [ "blacksmithing_advanced", 16 ] ],
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fabric_hides_any", 1, "LIST" ] ], [ [ "dragon_bone", 16 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dbone_qiang",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "autolearn": true,
+    "time": "7 h 40 m",
+    "book_learn": [ [ "textbook_armschina", 6 ] ],
+    "using": [ [ "blacksmithing_advanced", 4 ] ],
+    "components": [
+      [ [ "filament", 100, "LIST" ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "fabric_hides_any", 2, "LIST" ] ],
+      [ [ "dragon_bone", 4 ] ]
+    ]
   }
 ]
