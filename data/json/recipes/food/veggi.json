@@ -1263,7 +1263,7 @@
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "veggy", 1 ], [ "lettuce", 1 ], [ "veggy_wild", 1 ], [ "cabbage", 1 ] ]
+      [ [ "veggy", 2 ], [ "lettuce", 2 ], [ "veggy_wild", 2 ], [ "cabbage", 2 ] ]
     ]
   },
   {
