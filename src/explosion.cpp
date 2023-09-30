@@ -550,6 +550,7 @@ bool ExplosionProcess::process_next()
         // We balance the timing in such a way
         //   that, at 10 ANIMATION_DELAY, it will take an explosion of radius 10
         //   exactly 1 second to propagate fully
+        // NOLINTNEXTLINE(cata-no-long)
         const long int delay_ms = static_cast<long int>( relative_time_step * 10.0 * animation_delay );
         if( delay_ms > 0 ) {
             const timespec delay = timespec {0, delay_ms * 1000000L};

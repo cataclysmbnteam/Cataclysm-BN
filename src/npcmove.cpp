@@ -123,7 +123,6 @@ static const itype_id itype_lsd( "lsd" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
-static const itype_id itype_UPS( "UPS" );
 
 static const std::string flag_SPLINT( "SPLINT" );
 

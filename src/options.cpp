@@ -1874,7 +1874,7 @@ void options_manager::add_options_graphics()
              false, COPT_CURSES_HIDE );
 
         add( "FONT_WIDTH", page_id, translate_marker( "Font width" ),
-             translate_marker( "Set the font width. Requires restart." ),
+             translate_marker( "Set the font width.  Requires restart." ),
              8, 100, 8, COPT_CURSES_HIDE );
 
         static auto font_size_options = std::array<std::array<std::string, 3>, 8> {{

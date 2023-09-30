@@ -3034,6 +3034,7 @@ void mapgen_lake_shore( mapgendata &dat )
     const int river_beach = sector_length / 2;
 
     // Define the corners of the map. These won't change.
+    // NOLINTNEXTLINE(cata-point-initialization, cata-use-named-point-constants)
     static constexpr point nw_corner{ 0, 0 };
     static constexpr point ne_corner( mx, 0 );
     static constexpr point se_corner( mx, my );
@@ -3046,36 +3047,44 @@ void mapgen_lake_shore( mapgendata &dat )
     // Checking our surrounding can give just enough information for that
     if( n_river_bank ) {
         if( nw_water && ( !ne_water || !e_water ) ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[0] = { ne_corner.x - river_beach, ne_corner.y };
         }
         if( ne_water && ( !nw_water || !w_water ) ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[1] = { nw_corner.x + river_beach, nw_corner.y };
         }
     }
 
     if( w_river_bank ) {
         if( sw_water && ( !nw_water || !n_water ) ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[2] = { nw_corner.x, nw_corner.y + river_beach };
         }
         if( nw_water && ( !sw_water || !s_water ) ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[3] = { sw_corner.x, sw_corner.y - river_beach };
         }
     }
 
     if( s_river_bank ) {
         if( se_water && ( !sw_water || !w_water ) ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[4] = { sw_corner.x + river_beach, sw_corner.y };
         }
         if( sw_water && ( !se_water || !e_water ) ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[5] = { se_corner.x - river_beach, se_corner.y };
         }
     }
 
     if( e_river_bank ) {
         if( ne_water && ( !se_water || !s_water ) ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[6] = { se_corner.x, se_corner.y - river_beach };
         }
         if( se_water && ( !ne_water || !n_water ) ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[7] = { ne_corner.x, ne_corner.y + river_beach };
         }
     }
@@ -3084,36 +3093,44 @@ void mapgen_lake_shore( mapgendata &dat )
     // and in middle of lake. We need to connect to those ones which neighbouring same lake surface
     if( n_shore ) {
         if( nw_lake || w_lake ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[0] = { ne_corner.x - lake_beach, ne_corner.y };
         }
         if( ne_lake || e_lake ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[1] = { nw_corner.x + lake_beach, nw_corner.y };
         }
     }
 
     if( w_shore ) {
         if( sw_lake || s_lake ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[2] = { nw_corner.x, nw_corner.y + lake_beach };
         }
         if( nw_lake || n_lake ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[3] = { sw_corner.x, sw_corner.y - lake_beach };
         }
     }
 
     if( s_shore ) {
         if( se_lake || e_lake ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[4] = { sw_corner.x + lake_beach, sw_corner.y };
         }
         if( sw_lake || w_lake ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[5] = { se_corner.x - lake_beach, se_corner.y };
         }
     }
 
     if( e_shore ) {
         if( ne_lake || n_lake ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[6] = { se_corner.x, se_corner.y - lake_beach };
         }
         if( se_lake || s_lake ) {
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             slots[7] = { ne_corner.x, ne_corner.y + lake_beach };
         }
     }
@@ -3152,6 +3169,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
         if( pair == i ) {
             // No pair. Let's mirror it make at least some shoreline
+            // NOLINTNEXTLINE(cata-use-point-arithmetic)
             line_segments.push_back( { slots[i], { mx - slots[i].x, my - slots[i].y } } );
         } else if( pair == i + next ) {
             // We returned to our neighbour on same side, let's connect them in the middle
@@ -3170,9 +3188,13 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // We have no shores at all, make a small reef surrounded by water
     if( line_segments.empty() ) {
+        // NOLINTNEXTLINE(cata-use-point-arithmetic)
         point nw_inner = { nw_corner.x + sector_length, nw_corner.y + sector_length };
+        // NOLINTNEXTLINE(cata-use-point-arithmetic)
         point ne_inner = { ne_corner.x - sector_length, ne_corner.y + sector_length };
+        // NOLINTNEXTLINE(cata-use-point-arithmetic)
         point se_inner = { se_corner.x - sector_length, se_corner.y - sector_length };
+        // NOLINTNEXTLINE(cata-use-point-arithmetic)
         point sw_inner = { sw_corner.x + sector_length, sw_corner.y - sector_length };
         line_segments.insert( line_segments.end(), {
             {ne_inner, nw_inner}, {nw_inner, sw_inner},

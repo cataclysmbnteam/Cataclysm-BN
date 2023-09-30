@@ -359,6 +359,7 @@
     "type": "palette",
     "id": "bike_shop",
     "terrain": {
+      "'": "t_region_groundcover_barren",
       " ": "t_region_groundcover_urban",
       "*": [ [ "t_region_groundcover_urban", 4 ], "t_region_tree_shade" ],
       "_": "t_sidewalk",
@@ -393,6 +394,7 @@
       "%": "t_console_broken"
     },
     "furniture": {
+      "'": "f_street_light",
       "c": "f_counter",
       "D": "f_vending_c",
       "F": "f_vending_c",

@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "     EEEEEE    EEEEEE   ",
+        "     EEEEEE    EEEEEE  '",
         "     EEEEEE    EEEEEE   ",
         "     EEEEEE    EEEEEE   ",
         "     EEEEEE    EEEEEE   ",
@@ -34,6 +34,7 @@
       ],
       "terrain": {
         " ": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "'": "t_dirt",
         "E": "t_pavement",
         "U": "t_pavement",
         "$": "t_door_glass_c",
@@ -55,6 +56,7 @@
         "<": "t_ladder_up"
       },
       "furniture": {
+        "'": "f_street_light",
         "A": "f_air_conditioner",
         "L": "f_locker",
         "b": "f_bench",
@@ -89,7 +91,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "             EEEEEE     ",
+        "             EEEEEE    '",
         "             EEEEEE     ",
         "             EEEEEE     ",
         "  EEEEEEEEEEEEEEEEE     ",
@@ -116,6 +118,7 @@
       ],
       "terrain": {
         " ": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "'": "t_dirt",
         "5": "t_machinery_electronic",
         "E": "t_pavement",
         "U": "t_pavement",
@@ -141,6 +144,7 @@
         "<": "t_ladder_up"
       },
       "furniture": {
+        "'": "f_street_light",
         "1": "f_battery",
         "2": "f_charger",
         "3": "f_cable_connector",
@@ -222,7 +226,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "   ~~~~~~       ~~~~~~  ",
+        "   ~~~~~~       ~~~~~~ '",
         "    ~~~~~~    * ~~~~~~  ",
         "    ~~~~~~      ~~~~~~  ",
         "    ~~~~~~ *   ~~~~~~  *",
@@ -252,6 +256,7 @@
         "~": [ "t_dirt", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement" ],
         "_": [ "t_dirt", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk" ],
         "*": [ "t_tree_pine", "t_tree", "t_shrub", "t_tree_young" ],
+        "'": "t_dirt",
         "J": "t_water_pump",
         "D": "t_door_locked",
         "+": "t_door_c",
@@ -266,6 +271,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "L": "f_locker",
         "c": "f_counter",
         "s": "f_sink",
@@ -333,7 +339,7 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "    EEEEEE      XXX     ",
+        "    EEEEEE      XXX    '",
         "    EEEEEE      XXX     ",
         "    EEEEEE      XXX     ",
         "    EEEEEE      XXX     ",
@@ -360,6 +366,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "E": "t_pavement",
         "X": "t_sidewalk",
         "U": "t_sidewalk",
@@ -384,6 +391,7 @@
       },
       "toilets": { "&": {  } },
       "furniture": {
+        "'": "f_street_light",
         "A": "f_air_conditioner",
         "L": "f_locker",
         "T": "f_rack",
