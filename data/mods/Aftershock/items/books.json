@@ -148,7 +148,8 @@
     "max_level": 9,
     "intelligence": 13,
     "fun": -3,
-    "time": "50 m"
+    "time": "50 m",
+    "flags": [ "MORBID" ]
   },
   {
     "id": "recipe_uplift",
@@ -177,7 +178,8 @@
     "max_level": 10,
     "intelligence": 16,
     "time": "35 m",
-    "fun": -3
+    "fun": -3,
+    "flags": [ "MORBID" ]
   },
   {
     "id": "recipe_unusual_ammos",

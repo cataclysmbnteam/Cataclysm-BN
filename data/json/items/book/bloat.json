@@ -149,7 +149,8 @@
     "description": "A small book filled with journal entries in Latin.",
     "copy-from": "holybook_bible1",
     "price": 1500,
-    "fun": -1
+    "fun": -1,
+    "extend": { "flags": [ "MORBID" ] }
   },
   {
     "id": "guidebook",
@@ -186,7 +187,9 @@
     "name": { "str": "Visions in Solitude", "str_pl": "copies of Visions in Solitude" },
     "description": "A small book detailing 'visions' a prisoner had on death row.",
     "copy-from": "paperback_novel",
-    "price": 2900
+    "price": 2900,
+    "fun": -1,
+    "flags": [ "MORBID" ]
   },
   {
     "id": "ZSG",

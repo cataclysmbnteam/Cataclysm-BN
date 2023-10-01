@@ -55,7 +55,8 @@
     "max_level": 6,
     "intelligence": 9,
     "time": "20 m",
-    "fun": -2
+    "fun": -2,
+    "flags": [ "MORBID" ]
   },
   {
     "id": "techno_basic",
