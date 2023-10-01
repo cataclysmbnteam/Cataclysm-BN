@@ -33,7 +33,9 @@ enum class outcome_type {
     Kill, Casualty
 };
 
-static void set_off_explosion( item &explosive, const tripoint &origin )
+namespace
+{
+void set_off_explosion( item &explosive, const tripoint &origin )
 {
     explosion_handler::get_explosion_queue().clear();
     explosive.charges = 0;
@@ -41,8 +43,8 @@ static void set_off_explosion( item &explosive, const tripoint &origin )
     explosion_handler::get_explosion_queue().execute();
 }
 
-static void check_lethality( const std::string &explosive_id, const int range, float lethality,
-                             float margin, outcome_type expected_outcome )
+void check_lethality( const std::string &explosive_id, const int range, float lethality,
+                      float margin, outcome_type expected_outcome )
 {
     const epsilon_threshold target_lethality{ lethality, margin };
     int num_survivors = 0;
@@ -103,7 +105,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
     CHECK( victims.avg() == Approx( lethality ).margin( margin ) );
 }
 
-static std::vector<int> get_part_hp( vehicle *veh )
+auto get_part_hp( vehicle *veh ) -> std::vector<int>
 {
     std::vector<int> part_hp;
     part_hp.reserve( veh->part_count() );
@@ -113,8 +115,9 @@ static std::vector<int> get_part_hp( vehicle *veh )
     return part_hp;
 }
 
-static void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
-                                  const int range )
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
+void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
+                           const int range )
 {
     put_player_underground();
     tripoint origin( 30, 30, 0 );
@@ -147,6 +150,9 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
         }
     }
 }
+
+} // namespace
+
 
 TEST_CASE( "grenade_lethality", "[.][grenade][explosion][balance][slow]" )
 {
