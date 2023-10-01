@@ -977,11 +977,10 @@ bool can_construct( const construction &con, const tripoint &p )
     place_okay &= has_pre_terrain( con, p );
     // see if the flags check out
     place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
-    [&p]( const std::string & flag ) {
-        map &m = get_map();
-        furn_id f = m.furn( p );
-        ter_id t = m.ter( p );
-        return f == f_null ? t->has_flag( flag ) : f->has_flag( flag );
+    [&p, &here]( const std::string & flag ) -> bool {
+        const furn_id &furn = here.furn( p );
+        const ter_id &ter = here.ter( p );
+        return furn == f_null ? ter->has_flag( flag ) : furn->has_flag( flag );
     } );
     // make sure the construction would actually do something
     if( !con.post_terrain.is_empty() ) {
