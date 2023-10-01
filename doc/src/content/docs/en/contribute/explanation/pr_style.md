@@ -39,8 +39,6 @@ somewhere in the description:
 
 for example: `- fixed #12345`
 
-### keyword
-
 `{keyword}` must be one of the following:
 
 - `close`, `closes`, `closed`
