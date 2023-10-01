@@ -38,6 +38,7 @@
 #include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"

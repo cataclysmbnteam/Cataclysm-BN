@@ -1,0 +1,11 @@
+---
+type Props = {
+  src: string
+}
+
+const src = Astro.props.src
+---
+
+<video controls>
+  <source {src} type="video/mp4" />
+</video>

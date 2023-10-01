@@ -37,7 +37,7 @@
 #   Run: make NATIVE=win32
 # OS X
 #   Run: make NATIVE=osx OSX_MIN=11
-#     It is highly recommended to supply OSX_MIN > 10.11
+#     It is highly recommended to supply OSX_MIN > 11
 #     otherwise optimizations are automatically disabled with -O0
 
 # Build types:
@@ -163,7 +163,6 @@ else
 endif
 W32TILESTARGET = $(BUILD_PREFIX)$(TILES_TARGET_NAME).exe
 W32TARGET = $(BUILD_PREFIX)$(TARGET_NAME).exe
-CHKJSON_BIN = $(BUILD_PREFIX)chkjson
 BINDIST_DIR = $(BUILD_PREFIX)bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
@@ -578,7 +577,6 @@ endif
 
 # Global settings for Windows targets
 ifeq ($(TARGETSYSTEM),WINDOWS)
-  CHKJSON_BIN = chkjson.exe
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
   BINDIST_CMD = $(W32BINDIST_CMD)
@@ -802,7 +800,6 @@ HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
 JSON_FORMATTER_SOURCES := tools/format/format.cpp src/json.cpp
-CHKJSON_SOURCES := src/chkjson/chkjson.cpp src/json.cpp
 LUA_SOURCES := $(wildcard $(LUA_SRC_DIR)/*.c)
 CLANG_TIDY_PLUGIN_SOURCES := \
   $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
@@ -814,7 +811,6 @@ ASTYLE_SOURCES := $(sort \
   $(TESTSRC) \
   $(TESTHDR) \
   $(JSON_FORMATTER_SOURCES) \
-  $(CHKJSON_SOURCES) \
   $(CLANG_TIDY_PLUGIN_SOURCES) \
   $(TOOLHDR))
 
@@ -961,19 +957,12 @@ src/version.cpp: src/version.h
 localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
-$(CHKJSON_BIN): $(CHKJSON_SOURCES)
-	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
-
-json-check: $(CHKJSON_BIN)
-	./$(CHKJSON_BIN)
-
 clean: clean-tests
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
 	rm -rf *$(BINDIST_DIR) *cataclysmbn-*.tar.gz *cataclysmbn-*.zip
 	rm -f $(SRC_DIR)/version.h
-	rm -f $(CHKJSON_BIN)
 	rm -f pch/*pch.hpp.gch
 	rm -f pch/*pch.hpp.pch
 	rm -f pch/*pch.hpp.d
@@ -1210,6 +1199,24 @@ check: version $(BUILD_PREFIX)cataclysm.a
 
 clean-tests:
 	$(MAKE) -C tests clean
+
+cmake-format:
+	cmake-format -i \
+		./CMakeLists.txt \
+		./.github/vcpkg_triplets/x64-windows-static.cmake \
+		./.github/vcpkg_triplets/x64-windows.cmake \
+		./.github/vcpkg_triplets/x86-windows-static.cmake \
+		./.github/vcpkg_triplets/x86-windows.cmake  \
+		./cmake_uninstall.cmake.in \
+		./CMakeLists.txt \
+		./data/CMakeLists.txt \
+		./lang/CMakeLists.txt \
+		./src/CMakeLists.txt \
+		./src/version.cmake \
+		./tests/CMakeLists.txt \
+		./tools/clang-tidy-plugin/CMakeLists.txt \
+		./tools/format/CMakeLists.txt \
+    -c .cmake-format.yml
 
 .PHONY: tests check ctags etags clean-tests install lint
 

@@ -37,6 +37,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const quality_id qual_BUTCHER( "BUTCHER" );

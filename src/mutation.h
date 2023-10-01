@@ -116,8 +116,10 @@ struct mutation_branch {
         // Healing per turn
         float healing_awake = 0.0f;
         float healing_resting = 0.0f;
-        // Limb mending bonus
-        float mending_modifier = 1.0f;
+        // Multiplier on regen of broken limbs.
+        // Base regen of broken limbs is 25% and 25% the low cap.
+        // Capped at 1.0, which makes broken limbs regen at same rate as unbroken.
+        float mending_modifier = 0.0f;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
         float hp_modifier = 0.0f;
         // Second HP modifier that stacks with first but is otherwise identical.
@@ -264,7 +266,7 @@ struct mutation_branch {
         std::vector<trait_id> replacements; // Mutations that replace this one
         std::vector<trait_id> additions; // Mutations that add to this one
         std::vector<std::string> category; // Mutation Categories
-        std::set<std::string> flags; // Mutation flags
+        std::set<trait_flag_str_id> flags; // Mutation flags
         std::map<body_part, tripoint> protection; // Mutation wet effects
         std::map<body_part, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item

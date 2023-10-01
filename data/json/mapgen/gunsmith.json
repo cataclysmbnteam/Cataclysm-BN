@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "__________________sss___",
+        "__________________sss'__",
         "_,___,___,___,___,sss_%_",
         "_,___,___,___,___,sss_%_",
         "_,___,___,___,___,sss_%_",
@@ -49,6 +49,7 @@
         "L": "t_door_metal_pickable",
         "W": "t_window_bars_alarm",
         "_": "t_pavement",
+        "'": "t_pavement",
         "d": "t_pavement",
         "s": "t_sidewalk",
         "w": "t_window_bars_alarm",
@@ -58,6 +59,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         "C": "f_sofa",
         "E": "f_desk",

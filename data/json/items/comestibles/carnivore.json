@@ -625,7 +625,7 @@
     "material": "flesh",
     "volume": "250 ml",
     "fun": -10,
-    "flags": [ "TRADER_AVOID", "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
+    "flags": [ "TRADER_AVOID", "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW", "UNSAFE_CONSUME" ],
     "smoking_result": "dry_meat_tainted"
   },
   {
@@ -648,7 +648,7 @@
     "volume": "250 ml",
     "milling": { "into": "meal_bone_tainted", "conversion_rate": 4 },
     "fun": -10,
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "UNSAFE_CONSUME" ]
   },
   {
     "type": "GENERIC",
@@ -678,7 +678,7 @@
     "material": "flesh",
     "volume": "250 ml",
     "fun": -10,
-    "flags": [ "RAW" ]
+    "flags": [ "RAW", "UNSAFE_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",
@@ -701,7 +701,8 @@
     "volume": "250 ml",
     "charges": 2,
     "stack_size": 4,
-    "fun": -18
+    "fun": -18,
+    "flags": [ "UNSAFE_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",
@@ -764,7 +765,7 @@
     "price": 330,
     "price_postapoc": 20,
     "material": "flesh",
-    "flags": [ "RAW", "TRADER_AVOID" ],
+    "flags": [ "RAW", "TRADER_AVOID", "UNSAFE_CONSUME" ],
     "stack_size": 1,
     "fun": -12
   },
@@ -819,7 +820,7 @@
     "description": "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
     "price": 0,
     "price_postapoc": 50,
-    "flags": [ "NO_SALVAGE" ]
+    "flags": [ "NO_SALVAGE", "UNSAFE_CONSUME" ]
   },
   {
     "type": "COMESTIBLE",
@@ -920,7 +921,8 @@
         { "id": "badpoison", "duration": 3600 },
         { "id": "shakes", "duration": 810 }
       ]
-    }
+    },
+    "flags": [ "UNSAFE_CONSUME" ]
   },
   {
     "id": "meat_bark",

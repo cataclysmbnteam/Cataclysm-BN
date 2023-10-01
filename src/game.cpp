@@ -172,6 +172,7 @@
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "wcwidth.h"
@@ -635,7 +636,6 @@ bool game::start_game()
     }
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
-    get_weather().temperature = SPRING_TEMPERATURE;
     get_weather().update_weather();
     u.next_climate_control_check = calendar::before_time_starts; // Force recheck at startup
     u.last_climate_control_ret = false;
@@ -11085,11 +11085,11 @@ void game::shift_monsters( const tripoint &shift )
     critter_tracker->rebuild_cache();
 }
 
-double npc_overmap::spawn_chance_in_hour( int npc_num, double density )
+double npc_overmap::spawn_chance_in_hour( int current_npc_count, double density )
 {
     static constexpr int days_in_year = 14 * 4;
     const double expected_npc_count = days_in_year * density;
-    const double overcrowding_ratio = npc_num / expected_npc_count;
+    const double overcrowding_ratio = current_npc_count / expected_npc_count;
     if( overcrowding_ratio < 1.0 ) {
         return std::min( 1.0, density / 24.0 );
     }

@@ -51,10 +51,12 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "type_id_implement.h"
 #include "ui.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -64,7 +66,6 @@ static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
 static const std::string flag_FUNGUS( "FUNGUS" );
-static const std::string flag_LIQUID( "LIQUID" );
 static const std::string flag_ORGANIC( "ORGANIC" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_SHRUB( "SHRUB" );
@@ -185,12 +186,7 @@ generic_factory<map_extra> extras( "map extra" );
 
 } // namespace
 
-/** @relates string_id */
-template<>
-const map_extra &string_id<map_extra>::obj() const
-{
-    return extras.obj( *this );
-}
+IMPLEMENT_STRING_ID( map_extra, extras )
 
 namespace MapExtras
 {

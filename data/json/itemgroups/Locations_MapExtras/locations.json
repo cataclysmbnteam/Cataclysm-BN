@@ -479,7 +479,7 @@
       [ "wire", 40 ],
       { "item": "sheet_metal", "prob": 5 },
       { "item": "sheet_metal_small", "prob": 5, "count": [ 2, 4 ] },
-      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] }
+      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 10 ] }
     ]
   },
   {
@@ -703,7 +703,7 @@
       [ "can_drink", 130 ],
       [ "can_drink_unsealed", 130 ],
       [ "keg", 15 ],
-      [ "material_aluminium_ingot", 25 ],
+      { "item": "material_aluminium_ingot", "prob": 25, "count": [ 2, 3 ] },
       [ "xlframe", 10 ],
       [ "survival_kit_box", 1 ],
       [ "wearable_light", 5 ],
@@ -1044,8 +1044,12 @@
       [ "flintlock_pouch", 30 ],
       [ "flintlock_ammo", 60 ],
       [ "flintlock_shot", 40 ],
+      [ "shotgun_paper", 50 ],
       [ "colt_army", 50 ],
       [ "colt_navy", 50 ],
+      [ "shot_paper_00", 25 ],
+      [ "shot_paper_bird", 15 ],
+      [ "shot_paper_slug", 10 ],
       [ "36navy", 50 ],
       [ "44army", 50 ]
     ]
@@ -2183,7 +2187,8 @@
       [ "thermal_mask", 2 ],
       [ "thermal_outfit", 1 ],
       [ "gloves_winter", 40 ],
-      [ "gloves_liner", 25 ],
+      [ "gloves_liner", 20 ],
+      [ "gloves_liner_wool", 5 ],
       [ "gloves_tactical", 5 ],
       [ "glasses_bal", 5 ],
       [ "hat_knit", 25 ],

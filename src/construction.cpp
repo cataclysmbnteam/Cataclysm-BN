@@ -62,6 +62,7 @@
 #include "units_serde.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
@@ -976,8 +977,10 @@ bool can_construct( const construction &con, const tripoint &p )
     place_okay &= has_pre_terrain( con, p );
     // see if the flags check out
     place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
-    [&p]( const std::string & flag ) {
-        return get_map().has_flag( flag, p );
+    [&p, &here]( const std::string & flag ) -> bool {
+        const furn_id &furn = here.furn( p );
+        const ter_id &ter = here.ter( p );
+        return furn == f_null ? ter->has_flag( flag ) : furn->has_flag( flag );
     } );
     // make sure the construction would actually do something
     if( !con.post_terrain.is_empty() ) {

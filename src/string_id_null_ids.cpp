@@ -14,7 +14,6 @@ MAKE_CLASS_NULL_ID( activity_type, "ACT_NULL" )
 MAKE_CLASS_NULL_ID( harvest_list, "null" )
 MAKE_CLASS_NULL_ID( effect_type, "null" )
 MAKE_CLASS_NULL_ID( material_type, "null" )
-
 MAKE_CLASS_NULL_ID( overmap_land_use_code, "" )
 MAKE_CLASS_NULL_ID( overmap_special, "" )
 MAKE_CLASS_NULL_ID( overmap_connection, "" )
@@ -34,6 +33,7 @@ MAKE_CLASS_NULL_ID( Item_group, "" )
 MAKE_CLASS_NULL_ID( morale_type_data, "" )
 MAKE_CLASS_NULL_ID( disease_type, "null" )
 MAKE_CLASS_NULL_ID( monfaction, "null" )
+MAKE_CLASS_NULL_ID( json_trait_flag, "null" )
 
 #define MAKE_STRUCT_NULL_ID( type, ... ) \
     struct type; \

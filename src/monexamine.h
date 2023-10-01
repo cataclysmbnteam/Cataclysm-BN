@@ -12,7 +12,6 @@ bool pay_bot( monster &z );
 bool mfriend_menu( monster &z );
 void remove_battery( monster &z );
 void insert_battery( monster &z );
-void swap( monster &z );
 void push( monster &z );
 void rename_pet( monster &z );
 void attach_bag_to( monster &z );

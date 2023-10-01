@@ -1048,12 +1048,6 @@
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
   },
   {
-    "id": "NON_THRESH",
-    "type": "json_flag",
-    "context": [ "mutation" ],
-    "//": "This mutation does not count toward thresholds at all."
-  },
-  {
     "id": "EFFECT_FEATHER_FALL",
     "context": [  ],
     "type": "json_flag"
@@ -1203,6 +1197,11 @@
     "id": "BOMB",
     "type": "json_flag",
     "context": [ "TOOL" ]
+  },
+  {
+    "id": "BOOK_CANNIBAL",
+    "type": "json_flag",
+    "context": [  ]
   },
   {
     "id": "BYPRODUCT",
@@ -1526,6 +1525,11 @@
   },
   {
     "id": "MISSION_ITEM",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MORBID",
     "type": "json_flag",
     "context": [  ]
   },

@@ -220,6 +220,7 @@
     "warmth": 15,
     "material_thickness": 2,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -437,6 +438,7 @@
     "storage": "1250 ml",
     "warmth": 25,
     "material_thickness": 3,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "OUTER", "VARSIZE" ]
   },
   {
@@ -481,6 +483,7 @@
     "storage": "1 L",
     "warmth": 35,
     "material_thickness": 4,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -509,6 +512,7 @@
         "text": "A jacket made from denim.  Provides decent protection from cuts.  This one is haphazardly covered with patches featuring metal band logos."
       }
     ],
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -623,6 +627,7 @@
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 3,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
@@ -643,6 +648,7 @@
     "coverage": 80,
     "warmth": 5,
     "material_thickness": 2,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
@@ -686,6 +692,7 @@
     "coverage": 80,
     "warmth": 5,
     "material_thickness": 2,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
@@ -868,6 +875,7 @@
     "warmth": 15,
     "material_thickness": 2,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -978,6 +986,7 @@
     "warmth": 15,
     "material_thickness": 2,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -1131,6 +1140,7 @@
     "warmth": 15,
     "material_thickness": 2,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -1278,6 +1288,7 @@
     "storage": "2 L",
     "warmth": 30,
     "material_thickness": 2,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "SUPER_FANCY" ]
   },
   {

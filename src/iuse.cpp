@@ -114,6 +114,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
@@ -2386,6 +2387,8 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
     }
     const std::set<ter_id> allowed_ter_id {
         t_fence,
+        t_window_reinforced,
+        t_window_reinforced_noglass,
         t_window_boarded,
         t_window_boarded_noglass,
         t_door_boarded,
@@ -2424,6 +2427,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
     }
 
     if( type == t_fence || type == t_window_boarded || type == t_window_boarded_noglass ||
+        type == t_window_reinforced || type == t_window_reinforced_noglass ||
         type == t_door_boarded || type == t_door_boarded_damaged ||
         type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
         type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
@@ -2633,7 +2637,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     ///\EFFECT_STR modifies dig rate
     // Adjust the dig rate if the player is above or below strength of 10.
     // Floor it at 1 so we don't divide by zero, of course!
-    const double attr = 10 / std::max( 1, p->str_cur );
+    const double attr = 10.0 / std::max( 1, p->str_cur );
 
     // And now determine the moves...
     int dig_minutes = deep ? deep_pit_time : shallow_pit_time;
@@ -4591,7 +4595,6 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 
     if( acid_blood ) {
         item acid( "acid", calendar::turn );
-        it->put_in( acid );
         if( one_in( 3 ) ) {
             if( it->inc_damage( DT_ACID ) ) {
                 p->add_msg_if_player( m_info, _( "…but acidic blood melts the %s, destroying it!" ),
@@ -4601,6 +4604,9 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
             }
             p->add_msg_if_player( m_info, _( "…but acidic blood damages the %s!" ), it->tname() );
         }
+        if( !liquid_handler::handle_liquid( acid, nullptr, 1, nullptr ) ) {
+            it->put_in( acid );
+        }
         return it->type->charges_to_use();
     }
 
@@ -4608,7 +4614,9 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         return it->type->charges_to_use();
     }
 
-    it->put_in( blood );
+    if( !liquid_handler::handle_liquid( blood, nullptr, 1, nullptr ) ) {
+        it->put_in( blood );
+    }
     return it->type->charges_to_use();
 }
 

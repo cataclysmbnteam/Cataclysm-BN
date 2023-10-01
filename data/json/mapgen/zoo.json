@@ -44,12 +44,13 @@
         "_....p....p....p....p...",
         "_....p....p....p....p...",
         "_....p....p....p....p...",
-        "_sssssssssssssssssssssss",
+        "_'ssssssssssssssssssssss",
         "____d____________d____ss",
         "___d7d__________d4d___ss",
         "____d____________d____ss"
       ],
       "terrain": {
+        "'": "t_sidewalk",
         ".": "t_pavement",
         "4": "t_tree_pine",
         "7": "t_tree_apple_harvested",
@@ -57,7 +58,8 @@
         "d": "t_dirt",
         "p": "t_pavement_y",
         "s": "t_sidewalk"
-      }
+      },
+      "furniture": { "'": "f_street_light" }
     }
   },
   {
@@ -417,12 +419,13 @@
         ".....p....p....p....p___",
         ".....p....p....p....p___",
         ".....p....p....p....p___",
-        "sssssssssssssssssssss___",
+        "ssssssssssssssssssss'___",
         "ss__d____________d______",
         "ss_d7d__________d4d_____",
         "ss__d____________d______"
       ],
       "terrain": {
+        "'": "t_sidewalk",
         ".": "t_pavement",
         "4": "t_tree_pine",
         "7": "t_tree_apple_harvested",
@@ -430,7 +433,8 @@
         "d": "t_dirt",
         "p": "t_pavement_y",
         "s": "t_sidewalk"
-      }
+      },
+      "furniture": { "'": "f_street_light" }
     }
   },
   {

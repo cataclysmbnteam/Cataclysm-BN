@@ -1,7 +1,7 @@
 # Cataclysm data files
 cmake_minimum_required(VERSION 3.16)
 
-SET(CATACLYSM_DATA_DIRS
+set(CATACLYSM_DATA_DIRS
     ${CMAKE_SOURCE_DIR}/data/font
     ${CMAKE_SOURCE_DIR}/data/json
     ${CMAKE_SOURCE_DIR}/data/mods
@@ -10,29 +10,20 @@ SET(CATACLYSM_DATA_DIRS
     ${CMAKE_SOURCE_DIR}/data/motd
     ${CMAKE_SOURCE_DIR}/data/credits
     ${CMAKE_SOURCE_DIR}/data/title
-)
+    ${CMAKE_SOURCE_DIR}/data/help)
 
-IF(SOUND)
-    SET(CATACLYSM_DATA_DIRS
-      ${CATACLYSM_DATA_DIRS}
-      ${CMAKE_SOURCE_DIR}/data/sound
-    )
-ENDIF(SOUND)
+if (SOUND)
+    set(CATACLYSM_DATA_DIRS ${CATACLYSM_DATA_DIRS} ${CMAKE_SOURCE_DIR}/data/sound)
+endif ()
 
-IF(TILES)
-    SET(CATACLYSM_DATA_DIRS
-      ${CATACLYSM_DATA_DIRS}
-      ${CMAKE_SOURCE_DIR}/gfx
-    )
-ENDIF(TILES)
+if (TILES)
+    set(CATACLYSM_DATA_DIRS ${CATACLYSM_DATA_DIRS} ${CMAKE_SOURCE_DIR}/gfx)
+endif ()
 
-SET(CATACLYSM_DATA_FILES
-    ${CMAKE_SOURCE_DIR}/data/changelog.txt
-    ${CMAKE_SOURCE_DIR}/data/cataicon.ico
-    ${CMAKE_SOURCE_DIR}/LICENSE.txt
-)
+set(CATACLYSM_DATA_FILES ${CMAKE_SOURCE_DIR}/data/changelog.txt
+                         ${CMAKE_SOURCE_DIR}/data/cataicon.ico ${CMAKE_SOURCE_DIR}/LICENSE.txt)
 
-IF(RELEASE)
+if (RELEASE)
     install(DIRECTORY ${CATACLYSM_DATA_DIRS} DESTINATION ${DATA_PREFIX})
     install(FILES ${CATACLYSM_DATA_FILES} DESTINATION ${DATA_PREFIX})
-ENDIF(RELEASE)
+endif ()

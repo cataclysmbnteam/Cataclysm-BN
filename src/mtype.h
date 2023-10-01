@@ -95,11 +95,12 @@ enum m_flag : int {
     MF_ELECTRIC,            // Shocks unarmed attackers
     MF_ACIDPROOF,           // Immune to acid
     MF_ACIDTRAIL,           // Leaves a trail of acid
-    MF_SHORTACIDTRAIL,       // Leaves an intermittent trail of acid
+    MF_SHORTACIDTRAIL,      // Leaves an intermittent trail of acid
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_COLDPROOF,           // Immune to cold damage
+    MF_BIOPROOF,     // Immune to biological damage
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
@@ -111,9 +112,9 @@ enum m_flag : int {
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_CONSOLE_DESPAWN,     // Despawns when a nearby console is properly hacked
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
-    MF_ID_CARD_DESPAWN,      // Despawns when a science ID card is used on a nearby console
+    MF_ID_CARD_DESPAWN,     // Despawns when a science ID card is used on a nearby console
     MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
-    MF_MILITARY_MECH,        // A rideable mech that was designed for military work.
+    MF_MILITARY_MECH,       // A rideable mech that was designed for military work.
     MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
     MF_MECH_DEFENSIVE,      // This mech gives you thorough protection.
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack

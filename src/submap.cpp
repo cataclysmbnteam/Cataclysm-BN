@@ -12,6 +12,7 @@
 #include "tileray.h"
 #include "trap.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( point p1, point p2 )

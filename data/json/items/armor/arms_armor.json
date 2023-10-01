@@ -142,6 +142,19 @@
     "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
+    "id": "armguard_bronze",
+    "copy-from": "armguard_metal",
+    "type": "ARMOR",
+    "name": { "str": "pair of bronze arm guards", "str_pl": "pairs of bronze arm guards" },
+    "description": "A pair of arm guards hammered out from sheets of bronze, for a classical take on the Post-Apocalyptic Warrior look.",
+    "weight": "1500 g",
+    "price": "400 USD",
+    "price_postapoc": "12 USD",
+    "material": [ "bronze" ],
+    "color": "yellow",
+    "encumbrance": 20
+  },
+  {
     "id": "armguard_paper",
     "type": "ARMOR",
     "name": { "str": "pair of paper arm guards", "str_pl": "pairs of paper arm guards" },
@@ -244,6 +257,7 @@
     "covers": [ "arms" ],
     "coverage": 30,
     "material_thickness": 5,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -266,6 +280,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
   }
 ]

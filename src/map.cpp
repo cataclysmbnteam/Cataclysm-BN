@@ -94,6 +94,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -117,7 +118,6 @@ static const itype_id itype_food_processor( "food_processor" );
 static const itype_id itype_forge( "forge" );
 static const itype_id itype_hotplate( "hotplate" );
 static const itype_id itype_kiln( "kiln" );
-static const itype_id itype_nail( "nail" );
 static const itype_id itype_press( "press" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_vac_sealer( "vac_sealer" );

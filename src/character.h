@@ -242,7 +242,19 @@ class Character : public Creature, public visitable<Character>
         void setID( character_id i, bool force = false );
 
         /** Returns true if the character should be dead */
-        bool is_dead_state() const override;
+        auto is_dead_state() const -> bool override;
+
+    private:
+        mutable std::optional<bool> cached_dead_state;
+
+    public:
+        void set_part_hp_cur( const bodypart_id &id, int set ) override;
+        void set_part_hp_max( const bodypart_id &id, int set ) override;
+
+        void mod_part_hp_cur( const bodypart_id &id, int mod ) override;
+        void mod_part_hp_max( const bodypart_id &id, int mod ) override;
+
+        void set_all_parts_hp_cur( int set ) override;
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
@@ -703,7 +715,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
-        bool has_trait_flag( const std::string &b ) const;
+        bool has_trait_flag( const trait_flag_str_id &b ) const;
         /** Returns true if character has a trait which cancels the entered trait. */
         bool has_opposite_trait( const trait_id &flag ) const;
 
@@ -742,10 +754,8 @@ class Character : public Creature, public visitable<Character>
         int get_working_arm_count() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
-        /** Returns true if the limb is disabled(12.5% or less hp)*/
+        /** Returns true if the limb is disabled (12.5% or less hp, or broken)*/
         bool is_limb_disabled( const bodypart_id &limb ) const;
-        /** Returns true if the limb is hindered(40% or less hp) */
-        bool is_limb_hindered( hp_part limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( const bodypart_id &limb ) const;
         /** source of truth of whether a Character can run */
@@ -2063,8 +2073,6 @@ class Character : public Creature, public visitable<Character>
         void suffer();
         /** Handles mitigation and application of radiation */
         bool irradiate( float rads, bool bypass = false );
-        /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
-        void mend( int rate_multiplier );
 
         /** Creates an auditory hallucination */
         void sound_hallu();

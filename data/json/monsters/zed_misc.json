@@ -661,7 +661,8 @@
       "PATH_AVOID_DANGER_2",
       "PRIORITIZE_TARGETS",
       "FILTHY",
-      "NO_FUNG_DMG"
+      "NO_FUNG_DMG",
+      "BIOPROOF"
     ]
   },
   {
@@ -709,7 +710,8 @@
       "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS",
       "FILTHY",
-      "NO_FUNG_DMG"
+      "NO_FUNG_DMG",
+      "BIOPROOF"
     ]
   },
   {

@@ -1,4 +1,5 @@
 #include "character.h"
+#include "bodypart.h"
 #include "character_encumbrance.h"
 
 #include <algorithm>
@@ -30,6 +31,7 @@
 #include "consumption.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "damage.h"
 #include "debug.h"
 #include "disease.h"
@@ -98,6 +100,7 @@
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "vitamin.h"
 #include "vpart_position.h"
@@ -139,6 +142,7 @@ static const efftype_id effect_cough_suppress( "cough_suppress" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_deaf( "deaf" );
+static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
@@ -166,7 +170,6 @@ static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_melatonin_supplements( "melatonin" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_masked_scent( "masked_scent" );
-static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -220,6 +223,7 @@ static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
@@ -286,7 +290,6 @@ static const trait_id trait_INFRARED( "INFRARED" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_LIZ_IR( "LIZ_IR" );
-static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
@@ -377,6 +380,14 @@ static const flag_str_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" )
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
+static const trait_flag_str_id trait_flag_PRED2( "PRED2" );
+static const trait_flag_str_id trait_flag_PRED3( "PRED3" );
+static const trait_flag_str_id trait_flag_PRED4( "PRED4" );
+
+static const trait_flag_str_id flag_NO_THIRST( "NO_THIRST" );
+static const trait_flag_str_id flag_NO_RADIATION( "NO_RADIATION" );
+static const trait_flag_str_id flag_NON_THRESH( "NON_THRESH" );
 
 namespace io
 {
@@ -496,13 +507,57 @@ character_id Character::getID() const
     return this->id;
 }
 
-bool Character::is_dead_state() const
+auto Character::is_dead_state() const -> bool
 {
-    const auto all_bps = get_all_body_parts( true );
+    if( cached_dead_state.has_value() ) {
+        return cached_dead_state.value();
+    }
 
-    return std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
+    const auto all_bps = get_all_body_parts( true );
+    cached_dead_state = std::any_of( all_bps.begin(), all_bps.end(), [this]( const bodypart_id & bp ) {
         return bp->essential && get_part_hp_cur( bp ) <= 0;
     } );
+    return cached_dead_state.value();
+}
+
+void Character::set_part_hp_cur( const bodypart_id &id, int set )
+{
+    if( set <= 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::set_part_hp_cur( id, set );
+}
+
+void Character::set_part_hp_max( const bodypart_id &id, int set )
+{
+    if( set <= 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::set_part_hp_max( id, set );
+}
+
+void Character::mod_part_hp_cur( const bodypart_id &id, int mod )
+{
+    if( mod < 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::mod_part_hp_cur( id, mod );
+}
+
+void Character::mod_part_hp_max( const bodypart_id &id, int mod )
+{
+    if( mod < 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::mod_part_hp_max( id, mod );
+}
+
+void Character::set_all_parts_hp_cur( int set )
+{
+    if( set <= 0 ) {
+        cached_dead_state.reset();
+    }
+    Creature::set_all_parts_hp_cur( set );
 }
 
 field_type_id Character::bloodType() const
@@ -1256,14 +1311,15 @@ int Character::get_working_leg_count() const
 
 bool Character::is_limb_disabled( const bodypart_id &limb ) const
 {
-    return get_part_hp_cur( limb ) <= get_part_hp_max( limb ) * .125;
+    return is_limb_broken( limb ) ||
+           ( get_part_hp_cur( limb ) <= get_part_hp_max( limb ) * 0.125 );
 }
 
 // this is the source of truth on if a limb is broken so all code to determine
 // if a limb is broken should point here to make any future changes to breaking easier
 bool Character::is_limb_broken( const bodypart_id &limb ) const
 {
-    return get_part_hp_cur( limb ) <= 0;
+    return has_effect( effect_disabled, limb.id() );
 }
 
 bool Character::can_run()
@@ -1594,6 +1650,7 @@ void Character::recalc_hp()
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base() );
+    cached_dead_state.reset();
 }
 
 void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max )
@@ -1602,7 +1659,7 @@ void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_ma
         bodypart &bp = get_part( part.first );
         int new_max = ( part.first->base_hp + str_max * 3 + hp_adjustment ) * hp_mod;
 
-        if( has_trait( trait_id( "GLASSJAW" ) ) && part.first == bodypart_str_id( "head" ) ) {
+        if( has_trait( trait_GLASSJAW ) && part.first == bodypart_str_id( "head" ) ) {
             new_max *= 0.8;
         }
 
@@ -3445,16 +3502,16 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
             amount = 0;
         }
     }
-    if( has_trait_flag( "PRED2" ) && skill.is_combat_skill() ) {
+    if( has_trait_flag( trait_flag_PRED2 ) && skill.is_combat_skill() ) {
         if( one_in( 3 ) ) {
             amount *= 2;
         }
     }
-    if( has_trait_flag( "PRED3" ) && skill.is_combat_skill() ) {
+    if( has_trait_flag( trait_flag_PRED3 ) && skill.is_combat_skill() ) {
         amount *= 2;
     }
 
-    if( has_trait_flag( "PRED4" ) && skill.is_combat_skill() ) {
+    if( has_trait_flag( trait_flag_PRED4 ) && skill.is_combat_skill() ) {
         amount *= 3;
     }
 
@@ -3488,8 +3545,9 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         focus_pool -= chance_to_drop / 100;
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) && ( !( has_trait_flag( "PRED4" ) &&
-                skill.is_combat_skill() ) ) ) {
+        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) &&
+            ( !( has_trait_flag( trait_flag_PRED4 ) &&
+                 skill.is_combat_skill() ) ) ) {
             focus_pool--;
         }
     }
@@ -3599,17 +3657,14 @@ void Character::apply_skill_boost()
 void Character::do_skill_rust()
 {
     const int rust_rate_tmp = rust_rate();
-    static const std::string PRED2( "PRED2" );
-    static const std::string PRED3( "PRED3" );
-    static const std::string PRED4( "PRED4" );
     for( std::pair<const skill_id, SkillLevel> &pair : *_skills ) {
         const Skill &aSkill = *pair.first;
         SkillLevel &skill_level_obj = pair.second;
 
         if( aSkill.is_combat_skill() &&
-            ( ( has_trait_flag( PRED2 ) && calendar::once_every( 8_hours ) ) ||
-              ( has_trait_flag( PRED3 ) && calendar::once_every( 4_hours ) ) ||
-              ( has_trait_flag( PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
+            ( ( has_trait_flag( trait_flag_PRED2 ) && calendar::once_every( 8_hours ) ) ||
+              ( has_trait_flag( trait_flag_PRED3 ) && calendar::once_every( 4_hours ) ) ||
+              ( has_trait_flag( trait_flag_PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
             if( one_in( 13 ) ) {
                 // They've already passed the roll to avoid rust at
@@ -4437,7 +4492,7 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
 
 void Character::mod_thirst( int nthirst )
 {
-    if( has_trait_flag( "NO_THIRST" ) ) {
+    if( has_trait_flag( flag_NO_THIRST ) ) {
         return;
     }
     set_thirst( std::max( -100, thirst + nthirst ) );
@@ -4579,8 +4634,17 @@ void Character::regen( int rate_multiplier )
 
     float rest = rest_quality();
     float heal_rate = healing_rate( rest ) * to_turns<int>( 5_minutes );
+    const float broken_regen_mod = clamp( mutation_value( "mending_modifier" ), 0.25f, 1.0f );
     if( heal_rate > 0.0f ) {
-        healall( roll_remainder( rate_multiplier * heal_rate ) );
+        const int base_heal = roll_remainder( rate_multiplier * heal_rate );
+        const int broken_heal = roll_remainder( base_heal * broken_regen_mod );
+
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            const bool is_broken = is_limb_broken( bp ) &&
+                                   !worn_with_flag( flag_SPLINT, bp );
+            heal( bp, is_broken ? broken_heal : base_heal );
+            mod_part_healed_total( bp, is_broken ? broken_heal : base_heal );
+        }
     } else if( heal_rate < 0.0f ) {
         int rot_rate = roll_remainder( rate_multiplier * -heal_rate );
         // Has to be in loop because some effects depend on rounding
@@ -4594,9 +4658,13 @@ void Character::regen( int rate_multiplier )
         const bodypart_id &bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
         float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
 
-        int healing_apply = roll_remainder( healing );
+        const bool is_broken = is_limb_broken( bp ) &&
+                               !worn_with_flag( flag_SPLINT, bp );
+        const int healing_apply = roll_remainder( is_broken ? healing *broken_regen_mod : healing );
+
         healed_bp( i, healing_apply );
         heal( bp, healing_apply );
+
         if( damage_bandaged[i] > 0 ) {
             damage_bandaged[i] -= healing_apply;
             if( damage_bandaged[i] <= 0 ) {
@@ -4706,9 +4774,6 @@ void Character::update_body( const time_point &from, const time_point &to )
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
-        // Note: mend ticks once per 5 minutes, but wants rate in TURNS, not 5 minute intervals
-        // TODO: change @ref med to take time_duration
-        mend( five_mins * to_turns<int>( 5_minutes ) );
     }
     if( ticks_between( from, to, 24_hours ) > 0 ) {
         enforce_minimum_healing();
@@ -5799,15 +5864,11 @@ hp_part Character::body_window( const std::string &menu_header,
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = is_limb_broken( bp );
-        const bool limb_is_mending = limb_is_broken &&
-                                     ( worn_with_flag( flag_SPLINT, bp ) || has_trait( trait_REGEN_LIZ ) );
 
         if( show_all ) {
             e.allowed = true;
         } else if( has_curable_effect ) {
             e.allowed = true;
-        } else if( limb_is_broken ) {
-            e.allowed = false;
         } else if( current_hp < maximal_hp && ( e.bonus != 0 || bandage_power > 0.0f  ||
                                                 disinfectant_power > 0.0f ) ) {
             e.allowed = true;
@@ -5836,21 +5897,21 @@ hp_part Character::body_window( const std::string &menu_header,
 
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
         std::string hp_str;
-        if( limb_is_mending ) {
-            desc += colorize( _( "It is broken but has been set and just needs time to heal." ),
+        if( limb_is_broken ) {
+            const nc_color color = worn_with_flag( flag_SPLINT, bp ) ||
+                                   ( mutation_value( "mending_modifier" ) >= 1.0f ) ?
+                                   c_blue :
+                                   c_light_red;
+            desc += colorize( _( "It is broken and must heal fully before it becomes functional again." ),
                               c_blue ) + "\n";
-            const auto &eff = get_effect( effect_mending, bp_token );
-            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
+            const int mend_perc = 100 * current_hp / maximal_hp;
 
             if( precise ) {
-                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), c_blue );
+                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), color );
             } else {
                 const int num = mend_perc / 20;
-                hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
+                hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), color );
             }
-        } else if( limb_is_broken ) {
-            desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
-            hp_str = "==%==";
         } else if( precise ) {
             hp_str = string_format( "%d", current_hp );
         } else {
@@ -7077,7 +7138,7 @@ void Character::set_rad( int new_rad )
 
 void Character::mod_rad( int mod )
 {
-    if( has_trait_flag( "NO_RADIATION" ) ) {
+    if( has_trait_flag( flag_NO_RADIATION ) ) {
         return;
     }
     set_rad( std::max( 0, get_rad() + mod ) );
@@ -7803,7 +7864,7 @@ void Character::set_highest_cat_level()
         // Then use the map to set the category levels
         for( const std::pair<const trait_id, int> &i : dependency_map ) {
             const mutation_branch &mdata = i.first.obj();
-            if( !mdata.flags.count( "NON_THRESH" ) ) {
+            if( !mdata.flags.count( flag_NON_THRESH ) ) {
                 for( const std::string &cat : mdata.category ) {
                     // Decay category strength based on how far it is from the current mutation
                     mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
@@ -8430,11 +8491,6 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
         i_rem( &weapon );
     }
-    if( has_effect( effect_mending, part_to_damage->token ) ) {
-        effect &e = get_effect( effect_mending, part_to_damage->token );
-        float remove_mend = dam / 20.0f;
-        e.mod_duration( -e.get_max_duration() * remove_mend );
-    }
 
     if( dam > get_painkiller() ) {
         on_hurt( source );
@@ -8645,10 +8701,13 @@ int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
 
 void Character::heal( const bodypart_id &healed, int dam )
 {
-    if( !is_limb_broken( healed ) ) {
-        int effective_heal = std::min( dam, get_part_hp_max( healed ) - get_part_hp_cur( healed ) );
-        mod_part_hp_cur( healed, effective_heal );
-        g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
+    const int max_hp = get_part_hp_max( healed );
+    const int cur_hp = get_part_hp_cur( healed );
+    const int effective_heal = std::min( dam, max_hp - cur_hp );
+    mod_part_hp_cur( healed, effective_heal );
+    g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
+    if( cur_hp + dam >= max_hp ) {
+        remove_effect( effect_disabled, healed.id() );
     }
 }
 

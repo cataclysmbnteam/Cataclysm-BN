@@ -3,6 +3,7 @@
     "method": "json",
     "object": {
       "furniture": {
+        "'": "f_street_light",
         "#": "f_null",
         "+": "f_null",
         "-": "f_null",
@@ -21,7 +22,7 @@
         { "chance": 40, "repeat": 2, "item": "garden_shed", "x": 5, "y": 4 }
       ],
       "rows": [
-        "________________________",
+        "_______________________'",
         "________________________",
         "__|||||||||++P||||||||__",
         "__|.-----O...........|__",
@@ -47,6 +48,7 @@
         "________________________"
       ],
       "terrain": {
+        "'": "t_dirt",
         "#": "t_dirtmound",
         "+": "t_fencegate_c",
         "-": "t_wall_wood",
@@ -74,10 +76,10 @@
     "method": "json",
     "object": {
       "place_item": [ { "item": "hose", "x": 11, "y": 13 } ],
-      "furniture": { "#": "f_null", ".": "f_null", "O": "f_standing_tank", "P": "f_sign", "_": "f_null" },
+      "furniture": { "'": "f_street_light", "#": "f_null", ".": "f_null", "O": "f_standing_tank", "P": "f_sign", "_": "f_null" },
       "items": { "#": { "item": "hydro", "chance": 15 } },
       "rows": [
-        "________________________",
+        "_______________________'",
         "________________________",
         "__P__##.##....##.##__P__",
         "____.##.##....##.##.____",
@@ -103,6 +105,7 @@
         "________________________"
       ],
       "terrain": {
+        "'": "t_dirt",
         "#": "t_dirtmound",
         ".": [ "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt" ],
         "O": "t_dirt",
@@ -124,6 +127,7 @@
     "method": "json",
     "object": {
       "furniture": {
+        "'": "f_street_light",
         "#": "f_null",
         "+": "f_null",
         "-": "f_null",
@@ -154,7 +158,7 @@
         { "chance": 35, "repeat": 2, "item": "supplies_farming", "x": 4, "y": 9 }
       ],
       "rows": [
-        "ssssssssssssssssssssssss",
+        "sssssssssssssssssssssss'",
         "ssssssssssssssssssssssss",
         "_P....................P_",
         "_|...........DD.DD.DD.|_",
@@ -180,6 +184,7 @@
         "________________________"
       ],
       "terrain": {
+        "'": "t_sidewalk",
         "#": "t_dirtmoundfloor",
         "+": "t_reinforced_door_glass_c",
         "-": "t_wall_glass",

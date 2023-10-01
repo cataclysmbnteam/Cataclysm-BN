@@ -177,10 +177,13 @@ void reload_lua_code()
 
 void debug_write_lua_backtrace( std::ostream &out )
 {
-    cata::lua_state &state = *DynamicDataLoader::get_instance().lua;
+    cata::lua_state *state = DynamicDataLoader::get_instance().lua.get();
+    if( !state ) {
+        return;
+    }
     sol::state container;
 
-    luaL_traceback( container.lua_state(), state.lua.lua_state(), "=== Lua backtrace report ===", 0 );
+    luaL_traceback( container.lua_state(), state->lua.lua_state(), "=== Lua backtrace report ===", 0 );
 
     std::string data = sol::stack::pop<std::string>( container );
     out << data << std::endl;
