@@ -155,16 +155,18 @@ to avoid some weird issues from happening.
 there should be a newline between the asides and the content, otherwise the formatter will merge
 them into one line, and the asides will not be rendered correctly.
 
-:::caution Avoid this :::
-
 <!-- deno-fmt-ignore -->
 ```md
-this gets formatted to avobe
-
 :::caution
 Avoid this
 :::
-`````
+
+this gets formatted to 
+
+:::caution Avoid this :::
+
+this, and will not be rendered correctly
+```
 
 :::note
 
