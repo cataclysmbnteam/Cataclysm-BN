@@ -148,20 +148,20 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     }
 }
 
-TEST_CASE( "grenade_lethality", "[.],[grenade],[explosion],[balance],[slow]" )
+TEST_CASE( "grenade_lethality", "[.][grenade][explosion][balance][slow]" )
 {
     clear_all_state();
     check_lethality( "grenade_act", 5, 0.95, 0.06, outcome_type::Kill );
     check_lethality( "grenade_act", 15, 0.40, 0.06, outcome_type::Casualty );
 }
 
-TEST_CASE( "grenade_vs_vehicle", "[grenade],[explosion],[balance]" )
+TEST_CASE( "grenade_vs_vehicle", "[grenade][explosion][balance]" )
 {
     clear_all_state();
     check_vehicle_damage( "grenade_act", "car", 5 );
 }
 
-TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
+TEST_CASE( "shrapnel behind wall", "[grenade][explosion][balance]" )
 {
     clear_all_state();
     put_player_underground();
@@ -192,7 +192,7 @@ TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
     CHECK( m_behind_wall.hp_percentage() == 100 );
 }
 
-TEST_CASE( "shrapnel at huge range", "[grenade],[explosion]" )
+TEST_CASE( "shrapnel at huge range", "[grenade][explosion]" )
 {
     clear_all_state();
     put_player_underground();
@@ -214,7 +214,7 @@ TEST_CASE( "shrapnel at huge range", "[grenade],[explosion]" )
     CHECK( m.is_dead_state() );
 }
 
-TEST_CASE( "shrapnel at max grenade range", "[grenade],[explosion]" )
+TEST_CASE( "shrapnel at max grenade range", "[grenade][explosion]" )
 {
     clear_all_state();
     put_player_underground();
