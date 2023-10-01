@@ -1,5 +1,5 @@
 ---
-title: Issues and Discussions
+title: Opening Issues and Discussions
 ---
 
 GitHub issues are used for bug reporting. For questions and feature requests, we recommend using
