@@ -13,7 +13,7 @@ for it, and will prevent anything that isn't completely ready from being merged 
 It is not required to solve or reference an open issue to file a PR, however, if you do so, you need
 to explain the problem your PR is solving in full detail.
 
-### All PRs should have a `"Summary"` line
+## All PRs should have a `"Summary"` line
 
 Summary is a one-line description of your change that will be extracted and added to the
 [project changelog](../../game/changelog.md)
@@ -28,10 +28,12 @@ Example: `SUMMARY: Content "Adds new mutation category 'Mouse'"`
 See the [Changelog Guidelines](../reference/changelog_guidelines.md) for explanations of the
 categories.
 
-### Closing issues using keywords
+## Closing issues using keywords
 
-One more thing: when marking your PR as closing, fixing, or resolving issues, please include this
-somewhere in the description:
+[Github has a feature][keyword] that allows you to close issues using keywords in your PR
+description.
+
+If your PR closes (or 'fix') an existing issue, please include this somewhere in the description:
 
 ```md
 - {keyword} #{issue}
@@ -44,3 +46,9 @@ for example: `- fixed #12345`
 - `close`, `closes`, `closed`
 - `fix`, `fixes`, `fixed`
 - `resolve`, `resolves`, `resolved`
+
+This will link the PR to the issue, and close it when the PR is merged, for example:
+
+![image](https://github.com/cataclysmbnteam/Cataclysm-BN/assets/54838975/fcb35752-1f06-4001-a7ea-b508c582afd4)
+
+[keyword]: https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword
