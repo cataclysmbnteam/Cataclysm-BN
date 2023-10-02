@@ -101,4 +101,3 @@ contains alternative sprites for:
 - `CANINE_EARS`
 - `TAIL_FLUFFY`
 - `TAIL_STUB`
-
