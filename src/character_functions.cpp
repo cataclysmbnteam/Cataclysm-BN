@@ -780,6 +780,11 @@ item_reload_option select_ammo( const Character &who, const item &base,
     std::vector<std::string> names;
     std::transform( opts.begin(), opts.end(),
     std::back_inserter( names ), [&]( const item_reload_option & e ) {
+        const auto ammo_color = [&]( std::string name ) {
+            return base.is_gun() && e.ammo->ammo_data() &&
+                   !base.ammo_types().count( e.ammo->ammo_data()->ammo->type ) ?
+                   colorize( name, c_dark_gray ) : name;
+        };
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             if( e.ammo->ammo_current() == itype_battery ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
@@ -788,17 +793,18 @@ item_reload_option select_ammo( const Character &who, const item &base,
                                       e.ammo->ammo_remaining() );
             } else {
                 //~ magazine with ammo (count)
-                return string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ), e.ammo->type_name(),
-                                      e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ), e.ammo->ammo_remaining() );
+                return ammo_color( string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ),
+                                                  e.ammo->type_name(), e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ),
+                                                  e.ammo->ammo_remaining() ) );
             }
         } else if( e.ammo->is_watertight_container() ||
                    ( e.ammo->is_ammo_container() && who.is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their contents with their location also updated below
             return e.ammo->contents.front().display_name();
-
         } else {
             const_cast<item_location &>( who.ammo_location ).make_dirty();
-            return ( who.ammo_location && who.ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
+            return ammo_color( ( who.ammo_location &&
+                                 who.ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name() );
         }
     } );
 
