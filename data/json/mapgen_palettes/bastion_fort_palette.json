@@ -1,0 +1,18 @@
+[
+  {
+    "type": "palette",
+    "id": "bastion_fort_palette",
+    "terrain": {
+      "#": "t_rock_wall",
+      "|": "t_brick_wall",
+      "-": "t_wall_wood",
+      "+": "t_door_c",
+      "_": "t_floor",
+      ".": "t_rock_floor_no_roof",
+      ">": "t_wood_stairs_down",
+      "<": "t_wood_stairs_up",
+      "w": "t_window_no_curtains"
+    },
+    "furniture": {  }
+  }
+]

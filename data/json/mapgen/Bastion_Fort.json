@@ -31,8 +31,8 @@
         "       ####|_____|      ",
         "       ####|_____|      "
       ],
-      "terrain": { " ": "t_groundcover", "^": "t_sidewalk_ramp_up_high", "v": "t_sidewalk_ramp_up_low" },
-      "furniture": {  }
+      "palettes": [ "cabin_palette" ],
+      "terrain": { " ": "t_region_groundcover", "^": "t_sidewalk_ramp_up_high", "v": "t_sidewalk_ramp_up_low" }
     }
   },
   {
@@ -67,8 +67,8 @@
         "      |_____|####       ",
         "      |_____|####       "
       ],
-      "terrain": { " ": "t_groundcover", "^": "t_sidewalk_ramp_up_high", "v": "t_sidewalk_ramp_up_low" },
-      "furniture": {  }
+      "palettes": [ "cabin_palette" ],
+      "terrain": { " ": "t_region_groundcover", "^": "t_sidewalk_ramp_up_high", "v": "t_sidewalk_ramp_up_low" }
     }
   },
   {
@@ -103,8 +103,8 @@
         " ######                 ",
         "                        "
       ],
-      "terrain": { " ": "t_groundcover", ".": "t_rock_floor", "^": "t_sidewalk_ramp_up_high", "v": "t_sidewalk_ramp_up_low" },
-      "furniture": {  }
+      "palettes": [ "cabin_palette" ],
+      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor", "^": "t_sidewalk_ramp_up_high", "v": "t_sidewalk_ramp_up_low" }
     }
   },
   {
@@ -139,8 +139,8 @@
         "                 ###### ",
         "                        "
       ],
-      "terrain": { " ": "t_groundcover", ".": "t_rock_floor", "^": "t_sidewalk_ramp_up_high", "v": "t_sidewalk_ramp_up_low" },
-      "furniture": {  }
+      "palettes": [ "cabin_palette" ],
+      "terrain": { " ": "t_region_groundcover", ".": "t_rock_floor", "^": "t_sidewalk_ramp_up_high", "v": "t_sidewalk_ramp_up_low" }
     }
   },
   {
@@ -175,8 +175,8 @@
         "       ....|_____|      ",
         "       #...|_____|      "
       ],
-      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" },
-      "furniture": {  }
+      "palettes": [ "cabin_palette" ],
+      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" }
     }
   },
   {
@@ -211,8 +211,8 @@
         "      |_____|....       ",
         "      |_____|...#       "
       ],
-      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" },
-      "furniture": {  }
+      "palettes": [ "cabin_palette" ],
+      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" }
     }
   },
   {
@@ -247,8 +247,8 @@
         " ###.##                 ",
         "                        "
       ],
-      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" },
-      "furniture": {  }
+      "palettes": [ "cabin_palette" ],
+      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" }
     }
   },
   {
@@ -283,8 +283,8 @@
         "                 ##.### ",
         "                        "
       ],
-      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" },
-      "furniture": {  }
+      "palettes": [ "cabin_palette" ],
+      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" }
     }
   }
 ]
