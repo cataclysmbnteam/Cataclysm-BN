@@ -69,8 +69,8 @@ ${COMPILER:-clang++} -v -x c++ /dev/null -c
 cd ..
 ln -s build/compile_commands.json
 
-# We want to first analyze all files that changed in this PR, then as
-# many others as possible, in a random order.
+# We want to only analyze all files that changed in the PR,
+# because it takes a long time to analyze all files on GitHub Actions.
 set +x
 
 all_cpp_files="$(jq -r '.[].file' build/compile_commands.json)"
@@ -92,8 +92,7 @@ else
 
     if [ "tidyable_cpp_files" == "unknown" ]
     then
-        echo "Unable to determine affected files, tidying all files"
-        tidyable_cpp_files=$all_cpp_files
+        echo "Unable to determine affected files"
     fi
 fi
 
