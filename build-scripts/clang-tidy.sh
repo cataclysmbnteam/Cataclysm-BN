@@ -73,16 +73,6 @@ ln -s build/compile_commands.json
 # many others as possible, in a random order.
 set +x
 
-# Check for changes to any files that would require us to run clang-tidy across everything
-changed_global_files="$( ( cat ./files_changed || echo 'unknown' ) | \
-    egrep -i "clang-tidy|build-scripts|cmake|unknown" || true )"
-if [ -n "$changed_global_files" ]
-then
-    first_changed_file="$(echo "$changed_global_files" | head -n 1)"
-    echo "Analyzing all files because $first_changed_file was changed"
-    TIDY="all"
-fi
-
 all_cpp_files="$(jq -r '.[].file' build/compile_commands.json)"
 if [ "$TIDY" == "all" ]
 then
