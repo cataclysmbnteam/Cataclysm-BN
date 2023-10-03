@@ -19,8 +19,6 @@
       "v": "t_sidewalk_ramp_up_low",
       "w": "t_window_no_curtains"
     },
-    "furniture": {
-      "F": "f_fireplace"
-    }
+    "furniture": { "F": "f_fireplace" }
   }
 ]
