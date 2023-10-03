@@ -162,6 +162,7 @@ automatically_convertible = {
     "item_action",
     "ITEM_CATEGORY",
     "json_flag",
+    "mutation_flag",
     "keybinding",
     "LOOT_ZONE",
     "MAGAZINE",
@@ -1173,7 +1174,7 @@ def extract_json(state, item):
 
 def assert_num_args(node, args, n):
     if len(args) != n:
-        raise Exception(f"invalid amount of arguments in translation call (found {len(args)}, expected {n}). Error source:   {ast.to_lua_source(node)}") 
+        raise Exception(f"invalid amount of arguments in translation call (found {len(args)}, expected {n}). Error source:   {ast.to_lua_source(node)}")
 
 
 def get_string_literal(node, args, pos):
@@ -1228,7 +1229,7 @@ class LuaCallVisitor(ast.ASTVisitor):
             if comment.is_trans_comment:
                 self.trans_comments.append(comment)
             else:
-                self.regular_comments.append(comment) 
+                self.regular_comments.append(comment)
 
     def report_unused_comments(self):
         for comment in self.trans_comments:
