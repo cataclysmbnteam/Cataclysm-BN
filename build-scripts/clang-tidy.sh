@@ -2,10 +2,11 @@
 
 # Shell script intended for clang-tidy check
 
-echo "Using bash version $BASH_VERSION"
+num_jobs=${num_jobs:-3}
+
+echo "Using bash version $BASH_VERSION with $num_jobs jobs"
 set -exo pipefail
 
-num_jobs=3
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
@@ -86,6 +87,9 @@ else
     if [ "tidyable_cpp_files" == "unknown" ]
     then
         echo "Unable to determine affected files"
+    else
+        echo "Affected files:"
+        echo "$tidyable_cpp_files"
     fi
 fi
 
@@ -109,15 +113,14 @@ printf "Files to analyze: '%s'\n" "$tidyable_cpp_files"
 
 function analyze_files_in_random_order
 {
-    if [ -n "$1" ]
-    then
-        echo "$1" | shuf | \
-            xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh -quiet
-    else
-        echo "No files to analyze"
-    fi
+    echo "$1" | shuf | xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh -quiet
 }
 
-echo "Analyzing affected files"
-analyze_files_in_random_order "$tidyable_cpp_files"
-set -x
+# fail fast if no files to analyze
+if [ -z "$tidyable_cpp_files" ]
+then
+    echo "No files to analyze"
+else
+  echo "Analyzing affected files"
+  analyze_files_in_random_order "$tidyable_cpp_files"
+fi
