@@ -246,6 +246,8 @@ using t_regional_settings_map = std::unordered_map<std::string, regional_setting
 using t_regional_settings_map_citr = t_regional_settings_map::const_iterator;
 extern t_regional_settings_map region_settings_map;
 
+void check_regional_settings();
+
 void load_region_settings( const JsonObject &jo );
 void reset_region_settings();
 void load_region_overlay( const JsonObject &jo );

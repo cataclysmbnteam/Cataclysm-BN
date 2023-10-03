@@ -2,7 +2,7 @@
   {
     "id": "twisted_restore",
     "type": "SPELL",
-    "name": "Twisted Restoration",
+    "name": { "str": "Twisted Restoration" },
     "//": "Used for potion of Twisted Restoration, not castable",
     "description": "This spell overclocks your heart, generating new flesh and muscle.  It is unwise to use this in immediate danger, and may be fatal if done in critical condition.",
     "valid_targets": [ "self" ],
@@ -30,7 +30,7 @@
   {
     "id": "twisted_restore_improved",
     "type": "SPELL",
-    "name": "Improved Twisted Restoration",
+    "name": { "str": "Improved Twisted Restoration" },
     "//": "Used for Animist-exclusive potion, not castable",
     "description": "This spell overclocks your heart, generating new flesh and muscle.  It is unwise to use this in immediate danger, and may be fatal if done in critical condition.  Improved brewing mitigates the strain of the spell.",
     "valid_targets": [ "self" ],
@@ -51,7 +51,7 @@
   {
     "id": "conj_throwing_blade1",
     "type": "SPELL",
-    "name": "Conjure Throwing Blade I",
+    "name": { "str": "Conjure Throwing Blade I" },
     "description": "conjures 3 throwing knives",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
@@ -68,13 +68,13 @@
   {
     "id": "potion_recover_mana",
     "type": "SPELL",
-    "name": "Recover Mana",
+    "name": { "str": "Recover Mana" },
     "description": "You regain mana.",
     "valid_targets": [ "self" ],
     "min_damage": 250,
     "damage_increment": 50.0,
-    "max_damage": 2000,
-    "max_level": 35,
+    "max_damage": 3000,
+    "max_level": 53,
     "effect": "recover_energy",
     "effect_str": "MANA",
     "spell_class": "NONE",

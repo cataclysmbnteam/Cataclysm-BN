@@ -499,7 +499,7 @@
       "holster_prompt": "Sheath sword",
       "holster_msg": "You sheath your %s",
       "max_volume": "3750 ml",
-      "draw_cost": 5,
+      "draw_cost": 150,
       "flags": [ "SHEATH_SWORD", "SHEATH_AXE" ]
     },
     "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "BELTED", "ONLY_ONE" ]
@@ -539,7 +539,7 @@
       "holster_prompt": "Sheath knife",
       "holster_msg": "You sheath your %s",
       "max_volume": "750 ml",
-      "draw_cost": 3,
+      "draw_cost": 80,
       "flags": [ "SHEATH_KNIFE" ]
     },
     "flags": [ "POWERARMOR_MOD", "COMPACT", "WATERPROOF", "STURDY", "WAIST" ]

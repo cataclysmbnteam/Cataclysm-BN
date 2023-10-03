@@ -7,6 +7,7 @@
 #include "ranged.h"
 #include "shape.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 #include "explosion.h"

@@ -16,6 +16,7 @@
 #include "state_helpers.h"
 #include "stringmaker.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 
 static furn_str_id f_battery( "f_battery" );
 static furn_str_id f_cable_connector( "f_cable_connector" );

@@ -46,6 +46,7 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -171,6 +172,7 @@
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "wcwidth.h"
@@ -634,7 +636,6 @@ bool game::start_game()
     }
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
-    get_weather().temperature = SPRING_TEMPERATURE;
     get_weather().update_weather();
     u.next_climate_control_check = calendar::before_time_starts; // Force recheck at startup
     u.last_climate_control_ret = false;
@@ -1517,6 +1518,8 @@ bool game::do_turn()
     mon_info_update();
     u.process_turn();
 
+    cata::run_on_every_x_hooks( *DynamicDataLoader::get_instance().lua );
+
     explosion_handler::get_explosion_queue().execute();
     cleanup_dead();
 
@@ -2203,6 +2206,8 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_color" );
     ctxt.register_action( "open_world_mods" );
     ctxt.register_action( "debug" );
+    ctxt.register_action( "lua_console" );
+    ctxt.register_action( "lua_reload" );
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_scent_type" );
     ctxt.register_action( "debug_temp" );
@@ -2617,6 +2622,10 @@ bool game::load( const save_t &name )
 
     u.reset();
 
+    cata::load_world_lua_state( get_world_base_save_path() + "/lua_state.json" );
+
+    cata::run_on_game_load_hooks( *DynamicDataLoader::get_instance().lua );
+
     return true;
 }
 
@@ -2726,8 +2735,17 @@ spell_events &game::spell_events_subscriber()
     return *spell_events_ptr;
 }
 
+static bool save_uistate_data( const game &g )
+{
+    return write_to_file( g.get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
+        JsonOut jsout( fout );
+        uistate.serialize( jsout );
+    }, _( "uistate data" ) );
+}
+
 bool game::save()
 {
+    cata::run_on_game_save_hooks( *DynamicDataLoader::get_instance().lua );
     try {
         if( !save_player_data() ||
             !save_factions_missions_npcs() ||
@@ -2736,10 +2754,9 @@ bool game::save()
             !get_auto_pickup().save_character() ||
             !get_auto_notes_settings().save() ||
             !get_safemode().save_character() ||
-        !write_to_file( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
-        JsonOut jsout( fout );
-            uistate.serialize( jsout );
-        }, _( "uistate data" ) ) ) {
+            !cata::save_world_lua_state( g->get_world_base_save_path() + "/lua_state.json" ) ||
+            !save_uistate_data( *this )
+          ) {
             return false;
         } else {
             world_generator->last_world_name = world_generator->active_world->world_name;
@@ -8706,19 +8723,25 @@ bool game::is_dangerous_tile( const tripoint &dest_loc ) const
 
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 {
+    static const iexamine_function ledge_examine = iexamine_function_from_string( "ledge" );
     std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
 
-    if( !harmful_stuff.empty() &&
-        !query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ) {
+    if( harmful_stuff.empty() ) {
+        return true;
+    }
+
+    if( !( harmful_stuff.size() == 1 && m.tr_at( dest_loc ).loadid == tr_ledge ) ) {
+        return query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ;
+    }
+
+    if( !u.is_mounted() ) {
+        ledge_examine( u, dest_loc );
         return false;
     }
-    if( !harmful_stuff.empty() && u.is_mounted() &&
-        m.tr_at( dest_loc ).loadid == tr_ledge ) {
-        add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
-                 u.mounted_creature->get_name() );
-        return false;
-    }
-    return true;
+
+    add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
+             u.mounted_creature->get_name() );
+    return false;
 }
 
 std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) const
@@ -8879,24 +8902,26 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
         std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
         const auto dangerous_terrain_opt = get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" );
         const auto harmful_text = enumerate_as_string( harmful_stuff );
-        const auto warn_msg = [&]( const char *const msg ) {
-            add_msg( m_warning, msg, harmful_text );
+        const auto looks_risky = _( "Stepping into that %1$s looks risky.  %2$s" );
+
+        const auto warn_msg = [&]( std::string_view action ) {
+            add_msg( m_warning, looks_risky, harmful_text, action.data() );
         };
 
         if( dangerous_terrain_opt == "IGNORE" ) {
-            warn_msg( _( "Stepping into that %1$s looks risky, but you enter anyway." ) );
+            warn_msg( _( "But you enter anyway." ) );
         } else if( dangerous_terrain_opt == "ALWAYS" && !prompt_dangerous_tile( dest_loc ) ) {
             return true;
         } else if( dangerous_terrain_opt == "RUNNING" &&
                    ( !u.movement_mode_is( CMM_RUN ) || !prompt_dangerous_tile( dest_loc ) ) ) {
-            warn_msg( _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ) );
+            warn_msg( _( "Run into it if you wish to enter anyway." ) );
             return true;
         } else if( dangerous_terrain_opt == "CROUCHING" &&
                    ( !u.movement_mode_is( CMM_CROUCH ) || !prompt_dangerous_tile( dest_loc ) ) ) {
-            warn_msg( _( "Stepping into that %1$s looks risky.  Crouch and move into it if you wish to enter anyway." ) );
+            warn_msg( _( "Crouch and move into it if you wish to enter anyway." ) );
             return true;
         } else if( dangerous_terrain_opt == "NEVER" && !u.movement_mode_is( CMM_RUN ) ) {
-            warn_msg( _( "Stepping into that %1$s looks risky.  Run into it if you wish to enter anyway." ) );
+            warn_msg( _( "Run into it if you wish to enter anyway." ) );
             return true;
         }
     }
@@ -11060,11 +11085,11 @@ void game::shift_monsters( const tripoint &shift )
     critter_tracker->rebuild_cache();
 }
 
-double npc_overmap::spawn_chance_in_hour( int npc_num, double density )
+double npc_overmap::spawn_chance_in_hour( int current_npc_count, double density )
 {
     static constexpr int days_in_year = 14 * 4;
     const double expected_npc_count = days_in_year * density;
-    const double overcrowding_ratio = npc_num / expected_npc_count;
+    const double overcrowding_ratio = current_npc_count / expected_npc_count;
     if( overcrowding_ratio < 1.0 ) {
         return std::min( 1.0, density / 24.0 );
     }

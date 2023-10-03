@@ -13,6 +13,7 @@
 #include "player_helpers.h"
 #include "state_helpers.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "type_id.h"
 
 #include "catch/catch.hpp"
@@ -94,9 +95,9 @@ TEST_CASE( "auto_consume_priority", "[auto_consume][food][zone]" )
         auto meat = item{ "meat_cooked", calendar::turn, 5 }; // shelf life: 2 days
         auto meat_pos = zone_origin;
         auto nuts = item{ "pine_nuts", calendar::turn, 5 }; // shelf life: 3 seasons
-        auto nuts_pos = zone_origin + tripoint( 1, 0, 0 );
+        auto nuts_pos = zone_origin + tripoint_east;
         auto hardtack = item{ "hardtack", calendar::turn, 5 }; // shelf life: 6 years
-        auto hardtack_pos = zone_origin + tripoint( 2, 0, 0 );
+        auto hardtack_pos = zone_origin + tripoint_east * 2;
 
         place_items( { { meat, meat_pos }, { nuts, nuts_pos }, { hardtack, hardtack_pos } } );
 
@@ -137,10 +138,10 @@ TEST_CASE( "auto_consume_priority", "[auto_consume][food][zone]" )
         auto water_pos = zone_origin;
         auto orange = item( "oj" ); // 5 days
         auto orange_bottle = orange.in_container( jar );
-        auto orange_pos = zone_origin + tripoint( 1, 0, 0 );
+        auto orange_pos = zone_origin + tripoint_east;
         auto cocoa = item( "hot_chocolate" ); // 1 day
         auto cocoa_bottle = cocoa.in_container( jar );
-        auto cocoa_pos = zone_origin + tripoint( 2, 0, 0 );
+        auto cocoa_pos = zone_origin + tripoint_east * 2;
 
         place_items( { { water_bottle, water_pos }, { orange_bottle, orange_pos }, { cocoa_bottle, cocoa_pos } } );
 

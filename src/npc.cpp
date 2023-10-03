@@ -71,6 +71,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -83,7 +84,6 @@ static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_infection( "infection" );
-static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_pkill_l( "pkill_l" );
@@ -1072,7 +1072,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( convert_bp( bp ) ) && !has_effect( effect_mending, bp ) &&
+            if( is_limb_broken( convert_bp( bp ) ) && !worn_with_flag( flag_SPLINT, convert_bp( bp ).id() ) &&
                 it.covers( convert_bp( bp ).id() ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return !!wear_item( it, false );
@@ -2975,11 +2975,8 @@ std::set<tripoint> npc::get_path_avoid() const
 
 mfaction_id npc::get_monster_faction() const
 {
-    if( my_fac ) {
-        string_id<monfaction> my_mon_fac = string_id<monfaction>( my_fac->mon_faction );
-        if( my_mon_fac.is_valid() ) {
-            return my_mon_fac;
-        }
+    if( my_fac && my_fac->mon_faction.is_valid() ) {
+        return my_fac->mon_faction;
     }
 
     // legacy checks

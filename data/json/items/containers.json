@@ -432,7 +432,7 @@
     "category": "container",
     "name": { "str": "aluminum can" },
     "description": "An aluminum can, like what soda comes in.",
-    "weight": "13 g",
+    "weight": "15 g",
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 0,

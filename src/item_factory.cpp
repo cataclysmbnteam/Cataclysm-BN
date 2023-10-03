@@ -1440,9 +1440,9 @@ void Item_factory::check_definitions() const
                 } else if( !mag_ptr->magazine->type.count( ammo_variety.first ) ) {
                     msg += string_format( "magazine \"%s\" does not take compatible ammo\n", magazine );
                 } else if( mag_ptr->has_flag( "SPEEDLOADER" ) &&
-                           mag_ptr->magazine->capacity != type->gun->clip ) {
+                           mag_ptr->magazine->capacity > type->gun->clip ) {
                     msg += string_format(
-                               "speedloader %s capacity (%d) does not match gun capacity (%d).\n",
+                               "speedloader %s capacity (%d) is bigger than gun capacity (%d).\n",
                                magazine.str(), mag_ptr->magazine->capacity, type->gun->clip );
                 }
             }
@@ -2460,6 +2460,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         "GUNMOD",
         "MAGAZINE",
         "PET_ARMOR",
+        "SPECIES",
         "TOOL",
         "TOOLMOD",
         "TOOL_ARMOR",

@@ -250,5 +250,23 @@
     "color": "brown",
     "qualities": [ [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
     "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
+  },
+  {
+    "id": "stone_chisel",
+    "type": "TOOL",
+    "name": { "str": "stone chisel" },
+    "looks_like": "chisel",
+    "description": "This is a short stone chisel.  It can be used to engrave on stone, wood, or soft metals.",
+    "weight": "660 g",
+    "volume": "250 ml",
+    "price": 1600,
+    "to_hit": 2,
+    "bashing": 2,
+    "cutting": 1,
+    "material": "stone",
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "CHISEL", 1 ] ],
+    "flags": [ "BELT_CLIP" ]
   }
 ]

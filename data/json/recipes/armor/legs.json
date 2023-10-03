@@ -617,5 +617,43 @@
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "fabric_hides_proper", 6, "LIST" ] ], [ [ "scrap_bronze", 12 ] ] ]
+  },
+  {
+    "result": "skirt",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "skirt_leather",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "40 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 6 ] ],
+    "components": [ [ [ "leather", 6 ] ] ]
+  },
+  {
+    "result": "nanoskirt",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "manual_tailor", 1 ] ],
+    "using": [ [ "sewing_standard", 8 ] ],
+    "components": [ [ [ "rag", 4 ] ] ]
   }
 ]

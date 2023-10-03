@@ -771,7 +771,7 @@ class item : public visitable<item>
          * @param time Time point to which rot is calculated
          * @param temp Temperature at which the rot is calculated
          */
-        time_duration calc_rot( time_point time, int temp ) const;
+        auto calc_rot( time_point time, const units::temperature temp ) const -> time_duration;
 
         /**
          * Time that this item is guaranteed to stay fresh.
@@ -1253,6 +1253,16 @@ class item : public visitable<item>
         void set_snippet( const snippet_id &id );
 
         bool operator<( const item &other ) const;
+
+        /** LUA: We need this operator defined for Lua bindings to compile. */
+        inline bool operator==( const item &rhs ) const {
+            return this == &rhs;
+        };
+        /** LUA: We need this operator defined for Lua bindings to compile. */
+        inline bool operator<=( const item &other ) const {
+            return operator<( other ) || operator==( other );
+        }
+
         /** List of all @ref components in printable form, empty if this item has
          * no components */
         std::string components_to_string() const;

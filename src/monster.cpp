@@ -756,9 +756,9 @@ std::string monster::extended_description() const
 
     using flag_description = std::pair<m_flag, std::string>;
     const auto describe_flags = [this, &ss](
-                                    const std::string & format,
-                                    const std::vector<flag_description> &flags_names,
-    const std::string &if_empty = "" ) {
+                                    std::string_view format,
+                                    const std::vector<flag_description> &&flags_names,
+    std::string_view if_empty = "" ) {
         std::string flag_descriptions = enumerate_as_string( flags_names.begin(),
         flags_names.end(), [this]( const flag_description & fd ) {
             return type->has_flag( fd.first ) ? fd.second : "";
@@ -766,15 +766,16 @@ std::string monster::extended_description() const
         if( !flag_descriptions.empty() ) {
             ss += string_format( format, flag_descriptions ) + "\n";
         } else if( !if_empty.empty() ) {
-            ss += if_empty + "\n";
+            ss += if_empty;
+            ss += "\n";
         }
     };
 
     using property_description = std::pair<bool, std::string>;
     const auto describe_properties = [&ss](
-                                         const std::string & format,
+                                         std::string_view format,
                                          const std::vector<property_description> &property_names,
-    const std::string &if_empty = "" ) {
+    std::string_view if_empty = "" ) {
         std::string property_descriptions = enumerate_as_string( property_names.begin(),
         property_names.end(), []( const property_description & pd ) {
             return pd.first ? pd.second : "";
@@ -782,7 +783,8 @@ std::string monster::extended_description() const
         if( !property_descriptions.empty() ) {
             ss += string_format( format, property_descriptions ) + "\n";
         } else if( !if_empty.empty() ) {
-            ss += if_empty + "\n";
+            ss += if_empty;
+            ss += "\n";
         }
     };
 
@@ -791,6 +793,15 @@ std::string monster::extended_description() const
         {m_flag::MF_SEES, pgettext( "Sight as sense", "sight" )},
         {m_flag::MF_SMELLS, pgettext( "Smell as sense", "smell" )},
     }, _( "It doesn't have senses." ) );
+
+    describe_flags( _( "It is immune to %s." ), {
+        {m_flag::MF_FIREPROOF, pgettext( "Fire as immunity", "fire" )},
+        {m_flag::MF_COLDPROOF, pgettext( "Cold as immunity", "cold" )},
+        {m_flag::MF_ACIDPROOF, pgettext( "Acid as immunity", "acid" )},
+        {m_flag::MF_STUN_IMMUNE, pgettext( "Stun as immunity", "stun" )},
+        {m_flag::MF_SLUDGEPROOF, pgettext( "Sludge as immunity", "sludge" )},
+        {m_flag::MF_BIOPROOF, pgettext( "Biological hazards as immunity", "biohazards" )},
+    } );
 
     describe_properties( _( "It can %s." ), {
         {swims(), pgettext( "Swim as an action", "swim" )},
@@ -1051,11 +1062,18 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             return A_FRIENDLY;
         }
 
+        static const string_id<monfaction> faction_zombie( "zombie" );
         auto faction_att = faction.obj().attitude( m->faction );
         if( ( friendly != 0 && m->friendly != 0 ) ||
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
+            return A_FRIENDLY;
+        } else if( g->u.has_trait( trait_PROF_FERAL ) && ( faction == faction_zombie ||
+                   type->in_species( ZOMBIE ) ) && ( m->faction == faction_zombie ||
+                           m->type->in_species( ZOMBIE ) ) ) {
+            // Zombies ignoring a feral survivor aren't quite the same as friendly
+            // Ignore actually-friendly zombies/ferals but not other friendlies like reprogramed bots
             return A_FRIENDLY;
         } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
             // Stuff that hates a specific faction will always attack that faction
@@ -1151,12 +1169,11 @@ monster_attitude monster::attitude( const Character *u ) const
 
         if( has_flag( MF_ANIMAL ) ) {
             if( u->has_trait( trait_PROF_FERAL ) ) {
-                // We want wildlife to amp their normal fight-or-flight response up to eleven, so anger_relation won't cut it.
+                // We want all wildlife to amp their fight-or-flight response up to eleven, so anger adjustments in general won't cut it.
                 if( effective_anger >= -10 ) {
-                    effective_anger += 25;
-                }
-                if( effective_anger < -10 ) {
-                    effective_morale -= 100;
+                    return MATT_ATTACK;
+                } else {
+                    return MATT_FLEE;
                 }
             } else if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
@@ -1361,8 +1378,7 @@ bool monster::is_immune_damage( const damage_type dt ) const
         case DT_TRUE:
             return false;
         case DT_BIOLOGICAL:
-            // NOTE: Unused
-            return false;
+            return has_flag( MF_BIOPROOF );
         case DT_BASH:
             return false;
         case DT_CUT:
@@ -2968,7 +2984,7 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     }
 
     static const string_id<monfaction> faction_zombie( "zombie" );
-    const bool feral_friend = ( faction == faction_zombie || !type->in_species( ZOMBIE ) ) &&
+    const bool feral_friend = ( faction == faction_zombie || type->in_species( ZOMBIE ) ) &&
                               g->u.has_trait( trait_PROF_FERAL ) && !g->u.has_effect( effect_feral_infighting_punishment );
 
     // Hackery: If player is currently a feral and you're a zombie, ignore any sounds close to their position.

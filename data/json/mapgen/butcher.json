@@ -6,7 +6,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "bbbbbbbbbbbbbbbbbbbbbbb'",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "   addddddaeeadddddda   ",
         "   affffffa..affffffa   ",
@@ -34,6 +34,7 @@
       "terrain": {
         " ": [ "t_dirt", [ "t_grass", 3 ] ],
         ".": "t_floor",
+        "'": "t_sidewalk",
         "a": "t_wall_w",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
@@ -46,6 +47,7 @@
         "o": "t_shrub"
       },
       "furniture": {
+        "'": "f_street_light",
         "f": "f_table",
         "g": "f_dumpster",
         "h": "f_counter",
@@ -210,7 +212,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "bbbbbbbbbbbbbbbbbbbbbbb'",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "   addddddaeeadddddda   ",
         "   akkkkkk....kkkkkka   ",
@@ -238,6 +240,7 @@
       "terrain": {
         " ": [ "t_dirt", [ "t_grass", 3 ] ],
         ".": "t_floor",
+        "'": "t_sidewalk",
         "a": "t_wall_w",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
@@ -248,6 +251,7 @@
         "j": "t_console_broken"
       },
       "furniture": {
+        "'": "f_street_light",
         "c": "f_chair",
         "f": "f_table",
         "g": "f_dumpster",
@@ -410,7 +414,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "bbbbbbbbbbbbbbbbbbbbbbbb",
+        "bbbbbbbbbbbbbbbbbbbbbbb'",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "   addddddaeeadddddda   ",
         "   akkkkkk....kkkkkka   ",
@@ -438,6 +442,7 @@
       "terrain": {
         " ": [ "t_dirt", [ "t_grass", 3 ] ],
         ".": "t_floor",
+        "'": "t_sidewalk",
         "a": "t_wall_w",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
@@ -449,6 +454,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "c": "f_chair",
         "f": "f_table",
         "g": "f_dumpster",

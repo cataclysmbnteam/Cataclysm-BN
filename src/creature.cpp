@@ -45,6 +45,7 @@
 #include "translations.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const ammo_effect_str_id ammo_effect_APPLY_SAP( "APPLY_SAP" );
@@ -1651,14 +1652,14 @@ void Creature::mod_part_healed_total( const bodypart_id &id, int mod )
 void Creature::set_all_parts_hp_cur( const int set )
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
-        elem.second.set_hp_cur( set );
+        set_part_hp_cur( elem.first, set );
     }
 }
 
 void Creature::set_all_parts_hp_to_max()
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
-        elem.second.set_hp_to_max();
+        set_part_hp_cur( elem.first, get_part_hp_max( elem.first ) );
     }
 }
 
@@ -1673,6 +1674,7 @@ bodypart_id Creature::get_random_body_part( bool main ) const
 std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
 {
     std::vector<bodypart_id> all_bps;
+    all_bps.reserve( body.size() );
     for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( only_main && elem.first->main_part != elem.first ) {
             continue;

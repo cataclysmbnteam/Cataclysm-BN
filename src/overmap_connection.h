@@ -48,6 +48,7 @@ class overmap_connection
 
     public:
         const subtype *pick_subtype_for( const oter_id &ground ) const;
+        bool can_start_at( const oter_id &ground ) const;
         bool has( const oter_id &oter ) const;
 
         void load( const JsonObject &jo, const std::string &src );

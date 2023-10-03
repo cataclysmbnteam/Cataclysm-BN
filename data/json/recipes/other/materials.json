@@ -1048,15 +1048,25 @@
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
-      [
-        [ "tin", 12 ],
-        [ "material_aluminium_ingot", 1 ],
-        [ "aluminum_foil", 40 ],
-        [ "chem_aluminium_powder", 15 ],
-        [ "can_drink_unsealed", 2 ]
-      ],
-      [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
+      [ [ "tin", 10 ], [ "aluminum_foil", 10 ], [ "chem_aluminium_powder", 15 ], [ "can_drink_unsealed", 2 ] ],
+      [ [ "copper_scrap_equivalent", 4, "LIST" ] ]
     ]
+  },
+  {
+    "result": "scrap_bronze",
+    "id_suffix": "bulk",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "90 m",
+    "charges": 10,
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "material_aluminium_ingot", 1 ] ], [ [ "copper_scrap_equivalent", 40, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1221,13 +1231,14 @@
     "difficulty": 4,
     "autolearn": [ [ "cooking", 6 ] ],
     "book_learn": [ [ "textbook_chemistry", 3 ], [ "textbook_fabrication", 4 ], [ "welding_book", 4 ] ],
-    "time": "30 m",
+    "time": "10 m",
+    "charges": 10,
     "batch_time_factors": [ 50, 2 ],
     "tools": [ [ [ "electrolysis_kit", 100 ] ], [ [ "jar_glass", -1 ], [ "jar_3l_glass", -1 ] ] ],
     "components": [
-      [ [ "acid", 1 ] ],
+      [ [ "acid", 1 ], [ "chem_sulphuric_acid", 1 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
-      [ [ "tin_plate", 1 ], [ "tin_cup", 1 ], [ "bowl_pewter", 1 ] ]
+      [ [ "can_food_big_unsealed", 1 ], [ "can_medium_unsealed", 5 ], [ "can_food_unsealed", 10 ] ]
     ]
   },
   {

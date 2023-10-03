@@ -135,6 +135,11 @@ static const std::vector<debug_log_class> debug_log_classes = { {
             translate_marker( "Messages related to SDL, tiles, tilesets and sound." ),
             false
         },
+        {
+            DC::Lua, "DEBUGLOG_CL_LUA", translate_marker( "Lua" ),
+            translate_marker( "Messages from Lua scripts." ),
+            true
+        },
     }
 };
 
@@ -1827,6 +1832,11 @@ void options_manager::add_options_graphics()
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
 
+    add( "BULLETS_AS_LASERS", graphics, translate_marker( "Draw bullets as lines" ),
+         translate_marker( "If true, bullets are drawn as lines of images, and the animation lasts only one frame." ),
+         false
+       );
+
     add( "BLINK_SPEED", graphics, translate_marker( "Blinking effects speed" ),
          translate_marker( "The speed of every blinking effects in ms." ),
          100, 5000, 800
@@ -1864,18 +1874,18 @@ void options_manager::add_options_graphics()
              false, COPT_CURSES_HIDE );
 
         add( "FONT_WIDTH", page_id, translate_marker( "Font width" ),
-             translate_marker( "Set the font width. Requires restart." ),
+             translate_marker( "Set the font width.  Requires restart." ),
              8, 100, 8, COPT_CURSES_HIDE );
 
         static auto font_size_options = std::array<std::array<std::string, 3>, 8> {{
-                {"FONT_HEIGHT",         translate_marker( "Font height" ),         translate_marker( "Set the font height. Requires restart." )},
-                {"FONT_SIZE",           translate_marker( "Font size" ),           translate_marker( "Set the font size. Requires restart." )},
-                {"MAP_FONT_WIDTH",      translate_marker( "Map font width" ),      translate_marker( "Set the map font width. Requires restart." )},
-                {"MAP_FONT_HEIGHT",     translate_marker( "Map font height" ),     translate_marker( "Set the map font height. Requires restart." )},
-                {"MAP_FONT_SIZE",       translate_marker( "Map font size" ),       translate_marker( "Set the map font size. Requires restart." )},
-                {"OVERMAP_FONT_WIDTH",  translate_marker( "Overmap font width" ),  translate_marker( "Set the overmap font width. Requires restart." )},
-                {"OVERMAP_FONT_HEIGHT", translate_marker( "Overmap font height" ), translate_marker( "Set the overmap font height. Requires restart." )},
-                {"OVERMAP_FONT_SIZE",   translate_marker( "Overmap font size" ),   translate_marker( "Set the overmap font size. Requires restart." )}
+                {"FONT_HEIGHT",         translate_marker( "Font height" ),         translate_marker( "Set the font height.  Requires restart." )},
+                {"FONT_SIZE",           translate_marker( "Font size" ),           translate_marker( "Set the font size.  Requires restart." )},
+                {"MAP_FONT_WIDTH",      translate_marker( "Map font width" ),      translate_marker( "Set the map font width.  Requires restart." )},
+                {"MAP_FONT_HEIGHT",     translate_marker( "Map font height" ),     translate_marker( "Set the map font height.  Requires restart." )},
+                {"MAP_FONT_SIZE",       translate_marker( "Map font size" ),       translate_marker( "Set the map font size.  Requires restart." )},
+                {"OVERMAP_FONT_WIDTH",  translate_marker( "Overmap font width" ),  translate_marker( "Set the overmap font width.  Requires restart." )},
+                {"OVERMAP_FONT_HEIGHT", translate_marker( "Overmap font height" ), translate_marker( "Set the overmap font height.  Requires restart." )},
+                {"OVERMAP_FONT_SIZE",   translate_marker( "Overmap font size" ),   translate_marker( "Set the overmap font size.  Requires restart." )}
             }
         };
         for( auto &&[option, option_name, option_desc] : font_size_options ) {

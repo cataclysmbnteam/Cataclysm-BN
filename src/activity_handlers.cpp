@@ -103,6 +103,7 @@
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
@@ -238,7 +239,6 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
-static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
@@ -246,9 +246,9 @@ static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const species_id HUMAN( "HUMAN" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
-static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
-static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
-static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
+static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
+static const trait_flag_str_id trait_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -4130,6 +4130,16 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
         boards = 3;
         newter = t_fence_post;
         p->add_msg_if_player( _( "You pry out the fence post." ) );
+    } else if( type == t_window_reinforced_noglass ) {
+        nails = 16;
+        boards = 8;
+        newter = t_window_boarded_noglass;
+        p->add_msg_if_player( _( "You pry the boards from the window." ) );
+    } else if( type == t_window_reinforced ) {
+        nails = 16;
+        boards = 8;
+        newter = t_window_boarded;
+        p->add_msg_if_player( _( "You pry the boards from the window." ) );
     } else if( type == t_window_boarded ) {
         nails = 8;
         boards = 4;
@@ -4421,12 +4431,18 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         here.ter_set( pos, t_dirt );
     }
+    int act_exertion = to_moves<int>( time_duration::from_minutes( 15 ) );
+    if( old_ter == t_pit_shallow ) {
+        act_exertion = to_moves<int>( time_duration::from_minutes( 10 ) );
+    } else if( old_ter == t_dirtmound ) {
+        act_exertion = to_moves<int>( time_duration::from_minutes( 5 ) );
+    }
     const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
+    act_exertion = act_exertion * ( 10 - helpersize ) / 10;
+    p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 20_seconds ) ) );
+    p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 3_minutes ) ) );
+    p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 90_seconds ) ) );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
-
     act->set_to_null();
 }
 

@@ -16,5 +16,10 @@
     "name": { "str_sp": "lizardfolk" },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "GOBLIN",
+    "name": { "str": "goblin" }
   }
 ]

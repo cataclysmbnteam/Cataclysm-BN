@@ -64,6 +64,7 @@
 #include "units.h"
 #include "ui_manager.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
@@ -231,7 +232,7 @@ constexpr float FLING_MAX_RANGE = 50.0;
 //   different time scale and this constant is the scaling factor
 //   between the two
 constexpr float FLING_SLOWDOWN = 5.0;
-}; // namespace ExplosionConstants
+} // namespace ExplosionConstants
 
 namespace explosion_handler
 {
@@ -465,7 +466,7 @@ void ExplosionProcess::fill_maps()
 
     std::stable_sort( blast_map.begin(), blast_map.end(), dist_comparator );
     std::stable_sort( shrapnel_map.begin(), shrapnel_map.end(), dist_comparator );
-};
+}
 void ExplosionProcess::init_event_queue()
 {
     // Start with shrapnel first
@@ -489,7 +490,7 @@ void ExplosionProcess::init_event_queue()
         //   which, as stated before, converts trig_dist into int implicitly
         add_event( time_taken, ExplosionEvent::tile_blast( position, static_cast<int>( distance ) ) );
     }
-};
+}
 inline bool ExplosionProcess::is_occluded( const tripoint from, const tripoint to )
 {
     if( from == to ) {
@@ -517,7 +518,7 @@ inline bool ExplosionProcess::is_occluded( const tripoint from, const tripoint t
         last_position = position;
     }
     return false;
-};
+}
 
 inline float ExplosionProcess::generate_fling_angle( const tripoint from, const tripoint to )
 {
@@ -549,6 +550,7 @@ bool ExplosionProcess::process_next()
         // We balance the timing in such a way
         //   that, at 10 ANIMATION_DELAY, it will take an explosion of radius 10
         //   exactly 1 second to propagate fully
+        // NOLINTNEXTLINE(cata-no-long)
         const long int delay_ms = static_cast<long int>( relative_time_step * 10.0 * animation_delay );
         if( delay_ms > 0 ) {
             const timespec delay = timespec {0, delay_ms * 1000000L};
@@ -888,7 +890,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
         }
     }
     request_redraw |= position.z == g->u.posz();
-};
+}
 
 void ExplosionProcess::add_field( const tripoint position,
                                   const field_type_id field,
@@ -898,14 +900,14 @@ void ExplosionProcess::add_field( const tripoint position,
     map &here = get_map();
     here.add_field( position, field, intensity, 0_turns, hit_player );
     request_redraw |= position.z == g->u.posz();
-};
+}
 
 void ExplosionProcess::remove_field( const tripoint position, field_type_id target )
 {
     map &here = get_map();
     here.remove_field( position, target );
     request_redraw |= position.z == g->u.posz();
-};
+}
 
 void ExplosionProcess::move_entity( const tripoint position,
                                     const ExplosionEvent::PropelledEntity &datum,
@@ -1013,7 +1015,7 @@ void ExplosionProcess::move_entity( const tripoint position,
                                            std::get<safe_reference<item>>( cur_target ), new_angle, new_velocity, cur_relative_time )
         );
     }
-};
+}
 
 void ExplosionProcess::run()
 {

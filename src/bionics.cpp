@@ -80,6 +80,7 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
@@ -100,7 +101,6 @@ static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_heating_bionic( "heating_bionic" );
 static const efftype_id effect_iodine( "iodine" );
-static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
@@ -189,7 +189,6 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
-static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
 static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
@@ -201,7 +200,6 @@ static const std::string flag_PERSONAL( "PERSONAL" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
-static const std::string flag_SPLINT( "SPLINT" );
 
 static const flag_str_id flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
@@ -469,9 +467,9 @@ void deactivate_weapon_cbm( npc &who )
     for( bionic &i : *who.my_bionics ) {
         if( i.powered && i.info().has_flag( flag_BIONIC_WEAPON ) ) {
             who.deactivate_bionic( i );
+            who.clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
         }
     }
-    who.clear_npc_ai_info_cache( npc_ai_info::ideal_weapon_value );
 }
 
 std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
@@ -496,7 +494,7 @@ std::vector<std::pair<bionic_id, item>> find_reloadable_cbms( npc &who )
     return cbm_list;
 }
 
-const std::map<item, bionic_id> npc::check_toggle_cbm()
+std::map<item, bionic_id> npc::check_toggle_cbm()
 {
     std::map<item, bionic_id> res;
     const float allowed_ratio = static_cast<int>( rules.cbm_reserve ) / 100.0f;
@@ -1674,16 +1672,10 @@ void Character::process_bionic( bionic &bio )
             }
             if( calendar::once_every( 2_minutes ) ) {
                 std::vector<bodypart_id> damaged_hp_parts;
-                std::vector<effect *> mending_list;
-
                 for( const bodypart_id &bp : get_all_body_parts( true ) ) {
                     const int hp_cur = get_part_hp_cur( bp );
                     if( !is_limb_broken( bp ) && hp_cur < get_part_hp_max( bp ) ) {
                         damaged_hp_parts.push_back( bp );
-                    } else if( has_effect( effect_mending, bp.id() ) &&
-                               ( has_trait( trait_REGEN_LIZ ) || worn_with_flag( flag_SPLINT, bp ) ) ) {
-                        effect *e = &get_effect( effect_mending, bp->token );
-                        mending_list.push_back( e );
                     }
                 }
                 if( !damaged_hp_parts.empty() ) {
@@ -1698,16 +1690,6 @@ void Character::process_bionic( bionic &bio )
                             return;
                         }
                         heal( bpid, 1 );
-                        mod_power_level( -bio.info().power_trigger );
-                        mod_stored_kcal( -bio.info().kcal_trigger );
-                    }
-                }
-                if( !mending_list.empty() ) {
-                    for( effect *e : mending_list ) {
-                        if( !can_use_bionic() ) {
-                            return;
-                        }
-                        e->mod_duration( e->get_max_duration() / 100 );
                         mod_power_level( -bio.info().power_trigger );
                         mod_stored_kcal( -bio.info().kcal_trigger );
                     }

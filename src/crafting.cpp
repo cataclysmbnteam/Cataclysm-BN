@@ -74,6 +74,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 
@@ -1027,6 +1028,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
     const int batch_size = craft.charges;
     std::list<item> &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
+    const bool ignore_component = making.has_flag( flag_NUTRIENT_OVERRIDE );
 
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making.create_results( batch_size );
@@ -1079,10 +1081,15 @@ void complete_craft( player &p, item &craft, const bench_location & )
             food_contained.unset_flag( flag );
         }
 
-        // Don't store components for things made by charges,
-        // Don't store components for things that can't be uncrafted.
-        if( recipe_dictionary::get_uncraft( making.result() ) && !food_contained.count_by_charges() &&
-            making.is_reversible() ) {
+        // Don't store components for things that ignores components (e.g wow 'conjured bread')
+        if( ignore_component ) {
+            food_contained.set_flag( flag_NUTRIENT_OVERRIDE );
+        } else if( recipe_dictionary::get_uncraft( making.result() ) &&
+                   !food_contained.count_by_charges() &&
+                   making.is_reversible() ) {
+            // Don't store components for things made by charges,
+            // Don't store components for things that can't be uncrafted.
+
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either lose this information or merge it somehow.

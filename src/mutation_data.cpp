@@ -377,7 +377,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "pain_recovery", pain_recovery, 0.0f );
     optional( jo, was_loaded, "healing_awake", healing_awake, 0.0f );
     optional( jo, was_loaded, "healing_resting", healing_resting, 0.0f );
-    optional( jo, was_loaded, "mending_modifier", mending_modifier, 1.0f );
+    optional( jo, was_loaded, "mending_modifier", mending_modifier, 0.0f );
     optional( jo, was_loaded, "hp_modifier", hp_modifier, 0.0f );
     optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, 0.0f );
     optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
@@ -455,7 +455,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "cancels", cancels, trait_reader{} );
     optional( jo, was_loaded, "changes_to", replacements, trait_reader{} );
     optional( jo, was_loaded, "leads_to", additions, trait_reader{} );
-    optional( jo, was_loaded, "flags", flags, string_reader{} );
+    optional( jo, was_loaded, "flags", flags, auto_flags_reader<trait_flag_str_id> {} );
     optional( jo, was_loaded, "types", types, string_reader{} );
     optional( jo, was_loaded, "enchantments", enchantments );
 
@@ -608,6 +608,11 @@ void mutation_branch::check_consistency()
         }
         for( const enchantment_id &ench : mdata.enchantments ) {
             ench->check();
+        }
+        for( const auto &flag : mdata.flags ) {
+            if( !flag.is_valid() ) {
+                debugmsg( "mutation %s refers to undefined mutation flag %s", mid, flag );
+            }
         }
         ::check_consistency( mdata.prereqs, mid, "prereq" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );

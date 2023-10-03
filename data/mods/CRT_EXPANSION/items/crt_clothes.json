@@ -109,7 +109,6 @@
       "holster_msg": "You sheath your %s",
       "min_volume": 0,
       "max_volume": "1 L",
-      "draw_cost": 5,
       "flags": [ "BELT_CLIP", "SHEATH_KNIFE", "SHEATH_SWORD" ]
     },
     "flags": [ "STURDY", "WAIST" ]

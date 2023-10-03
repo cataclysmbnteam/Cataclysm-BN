@@ -153,14 +153,13 @@
     "tools": [ [ [ "swage", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [
-        [ "tin", 12 ],
-        [ "zinc_metal", 12 ],
-        [ "material_aluminium_ingot", 1 ],
-        [ "aluminum_foil", 40 ],
+        [ "tin", 10 ],
+        [ "zinc_metal", 15 ],
+        [ "aluminum_foil", 10 ],
         [ "chem_aluminium_powder", 15 ],
         [ "can_drink_unsealed", 2 ]
       ],
-      [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
+      [ [ "copper_scrap_equivalent", 4, "LIST" ] ]
     ]
   },
   {
@@ -1003,6 +1002,23 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pressure_cooker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_intermediate", 4 ], [ "steel_standard", 4 ] ],
+    "components": [
+      [ [ "pot_canning", 1 ], [ "stock_pot", 1 ], [ "pot", 1 ], [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ],
+      [ [ "thermometer", 1 ] ],
+      [ [ "barometer", 1 ] ],
+      [ [ "chunk_rubber", 5 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2705,5 +2721,16 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "HAMMER_FINE", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ], [ [ "nail", 1 ], [ "screwdriver", 1 ] ], [ [ "2x4", 1 ], [ "stick", 1 ], [ "splinter", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "stone_chisel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rock", 1 ], [ "sharp_rock", 1 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   }
 ]

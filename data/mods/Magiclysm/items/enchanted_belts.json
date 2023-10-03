@@ -20,7 +20,6 @@
       "holster_msg": "You tuck your %s into your %s",
       "max_volume": "500 ml",
       "max_weight": 400,
-      "draw_cost": 60,
       "flags": [ "BELT_CLIP" ]
     },
     "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY" ]
@@ -86,7 +85,6 @@
       "min_volume": "1 ml",
       "max_volume": "4 L",
       "max_weight": "5 kg",
-      "draw_cost": 5,
       "multi": 4,
       "skills": [
         "pistol",
@@ -129,7 +127,6 @@
         "type": "holster",
         "holster_prompt": "Sheath blade",
         "holster_msg": "You sheath your %s",
-        "draw_cost": 3,
         "min_volume": "250 ml",
         "max_volume": "1 L",
         "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]

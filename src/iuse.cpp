@@ -114,6 +114,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
@@ -316,6 +317,7 @@ static const trait_id trait_MARLOSS_YELLOW( "MARLOSS_YELLOW" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_POISRESIST( "POISRESIST" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -1323,7 +1325,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
     } else if( effect == 8 ) {
         p.add_msg_if_player( m_bad, _( "You take one bite, and immediately vomit!" ) );
         p.vomit();
-    } else if( p.crossed_threshold() ) {
+    } else if( p.crossed_threshold() || p.has_trait( trait_PROF_FERAL ) ) {
         // Mycus Rejection.  Goo already present fights off the fungus.
         p.add_msg_if_player( m_bad,
                              _( "You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out…" ) );
@@ -1593,6 +1595,15 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
             p.add_msg_if_player( _( "You try to feed the %s some %s, but it vanishes!" ),
                                  mon.type->nname(), it.tname() );
             mon.die( nullptr );
+            return 0;
+        }
+
+        // Feral survivors don't get to tame normal critters.
+        if( p.has_trait( trait_PROF_FERAL ) ) {
+            // TODO: Allow player ferals to tame zombie animals, but make sure non-feral players
+            // can't tame them, and for flavor possibly only allow taming with meat-based items.
+            p.add_msg_if_player( _( "You reach for the %s, but it recoils away from you!" ),
+                                 mon.type->nname() );
             return 0;
         }
 
@@ -2376,6 +2387,8 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
     }
     const std::set<ter_id> allowed_ter_id {
         t_fence,
+        t_window_reinforced,
+        t_window_reinforced_noglass,
         t_window_boarded,
         t_window_boarded_noglass,
         t_door_boarded,
@@ -2414,6 +2427,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
     }
 
     if( type == t_fence || type == t_window_boarded || type == t_window_boarded_noglass ||
+        type == t_window_reinforced || type == t_window_reinforced_noglass ||
         type == t_door_boarded || type == t_door_boarded_damaged ||
         type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
         type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
@@ -2611,7 +2625,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     // We also must tone down the yield of dirt to avoid potential problems,
     // the old math was generating more than the tile volume limit.
     //
-    // So to keep it simple, 50 liters for shallow pits, 100 for deep pit. We're basically
+    // So to keep it simple, 200 liters for shallow pits, 400 for deep pit. We're basically
     // assuming that the first step is about one-third of the total work.
 
     constexpr int deep_pit_time = 120;
@@ -2623,7 +2637,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     ///\EFFECT_STR modifies dig rate
     // Adjust the dig rate if the player is above or below strength of 10.
     // Floor it at 1 so we don't divide by zero, of course!
-    const double attr = 10 / std::max( 1, p->str_cur );
+    const double attr = 10.0 / std::max( 1, p->str_cur );
 
     // And now determine the moves...
     int dig_minutes = deep ? deep_pit_time : shallow_pit_time;
@@ -2637,7 +2651,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
         result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
     }
 
-    return { moves, static_cast<int>( dig_minutes / 60 ), "digging_soil_loam_50L", result_terrain };
+    return { moves, static_cast<int>( dig_minutes / 15 ), "digging_soil_loam_50L", result_terrain };
 }
 
 int iuse::dig( player *p, item *it, bool t, const tripoint & )
@@ -3427,7 +3441,6 @@ int iuse::teleport( player *p, item *it, bool, const tripoint & )
 
 int iuse::can_goo( player *p, item *it, bool, const tripoint & )
 {
-    it->convert( itype_canister_empty );
     int tries = 0;
     tripoint goop;
     goop.z = p->posz();
@@ -3437,6 +3450,7 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
         tries++;
     } while( g->m.impassable( goop ) && tries < 10 );
     if( tries == 10 ) {
+        add_msg( _( "Nothing happens." ) );
         return 0;
     }
     if( monster *const mon_ptr = g->critter_at<monster>( goop ) ) {
@@ -3471,9 +3485,12 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
                 add_msg( m_warning, _( "A nearby splatter of goo forms into a goo pit." ) );
             }
             g->m.trap_set( goop, tr_goo );
-        } else {
-            return 0;
         }
+    }
+    if( it->charges <= it->type->charges_to_use() ) {
+        it->charges = 0;
+        it->convert( itype_canister_empty );
+        return 0;
     }
     return it->type->charges_to_use();
 }
@@ -4578,7 +4595,6 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 
     if( acid_blood ) {
         item acid( "acid", calendar::turn );
-        it->put_in( acid );
         if( one_in( 3 ) ) {
             if( it->inc_damage( DT_ACID ) ) {
                 p->add_msg_if_player( m_info, _( "…but acidic blood melts the %s, destroying it!" ),
@@ -4588,6 +4604,9 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
             }
             p->add_msg_if_player( m_info, _( "…but acidic blood damages the %s!" ), it->tname() );
         }
+        if( !liquid_handler::handle_liquid( acid, nullptr, 1, nullptr ) ) {
+            it->put_in( acid );
+        }
         return it->type->charges_to_use();
     }
 
@@ -4595,7 +4614,9 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         return it->type->charges_to_use();
     }
 
-    it->put_in( blood );
+    if( !liquid_handler::handle_liquid( blood, nullptr, 1, nullptr ) ) {
+        it->put_in( blood );
+    }
     return it->type->charges_to_use();
 }
 
