@@ -75,19 +75,20 @@ jobs:
       uses: actions/github-script@v6.3.3
       with:
         script: |
-          var fs = require('fs');
-          const response = await github.paginate(github.rest.pulls.listFiles,
+          const fs = require("fs")
+          const response = await github.paginate(
+            github.rest.pulls.listFiles,
             {
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number,
-            }
-          );
-          const files = response.map(x => x.filename);
+            },
+          )
+          const files = response.map((x) => x.filename)
           for (const path of files) {
-            console.log(path);
+            console.log(path)
           }
-          fs.writeFileSync("files_changed", files.join('\n'));
+          fs.writeFileSync("files_changed", files.join("\n"))
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: run clang-tidy
       run: bash ./build-scripts/clang-tidy.sh
