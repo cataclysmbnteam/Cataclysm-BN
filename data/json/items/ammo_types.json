@@ -637,6 +637,12 @@
     "default": "water"
   },
   {
+    "type": "ammunition_type",
+    "id": "cannon",
+    "name": "cannon",
+    "default": "cannon_round_ball"
+  },
+  {
     "id": "acid",
     "type": "ammunition_type",
     "name": "acid",
