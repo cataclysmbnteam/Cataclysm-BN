@@ -11,6 +11,7 @@
       ".": "t_rock_floor_no_roof",
       ">": "t_wood_stairs_down",
       "<": "t_wood_stairs_up",
+      "T": "t_region_tree_shade",
       "w": "t_window_no_curtains"
     },
     "furniture": {  }
