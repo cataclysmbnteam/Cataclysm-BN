@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "bastion_fort_palette",
     "terrain": {
+      " ": "t_region_groundcover",
       "#": "t_rock_wall",
       "|": "t_brick_wall",
       "-": "t_wall_wood",
@@ -11,9 +12,15 @@
       ".": "t_rock_floor_no_roof",
       ">": "t_wood_stairs_down",
       "<": "t_wood_stairs_up",
+      "^": "t_sidewalk_ramp_up_high",
+      "4": "t_gutter_downspout",
+      "F": "t_floor",
       "T": "t_region_tree_shade",
+      "v": "t_sidewalk_ramp_up_low",
       "w": "t_window_no_curtains"
     },
-    "furniture": {  }
+    "furniture": {
+      "F": "f_fireplace"
+    }
   }
 ]

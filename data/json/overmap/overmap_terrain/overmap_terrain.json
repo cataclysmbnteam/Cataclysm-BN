@@ -290,7 +290,11 @@
       "Bastion_Fort_2_NW",
       "Bastion_Fort_2_NE",
       "Bastion_Fort_2_SW",
-      "Bastion_Fort_2_SE"
+      "Bastion_Fort_2_SE",
+      "Bastion_Fort_roof_NW",
+      "Bastion_Fort_roof_NE",
+      "Bastion_Fort_roof_SW",
+      "Bastion_Fort_roof_SE"
     ],
     "name": "bastion fort",
     "sym": "+",
