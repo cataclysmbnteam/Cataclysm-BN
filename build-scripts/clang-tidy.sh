@@ -96,7 +96,6 @@ else
     fi
 fi
 
-printf "Subset to analyze: '%s'\n" "$CATA_CLANG_TIDY_SUBSET"
 
 # We might need to analyze only a subset of the files if they have been split
 # into multiple jobs for efficiency. The paths from `compile_commands.json` can
@@ -111,6 +110,9 @@ case "$CATA_CLANG_TIDY_SUBSET" in
         tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -Ev '(^|/)src/' || [[ $? == 1 ]])
         ;;
 esac
+
+printf "Subset to analyze: '%s'\n" "$CATA_CLANG_TIDY_SUBSET"
+printf "Files to analyze: '%s'\n" "$tidyable_cpp_files"
 
 function analyze_files_in_random_order
 {
