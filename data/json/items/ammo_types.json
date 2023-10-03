@@ -639,7 +639,7 @@
   {
     "type": "ammunition_type",
     "id": "cannon",
-    "name": "cannon",
+    "name": "3-inch cannon",
     "default": "cannon_round_ball"
   },
   {

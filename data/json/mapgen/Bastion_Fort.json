@@ -18,8 +18,8 @@
         "  ######################",
         "  ######################",
         "   ########|||||||^^^   ",
-        "   ########|__F__|vvv   ",
-        "   ########|_____|      ",
+        "   ########|<_F__|vvv   ",
+        "   ########|<____|      ",
         "   ########|_____w   T  ",
         "       ####|_____|      ",
         "       ####|_____|   T  ",
@@ -77,8 +77,8 @@
     "object": {
       "rows": [
         "       ####|_____w   T  ",
-        "       ####|_____|4     ",
-        "       ####|__F__|   T  ",
+        "       ####|<____|4     ",
+        "       ####|<_F__|   T  ",
         "       ####|||||||      ",
         "       ####             ",
         "       ####     4  _<   ",
@@ -87,7 +87,7 @@
         "       ####   |_______|.",
         "   ########   |F______+.",
         "   ########   |_______|.",
-        "   ########vvv|_______|.",
+        "   ########vvv|<<_____|.",
         "   ########^^^|||||||||.",
         "  ####################..",
         "  ####################..",
@@ -113,8 +113,8 @@
     "object": {
       "rows": [
         "  T   +_____|####       ",
-        "     4|_____|####       ",
-        "  T   |__F__|####       ",
+        "     4|____<|####       ",
+        "  T   |__F_<|####       ",
         "      |||||||####       ",
         "             ####       ",
         "   <_   4    ####       ",
@@ -123,7 +123,7 @@
         ".|_______|   ####       ",
         ".+______F|   ########   ",
         ".|_______|   ########   ",
-        ".|_______|vvv########   ",
+        ".|_____<<|vvv########   ",
         ".|||||||||^^^########   ",
         "..####################  ",
         "..####################  ",
@@ -151,7 +151,7 @@
         "                        ",
         " ###.##                 ",
         " #....##.##             ",
-        " #........##.##         ",
+        " #........#.###         ",
         " .............#         ",
         " #.............         ",
         " ##...........#         ",
@@ -159,9 +159,9 @@
         "  ......................",
         "  #.....................",
         "  ##....................",
-        "   #.......|||||||^^^   ",
-        "   ........|__F__|vvv   ",
-        "   #.......|_____|      ",
+        "   ........|||||||^^^   ",
+        "   #.......|>_F__|vvv   ",
+        "   #.......|>____|      ",
         "   ##.##...+_____w      ",
         "       #...|_____|      ",
         "       ....|_____|      ",
@@ -174,7 +174,23 @@
         "       #...|_____|      "
       ],
       "palettes": [ "bastion_fort_palette" ],
-      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" }
+      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" },
+      "place_vehicles": [
+        { "vehicle": "cannon_3in", "x": 8, "y": 22, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 8, "y": 19, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 8, "y": 16, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 5, "y": 13, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 4, "y": 11, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 3, "y": 8, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 2, "y": 4, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 4, "y": 2, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 8, "y": 3, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 11, "y": 4, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 13, "y": 5, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 16, "y": 8, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 19, "y": 8, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 22, "y": 8, "chance": 25, "rotation": 270 }
+      ]
     }
   },
   {
@@ -187,7 +203,7 @@
         "                        ",
         "                 ##.### ",
         "             ##.##....# ",
-        "         ##.##........# ",
+        "         ###.#........# ",
         "         #............. ",
         "         .............# ",
         "         #...........## ",
@@ -195,8 +211,8 @@
         "......................  ",
         ".....................#  ",
         "....................##  ",
-        "   ^^^|||w|||.......#   ",
-        "   vvv|,,,,,|........   ",
+        "   ^^^|||w|||........   ",
+        "   vvv|,,,,,|.......#   ",
         "      |,,,,,|.......#   ",
         "      w,,,,,w...##.##   ",
         "      |,,,,,|...#       ",
@@ -216,7 +232,23 @@
         "#": "t_rock_wall_half",
         "^": "t_sidewalk_ramp_down_high",
         "v": "t_sidewalk_ramp_down_low"
-      }
+      },
+      "place_vehicles": [
+        { "vehicle": "cannon_3in", "x": 1, "y": 8, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 4, "y": 8, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 7, "y": 8, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 10, "y": 5, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 12, "y": 4, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 15, "y": 3, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 19, "y": 2, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 21, "y": 4, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 20, "y": 8, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 19, "y": 11, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 18, "y": 13, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 15, "y": 16, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 15, "y": 19, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 15, "y": 22, "chance": 25 }
+      ]
     }
   },
   {
@@ -227,8 +259,8 @@
     "object": {
       "rows": [
         "       #...+_____w      ",
-        "       ....|_____|      ",
-        "       #...|__F__|4     ",
+        "       ....|>____|      ",
+        "       #...|>_F__|4     ",
         "       #...|||||||      ",
         "       ....             ",
         "       #...    4   _>   ",
@@ -237,8 +269,8 @@
         "       #...   |_____-___",
         "   ##.##...   |F____+___",
         "   #.......   |_____-___",
-        "   ........vvv|_____-___",
-        "   #.......^^^|||w|+|||+",
+        "   #.......vvv|>>___-___",
+        "   ........^^^|||w|+|||+",
         "  ##....................",
         "  #.....................",
         "  ......................",
@@ -246,13 +278,29 @@
         " ##...........#         ",
         " #.............         ",
         " .............#         ",
-        " #........##.##         ",
+        " #........#.###         ",
         " #....##.##             ",
         " ###.##                 ",
         "                        "
       ],
       "palettes": [ "bastion_fort_palette" ],
-      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" }
+      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" },
+      "place_vehicles": [
+        { "vehicle": "cannon_3in", "x": 22, "y": 15, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 19, "y": 15, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 16, "y": 15, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 13, "y": 18, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 11, "y": 19, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 8, "y": 20, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 4, "y": 21, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 2, "y": 19, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 3, "y": 15, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 4, "y": 12, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 5, "y": 10, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 8, "y": 7, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 8, "y": 4, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 8, "y": 1, "chance": 25, "rotation": 180 }
+      ]
     }
   },
   {
@@ -263,8 +311,8 @@
     "object": {
       "rows": [
         "      w_____w...#       ",
-        "      |_____|....       ",
-        "     4|__F__|...#       ",
+        "      |____>|....       ",
+        "     4|__F_>|...#       ",
         "      |||||||...#       ",
         "             ....       ",
         "   >_  4     ...#       ",
@@ -273,8 +321,8 @@
         "___-_____|   ...#       ",
         "___+____F|   ...##.##   ",
         "___-_____|   .......#   ",
-        "___-_____|vvv........   ",
-        "+|||+|w|||^^^.......#   ",
+        "___-___>>|vvv.......#   ",
+        "+|||+|w|||^^^........   ",
         "....................##  ",
         ".....................#  ",
         "......................  ",
@@ -282,13 +330,29 @@
         "         #...........## ",
         "         .............# ",
         "         #............. ",
-        "         ##.##........# ",
+        "         ###.#........# ",
         "             ##.##....# ",
         "                 ##.### ",
         "                        "
       ],
       "palettes": [ "bastion_fort_palette" ],
-      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" }
+      "terrain": { " ": "t_open_air", "#": "t_rock_wall_half", "^": "t_sidewalk_ramp_down_high", "v": "t_sidewalk_ramp_down_low" },
+      "place_vehicles": [
+        { "vehicle": "cannon_3in", "x": 15, "y": 1, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 15, "y": 4, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 15, "y": 7, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 18, "y": 10, "chance": 25, "rotation": 270 },
+        { "vehicle": "cannon_3in", "x": 19, "y": 12, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 20, "y": 15, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 21, "y": 19, "chance": 25 },
+        { "vehicle": "cannon_3in", "x": 19, "y": 21, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 15, "y": 20, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 12, "y": 19, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 10, "y": 18, "chance": 25, "rotation": 180 },
+        { "vehicle": "cannon_3in", "x": 7, "y": 15, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 4, "y": 15, "chance": 25, "rotation": 90 },
+        { "vehicle": "cannon_3in", "x": 1, "y": 15, "chance": 25, "rotation": 90 }
+      ]
     }
   },
   {
