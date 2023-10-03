@@ -51,8 +51,8 @@ else ()
     add_library(${CataAnalyzerName} MODULE ${CataAnalyzerSrc})
 endif ()
 
-target_include_directories(${CataAnalyzerName} SYSTEM PRIVATE
-        ${LLVM_INCLUDE_DIRS} ${CLANG_INCLUDE_DIRS})
+target_include_directories(${CataAnalyzerName} SYSTEM PRIVATE ${LLVM_INCLUDE_DIRS}
+                                                              ${CLANG_INCLUDE_DIRS})
 
 if (NOT "${CATA_CLANG_TIDY_INCLUDE_DIR}" STREQUAL "")
     target_include_directories(${CataAnalyzerName} SYSTEM PRIVATE ${CATA_CLANG_TIDY_INCLUDE_DIR})
@@ -65,7 +65,8 @@ target_compile_definitions(${CataAnalyzerName} PRIVATE ${LLVM_DEFINITIONS_SEP})
 # I feel there ought to be a way to extract these flags from the
 # LLVMConfig.cmake as we have done for e.g. LLVM_INCLUDE_DIRS above, but I
 # haven't found one.
-if(MSVC)
+if (MSVC)
+
 else ()
     target_compile_options(${CataAnalyzerName} PRIVATE -fno-exceptions -fno-rtti)
 endif ()
