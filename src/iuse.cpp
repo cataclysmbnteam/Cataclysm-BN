@@ -49,6 +49,7 @@
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "fstream_utils.h"
 #include "flat_set.h"
 #include "fungal_effects.h"
@@ -355,12 +356,11 @@ static const mtype_id mon_wasp( "mon_wasp" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_shock( "bio_shock" );
-static const std::string flag_ACID( "ACID" );
+
+// terrain/furn flags
 static const std::string flag_CURRENT( "CURRENT" );
 static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FISHABLE( "FISHABLE" );
-static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
-static const std::string flag_HEATS_FOOD( "HEATS_FOOD" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 
@@ -424,25 +424,25 @@ static const std::vector<ter_str_id> camera_ter_whitelist_types = {
 
 void remove_radio_mod( item &it, player &p )
 {
-    if( !it.has_flag( "RADIO_MOD" ) ) {
+    if( !it.has_flag( flag_RADIO_MOD ) ) {
         return;
     }
     p.add_msg_if_player( _( "You remove the radio modification from your %s!" ), it.tname() );
     item mod( "radio_mod" );
     p.i_add_or_drop( mod, 1 );
-    it.unset_flag( "RADIO_ACTIVATION" );
-    it.unset_flag( "RADIO_MOD" );
-    it.unset_flag( "RADIOSIGNAL_1" );
-    it.unset_flag( "RADIOSIGNAL_2" );
-    it.unset_flag( "RADIOSIGNAL_3" );
-    it.unset_flag( "RADIOCARITEM" );
+    it.unset_flag( flag_RADIO_ACTIVATION );
+    it.unset_flag( flag_RADIO_MOD );
+    it.unset_flag( flag_RADIOSIGNAL_1 );
+    it.unset_flag( flag_RADIOSIGNAL_2 );
+    it.unset_flag( flag_RADIOSIGNAL_3 );
+    it.unset_flag( flag_RADIOCARITEM );
 }
 
 // Checks that the player does not have an active item with LITCIG flag.
 static bool check_litcig( player &u )
 {
     auto cigs = u.items_with( []( const item & it ) {
-        return it.active && it.has_flag( "LITCIG" );
+        return it.active && it.has_flag( flag_LITCIG );
     } );
     if( cigs.empty() ) {
         return true;
@@ -888,7 +888,7 @@ int iuse::poison( player *p, item *it, bool, const tripoint & )
 
     // NPCs have a magical sense of what is inedible
     // Players can abuse the crafting menu instead...
-    if( !it->has_flag( "HIDDEN_POISON" ) &&
+    if( !it->has_flag( flag_HIDDEN_POISON ) &&
         ( p->is_npc() ||
           !p->query_yn( _( "Are you sure you want to eat this?  It looks poisonous…" ) ) ) ) {
         return 0;
@@ -1671,7 +1671,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
     }
 
     auto filter = []( const item & itm ) {
-        return itm.has_flag( "RADIO_MODABLE" );
+        return itm.has_flag( flag_RADIO_MODABLE );
     };
 
     // note: if !p->is_npc() then p is avatar
@@ -1688,26 +1688,26 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
         _( "\"Red\"" ), _( "\"Blue\"" ), _( "\"Green\"" )
     } );
 
-    std::string newtag;
+    flag_str_id newtag;
     std::string colorname;
     switch( choice ) {
         case 0:
-            newtag = "RADIOSIGNAL_1";
+            newtag = flag_RADIOSIGNAL_1;
             colorname = _( "\"Red\"" );
             break;
         case 1:
-            newtag = "RADIOSIGNAL_2";
+            newtag = flag_RADIOSIGNAL_2;
             colorname = _( "\"Blue\"" );
             break;
         case 2:
-            newtag = "RADIOSIGNAL_3";
+            newtag = flag_RADIOSIGNAL_3;
             colorname = _( "\"Green\"" );
             break;
         default:
             return 0;
     }
 
-    if( modded.has_flag( "RADIO_MOD" ) && modded.has_flag( newtag ) ) {
+    if( modded.has_flag( flag_RADIO_MOD ) && modded.has_flag( newtag ) ) {
         p->add_msg_if_player( _( "This item has been modified this way already." ) );
         return 0;
     }
@@ -1717,9 +1717,9 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
     p->add_msg_if_player(
         _( "You modify your %1$s to listen for %2$s activation signal on the radio." ),
         modded.tname(), colorname );
-    modded.set_flag( "RADIO_ACTIVATION" );
-    modded.set_flag( "RADIOCARITEM" );
-    modded.set_flag( "RADIO_MOD" );
+    modded.set_flag( flag_RADIO_ACTIVATION );
+    modded.set_flag( flag_RADIOCARITEM );
+    modded.set_flag( flag_RADIO_MOD );
     modded.set_flag( newtag );
     return 1;
 }
@@ -2053,7 +2053,7 @@ int iuse::unpack_item( player *p, item *it, bool, const tripoint & )
 int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
 {
     item_location bionic = g->inv_map_splice( []( const item & e ) {
-        return e.is_bionic() && e.has_flag( "NO_PACKED" );
+        return e.is_bionic() && e.has_flag( flag_NO_PACKED );
     }, _( "Choose CBM to pack" ), PICKUP_RANGE, _( "You don't have any CBMs." ) );
 
     if( !bionic ) {
@@ -2069,7 +2069,7 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
     if( success > 0 ) {
         p->add_msg_if_player( m_good, _( "You carefully prepare the CBM for sterilization." ) );
-        bionic.get_item()->unset_flag( "NO_PACKED" );
+        bionic.get_item()->unset_flag( flag_NO_PACKED );
     } else {
         p->add_msg_if_player( m_bad, _( "You fail to properly prepare the CBM." ) );
     }
@@ -2332,7 +2332,7 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
 
             int charges = static_cast<int>( cbms.size() );
             charges -= it->ammo_consume( charges, pos );
-            if( possess && it->has_flag( "USE_UPS" ) ) {
+            if( possess && it->has_flag( flag_USE_UPS ) ) {
                 if( p->use_charges_if_avail( itype_UPS, charges ) ) {
                     charges = 0;
                 }
@@ -2344,7 +2344,7 @@ int iuse::note_bionics( player *p, item *it, bool t, const tripoint &pos )
 
             corpse.set_var( "bionics_scanned_by", p->getID().get_value() );
             if( !cbms.empty() ) {
-                corpse.set_flag( "CBM_SCANNED" );
+                corpse.set_flag( flag_CBM_SCANNED );
                 std::string bionics_string =
                     enumerate_as_string( cbms.begin(), cbms.end(),
                 []( const item * entry ) -> std::string {
@@ -3394,14 +3394,14 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
             const tripoint &pnt = *pnt_;
             if( pnt == g->u.pos() ) {
                 p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->get_rad(),
-                                      p->leak_level( "RADIOACTIVE" ) );
+                                      p->leak_level( flag_RADIOACTIVE ) );
                 break;
             }
             if( npc *const person_ = g->critter_at<npc>( pnt ) ) {
                 npc &person = *person_;
                 p->add_msg_if_player( m_info, _( "%s's radiation level: %d mSv (%d mSv from items)" ),
                                       person.name, person.get_rad(),
-                                      person.leak_level( "RADIOACTIVE" ) );
+                                      person.leak_level( flag_RADIOACTIVE ) );
             }
             break;
         }
@@ -4261,7 +4261,7 @@ int iuse::solarpack( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     // no doubled sources of power
-    if( p->worn_with_flag( "SOLARPACK_ON" ) ) {
+    if( p->worn_with_flag( flag_SOLARPACK_ON ) ) {
         p->add_msg_if_player( m_neutral, _( "You cannot use the %1$s with another of it's kind." ),
                               it->tname() );
         return 0;
@@ -4425,7 +4425,7 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     item *magazine = it->magazine_current();
-    if( magazine && magazine->has_flag( "RECHARGE" ) ) {
+    if( magazine && magazine->has_flag( flag_RECHARGE ) ) {
         // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
         // expectation is it runs until the player is too tired.
         int moves = to_moves<int>( 1600_minutes );
@@ -4716,7 +4716,7 @@ int iuse::chop_moves( Character &ch, item &tool )
     const int quality = tool.get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = tool.has_flag( "POWERED" ) ? ch.dex_cur : ch.str_cur;
+    const int attr = tool.has_flag( flag_POWERED ) ? ch.dex_cur : ch.str_cur;
 
     return to_moves<int>( std::max( 10_minutes, time_duration::from_minutes( 60 - attr ) / quality ) );
 }
@@ -5537,7 +5537,7 @@ int iuse::towel_common( player *p, item *it, bool t )
     const std::string name = it ? it->tname() : _( "towel" );
 
     // can't use an already wet towel!
-    if( it && it->has_flag( "WET" ) ) {
+    if( it && it->has_flag( flag_WET ) ) {
         p->add_msg_if_player( m_info, _( "That %s is too wet to soak up any more liquid!" ),
                               it->tname() );
         // clean off the messes first, more important
@@ -5583,7 +5583,7 @@ int iuse::towel_common( player *p, item *it, bool t )
             }
 
             // WET, active items have their timer decremented every turn
-            it->set_flag( "WET" );
+            it->set_flag( flag_WET );
             it->active = true;
         }
     }
@@ -5838,7 +5838,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
         return 0;
     }
-    if( fix.has_flag( "NO_REPAIR" ) ) {
+    if( fix.has_flag( flag_NO_REPAIR ) ) {
         p->add_msg_if_player( m_info, _( "You cannot repair your %s." ), fix.tname() );
         return 0;
     }
@@ -5922,9 +5922,9 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
 
     auto filter = [&it]( const item & e ) {
         // don't allow ups battery mods on a UPS or UPS-powered tools
-        if( it->has_flag( "USE_UPS" ) &&
+        if( it->has_flag( flag_USE_UPS ) &&
             ( e.typeId() == itype_UPS_off || e.typeId() == itype_adv_UPS_off ||
-              e.has_flag( "USE_UPS" ) ) ) {
+              e.has_flag( flag_USE_UPS ) ) ) {
             return false;
         }
 
@@ -6106,20 +6106,20 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
 
 static void init_memory_card_with_random_stuff( item &it )
 {
-    if( it.has_flag( "MC_MOBILE" ) && ( it.has_flag( "MC_RANDOM_STUFF" ) ||
-                                        it.has_flag( "MC_SCIENCE_STUFF" ) ) && !( it.has_flag( "MC_USED" ) ||
-                                                it.has_flag( "MC_HAS_DATA" ) ) ) {
+    if( it.has_flag( flag_MC_MOBILE ) && ( it.has_flag( flag_MC_RANDOM_STUFF ) ||
+                                           it.has_flag( flag_MC_SCIENCE_STUFF ) ) && !( it.has_flag( flag_MC_USED ) ||
+                                                   it.has_flag( flag_MC_HAS_DATA ) ) ) {
 
-        it.set_flag( "MC_HAS_DATA" );
+        it.set_flag( flag_MC_HAS_DATA );
 
         bool encrypted = false;
 
-        if( it.has_flag( "MC_MAY_BE_ENCRYPTED" ) && one_in( 8 ) ) {
+        if( it.has_flag( flag_MC_MAY_BE_ENCRYPTED ) && one_in( 8 ) ) {
             it.convert( itype_id( it.typeId().str() + "_encrypted" ) );
         }
 
         //some special cards can contain "MC_ENCRYPTED" flag
-        if( it.has_flag( "MC_ENCRYPTED" ) ) {
+        if( it.has_flag( flag_MC_ENCRYPTED ) ) {
             encrypted = true;
         }
 
@@ -6173,7 +6173,7 @@ static void init_memory_card_with_random_stuff( item &it )
             it.set_var( "MC_RECIPE", "SIMPLE" );
         }
 
-        if( it.has_flag( "MC_SCIENCE_STUFF" ) ) {
+        if( it.has_flag( flag_MC_SCIENCE_STUFF ) ) {
             it.set_var( "MC_RECIPE", "SCIENCE" );
         }
     }
@@ -6319,7 +6319,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         }
     }
 
-    if( mc.has_flag( "MC_TURN_USED" ) ) {
+    if( mc.has_flag( flag_MC_TURN_USED ) ) {
         mc.clear_vars();
         mc.unset_flags();
         mc.convert( itype_mobile_memory_card_used );
@@ -6585,7 +6585,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         avatar *you = p->as_avatar();
         item_location loc;
         auto filter = []( const item & it ) {
-            return it.has_flag( "MC_MOBILE" );
+            return it.has_flag( flag_MC_MOBILE );
         };
         const std::string title = _( "Insert memory card" );
 
@@ -6602,18 +6602,18 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             }
             item &mc = *loc;
 
-            if( !mc.has_flag( "MC_MOBILE" ) ) {
+            if( !mc.has_flag( flag_MC_MOBILE ) ) {
                 p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
                 return it->type->charges_to_use();
             }
 
             init_memory_card_with_random_stuff( mc );
 
-            if( mc.has_flag( "MC_ENCRYPTED" ) ) {
+            if( mc.has_flag( flag_MC_ENCRYPTED ) ) {
                 p->add_msg_if_player( m_info, _( "This memory card is encrypted." ) );
                 return it->type->charges_to_use();
             }
-            if( !mc.has_flag( "MC_HAS_DATA" ) ) {
+            if( !mc.has_flag( flag_MC_HAS_DATA ) ) {
                 p->add_msg_if_player( m_info, _( "This memory card does not contain any new data." ) );
                 return it->type->charges_to_use();
             }
@@ -6634,14 +6634,14 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             }
             item &mc = *loc;
 
-            if( !mc.has_flag( "MC_MOBILE" ) ) {
+            if( !mc.has_flag( flag_MC_MOBILE ) ) {
                 p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
                 return it->type->charges_to_use();
             }
 
             init_memory_card_with_random_stuff( mc );
 
-            if( !mc.has_flag( "MC_ENCRYPTED" ) ) {
+            if( !mc.has_flag( flag_MC_ENCRYPTED ) ) {
                 p->add_msg_if_player( m_info, _( "This memory card is not encrypted." ) );
                 return it->type->charges_to_use();
             }
@@ -7535,7 +7535,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             if( mon || guy || trajectory_point == aim_point ) {
                 int dist = rl_dist( p->pos(), trajectory_point );
 
-                int camera_bonus = it->has_flag( "CAMERA_PRO" ) ? 10 : 0;
+                int camera_bonus = it->has_flag( flag_CAMERA_PRO ) ? 10 : 0;
                 int photo_quality = 20 - rng( dist, dist * 2 ) * 2 + rng( camera_bonus / 2, camera_bonus );
                 if( photo_quality > 5 ) {
                     photo_quality = 5;
@@ -7710,7 +7710,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         item_location loc;
         if( you != nullptr ) {
             loc = game_menus::inv::titled_filter_menu( []( const item & it ) {
-                return it.has_flag( "MC_MOBILE" );
+                return it.has_flag( flag_MC_MOBILE );
             }, *you, _( "Insert memory card" ) );
         }
         if( !loc ) {
@@ -7719,19 +7719,19 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         }
         item &mc = *loc;
 
-        if( !mc.has_flag( "MC_MOBILE" ) ) {
+        if( !mc.has_flag( flag_MC_MOBILE ) ) {
             p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
             return it->type->charges_to_use();
         }
 
         init_memory_card_with_random_stuff( mc );
 
-        if( mc.has_flag( "MC_ENCRYPTED" ) ) {
+        if( mc.has_flag( flag_MC_ENCRYPTED ) ) {
             if( !query_yn( _( "This memory card is encrypted.  Format and clear data?" ) ) ) {
                 return it->type->charges_to_use();
             }
         }
-        if( mc.has_flag( "MC_HAS_DATA" ) ) {
+        if( mc.has_flag( flag_MC_HAS_DATA ) ) {
             if( !query_yn( _( "Are you sure you want to clear the old data on the card?" ) ) ) {
                 return it->type->charges_to_use();
             }
@@ -7740,7 +7740,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         mc.convert( itype_mobile_memory_card );
         mc.clear_vars();
         mc.unset_flags();
-        mc.set_flag( "MC_HAS_DATA" );
+        mc.set_flag( flag_MC_HAS_DATA );
 
         mc.set_var( "MC_MONSTER_PHOTOS", it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
         mc.set_var( "MC_EXTENDED_PHOTOS", it->get_var( "CAMERA_EXTENDED_PHOTOS" ) );
@@ -7759,7 +7759,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
     if( t ) {
 
         if( g->m.has_flag( "SWIMMABLE", pos.xy() ) ) {
-            it->unset_flag( "NO_UNWIELD" );
+            it->unset_flag( flag_NO_UNWIELD );
             it->ammo_unset();
             it->active = false;
             add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
@@ -7769,7 +7769,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         if( it->charges == 0 ) {
 
             sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
-            it->unset_flag( "NO_UNWIELD" );
+            it->unset_flag( flag_NO_UNWIELD );
             it->active = false;
 
             if( p->has_item( *it ) && p->primary_weapon().typeId() == itype_e_handcuffs ) {
@@ -7784,7 +7784,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
                 one_in( 5 ) ) {
                 p->mod_power_level( -bio_shock->power_trigger );
 
-                it->unset_flag( "NO_UNWIELD" );
+                it->unset_flag( flag_NO_UNWIELD );
                 it->ammo_unset();
                 it->active = false;
                 add_msg( m_good, _( "The %s crackle with electricity from your bionic, then come off your hands!" ),
@@ -7872,7 +7872,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
 {
     int choice = -1;
     item *bomb_it = it->contents.get_item_with( []( const item & c ) {
-        return c.has_flag( "RADIOCARITEM" );
+        return c.has_flag( flag_RADIOCARITEM );
     } );
     if( bomb_it == nullptr ) {
         choice = uilist( _( "Using RC car:" ), {
@@ -7909,7 +7909,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
             item_location loc;
             if( you != nullptr ) {
                 loc = game_menus::inv::titled_filter_menu( []( const item & it ) {
-                    return it.has_flag( "RADIOCARITEM" );
+                    return it.has_flag( flag_RADIOCARITEM );
                 }, *you, _( "Arm what?" ) );
             }
             if( !loc ) {
@@ -7918,13 +7918,13 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
             }
             item &put = *loc;
 
-            if( put.has_flag( "RADIOCARITEM" ) && ( put.volume() <= 1250_ml ||
-                                                    ( put.weight() <= 2_kilogram ) ) ) {
+            if( put.has_flag( flag_RADIOCARITEM ) && ( put.volume() <= 1250_ml ||
+                    ( put.weight() <= 2_kilogram ) ) ) {
                 p->moves -= to_moves<int>( 3_seconds );
                 p->add_msg_if_player( _( "You armed your RC car with %s." ),
                                       put.tname() );
                 it->put_in( p->i_rem( &put ) );
-            } else if( !put.has_flag( "RADIOCARITEM" ) ) {
+            } else if( !put.has_flag( flag_RADIOCARITEM ) ) {
                 p->add_msg_if_player( _( "RC car with %s?  How?" ),
                                       put.tname() );
             } else {
@@ -7979,13 +7979,13 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
 /**
  * Send radio signal from player.
  */
-static void emit_radio_signal( player &p, const std::string &signal )
+static void emit_radio_signal( player &p, const flag_id &signal )
 {
     const auto visitor = [&]( item & it, const tripoint & loc ) -> VisitResponse {
-        if( it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( signal ) )
+        if( it.has_flag( flag_RADIO_ACTIVATION ) && it.has_flag( signal ) )
         {
             sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
-            bool invoke_proc = it.has_flag( "RADIO_INVOKE_PROC" );
+            bool invoke_proc = it.has_flag( flag_RADIO_INVOKE_PROC );
             // Invoke to transform item
             it.type->invoke( p, it, loc );
             if( invoke_proc ) {
@@ -8076,7 +8076,7 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
             for( tripoint pt : g->m.points_on_zlevel( p->posz() ) ) {
                 map_cursor mc( pt );
                 std::vector<item *> rc_items_here = mc.items_with( [&]( const item & it ) {
-                    return it.has_flag( "RADIO_CONTROLLED" );
+                    return it.has_flag( flag_RADIO_CONTROLLED );
                 } );
                 for( item *it : rc_items_here ) {
                     rc_pairs.emplace_back( pt, it );
@@ -8112,10 +8112,10 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
             it->active = true;
         }
     } else if( choice > 0 ) {
-        const std::string signal = "RADIOSIGNAL_" + std::to_string( choice );
+        const flag_id signal( "RADIOSIGNAL_" + std::to_string( choice ) );
 
         std::vector<item *> bombs = p->items_with( [&]( const item & it ) -> bool {
-            return it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( "BOMB" ) && it.has_flag( signal );
+            return it.has_flag( flag_RADIO_ACTIVATION ) && it.has_flag( flag_BOMB ) && it.has_flag( signal );
         } );
 
         if( !bombs.empty() ) {
@@ -8428,7 +8428,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             }
         }
 
-        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
+        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
             !p->has_effect( effect_contacts ) ) {
             p->add_msg_if_player( m_info,
                                   _( "You'll need to put on reading glasses before you can see the screen." ) );
@@ -8797,8 +8797,8 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 {
     std::string initial_state = it->get_var( "state", "attach_first" );
     const bool has_bio_cable = !p->get_remote_fueled_bionic().is_empty();
-    const bool has_solar_pack = p->worn_with_flag( "SOLARPACK" );
-    const bool has_solar_pack_on = p->worn_with_flag( "SOLARPACK_ON" );
+    const bool has_solar_pack = p->worn_with_flag( flag_SOLARPACK );
+    const bool has_solar_pack_on = p->worn_with_flag( flag_SOLARPACK_ON );
     const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
     const bool has_ups = p->has_charges( itype_UPS_off, 1 ) || p->has_charges( itype_adv_UPS_off, 1 );
 
@@ -8806,7 +8806,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
     avatar *you = p->as_avatar();
 
     auto filter = [&]( const item & itm ) {
-        return itm.has_flag( "IS_UPS" );
+        return itm.has_flag( flag_IS_UPS );
     };
 
     const std::string choose_ups = _( "Choose UPS:" );
@@ -9088,7 +9088,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
                               it->tname() );
     }
-    if( it->has_flag( "THERMOMETER" ) ) {
+    if( it->has_flag( flag_THERMOMETER ) ) {
         if( it->typeId() == itype_thermometer ) {
             p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
                                   print_temperature( player_local_temp ) );
@@ -9105,7 +9105,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
                                   print_temperature( water_temp ) );
         }
     }
-    if( it->has_flag( "HYGROMETER" ) ) {
+    if( it->has_flag( flag_HYGROMETER ) ) {
         if( it->typeId() == itype_hygrometer ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
@@ -9118,7 +9118,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
                                                     g->is_sheltered( p->pos() ) ) ) );
         }
     }
-    if( it->has_flag( "BAROMETER" ) ) {
+    if( it->has_flag( flag_BAROMETER ) ) {
         if( it->typeId() == itype_barometer ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
@@ -9192,7 +9192,7 @@ int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    if( !it->has_flag( "VEHICLE" ) ) {
+    if( !it->has_flag( flag_VEHICLE ) ) {
         p->add_msg_if_player( m_info, _( "The %s must be installed in a vehicle before being loaded." ),
                               it->tname() );
         return 0;
@@ -9254,7 +9254,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             // It's been activated somewhere where there isn't a player or monster, good.
             return 0;
         }
-        if( it->has_flag( "PLACE_RANDOMLY" ) ) {
+        if( it->has_flag( flag_PLACE_RANDOMLY ) ) {
             if( it->release_monster( p->pos(), 1 ) ) {
                 return 0;
             }
@@ -9667,13 +9667,14 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
 
 int iuse::toggle_heats_food( player *p, item *it, bool, const tripoint & )
 {
-    if( it->item_tags.count( flag_HEATS_FOOD ) == 0 ) {
-        it->item_tags.insert( flag_HEATS_FOOD );
+    static const flag_str_id json_flag_HEATS_FOOD( flag_HEATS_FOOD );
+    if( !it->has_flag( json_flag_HEATS_FOOD ) ) {
+        it->item_tags.insert( json_flag_HEATS_FOOD );
         p->add_msg_if_player(
             _( "You will try to use %s to heat food next time you eat something that should be eaten hot." ),
             it->tname().c_str() );
     } else {
-        it->item_tags.erase( flag_HEATS_FOOD );
+        it->item_tags.erase( json_flag_HEATS_FOOD );
         p->add_msg_if_player( _( "You will no longer use %s to heat food." ), it->tname().c_str() );
     }
 

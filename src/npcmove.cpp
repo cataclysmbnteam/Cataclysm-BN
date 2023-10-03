@@ -31,6 +31,7 @@
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gates.h"
@@ -112,8 +113,6 @@ static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const flag_str_id flag_NO_UNWIELD( "NO_UNWIELD" );
-
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_chem_ethanol( "chem_ethanol" );
 static const itype_id itype_chem_methanol( "chem_methanol" );
@@ -123,8 +122,6 @@ static const itype_id itype_lsd( "lsd" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
-
-static const std::string flag_SPLINT( "SPLINT" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -1723,7 +1720,7 @@ bool npc::recharge_cbm()
     if( use_bionic_by_id( bio_furnace ) ) {
         const std::function<bool( const item & )> furnace_filter = []( const item & it ) {
             return it.typeId() == itype_id( "withered" ) || it.typeId() == itype_id( "file" ) ||
-                   it.has_flag( "FIREWOOD" );
+                   it.has_flag( flag_FIREWOOD );
         };
         if( consume_cbm_items( furnace_filter ) ) {
             return true;
@@ -3638,11 +3635,9 @@ bool npc::alt_attack()
     // Remember if we have an item that is dangerous to hold
     bool used_dangerous = false;
 
-    static const std::string danger_string( "NPC_THROW_NOW" );
-    static const std::string alt_string( "NPC_ALT_ATTACK" );
     // TODO: The active bomb with shortest fuse should be thrown first
     const auto check_alt_item = [&used, &used_dangerous, dist, this]( item & it ) {
-        const bool dangerous = it.has_flag( danger_string );
+        const bool dangerous = it.has_flag( flag_NPC_THROW_NOW );
         if( !dangerous && used_dangerous ) {
             return;
         }
@@ -3653,7 +3648,7 @@ bool npc::alt_attack()
         }
 
         // Not alt attack
-        if( !dangerous && !it.has_flag( alt_string ) ) {
+        if( !dangerous && !it.has_flag( flag_NPC_ALT_ATTACK ) ) {
             return;
         }
 
@@ -3688,7 +3683,7 @@ bool npc::alt_attack()
     }
 
     // Are we going to throw this item?
-    if( !used->active && used->has_flag( "NPC_ACTIVATE" ) ) {
+    if( !used->active && used->has_flag( flag_NPC_ACTIVATE ) ) {
         activate_item( weapon_index );
         // Note: intentional lack of return here
         // We want to ignore player-centric rules to avoid carrying live explosives
@@ -3885,7 +3880,7 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    if( food->parasites && !it.has_flag( "NO_PARASITES" ) ) {
+    if( food->parasites && !it.has_flag( flag_NO_PARASITES ) ) {
         return 0.0;
     }
 
@@ -4183,8 +4178,8 @@ void npc::reach_omt_destination()
             Character &player_character = get_player_character();
             talk_function::assign_guard( *this );
             if( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) {
-                if( player_character.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
-                    has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
+                if( player_character.has_item_with_flag( flag_TWO_WAY_RADIO, true ) &&
+                    has_item_with_flag( flag_TWO_WAY_RADIO, true ) ) {
                     add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
                                         "'I've arrived, boss!'" ), disp_name() );
                 }

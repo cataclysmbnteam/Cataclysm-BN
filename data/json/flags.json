@@ -1073,6 +1073,21 @@
     "type": "json_flag"
   },
   {
+    "id": "EFFECT_CLAIRVOYANCE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_CLAIRVOYANCE_PLUS",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_SUPER_CLAIRVOYANCE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
     "id": "EFFECT_ACID_IMMUNE",
     "context": [  ],
     "type": "json_flag"
@@ -1339,6 +1354,16 @@
     "context": [  ]
   },
   {
+    "id": "EXPLOSION_SMASHED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "EXPLOSION_PROPELLED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "E_COMBUSTION",
     "type": "json_flag",
     "context": [  ]
@@ -1470,6 +1495,11 @@
   },
   {
     "id": "IS_ARMOR",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "IS_EXPLOSION_PROPELLED",
     "type": "json_flag",
     "context": [  ]
   },

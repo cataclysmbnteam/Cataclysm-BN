@@ -25,6 +25,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -84,9 +85,6 @@ static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
-static const std::string flag_DIG_TOOL( "DIG_TOOL" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_RAMP_END( "RAMP_END" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 static const std::string flag_LADDER( "LADDER" );
@@ -1173,7 +1171,7 @@ void avatar_action::reload( item_location &loc, bool prompt, bool empty )
     item *it = loc.get_item();
 
     // bows etc. do not need to reload. select favorite ammo for them instead
-    if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
+    if( it->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         ranged::prompt_select_default_ammo_for( u, *it );
         return;
     }
@@ -1201,7 +1199,7 @@ void avatar_action::reload( item_location &loc, bool prompt, bool empty )
     }
 
     bool use_loc = true;
-    if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+    if( !it->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         it = loc.obtain( u ).get_item();
         use_loc = false;
     }

@@ -43,6 +43,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "kill_tracker.h"
+#include "make_static.h"
 #include "magic_teleporter_list.h"
 #include "map.h"
 #include "map_memory.h"
@@ -94,8 +95,6 @@ static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
-
-static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
 class JsonIn;
 class JsonOut;
@@ -285,7 +284,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     // Check for conditions that disqualify us only if no NPCs can read to us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
+    } else if( has_trait( trait_HYPEROPIC ) &&
+               !worn_with_flag( STATIC( flag_str_id( "FIX_FARSIGHT" ) ) ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( !character_funcs::can_see_fine_details( *this ) ) {
@@ -314,7 +314,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         } else if( skill && elem->get_skill_level( skill ) < type->req ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
-        } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        } else if( elem->has_trait( trait_HYPEROPIC ) &&
+                   !elem->worn_with_flag( STATIC( flag_str_id( "FIX_FARSIGHT" ) ) ) &&
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name() ) );

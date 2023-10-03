@@ -1226,7 +1226,7 @@ bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
     }
 }
 
-bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
+bool Creature::has_effect_with_flag( const flag_id &flag, body_part bp ) const
 {
     const auto &tmp = convert_bp( bp ).id();
     for( const auto &elem : *effects ) {

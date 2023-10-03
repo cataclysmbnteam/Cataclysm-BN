@@ -26,6 +26,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "examine_item_menu.h"
 #include "game.h"
 #include "input.h"
@@ -81,12 +82,7 @@ static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
-static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_MUSHY( "MUSHY" );
 static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
 static const flag_str_id flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 
@@ -1571,7 +1567,7 @@ iuse_locations game_menus::inv::multiwash( Character &ch, int water, int cleanse
         bool do_hard )
 {
     const inventory_filter_preset preset( [do_soft, do_hard]( const item_location & location ) {
-        return location->has_flag( "FILTHY" ) && ( ( do_soft && location->is_soft() ) ||
+        return location->has_flag( flag_FILTHY ) && ( ( do_soft && location->is_soft() ) ||
                 ( do_hard && !location->is_soft() ) );
     } );
     auto make_raw_stats = [water, cleanser](
@@ -1813,7 +1809,7 @@ static item_location autodoc_internal( player &u, player &patient,
     }
 
     std::vector<const item *> install_programs = patient.crafting_inventory().items_with( [](
-                const item & it ) -> bool { return it.has_flag( "BIONIC_INSTALLATION_DATA" ); } );
+                const item & it ) -> bool { return it.has_flag( flag_BIONIC_INSTALLATION_DATA ); } );
 
     if( !install_programs.empty() ) {
         hint += string_format(

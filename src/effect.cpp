@@ -406,6 +406,18 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
     }
 }
 
+bool effect_type::has_flag( const flag_id &flag ) const
+{
+    // initialize int_flags cache on first usage
+    if( flags.size() > int_flags.size() ) {
+        int_flags.clear();
+        for( const flag_str_id &f : flags ) {
+            int_flags.insert( f );
+        }
+    }
+    return int_flags.count( flag );
+}
+
 effect_rating effect_type::get_rating() const
 {
     return rating;
@@ -1367,7 +1379,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    new_etype.flags = jo.get_tags( "flags" );
+    new_etype.flags = jo.get_tags<flag_str_id>( "flags" );
 
     assign( jo, "morale", new_etype.morale );
 
@@ -1407,9 +1419,9 @@ void load_effect_type( const JsonObject &jo )
     effect_types[new_etype.id] = new_etype;
 }
 
-bool effect::has_flag( const std::string &flag ) const
+bool effect::has_flag( const flag_id &flag ) const
 {
-    return eff_type->flags.count( flag ) > 0;
+    return eff_type->has_flag( flag );
 }
 
 void reset_effect_types()

@@ -41,6 +41,8 @@
 
 static const skill_id skill_barter( "barter" );
 
+static const flag_str_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
+
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
                                   player &receiver, std::list<item_location *> &from_map,
                                   bool npc_gives )
@@ -109,7 +111,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
 
     if( np.will_exchange_items_freely() ) {
         for( item *weapon : np.wielded_items() ) {
-            if( !weapon->has_flag( "NO_UNWIELD" ) ) {
+            if( !weapon->has_flag( json_flag_NO_UNWIELD ) ) {
                 result.emplace_back( np, *weapon, np.value( *weapon ), false );
             }
         }
@@ -184,7 +186,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         check_item( item_location( seller, &i->front() ), i->size() );
     }
 
-    if( !seller.primary_weapon().has_flag( "NO_UNWIELD" ) ) {
+    if( !seller.primary_weapon().has_flag( json_flag_NO_UNWIELD ) ) {
         check_item( item_location( seller, &seller.primary_weapon() ), 1 );
     }
 

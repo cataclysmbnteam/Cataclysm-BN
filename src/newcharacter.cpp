@@ -71,7 +71,9 @@
 static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
-static const std::string flag_WET( "WET" );
+
+static const flag_str_id json_flag_no_auto_equip( "no_auto_equip" );
+static const flag_str_id json_flag_auto_wield( "auto_wield" );
 
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
@@ -573,16 +575,16 @@ bool avatar::create( character_type type, const std::string &tempname )
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
-        if( it.has_flag( flag_WET ) ) {
+        if( it.has_flag( STATIC( flag_str_id( "WET" ) ) ) ) {
             it.active = true;
             it.item_counter = 450; // Give it some time to dry off
         }
         // TODO: debugmsg if food that isn't a seed is inedible
-        if( it.has_flag( "no_auto_equip" ) ) {
-            it.unset_flag( "no_auto_equip" );
+        if( it.has_flag( json_flag_no_auto_equip ) ) {
+            it.unset_flag( json_flag_no_auto_equip );
             inv.push_back( it );
-        } else if( it.has_flag( "auto_wield" ) ) {
-            it.unset_flag( "auto_wield" );
+        } else if( it.has_flag( json_flag_auto_wield ) ) {
+            it.unset_flag( json_flag_auto_wield );
             if( !is_armed() ) {
                 wield( it );
             } else {
@@ -1545,9 +1547,9 @@ tab_direction set_profession( avatar &u, points_left &points,
                 std::string buffer_worn;
                 std::string buffer_inventory;
                 for( const auto &it : prof_items ) {
-                    if( it.has_flag( "no_auto_equip" ) ) {
+                    if( it.has_flag( json_flag_no_auto_equip ) ) {
                         buffer_inventory += it.display_name() + "\n";
-                    } else if( it.has_flag( "auto_wield" ) ) {
+                    } else if( it.has_flag( json_flag_auto_wield ) ) {
                         buffer_wielded += it.display_name() + "\n";
                     } else if( it.is_armor() ) {
                         buffer_worn += it.display_name() + "\n";

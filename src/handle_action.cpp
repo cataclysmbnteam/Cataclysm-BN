@@ -38,6 +38,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "fstream_utils.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -125,12 +126,7 @@ static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_LOCKED( "LOCKED" );
-static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
-static const std::string flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
-
-static const std::string flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
 
 #define dbg(x) DebugLogFL((x),DC::Game)
 
@@ -416,7 +412,7 @@ inline static void rcdrive( point d )
 
     map_cursor mc( c );
     std::vector<item *> rc_items = mc.items_with( [&]( const item & it ) {
-        return it.has_flag( "RADIO_CONTROLLED" );
+        return it.has_flag( flag_RADIO_CONTROLLED );
     } );
 
     if( rc_items.empty() ) {
@@ -1152,7 +1148,7 @@ static void loot()
     player &u = g->u;
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
+    const bool has_fertilizer = u.has_item_with_flag( flag_FERTILIZER );
 
     // Manually update vehicle cache.
     // In theory this would be handled by the related activity (activity_on_turn_move_loot())

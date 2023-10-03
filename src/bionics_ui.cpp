@@ -25,7 +25,6 @@
 #include "uistate.h"
 #include "units.h"
 
-static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
@@ -188,6 +187,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
                                    bionic_menu_mode mode )
 {
     input_context ctxt( "BIONICS" );
+    static const flag_str_id json_flag_PERPETUAL( "PERPETUAL" );
 
     werase( window );
     std::string fuel_string;
@@ -197,7 +197,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
         for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
             const item temp_fuel( fuel );
-            if( temp_fuel.has_flag( flag_PERPETUAL ) ) {
+            if( temp_fuel.has_flag( json_flag_PERPETUAL ) ) {
                 if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
                 }
@@ -211,7 +211,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
             const itype_id rem_fuel = p->find_remote_fuel( true );
             if( !rem_fuel.is_empty() ) {
                 const item tmp_rem_fuel( rem_fuel );
-                if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
+                if( tmp_rem_fuel.has_flag( json_flag_PERPETUAL ) ) {
                     fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
                 } else {
                     fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel.str() ),

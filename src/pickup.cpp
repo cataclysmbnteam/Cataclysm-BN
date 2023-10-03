@@ -35,6 +35,7 @@
 #include "item_stack.h"
 #include "json.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "mapdata.h"
@@ -156,7 +157,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
     // TODO: Gray out if not enough hands
     // TODO: Calculate required hands vs freed hands
     if( u.is_armed() ) {
-        amenu.addentry( WIELD, !u.primary_weapon().has_flag( "NO_UNWIELD" ), 'w',
+        amenu.addentry( WIELD, !u.primary_weapon().has_flag( STATIC( flag_str_id( "NO_UNWIELD" ) ) ), 'w',
                         _( "Dispose of %s and wield %s" ), u.primary_weapon().display_name(),
                         it.display_name() );
     } else {

@@ -36,6 +36,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "handle_liquid.h"
@@ -191,20 +192,11 @@ static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
-static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
-static const std::string flag_AURA( "AURA" );
-static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
-static const std::string flag_PERPETUAL( "PERPETUAL" );
-static const std::string flag_PERSONAL( "PERSONAL" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
-static const std::string flag_SEALED( "SEALED" );
-static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
-
-static const flag_str_id flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
 static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
 static const flag_str_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const flag_str_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+static const std::string flag_SEALED( "SEALED" );
 
 // (De-)Installation difficulty for bionics that don't have item form
 constexpr int BIONIC_NOITEM_DIFFICULTY = 12;
@@ -1207,7 +1199,7 @@ bool Character::burn_fuel( bionic &bio, bool start )
         if( !remote_fuel.is_empty() ) {
             fuel_available.emplace_back( remote_fuel );
             if( remote_fuel == fuel_type_sun_light ) {
-                const item *pack = item_worn_with_flag( "SOLARPACK_ON" );
+                const item *pack = item_worn_with_flag( flag_SOLARPACK_ON );
                 effective_efficiency = pack != nullptr ? pack->type->solar_efficiency : 0;
             }
             // TODO: check for available fuel in remote source

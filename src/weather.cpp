@@ -54,7 +54,9 @@ static const itype_id itype_water_acid_weak( "water_acid_weak" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
-static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
+static const flag_str_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
+static const flag_str_id json_flag_RAINPROOF( "RAINPROOF" );
+static const flag_str_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -76,7 +78,7 @@ void glare( const weather_type_id &w )
 {
     //General prepequisites for glare
     if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
-        g->u.worn_with_flag( flag_SUN_GLASSES ) ||
+        g->u.worn_with_flag( json_flag_SUN_GLASSES ) ||
         g->u.has_bionic( bio_sunglasses ) ||
         g->u.is_blind() ) {
         return;
@@ -374,8 +376,8 @@ void weather_effect::wet_player( int amount )
     Character &target = get_avatar();
     if( !is_player_outside() ||
         target.has_trait( trait_FEATHERS ) ||
-        target.primary_weapon().has_flag( "RAIN_PROTECT" ) ||
-        ( !one_in( 50 ) && target.worn_with_flag( "RAINPROOF" ) ) ) {
+        target.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) ||
+        ( !one_in( 50 ) && target.worn_with_flag( json_flag_RAINPROOF ) ) ) {
         return;
     }
     // Coarse correction to get us back to previously intended soaking rate.
@@ -461,10 +463,10 @@ void weather_effect::lightning( int intensity )
 void weather_effect::light_acid( int intensity )
 {
     if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
-        if( g->u.primary_weapon().has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
+        if( g->u.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && !one_in( 3 ) ) {
             add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.primary_weapon().tname() );
         } else {
-            if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
+            if( g->u.worn_with_flag( json_flag_RAINPROOF ) && !one_in( 4 ) ) {
                 add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
             } else {
                 bool has_helmet = false;
@@ -492,11 +494,11 @@ void weather_effect::acid( int intensity )
     }
 
     auto &you = get_avatar();
-    if( you.primary_weapon().has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
+    if( you.primary_weapon().has_flag( json_flag_RAIN_PROTECT ) && one_in( 4 ) ) {
         return add_msg( _( "Your umbrella protects you from the acid rain." ) );
     }
 
-    if( you.worn_with_flag( "RAINPROOF" ) && one_in( 2 ) ) {
+    if( you.worn_with_flag( json_flag_RAINPROOF ) && one_in( 2 ) ) {
         return add_msg( _( "Your clothing protects you from the acid rain." ) );
     }
 

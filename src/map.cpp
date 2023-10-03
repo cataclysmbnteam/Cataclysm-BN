@@ -41,6 +41,7 @@
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
@@ -129,10 +130,6 @@ static const skill_id skill_traps( "traps" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
-
-static const std::string flag_RECHARGE( "RECHARGE" );
-static const std::string flag_USE_UPS( "USE_UPS" );
-static const std::string flag_USES_GRID_POWER( "USES_GRID_POWER" );
 
 static const ter_str_id t_rock_floor_no_roof( "t_rock_floor_no_roof" );
 
@@ -2677,7 +2674,7 @@ bool map::is_last_ter_wall( const bool no_furn, point p,
 bool map::tinder_at( const tripoint &p )
 {
     for( const auto &i : i_at( p ) ) {
-        if( i.has_flag( "TINDER" ) ) {
+        if( i.has_flag( flag_TINDER ) ) {
             return true;
         }
     }
@@ -3088,7 +3085,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     std::vector<item> contents;
     map_stack items = i_at( p );
     for( auto it = items.begin(); it != items.end(); ) {
-        if( it->has_flag( "EXPLOSION_SMASHED" ) ) {
+        if( it->has_flag( flag_EXPLOSION_SMASHED ) ) {
             it++;
             continue;
         }
@@ -4327,8 +4324,8 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
     }
     // spawn the item
     item new_item( type_id, birthday );
-    if( one_in( 3 ) && new_item.has_flag( "VARSIZE" ) ) {
-        new_item.set_flag( "FIT" );
+    if( one_in( 3 ) && new_item.has_flag( flag_VARSIZE ) ) {
+        new_item.set_flag( flag_FIT );
     }
 
     spawn_an_item( p, new_item, charges, damlevel );
@@ -4396,7 +4393,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     };
 
     // Some items never exist on map as a discrete item (must be contained by another item)
-    if( obj.has_flag( "NO_DROP" ) ) {
+    if( obj.has_flag( flag_NO_DROP ) ) {
         return null_item_reference();
     }
 
@@ -4408,7 +4405,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     if( ( !has_flag( "NOITEM", pos ) || ( has_flag( "LIQUIDCONT", pos ) && obj.made_of( LIQUID ) ) )
         && valid_limits( pos ) ) {
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
-        if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
+        if( obj.made_of( LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
             if( obj.on_drop( pos, *this ) ) {
                 return null_item_reference();
             }
@@ -4433,7 +4430,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             if( route( pos, e, setting ).empty() ) {
                 continue;
             }
-            if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
+            if( obj.made_of( LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
                 if( obj.on_drop( e, *this ) ) {
                     return null_item_reference();
                 }
@@ -4473,8 +4470,8 @@ item &map::add_item( const tripoint &p, item new_item )
         return null_item_reference();
     }
 
-    if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
-        if( new_item.has_flag( "BOMB" ) && new_item.is_transformable() ) {
+    if( new_item.has_flag( flag_ACT_IN_FIRE ) && get_field( p, fd_fire ) != nullptr ) {
+        if( new_item.has_flag( flag_BOMB ) && new_item.is_transformable() ) {
             //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
             new_item.convert( dynamic_cast<const iuse_transform *>
                               ( new_item.type->get_use( "transform" )->get_actor_ptr() )->target );
@@ -4608,9 +4605,8 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
         for( auto &n : cur_veh.get_items( part ) ) {
             const time_duration washing_time = 90_minutes;
             const time_duration time_left = washing_time - n.age();
-            static const std::string filthy( "FILTHY" );
             if( time_left <= 0_turns ) {
-                n.unset_flag( filthy );
+                n.unset_flag( flag_FILTHY );
                 washing_machine_finished = true;
                 cur_veh.part( part ).enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
@@ -4997,8 +4993,9 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     }
 
     const std::vector<itype> item_list = f.crafting_pseudo_item_types();
+    static const flag_str_id json_flag_USES_GRID_POWER( flag_USES_GRID_POWER );
     for( const itype &itt : item_list ) {
-        if( itt.item_tags.count( flag_USES_GRID_POWER ) > 0 ) {
+        if( itt.has_flag( json_flag_USES_GRID_POWER ) ) {
             const tripoint_abs_ms abspos( m->getabs( p ) );
             auto &grid = get_distribution_grid_tracker().grid_at( abspos );
             item furn_item( itt.get_id(), calendar::start_of_cataclysm, grid.get_resource() );
@@ -7320,7 +7317,7 @@ void map::grow_plant( const tripoint &p )
 
             // Remove fertilizer if any
             map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.has_flag( "FERTILIZER" );
+                return it.has_flag( flag_FERTILIZER );
             } );
             if( fertilizer != items.end() ) {
                 items.erase( fertilizer );
@@ -7335,7 +7332,7 @@ void map::grow_plant( const tripoint &p )
 
             // Remove fertilizer if any
             map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.has_flag( "FERTILIZER" );
+                return it.has_flag( flag_FERTILIZER );
             } );
             if( fertilizer != items.end() ) {
                 items.erase( fertilizer );
@@ -8609,7 +8606,7 @@ void map::add_corpse( const tripoint &p )
         body = item::make_corpse();
     } else {
         body = item::make_corpse( mon_zombie );
-        body.set_flag( "REVIVE_SPECIAL" );
+        body.set_flag( flag_REVIVE_SPECIAL );
     }
 
     put_items_from_loc( item_group_id( "default_zombie_clothes" ), p );

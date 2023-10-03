@@ -8,6 +8,7 @@
 #include "character_martial_arts.h"
 #include "character.h"
 #include "creature.h"
+#include "flag.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
@@ -614,7 +615,8 @@ void Character::reset_stats()
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bp_torso ) ) {
+        } else if( !exclusive_flag_coverage( STATIC( flag_str_id( "OVERSIZE" ) ) )
+                   .test( bp_torso ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
@@ -827,7 +829,7 @@ void Character::process_items()
 
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
-    bool weapon_active = weapon.has_flag( "USE_UPS" ) &&
+    bool weapon_active = weapon.has_flag( flag_USE_UPS ) &&
                          weapon.charges < weapon.type->maximum_charges();
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
@@ -839,13 +841,13 @@ void Character::process_items()
         } else if( identifier == itype_adv_UPS_off ) {
             ch_UPS += it.ammo_remaining() / 0.6;
         }
-        if( it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
+        if( it.has_flag( flag_USE_UPS ) && it.charges < it.type->maximum_charges() ) {
             active_held_items.push_back( index );
         }
     }
     bool update_required = get_check_encumbrance();
     for( item &w : worn ) {
-        if( w.has_flag( "USE_UPS" ) &&
+        if( w.has_flag( flag_USE_UPS ) &&
             w.charges < w.type->maximum_charges() ) {
             active_worn_items.push_back( &w );
         }
