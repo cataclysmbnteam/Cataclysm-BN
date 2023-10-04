@@ -185,7 +185,6 @@ const flag_str_id flag_MESSY( "MESSY" );
 const flag_str_id flag_MISSION_ITEM( "MISSION_ITEM" );
 const flag_str_id flag_MORBID( "MORBID" );
 const flag_str_id flag_MOUNTED_GUN( "MOUNTED_GUN" );
-const flag_str_id flag_MUSHY( "MUSHY" );
 const flag_str_id flag_MYCUS_OK( "MYCUS_OK" );
 const flag_str_id flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
 const flag_str_id flag_NAT_UPS( "NAT_UPS" );

@@ -588,11 +588,6 @@
     "context": [ "COMESTIBLE" ]
   },
   {
-    "id": "MUSHY",
-    "type": "json_flag",
-    "context": [ "COMESTIBLE" ]
-  },
-  {
     "id": "NO_PARASITES",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ]

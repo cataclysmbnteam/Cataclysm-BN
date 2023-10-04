@@ -462,7 +462,6 @@ to find which flags work elsewhere.
   flags: BIRD, CATTLE.
 - `FERTILIZER` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function
   penalties will be reversed for plants.
-- `FREEZERBURN` First thaw is MUSHY, second is rotten
 - `FUNGAL_VECTOR` Will give a fungal infection when consumed.
 - `HIDDEN_HALLU` ... Food causes hallucinations, visible only with a certain survival skill level.
 - `HIDDEN_POISON` ... Food displays as poisonous with a certain survival skill level. Note that this
@@ -1479,8 +1478,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - `HIDDEN_ITEM` This item cannot be seen in AIM.
 - `HOT` Item is hot (see EATEN_HOT).
 - `LITCIG` Marks a lit smoking item (cigarette, joint etc.).
-- `MUSHY` FREEZERBURN item was frozen and is now mushy and tasteless and will go bad after freezing
-  again.
 - `NO_PARASITES` Invalidates parasites count set in food->type->comestible->parasites
 - `QUARTERED` Corpse was quartered into parts. Affects butcher results, weight, volume.
 - `REVIVE_SPECIAL` ... Corpses revives when the player is nearby.

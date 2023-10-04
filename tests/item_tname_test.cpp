@@ -30,7 +30,6 @@ static const skill_id skill_survival( "survival" );
 // - "burnt" or "badly burnt"
 // - (dirty)
 // - (rotten)
-// - (mushy)
 // - (old)
 // - (fresh)
 // - Radio-mod with signals (Red, Blue, Green)
