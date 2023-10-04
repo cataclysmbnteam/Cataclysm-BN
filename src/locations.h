@@ -220,7 +220,7 @@ class contents_item_location :  public item_location
         auto detach( item *it ) -> detached_ptr<item> override;
         void attach( detached_ptr<item> &&obj ) override;
         auto is_loaded( const item *it ) const -> bool override;
-        auto position( const item *it ) const -> tripoint override;
+        auto position( const item * ) const -> tripoint override;
         auto where() const -> item_location_type override;
         auto obtain_cost( const Character &ch, int qty, const item *it ) const -> int override;
         auto describe( const Character *ch, const item *it ) const -> std::string override;
