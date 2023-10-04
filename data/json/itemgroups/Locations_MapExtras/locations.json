@@ -1051,7 +1051,9 @@
       [ "shot_paper_bird", 15 ],
       [ "shot_paper_slug", 10 ],
       [ "36navy", 50 ],
-      [ "44army", 50 ]
+      [ "44army", 50 ],
+      [ "cannonball_explosive", 5 ],
+      [ "cannonball_4lb", 20 ]
     ]
   },
   {
