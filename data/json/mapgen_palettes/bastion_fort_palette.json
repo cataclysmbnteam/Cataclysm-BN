@@ -14,11 +14,14 @@
       "<": "t_wood_stairs_up",
       "^": "t_sidewalk_ramp_up_high",
       "4": "t_gutter_downspout",
+      "C": "t_rock_floor_no_roof",
       "F": "t_floor",
       "T": "t_region_tree_shade",
+      "X": "t_door_locked_interior",
+      "r": "t_floor",
       "v": "t_sidewalk_ramp_up_low",
       "w": "t_window_no_curtains"
     },
-    "furniture": { "F": "f_fireplace" }
+    "furniture": { "C": "f_crate_c", "F": "f_fireplace", "r": "f_rack_wood" }
   }
 ]

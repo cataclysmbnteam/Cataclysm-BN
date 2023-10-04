@@ -53,12 +53,12 @@
         "######################  ",
         "######################  ",
         "   ^^^|||||||########   ",
-        "   vvv|_____|########   ",
-        "      |_____|########   ",
-        "  T   |_____|########   ",
-        "      |_____|####       ",
-        "  T   |--+--|####       ",
-        "      |_____|####       ",
+        "   vvv|CCCrr|########   ",
+        "      |CC...|########   ",
+        "  T   |C...C|########   ",
+        "      |C...C|####       ",
+        "  T   |||X|||####       ",
+        "      |S____|####       ",
         "  T   |_____|####       ",
         "      w_____|####       ",
         "  T   |_____|####       ",
@@ -66,7 +66,10 @@
         "  T   |_____|####       ",
         "      |_____|####       "
       ],
-      "palettes": [ "bastion_fort_palette" ]
+      "palettes": [ "bastion_fort_palette" ],
+      "terrain": { "S": "t_floor", "r": "t_rock_floor_no_roof" },
+      "signs": { "S": { "signage": "Danger!  Do not smoke!  Risk of explosion!" } },
+      "items": { "C": { "item": "fort_crate", "chance": 100 }, "r": { "item": "fort_powderbarrel", "chance": 100 } }
     }
   },
   {

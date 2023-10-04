@@ -2482,5 +2482,20 @@
       [ "coal_lump", 5 ],
       [ "material_limestone", 5 ]
     ]
+  },
+  {
+    "id": "fort_crate",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "cannonball_4lb", "prob": 100, "count": [ 1, 10 ] }, { "item": "rag", "prob": 50, "count": [ 1, 25 ] } ]
+  },
+  {
+    "id": "fort_powderbarrel",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small" },
+      { "item": "chem_black_powder", "charges": [ 100, 2500 ], "container-item": "wooden_barrel_small", "prob": 50 }
+    ]
   }
 ]
