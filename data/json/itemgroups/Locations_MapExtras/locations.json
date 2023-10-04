@@ -2484,6 +2484,92 @@
     ]
   },
   {
+    "id": "fort_giftshop",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tshirt", "prob": 40 },
+      { "item": "ceramic_mug", "prob": 10 },
+      { "item": "teapot", "prob": 14 },
+      { "group": "tinware", "prob": 10 },
+      { "item": "tricorne", "prob": 25 },
+      { "item": "survnote", "prob": 1 }
+    ]
+  },
+  {
+    "id": "fort_giftshop_rare",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pocketwatch", "prob": 20 },
+      { "group": "jewelry_accessories", "prob": 30 },
+      { "item": "cavalry_sabre_fake", "container-item": "scabbard", "prob": 20 },
+      { "item": "knife_hunting", "container-item": "sheath", "prob": 5 },
+      { "item": "flintlock_pouch", "prob": 20 },
+      { "item": "bandolier_pistol", "prob": 3 },
+      { "item": "spiral_stone", "prob": 2 }
+    ]
+  },
+  {
+    "id": "fort_display_case",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "knee_high_boots", "prob": 10 },
+      { "item": "breeches", "prob": 5 },
+      { "item": "waistcoat", "prob": 5 },
+      { "item": "peacoat", "prob": 5 },
+      { "item": "greatcoat", "prob": 5 },
+      { "item": "tricorne", "prob": 15 },
+      { "item": "hat_fur", "prob": 5 },
+      { "item": "longrifle_flintlock", "prob": 10 },
+      { "item": "pistol_flintlock", "prob": 5 },
+      { "item": "shotgun_paper", "prob": 5 },
+      { "item": "lemat_revolver", "prob": 5 },
+      { "item": "colt_army", "prob": 3 },
+      { "item": "colt_navy", "prob": 2 },
+      { "item": "cavalry_sabre", "prob": 15 },
+      { "item": "hatchet", "prob": 5 }
+    ]
+  },
+  {
+    "id": "fort_historic_wardrobe",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "knee_high_boots", "prob": 80, "damage": [ 1, 4 ] },
+          { "item": "boots_fur", "prob": 20, "damage": [ 1, 4 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "distribution": [ { "item": "breeches", "prob": 80, "damage": [ 1, 4 ] }, { "item": "pants_fur", "prob": 20, "damage": [ 1, 4 ] } ],
+        "prob": 50
+      },
+      { "item": "waistcoat", "prob": 30, "damage": [ 1, 4 ] },
+      {
+        "distribution": [ { "item": "peacoat", "prob": 80, "damage": [ 1, 4 ] }, { "item": "greatcoat", "prob": 20, "damage": [ 1, 4 ] } ],
+        "prob": 50
+      },
+      { "item": "leather_belt", "prob": 10, "damage": [ 1, 4 ] },
+      { "item": "knit_scarf", "prob": 10, "damage": [ 1, 4 ] },
+      {
+        "distribution": [ { "item": "tricorne", "prob": 80, "damage": [ 1, 4 ] }, { "item": "hat_fur", "prob": 20, "damage": [ 1, 4 ] } ],
+        "prob": 30
+      },
+      { "item": "gloves_leather", "prob": 10, "damage": [ 1, 4 ] },
+      {
+        "distribution": [
+          { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "stockings_wool", "prob": 50, "damage": [ 1, 4 ] }
+        ],
+        "prob": 30
+      }
+    ]
+  },
+  {
     "id": "fort_crate",
     "type": "item_group",
     "subtype": "collection",
