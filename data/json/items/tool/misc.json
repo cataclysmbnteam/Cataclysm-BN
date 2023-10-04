@@ -287,8 +287,8 @@
     "material": "wood",
     "symbol": "=",
     "color": "brown",
-    "initial_charges": 5,
-    "max_charges": 5,
+    "initial_charges": 1,
+    "max_charges": 1,
     "charges_per_use": 1,
     "use_action": "ARROW_FLAMABLE"
   },
