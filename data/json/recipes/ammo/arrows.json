@@ -424,13 +424,17 @@
     "components": [
       [ [ "exploding_arrow_warhead", 1 ] ],
       [
-        [ "arrow_field_point_fletched", 1 ],
-        [ "arrow_fire_hardened_fletched", 1 ],
-        [ "arrow_wood", 1 ],
-        [ "arrow_heavy_fire_hardened_fletched", 1 ],
-        [ "arrow_heavy_field_point_fletched", 1 ],
-        [ "arrow_wood_heavy", 1 ],
-        [ "arrow_metal", 1 ]
+        [ "bolt_simple_wood", 1 ],
+        [ "bolt_simple_small_game", 1 ],
+        [ "bolt_makeshift", 1 ],
+        [ "bolt_wood", 1 ],
+        [ "bolt_wood_bodkin", 1 ],
+        [ "bolt_wood_small_game", 1 ],
+        [ "bolt_metal", 1 ],
+        [ "bolt_steel", 1 ],
+        [ "bolt_steel_bodkin", 1 ],
+        [ "bolt_steel_target", 1 ],
+        [ "bolt_cf", 1 ]
       ]
     ]
   },
