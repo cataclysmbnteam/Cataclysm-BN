@@ -411,7 +411,7 @@
         "           |.....3      "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_tile_flat_roof", "~": "t_tile_flat_roof", ",": "t_shingle_flat_roof", "_": "t_rock_floor_no_roof" }
+      "terrain": { ".": "t_tile_flat_roof", "~": "t_tile_flat_roof", ",": "t_shingle_flat_roof", "_": "t_brick_wall_halfway" }
     }
   },
   {
@@ -447,7 +447,7 @@
         "      |.....3           "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_tile_flat_roof", "_": "t_rock_floor_no_roof" }
+      "terrain": { ".": "t_tile_flat_roof", "_": "t_brick_wall_halfway" }
     }
   },
   {
@@ -483,7 +483,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_tile_flat_roof", "~": "t_tile_flat_roof", ",": "t_shingle_flat_roof", "_": "t_rock_floor_no_roof" }
+      "terrain": { ".": "t_tile_flat_roof", "~": "t_tile_flat_roof", ",": "t_shingle_flat_roof", "_": "t_brick_wall_halfway" }
     }
   },
   {
@@ -519,7 +519,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_tile_flat_roof", "~": "t_tile_flat_roof", ",": "t_shingle_flat_roof", "_": "t_rock_floor_no_roof" }
+      "terrain": { ".": "t_tile_flat_roof", "~": "t_tile_flat_roof", ",": "t_shingle_flat_roof", "_": "t_brick_wall_halfway" }
     }
   }
 ]
