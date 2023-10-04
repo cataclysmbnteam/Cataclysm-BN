@@ -708,7 +708,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                 granted = granted.in_its_container();
             }
             if( cb.has_flag ) {
-                granted.item_tags.insert( flag_str_id( cb.flag ) );
+                granted.item_tags.insert( flag_id( cb.flag ) );
             }
             // If the item has an ammunition, this loads it to capacity, including magazines.
             if( !granted.ammo_default().is_null() ) {

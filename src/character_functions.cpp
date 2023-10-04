@@ -225,7 +225,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
                 for( const item &items_it : items ) {
-                    if( items_it.has_flag( STATIC( flag_str_id( "SLEEP_AID" ) ) ) ) {
+                    if( items_it.has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                         comfort_response.aid = &items_it;
@@ -262,7 +262,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
         if( comfort_response.aid == nullptr ) {
             const map_stack items = here.i_at( p );
             for( const item &items_it : items ) {
-                if( items_it.has_flag( STATIC( flag_str_id( "SLEEP_AID" ) ) ) ) {
+                if( items_it.has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                     comfort_response.aid = &items_it;
@@ -410,7 +410,7 @@ bool can_interface_armor( const Character &who )
 {
     bool okay = std::any_of( who.my_bionics->begin(), who.my_bionics->end(),
     []( const bionic & b ) {
-        return b.powered && b.info().has_flag( STATIC( flag_str_id( "BIONIC_ARMOR_INTERFACE" ) ) );
+        return b.powered && b.info().has_flag( STATIC( flag_id( "BIONIC_ARMOR_INTERFACE" ) ) );
     } );
     return okay;
 }

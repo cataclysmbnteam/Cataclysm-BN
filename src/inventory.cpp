@@ -609,8 +609,8 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             }
         }
 
-        static const flag_str_id flag_PSEUDO( "PSEUDO" );
-        static const flag_str_id flag_HEATS_FOOD( "HEATS_FOOD" );
+        static const flag_id flag_PSEUDO( "PSEUDO" );
+        static const flag_id flag_HEATS_FOOD( "HEATS_FOOD" );
         if( kpart ) {
             item hotplate( "hotplate", bday );
             hotplate.charges = veh->fuel_left( itype_battery, true );

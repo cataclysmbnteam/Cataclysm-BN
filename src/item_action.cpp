@@ -140,7 +140,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
 
             // Don't try to remove 'irremovable' toolmods
             if( actual_item->is_toolmod() && use == STATIC( item_action_id( "TOOLMOD_ATTACH" ) ) &&
-                actual_item->has_flag( STATIC( flag_str_id( "IRREMOVABLE" ) ) ) ) {
+                actual_item->has_flag( STATIC( flag_id( "IRREMOVABLE" ) ) ) ) {
                 continue;
             }
 

@@ -285,7 +285,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
     } else if( has_trait( trait_HYPEROPIC ) &&
-               !worn_with_flag( STATIC( flag_str_id( "FIX_FARSIGHT" ) ) ) &&
+               !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( !character_funcs::can_see_fine_details( *this ) ) {
@@ -315,7 +315,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
         } else if( elem->has_trait( trait_HYPEROPIC ) &&
-                   !elem->worn_with_flag( STATIC( flag_str_id( "FIX_FARSIGHT" ) ) ) &&
+                   !elem->worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name() ) );

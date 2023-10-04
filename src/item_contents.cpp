@@ -56,7 +56,7 @@ void item_contents::handle_liquid_or_spill( Character &guy )
 
 void item_contents::casings_handle( const std::function<bool( item & )> &func )
 {
-    static const flag_str_id json_flag_CASING( "CASING" );
+    static const flag_id json_flag_CASING( "CASING" );
     for( auto it = items.begin(); it != items.end(); ) {
         if( it->has_flag( json_flag_CASING ) ) {
             it->unset_flag( json_flag_CASING );

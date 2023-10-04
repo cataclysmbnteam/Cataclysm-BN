@@ -4546,8 +4546,8 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
                 continue;
             }
             const auto &info = i.info();
-            if( info.has_flag( STATIC( flag_str_id( "BIONIC_SHOCKPROOF" ) ) )
-                || info.has_flag( STATIC( flag_str_id( "BIONIC_FAULTY" ) ) ) ) {
+            if( info.has_flag( STATIC( flag_id( "BIONIC_SHOCKPROOF" ) ) )
+                || info.has_flag( STATIC( flag_id( "BIONIC_FAULTY" ) ) ) ) {
                 continue;
             }
             const std::map<bodypart_str_id, int> &bodyparts = info.occupied_bodyparts;
@@ -7910,7 +7910,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this, bio.powered &&
-                                bid->has_flag( STATIC( flag_str_id( "BIONIC_TOGGLED" ) ) ) ) ) {
+                                bid->has_flag( STATIC( flag_id( "BIONIC_TOGGLED" ) ) ) ) ) {
                 enchantment_cache->force_add( ench );
             }
         }

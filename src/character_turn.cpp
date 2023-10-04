@@ -615,7 +615,7 @@ void Character::reset_stats()
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( STATIC( flag_str_id( "OVERSIZE" ) ) )
+        } else if( !exclusive_flag_coverage( STATIC( flag_id( "OVERSIZE" ) ) )
                    .test( bp_torso ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );

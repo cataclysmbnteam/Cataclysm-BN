@@ -71,7 +71,7 @@ status_t character_oracle_t::can_make_fire() const
     bool fuel = false;
     for( const auto &i : subject->inv.const_slice() ) {
         const item &candidate = i->front();
-        if( candidate.has_flag( STATIC( flag_str_id( "FIRESTARTER" ) ) ) ) {
+        if( candidate.has_flag( STATIC( flag_id( "FIRESTARTER" ) ) ) ) {
             tool = true;
             if( fuel ) {
                 return running;

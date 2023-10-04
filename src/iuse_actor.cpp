@@ -942,7 +942,7 @@ int set_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) 
 
     iuse_transform::use( p, it, t, pos );
 
-    const flag_str_id f( flag );
+    const flag_id f( flag );
     for( auto &elem : p.worn ) {
         if( elem.has_flag( f ) && elem.active == turn_off ) {
             if( elem.type->can_use( "set_transformed" ) ) {
@@ -2707,7 +2707,7 @@ bool holster_actor::can_holster( const item &obj ) const
         return false;
     }
     return std::any_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
-        return obj.has_flag( flag_str_id( f ) );
+        return obj.has_flag( flag_id( f ) );
     } ) ||
     std::find( skills.begin(), skills.end(), obj.gun_skill() ) != skills.end();
 }
@@ -2745,7 +2745,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
     }
 
     if( std::none_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
-    return obj.has_flag( flag_str_id( f ) );
+    return obj.has_flag( flag_id( f ) );
     } ) &&
     std::find( skills.begin(), skills.end(), obj.gun_skill() ) == skills.end() ) {
         p.add_msg_if_player( m_info, _( "You can't put your %1$s in your %2$s" ),
@@ -3681,7 +3681,7 @@ void heal_actor::load( const JsonObject &obj )
         u.read( "id", used_up_item_id, true );
         used_up_item_quantity = u.get_int( "quantity", used_up_item_quantity );
         used_up_item_charges = u.get_int( "charges", used_up_item_charges );
-        used_up_item_flags = u.get_tags<flag_str_id>( "flags" );
+        used_up_item_flags = u.get_tags<flag_id>( "flags" );
     }
 }
 
@@ -4873,7 +4873,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     // Gives us an item with the mod added or removed (toggled)
-    const auto modded_copy = []( const item & proto, const flag_str_id & mod_type ) {
+    const auto modded_copy = []( const item & proto, const flag_id & mod_type ) {
         item mcopy = proto;
         if( mcopy.has_own_flag( mod_type ) == 0 ) {
             mcopy.set_flag( mod_type );

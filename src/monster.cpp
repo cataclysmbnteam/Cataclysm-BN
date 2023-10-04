@@ -2539,7 +2539,7 @@ void monster::drop_items_on_death()
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
-                it->set_flag( STATIC( flag_str_id( "FILTHY" ) ) );
+                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
         }
     }

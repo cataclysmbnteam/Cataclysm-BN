@@ -1043,7 +1043,7 @@ static void sleep()
         // some bionics
         // bio_alarm is useful for waking up during sleeping
         // turning off bio_leukocyte has 'unpleasant side effects'
-        if( bio.info().has_flag( STATIC( flag_str_id( "BIONIC_SLEEP_FRIENDLY" ) ) ) ) {
+        if( bio.info().has_flag( STATIC( flag_id( "BIONIC_SLEEP_FRIENDLY" ) ) ) ) {
             continue;
         }
 

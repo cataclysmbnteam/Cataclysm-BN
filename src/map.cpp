@@ -4993,7 +4993,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     }
 
     const std::vector<itype> item_list = f.crafting_pseudo_item_types();
-    static const flag_str_id json_flag_USES_GRID_POWER( flag_USES_GRID_POWER );
+    static const flag_id json_flag_USES_GRID_POWER( flag_USES_GRID_POWER );
     for( const itype &itt : item_list ) {
         if( itt.has_flag( json_flag_USES_GRID_POWER ) ) {
             const tripoint_abs_ms abspos( m->getabs( p ) );

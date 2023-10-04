@@ -72,8 +72,8 @@ static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 
-static const flag_str_id json_flag_no_auto_equip( "no_auto_equip" );
-static const flag_str_id json_flag_auto_wield( "auto_wield" );
+static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
+static const flag_id json_flag_auto_wield( "auto_wield" );
 
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
@@ -575,7 +575,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
-        if( it.has_flag( STATIC( flag_str_id( "WET" ) ) ) ) {
+        if( it.has_flag( STATIC( flag_id( "WET" ) ) ) ) {
             it.active = true;
             it.item_counter = 450; // Give it some time to dry off
         }
@@ -1579,7 +1579,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                 for( const auto &b : prof_CBMs ) {
                     const auto &cbm = b.obj();
 
-                    if( cbm.activated && cbm.has_flag( STATIC( flag_str_id( "BIONIC_TOGGLED" ) ) ) ) {
+                    if( cbm.activated && cbm.has_flag( STATIC( flag_id( "BIONIC_TOGGLED" ) ) ) ) {
                         buffer += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
                     } else if( cbm.activated ) {
                         buffer += string_format( _( "%s (activated)" ), cbm.name ) + "\n";

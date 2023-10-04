@@ -1068,7 +1068,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
 
         food_contained.inherit_flags( used, making );
 
-        for( const flag_str_id &flag : making.flags_to_delete ) {
+        for( const flag_id &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
         }
 

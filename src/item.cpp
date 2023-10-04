@@ -390,7 +390,7 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
         }
     }
     // this extra section is so that in-progress crafts will correctly display expected flags.
-    for( const flag_str_id &flag : rec->flags_to_delete ) {
+    for( const flag_id &flag : rec->flags_to_delete ) {
         unset_flag( flag );
     }
 }
@@ -1509,7 +1509,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                       burnt ) );
             const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
-                return f.id().str();
+                return f.str();
             }, enumeration_conjunction::none );
             info.push_back( iteminfo( "BASE", string_format( _( "tags: %s" ), tags_listed ) ) );
             for( auto const &imap : item_vars ) {
@@ -4286,7 +4286,7 @@ void item::on_wear( Character &p )
             debugmsg( "iuse_actor type descriptor and actual type mismatch" );
             return;
         }
-        flag_str_id transform_flag( actor->dependencies );
+        flag_id transform_flag( actor->dependencies );
         for( const auto &elem : p.worn ) {
             if( elem.has_flag( transform_flag ) && elem.active != active ) {
                 transform = true;
@@ -5251,7 +5251,7 @@ item &item::set_flag( const flag_id &flag )
     if( flag.is_valid() ) {
         item_tags.insert( flag );
     } else {
-        debugmsg( "Attempted to set invalid flag_id %d", flag.to_i() );
+        debugmsg( "Attempted to set invalid flag_id %s", flag.str() );
     }
     return *this;
 }
@@ -9380,7 +9380,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
                 return false;
             } else {
                 bool active = false;
-                flag_str_id transform_flag( actor->dependencies );
+                flag_id transform_flag( actor->dependencies );
                 for( const auto &elem : carrier->worn ) {
                     if( elem.active && elem.has_flag( transform_flag ) ) {
                         active = true;
@@ -9444,7 +9444,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
                 debugmsg( "iuse_actor type descriptor and actual type mismatch." );
                 return false;
             }
-            flag_str_id transformed_flag( actor->flag );
+            flag_id transformed_flag( actor->flag );
             for( auto &elem : carrier->worn ) {
                 if( elem.active && elem.has_flag( transformed_flag ) ) {
                     if( !elem.type->can_use( "set_transformed" ) ) {
@@ -9781,7 +9781,7 @@ std::string item::type_name( unsigned int quantity ) const
         };
         switch( cname.type ) {
             case condition_type::FLAG:
-                if( has_flag( flag_str_id( cname.condition ) ) ) {
+                if( has_flag( flag_id( cname.condition ) ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
                 break;

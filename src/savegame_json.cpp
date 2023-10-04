@@ -2515,7 +2515,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
     }
 
     // with VEHICLE tag migrate fuel tanks only if amount field exists
-    if( base.has_flag( flag_str_id( "VEHICLE" ) ) ) {
+    if( base.has_flag( flag_id( "VEHICLE" ) ) ) {
         if( data.has_int( "amount" ) && ammo_capacity() > 0 && legacy_fuel != itype_battery ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
@@ -2525,7 +2525,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         if( ammo_capacity() > 0 ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
-        base.item_tags.insert( flag_str_id( "VEHICLE" ) );
+        base.item_tags.insert( flag_id( "VEHICLE" ) );
     }
 
     if( data.has_int( "hp" ) && id.obj().durability > 0 ) {

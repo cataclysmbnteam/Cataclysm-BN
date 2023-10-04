@@ -168,7 +168,7 @@ void give_and_activate_bionic( player &p, const bionic_id &bioid )
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
-    if( bio.id->has_flag( STATIC( flag_str_id( "BIONIC_TOGGLED" ) ) ) && !bio.powered ) {
+    if( bio.id->has_flag( STATIC( flag_id( "BIONIC_TOGGLED" ) ) ) && !bio.powered ) {
         const std::vector<itype_id> fuel_opts = bio.info().fuel_opts;
         if( !fuel_opts.empty() ) {
             p.set_value( fuel_opts.front().str(), "2" );

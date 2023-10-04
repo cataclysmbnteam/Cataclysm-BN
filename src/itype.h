@@ -850,11 +850,6 @@ struct itype {
         int damage_max_ = +4000;
         /// @}
 
-        // Temporary storage of flags before entity is finalized.
-        // During finalization, flags are moved into `item_tags` and `item_tags_str_tmp` is cleared.
-        // This deferred flag conversion is necessary, as some flags might not be loaded yet when `itype` is loaded.
-        std::set<flag_str_id> item_tags_str_tmp;
-
     protected:
         itype_id id = itype_id::NULL_ID(); /** unique string identifier for this type */
 
@@ -1040,7 +1035,6 @@ struct itype {
         bool has_use() const;
 
         bool has_flag( const flag_id &flag ) const;
-        bool has_flag( const flag_str_id &flag ) const;
 
         // returns read-only set of all item tags/flags
         const FlagsSetType &get_flags() const;

@@ -695,7 +695,7 @@ itype_id new_artifact()
         def.melee[DT_STAB] = rng( weapon.stab_min, weapon.stab_max );
         def.m_to_hit = rng( weapon.to_hit_min, weapon.to_hit_max );
         if( !weapon.tag.empty() ) {
-            def.item_tags.insert( flag_str_id( weapon.tag ) );
+            def.item_tags.insert( flag_id( weapon.tag ) );
         }
         // Add an extra weapon perhaps?
         if( one_in( 2 ) ) {
@@ -709,7 +709,7 @@ itype_id new_artifact()
                 def.melee[DT_STAB] += rng( weapon.stab_min, weapon.stab_max );
                 def.m_to_hit += rng( weapon.to_hit_min, weapon.to_hit_max );
                 if( !weapon.tag.empty() ) {
-                    def.item_tags.insert( flag_str_id( weapon.tag ) );
+                    def.item_tags.insert( flag_id( weapon.tag ) );
                 }
                 def.create_name( std::string( _( weapon.adjective ) ) + " " + _( info.name ) );
             }

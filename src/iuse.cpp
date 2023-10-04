@@ -1688,7 +1688,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
         _( "\"Red\"" ), _( "\"Blue\"" ), _( "\"Green\"" )
     } );
 
-    flag_str_id newtag;
+    flag_id newtag;
     std::string colorname;
     switch( choice ) {
         case 0:
@@ -9667,7 +9667,7 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
 
 int iuse::toggle_heats_food( player *p, item *it, bool, const tripoint & )
 {
-    static const flag_str_id json_flag_HEATS_FOOD( flag_HEATS_FOOD );
+    static const flag_id json_flag_HEATS_FOOD( flag_HEATS_FOOD );
     if( !it->has_flag( json_flag_HEATS_FOOD ) ) {
         it->item_tags.insert( json_flag_HEATS_FOOD );
         p->add_msg_if_player(

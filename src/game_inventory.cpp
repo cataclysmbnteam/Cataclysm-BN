@@ -84,7 +84,7 @@ static const trait_id trait_INFRESIST( "INFRESIST" );
 
 static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
 
-static const flag_str_id flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
+static const flag_id flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
