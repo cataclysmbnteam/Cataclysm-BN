@@ -1038,9 +1038,10 @@
     "type": "item_group",
     "id": "museum_guns",
     "items": [
-      [ "pistol_flintlock", 60 ],
-      [ "carbine_flintlock", 40 ],
-      [ "rifle_flintlock", 60 ],
+      [ "pistol_flintlock", 40 ],
+      [ "carbine_flintlock", 30 ],
+      [ "rifle_flintlock", 40 ],
+      [ "longrifle_flintlock", 50 ],
       [ "flintlock_pouch", 30 ],
       [ "flintlock_ammo", 60 ],
       [ "flintlock_shot", 40 ],
