@@ -250,6 +250,31 @@
     "components": [ [ [ "223_casing", 1 ] ] ]
   },
   {
+    "result": "cannonball_explosive",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "75 m",
+    "batch_time_factors": [ 90, 4 ],
+    "reversible": true,
+    "book_learn": [ [ "manual_launcher", 6 ], [ "textbook_anarch", 7 ] ],
+    "using": [ [ "blacksmithing_intermediate", 12 ], [ "steel_tiny", 12 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "volatile_explosive", 125, "LIST" ], [ "stable_explosive", 125, "LIST" ], [ "military_explosive", 125, "LIST" ] ],
+      [
+        [ "impact_fuze", 1 ],
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
+    ]
+  },
+  {
     "result": "cannonball_4lb",
     "type": "recipe",
     "category": "CC_AMMO",

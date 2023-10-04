@@ -2522,13 +2522,14 @@
       { "item": "greatcoat", "prob": 5 },
       { "item": "tricorne", "prob": 15 },
       { "item": "hat_fur", "prob": 5 },
-      { "item": "longrifle_flintlock", "prob": 10 },
-      { "item": "pistol_flintlock", "prob": 5 },
+      { "item": "longrifle_flintlock", "prob": 8 },
+      { "item": "pistol_flintlock", "prob": 2 },
       { "item": "shotgun_paper", "prob": 5 },
       { "item": "lemat_revolver", "prob": 5 },
       { "item": "colt_army", "prob": 3 },
       { "item": "colt_navy", "prob": 2 },
-      { "item": "cavalry_sabre", "prob": 15 },
+      { "item": "cannonball_explosive", "prob": 10 },
+      { "item": "cavalry_sabre", "prob": 10 },
       { "item": "hatchet", "prob": 5 }
     ]
   },
