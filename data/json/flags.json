@@ -588,6 +588,11 @@
     "context": [ "COMESTIBLE" ]
   },
   {
+    "id": "MUSHY",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
     "id": "NO_PARASITES",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ]
@@ -883,12 +888,6 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>."
-  },
-  {
-    "id": "USES_GRID_POWER",
-    "type": "json_flag",
-    "context": [ "TOOL" ],
-    "info": "This item is uses power from an <info>electric grid</info>."
   },
   {
     "id": "USES_GRID_POWER",
@@ -1349,11 +1348,6 @@
     "context": [  ]
   },
   {
-    "id": "ETHEREAL_ITEM",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "EXPLOSION_SMASHED",
     "type": "json_flag",
     "context": [  ]
@@ -1485,6 +1479,11 @@
   },
   {
     "id": "INSTALL_DIFFICULT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "IN_CBM",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1746,6 +1745,11 @@
   },
   {
     "id": "REACH3",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "REACH",
     "type": "json_flag",
     "context": [  ]
   },
@@ -2068,11 +2072,6 @@
   },
   {
     "id": "RADIO_MODABLE",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "STR_DRAW",
     "type": "json_flag",
     "context": [  ]
   },

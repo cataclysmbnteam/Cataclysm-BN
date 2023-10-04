@@ -54,9 +54,6 @@ static const trait_flag_str_id trait_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
 static const trait_flag_str_id trait_flag_SPIRITUAL( "SPIRITUAL" );
 
-static const std::string flag_FUNGUS( "FUNGUS" );
-static const std::string flag_SWIMMABLE( "SWIMMABLE" );
-
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_meth( "meth" );
@@ -65,7 +62,6 @@ static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_UPS( "UPS" );
 
 namespace character_funcs
