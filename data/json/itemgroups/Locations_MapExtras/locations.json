@@ -2536,8 +2536,8 @@
       { "item": "rifle_flintlock", "prob": 3 },
       { "item": "carbine_flintlock", "prob": 2 },
       { "item": "pistol_flintlock", "prob": 3 },
-      { "item": "sharps", prob": 8 },
-      { "item": "colt_saa", prob": 2 }
+      { "item": "sharps", "prob": 8 },
+      { "item": "colt_saa", "prob": 2 }
     ]
   },
   {
