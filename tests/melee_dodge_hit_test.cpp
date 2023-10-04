@@ -11,6 +11,7 @@
 #include "item.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "mtype.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "state_helpers.h"

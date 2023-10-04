@@ -3,6 +3,7 @@
 #define CATA_SRC_DEBUG_MENU_H
 
 #include <optional>
+#include <string>
 
 struct tripoint;
 
