@@ -278,7 +278,7 @@
     "id": "TALK_SHARE_EQUIPMENT",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_effect": "infected",
+      "npc_has_effect": "asked_for_item",
       "yes": "You just asked me for stuff; ask later.",
       "no": "Why should I share my equipment with you?"
     },
