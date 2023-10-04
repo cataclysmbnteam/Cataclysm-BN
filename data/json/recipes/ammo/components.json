@@ -60,13 +60,14 @@
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ],
       [ [ "superglue", 1 ], [ "cordage", 1, "LIST" ] ],
       [
+        [ "impact_fuze", 1 ],
         [ "smpistol_primer", 1 ],
         [ "lgpistol_primer", 1 ],
         [ "smrifle_primer", 1 ],
         [ "lgrifle_primer", 1 ],
         [ "shotgun_primer", 1 ]
       ],
-      [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ]
+      [ [ "volatile_explosive", 2, "LIST" ], [ "stable_explosive", 2, "LIST" ], [ "military_explosive", 2, "LIST" ] ]
     ],
     "delete_flags": [ "FILTHY" ],
     "flags": [ "ALLOW_FILTHY" ]
