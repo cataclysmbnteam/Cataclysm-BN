@@ -32,7 +32,8 @@
         "       ####|e____|      "
       ],
       "palettes": [ "bastion_fort_palette" ],
-      "items": { "e": { "item": "fort_giftshop_rare", "chance": 50, "repeat": 2 } }
+      "items": { "e": { "item": "fort_giftshop_rare", "chance": 50, "repeat": 2 } },
+      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 18, 23 ], "y": [ 13, 23 ], "repeat": [ 5, 10 ] } ]
     }
   },
   {
@@ -69,7 +70,8 @@
       ],
       "palettes": [ "bastion_fort_palette" ],
       "terrain": { "S": "t_floor", "r": "t_rock_floor_no_roof" },
-      "signs": { "S": { "signage": "Danger!  Do not smoke!  Risk of explosion!" } }
+      "signs": { "S": { "signage": "Danger!  Do not smoke!  Risk of explosion!" } },
+      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 0, 5 ], "y": [ 13, 23 ], "repeat": [ 5, 10 ] } ]
     }
   },
   {
@@ -115,7 +117,8 @@
         { "item": "cash_card", "x": 12, "y": 2, "chance": 50, "repeat": 5 },
         { "item": "coin_quarter", "x": 12, "y": 2, "chance": 50, "repeat": 10 },
         { "item": "money_bundle", "x": 12, "y": 2, "chance": 50, "repeat": 5 }
-      ]
+      ],
+      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 18, 23 ], "y": [ 0, 5 ], "repeat": [ 1, 5 ] } ]
     }
   },
   {
@@ -151,7 +154,8 @@
         "                        "
       ],
       "palettes": [ "bastion_fort_palette" ],
-      "terrain": { ".": "t_rock_floor" }
+      "terrain": { ".": "t_rock_floor" },
+      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 1, 5 ] } ]
     }
   },
   {
@@ -203,7 +207,8 @@
         { "vehicle": "cannon_3in", "x": 16, "y": 8, "chance": 25, "rotation": 270 },
         { "vehicle": "cannon_3in", "x": 19, "y": 8, "chance": 25, "rotation": 270 },
         { "vehicle": "cannon_3in", "x": 22, "y": 8, "chance": 25, "rotation": 270 }
-      ]
+      ],
+      "place_monster": [ { "group": "GROUP_MIL_WEAK", "x": [ 3, 13 ], "y": [ 4, 9 ], "chance": 50, "repeat": 2 } ]
     }
   },
   {
@@ -262,7 +267,8 @@
         { "vehicle": "cannon_3in", "x": 15, "y": 16, "chance": 25 },
         { "vehicle": "cannon_3in", "x": 15, "y": 19, "chance": 25 },
         { "vehicle": "cannon_3in", "x": 15, "y": 22, "chance": 25 }
-      ]
+      ],
+      "place_monster": [ { "group": "GROUP_MIL_WEAK", "x": [ 10, 20 ], "y": [ 4, 9 ], "chance": 50, "repeat": 2 } ]
     }
   },
   {
@@ -314,7 +320,8 @@
         { "vehicle": "cannon_3in", "x": 8, "y": 7, "chance": 25, "rotation": 180 },
         { "vehicle": "cannon_3in", "x": 8, "y": 4, "chance": 25, "rotation": 180 },
         { "vehicle": "cannon_3in", "x": 8, "y": 1, "chance": 25, "rotation": 180 }
-      ]
+      ],
+      "place_monster": [ { "group": "GROUP_MIL_WEAK", "x": [ 4, 13 ], "y": [ 13, 19 ], "chance": 50, "repeat": 2 } ]
     }
   },
   {
@@ -366,7 +373,8 @@
         { "vehicle": "cannon_3in", "x": 7, "y": 15, "chance": 25, "rotation": 90 },
         { "vehicle": "cannon_3in", "x": 4, "y": 15, "chance": 25, "rotation": 90 },
         { "vehicle": "cannon_3in", "x": 1, "y": 15, "chance": 25, "rotation": 90 }
-      ]
+      ],
+      "place_monster": [ { "group": "GROUP_MIL_WEAK", "x": [ 10, 19 ], "y": [ 13, 19 ], "chance": 50, "repeat": 2 } ]
     }
   },
   {
