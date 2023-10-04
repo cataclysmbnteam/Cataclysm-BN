@@ -208,6 +208,7 @@
         { "vehicle": "cannon_3in", "x": 19, "y": 8, "chance": 25, "rotation": 270 },
         { "vehicle": "cannon_3in", "x": 22, "y": 8, "chance": 25, "rotation": 270 }
       ],
+      "//": "A small chance that some soldiers will have drifted here in desperation, as it's at least somewhat defensible.",
       "place_monster": [ { "group": "GROUP_MIL_WEAK", "x": [ 3, 13 ], "y": [ 4, 9 ], "chance": 50, "repeat": 2 } ]
     }
   },
