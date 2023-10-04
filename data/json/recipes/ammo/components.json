@@ -263,7 +263,7 @@
     "using": [ [ "blacksmithing_intermediate", 12 ], [ "steel_tiny", 12 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
-      [ [ "volatile_explosive", 125, "LIST" ], [ "stable_explosive", 125, "LIST" ], [ "military_explosive", 125, "LIST" ] ],
+      [ [ "volatile_explosive", 75, "LIST" ], [ "stable_explosive", 75, "LIST" ], [ "military_explosive", 75, "LIST" ] ],
       [
         [ "impact_fuze", 1 ],
         [ "smpistol_primer", 1 ],
