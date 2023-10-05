@@ -138,15 +138,13 @@ void do_lab_finale_test()
 
 } //namespace
 
-TEST_CASE( "Exactly one endgame lab finale is generated in 0,0 overmap",
-           "[overmap][slow][!mayfail]" )
+TEST_CASE( "Exactly one endgame lab finale is generated in 0,0 overmap", "[overmap][slow]" )
 {
     clear_all_state();
     do_lab_finale_test();
 }
 
-TEST_CASE( "Brute force default batch generation to check for RNG bugs",
-           "[.][overmap][slow][!mayfail]" )
+TEST_CASE( "Brute force default batch generation to check for RNG bugs", "[.][overmap][slow]" )
 {
     clear_all_state();
     for( size_t i = 0; i < 100; i++ ) {
