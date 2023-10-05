@@ -2765,8 +2765,8 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                                        if( g->u.primary_weapon().is_gun() ||
-                                            g->u.primary_weapon().has_flag( STATIC( flag_id( "REACH_ATTACK" ) ) ) ) {
+                    if( g->u.primary_weapon().is_gun() ||
+                        g->u.primary_weapon().has_flag( STATIC( flag_id( "REACH_ATTACK" ) ) ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }
