@@ -2,9 +2,8 @@
   {
     "method": "json",
     "object": {
-      "furniture": { ".": "f_null", "_": "f_null", "p": "f_null", "s": "f_null" },
       "rows": [
-        "____.....____.....______",
+        "____.....____....._____'",
         "____.....____.....______",
         "_.......................",
         "_.......................",
@@ -29,7 +28,8 @@
         "_....p....p.....p.......",
         "_sssssssssssssssssssssss"
       ],
-      "terrain": { ".": "t_pavement", "_": "t_grass", "p": "t_pavement_y", "s": "t_sidewalk" }
+      "terrain": { ".": "t_pavement", "_": "t_grass", "'": "t_grass", "p": "t_pavement_y", "s": "t_sidewalk" },
+      "furniture": { "'": "f_street_light" }
     },
     "om_terrain": "stadium_0_0",
     "type": "mapgen",
@@ -432,10 +432,19 @@
   {
     "method": "json",
     "object": {
-      "furniture": { "!": "f_street_light", "#": "f_bench", "&": "f_trashcan", ".": "f_null", "_": "f_null", "g": "f_null", "p": "f_null" },
+      "furniture": {
+        "!": "f_street_light",
+        "'": "f_street_light",
+        "#": "f_bench",
+        "&": "f_trashcan",
+        ".": "f_null",
+        "_": "f_null",
+        "g": "f_null",
+        "p": "f_null"
+      },
       "place_items": [ { "chance": 65, "item": "trash", "x": 17, "y": 20 } ],
       "rows": [
-        "gggg.....gggg.....gggggg",
+        "gggg.....gggg.....ggggg'",
         "gggg.....gggg.....gggggg",
         "........................",
         "........................",
@@ -466,6 +475,7 @@
         "&": "t_sidewalk",
         ".": "t_pavement",
         "_": "t_sidewalk",
+        "'": "t_dirt",
         "g": "t_grass",
         "p": "t_pavement_y"
       }
@@ -722,7 +732,7 @@
       "furniture": { "!": "f_street_light", "#": "f_bench", "&": "f_trashcan", ".": "f_null", "_": "f_null", "g": "f_null", "p": "f_null" },
       "place_items": [ { "chance": 65, "item": "trash", "x": 6, "y": 20 } ],
       "rows": [
-        "gggg.....gggg.....gggggg",
+        "gggg.....gggg.....ggggg'",
         "gggg.....gggg.....gggggg",
         "........................",
         "........................",
@@ -753,6 +763,7 @@
         "&": "t_sidewalk",
         ".": "t_pavement",
         "_": "t_sidewalk",
+        "'": "t_dirt",
         "g": "t_grass",
         "p": "t_pavement_y"
       }
@@ -984,7 +995,6 @@
   {
     "method": "json",
     "object": {
-      "furniture": { ".": "f_null", "_": "f_null", "p": "f_null", "s": "f_null" },
       "rows": [
         "____.....____.....______",
         "____.....____.....______",
@@ -1011,7 +1021,8 @@
         ".....p....p.....p......_",
         ".ssssssssssssssssssssss_"
       ],
-      "terrain": { ".": "t_pavement", "_": "t_grass", "p": "t_pavement_y", "s": "t_sidewalk" }
+      "terrain": { ".": "t_pavement", "_": "t_grass", "'": "t_dirt", "p": "t_pavement_y", "s": "t_sidewalk" },
+      "furniture": { "'": "f_street_light" }
     },
     "om_terrain": "stadium_3_0",
     "type": "mapgen",
