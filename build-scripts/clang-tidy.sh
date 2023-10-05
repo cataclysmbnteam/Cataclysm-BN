@@ -8,7 +8,6 @@ echo "Using bash version $BASH_VERSION with $num_jobs jobs"
 
 set -exo pipefail
 
-
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
 
@@ -28,7 +27,7 @@ cmake_extra_opts=()
 
 mkdir -p build
 cmake \
-    --build build
+    -B build \
     -G Ninja \
     -DLINKER=mold \
     -DBACKTRACE=ON \
@@ -40,20 +39,19 @@ cmake \
     "${cmake_extra_opts[@]}"
 
 ninja -C build -j$num_jobs CataAnalyzerPlugin
-lit -v tools/clang-tidy-plugin/test
+lit -v build/tools/clang-tidy-plugin/test
 
 clang-tidy --version
 
 # Show compiler C++ header search path
 ${COMPILER:-clang++} -v -x c++ /dev/null -c
 # And the same for clang-tidy
-clang-tidy ../src/version.cpp -- -v
+clang-tidy src/version.cpp -- -v
 
-ln -sf build/compile_commands.json
+ln -sf build/compile_commands.json .
 
 # We want to only analyze all files that changed in the PR,
 # because it takes a long time to analyze all files on GitHub Actions.
-set +x
 
 all_cpp_files="$(jq -r '.[].file' build/compile_commands.json)"
 if [ "$TIDY" == "all" ]
