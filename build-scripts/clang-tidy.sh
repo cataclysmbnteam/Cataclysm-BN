@@ -5,6 +5,7 @@
 num_jobs=${num_jobs:-3}
 
 echo "Using bash version $BASH_VERSION with $num_jobs jobs"
+
 set -exo pipefail
 
 
@@ -19,49 +20,36 @@ else
 fi
 
 cmake_extra_opts=()
-
-if [ "$CATA_CLANG_TIDY" = "plugin" ]
-then
     cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
     # Need to specify the particular LLVM / Clang versions to use, lest it
     # use the older LLVM that comes by default on Ubuntu.
     cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-16/lib/cmake/llvm")
     cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-16/lib/cmake/clang")
-fi
 
 mkdir -p build
-cd build
 cmake \
+    --build build
+    -G Ninja \
+    -DLINKER=mold \
     -DBACKTRACE=ON \
     ${COMPILER:+-DCMAKE_CXX_COMPILER=$COMPILER} \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
     -DCMAKE_BUILD_TYPE="$build_type" \
     -DTILES=${TILES:-0} \
     -DSOUND=${SOUND:-0} \
-    "${cmake_extra_opts[@]}" \
-    ..
+    "${cmake_extra_opts[@]}"
 
-if [ "$CATA_CLANG_TIDY" = "plugin" ]
-then
-    make -j$num_jobs CataAnalyzerPlugin
-    if ! which FileCheck
-    then
-        echo "Missing FileCheck"
-        exit 1
-    fi
-    CATA_CLANG_TIDY=clang-tidy
-    lit -v tools/clang-tidy-plugin/test
-fi
+ninja -C build -j$num_jobs CataAnalyzerPlugin
+lit -v tools/clang-tidy-plugin/test
 
-"$CATA_CLANG_TIDY" --version
+clang-tidy --version
 
 # Show compiler C++ header search path
 ${COMPILER:-clang++} -v -x c++ /dev/null -c
 # And the same for clang-tidy
-"$CATA_CLANG_TIDY" ../src/version.cpp -- -v
+clang-tidy ../src/version.cpp -- -v
 
-cd ..
-ln -s build/compile_commands.json
+ln -sf build/compile_commands.json
 
 # We want to only analyze all files that changed in the PR,
 # because it takes a long time to analyze all files on GitHub Actions.
