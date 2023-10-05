@@ -92,7 +92,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "ssssssssssssssssssss]ssssssssssssssssssssssssss[",
+        "ssssssssssssssssssss[ssssssssssssssssssssssssss[",
         "ssssssssssssssssssssssssssssssssssssssssssssssss",
         ".s.....||vvvv||......ssssss......||vvvv||.....s.",
         ".s.|||||p    p|||||...ssss...|||||pBBBBp|||||.s.",
