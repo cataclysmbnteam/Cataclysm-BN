@@ -51,6 +51,7 @@
 #include "input.h"
 #include "runtime_handlers.h"
 #include "json.h"
+#include "make_static.h"
 #include "mapbuffer.h"
 #include "mission.h"
 #include "npc.h"
