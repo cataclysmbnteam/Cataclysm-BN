@@ -15,7 +15,7 @@
     "material": [ "iron" ],
     "color": "dark_gray",
     "looks_like": "mark19",
-    "ammo": [ "cannon" ],
+    "ammo": "cannon",
     "dispersion": 855,
     "durability": 5,
     "blackpowder_tolerance": 96,
