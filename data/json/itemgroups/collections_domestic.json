@@ -1055,6 +1055,7 @@
       [ "pistol_flintlock", 1 ],
       [ "carbine_flintlock", 1 ],
       [ "rifle_flintlock", 1 ],
+      [ "longrifle_flintlock", 1 ],
       [ "shotgun_paper", 5 ],
       [ "deagle_44", 25 ],
       [ "lemat_revolver", 25 ],
