@@ -65,7 +65,6 @@ static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_UPS( "UPS" );
 
 namespace character_funcs
