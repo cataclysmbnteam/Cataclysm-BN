@@ -2075,9 +2075,9 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
     return static_cast<int>( confident_range );
 }
 
-double item::ideal_ranged_dps( const Character &who, gun_mode &mode ) const
+double item::ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mode ) const
 {
-    if( !is_gun() ) {
+    if( !is_gun() || !mode ) {
         return 0;
     }
     damage_instance gun_damage = this->gun_damage();
@@ -2089,14 +2089,14 @@ double item::ideal_ranged_dps( const Character &who, gun_mode &mode ) const
         gun_damage.add( ammo->ammo->damage );
     }
     float damage_factor = gun_damage.total_damage();
-    damage_factor *= mode.qty;
+    damage_factor *= mode->qty;
 
     int move_cost = ranged::time_to_attack( who, *this, item_location() );
     if( ammo_remaining() == 0 ) {
         int reload_cost = get_reload_time() + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
         // HACK: Doesn't check how much ammo they'll actually get from the reload. Because we don't know.
         // DPS is less impacted the larger the magazine being swapped.
-        reload_cost /= magazine_integral() ? 1 : ammo_capacity() / mode.qty;
+        reload_cost /= magazine_integral() ? 1 : ammo_capacity() / mode->qty;
         move_cost += reload_cost;
     }
     std::vector<ranged::aim_type> aim_types = ranged::get_aim_types( who, *this );
