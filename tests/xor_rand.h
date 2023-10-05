@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_TESTS_COLONY_LIST_TEST_HELPERS_H
-#define CATA_TESTS_COLONY_LIST_TEST_HELPERS_H
+#ifndef CATA_TESTS_XOR_RAND_H
+#define CATA_TESTS_XOR_RAND_H
 
 // Fast xorshift+128 random number generator function
 unsigned int xor_rand();
@@ -28,4 +28,4 @@ struct perfect_forwarding_test {
     {}
 };
 
-#endif // CATA_TESTS_COLONY_LIST_TEST_HELPERS_H
+#endif // CATA_TESTS_XOR_RAND_H
