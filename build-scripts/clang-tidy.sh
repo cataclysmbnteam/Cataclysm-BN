@@ -80,12 +80,12 @@ then
         SOUND=${SOUND:-0} \
         includes
 
-    tidyable_cpp_files="$(test -f ./files_changed && build-scripts/get_affected_files.py ./files_changed || echo 'empty')"
+    tidyable_cpp_files="$(test -f ./files_changed && build-scripts/get_affected_files.py ./files_changed || echo '')"
 else
-    tidyable_cpp_files="$(test -f ./files_changed && grep -E '^(src|tests)/.*\.cpp$' ./files_changed || echo 'empty')"
+    tidyable_cpp_files="$(test -f ./files_changed && grep -E '^(src|tests)/.*\.cpp$' ./files_changed || echo '')"
 fi
 
-if [ "$tidyable_cpp_files" == "empty" ]
+if [ -z "$tidyable_cpp_files" ]
 then
     echo "Unable to determine affected files"
 else
@@ -115,7 +115,7 @@ function analyze_files_in_random_order
     echo "$1" | shuf | xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh -quiet
 }
 
-if [ "$tidyable_cpp_files" == "empty" ]
+if [ -z "$tidyable_cpp_files" ]
 then
     echo "No files to analyze"
 else
