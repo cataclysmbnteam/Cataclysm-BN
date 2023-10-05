@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - upload
-      - gh-readonly-queue/upload/**
     paths-ignore:
       - doc/**
       - 'scripts/**'
