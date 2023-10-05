@@ -81,7 +81,7 @@ jobs:
             libpulse-dev ccache gettext jq
       - name: install dependencies
         run: |
-          sudo apt install python3-pip libncursesw5-dev ninja-build cmake gettext
+          sudo apt install python3-pip libncursesw5-dev ninja-build cmake mold gettext
           pip3 install --user lit
       - name: ensure clang-tidy and FileCheck commands point to LLVM 16
         run: |
