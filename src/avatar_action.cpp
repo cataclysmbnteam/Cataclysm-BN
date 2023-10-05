@@ -121,12 +121,18 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     const bool auto_features = get_option<bool>( "AUTO_FEATURES" );
     const bool auto_mine = auto_features && get_option<bool>( "AUTO_MINING" );
 
+    const auto can_use_ladder = [&]() -> bool {
+        if (is_riding || m.has_floor_or_support( dest_loc )) {
+            return false;
+        }
+        return m.has_flag( flag_LADDER, dest_loc + tripoint_below );
+    };
+
     bool via_ramp = false;
     if( m.has_flag( TFLAG_RAMP_UP, dest_loc ) ) {
         dest_loc.z += 1;
         via_ramp = true;
-    } else if( m.has_flag( TFLAG_RAMP_DOWN, dest_loc ) ||
-               ( !is_riding && m.has_flag( flag_LADDER, dest_loc + tripoint_below ) ) ) {
+    } else if( m.has_flag( TFLAG_RAMP_DOWN, dest_loc ) || can_use_ladder() ) {
         dest_loc.z -= 1;
         via_ramp = true;
     }
