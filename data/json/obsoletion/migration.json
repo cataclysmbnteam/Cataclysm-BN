@@ -1305,6 +1305,24 @@
     "replace": "peanut"
   },
   {
+    "id": "sourdough_young",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "sourdough_young_uncovered" ]
+  },
+  {
+    "id": "sourdough_split",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "sourdough_split_uncovered" ]
+  },
+  {
+    "id": "sourdough_starter",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "sourdough_starter_uncovered" ]
+  },
+  {
     "id": "1cyl_combustion_small",
     "type": "MIGRATION",
     "replace": "1cyl_combustion"
