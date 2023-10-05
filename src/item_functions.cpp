@@ -5,7 +5,7 @@
 #include "itype.h"
 #include "units.h"
 
-static flag_str_id flag_NO_UNLOAD( "NO_UNLOAD" );
+static flag_id flag_NO_UNLOAD( "NO_UNLOAD" );
 
 static const itype_id itype_UPS( "UPS" );
 

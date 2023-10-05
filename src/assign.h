@@ -14,6 +14,7 @@
 #include "color.h"
 #include "damage.h"
 #include "debug.h"
+#include "flat_set.h"
 #include "json.h"
 #include "units.h"
 #include "units_serde.h"
@@ -151,9 +152,11 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
     return true;
 }
 
-template <typename T>
-typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+namespace details
+{
+
+template <typename T, typename Set>
+bool assign_set( const JsonObject &jo, const std::string &name, Set &val )
 {
     JsonObject add = jo.get_object( "extend" );
     add.allow_omitted_members();
@@ -161,7 +164,7 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     del.allow_omitted_members();
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
-        val = jo.get_tags<T>( name );
+        val = jo.get_tags<T, Set>( name );
 
         if( add.has_member( name ) || del.has_member( name ) ) {
             // ill-formed to (re)define a value and then extend/delete within same definition
@@ -186,6 +189,22 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
     }
 
     return res;
+}
+} // namespace details
+
+
+template <typename T>
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+{
+    return details::assign_set<T, std::set<T>>( jo, name, val );
+}
+
+template <typename T>
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    const JsonObject &jo, const std::string &name, cata::flat_set<T> &val, bool = false )
+{
+    return details::assign_set<T, cata::flat_set<T>>( jo, name, val );
 }
 
 // Map of sets, like in the case of magazines for a gun

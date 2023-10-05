@@ -6,6 +6,7 @@
 #include "character_martial_arts.h"
 #include "character.h"
 #include "creature.h"
+#include "flag.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
@@ -52,10 +53,6 @@ static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
 static const trait_flag_str_id trait_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
 static const trait_flag_str_id trait_flag_SPIRITUAL( "SPIRITUAL" );
-
-static const std::string flag_FUNGUS( "FUNGUS" );
-static const std::string flag_SWIMMABLE( "SWIMMABLE" );
-static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
@@ -106,11 +103,11 @@ bool is_book_morale_boosted( const Character &ch, const item &book )
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
     if( ( ch.has_trait_flag( trait_flag_CANNIBAL ) || ch.has_trait_flag( trait_flag_PSYCHOPATH ) ||
           ch.has_trait_flag( trait_flag_SAPIOVORE ) ) &&
-        book.has_flag( "BOOK_CANNIBAL" ) ) {
+        book.has_flag( flag_BOOK_CANNIBAL ) ) {
         return true;
-    } else if( ch.has_trait_flag( trait_flag_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+    } else if( ch.has_trait_flag( trait_flag_SPIRITUAL ) && book.has_flag( flag_INSPIRATIONAL ) ) {
         return true;
-    } else if( ch.has_trait_flag( trait_flag_PSYCHOPATH ) && book.has_flag( "MORBID" ) ) {
+    } else if( ch.has_trait_flag( trait_flag_PSYCHOPATH ) && book.has_flag( flag_MORBID ) ) {
         return true;
     } else {
         return false;
@@ -139,7 +136,7 @@ int get_book_fun_for( const Character &ch, const item &book )
     }
 
     // Separate bonus for spiritual characters.
-    if( ch.has_trait_flag( trait_flag_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+    if( ch.has_trait_flag( trait_flag_SPIRITUAL ) && book.has_flag( flag_INSPIRATIONAL ) ) {
         fun_bonus += 2;
     }
 
@@ -228,7 +225,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
                 for( const item &items_it : items ) {
-                    if( items_it.has_flag( "SLEEP_AID" ) ) {
+                    if( items_it.has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                         comfort_response.aid = &items_it;
@@ -265,7 +262,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
         if( comfort_response.aid == nullptr ) {
             const map_stack items = here.i_at( p );
             for( const item &items_it : items ) {
-                if( items_it.has_flag( "SLEEP_AID" ) ) {
+                if( items_it.has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                     comfort_response.aid = &items_it;
@@ -273,9 +270,9 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
                 }
             }
         }
-        if( fungaloid_cosplay && here.has_flag_ter_or_furn( flag_FUNGUS, p ) ) {
+        if( fungaloid_cosplay && here.has_flag_ter_or_furn( "FUNGUS", p ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
-        } else if( watersleep && here.has_flag_ter( flag_SWIMMABLE, p ) ) {
+        } else if( watersleep && here.has_flag_ter( "SWIMMABLE", p ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     } else if( plantsleep ) {
@@ -413,7 +410,7 @@ bool can_interface_armor( const Character &who )
 {
     bool okay = std::any_of( who.my_bionics->begin(), who.my_bionics->end(),
     []( const bionic & b ) {
-        return b.powered && b.info().has_flag( STATIC( flag_str_id( "BIONIC_ARMOR_INTERFACE" ) ) );
+        return b.powered && b.info().has_flag( STATIC( flag_id( "BIONIC_ARMOR_INTERFACE" ) ) );
     } );
     return okay;
 }
@@ -428,16 +425,16 @@ std::string fmt_wielded_weapon( const Character &who )
         std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
                                          weapon.gun_current_mode().tname(), weapon.type_name() );
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
-        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
+        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( flag_RELOAD_AND_SHOOT );
 
         const auto mods = weapon.gunmods();
         bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item * e ) {
-            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" );
+            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( flag_RELOAD_AND_SHOOT );
         } );
 
         if( base || aux ) {
             for( auto e : mods ) {
-                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( flag_RELOAD_AND_SHOOT ) ) {
                     str += " (" + std::to_string( e->ammo_remaining() );
                     if( e->magazine_integral() ) {
                         str += "/" + std::to_string( e->ammo_capacity() );
@@ -745,12 +742,12 @@ bool list_ammo( const Character &who, const item &base, std::vector<item_reload_
             const bool can_reload_with = e->can_reload_with( id );
             if( can_reload_with ) {
                 // Speedloaders require an empty target.
-                if( include_potential || !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
+                if( include_potential || !ammo->has_flag( flag_SPEEDLOADER ) || e->ammo_remaining() < 1 ) {
                     ammo_match_found = true;
                 }
             }
             if( ( include_potential && can_reload_with )
-                || who.as_player()->can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+                || who.as_player()->can_reload( *e, id ) || e->has_flag( flag_RELOAD_AND_SHOOT ) ) {
                 ammo_list.emplace_back( who.as_player(), e, &base, ammo );
             }
         }
@@ -772,7 +769,7 @@ item_reload_option select_ammo( const Character &who, const item &base,
 
     uilist menu;
     menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) :
-                               base.has_flag( "RELOAD_AND_SHOOT" ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
+                               base.has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
                                base.tname() );
 
     // Construct item names
@@ -985,7 +982,7 @@ item_reload_option select_ammo( const Character &who, const item &base,
                 }
                 return false;
             }
-    } cb( opts, draw_row, last_key, default_to, !base.has_flag( "RELOAD_ONE" ) );
+    } cb( opts, draw_row, last_key, default_to, !base.has_flag( flag_RELOAD_ONE ) );
     menu.callback = &cb;
 
     menu.query();

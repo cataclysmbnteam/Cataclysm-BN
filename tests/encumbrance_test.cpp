@@ -125,7 +125,7 @@ TEST_CASE( "tiny_clothing", "[encumbrance]" )
 {
     clear_all_state();
     item i( "longshirt" );
-    i.set_flag( "UNDERSIZE" );
+    i.set_flag( flag_id( "UNDERSIZE" ) );
     test_encumbrance_items( { i }, "TORSO", longshirt_e * 3 );
 }
 
@@ -137,7 +137,7 @@ TEST_CASE( "tiny_character", "[encumbrance]" )
         test_encumbrance_items( { i }, "TORSO", longshirt_e * 2, add_trait( "SMALL2" ) );
     }
     SECTION( "undersize shrt" ) {
-        i.set_flag( "UNDERSIZE" );
+        i.set_flag( flag_id( "UNDERSIZE" ) );
         test_encumbrance_items( { i }, "TORSO", longshirt_e, add_trait( "SMALL2" ) );
     }
 }

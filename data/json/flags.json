@@ -887,12 +887,6 @@
   {
     "id": "USES_GRID_POWER",
     "type": "json_flag",
-    "context": [ "TOOL" ],
-    "info": "This item is uses power from an <info>electric grid</info>."
-  },
-  {
-    "id": "USES_GRID_POWER",
-    "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
     "info": "This item is uses power from an <info>electric grid</info>."
   },
@@ -1069,6 +1063,21 @@
   },
   {
     "id": "EFFECT_BULLET_IMMUNE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_CLAIRVOYANCE",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_CLAIRVOYANCE_PLUS",
+    "context": [  ],
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_SUPER_CLAIRVOYANCE",
     "context": [  ],
     "type": "json_flag"
   },
@@ -1334,7 +1343,12 @@
     "context": [  ]
   },
   {
-    "id": "ETHEREAL_ITEM",
+    "id": "EXPLOSION_SMASHED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "EXPLOSION_PROPELLED",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1464,12 +1478,22 @@
     "context": [  ]
   },
   {
+    "id": "IN_CBM",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "IR_EFFECT",
     "type": "json_flag",
     "context": [  ]
   },
   {
     "id": "IS_ARMOR",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "IS_EXPLOSION_PROPELLED",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1716,6 +1740,11 @@
   },
   {
     "id": "REACH3",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "REACH",
     "type": "json_flag",
     "context": [  ]
   },
@@ -2038,11 +2067,6 @@
   },
   {
     "id": "RADIO_MODABLE",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "STR_DRAW",
     "type": "json_flag",
     "context": [  ]
   },

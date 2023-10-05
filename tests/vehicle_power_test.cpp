@@ -9,6 +9,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "colony.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
@@ -200,7 +201,7 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
             item battery = item( "light_battery_cell" );
             battery.ammo_unset();
             REQUIRE( battery.ammo_remaining() == 0 );
-            REQUIRE( battery.has_flag( "RECHARGE" ) );
+            REQUIRE( battery.has_flag( flag_RECHARGE ) );
             auto bat_in_veh = veh_ptr->add_item( cargo_part, battery );
             REQUIRE( bat_in_veh );
             WHEN( "An hour passes" ) {
@@ -218,7 +219,7 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
             item battery = item( "light_battery_cell" );
             battery.ammo_unset();
             REQUIRE( battery.ammo_remaining() == 0 );
-            REQUIRE( battery.has_flag( "RECHARGE" ) );
+            REQUIRE( battery.has_flag( flag_RECHARGE ) );
             auto bat_in_veh = veh_ptr->add_item( cargo_part, battery );
             REQUIRE( bat_in_veh );
 

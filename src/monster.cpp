@@ -25,6 +25,7 @@
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -2538,7 +2539,7 @@ void monster::drop_items_on_death()
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
-                it->set_flag( "FILTHY" );
+                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
         }
     }

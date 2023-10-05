@@ -209,7 +209,7 @@ inline bool is_crafting_component( const item &component );
 class item : public visitable<item>
 {
     public:
-        using FlagsSetType = cata::flat_set<std::string>;
+        using FlagsSetType = cata::flat_set<flag_id>;
 
         item();
 
@@ -1410,8 +1410,8 @@ class item : public visitable<item>
          * Gun mods that are attached to guns also contribute their flags to the gun item.
          */
         /*@{*/
-        bool has_flag( const std::string &flag ) const;
-        bool has_flag( const flag_str_id &flag ) const;
+
+        bool has_flag( const flag_id &flag ) const;
 
         template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
         bool has_any_flag( const Container &flags ) const {
@@ -1425,19 +1425,19 @@ class item : public visitable<item>
          * Essentially get_flags().count(f).
          * Works faster than `has_flag`
         */
-        bool has_own_flag( const std::string &flag ) const;
+        bool has_own_flag( const flag_id &f ) const;
 
         /** returs read-only set of flags of this item (not including flags from item type or gunmods) */
         const FlagsSetType &get_flags() const;
 
         /** Idempotent filter setting an item specific flag. */
-        item &set_flag( const std::string &flag );
+        item &set_flag( const flag_id &flag );
 
         /** Idempotent filter removing an item specific flag */
-        item &unset_flag( const std::string &flag );
+        item &unset_flag( const flag_id &flag );
 
         /** Idempotent filter recursively setting an item specific flag on this item and its components. */
-        item &set_flag_recursive( const std::string &flag );
+        item &set_flag_recursive( const flag_id &flag );
 
         /** Removes all item specific flags. */
         void unset_flags();

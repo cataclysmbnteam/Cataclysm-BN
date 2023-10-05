@@ -6,6 +6,7 @@
 #include "consumption.h"
 #include "fault.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
@@ -41,8 +42,6 @@ static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 
 static const skill_id skill_weapon( "weapon" );
-
-static const std::string flag_SPLINT( "SPLINT" );
 
 namespace avatar_funcs
 {
@@ -516,7 +515,7 @@ std::pair<int, int> gunmod_installation_odds( const avatar &you, const item &gun
         const item &mod )
 {
     // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
-    if( !mod.has_flag( "INSTALL_DIFFICULT" ) || you.has_trait( trait_DEBUG_HS ) ) {
+    if( !mod.has_flag( flag_INSTALL_DIFFICULT ) || you.has_trait( trait_DEBUG_HS ) ) {
         return std::make_pair( 100, 0 );
     }
 
@@ -687,7 +686,7 @@ bool unload_item( avatar &you, item_location loc )
     std::vector<item *> opts( 1, &it );
 
     for( auto e : it.gunmods() ) {
-        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+        if( e->is_gun() && !e->has_flag( flag_NO_UNLOAD ) &&
             ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
             msgs.emplace_back( e->tname() );
             opts.emplace_back( e );
@@ -714,8 +713,8 @@ bool unload_item( avatar &you, item_location loc )
         return false;
     }
 
-    if( target->has_flag( "NO_UNLOAD" ) ) {
-        if( target->has_flag( "RECHARGE" ) || target->has_flag( "USE_UPS" ) ) {
+    if( target->has_flag( flag_NO_UNLOAD ) ) {
+        if( target->has_flag( flag_RECHARGE ) || target->has_flag( flag_USE_UPS ) ) {
             add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname() );
         } else {
             add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
@@ -765,7 +764,7 @@ bool unload_item( avatar &you, item_location loc )
         }
 
         you.mod_moves( -std::min( 200, mv ) );
-        if( loc->has_flag( "MAG_DESTROY" ) && loc->ammo_remaining() == 0 ) {
+        if( loc->has_flag( flag_MAG_DESTROY ) && loc->ammo_remaining() == 0 ) {
             loc.remove_item();
         }
         return true;
@@ -797,7 +796,7 @@ bool unload_item( avatar &you, item_location loc )
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
         if( target->is_filthy() ) {
-            ammo.set_flag( "FILTHY" );
+            ammo.set_flag( flag_FILTHY );
         }
 
         if( ammo.made_of( LIQUID ) ) {

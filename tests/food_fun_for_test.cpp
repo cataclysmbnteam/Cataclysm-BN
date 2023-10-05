@@ -1,24 +1,20 @@
 #include "catch/catch.hpp"
 
 #include <cstdlib>
-#include <memory>
-#include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "player_helpers.h"
 #include "type_id.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "morale_types.h"
 
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
-static const std::string flag_FELINE( "FELINE" );
-static const std::string flag_LUPINE( "LUPINE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_LUPINE( "THRESH_LUPINE" );
 
