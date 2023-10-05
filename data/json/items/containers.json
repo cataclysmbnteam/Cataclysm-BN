@@ -1173,6 +1173,20 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "wooden_barrel_small",
+    "copy-from": "wooden_barrel",
+    "type": "CONTAINER",
+    "name": { "str": "small wooden barrel" },
+    "description": "A wooden keg held together by copper bands, with a capacity of 20 liters.  Good for storing liquor, or more volatile substances, in a size easily transported by hand.",
+    "weight": "12 kg",
+    "volume": "20 L",
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
+    "bashing": 4,
+    "material": [ "wood", "copper" ],
+    "contains": "20 L"
+  },
+  {
     "id": "wrapper",
     "type": "CONTAINER",
     "category": "container",
