@@ -23,7 +23,8 @@ cmake_extra_opts=()
 if [ "$CATA_CLANG_TIDY" = "plugin" ]
 then
     cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
-    # At least llvm-16 is needed for the plugin feature to work.
+    # Need to specify the particular LLVM / Clang versions to use, lest it
+    # use the older LLVM that comes by default on Ubuntu.
     cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-16/lib/cmake/llvm")
     cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-16/lib/cmake/clang")
 fi
@@ -71,8 +72,7 @@ if [ "$TIDY" == "all" ]
 then
     echo "Analyzing all files"
     tidyable_cpp_files=$all_cpp_files
-elif [ "$TIDY" == "affected" ] # temporarily disabled via flag until most of the checks are fixed
-then
+else
     make \
         -j $num_jobs \
         ${COMPILER:+COMPILER=$COMPILER} \
@@ -80,18 +80,19 @@ then
         SOUND=${SOUND:-0} \
         includes
 
-    tidyable_cpp_files="$(test -f ./files_changed && build-scripts/get_affected_files.py ./files_changed || echo '')"
-else
-    tidyable_cpp_files="$(test -f ./files_changed && grep -E '^(src|tests)/.*\.cpp$' ./files_changed || echo '')"
+    tidyable_cpp_files="$( \
+        ( test -f ./files_changed && build-scripts/get_affected_files.py ./files_changed ) || \
+        echo unknown )"
+
+    if [ "tidyable_cpp_files" == "unknown" ]
+    then
+        echo "Unable to determine affected files"
+    else
+        echo "Affected files:"
+        echo "$tidyable_cpp_files"
+    fi
 fi
 
-if [ -z "$tidyable_cpp_files" ]
-then
-    echo "Unable to determine affected files"
-else
-    echo "Affected files:"
-    echo "$tidyable_cpp_files"
-fi
 
 # We might need to analyze only a subset of the files if they have been split
 # into multiple jobs for efficiency. The paths from `compile_commands.json` can
@@ -115,10 +116,11 @@ function analyze_files_in_random_order
     echo "$1" | shuf | xargs -P "$num_jobs" -n 1 ./build-scripts/clang-tidy-wrapper.sh -quiet
 }
 
+# fail fast if no files to analyze
 if [ -z "$tidyable_cpp_files" ]
 then
     echo "No files to analyze"
 else
-    echo "Analyzing affected files"
-    analyze_files_in_random_order "$tidyable_cpp_files"
+  echo "Analyzing affected files"
+  analyze_files_in_random_order "$tidyable_cpp_files"
 fi
