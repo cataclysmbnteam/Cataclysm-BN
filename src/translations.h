@@ -250,6 +250,13 @@ class translation
          */
         std::pair<bool, int> legacy_hash() const;
 
+        /**
+         * Get raw untranslated string for debug purposes.
+         */
+        inline std::string_view debug_get_raw() const {
+            return raw;
+        }
+
     private:
         translation( const std::string &ctxt, const std::string &raw );
         translation( const std::string &raw );
