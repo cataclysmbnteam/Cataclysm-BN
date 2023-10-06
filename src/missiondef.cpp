@@ -341,6 +341,13 @@ void mission_type::check_consistency()
         if( !m.item_id.is_empty() && !m.item_id.is_valid() ) {
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
         }
+        // 40 is an arbitrary limit, but it's enough to convey the meaning.
+        // Any extra details and such belong in the 'description' field.
+        if( json_report_strict && m.name.debug_get_raw().length() > 40 ) {
+            debugmsg( "Mission %s has name that exceeds recommended width of 40 characters (\"%s\").  "
+                      "Consider moving the details into 'description' field.",
+                      m.id, m.name.debug_get_raw() );
+        }
     }
 }
 
