@@ -35,6 +35,9 @@ time_duration estimate_effect_dur( int skill_lvl, const efftype_id &effect,
  */
 void siphon( Character &ch, vehicle &veh, const itype_id &desired_liquid );
 
+/** Checks for trait interactions that affect both get_book_fun_for and is_fun_to_read */
+bool is_book_morale_boosted( const Character &ch, const item &book );
+
 /** Returns enjoyability value of a book for given character. */
 int get_book_fun_for( const Character &ch, const item &book );
 

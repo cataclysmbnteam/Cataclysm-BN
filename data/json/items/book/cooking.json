@@ -74,7 +74,8 @@
     "max_level": 4,
     "intelligence": 4,
     "time": "10 m",
-    "fun": -5
+    "fun": -5,
+    "flags": [ "BOOK_CANNIBAL" ]
   },
   {
     "id": "cookbook_italian",

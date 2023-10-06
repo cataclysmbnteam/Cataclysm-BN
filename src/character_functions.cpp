@@ -30,7 +30,6 @@
 #include "weather_gen.h"
 #include "weather.h"
 
-static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
@@ -40,10 +39,7 @@ static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
@@ -51,6 +47,11 @@ static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
+
+static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
+static const trait_flag_str_id trait_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
+static const trait_flag_str_id trait_flag_SPIRITUAL( "SPIRITUAL" );
 
 static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
@@ -104,14 +105,25 @@ void siphon( Character &ch, vehicle &veh, const itype_id &desired_liquid )
     }
 }
 
-bool is_fun_to_read( const Character &ch, const item &book )
+bool is_book_morale_boosted( const Character &ch, const item &book )
 {
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( ch.has_trait( trait_CANNIBAL ) || ch.has_trait( trait_PSYCHOPATH ) ||
-          ch.has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == itype_cookbook_human ) {
+    if( ( ch.has_trait_flag( trait_flag_CANNIBAL ) || ch.has_trait_flag( trait_flag_PSYCHOPATH ) ||
+          ch.has_trait_flag( trait_flag_SAPIOVORE ) ) &&
+        book.has_flag( "BOOK_CANNIBAL" ) ) {
         return true;
-    } else if( ch.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+    } else if( ch.has_trait_flag( trait_flag_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+        return true;
+    } else if( ch.has_trait_flag( trait_flag_PSYCHOPATH ) && book.has_flag( "MORBID" ) ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool is_fun_to_read( const Character &ch, const item &book )
+{
+    if( is_book_morale_boosted( ch, book ) ) {
         return true;
     } else {
         return get_book_fun_for( ch, book ) > 0;
@@ -126,14 +138,13 @@ int get_book_fun_for( const Character &ch, const item &book )
         return 0;
     }
 
-    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( ch.has_trait( trait_CANNIBAL ) ||
-          ch.has_trait( trait_PSYCHOPATH ) ||
-          ch.has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == itype_cookbook_human ) {
+    if( is_book_morale_boosted( ch, book ) ) {
         fun_bonus = std::abs( fun_bonus );
-    } else if( ch.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        fun_bonus = std::abs( fun_bonus * 3 );
+    }
+
+    // Separate bonus for spiritual characters.
+    if( ch.has_trait_flag( trait_flag_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+        fun_bonus += 2;
     }
 
     if( ch.has_trait( trait_LOVES_BOOKS ) ) {
@@ -769,6 +780,11 @@ item_reload_option select_ammo( const Character &who, item &base,
     std::vector<std::string> names;
     std::transform( opts.begin(), opts.end(),
     std::back_inserter( names ), [&]( const item_reload_option & e ) {
+        const auto ammo_color = [&]( std::string name ) {
+            return base.is_gun() && e.ammo->ammo_data() &&
+                   !base.ammo_types().count( e.ammo->ammo_data()->ammo->type ) ?
+                   colorize( name, c_dark_gray ) : name;
+        };
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             if( e.ammo->ammo_current() == itype_battery ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
@@ -777,16 +793,17 @@ item_reload_option select_ammo( const Character &who, item &base,
                                       e.ammo->ammo_remaining() );
             } else {
                 //~ magazine with ammo (count)
-                return string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ), e.ammo->type_name(),
-                                      e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ), e.ammo->ammo_remaining() );
+                return ammo_color( string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ),
+                                                  e.ammo->type_name(), e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ),
+                                                  e.ammo->ammo_remaining() ) );
             }
         } else if( e.ammo->is_watertight_container() ||
                    ( e.ammo->is_ammo_container() && who.is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their contents with their location also updated below
             return e.ammo->contents.front().display_name();
-
         } else {
-            return ( who.ammo_location && who.ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
+            return ammo_color( ( who.ammo_location &&
+                                 who.ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name() );
         }
     } );
 

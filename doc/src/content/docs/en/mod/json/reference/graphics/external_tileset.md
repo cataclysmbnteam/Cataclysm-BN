@@ -33,7 +33,8 @@ Links to relevant pull requests, for content covered below:
 - Buckler and welded shield: [#2878](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2878)
 - Battle masks and bronze arm guards:
   [#3221](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3221)
-- Rewired street lights: [3273](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3273)
+- Rewired street lights: [#3273](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3273)
+- Alternative ear/tail mutation: [#3340](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/3340)
 
 ## Undead People
 
@@ -81,3 +82,22 @@ Ultica are planned for the future.
 - Cherry tree uses summer sprite (plus cherry blossom coloration), summer sprite depicted without
   berries, due to harvest season being moved in BN.
 - Rewired street light, including active state. Furniture specific to BN.
+
+### alternative_mutation_tileset.png
+
+![](../../../../../../../assets/img/external_tileset/mutation/after.png)
+
+<details><summary>Before</summary>
+
+![](../../../../../../../assets/img/external_tileset/mutation/before.png)
+
+</details>
+
+contains alternative sprites for:
+
+- `FELINE_EARS`
+- `LUPINE_EARS`
+- `MOUSE_EARS`
+- `CANINE_EARS`
+- `TAIL_FLUFFY`
+- `TAIL_STUB`

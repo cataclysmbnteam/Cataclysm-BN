@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - upload
+      - gh-readonly-queue/upload/**
     paths-ignore:
       - doc/**
       - 'scripts/**'
   merge_group:
-    types: [checks_requested]
   pull_request:
     branches:
       - upload

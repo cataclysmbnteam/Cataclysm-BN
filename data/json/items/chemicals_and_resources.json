@@ -390,7 +390,7 @@
     "phase": "liquid",
     "category": "chems",
     "fun": -30,
-    "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 2 }, "effects": [ "RECOVER_10" ] }
+    "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 2 } }
   },
   {
     "type": "COMESTIBLE",
@@ -412,7 +412,7 @@
     "phase": "liquid",
     "category": "chems",
     "fun": -15,
-    "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 1 }, "effects": [ "RECOVER_10" ] }
+    "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 1 } }
   },
   {
     "type": "COMESTIBLE",
@@ -436,7 +436,7 @@
     "fun": -45,
     "freezing_point": 25,
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true },
-    "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 3 }, "effects": [ "RECOVER_10" ] }
+    "ammo_data": { "ammo_type": "acid", "damage": { "damage_type": "acid", "amount": 3 }, "effects": [ "ACID_TRAIL" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -570,7 +570,7 @@
     "bashing": 1,
     "ammo_type": "acid",
     "damage": { "damage_type": "acid", "amount": 6 },
-    "effects": [ "RECOVER_10" ],
+    "effects": [ "ACID_TRAIL_WEAK" ],
     "phase": "liquid",
     "container": "bottle_glass",
     "//freezing_point": 25,
@@ -592,7 +592,7 @@
     "bashing": 1,
     "ammo_type": "acid",
     "damage": { "damage_type": "acid", "amount": 5 },
-    "effects": [ "RECOVER_10" ],
+    "effects": [ "ACID_TRAIL_WEAK" ],
     "phase": "liquid",
     "container": "bottle_glass",
     "//freezing_point": 25,
@@ -614,7 +614,7 @@
     "bashing": 1,
     "ammo_type": "acid",
     "damage": { "damage_type": "acid", "amount": 4 },
-    "effects": [ "RECOVER_10" ],
+    "effects": [ "ACID_TRAIL_WEAK" ],
     "phase": "liquid",
     "container": "bottle_glass",
     "//freezing_point": -44,
@@ -797,7 +797,6 @@
     "bashing": 1,
     "ammo_type": "acid",
     "damage": { "damage_type": "acid", "amount": 3 },
-    "effects": [ "RECOVER_10" ],
     "phase": "liquid",
     "container": "bottle_glass"
   },

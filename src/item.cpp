@@ -4825,19 +4825,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     std::string maintext;
     if( is_corpse() || typeId() == itype_blood || item_vars.find( "name" ) != item_vars.end() ) {
         maintext = type_name( quantity );
-    } else if( is_gun() || is_tool() || is_magazine() ) {
-        int amt = 0;
-        maintext = label( quantity );
-        for( const item *mod : is_gun() ? gunmods() : toolmods() ) {
-            if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ) {
-                amt++;
-            }
-        }
-        if( amt ) {
-            maintext += string_format( "+%d", amt );
-        }
-    } else if( is_armor() && has_clothing_mod() ) {
-        maintext = label( quantity ) + "+1";
     } else if( is_craft() ) {
         maintext = string_format( _( "in progress %s" ), craft_data_->making->result_name() );
         if( charges > 1 ) {
@@ -4845,23 +4832,47 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
         const int percent_progress = item_counter / 100000;
         maintext += string_format( " (%d%%)", percent_progress );
-    } else if( contents.num_item_stacks() == 1 ) {
-        const item &contents_item = contents.front();
-        const unsigned contents_count =
-            ( ( contents_item.made_of( LIQUID ) || contents_item.is_food() ) &&
-              contents_item.charges > 1 )
-            ? contents_item.charges
-            : quantity;
-        maintext = string_format( pgettext( "item name", "%2$s (%1$s)" ), label( quantity ),
-                                  contents_item.tname( contents_count, with_prefix ) );
-    } else if( !contents.empty() ) {
-        maintext = string_format( vpgettext( "item name",
-                                             //~ %1$s: item name, %2$zd: content size
-                                             "%1$s with %2$zd item",
-                                             "%1$s with %2$zd items", contents.num_item_stacks() ),
-                                  label( quantity ), contents.num_item_stacks() );
     } else {
-        maintext = label( quantity );
+        std::string labeltext = label( quantity );
+
+        int modamt = 0;
+        if( is_tool() ) {
+            modamt += toolmods().size();
+        }
+        if( is_gun() ) {
+            for( const item *mod : gunmods() ) {
+                if( !type->gun->built_in_mods.count( mod->typeId() ) ) {
+                    modamt++;
+                }
+            }
+        }
+        if( is_armor() && has_clothing_mod() ) {
+            modamt++;
+        }
+        if( modamt ) {
+            labeltext += string_format( "+%d", modamt );
+        }
+
+        if( is_gun() || is_tool() || is_magazine() ) {
+            maintext = labeltext;
+        } else if( contents.num_item_stacks() == 1 ) {
+            const item &contents_item = contents.front();
+            const unsigned contents_count =
+                ( ( contents_item.made_of( LIQUID ) || contents_item.is_food() ) &&
+                  contents_item.charges > 1 )
+                ? contents_item.charges
+                : quantity;
+            maintext = string_format( pgettext( "item name", "%2$s (%1$s)" ), labeltext,
+                                      contents_item.tname( contents_count, with_prefix ) );
+        } else if( !contents.empty() ) {
+            maintext = string_format( vpgettext( "item name",
+                                                 //~ %1$s: item name, %2$zd: content size
+                                                 "%1$s with %2$zd item",
+                                                 "%1$s with %2$zd items", contents.num_item_stacks() ),
+                                      labeltext, contents.num_item_stacks() );
+        } else {
+            maintext = labeltext;
+        }
     }
 
     avatar &you = get_avatar();

@@ -11,6 +11,7 @@
     "material": [ "paper", "powder", "lead" ],
     "symbol": "=",
     "color": "white",
+    "dispersion": 20,
     "count": 20,
     "stack_size": 20,
     "ammo_type": "shotpaper",
@@ -33,7 +34,7 @@
     "type": "AMMO",
     "name": { "str": "20ga paper birdshot" },
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of birdshot.  Used mostly for hunting small game or fowl.",
-    "damage": { "damage_type": "bullet", "amount": 40 },
+    "damage": { "damage_type": "bullet", "amount": 40, "armor_multiplier": 3.0 },
     "proportional": { "recoil": 0.6, "loudness": 0.8 },
     "extend": { "effects": [ "NOGIB" ] }
   },
@@ -43,7 +44,8 @@
     "type": "AMMO",
     "name": { "str": "20ga paper pyrotechnic cartridge" },
     "description": "A paper cartridge containing a premeasured amount of black powder and an equal volume of flammable metals.  When fired, burning chunks of metal and sparks will shoot out of the barrel, igniting everything in their path.",
-    "proportional": { "damage": { "damage_type": "bullet", "amount": 0.2 }, "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2 },
+    "damage": { "damage_type": "heat", "amount": 24 },
+    "proportional": { "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2 },
     "range": 0,
     "shape": [ "cone", { "half_angle": 15, "length": 8 } ],
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }

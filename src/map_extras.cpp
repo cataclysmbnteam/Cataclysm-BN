@@ -50,6 +50,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "type_id_implement.h"
 #include "ui.h"
 #include "units.h"
 #include "veh_type.h"
@@ -184,12 +185,7 @@ generic_factory<map_extra> extras( "map extra" );
 
 } // namespace
 
-/** @relates string_id */
-template<>
-const map_extra &string_id<map_extra>::obj() const
-{
-    return extras.obj( *this );
-}
+IMPLEMENT_STRING_ID( map_extra, extras )
 
 namespace MapExtras
 {

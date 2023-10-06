@@ -784,6 +784,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
             { _( "Map extras" ), &MapExtras::check_consistency },
             { _( "Start locations" ), &start_locations::check_consistency },
+            { _( "Regional settings" ), &check_regional_settings },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
             { _( "Bionics" ), &bionic_data::check_consistency },

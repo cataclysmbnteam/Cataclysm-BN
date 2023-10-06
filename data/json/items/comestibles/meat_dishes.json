@@ -1294,8 +1294,7 @@
     "price": 350,
     "price_postapoc": 400,
     "material": [ "flesh", "wheat" ],
-    "volume": "500 ml",
-    "charges": 2,
+    "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
     "fun": 6,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ], [ "iron", 15 ] ]

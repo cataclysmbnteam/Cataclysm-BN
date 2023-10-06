@@ -3768,11 +3768,12 @@ void iexamine::trap( player &p, const tripoint &examp )
     if( tr.loadid == tr_unfinished_construction || here.partial_con_at( examp ) ) {
         partial_con *pc = here.partial_con_at( examp );
         if( pc ) {
-            if( !character_funcs::can_see_fine_details( p ) && !p.has_trait( trait_DEBUG_HS ) ) {
+            const construction &built = pc->id.obj();
+            if( !character_funcs::can_see_fine_details( p ) && !built.dark_craftable &&
+                !p.has_trait( trait_DEBUG_HS ) ) {
                 add_msg( m_info, _( "It is too dark to construct right now." ) );
                 return;
             }
-            const construction &built = pc->id.obj();
             if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
                            built.group->name(), pc->counter / 100000 ) ) {
                 if( query_yn( _( "Cancel construction?" ) ) ) {

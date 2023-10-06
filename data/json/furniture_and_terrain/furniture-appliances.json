@@ -996,6 +996,7 @@
     "type": "furniture",
     "id": "f_battery_small",
     "copy-from": "f_battery",
+    "looks_like": "storage_battery",
     "name": "mounted small storage battery",
     "description": "A small storage battery, connected to building's electric grid.",
     "symbol": ":",
