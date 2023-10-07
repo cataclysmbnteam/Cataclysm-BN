@@ -60,6 +60,7 @@ static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
@@ -97,7 +98,7 @@ void Character::recalc_speed_bonus()
 {
     // Minus some for weight...
     // Easy test, if Character DOES have this trait then we don't need to check weight carried/capacity
-    if( !has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
+    if( !has_trait( trait_DEBUG_STORAGE ) ) {
         // these are nontrivial calculations, store in variables so they aren't calculated multiple times.
         auto carried = weight_carried();
         auto capacity = weight_capacity();
