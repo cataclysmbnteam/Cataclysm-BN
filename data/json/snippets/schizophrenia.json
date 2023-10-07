@@ -23,7 +23,16 @@
       "This place is dangerous, you shouldn't be here.",
       "What are you doing out here?",
       "That's not true, is it?",
-      "Are you hurt?"
+      "Are you hurt?",
+      "I awaken when you slumber.",
+      "Was that noises?  I think I heard noises.",
+      "I saw something up ahead.  I promise this time.",
+      "Who cried wolf!?",
+      "The trees are talking behind your back.",
+      "And thus we live to struggle another day.",
+      "Any man, no matter how hard, can bear his burdens for one day.",
+      "Did you sleep well last night?  And the night before that?  I was with you from the very beginning.",
+      "Please, someone, save me."
     ]
   },
   {
@@ -39,7 +48,9 @@
       "Wait, that %1$s needs to die!",
       "Go kill that %1$s!",
       "Look at that %1$s!",
-      "That %1$s doesn't deserve to live!"
+      "That %1$s doesn't deserve to live!",
+      "That %1$s looked at you funny.  Kill it.  Now.",
+      "That %1$s seems to be smiling at you.  Go say hi for me."
     ]
   },
   {
@@ -53,7 +64,9 @@
       "You look hurt, did I do that?",
       "Are you supposed to be bleeding?",
       "You're not going to die, are you?",
-      "Kill a few more before you bleed out!"
+      "Kill a few more before you bleed out!",
+      "Let me have a taste of your blood.",
+      "Thrust me deeper into the wound.  You know that this is the only way out right?"
     ]
   },
   {
@@ -69,7 +82,9 @@
       "I can still fight, don't replace me!",
       "They got me!",
       "*cough cough* Go on without me…",
-      "Am I gonna die?"
+      "Am I gonna die?",
+      "Why have you treated me like you treated your self?",
+      "This is the end; the bitter, bitter end."
     ]
   },
   {
@@ -84,7 +99,10 @@
       "Did you hear that?",
       "Try not to drop me.",
       "How many do you think we've killed?",
-      "I'll keep you safe!"
+      "I'll keep you safe!",
+      "I don't trust you.",
+      "Why did you suffer so?",
+      "It's time to let me go."
     ]
   },
   {
@@ -96,7 +114,10 @@
       "You gain the sudden realization that you must have been responsible for the Cataclysm.",
       "You get the odd feeling that your thoughts are not your own.",
       "You feel as if everyone in the world must be playing a sick prank on you.",
-      "You are being watched… by THEM."
+      "You are being watched… by THEM.",
+      "You sense a vast aura envelop the landscape, and the skies seem to turn a bleeding edge.  Then, a thunderclap is heard in the distance, and everything becomes normal once more.  For now.",
+      "You feel your innards churn as you suddenly develop the urge to tear grass out of its roots.",
+      "You begin to sweat uncontrollably as your hands start to shake.  It feels as if something is shaking them violently."
     ]
   },
   {
@@ -108,7 +129,8 @@
       "You gain the sudden realization that you must have been responsible for the Cataclysm.",
       "You feel that this must be a global reality show, in which you are the star.",
       "You now know that you are a secret agent, kept alive to continue serving the government.",
-      "You feel in full control of the situation."
+      "You feel in full control of the situation.",
+      "You attained perfection a long time ago.  This world is but a mirage of your own making.  Thus, this is a perfect world."
     ]
   },
   {
@@ -121,7 +143,8 @@
       "You feel larvae wriggling beneath the skin.",
       "You feel itchy all over.",
       "You feel like you're covered in bugs.",
-      "You feel bugs crawling on you."
+      "You feel bugs crawling on you.",
+      "You distinctly feel a presence just behind you."
     ]
   },
   {
@@ -142,7 +165,8 @@
       "\"I had to do it!\"",
       "\"They made me do it!\"",
       "\"What are you!?\"",
-      "\"I should never have trusted you!\""
+      "\"I should never have trusted you!\"",
+      "\"RUN.  NOW.  IT MAY NOT BE TOO LATE.\""
     ]
   },
   {
@@ -155,7 +179,8 @@
       "%1$s lied to you.",
       "%1$s was working for… THEM",
       "%1$s said something stupid.",
-      "%1$s is running away!"
+      "%1$s is running away!",
+      "%1$s finds you filthy."
     ]
   },
   {

@@ -98,6 +98,9 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.set_stamina( dummy.get_stamina_max() );
     dummy.set_movement_mode( CMM_WALK );
 
+    // Set HP to max here and also later, for disabled/broken limbs
+    dummy.set_all_parts_hp_to_max();
+
     // Make sure we don't carry around weird effects.
     dummy.clear_effects(); // mark effects for removal
     dummy.process_effects(); // actually remove them
@@ -165,7 +168,7 @@ void give_and_activate_bionic( player &p, const bionic_id &bioid )
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
-    if( bio.id->has_flag( STATIC( flag_str_id( "BIONIC_TOGGLED" ) ) ) && !bio.powered ) {
+    if( bio.id->has_flag( STATIC( flag_id( "BIONIC_TOGGLED" ) ) ) && !bio.powered ) {
         const std::vector<itype_id> fuel_opts = bio.info().fuel_opts;
         if( !fuel_opts.empty() ) {
             p.set_value( fuel_opts.front().str(), "2" );

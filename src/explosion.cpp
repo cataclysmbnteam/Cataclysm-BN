@@ -30,6 +30,7 @@
 #include "explosion_queue.h"
 #include "field_type.h"
 #include "flat_set.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -64,6 +65,7 @@
 #include "units.h"
 #include "ui_manager.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
@@ -73,9 +75,6 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teleglow( "teleglow" );
-
-static const std::string flag_BLIND( "BLIND" );
-static const std::string flag_FLASH_PROTECTION( "FLASH_PROTECTION" );
 
 static const species_id ROBOT( "ROBOT" );
 
@@ -231,7 +230,7 @@ constexpr float FLING_MAX_RANGE = 50.0;
 //   different time scale and this constant is the scaling factor
 //   between the two
 constexpr float FLING_SLOWDOWN = 5.0;
-}; // namespace ExplosionConstants
+} // namespace ExplosionConstants
 
 namespace explosion_handler
 {
@@ -465,7 +464,7 @@ void ExplosionProcess::fill_maps()
 
     std::stable_sort( blast_map.begin(), blast_map.end(), dist_comparator );
     std::stable_sort( shrapnel_map.begin(), shrapnel_map.end(), dist_comparator );
-};
+}
 void ExplosionProcess::init_event_queue()
 {
     // Start with shrapnel first
@@ -489,7 +488,7 @@ void ExplosionProcess::init_event_queue()
         //   which, as stated before, converts trig_dist into int implicitly
         add_event( time_taken, ExplosionEvent::tile_blast( position, static_cast<int>( distance ) ) );
     }
-};
+}
 inline bool ExplosionProcess::is_occluded( const tripoint from, const tripoint to )
 {
     if( from == to ) {
@@ -517,7 +516,7 @@ inline bool ExplosionProcess::is_occluded( const tripoint from, const tripoint t
         last_position = position;
     }
     return false;
-};
+}
 
 inline float ExplosionProcess::generate_fling_angle( const tripoint from, const tripoint to )
 {
@@ -549,6 +548,7 @@ bool ExplosionProcess::process_next()
         // We balance the timing in such a way
         //   that, at 10 ANIMATION_DELAY, it will take an explosion of radius 10
         //   exactly 1 second to propagate fully
+        // NOLINTNEXTLINE(cata-no-long)
         const long int delay_ms = static_cast<long int>( relative_time_step * 10.0 * animation_delay );
         if( delay_ms > 0 ) {
             const timespec delay = timespec {0, delay_ms * 1000000L};
@@ -673,7 +673,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
             here.smash_items( position, smash_force, cause, true );
             // Don't forget to mark them as explosion smashed already
             for( auto &item : here.i_at( position ) ) {
-                item.set_flag( "EXPLOSION_SMASHED" );
+                item.set_flag( flag_EXPLOSION_SMASHED );
             }
         }
 
@@ -806,7 +806,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
                     const bool is_final = amt <= 1;
 
                     // If the item is already propelled, ignore it
-                    if( !is_final && !it.has_flag( "EXPLOSION_PROPELLED" ) ) {
+                    if( !is_final && !it.has_flag( flag_EXPLOSION_PROPELLED ) ) {
                         stacks.push_back( it.split( split_cnt ) );
                     } else {
                         stacks.push_back( item( it ) );
@@ -825,7 +825,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
         // Now give items velocity
         for( auto &it : here.i_at( position ) ) {
             // If the item is already propelled, ignore it
-            if( it.has_flag( "EXPLOSION_PROPELLED" ) ) {
+            if( it.has_flag( flag_EXPLOSION_PROPELLED ) ) {
                 continue;
             };
 
@@ -846,7 +846,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
                 continue;
             }
 
-            it.set_flag( "EXPLOSION_PROPELLED" );
+            it.set_flag( flag_EXPLOSION_PROPELLED );
 
             add_event(
                 one_tile_at_vel( velocity ),
@@ -888,7 +888,7 @@ void ExplosionProcess::blast_tile( const tripoint position, const int rl_distanc
         }
     }
     request_redraw |= position.z == g->u.posz();
-};
+}
 
 void ExplosionProcess::add_field( const tripoint position,
                                   const field_type_id field,
@@ -898,14 +898,14 @@ void ExplosionProcess::add_field( const tripoint position,
     map &here = get_map();
     here.add_field( position, field, intensity, 0_turns, hit_player );
     request_redraw |= position.z == g->u.posz();
-};
+}
 
 void ExplosionProcess::remove_field( const tripoint position, field_type_id target )
 {
     map &here = get_map();
     here.remove_field( position, target );
     request_redraw |= position.z == g->u.posz();
-};
+}
 
 void ExplosionProcess::move_entity( const tripoint position,
                                     const ExplosionEvent::PropelledEntity &datum,
@@ -983,15 +983,15 @@ void ExplosionProcess::move_entity( const tripoint position,
                 // add_item may in fact change the item in a number of ways
                 //   so we _have_ to check if it's in the location we expect
                 // It's slow, but what can you do?
-                new_item->set_flag( "IS_EXPLOSION_PROPELLED" );
+                new_item->set_flag( flag_IS_EXPLOSION_PROPELLED );
                 bool is_safe = false;
                 for( auto &it : here.i_at( new_position ) ) {
-                    if( it.has_flag( "IS_EXPLOSION_PROPELLED" ) ) {
+                    if( it.has_flag( flag_IS_EXPLOSION_PROPELLED ) ) {
                         is_safe = true;
                         break;
                     }
                 }
-                new_item->unset_flag( "IS_EXPLOSION_PROPELLED" );
+                new_item->unset_flag( flag_IS_EXPLOSION_PROPELLED );
                 if( !is_safe ) {
                     do_next = false;
                 } else {
@@ -1013,7 +1013,7 @@ void ExplosionProcess::move_entity( const tripoint position,
                                            std::get<safe_reference<item>>( cur_target ), new_angle, new_velocity, cur_relative_time )
         );
     }
-};
+}
 
 void ExplosionProcess::run()
 {
@@ -1048,8 +1048,8 @@ void ExplosionProcess::run()
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         for( const auto &pos : here.points_on_zlevel( z ) ) {
             for( auto &it : here.i_at( pos ) ) {
-                it.unset_flag( "EXPLOSION_SMASHED" );
-                it.unset_flag( "EXPLOSION_PROPELLED" );
+                it.unset_flag( flag_EXPLOSION_SMASHED );
+                it.unset_flag( flag_EXPLOSION_PROPELLED );
             }
         }
     }
@@ -1580,7 +1580,8 @@ void explosion_funcs::flashbang( const queued_explosion &qe )
             } else if( g->u.has_bionic( bio_sunglasses ) ||
                        g->u.is_wearing( itype_rm13_armor_on ) ) {
                 flash_mod = 6;
-            } else if( g->u.worn_with_flag( flag_BLIND ) || g->u.worn_with_flag( flag_FLASH_PROTECTION ) ) {
+            } else if( g->u.worn_with_flag( flag_BLIND ) ||
+                       g->u.worn_with_flag( flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             g->u.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
@@ -1780,7 +1781,7 @@ void emp_blast( const tripoint &p )
         //e-handcuffs effects
         item &cuffs = u.primary_weapon();
         if( cuffs.typeId() == itype_e_handcuffs && cuffs.charges > 0 ) {
-            cuffs.unset_flag( "NO_UNWIELD" );
+            cuffs.unset_flag( flag_NO_UNWIELD );
             cuffs.charges = 0;
             cuffs.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),

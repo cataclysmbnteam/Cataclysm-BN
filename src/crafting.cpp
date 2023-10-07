@@ -74,6 +74,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 
@@ -92,18 +93,9 @@ static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
-static const std::string flag_BYPRODUCT( "BYPRODUCT" );
-static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
-static const std::string flag_FIT( "FIT" );
-static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
-static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
-static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
-static const std::string flag_VARSIZE( "VARSIZE" );
 
 class basecamp;
 
@@ -572,7 +564,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     }
     cached_crafting_inventory.form_from_map( inv_pos, radius, this, false, clear_path );
     cached_crafting_inventory += inv;
-    cached_crafting_inventory += weapon;
+    cached_crafting_inventory += primary_weapon();
     cached_crafting_inventory += worn;
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
@@ -994,13 +986,13 @@ void item::inherit_flags( const item &parent, const recipe &making )
             set_flag( flag_FIT );
         }
     }
-    for( const std::string &f : parent.item_tags ) {
-        if( json_flag::get( f ).craft_inherit() ) {
+    for( const flag_id &f : parent.get_flags() ) {
+        if( f->craft_inherit() ) {
             set_flag( f );
         }
     }
-    for( const std::string &f : parent.type->get_flags() ) {
-        if( json_flag::get( f ).craft_inherit() ) {
+    for( const flag_id &f : parent.type->get_flags() ) {
+        if( f->craft_inherit() ) {
             set_flag( f );
         }
     }
@@ -1027,11 +1019,13 @@ void complete_craft( player &p, item &craft, const bench_location & )
     const int batch_size = craft.charges;
     std::list<item> &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
+    const bool ignore_component = making.has_flag( "NUTRIENT_OVERRIDE" );
 
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making.create_results( batch_size );
 
     const bool should_heat = making.hot_result();
+    const bool is_dehydrated = making.dehydrate_result();
 
     bool first = true;
     size_t newit_counter = 0;
@@ -1074,14 +1068,19 @@ void complete_craft( player &p, item &craft, const bench_location & )
 
         food_contained.inherit_flags( used, making );
 
-        for( const std::string &flag : making.flags_to_delete ) {
+        for( const flag_id &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
         }
 
-        // Don't store components for things made by charges,
-        // Don't store components for things that can't be uncrafted.
-        if( recipe_dictionary::get_uncraft( making.result() ) && !food_contained.count_by_charges() &&
-            making.is_reversible() ) {
+        // Don't store components for things that ignores components (e.g wow 'conjured bread')
+        if( ignore_component ) {
+            food_contained.set_flag( flag_NUTRIENT_OVERRIDE );
+        } else if( recipe_dictionary::get_uncraft( making.result() ) &&
+                   !food_contained.count_by_charges() &&
+                   making.is_reversible() ) {
+            // Don't store components for things made by charges,
+            // Don't store components for things that can't be uncrafted.
+
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either lose this information or merge it somehow.
@@ -1094,8 +1093,8 @@ void complete_craft( player &p, item &craft, const bench_location & )
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                 }
-                // If this recipe is cooked, components are no longer raw.
-                if( should_heat ) {
+                // If this recipe is cooked or dehydrated, components are no longer raw.
+                if( should_heat || is_dehydrated ) {
                     comp.set_flag_recursive( flag_COOKED );
                 }
             }
@@ -2219,7 +2218,7 @@ void crafting::complete_disassemble( Character &who, iuse_location target, const
         }
 
         if( filthy ) {
-            act_item.set_flag( "FILTHY" );
+            act_item.set_flag( flag_FILTHY );
         }
 
         for( std::list<item>::iterator a = dis_item.components.begin(); a != dis_item.components.end();

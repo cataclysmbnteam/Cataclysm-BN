@@ -4,8 +4,8 @@
     "id": "magiclysm",
     "name": "Magiclysm",
     "authors": [ "KorGgenT", "Aptronym", "LaVeyanFiend" ],
-    "maintainers": [ "KorGgenT" ],
-    "description": "Cataclysm but with magic spells!",
+    "maintainers": [ "Robbietheneko" ],
+    "description": "Cataclysm but with magic spells, BN Edition!",
     "category": "content",
     "dependencies": [ "bn" ]
   },

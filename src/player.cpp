@@ -81,6 +81,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
@@ -131,7 +132,9 @@ player::player()
         vitamin_levels[ v.first ] = 0;
     }
 
-    if( g != nullptr && json_flag::is_ready() ) {
+    if( g != nullptr && json_flag::is_ready() && get_anatomy().is_valid() ) {
+        // TODO: Remove the set_body here
+        set_body();
         recalc_sight_limits();
         reset_encumbrance();
     }

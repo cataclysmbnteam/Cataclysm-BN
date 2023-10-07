@@ -14,7 +14,7 @@
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "brown",
-    "aggression": 100,
+    "aggression": 8,
     "morale": 100,
     "melee_skill": 6,
     "melee_dice": 5,
@@ -25,6 +25,7 @@
     "armor_cut": 2,
     "armor_bullet": 2,
     "vision_night": 20,
+    "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY", "PLAYER_CLOSE" ],
     "path_settings": { "max_dist": 25 },
     "harvest": "owlbear",
     "reproduction": { "baby_egg": "egg_owlbear_rock", "baby_count": 1, "baby_timer": 20 },
@@ -49,7 +50,8 @@
     "hp": 100,
     "speed": 75,
     "phase": "LIQUID",
-    "aggression": 100,
+    "aggression": 8,
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "morale": 100,
     "melee_skill": 5,
     "melee_dice": 2,
@@ -64,7 +66,7 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "bio_acidicspray" },
+        "spell_data": { "id": "ooze_acidicspray" },
         "cooldown": 20,
         "monster_message": "The black pudding burns %3$s with acid!"
       }
@@ -108,7 +110,7 @@
       },
       {
         "type": "spell",
-        "spell_data": { "id": "necrotic_gaze" },
+        "spell_data": { "id": "krab_gaze" },
         "cooldown": 5,
         "monster_message": "The krabgek gazes at %3$s!"
       }
@@ -234,7 +236,8 @@
     "material": [ "flesh" ],
     "symbol": "T",
     "color": "light_green",
-    "aggression": 100,
+    "aggression": 8,
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "morale": 100,
     "melee_skill": 5,
     "melee_dice": 5,

@@ -512,6 +512,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "flintlockshot",
+    "name": "paper shot cartridge",
+    "default": "flintlock_shot"
+  },
+  {
+    "type": "ammunition_type",
     "id": "papershot",
     "name": "20ga percussion",
     "default": "nail"
@@ -629,6 +635,12 @@
     "type": "ammunition_type",
     "name": "water",
     "default": "water"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "cannon",
+    "name": "3-inch cannon",
+    "default": "cannon_explosive_shell"
   },
   {
     "id": "acid",

@@ -389,7 +389,7 @@ class Creature
         bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         bool has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const;
         /** Check if creature has any effect with the given flag. */
-        bool has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        bool has_effect_with_flag( const flag_id &flag, body_part bp = num_bp ) const;
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
@@ -514,23 +514,23 @@ class Creature
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
-        bodypart *get_part( const bodypart_id &id );
-        bodypart get_part( const bodypart_id &id ) const;
+        bodypart &get_part( const bodypart_id &id );
+        const bodypart &get_part( const bodypart_id &id ) const;
 
         int get_part_hp_cur( const bodypart_id &id ) const;
         int get_part_hp_max( const bodypart_id &id ) const;
 
         int get_part_healed_total( const bodypart_id &id ) const;
 
-        void set_part_hp_cur( const bodypart_id &id, int set );
-        void set_part_hp_max( const bodypart_id &id, int set );
+        virtual void set_part_hp_cur( const bodypart_id &id, int set );
+        virtual void set_part_hp_max( const bodypart_id &id, int set );
         void set_part_healed_total( const bodypart_id &id, int set );
-        void mod_part_hp_cur( const bodypart_id &id, int mod );
-        void mod_part_hp_max( const bodypart_id &id, int mod );
+        virtual void mod_part_hp_cur( const bodypart_id &id, int mod );
+        virtual void mod_part_hp_max( const bodypart_id &id, int mod );
         void mod_part_healed_total( const bodypart_id &id, int mod );
 
 
-        void set_all_parts_hp_cur( int set );
+        virtual void set_all_parts_hp_cur( int set );
         void set_all_parts_hp_to_max();
 
         virtual int get_speed_base() const;

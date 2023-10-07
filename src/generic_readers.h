@@ -248,7 +248,7 @@ class generic_typed_reader
                 if( !relative.has_member( name ) ) {
                     return false;
                 }
-                debugmsg( "Member %s of type %s does not support relative", name, typeid( C ).name() );
+                debugmsg( "Member %s of type %s does not support relative", name, demangle( typeid( C ).name() ) );
             }
             return false;
         }

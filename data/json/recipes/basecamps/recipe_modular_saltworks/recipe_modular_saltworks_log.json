@@ -19,7 +19,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
         "components": [
-          [ [ "2x4", 387 ] ],
+          [ [ "2x4", 267 ] ],
           [ [ "birchbark", 228 ], [ "pine_bough", 228 ] ],
           [ [ "glass_sheet", 3 ] ],
           [ [ "hinge", 2 ] ],
@@ -56,7 +56,7 @@
           [ { "id": "WRENCH" } ]
         ],
         "components": [
-          [ [ "2x4", 242 ] ],
+          [ [ "2x4", 176 ] ],
           [ [ "birchbark", 96 ], [ "pine_bough", 96 ] ],
           [ [ "glass_sheet", 4 ] ],
           [ [ "hinge", 2 ] ],
@@ -85,7 +85,7 @@
     "blueprint_excludes": [ { "id": "fbmsw_southwest" } ],
     "blueprint_needs": {
       "time": "4 d 16 h",
-      "skills": [ [ "cooking", 3 ], [ "fabrication", 4 ] ],
+      "skills": [ [ "fabrication", 4 ], [ "cooking", 3 ] ],
       "inline": {
         "tools": [  ],
         "qualities": [
@@ -96,7 +96,7 @@
           [ { "id": "WRENCH" } ]
         ],
         "components": [
-          [ [ "2x4", 424 ] ],
+          [ [ "2x4", 298 ] ],
           [ [ "birchbark", 288 ], [ "pine_bough", 288 ] ],
           [ [ "glass_sheet", 2 ] ],
           [ [ "hinge", 2 ] ],

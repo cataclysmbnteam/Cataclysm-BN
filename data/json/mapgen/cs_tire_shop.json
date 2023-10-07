@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ",..~~y''''y~~''''''~~.,,",
+        ",..~~y''''y~~''''''~~.,`",
         ".,.~~y''''y~~''''''~~..,",
         "..,~~y''''y~~''''''~~,..",
         ",..~~y''''y~~''''''~~.,.",
@@ -34,6 +34,7 @@
       ],
       "terrain": {
         ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ] ],
+        "`": "t_dirt",
         ",": "t_dirt",
         "'": "t_pavement",
         "~": "t_sidewalk",
@@ -52,6 +53,7 @@
         "<": "t_ladder_up"
       },
       "furniture": {
+        "`": "f_street_light",
         "c": "f_counter",
         "L": "f_locker",
         "C": "f_crate_c",

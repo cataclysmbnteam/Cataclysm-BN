@@ -28,6 +28,7 @@
     "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "starting_ammo": { "rock": 6 },
     "special_attacks": [
+      [ "PARROT_AT_DANGER", 5 ],
       {
         "type": "gun",
         "cooldown": 5,
@@ -73,12 +74,30 @@
   {
     "id": "mon_feral_human_axe",
     "type": "MONSTER",
-    "description": "Their pupils are dilated and what remains to be seen of the iris and sclera are bloodshot.  This axe-wielding maniac still breathes, but the zombies treat them like one of their own.",
+    "name": { "str": "feral axeman" },
+    "description": "They stumble along dragging a large bloodstained axe.  Their face is twisted into a sadistic grin, and they walk among the dead as though already one of them.",
     "copy-from": "mon_feral_human_pipe",
-    "melee_cut": 9,
+    "melee_cut": 12,
     "melee_dice": 3,
-    "melee_dice_sides": 8,
-    "death_drops": "feral_humans_death_drops_axe"
+    "melee_dice_sides": 7,
+    "death_drops": "feral_humans_death_drops_axe",
+    "special_attacks": [ [ "PARROT_AT_DANGER", 5 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+  },
+  {
+    "id": "mon_feral_human_chainsaw",
+    "type": "MONSTER",
+    "name": { "str": "feral chainsaw maniac" },
+    "description": "This crazed shambler seems to still be alive, and yet the dead treat them like one of their own.  Please tell me that's not a chainsaw he's carrying…",
+    "copy-from": "mon_feral_human_axe",
+    "looks_like": "mon_feral_human_axe",
+    "melee_skill": 1,
+    "melee_cut": 25,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "death_drops": "feral_humans_death_drops_chainsaw",
+    "//": "Make noise all the time instead of only when target sighted, to warn the player in advance.",
+    "special_attacks": [ [ "PARROT", 2 ] ]
   },
   {
     "id": "mon_feral_scientist_scalpel",
@@ -349,6 +368,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "special_attacks": [ [ "PARROT_AT_DANGER", 5 ] ],
     "death_function": [ "NORMAL" ],
     "death_drops": "feral_maids_death_drops_broom",
     "zombify_into": "mon_zombie",
@@ -403,6 +423,7 @@
     "description": "Wearing fancy clothes and with crossbow in hand, this maniac was once a socialite.  Its hands seem to caress the crossbow as if touching a loved one.",
     "starting_ammo": { "bolt_cf": 6 },
     "special_attacks": [
+      [ "PARROT_AT_DANGER", 5 ],
       {
         "type": "gun",
         "cooldown": 15,

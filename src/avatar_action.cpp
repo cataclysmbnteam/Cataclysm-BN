@@ -25,6 +25,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -59,6 +60,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 class player;
@@ -83,11 +85,9 @@ static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
-static const std::string flag_DIG_TOOL( "DIG_TOOL" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_RAMP_END( "RAMP_END" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
+static const std::string flag_LADDER( "LADDER" );
 
 #define dbg(x) DebugLog((x), DC::SDL)
 
@@ -108,27 +108,36 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         dest_loc.y = rng( you.posy() - 1, you.posy() + 1 );
         dest_loc.z = you.posz();
     } else {
-        dest_loc.x = you.posx() + d.x;
-        dest_loc.y = you.posy() + d.y;
-        dest_loc.z = you.posz() + d.z;
+        dest_loc = you.pos() + d;
     }
 
     if( dest_loc == you.pos() ) {
         // Well that sure was easy
         return true;
     }
+
+    const bool auto_features = get_option<bool>( "AUTO_FEATURES" );
+    const bool auto_mine = auto_features && get_option<bool>( "AUTO_MINING" );
+
+    const auto can_use_ladder = [&]() -> bool {
+        if( is_riding || m.has_floor_or_support( dest_loc ) )
+        {
+            return false;
+        }
+        return m.has_flag( flag_LADDER, dest_loc + tripoint_below );
+    };
+
     bool via_ramp = false;
     if( m.has_flag( TFLAG_RAMP_UP, dest_loc ) ) {
         dest_loc.z += 1;
         via_ramp = true;
-    } else if( m.has_flag( TFLAG_RAMP_DOWN, dest_loc ) ) {
+    } else if( m.has_flag( TFLAG_RAMP_DOWN, dest_loc ) || can_use_ladder() ) {
         dest_loc.z -= 1;
         via_ramp = true;
     }
 
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
-        get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
-        !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
+        auto_mine && !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !is_riding ) {
         item &digging_tool = you.primary_weapon();
         if( digging_tool.has_flag( flag_DIG_TOOL ) ) {
@@ -260,8 +269,11 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     if( monster *const mon_ptr = g->critter_at<monster>( dest_loc, true ) ) {
         monster &critter = *mon_ptr;
+        // Additional checking to make sure we won't take a swing at friendly monsters.
+        Character &u = get_player_character();
+        monster_attitude att = critter.attitude( const_cast<Character *>( &u ) );
         if( critter.friendly == 0 &&
-            !critter.has_effect( effect_pet ) ) {
+            !critter.has_effect( effect_pet ) && att != MATT_FRIEND ) {
             if( you.is_auto_moving() ) {
                 add_msg( m_warning, _( "Monster in the way.  Auto-move canceled." ) );
                 add_msg( m_info, _( "Move into the monster to attack." ) );
@@ -393,10 +405,20 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( g->walk_move( dest_loc, via_ramp ) ) {
         return true;
     }
+
     if( veh_closed_door ) {
         if( !veh1->handle_potential_theft( you ) ) {
             return true;
         } else {
+            // This check must be present in both avatar_action::move and map::open_door for vehiclepart doors specifically,
+            // having it in just one does not prevent opening doors on horseback, for some insane reason.
+            if( you.is_mounted() ) {
+                auto mon = you.mounted_creature.get();
+                if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                    // Message is printed by the other check in map::open_door
+                    return false;
+                }
+            }
             if( outside_vehicle ) {
                 veh1->open_all_at( dpart );
             } else {
@@ -419,6 +441,11 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
         }
+        return true;
+    }
+
+    if( !is_riding && m.has_flag( flag_LADDER, you.pos() ) &&
+        g->walk_move( dest_loc + tripoint_above ) ) {
         return true;
     }
 
@@ -1151,7 +1178,7 @@ void avatar_action::reload( item_location &loc, bool prompt, bool empty )
     item *it = loc.get_item();
 
     // bows etc. do not need to reload. select favorite ammo for them instead
-    if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
+    if( it->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         ranged::prompt_select_default_ammo_for( u, *it );
         return;
     }
@@ -1179,7 +1206,7 @@ void avatar_action::reload( item_location &loc, bool prompt, bool empty )
     }
 
     bool use_loc = true;
-    if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+    if( !it->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         it = loc.obtain( u ).get_item();
         use_loc = false;
     }

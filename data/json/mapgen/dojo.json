@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "  --------ssss--------  ",
+        "  --------ssss-------- `",
         "  -,-----,spps,-----,-  ",
         "  -,-----,spps,-----,-  ",
         "  -,-----,spps,-----,-  ",
@@ -34,6 +34,7 @@
       ],
       "terrain": {
         " ": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
+        "`": "t_dirt",
         "p": "t_grass_long",
         "'": "t_door_c",
         "+": "t_door_glass_c",
@@ -48,6 +49,7 @@
         "<": "t_stairs_up"
       },
       "furniture": {
+        "`": "f_street_light",
         "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "#": "f_tatami",
         "B": "f_bench",
@@ -168,7 +170,7 @@
     "object": {
       "fill_ter": "t_grass",
       "rows": [
-        "           sss          ",
+        "           sss         `",
         "  |||||||||!s!||||||||| ",
         "  |LBB|S,S|sss|S,S|BBL| ",
         "  |L,B|S,S|sss|S,S|B,L| ",
@@ -195,6 +197,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "`": "t_dirt",
         "z": [ "t_tree", "t_tree_young", "t_shrub", "t_grass" ],
         "#": "t_dirt",
         "'": "t_door_c",
@@ -224,6 +227,7 @@
         "0": "t_gutter_downspout"
       },
       "furniture": {
+        "`": "f_street_light",
         "#": "f_tatami",
         "b": "f_bookcase",
         "d": "f_dresser",

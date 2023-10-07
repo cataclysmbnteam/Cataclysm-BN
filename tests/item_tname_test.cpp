@@ -6,18 +6,13 @@
 
 #include "avatar.h"
 #include "game.h"
+#include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "options_helpers.h"
 #include "state_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
-
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_WET( "WET" );
 
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 
@@ -35,7 +30,6 @@ static const skill_id skill_survival( "survival" );
 // - "burnt" or "badly burnt"
 // - (dirty)
 // - (rotten)
-// - (mushy)
 // - (old)
 // - (fresh)
 // - Radio-mod with signals (Red, Blue, Green)
@@ -262,9 +256,9 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
 
         // Ensure the player and gun are normal size to prevent "too big" or "too small" suffix in tname
         g->u.clear_mutations();
-        REQUIRE( gun.get_sizing( g-> u ) == item::sizing::ignore );
-        REQUIRE_FALSE( gun.has_flag( "OVERSIZE" ) );
-        REQUIRE_FALSE( gun.has_flag( "UNDERSIZE" ) );
+        REQUIRE( gun.get_sizing( g-> u ) == item::sizing::human_sized_human_char );
+        REQUIRE_FALSE( gun.has_flag( flag_OVERSIZE ) );
+        REQUIRE_FALSE( gun.has_flag( flag_UNDERSIZE ) );
 
         WHEN( "it is perfectly clean" ) {
             gun.set_var( "dirt", 0 );

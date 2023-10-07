@@ -1,4 +1,5 @@
-#include "vehicle.h" // IWYU pragma: associated
+#include "vehicle.h"
+#include "vehicle_part.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -717,7 +718,8 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         // terrain with neutral move cost or tagged with NOCOLLIDE will never cause
         // collisions
         return true;
-    } else if( terrain_type.bash.str_max >= 0 && !terrain_type.bash.bash_below ) {
+    } else if( terrain_type.bash.str_max >= 0 && !terrain_type.bash.bash_below &&
+               !terrain_type.has_flag( "VEH_TREAT_AS_BASH_BELOW" ) ) {
         // bashable terrain (but not bashable floors) will cause collisions
         return false;
     } else if( terrain_type.has_flag( TFLAG_LIQUID ) ) {

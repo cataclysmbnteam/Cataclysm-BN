@@ -6,7 +6,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "                        ",
+        "                       '",
         " |-xxxxxxxxDDxxxxxxxx-| ",
         " |...................B| ",
         " |B..c........B..B...B| ",
@@ -54,6 +54,7 @@
           "t_dirt"
         ],
         " ": "t_sidewalk",
+        "'": "t_sidewalk",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_floor",
@@ -63,7 +64,7 @@
         "<": "t_stairs_up",
         "|": "t_wall_w"
       },
-      "furniture": { "B": "f_rack", "c": "f_counter" },
+      "furniture": { "B": "f_rack", "c": "f_counter", "'": "f_street_light" },
       "items": { ".": { "item": "trash", "chance": 12 } },
       "vehicles": { ".": { "vehicle": "shopping_cart", "chance": 1, "status": 1 } }
     }
@@ -135,7 +136,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "_______                 ",
-        "_______                 ",
+        "_______'                ",
         "___~~~~O     |-xx--xx-| ",
         "_______O    b|B......B| ",
         "_______O    b|B..BB..B| ",
@@ -182,6 +183,7 @@
           "t_dirt"
         ],
         " ": "t_sidewalk",
+        "'": "t_sidewalk",
         "_": "t_pavement",
         "~": "t_pavement_y",
         "+": "t_door_c",
@@ -196,7 +198,7 @@
         "<": "t_ladder_up",
         "|": "t_wall_w"
       },
-      "furniture": { "B": "f_rack", "R": "f_dumpster", "l": "f_locker", "b": "f_bench", "c": "f_counter" },
+      "furniture": { "B": "f_rack", "R": "f_dumpster", "l": "f_locker", "b": "f_bench", "c": "f_counter", "'": "f_street_light" },
       "items": { ".": { "item": "trash", "chance": 15 } },
       "vehicles": { ".": { "vehicle": "shopping_cart", "chance": 1, "status": 1 } }
     }

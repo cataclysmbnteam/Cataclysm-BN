@@ -48,6 +48,8 @@
 #include "units.h"
 
 static const trait_id trait_NONE( "NONE" );
+static const trait_flag_str_id trait_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
+static const trait_flag_str_id trait_flag_SILENT_SPELL( "SILENT_SPELL" );
 
 namespace io
 {
@@ -758,13 +760,14 @@ float spell::spell_fail( const Character &guy ) const
         return 1.0f;
     }
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    if( has_flag( spell_flag::SOMATIC ) && !guy.has_trait_flag( "SUBTLE_SPELL" ) ) {
+    if( has_flag( spell_flag::SOMATIC ) &&
+        !guy.has_trait_flag( trait_flag_SUBTLE_SPELL ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0, guy.encumb( bp_arm_l ) + guy.encumb( bp_arm_r ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
-    if( has_flag( spell_flag::VERBAL ) && !guy.has_trait_flag( "SILENT_SPELL" ) ) {
+    if( has_flag( spell_flag::VERBAL ) && !guy.has_trait_flag( trait_flag_SILENT_SPELL ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
         const int mouth_encumb = std::max( 0, guy.encumb( bp_mouth ) - 5 );
         fail_chance += mouth_encumb / 100.0f;

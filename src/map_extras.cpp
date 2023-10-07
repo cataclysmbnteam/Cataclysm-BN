@@ -51,10 +51,12 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "type_id_implement.h"
 #include "ui.h"
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -64,7 +66,6 @@ static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
 static const std::string flag_FUNGUS( "FUNGUS" );
-static const std::string flag_LIQUID( "LIQUID" );
 static const std::string flag_ORGANIC( "ORGANIC" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_SHRUB( "SHRUB" );
@@ -185,12 +186,7 @@ generic_factory<map_extra> extras( "map extra" );
 
 } // namespace
 
-/** @relates string_id */
-template<>
-const map_extra &string_id<map_extra>::obj() const
-{
-    return extras.obj( *this );
-}
+IMPLEMENT_STRING_ID( map_extra, extras )
 
 namespace MapExtras
 {
@@ -2140,12 +2136,15 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         while( m.is_bashable( loc ) ) { // one is not enough
             m.destroy( loc, true );
         }
-        if( one_in( 5 ) && !tr.has_flag( flag_LIQUID ) ) {
-            m.spawn_item( loc, itype_ash, 1, rng( 1, 10 ) );
+        if( m.ter( loc ) == t_pit ) {
+            m.ter_set( loc, t_pit_shallow );
         }
     } else if( ter_furn_has_flag( tr, fid, TFLAG_FLAMMABLE_ASH ) ) {
         while( m.is_bashable( loc ) ) {
             m.destroy( loc, true );
+        }
+        if( m.ter( loc ) == t_pit ) {
+            m.ter_set( loc, t_pit_shallow );
         }
         m.furn_set( loc, f_ash );
     }

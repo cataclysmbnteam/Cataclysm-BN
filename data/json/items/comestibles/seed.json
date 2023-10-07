@@ -15,7 +15,7 @@
     "primary_material": "dried_vegetable",
     "symbol": ".",
     "color": "brown",
-    "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED" ]
+    "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED", "UNSAFE_CONSUME" ]
   },
   {
     "abstract": "seed_fruit",
@@ -318,6 +318,7 @@
     "material": "garlic",
     "volume": "150 ml",
     "fun": -3,
+    "flags": [ "UNSAFE_CONSUME" ],
     "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "10 days" }
   },
   {
@@ -382,7 +383,7 @@
     "price": 100,
     "weight": "2 g",
     "charges": 2,
-    "flags": [ "RAW" ],
+    "flags": [ "RAW", "UNSAFE_CONSUME" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "14 days" }
   },
   {
@@ -419,6 +420,7 @@
     "volume": "100 ml",
     "stack_size": 10,
     "fun": 30,
+    "flags": [ "UNSAFE_CONSUME" ],
     "seed_data": { "fruit": "null", "//": "dummy entry, results are hardcoded", "plant_name": "marloss berry", "grow": "14 days" }
   },
   {
@@ -737,7 +739,8 @@
     "container": "bag_plastic",
     "name": { "str_sp": "roasted coffee beans" },
     "description": "Some roasted coffee beans, can be ground into powder.",
-    "addiction_type": "caffeine"
+    "addiction_type": "caffeine",
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",

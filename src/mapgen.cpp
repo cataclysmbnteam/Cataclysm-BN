@@ -17,6 +17,7 @@
 #include "basecamp.h"
 #include "calendar.h"
 #include "catacharset.h"
+#include "catalua.h"
 #include "character_id.h"
 #include "clzones.h"
 #include "numeric_interval.h"
@@ -69,6 +70,7 @@
 #include "trap.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -82,9 +84,7 @@ static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
 static const mongroup_id GROUP_LAB( "GROUP_LAB" );
 static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
-static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_PLAIN( "GROUP_PLAIN" );
-static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
 static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
 static const mongroup_id GROUP_SPIDER( "GROUP_SPIDER" );
 static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
@@ -191,6 +191,13 @@ void map::generate( const tripoint &p, const time_point &when )
             }
         }
     }
+
+    cata::run_on_mapgen_postprocess_hooks(
+        *DynamicDataLoader::get_instance().lua,
+        *this,
+        sm_to_omt_copy( p ),
+        when
+    );
 
     // Okay, we know who are neighbors are.  Let's draw!
     // And finally save used submaps and delete the rest.

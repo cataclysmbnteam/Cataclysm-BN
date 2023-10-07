@@ -1,11 +1,15 @@
 {
-    "tasks": {
-        "tools": "deno run --watch -A"
-    },
-    "test": { "files": { "include": ["./tools"] } },
-    "lint": { "files": { "include": ["./tools"] } },
-    "fmt": {
-        "files": { "include": ["./tools"] },
-        "options": { "semiColons": false, "lineWidth": 100 }
-    }
+  "tasks": {
+    "doc": "deno task doc:cli & deno task doc:lua && deno fmt",
+    "doc:cli": "deno run --allow-run=./cataclysm-tiles --allow-write=doc/src/content/docs ./scripts/gen_cli_docs.ts",
+    "doc:lua": "./cataclysm-tiles --lua-doc && cp config/lua_doc.md doc/src/content/docs/en/mod/lua/reference/lua.md"
+  },
+  "test": { "include": ["scripts"] },
+  "lint": { "include": ["scripts"] },
+  "fmt": {
+    "exclude": ["doc/dist", "doc/.astro"],
+    "include": ["scripts", "doc", "*.md"],
+    "semiColons": false,
+    "lineWidth": 100
+  }
 }

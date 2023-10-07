@@ -977,10 +977,6 @@
           },
           {
             "id": [
-              "black_dragon_lair_z-0_NW",
-              "black_dragon_lair_z-0_NE",
-              "black_dragon_lair_z-0_SW",
-              "black_dragon_lair_z-0_SE",
               "black_dragon_lair_z-1_NW",
               "black_dragon_lair_z-1_NE",
               "black_dragon_lair_z-1_SW",
@@ -1020,27 +1016,7 @@
             "fg": 478,
             "rotates": false
           },
-          {
-            "id": [
-              "goblin_1A",
-              "goblin_2A",
-              "goblin_3A",
-              "goblin_4A",
-              "goblin_5A",
-              "goblin_1B",
-              "goblin_2B",
-              "goblin_3B",
-              "goblin_4B",
-              "goblin_5B",
-              "goblin_1C",
-              "goblin_2C",
-              "goblin_3C",
-              "goblin_4C",
-              "goblin_5C"
-            ],
-            "fg": 479,
-            "rotates": false
-          },
+          { "id": [ "goblin_camp" ], "fg": 479, "rotates": false },
           { "id": [ "magic_cabin" ], "fg": 480, "rotates": false },
           { "id": [ "magic_shop", "magic_shop_2ndfloor", "magic_shop_roof" ], "fg": 481, "rotates": false },
           { "id": [ "orc_village" ], "fg": 482, "rotates": false },
@@ -1322,7 +1298,8 @@
             "rotates": false,
             "multitile": true,
             "additional_tiles": [ { "id": "broken", "fg": 641 } ]
-          }
+          },
+          { "id": "wizardtower1_ground", "fg": 642, "rotates": false }
         ],
         "//": "range 1 to 656",
         "sprite_width": 32,

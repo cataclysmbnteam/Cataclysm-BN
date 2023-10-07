@@ -42,6 +42,7 @@
 #include "string_utils.h"
 #include "translations.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 
 class map_extra;
 

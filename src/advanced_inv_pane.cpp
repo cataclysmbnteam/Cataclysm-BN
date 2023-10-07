@@ -12,12 +12,14 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_search.h"
+#include "make_static.h"
 #include "map.h"
 #include "options.h"
 #include "player.h"
 #include "uistate.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
@@ -53,8 +55,6 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
     filter = save_state->filter;
 }
 
-static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
-
 bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) const
 {
     return is_filtered( *it.items.front() );
@@ -62,7 +62,7 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
-    if( it.has_flag( flag_HIDDEN_ITEM ) ) {
+    if( it.has_flag( STATIC( flag_id( "HIDDEN_ITEM" ) ) ) ) {
         return true;
     }
     if( filter.empty() ) {

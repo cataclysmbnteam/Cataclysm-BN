@@ -28,6 +28,7 @@ using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_at
 
 struct species_type {
     species_id id;
+    translation name;
     bool was_loaded = false;
     translation description;
     translation footsteps;

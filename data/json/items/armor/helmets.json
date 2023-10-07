@@ -56,7 +56,7 @@
     "price_postapoc": 1500,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "plastic" ],
+    "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "green",
@@ -64,7 +64,7 @@
     "coverage": 85,
     "encumbrance": 20,
     "warmth": 20,
-    "material_thickness": 9,
+    "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
@@ -355,6 +355,17 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ]
   },
   {
+    "id": "helmet_plarmor",
+    "copy-from": "helmet_larmor",
+    "type": "ARMOR",
+    "name": { "str": "plated leather helmet" },
+    "description": "A thick leather helmet that has been reinforced with strategically-placed metal plates.  Provides excellent protection for the head.",
+    "material": [ "leather", "iron" ],
+    "looks_like": "helmet_galea",
+    "proportional": { "price": 4, "price_postapoc": 1.2 },
+    "relative": { "weight": "500 g", "encumbrance": 4 }
+  },
+  {
     "id": "helmet_skull",
     "type": "ARMOR",
     "name": { "str": "large wolf skull" },
@@ -393,6 +404,28 @@
     "warmth": 30,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "cap_arming",
+    "repairs_like": "gambeson",
+    "type": "ARMOR",
+    "name": { "str": "arming cap" },
+    "description": "This goes inside a helmet to help keep your head warm in cold climates.",
+    "weight": "165 g",
+    "volume": "250 ml",
+    "price": "20 USD",
+    "price_postapoc": "250 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "helmet_liner",
+    "color": "light_gray",
+    "covers": [ "head" ],
+    "coverage": 90,
+    "encumbrance": 15,
+    "warmth": 30,
+    "material_thickness": 5,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "STURDY" ]
   },
   {
     "id": "helmet_lobster",
@@ -481,9 +514,10 @@
     "covers": [ "head", "eyes", "mouth" ],
     "coverage": 95,
     "encumbrance": 20,
-    "warmth": 35,
+    "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 4,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES" ]
   },
   {
@@ -526,9 +560,10 @@
     "covers": [ "head", "eyes", "mouth" ],
     "coverage": 100,
     "encumbrance": 23,
-    "warmth": 40,
+    "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 7,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
   },
   {
@@ -632,7 +667,7 @@
     "price": 58000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "steel" ],
+    "material": [ "kevlar_rigid", "steel" ],
     "symbol": "[",
     "looks_like": "helmet_survivor",
     "color": "dark_gray",
@@ -640,7 +675,7 @@
     "coverage": 100,
     "encumbrance": 40,
     "warmth": 25,
-    "material_thickness": 6,
+    "material_thickness": 5,
     "environmental_protection": 5,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -655,7 +690,7 @@
     "price": 65000,
     "to_hit": -1,
     "bashing": 10,
-    "material": [ "kevlar", "superalloy" ],
+    "material": [ "kevlar_rigid", "superalloy" ],
     "symbol": "[",
     "looks_like": "helmet_survivor",
     "color": "light_cyan",
@@ -663,7 +698,7 @@
     "coverage": 100,
     "encumbrance": 35,
     "warmth": 25,
-    "material_thickness": 6,
+    "material_thickness": 5,
     "environmental_protection": 5,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -690,6 +725,7 @@
     "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "FANCY", "STAB" ]
   },
   {

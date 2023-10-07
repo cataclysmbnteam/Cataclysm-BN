@@ -1,5 +1,36 @@
 [
   {
+    "id": "sword_wood",
+    "type": "GENERIC",
+    "category": "weapons",
+    "weapon_category": [ "1H_SWORDS" ],
+    "symbol": "!",
+    "color": "brown",
+    "name": { "str": "2-by-sword" },
+    "description": "A two by four with a cross guard and whittled down point; not much for slashing, but a sharp point is better than nothing.",
+    "material": "wood",
+    "volume": "1250 ml",
+    "weight": "600 g",
+    "bashing": 4,
+    "cutting": 10,
+    "to_hit": 1,
+    "price_postapoc": 50,
+    "flags": [ "SHEATH_SWORD", "STAB" ],
+    "techniques": [ "WBLOCK_1" ]
+  },
+  {
+    "id": "sword_nail",
+    "type": "GENERIC",
+    "copy-from": "sword_wood",
+    "color": "light_gray",
+    "name": { "str": "nail sword" },
+    "description": "The nail sword, or nord for short.  This wooden sword has a dozen nails sticking out at jagged angles from the edge of the blade, adding a bit of piercing to its swings.",
+    "volume": "1750 ml",
+    "weight": "650 g",
+    "cutting": 14,
+    "price_postapoc": 100
+  },
+  {
     "id": "sword_crude",
     "type": "GENERIC",
     "copy-from": "sword_wood",
@@ -11,7 +42,8 @@
     "bashing": 6,
     "cutting": 18,
     "price_postapoc": 250,
-    "qualities": [ [ "BUTCHER", -50 ] ]
+    "qualities": [ [ "BUTCHER", -50 ] ],
+    "delete": { "flags": [ "STAB" ] }
   },
   {
     "id": "sword_metal",
@@ -92,7 +124,7 @@
     "color": "dark_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
+      "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ], [ "M_XBOWS" ] ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -109,7 +141,17 @@
     "description": "This is a military combat knife.  It is light and extremely sharp, and could be deadly in either the right hands or when attached as a bayonet.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+      "mod_target_category": [
+        [ "SUBMACHINE_GUNS" ],
+        [ "RIFLES" ],
+        [ "MACHINE_GUNS" ],
+        [ "GATLING_GUNS" ],
+        [ "SHOTGUNS" ],
+        [ "M_XBOWS" ],
+        [ "GRENADE_LAUNCHERS" ],
+        [ "ROCKET_LAUNCHERS" ],
+        [ "FLAMETHROWERS" ]
+      ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
@@ -173,7 +215,7 @@
     "color": "dark_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle" ],
+      "mod_target_category": [ [ "SHOTGUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
@@ -267,14 +309,14 @@
     "type": "GENERIC",
     "category": "weapons",
     "weapon_category": [ "KNIVES" ],
-    "name": { "str": "baselard" },
+    "name": { "str": "crude dagger" },
     "description": "A medieval dagger forged from rough iron.  It is not the sharpest tool in the shed, but it is certainly one of the largest.",
     "weight": "420 g",
-    "volume": "250 ml",
+    "volume": "750 ml",
     "price": 19590,
     "to_hit": 1,
-    "bashing": 5,
-    "cutting": 20,
+    "bashing": 2,
+    "cutting": 18,
     "material": [ "iron" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -774,7 +816,16 @@
     "color": "light_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
+      "mod_target_category": [
+        [ "RIFLES" ],
+        [ "MACHINE_GUNS" ],
+        [ "GATLING_GUNS" ],
+        [ "SHOTGUNS" ],
+        [ "M_XBOWS" ],
+        [ "GRENADE_LAUNCHERS" ],
+        [ "ROCKET_LAUNCHERS" ],
+        [ "FLAMETHROWERS" ]
+      ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
@@ -1594,11 +1645,11 @@
     "name": { "str": "dagger" },
     "description": "A medieval dagger, more finely crafted than a baselard.",
     "weight": "420 g",
-    "volume": "250 ml",
+    "volume": "750 ml",
     "price": 19590,
-    "to_hit": 2,
-    "bashing": 5,
-    "cutting": 22,
+    "to_hit": 1,
+    "bashing": 2,
+    "cutting": 18,
     "material": [ "iron" ],
     "looks_like": "knife_baselard",
     "symbol": ";",

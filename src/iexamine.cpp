@@ -26,12 +26,12 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_unreachable.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_functions.h"
 #include "colony.h"
-#include "flag.h"
 #include "color.h"
 #include "construction.h"
 #include "construction_group.h"
@@ -47,6 +47,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "field_type.h"
 #include "flat_set.h"
 #include "fungal_effects.h"
@@ -105,6 +106,7 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -121,7 +123,6 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_infected( "infected" );
-static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
@@ -195,7 +196,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_WEB_BRDIGE( "WEB_BRIDGE" );
+static const trait_id trait_WEB_BRIDGE( "WEB_BRIDGE" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
@@ -218,30 +219,10 @@ static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
-static const std::string flag_CLOSES_PORTAL( "CLOSES_PORTAL" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
-static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_FERTILIZER( "FERTILIZER" );
-static const std::string flag_FIRE( "FIRE" );
-static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_NO_CVD( "NO_CVD" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
-static const std::string flag_PROCESSING( "PROCESSING" );
-static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
-static const std::string flag_SAFECRACK( "SAFECRACK" );
-static const std::string flag_SMOKABLE( "SMOKABLE" );
-static const std::string flag_SMOKED( "SMOKED" );
-static const std::string flag_SPLINT( "SPLINT" );
-static const std::string flag_VARSIZE( "VARSIZE" );
 static const std::string flag_WALL( "WALL" );
-static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
-static const std::string flag_ELEVATOR( "ELEVATOR" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -289,7 +270,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     p.invalidate_crafting_inventory();
 
     // Apply flag to item
-    loc->set_flag( "DIAMOND" );
+    loc->set_flag( flag_DIAMOND );
     add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
     p.mod_moves( -to_turns<int>( 10_seconds ) );
 }
@@ -342,7 +323,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     p.invalidate_crafting_inventory();
 
     if( new_item.is_armor() && new_item.has_flag( flag_VARSIZE ) ) {
-        new_item.set_flag( "FIT" );
+        new_item.set_flag( flag_FIT );
     }
 
     here.add_item_or_charges( spawn_point, new_item );
@@ -875,91 +856,6 @@ void iexamine::toilet( player &p, const tripoint &examp )
         // TODO: use me
         ( void ) p;
         liquid_handler::handle_liquid_from_ground( water, examp );
-    }
-}
-
-/**
- * If underground, move 2 levels up else move 2 levels down. Stable movement between levels 0 and -2.
- */
-void iexamine::elevator( player &p, const tripoint &examp )
-{
-    map &here = get_map();
-    if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
-        return;
-    }
-    int movez = ( examp.z < 0 ? 2 : -2 );
-
-    tripoint original_floor_omt = ms_to_omt_copy( here.getabs( examp ) );
-    tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
-
-
-    // first find critters in the destination elevator and move them out of the way
-    for( Creature &critter : g->all_creatures() ) {
-        if( critter.is_player() ) {
-            continue;
-        } else if( here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
-            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
-            if( critter_omt == new_floor_omt ) {
-                for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
-                    if( !here.has_flag( flag_ELEVATOR, candidate ) &&
-                        here.passable( candidate ) &&
-                        !g->critter_at( candidate ) ) {
-                        critter.setpos( candidate );
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    // TODO: do we have struct or pair to indicate from -> to?
-    const auto move_item = [&]( map_stack & items, const tripoint & src, const tripoint & dest ) {
-        for( auto it = items.begin(); it != items.end(); ) {
-            here.add_item_or_charges( dest, *it );
-            it = here.i_rem( src, it );
-        }
-    };
-
-    const auto first_elevator_tile = [&]( const tripoint & pos ) -> tripoint {
-        for( const tripoint &candidate : closest_points_first( pos, 10 ) )
-        {
-            if( here.has_flag( flag_ELEVATOR, candidate ) ) {
-                return candidate;
-            }
-        }
-        return pos;
-    };
-
-    // move along every item in the elevator
-    for( const tripoint &pos : closest_points_first( p.pos(), 10 ) ) {
-        if( here.has_flag( flag_ELEVATOR, pos ) ) {
-            map_stack items = here.i_at( pos );
-            tripoint dest = first_elevator_tile( pos + tripoint( 0, 0, movez ) );
-            move_item( items, pos, dest );
-        }
-    }
-
-    // move the player
-    g->vertical_move( movez, false );
-
-    // finally, bring along everyone who was in the elevator with the player
-    for( Creature &critter : g->all_creatures() ) {
-        if( critter.is_player() ) {
-            continue;
-        } else if( here.has_flag( flag_ELEVATOR, critter.pos() ) ) {
-            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
-
-            if( critter_omt == original_floor_omt ) {
-                for( const tripoint &candidate : closest_points_first( p.pos(), 10 ) ) {
-                    if( here.has_flag( flag_ELEVATOR, candidate ) &&
-                        candidate != p.pos() &&
-                        !g->critter_at( candidate ) ) {
-                        critter.setpos( candidate );
-                        break;
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -3826,11 +3722,12 @@ void iexamine::trap( player &p, const tripoint &examp )
     if( tr.loadid == tr_unfinished_construction || here.partial_con_at( examp ) ) {
         partial_con *pc = here.partial_con_at( examp );
         if( pc ) {
-            if( !character_funcs::can_see_fine_details( p ) && !p.has_trait( trait_DEBUG_HS ) ) {
+            const construction &built = pc->id.obj();
+            if( !character_funcs::can_see_fine_details( p ) && !built.dark_craftable &&
+                !p.has_trait( trait_DEBUG_HS ) ) {
                 add_msg( m_info, _( "It is too dark to construct right now." ) );
                 return;
             }
-            const construction &built = pc->id.obj();
             if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
                            built.group->name(), pc->counter / 100000 ) ) {
                 if( query_yn( _( "Cancel construction?" ) ) ) {
@@ -4074,7 +3971,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     const itype &cur_tool = usable_item_types.at( tool_index );
     item fake_item( cur_tool.get_id(), calendar::turn, 0 );
     const itype_id ammo = fake_item.ammo_default();
-    fake_item.set_flag( "PSEUDO" );
+    fake_item.set_flag( flag_PSEUDO );
 
     enum class charges_type {
         grid, ammo_from_map, none
@@ -4083,7 +3980,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     charges_type charge_type = charges_type::none;
     fake_item.charges = 0;
 
-    if( fake_item.has_flag( "USES_GRID_POWER" ) ) {
+    if( fake_item.has_flag( flag_USES_GRID_POWER ) ) {
         const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
         fake_item.charges = grid.get_resource();
         charge_type = charges_type::grid;
@@ -4279,15 +4176,12 @@ std::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, 
 
 static int getGasDiscountCardQuality( const item &it )
 {
-    const auto &tags = it.type->get_flags();
-
-    for( const std::string &tag : tags ) {
-
-        if( tag.size() > 15 && tag.substr( 0, 15 ) == "DISCOUNT_VALUE_" ) {
-            return atoi( tag.substr( 15 ).c_str() );
+    for( const flag_id &tag : it.type->get_flags() ) {
+        int discount_value;
+        if( sscanf( tag->id.c_str(), "DISCOUNT_VALUE_%i", &discount_value ) == 1 ) {
+            return discount_value;
         }
     }
-
     return 0;
 }
 
@@ -4298,7 +4192,7 @@ static int findBestGasDiscount( player &p )
     for( size_t i = 0; i < p.inv.size(); i++ ) {
         item &it = p.inv.find_item( i );
 
-        if( it.has_flag( "GAS_DISCOUNT" ) ) {
+        if( it.has_flag( flag_GAS_DISCOUNT ) ) {
 
             int q = getGasDiscountCardQuality( it );
             if( q > discount ) {
@@ -4608,20 +4502,21 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
 void iexamine::ledge( player &p, const tripoint &examp )
 {
+    enum ledge_action : int { jump_over, climb_down, spin_web_bridge };
 
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
-    cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
-    cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
-    if( p.has_trait( trait_WEB_BRDIGE ) ) {
-        cmenu.addentry( 3, true, 'w', _( "Spin Web Bridge." ) );
+    cmenu.addentry( ledge_action::jump_over, true, 'j', _( "Jump over." ) );
+    cmenu.addentry( ledge_action::climb_down, true, 'c', _( "Climb down." ) );
+    if( p.has_trait( trait_WEB_BRIDGE ) ) {
+        cmenu.addentry( ledge_action::spin_web_bridge, true, 'w', _( "Spin Web Bridge." ) );
     }
 
     cmenu.query();
 
     map &here = get_map();
     switch( cmenu.ret ) {
-        case 1: {
+        case ledge_action::jump_over: {
             tripoint dest( p.posx() + 2 * sgn( examp.x - p.posx() ), p.posy() + 2 * sgn( examp.y - p.posy() ),
                            p.posz() );
             if( p.get_str() < 4 ) {
@@ -4641,7 +4536,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             }
             break;
         }
-        case 2: {
+        case ledge_action::climb_down: {
             tripoint where = examp;
             tripoint below = examp;
             below.z--;
@@ -4657,42 +4552,68 @@ void iexamine::ledge( player &p, const tripoint &examp )
             }
 
             const bool has_grapnel = p.has_amount( itype_grapnel, 1 );
-            const int climb_cost = map_funcs::climbing_cost( here, where, examp );
+            const auto climb_cost = map_funcs::climbing_cost( here, where, examp );
             const auto fall_mod = p.fall_damage_mod();
-            std::string query_str = vgettext( "Looks like %d story.  Jump down?",
-                                              "Looks like %d stories.  Jump down?",
-                                              height );
+            const std::string query_str = vgettext( "Looks like %d story.  Jump down?",
+                                                    "Looks like %d stories.  Jump down?",
+                                                    height );
 
             if( height > 1 && !query_yn( query_str.c_str(), height ) ) {
                 return;
             } else if( height == 1 ) {
-                std::string query;
-
-                if( !has_grapnel ) {
-                    if( climb_cost <= 0 && fall_mod > 0.8 ) {
-                        query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
-                    } else if( climb_cost <= 0 ) {
-                        query = _( "You probably won't be able to get back up.  Climb down?" );
-                    } else if( climb_cost < 200 ) {
-                        query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
-                    } else {
-                        query = _( "You may have problems climbing back up.  Climb down?" );
+                enum class climb_result {
+                    one_way_dangerous, one_way_unclimbable,
+                    both_way_safe, both_way_grapnel, both_way_hard_to_climb,
+                };
+                const auto get_climb_result = [&]() {
+                    if( has_grapnel ) {
+                        return climb_result::both_way_grapnel;
                     }
-                } else {
-                    query = _( "Use your grappling hook to climb down?" );
-                }
-
-                if( !query_yn( query.c_str() ) ) {
-                    return;
+                    if( climb_cost.has_value() ) {
+                        return climb_cost.value() < 200
+                               ? climb_result::both_way_safe
+                               : climb_result::both_way_hard_to_climb;
+                    } else {
+                        return fall_mod > 0.8
+                               ? climb_result::one_way_dangerous
+                               : climb_result::one_way_unclimbable;
+                    }
+                };
+                const auto get_message = []( climb_result res ) {
+                    switch( res ) {
+                        case climb_result::both_way_safe:
+                            return _( "You climb down." );
+                        case climb_result::both_way_grapnel:
+                            return _( "You tie the rope around your waist and begin to climb down." );
+                        case climb_result::both_way_hard_to_climb:
+                            return _( "You climb down but feel that it won't be easy to climb back up." );
+                        case climb_result::one_way_dangerous:
+                            return _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
+                        case climb_result::one_way_unclimbable:
+                            return _( "You probably won't be able to get back up.  Climb down?" );
+                    }
+                    cata::unreachable();
+                };
+                add_msg( m_debug, "climb_cost: %d", climb_cost.value_or( -1 ) );
+                const auto result = get_climb_result();
+                const auto message = get_message( result );
+                switch( result ) {
+                    case climb_result::both_way_safe:
+                    case climb_result::both_way_grapnel:
+                    case climb_result::both_way_hard_to_climb:
+                        p.add_msg_if_player( message );
+                        break;
+                    case climb_result::one_way_dangerous:
+                    case climb_result::one_way_unclimbable:
+                    default:
+                        if( !query_yn( message ) ) {
+                            return;
+                        }
                 }
             }
 
             p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
             p.setpos( examp );
-
-            if( has_grapnel ) {
-                p.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
-            }
 
             if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
                 // One tile of falling less (possibly zero)
@@ -4701,9 +4622,9 @@ void iexamine::ledge( player &p, const tripoint &examp )
             here.creature_on_trap( p );
             break;
         }
-        case 3: {
+        case ledge_action::spin_web_bridge: {
 
-            if( !can_use_mutation_warn( trait_WEB_BRDIGE, p ) ) {
+            if( !can_use_mutation_warn( trait_WEB_BRIDGE, p ) ) {
                 break;
             }
             const int range = 6; //this means we could web across a gap of 5.
@@ -4727,7 +4648,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
                     g->m.ter_set( dest, t_web_bridge );
                 }
-                p.mutation_spend_resources( trait_WEB_BRDIGE );
+                p.mutation_spend_resources( trait_WEB_BRIDGE );
             }
             break;
         }
@@ -5138,11 +5059,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             for( int i = 0; i < num_hp_parts; i++ ) {
                 const bodypart_id &part = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
                 const bool broken = patient.is_limb_broken( part );
-                effect &existing_effect = patient.get_effect( effect_mending, part->token );
-                // Skip part if not broken or already healed 50%
-                if( !broken || ( !existing_effect.is_null() &&
-                                 existing_effect.get_duration() >
-                                 existing_effect.get_max_duration() - 5_days - 1_turns ) ) {
+                if( !broken ) {
                     continue;
                 }
                 broken_limbs_count++;
@@ -5173,9 +5090,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.add_msg_player_or_npc( m_good, _( "The machine rapidly sets and splints your broken %s." ),
                                                    _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
                                                    body_part_name( part ) );
-                    patient.add_effect( effect_mending, 0_turns, part->token );
-                    effect &mending_effect = patient.get_effect( effect_mending, part->token );
-                    mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
+                    // TODO: Prevent exploits with hp draining stuff?
+                    int heal_amt = patient.get_part_hp_max( part ) / 2 - patient.get_part_hp_cur( part );
+                    if( heal_amt > 0 ) {
+                        patient.heal( part, heal_amt );
+                    }
                 }
             }
             if( broken_limbs_count == 0 ) {
@@ -5260,9 +5179,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.add_effect( effect_pblue, 1_hours );
                 }
             }
-            if( patient.leak_level( "RADIOACTIVE" ) ) {
+            if( patient.leak_level( flag_RADIOACTIVE ) ) {
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's possession.  Urgent decontamination procedures highly recommended." ),
-                       patient.leak_level( "RADIOACTIVE" ) );
+                       patient.leak_level( flag_RADIOACTIVE ) );
             }
             break;
         }
@@ -5494,8 +5413,8 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
             item result( mdata.into_, start_time + milling_time, it.count() * mdata.conversion_rate_ );
             result.components.push_back( it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const std::string &f : it.type->item_tags ) {
-                if( json_flag::get( f ).craft_inherit() ) {
+            for( const flag_id &f : it.type->get_flags() ) {
+                if( f->craft_inherit() ) {
                     result.set_flag( f );
                 }
             }

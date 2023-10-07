@@ -12,6 +12,7 @@
 
 #include "active_tile_data.h"
 #include "calendar.h"
+#include "catalua_type_operators.h"
 #include "color.h"
 #include "numeric_interval.h"
 #include "poly_serialized.h"
@@ -323,6 +324,7 @@ enum ter_bitflags : int {
     TFLAG_SUSPENDED,
     TFLAG_FRIDGE,
     TFLAG_FREEZER,
+    TFLAG_ELEVATOR,
 
     NUM_TERFLAGS
 };
@@ -481,6 +483,8 @@ struct ter_t : map_data_common_t {
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
     static const std::vector<ter_t> &get_all();
+
+    LUA_TYPE_OPS( ter_t, id );
 };
 
 void set_ter_ids();
@@ -534,6 +538,8 @@ struct furn_t : map_data_common_t {
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
     static const std::vector<furn_t> &get_all();
+
+    LUA_TYPE_OPS( furn_t, id );
 };
 
 void load_furniture( const JsonObject &jo, const std::string &src );

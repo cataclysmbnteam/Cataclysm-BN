@@ -57,10 +57,10 @@
 #include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weather.h"
 
-static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
@@ -68,7 +68,8 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_got_checked( "got_checked" );
 
-static const std::string flag_SPLINT( "SPLINT" );
+static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
+static const flag_id json_flag_SPLINT( "SPLINT" );
 
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
@@ -335,7 +336,7 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
 static std::string get_temp( const avatar &u )
 {
     std::string temp;
-    if( u.has_item_with_flag( "THERMOMETER" ) ||
+    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
         u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
@@ -770,36 +771,36 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             wprintz( w, color, sym );
         }
     };
+
     const bodypart_id bp = convert_bp( avatar::hp_to_bp( static_cast<hp_part>( limb_index ) ) ).id();
+    const int hp_cur = u.get_part_hp_cur( bp );
+    const int hp_max = u.get_part_hp_max( bp );
+
+    std::optional<nc_color> color_override;
+
     if( u.is_limb_broken( bp.id() ) && ( limb_index >= hp_arm_l &&
                                          limb_index <= hp_leg_r ) ) {
         //Limb is broken
-        std::string limb = "~~%~~";
-        nc_color color = c_light_red;
+        const int mend_perc =  100 * hp_cur / hp_max;
+        bool splinted = u.worn_with_flag( json_flag_SPLINT, bp ) ||
+                        ( u.mutation_value( "mending_modifier" ) >= 1.0f );
+        nc_color color = splinted ? c_blue : c_dark_gray;
 
-        if( u.worn_with_flag( flag_SPLINT,  bp ) || u.has_trait( trait_REGEN_LIZ ) ) {
-            static const efftype_id effect_mending( "mending" );
-            const auto &eff = u.get_effect( effect_mending, bp->token );
-            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
-
-            if( is_self_aware || u.has_effect( effect_got_checked ) ) {
-                limb = string_format( "=%2d%%=", mend_perc );
-                color = c_blue;
-            } else {
-                const int num = mend_perc / 20;
-                print_symbol_num( w, num, "#", c_blue );
-                print_symbol_num( w, 5 - num, "=", c_blue );
-                return;
-            }
+        if( is_self_aware || u.has_effect( effect_got_checked ) ) {
+            color_override = color;
+        } else {
+            const int num = mend_perc / 20;
+            print_symbol_num( w, num, "#", color );
+            print_symbol_num( w, 5 - num, "=", color );
+            return;
         }
-
-        wprintz( w, color, limb );
-        return;
     }
 
-    const int hp_cur = u.get_part_hp_cur( bp );
-    const int hp_max = u.get_part_hp_max( bp );
+
     std::pair<std::string, nc_color> hp = get_hp_bar( hp_cur, hp_max );
+    if( color_override ) {
+        hp.second = *color_override;
+    }
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", hp_cur );
@@ -1529,7 +1530,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 5 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( weather.winddirection ) );
 
-    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
+        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         std::string temp = print_temperature( weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
@@ -1659,16 +1661,16 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 35, 4 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_light_blue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 21, 5 ), c_light_gray, type );
+        mvwprintz( w, point( 26, 5 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            nc_color col_vel = strain <= 0 ? c_light_blue :
-                               ( strain <= 0.2 ? c_yellow :
-                                 ( strain <= 0.4 ? c_light_red : c_red ) );
-            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-            int offset = get_int_digits( t_speed );
-            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, point( 21, 5 ), c_light_gray, type );
-            mvwprintz( w, point( 26, 5 ), col_vel, "%d", c_speed );
             mvwprintz( w, point( 26 + offset, 5 ), c_light_gray, ">" );
             mvwprintz( w, point( 28 + offset, 5 ), c_light_green, "%d", t_speed );
         }
@@ -1783,18 +1785,18 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 6, 0 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
         // target speed > current speed
         const float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_light_blue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 12, 0 ), c_light_gray, "%s :", type );
+        mvwprintz( w, point( 19, 0 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            nc_color col_vel = strain <= 0 ? c_light_blue :
-                               ( strain <= 0.2 ? c_yellow :
-                                 ( strain <= 0.4 ? c_light_red : c_red ) );
-            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-            int offset = get_int_digits( t_speed );
-            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, point( 12, 0 ), c_light_gray, "%s :", type );
-            mvwprintz( w, point( 19, 0 ), c_light_green, "%d", t_speed );
             mvwprintz( w, point( 20 + offset, 0 ), c_light_gray, "%s", ">" );
-            mvwprintz( w, point( 22 + offset, 0 ), col_vel, "%d", c_speed );
+            mvwprintz( w, point( 22 + offset, 0 ), c_light_green, "%d", t_speed );
         }
     }
 
@@ -1818,15 +1820,15 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         nc_color col_vel = strain <= 0 ? c_light_blue :
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_light_red : c_red ) );
+        int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
+        int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
+        int offset = get_int_digits( c_speed );
+        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
+        mvwprintz( w, point( 13, 0 ), c_light_gray, "%s :", type );
+        mvwprintz( w, point( 20, 0 ), col_vel, "%d", c_speed );
         if( veh->cruise_on ) {
-            int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
-            int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
-            int offset = get_int_digits( t_speed );
-            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
-            mvwprintz( w, point( 13, 0 ), c_light_gray, "%s :", type );
-            mvwprintz( w, point( 20, 0 ), c_light_green, "%d", t_speed );
             mvwprintz( w, point( 21 + offset, 0 ), c_light_gray, "%s", ">" );
-            mvwprintz( w, point( 23 + offset, 0 ), col_vel, "%d", c_speed );
+            mvwprintz( w, point( 23 + offset, 0 ), c_light_green, "%d", t_speed );
         }
     }
 
@@ -1954,7 +1956,8 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 15, 0 ), c_light_gray, _( "Time: ???" ) );
     }
 
-    if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+    if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
+        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }

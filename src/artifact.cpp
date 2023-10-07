@@ -695,7 +695,7 @@ itype_id new_artifact()
         def.melee[DT_STAB] = rng( weapon.stab_min, weapon.stab_max );
         def.m_to_hit = rng( weapon.to_hit_min, weapon.to_hit_max );
         if( !weapon.tag.empty() ) {
-            def.item_tags.insert( weapon.tag );
+            def.item_tags.insert( flag_id( weapon.tag ) );
         }
         // Add an extra weapon perhaps?
         if( one_in( 2 ) ) {
@@ -709,7 +709,7 @@ itype_id new_artifact()
                 def.melee[DT_STAB] += rng( weapon.stab_min, weapon.stab_max );
                 def.m_to_hit += rng( weapon.to_hit_min, weapon.to_hit_max );
                 if( !weapon.tag.empty() ) {
-                    def.item_tags.insert( weapon.tag );
+                    def.item_tags.insert( flag_id( weapon.tag ) );
                 }
                 def.create_name( std::string( _( weapon.adjective ) ) + " " + _( info.name ) );
             }
@@ -1138,7 +1138,7 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
     melee[DT_BASH] = jo.get_int( "melee_dam" );
     melee[DT_CUT] = jo.get_int( "melee_cut" );
     m_to_hit = jo.get_int( "m_to_hit" );
-    item_tags = jo.get_tags( "item_flags" );
+    item_tags = jo.get_tags<flag_id>( "item_flags" );
     jo.read( "techniques", techniques );
 
     tool->max_charges = jo.get_int( "max_charges" );
@@ -1247,7 +1247,7 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     melee[DT_BASH] = jo.get_int( "melee_dam" );
     melee[DT_CUT] = jo.get_int( "melee_cut" );
     m_to_hit = jo.get_int( "m_to_hit" );
-    item_tags = jo.get_tags( "item_flags" );
+    item_tags = jo.get_tags<flag_id>( "item_flags" );
     jo.read( "techniques", techniques );
 
     // Old saves don't have max_encumber, so set it to base encumbrance value

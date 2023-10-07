@@ -179,5 +179,42 @@
     "flags": [ "STAB", "SHEATH_KNIFE" ],
     "price": 1000,
     "price_postapoc": 0
+  },
+  {
+    "type": "TOOL",
+    "category": "spare_parts",
+    "id": "cannonball_explosive",
+    "name": { "str": "unpacked cannon shell" },
+    "description": "A metal case tightly packed with gunpowder and an impact fuse.  With some gunpowder, wadding, and a fuse, it could be prepared to load into a cannon.",
+    "symbol": "o",
+    "color": "dark_gray",
+    "looks_like": "cannonball_4lb",
+    "weight": "4275 g",
+    "volume": "700 ml",
+    "material": [ "iron", "powder" ],
+    "to_hit": -6,
+    "flags": [ "TRADER_AVOID" ],
+    "bashing": 18,
+    "explosion": {
+      "damage": 50,
+      "radius": 3,
+      "fragment": { "impact": { "damage_type": "cut", "amount": 50, "armor_multiplier": 3 }, "range": 5 }
+    },
+    "explode_in_fire": true
+  },
+  {
+    "type": "GENERIC",
+    "id": "cannonball_4lb",
+    "category": "spare_parts",
+    "symbol": "o",
+    "color": "dark_gray",
+    "name": { "str": "cannonball" },
+    "description": "A four-pound, cast-iron cannonball.  With some gunpowder, wadding, and a fuse, it could be prepared to load into a cannon.",
+    "material": [ "iron" ],
+    "weight": "1800 g",
+    "volume": "200 ml",
+    "to_hit": -5,
+    "flags": [ "TRADER_AVOID" ],
+    "bashing": 15
   }
 ]

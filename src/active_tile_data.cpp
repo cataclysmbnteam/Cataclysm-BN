@@ -4,6 +4,7 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "distribution_grid.h"
+#include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"
@@ -11,6 +12,7 @@
 #include "mapbuffer.h"
 #include "rng.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_range.h"
 #include "weather.h"
 
@@ -18,9 +20,6 @@
 #include "submap.h"
 
 static const itype_id itype_battery( "battery" );
-
-static const std::string flag_RECHARGE( "RECHARGE" );
-static const std::string flag_USE_UPS( "USE_UPS" );
 
 namespace active_tiles
 {

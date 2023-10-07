@@ -58,7 +58,14 @@
     "price": 10000,
     "price_postapoc": 1000,
     "displacement": 30,
-    "faults": [ "fault_engine_starter" ]
+    "//": "No power consumed to start so no starter",
+    "faults": [
+      "fault_engine_belt_drive",
+      "fault_engine_filter_air",
+      "fault_engine_filter_fuel",
+      "fault_engine_immobiliser",
+      "fault_engine_pump_fuel"
+    ]
   },
   {
     "id": "1cyl_combustion_large",
@@ -71,7 +78,14 @@
     "price": 10000,
     "price_postapoc": 1250,
     "displacement": 55,
-    "faults": [ "fault_engine_starter" ]
+    "//": "No power consumed to start so no starter",
+    "faults": [
+      "fault_engine_belt_drive",
+      "fault_engine_filter_air",
+      "fault_engine_filter_fuel",
+      "fault_engine_immobiliser",
+      "fault_engine_pump_fuel"
+    ]
   },
   {
     "id": "i4_combustion",
@@ -201,7 +215,9 @@
     "weight": "180000 g",
     "volume": "37500 ml",
     "price": 555000,
-    "price_postapoc": 8000
+    "price_postapoc": 8000,
+    "//": "No power consumed to start so no starter",
+    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_pump_water" ]
   },
   {
     "id": "steam_triple_medium",

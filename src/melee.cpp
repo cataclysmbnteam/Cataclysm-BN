@@ -6,9 +6,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <limits>
-#include <list>
 #include <map>
-#include <memory>
 #include <optional>
 #include <set>
 #include <string>
@@ -29,11 +27,11 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
@@ -61,8 +59,8 @@
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
-#include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -112,6 +110,9 @@ static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
+static const trait_flag_str_id trait_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
+static const trait_flag_str_id trait_flag_UNARMED_BONUS( "UNARMED_BONUS" );
+
 static const efftype_id effect_amigara( "amigara" );
 
 static const species_id HUMAN( "HUMAN" );
@@ -148,7 +149,19 @@ item &Character::used_weapon()
 
 const item &Character::primary_weapon() const
 {
-    return weapon;
+    if( get_body().find( body_part_arm_r ) == get_body().end() ) {
+        debugmsg( "primary_weapon called before set_anatomy" );
+        return null_item_reference();
+    }
+
+    // TODO: Remove unconst hacks
+    const std::shared_ptr<item> &wielded_const = get_part( body_part_arm_r ).wielding.wielded;
+    std::shared_ptr<item> &wielded = const_cast<std::shared_ptr<item> &>( wielded_const );
+    if( wielded == nullptr ) {
+        wielded = std::make_shared<item>();
+    }
+
+    return *wielded;
 }
 
 item &Character::primary_weapon()
@@ -156,10 +169,29 @@ item &Character::primary_weapon()
     return const_cast<item &>( const_cast<const Character *>( this )->primary_weapon() );
 }
 
+void Character::set_primary_weapon( const item &new_weapon )
+{
+    auto &body = get_body();
+    auto iter = body.find( body_part_arm_r );
+    if( iter != body.end() ) {
+        bodypart &part = get_part( body_part_arm_r );
+        if( part.wielding.wielded == nullptr ) {
+            part.wielding.wielded = std::make_shared<item>( new_weapon );
+        } else {
+            *part.wielding.wielded = new_weapon;
+        }
+    }
+}
+
 std::vector<item *> Character::wielded_items()
 {
-    if( !weapon.is_null() ) {
-        return {&weapon};
+    if( get_body().find( body_part_arm_r ) == get_body().end() ) {
+        return {};
+    }
+    const bodypart &right_arm = get_part( body_part_arm_r );
+    const auto wielded = right_arm.wielding.wielded;
+    if( wielded != nullptr && !wielded->is_null() ) {
+        return {& *wielded};
     }
 
     return {};
@@ -167,11 +199,8 @@ std::vector<item *> Character::wielded_items()
 
 std::vector<const item *> Character::wielded_items() const
 {
-    if( !weapon.is_null() ) {
-        return {&weapon};
-    }
-
-    return {};
+    const auto nonconst_ret = const_cast<Character *>( this )->wielded_items();
+    return std::vector<const item *>( nonconst_ret.begin(), nonconst_ret.end() );
 }
 
 bool Character::is_armed() const
@@ -182,7 +211,7 @@ bool Character::is_armed() const
 bool Character::unarmed_attack() const
 {
     const item &weap = used_weapon();
-    return weap.is_null() || weap.has_flag( "UNARMED_WEAPON" );
+    return weap.is_null() || weap.has_flag( flag_UNARMED_WEAPON );
 }
 
 bool Character::handle_melee_wear( item &shield, float wear_multiplier )
@@ -196,7 +225,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     }
 
     // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
-    if( shield.has_flag( "UNBREAKABLE_MELEE" ) ) {
+    if( shield.has_flag( flag_UNBREAKABLE_MELEE ) ) {
         return false;
     }
 
@@ -214,7 +243,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     itype_id weak_comp;
     itype_id big_comp = itype_id::NULL_ID();
     // Fragile items that fall apart easily when used as a weapon due to poor construction quality
-    if( shield.has_flag( "FRAGILE_MELEE" ) ) {
+    if( shield.has_flag( flag_FRAGILE_MELEE ) ) {
         const float fragile_factor = 6;
         int weak_chip = INT_MAX;
         units::volume big_vol = 0_ml;
@@ -241,7 +270,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     int damage_chance = static_cast<int>( stat_factor * material_factor / wear_multiplier );
     // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
     // than other weapons made of the same materials.
-    if( shield.has_flag( "DURABLE_MELEE" ) ) {
+    if( shield.has_flag( flag_DURABLE_MELEE ) ) {
         damage_chance *= 4;
     }
 
@@ -275,7 +304,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     remove_item( shield );
 
     // Breakdown fragile weapons into components
-    if( temp.has_flag( "FRAGILE_MELEE" ) && !temp.components.empty() ) {
+    if( temp.has_flag( flag_FRAGILE_MELEE ) && !temp.components.empty() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s breaks apart!" ),
                                _( "<npcname>'s %s breaks apart!" ),
                                str );
@@ -332,7 +361,7 @@ float Character::hit_roll() const
     float hit = get_melee_hit_base();
 
     // Farsightedness makes us hit worse
-    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
         !has_effect( effect_contacts ) ) {
         hit -= 2.0f;
     }
@@ -367,7 +396,7 @@ std::string Character::get_miss_reason()
         _( "Your torso encumbrance throws you off-balance." ),
         roll_remainder( encumb( bp_torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
-                                     !worn_with_flag( "FIX_FARSIGHT" ) &&
+                                     !worn_with_flag( flag_FIX_FARSIGHT ) &&
                                      !has_effect( effect_contacts ) );
     add_miss_reason(
         _( "You can't hit reliably due to your farsightedness." ),
@@ -528,7 +557,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
         }
         // polearms and pikes (but not spears) do less damage to adjacent targets
         if( cur_weapon.reach_range( *this ) > 1 && !reach_attacking &&
-            cur_weapon.has_flag( "POLEARM" ) ) {
+            cur_weapon.has_flag( flag_POLEARM ) ) {
             d.mult_damage( 0.7 );
         }
 
@@ -622,16 +651,15 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
     const int melee = get_skill_level( skill_melee );
 
     // Previously calculated as 2_gram * std::max( 1, str_cur )
-    // using 16_gram normalizes it to 8 str. Same effort expenditure
-    // for each strike, regardless of weight. This is compensated
-    // for by the additional move cost as weapon weight increases
     const int weight_cost = cur_weapon.weight() / ( 16_gram );
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) *
                                  2.0f );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
+    const float strbonus = 1 / ( 2 + ( str_cur * 0.25f ) );
     const float skill_cost = std::max( 0.667f, static_cast<float>( ( 30.0f - melee ) / 30.0f ) );
-    /** @EFFECT_MELEE reduces stamina cost of melee attacks */
-    const int mod_sta = ( weight_cost + encumbrance_cost - deft_bonus + 50 ) * -1 * skill_cost;
+    /** @EFFECT_MELEE and @EFFECT_STR reduce stamina cost of melee attacks */
+    const int mod_sta = -( weight_cost + encumbrance_cost - deft_bonus + 50 ) * skill_cost *
+                        ( 0.75f + strbonus );
     mod_stamina( std::min( -50, mod_sta ) );
     add_msg( m_debug, "Stamina burn: %d", std::min( -50, mod_sta ) );
     mod_moves( -move_cost );
@@ -650,7 +678,8 @@ void Character::reach_attack( const tripoint &p )
 {
     matec_id force_technique = tec_none;
     /** @EFFECT_MELEE >5 allows WHIP_DISARM technique */
-    if( primary_weapon().has_flag( "WHIP" ) && ( get_skill_level( skill_melee ) > 5 ) && one_in( 3 ) ) {
+    if( primary_weapon().has_flag( flag_WHIP ) && ( get_skill_level( skill_melee ) > 5 ) &&
+        one_in( 3 ) ) {
         force_technique = matec_id( "WHIP_DISARM" );
     }
 
@@ -695,7 +724,7 @@ void Character::reach_attack( const tripoint &p )
             /** @EFFECT_STABBING increases ability to reach attack through fences */
         } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
-                   !( primary_weapon().has_flag( "SPEAR" ) &&
+                   !( primary_weapon().has_flag( flag_SPEAR ) &&
                       g->m.has_flag( "THIN_OBSTACLE", path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
@@ -860,9 +889,9 @@ float Character::get_dodge() const
         ret *= 1.0f - ( 0.25f * zed_number );
     }
 
-    if( worn_with_flag( "ROLLER_INLINE" ) ||
-        worn_with_flag( "ROLLER_QUAD" ) ||
-        worn_with_flag( "ROLLER_ONE" ) ) {
+    if( worn_with_flag( flag_ROLLER_INLINE ) ||
+        worn_with_flag( flag_ROLLER_QUAD ) ||
+        worn_with_flag( flag_ROLLER_ONE ) ) {
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
     }
 
@@ -938,12 +967,13 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             for( const trait_id &mut : get_mutations() ) {
-                if( mut->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut ) ) {
+                if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
+                    !has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int bash_bonus = mut->bash_dmg_bonus;
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && bash_bonus > 0 ) {
+                if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && bash_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += bash_bonus + unarmed_bonus;
@@ -1026,12 +1056,13 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
             }
 
             for( const trait_id &mut : get_mutations() ) {
-                if( mut->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut ) ) {
+                if( mut->flags.count( trait_flag_NEED_ACTIVE_TO_MELEE ) > 0 &&
+                    !has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int cut_bonus = mut->cut_dmg_bonus;
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
+                if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += cut_bonus + unarmed_bonus;
@@ -1098,7 +1129,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
             for( const trait_id &mut : get_mutations() ) {
                 int stab_bonus = mut->pierce_dmg_bonus;
                 int unarmed_bonus = 0;
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && stab_bonus > 0 ) {
+                if( mut->flags.count( trait_flag_UNARMED_BONUS ) > 0 && stab_bonus > 0 ) {
                     unarmed_bonus = std::min( unarmed_skill / 2, 4 );
                 }
 
@@ -1566,7 +1597,7 @@ static int blocking_ability( const item &shield )
         block_bonus = 6;
     } else if( shield.has_technique( WBLOCK_1 ) ) {
         block_bonus = 4;
-    } else if( shield.has_flag( "BLOCK_WHILE_WORN" ) ) {
+    } else if( shield.has_flag( flag_BLOCK_WHILE_WORN ) ) {
         block_bonus = 2;
     }
     return block_bonus;
@@ -1580,7 +1611,7 @@ item &Character::best_shield()
     best_value = best_value == 2 ? 0 : best_value;
     item *best = best_value > 0 ? &primary_weapon() : &null_item_reference();
     for( item &shield : worn ) {
-        if( shield.has_flag( "BLOCK_WHILE_WORN" ) && blocking_ability( shield ) >= best_value ) {
+        if( shield.has_flag( flag_BLOCK_WHILE_WORN ) && blocking_ability( shield ) >= best_value ) {
             // in case a mod adds a shield that protects only one arm, the corresponding arm needs to be working
             if( shield.covers( bodypart_str_id( "arm_l" ) ) || shield.covers( bodypart_str_id( "arm_r" ) ) ) {
                 if( shield.covers( bodypart_str_id( "arm_l" ) ) && !is_limb_disabled( bodypart_id( "arm_l" ) ) ) {
@@ -1629,7 +1660,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     item &shield = best_shield();
     block_bonus = blocking_ability( shield );
     bool conductive_shield = shield.conductive();
-    bool unarmed = primary_weapon().has_flag( "UNARMED_WEAPON" ) || primary_weapon().is_null();
+    bool unarmed = primary_weapon().has_flag( flag_UNARMED_WEAPON ) || primary_weapon().is_null();
     bool force_unarmed = martial_arts_data->is_force_unarmed();
 
     int melee_skill = get_skill_level( skill_melee );
@@ -1876,7 +1907,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
-    if( primary_weapon().has_flag( "FLAMING" ) ) {
+    if( primary_weapon().has_flag( flag_FLAMING ) ) {
         d.add_damage( DT_HEAT, rng( 1, 8 ) );
 
         if( is_player() ) {
@@ -1887,7 +1918,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     }
 
     //Hurting the wielder from poorly-chosen weapons
-    if( weap.has_flag( "HURT_WHEN_WIELDED" ) && x_in_y( 2, 3 ) ) {
+    if( weap.has_flag( flag_HURT_WHEN_WIELDED ) && x_in_y( 2, 3 ) ) {
         add_msg_if_player( m_bad, _( "The %s cuts your hand!" ), weap.tname() );
         deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance::physical( 0,
                      weap.damage_melee( DT_CUT ), 0 ) );
@@ -1958,7 +1989,7 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
         }
         // Note: we're counting arms, so we want wielded item here, not weapon used for attack
         if( u.primary_weapon().is_two_handed( u ) || !u.has_two_arms() ||
-            u.worn_with_flag( "RESTRICT_HANDS" ) ) {
+            u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
             num_attacks--;
         }
 
@@ -1997,7 +2028,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
 
     std::string target = t.disp_name();
 
-    const body_part_set usable_body_parts = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
+    const body_part_set usable_body_parts = exclusive_flag_coverage( flag_ALLOWS_NATURAL_ATTACKS );
     const int unarmed = get_skill_level( skill_unarmed );
 
     for( const trait_id &pr : get_mutations() ) {
@@ -2258,7 +2289,7 @@ int Character::attack_cost( const item &weap ) const
     /** @EFFECT_MELEE increases melee attack speed */
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
-    const int dexbonus = dex_cur / 2;
+    const int dexbonus = dex_cur;
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
@@ -2313,14 +2344,8 @@ double npc_ai::weapon_value( const Character &who, const item &weap, int ammo )
     const double more = std::max( val_gun, val_melee );
     const double less = std::min( val_gun, val_melee );
 
-    // discourage wielding helmets, but not worn firearms
-    int armor_penalty = 1;
-    if( weap.is_armor() && !weap.is_gun() ) {
-        armor_penalty = 0;
-    }
-
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
-    const double my_val = ( more + ( less / 2.0 ) ) * armor_penalty;
+    const double my_val = ( more + ( less / 2.0 ) );
     add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id().str(), ammo, my_val );
     return my_val;
 }
@@ -2336,7 +2361,7 @@ double npc_ai::melee_value( const Character &who, const item &weap )
         my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
     }
     // value polearms less to account for the trickiness of keeping the right range
-    if( weap.has_flag( "POLEARM" ) ) {
+    if( weap.has_flag( flag_POLEARM ) ) {
         my_value *= 0.8;
     }
 
