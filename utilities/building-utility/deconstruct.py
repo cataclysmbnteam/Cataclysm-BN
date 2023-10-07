@@ -187,7 +187,7 @@ def complete_json_file(template_file, all_cells, remove_template=True):
         json_output_list.append(copy_of_template)
 
     # TODO: better output file names
-    with open("output_" + os.path.basename(template_file.name),
+    with open(f"output_{os.path.basename(template_file.name)}",
               "w") as outfile:
         json.dump(json_output_list, outfile, indent=4, separators=(",", ": "),
                   sort_keys=True)

@@ -411,5 +411,31 @@
       { "fuel": 1, "smoke": 3, "burn": 3 },
       { "fuel": 1, "smoke": 5, "burn": 5 }
     ]
+  },
+  {
+    "type": "terrain",
+    "//": "Obsoleted in favor of a furniture version.",
+    "id": "t_water_dispenser",
+    "name": "water dispenser",
+    "looks_like": "f_sink",
+    "description": "A machine with several taps that dispenses clean water.",
+    "symbol": "W",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 15,
+      "str_max": 80,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "pipe", "count": [ 0, 2 ] }
+      ]
+    },
+    "examine_action": "clean_water_source"
   }
 ]

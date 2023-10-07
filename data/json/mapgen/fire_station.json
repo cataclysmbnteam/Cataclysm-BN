@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "________________________",
+        "_______________________'",
         "--O--_,_______,_______,_",
         "|lcx|_,_______,_______,_",
         "| c#O_,_______,_______,_",
@@ -43,6 +43,7 @@
         "L": "t_door_locked",
         "M": "t_door_metal_locked",
         "O": "t_window",
+        "'": "t_pavement",
         "_": "t_pavement",
         "w": "t_gates_control_brick",
         "x": "t_console_broken",
@@ -50,6 +51,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_counter",
         ":": "f_dresser",
         "@": "f_bed",
@@ -143,7 +145,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "__PpppppppPpppppppP__s__",
+        "__PpppppppPpppppppP__s_'",
         "_||+++++++|+++++++||_s__",
         "_|6.......t.......6|_s__",
         "_|t.......t.......t|_s_S",
@@ -180,6 +182,7 @@
         "P": "t_pavement_y",
         "S": "t_shrub_rose",
         "T": "t_thconc_floor",
+        "'": "t_grass",
         "_": "t_grass",
         "a": "t_shrub_lilac",
         "d": "t_door_c",
@@ -196,6 +199,7 @@
         "<": "t_ladder_up"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_table",
         "&": "f_sink",
         "5": "f_ergometer",

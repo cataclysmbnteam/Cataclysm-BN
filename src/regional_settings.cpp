@@ -7,14 +7,17 @@
 #include <string>
 #include <utility>
 
+#include "consistency_report.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "int_id.h"
 #include "json.h"
+#include "map_extras.h"
 #include "options.h"
 #include "overmap_special.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 
 ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
@@ -1092,4 +1095,24 @@ void building_bin::finalize()
     }
 
     finalized = true;
+}
+
+void check_regional_settings()
+{
+    for( auto const& [region_id, region] : region_settings_map ) {
+        consistency_report rep;
+
+        for( auto const& [extras_group, extras] : region.region_extras ) {
+            for( auto const& [extra_id, extra_weight] : extras.values ) {
+                string_id<map_extra> id( extra_id );
+                if( !id.is_valid() ) {
+                    rep.warn( "defines unknown map extra '%s'", id );
+                }
+            }
+        }
+
+        if( !rep.is_empty() ) {
+            debugmsg( rep.format( "region_settings", region_id ) );
+        }
+    }
 }

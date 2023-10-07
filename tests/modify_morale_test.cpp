@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"
@@ -14,9 +15,6 @@
 #include "morale_types.h"
 #include "point.h"
 #include "type_id.h"
-
-static const std::string flag_CANNIBALISM( "CANNIBALISM" );
-static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
@@ -212,11 +210,11 @@ TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" 
     // are treated as junk food, but might not always be so. Here we set the
     // relevant flags to cover the scenario we're interested in, namely any
     // comestible having both "junk" and "no ingest" flags.
-    caff_gum.set_flag( "ALLERGEN_JUNK" );
-    caff_gum.set_flag( "NO_INGEST" );
+    caff_gum.set_flag( flag_ALLERGEN_JUNK );
+    caff_gum.set_flag( flag_NO_INGEST );
 
-    REQUIRE( caff_gum.has_flag( "ALLERGEN_JUNK" ) );
-    REQUIRE( caff_gum.has_flag( "NO_INGEST" ) );
+    REQUIRE( caff_gum.has_flag( flag_ALLERGEN_JUNK ) );
+    REQUIRE( caff_gum.has_flag( flag_NO_INGEST ) );
 
     GIVEN( "character has a sweet tooth" ) {
         dummy.toggle_trait( trait_PROJUNK );
@@ -275,7 +273,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for eating meat" ) {
             item &meat = dummy.i_add( item( "meat" ) );
-            REQUIRE( meat.has_flag( "ALLERGEN_MEAT" ) );
+            REQUIRE( meat.has_flag( flag_ALLERGEN_MEAT ) );
             dummy.clear_morale();
             dummy.modify_morale( meat );
             CHECK( dummy.get_morale( MORALE_VEGETARIAN ) <= penalty );
@@ -288,7 +286,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for drinking milk" ) {
             item &milk = dummy.i_add( item( "milk" ) );
-            REQUIRE( milk.has_flag( "ALLERGEN_MILK" ) );
+            REQUIRE( milk.has_flag( flag_ALLERGEN_MILK ) );
             dummy.clear_morale();
             dummy.modify_morale( milk );
             CHECK( dummy.get_morale( MORALE_LACTOSE ) <= penalty );
@@ -301,7 +299,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for eating wheat" ) {
             item &wheat = dummy.i_add( item( "wheat" ) );
-            REQUIRE( wheat.has_flag( "ALLERGEN_WHEAT" ) );
+            REQUIRE( wheat.has_flag( flag_ALLERGEN_WHEAT ) );
             dummy.clear_morale();
             dummy.modify_morale( wheat );
             CHECK( dummy.get_morale( MORALE_ANTIWHEAT ) <= penalty );
@@ -314,7 +312,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for eating vegetables" ) {
             item &veggy = dummy.i_add( item( "broccoli" ) );
-            REQUIRE( veggy.has_flag( "ALLERGEN_VEGGY" ) );
+            REQUIRE( veggy.has_flag( flag_ALLERGEN_VEGGY ) );
             dummy.clear_morale();
             dummy.modify_morale( veggy );
             CHECK( dummy.get_morale( MORALE_MEATARIAN ) <= penalty );
@@ -327,7 +325,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for eating fruit" ) {
             item &fruit = dummy.i_add( item( "apple" ) );
-            REQUIRE( fruit.has_flag( "ALLERGEN_FRUIT" ) );
+            REQUIRE( fruit.has_flag( flag_ALLERGEN_FRUIT ) );
             dummy.clear_morale();
             dummy.modify_morale( fruit );
             CHECK( dummy.get_morale( MORALE_ANTIFRUIT ) <= penalty );
@@ -340,7 +338,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 
         THEN( "they get a morale penalty for eating junk food" ) {
             item &junk = dummy.i_add( item( "neccowafers" ) );
-            REQUIRE( junk.has_flag( "ALLERGEN_JUNK" ) );
+            REQUIRE( junk.has_flag( flag_ALLERGEN_JUNK ) );
             dummy.clear_morale();
             dummy.modify_morale( junk );
             CHECK( dummy.get_morale( MORALE_ANTIJUNK ) <= penalty );

@@ -158,38 +158,6 @@
     "to_hit": 1
   },
   {
-    "id": "sword_wood",
-    "type": "GENERIC",
-    "category": "weapons",
-    "weapon_category": [ "1H_SWORDS" ],
-    "symbol": "!",
-    "color": "brown",
-    "name": { "str": "2-by-sword" },
-    "description": "A two by four with a cross guard and whittled down point; not much for slashing, but much better than your bare hands.",
-    "material": "wood",
-    "volume": "1250 ml",
-    "weight": "600 g",
-    "bashing": 12,
-    "cutting": 1,
-    "to_hit": 1,
-    "price_postapoc": 50,
-    "flags": [ "SHEATH_SWORD" ],
-    "techniques": [ "WBLOCK_1" ]
-  },
-  {
-    "id": "sword_nail",
-    "type": "GENERIC",
-    "copy-from": "sword_wood",
-    "color": "light_gray",
-    "name": { "str": "nord" },
-    "description": "The nail sword, or nord for short.  This wooden sword has a dozen nails sticking at jagged angles from edge of the blade, making it much better at chopping than slashing.",
-    "volume": "1750 ml",
-    "weight": "648 g",
-    "cutting": 4,
-    "to_hit": 2,
-    "price_postapoc": 100
-  },
-  {
     "id": "bokken",
     "type": "GENERIC",
     "category": "weapons",
@@ -314,7 +282,6 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
-    "flags": [ "DURABLE_MELEE" ],
     "volume": "600 ml",
     "bashing": 8,
     "price": 1000
@@ -355,7 +322,7 @@
     "to_hit": 1,
     "price": 12000,
     "price_postapoc": 500,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 2 ] ]
   },
   {
     "id": "hammer_sledge_short",
@@ -400,7 +367,7 @@
     "to_hit": -1,
     "price": 6000,
     "price_postapoc": 250,
-    "qualities": [ [ "HAMMER", 2 ] ]
+    "qualities": [ [ "HAMMER", 3 ] ]
   },
   {
     "id": "hockey_stick",
@@ -510,7 +477,7 @@
     "cutting": 34,
     "to_hit": 1,
     "price_postapoc": 10000,
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "HAMMER", 2 ], [ "COOK", 1 ] ]
   },
   {
     "id": "lucern_hammerfake",
@@ -526,7 +493,8 @@
     "weight": "2700 g",
     "volume": "3750 ml",
     "bashing": 48,
-    "cutting": 8
+    "cutting": 8,
+    "qualities": [ [ "HAMMER", 1 ], [ "COOK", 1 ] ]
   },
   {
     "id": "mace",
@@ -914,10 +882,10 @@
     "copy-from": "shocktonfa_off",
     "type": "TOOL",
     "name": { "str": "tactical tonfa (on)", "str_pl": "tactical tonfas (on)" },
-    "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.",
+    "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.  It also has a nifty flashlight, which is currently active.",
     "revert_to": "shocktonfa_off",
     "use_action": "SHOCKTONFA_ON",
-    "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "flags": [ "LIGHT_20", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
     "magazine_well": "500 ml"
   },
   {
@@ -939,6 +907,6 @@
     "bashing": 22,
     "cutting": 23,
     "price": 16000,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "qualities": [ [ "HAMMER", 2 ] ]
   }
 ]

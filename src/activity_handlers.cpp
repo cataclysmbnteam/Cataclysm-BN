@@ -47,6 +47,7 @@
 #include "fault.h"
 #include "field_type.h"
 #include "fstream_utils.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -103,6 +104,7 @@
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
@@ -202,6 +204,8 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_under_op( "under_operation" );
 
+static const fault_id fault_bionic_nonsterile( "fault_bionic_nonsterile" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
@@ -243,9 +247,9 @@ static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const species_id HUMAN( "HUMAN" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
-static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
-static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
-static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
+static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
+static const trait_flag_str_id trait_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -257,31 +261,13 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
+// not to confuse with item flags (json_flag)
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
-static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
-static const std::string flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
-static const std::string flag_FISH_GOOD( "FISH_GOOD" );
-static const std::string flag_FISH_POOR( "FISH_POOR" );
-static const std::string flag_FORAGE_HALLU( "FORAGE_HALLU" );
-static const std::string flag_FORAGE_POISON( "FORAGE_POISON" );
-static const std::string flag_GIBBED( "GIBBED" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_MESSY( "MESSY" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
-static const std::string flag_PULPED( "PULPED" );
-static const std::string flag_QUARTERED( "QUARTERED" );
-static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
-static const std::string flag_REQUIRES_TINDER( "REQUIRES_TINDER" );
-static const std::string flag_SAFECRACK( "SAFECRACK" );
-static const std::string flag_SKINNED( "SKINNED" );
-static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 static const std::string flag_TREE( "TREE" );
-static const std::string flag_USE_UPS( "USE_UPS" );
 
 using namespace activity_handlers;
 
@@ -485,10 +471,19 @@ static void extract_or_wreck_cbms( const std::list<item> &cbms, int roll,
         // This complicates things
         if( it.is_bionic() ) {
             if( check_butcher_cbm( roll ) || it.typeId() == itype_burnt_out_bionic ) {
-                add_msg( m_good, _( "You discover a %s!" ), it.tname() );
+                if( it.has_flag( flag_BIONIC_FAULTY ) ) {
+                    it.convert( itype_burnt_out_bionic );
+                    // We don't need the non-sterile fault on a piece of burnt-out bionic
+                    if( it.has_fault( fault_bionic_nonsterile ) ) {
+                        it.faults.erase( fault_bionic_nonsterile );
+                    }
+                }
+                add_msg( m_good, _( "You discover: %s!" ), it.tname() );
             } else {
-                // We convert instead of recreating so that it keeps flags and faults
                 it.convert( itype_burnt_out_bionic );
+                if( it.has_fault( fault_bionic_nonsterile ) ) {
+                    it.faults.erase( fault_bionic_nonsterile );
+                }
                 add_msg( m_bad, _( "Your imprecise surgery damaged a bionic, producing a %s." ), it.tname() );
             }
         } else {
@@ -496,7 +491,11 @@ static void extract_or_wreck_cbms( const std::list<item> &cbms, int roll,
                 add_msg( m_bad, _( "Your imprecise surgery destroyed some organs." ) );
                 continue;
             } else {
-                add_msg( m_good, _( "You discover a %s!" ), it.tname() );
+                // If we have non-bionic loot in a harvest's bionic_group it doesn't need to be marked non-sterile either.
+                if( it.has_fault( fault_bionic_nonsterile ) ) {
+                    it.faults.erase( fault_bionic_nonsterile );
+                }
+                add_msg( m_good, _( "You discover: %s!" ), it.tname() );
             }
         }
 
@@ -605,7 +604,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
     }
     if( !b_rack_present ) {
         b_rack_present = inv.has_item_with( []( const item & it ) {
-            return it.has_flag( "BUTCHER_RACK" );
+            return it.has_flag( flag_BUTCHER_RACK );
         } );
     }
     // workshop butchery (full) prequisites
@@ -629,7 +628,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
                     butcherable_rating::no_tree_rope_rack );
             }
             if( !( here.has_nearby_table( u.pos(), PICKUP_RANGE ) || inv.has_item_with( []( const item & it ) {
-            return it.has_flag( "FLAT_SURFACE" );
+            return it.has_flag( flag_FLAT_SURFACE );
             } ) ) ) {
                 not_this_one(
                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ),
@@ -1059,7 +1058,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
-                for( const std::string &flg : entry.flags ) {
+                for( const flag_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
@@ -1076,7 +1075,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
-                for( const std::string &flg : entry.flags ) {
+                for( const flag_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
@@ -1092,7 +1091,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
-                for( const std::string &flg : entry.flags ) {
+                for( const flag_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
@@ -1320,7 +1319,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                                               _( "You did something wrong and hacked the corpse badly.  Maybe it's still recoverable." ) );
                         break;
                 }
-                corpse_item.set_flag( "FIELD_DRESS_FAILED" );
+                corpse_item.set_flag( flag_FIELD_DRESS_FAILED );
 
                 here.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
                 here.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
@@ -2109,7 +2108,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     std::string msg = _( "You reload the %s." );
 
     if( ammo_is_filthy ) {
-        reloadable.set_flag( "FILTHY" );
+        reloadable.set_flag( flag_FILTHY );
     }
 
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
@@ -2694,7 +2693,7 @@ item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
 
             for( const itype &item_type : item_type_list ) {
                 if( item_type.get_id() == static_cast<itype_id>( activity.str_values[1] ) ) {
-                    if( !item_type.has_flag( "USES_GRID_POWER" ) ) {
+                    if( !item_type.has_flag( flag_USES_GRID_POWER ) ) {
                         debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
                         return fake_item;
                     }
@@ -2709,7 +2708,7 @@ item get_fake_tool( hack_type_t hack_type, const player_activity &activity )
         }
     }
 
-    fake_item.set_flag( "PSEUDO" );
+    fake_item.set_flag( flag_PSEUDO );
     return fake_item;
 }
 
@@ -3115,7 +3114,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     item &mod = *act->targets[1];
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
-    mod.set_flag( "IRREMOVABLE" );
+    mod.set_flag( flag_IRREMOVABLE );
     tool.put_in( mod );
     act->targets[1].remove_item();
 }
@@ -4114,6 +4113,16 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
         boards = 3;
         newter = t_fence_post;
         p->add_msg_if_player( _( "You pry out the fence post." ) );
+    } else if( type == t_window_reinforced_noglass ) {
+        nails = 16;
+        boards = 8;
+        newter = t_window_boarded_noglass;
+        p->add_msg_if_player( _( "You pry the boards from the window." ) );
+    } else if( type == t_window_reinforced ) {
+        nails = 16;
+        boards = 8;
+        newter = t_window_boarded;
+        p->add_msg_if_player( _( "You pry the boards from the window." ) );
     } else if( type == t_window_boarded ) {
         nails = 8;
         boards = 4;
@@ -4151,20 +4160,13 @@ void activity_handlers::pry_nails_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
+void activity_handlers::chop_tree_do_turn( player_activity *act, player * )
 {
     map &here = get_map();
     sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
         sounds::sound( here.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
-    }
-    if( calendar::once_every( 6_minutes ) ) {
-        p->mod_fatigue( 1 );
-    }
-    if( calendar::once_every( 12_minutes ) ) {
-        p->mod_stored_nutr( 1 );
-        p->mod_thirst( 1 );
     }
 }
 
@@ -4236,6 +4238,31 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
     act->set_to_null();
+
+    // Quality of tool used and assistants can together both reduce intensity of work.
+    if( act->targets.empty() ) {
+        debugmsg( "woodcutting item location not set" );
+        resume_for_multi_activities( *p );
+        return;
+    }
+
+    item_location &loc = act->targets[ 0 ];
+    item *it = loc.get_item();
+    if( it == nullptr ) {
+        debugmsg( "woodcutting item location lost" );
+        resume_for_multi_activities( *p );
+        return;
+    }
+
+    int act_exertion = iuse::chop_moves( *p, *it );
+    p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
+    act_exertion = act_exertion * ( 10 - helpers.size() ) / 10;
+
+    p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 80_seconds ) ) );
+    p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 12_minutes ) ) );
+    p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
+
     resume_for_multi_activities( *p );
 }
 
@@ -4278,6 +4305,23 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
+
+    // Quality of tool used and assistants can together both reduce intensity of work.
+    item_location &loc = act->targets[ 0 ];
+    item *it = loc.get_item();
+    if( it == nullptr ) {
+        debugmsg( "woodcutting item location lost" );
+        return;
+    }
+
+    int act_exertion = iuse::chop_moves( *p, *it );
+    const std::vector<npc *> helpers = character_funcs::get_crafting_helpers( *p, 3 );
+    act_exertion = act_exertion * ( 10 - helpers.size() ) / 10;
+
+    p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 80_seconds ) ) );
+    p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 12_minutes ) ) );
+    p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 6_minutes ) ) );
+
     resume_for_multi_activities( *p );
 }
 
@@ -4370,12 +4414,18 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         here.ter_set( pos, t_dirt );
     }
+    int act_exertion = to_moves<int>( time_duration::from_minutes( 15 ) );
+    if( old_ter == t_pit_shallow ) {
+        act_exertion = to_moves<int>( time_duration::from_minutes( 10 ) );
+    } else if( old_ter == t_dirtmound ) {
+        act_exertion = to_moves<int>( time_duration::from_minutes( 5 ) );
+    }
     const int helpersize = character_funcs::get_crafting_helpers( *p, 3 ).size();
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
+    act_exertion = act_exertion * ( 10 - helpersize ) / 10;
+    p->mod_stored_kcal( std::min( -1, -act_exertion / to_moves<int>( 20_seconds ) ) );
+    p->mod_thirst( std::max( 1, act_exertion / to_moves<int>( 3_minutes ) ) );
+    p->mod_fatigue( std::max( 1, act_exertion / to_moves<int>( 90_seconds ) ) );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
-
     act->set_to_null();
 }
 
@@ -4808,9 +4858,9 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             }
         }
     }
-    if( !act->targets.empty() ) {
+    if( !act->targets.empty() && act->targets.front() ) {
         item &it = *act->targets.front();
-        if( !it.has_flag( "USE_PLAYER_ENERGY" ) ) {
+        if( !it.has_flag( flag_USE_PLAYER_ENERGY ) ) {
             p->consume_charges( it, it.type->charges_to_use() );
         }
     }

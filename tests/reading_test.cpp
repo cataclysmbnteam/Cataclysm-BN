@@ -13,6 +13,7 @@
 #include "character_functions.h"
 #include "item.h"
 #include "itype.h"
+#include "flag.h"
 #include "map.h"
 #include "map_selector.h"
 #include "map_helpers.h"
@@ -26,6 +27,7 @@
 #include "type_id.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 
 class player;
@@ -92,7 +94,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 
     GIVEN( "a fun book that is also inspirational" ) {
         item &book = dummy.i_add( item( "holybook_pastafarian" ) );
-        REQUIRE( book.has_flag( "INSPIRATIONAL" ) );
+        REQUIRE( book.has_flag( flag_INSPIRATIONAL ) );
         REQUIRE( book.type->book );
         REQUIRE( book.type->book->fun > 0 );
         int book_fun = book.type->book->fun;

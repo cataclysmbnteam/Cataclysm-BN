@@ -33,6 +33,7 @@
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 extern void set_displaybuffer_rendertarget();

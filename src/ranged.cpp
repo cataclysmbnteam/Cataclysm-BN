@@ -31,6 +31,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gun_mode.h"
@@ -70,6 +71,7 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 struct ammo_effect;
@@ -126,7 +128,6 @@ static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 
 static const skill_id skill_archery( "archery" );
-static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
@@ -140,20 +141,8 @@ static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_targeting( "bio_targeting" );
 static const bionic_id bio_ups( "bio_ups" );
 
-static const std::string flag_CONSUMABLE( "CONSUMABLE" );
-static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
-static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
+
 static const std::string flag_MOUNTABLE( "MOUNTABLE" );
-static const std::string flag_MOUNTED_GUN( "MOUNTED_GUN" );
-static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
-static const std::string flag_NON_FOULING( "NON-FOULING" );
-static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
-static const std::string flag_PYROMANIAC_WEAPON( "PYROMANIAC_WEAPON" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
-static const std::string flag_STR_DRAW( "STR_DRAW" );
-static const std::string flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
-static const std::string flag_VEHICLE( "VEHICLE" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
@@ -639,7 +628,7 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
     int effective_durability = firing.durability;
-    if( shooter.is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) &&
+    if( shooter.is_underwater() && !it.has_flag( flag_WATERPROOF_GUN ) &&
         one_in( effective_durability ) ) {
         shooter.add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
                                        _( "<npcname>'s %s misfires with a wet click!" ),
@@ -856,10 +845,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
     }
 
-    std::optional<shape_factory> shape;
-    if( gun.ammo_current() && gun.ammo_current()->ammo ) {
-        shape = gun.ammo_current()->ammo->shape;
-    }
+    std::optional<shape_factory> shape = ranged::get_shape_factory( gun );
 
     map &here = get_map();
     // Shaped attacks don't allow aiming, so they don't suffer from lack of aim either
@@ -874,7 +860,7 @@ int ranged::fire_gun( Character &who, const tripoint &target, int max_shots, ite
     int hits = 0; // total shots on target
     while( curshot != shots ) {
         if( !!ammo && !gun.ammo_remaining() ) {
-            gun.reload( get_avatar(), std::move( ammo ), 1 );
+            gun.reload( get_avatar(), ammo, 1 );
         }
         if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
             who.moves -= 50;
@@ -1195,7 +1181,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, cons
                    static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
     impact.add_damage( DT_BASH, std::min( weight / 100.0_gram, stats_mod ) );
 
-    if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
+    if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj.add_effect( ammo_effect_ACT_ON_RANGED_HIT );
         thrown.active = true;
     }
@@ -1248,7 +1234,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, cons
         du.res_pen += skill_level / 2.0f;
     }
     // handling for tangling thrown items
-    if( thrown.has_flag( "TANGLE" ) ) {
+    if( thrown.has_flag( flag_TANGLE ) ) {
         proj.add_effect( ammo_effect_TANGLE );
     }
 
@@ -1259,7 +1245,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, cons
 
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
-    if( thrown_type->has_flag( "CUSTOM_EXPLOSION" ) ) {
+    if( thrown_type->has_flag( flag_CUSTOM_EXPLOSION ) ) {
         proj.set_custom_explosion( thrown_type->explosion );
     }
 
@@ -1767,14 +1753,14 @@ static void cycle_action( item &weap, const tripoint &pos )
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
     const optional_vpart_position vp = here.veh_at( pos );
     std::vector<vehicle_part *> cargo;
-    if( vp && weap.has_flag( "VEHICLE" ) ) {
+    if( vp && weap.has_flag( flag_VEHICLE ) ) {
         cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
     }
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
-        if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( itype_brass_catcher ) ) {
-            weap.put_in( item( casing ).set_flag( "CASING" ) );
+        if( weap.has_flag( flag_RELOAD_EJECT ) || weap.gunmod_find( itype_brass_catcher ) ) {
+            weap.put_in( item( casing ).set_flag( flag_CASING ) );
         } else {
             if( cargo.empty() ) {
                 here.add_item_or_charges( eject, item( casing ) );
@@ -1792,7 +1778,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( itype_brass_catcher ) ) {
-            linkage.set_flag( "CASING" );
+            linkage.set_flag( flag_CASING );
             weap.put_in( linkage );
         } else if( cargo.empty() ) {
             here.add_item_or_charges( eject, linkage );
@@ -1967,22 +1953,21 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     return dispersion;
 }
 
-std::pair<gun_mode_id, gun_mode> npc_ai::best_mode_for_range( const Character &who,
+std::pair<gun_mode_id, std::optional<gun_mode>> npc_ai::best_mode_for_range( const Character &who,
         const item &firing,
         int dist )
 {
-    std::pair<gun_mode_id, gun_mode> res = std::make_pair( gun_mode_id(), gun_mode() );
     int shots = who.is_wielding( firing ) ? character_funcs::ammo_count_for( who,
                 firing ) : item_funcs::shots_remaining( who, firing );
     if( !firing.is_gun() || shots == 0 ) {
-        return res;
+        return std::make_pair( gun_mode_id(), std::nullopt );
     }
     int min_recoil = MAX_RECOIL;
     min_recoil = ranged::get_most_accurate_sight( who, firing );
     int range = static_cast<const npc *>( &who )->confident_shoot_range( firing, min_recoil );
 
     if( dist > range ) {
-        return res;
+        return  std::make_pair( gun_mode_id(), std::nullopt );
     }
 
     const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> lhs,
@@ -2001,12 +1986,11 @@ std::pair<gun_mode_id, gun_mode> npc_ai::best_mode_for_range( const Character &w
     } );
 
     if( modes.empty() ) {
-        return res;
+        return  std::make_pair( gun_mode_id(), std::nullopt );
     }
 
     const auto g_mode = std::max_element( modes.begin(), modes.end(), gun_mode_cmp );
-    res = *g_mode;
-    return res;
+    return *g_mode;
 }
 
 double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
@@ -2014,10 +1998,12 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
     // TODO: Mods
     // TODO: Allow using a specified type of ammo rather than default or current
     if( !weap.type->gun ) {
+        add_msg( m_debug, "%s is not a gun, gun_value set to 0", weap.type->get_id().str() );
         return 0.0;
     }
 
     if( ammo <= 0 ) {
+        add_msg( m_debug, "%s has no ammo, gun_value set to 0", weap.type->get_id().str() );
         return 0.0;
     }
 
@@ -3098,7 +3084,13 @@ void target_ui::update_ammo_range_from_gun_mode()
     } else {
         ammo = activity->reload_loc ? activity->reload_loc.get_item()->type :
                relevant->gun_current_mode().target->ammo_data();
-        range = relevant->gun_current_mode().target->gun_range( you );
+        if( activity->reload_loc ) {
+            item temp_weapon = *relevant;
+            temp_weapon.ammo_set( ammo->get_id() );
+            range = temp_weapon.gun_current_mode().target->gun_range( you );
+        } else {
+            range = relevant->gun_current_mode().target->gun_range( you );
+        }
     }
 }
 
@@ -3776,10 +3768,16 @@ bool ranged::gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::
     }
 
     if( gmode->has_flag( flag_MOUNTED_GUN ) ) {
+
+        bool mech_mount = false;
+        if( you.is_mounted() && you.mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+            mech_mount = true;
+        }
+
         const bool v_mountable = static_cast<bool>( m.veh_at( you.pos() ).part_with_feature( "MOUNTABLE",
                                  true ) );
         bool t_mountable = m.has_flag_ter_or_furn( flag_MOUNTABLE, you.pos() );
-        if( !t_mountable && !v_mountable && !( you.get_size() > MS_MEDIUM ) ) {
+        if( !mech_mount && !t_mountable && !v_mountable && !( you.get_size() > MS_MEDIUM ) ) {
             messages.push_back( string_format(
                                     _( "You must stand near acceptable terrain or furniture to fire the %s.  A table, a mound of dirt, a broken window, etc." ),
                                     gmode->tname() ) );
@@ -3952,4 +3950,13 @@ double ranged::aim_per_move( const Character &who, const item &gun, double recoi
 
     // Never improve by more than the currently used sights permit.
     return std::min( aim_speed, recoil - limit );
+}
+
+std::optional<shape_factory> ranged::get_shape_factory( const item &gun )
+{
+    if( gun.ammo_current() && gun.ammo_current()->ammo ) {
+        return gun.ammo_current()->ammo->shape;
+    }
+
+    return {};
 }

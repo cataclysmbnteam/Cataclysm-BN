@@ -51,6 +51,7 @@
 #include "input.h"
 #include "runtime_handlers.h"
 #include "json.h"
+#include "make_static.h"
 #include "mapbuffer.h"
 #include "mission.h"
 #include "npc.h"
@@ -91,6 +92,7 @@
 #include "inventory.h"
 #include "map.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "worldfactory.h"
 #endif
@@ -2764,7 +2766,8 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( g->u.primary_weapon().is_gun() || g->u.primary_weapon().has_flag( "REACH_ATTACK" ) ) {
+                    if( g->u.primary_weapon().is_gun() ||
+                        g->u.primary_weapon().has_flag( STATIC( flag_id( "REACH_ATTACK" ) ) ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }
@@ -3520,6 +3523,7 @@ void catacurses::init_interface()
 
     get_options().init();
     get_options().load();
+    get_options().save();
 
     font_loader fl;
     fl.load();

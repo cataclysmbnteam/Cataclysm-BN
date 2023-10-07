@@ -304,23 +304,25 @@
     "dispersion": 285,
     "loudness": 0,
     "count": 5,
-    "effects": [ "EXPLOSIVE_SMALL" ]
+    "effects": [ "COOKOFF", "EXPLOSIVE_SMALL" ]
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "exploding_arrow_warhead",
     "category": "spare_parts",
     "symbol": "=",
     "color": "green",
     "name": { "str": "explosive arrowhead" },
-    "description": "This simple IED is designed to be attached to an arrow and detonate on impact.",
+    "description": "This simple IED is designed to be attached to an arrow or crossbow bolt, and detonate on impact.",
     "price": 2000,
     "price_postapoc": 250,
     "material": "steel",
     "weight": "562 g",
     "volume": "250 ml",
     "bashing": 10,
-    "to_hit": -1
+    "to_hit": -1,
+    "explosion": { "damage": 40, "radius": 2 },
+    "explode_in_fire": true
   },
   {
     "type": "AMMO",

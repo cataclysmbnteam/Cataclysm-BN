@@ -352,7 +352,7 @@ class overmap
         // TODO: Should have individual instances grouped by placement (ie. 2 adjacent houses aren't one house)
         std::unordered_map<tripoint_om_omt, overmap_special_id> overmap_special_placements;
 
-        pimpl<regional_settings> settings;
+        const regional_settings *settings;
 
         oter_id get_default_terrain( int z ) const;
 
@@ -421,8 +421,9 @@ class overmap
         bool build_lab( const tripoint_om_omt &p, lab &l, int size,
                         std::vector<point_om_omt> &lab_train_points,
                         const std::string &prefix, int train_odds );
-        void build_anthill( const tripoint_om_omt &p, int s );
-        void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir );
+        void build_anthill( const tripoint_om_omt &p, int s, bool ordinary_ants = true );
+        void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir,
+                           bool ordinary_ants = true );
         bool build_slimepit( const tripoint_om_omt &origin, int s );
         void build_mine( const tripoint_om_omt &origin, int s );
 
@@ -449,8 +450,8 @@ class overmap
                                          const tripoint_om_omt &location ) const;
         void chip_rock( const tripoint_om_omt &p );
 
-        void polish_river();
-        void good_river( const tripoint_om_omt &p );
+        void polish_rivers( const overmap *north, const overmap *east, const overmap *south,
+                            const overmap *west );
 
         om_direction::type random_special_rotation( const overmap_special &special,
                 const tripoint_om_omt &p, bool must_be_unexplored ) const;

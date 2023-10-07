@@ -12,3 +12,9 @@ mods:
 
 translation:
   - lang/**/*
+
+docs:
+  - docs/**/*
+
+scripts:
+  - scripts/**/*

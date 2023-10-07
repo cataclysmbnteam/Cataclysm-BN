@@ -639,5 +639,18 @@
       { "covers": [ "arm_l", "leg_l", "head" ], "coverage": 50, "encumbrance": 5 }
     ],
     "warmth": 5
+  },
+  {
+    "id": "glockmag_test",
+    "copy-from": "glockmag",
+    "name": { "str": "TEST Magazine" },
+    "type": "MAGAZINE"
+  },
+  {
+    "id": "glock_19",
+    "copy-from": "glock_19",
+    "name": { "str": "Glock 19" },
+    "type": "GUN",
+    "extend": { "magazines": [ [ "9mm", [ "glockmag_test" ] ] ] }
   }
 ]

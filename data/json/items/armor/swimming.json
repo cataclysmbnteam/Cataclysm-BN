@@ -238,6 +238,6 @@
     "warmth": 30,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "NO_SALVAGE" ]
   }
 ]

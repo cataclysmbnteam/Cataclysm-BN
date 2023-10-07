@@ -67,7 +67,7 @@
     "bashing": 19,
     "cutting": 51,
     "price_postapoc": 10000,
-    "qualities": [ [ "COOK", 1 ], [ "BUTCHER", -70 ] ]
+    "qualities": [ [ "AXE", 1 ], [ "COOK", 1 ], [ "BUTCHER", -70 ] ]
   },
   {
     "id": "halberd_fake",

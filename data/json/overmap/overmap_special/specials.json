@@ -7048,6 +7048,29 @@
   },
   {
     "type": "overmap_special",
+    "id": "Bastion Fort",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "Bastion_Fort_1_NW_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "Bastion_Fort_1_NE_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "Bastion_Fort_1_SW_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "Bastion_Fort_1_SE_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "Bastion_Fort_2_NW_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "Bastion_Fort_2_NE_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "Bastion_Fort_2_SW_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "Bastion_Fort_2_SE_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "Bastion_Fort_roof_NW_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "Bastion_Fort_roof_NE_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "Bastion_Fort_roof_SW_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "Bastion_Fort_roof_SE_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, 100 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 25, 100 ],
+    "flags": [ "CLASSIC", "UNIQUE", "ELECTRIC_GRID" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Industrial_Center",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "industrial_center_warehouse_north" },

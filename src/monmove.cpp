@@ -37,6 +37,7 @@
 #include "pathfinding.h"
 #include "pimpl.h"
 #include "player.h"
+#include "point.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
@@ -46,6 +47,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 
 static const efftype_id effect_ai_waiting( "ai_waiting" );
@@ -119,11 +121,13 @@ static bool z_is_valid( int z )
 bool monster::will_move_to( const tripoint &p ) const
 {
     if( g->m.impassable( p ) ) {
+        tripoint above_p = p + tripoint_above;
         if( digging() ) {
             if( !g->m.has_flag( "BURROWABLE", p ) ) {
                 return false;
             }
-        } else if( !( can_climb() && g->m.has_flag( "CLIMBABLE", p ) ) ) {
+        } else if( !( can_climb() && g->m.has_flag( "CLIMBABLE", p ) &&
+                      !g->m.has_floor_or_support( above_p ) ) ) {
             return false;
         }
     }
@@ -935,6 +939,11 @@ void monster::move()
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
         for( tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+            // rare scenario when monster is on the border of the map and it's goal is outside of the map
+            if( !here.inbounds( candidate ) ) {
+                continue;
+            }
+
             bool via_ramp = false;
             if( here.has_flag( TFLAG_RAMP_UP, candidate ) ) {
                 via_ramp = true;
@@ -947,7 +956,7 @@ void monster::move()
 
             bool can_z_move = true;
             if( candidate.z != posz() ) {
-                bool can_z_attack = true;
+                bool can_z_attack = fov_3d;
                 if( !here.valid_move( pos(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
                     can_z_move = false;
@@ -1575,7 +1584,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = g->critter_at( destination, is_hallucination() );
     if( g->m.has_flag( "CLIMBABLE", destination ) ) {
-        if( g->m.impassable( destination ) && critter == nullptr ) {
+        tripoint above_dest = destination + tripoint_above;
+        if( g->m.impassable( destination ) && critter == nullptr &&
+            !g->m.has_floor_or_support( above_dest ) ) {
             if( flies() ) {
                 moves -= 100;
                 force = true;

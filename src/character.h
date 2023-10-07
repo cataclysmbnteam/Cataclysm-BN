@@ -242,7 +242,19 @@ class Character : public Creature, public visitable<Character>
         void setID( character_id i, bool force = false );
 
         /** Returns true if the character should be dead */
-        bool is_dead_state() const override;
+        auto is_dead_state() const -> bool override;
+
+    private:
+        mutable std::optional<bool> cached_dead_state;
+
+    public:
+        void set_part_hp_cur( const bodypart_id &id, int set ) override;
+        void set_part_hp_max( const bodypart_id &id, int set ) override;
+
+        void mod_part_hp_cur( const bodypart_id &id, int mod ) override;
+        void mod_part_hp_max( const bodypart_id &id, int mod ) override;
+
+        void set_all_parts_hp_cur( int set ) override;
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
@@ -503,7 +515,7 @@ class Character : public Creature, public visitable<Character>
         bool sees_with_specials( const Creature &critter ) const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
-        body_part_set exclusive_flag_coverage( const std::string &flag ) const;
+        body_part_set exclusive_flag_coverage( const flag_id &flag ) const;
 
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
@@ -703,7 +715,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
-        bool has_trait_flag( const std::string &b ) const;
+        bool has_trait_flag( const trait_flag_str_id &b ) const;
         /** Returns true if character has a trait which cancels the entered trait. */
         bool has_opposite_trait( const trait_id &flag ) const;
 
@@ -742,10 +754,8 @@ class Character : public Creature, public visitable<Character>
         int get_working_arm_count() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
-        /** Returns true if the limb is disabled(12.5% or less hp)*/
+        /** Returns true if the limb is disabled (12.5% or less hp, or broken)*/
         bool is_limb_disabled( const bodypart_id &limb ) const;
-        /** Returns true if the limb is hindered(40% or less hp) */
-        bool is_limb_hindered( hp_part limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( const bodypart_id &limb ) const;
         /** source of truth of whether a Character can run */
@@ -1221,6 +1231,11 @@ class Character : public Creature, public visitable<Character>
         /*@}*/
 
         /**
+         * Use this when primary weapon might not exist yet.
+         */
+        void set_primary_weapon( const item &new_weapon );
+
+        /**
          * Try to find a container/s on character containing ammo of type it.typeId() and
          * add charges until the container is full.
          * @param unloading Do not try to add to a container when the item was intentionally unloaded.
@@ -1387,10 +1402,10 @@ class Character : public Creature, public visitable<Character>
 
         bool is_wielding( const item &target ) const;
 
-        bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
+        bool covered_with_flag( const flag_id &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
         // Carried items may leak radiation or chemicals
-        int leak_level( const std::string &flag ) const;
+        int leak_level( const flag_id &flag ) const;
 
         /**
          * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
@@ -1417,10 +1432,10 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player is wearing the item on the given body part. */
         bool is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const;
         /** Returns true if the player is wearing an item with the given flag. */
-        bool worn_with_flag( const std::string &flag,
+        bool worn_with_flag( const flag_id &flag,
                              const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
         /** Returns the first worn item with a given flag. */
-        const item *item_worn_with_flag( const std::string &flag,
+        const item *item_worn_with_flag( const flag_id &flag,
                                          const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
 
         // drawing related stuff
@@ -1575,8 +1590,7 @@ class Character : public Creature, public visitable<Character>
         std::optional<tripoint> destination_point;
         inventory inv;
         itype_id last_item;
-    private:
-        item weapon;
+
     public:
 
         int scent = 0;
@@ -1622,11 +1636,11 @@ class Character : public Creature, public visitable<Character>
         bool is_hauling() const;
 
         // Has a weapon, inventory item or worn item with flag
-        bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;
+        bool has_item_with_flag( const flag_id &flag, bool need_charges = false ) const;
         /**
          * All items that have the given flag (@ref item::has_flag).
          */
-        std::vector<const item *> all_items_with_flag( const std::string &flag ) const;
+        std::vector<const item *> all_items_with_flag( const flag_id &flag ) const;
 
         bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;
@@ -1984,10 +1998,10 @@ class Character : public Creature, public visitable<Character>
          * depending on choice of ingredients */
         std::pair<nutrients, nutrients> compute_nutrient_range(
             const item &, const recipe_id &,
-            const cata::flat_set<std::string> &extra_flags = {} ) const;
+            const cata::flat_set<flag_id> &extra_flags = {} ) const;
         /** Same, but across arbitrary recipes */
         std::pair<nutrients, nutrients> compute_nutrient_range(
-            const itype_id &, const cata::flat_set<std::string> &extra_flags = {} ) const;
+            const itype_id &, const cata::flat_set<flag_id> &extra_flags = {} ) const;
         /** Returns allergy type or MORALE_NULL if not allergic for this character */
         morale_type allergy_type( const item &food ) const;
         nutrients compute_effective_nutrients( const item & ) const;
@@ -2013,7 +2027,7 @@ class Character : public Creature, public visitable<Character>
         bool change_side( item &it, bool interactive = true );
         bool change_side( item_location &loc, bool interactive = true );
 
-        bool get_check_encumbrance() {
+        bool get_check_encumbrance() const {
             return check_encumbrance;
         }
         void set_check_encumbrance( bool new_check ) {
@@ -2059,8 +2073,6 @@ class Character : public Creature, public visitable<Character>
         void suffer();
         /** Handles mitigation and application of radiation */
         bool irradiate( float rads, bool bypass = false );
-        /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
-        void mend( int rate_multiplier );
 
         /** Creates an auditory hallucination */
         void sound_hallu();
@@ -2222,6 +2234,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_chemimbalance();
         void suffer_from_schizophrenia();
         void suffer_from_asthma( int current_stim );
+        void suffer_feral_kill_withdrawl();
         void suffer_in_sunlight();
         void suffer_from_sunburn();
         void suffer_from_other_mutations();

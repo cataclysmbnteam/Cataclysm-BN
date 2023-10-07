@@ -8,10 +8,12 @@
 
 void active_item_cache::remove( const item *it )
 {
-    active_items[it->processing_speed()].remove_if( [it]( const item_reference & active_item ) {
-        item *const target = active_item.item_ref.get();
-        return !target || target == it;
-    } );
+    for( auto &list : active_items ) {
+        list.second.remove_if( [it]( const item_reference & active_item ) {
+            item *const target = active_item.item_ref.get();
+            return !target || target == it;
+        } );
+    }
     if( it->can_revive() ) {
         special_items[ special_item_type::corpse ].remove_if( [it]( const item_reference & active_item ) {
             item *const target = active_item.item_ref.get();
@@ -48,12 +50,9 @@ void active_item_cache::add( item &it, point location )
 
 bool active_item_cache::empty() const
 {
-    for( std::pair<int, std::list<item_reference>> active_queue : active_items ) {
-        if( !active_queue.second.empty() ) {
-            return false;
-        }
-    }
-    return true;
+    return std::all_of( active_items.begin(), active_items.end(), []( const auto & active_queue ) {
+        return active_queue.second.empty();
+    } );
 }
 
 std::vector<item_reference> active_item_cache::get()

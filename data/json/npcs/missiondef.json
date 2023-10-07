@@ -626,7 +626,8 @@
   {
     "id": "MISSION_LAST_DELIVERY",
     "type": "mission_definition",
-    "name": { "str": "Reach The Mansion And Finish This Delivery" },
+    "name": { "str": "Finish The Delivery" },
+    "description": { "str": "Reach the mansion and finish this delivery." },
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "mansion_c3",
     "difficulty": 1,
@@ -707,7 +708,8 @@
   {
     "id": "MISSION_GET_CITY_COP_MOMENTO",
     "type": "mission_definition",
-    "name": { "str": "Break into armory to retrieve family photo" },
+    "name": { "str": "Retrieve Family Photo" },
+    "description": { "str": "Break into armory to retrieve family photo." },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 800,
@@ -789,7 +791,7 @@
   {
     "id": "MISSION_LEARN_ABOUT_CATTAIL_JELLY",
     "type": "mission_definition",
-    "name": { "str": "Gather cattail stalks to create cattail jelly" },
+    "name": { "str": "Gather Cattail Stalks" },
     "description": "Gather <color_light_blue>80 cattail stalks</color> from the swamp and bring them back to <color_light_red>learn how to craft cattail jelly</color>.  Raise your <color_light_blue>survival skill to at least 1</color> by harvesting cattail stalks.  <color_light_blue>Bring back the provided bag</color> as well.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
@@ -809,8 +811,8 @@
     },
     "end": {
       "effect": [
-        { "u_sell_item": "duffelbag" },
         { "u_sell_item": "cattail_stalk", "count": 80 },
+        { "u_sell_item": "duffelbag" },
         { "npc_consume_item": "cattail_stalk", "count": 80 },
         { "u_learn_recipe": "cattail_jelly" },
         { "u_buy_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
@@ -827,5 +829,35 @@
       "success_lie": "OK, then hand them over.",
       "failure": "Well, that's a shame."
     }
+  },
+  {
+    "id": "MISSION_ASSASSINATION",
+    "type": "mission_definition",
+    "name": { "str": "One Last Assassination" },
+    "description": "Your mission required you to eliminate a certain high-ranking individual in hiding.  Your mark seems to have turned feral while escaping and the world appears to be ending, but not even that can stop you from finishing your mission.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 4,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "s_air_term",
+        "om_special": "o_airport",
+        "reveal_radius": 6,
+        "random": true,
+        "search_range": 90,
+        "min_distance": 45,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_feral_scientist_scalpel", "name": "The Target", "x": 11, "y": 11, "target": true },
+          { "monster": "mon_feral_labsecurity_9mm", "name": "The Guard", "x": 12, "y": 12 },
+          { "monster": "mon_feral_soldier", "name": "The Collaborator", "x": 9, "y": 9 },
+          { "monster": "mon_feral_fancy_rapier", "name": "The Aristocrat", "x": 13, "y": 13 },
+          { "monster": "mon_feral_maid_broom", "name": "The Servant", "x": 12, "y": 13 }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0
   }
 ]

@@ -26,6 +26,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -71,6 +72,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -81,8 +83,8 @@ static const efftype_id effect_ai_waiting( "ai_waiting" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_feral_killed_recently( "feral_killed_recently" );
 static const efftype_id effect_infection( "infection" );
-static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_npc_flee_player( "npc_flee_player" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_pkill_l( "pkill_l" );
@@ -114,15 +116,14 @@ static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_PROF_FERAL( "PROF_FERAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
-
-static const std::string flag_NPC_SAFE( "NPC_SAFE" );
-static const std::string flag_SPLINT( "SPLINT" );
 
 class monfaction;
 
@@ -203,8 +204,8 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
     }
 
     for( item &e : worn ) {
-        if( e.has_flag( "VARSIZE" ) ) {
-            e.set_flag( "FIT" );
+        if( e.has_flag( flag_VARSIZE ) ) {
+            e.set_flag( flag_FIT );
         }
     }
 }
@@ -328,7 +329,8 @@ void npc::randomize( const npc_class_id &type )
         setID( g->assign_npc_id() );
     }
 
-    primary_weapon() = item( "null", calendar::start_of_cataclysm );
+    set_primary_weapon( item( "null", calendar::start_of_cataclysm ) );
+
     inv.clear();
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
@@ -581,8 +583,8 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
     }
     who.worn.clear();
     for( item &it : ret ) {
-        if( it.has_flag( "VARSIZE" ) ) {
-            it.set_flag( "FIT" );
+        if( it.has_flag( flag_VARSIZE ) ) {
+            it.set_flag( flag_FIT );
         }
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
@@ -635,8 +637,8 @@ void starting_inv( npc &who, const npc_class_id &type )
     while( qty-- != 0 ) {
         item tmp = random_item_from( type, "misc" ).in_its_container();
         if( !tmp.is_null() ) {
-            if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
-                tmp.set_flag( "FIT" );
+            if( !one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
+                tmp.set_flag( flag_FIT );
             }
             if( who.can_pick_volume( tmp ) ) {
                 res.push_back( tmp );
@@ -645,7 +647,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     }
 
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
-        return e.has_flag( "TRADER_AVOID" );
+        return e.has_flag( flag_TRADER_AVOID );
     } ), res.end() );
     for( auto &it : res ) {
         it.set_owner( who );
@@ -811,7 +813,7 @@ int npc::best_skill_level() const
 void npc::starting_weapon( const npc_class_id &type )
 {
     if( item_group::group_is_defined( type->weapon_override ) ) {
-        primary_weapon() = item_group::item_from( type->weapon_override, calendar::turn );
+        set_primary_weapon( item_group::item_from( type->weapon_override, calendar::turn ) );
         return;
     }
 
@@ -819,23 +821,23 @@ void npc::starting_weapon( const npc_class_id &type )
 
     // if NPC has no suitable skills default to stabbing weapon
     if( !best || best == skill_stabbing ) {
-        primary_weapon() = random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) );
+        set_primary_weapon( random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) ) );
     } else if( best == skill_bashing ) {
-        primary_weapon() = random_item_from( type, "bashing",  item_group_id( "survivor_bashing" ) );
+        set_primary_weapon( random_item_from( type, "bashing",  item_group_id( "survivor_bashing" ) ) );
     } else if( best == skill_cutting ) {
-        primary_weapon() = random_item_from( type, "cutting",  item_group_id( "survivor_cutting" ) );
+        set_primary_weapon( random_item_from( type, "cutting",  item_group_id( "survivor_cutting" ) ) );
     } else if( best == skill_throw ) {
-        primary_weapon() = random_item_from( type, "throw" );
+        set_primary_weapon( random_item_from( type, "throw" ) );
     } else if( best == skill_archery ) {
-        primary_weapon() = random_item_from( type, "archery" );
+        set_primary_weapon( random_item_from( type, "archery" ) );
     } else if( best == skill_pistol ) {
-        primary_weapon() = random_item_from( type, "pistol",  item_group_id( "guns_pistol_common" ) );
+        set_primary_weapon( random_item_from( type, "pistol",  item_group_id( "guns_pistol_common" ) ) );
     } else if( best == skill_shotgun ) {
-        primary_weapon() = random_item_from( type, "shotgun",  item_group_id( "guns_shotgun_common" ) );
+        set_primary_weapon( random_item_from( type, "shotgun",  item_group_id( "guns_shotgun_common" ) ) );
     } else if( best == skill_smg ) {
-        primary_weapon() = random_item_from( type, "smg",  item_group_id( "guns_smg_common" ) );
+        set_primary_weapon( random_item_from( type, "smg",  item_group_id( "guns_smg_common" ) ) );
     } else if( best == skill_rifle ) {
-        primary_weapon() = random_item_from( type, "rifle",  item_group_id( "guns_rifle_common" ) );
+        set_primary_weapon( random_item_from( type, "rifle",  item_group_id( "guns_rifle_common" ) ) );
     }
 
     if( primary_weapon().is_gun() ) {
@@ -870,7 +872,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     // Check for conditions that disqualify us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         fail_reasons.emplace_back( _( "I can't read!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
     } else if( !character_funcs::can_see_fine_details( *this ) ) {
@@ -1068,7 +1070,8 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( convert_bp( bp ).id() ) && !has_effect( effect_mending, bp ) &&
+            if( is_limb_broken( convert_bp( bp ).id() ) &&
+                !worn_with_flag( flag_SPLINT, convert_bp( bp ).id() ) &&
                 it.covers( convert_bp( bp ).id() ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return !!wear_item( it, false );
@@ -1164,33 +1167,15 @@ bool npc::wield( item &it )
     }
 
     if( it.is_null() ) {
-        primary_weapon() = item();
+        set_primary_weapon( item() );
         return true;
-    }
-
-    // check if the item is in a holster
-    int position = inv.position_by_item( &it );
-    if( position != INT_MIN ) {
-        item &maybe_holster = inv.find_item( position );
-        assert( !maybe_holster.is_null() );
-        if( &maybe_holster != &it && maybe_holster.is_holster() ) {
-            assert( !maybe_holster.contents.empty() );
-            const size_t old_size = maybe_holster.contents.num_item_stacks();
-            invoke_item( &maybe_holster );
-            // TODO: change invoke_item to somehow report this change
-            // HACK: test whether wielding the item from the holster has been done.
-            // (Wielding may be prevented by various reasons: see player::wield_contained)
-            if( old_size != maybe_holster.contents.num_item_stacks() ) {
-                return true;
-            }
-        }
     }
 
     moves -= 15;
     if( has_item( it ) ) {
-        primary_weapon() = remove_item( it );
+        set_primary_weapon( remove_item( it ) );
     } else {
-        primary_weapon() = it;
+        set_primary_weapon( it );
     }
 
     if( g->u.sees( pos() ) ) {
@@ -1755,7 +1740,7 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) || it.made_of( LIQUID ) ) {
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) || it.made_of( LIQUID ) ) {
         // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
     }
@@ -2019,7 +2004,7 @@ bool npc::is_minion() const
 
 bool npc::guaranteed_hostile() const
 {
-    return is_enemy() || ( my_fac && my_fac->likes_u < -10 );
+    return is_enemy() || ( my_fac && my_fac->likes_u < -10 ) || g->u.has_trait( trait_PROF_FERAL );
 }
 
 bool npc::is_walking_with() const
@@ -2520,9 +2505,9 @@ void npc::die( Creature *nkiller )
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
         bool cannibal = g->u.has_trait( trait_CANNIBAL );
-        bool psycho = g->u.has_trait( trait_PSYCHOPATH );
+        bool psycho = g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_KILLER );
         if( g->u.has_trait( trait_SAPIOVORE ) || psycho ) {
-            // No morale effect
+            // No morale penalty
         } else if( cannibal ) {
             g->u.add_morale( MORALE_KILLED_INNOCENT, -5, 0, 2_days, 3_hours );
         } else {
@@ -2530,6 +2515,19 @@ void npc::die( Creature *nkiller )
         }
     }
 
+    if( killer == &g->u && g->u.has_trait( trait_KILLER ) ) {
+        const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
+        g->u.add_msg_if_player( m_good, "%s", snip );
+        g->u.add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
+        g->u.rem_morale( MORALE_KILLER_NEED_TO_KILL );
+    }
+
+    if( killer == &g->u && g->u.has_trait( trait_PROF_FERAL ) ) {
+        if( !g->u.has_effect( effect_feral_killed_recently ) ) {
+            g->u.add_msg_if_player( m_good, _( "The voices in your head quiet down a bit." ) );
+        }
+        g->u.add_effect( effect_feral_killed_recently, 7_days );
+    }
     place_corpse();
 }
 
@@ -2976,11 +2974,8 @@ std::set<tripoint> npc::get_path_avoid() const
 
 mfaction_id npc::get_monster_faction() const
 {
-    if( my_fac ) {
-        string_id<monfaction> my_mon_fac = string_id<monfaction>( my_fac->mon_faction );
-        if( my_mon_fac.is_valid() ) {
-            return my_mon_fac;
-        }
+    if( my_fac && my_fac->mon_faction.is_valid() ) {
+        return my_fac->mon_faction;
     }
 
     // legacy checks

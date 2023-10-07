@@ -6,6 +6,7 @@
 #include "character_martial_arts.h"
 #include "character.h"
 #include "creature.h"
+#include "flag.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
@@ -24,12 +25,12 @@
 #include "uistate.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "weather_gen.h"
 #include "weather.h"
 
-static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
@@ -39,10 +40,7 @@ static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
@@ -51,9 +49,10 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
-static const std::string flag_FUNGUS( "FUNGUS" );
-static const std::string flag_SWIMMABLE( "SWIMMABLE" );
-static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
+static const trait_flag_str_id trait_flag_CANNIBAL( "CANNIBAL" );
+static const trait_flag_str_id trait_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_flag_str_id trait_flag_SAPIOVORE( "SAPIOVORE" );
+static const trait_flag_str_id trait_flag_SPIRITUAL( "SPIRITUAL" );
 
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_darkness( "darkness" );
@@ -63,7 +62,6 @@ static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_UPS( "UPS" );
 
 namespace character_funcs
@@ -100,14 +98,25 @@ void siphon( Character &ch, vehicle &veh, const itype_id &desired_liquid )
     }
 }
 
-bool is_fun_to_read( const Character &ch, const item &book )
+bool is_book_morale_boosted( const Character &ch, const item &book )
 {
     // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( ch.has_trait( trait_CANNIBAL ) || ch.has_trait( trait_PSYCHOPATH ) ||
-          ch.has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == itype_cookbook_human ) {
+    if( ( ch.has_trait_flag( trait_flag_CANNIBAL ) || ch.has_trait_flag( trait_flag_PSYCHOPATH ) ||
+          ch.has_trait_flag( trait_flag_SAPIOVORE ) ) &&
+        book.has_flag( flag_BOOK_CANNIBAL ) ) {
         return true;
-    } else if( ch.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+    } else if( ch.has_trait_flag( trait_flag_SPIRITUAL ) && book.has_flag( flag_INSPIRATIONAL ) ) {
+        return true;
+    } else if( ch.has_trait_flag( trait_flag_PSYCHOPATH ) && book.has_flag( flag_MORBID ) ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool is_fun_to_read( const Character &ch, const item &book )
+{
+    if( is_book_morale_boosted( ch, book ) ) {
         return true;
     } else {
         return get_book_fun_for( ch, book ) > 0;
@@ -122,14 +131,13 @@ int get_book_fun_for( const Character &ch, const item &book )
         return 0;
     }
 
-    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( ch.has_trait( trait_CANNIBAL ) ||
-          ch.has_trait( trait_PSYCHOPATH ) ||
-          ch.has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == itype_cookbook_human ) {
+    if( is_book_morale_boosted( ch, book ) ) {
         fun_bonus = std::abs( fun_bonus );
-    } else if( ch.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        fun_bonus = std::abs( fun_bonus * 3 );
+    }
+
+    // Separate bonus for spiritual characters.
+    if( ch.has_trait_flag( trait_flag_SPIRITUAL ) && book.has_flag( flag_INSPIRATIONAL ) ) {
+        fun_bonus += 2;
     }
 
     if( ch.has_trait( trait_LOVES_BOOKS ) ) {
@@ -217,7 +225,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
                 for( const item &items_it : items ) {
-                    if( items_it.has_flag( "SLEEP_AID" ) ) {
+                    if( items_it.has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                         // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                         comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                         comfort_response.aid = &items_it;
@@ -254,7 +262,7 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
         if( comfort_response.aid == nullptr ) {
             const map_stack items = here.i_at( p );
             for( const item &items_it : items ) {
-                if( items_it.has_flag( "SLEEP_AID" ) ) {
+                if( items_it.has_flag( STATIC( flag_id( "SLEEP_AID" ) ) ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                     comfort_response.aid = &items_it;
@@ -262,9 +270,9 @@ comfort_response_t base_comfort_value( const Character &who, const tripoint &p )
                 }
             }
         }
-        if( fungaloid_cosplay && here.has_flag_ter_or_furn( flag_FUNGUS, p ) ) {
+        if( fungaloid_cosplay && here.has_flag_ter_or_furn( "FUNGUS", p ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
-        } else if( watersleep && here.has_flag_ter( flag_SWIMMABLE, p ) ) {
+        } else if( watersleep && here.has_flag_ter( "SWIMMABLE", p ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     } else if( plantsleep ) {
@@ -402,7 +410,7 @@ bool can_interface_armor( const Character &who )
 {
     bool okay = std::any_of( who.my_bionics->begin(), who.my_bionics->end(),
     []( const bionic & b ) {
-        return b.powered && b.info().has_flag( STATIC( flag_str_id( "BIONIC_ARMOR_INTERFACE" ) ) );
+        return b.powered && b.info().has_flag( STATIC( flag_id( "BIONIC_ARMOR_INTERFACE" ) ) );
     } );
     return okay;
 }
@@ -417,16 +425,16 @@ std::string fmt_wielded_weapon( const Character &who )
         std::string str = string_format( "(%d) [%s] %s", weapon.ammo_remaining(),
                                          weapon.gun_current_mode().tname(), weapon.type_name() );
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
-        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
+        bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( flag_RELOAD_AND_SHOOT );
 
         const auto mods = weapon.gunmods();
         bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item * e ) {
-            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" );
+            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( flag_RELOAD_AND_SHOOT );
         } );
 
         if( base || aux ) {
             for( auto e : mods ) {
-                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( flag_RELOAD_AND_SHOOT ) ) {
                     str += " (" + std::to_string( e->ammo_remaining() );
                     if( e->magazine_integral() ) {
                         str += "/" + std::to_string( e->ammo_capacity() );
@@ -486,7 +494,7 @@ void add_pain_msg( const Character &who, int val, body_part bp )
 void normalize( Character &who )
 {
     who.martial_arts_data->reset_style();
-    who.primary_weapon() = item();
+    who.set_primary_weapon( item() );
 
     who.set_body();
     who.recalc_hp();
@@ -530,7 +538,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
         return false;
     }
 
-    const ret_val<bool> ret = who.as_player()->can_wield( *internal_item );
+    const ret_val<bool> ret = who.can_wield( *internal_item );
     if( !ret.success() ) {
         who.add_msg_if_player( m_info, "%s", ret.c_str() );
         return false;
@@ -545,7 +553,7 @@ bool try_wield_contents( Character &who, item &container, item *internal_item, b
         who.inv.unsort();
     }
 
-    who.primary_weapon() = std::move( *internal_item );
+    who.set_primary_weapon( *internal_item );
     container.remove_item( *internal_item );
     container.on_contents_changed();
 
@@ -734,12 +742,12 @@ bool list_ammo( const Character &who, const item &base, std::vector<item_reload_
             const bool can_reload_with = e->can_reload_with( id );
             if( can_reload_with ) {
                 // Speedloaders require an empty target.
-                if( include_potential || !ammo->has_flag( "SPEEDLOADER" ) || e->ammo_remaining() < 1 ) {
+                if( include_potential || !ammo->has_flag( flag_SPEEDLOADER ) || e->ammo_remaining() < 1 ) {
                     ammo_match_found = true;
                 }
             }
             if( ( include_potential && can_reload_with )
-                || who.as_player()->can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+                || who.as_player()->can_reload( *e, id ) || e->has_flag( flag_RELOAD_AND_SHOOT ) ) {
                 ammo_list.emplace_back( who.as_player(), e, &base, ammo );
             }
         }
@@ -761,13 +769,18 @@ item_reload_option select_ammo( const Character &who, const item &base,
 
     uilist menu;
     menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) :
-                               base.has_flag( "RELOAD_AND_SHOOT" ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
+                               base.has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
                                base.tname() );
 
     // Construct item names
     std::vector<std::string> names;
     std::transform( opts.begin(), opts.end(),
     std::back_inserter( names ), [&]( const item_reload_option & e ) {
+        const auto ammo_color = [&]( std::string name ) {
+            return base.is_gun() && e.ammo->ammo_data() &&
+                   !base.ammo_types().count( e.ammo->ammo_data()->ammo->type ) ?
+                   colorize( name, c_dark_gray ) : name;
+        };
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             if( e.ammo->ammo_current() == itype_battery ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
@@ -776,17 +789,18 @@ item_reload_option select_ammo( const Character &who, const item &base,
                                       e.ammo->ammo_remaining() );
             } else {
                 //~ magazine with ammo (count)
-                return string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ), e.ammo->type_name(),
-                                      e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ), e.ammo->ammo_remaining() );
+                return ammo_color( string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ),
+                                                  e.ammo->type_name(), e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ),
+                                                  e.ammo->ammo_remaining() ) );
             }
         } else if( e.ammo->is_watertight_container() ||
                    ( e.ammo->is_ammo_container() && who.is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their contents with their location also updated below
             return e.ammo->contents.front().display_name();
-
         } else {
             const_cast<item_location &>( who.ammo_location ).make_dirty();
-            return ( who.ammo_location && who.ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
+            return ammo_color( ( who.ammo_location &&
+                                 who.ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name() );
         }
     } );
 
@@ -968,7 +982,7 @@ item_reload_option select_ammo( const Character &who, const item &base,
                 }
                 return false;
             }
-    } cb( opts, draw_row, last_key, default_to, !base.has_flag( "RELOAD_ONE" ) );
+    } cb( opts, draw_row, last_key, default_to, !base.has_flag( flag_RELOAD_ONE ) );
     menu.callback = &cb;
 
     menu.query();

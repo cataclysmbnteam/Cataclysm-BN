@@ -19,6 +19,7 @@
 #include "bionics.h"
 #include "bionics_ui.h"
 #include "calendar.h"
+#include "catalua.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_display.h"
@@ -37,6 +38,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "fstream_utils.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -85,6 +87,7 @@
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -123,12 +126,7 @@ static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_LOCKED( "LOCKED" );
-static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
-static const std::string flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
-
-static const std::string flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
 
 #define dbg(x) DebugLogFL((x),DC::Game)
 
@@ -414,7 +412,7 @@ inline static void rcdrive( point d )
 
     map_cursor mc( c );
     std::vector<item *> rc_items = mc.items_with( [&]( const item & it ) {
-        return it.has_flag( "RADIO_CONTROLLED" );
+        return it.has_flag( flag_RADIO_CONTROLLED );
     } );
 
     if( rc_items.empty() ) {
@@ -688,6 +686,10 @@ static void smash()
         }
     }
     item &weapon = u.primary_weapon();
+    if( weapon.made_of( material_id( "glass" ) ) &&
+        !query_yn( _( "Are you sure you want to smash with an item made of glass?" ) ) ) {
+        return;
+    }
     const int move_cost = !u.is_armed() ? 80 : weapon.attack_cost() * 0.8;
     bool didit = false;
     bool mech_smash = false;
@@ -1041,7 +1043,7 @@ static void sleep()
         // some bionics
         // bio_alarm is useful for waking up during sleeping
         // turning off bio_leukocyte has 'unpleasant side effects'
-        if( bio.info().has_flag( STATIC( flag_str_id( "BIONIC_SLEEP_FRIENDLY" ) ) ) ) {
+        if( bio.info().has_flag( STATIC( flag_id( "BIONIC_SLEEP_FRIENDLY" ) ) ) ) {
             continue;
         }
 
@@ -1146,7 +1148,7 @@ static void loot()
     player &u = g->u;
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = u.has_item_with_flag( "FERTILIZER" );
+    const bool has_fertilizer = u.has_item_with_flag( flag_FERTILIZER );
 
     // Manually update vehicle cache.
     // In theory this would be handled by the related activity (activity_on_turn_move_loot())
@@ -1852,7 +1854,13 @@ bool game::handle_action()
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't open things while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
-                    add_msg( m_info, _( "You can't open things while you're riding." ) );
+                    auto mon = u.mounted_creature.get();
+                    if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( m_info, _( "You can't open things while you're riding." ) );
+                        break;
+                    } else {
+                        open();
+                    }
                 } else {
                     open();
                 }
@@ -1865,6 +1873,9 @@ bool game::handle_action()
                     auto mon = u.mounted_creature.get();
                     if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
                         add_msg( m_info, _( "You can't close things while you're riding." ) );
+                        break;
+                    } else {
+                        close();
                     }
                 } else if( mouse_target ) {
                     doors::close_door( m, u, *mouse_target );
@@ -1927,7 +1938,16 @@ bool game::handle_action()
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't grab things while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
-                    add_msg( m_info, _( "You can't grab things while you're riding." ) );
+                    auto mon = u.mounted_creature.get();
+                    if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( m_info, _( "You can't grab things while you're riding." ) );
+                        break;
+                    } else if( !mon->type->mech_weapon.is_empty() ) {
+                        add_msg( m_info, _( "Your mech doesn't have hands to grab with." ) );
+                        break;
+                    } else {
+                        grab();
+                    }
                 } else {
                     grab();
                 }
@@ -2355,6 +2375,14 @@ bool game::handle_action()
                     break;    //don't do anything when sharing and not debugger
                 }
                 debug_menu::debug();
+                break;
+
+            case ACTION_LUA_CONSOLE:
+                cata::show_lua_console();
+                break;
+
+            case ACTION_LUA_RELOAD:
+                cata::reload_lua_code();
                 break;
 
             case ACTION_TOGGLE_FULLSCREEN:

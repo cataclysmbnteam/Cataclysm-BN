@@ -10,7 +10,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ], [ [ "rag", 2 ] ] ]
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ], [ [ "fabric_standard", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -23,7 +23,7 @@
     "time": "2 m",
     "autolearn": true,
     "components": [
-      [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
+      [ [ "fabric_standard", 10, "LIST" ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ] ]
     ]
@@ -39,7 +39,7 @@
     "time": "1 m",
     "autolearn": true,
     "components": [
-      [ [ "rag", 5 ], [ "medical_gauze", 2 ] ],
+      [ [ "fabric_standard", 5, "LIST" ], [ "medical_gauze", 2 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ]
     ]
@@ -55,7 +55,7 @@
     "time": "1 m",
     "autolearn": true,
     "components": [
-      [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
+      [ [ "fabric_standard", 10, "LIST" ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ] ]
     ]
@@ -71,7 +71,7 @@
     "time": "2 m",
     "autolearn": true,
     "components": [
-      [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
+      [ [ "fabric_standard", 10, "LIST" ], [ "medical_gauze", 4 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
       [ [ "stick", 4 ], [ "broom", 4 ], [ "2x4", 4 ], [ "pool_cue", 4 ] ]
     ]

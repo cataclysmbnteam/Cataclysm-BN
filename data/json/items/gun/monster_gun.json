@@ -78,8 +78,8 @@
     "weight": "3402 g",
     "volume": "2450 ml",
     "bashing": 3,
-    "dispersion": 3250,
-    "range": 65,
+    "dispersion": 6500,
+    "range": 30,
     "durability": 9
   },
   {

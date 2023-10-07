@@ -157,14 +157,15 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
             item( "test_briefcase" ), q,
             "--\n"
             "<color_c_white>Encumbrance</color>:\n"
+            "L. Hand:  <color_c_yellow>30</color>  "
+            "Coverage:  <color_c_yellow>10</color>\n"
+            "R. Hand:  <color_c_yellow>30</color>  "
+            "Coverage:  <color_c_yellow>10</color>\n"
             "L. Arm:  <color_c_yellow>30</color>  "
             "Coverage:  <color_c_yellow>10</color>\n"
             "R. Arm:  <color_c_yellow>30</color>  "
             "Coverage:  <color_c_yellow>10</color>\n"
-            "L. Hand:  <color_c_yellow>30</color>  "
-            "Coverage:  <color_c_yellow>10</color>\n"
-            "R. Hand:  <color_c_yellow>30</color>  "
-            "Coverage:  <color_c_yellow>10</color>\n" );
+        );
 
         test_info_equals( item( "test_jug_plastic" ), q, "" );
         test_info_equals( item( "test_pipe" ), q, "" );
@@ -189,9 +190,9 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  To-hit bonus: <color_c_yellow>-2</color>\n"
             "Moves per attack: <color_c_yellow>79</color>\n"
             "Typical damage per second:\n"
-            "Best: <color_c_yellow>4.92</color>"
-            "  Vs. Agile: <color_c_yellow>2.05</color>"
-            "  Vs. Armored: <color_c_yellow>0.15</color>\n" );
+            "Best: <color_c_yellow>5.20</color>"
+            "  Vs. Agile: <color_c_yellow>2.16</color>"
+            "  Vs. Armored: <color_c_yellow>0.16</color>\n" );
     }
 
     SECTION( "bash and cut damage" ) {
@@ -203,9 +204,9 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  To-hit bonus: <color_c_yellow>+2</color>\n"
             "Moves per attack: <color_c_yellow>145</color>\n"
             "Typical damage per second:\n"
-            "Best: <color_c_yellow>9.38</color>"
-            "  Vs. Agile: <color_c_yellow>5.74</color>"
-            "  Vs. Armored: <color_c_yellow>2.84</color>\n" );
+            "Best: <color_c_yellow>9.65</color>"
+            "  Vs. Agile: <color_c_yellow>5.91</color>"
+            "  Vs. Armored: <color_c_yellow>2.92</color>\n" );
     }
 
     SECTION( "bash and pierce damage" ) {
@@ -217,8 +218,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  To-hit bonus: <color_c_yellow>+0</color>\n"
             "Moves per attack: <color_c_yellow>100</color>\n"
             "Typical damage per second:\n"
-            "Best: <color_c_yellow>9.21</color>"
-            "  Vs. Agile: <color_c_yellow>4.77</color>"
+            "Best: <color_c_yellow>9.61</color>"
+            "  Vs. Agile: <color_c_yellow>4.97</color>"
             "  Vs. Armored: <color_c_yellow>0.17</color>\n"
         );
     }
@@ -232,8 +233,8 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             "  To-hit bonus: <color_c_yellow>+0</color>\n"
             "Moves per attack: <color_c_yellow>65</color>\n"
             "Typical damage per second:\n"
-            "Best: <color_c_yellow>4.90</color>"
-            "  Vs. Agile: <color_c_yellow>2.46</color>"
+            "Best: <color_c_yellow>5.25</color>"
+            "  Vs. Agile: <color_c_yellow>2.63</color>"
             "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
 
@@ -410,12 +411,13 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                           "Torso:  <color_c_yellow>12</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>95</color>\n"
+                          "Legs:  <color_c_yellow>12</color>  "
+                          "When Full:  <color_c_yellow>25</color>  "
+                          "Coverage:  <color_c_yellow>95</color>\n"
                           "Arms:  <color_c_yellow>12</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>95</color>\n"
-                          "Legs:  <color_c_yellow>12</color>  "
-                          "When Full:  <color_c_yellow>25</color>  "
-                          "Coverage:  <color_c_yellow>95</color>\n" );
+                        );
 
         // Test copy-from
         item faux_fur_pants( "test_pants_faux_fur" );
@@ -585,6 +587,12 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                           "Torso:  <color_c_yellow>10</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>100</color>\n"
+                          "L. Leg:  <color_c_yellow>5</color>  "
+                          "When Full:  <color_c_yellow>5</color>  "
+                          "Coverage:  <color_c_yellow>50</color>\n"
+                          "R. Leg:  <color_c_yellow>10</color>  "
+                          "When Full:  <color_c_yellow>25</color>  "
+                          "Coverage:  <color_c_yellow>100</color>\n"
                           "Head:  <color_c_yellow>5</color>  "
                           "When Full:  <color_c_yellow>5</color>  "
                           "Coverage:  <color_c_yellow>50</color>\n"
@@ -594,12 +602,7 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                           "R. Arm:  <color_c_yellow>10</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>100</color>\n"
-                          "L. Leg:  <color_c_yellow>5</color>  "
-                          "When Full:  <color_c_yellow>5</color>  "
-                          "Coverage:  <color_c_yellow>50</color>\n"
-                          "R. Leg:  <color_c_yellow>10</color>  "
-                          "When Full:  <color_c_yellow>25</color>  "
-                          "Coverage:  <color_c_yellow>100</color>\n" );
+                        );
     }
 
     iteminfo_query q = q_vec( { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,

@@ -59,6 +59,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -110,6 +111,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -577,8 +579,8 @@ void Character::load( const JsonObject &data )
         inv.json_load_items( *invin );
     }
 
-    weapon = item( "null", calendar::start_of_cataclysm );
-    data.read( "weapon", weapon );
+    set_primary_weapon( item( "null", calendar::start_of_cataclysm ) );
+    data.read( "weapon", primary_weapon() );
 
     data.read( "move_mode", move_mode );
 
@@ -724,6 +726,7 @@ void Character::store( JsonOut &json ) const
         json.member( "fetch_data", things_to_fetch );
     }
 
+    const item &weapon = primary_weapon();
     if( !weapon.is_null() ) {
         json.member( "weapon", weapon ); // also saves contents
     }
@@ -2289,14 +2292,10 @@ void item::io( Archive &archive )
         std::swap( irradiation, poison );
     }
 
-    // erase all invalid flags (not defined in flags.json), display warning about invalid flags
-    erase_if( item_tags, [&]( const std::string & f ) {
-        if( !json_flag::get( f ).id.is_valid() ) {
-            debugmsg( "item of type '%s' was loaded with undefined flag '%s'.", typeId().c_str(), f );
-            return true;
-        } else {
-            return false;
-        }
+    // erase all invalid flags (not defined in flags.json)
+    // warning was generated earlier on load
+    erase_if( item_tags, [&]( const flag_id & f ) {
+        return !f.is_valid();
     } );
 
     if( note_read ) {
@@ -2317,7 +2316,7 @@ void item::io( Archive &archive )
     if( is_food() ) {
         active = true;
     }
-    if( !active && item_tags.count( "WET" ) > 0 ) {
+    if( !active && has_flag( flag_WET ) ) {
         // Some wet items from legacy saves may be inactive
         active = true;
     }
@@ -2516,7 +2515,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
     }
 
     // with VEHICLE tag migrate fuel tanks only if amount field exists
-    if( base.has_flag( "VEHICLE" ) ) {
+    if( base.has_flag( flag_id( "VEHICLE" ) ) ) {
         if( data.has_int( "amount" ) && ammo_capacity() > 0 && legacy_fuel != itype_battery ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
@@ -2526,7 +2525,7 @@ void vehicle_part::deserialize( JsonIn &jsin )
         if( ammo_capacity() > 0 ) {
             ammo_set( legacy_fuel, data.get_int( "amount" ) );
         }
-        base.item_tags.insert( "VEHICLE" );
+        base.item_tags.insert( flag_id( "VEHICLE" ) );
     }
 
     if( data.has_int( "hp" ) && id.obj().durability > 0 ) {

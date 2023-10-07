@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "..MMMsssMMMss|ooooo|+||~~$M|o+o|...sss...|o+o|M.M.X.s|oo|+|oo|s.X.M$~~$ss|ooooooooo|MMMsssMMMsss",
+        "..MMMsssMMMss|ooooo|+||~~'M|o+o|...sss...|o+o|M'M.X.s|oo|+|oo|s.X.M'~~$ss|ooooooooo|MMMsssMMMss'",
         ".|ooo|+|ooo|s|y  JE  F|~~|||   |o|<sss<|o|y y|o|MGGGs|y  <  y|sGGGM|~~~ss+  JA FFFy|ooo|+|ooo|ss",
         ".|1        |<|  A?   F|~~|y      |||||||      y|ooo|+|||||||||+|ooo|~~<|o|  JJ     |1        |ss",
         ".|         ||| JJJ   F|~~|2       B | B2       |1        |1        |~~||5          |         |ss",

@@ -15,6 +15,7 @@
   {
     "type": "recipe",
     "result": "water_clean",
+    "charges": 8,
     "category": "CC_FOOD",
     "id_suffix": "using_water_purifier",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -22,7 +23,7 @@
     "time": "9 s",
     "autolearn": true,
     "tools": [ [ [ "water_purifier", 1 ], [ "pur_tablets", 1 ], [ "char_purifier", 1 ] ] ],
-    "components": [ [ [ "water", 1 ] ] ],
+    "components": [ [ [ "water", 8 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

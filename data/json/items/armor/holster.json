@@ -45,12 +45,33 @@
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "use_action": {
       "type": "holster",
-      "max_volume": "400 ml",
+      "max_volume": "500 ml",
       "min_volume": "100 ml",
       "max_weight": 1000,
       "draw_cost": 150,
       "skills": [ "pistol" ]
     }
+  },
+  {
+    "id": "wristholster",
+    "type": "ARMOR",
+    "name": { "str": "wrist holster" },
+    "description": "A small concealed holster worn on the wrist.  It is quick to use but can only carry very small pistols, gamblers' derringers and the like.  Activate to holster/draw a pistol.",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": "52 USD",
+    "price_postapoc": "250 cent",
+    "to_hit": -1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "bandolier_wrist",
+    "color": "brown",
+    "covers": [ "hand_either" ],
+    "coverage": 5,
+    "encumbrance": 1,
+    "material_thickness": 1,
+    "use_action": { "type": "holster", "min_volume": "15 ml", "max_volume": "250 ml", "draw_cost": 50, "skills": [ "pistol" ] },
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
     "id": "bow_sling",
@@ -89,7 +110,7 @@
     "coverage": 2,
     "encumbrance": 2,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "max_volume": "800 ml", "min_volume": "300 ml", "skills": [ "pistol", "smg", "shotgun" ] },
+    "use_action": { "type": "holster", "max_volume": "1 L", "min_volume": "250 ml", "skills": [ "pistol", "smg", "shotgun" ] },
     "flags": [ "WAIST", "OVERSIZE" ]
   },
   {
@@ -163,7 +184,7 @@
     "coverage": 10,
     "encumbrance": 4,
     "material_thickness": 1,
-    "use_action": { "type": "holster", "min_volume": "750 ml", "max_volume": "1250 ml", "skills": [ "pistol", "smg", "shotgun" ] },
+    "use_action": { "type": "holster", "min_volume": "750 ml", "max_volume": "1500 ml", "skills": [ "pistol", "smg", "shotgun" ] },
     "flags": [ "WAIST", "OVERSIZE" ]
   }
 ]

@@ -16,7 +16,17 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "launcher" ],
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "M_XBOWS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ],
     "dispersion_modifier": -1,
     "handling_modifier": 3
   },
@@ -35,7 +45,16 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ],
     "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
   },
   {
@@ -54,7 +73,15 @@
     "color": "dark_gray",
     "location": "stock",
     "handling_modifier": 5,
-    "mod_targets": [ "pistol", "smg", "rifle", "shotgun" ],
+    "mod_target_category": [
+      [ "PISTOLS" ],
+      [ "REVOLVERS" ],
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ]
+    ],
     "flags": [ "NEEDS_UNFOLD" ]
   },
   {
@@ -70,7 +97,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "pistol", "crossbow" ],
+    "mod_target_category": [ [ "PISTOLS" ], [ "REVOLVERS" ], [ "S_XBOWS" ], [ "M_XBOWS" ] ],
     "handling_modifier": 15
   },
   {
@@ -90,7 +117,16 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
+    "mod_target_category": [
+      [ "SUBMACHINE_GUNS" ],
+      [ "RIFLES" ],
+      [ "MACHINE_GUNS" ],
+      [ "GATLING_GUNS" ],
+      [ "SHOTGUNS" ],
+      [ "GRENADE_LAUNCHERS" ],
+      [ "ROCKET_LAUNCHERS" ],
+      [ "FLAMETHROWERS" ]
+    ],
     "handling_modifier": 10
   },
   {
@@ -109,7 +145,7 @@
     "symbol": ":",
     "color": "dark_gray",
     "location": "stock",
-    "mod_targets": [ "rifle" ],
+    "mod_target_category": [ [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ] ],
     "dispersion_modifier": -1,
     "handling_modifier": 5
   },
@@ -123,7 +159,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "stock",
-    "mod_targets": [ "smg", "rifle", "shotgun" ],
+    "mod_target_category": [ [ "SUBMACHINE_GUNS" ], [ "RIFLES" ], [ "MACHINE_GUNS" ], [ "GATLING_GUNS" ], [ "SHOTGUNS" ] ],
     "dispersion_modifier": 100,
     "weight_multiplier": 0.75,
     "handling_modifier": -15,

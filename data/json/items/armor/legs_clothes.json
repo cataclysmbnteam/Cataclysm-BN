@@ -141,6 +141,7 @@
     "storage": "500 ml",
     "warmth": 10,
     "material_thickness": 3,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
@@ -164,6 +165,7 @@
     "storage": "500 ml",
     "warmth": 10,
     "material_thickness": 3,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "FANCY" ]
   },
   {
@@ -361,6 +363,7 @@
     "storage": "2500 ml",
     "warmth": 20,
     "material_thickness": 2,
+    "valid_mods": [ "steel_padded", "alloy_padded" ],
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {

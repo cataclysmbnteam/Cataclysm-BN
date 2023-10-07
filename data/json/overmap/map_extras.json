@@ -256,6 +256,7 @@
     "name": "Derelict shed",
     "description": "A collapsed shed.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_fallen_shed_map" },
+    "sym": "N",
     "color": "brown",
     "autonote": true
   },

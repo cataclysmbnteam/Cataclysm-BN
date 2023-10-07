@@ -24,6 +24,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "make_static.h"
 #include "output.h"
 #include "player.h"
 #include "ret_val.h"
@@ -138,8 +139,8 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
             }
 
             // Don't try to remove 'irremovable' toolmods
-            if( actual_item->is_toolmod() && use == item_action_id( "TOOLMOD_ATTACH" ) &&
-                actual_item->has_flag( "IRREMOVABLE" ) ) {
+            if( actual_item->is_toolmod() && use == STATIC( item_action_id( "TOOLMOD_ATTACH" ) ) &&
+                actual_item->has_flag( STATIC( flag_id( "IRREMOVABLE" ) ) ) ) {
                 continue;
             }
 

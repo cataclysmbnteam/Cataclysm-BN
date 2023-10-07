@@ -8,6 +8,7 @@
 #include "character_martial_arts.h"
 #include "character.h"
 #include "creature.h"
+#include "flag.h"
 #include "game.h"
 #include "handle_liquid.h"
 #include "itype.h"
@@ -23,6 +24,7 @@
 #include "trap.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_part.h"
 #include "vpart_position.h"
 #include "weather_gen.h"
 #include "weather.h"
@@ -189,6 +191,17 @@ void Character::process_turn()
     } );
 
     suffer();
+
+    // Handle player and NPC morale ticks
+
+    if( calendar::once_every( 1_minutes ) ) {
+        update_morale();
+    }
+
+    if( calendar::once_every( 9_turns ) ) {
+        check_and_recover_morale();
+    }
+
     // NPCs currently don't make any use of their scent, pointless to calculate it
     // TODO: make use of NPC scent.
     if( !is_npc() ) {
@@ -602,7 +615,8 @@ void Character::reset_stats()
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bodypart_str_id( "torso" ) ) ) {
+        } else if( !exclusive_flag_coverage( STATIC( flag_id( "OVERSIZE" ) ) )
+                   .test( STATIC( bodypart_str_id( "torso" ) ) ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
@@ -796,6 +810,7 @@ void Character::environmental_revert_effect()
 
 void Character::process_items()
 {
+    item &weapon = primary_weapon();
     if( weapon.needs_processing() && weapon.process( as_player(), pos(), false ) ) {
         weapon = item();
     }
@@ -814,7 +829,7 @@ void Character::process_items()
 
     // Active item processing done, now we're recharging.
     std::vector<item *> active_worn_items;
-    bool weapon_active = weapon.has_flag( "USE_UPS" ) &&
+    bool weapon_active = weapon.has_flag( flag_USE_UPS ) &&
                          weapon.charges < weapon.type->maximum_charges();
     std::vector<size_t> active_held_items;
     int ch_UPS = 0;
@@ -826,13 +841,13 @@ void Character::process_items()
         } else if( identifier == itype_adv_UPS_off ) {
             ch_UPS += it.ammo_remaining() / 0.6;
         }
-        if( it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
+        if( it.has_flag( flag_USE_UPS ) && it.charges < it.type->maximum_charges() ) {
             active_held_items.push_back( index );
         }
     }
     bool update_required = get_check_encumbrance();
     for( item &w : worn ) {
-        if( w.has_flag( "USE_UPS" ) &&
+        if( w.has_flag( flag_USE_UPS ) &&
             w.charges < w.type->maximum_charges() ) {
             active_worn_items.push_back( &w );
         }
