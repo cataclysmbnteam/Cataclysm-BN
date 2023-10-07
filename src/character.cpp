@@ -3208,6 +3208,51 @@ ret_val<bool> Character::can_swap( const item &it ) const
     return ret_val<bool>::make_success();
 }
 
+// pretty much the same as inventory::remove_randomly_by_volume but I didn't see a point in
+// adding it to the inventory class when it's only called here in Character::drop_invalid_inventory
+std::list<item> remove_randomly_by_weight( inventory &, const units::mass & );
+std::list<item> remove_randomly_by_weight( inventory &inv, const units::mass &weight ) {
+    std::list<item> result;
+    struct entry {
+        decltype( inv.slice().begin() ) stack;
+        decltype( (*stack)->begin() ) stack_it;
+    };
+    std::vector<entry> vals;
+
+    auto slice = inv.slice();
+    size_t ndx = 0;
+    for( auto stack = slice.begin(); stack != slice.end(); ++stack ) {
+        for( auto stack_it = (*stack)->begin(); stack_it != (*stack)->end(); ++stack_it ) {
+            vals.push_back( { stack, stack_it } );
+        }
+        ++ndx;
+    }
+    // shuffle the vector
+    std::shuffle( vals.begin(), vals.end(), rng_get_engine() );
+    // iterate through until we have dropped enough items
+    auto dropped_weight = 0_gram;
+    for( auto &e : vals ) {
+        if( dropped_weight >= weight ) {
+            break;
+        }
+        dropped_weight += e.stack_it->weight();
+        result.push_back( std::move( *e.stack_it ) );
+        e.stack_it = (*e.stack)->erase( e.stack_it );
+        if( e.stack_it == (*e.stack)->begin() && !(*e.stack)->empty() ) {
+            e.stack_it->invlet = result.back().invlet;
+        }
+    }
+    // iterate through items again so that we can remove any empty groups
+    ndx = slice.size() - 1;
+    for( auto stack = slice.rbegin(); stack != slice.rend(); ++stack ) {
+        if( (*stack)->empty() ) {
+            inv.reduce_stack( ndx, -1 );
+        }
+        --ndx;
+    }
+    return result;
+}
+
 void Character::drop_invalid_inventory()
 {
     bool dropped_liquid = false;
@@ -3227,6 +3272,13 @@ void Character::drop_invalid_inventory()
     if( volume_carried() > volume_capacity() ) {
         auto items_to_drop = inv.remove_randomly_by_volume( volume_carried() - volume_capacity() );
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, items_to_drop );
+    }
+    // Also drop excess weight
+    auto wt_carried = weight_carried();
+    auto wt_capacity = weight_capacity();
+    if( wt_carried > wt_capacity ) {
+        auto items_to_drop = remove_randomly_by_weight( inv, wt_carried - wt_capacity );
+        put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, items_to_drop );
     }
 }
 
