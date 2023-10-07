@@ -2621,15 +2621,18 @@ units::mass Character::weight_carried_reduced_by( const excluded_stacks &without
             debugmsg( "Trying to remove more than one wielded item" );
         }
     }
-    // Exclude wielded item if using lifting tool
-    if( weaponweight + ret > weight_capacity() ) {
-        const float liftrequirement = std::ceil( units::to_gram<float>( weaponweight ) /
-                                      units::to_gram<float>( TOOL_LIFT_FACTOR ) );
-        if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
+    // Don't try to add weaponweight if it doesn't exist or is weightless
+    if( weaponweight > 0_gram ) {
+        // Exclude wielded item if using lifting tool
+        if( weaponweight + ret > weight_capacity() ) {
+            const float liftrequirement = std::ceil( units::to_gram<float>( weaponweight ) /
+                                          units::to_gram<float>( TOOL_LIFT_FACTOR ) );
+            if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
+                ret += weaponweight;
+            }
+        } else {
             ret += weaponweight;
         }
-    } else {
-        ret += weaponweight;
     }
 
     return ret;
