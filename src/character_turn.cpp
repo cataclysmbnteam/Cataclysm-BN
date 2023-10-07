@@ -96,12 +96,15 @@ static const itype_id itype_UPS( "UPS" );
 void Character::recalc_speed_bonus()
 {
     // Minus some for weight...
-    int carry_penalty = 0;
-    if( weight_carried() > weight_capacity() && !has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
-        carry_penalty = 25 * ( weight_carried() - weight_capacity() ) / ( weight_capacity() );
+    // Easy test, if Character DOES have this trait then we don't need to check weight carried/capacity
+    if( !has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
+        // these are nontrivial calculations, store in variables so they aren't calculated multiple times.
+        auto carried = weight_carried();
+        auto capacity = weight_capacity();
+        if( carried > capacity ) {
+            mod_speed_bonus( -25 * ( carried - capacity ) / capacity );
+        }
     }
-    mod_speed_bonus( -carry_penalty );
-
     mod_speed_bonus( -character_effects::get_pain_penalty( *this ).speed );
 
     if( get_thirst() > thirst_levels::very_thirsty ) {
