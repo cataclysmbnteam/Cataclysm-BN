@@ -45,6 +45,7 @@ class player;
 class recipe;
 class relic;
 class relic_recharge;
+struct armor_portion_data;
 struct islot_comestible;
 struct itype;
 struct item_comp;
@@ -1519,7 +1520,6 @@ class item : public visitable<item>
         /**
          * Whether this item (when worn) covers the given body part.
          */
-        bool covers( body_part bp ) const;
         bool covers( const bodypart_id &bp ) const;
         /**
          * Bitset of all covered body parts.
@@ -1575,26 +1575,35 @@ class item : public visitable<item>
          * Returns clothing layer for item.
          */
         layer_level get_layer() const;
-        /**
-         * Returns the relative coverage that this item has when worn.
-         * Values range from 0 (not covering anything, or no armor at all) to
-         * 100 (covering the whole body part). Items that cover more are more likely to absorb
-         * damage from attacks.
+        /*
+         * Returns the average coverage of each piece of data this item
          */
-        int get_coverage() const;
+        int get_avg_coverage() const;
+        /**
+         * Returns the highest coverage that any piece of data that this item has that covers the bodypart.
+         * Values range from 0 (not covering anything) to 100 (covering the whole body part).
+         * Items that cover more are more likely to absorb damage from attacks.
+         */
+        int get_coverage( const bodypart_id &bodypart ) const;
         /**
          * Returns the encumbrance value that this item has when worn by given
          * player, when containing a particular volume of contents.
          * Returns 0 if this can not be worn at all.
          */
         int get_encumber_when_containing(
-            const Character &, const units::volume &contents_volume ) const;
+            const Character &, const units::volume &contents_volume, const bodypart_id &bodypart ) const;
         /**
          * Returns the encumbrance value that this item has when worn by given
          * player.
          * Returns 0 if this is can not be worn at all.
          */
-        int get_encumber( const Character & ) const;
+        std::optional<armor_portion_data> portion_for_bodypart( const bodypart_id &bodypart ) const;
+        /**
+         * Returns the average encumbrance value that this item across all portions
+         * Returns 0 if this is can not be worn at all.
+         */
+        int get_avg_encumber( const Character & ) const;
+        int get_encumber( const Character &, const bodypart_id &bodypart ) const;
         /**
          * Returns the storage amount (@ref islot_armor::storage) that this item provides when worn.
          * For non-armor it returns 0. The storage amount increases the volume capacity of the
@@ -2143,10 +2152,10 @@ class item : public visitable<item>
             small_sized_small_char,
             human_sized_small_char,
             big_sized_small_char,
-            not_wearable
+            ignore
         };
 
-        sizing get_sizing( const Character &, bool ) const;
+        sizing get_sizing( const Character & ) const;
 
     protected:
         // Sub-functions of @ref process, they handle the processing for different

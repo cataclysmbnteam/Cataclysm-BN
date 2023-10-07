@@ -8,6 +8,7 @@
 #include <set>
 #include <utility>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -18,6 +19,7 @@
 #include "effect.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "game.h"
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
@@ -958,11 +960,9 @@ void player_morale::on_worn_item_washed( const item &it )
     const body_part_set covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
-        for( const bodypart_id &bp_id : get_player_character().get_all_body_parts() ) {
-            auto bp = bp_id->token;
-            if( covered.test( bp ) ) {
-                const bodypart_id bp_id = convert_bp( bp ).id();
-                update_body_part( body_parts[bp_id] );
+        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+            if( covered.test( bp.id() ) ) {
+                update_body_part( body_parts[bp] );
             }
         }
     } else {
@@ -1018,11 +1018,9 @@ void player_morale::set_worn( const item &it, bool worn )
     const body_part_set covered( it.get_covered_body_parts() );
 
     if( covered.any() ) {
-        for( const bodypart_id &bp_id : get_player_character().get_all_body_parts() ) {
-            auto bp = bp_id->token;
-            if( covered.test( bp ) ) {
-                const bodypart_id bp_id = convert_bp( bp ).id();
-                update_body_part( body_parts[bp_id] );
+        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+            if( covered.test( bp.id() ) ) {
+                update_body_part( body_parts[bp] );
             }
         }
     } else {

@@ -620,7 +620,7 @@ void Character::reset_stats()
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
         } else if( !exclusive_flag_coverage( STATIC( flag_id( "OVERSIZE" ) ) )
-                   .test( bp_torso ) ) {
+                   .test( STATIC( bodypart_str_id( "torso" ) ) ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
@@ -986,22 +986,23 @@ void do_pause( Character &who )
         if( who.is_underwater() ) {
             who.as_player()->practice( skill_swimming, 1 );
             who.drench( 100, { {
-                    bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-                    bp_arm_r, bp_head, bp_eyes, bp_mouth,
-                    bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+                    bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+                    bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ), bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ),
+                    bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
                 }
             }, true );
         } else if( here.has_flag( TFLAG_DEEP_WATER, who.pos() ) ) {
             who.as_player()->practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
             who.drench( 100, { {
-                    bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
-                    bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l,
-                    bp_hand_r
+                    bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ),
+                    bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ),
+                    bodypart_str_id( "hand_r" )
                 }
             }, true );
         } else if( here.has_flag( "SWIMMABLE", who.pos() ) ) {
-            who.drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
+            who.drench( 40, { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } },
+            false );
         }
     }
 

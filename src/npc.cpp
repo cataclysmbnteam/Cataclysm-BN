@@ -1070,7 +1070,8 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
             body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( convert_bp( bp ) ) && !worn_with_flag( flag_SPLINT, convert_bp( bp ).id() ) &&
+            if( is_limb_broken( convert_bp( bp ).id() ) &&
+                !worn_with_flag( flag_SPLINT, convert_bp( bp ).id() ) &&
                 it.covers( convert_bp( bp ).id() ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return !!wear_item( it, false );
