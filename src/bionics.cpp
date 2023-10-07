@@ -540,6 +540,14 @@ void npc::check_or_use_weapon_cbm()
         int best_dps = -1;
         bool wield_gun = primary_weapon().is_gun();
         item best_cbm_active = null_item_reference();
+
+        // If wielding a gun, best_dps to beat is at minimum the gun wielded.
+        if( wield_gun ) {
+            std::optional<gun_mode> weap_mode = npc_ai::best_mode_for_range(
+                                                    *this, this->primary_weapon(), dist ).second;
+            best_dps = this->primary_weapon().ideal_ranged_dps( *this, weap_mode );
+        }
+
         for( int i : avail_active_cbms ) {
             bionic &bio = ( *my_bionics )[ i ];
             const item cbm_weapon = item( bio.info().fake_item );
@@ -552,12 +560,8 @@ void npc::check_or_use_weapon_cbm()
 
             auto [mode_id, mode_] = npc_ai::best_mode_for_range( *this, cbm_weapon, dist );
             double dps = cbm_weapon.ideal_ranged_dps( *this, mode_ );
-            if( wield_gun && active_index < 0 ) {
-                gun_mode weap_mode = npc_ai::best_mode_for_range( *this, this->primary_weapon(), dist ).second;
-                dps = this->primary_weapon().ideal_ranged_dps( *this, weap_mode );
-            }
 
-            if( ( !wield_gun && active_index < 0 ) || dps > best_dps ) {
+            if( dps > best_dps ) {
                 active_index = i;
                 best_cbm_active = cbm_weapon;
                 best_dps = dps;
