@@ -8,6 +8,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"
@@ -199,7 +200,7 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
             item &battery = *det;
             battery.ammo_unset();
             REQUIRE( battery.ammo_remaining() == 0 );
-            REQUIRE( battery.has_flag( "RECHARGE" ) );
+            REQUIRE( battery.has_flag( flag_RECHARGE ) );
             veh_ptr->add_item( cargo_part, std::move( det ) );
             WHEN( "An hour passes" ) {
                 // Should use vehicle::update_time, but that doesn't do charging...
@@ -217,7 +218,7 @@ TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
             item &battery = *det;
             battery.ammo_unset();
             REQUIRE( battery.ammo_remaining() == 0 );
-            REQUIRE( battery.has_flag( "RECHARGE" ) );
+            REQUIRE( battery.has_flag( flag_RECHARGE ) );
             veh_ptr->add_item( cargo_part, std::move( det ) );
 
             det = item::spawn( "soldering_iron" );

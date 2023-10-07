@@ -125,7 +125,7 @@ TEST_CASE( "tiny_clothing", "[encumbrance]" )
 {
     clear_all_state();
     detached_ptr<item> i = item::spawn( "longshirt" );
-    i->set_flag( "UNDERSIZE" );
+    i->set_flag( flag_id( "UNDERSIZE" ) );
     std::vector<detached_ptr<item>> items;
     items.push_back( std::move( i ) );
     test_encumbrance_items( items, "TORSO",
@@ -145,7 +145,7 @@ TEST_CASE( "tiny_character", "[encumbrance]" )
                                 add_trait( "SMALL2" ) );
     }
     SECTION( "undersize shrt" ) {
-        obj.set_flag( "UNDERSIZE" );
+        obj.set_flag( flag_id( "UNDERSIZE" ) );
         test_encumbrance_items( items, "TORSO", longshirt_e,
                                 add_trait( "SMALL2" ) );
     }

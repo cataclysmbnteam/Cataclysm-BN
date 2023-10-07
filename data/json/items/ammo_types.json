@@ -637,6 +637,12 @@
     "default": "water"
   },
   {
+    "type": "ammunition_type",
+    "id": "cannon",
+    "name": "3-inch cannon",
+    "default": "cannon_explosive_shell"
+  },
+  {
     "id": "acid",
     "type": "ammunition_type",
     "name": "acid",

@@ -9,6 +9,7 @@
 #include "avatar_action.h"
 #include "avatar_functions.h"
 #include "calendar.h"
+#include "flag.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -74,7 +75,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     REQUIRE( gun.magazine_integral() );
     REQUIRE( loader_pos != INT_MIN );
     REQUIRE( speedloader.ammo_remaining() == 0 );
-    REQUIRE( speedloader.has_flag( "SPEEDLOADER" ) );
+    REQUIRE( speedloader.has_flag( flag_SPEEDLOADER ) );
 
     bool speedloader_success = speedloader.reload( dummy, ammo, ammo.charges );
 

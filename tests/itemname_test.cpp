@@ -4,6 +4,7 @@
 #include <string>
 
 #include "avatar.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "item.h"
@@ -32,8 +33,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item &i = *item::spawn_temporary( "tunic" );
-            i.set_flag( "UNDERSIZE" );
-            i.set_flag( "FIT" );
+            i.set_flag( flag_UNDERSIZE );
+            i.set_flag( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -68,8 +69,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item &i = *item::spawn_temporary( "tunic" );
-            i.set_flag( "UNDERSIZE" );
-            i.set_flag( "FIT" );
+            i.set_flag( flag_UNDERSIZE );
+            i.set_flag( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
@@ -104,8 +105,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item &i = *item::spawn_temporary( "tunic" );
-            i.set_flag( "UNDERSIZE" );
-            i.set_flag( "FIT" );
+            i.set_flag( flag_UNDERSIZE );
+            i.set_flag( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {

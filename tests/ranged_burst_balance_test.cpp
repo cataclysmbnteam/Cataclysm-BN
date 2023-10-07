@@ -2,13 +2,13 @@
 
 #include <vector>
 
+#include "flag.h"
 #include "npc.h"
 #include "item.h"
 #include "ranged.h"
 #include "state_helpers.h"
 
 static constexpr tripoint shooter_pos( 60, 60, 0 );
-static const std::string flag_BIPOD( "BIPOD" );
 
 static void check_burst_penalty( const Character &shooter, item &gun, int expected,
                                  bool bipod = false )

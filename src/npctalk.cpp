@@ -29,6 +29,7 @@
 #include "condition.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
@@ -42,6 +43,7 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "make_static.h"
 #include "magic.h"
 #include "map.h"
 #include "mapgen_functions.h"
@@ -3393,9 +3395,8 @@ std::string give_item_to( npc &p, bool allow_use )
     }
     item &given = *loc;
 
-    if( ( &given == &you.primary_weapon() && given.has_flag( "NO_UNWIELD" ) ) ||
-        ( you.is_worn( given ) &&
-          given.has_flag( "NO_TAKEOFF" ) ) ) {
+    if( ( &given == &you.primary_weapon() && given.has_flag( flag_NO_UNWIELD ) ) ||
+        ( you.is_worn( given ) && given.has_flag( flag_NO_TAKEOFF ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }

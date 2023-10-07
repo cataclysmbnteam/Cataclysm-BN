@@ -26,6 +26,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -125,9 +126,6 @@ static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
-static const std::string flag_NPC_SAFE( "NPC_SAFE" );
-static const std::string flag_SPLINT( "SPLINT" );
-
 class monfaction;
 
 void starting_clothes( npc &who, const npc_class_id &type, bool male );
@@ -210,8 +208,8 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
     }
 
     for( item * const &e : worn ) {
-        if( e->has_flag( "VARSIZE" ) ) {
-            e->set_flag( "FIT" );
+        if( e->has_flag( flag_VARSIZE ) ) {
+            e->set_flag( flag_FIT );
         }
     }
 }
@@ -590,8 +588,8 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         if( !it ) {
             continue;
         }
-        if( it->has_flag( "VARSIZE" ) ) {
-            it->set_flag( "FIT" );
+        if( it->has_flag( flag_VARSIZE ) ) {
+            it->set_flag( flag_FIT );
         }
         if( who.can_wear( *it ).success() ) {
             it->on_wear( who );
@@ -646,8 +644,8 @@ void starting_inv( npc &who, const npc_class_id &type )
     while( qty-- != 0 ) {
         detached_ptr<item> tmp = item::in_its_container( random_item_from( type, "misc" ) );
         if( tmp && !tmp->is_null() ) {
-            if( !one_in( 3 ) && tmp->has_flag( "VARSIZE" ) ) {
-                tmp->set_flag( "FIT" );
+            if( !one_in( 3 ) && tmp->has_flag( flag_VARSIZE ) ) {
+                tmp->set_flag( flag_FIT );
             }
             if( who.can_pick_volume( *tmp ) ) {
                 res.push_back( std::move( tmp ) );
@@ -656,7 +654,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     }
 
     for( detached_ptr<item> &it : res ) {
-        if( !it->has_flag( "TRADER_AVOID" ) ) {
+        if( !it->has_flag( flag_TRADER_AVOID ) ) {
             it->set_owner( who );
             who.i_add( std::move( it ) );
         }
@@ -880,7 +878,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     // Check for conditions that disqualify us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         fail_reasons.emplace_back( _( "I can't read!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
     } else if( !character_funcs::can_see_fine_details( *this ) ) {
@@ -1782,7 +1780,7 @@ int npc::value( const item &it ) const
 
 int npc::value( const item &it, int market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( "BOMB" ) && it.active ) || it.made_of( LIQUID ) ) {
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) || it.made_of( LIQUID ) ) {
         // NPCs won't be interested in buying active explosives or spilled liquids
         return -1000;
     }
@@ -1984,7 +1982,8 @@ void npc::set_faction_ver( int new_version )
     faction_api_version = new_version;
 }
 
-bool npc::has_faction_relationship( const player &p, const npc_factions::relationship flag ) const
+bool npc::has_faction_relationship( const player &p,
+                                    const npc_factions::relationship flag ) const
 {
     faction *p_fac = p.get_faction();
     if( !my_fac || !p_fac ) {

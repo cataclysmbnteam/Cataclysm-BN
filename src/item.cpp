@@ -170,122 +170,16 @@ static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
-static const std::string flag_ALWAYS_TWOHAND( "ALWAYS_TWOHAND" );
-static const std::string flag_AURA( "AURA" );
-static const std::string flag_BELTED( "BELTED" );
-static const std::string flag_BIPOD( "BIPOD" );
-static const std::string flag_BYPRODUCT( "BYPRODUCT" );
-static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
-static const std::string flag_CANNIBALISM( "CANNIBALISM" );
-static const std::string flag_CBM_SCANNED( "CBM_SCANNED" );
-static const std::string flag_CHARGEDIM( "CHARGEDIM" );
-static const std::string flag_COLLAPSIBLE_STOCK( "COLLAPSIBLE_STOCK" );
-static const std::string flag_CONDUCTIVE( "CONDUCTIVE" );
-static const std::string flag_CONSUMABLE( "CONSUMABLE" );
-static const std::string flag_CORPSE( "CORPSE" );
-static const std::string flag_DANGEROUS( "DANGEROUS" );
-static const std::string flag_DEEP_WATER( "DEEP_WATER" );
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
-static const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
-static const std::string flag_FAKE_MILL( "FAKE_MILL" );
-static const std::string flag_FAKE_SMOKE( "FAKE_SMOKE" );
-static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
-static const std::string flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_FIRE_100( "FIRE_100" );
-static const std::string flag_FIRE_20( "FIRE_20" );
-static const std::string flag_FIRE_50( "FIRE_50" );
-static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
-static const std::string flag_FIT( "FIT" );
 static const std::string flag_FLAMMABLE( "FLAMMABLE" );
 static const std::string flag_FLAMMABLE_ASH( "FLAMMABLE_ASH" );
-static const std::string flag_GIBBED( "GIBBED" );
-static const std::string flag_HEATS_FOOD( "HEATS_FOOD" );
-static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_IRREMOVABLE( "IRREMOVABLE" );
-static const std::string flag_IS_ARMOR( "IS_ARMOR" );
-static const std::string flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
-static const std::string flag_IS_UPS( "IS_UPS" );
-static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
-static const std::string flag_LEAK_DAM( "LEAK_DAM" );
+static const std::string flag_DEEP_WATER( "DEEP_WATER" );
 static const std::string flag_LIQUID( "LIQUID" );
 static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-static const std::string flag_LITCIG( "LITCIG" );
-static const std::string flag_MAG_BELT( "MAG_BELT" );
-static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
-static const std::string flag_MAG_EJECT( "MAG_EJECT" );
-static const flag_str_id flag_MELEE_GUNMOD( "MELEE_GUNMOD" );
-static const std::string flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
-static const std::string flag_NEEDS_UNFOLD( "NEEDS_UNFOLD" );
-static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
-static const std::string flag_NONCONDUCTIVE( "NONCONDUCTIVE" );
-static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
-static const std::string flag_NO_DROP( "NO_DROP" );
-static const std::string flag_NO_PARASITES( "NO_PARASITES" );
-static const std::string flag_NO_RELOAD( "NO_RELOAD" );
-static const std::string flag_NO_REPAIR( "NO_REPAIR" );
-static const std::string flag_NO_SALVAGE( "NO_SALVAGE" );
-static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
-static const std::string flag_OUTER( "OUTER" );
-static const std::string flag_OVERSIZE( "OVERSIZE" );
-static const std::string flag_PERSONAL( "PERSONAL" );
-static const std::string flag_POWERARMOR_EXO( "POWERARMOR_EXO" );
-static const std::string flag_POWERARMOR_EXTERNAL( "POWERARMOR_EXTERNAL" );
-static const std::string flag_POWERARMOR_MOD( "POWERARMOR_MOD" );
-static const std::string flag_PROCESSING( "PROCESSING" );
-static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
-static const std::string flag_PULPED( "PULPED" );
-static const std::string flag_PUMP_ACTION( "PUMP_ACTION" );
-static const std::string flag_PUMP_RAIL_COMPATIBLE( "PUMP_RAIL_COMPATIBLE" );
-static const std::string flag_QUARTERED( "QUARTERED" );
-static const std::string flag_RADIOACTIVE( "RADIOACTIVE" );
-static const std::string flag_RADIOSIGNAL_1( "RADIOSIGNAL_1" );
-static const std::string flag_RADIOSIGNAL_2( "RADIOSIGNAL_2" );
-static const std::string flag_RADIOSIGNAL_3( "RADIOSIGNAL_3" );
-static const std::string flag_RADIO_ACTIVATION( "RADIO_ACTIVATION" );
-static const std::string flag_RADIO_INVOKE_PROC( "RADIO_INVOKE_PROC" );
-static const std::string flag_RADIO_MOD( "RADIO_MOD" );
-static const std::string flag_RAIN_PROTECT( "RAIN_PROTECT" );
-static const std::string flag_REACH3( "REACH3" );
-static const std::string flag_REACH_ATTACK( "REACH_ATTACK" );
-static const std::string flag_RECHARGE( "RECHARGE" );
-static const std::string flag_REDUCED_BASHING( "REDUCED_BASHING" );
-static const std::string flag_REDUCED_WEIGHT( "REDUCED_WEIGHT" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_RELOAD_EJECT( "RELOAD_EJECT" );
-static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
-static const std::string flag_REVIVE_SPECIAL( "REVIVE_SPECIAL" );
-static const std::string flag_SILENT( "SILENT" );
-static const std::string flag_SKINNED( "SKINNED" );
-static const std::string flag_SKINTIGHT( "SKINTIGHT" );
-static const std::string flag_SLOW_WIELD( "SLOW_WIELD" );
-static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
-static const std::string flag_SPLINT( "SPLINT" );
-static const std::string flag_STR_DRAW( "STR_DRAW" );
-static const std::string flag_TOBACCO( "TOBACCO" );
-static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
-static const std::string flag_UNDERSIZE( "UNDERSIZE" );
-static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
-static const std::string flag_USE_UPS( "USE_UPS" );
-static const std::string flag_NAT_UPS( "NAT_UPS" );
-static const std::string flag_VARSIZE( "VARSIZE" );
-static const std::string flag_VEHICLE( "VEHICLE" );
-static const std::string flag_WAIST( "WAIST" );
-static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
-static const std::string flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
-static const std::string flag_WET( "WET" );
-static const std::string flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );
 
 static const std::string has_thievery_witness( "has_thievery_witness" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
 
 static const matec_id rapid_strike( "RAPID" );
-
-static const std::string flag_COLD( "COLD" );
-static const std::string flag_VERY_COLD( "VERY_COLD" );
 
 class npc_class;
 
@@ -401,7 +295,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ),
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
             detached_ptr<item> it = item::spawn( mod, turn, qty );
-            it->set_flag( "IRREMOVABLE" );
+            it->set_flag( flag_IRREMOVABLE );
             put_in( std::move( it ) );
         }
         for( const itype_id &mod : type->gun->default_mods ) {
@@ -488,19 +382,19 @@ item::item( const recipe *rec, int qty, std::vector<detached_ptr<item>> &&items,
     }
 
     for( item * const &component : components ) {
-        for( const std::string &f : component->item_tags ) {
-            if( json_flag::get( f ).craft_inherit() ) {
+        for( const flag_id &f : component->item_tags ) {
+            if( f->craft_inherit() ) {
                 set_flag( f );
             }
         }
-        for( const std::string &f : component->type->get_flags() ) {
-            if( json_flag::get( f ).craft_inherit() ) {
+        for( const flag_id &f : component->type->get_flags() ) {
+            if( f->craft_inherit() ) {
                 set_flag( f );
             }
         }
     }
     // this extra section is so that in-progress crafts will correctly display expected flags.
-    for( const std::string &flag : rec->flags_to_delete ) {
+    for( const flag_id &flag : rec->flags_to_delete ) {
         unset_flag( flag );
     }
 }
@@ -626,7 +520,7 @@ detached_ptr<item> item::make_corpse( const mtype_id &mt, time_point turn, const
 
     if( result->corpse->has_flag( MF_REVIVES ) ) {
         if( one_in( 20 ) ) {
-            result->set_flag( "REVIVE_SPECIAL" );
+            result->set_flag( flag_REVIVE_SPECIAL );
         }
         result->set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
@@ -736,8 +630,8 @@ void item::ammo_set( const itype_id &ammo, int qty )
         detached_ptr<item> set_ammo = item::spawn( ammo, calendar::turn, std::min( qty,
                                       ammo_capacity() ) );
         if( has_flag( flag_NO_UNLOAD ) ) {
-            set_ammo->set_flag( "NO_DROP" );
-            set_ammo->set_flag( "IRREMOVABLE" );
+            set_ammo->set_flag( flag_NO_DROP );
+            set_ammo->set_flag( flag_IRREMOVABLE );
         }
         put_in( std::move( set_ammo ) );
 
@@ -1705,7 +1599,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( idescription != item_vars.end() ) {
             info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
         } else {
-            if( has_flag( "MAGIC_FOCUS" ) ) {
+            if( has_flag( flag_MAGIC_FOCUS ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "This item is a <info>magical focus</info>.  "
                                              "You can cast spells with it in your hand." ) ) );
@@ -1788,7 +1682,9 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                       active ) );
             info.push_back( iteminfo( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                       burnt ) );
-            const std::string tags_listed = enumerate_as_string( item_tags, enumeration_conjunction::none );
+            const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
+                return f.str();
+            }, enumeration_conjunction::none );
             info.push_back( iteminfo( "BASE", string_format( _( "tags: %s" ), tags_listed ) ) );
             for( auto const &imap : item_vars ) {
                 info.push_back( iteminfo( "BASE",
@@ -1907,7 +1803,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         const bool is_vitamin = v.first->type() == vitamin_type::VITAMIN;
         // only display vitamins that we actually require
         if( you.vitamin_rate( v.first ) == 0_turns || v.second == 0 ||
-            display_vitamins != is_vitamin || v.first->has_flag( flag_NO_DISPLAY ) ) {
+            display_vitamins != is_vitamin || v.first->has_flag( "NO_DISPLAY" ) ) {
             return std::string();
         }
         const double multiplier = you.vitamin_rate( v.first ) / 1_days * 100;
@@ -3854,7 +3750,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
 
     avatar &you = get_avatar();
     if( is_armor() && you.has_trait( trait_WOOLALLERGY ) &&
-        ( made_of( material_id( "wool" ) ) || has_own_flag( "wooled" ) ) ) {
+        ( made_of( material_id( "wool" ) ) || has_own_flag( flag_wooled ) ) ) {
         info.push_back( iteminfo( "DESCRIPTION",
                                   _( "* This clothing will give you an <bad>allergic "
                                      "reaction</bad>." ) ) );
@@ -3862,14 +3758,14 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
 
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
         // concatenate base and acquired flags...
-        std::vector<std::string> flags;
+        std::vector<flag_id> flags;
         std::set_union( type->get_flags().begin(), type->get_flags().end(),
                         get_flags().begin(), get_flags().end(),
                         std::back_inserter( flags ) );
 
         // ...and display those which have an info description
-        for( const std::string &e : flags ) {
-            const json_flag &f = json_flag::get( e );
+        for( const flag_id &e : sorted_lex( flags ) ) {
+            const json_flag &f = e.obj();
             if( !f.info().empty() ) {
                 info.emplace_back( "DESCRIPTION", string_format( "* %s", _( f.info() ) ) );
             }
@@ -4345,9 +4241,9 @@ nc_color item::color_in_inventory( const player &p ) const
     } else if( has_flag( flag_LITCIG ) ) {
         ret = c_red;
     } else if( is_armor() && p.has_trait( trait_WOOLALLERGY ) &&
-               ( made_of( material_id( "wool" ) ) || has_own_flag( "wooled" ) ) ) {
+               ( made_of( material_id( "wool" ) ) || has_own_flag( flag_wooled ) ) ) {
         ret = c_red;
-    } else if( is_filthy() || has_own_flag( "DIRTY" ) ) {
+    } else if( is_filthy() || has_own_flag( flag_DIRTY ) ) {
         ret = c_brown;
     } else if( is_bionic() ) {
         if( !p.has_bionic( type->bionic->id ) ) {
@@ -4564,7 +4460,7 @@ void item::on_wear( Character &p )
             debugmsg( "iuse_actor type descriptor and actual type mismatch" );
             return;
         }
-        std::string transform_flag = actor->dependencies;
+        flag_id transform_flag( actor->dependencies );
         for( const auto &elem : p.worn ) {
             if( elem->has_flag( transform_flag ) && elem->active != active ) {
                 transform = true;
@@ -4792,7 +4688,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( !faults.empty() ) {
         bool silent = true;
         for( const auto &fault : faults ) {
-            if( !fault->has_flag( flag_SILENT ) ) {
+            if( !fault->has_flag( "SILENT" ) ) {
                 silent = false;
                 break;
             }
@@ -4895,7 +4791,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
-        if( has_own_flag( "DIRTY" ) ) {
+        if( has_own_flag( flag_DIRTY ) ) {
             tagtext += _( " (dirty)" );
         } else if( rotten() ) {
             tagtext += _( " (rotten)" );
@@ -5510,12 +5406,12 @@ bool item::has_fault( const fault_id &fault ) const
     return faults.count( fault );
 }
 
-bool item::has_own_flag( const std::string &f ) const
+bool item::has_own_flag( const flag_id &f ) const
 {
     return item_tags.count( f );
 }
 
-bool item::has_flag( const std::string &f ) const
+bool item::has_flag( const flag_id &f ) const
 {
     // Check if we have any gun/toolmods with the flag, and if we do
     // check if that flag should be inherited.
@@ -5527,7 +5423,7 @@ bool item::has_flag( const std::string &f ) const
     [&f]( const item * e ) {
     return ( !e->is_gun() && e->has_flag( f ) );
     }
-                   ) && json_flag::get( f ).inherit() ) {
+                   ) && f->inherit() ) {
         return true;
     }
 
@@ -5540,22 +5436,21 @@ bool item::has_flag( const std::string &f ) const
     return has_own_flag( f );
 }
 
-bool item::has_flag( const flag_str_id &flag ) const
+void item::set_flag( const flag_id &flag )
 {
-    return has_flag( flag.str() );
+    if( flag.is_valid() ) {
+        item_tags.insert( flag );
+    } else {
+        debugmsg( "Attempted to set invalid flag_id %s", flag.str() );
+    }
 }
 
-void item::set_flag( const std::string &flag )
-{
-    item_tags.insert( flag );
-}
-
-void item::unset_flag( const std::string &flag )
+void item::unset_flag( const flag_id &flag )
 {
     item_tags.erase( flag );
 }
 
-void item::set_flag_recursive( const std::string &flag )
+void item::set_flag_recursive( const flag_id &flag )
 {
     set_flag( flag );
     for( item * const &comp : components ) {
@@ -5698,11 +5593,11 @@ int item::get_comestible_fun() const
         return 0;
     }
     int fun = get_comestible()->fun;
-    for( const std::string &flag : item_tags ) {
-        fun += json_flag::get( flag ).taste_mod();
+    for( const flag_id &flag : item_tags ) {
+        fun += flag->taste_mod();
     }
-    for( const std::string &flag : type->get_flags() ) {
-        fun += json_flag::get( flag ).taste_mod();
+    for( const flag_id &flag : type->get_flags() ) {
+        fun += flag->taste_mod();
     }
 
     return fun;
@@ -5916,7 +5811,7 @@ time_duration item::minimum_freshness_duration( temperature_flag temperature ) c
 
 void item::mod_last_rot_check( time_duration processing_duration )
 {
-    if( !has_own_flag( "PROCESSING" ) ) {
+    if( !has_own_flag( flag_PROCESSING ) ) {
         debugmsg( "mod_last_rot_check called on non smoking item: %s", tname() );
         return;
     }
@@ -6717,8 +6612,7 @@ bool item::is_gun() const
 
 bool item::is_firearm() const
 {
-    static const std::string primitive_flag( "PRIMITIVE_RANGED_WEAPON" );
-    return is_gun() && !has_flag( primitive_flag );
+    return is_gun() && !has_flag( flag_PRIMITIVE_RANGED_WEAPON );
 }
 
 int item::get_reload_time() const
@@ -9587,7 +9481,7 @@ detached_ptr<item> item::process_cable( detached_ptr<item> &&self, player *carri
     }
     std::string state = self->get_var( "state" );
     if( state == "solar_pack_link" || state == "solar_pack" ) {
-        if( !carrier->has_item( *self ) || !carrier->worn_with_flag( "SOLARPACK_ON" ) ) {
+        if( !carrier->has_item( *self ) || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
             self->reset_cable( carrier );
             return std::move( self );
@@ -9681,7 +9575,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
         if( is_tool() && type->tool->revert_to ) {
             convert( *type->tool->revert_to );
         }
-        unset_flag( "WET" );
+        unset_flag( flag_WET );
         active = false;
     }
     // Always return true so our caller will bail out instead of processing us as a tool.
@@ -9709,7 +9603,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
                 return std::move( self );
             } else {
                 bool active = false;
-                std::string transform_flag = actor->dependencies;
+                flag_id transform_flag( actor->dependencies );
                 for( const auto &elem : carrier->worn ) {
                     if( elem->active && elem->has_flag( transform_flag ) ) {
                         active = true;
@@ -9773,7 +9667,7 @@ detached_ptr<item> item::process_tool( detached_ptr<item> &&self, player *carrie
                 debugmsg( "iuse_actor type descriptor and actual type mismatch." );
                 return std::move( self );
             }
-            std::string transformed_flag = actor->flag;
+            flag_id transformed_flag( actor->flag );
             for( auto &elem : carrier->worn ) {
                 if( elem->active && elem->has_flag( transformed_flag ) ) {
                     if( !elem->type->can_use( "set_transformed" ) ) {
@@ -10136,7 +10030,7 @@ std::string item::type_name( unsigned int quantity ) const
         };
         switch( cname.type ) {
             case condition_type::FLAG:
-                if( has_flag( cname.condition ) ) {
+                if( has_flag( flag_id( cname.condition ) ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
                 break;
@@ -10249,8 +10143,8 @@ bool item::on_drop( const tripoint &pos, map &m )
     // dropping liquids, even currently frozen ones, on the ground makes them
     // dirty
     if( made_of( LIQUID ) && !m.has_flag( flag_LIQUIDCONT, pos ) &&
-        !has_own_flag( "DIRTY" ) ) {
-        set_flag( "DIRTY" );
+        !has_own_flag( flag_DIRTY ) ) {
+        set_flag( flag_DIRTY );
     }
     avatar &you = get_avatar();
     you.flag_encumbrance();

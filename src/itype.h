@@ -805,7 +805,7 @@ class islot_milling
 struct itype {
         friend class Item_factory;
 
-        using FlagsSetType = std::set<std::string>;
+        using FlagsSetType = std::set<flag_id>;
 
         std::vector<std::pair<itype_id, mod_id>> src;
 
@@ -1034,9 +1034,7 @@ struct itype {
 
         bool has_use() const;
 
-        // TODO: Remove the string version
-        bool has_flag( const std::string &flag ) const;
-        bool has_flag( const flag_str_id &flag ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         // returns read-only set of all item tags/flags
         const FlagsSetType &get_flags() const;

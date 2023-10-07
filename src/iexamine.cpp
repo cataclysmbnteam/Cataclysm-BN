@@ -47,6 +47,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "field_type.h"
 #include "flat_set.h"
 #include "fungal_effects.h"
@@ -217,29 +218,10 @@ static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
-static const std::string flag_CLOSES_PORTAL( "CLOSES_PORTAL" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
-static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_FERTILIZER( "FERTILIZER" );
-static const std::string flag_FIRE( "FIRE" );
-static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_NO_CVD( "NO_CVD" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
-static const std::string flag_PROCESSING( "PROCESSING" );
-static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
-static const std::string flag_SAFECRACK( "SAFECRACK" );
-static const std::string flag_SMOKABLE( "SMOKABLE" );
-static const std::string flag_SMOKED( "SMOKED" );
-static const std::string flag_SPLINT( "SPLINT" );
-static const std::string flag_VARSIZE( "VARSIZE" );
 static const std::string flag_WALL( "WALL" );
-static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -287,7 +269,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     p.invalidate_crafting_inventory();
 
     // Apply flag to item
-    loc->set_flag( "DIAMOND" );
+    loc->set_flag( flag_DIAMOND );
     add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
     p.mod_moves( -to_turns<int>( 10_seconds ) );
 }
@@ -341,7 +323,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     p.invalidate_crafting_inventory();
 
     if( new_item->is_armor() && new_item->has_flag( flag_VARSIZE ) ) {
-        new_item->set_flag( "FIT" );
+        new_item->set_flag( flag_FIT );
     }
 
     here.add_item_or_charges( spawn_point, std::move( new_item ) );
@@ -4012,7 +3994,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     const itype &cur_tool = usable_item_types.at( tool_index );
     item &fake_item = *item::spawn_temporary( cur_tool.get_id(), calendar::turn, 0 );
     const itype_id ammo = fake_item.ammo_default();
-    fake_item.set_flag( "PSEUDO" );
+    fake_item.set_flag( flag_PSEUDO );
 
     enum class charges_type {
         grid, ammo_from_map, none
@@ -4021,7 +4003,7 @@ void iexamine::use_furn_fake_item( player &p, const tripoint &examp )
     charges_type charge_type = charges_type::none;
     fake_item.charges = 0;
 
-    if( fake_item.has_flag( "USES_GRID_POWER" ) ) {
+    if( fake_item.has_flag( flag_USES_GRID_POWER ) ) {
         const distribution_grid &grid = get_distribution_grid_tracker().grid_at( abspos );
         fake_item.charges = grid.get_resource();
         charge_type = charges_type::grid;
@@ -4217,15 +4199,12 @@ std::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, 
 
 static int getGasDiscountCardQuality( const item &it )
 {
-    const auto &tags = it.type->get_flags();
-
-    for( const std::string &tag : tags ) {
-
-        if( tag.size() > 15 && tag.substr( 0, 15 ) == "DISCOUNT_VALUE_" ) {
-            return atoi( tag.substr( 15 ).c_str() );
+    for( const flag_id &tag : it.type->get_flags() ) {
+        int discount_value;
+        if( sscanf( tag->id.c_str(), "DISCOUNT_VALUE_%i", &discount_value ) == 1 ) {
+            return discount_value;
         }
     }
-
     return 0;
 }
 
@@ -4236,7 +4215,7 @@ static int findBestGasDiscount( player &p )
     for( size_t i = 0; i < p.inv_size(); i++ ) {
         item &it = p.inv_find_item( i );
 
-        if( it.has_flag( "GAS_DISCOUNT" ) ) {
+        if( it.has_flag( flag_GAS_DISCOUNT ) ) {
 
             int q = getGasDiscountCardQuality( it );
             if( q > discount ) {
@@ -5228,9 +5207,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.add_effect( effect_pblue, 1_hours );
                 }
             }
-            if( patient.leak_level( "RADIOACTIVE" ) ) {
+            if( patient.leak_level( flag_RADIOACTIVE ) ) {
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's possession.  Urgent decontamination procedures highly recommended." ),
-                       patient.leak_level( "RADIOACTIVE" ) );
+                       patient.leak_level( flag_RADIOACTIVE ) );
             }
             break;
         }
@@ -5462,8 +5441,8 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
             iter = items.erase( iter, &det );
             result->add_component( std::move( det ) );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const std::string &f : it->type->item_tags ) {
-                if( json_flag::get( f ).craft_inherit() ) {
+            for( const flag_id &f : it->type->get_flags() ) {
+                if( f->craft_inherit() ) {
                     result->set_flag( f );
                 }
             }

@@ -8,13 +8,12 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
 #include "type_id.h"
 #include "value_ptr.h"
-
-static const std::string flag_WET( "WET" );
 
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {

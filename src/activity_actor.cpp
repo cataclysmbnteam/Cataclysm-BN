@@ -21,6 +21,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "game.h"
 #include "gates.h"
 #include "iexamine.h"
@@ -62,8 +63,6 @@ static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
-
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
 static const std::string has_thievery_witness( "has_thievery_witness" );
 
@@ -443,7 +442,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
         g->m.place_items( item_group_id( "jewelry_front" ), 20, location, location, false, calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
-                it->item_tags.insert( "FILTHY" );
+                it->set_flag( flag_FILTHY );
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }

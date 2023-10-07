@@ -11,11 +11,8 @@
 #include "item.h"
 #include "itype.h"
 #include "player.h"
-#include "ret_val.h"
-#include "value_ptr.h"
+#include "make_static.h"
 #include "weather.h"
-
-static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 
 namespace behavior
 {
@@ -74,7 +71,7 @@ status_t character_oracle_t::can_make_fire() const
     bool fuel = false;
     for( const auto &i : subject->inv_const_slice() ) {
         const item *const &candidate = i->front();
-        if( candidate->has_flag( flag_FIRESTARTER ) ) {
+        if( candidate->has_flag( STATIC( flag_id( "FIRESTARTER" ) ) ) ) {
             tool = true;
             if( fuel ) {
                 return running;

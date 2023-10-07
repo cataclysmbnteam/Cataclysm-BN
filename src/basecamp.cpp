@@ -22,6 +22,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "npc.h"
@@ -647,7 +648,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
         item &camp_item = *item::spawn_temporary( bcp_r.fake_id, calendar::start_of_cataclysm );
-        camp_item.set_flag( "PSEUDO" );
+        camp_item.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
         if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {

@@ -2,11 +2,11 @@
 
 #include <list>
 #include <memory>
-#include <string>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "creature.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "map_helpers.h"
@@ -246,9 +246,9 @@ TEST_CASE( "Character::get_dodge with effects", "[player][melee][dodge][effect]"
         item &blades = *item::spawn_temporary( "roller_blades" );
         item &heelys = *item::spawn_temporary( "roller_shoes_on" );
 
-        REQUIRE( skates.has_flag( "ROLLER_QUAD" ) );
-        REQUIRE( blades.has_flag( "ROLLER_INLINE" ) );
-        REQUIRE( heelys.has_flag( "ROLLER_ONE" ) );
+        REQUIRE( skates.has_flag( flag_ROLLER_QUAD ) );
+        REQUIRE( blades.has_flag( flag_ROLLER_INLINE ) );
+        REQUIRE( heelys.has_flag( flag_ROLLER_ONE ) );
 
         SECTION( "amateur skater: 1/5 dodge" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_id( "PROF_SKATER" ) ) );

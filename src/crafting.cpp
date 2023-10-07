@@ -91,18 +91,9 @@ static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
-static const std::string flag_BYPRODUCT( "BYPRODUCT" );
-static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
-static const std::string flag_FIT( "FIT" );
-static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
-static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
-static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
-static const std::string flag_VARSIZE( "VARSIZE" );
 
 class basecamp;
 
@@ -999,13 +990,13 @@ void item::inherit_flags( const item &parent, const recipe &making )
             set_flag( flag_FIT );
         }
     }
-    for( const std::string &f : parent.item_tags ) {
-        if( json_flag::get( f ).craft_inherit() ) {
+    for( const flag_id &f : parent.get_flags() ) {
+        if( f->craft_inherit() ) {
             set_flag( f );
         }
     }
-    for( const std::string &f : parent.type->get_flags() ) {
-        if( json_flag::get( f ).craft_inherit() ) {
+    for( const flag_id &f : parent.type->get_flags() ) {
+        if( f->craft_inherit() ) {
             set_flag( f );
         }
     }
@@ -1036,7 +1027,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
         used_items.push_back( &*it );
     }
     const double relative_rot = craft.get_relative_rot();
-    const bool ignore_component = making.has_flag( flag_NUTRIENT_OVERRIDE );
+    const bool ignore_component = making.has_flag( "NUTRIENT_OVERRIDE" );
 
     // Set up the new item, and assign an inventory letter if available
     std::vector<detached_ptr<item>> newits = making.create_results( batch_size );
@@ -1086,7 +1077,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
 
         food_contained.inherit_flags( used_items, making );
 
-        for( const std::string &flag : making.flags_to_delete ) {
+        for( const flag_id &flag : making.flags_to_delete ) {
             food_contained.unset_flag( flag );
         }
 
@@ -2256,7 +2247,7 @@ void crafting::complete_disassemble( Character &who, iuse_location target,
         }
 
         if( filthy ) {
-            newit->set_flag( "FILTHY" );
+            newit->set_flag( flag_FILTHY );
         }
         if( newit->made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( std::move( newit ), PICKUP_RANGE );

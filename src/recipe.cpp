@@ -14,6 +14,7 @@
 #include "character.h"
 #include "construction.h"
 #include "debug.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "item.h"
@@ -33,8 +34,6 @@
 #include "value_ptr.h"
 
 static const std::string flag_ALLOW_FILTHY( "ALLOW_FILTHY" );
-static const std::string flag_FIT( "FIT" );
-static const std::string flag_VARSIZE( "VARSIZE" );
 
 static const itype_id itype_hotplate( "hotplate" );
 static const itype_id itype_dehydrator( "dehydrator" );
@@ -205,7 +204,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "delete_flags" ) ) {
-        flags_to_delete = jo.get_tags( "delete_flags" );
+        flags_to_delete = jo.get_tags<flag_id>( "delete_flags" );
     }
 
     // recipes not specifying any external requirements inherit from their parent recipe (if any)
@@ -508,8 +507,8 @@ std::vector<detached_ptr<item>> recipe::create_byproducts( int batch ) const
     std::vector<detached_ptr<item>> bps;
     for( const auto &e : byproducts ) {
         detached_ptr<item> obj = item::spawn( e.first, calendar::turn, item::default_charges_tag{} );
-        if( obj->has_flag( "VARSIZE" ) ) {
-            obj->set_flag( "FIT" );
+        if( obj->has_flag( flag_VARSIZE ) ) {
+            obj->set_flag( flag_FIT );
         }
 
         if( obj->count_by_charges() ) {

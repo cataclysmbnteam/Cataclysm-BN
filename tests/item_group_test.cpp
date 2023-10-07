@@ -1,10 +1,10 @@
 #include <algorithm>
-#include <string>
 #include <utility>
 #include <vector>
 
 #include "catch/catch.hpp"
 
+#include "flag.h"
 #include "item.h"
 #include "item_group.h"
 #include "stringmaker.h"
@@ -55,7 +55,7 @@ TEST_CASE( "Item_modifier gun fouling", "[item_group]" )
     fouled.dirt.first = 1;
     SECTION( "guns can be fouled" ) {
         detached_ptr<item> glock = item::spawn( "glock_19" );
-        REQUIRE( !glock->has_flag( "PRIMITIVE_RANGED_WEAPON" ) );
+        REQUIRE( !glock->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) );
         REQUIRE( !glock->has_var( "dirt" ) );
         glock = fouled.modify( std::move( glock ) );
         CHECK( glock->get_var( "dirt", 0.0 ) > 0.0 );
@@ -63,7 +63,7 @@ TEST_CASE( "Item_modifier gun fouling", "[item_group]" )
     SECTION( "bows can't be fouled" ) {
         detached_ptr<item> bow = item::spawn( "longbow" );
         REQUIRE( !bow->has_var( "dirt" ) );
-        REQUIRE( bow->has_flag( "PRIMITIVE_RANGED_WEAPON" ) );
+        REQUIRE( bow->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) );
         bow = fouled.modify( std::move( bow ) );
         CHECK( !bow->has_var( "dirt" ) );
     }

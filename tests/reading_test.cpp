@@ -13,6 +13,7 @@
 #include "character_functions.h"
 #include "item.h"
 #include "itype.h"
+#include "flag.h"
 #include "map.h"
 #include "map_selector.h"
 #include "map_helpers.h"
@@ -102,7 +103,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
         detached_ptr<item> det = item::spawn( "holybook_pastafarian" );
         item &book = *det;
         dummy.i_add( std::move( det ) );
-        REQUIRE( book.has_flag( "INSPIRATIONAL" ) );
+        REQUIRE( book.has_flag( flag_INSPIRATIONAL ) );
         REQUIRE( book.type->book );
         REQUIRE( book.type->book->fun > 0 );
         int book_fun = book.type->book->fun;

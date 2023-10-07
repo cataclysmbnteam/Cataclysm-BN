@@ -31,6 +31,7 @@
 #include "character.h"
 #include "damage.h"
 #include "enums.h"
+#include "flag.h"
 #include "player.h"
 #include "rng.h"
 #include "material.h"
@@ -47,11 +48,6 @@ static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_water( "water" );
-
-static const std::string flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
-static const std::string flag_LEAK_DAM( "LEAK_DAM" );
-static const std::string flag_WATERPROOF( "WATERPROOF" );
-static const std::string flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 
 struct itype;
 
@@ -520,9 +516,9 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                 for( const itype &type : tool_list ) {
                     //TODO!: check
                     item &furn_item = *item::spawn_temporary( type.get_id(), calendar::turn, 0 );
-                    furn_item.set_flag( "PSEUDO" );
+                    furn_item.set_flag( flag_PSEUDO );
                     const itype_id &ammo = furn_item.ammo_default();
-                    if( furn_item.has_flag( "USES_GRID_POWER" ) ) {
+                    if( furn_item.has_flag( flag_USES_GRID_POWER ) ) {
                         // TODO: The grid tracker should correspond to map!
                         auto &grid = get_distribution_grid_tracker().grid_at( tripoint_abs_ms( m.getabs( p ) ) );
                         furn_item.charges = grid.get_resource();
@@ -613,81 +609,83 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             }
         }
 
+        static const flag_id flag_PSEUDO( "PSEUDO" );
+        static const flag_id flag_HEATS_FOOD( "HEATS_FOOD" );
         if( kpart ) {
             item &hotplate = *item::spawn_temporary( "hotplate", bday );
             hotplate.charges = veh->fuel_left( itype_battery, true );
-            hotplate.item_tags.insert( "PSEUDO" );
+            hotplate.item_tags.insert( flag_PSEUDO );
             // TODO: Allow disabling
-            hotplate.item_tags.insert( "HEATS_FOOD" );
-            add_item_by_items_type_cache( hotplate, false, true, false );
+            hotplate.item_tags.insert( flag_HEATS_FOOD );
+            add_item_by_items_type_cache( hotplate );
 
             item &pot = *item::spawn_temporary( "pot", bday );
-            pot.set_flag( "PSEUDO" );
-            add_item_by_items_type_cache( pot, false, true, false );
+            pot.set_flag( flag_PSEUDO );
+            add_item_by_items_type_cache( pot );
             item &pan = *item::spawn_temporary( "pan", bday );
-            pan.set_flag( "PSEUDO" );
-            add_item_by_items_type_cache( pan, false, true, false );
+            pan.set_flag( flag_PSEUDO );
+            add_item_by_items_type_cache( pan );
         }
         if( weldpart ) {
             item &welder = *item::spawn_temporary( "welder", bday );
             welder.charges = veh->fuel_left( itype_battery, true );
-            welder.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( welder, false, true, false );
+            welder.item_tags.insert( flag_PSEUDO );
+            add_item_by_items_type_cache( welder );
 
             item &soldering_iron = *item::spawn_temporary( "soldering_iron", bday );
             soldering_iron.charges = veh->fuel_left( itype_battery, true );
-            soldering_iron.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( soldering_iron, false, true, false );
+            soldering_iron.item_tags.insert( flag_PSEUDO );
+            add_item_by_items_type_cache( soldering_iron );
         }
         if( craftpart ) {
             item &vac_sealer = *item::spawn_temporary( "vac_sealer", bday );
             vac_sealer.charges = veh->fuel_left( itype_battery, true );
-            vac_sealer.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( vac_sealer, false, true, false );
+            vac_sealer.item_tags.insert( flag_PSEUDO );
+            add_item_by_items_type_cache( vac_sealer );
 
             item &dehydrator = *item::spawn_temporary( "dehydrator", bday );
             dehydrator.charges = veh->fuel_left( itype_battery, true );
-            dehydrator.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( dehydrator, false, true, false );
+            dehydrator.item_tags.insert( flag_PSEUDO );
+            add_item_by_items_type_cache( dehydrator );
 
             item &food_processor = *item::spawn_temporary( "food_processor", bday );
             food_processor.charges = veh->fuel_left( itype_battery, true );
-            food_processor.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( food_processor, false, true, false );
+            food_processor.item_tags.insert( flag_PSEUDO );
+            add_item_by_items_type_cache( food_processor );
 
             item &press = *item::spawn_temporary( "press", bday );
             press.charges = veh->fuel_left( itype_battery, true );
-            press.set_flag( "PSEUDO" );
-            add_item_by_items_type_cache( press, false, true, false );
+            press.set_flag( flag_PSEUDO );
+            add_item_by_items_type_cache( press );
         }
         if( forgepart ) {
             item &forge = *item::spawn_temporary( "forge", bday );
             forge.charges = veh->fuel_left( itype_battery, true );
-            forge.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( forge, false, true, false );
+            forge.item_tags.insert( flag_PSEUDO );
+            add_item_by_items_type_cache( forge );
         }
         if( kilnpart ) {
             item &kiln = *item::spawn_temporary( "kiln", bday );
             kiln.charges = veh->fuel_left( itype_battery, true );
-            kiln.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( kiln, false, true, false );
+            kiln.item_tags.insert( flag_PSEUDO );
+            add_item_by_items_type_cache( kiln );
         }
         if( chempart ) {
             item &chemistry_set = *item::spawn_temporary( "chemistry_set", bday );
             chemistry_set.charges = veh->fuel_left( itype_battery, true );
-            chemistry_set.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( chemistry_set, false, true, false );
+            chemistry_set.item_tags.insert( flag_PSEUDO );
+            add_item_by_items_type_cache( chemistry_set );
 
             item &electrolysis_kit = *item::spawn_temporary( "electrolysis_kit", bday );
             electrolysis_kit.charges = veh->fuel_left( itype_battery, true );
-            electrolysis_kit.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( electrolysis_kit, false, true, false );
+            electrolysis_kit.item_tags.insert( flag_PSEUDO );
+            add_item_by_items_type_cache( electrolysis_kit );
         }
         if( autoclavepart ) {
             item &autoclave = *item::spawn_temporary( "autoclave", bday );
             autoclave.charges = veh->fuel_left( itype_battery, true );
-            autoclave.item_tags.insert( "PSEUDO" );
-            add_item_by_items_type_cache( autoclave, false, true, false );
+            autoclave.item_tags.insert( flag_PSEUDO );
+            add_item_by_items_type_cache( autoclave );
         }
     }
     pts.clear();
@@ -923,7 +921,7 @@ bool inventory::has_charges( const itype_id &it, int quantity,
     return ( charges_of( it, INT_MAX, filter ) >= quantity );
 }
 
-int inventory::leak_level( const std::string &flag ) const
+int inventory::leak_level( const flag_id &flag ) const
 {
     int ret = 0;
 
@@ -1556,7 +1554,7 @@ bool location_inventory::has_charges( const itype_id &it, int quantity,
     return inv.has_charges( it, quantity, filter );
 }
 
-int location_inventory::leak_level( const std::string &flag ) const
+int location_inventory::leak_level( const flag_id &flag ) const
 {
     return inv.leak_level( flag );
 }

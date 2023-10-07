@@ -26,6 +26,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "examine_item_menu.h"
 #include "game.h"
 #include "input.h"
@@ -80,14 +81,9 @@ static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
-static const std::string flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_MUSHY( "MUSHY" );
 static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-static const std::string flag_USE_EAT_VERB( "USE_EAT_VERB" );
 
-static const flag_str_id flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
+static const flag_id flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
 
 using item_filter = std::function<bool ( const item & )>;
 
@@ -113,16 +109,6 @@ std::string good_bad_none( int value )
         return string_format( "<bad>%d</bad>", value );
     }
     return std::string();
-}
-
-std::string highlight_good_bad_none( int value )
-{
-    if( value > 0 ) {
-        return string_format( "<color_yellow_green>+%d</color>", value );
-    } else if( value < 0 ) {
-        return string_format( "<color_yellow_red>%d</color>", value );
-    }
-    return string_format( "<color_yellow>%d</color>", value );
 }
 
 int anesthetic_requirement( int mult )
@@ -510,13 +496,10 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "QUENCH" ) );
 
             append_cell( [ &p, this ]( const item * loc ) {
-                const item &it = get_consumable_item( loc );
                 const int consume_fun = p.fun_for( get_consumable_item( loc ) ).first;
                 if( consume_fun < 0 && p.has_active_bionic( bio_taste_blocker ) &&
                     p.get_power_level() > units::from_kilojoule( -consume_fun ) ) {
                     return string_format( "<color_light_gray>[%d]</color>", consume_fun );
-                } else if( it.has_flag( flag_MUSHY ) ) {
-                    return highlight_good_bad_none( consume_fun );
                 } else {
                     return good_bad_none( consume_fun );
                 }
@@ -1562,7 +1545,7 @@ iuse_locations game_menus::inv::multiwash( Character &ch, int water, int cleanse
         bool do_hard )
 {
     const inventory_filter_preset preset( [do_soft, do_hard]( const item & location ) {
-        return location.has_flag( "FILTHY" ) && ( ( do_soft && location.is_soft() ) ||
+        return location.has_flag( flag_FILTHY ) && ( ( do_soft && location.is_soft() ) ||
                 ( do_hard && !location.is_soft() ) );
     } );
     auto make_raw_stats = [water, cleanser](
@@ -1805,7 +1788,7 @@ static item *autodoc_internal( player &u, player &patient,
     }
 
     std::vector<item *> install_programs = patient.crafting_inventory().items_with( [](
-            const item & it ) -> bool { return it.has_flag( "BIONIC_INSTALLATION_DATA" ); } );
+            const item & it ) -> bool { return it.has_flag( flag_BIONIC_INSTALLATION_DATA ); } );
 
     if( !install_programs.empty() ) {
         hint += string_format(

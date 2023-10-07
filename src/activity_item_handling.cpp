@@ -32,6 +32,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "fire.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -136,16 +137,12 @@ static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
 static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
-static const std::string flag_DIG_TOOL( "DIG_TOOL" );
 static const std::string flag_FISHABLE( "FISHABLE" );
-static const std::string flag_FISH_GOOD( "FISH_GOOD" );
-static const std::string flag_FISH_POOR( "FISH_POOR" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_TREE( "TREE" );
-static const std::string flag_UNSAFE_CONSUME( "UNSAFE_CONSUME" );
 
 void cancel_aim_processing();
 //Generic activity: maximum search distance for zones, constructions, etc.
@@ -789,11 +786,10 @@ void wash_activity_actor::finish( player_activity &act, Character &who )
             if( i.count > it.count() ) {
                 debugmsg( "Invalid item count to wash: tried %d, max %d", i.count, it.count() );
             }
-            it.item_tags.erase( "FILTHY" );
+            it.item_tags.erase( flag_FILTHY );
         } else {
             detached_ptr<item> it2 = it.split( i.count );
-            it2->item_tags.erase( "FILTHY" );
-            put_into_vehicle_or_drop( who, item_drop_reason::deliberate, std::move( it2 ) );
+            it2->item_tags.erase( flag_FILTHY );
         }
         who.on_worn_item_washed( it );
     }
@@ -1245,12 +1241,12 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 if( weldpart ) {
                     item *welder = item::spawn_temporary( itype_welder, calendar::start_of_cataclysm );
                     welder->charges = veh.fuel_left( itype_battery, true );
-                    welder->set_flag( "PSEUDO" );
+                    welder->set_flag( flag_PSEUDO );
                     temp_inv.add_item( *welder );
                     item *soldering_iron = item::spawn_temporary( itype_soldering_iron,
                                            calendar::start_of_cataclysm );
                     soldering_iron->charges = veh.fuel_left( itype_battery, true );
-                    soldering_iron->set_flag( "PSEUDO" );
+                    soldering_iron->set_flag( flag_PSEUDO );
                     temp_inv.add_item( *soldering_iron );
                 }
             }
@@ -1454,7 +1450,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         for( const tripoint &pt : here.points_in_radius( src_loc, 2 ) ) {
             const inventory &inv = p.crafting_inventory();
             if( here.has_flag_furn( flag_BUTCHER_EQ, pt ) || inv.has_item_with( []( const item & it ) {
-            return it.has_flag( "BUTCHER_RACK" );
+            return it.has_flag( flag_BUTCHER_RACK );
             } ) ) {
                 b_rack_present = true;
             }
@@ -1464,7 +1460,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 const inventory &inv = p.crafting_inventory();
                 if( !b_rack_present || !( here.has_nearby_table( src_loc, PICKUP_RANGE ) ||
                 inv.has_item_with( []( const item & it ) {
-                return it.has_flag( "FLAT_SURFACE" );
+                return it.has_flag( flag_FLAT_SURFACE );
                 } ) ) ) {
                     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
                 }

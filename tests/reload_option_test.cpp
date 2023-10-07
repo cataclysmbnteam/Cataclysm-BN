@@ -14,7 +14,7 @@ TEST_CASE( "revolver_reload_option", "[reload],[reload_option],[gun]" )
     det = item::spawn( "38_special", bday, gun.ammo_capacity() );
     item &ammo = *det;
     dummy.i_add( std::move( det ) );
-    REQUIRE( gun.has_flag( "RELOAD_ONE" ) );
+    REQUIRE( gun.has_flag( flag_id( "RELOAD_ONE" ) ) );
     REQUIRE( gun.ammo_remaining() == 0 );
 
     const item_reload_option gun_option( &dummy, &gun, &gun, ammo );

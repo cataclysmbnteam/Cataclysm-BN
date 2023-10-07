@@ -46,6 +46,7 @@
 #include "fault.h"
 #include "field_type.h"
 #include "fstream_utils.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -258,31 +259,13 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
+// not to confuse with item flags (json_flag)
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
-static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
-static const std::string flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
-static const std::string flag_FISH_GOOD( "FISH_GOOD" );
-static const std::string flag_FISH_POOR( "FISH_POOR" );
-static const std::string flag_FORAGE_HALLU( "FORAGE_HALLU" );
-static const std::string flag_FORAGE_POISON( "FORAGE_POISON" );
-static const std::string flag_GIBBED( "GIBBED" );
-static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
-static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
-static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_MESSY( "MESSY" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
-static const std::string flag_PULPED( "PULPED" );
-static const std::string flag_QUARTERED( "QUARTERED" );
-static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
-static const std::string flag_REQUIRES_TINDER( "REQUIRES_TINDER" );
-static const std::string flag_SAFECRACK( "SAFECRACK" );
-static const std::string flag_SKINNED( "SKINNED" );
-static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 static const std::string flag_TREE( "TREE" );
-static const std::string flag_USE_UPS( "USE_UPS" );
 
 using namespace activity_handlers;
 
@@ -486,7 +469,7 @@ static void extract_or_wreck_cbms( std::vector<detached_ptr<item>> &cbms, int ro
         // This complicates things
         if( it->is_bionic() ) {
             if( check_butcher_cbm( roll ) || it->typeId() == itype_burnt_out_bionic ) {
-                if( it->has_flag( "BIONIC_FAULTY" ) ) {
+                if( it->has_flag( flag_BIONIC_FAULTY ) ) {
                     it->convert( itype_burnt_out_bionic );
                     // We don't need the non-sterile fault on a piece of burnt-out bionic
                     if( it->has_fault( fault_bionic_nonsterile ) ) {
@@ -619,7 +602,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
     }
     if( !b_rack_present ) {
         b_rack_present = inv.has_item_with( []( const item & it ) {
-            return it.has_flag( "BUTCHER_RACK" );
+            return it.has_flag( flag_BUTCHER_RACK );
         } );
     }
     // workshop butchery (full) prequisites
@@ -643,7 +626,7 @@ butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_ty
                     butcherable_rating::no_tree_rope_rack );
             }
             if( !( here.has_nearby_table( u.pos(), PICKUP_RANGE ) || inv.has_item_with( []( const item & it ) {
-            return it.has_flag( "FLAT_SURFACE" );
+            return it.has_flag( flag_FLAT_SURFACE );
             } ) ) ) {
                 not_this_one(
                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ),
@@ -1074,7 +1057,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
-                for( const std::string &flg : entry.flags ) {
+                for( const flag_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
@@ -1092,7 +1075,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
-                for( const std::string &flg : entry.flags ) {
+                for( const flag_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
@@ -1108,7 +1091,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 if( obj.goes_bad() ) {
                     obj.set_rot( corpse_item->get_rot() );
                 }
-                for( const std::string &flg : entry.flags ) {
+                for( const flag_id &flg : entry.flags ) {
                     obj.set_flag( flg );
                 }
                 for( const fault_id &flt : entry.faults ) {
@@ -1338,7 +1321,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                                               _( "You did something wrong and hacked the corpse badly.  Maybe it's still recoverable." ) );
                         break;
                 }
-                corpse_item.set_flag( "FIELD_DRESS_FAILED" );
+                corpse_item.set_flag( flag_FIELD_DRESS_FAILED );
 
                 here.add_splatter( type_gib, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
                 here.add_splatter( type_blood, p->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
@@ -2062,7 +2045,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     std::string msg = _( "You reload the %s." );
 
     if( ammo_is_filthy ) {
-        reloadable.set_flag( "FILTHY" );
+        reloadable.set_flag( flag_FILTHY );
     }
 
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
@@ -2647,7 +2630,7 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
 
             for( const itype &item_type : item_type_list ) {
                 if( item_type.get_id() == static_cast<itype_id>( activity.str_values[1] ) ) {
-                    if( !item_type.has_flag( "USES_GRID_POWER" ) ) {
+                    if( !item_type.has_flag( flag_USES_GRID_POWER ) ) {
                         debugmsg( "Non grid powered furniture for long repairs is not supported yet." );
                         return fake_item;
                     }
@@ -2662,7 +2645,7 @@ item *get_fake_tool( hack_type_t hack_type, const player_activity &activity )
         }
     }
 
-    fake_item->set_flag( "PSEUDO" );
+    fake_item->set_flag( flag_PSEUDO );
     return fake_item;
 }
 
@@ -3068,7 +3051,8 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
     item &mod = *act->targets[1];
     p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                           mod.tname(), tool.tname() );
-    mod.set_flag( "IRREMOVABLE" );
+
+    mod.set_flag( flag_IRREMOVABLE );
     tool.put_in( mod.detach() );
 }
 
@@ -4816,7 +4800,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     }
     if( !act->targets.empty() && act->targets.front() ) {
         item &it = *act->targets.front();
-        if( !it.has_flag( "USE_PLAYER_ENERGY" ) ) {
+        if( !it.has_flag( flag_USE_PLAYER_ENERGY ) ) {
             p->consume_charges( it, it.type->charges_to_use() );
         }
     }

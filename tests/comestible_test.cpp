@@ -2,14 +2,13 @@
 
 #include <algorithm>
 #include <cstdio>
-#include <memory>
 #include <utility>
 #include <vector>
 
 #include "character.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
+#include "make_static.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -120,7 +119,7 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
         detached_ptr<item> res = recipe_obj.create_result();
         item &res_it = food_or_food_container( *res );
         const bool is_food = res_it.is_food();
-        const bool has_override = res_it.has_flag( "NUTRIENT_OVERRIDE" );
+        const bool has_override = res_it.has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) );
         if( is_food && !has_override ) {
             // Collection of kcal values of all ingredient permutations
             all_stats mystats = recipe_permutations( recipe_obj.simple_requirements().get_components(),

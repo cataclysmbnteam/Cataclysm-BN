@@ -7,6 +7,7 @@
 #include "calendar.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "item.h"
 #include "item_factory.h"
@@ -14,12 +15,6 @@
 #include "json.h"
 #include "rng.h"
 #include "type_id.h"
-#include "value_ptr.h"
-
-static const std::string flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
-static const std::string flag_NON_FOULING( "NON-FOULING" );
-static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
-static const std::string flag_VARSIZE( "VARSIZE" );
 
 /** @relates string_id */
 template<>
@@ -74,7 +69,7 @@ detached_ptr<item> Single_item_creator::create_single( const time_point &birthda
         return detached_ptr<item>();
     }
     if( one_in( 3 ) && tmp->has_flag( flag_VARSIZE ) ) {
-        tmp->set_flag( "FIT" );
+        tmp->set_flag( flag_FIT );
     }
     if( modifier ) {
         tmp = modifier->modify( std::move( tmp ) );
@@ -378,7 +373,7 @@ detached_ptr<item> Item_modifier::modify( detached_ptr<item> &&new_item ) const
         }
     }
 
-    for( auto &flag : custom_flags ) {
+    for( const flag_id &flag : custom_flags ) {
         new_item->set_flag( flag );
     }
     return std::move( new_item );

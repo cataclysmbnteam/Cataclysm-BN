@@ -63,6 +63,10 @@ static const itype_id itype_id_military( "id_military" );
 static const skill_id skill_survival( "survival" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
+static const flag_id json_flag_TIE_UP( "TIE_UP" );
+static const flag_id json_flag_TACK( "TACK" );
+static const flag_id json_flag_MECH_BAT( "MECH_BAT" );
+
 bool monexamine::pet_menu( monster &z )
 {
     enum choices {
@@ -151,7 +155,7 @@ bool monexamine::pet_menu( monster &z )
     if( !z.has_effect( effect_leashed ) && !z.has_flag( MF_RIDEABLE_MECH ) ) {
         Character &player_character = get_player_character();
         std::vector<item *> rope_inv = player_character.items_with( []( const item & it ) {
-            return it.has_flag( "TIE_UP" );
+            return it.has_flag( json_flag_TIE_UP );
         } );
         if( !rope_inv.empty() ) {
             amenu.addentry( leash, true, 'l', _( "Attach leash to %s" ), pet_name );
@@ -186,12 +190,12 @@ bool monexamine::pet_menu( monster &z )
         }
     }
     if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_saddled ) &&
-        you.has_item_with_flag( "TACK" ) && you.get_skill_level( skill_survival ) >= 1 ) {
+        you.has_item_with_flag( json_flag_TACK ) && you.get_skill_level( skill_survival ) >= 1 ) {
         amenu.addentry( attach_saddle, true, 'h', _( "Tack up %s" ), pet_name );
     } else if( z.has_flag( MF_PET_MOUNTABLE ) && z.has_effect( effect_saddled ) ) {
         amenu.addentry( remove_saddle, true, 'h', _( "Remove tack from %s" ), pet_name );
     } else if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_saddled ) &&
-               you.has_item_with_flag( "TACK" ) && you.get_skill_level( skill_survival ) < 1 ) {
+               you.has_item_with_flag( json_flag_TACK ) && you.get_skill_level( skill_survival ) < 1 ) {
         amenu.addentry( remove_saddle, false, 'h', _( "You don't know how to saddle %s" ), pet_name );
     }
     if( z.has_flag( MF_PAY_BOT ) ) {
@@ -377,7 +381,7 @@ static item *pet_armor_loc( monster &z )
 static item *tack_loc()
 {
     auto filter = []( const item & it ) {
-        return it.has_flag( "TACK" );
+        return it.has_flag( json_flag_TACK );
     };
 
     return game_menus::inv::titled_filter_menu( filter, get_avatar(), _( "Tack" ) );
@@ -397,7 +401,7 @@ void monexamine::insert_battery( monster &z )
     }
     avatar &you = get_avatar();
     std::vector<item *> bat_inv = you.items_with( []( const item & itm ) {
-        return itm.has_flag( "MECH_BAT" );
+        return itm.has_flag( json_flag_MECH_BAT );
     } );
     if( bat_inv.empty() ) {
         return;
@@ -809,7 +813,7 @@ void monexamine::add_leash( monster &z )
     }
     Character &player = get_player_character();
     std::vector<item *> rope_inv = player.items_with( []( const item & it ) {
-        return it.has_flag( "TIE_UP" );
+        return it.has_flag( json_flag_TIE_UP );
     } );
 
     if( rope_inv.empty() ) {

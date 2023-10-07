@@ -33,6 +33,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -811,8 +812,7 @@ bool mattack::pull_metal_weapon( monster *z )
     if( foe != nullptr ) {
         const item &weapon = foe->primary_weapon();
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
-
-        if( !weapon.has_flag( "NO_UNWIELD" ) &&
+        if( !weapon.has_flag( flag_NO_UNWIELD ) &&
             ( weapon.made_of( material_id( "iron" ) ) ||
               weapon.made_of( material_id( "hardsteel" ) ) ||
               weapon.made_of( material_id( "steel" ) ) ||
@@ -2878,8 +2878,8 @@ bool mattack::stare( monster *z )
     z->moves -= 200;
     if( z->sees( g->u ) ) {
         //dimensional effects don't take against dimensionally anchored foes.
-        if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
-            g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
+        if( g->u.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
+            g->u.has_effect_with_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
         }
@@ -4832,7 +4832,7 @@ bool mattack::riotbot( monster *z )
                          _( "You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!" ) );
                 foe->i_add( std::move( handcuffs ) );
             } else {
-                handcuffs->set_flag( "NO_UNWIELD" );
+                handcuffs->set_flag( flag_NO_UNWIELD );
                 item &as_obj = *handcuffs;
                 foe->i_add( std::move( handcuffs ) );
                 foe->wield( as_obj );
@@ -5441,7 +5441,7 @@ bool mattack::bio_op_disarm( monster *z )
 
     target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
 
-    if( my_roll >= their_roll && !it.has_flag( "NO_UNWIELD" ) ) {
+    if( my_roll >= their_roll && !it.has_flag( flag_NO_UNWIELD ) ) {
         target->add_msg_if_player( m_bad, _( "and throws it to the ground!" ) );
         const tripoint tp = foe->pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
         g->m.add_item_or_charges( tp, foe->i_rem( &it ) );

@@ -11,6 +11,7 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "item.h"
@@ -50,11 +51,10 @@ vehicle_part::vehicle_part( const vpart_id &vp, point dp, detached_ptr<item> &&o
       base( new vehicle_base_item_location( veh, hack_id ) ),
       items( new vehicle_item_location( veh, hack_id ) )
 {
-
     base = std::move( obj );
 
     // Mark base item as being installed as a vehicle part
-    base->set_flag( "VEHICLE" );
+    base->set_flag( flag_VEHICLE );
 
     if( base->typeId() != vp->item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
@@ -130,12 +130,12 @@ detached_ptr<item> vehicle_part::properties_to_item() const
     //TODO!: the big check
     map &here = get_map();
     detached_ptr<item> tmp = item::spawn( *base );
-    tmp->unset_flag( "VEHICLE" );
+    tmp->unset_flag( flag_VEHICLE );
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
     // Except grid-connected ones, for now.
-    if( tmp->has_flag( "CABLE_SPOOL" ) && !tmp->has_flag( "TOW_CABLE" ) ) {
+    if( tmp->has_flag( flag_CABLE_SPOOL ) && !tmp->has_flag( flag_TOW_CABLE ) ) {
         if( has_flag( targets_grid ) ) {
             // Ideally, we'd drop the cable on the charger instead
             tmp->erase_var( "source_x" );
@@ -148,7 +148,7 @@ detached_ptr<item> vehicle_part::properties_to_item() const
             const tripoint local_pos = here.getlocal( target.first );
             if( !here.veh_at( local_pos ) ) {
                 // That vehicle ain't there no more.
-                tmp->set_flag( "NO_DROP" );
+                tmp->set_flag( flag_NO_DROP );
             }
 
             tmp->set_var( "source_x", target.first.x );

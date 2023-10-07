@@ -25,6 +25,7 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "memory_fast.h"
@@ -38,8 +39,6 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
-
-static const std::string flag_FIREWOOD( "FIREWOOD" );
 
 static const item_category_id itcat_food( "food" );
 
@@ -854,7 +853,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_LOOT_CUSTOM;
         }
     }
-    if( it.has_flag( flag_FIREWOOD ) ) {
+    if( it.has_flag( STATIC( flag_id( "FIREWOOD" ) ) ) ) {
         if( has_near( zone_LOOT_WOOD, where, range ) ) {
             return zone_LOOT_WOOD;
         }

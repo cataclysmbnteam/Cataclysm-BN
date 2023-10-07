@@ -15,6 +15,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "monster.h"
@@ -43,7 +44,7 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
 
-static const flag_str_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
+static const flag_id flag_BIONIC_ARMOR_INTERFACE( "BIONIC_ARMOR_INTERFACE" );
 
 /** @relates visitable */
 template <typename T>
@@ -946,7 +947,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 if( e->typeId() == id ) {
                     // includes charges from any included magazine.
                     qty = sum_no_wrap( qty, e->ammo_remaining() );
-                    if( e->has_flag( "USE_UPS" ) ) {
+                    if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                         found_tool_with_UPS = true;
                     }
                 }
@@ -1081,7 +1082,7 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e ) {
         if( ( id.str() == "any" || e->typeId() == id ) && filter( *e ) && ( pseudo ||
-                !e->has_flag( "PSEUDO" ) ) ) {
+                !e->has_flag( STATIC( flag_id( "PSEUDO" ) ) ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;

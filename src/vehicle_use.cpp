@@ -31,6 +31,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -87,6 +88,7 @@ static const fault_id fault_pump( "fault_engine_pump_fuel" );
 static const fault_id fault_starter( "fault_engine_starter" );
 
 static const skill_id skill_mechanics( "mechanics" );
+static const flag_id json_flag_FILTHY( "FILTHY" );
 
 enum change_types : int {
     OPENCURTAINS = 0,
@@ -1630,13 +1632,12 @@ void vehicle::use_washing_machine( int p )
     // Get all the items that can be used as detergent
     const inventory &inv = g->u.crafting_inventory();
     std::vector<item *> detergents = inv.items_with( [inv]( const item & it ) {
-        return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
+        return it.has_flag( STATIC( flag_id( "DETERGENT" ) ) ) && inv.has_charges( it.typeId(), 5 );
     } );
 
     auto items = get_items( p );
-    static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item * const & i ) {
-        return i->has_flag( filthy );
+        return i->has_flag( json_flag_FILTHY );
     } );
 
     bool cbms = std::any_of( items.begin(), items.end(), []( const item * const & i ) {
@@ -1714,9 +1715,8 @@ void vehicle::use_dishwasher( int p )
 {
     bool detergent_is_enough = g->u.crafting_inventory().has_charges( itype_detergent, 5 );
     auto items = get_items( p );
-    static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item * const & i ) {
-        return i->has_flag( filthy );
+        return i->has_flag( json_flag_FILTHY );
     } );
 
     std::string buffer;

@@ -282,6 +282,28 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "Bastion_Fort_1_NW",
+      "Bastion_Fort_1_NE",
+      "Bastion_Fort_1_SW",
+      "Bastion_Fort_1_SE",
+      "Bastion_Fort_2_NW",
+      "Bastion_Fort_2_NE",
+      "Bastion_Fort_2_SW",
+      "Bastion_Fort_2_SE",
+      "Bastion_Fort_roof_NW",
+      "Bastion_Fort_roof_NE",
+      "Bastion_Fort_roof_SW",
+      "Bastion_Fort_roof_SE"
+    ],
+    "name": "bastion fort",
+    "sym": "+",
+    "color": "light_gray",
+    "see_cost": 5,
+    "flags": [ "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "looted_building",
     "name": "looted building",
     "sym": "#",

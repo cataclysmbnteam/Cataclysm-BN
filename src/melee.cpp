@@ -6,9 +6,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <limits>
-#include <list>
 #include <map>
-#include <memory>
 #include <optional>
 #include <set>
 #include <string>
@@ -29,6 +27,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -62,7 +61,6 @@
 #include "vehicle.h"
 #include "vehicle_part.h"
 #include "vpart_position.h"
-#include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -198,7 +196,7 @@ bool Character::is_armed() const
 bool Character::unarmed_attack() const
 {
     const item &weap = used_weapon();
-    return weap.is_null() || weap.has_flag( "UNARMED_WEAPON" );
+    return weap.is_null() || weap.has_flag( flag_UNARMED_WEAPON );
 }
 
 bool Character::handle_melee_wear( item &shield, float wear_multiplier )
@@ -212,7 +210,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     }
 
     // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
-    if( shield.has_flag( "UNBREAKABLE_MELEE" ) ) {
+    if( shield.has_flag( flag_UNBREAKABLE_MELEE ) ) {
         return false;
     }
 
@@ -230,7 +228,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     itype_id weak_comp;
     itype_id big_comp = itype_id::NULL_ID();
     // Fragile items that fall apart easily when used as a weapon due to poor construction quality
-    if( shield.has_flag( "FRAGILE_MELEE" ) ) {
+    if( shield.has_flag( flag_FRAGILE_MELEE ) ) {
         const float fragile_factor = 6;
         int weak_chip = INT_MAX;
         units::volume big_vol = 0_ml;
@@ -257,7 +255,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     int damage_chance = static_cast<int>( stat_factor * material_factor / wear_multiplier );
     // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
     // than other weapons made of the same materials.
-    if( shield.has_flag( "DURABLE_MELEE" ) ) {
+    if( shield.has_flag( flag_DURABLE_MELEE ) ) {
         damage_chance *= 4;
     }
 
@@ -288,7 +286,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     shield.detach();
 
     // Breakdown fragile weapons into components
-    if( shield.has_flag( "FRAGILE_MELEE" ) && !shield.get_components().empty() ) {
+    if( shield.has_flag( flag_FRAGILE_MELEE ) && !shield.get_components().empty() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s breaks apart!" ),
                                _( "<npcname>'s %s breaks apart!" ),
                                str );
@@ -345,7 +343,7 @@ float Character::hit_roll() const
     float hit = get_melee_hit_base();
 
     // Farsightedness makes us hit worse
-    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
         !has_effect( effect_contacts ) ) {
         hit -= 2.0f;
     }
@@ -380,7 +378,7 @@ std::string Character::get_miss_reason()
         _( "Your torso encumbrance throws you off-balance." ),
         roll_remainder( encumb( bp_torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
-                                     !worn_with_flag( "FIX_FARSIGHT" ) &&
+                                     !worn_with_flag( flag_FIX_FARSIGHT ) &&
                                      !has_effect( effect_contacts ) );
     add_miss_reason(
         _( "You can't hit reliably due to your farsightedness." ),
@@ -541,7 +539,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id *f
         }
         // polearms and pikes (but not spears) do less damage to adjacent targets
         if( cur_weapon.reach_range( *this ) > 1 && !reach_attacking &&
-            cur_weapon.has_flag( "POLEARM" ) ) {
+            cur_weapon.has_flag( flag_POLEARM ) ) {
             d.mult_damage( 0.7 );
         }
 
@@ -662,7 +660,8 @@ void Character::reach_attack( const tripoint &p )
 {
     matec_id force_technique = tec_none;
     /** @EFFECT_MELEE >5 allows WHIP_DISARM technique */
-    if( primary_weapon().has_flag( "WHIP" ) && ( get_skill_level( skill_melee ) > 5 ) && one_in( 3 ) ) {
+    if( primary_weapon().has_flag( flag_WHIP ) && ( get_skill_level( skill_melee ) > 5 ) &&
+        one_in( 3 ) ) {
         force_technique = matec_id( "WHIP_DISARM" );
     }
 
@@ -707,7 +706,7 @@ void Character::reach_attack( const tripoint &p )
             /** @EFFECT_STABBING increases ability to reach attack through fences */
         } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
-                   !( primary_weapon().has_flag( "SPEAR" ) &&
+                   !( primary_weapon().has_flag( flag_SPEAR ) &&
                       g->m.has_flag( "THIN_OBSTACLE", path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
@@ -872,9 +871,9 @@ float Character::get_dodge() const
         ret *= 1.0f - ( 0.25f * zed_number );
     }
 
-    if( worn_with_flag( "ROLLER_INLINE" ) ||
-        worn_with_flag( "ROLLER_QUAD" ) ||
-        worn_with_flag( "ROLLER_ONE" ) ) {
+    if( worn_with_flag( flag_ROLLER_INLINE ) ||
+        worn_with_flag( flag_ROLLER_QUAD ) ||
+        worn_with_flag( flag_ROLLER_ONE ) ) {
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
     }
 
@@ -1580,7 +1579,7 @@ static int blocking_ability( const item &shield )
         block_bonus = 6;
     } else if( shield.has_technique( WBLOCK_1 ) ) {
         block_bonus = 4;
-    } else if( shield.has_flag( "BLOCK_WHILE_WORN" ) ) {
+    } else if( shield.has_flag( flag_BLOCK_WHILE_WORN ) ) {
         block_bonus = 2;
     }
     return block_bonus;
@@ -1594,7 +1593,7 @@ item &Character::best_shield()
     best_value = best_value == 2 ? 0 : best_value;
     item *best = best_value > 0 ? &primary_weapon() : &null_item_reference();
     for( item * const &shield : worn ) {
-        if( shield->has_flag( "BLOCK_WHILE_WORN" ) && blocking_ability( *shield ) >= best_value ) {
+        if( shield->has_flag( flag_BLOCK_WHILE_WORN ) && blocking_ability( *shield ) >= best_value ) {
             // in case a mod adds a shield that protects only one arm, the corresponding arm needs to be working
             if( shield->covers( bp_arm_l ) || shield->covers( bp_arm_r ) ) {
                 if( shield->covers( bp_arm_l ) && !is_limb_disabled( bodypart_id( "arm_l" ) ) ) {
@@ -1641,7 +1640,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     item &shield = best_shield();
     block_bonus = blocking_ability( shield );
     bool conductive_shield = shield.conductive();
-    bool unarmed = primary_weapon().has_flag( "UNARMED_WEAPON" ) || primary_weapon().is_null();
+    bool unarmed = primary_weapon().has_flag( flag_UNARMED_WEAPON ) || primary_weapon().is_null();
     bool force_unarmed = martial_arts_data->is_force_unarmed();
 
     int melee_skill = get_skill_level( skill_melee );
@@ -1888,7 +1887,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         }
     }
 
-    if( primary_weapon().has_flag( "FLAMING" ) ) {
+    if( primary_weapon().has_flag( flag_FLAMING ) ) {
         d.add_damage( DT_HEAT, rng( 1, 8 ) );
 
         if( is_player() ) {
@@ -1899,7 +1898,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     }
 
     //Hurting the wielder from poorly-chosen weapons
-    if( weap.has_flag( "HURT_WHEN_WIELDED" ) && x_in_y( 2, 3 ) ) {
+    if( weap.has_flag( flag_HURT_WHEN_WIELDED ) && x_in_y( 2, 3 ) ) {
         add_msg_if_player( m_bad, _( "The %s cuts your hand!" ), weap.tname() );
         deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance::physical( 0,
                      weap.damage_melee( DT_CUT ), 0 ) );
@@ -1970,7 +1969,7 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
         }
         // Note: we're counting arms, so we want wielded item here, not weapon used for attack
         if( u.primary_weapon().is_two_handed( u ) || !u.has_two_arms() ||
-            u.worn_with_flag( "RESTRICT_HANDS" ) ) {
+            u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
             num_attacks--;
         }
 
@@ -2009,7 +2008,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
 
     std::string target = t.disp_name();
 
-    const body_part_set usable_body_parts = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
+    const body_part_set usable_body_parts = exclusive_flag_coverage( flag_ALLOWS_NATURAL_ATTACKS );
     const int unarmed = get_skill_level( skill_unarmed );
 
     for( const trait_id &pr : get_mutations() ) {
@@ -2343,7 +2342,7 @@ double npc_ai::melee_value( const Character &who, const item &weap )
         my_value *= 1.0f + 0.5f * ( std::sqrt( reach ) - 1.0f );
     }
     // value polearms less to account for the trickiness of keeping the right range
-    if( weap.has_flag( "POLEARM" ) ) {
+    if( weap.has_flag( flag_POLEARM ) ) {
         my_value *= 0.8;
     }
 

@@ -8,6 +8,7 @@
 #include "addiction.h"
 #include "calendar.h"
 #include "debug.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -438,8 +439,8 @@ std::vector<detached_ptr<item>> profession::items( bool male,
         if( it->is_holster() && it->contents.num_item_stacks() == 1 ) {
             clear_faults( it->contents.front() );
         }
-        if( it->has_flag( "VARSIZE" ) ) {
-            it->set_flag( "FIT" );
+        if( it->has_flag( flag_VARSIZE ) ) {
+            it->set_flag( flag_FIT );
         }
     }
 

@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "map.h"
@@ -14,9 +15,6 @@
 #include "morale_types.h"
 #include "point.h"
 #include "type_id.h"
-
-static const std::string flag_CANNIBALISM( "CANNIBALISM" );
-static const std::string flag_URSINE_HONEY( "URSINE_HONEY" );
 
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
@@ -227,11 +225,11 @@ TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" 
     // are treated as junk food, but might not always be so. Here we set the
     // relevant flags to cover the scenario we're interested in, namely any
     // comestible having both "junk" and "no ingest" flags.
-    caff_gum.set_flag( "ALLERGEN_JUNK" );
-    caff_gum.set_flag( "NO_INGEST" );
+    caff_gum.set_flag( flag_ALLERGEN_JUNK );
+    caff_gum.set_flag( flag_NO_INGEST );
 
-    REQUIRE( caff_gum.has_flag( "ALLERGEN_JUNK" ) );
-    REQUIRE( caff_gum.has_flag( "NO_INGEST" ) );
+    REQUIRE( caff_gum.has_flag( flag_ALLERGEN_JUNK ) );
+    REQUIRE( caff_gum.has_flag( flag_NO_INGEST ) );
 
     GIVEN( "character has a sweet tooth" ) {
         dummy.toggle_trait( trait_PROJUNK );
@@ -289,12 +287,11 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
         REQUIRE( dummy.has_trait( trait_VEGETARIAN ) );
 
         THEN( "they get a morale penalty for eating meat" ) {
-
             detached_ptr<item> det = item::spawn( "meat", calendar::start_of_cataclysm,
                                                   item::default_charges_tag{} );
             item &meat = *det;
             dummy.i_add( std::move( det ) );
-            REQUIRE( meat.has_flag( "ALLERGEN_MEAT" ) );
+            REQUIRE( meat.has_flag( flag_ALLERGEN_MEAT ) );
             dummy.clear_morale();
             dummy.modify_morale( meat );
             CHECK( dummy.get_morale( MORALE_VEGETARIAN ) <= penalty );
@@ -310,7 +307,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
                                                   item::default_charges_tag{} );
             item &milk = *det;
             dummy.i_add( std::move( det ) );
-            REQUIRE( milk.has_flag( "ALLERGEN_MILK" ) );
+            REQUIRE( milk.has_flag( flag_ALLERGEN_MILK ) );
             dummy.clear_morale();
             dummy.modify_morale( milk );
             CHECK( dummy.get_morale( MORALE_LACTOSE ) <= penalty );
@@ -326,7 +323,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
                                                   item::default_charges_tag{} );
             item &wheat = *det;
             dummy.i_add( std::move( det ) );
-            REQUIRE( wheat.has_flag( "ALLERGEN_WHEAT" ) );
+            REQUIRE( wheat.has_flag( flag_ALLERGEN_WHEAT ) );
             dummy.clear_morale();
             dummy.modify_morale( wheat );
             CHECK( dummy.get_morale( MORALE_ANTIWHEAT ) <= penalty );
@@ -342,7 +339,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
                                                   item::default_charges_tag{} );
             item &veggy = *det;
             dummy.i_add( std::move( det ) );
-            REQUIRE( veggy.has_flag( "ALLERGEN_VEGGY" ) );
+            REQUIRE( veggy.has_flag( flag_ALLERGEN_VEGGY ) );
             dummy.clear_morale();
             dummy.modify_morale( veggy );
             CHECK( dummy.get_morale( MORALE_MEATARIAN ) <= penalty );
@@ -358,7 +355,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
                                                   item::default_charges_tag{} );
             item &fruit = *det;
             dummy.i_add( std::move( det ) );
-            REQUIRE( fruit.has_flag( "ALLERGEN_FRUIT" ) );
+            REQUIRE( fruit.has_flag( flag_ALLERGEN_FRUIT ) );
             dummy.clear_morale();
             dummy.modify_morale( fruit );
             CHECK( dummy.get_morale( MORALE_ANTIFRUIT ) <= penalty );
@@ -374,7 +371,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
                                                   item::default_charges_tag{} );
             item &junk = *det;
             dummy.i_add( std::move( det ) );
-            REQUIRE( junk.has_flag( "ALLERGEN_JUNK" ) );
+            REQUIRE( junk.has_flag( flag_ALLERGEN_JUNK ) );
             dummy.clear_morale();
             dummy.modify_morale( junk );
             CHECK( dummy.get_morale( MORALE_ANTIJUNK ) <= penalty );

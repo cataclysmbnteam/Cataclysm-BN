@@ -12,6 +12,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "catalua_type_operators.h"
+#include "flat_set.h"
 #include "hash_utils.h"
 #include "translations.h"
 #include "type_id.h"
@@ -93,6 +94,9 @@ class effect_type
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
+        /** Check if the effect type has the specified flag */
+        bool has_flag( const flag_id &flag ) const;
+
         static void check_consistency();
 
         LUA_TYPE_OPS( effect_type, id );
@@ -112,7 +116,7 @@ class effect_type
         int int_decay_tick = 0 ;
         time_duration int_dur_factor = 0_turns;
 
-        std::set<std::string> flags;
+        std::set<flag_id> flags;
 
         bool main_parts_only = false;
 
@@ -282,7 +286,7 @@ class effect
                         bool reduced = false, double mod = 1 ) const;
 
         /** Check if the effect has the specified flag */
-        bool has_flag( const std::string &flag ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod( const std::string &arg, int addict_level ) const;

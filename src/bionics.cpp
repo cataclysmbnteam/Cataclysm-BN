@@ -35,6 +35,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "handle_liquid.h"
@@ -189,20 +190,11 @@ static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 
-static const std::string flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
-static const std::string flag_AURA( "AURA" );
-static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
-static const std::string flag_PERPETUAL( "PERPETUAL" );
-static const std::string flag_PERSONAL( "PERSONAL" );
+static const flag_id flag_BIONIC_GUN( "BIONIC_GUN" );
+static const flag_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
+static const flag_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SEALED( "SEALED" );
-static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
-
-static const flag_str_id flag_BIONIC_FAULTY( "BIONIC_FAULTY" );
-static const flag_str_id flag_BIONIC_GUN( "BIONIC_GUN" );
-static const flag_str_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
-static const flag_str_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 // (De-)Installation difficulty for bionics that don't have item form
 constexpr int BIONIC_NOITEM_DIFFICULTY = 12;
@@ -238,7 +230,7 @@ std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid )
     return parts;
 }
 
-bool bionic_data::has_flag( const flag_str_id &flag ) const
+bool bionic_data::has_flag( const flag_id &flag ) const
 {
     return flags.count( flag ) > 0;
 }
@@ -327,7 +319,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string src )
 
 void bionic_data::finalize() const
 {
-    if( has_flag( STATIC( flag_str_id( "BIONIC_FAULTY" ) ) ) ) {
+    if( has_flag( STATIC( flag_id( "BIONIC_FAULTY" ) ) ) ) {
         faulty_bionics.push_back( id );
     }
 }
@@ -418,7 +410,7 @@ void bionic_data::check() const
             rep.warn( "specifies unknown upgrade \"%s\"", it.str() );
         }
     }
-    for( const flag_str_id &it : flags ) {
+    for( const flag_id &it : flags ) {
         if( !it.is_valid() ) {
             rep.warn( "specifies unknown flag \"%s\"", it.str() );
         }
@@ -1207,7 +1199,7 @@ bool Character::burn_fuel( bionic &bio, bool start )
         if( !remote_fuel.is_empty() ) {
             fuel_available.emplace_back( remote_fuel );
             if( remote_fuel == fuel_type_sun_light ) {
-                const item *pack = item_worn_with_flag( "SOLARPACK_ON" );
+                const item *pack = item_worn_with_flag( flag_SOLARPACK_ON );
                 effective_efficiency = pack != nullptr ? pack->type->solar_efficiency : 0;
             }
             // TODO: check for available fuel in remote source
@@ -1603,7 +1595,7 @@ void Character::process_bionic( bionic &bio )
         bio.charge_timer -= discharge_rate;
     } else {
         if( bio.info().charge_time > 0 ) {
-            if( bio.info().has_flag( STATIC( flag_str_id( "BIONIC_POWER_SOURCE" ) ) ) ) {
+            if( bio.info().has_flag( STATIC( flag_id( "BIONIC_POWER_SOURCE" ) ) ) ) {
                 // Convert fuel to bionic power
                 burn_fuel( bio );
                 // This is our first turn of charging, so subtract a turn from the recharge delay.

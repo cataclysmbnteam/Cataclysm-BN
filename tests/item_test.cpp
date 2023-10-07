@@ -160,3 +160,10 @@ TEST_CASE( "stacking_over_time", "[item]" )
         }
     }
 }
+
+TEST_CASE( "magazine_copyfrom_extends", "[item]" )
+{
+    item gun( "glock_19" );
+    CHECK( gun.magazine_compatible().count( itype_id( "glockmag_test" ) ) > 0 );
+    CHECK( gun.magazine_compatible().count( itype_id( "glockmag" ) ) > 0 );
+}
