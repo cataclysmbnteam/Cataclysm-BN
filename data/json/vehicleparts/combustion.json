@@ -377,8 +377,8 @@
     "durability": 300,
     "epower": -20,
     "//": "45% energy efficiency",
-    "power": 551700,
-    "energy_consumption": 1226000,
+    "power": 1006695,
+    "energy_consumption": 2237100,
     "extend": { "flags": [ "E_NO_POWER_DECAY" ] },
     "description": "A closed cycle steam engine powering a hefty turbine.  Burns coal or charcoal from a bunker in the vehicle to produce steam, its power will not diminish even when multiple of them are installed.",
     "breaks_into": [
