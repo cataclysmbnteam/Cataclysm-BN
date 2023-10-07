@@ -3278,7 +3278,10 @@ void Character::drop_invalid_inventory()
         auto items_to_drop = inv.remove_randomly_by_volume( volume_carried() - volume_capacity() );
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, items_to_drop );
     }
-    // Also drop excess weight
+    if( !is_npc() ) {
+        return;
+    }
+    // Also drop excess weight IF an NPC
     auto wt_carried = weight_carried();
     auto wt_capacity = weight_capacity();
     if( wt_carried > wt_capacity ) {
