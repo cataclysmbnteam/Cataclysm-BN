@@ -2016,6 +2016,11 @@ double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
 
     auto [mode_id, mode_] = npc_ai::best_mode_for_range( who, ideal_weapon, -1 );
 
+    if( !mode_ ) {
+        add_msg( m_debug, "No valid gun mode found for %s, gun_value set to 0", weap.type->get_id().str() );
+        return 0.0;
+    }
+
     // Doesn't use calculate_dispersion because that requires a map
     // TODO: Turn this into a common function.
     dispersion_sources mode_disp = ranged::get_weapon_dispersion( who, ideal_weapon );

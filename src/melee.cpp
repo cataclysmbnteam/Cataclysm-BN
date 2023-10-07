@@ -2330,6 +2330,9 @@ double npc_ai::wielded_value( const Character &who )
     if( !ideal_weapon.ammo_default().is_null() ) {
         ideal_weapon.ammo_set( ideal_weapon.ammo_default(), -1 );
     }
+    // TODO: Instead of passing in the raw `ammo_capacity()`, which does not consider
+    //   guns with UPS power consumption, use a function like `shots_remaining()` or
+    //   `ammo_count_for()`.
     double weap_val = weapon_value( who, ideal_weapon, ideal_weapon.ammo_capacity() );
     who.set_npc_ai_info_cache( npc_ai_info::ideal_weapon_value, weap_val );
     return weap_val;

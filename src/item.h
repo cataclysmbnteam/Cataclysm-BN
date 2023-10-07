@@ -583,6 +583,9 @@ class item : public visitable<item>
         /** return the average dps of the weapon against evaluation monsters */
         double average_dps( const player &guy ) const;
 
+        /**
+         * @param mode Must be "valid".
+         */
         double ideal_ranged_dps( const Character &who, gun_mode &mode ) const;
 
         /**
