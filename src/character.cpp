@@ -3211,18 +3211,19 @@ ret_val<bool> Character::can_swap( const item &it ) const
 // pretty much the same as inventory::remove_randomly_by_volume but I didn't see a point in
 // adding it to the inventory class when it's only called here in Character::drop_invalid_inventory
 std::list<item> remove_randomly_by_weight( inventory &, const units::mass & );
-std::list<item> remove_randomly_by_weight( inventory &inv, const units::mass &weight ) {
+std::list<item> remove_randomly_by_weight( inventory &inv, const units::mass &weight )
+{
     std::list<item> result;
     struct entry {
         decltype( inv.slice().begin() ) stack;
-        decltype( (*stack)->begin() ) stack_it;
+        decltype( ( *stack )->begin() ) stack_it;
     };
     std::vector<entry> vals;
 
     auto slice = inv.slice();
     size_t ndx = 0;
     for( auto stack = slice.begin(); stack != slice.end(); ++stack ) {
-        for( auto stack_it = (*stack)->begin(); stack_it != (*stack)->end(); ++stack_it ) {
+        for( auto stack_it = ( *stack )->begin(); stack_it != ( *stack )->end(); ++stack_it ) {
             vals.push_back( { stack, stack_it } );
         }
         ++ndx;
@@ -3237,15 +3238,15 @@ std::list<item> remove_randomly_by_weight( inventory &inv, const units::mass &we
         }
         dropped_weight += e.stack_it->weight();
         result.push_back( std::move( *e.stack_it ) );
-        e.stack_it = (*e.stack)->erase( e.stack_it );
-        if( e.stack_it == (*e.stack)->begin() && !(*e.stack)->empty() ) {
+        e.stack_it = ( *e.stack )->erase( e.stack_it );
+        if( e.stack_it == ( *e.stack )->begin() && !( *e.stack )->empty() ) {
             e.stack_it->invlet = result.back().invlet;
         }
     }
     // iterate through items again so that we can remove any empty groups
     ndx = slice.size() - 1;
     for( auto stack = slice.rbegin(); stack != slice.rend(); ++stack ) {
-        if( (*stack)->empty() ) {
+        if( ( *stack )->empty() ) {
             inv.reduce_stack( ndx, -1 );
         }
         --ndx;

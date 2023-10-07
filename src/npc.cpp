@@ -1714,7 +1714,7 @@ void npc::shop_restock()
     // to trade
     if( !ret.empty() ) {
         // Pick up nearby items as a free action since we'll be immediately deleting these items
-        const auto pickup_item_filter = [this]( const item &it ) -> bool {
+        const auto pickup_item_filter = [this]( const item & it ) -> bool {
             return it.is_owned_by( *this );
         };
         auto old_moves = moves;
