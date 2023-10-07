@@ -25,7 +25,6 @@
 #include "uistate.h"
 #include "units.h"
 
-static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
@@ -188,6 +187,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
                                    bionic_menu_mode mode )
 {
     input_context ctxt( "BIONICS" );
+    static const flag_id json_flag_PERPETUAL( "PERPETUAL" );
 
     werase( window );
     std::string fuel_string;
@@ -197,7 +197,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
         for( const itype_id &fuel : p->get_fuel_available( bio.id ) ) {
             found_fuel = true;
             const item temp_fuel( fuel );
-            if( temp_fuel.has_flag( flag_PERPETUAL ) ) {
+            if( temp_fuel.has_flag( json_flag_PERPETUAL ) ) {
                 if( fuel == itype_id( "sunlight" ) && !g->is_in_sunlight( p->pos() ) ) {
                     continue;
                 }
@@ -211,7 +211,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, Character *
             const itype_id rem_fuel = p->find_remote_fuel( true );
             if( !rem_fuel.is_empty() ) {
                 const item tmp_rem_fuel( rem_fuel );
-                if( tmp_rem_fuel.has_flag( flag_PERPETUAL ) ) {
+                if( tmp_rem_fuel.has_flag( json_flag_PERPETUAL ) ) {
                     fuel_string += colorize( tmp_rem_fuel.tname(), c_green ) + " ";
                 } else {
                     fuel_string += tmp_rem_fuel.tname() + ": " + colorize( p->get_value( "rem_" + rem_fuel.str() ),
@@ -310,7 +310,7 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
                               : string_format( _( "%s/%d turns" ), units::display( bio_data.power_over_time ),
                                                bio_data.charge_time ) );
     }
-    if( bio_data.has_flag( STATIC( flag_str_id( "BIONIC_TOGGLED" ) ) ) ) {
+    if( bio_data.has_flag( STATIC( flag_id( "BIONIC_TOGGLED" ) ) ) ) {
         properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
     if( bio.incapacitated_time > 0_turns ) {
@@ -493,7 +493,7 @@ static void draw_connectors( const catacurses::window &win, point start,
 static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
-    bool is_power_source = bio.id->has_flag( STATIC( flag_str_id( "BIONIC_POWER_SOURCE" ) ) );
+    bool is_power_source = bio.id->has_flag( STATIC( flag_id( "BIONIC_POWER_SOURCE" ) ) );
     if( bio.id->activated ) {
         if( isHighlightedBionic ) {
             if( bio.powered && !is_power_source ) {
@@ -885,7 +885,7 @@ void show_bionics_ui( Character &who )
                     } else {
                         who.activate_bionic( *tmp );
                         // Clear the menu if we are firing a bionic gun
-                        if( tmp->info().has_flag( STATIC( flag_str_id( "BIONIC_GUN" ) ) ) || tmp->ammo_count > 0 ) {
+                        if( tmp->info().has_flag( STATIC( flag_id( "BIONIC_GUN" ) ) ) || tmp->ammo_count > 0 ) {
                             break;
                         }
                     }

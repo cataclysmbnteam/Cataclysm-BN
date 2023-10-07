@@ -1524,6 +1524,14 @@
     "entries": [ { "item": "rifle_flintlock" }, { "group": "on_hand_flintlock" } ]
   },
   {
+    "id": "everyday_longrifle_flintlock",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "longrifle_flintlock" }, { "group": "on_hand_flintlock" } ]
+  },
+  {
     "id": "everyday_trex_gun",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

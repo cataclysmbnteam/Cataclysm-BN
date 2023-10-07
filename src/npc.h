@@ -1403,8 +1403,8 @@ double weapon_value( const Character &who, const item &weap, int ammo );
 /** Evaluates item as a gun */
 double gun_value( const Character &who, const item &weap, int ammo );
 /** Chooses best gun_mode for range */
-std::pair<gun_mode_id, gun_mode> best_mode_for_range( const Character &who, const item &firing,
-        int dist );
+std::pair<gun_mode_id, std::optional<gun_mode>> best_mode_for_range(
+            const Character &who, const item &firing, int dist );
 /** Evaluate item as a melee weapon */
 double melee_value( const Character &who, const item &weap );
 /** Evaluate unarmed melee value */

@@ -539,6 +539,7 @@
       [ "helmet_barbute", 1 ],
       [ "rifle_flintlock", 1 ],
       [ "pistol_flintlock", 1 ],
+      [ "longrifle_flintlock", 1 ],
       [ "shotgun_paper", 2 ],
       [ "survnote", 5 ],
       [ "radio_car_box", 1 ],

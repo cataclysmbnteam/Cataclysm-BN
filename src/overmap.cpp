@@ -3696,12 +3696,17 @@ void overmap::build_mine( const tripoint_om_omt &origin, int s )
     }
     tripoint_om_omt p = origin;
     // Don't overwrite existing mapgen
-    while( ter( p ) != empty_rock ) {
+    int attempts_left = 100;
+    while( ter( p ) != empty_rock && attempts_left > 0 ) {
         if( one_in( 2 ) ) {
             p.x() += rng( 0, 1 ) * 2 - 1;
         } else {
             p.y() += rng( 0, 1 ) * 2 - 1;
         }
+        attempts_left -= 1;
+    }
+    if( !inbounds( p ) ) {
+        return;
     }
     while( built < s ) {
         ter_set( p, mine );

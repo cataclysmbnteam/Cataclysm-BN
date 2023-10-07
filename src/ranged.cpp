@@ -31,6 +31,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gun_mode.h"
@@ -140,20 +141,8 @@ static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_targeting( "bio_targeting" );
 static const bionic_id bio_ups( "bio_ups" );
 
-static const std::string flag_CONSUMABLE( "CONSUMABLE" );
-static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
-static const std::string flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
+
 static const std::string flag_MOUNTABLE( "MOUNTABLE" );
-static const std::string flag_MOUNTED_GUN( "MOUNTED_GUN" );
-static const std::string flag_NEVER_JAMS( "NEVER_JAMS" );
-static const std::string flag_NON_FOULING( "NON-FOULING" );
-static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
-static const std::string flag_PYROMANIAC_WEAPON( "PYROMANIAC_WEAPON" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_RESTRICT_HANDS( "RESTRICT_HANDS" );
-static const std::string flag_STR_DRAW( "STR_DRAW" );
-static const std::string flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
-static const std::string flag_VEHICLE( "VEHICLE" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_NORANGEDCRIT( "NO_RANGED_CRIT" );
@@ -639,7 +628,7 @@ bool ranged::handle_gun_damage( Character &shooter, item &it )
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
     int effective_durability = firing.durability;
-    if( shooter.is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) &&
+    if( shooter.is_underwater() && !it.has_flag( flag_WATERPROOF_GUN ) &&
         one_in( effective_durability ) ) {
         shooter.add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
                                        _( "<npcname>'s %s misfires with a wet click!" ),
@@ -1192,7 +1181,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, cons
                    static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
     impact.add_damage( DT_BASH, std::min( weight / 100.0_gram, stats_mod ) );
 
-    if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
+    if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj.add_effect( ammo_effect_ACT_ON_RANGED_HIT );
         thrown.active = true;
     }
@@ -1245,7 +1234,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, cons
         du.res_pen += skill_level / 2.0f;
     }
     // handling for tangling thrown items
-    if( thrown.has_flag( "TANGLE" ) ) {
+    if( thrown.has_flag( flag_TANGLE ) ) {
         proj.add_effect( ammo_effect_TANGLE );
     }
 
@@ -1256,7 +1245,7 @@ dealt_projectile_attack throw_item( Character &who, const tripoint &target, cons
 
     // Put the item into the projectile
     proj.set_drop( std::move( thrown ) );
-    if( thrown_type->has_flag( "CUSTOM_EXPLOSION" ) ) {
+    if( thrown_type->has_flag( flag_CUSTOM_EXPLOSION ) ) {
         proj.set_custom_explosion( thrown_type->explosion );
     }
 
@@ -1764,14 +1753,14 @@ static void cycle_action( item &weap, const tripoint &pos )
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
     const optional_vpart_position vp = here.veh_at( pos );
     std::vector<vehicle_part *> cargo;
-    if( vp && weap.has_flag( "VEHICLE" ) ) {
+    if( vp && weap.has_flag( flag_VEHICLE ) ) {
         cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
     }
 
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
-        if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( itype_brass_catcher ) ) {
-            weap.put_in( item( casing ).set_flag( "CASING" ) );
+        if( weap.has_flag( flag_RELOAD_EJECT ) || weap.gunmod_find( itype_brass_catcher ) ) {
+            weap.put_in( item( casing ).set_flag( flag_CASING ) );
         } else {
             if( cargo.empty() ) {
                 here.add_item_or_charges( eject, item( casing ) );
@@ -1789,7 +1778,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( itype_brass_catcher ) ) {
-            linkage.set_flag( "CASING" );
+            linkage.set_flag( flag_CASING );
             weap.put_in( linkage );
         } else if( cargo.empty() ) {
             here.add_item_or_charges( eject, linkage );
@@ -1964,22 +1953,21 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     return dispersion;
 }
 
-std::pair<gun_mode_id, gun_mode> npc_ai::best_mode_for_range( const Character &who,
+std::pair<gun_mode_id, std::optional<gun_mode>> npc_ai::best_mode_for_range( const Character &who,
         const item &firing,
         int dist )
 {
-    std::pair<gun_mode_id, gun_mode> res = std::make_pair( gun_mode_id(), gun_mode() );
     int shots = who.is_wielding( firing ) ? character_funcs::ammo_count_for( who,
                 firing ) : item_funcs::shots_remaining( who, firing );
     if( !firing.is_gun() || shots == 0 ) {
-        return res;
+        return std::make_pair( gun_mode_id(), std::nullopt );
     }
     int min_recoil = MAX_RECOIL;
     min_recoil = ranged::get_most_accurate_sight( who, firing );
     int range = static_cast<const npc *>( &who )->confident_shoot_range( firing, min_recoil );
 
     if( dist > range ) {
-        return res;
+        return  std::make_pair( gun_mode_id(), std::nullopt );
     }
 
     const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> lhs,
@@ -1998,12 +1986,11 @@ std::pair<gun_mode_id, gun_mode> npc_ai::best_mode_for_range( const Character &w
     } );
 
     if( modes.empty() ) {
-        return res;
+        return  std::make_pair( gun_mode_id(), std::nullopt );
     }
 
     const auto g_mode = std::max_element( modes.begin(), modes.end(), gun_mode_cmp );
-    res = *g_mode;
-    return res;
+    return *g_mode;
 }
 
 double npc_ai::gun_value( const Character &who, const item &weap, int ammo )
