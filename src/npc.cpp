@@ -42,6 +42,7 @@
 #include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "math_defines.h"
 #include "messages.h"
@@ -1709,9 +1710,26 @@ void npc::shop_restock()
         }
     }
 
-    has_new_items = true;
-    inv.clear();
-    inv.push_back( ret );
+    // we have items to restock with, so go ahead and pick up everything so we can clear out properly
+    // If we don't restock for some reason don't clear out inventory since we'd end up not having anything
+    // to trade
+    if( !ret.empty() ) {
+        // Pick up nearby items as a free action since we'll be immediately deleting these items
+        const auto pickup_item_filter = [this]( const item & it ) -> bool {
+            return it.is_owned_by( *this );
+        };
+        auto old_moves = moves;
+        for( map_cursor &cursor : map_selector( pos(), PICKUP_RANGE ) ) {
+            auto pickups = cursor.remove_items_with( pickup_item_filter );
+            inv.push_back( pickups );
+        }
+        set_moves( old_moves );
+
+        // clear out inventory and add in restocked items
+        has_new_items = true;
+        inv.clear();
+        inv.push_back( ret );
+    }
 }
 
 int npc::minimum_item_value() const
