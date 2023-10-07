@@ -50,6 +50,16 @@ then
 
     make -j$num_jobs
 else
+    if [ "$OS" == "macos-12" ]
+    then
+        export NATIVE=osx
+        # if OSX_MIN we specify here is lower than 11 then linker is going
+        # to throw warnings because uncaught_exceptions, SDL and gettext libraries installed from
+        # Homebrew are built with minimum target osx version 11
+        export OSX_MIN=11
+    else
+        export BACKTRACE=1
+    fi
     make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 FRAMEWORK=1
 
     # For CI on macOS, patch the test binary so it can find SDL2 libraries.
