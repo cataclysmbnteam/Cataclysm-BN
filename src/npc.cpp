@@ -1760,7 +1760,7 @@ void npc::shop_restock()
                 if( it->is_owned_by( *this ) ) {
                     inv.push_back( std::move( it ) );
                 }
-                return it;
+                return std::move(it);
             } );
         }
         set_moves( old_moves );
