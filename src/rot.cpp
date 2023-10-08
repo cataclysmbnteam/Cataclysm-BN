@@ -1,19 +1,22 @@
 #include "rot.h"
 
+#include "item.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vehicle_part.h"
-#include "units.h"
 #include "veh_type.h"
 #include "vpart_position.h"
 
 namespace rot
 {
-temperature_flag temperature_flag_for_location( const map &m, const item &loc )
+
+auto temperature_flag_for_location( const map &m, const item &loc ) -> temperature_flag
 {
+    if( !loc.has_position() ) {
+        return temperature_flag::TEMP_NORMAL;
+    }
+
     switch( loc.where() ) {
-        case item_location_type::invalid:
-            return temperature_flag::TEMP_NORMAL;
         case item_location_type::character:
             return temperature_flag::TEMP_NORMAL;
         case item_location_type::map: {
@@ -27,7 +30,6 @@ temperature_flag temperature_flag_for_location( const map &m, const item &loc )
             if( m.ter( pos ) == t_rootcellar ) {
                 return temperature_flag::TEMP_ROOT_CELLAR;
             }
-
             return temperature_flag::TEMP_NORMAL;
         }
         case item_location_type::vehicle: {
@@ -49,11 +51,10 @@ temperature_flag temperature_flag_for_location( const map &m, const item &loc )
         default:
             debugmsg( "Invalid item location %d", static_cast<int>( loc.where() ) );
             return temperature_flag::TEMP_NORMAL;
-
     }
 }
 
-temperature_flag temperature_flag_for_part( const vehicle &veh, size_t part_index )
+auto temperature_flag_for_part( const vehicle &veh, size_t part_index ) -> temperature_flag
 {
     const vehicle_part &part = veh.cpart( part_index );
     const vpart_info &info = part.info();

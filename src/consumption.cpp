@@ -40,11 +40,13 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
+#include "rot.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
 #include "vitamin.h"
+#include "weather.h"
 
 static const std::string comesttype_DRINK( "DRINK" );
 static const std::string comesttype_FOOD( "FOOD" );
@@ -849,10 +851,6 @@ bool Character::eat( item &food, bool force )
     } else if( spoiled && saprophage ) {
         add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious…" ), food.tname() );
     }
-    // Store the fact that the food was cold to later reapply it to the rest of the stack, to prevent rot.
-    // Note: Implemented to fix display error when eating reheated food.
-    bool food_was_cold = food.has_flag( flag_COLD );
-    bool food_was_very_cold = food.has_flag( flag_VERY_COLD );
 
     if( !consume_effects( food ) ) {
         // Already consumed by using `food.type->invoke`?
@@ -922,14 +920,6 @@ bool Character::eat( item &food, bool force )
     } else if( chew ) {
         add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
                                food.tname() );
-    }
-
-    if( food_was_cold ) {
-        food.set_flag( flag_COLD );
-    }
-
-    if( food_was_very_cold ) {
-        food.set_flag( flag_VERY_COLD );
     }
 
     if( food.get_comestible()->tool->tool ) {
@@ -1038,10 +1028,28 @@ void Character::modify_addiction( const islot_comestible &comest )
         rem_morale( addiction_craving( comest.add ) );
     }
 }
+namespace
+{
+
+auto clamped_nutr( int nutr ) -> int
+{
+    return std::max( 5, std::min( 20, nutr / 10 ) );
+}
+
+const morale_type MORALE_FOOD_COLD( "morale_food_cold" );
+const morale_type MORALE_FOOD_VERY_COLD( "morale_food_very_cold" );
+
+} // namespace
 
 void Character::modify_morale( item &food, int nutr )
 {
     time_duration morale_time = 2_hours;
+
+    const int nutr_morale = clamped_nutr( nutr );
+    const auto food_morale = [&]( const morale_type & type ) -> void {
+        add_morale( type, nutr_morale, 20, morale_time, morale_time / 2 );
+    };
+
     if( food.has_flag( flag_EATEN_HOT ) ) {
         auto heater = find_food_heater( *this, crafting_inventory(),
                                         get_map().has_nearby_fire( pos(), PICKUP_RANGE ) );
@@ -1050,13 +1058,24 @@ void Character::modify_morale( item &food, int nutr )
                                    _( "You heat up your %1$s using the %2$s." ),
                                    _( "<npcname> heats up their %1$s using the %2$s." ),
                                    food.tname(), heater->it.tname() );
-            food.unset_flag( flag_COLD );
-            food.unset_flag( flag_VERY_COLD );
-            morale_time = 3_hours;
-            int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
-            add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
+            morale_time += 2_hours;
+            food_morale( MORALE_FOOD_HOT );
+        }
+    } else if( food.has_flag( flag_EATEN_COLD ) ) {
+        const auto temp = rot::temperature_flag_for_location( get_map(), food );
+
+        if( temp == temperature_flag::TEMP_FREEZER ) {
+            add_msg_if_player( m_good, _( "This stuff is icy!" ), food.tname() );
+            morale_time += 2_hours;
+            food_morale( MORALE_FOOD_VERY_COLD );
+        } else if ( temp == temperature_flag::TEMP_FRIDGE || temp == temperature_flag::TEMP_ROOT_CELLAR ) {
+            add_msg_if_player( m_good, _( "This stuff is cold!" ), food.tname() );
+            morale_time += 1_hours;
+            food_morale( MORALE_FOOD_COLD );
         }
     }
+
+
 
     std::pair<int, int> fun = fun_for( food );
     if( fun.first < 0 ) {

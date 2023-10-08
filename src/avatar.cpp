@@ -95,6 +95,11 @@ static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 
+static const flag_id flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
+
+static const morale_type MORALE_FOOD_COLD( "morale_food_cold" );
+static const morale_type MORALE_FOOD_VERY_COLD( "morale_food_very_cold" );
+
 class JsonIn;
 class JsonOut;
 
@@ -983,6 +988,8 @@ void avatar::vomit()
         // Remove all joy from previously eaten food and apply the penalty
         rem_morale( MORALE_FOOD_GOOD );
         rem_morale( MORALE_FOOD_HOT );
+        rem_morale( MORALE_FOOD_COLD );
+        rem_morale( MORALE_FOOD_VERY_COLD );
         // bears must suffer too
         rem_morale( MORALE_HONEY );
         // 1.5 times longer

@@ -622,9 +622,9 @@ auto contents_item_location::obtain_cost( const Character &ch, int qty, const it
     }*/
 }
 
-auto contents_item_location::position( const item *it ) const -> tripoint
+auto contents_item_location::position( const item * ) const -> tripoint
 {
-    return it->position();
+    return container->position();
 }
 
 auto contents_item_location::describe( const Character *, const item * ) const -> std::string

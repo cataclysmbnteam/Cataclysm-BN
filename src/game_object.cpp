@@ -94,6 +94,7 @@ bool game_object<T>::attempt_detach( std::function < detached_ptr<T>
     //Then run the callback.
     detached_ptr<T> n = cb( std::move( orig ) );
 
+
     //There are a bunch of awkwards cases here
     if( !n ) {
         //First the simplest one, we got a null detached_ptr back, we need to remove the object.
