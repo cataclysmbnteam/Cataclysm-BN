@@ -7314,6 +7314,7 @@ void map::grow_plant( const tripoint &p )
     }
 
     item *seed = *seed_it;
+    seed_it = map_stack::iterator();
     const time_duration plantEpoch = seed->get_plant_epoch();
     if( seed->age() >= plantEpoch * furn.plant->growth_multiplier &&
         !furn.has_flag( "GROWTH_HARVEST" ) ) {
@@ -7330,7 +7331,7 @@ void map::grow_plant( const tripoint &p )
             if( fertilizer != items.end() ) {
                 items.erase( fertilizer );
             }
-
+            fertilizer = map_stack::iterator();
             rotten_item_spawn( *seed, p );
             furn_set( p, furn_str_id( furn.plant->transform ) );
         } else if( seed->age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
@@ -7347,6 +7348,7 @@ void map::grow_plant( const tripoint &p )
                 items.erase( fertilizer );
             }
 
+            fertilizer = map_stack::iterator();
             rotten_item_spawn( *seed, p );
             //You've skipped the seedling stage so roll monsters twice
             if( !has_flag_furn( "GROWTH_SEEDLING", p ) ) {

@@ -2349,7 +2349,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                 if( farm_map.furn( pos ) == f_plant_harvest ) {
                     // Can't use item_stack::only_item() since there might be fertilizer
                     map_stack items = farm_map.i_at( pos );
-                    const map_stack::iterator seed = std::find_if( items.begin(),
+                    map_stack::iterator seed = std::find_if( items.begin(),
                     items.end(), []( const item * const & it ) {
                         return it->is_seed();
                     } );
@@ -2365,6 +2365,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                                     seed_cnt, true ) ) {
                                 here.add_item_or_charges( g->u.pos(), std::move( i ) );
                             }
+                            seed = map_stack::iterator();
                             farm_map.i_clear( pos );
                             farm_map.furn_set( pos, f_null );
                             farm_map.ter_set( pos, t_dirt );

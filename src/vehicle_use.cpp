@@ -1393,6 +1393,7 @@ void vehicle::operate_reaper()
         g->m.furn_set( reaper_pos, f_null );
         // Secure the seed type before i_clear destroys the item.
         const itype &seed_type = *( *seed )->type;
+        seed = map_stack::iterator(); //clear the seed iterator to prevent warnings
         g->m.i_clear( reaper_pos );
         for( auto &i : iexamine::get_harvest_items(
                  seed_type, plant_produced, seed_produced, false ) ) {

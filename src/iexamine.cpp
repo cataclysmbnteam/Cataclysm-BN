@@ -2296,7 +2296,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( examp );
-    const map_stack::iterator seed_it = std::find_if( items.begin(),
+    map_stack::iterator seed_it = std::find_if( items.begin(),
     items.end(), []( const item * const & it ) {
         return it->is_seed();
     } );
@@ -2308,6 +2308,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
         return;
     }
     item *&seed = *seed_it;
+    seed_it = map_stack::iterator();
     const itype_id &seedType = seed->typeId();
     if( seedType == itype_fungal_seeds ) {
         fungus( p, examp );
@@ -2394,7 +2395,7 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( tile );
-    const map_stack::iterator seed_it = std::find_if( items.begin(),
+    map_stack::iterator seed_it = std::find_if( items.begin(),
     items.end(), []( const item * const & it ) {
         return it->is_seed();
     } );
@@ -2406,6 +2407,7 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     }
 
     item *&seed = *seed_it;
+    seed_it = map_stack::iterator();
 
     // TODO: item should probably clamp the value on its own
     seed->set_birthday( seed->birthday() - fertilizerEpoch );
@@ -2461,7 +2463,7 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
     map &here = get_map();
     // Can't use item_stack::only_item() since there might be fertilizer
     map_stack items = here.i_at( examp );
-    const map_stack::iterator seed_it = std::find_if( items.begin(),
+    map_stack::iterator seed_it = std::find_if( items.begin(),
     items.end(), []( const item * const & it ) {
         return it->is_seed();
     } );
@@ -2474,6 +2476,7 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
     }
 
     const item *const &seed = *seed_it;
+    seed_it = map_stack::iterator();
 
     const std::string pname = seed->get_plant_name();
 

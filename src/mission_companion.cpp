@@ -1145,6 +1145,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                 const islot_seed &seed_data = *( *seed )->type->seed;
                 tmp = item::spawn_temporary( seed_data.fruit_id, calendar::turn );
                 if( tmp->typeId() == plant_types[plant_index] ) {
+                    seed = map_stack::iterator();
                     number_plots++;
                     bay.i_clear( plot );
                     bay.furn_set( plot, f_null );
