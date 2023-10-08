@@ -27,8 +27,8 @@ class game_object
         friend location_visitable<location_inventory>;
         template<typename U>
         friend void std::swap( location_vector<U> &, location_vector<U> & );
-        location<T> *saved_loc = nullptr;
     protected:
+        location<T> *saved_loc = nullptr;
         location<T> *loc = nullptr;
 
         game_object() {}
@@ -54,6 +54,7 @@ class game_object
 
         bool is_detached() const;
         bool is_loaded() const;
+        bool has_position() const;
 
         tripoint position( ) const;
         /** Returns the name that will be used when referring to the object in error messages */

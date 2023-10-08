@@ -10507,8 +10507,11 @@ void item::update_clothing_mod_val()
 item_location_type item::where() const
 {
     if( !loc ) {
-        debugmsg( "Tried to find where of an item without a location" );
-        return item_location_type::invalid;
+        if( !saved_loc ) {
+            debugmsg( "Tried to find where of an item without a location" );
+            return item_location_type::invalid;
+        }
+        return static_cast<item_location *>( &*saved_loc )->where();
     }
     return static_cast<item_location *>( &*loc )->where();
 }
@@ -10536,8 +10539,11 @@ int item::obtain_cost( const Character &ch, int qty ) const
 std::string item::describe_location( const Character *ch ) const
 {
     if( !loc ) {
-        debugmsg( "Tried to describe the location of an item without a location" );
-        return "nowhere";
+        if( !saved_loc ) {
+            debugmsg( "Tried to describe the location of an item without a location" );
+            return "nowhere";
+        }
+        return saved_loc->describe( ch, this );
     }
     return loc->describe( ch, this );
 }
