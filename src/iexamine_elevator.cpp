@@ -179,17 +179,19 @@ auto move_creatures_away( const elevator::tiles &dest ) -> void
     }
 }
 
-auto move_items( const elevator::tiles from, const elevator::tiles dest ) -> void
+auto move_items( const elevator::tiles &from, const elevator::tiles &dest ) -> void
 {
+    using size_type = elevator::tiles::size_type;
     map &here = get_map();
 
-    for( decltype( from )::size_type i = 0; i < from.size(); i++ ) {
+    // oh how i wish i could use zip here
+    for( size_type i = 0; i < from.size(); i++ ) {
         const tripoint &src = from[i];
         move_item( here, src, dest[i] );
     }
 }
 
-auto move_creatures( const elevator::tiles from, const elevator::tiles dest ) -> void
+auto move_creatures( const elevator::tiles &from, const elevator::tiles &dest ) -> void
 {
     for( Creature &critter : g->all_creatures() ) {
         const auto eit = std::find( from.cbegin(), from.cend(), critter.pos() );

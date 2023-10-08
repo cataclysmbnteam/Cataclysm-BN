@@ -1439,6 +1439,7 @@ void debug()
         case DEBUG_GAME_STATE: {
             std::string mfus;
             std::vector<std::pair<m_flag, int>> sorted;
+            sorted.reserve( m_flag::MF_MAX );
             for( int f = 0; f < m_flag::MF_MAX; f++ ) {
                 sorted.push_back( {static_cast<m_flag>( f ), MonsterGenerator::generator().m_flag_usage_stats[f]} );
             }
@@ -2120,7 +2121,7 @@ void debug()
             break;
         case DEBUG_RELOAD_TILES:
             std::ostringstream ss;
-            g->reload_tileset( [&ss]( std::string str ) {
+            g->reload_tileset( [&ss]( const std::string & str ) {
                 ss << str << std::endl;
             } );
             add_msg( ss.str() );

@@ -136,11 +136,11 @@ class achievement
         /** Retrieves kill requirement JsonObjects and feeds it to add_skill_requirement*/
         void add_kill_requirements( const JsonObject &jo, const std::string &src );
         /** Organizes variables provided and adds kill_requirements to achievements*/
-        void add_kill_requirement( const JsonObject inner, const std::string &src );
+        void add_kill_requirement( const JsonObject &inner, const std::string &src );
         /** Retrieves skill requirement JsonObjects and feeds it to add_skill_requirement*/
         void add_skill_requirements( const JsonObject &jo, const std::string &src );
         /** Organizes variables provided and adds skill_requirements to achievements*/
-        void add_skill_requirement( const JsonObject inner, const std::string &src );
+        void add_skill_requirement( const JsonObject &inner, const std::string &src );
 };
 
 template<>

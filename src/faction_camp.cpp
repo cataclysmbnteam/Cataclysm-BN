@@ -380,7 +380,7 @@ int om_harvest_ter_break( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_
 /// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, returns total
 /// mass and volume
 /// @ref take, whether you take the item or count it
-mass_volume om_harvest_itm( npc_ptr comp, const tripoint_abs_omt &omt_tgt, int chance = 100,
+mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt, int chance = 100,
                             bool take = true );
 void apply_camp_ownership( const tripoint &camp_pos, int radius );
 /*
@@ -437,7 +437,7 @@ time_duration companion_travel_time_calc(
     int haulage = 0 );
 /// Determines how many round trips a given NPC @ref comp will take to move all of the
 /// items @ref itms
-int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nullptr );
+int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items
 /// with @ref carry_mass and @ref carry_volume moved per trip
 int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
@@ -2277,7 +2277,7 @@ static bool farm_valid_seed( const item &itm )
 }
 
 static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_tgt, farm_ops op,
-        npc_ptr comp = nullptr )
+        const npc_ptr &comp = nullptr )
 {
     size_t plots_cnt = 0;
     std::string crops;
@@ -3265,7 +3265,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
     return harvested;
 }
 
-mass_volume om_harvest_itm( npc_ptr comp, const tripoint_abs_omt &omt_tgt, int chance,
+mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt, int chance,
                             bool take )
 {
     tinymap target_bay;
@@ -3503,7 +3503,7 @@ int om_carry_weight_to_trips( units::mass mass, units::volume volume,
     return 2 * std::max( trips_m, trips_v );
 }
 
-int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
+int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &comp )
 {
     units::mass total_m = 0_gram;
     units::volume total_v = 0_ml;

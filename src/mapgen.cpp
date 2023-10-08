@@ -346,7 +346,7 @@ class mapgen_factory
             return mapgens_.count( key ) != 0;
         }
         /// @see mapgen_basic_container::add
-        int add( const std::string &key, const std::shared_ptr<mapgen_function> ptr ) {
+        int add( const std::string &key, const std::shared_ptr<mapgen_function> &ptr ) {
             return mapgens_[key].add( ptr );
         }
         /// @see mapgen_basic_container::generate
@@ -1922,7 +1922,7 @@ bool jmapgen_objects::check_bounds( const jmapgen_place &place, const JsonObject
 }
 
 void jmapgen_objects::add( const jmapgen_place &place,
-                           shared_ptr_fast<const jmapgen_piece> piece )
+                           const shared_ptr_fast<const jmapgen_piece> &piece )
 {
     objects.emplace_back( place, piece );
 }
@@ -5410,6 +5410,7 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &loc, const tri
 {
     std::vector<detached_ptr<item>> items = item_group::items_from( loc, turn );
     std::vector<item *> ret;
+    ret.reserve( items.size() );
     for( detached_ptr<item> &it : items ) {
         ret.push_back( &*it );
     }

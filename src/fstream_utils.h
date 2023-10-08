@@ -33,10 +33,10 @@ struct cata_ofstream {
     public:
         cata_ofstream();
         cata_ofstream( const cata_ofstream & ) = delete;
-        cata_ofstream( cata_ofstream &&x );
+        cata_ofstream( cata_ofstream &&x ) noexcept;
         ~cata_ofstream();
         cata_ofstream &operator=( const cata_ofstream & ) = delete;
-        cata_ofstream &operator=( cata_ofstream && );
+        cata_ofstream &operator=( cata_ofstream && ) noexcept;
 
         inline cata_ofstream &mode( cata_ios_mode m ) {
             _mode = m;
@@ -71,10 +71,10 @@ struct cata_ifstream {
     public:
         cata_ifstream();
         cata_ifstream( const cata_ifstream & ) = delete;
-        cata_ifstream( cata_ifstream &&x );
+        cata_ifstream( cata_ifstream &&x ) noexcept;
         ~cata_ifstream();
         cata_ifstream &operator=( const cata_ifstream & ) = delete;
-        cata_ifstream &operator=( cata_ifstream && );
+        cata_ifstream &operator=( cata_ifstream && ) noexcept;
 
         inline cata_ifstream &mode( cata_ios_mode m ) {
             _mode = m;

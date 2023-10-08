@@ -2615,6 +2615,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
 
     auto copy_list = []( const std::vector<detached_ptr<item>> &old ) {
         std::vector<detached_ptr<item>> n;
+        n.reserve( old.size() );
         for( const detached_ptr<item> &it : old ) {
             n.push_back( item::spawn( *it ) );
         }

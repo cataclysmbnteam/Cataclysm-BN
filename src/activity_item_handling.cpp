@@ -177,6 +177,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason,
     bool into_vehicle = false;
 
     std::vector<item *> items_copy;
+    items_copy.reserve( items.size() );
     for( detached_ptr<item> &it : items ) {
         items_copy.push_back( &*it );
     }
@@ -459,7 +460,7 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason,
 
 static std::list<pickup::act_item> convert_to_items( Character &p,
         const drop_locations &drop,
-        std::function<bool( item &loc )> filter )
+        const std::function<bool( item &loc )> &filter )
 {
     std::list<pickup::act_item> res;
 
@@ -2758,6 +2759,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                 // come back here after successfully fetching your stuff
                 if( act_prev.coords.empty() ) {
                     std::vector<tripoint> local_src_set;
+                    local_src_set.reserve( src_set.size() );
                     for( const tripoint &elem : src_set ) {
                         local_src_set.push_back( here.getlocal( elem ) );
                     }

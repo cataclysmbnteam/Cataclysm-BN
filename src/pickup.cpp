@@ -476,7 +476,7 @@ std::vector<stacked_items> stack_for_pickup_ui( const
                 calendar::before_time_starts, 0 );
     std::map<std::pair<time_point, int>, parent_child_check_t> parent_child_check;
     // First, we need to check which parent-child groups exist
-    for( item_stack::iterator it : unstacked ) {
+    for( const item_stack::iterator &it : unstacked ) {
         const auto &token = *( *it )->drop_token;
         if( token.drop_number > 0 ) {
             std::pair<time_point, int> turn_and_drop = std::make_pair( token.turn, token.drop_number );
@@ -490,7 +490,7 @@ std::vector<stacked_items> stack_for_pickup_ui( const
 
     // Second pass: we group children and parents together, but only if both sides are known to exist
     std::map<std::pair<time_point, int>, unstacked_items> children_by_parent;
-    for( item_stack::iterator it : unstacked ) {
+    for( const item_stack::iterator &it : unstacked ) {
         const auto &token = *( *it )->drop_token;
         std::pair<time_point, int> turn_and_drop = std::make_pair( token.turn, token.drop_number );
         if( token.drop_number > 0 && parent_child_check[turn_and_drop].child_exists ) {
@@ -510,7 +510,7 @@ std::vector<stacked_items> stack_for_pickup_ui( const
     std::vector<stacked_items> restacked_with_parents;
     for( const auto &pr : children_by_parent ) {
         std::vector<std::list<item_stack::iterator>> restacked_children;
-        for( item_stack::iterator it : pr.second.unstacked_children ) {
+        for( const item_stack::iterator &it : pr.second.unstacked_children ) {
             bool found_stack = false;
             for( std::list<item_stack::iterator> &stack : restacked_children ) {
                 const item &stack_top = **stack.front();

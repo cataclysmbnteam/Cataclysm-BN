@@ -1151,7 +1151,7 @@ overmap::overmap( const point_abs_om &p ) : loc( p )
     init_layers();
 }
 
-overmap::overmap( overmap && ) = default;
+overmap::overmap( overmap && )  noexcept = default;
 overmap::~overmap() = default;
 
 void overmap::populate( overmap_special_batch &enabled_specials )
@@ -1320,7 +1320,7 @@ bool overmap::monster_check( const std::pair<tripoint_om_sm, monster> &candidate
     } ) != matching_range.second;
 }
 
-void overmap::insert_npc( shared_ptr_fast<npc> who )
+void overmap::insert_npc( const shared_ptr_fast<npc> &who )
 {
     npcs.push_back( who );
     g->set_npcs_dirty();
@@ -1816,7 +1816,8 @@ bool overmap::generate_sub( const int z )
         lab_train_odds = 1;
     }
 
-    const auto handle_lab_type = [&]( std::string prefix, const std::vector<point_om_omt> &pts ) {
+    const auto handle_lab_type = [&]( const std::string & prefix,
+    const std::vector<point_om_omt> &pts ) {
         for( auto &i : pts ) {
             const tripoint_om_omt p( i, z );
             lab *l = find_lab_for( p );

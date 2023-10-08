@@ -270,7 +270,7 @@ void bionic_data::reset()
     faulty_bionics.clear();
 }
 
-void bionic_data::load( const JsonObject &jsobj, const std::string src )
+void bionic_data::load( const JsonObject &jsobj, const std::string &src )
 {
     const bool strict = is_strict_enabled( src );
 
@@ -467,7 +467,7 @@ std::vector<std::pair<bionic_id, item *>> find_reloadable_cbms( npc &who )
     std::vector<std::pair<bionic_id, item *>> cbm_list;
     // Runs down full list of CBMs that qualify as weapons.
     // Need a way to make this less costly.
-    for( bionic bio : *who.my_bionics ) {
+    for( const bionic &bio : *who.my_bionics ) {
         if( !bio.info().has_flag( flag_BIONIC_WEAPON ) ) {
             continue;
         }

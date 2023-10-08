@@ -18,10 +18,10 @@ class activity_ptr
     public:
         activity_ptr();
         activity_ptr( const activity_ptr & ) = delete;
-        activity_ptr( activity_ptr && );
+        activity_ptr( activity_ptr && ) noexcept ;
         activity_ptr( std::unique_ptr<player_activity> && );
         activity_ptr &operator=( const activity_ptr & ) = delete;
-        activity_ptr &operator=( activity_ptr && );
+        activity_ptr &operator=( activity_ptr && ) noexcept ;
         activity_ptr &operator=( std::unique_ptr<player_activity> && );
 
         ~activity_ptr();

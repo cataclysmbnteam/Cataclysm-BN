@@ -45,7 +45,7 @@ struct projectile {
 
         projectile();
         projectile( const projectile & );
-        projectile( projectile && );
+        projectile( projectile && ) noexcept ;
         projectile &operator=( const projectile & );
         ~projectile();
 

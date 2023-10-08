@@ -63,7 +63,7 @@ struct item_penalties {
 };
 
 // Figure out encumbrance penalties this clothing is involved in
-item_penalties get_item_penalties( location_vector<item>::const_iterator worn_item_it,
+item_penalties get_item_penalties( const location_vector<item>::const_iterator &worn_item_it,
                                    const Character &c, const bodypart_id &_bp )
 {
     item *const &worn_item = *worn_item_it;
@@ -149,7 +149,7 @@ std::string body_part_names( const std::vector<bodypart_id> &parts )
 }
 
 void draw_mid_pane( const catacurses::window &w_sort_middle,
-                    location_vector<item>::const_iterator const worn_item_it,
+                    location_vector<item>::const_iterator const &worn_item_it,
                     const Character &c, const bodypart_id &bp )
 {
     item *const &worn_item = *worn_item_it;

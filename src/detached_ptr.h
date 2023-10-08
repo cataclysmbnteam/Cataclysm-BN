@@ -26,10 +26,12 @@ class detached_ptr
         T *ptr = nullptr;
     public:
         detached_ptr();
+        detached_ptr( detached_ptr &&source ) noexcept;
+        detached_ptr<T> &operator=( detached_ptr &&source ) noexcept;
 
-        detached_ptr( detached_ptr &&source );
+        detached_ptr( const detached_ptr & ) = delete;
+        detached_ptr<T> &operator=( const detached_ptr & ) = delete;
 
-        detached_ptr<T> &operator=( detached_ptr &&source );
         explicit detached_ptr( location_ptr<T, true> &&loc );
         explicit detached_ptr( location_ptr<T, false> &&loc );
         ~detached_ptr();
@@ -45,9 +47,6 @@ class detached_ptr
         template <typename U>
         bool operator!=( const U against ) const;
     private:
-        detached_ptr( const detached_ptr & ) = delete;
-        detached_ptr<T> &operator=( const detached_ptr & ) = delete;
-
         explicit detached_ptr( T *obj );
         T *release();
 };

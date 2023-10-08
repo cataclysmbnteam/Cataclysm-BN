@@ -54,7 +54,8 @@ advanced_inv_area::advanced_inv_area( aim_location id, point h, tripoint off,
     id( id ), hscreen( h ),
     off( off ), name( name ), shortname( shortname ),
     canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
-    weight( 0_gram ), max_size( 0 ), minimapname( minimapname ), actionname( actionname ),
+    weight( 0_gram ), max_size( 0 ), minimapname( std::move( minimapname ) ),
+    actionname( std::move( actionname ) ),
     relative_location( relative_location )
 {
 }

@@ -3807,6 +3807,7 @@ void iexamine::clean_water_source( player &, const tripoint &examp )
 std::vector<itype> furn_t::crafting_pseudo_item_types() const
 {
     std::vector<itype> conversion;
+    conversion.reserve( crafting_pseudo_items.size() );
     for( const itype_id &itid : crafting_pseudo_items ) {
         conversion.push_back( *itid );
     }

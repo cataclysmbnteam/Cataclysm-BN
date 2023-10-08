@@ -225,7 +225,7 @@ class list_circularizer
  *
  */
 
-std::string obscure_message( const std::string &str, std::function<char()> f );
+std::string obscure_message( const std::string &str, const std::function<char()> &f );
 
 /**
  * Erases elements from a set that match given predicate function.

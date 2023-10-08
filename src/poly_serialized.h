@@ -19,7 +19,7 @@ class poly_serialized : public std::unique_ptr<T>
 {
     public:
         poly_serialized() = default;
-        poly_serialized( poly_serialized && ) = default;
+        poly_serialized( poly_serialized && ) noexcept = default;
         poly_serialized( T *value ) : std::unique_ptr<T>( value ) {}
         poly_serialized( const poly_serialized<T> &other ) :
             std::unique_ptr<T>( other ? other.get()->clone() : nullptr ) {}

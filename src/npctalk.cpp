@@ -12,6 +12,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 #include "activity_type.h"
@@ -1224,7 +1225,7 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
                                        dialogue_consequence consequence, const bool first )
 {
     talk_response &result = add_response( text, r, first );
-    result.success.set_effect_consequence( effect_success, consequence );
+    result.success.set_effect_consequence( std::move( effect_success ), consequence );
     return result;
 }
 
@@ -1941,7 +1942,7 @@ talk_effect_fun_t::talk_effect_fun_t( talkfunction_ptr ptr )
     };
 }
 
-talk_effect_fun_t::talk_effect_fun_t( std::function<void( npc &p )> ptr )
+talk_effect_fun_t::talk_effect_fun_t( const std::function<void( npc &p )> &ptr )
 {
     function = [ptr]( const dialogue & d ) {
         npc &p = *d.beta;
@@ -1949,7 +1950,7 @@ talk_effect_fun_t::talk_effect_fun_t( std::function<void( npc &p )> ptr )
     };
 }
 
-talk_effect_fun_t::talk_effect_fun_t( std::function<void( const dialogue &d )> fun )
+talk_effect_fun_t::talk_effect_fun_t( const std::function<void( const dialogue &d )> &fun )
 {
     function = [fun]( const dialogue & d ) {
         fun( d );
@@ -2499,7 +2500,7 @@ void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialog
 void talk_effect_t::set_effect_consequence( std::function<void( npc &p )> ptr,
         dialogue_consequence con )
 {
-    talk_effect_fun_t npctalk_setter( ptr );
+    talk_effect_fun_t npctalk_setter( std::move( ptr ) );
     set_effect_consequence( npctalk_setter, con );
 }
 
@@ -3115,7 +3116,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
     }
 }
 
-dynamic_line_t::dynamic_line_t( JsonArray ja )
+dynamic_line_t::dynamic_line_t( const JsonArray &ja )
 {
     std::vector<dynamic_line_t> lines;
     for( const JsonValue entry : ja ) {

@@ -350,6 +350,7 @@ bool worldfactory::has_world( const std::string &name ) const
 std::vector<std::string> worldfactory::all_worldnames() const
 {
     std::vector<std::string> result;
+    result.reserve( all_worlds.size() );
     for( auto &elem : all_worlds ) {
         result.push_back( elem.first );
     }

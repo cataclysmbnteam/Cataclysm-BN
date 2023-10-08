@@ -203,7 +203,7 @@ std::string JsonObject::str() const
     }
 }
 
-void JsonObject::throw_error( std::string err, const std::string &name ) const
+void JsonObject::throw_error( const std::string &err, const std::string &name ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -212,7 +212,7 @@ void JsonObject::throw_error( std::string err, const std::string &name ) const
     jsin->error( err );
 }
 
-void JsonArray::throw_error( std::string err )
+void JsonArray::throw_error( const std::string &err )
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -220,7 +220,7 @@ void JsonArray::throw_error( std::string err )
     jsin->error( err );
 }
 
-void JsonArray::throw_error( std::string err, int idx )
+void JsonArray::throw_error( const std::string &err, int idx )
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -231,7 +231,7 @@ void JsonArray::throw_error( std::string err, int idx )
     jsin->error( err );
 }
 
-void JsonObject::throw_error( std::string err ) const
+void JsonObject::throw_error( const std::string &err ) const
 {
     if( !jsin ) {
         throw JsonError( err );
@@ -239,11 +239,11 @@ void JsonObject::throw_error( std::string err ) const
     jsin->error( err );
 }
 
-void JsonObject::show_warning( std::string err ) const
+void JsonObject::show_warning( const std::string &err ) const
 {
 #ifndef CATA_IN_TOOL
     try {
-        throw_error( err );
+        throw_error( std::move( err ) );
     } catch( const std::exception &e ) {
         debugmsg( "%s", e.what() );
     }
@@ -252,11 +252,11 @@ void JsonObject::show_warning( std::string err ) const
 #endif // CATA_IN_TOOL
 }
 
-void JsonObject::show_warning( std::string err, const std::string &name ) const
+void JsonObject::show_warning( const std::string &err, const std::string &name ) const
 {
 #ifndef CATA_IN_TOOL
     try {
-        throw_error( err, name );
+        throw_error( std::move( err ), name );
     } catch( const std::exception &e ) {
         debugmsg( "%s", e.what() );
     }
@@ -266,11 +266,11 @@ void JsonObject::show_warning( std::string err, const std::string &name ) const
 #endif // CATA_IN_TOOL
 }
 
-void JsonArray::show_warning( std::string err )
+void JsonArray::show_warning( const std::string &err )
 {
 #ifndef CATA_IN_TOOL
     try {
-        throw_error( err );
+        throw_error( std::move( err ) );
     } catch( const std::exception &e ) {
         debugmsg( "%s", e.what() );
     }
@@ -279,11 +279,11 @@ void JsonArray::show_warning( std::string err )
 #endif // CATA_IN_TOOL
 }
 
-void JsonArray::show_warning( std::string err, int idx )
+void JsonArray::show_warning( const std::string &err, int idx )
 {
 #ifndef CATA_IN_TOOL
     try {
-        throw_error( err, idx );
+        throw_error( std::move( err ), idx );
     } catch( const std::exception &e ) {
         debugmsg( "%s", e.what() );
     }
@@ -293,7 +293,7 @@ void JsonArray::show_warning( std::string err, int idx )
 #endif // CATA_IN_TOOL
 }
 
-void JsonValue::show_warning( std::string err ) const
+void JsonValue::show_warning( const std::string &err ) const
 {
 #ifndef CATA_IN_TOOL
     try {

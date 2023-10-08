@@ -427,7 +427,7 @@ void game::toggle_pixel_minimap()
 #endif // TILES
 }
 
-void game::reload_tileset( [[maybe_unused]] std::function<void( std::string )> out )
+void game::reload_tileset( [[maybe_unused]] const std::function<void( std::string )> &out )
 {
 #if defined(TILES)
     // Disable UIs below to avoid accessing the tile context during loading.
@@ -3034,7 +3034,7 @@ void game::draw_callback_t::operator()()
     }
 }
 
-void game::add_draw_callback( shared_ptr_fast<draw_callback_t> cb )
+void game::add_draw_callback( const shared_ptr_fast<draw_callback_t> &cb )
 {
     draw_callbacks.erase(
         std::remove_if( draw_callbacks.begin(), draw_callbacks.end(),

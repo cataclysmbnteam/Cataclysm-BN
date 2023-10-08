@@ -21,6 +21,7 @@ location_vector<T>::location_vector( location<T> *loc,
 
 template<typename T>
 location_vector<T> &location_vector<T>::operator=( location_vector<T> &&source )
+noexcept
 {
     for( item * const &it : source.contents ) {
         it->remove_location();
@@ -59,6 +60,7 @@ location_vector<T>::iterator::iterator( const location_vector<T>::iterator &sour
 
 template<typename T>
 location_vector<T>::iterator::iterator( location_vector<T>::iterator &&source )
+noexcept
 {
     this->it = source.it;
     this->home = source.home;
@@ -82,6 +84,7 @@ typename location_vector<T>::iterator &location_vector<T>::iterator::operator=( 
 template<typename T>
 typename location_vector<T>::iterator &location_vector<T>::iterator::operator=
 ( location_vector<T>::iterator &&source )
+noexcept
 {
     release_locked();
     this->it = source.it;
@@ -152,6 +155,7 @@ location_vector<T>::const_iterator::const_iterator( const location_vector<T>::co
 
 template<typename T>
 location_vector<T>::const_iterator::const_iterator( location_vector<T>::const_iterator &&source )
+noexcept
 {
     this->it = source.it;
     this->home = source.home;
@@ -175,6 +179,7 @@ typename location_vector<T>::const_iterator &location_vector<T>::const_iterator:
 template<typename T>
 typename location_vector<T>::const_iterator &location_vector<T>::const_iterator::operator=
 ( location_vector<T>::const_iterator &&source )
+noexcept
 {
     release_locked();
     this->it = source.it;

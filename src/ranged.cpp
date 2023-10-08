@@ -1972,8 +1972,8 @@ std::pair<gun_mode_id, std::optional<gun_mode>> npc_ai::best_mode_for_range( con
         return  std::make_pair( gun_mode_id(), std::nullopt );
     }
 
-    const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> lhs,
-    const std::pair<gun_mode_id, gun_mode> rhs ) {
+    const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> &lhs,
+    const std::pair<gun_mode_id, gun_mode> &rhs ) {
         return lhs.second.qty < rhs.second.qty;
     };
 

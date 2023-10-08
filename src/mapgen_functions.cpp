@@ -2531,6 +2531,7 @@ void mapgen_forest( mapgendata &dat )
             return 0;
         }
         std::vector<int> factors;
+        factors.reserve( dat.region.forest_composition.biomes.size() );
         for( auto &b : dat.region.forest_composition.biomes ) {
             factors.push_back( b.second.sparseness_adjacency_factor );
         }
