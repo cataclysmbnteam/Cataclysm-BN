@@ -85,7 +85,6 @@ bool game_object<T>::attempt_detach( std::function < detached_ptr<T>
     //If the object is added to location structures during the cb this property will be used and perhaps reset.
     location<T> *old_loc = loc;
     saved_loc = old_loc;
-    remove_location();
 
     //Then we create a detached pointer of ourselves. Note that we haven't removed ourselves yet.
     T *self = static_cast<T *>( this );
@@ -93,6 +92,9 @@ bool game_object<T>::attempt_detach( std::function < detached_ptr<T>
 
     //Then run the callback.
     detached_ptr<T> n = cb( std::move( orig ) );
+
+    //Then we invalidate loc.
+    remove_location();
 
     //There are a bunch of awkwards cases here
     if( !n ) {
