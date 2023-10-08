@@ -2748,17 +2748,16 @@ void monster::drop_items_on_death()
         }
         items = std::move( remaining );
     }
-
-    const auto dropped = g->m.spawn_items( pos(), std::move( items ) );
-
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
-        for( const auto &it : dropped ) {
+        for( const auto &it : items ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
                 it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
         }
     }
+
+    g->m.spawn_items( pos(), std::move( items ) );
 }
 
 void monster::process_one_effect( effect &it, bool is_new )
