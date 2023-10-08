@@ -1781,12 +1781,16 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-
+    item *target = nullptr;
     for( item *&it : items ) {
         if( actor->valid_to_cut_up( *it ) ) {
-            actor->cut_up( *p, *salvage_tool, *it );
-            return;
+            target = it;
         }
+    }
+
+    if( target ) {
+        actor->cut_up( *p, *salvage_tool, *target );
+        return;
     }
 
     add_msg( _( "You finish salvaging." ) );
