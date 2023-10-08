@@ -1972,8 +1972,8 @@ std::pair<gun_mode_id, std::optional<gun_mode>> npc_ai::best_mode_for_range( con
         return  std::make_pair( gun_mode_id(), std::nullopt );
     }
 
-    const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> lhs,
-    const std::pair<gun_mode_id, gun_mode> rhs ) {
+    const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> &lhs,
+    const std::pair<gun_mode_id, gun_mode> &rhs ) {
         return lhs.second.qty < rhs.second.qty;
     };
 
@@ -2877,7 +2877,7 @@ std::vector<weak_ptr_fast<Creature>> target_ui::list_friendlies_in_lof()
                     ( cr->is_npc() && a != Creature::A_HOSTILE ) ||
                     ( !cr->is_npc() && a == Creature::A_FRIENDLY )
                 ) {
-                    ret.push_back( g->shared_from( *cr ) );
+                    ret.emplace_back( g->shared_from( *cr ) );
                 }
             }
         }

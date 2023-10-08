@@ -312,14 +312,14 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
                                                bio_data.charge_time ) );
     }
     if( bio_data.has_flag( STATIC( flag_id( "BIONIC_TOGGLED" ) ) ) ) {
-        properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
+        properties.emplace_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
     if( bio.incapacitated_time > 0_turns ) {
-        properties.push_back( _( "(incapacitated)" ) );
+        properties.emplace_back( _( "(incapacitated)" ) );
     }
     if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && ( !bio.info().fuel_opts.empty() ||
             bio.info().is_remote_fueled ) ) {
-        properties.push_back( _( "(fuel saving ON)" ) );
+        properties.emplace_back( _( "(fuel saving ON)" ) );
     }
     if( bio.is_auto_start_on() && ( !bio.info().fuel_opts.empty() || bio.info().is_remote_fueled ) ) {
         const std::string label = string_format( _( "(auto start < %d %%)" ),

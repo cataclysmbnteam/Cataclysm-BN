@@ -329,7 +329,7 @@ class move_items_activity_actor : public activity_actor
             relative_destination( relative_destination ) {
 
             for( item *&it : items ) {
-                target_items.push_back( it );
+                target_items.emplace_back( it );
             }
         }
 

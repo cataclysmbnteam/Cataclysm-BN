@@ -375,7 +375,8 @@ class item : public location_visitable<item>, public game_object<item>
          * This detached item is then passed to the lambda. Whatever is returned by the lambda is then merged back into the original item, even if all charges were taken originally.
          * Trying to call this on a non-count-by-charges item or returning an item dissimilar to the argument will result in a debugmsg.
          */
-        bool attempt_split( int qty, std::function < detached_ptr<item>( detached_ptr<item> && ) > cb );
+        bool attempt_split( int qty, const std::function < detached_ptr<item>( detached_ptr<item> && ) > &
+                            cb );
 
         /**
          * Make a corpse of the given monster type.

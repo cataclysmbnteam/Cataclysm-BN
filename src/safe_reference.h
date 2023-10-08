@@ -194,7 +194,7 @@ class safe_reference
 
         static void mark_deallocated( T *obj );
         static void serialize_global( JsonOut &json );
-        static void deserialize_global( JsonArray jsin );
+        static void deserialize_global( const JsonArray &jsin );
 
         static id_type generate_new_id() {
             return save_id_prefix | next_id++;
@@ -208,11 +208,11 @@ class safe_reference
         safe_reference( T &obj );
         explicit safe_reference( id_type id );
         safe_reference( const safe_reference<T> &source );
-        safe_reference( safe_reference<T> &&source );
+        safe_reference( safe_reference<T> &&source ) noexcept ;
 
         safe_reference<T> &operator=( const safe_reference<T> &source );
 
-        safe_reference<T> &operator=( safe_reference<T> &&source );
+        safe_reference<T> &operator=( safe_reference<T> &&source ) noexcept ;
 
         ~safe_reference();
         static void cleanup();
@@ -454,7 +454,7 @@ class cache_reference
             p = source.p;
             add_to_map();
         }
-        cache_reference( cache_reference<T> &&source ) {
+        cache_reference( cache_reference<T> &&source )  noexcept {
             p = source.p;
             source.p = nullptr;
             ref_map_it search = reference_map.find( p );
@@ -482,7 +482,7 @@ class cache_reference
             return *this;
         }
 
-        cache_reference<T> &operator=( cache_reference<T> &&source ) {
+        cache_reference<T> &operator=( cache_reference<T> &&source )  noexcept {
             if( !p && !source.p ) {
                 return *this;
             }

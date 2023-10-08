@@ -1,6 +1,7 @@
 #include "monster.h"
 
 #include <algorithm>
+#include <cmath>
 #include <limits>
 #include <memory>
 #include <optional>
@@ -294,7 +295,7 @@ monster::monster( const monster &source ) : Creature( source ),
     set_anatomy( anatomy_id( "default_anatomy" ) );
 };
 
-monster::monster( monster &&source ) : Creature( std::move( source ) ),
+monster::monster( monster &&source )  noexcept : Creature( std::move( source ) ),
     corpse_components( new monster_component_item_location(
                            this ) ), tied_item( new monster_tied_item_location( this ) ),
     tack_item( new monster_tack_item_location( this ) ),
@@ -2826,7 +2827,7 @@ void monster::process_effects_internal()
             effect &e = get_effect( regeneration_modifier.first );
             regen_multiplier = 1.00 + regeneration_modifier.second.base_modifier +
                                ( e.get_intensity() - 1 ) * regeneration_modifier.second.scale_modifier;
-            regeneration_amount = round( regeneration_amount * regen_multiplier );
+            regeneration_amount = std::round( regeneration_amount * regen_multiplier );
         }
     }
     //Prevent negative regeneration

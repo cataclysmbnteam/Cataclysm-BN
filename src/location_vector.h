@@ -52,9 +52,9 @@ class location_vector
                 iterator( );
                 iterator( typename std::vector<T *>::iterator it, const location_vector<T> &home );
                 iterator( const iterator &source );
-                iterator( iterator &&source );
+                iterator( iterator &&source ) noexcept ;
                 iterator &operator=( const iterator &source );
-                iterator &operator=( iterator &&source );
+                iterator &operator=( iterator &&source ) noexcept ;
                 ~iterator();
 
                 reference operator*() const {
@@ -147,9 +147,9 @@ class location_vector
                 const_iterator( const iterator &source );
                 const_iterator( iterator &&source );
                 const_iterator( const const_iterator &source );
-                const_iterator( const_iterator &&source );
+                const_iterator( const_iterator &&source ) noexcept ;
                 const_iterator &operator=( const const_iterator &source );
-                const_iterator &operator=( const_iterator &&source );
+                const_iterator &operator=( const_iterator &&source ) noexcept ;
                 ~const_iterator();
 
                 reference operator*() const {
@@ -232,7 +232,7 @@ class location_vector
         location_vector( location<T> *loc );
         location_vector( location<T> *loc, std::vector<detached_ptr<T>> &from );
         location_vector( location_vector && ) = delete;
-        location_vector &operator=( location_vector && );
+        location_vector &operator=( location_vector && ) noexcept ;
 
         ~location_vector();
 

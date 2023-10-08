@@ -1013,7 +1013,7 @@ void place_monster_iuse::load( const JsonObject &obj )
     if( obj.has_array( "skills" ) ) {
         JsonArray skills_ja = obj.get_array( "skills" );
         for( JsonValue s : skills_ja ) {
-            skills.emplace( skill_id( s.get_string() ) );
+            skills.emplace( s.get_string() );
         }
     }
 }
@@ -1199,7 +1199,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint &t ) const
                                    ( p.dex_cur + 5 ) * 2300 );
 
     p.assign_activity( activity_id( "ACT_LOCKPICK" ), duration, -1, p.get_item_position( &it ) );
-    p.activity->targets.push_back( &it );
+    p.activity->targets.emplace_back( &it );
     p.activity->placement = pnt;
 
     return it.type->charges_to_use();
@@ -1331,7 +1331,7 @@ void reveal_map_actor::load( const JsonObject &obj )
             ter_match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
                              ot_match_type::contains );
         }
-        omt_types.push_back( std::make_pair( ter, ter_match_type ) );
+        omt_types.emplace_back( ter, ter_match_type );
     }
 }
 
@@ -1521,7 +1521,7 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
         moves_modifier + moves_cost_fast / 100.0 + 2;
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
                        0, it.tname() );
-    p.activity->targets.push_back( &it );
+    p.activity->targets.emplace_back( &it );
     p.activity->values.push_back( g->natural_light_level( pos.z ) );
     p.activity->placement = pos;
     // charges to use are handled by the activity
@@ -1565,7 +1565,8 @@ int salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
 }
 
 // Helper to visit instances of all the sub-materials of an item.
-static void visit_salvage_products( const item &it, std::function<void( const item & )> func )
+static void visit_salvage_products( const item &it,
+                                    const std::function<void( const item & )> &func )
 {
     for( const material_id &material : it.made_of() ) {
         if( const std::optional<itype_id> id = material->salvaged_into() ) {
@@ -2666,7 +2667,7 @@ int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
         cast_spell->values.emplace_back( 0 );
     }
     p.assign_activity( std::move( cast_spell ), false );
-    p.activity->targets.push_back( &it );
+    p.activity->targets.emplace_back( &it );
     return 0;
 }
 
@@ -3048,7 +3049,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
     if( opt ) {
         p.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
         p.activity->targets.emplace_back( &*mag );
-        p.activity->targets.push_back( opt.ammo );
+        p.activity->targets.emplace_back( opt.ammo );
         p.i_add( std::move( mag ) );
     }
 
@@ -3707,7 +3708,7 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
         // Assign first aid long action.
         /** @EFFECT_FIRSTAID speeds up firstaid activity */
         p.assign_activity( ACT_FIRSTAID, cost, 0, 0, it.tname() );
-        p.activity->targets.push_back( &it );
+        p.activity->targets.emplace_back( &it );
         p.activity->values.push_back( hpp );
         p.moves = 0;
         return 0;
@@ -4799,7 +4800,7 @@ void sew_advanced_actor::load( const JsonObject &obj )
         materials.emplace( line );
     }
     for( const std::string line : obj.get_array( "clothing_mods" ) ) {
-        clothing_mods.push_back( clothing_mod_id( line ) );
+        clothing_mods.emplace_back( line );
     }
 
     // TODO: Make skill non-mandatory while still erroring on invalid skill
@@ -4989,7 +4990,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     const auto &repair_item = clothing_mods[choice].obj().item_string;
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( repair_item, items_needed ) );
+    comps.emplace_back( repair_item, items_needed );
     // TODO: this may take up to 2 minutes, and so should start an activity instead
     p.moves -= to_moves<int>( 30_seconds * character_funcs::fine_detail_vision_mod( p ) );
     p.practice( used_skill, items_needed * 3 + 3 );

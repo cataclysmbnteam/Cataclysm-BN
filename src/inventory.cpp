@@ -476,6 +476,7 @@ void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, 
                                 bool assign_invlet )
 {
     std::vector<tripoint> pts;
+    pts.reserve( zone_pts.size() );
     for( const tripoint &elem : zone_pts ) {
         pts.push_back( m.getlocal( elem ) );
     }
@@ -1332,7 +1333,7 @@ size_t location_inventory::size() const
 
 location_inventory::~location_inventory()
 {
-    for( auto stack : inv.items ) {
+    for( const auto &stack : inv.items ) {
         for( auto it : stack ) {
             it->destroy_in_place();
         }
@@ -1342,6 +1343,7 @@ location_inventory::~location_inventory()
 location_inventory::location_inventory( item_location *location ) : loc( location ) {}
 
 location_inventory &location_inventory::operator=( location_inventory &&source )
+noexcept
 {
     for( auto &stack : source.inv.items ) {
         for( item * const &it : stack ) {
@@ -1360,7 +1362,7 @@ void location_inventory::unsort()
 
 void location_inventory::clear()
 {
-    for( auto stack : inv.items ) {
+    for( const auto &stack : inv.items ) {
         for( auto it : stack ) {
             it->remove_location();
             it->destroy();

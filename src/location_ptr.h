@@ -26,7 +26,7 @@ class location_ptr
     public:
         location_ptr( location<T> *loc );
         location_ptr( const location_ptr & ) = delete;
-        location_ptr( location_ptr && );
+        location_ptr( location_ptr && ) noexcept;
         location_ptr &operator=( location_ptr<T, error_if_null> & ) = delete;
 
         location_ptr<T, error_if_null> &operator=( detached_ptr<T> &&source );

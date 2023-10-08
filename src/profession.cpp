@@ -604,7 +604,7 @@ void json_item_substitution::load( const JsonObject &jo )
             if( check_duplicate_item( old_it ) ) {
                 sub.throw_error( "Duplicate definition of item" );
             }
-            s.trait_reqs.present.push_back( trait_id( title ) );
+            s.trait_reqs.present.emplace_back( title );
             for( const JsonValue info : sub.get_array( "new" ) ) {
                 s.infos.emplace_back( info );
             }

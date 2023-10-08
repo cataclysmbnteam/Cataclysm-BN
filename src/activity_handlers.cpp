@@ -1504,7 +1504,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         // 1. Prepare source lambda
         liquid_source_type source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
         auto transfer = [source_type, &here,
-                     &act_ref]( std::function < detached_ptr<item>( detached_ptr<item> &&it ) > cb ) {
+                     &act_ref]( const std::function < detached_ptr<item>( detached_ptr<item> &&it ) > & cb ) {
             tripoint pos = act_ref.coords.at( 0 );
             static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
             int charges;
@@ -4473,7 +4473,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, player *p 
     auto check_fertilizer = [&]( bool ask_user = true ) -> void {
         if( act->str_values.empty() )
         {
-            act->str_values.push_back( "" );
+            act->str_values.emplace_back( "" );
         }
         fertilizer = itype_id( act->str_values[0] );
 

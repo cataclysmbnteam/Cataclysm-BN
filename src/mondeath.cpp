@@ -829,15 +829,15 @@ void mdeath::detonate( monster &z )
     std::vector<std::pair<std::string, long>> dets;
     for( const itype_id &bomb_id : pre_dets ) {
         if( bomb_id.str() == "bot_grenade_hack" ) {
-            dets.push_back( std::make_pair( "grenade_act", 5 ) );
+            dets.emplace_back( "grenade_act", 5 );
         } else if( bomb_id.str() == "bot_flashbang_hack" ) {
-            dets.push_back( std::make_pair( "flashbang_act", 5 ) );
+            dets.emplace_back( "flashbang_act", 5 );
         } else if( bomb_id.str() == "bot_gasbomb_hack" ) {
-            dets.push_back( std::make_pair( "gasbomb_act", 20 ) );
+            dets.emplace_back( "gasbomb_act", 20 );
         } else if( bomb_id.str() == "bot_c4_hack" ) {
-            dets.push_back( std::make_pair( "c4armed", 10 ) );
+            dets.emplace_back( "c4armed", 10 );
         } else if( bomb_id.str() == "bot_mininuke_hack" ) {
-            dets.push_back( std::make_pair( "mininuke_act", 20 ) );
+            dets.emplace_back( "mininuke_act", 20 );
         } else {
             // Get the transformation item
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>(

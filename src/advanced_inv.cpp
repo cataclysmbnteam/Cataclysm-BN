@@ -607,7 +607,7 @@ void advanced_inventory::recalc_pane( side p )
             categories.insert( it.cat );
         }
         for( auto &cat : categories ) {
-            pane.items.push_back( advanced_inv_listitem( cat ) );
+            pane.items.emplace_back( cat );
         }
     }
     // Finally sort all items (category headers will now be moved to their proper position)

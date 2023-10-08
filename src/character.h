@@ -232,8 +232,8 @@ class Character : public Creature, public location_visitable<Character>
 
         Character( const Character & ) = delete;
         Character &operator=( const Character & ) = delete;
-        Character( Character && );
-        Character &operator=( Character && );
+        Character( Character && ) noexcept;
+        Character &operator=( Character && ) noexcept;
         ~Character() override;
 
         Character *as_character() override {
@@ -1197,7 +1197,8 @@ class Character : public Creature, public location_visitable<Character>
          * content (@ref item::contents is not checked).
          * If the filter function returns a nullptr, the item is removed.
          */
-        void remove_worn_items_with( std::function < detached_ptr<item>( detached_ptr<item> && ) > filter );
+        void remove_worn_items_with( const std::function < detached_ptr<item>( detached_ptr<item> && ) > &
+                                     filter );
 
         /** Return the item pointer of the item with given invlet, return nullptr if
          * the player does not have such an item with that invlet. Don't use this on npcs.

@@ -141,8 +141,8 @@ player::player() : Character()
 }
 
 player::~player() = default;
-player::player( player && ) = default;
-player &player::operator=( player && ) = default;
+player::player( player && )  noexcept = default;
+player &player::operator=( player && )  noexcept = default;
 
 detached_ptr<item> player::reduce_charges( int position, int quantity )
 {
@@ -278,7 +278,7 @@ bool player::studied_all_recipes( const itype &book ) const
 }
 
 recipe_subset player::get_recipes_from_books( const inventory &crafting_inv,
-        recipe_filter filter ) const
+        const recipe_filter &filter ) const
 {
     recipe_subset res;
 

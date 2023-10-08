@@ -235,7 +235,7 @@ static void generate_weather_anim_frame( const weather_type_id &wtype, weather_p
         if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == VIS_CLEAR &&
             !g->critter_at( mapp, true ) ) {
             // Suppress if a critter is there
-            wPrint.vdrops.emplace_back( std::make_pair( iRand.x, iRand.y ) );
+            wPrint.vdrops.emplace_back( iRand.x, iRand.y );
         }
     }
 }
@@ -2402,7 +2402,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_RELOAD_TILESET:
-                reload_tileset( []( std::string str ) {
+                reload_tileset( []( const std::string & str ) {
                     DebugLog( DL::Info, DC::Main ) << str;
                 } );
                 break;

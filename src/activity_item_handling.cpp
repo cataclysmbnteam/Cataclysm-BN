@@ -177,6 +177,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason,
     bool into_vehicle = false;
 
     std::vector<item *> items_copy;
+    items_copy.reserve( items.size() );
     for( detached_ptr<item> &it : items ) {
         items_copy.push_back( &*it );
     }
@@ -459,7 +460,7 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason,
 
 static std::list<pickup::act_item> convert_to_items( Character &p,
         const drop_locations &drop,
-        std::function<bool( item &loc )> filter )
+        const std::function<bool( item &loc )> &filter )
 {
     std::list<pickup::act_item> res;
 
@@ -795,13 +796,13 @@ void wash_activity_actor::finish( player_activity &act, Character &who )
     }
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( itype_water, required.water ) );
-    comps.push_back( item_comp( itype_water_clean, required.water ) );
+    comps.emplace_back( itype_water, required.water );
+    comps.emplace_back( itype_water_clean, required.water );
     who.as_player()->consume_items( comps, 1, is_liquid_crafting_component );
 
     std::vector<item_comp> comps1;
-    comps1.push_back( item_comp( itype_soap, required.cleanser ) );
-    comps1.push_back( item_comp( itype_detergent, required.cleanser ) );
+    comps1.emplace_back( itype_soap, required.cleanser );
+    comps1.emplace_back( itype_detergent, required.cleanser );
     who.as_player()->consume_items( comps1 );
 
     who.add_msg_if_player( m_good, _( "You washed your items." ) );
@@ -975,7 +976,7 @@ static bool vehicle_activity( player &p, const tripoint &src_loc, int vpindex, c
     // values[7]
     p.activity->values.push_back( here.getabs( src_loc ).z );
     // this would only be used for refilling tasks
-    p.activity->targets.emplace_back( safe_reference<item>() );
+    p.activity->targets.emplace_back( );
     p.activity->placement = here.getabs( src_loc );
     p.activity_vehicle_part_index = -1;
     return true;
@@ -1735,7 +1736,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     continue;
                 }
             }
-            requirement_map.push_back( std::make_tuple( point_elem, map_elem.first, map_elem.second ) );
+            requirement_map.emplace_back( point_elem, map_elem.first, map_elem.second );
         }
     }
     // Ok we now have a list of all the items that match the requirements, their points, and a quantity for each one.
@@ -1759,8 +1760,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 }
                 if( item_quantity >= quantity_required ) {
                     // it's just this spot that can fulfil the requirement on its own
-                    final_map.push_back( std::make_tuple( pos_here, item_here, std::min<int>( quantity_here,
-                                                          quantity_required ) ) );
+                    final_map.emplace_back( pos_here, item_here, std::min<int>( quantity_here,
+                                            quantity_required ) );
                     if( quantity_here >= quantity_required ) {
                         line_found = true;
                         break;
@@ -1786,10 +1787,10 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     int quantity_here2 = std::get<2>( *it );
                     if( comp_elem.type == item_here2 ) {
                         if( quantity_here2 >= remainder ) {
-                            final_map.push_back( std::make_tuple( pos_here2, item_here2, remainder ) );
+                            final_map.emplace_back( pos_here2, item_here2, remainder );
                             line_found = true;
                         } else {
-                            final_map.push_back( std::make_tuple( pos_here2, item_here2, remainder ) );
+                            final_map.emplace_back( pos_here2, item_here2, remainder );
                             remainder -= quantity_here2;
                         }
                     }
@@ -1817,8 +1818,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 }
                 if( item_quantity >= quantity_required ) {
                     // it's just this spot that can fulfil the requirement on its own
-                    final_map.push_back( std::make_tuple( pos_here, item_here, std::min<int>( quantity_here,
-                                                          quantity_required ) ) );
+                    final_map.emplace_back( pos_here, item_here, std::min<int>( quantity_here,
+                                            quantity_required ) );
                     if( quantity_here >= quantity_required ) {
                         line_found = true;
                         break;
@@ -1844,10 +1845,10 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                     int quantity_here2 = std::get<2>( *it );
                     if( comp_elem.type == item_here2 ) {
                         if( quantity_here2 >= remainder ) {
-                            final_map.push_back( std::make_tuple( pos_here2, item_here2, remainder ) );
+                            final_map.emplace_back( pos_here2, item_here2, remainder );
                             line_found = true;
                         } else {
-                            final_map.push_back( std::make_tuple( pos_here2, item_here2, remainder ) );
+                            final_map.emplace_back( pos_here2, item_here2, remainder );
                             remainder -= quantity_here2;
                         }
                     }
@@ -1871,7 +1872,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                 item &test_item = *item::spawn_temporary( item_here, calendar::start_of_cataclysm );
                 if( test_item.has_quality( tool_qual, qual_level ) ) {
                     // it's just this spot that can fulfil the requirement on its own
-                    final_map.push_back( std::make_tuple( pos_here, item_here, 1 ) );
+                    final_map.emplace_back( pos_here, item_here, 1 );
                     line_found = true;
                     break;
                 }
@@ -1919,7 +1920,7 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
     for( const std::vector<tool_comp> &it : built_chosen.requirements->get_tools() ) {
         p.consume_tools( it );
     }
-    p.backlog.push_front( std::make_unique<player_activity>( activity_to_restore ) );
+    p.backlog.emplace_front( std::make_unique<player_activity>( activity_to_restore ) );
     p.assign_activity( ACT_BUILD );
     p.activity->placement = here.getabs( src_loc );
     return true;
@@ -2248,7 +2249,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                     continue;
                 }
                 it->set_owner( p );
-                items.push_back( std::make_pair( it, true ) );
+                items.emplace_back( it, true );
             }
         } else {
             src_veh = nullptr;
@@ -2259,7 +2260,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
                 continue;
             }
             it->set_owner( p );
-            items.push_back( std::make_pair( it, false ) );
+            items.emplace_back( it, false );
         }
 
         //Skip items that have already been processed
@@ -2386,7 +2387,7 @@ static bool mine_activity( player &p, const tripoint &src_loc )
         moves /= 2;
     }
     p.assign_activity( powered ? ACT_JACKHAMMER : ACT_PICKAXE, moves );
-    p.activity->targets.push_back( chosen_item );
+    p.activity->targets.emplace_back( chosen_item );
     p.activity->placement = here.getabs( src_loc );
     return true;
 
@@ -2406,12 +2407,12 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
     const ter_id ter = here.ter( src_loc );
     if( here.has_flag( flag_TREE, src_loc ) ) {
         p.assign_activity( ACT_CHOP_TREE, moves, -1, p.get_item_position( best_qual ) );
-        p.activity->targets.push_back( best_qual );
+        p.activity->targets.emplace_back( best_qual );
         p.activity->placement = here.getabs( src_loc );
         return true;
     } else if( ter == t_trunk || ter == t_stump ) {
         p.assign_activity( ACT_CHOP_LOGS, moves, -1, p.get_item_position( best_qual ) );
-        p.activity->targets.push_back( best_qual );
+        p.activity->targets.emplace_back( best_qual );
         p.activity->placement = here.getabs( src_loc );
         return true;
     }
@@ -2750,7 +2751,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
             return SKIP_LOCATION;
         } else {
             if( !check_only ) {
-                p.backlog.push_front( std::make_unique<player_activity>( act_id ) );
+                p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
                 p.assign_activity( ACT_FETCH_REQUIRED );
                 player_activity &act_prev = *p.backlog.front();
                 act_prev.str_values.push_back( what_we_need.str() );
@@ -2758,6 +2759,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                 // come back here after successfully fetching your stuff
                 if( act_prev.coords.empty() ) {
                     std::vector<tripoint> local_src_set;
+                    local_src_set.reserve( src_set.size() );
                     for( const tripoint &elem : src_set ) {
                         local_src_set.push_back( here.getlocal( elem ) );
                     }
@@ -2808,7 +2810,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     } else if( reason == do_activity_reason::NEEDS_TILLING && here.has_flag( flag_PLOWABLE, src_loc ) &&
                p.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         p.assign_activity( ACT_CHURN, 18000, -1 );
-        p.backlog.push_front( std::make_unique<player_activity>( act_id ) );
+        p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
         p.activity->placement = src;
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING &&
@@ -2827,24 +2829,24 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
                 continue;
             }
             iexamine::plant_seed( p, src_loc, itype_id( seed ) );
-            p.backlog.push_front( std::make_unique<player_activity>( act_id ) );
+            p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
         if( chop_plank_activity( p, src_loc ) ) {
-            p.backlog.push_front( std::make_unique<player_activity>( act_id ) );
+            p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_BUTCHERING ||
                reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
         if( butcher_corpse_activity( p, src_loc, reason ) ) {
-            p.backlog.push_front( std::make_unique<player_activity>( act_id ) );
+            p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
             return false;
         }
     } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ||
                reason == do_activity_reason::CAN_DO_PREREQ ) {
         if( here.partial_con_at( src_loc ) ) {
-            p.backlog.push_front( std::make_unique<player_activity>( act_id ) );
+            p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
             p.assign_activity( std::make_unique<player_activity>( ACT_BUILD ) );
             p.activity->placement = src;
             return false;
@@ -2867,34 +2869,34 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         }
     } else if( reason == do_activity_reason::NEEDS_TREE_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
         if( chop_tree_activity( p, src_loc ) ) {
-            p.backlog.push_front( std::make_unique<player_activity>( act_id ) );
+            p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_FISHING && p.has_quality( qual_FISHING, 1 ) ) {
-        p.backlog.push_front( std::make_unique<player_activity>( act_id ) );
+        p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         p.activity = std::make_unique<player_activity>();
         item *best_rod = p.best_quality_item( qual_FISHING );
         p.assign_activity( std::make_unique<player_activity>( ACT_FISH, to_moves<int>( 5_hours ), 0,
                            0, best_rod->tname() ) );
-        p.activity->targets.push_back( best_rod );
+        p.activity->targets.emplace_back( best_rod );
         p.activity->coord_set = g->get_fishable_locations( ACTIVITY_SEARCH_DISTANCE, src_loc );
         return false;
     } else if( reason == do_activity_reason::NEEDS_MINING ) {
         // if have enough batteries to continue etc.
-        p.backlog.push_front( std::make_unique<player_activity>( act_id ) );
+        p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
         if( mine_activity( p, src_loc ) ) {
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
         if( vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'o' ) ) {
-            p.backlog.push_front( std::make_unique<player_activity>( act_id ) );
+            p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
             return false;
         }
         p.activity_vehicle_part_index = -1;
     } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
         if( vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'r' ) ) {
-            p.backlog.push_front( std::make_unique<player_activity>( act_id ) );
+            p.backlog.emplace_front( std::make_unique<player_activity>( act_id ) );
             return false;
         }
         p.activity_vehicle_part_index = -1;

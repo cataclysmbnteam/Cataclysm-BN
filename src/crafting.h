@@ -123,7 +123,7 @@ bool disassemble_all( avatar &you, bool recursively );
 /**
  * Complete disassembly of target item.
  */
-void complete_disassemble( Character &who, iuse_location target, const tripoint &pos );
+void complete_disassemble( Character &who, const iuse_location &target, const tripoint &pos );
 
 } // namespace crafting
 

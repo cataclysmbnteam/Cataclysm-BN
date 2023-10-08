@@ -427,7 +427,7 @@ void game::toggle_pixel_minimap()
 #endif // TILES
 }
 
-void game::reload_tileset( [[maybe_unused]] std::function<void( std::string )> out )
+void game::reload_tileset( [[maybe_unused]] const std::function<void( std::string )> &out )
 {
 #if defined(TILES)
     // Disable UIs below to avoid accessing the tile context during loading.
@@ -770,11 +770,11 @@ vehicle *game::place_vehicle_nearby(
     if( search_types.empty() ) {
         vehicle veh( id );
         if( veh.can_float() ) {
-            search_types.push_back( "river" );
-            search_types.push_back( "lake" );
+            search_types.emplace_back( "river" );
+            search_types.emplace_back( "lake" );
         } else {
-            search_types.push_back( "field" );
-            search_types.push_back( "road" );
+            search_types.emplace_back( "field" );
+            search_types.emplace_back( "road" );
         }
     }
     for( const std::string &search_type : search_types ) {
@@ -3034,7 +3034,7 @@ void game::draw_callback_t::operator()()
     }
 }
 
-void game::add_draw_callback( shared_ptr_fast<draw_callback_t> cb )
+void game::add_draw_callback( const shared_ptr_fast<draw_callback_t> &cb )
 {
     draw_callbacks.erase(
         std::remove_if( draw_callbacks.begin(), draw_callbacks.end(),
@@ -9322,7 +9322,7 @@ point game::place_player( const tripoint &dest_loc )
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
                         u.activity->placement = m.getabs( pos );
                         u.activity->auto_resume = true;
-                        u.activity->str_values.push_back( "auto_pulp_no_acid" );
+                        u.activity->str_values.emplace_back( "auto_pulp_no_acid" );
                         return;
                     }
                 }
@@ -12036,7 +12036,7 @@ game::Creature_range::Creature_range( game &game_ref ) : u( &game_ref.u, []( pla
     const auto &monsters = game_ref.critter_tracker->get_monsters_list();
     items.insert( items.end(), monsters.begin(), monsters.end() );
     items.insert( items.end(), game_ref.active_npc.begin(), game_ref.active_npc.end() );
-    items.push_back( u );
+    items.emplace_back( u );
 }
 
 game::npc_range::npc_range( game &game_ref )

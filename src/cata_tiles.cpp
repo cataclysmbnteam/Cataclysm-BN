@@ -845,7 +845,7 @@ void tileset_loader::process_variations_after_loading( weighted_int_list<std::ve
         std::remove_if(
             vs.begin(),
             vs.end(),
-    [&]( weighted_object<int, std::vector<int>> o ) {
+    [&]( const weighted_object<int, std::vector<int>> &o ) {
         return o.obj.empty();
     }
         ),
@@ -3871,7 +3871,7 @@ void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int 
     get_rotation_and_subtile( val, rotation, subtile );
 }
 
-void cata_tiles::do_tile_loading_report( std::function<void( std::string )> out )
+void cata_tiles::do_tile_loading_report( const std::function<void( std::string )> &out )
 {
     out( "Loaded tileset: " + get_option<std::string>( "TILES" ) );
 
@@ -4006,6 +4006,7 @@ std::vector<options_manager::id_and_option> cata_tiles::build_display_list()
     };
 
     int numdisplays = SDL_GetNumVideoDisplays();
+    display_names.reserve( numdisplays );
     for( int i = 0 ; i < numdisplays ; i++ ) {
         display_names.emplace_back( std::to_string( i ), std::string( SDL_GetDisplayName( i ) ) );
     }

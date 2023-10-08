@@ -83,11 +83,11 @@ void player_activity::migrate_item_position( Character &guy )
         type == ACT_ATM;
 
     if( simple_action_replace ) {
-        targets.push_back( &guy.i_at( position ) );
+        targets.emplace_back( &guy.i_at( position ) );
     } else if( type == ACT_GUNMOD_ADD ) {
         // this activity has two indices; "position" = gun and "values[0]" = mod
-        targets.push_back( &guy.i_at( position ) );
-        targets.push_back( &guy.i_at( values[0] ) );
+        targets.emplace_back( &guy.i_at( position ) );
+        targets.emplace_back( &guy.i_at( values[0] ) );
     }
 }
 
@@ -480,13 +480,13 @@ void player_activity::inherit_distractions( const player_activity &other )
 
 activity_ptr::activity_ptr() : act( std::make_unique<player_activity>() ) {}
 
-activity_ptr::activity_ptr( activity_ptr && ) = default;
+activity_ptr::activity_ptr( activity_ptr && )  noexcept = default;
 activity_ptr::activity_ptr( std::unique_ptr<player_activity> &&source )
 {
     check_active();
     act = std::move( source );
 }
-activity_ptr &activity_ptr::operator=( activity_ptr && ) = default;
+activity_ptr &activity_ptr::operator=( activity_ptr && )  noexcept = default;
 activity_ptr &activity_ptr::operator=( std::unique_ptr<player_activity> &&source )
 {
     check_active();

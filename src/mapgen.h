@@ -269,7 +269,7 @@ struct jmapgen_objects {
 
         bool check_bounds( const jmapgen_place &place, const JsonObject &jso );
 
-        void add( const jmapgen_place &place, shared_ptr_fast<const jmapgen_piece> piece );
+        void add( const jmapgen_place &place, const shared_ptr_fast<const jmapgen_piece> &piece );
 
         /**
          * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a

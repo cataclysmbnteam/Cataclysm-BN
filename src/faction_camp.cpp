@@ -380,7 +380,7 @@ int om_harvest_ter_break( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_
 /// Collects all items in @ref omt_tgt with a @ref chance between 0 - 1.0, returns total
 /// mass and volume
 /// @ref take, whether you take the item or count it
-mass_volume om_harvest_itm( npc_ptr comp, const tripoint_abs_omt &omt_tgt, int chance = 100,
+mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt, int chance = 100,
                             bool take = true );
 void apply_camp_ownership( const tripoint &camp_pos, int radius );
 /*
@@ -437,7 +437,7 @@ time_duration companion_travel_time_calc(
     int haulage = 0 );
 /// Determines how many round trips a given NPC @ref comp will take to move all of the
 /// items @ref itms
-int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nullptr );
+int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &comp = nullptr );
 /// Determines how many trips it takes to move @ref mass and @ref volume of items
 /// with @ref carry_mass and @ref carry_volume moved per trip
 int om_carry_weight_to_trips( units::mass mass, units::volume volume, units::mass carry_mass,
@@ -2277,7 +2277,7 @@ static bool farm_valid_seed( const item &itm )
 }
 
 static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_tgt, farm_ops op,
-        npc_ptr comp = nullptr )
+        const npc_ptr &comp = nullptr )
 {
     size_t plots_cnt = 0;
     std::string crops;
@@ -2831,10 +2831,10 @@ void basecamp::recruit_return( const std::string &task, int score )
         description += _( "Select an option:" );
 
         std::vector<std::string> rec_options;
-        rec_options.push_back( _( "Increase Food" ) );
-        rec_options.push_back( _( "Decrease Food" ) );
-        rec_options.push_back( _( "Make Offer" ) );
-        rec_options.push_back( _( "Not Interested" ) );
+        rec_options.emplace_back( _( "Increase Food" ) );
+        rec_options.emplace_back( _( "Decrease Food" ) );
+        rec_options.emplace_back( _( "Make Offer" ) );
+        rec_options.emplace_back( _( "Not Interested" ) );
 
         rec_m = uilist( description, rec_options );
         if( rec_m < 0 || rec_m == 3 || static_cast<size_t>( rec_m ) >= rec_options.size() ) {
@@ -3266,7 +3266,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
     return harvested;
 }
 
-mass_volume om_harvest_itm( npc_ptr comp, const tripoint_abs_omt &omt_tgt, int chance,
+mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt, int chance,
                             bool take )
 {
     tinymap target_bay;
@@ -3386,19 +3386,19 @@ void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
     std::vector<tripoint_abs_omt> note_pts;
     //North Limit
     for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
-        note_pts.push_back( tripoint_abs_omt( x, origin.y() - range, origin.z() ) );
+        note_pts.emplace_back( x, origin.y() - range, origin.z() );
     }
     //South
     for( int x = origin.x() - range; x < origin.x() + range + 1; x++ ) {
-        note_pts.push_back( tripoint_abs_omt( x, origin.y() + range, origin.z() ) );
+        note_pts.emplace_back( x, origin.y() + range, origin.z() );
     }
     //West
     for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
-        note_pts.push_back( tripoint_abs_omt( origin.x() - range, y, origin.z() ) );
+        note_pts.emplace_back( origin.x() - range, y, origin.z() );
     }
     //East
     for( int y = origin.y() - range; y < origin.y() + range + 1; y++ ) {
-        note_pts.push_back( tripoint_abs_omt( origin.x() + range, y, origin.z() ) );
+        note_pts.emplace_back( origin.x() + range, y, origin.z() );
     }
 
     for( auto pt : note_pts ) {
@@ -3504,7 +3504,7 @@ int om_carry_weight_to_trips( units::mass mass, units::volume volume,
     return 2 * std::max( trips_m, trips_v );
 }
 
-int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp )
+int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &comp )
 {
     units::mass total_m = 0_gram;
     units::volume total_v = 0_ml;
@@ -3626,7 +3626,7 @@ std::vector<std::pair<std::string, tripoint_abs_omt>> talk_function::om_building
         std::string om_rnear_id = omt_rnear.id().c_str();
         if( !purge || ( om_rnear_id.find( "faction_base_" ) != std::string::npos &&
                         om_rnear_id.find( "faction_base_camp" ) == std::string::npos ) ) {
-            om_camp_region.push_back( std::make_pair( om_rnear_id, omt_near_pos ) );
+            om_camp_region.emplace_back( om_rnear_id, omt_near_pos );
         }
     }
     return om_camp_region;

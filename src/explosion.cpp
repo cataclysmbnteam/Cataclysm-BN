@@ -300,7 +300,7 @@ class ExplosionEvent
         ExplosionEvent( Kind kind, const tripoint position ) :
             kind( kind ), position( position ) {};
         ExplosionEvent( Kind kind, const tripoint position, target_types target ) :
-            kind( kind ), target( target ), position( position ) {};
+            kind( kind ), target( std::move( target ) ), position( position ) {};
 };
 
 class ExplosionProcess
@@ -355,7 +355,7 @@ class ExplosionProcess
             const tripoint blast_center,
             const int blast_power,
             const int blast_radius,
-            const std::optional<projectile> proj = std::nullopt,
+            const std::optional<projectile> &proj = std::nullopt,
             const bool is_fiery = false,
             const std::optional<Creature *> responsible = std::nullopt
         ) : center( blast_center ),
@@ -375,7 +375,7 @@ class ExplosionProcess
         static bool dist_comparator( dist_point_pair a, dist_point_pair b ) {
             return a.first < b.first;
         };
-        static bool time_comparator( time_event_pair a, time_event_pair b ) {
+        static bool time_comparator( const time_event_pair &a, const time_event_pair &b ) {
             return a.first < b.first;
         };
 
@@ -401,9 +401,9 @@ class ExplosionProcess
         void init_event_queue();
         inline float generate_fling_angle( const tripoint from, const tripoint to );
         inline bool is_occluded( const tripoint from, const tripoint to );
-        inline void add_event( const float delay, const ExplosionEvent event ) {
+        inline void add_event( const float delay, const ExplosionEvent &event ) {
             assert( delay >= 0 );
-            event_queue.push( { cur_relative_time + delay + std::numeric_limits<float>::epsilon(), event } );
+            event_queue.emplace( cur_relative_time + delay + std::numeric_limits<float>::epsilon(), event );
         }
         inline bool is_animated() {
             return !test_mode && get_option<int>( "ANIMATION_DELAY" ) > 0;
@@ -453,12 +453,12 @@ void ExplosionProcess::fill_maps()
         // We static_cast<int> in order to keep parity with legacy blasts using rl_dist for distance
         //   which, as stated above, converts trig_dist into int implicitly
         if( blast_radius > 0 && static_cast<int>( z_aware_distance ) <= blast_radius ) {
-            blast_map.push_back( { z_aware_distance, target } );
+            blast_map.emplace_back( z_aware_distance, target );
         }
 
         if( shrapnel && static_cast<int>( distance ) <= shrapnel_range && target.z == center.z &&
             !is_occluded( center, target ) ) {
-            shrapnel_map.push_back( { distance, target } );
+            shrapnel_map.emplace_back( distance, target );
         }
     }
 
@@ -1184,7 +1184,7 @@ static std::map<const Creature *, int> legacy_shrapnel( const tripoint &src,
         const float z_distance = abs( target.z - blast_center.z );
         const float z_aware_distance = distance + ( Z_LEVEL_DIST - 1 ) * z_distance;
         if( z_aware_distance <= raw_blast_radius ) {
-            blast_map.emplace_back( std::make_pair( z_aware_distance, target ) );
+            blast_map.emplace_back( z_aware_distance, target );
         }
     }
 
@@ -1271,7 +1271,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
     open;
     std::set<tripoint> closed;
     std::map<tripoint, float> dist_map;
-    open.push( std::make_pair( 0.0f, p ) );
+    open.emplace( 0.0f, p );
     dist_map[p] = 0.0f;
     // Find all points to blast
     while( !open.empty() ) {
@@ -1326,7 +1326,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
             }
 
             if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
-                open.push( std::make_pair( next_dist, dest ) );
+                open.emplace( next_dist, dest );
                 dist_map[dest] = next_dist;
             }
         }
@@ -1474,7 +1474,7 @@ void explosion_funcs::regular( const queued_explosion &qe )
     }
 
     const auto print_damage = [&]( const std::pair<const Creature *, int> &pr,
-    std::function<bool( const Creature & )> predicate ) {
+    const std::function<bool( const Creature & )> &predicate ) {
         if( predicate( *pr.first ) && g->u.sees( *pr.first ) ) {
             const Creature *critter = pr.first;
             bool blasted = damaged_by_blast.find( critter ) != damaged_by_blast.end();

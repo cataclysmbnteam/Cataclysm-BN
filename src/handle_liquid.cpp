@@ -63,7 +63,7 @@ static void serialize_liquid_target( player_activity &act, const vehicle &veh )
 static void serialize_liquid_target( player_activity &act, item &container )
 {
     act.values.push_back( LTT_CONTAINER );
-    act.targets.push_back( &container );
+    act.targets.emplace_back( &container );
 }
 
 static void serialize_liquid_target( player_activity &act, const tripoint &pos )

@@ -195,7 +195,7 @@ map::map( int mapsize, bool zlev )
 }
 
 map::~map() = default;
-map &map::operator=( map && ) = default;
+map &map::operator=( map && )  noexcept = default;
 
 void map::set_transparency_cache_dirty( const int zlev )
 {
@@ -1422,7 +1422,7 @@ furn_id map::furn( const tripoint &p ) const
 }
 
 void map::furn_set( const tripoint &p, const furn_id &new_furniture,
-                    cata::poly_serialized<active_tile_data> new_active )
+                    const cata::poly_serialized<active_tile_data> &new_active )
 {
     if( !inbounds( p ) ) {
         return;
@@ -4754,6 +4754,7 @@ void map::process_items_in_vehicles( submap &current_submap )
     // vehicle got destroyed by a bomb (an active item!), this list
     // won't change, but veh_in_nonant will change.
     std::vector<vehicle *> vehicles;
+    vehicles.reserve( current_submap.vehicles.size() );
     for( const auto &veh : current_submap.vehicles ) {
         vehicles.push_back( veh.get() );
     }
@@ -8941,7 +8942,7 @@ pathfinding_cache::pathfinding_cache()
     dirty = true;
 }
 
-pathfinding_cache::~pathfinding_cache() = default;
+
 
 pathfinding_cache &map::get_pathfinding_cache( int zlev ) const
 {

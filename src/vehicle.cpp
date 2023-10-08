@@ -384,7 +384,7 @@ void vehicle::add_steerable_wheels()
                     axle = vp.mount().x;
                 }
 
-                wheels.push_back( std::make_pair( static_cast<int>( vp.part_index() ), steerable_id ) );
+                wheels.emplace_back( static_cast<int>( vp.part_index() ), steerable_id );
             }
         }
     }
@@ -1773,7 +1773,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
     const point mount_zero{};
     if( found_all_parts ) {
         decltype( loot_zones ) new_zones;
-        for( auto carry_map : carry_data ) {
+        for( const auto &carry_map : carry_data ) {
             std::string offset = string_format( "%s%3d", carry_map.old_mount == mount_zero ? axis : " ",
                                                 axis == "X" ? carry_map.old_mount.x : carry_map.old_mount.y );
             std::string unique_id = string_format( "%s%3d%s", offset,
@@ -5548,6 +5548,7 @@ void vehicle::place_spawn_items()
                 }
 
                 std::vector<detached_ptr<item>> created;
+                created.reserve( spawn.item_ids.size() );
                 for( const itype_id &e : spawn.item_ids ) {
                     created.emplace_back( item::in_its_container( item::spawn( e ) ) );
                 }

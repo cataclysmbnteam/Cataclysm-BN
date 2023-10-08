@@ -453,320 +453,319 @@ Character::Character() :
 }
 // *INDENT-ON*
 
-Character::Character( Character &&source ) : Creature( std::move( source ) ),
+Character::Character( Character &&source )  noexcept : Creature( std::move( source ) ),
     worn( new worn_item_location( this ) ),
     inv( new character_item_location( this ) )
 {
 
-    death_drops = std::move( source.death_drops );
-    controlling_vehicle = std::move( source.controlling_vehicle );
+    death_drops = source.death_drops ;
+    controlling_vehicle = source.controlling_vehicle ;
 
-    str_max = std::move( source.str_max );
-    dex_max = std::move( source.dex_max );
-    int_max = std::move( source.int_max );
-    per_max = std::move( source.per_max );
+    str_max = source.str_max ;
+    dex_max = source.dex_max ;
+    int_max = source.int_max ;
+    per_max = source.per_max ;
 
-    str_cur = std::move( source.str_cur );
-    dex_cur = std::move( source.dex_cur );
-    int_cur = std::move( source.int_cur );
-    per_cur = std::move( source.per_cur );
-    blocks_left = std::move( source.blocks_left );
-    dodges_left = std::move( source.dodges_left );
-    recoil = std::move( source.recoil );
+    str_cur = source.str_cur ;
+    dex_cur = source.dex_cur ;
+    int_cur = source.int_cur ;
+    per_cur = source.per_cur ;
+    blocks_left = source.blocks_left ;
+    dodges_left = source.dodges_left ;
+    recoil = source.recoil ;
 
-    prof = std::move( source.prof );
+    prof = source.prof ;
     custom_profession = std::move( source.custom_profession );
 
-    reach_attacking = std::move( source.reach_attacking );
+    reach_attacking = source.reach_attacking ;
 
-    mut_drench = std::move( source.mut_drench );
+    mut_drench = source.mut_drench ;
     magic = std::move( source.magic );
 
     name = std::move( source.name );
-    male = std::move( source.male );
+    male = source.male ;
 
     worn = std::move( source.worn );
-    damage_disinfected = std::move( source.damage_disinfected );
-    nv_cached = std::move( source.nv_cached );
-    in_vehicle = std::move( source.in_vehicle );
-    hauling = std::move( source.hauling );
+    damage_disinfected = source.damage_disinfected ;
+    nv_cached = source.nv_cached ;
+    in_vehicle = source.in_vehicle ;
+    hauling = source.hauling ;
 
     stashed_outbounds_activity = std::move( source.stashed_outbounds_activity );
     stashed_outbounds_backlog = std::move( source.stashed_outbounds_backlog );
     activity = std::move( source.activity );
     backlog = std::move( source.backlog );
-    destination_point = std::move( source.destination_point );
-    last_item = std::move( source.last_item );
+    destination_point = source.destination_point ;
+    last_item = source.last_item ;
 
-    scent = std::move( source.scent );
+    scent = source.scent ;
     my_bionics = std::move( source.my_bionics );
     martial_arts_data = std::move( source.martial_arts_data );
 
     stomach = std::move( source.stomach );
     consumption_history = std::move( source.consumption_history );
 
-    oxygen = std::move( source.oxygen );
-    tank_plut = std::move( source.tank_plut );
-    reactor_plut = std::move( source.reactor_plut );
-    slow_rad = std::move( source.slow_rad );
+    oxygen = source.oxygen ;
+    tank_plut = source.tank_plut ;
+    reactor_plut = source.reactor_plut ;
+    slow_rad = source.slow_rad ;
 
-    focus_pool = std::move( source.focus_pool );
-    cash = std::move( source.cash );
+    focus_pool = source.focus_pool ;
+    cash = source.cash ;
     follower_ids = std::move( source.follower_ids );
     ammo_location = std::move( source.ammo_location );
     camps = std::move( source.camps );
-    cached_time = std::move( source.cached_time );
+    cached_time = source.cached_time ;
 
     addictions = std::move( source.addictions );
 
     mounted_creature = std::move( source.mounted_creature );
-    mounted_creature_id = std::move( source.mounted_creature_id );
-    activity_vehicle_part_index = std::move( source.activity_vehicle_part_index );
+    mounted_creature_id = source.mounted_creature_id ;
+    activity_vehicle_part_index = source.activity_vehicle_part_index ;
     inv = std::move( source.inv );
     omt_path = std::move( source.omt_path );
 
-    position = std::move( source.position );
+    position = source.position ;
 
-    str_bonus = std::move( source.str_bonus );
-    dex_bonus = std::move( source.dex_bonus );
-    per_bonus = std::move( source.per_bonus );
-    int_bonus = std::move( source.int_bonus );
+    str_bonus = source.str_bonus ;
+    dex_bonus = source.dex_bonus ;
+    per_bonus = source.per_bonus ;
+    int_bonus = source.int_bonus ;
 
-    healthy = std::move( source.healthy );
-    healthy_mod = std::move( source.healthy_mod );
+    healthy = source.healthy ;
+    healthy_mod = source.healthy_mod ;
 
-    init_age = std::move( source.init_age );
-    init_height = std::move( source.init_height );
-    size_class = std::move( source.size_class );
+    init_age = source.init_age ;
+    init_height = source.init_height ;
+    size_class = source.size_class ;
 
     known_traps = std::move( source.known_traps );
     encumbrance_cache = std::move( source.encumbrance_cache );
     my_mutations = std::move( source.my_mutations );
-    last_sleep_check = std::move( source.last_sleep_check );
-    bio_soporific_powered_at_last_sleep_check = std::move(
-                source.bio_soporific_powered_at_last_sleep_check );
+    last_sleep_check = source.last_sleep_check ;
+    bio_soporific_powered_at_last_sleep_check = source.bio_soporific_powered_at_last_sleep_check ;
     my_traits = std::move( source.my_traits );
     cached_mutations = std::move( source.cached_mutations );
     _skills = std::move( source._skills );
     autolearn_skills_stamp = std::move( source.autolearn_skills_stamp );
     learned_recipes = std::move( source.learned_recipes );
 
-    vision_mode_cache = std::move( source.vision_mode_cache );
-    nv_range = std::move( source.nv_range );
-    sight_max = std::move( source.sight_max );
+    vision_mode_cache = source.vision_mode_cache ;
+    nv_range = source.nv_range ;
+    sight_max = source.sight_max ;
 
-    time_died = std::move( source.time_died );
+    time_died = source.time_died ;
     path_settings = std::move( source.path_settings );
 
-    faction_api_version = std::move( source.faction_api_version );
-    fac_id = std::move( source.fac_id );
-    my_fac = std::move( source.my_fac );
+    faction_api_version = source.faction_api_version ;
+    fac_id = source.fac_id ;
+    my_fac = source.my_fac ;
 
-    move_mode = std::move( source.move_mode );
+    move_mode = source.move_mode ;
     vitamin_levels = std::move( source.vitamin_levels );
 
     morale = std::move( source.morale );
 
     destination_activity = std::move( source.destination_activity );
-    id = std::move( source.id );
+    id = source.id ;
 
-    power_level = std::move( source.power_level );
-    max_power_level = std::move( source.max_power_level );
-    stored_calories = std::move( source.stored_calories );
+    power_level = source.power_level ;
+    max_power_level = source.max_power_level ;
+    stored_calories = source.stored_calories ;
 
-    thirst = std::move( source.thirst );
-    stamina = std::move( source.stamina );
+    thirst = source.thirst ;
+    stamina = source.stamina ;
 
-    fatigue = std::move( source.fatigue );
-    sleep_deprivation = std::move( source.sleep_deprivation );
-    check_encumbrance = std::move( source.check_encumbrance );
+    fatigue = source.fatigue ;
+    sleep_deprivation = source.sleep_deprivation ;
+    check_encumbrance = source.check_encumbrance ;
 
-    stim = std::move( source.stim );
-    pkill = std::move( source.pkill );
+    stim = source.stim ;
+    pkill = source.pkill ;
 
-    radiation = std::move( source.radiation );
+    radiation = source.radiation ;
 
     auto_move_route = std::move( source.auto_move_route );
-    next_expected_position = std::move( source.next_expected_position );
-    type_of_scent = std::move( source.type_of_scent );
+    next_expected_position = source.next_expected_position ;
+    type_of_scent = source.type_of_scent ;
 
     melee_miss_reasons = std::move( source.melee_miss_reasons );
 
-    cached_moves = std::move( source.cached_moves );
-    cached_position = std::move( source.cached_position );
+    cached_moves = source.cached_moves ;
+    cached_position = source.cached_position ;
     cached_crafting_inventory = std::move( source.cached_crafting_inventory );
 
-    npc_ai_info_cache = std::move( source.npc_ai_info_cache );
+    npc_ai_info_cache = source.npc_ai_info_cache ;
 
 
     enchantment_cache = std::move( source.enchantment_cache );
 
     overmap_time = std::move( source.overmap_time );
 
-    temp_conv = std::move( source.temp_conv );
-    body_wetness = std::move( source.body_wetness );
-    drench_capacity = std::move( source.drench_capacity );
+    temp_conv = source.temp_conv ;
+    body_wetness = source.body_wetness ;
+    drench_capacity = source.drench_capacity ;
 
-    next_climate_control_check = std::move( source.next_climate_control_check );
-    last_climate_control_ret = std::move( source.last_climate_control_ret );
+    next_climate_control_check = source.next_climate_control_check ;
+    last_climate_control_ret = source.last_climate_control_ret ;
 
 }
 
 Character &Character::operator=( Character &&source )
+noexcept
 {
 
-    death_drops = std::move( source.death_drops );
-    controlling_vehicle = std::move( source.controlling_vehicle );
+    death_drops = source.death_drops ;
+    controlling_vehicle = source.controlling_vehicle ;
 
-    str_max = std::move( source.str_max );
-    dex_max = std::move( source.dex_max );
-    int_max = std::move( source.int_max );
-    per_max = std::move( source.per_max );
+    str_max = source.str_max ;
+    dex_max = source.dex_max ;
+    int_max = source.int_max ;
+    per_max = source.per_max ;
 
-    str_cur = std::move( source.str_cur );
-    dex_cur = std::move( source.dex_cur );
-    int_cur = std::move( source.int_cur );
-    per_cur = std::move( source.per_cur );
-    blocks_left = std::move( source.blocks_left );
-    dodges_left = std::move( source.dodges_left );
+    str_cur = source.str_cur ;
+    dex_cur = source.dex_cur ;
+    int_cur = source.int_cur ;
+    per_cur = source.per_cur ;
+    blocks_left = source.blocks_left ;
+    dodges_left = source.dodges_left ;
 
-    recoil = std::move( source.recoil );
+    recoil = source.recoil ;
 
-    prof = std::move( source.prof );
+    prof = source.prof ;
     custom_profession = std::move( source.custom_profession );
 
-    reach_attacking = std::move( source.reach_attacking );
+    reach_attacking = source.reach_attacking ;
 
-    mut_drench = std::move( source.mut_drench );
+    mut_drench = source.mut_drench ;
     magic = std::move( source.magic );
 
     name = std::move( source.name );
-    male = std::move( source.male );
+    male = source.male ;
 
     worn = std::move( source.worn );
-    damage_disinfected = std::move( source.damage_disinfected );
-    nv_cached = std::move( source.nv_cached );
-    in_vehicle = std::move( source.in_vehicle );
-    hauling = std::move( source.hauling );
+    damage_disinfected = source.damage_disinfected ;
+    nv_cached = source.nv_cached ;
+    in_vehicle = source.in_vehicle ;
+    hauling = source.hauling ;
 
     stashed_outbounds_activity = std::move( source.stashed_outbounds_activity );
     stashed_outbounds_backlog = std::move( source.stashed_outbounds_backlog );
     activity = std::move( source.activity );
     backlog = std::move( source.backlog );
-    destination_point = std::move( source.destination_point );
-    last_item = std::move( source.last_item );
+    destination_point = source.destination_point ;
+    last_item = source.last_item ;
 
-    scent = std::move( source.scent );
+    scent = source.scent ;
     my_bionics = std::move( source.my_bionics );
     martial_arts_data = std::move( source.martial_arts_data );
 
     stomach = std::move( source.stomach );
     consumption_history = std::move( source.consumption_history );
 
-    oxygen = std::move( source.oxygen );
-    tank_plut = std::move( source.tank_plut );
-    reactor_plut = std::move( source.reactor_plut );
-    slow_rad = std::move( source.slow_rad );
+    oxygen = source.oxygen ;
+    tank_plut = source.tank_plut ;
+    reactor_plut = source.reactor_plut ;
+    slow_rad = source.slow_rad ;
 
-    focus_pool = std::move( source.focus_pool );
-    cash = std::move( source.cash );
+    focus_pool = source.focus_pool ;
+    cash = source.cash ;
     follower_ids = std::move( source.follower_ids );
     ammo_location = std::move( source.ammo_location );
     camps = std::move( source.camps );
-    cached_time = std::move( source.cached_time );
+    cached_time = source.cached_time ;
 
     addictions = std::move( source.addictions );
 
     mounted_creature = std::move( source.mounted_creature );
-    mounted_creature_id = std::move( source.mounted_creature_id );
-    activity_vehicle_part_index = std::move( source.activity_vehicle_part_index );
+    mounted_creature_id = source.mounted_creature_id ;
+    activity_vehicle_part_index = source.activity_vehicle_part_index ;
     inv = std::move( source.inv );
     omt_path = std::move( source.omt_path );
 
-    position = std::move( source.position );
+    position = source.position ;
 
-    str_bonus = std::move( source.str_bonus );
-    dex_bonus = std::move( source.dex_bonus );
-    per_bonus = std::move( source.per_bonus );
-    int_bonus = std::move( source.int_bonus );
+    str_bonus = source.str_bonus ;
+    dex_bonus = source.dex_bonus ;
+    per_bonus = source.per_bonus ;
+    int_bonus = source.int_bonus ;
 
-    healthy = std::move( source.healthy );
-    healthy_mod = std::move( source.healthy_mod );
+    healthy = source.healthy ;
+    healthy_mod = source.healthy_mod ;
 
-    init_age = std::move( source.init_age );
-    init_height = std::move( source.init_height );
-    size_class = std::move( source.size_class );
+    init_age = source.init_age ;
+    init_height = source.init_height ;
+    size_class = source.size_class ;
 
     known_traps = std::move( source.known_traps );
     encumbrance_cache = std::move( source.encumbrance_cache );
     my_mutations = std::move( source.my_mutations );
-    last_sleep_check = std::move( source.last_sleep_check );
-    bio_soporific_powered_at_last_sleep_check = std::move(
-                source.bio_soporific_powered_at_last_sleep_check );
+    last_sleep_check = source.last_sleep_check ;
+    bio_soporific_powered_at_last_sleep_check = source.bio_soporific_powered_at_last_sleep_check ;
     my_traits = std::move( source.my_traits );
     cached_mutations = std::move( source.cached_mutations );
     _skills = std::move( source._skills );
     autolearn_skills_stamp = std::move( source.autolearn_skills_stamp );
     learned_recipes = std::move( source.learned_recipes );
 
-    vision_mode_cache = std::move( source.vision_mode_cache );
-    nv_range = std::move( source.nv_range );
-    sight_max = std::move( source.sight_max );
+    vision_mode_cache = source.vision_mode_cache ;
+    nv_range = source.nv_range ;
+    sight_max = source.sight_max ;
 
-    time_died = std::move( source.time_died );
+    time_died = source.time_died ;
     path_settings = std::move( source.path_settings );
 
-    faction_api_version = std::move( source.faction_api_version );
-    fac_id = std::move( source.fac_id );
-    my_fac = std::move( source.my_fac );
+    faction_api_version = source.faction_api_version ;
+    fac_id = source.fac_id ;
+    my_fac = source.my_fac ;
 
-    move_mode = std::move( source.move_mode );
+    move_mode = source.move_mode ;
     vitamin_levels = std::move( source.vitamin_levels );
 
     morale = std::move( source.morale );
 
     destination_activity = std::move( source.destination_activity );
-    id = std::move( source.id );
+    id = source.id ;
 
-    power_level = std::move( source.power_level );
-    max_power_level = std::move( source.max_power_level );
-    stored_calories = std::move( source.stored_calories );
+    power_level = source.power_level ;
+    max_power_level = source.max_power_level ;
+    stored_calories = source.stored_calories ;
 
-    thirst = std::move( source.thirst );
-    stamina = std::move( source.stamina );
+    thirst = source.thirst ;
+    stamina = source.stamina ;
 
-    fatigue = std::move( source.fatigue );
-    sleep_deprivation = std::move( source.sleep_deprivation );
-    check_encumbrance = std::move( source.check_encumbrance );
+    fatigue = source.fatigue ;
+    sleep_deprivation = source.sleep_deprivation ;
+    check_encumbrance = source.check_encumbrance ;
 
-    stim = std::move( source.stim );
-    pkill = std::move( source.pkill );
+    stim = source.stim ;
+    pkill = source.pkill ;
 
-    radiation = std::move( source.radiation );
+    radiation = source.radiation ;
 
     auto_move_route = std::move( source.auto_move_route );
-    next_expected_position = std::move( source.next_expected_position );
-    type_of_scent = std::move( source.type_of_scent );
+    next_expected_position = source.next_expected_position ;
+    type_of_scent = source.type_of_scent ;
 
     melee_miss_reasons = std::move( source.melee_miss_reasons );
 
-    cached_moves = std::move( source.cached_moves );
-    cached_position = std::move( source.cached_position );
+    cached_moves = source.cached_moves ;
+    cached_position = source.cached_position ;
     cached_crafting_inventory = std::move( source.cached_crafting_inventory );
 
-    npc_ai_info_cache = std::move( source.npc_ai_info_cache );
+    npc_ai_info_cache = source.npc_ai_info_cache ;
 
 
     enchantment_cache = std::move( source.enchantment_cache );
 
     overmap_time = std::move( source.overmap_time );
 
-    temp_conv = std::move( source.temp_conv );
-    body_wetness = std::move( source.body_wetness );
-    drench_capacity = std::move( source.drench_capacity );
+    temp_conv = source.temp_conv ;
+    body_wetness = source.body_wetness ;
+    drench_capacity = source.drench_capacity ;
 
-    next_climate_control_check = std::move( source.next_climate_control_check );
-    last_climate_control_ret = std::move( source.last_climate_control_ret );
+    next_climate_control_check = source.next_climate_control_check ;
+    last_climate_control_ret = source.last_climate_control_ret ;
 
     Creature::operator=( std::move( source ) );
     return *this;
@@ -2672,8 +2671,8 @@ item &Character::i_add( detached_ptr<item> &&it, bool should_stack )
     return item_in_inv;
 }
 
-void Character::remove_worn_items_with( std::function < detached_ptr<item>
-                                        ( detached_ptr<item> && ) > filter )
+void Character::remove_worn_items_with( const std::function < detached_ptr<item>
+                                        ( detached_ptr<item> && ) > & filter )
 {
     worn.remove_with( [this, filter]( detached_ptr<item> &&it ) {
         item &obj = *it;
