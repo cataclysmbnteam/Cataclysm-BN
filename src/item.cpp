@@ -9080,7 +9080,7 @@ detached_ptr<item> item::actualize_rot( detached_ptr<item> &&self, const tripoin
         // Items inside rot but do not vanish as the container seals them in.
         self->contents.remove_top_items_with( [&pnt, &temperature, &weather]( detached_ptr<item> &&it ) {
             if( it->goes_bad() ) {
-                process_rot( std::move( it ), true, pnt, nullptr, temperature, weather );
+                it = process_rot( std::move( it ), true, pnt, nullptr, temperature, weather );
             }
             return std::move( it );
         } );
