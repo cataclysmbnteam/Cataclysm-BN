@@ -307,7 +307,7 @@
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
     "name": { "str": "1350 hp gas turbine engine" },
-    "//": "Weight based on the General Electric CT58-110-1 gas turbine. Used to be widely used on light/medium helicopters, but a bit old for Cataclysm timeframe. If someone have a better fitting equivalent, feel free to update this part."
+    "//": "Weight based on the General Electric CT58-110-1 gas turbine. Used to be widely used on light/medium helicopters, but a bit old for Cataclysm timeframe. If someone have a better fitting equivalent, feel free to update this part.",
     "description": "A gas turbine engine, usually used for military vehicles.  Known for its high rate of fuel consumption, but installing multiple turbines will not affect vehicle power.",
     "weight": "150000 g",
     "volume": "45 L",
@@ -320,7 +320,7 @@
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
     "name": { "str": "1900 hp gas turbine engine" },
-    "//": "Weight based on the General Electric T700-GE-701D gas turbine, a 1944 hp engine used on several variants of AH-64 Apache and UH-60 Blackhawk."
+    "//": "Weight based on the General Electric T700-GE-701D gas turbine, a 1944 hp engine used on several variants of AH-64 Apache and UH-60 Blackhawk.",
     "description": "A large gas turbine engine, usually used for military helicopters.  Known for its high rate of fuel consumption, but installing multiple turbines will not affect vehicle power.",
     "weight": "200000 g",
     "volume": "63 L",
@@ -333,7 +333,7 @@
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
     "name": { "str": "6000 hp gas turbine engine" },
-    "//": "Weight based on the Rolls Royce Allison T406-AD-400 gas turbine."
+    "//": "Weight based on the Rolls Royce Allison T406-AD-400 gas turbine.",
     "description": "A massive gas turbine engine, used to power the V-22 Osprey.  Known for its high rate of fuel consumption, but installing multiple turbines will not affect vehicle power.",
     "weight": "450000 g",
     "volume": "95 L",
