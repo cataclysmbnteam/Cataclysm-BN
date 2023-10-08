@@ -2074,9 +2074,9 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
     return static_cast<int>( confident_range );
 }
 
-double item::ideal_ranged_dps( const Character &who, gun_mode &mode ) const
+double item::ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mode ) const
 {
-    if( !is_gun() ) {
+    if( !is_gun() || !mode ) {
         return 0;
     }
     damage_instance gun_damage = this->gun_damage();
@@ -2087,15 +2087,19 @@ double item::ideal_ranged_dps( const Character &who, gun_mode &mode ) const
         itype_id ammo = ammo_default();
         gun_damage.add( ammo->ammo->damage );
     }
-    float damage_factor = gun_damage.total_damage();
-    damage_factor *= mode.qty;
+    int burst_size = mode->qty;
+    if( burst_size <= 0 ) {
+        debugmsg( "gun_mode for %s has burst size of 0", this->tname() );
+        burst_size = 1;
+    }
+    float damage_factor = gun_damage.total_damage() * burst_size;
 
     int move_cost = ranged::time_to_attack( who, *this, nullptr );
     if( ammo_remaining() == 0 ) {
         int reload_cost = get_reload_time() + who.encumb( bp_hand_l ) + who.encumb( bp_hand_r );
         // HACK: Doesn't check how much ammo they'll actually get from the reload. Because we don't know.
         // DPS is less impacted the larger the magazine being swapped.
-        reload_cost /= magazine_integral() ? 1 : ammo_capacity() / mode.qty;
+        reload_cost /= magazine_integral() ? 1 : ammo_capacity() / burst_size;
         move_cost += reload_cost;
     }
     std::vector<ranged::aim_type> aim_types = ranged::get_aim_types( who, *this );
@@ -4723,7 +4727,7 @@ bool npc::adjust_worn()
     const auto covers_broken = [this]( const item & it, side s ) {
         const body_part_set covered = it.get_covered_body_parts( s );
         for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-            if( elem.second.get_hp_cur() <= 0 && covered.test( elem.first->token ) ) {
+            if( elem.second.get_hp_cur() <= 0 && covered.test( elem.first ) ) {
                 return true;
             }
         }

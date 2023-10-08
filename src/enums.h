@@ -230,6 +230,11 @@ enum layer_level {
     MAX_CLOTHING_LAYER
 };
 
+template<>
+struct enum_traits<layer_level> {
+    static constexpr layer_level last = layer_level::MAX_CLOTHING_LAYER;
+};
+
 inline layer_level &operator++( layer_level &l )
 {
     l = static_cast<layer_level>( l + 1 );

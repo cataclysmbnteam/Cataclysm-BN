@@ -537,7 +537,15 @@ void npc::check_or_use_weapon_cbm()
         int active_index = -1;
         int best_dps = -1;
         bool wield_gun = primary_weapon().is_gun();
+
         detached_ptr<item> best_cbm_active;
+        // If wielding a gun, best_dps to beat is at minimum the gun wielded.
+        if( wield_gun ) {
+            std::optional<gun_mode> weap_mode = npc_ai::best_mode_for_range(
+                                                    *this, this->primary_weapon(), dist ).second;
+            best_dps = this->primary_weapon().ideal_ranged_dps( *this, weap_mode );
+        }
+
         for( int i : avail_active_cbms ) {
             bionic &bio = ( *my_bionics )[ i ];
             detached_ptr<item> cbm_weapon = item::spawn( bio.info().fake_item );
@@ -547,14 +555,11 @@ void npc::check_or_use_weapon_cbm()
             if( is_player_ally() && not_allowed ) {
                 continue;
             }
+
             auto [mode_id, mode_] = npc_ai::best_mode_for_range( *this, *cbm_weapon, dist );
             double dps = cbm_weapon->ideal_ranged_dps( *this, mode_ );
-            if( wield_gun && active_index < 0 ) {
-                gun_mode weap_mode = npc_ai::best_mode_for_range( *this, this->primary_weapon(), dist ).second;
-                dps = this->primary_weapon().ideal_ranged_dps( *this, weap_mode );
-            }
 
-            if( ( !wield_gun && active_index < 0 ) || dps > best_dps ) {
+            if( dps > best_dps ) {
                 active_index = i;
                 best_cbm_active = std::move( cbm_weapon );
                 best_dps = dps;
@@ -1513,10 +1518,10 @@ float Character::get_effective_efficiency( bionic &bio, float fuel_efficiency )
         const std::map< bodypart_str_id, int > &occupied_bodyparts = bio.info().occupied_bodyparts;
         for( const std::pair< const bodypart_str_id, int > &elem : occupied_bodyparts ) {
             for( item * const &i : worn ) {
-                if( i->covers( elem.first->token ) && !i->has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                if( i->covers( elem.first ) && !i->has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                     !i->has_flag( flag_SEMITANGIBLE ) &&
                     !i->has_flag( flag_PERSONAL ) && !i->has_flag( flag_AURA ) ) {
-                    coverage += i->get_coverage();
+                    coverage += i->get_coverage( elem.first.id() );
                 }
             }
         }

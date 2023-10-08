@@ -43,6 +43,7 @@
 #include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
 #include "math_defines.h"
 #include "messages.h"
@@ -1077,11 +1078,10 @@ detached_ptr<item> npc::wear_if_wanted( detached_ptr<item> &&it, std::string &re
     if( it->has_flag( flag_SPLINT ) ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             hp_part hpp = static_cast<hp_part>( i );
-            const body_part bp = player::hp_to_bp( hpp );
-            const bodypart_str_id bp_str_id = convert_bp( bp );
-
-            if( is_limb_broken( bp_str_id ) && !worn_with_flag( flag_SPLINT, bp_str_id.id() ) &&
-                it->covers( bp_str_id.id() ) ) {
+            body_part bp = player::hp_to_bp( hpp );
+            if( is_limb_broken( convert_bp( bp ).id() ) &&
+                !worn_with_flag( flag_SPLINT, convert_bp( bp ).id() ) &&
+                it->covers( convert_bp( bp ).id() ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return wear_item( std::move( it ), false );
             }
@@ -1749,9 +1749,27 @@ void npc::shop_restock()
         }
     }
 
-    has_new_items = true;
-    inv.clear();
-    inv.push_back( ret );
+    // we have items to restock with, so go ahead and pick up everything so we can clear out properly
+    // If we don't restock for some reason don't clear out inventory since we'd end up not having anything
+    // to trade
+    if( !ret.empty() ) {
+        // Pick up nearby items as a free action since we'll be immediately deleting these items
+        auto old_moves = moves;
+        for( map_cursor &cursor : map_selector( pos(), PICKUP_RANGE ) ) {
+            cursor.remove_top_items_with( [this]( detached_ptr<item> &&it ) {
+                if( it->is_owned_by( *this ) ) {
+                    inv.push_back( std::move( it ) );
+                }
+                return it;
+            } );
+        }
+        set_moves( old_moves );
+
+        // clear out inventory and add in restocked items
+        has_new_items = true;
+        inv.clear();
+        inv.push_back( ret );
+    }
 }
 
 int npc::minimum_item_value() const

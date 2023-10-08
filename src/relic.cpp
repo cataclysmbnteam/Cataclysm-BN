@@ -297,7 +297,7 @@ bool check_recharge_reqs( const item &itm, const relic_recharge &rech, const Cha
                     }
                     bool this_bp_good = true;
                     for( const item *wi : carrier.worn ) {
-                        if( wi->get_coverage() == 0 ) {
+                        if( wi->get_coverage( bp ) == 0 ) {
                             continue;
                         }
                         if( wi == &itm ) {
@@ -319,7 +319,7 @@ bool check_recharge_reqs( const item &itm, const relic_recharge &rech, const Cha
                 bool hand_l_ok = true;
                 bool hand_r_ok = true;
                 for( const item *wi : carrier.worn ) {
-                    if( wi->get_coverage() == 0 ) {
+                    if( wi->get_coverage( body_part_hand_l ) == 0 && wi->get_coverage( body_part_hand_r ) == 0 ) {
                         continue;
                     }
                     if( wi->covers( body_part_hand_l ) ) {

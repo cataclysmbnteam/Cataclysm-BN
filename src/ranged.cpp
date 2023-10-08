@@ -1955,22 +1955,21 @@ dispersion_sources ranged::get_weapon_dispersion( const Character &who, const it
     return dispersion;
 }
 
-std::pair<gun_mode_id, gun_mode> npc_ai::best_mode_for_range( const Character &who,
+std::pair<gun_mode_id, std::optional<gun_mode>> npc_ai::best_mode_for_range( const Character &who,
         const item &firing,
         int dist )
 {
-    std::pair<gun_mode_id, gun_mode> res = std::make_pair( gun_mode_id(), gun_mode() );
     int shots = who.is_wielding( firing ) ? character_funcs::ammo_count_for( who,
                 firing ) : item_funcs::shots_remaining( who, firing );
     if( !firing.is_gun() || shots == 0 ) {
-        return res;
+        return std::make_pair( gun_mode_id(), std::nullopt );
     }
     int min_recoil = MAX_RECOIL;
     min_recoil = ranged::get_most_accurate_sight( who, firing );
     int range = static_cast<const npc *>( &who )->confident_shoot_range( firing, min_recoil );
 
     if( dist > range ) {
-        return res;
+        return  std::make_pair( gun_mode_id(), std::nullopt );
     }
 
     const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> lhs,
@@ -1989,12 +1988,11 @@ std::pair<gun_mode_id, gun_mode> npc_ai::best_mode_for_range( const Character &w
     } );
 
     if( modes.empty() ) {
-        return res;
+        return  std::make_pair( gun_mode_id(), std::nullopt );
     }
 
     const auto g_mode = std::max_element( modes.begin(), modes.end(), gun_mode_cmp );
-    res = *g_mode;
-    return res;
+    return *g_mode;
 }
 
 double npc_ai::gun_value( const Character &who, const item &weap, int ammo )

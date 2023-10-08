@@ -278,7 +278,7 @@ void tutorial_game::post_action( action_id act )
         case ACTION_WEAR: {
             item &it = *item::spawn_temporary( g->u.last_item, calendar::start_of_cataclysm );
             if( it.is_armor() ) {
-                if( it.get_coverage() >= 2 || it.get_thickness() >= 2 ) {
+                if( it.get_avg_coverage() >= 2 || it.get_thickness() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_ARMOR );
                 }
                 if( it.get_storage() >= units::from_liter( 5 ) ) {

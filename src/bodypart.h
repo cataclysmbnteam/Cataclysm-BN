@@ -8,6 +8,7 @@
 #include <initializer_list>
 #include <string>
 
+#include "flat_set.h"
 #include "int_id.h"
 #include "catalua_type_operators.h"
 #include "string_id.h"
@@ -231,62 +232,54 @@ class bodypart
 class body_part_set
 {
     private:
-        std::bitset<num_bp> parts;
+        cata::flat_set<bodypart_str_id> parts;
 
-        explicit body_part_set( const std::bitset<num_bp> &other ) : parts( other ) { }
+        explicit body_part_set( const cata::flat_set<bodypart_str_id> &other ) : parts( other ) { }
 
     public:
         body_part_set() = default;
-        body_part_set( std::initializer_list<body_part> bps ) {
-            for( const auto &bp : bps ) {
+        body_part_set( std::initializer_list<bodypart_str_id> bps ) {
+            for( const bodypart_str_id &bp : bps ) {
                 set( bp );
             }
         }
+        body_part_set unify_set( const body_part_set &rhs );
+        body_part_set intersect_set( const body_part_set &rhs );
 
-        body_part_set &operator|=( const body_part_set &rhs ) {
-            parts |= rhs.parts;
-            return *this;
-        }
-        body_part_set &operator&=( const body_part_set &rhs ) {
-            parts &= rhs.parts;
-            return *this;
-        }
+        body_part_set make_intersection( const body_part_set &rhs );
+        body_part_set substract_set( const body_part_set &rhs );
 
-        body_part_set operator|( const body_part_set &rhs ) const {
-            return body_part_set( parts | rhs.parts );
-        }
-        body_part_set operator&( const body_part_set &rhs ) const {
-            return body_part_set( parts & rhs.parts );
-        }
+        void fill( const std::vector<bodypart_id> &bps );
 
-        body_part_set operator~() const {
-            return body_part_set( ~parts );
-        }
 
-        static body_part_set all() {
-            return ~body_part_set();
+        bool test( const bodypart_str_id &bp ) const {
+            return parts.count( bp ) > 0;
         }
-
-        bool test( const body_part &bp ) const {
-            return parts.test( bp );
+        void set( const bodypart_str_id &bp ) {
+            parts.insert( bp );
         }
-        void set( const body_part &bp ) {
-            parts.set( bp );
+        void reset( const bodypart_str_id &bp ) {
+            parts.erase( bp );
         }
         void reset() {
-            parts.reset();
-        }
-        void reset( const body_part &bp ) {
-            parts.reset( bp );
+            parts.clear();
         }
         bool any() const {
-            return parts.any();
+            return !parts.empty();
         }
         bool none() const {
-            return parts.none();
+            return parts.empty();
         }
         size_t count() const {
-            return parts.count();
+            return parts.size();
+        }
+
+        cata::flat_set<bodypart_str_id>::iterator begin() const {
+            return parts.begin();
+        }
+
+        cata::flat_set<bodypart_str_id>::iterator end() const {
+            return parts.end();
         }
 
         template<typename Stream>
@@ -298,6 +291,9 @@ class body_part_set
             s.read( parts );
         }
 };
+
+// Returns if passed string is legacy bodypart (i.e "TORSO", not "torso")
+bool is_legacy_bodypart_id( const std::string &id );
 
 /** Returns the new id for old token */
 const bodypart_str_id &convert_bp( body_part bp );
