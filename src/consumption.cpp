@@ -1068,7 +1068,7 @@ void Character::modify_morale( item &food, int nutr )
             add_msg_if_player( m_good, _( "This stuff is icy!" ), food.tname() );
             morale_time += 2_hours;
             food_morale( MORALE_FOOD_VERY_COLD );
-        } else if ( temp == temperature_flag::TEMP_FRIDGE || temp == temperature_flag::TEMP_ROOT_CELLAR ) {
+        } else if( temp == temperature_flag::TEMP_FRIDGE || temp == temperature_flag::TEMP_ROOT_CELLAR ) {
             add_msg_if_player( m_good, _( "This stuff is cold!" ), food.tname() );
             morale_time += 1_hours;
             food_morale( MORALE_FOOD_COLD );
