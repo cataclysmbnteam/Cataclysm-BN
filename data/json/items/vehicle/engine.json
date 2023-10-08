@@ -235,9 +235,9 @@
     "copy-from": "engine_steam",
     "looks_like": "large_turbine_engine",
     "type": "ENGINE",
-    "name": { "str": "750 hp steam turbine engine" },
+    "name": { "str": "1350 hp steam turbine engine" },
     "description": "A powerful steam engine for power plants, burning coal to heat water into steam and driving a turbine.  A condenser recaptures the water, making this a closed cycle system.  Known for its high rate of fuel consumption, but installing multiple turbines will not affect vehicle power.",
-    "weight": "1400 kg",
+    "weight": "700 kg",
     "volume": "230 L",
     "price": "32000 USD",
     "price_postapoc": "110 USD"
