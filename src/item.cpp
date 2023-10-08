@@ -4893,10 +4893,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( is_fresh() ) {
             tagtext += _( " (fresh)" );
         }
-        if( has_flag( flag_COLD ) ) {
-            tagtext += _( " (cold)" );
-        } else if( has_flag( flag_VERY_COLD ) ) {
-            tagtext += _( " (very cold)" );
+        if( is_loaded() ) {
+            const units::temperature temp = units::from_fahrenheit(
+                                                get_weather().get_temperature( position() ) );
+            if( temp <= temperatures::freezing ) {
+                tagtext += _( " (very cold)" );
+            } else if( temp <= temperatures::root_cellar ) {
+                tagtext += _( " (cold)" );
+            }
         }
     }
 
@@ -9313,20 +9317,6 @@ detached_ptr<item>  item::process_rot( detached_ptr<item> &&self, const bool sea
             return std::move( self );
         }
     }
-    // If we're still here, mark how cold it is so we can apply tagtext to items
-    // FIXME: this might cause issues with performance, move the comparision
-    // directly to item::tname once #2250 lands
-    if( temp <= temperatures::freezing ) {
-        self->unset_flag( flag_COLD );
-        self->set_flag( flag_VERY_COLD );
-    } else if( temp <= temperatures::root_cellar ) {
-        self->set_flag( flag_COLD );
-        self->unset_flag( flag_VERY_COLD );
-    } else {
-        self->unset_flag( flag_COLD );
-        self->unset_flag( flag_VERY_COLD );
-    }
-
     return std::move( self );
 }
 
