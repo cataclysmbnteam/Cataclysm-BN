@@ -1386,7 +1386,7 @@ static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tri
     for( const tripoint &p : path ) {
         std::vector<point> swath = squares_in_direction( previous.xy(), p.xy() );
         for( point q : swath ) {
-            zone.push_back( tripoint( q, bashee.z ) );
+            zone.emplace_back( q, bashee.z );
         }
 
         previous = p;
@@ -1921,9 +1921,9 @@ void monster::stumble()
     for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
         if( dest != pos() ) {
             if( here.has_flag( TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.push_back( tripoint( dest.xy(), dest.z - 1 ) );
+                valid_stumbles.emplace_back( dest.xy(), dest.z - 1 );
             } else if( here.has_flag( TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.push_back( tripoint( dest.xy(), dest.z + 1 ) );
+                valid_stumbles.emplace_back( dest.xy(), dest.z + 1 );
             } else {
                 valid_stumbles.push_back( dest );
             }

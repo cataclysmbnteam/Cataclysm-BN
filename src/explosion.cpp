@@ -403,7 +403,7 @@ class ExplosionProcess
         inline bool is_occluded( const tripoint from, const tripoint to );
         inline void add_event( const float delay, const ExplosionEvent &event ) {
             assert( delay >= 0 );
-            event_queue.push( { cur_relative_time + delay + std::numeric_limits<float>::epsilon(), event } );
+            event_queue.emplace( cur_relative_time + delay + std::numeric_limits<float>::epsilon(), event );
         }
         inline bool is_animated() {
             return !test_mode && get_option<int>( "ANIMATION_DELAY" ) > 0;
@@ -453,12 +453,12 @@ void ExplosionProcess::fill_maps()
         // We static_cast<int> in order to keep parity with legacy blasts using rl_dist for distance
         //   which, as stated above, converts trig_dist into int implicitly
         if( blast_radius > 0 && static_cast<int>( z_aware_distance ) <= blast_radius ) {
-            blast_map.push_back( { z_aware_distance, target } );
+            blast_map.emplace_back( z_aware_distance, target );
         }
 
         if( shrapnel && static_cast<int>( distance ) <= shrapnel_range && target.z == center.z &&
             !is_occluded( center, target ) ) {
-            shrapnel_map.push_back( { distance, target } );
+            shrapnel_map.emplace_back( distance, target );
         }
     }
 
@@ -1184,7 +1184,7 @@ static std::map<const Creature *, int> legacy_shrapnel( const tripoint &src,
         const float z_distance = abs( target.z - blast_center.z );
         const float z_aware_distance = distance + ( Z_LEVEL_DIST - 1 ) * z_distance;
         if( z_aware_distance <= raw_blast_radius ) {
-            blast_map.emplace_back( std::make_pair( z_aware_distance, target ) );
+            blast_map.emplace_back( z_aware_distance, target );
         }
     }
 
@@ -1271,7 +1271,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
     open;
     std::set<tripoint> closed;
     std::map<tripoint, float> dist_map;
-    open.push( std::make_pair( 0.0f, p ) );
+    open.emplace( 0.0f, p );
     dist_map[p] = 0.0f;
     // Find all points to blast
     while( !open.empty() ) {
@@ -1326,7 +1326,7 @@ static std::map<const Creature *, int> legacy_blast( const tripoint &p, const fl
             }
 
             if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
-                open.push( std::make_pair( next_dist, dest ) );
+                open.emplace( next_dist, dest );
                 dist_map[dest] = next_dist;
             }
         }

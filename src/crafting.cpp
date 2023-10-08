@@ -754,7 +754,7 @@ item *player::start_craft( craft_command &command, const tripoint & )
     set_item_inventory( *this, std::move( craft ) );
 
     assign_activity( ACT_CRAFT );
-    activity->targets.push_back( craft_in_world );
+    activity->targets.emplace_back( craft_in_world );
     activity->coords.push_back( bench.position );
     activity->values.push_back( command.is_long() );
     // Ugly

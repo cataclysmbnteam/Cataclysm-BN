@@ -2115,10 +2115,10 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
                                        entry.get_available_count() );
         to_use[it].clear();
         if( entry.locations.size() == 1 ) {
-            to_use[it].push_back( iuse_location{ *entry.locations[0], static_cast<int>( entry.chosen_count ) } );
+            to_use[it].emplace_back( *entry.locations[0], static_cast<int>( entry.chosen_count ) );
         } else {
             for( size_t i = 0; i < entry.chosen_count; i++ ) {
-                to_use[it].push_back( iuse_location{ *entry.locations[i], 1 } );
+                to_use[it].emplace_back( *entry.locations[i], 1 );
             }
         }
     }
@@ -2188,7 +2188,7 @@ drop_locations inventory_drop_selector::execute()
         for( auto &col : get_all_columns() ) {
             for( const auto &entry : col->get_entries( always_yes ) ) {
                 if( entry->any_item() == drop_pair.first ) {
-                    selected_entries.push_back( std::pair<inventory_entry *, int>( entry, drop_pair.second ) );
+                    selected_entries.emplace_back( entry, drop_pair.second );
                 }
             }
         }

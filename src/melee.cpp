@@ -1688,15 +1688,15 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     } else {
         std::vector<bodypart_id> block_parts;
         if( martial_arts_data->can_leg_block( *this ) ) {
-            block_parts.emplace_back( bodypart_id( "leg_l" ) );
-            block_parts.emplace_back( bodypart_id( "leg_r" ) );
+            block_parts.emplace_back( "leg_l" );
+            block_parts.emplace_back( "leg_r" );
         }
         // If you have no martial arts you can still try to block with your arms.
         // But martial arts with leg blocks only don't magically get arm blocks.
         // Edge case: Leg block only martial arts gain arm blocks if both legs broken.
         if( martial_arts_data->can_arm_block( *this ) || block_parts.empty() ) {
-            block_parts.emplace_back( bodypart_id( "arm_l" ) );
-            block_parts.emplace_back( bodypart_id( "arm_r" ) );
+            block_parts.emplace_back( "arm_l" );
+            block_parts.emplace_back( "arm_r" );
         }
         block_parts.erase( std::remove_if( block_parts.begin(),
         block_parts.end(), [this]( bodypart_id & bpid ) {

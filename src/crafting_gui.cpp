@@ -435,7 +435,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
             if( !u.knows_recipe( current[line] ) ) {
-                component_print_buffer.push_back( _( "Recipe not memorized yet" ) );
+                component_print_buffer.emplace_back( _( "Recipe not memorized yet" ) );
                 auto books_with_recipe = show_unavailable
                                          ? crafting::get_books_for_recipe( current[line] )
                                          : crafting::get_books_for_recipe( u, crafting_inv, current[line] );
@@ -629,8 +629,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 current.clear();
                 for( int i = 1; i <= 50; i++ ) {
                     current.push_back( chosen );
-                    available.push_back( availability( chosen, i,
-                                                       !show_unavailable || available_recipes.contains( *chosen ) ) );
+                    available.emplace_back( chosen, i,
+                                            !show_unavailable || available_recipes.contains( *chosen ) );
                 }
             } else {
                 std::vector<const recipe *> picking;
@@ -977,7 +977,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     const requirement_data &req = current->simple_requirements();
     for( const std::vector<item_comp> &comp_list : req.get_components() ) {
         for( const item_comp &a : comp_list ) {
-            related_components.push_back( { a.type, item::nname( a.type, 1 ) } );
+            related_components.emplace_back( a.type, item::nname( a.type, 1 ) );
         }
     }
     std::sort( related_components.begin(), related_components.end(), compare_second );
@@ -993,7 +993,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     const std::set<const recipe *> &known_recipes = u.get_learned_recipes().of_component( tid );
     for( const auto *b : known_recipes ) {
         if( available.contains( *b ) ) {
-            related_results.push_back( { b->result(), b->result_name() } );
+            related_results.emplace_back( b->result(), b->result_name() );
         }
     }
     std::stable_sort( related_results.begin(), related_results.end(), compare_second );

@@ -1239,7 +1239,7 @@ void avatar_action::reload( item &loc, bool prompt, bool empty )
         } else {
             u.activity->targets.emplace_back( opt.target );
         }
-        u.activity->targets.push_back( opt.ammo );
+        u.activity->targets.emplace_back( opt.ammo );
     }
 }
 
@@ -1331,7 +1331,7 @@ void avatar_action::reload_weapon( bool try_everything )
             u.assign_activity( std::make_unique<player_activity>( activity_id( "ACT_RELOAD" ), opt.moves(),
                                opt.qty() ) );
             u.activity->targets.emplace_back( turret.base() );
-            u.activity->targets.push_back( opt.ammo );
+            u.activity->targets.emplace_back( opt.ammo );
         }
         return;
     }

@@ -1471,7 +1471,7 @@ void options_manager::add_options_interface()
         { "", translate_marker( "System language" ) },
     };
     for( const language_info &info : list_available_languages() ) {
-        lang_options.push_back( {info.id, no_translation( info.name )} );
+        lang_options.emplace_back( info.id, no_translation( info.name ) );
     }
 
     add( "USE_LANG", interface, translate_marker( "Language" ),

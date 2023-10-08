@@ -1800,7 +1800,7 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
     }
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
-    p->activity->targets.push_back( it );
+    p->activity->targets.emplace_back( it );
     p->activity->coord_set = g->get_fishable_locations( 60, *found );
     return 0;
 }
@@ -2074,7 +2074,7 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     }
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( it->typeId(), 1 ) );
+    comps.emplace_back( it->typeId(), 1 );
     p->consume_items( comps, 1, is_crafting_component );
 
     return 0;
@@ -3237,7 +3237,7 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
     moves = moves * ( 10 - helpers.size() ) / 10;
 
     p->assign_activity( ACT_JACKHAMMER, moves );
-    p->activity->targets.push_back( it );
+    p->activity->targets.emplace_back( it );
     p->activity->placement = g->m.getabs( pnt );
     p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
@@ -3292,7 +3292,7 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
     moves = moves * ( 10 - helpers.size() ) / 10;
 
     p->assign_activity( ACT_PICKAXE, moves, -1 );
-    p->activity->targets.push_back( it );
+    p->activity->targets.emplace_back( it );
     p->activity->placement = g->m.getabs( pnt );
     p->add_msg_if_player( _( "You strike the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
@@ -4422,7 +4422,7 @@ int iuse::portable_game( player *p, item *it, bool t, const tripoint & )
 
         p->add_msg_if_player( _( "You play on your %s for a while." ), it->tname() );
         p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );
-        p->activity->targets.push_back( it );
+        p->activity->targets.emplace_back( it );
         std::string end_message;
         end_message.clear();
         int game_score = 0;
@@ -4463,7 +4463,7 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( _( "You start cranking the %s to charge its %s." ), it->tname(),
                                   it->magazine_current()->tname() );
             p->assign_activity( ACT_HAND_CRANK, moves, -1, 0, "hand-cranking" );
-            p->activity->targets.push_back( it );
+            p->activity->targets.emplace_back( it );
         } else {
             p->add_msg_if_player( _( "You could use the %s to charge its %s, but it's already charged." ),
                                   it->tname(), magazine->tname() );
@@ -4510,7 +4510,7 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
                                   it->tname() );
         }
         p->assign_activity( ACT_VIBE, moves, -1, 0, "de-stressing" );
-        p->activity->targets.push_back( it );
+        p->activity->targets.emplace_back( it );
     }
     return it->type->charges_to_use();
 }
@@ -4681,7 +4681,7 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
 
             std::unique_ptr<player_activity> act = std::make_unique<player_activity>( ACT_MIND_SPLICER,
                                                    to_moves<int>( time ) );
-            act->targets.push_back( &data_card );
+            act->targets.emplace_back( &data_card );
             p->assign_activity( std::move( act ) );
             return it->type->charges_to_use();
         }
@@ -4790,7 +4790,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
     moves = moves * ( 10 - helpers.size() ) / 10;
 
     p->assign_activity( ACT_CHOP_TREE, moves, -1, p->get_item_position( it ) );
-    p->activity->targets.push_back( it );
+    p->activity->targets.emplace_back( it );
     p->activity->placement = g->m.getabs( pnt );
 
     return it->type->charges_to_use();
@@ -4837,7 +4837,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
 
     p->assign_activity( ACT_CHOP_LOGS, moves, -1, p->get_item_position( it ) );
     p->activity->placement = g->m.getabs( pnt );
-    p->activity->targets.push_back( it );
+    p->activity->targets.emplace_back( it );
 
     return it->type->charges_to_use();
 }
@@ -4935,7 +4935,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
 
     // placing ter here makes resuming tasks work better
     p->assign_activity( ACT_OXYTORCH, moves, static_cast<int>( ter ) );
-    p->activity->targets.push_back( it );
+    p->activity->targets.emplace_back( it );
     p->activity->placement = pnt;
     p->activity->values.push_back( charges );
 
@@ -6586,7 +6586,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 if( s.empty() ) {
                     continue;
                 }
-                monster_photos.push_back( mtype_id( s ) );
+                monster_photos.emplace_back( s );
                 std::string menu_str;
                 const monster dummy( monster_photos.back() );
                 menu_str = dummy.name();
@@ -7694,7 +7694,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                 continue;
             }
 
-            monster_photos.push_back( mtype_id( s ) );
+            monster_photos.emplace_back( s );
 
             std::string menu_str;
 
@@ -9605,7 +9605,7 @@ int iuse::craft( player *p, item *it, bool, const tripoint &pos )
             return 0;
         }
     }
-    p->activity->targets.push_back( where );
+    p->activity->targets.emplace_back( where );
     p->activity->coords.push_back( best_bench.position );
     p->activity->values.push_back( 0 ); // Not a long craft
     // Ugly
