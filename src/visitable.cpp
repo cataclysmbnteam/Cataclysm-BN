@@ -1019,7 +1019,7 @@ int visitable<location_inventory>::charges_of( const itype_id &what, int limit,
 {
 
     auto inv = static_cast<const location_inventory *>( this );
-    return inv->inv.charges_of( what, limit, filter, visitor );
+    return inv->inv.charges_of( what, limit, filter, std::move( visitor ) );
 }
 
 /** @relates visitable */
@@ -1072,7 +1072,7 @@ int visitable<Character>::charges_of( const itype_id &what, int limit,
         return std::min( qty, limit );
     }
 
-    return charges_of_internal( *this, *this, what, limit, filter, visitor );
+    return charges_of_internal( *this, *this, what, limit, filter, std::move( visitor ) );
 }
 
 template <typename T>

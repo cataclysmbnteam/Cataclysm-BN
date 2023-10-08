@@ -1165,7 +1165,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
     }
 }
 
-void mtype::add_regeneration_modifier( JsonObject inner, const std::string & )
+void mtype::add_regeneration_modifier( const JsonObject &inner, const std::string & )
 {
     const std::string effect_name = inner.get_string( "effect" );
     const efftype_id effect( effect_name );

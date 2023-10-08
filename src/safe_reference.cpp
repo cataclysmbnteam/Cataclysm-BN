@@ -30,7 +30,7 @@ void safe_reference<T>::serialize_global( JsonOut &json )
 }
 
 template<typename T>
-void safe_reference<T>::deserialize_global( JsonArray jsin )
+void safe_reference<T>::deserialize_global( const JsonArray &jsin )
 {
     bool pair = false;
     safe_reference<T>::id_type id;
@@ -261,6 +261,7 @@ safe_reference<T>::safe_reference( const safe_reference<T> &source )
 }
 template<typename T>
 safe_reference<T>::safe_reference( safe_reference<T> &&source )
+noexcept
 {
     rec = source.rec;
     source.rec = nullptr;
@@ -280,6 +281,7 @@ safe_reference<T> &safe_reference<T>::operator=( const safe_reference<T> &source
 }
 template<typename T>
 safe_reference<T> &safe_reference<T>::operator=( safe_reference<T> &&source )
+noexcept
 {
     if( &source == this ) {
         return *this;

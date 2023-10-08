@@ -5,6 +5,7 @@
 
 template<typename T, bool error_if_null>
 location_ptr<T, error_if_null>::location_ptr( location_ptr<T, error_if_null> &&source )
+noexcept
 {
     if( source ) {
         *this = std::move( source );

@@ -2402,7 +2402,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_RELOAD_TILESET:
-                reload_tileset( []( std::string str ) {
+                reload_tileset( []( const std::string & str ) {
                     DebugLog( DL::Info, DC::Main ) << str;
                 } );
                 break;

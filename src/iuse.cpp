@@ -8604,7 +8604,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     return 0;
                 }
 
-                for( auto component : reqs->get_components() ) {
+                for( const auto &component : reqs->get_components() ) {
                     p->consume_items( component, 1, filter );
                 }
 
@@ -9491,7 +9491,7 @@ int wash_items( player *p, bool soft_items, bool hard_items )
 
     // Determine if we have enough water and cleanser for all the items.
     units::volume total_volume = 0_ml;
-    for( iuse_location iloc : to_clean ) {
+    for( const iuse_location &iloc : to_clean ) {
         if( !iloc.loc ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             return 0;
@@ -9736,6 +9736,7 @@ int iuse::report_grid_connections( player *p, item *, bool, const tripoint &pos 
     std::vector<tripoint_rel_omt> connections = overmap_buffer.electric_grid_connectivity_at( pos_abs );
 
     std::vector<std::string> connection_names;
+    connection_names.reserve( connections.size() );
     for( const tripoint_rel_omt &delta : connections ) {
         connection_names.push_back( direction_name( direction_from( delta.raw() ) ) );
     }

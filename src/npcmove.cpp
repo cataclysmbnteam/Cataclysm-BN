@@ -2026,7 +2026,7 @@ int npc::confident_shoot_range( const item &it, int recoil ) const
     if( !it.is_gun() ) {
         return res;
     }
-    const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> lhs,
+    const auto gun_mode_cmp = []( const std::pair<gun_mode_id, gun_mode> &lhs,
     const std::pair<gun_mode_id, gun_mode> &rhs ) {
         return lhs.second.qty < rhs.second.qty;
     };
@@ -2104,7 +2104,7 @@ double item::ideal_ranged_dps( const Character &who, std::optional<gun_mode> &mo
     }
     std::vector<ranged::aim_type> aim_types = ranged::get_aim_types( who, *this );
     auto regular = std::find_if( aim_types.begin(),
-    aim_types.end(), []( ranged::aim_type at ) {
+    aim_types.end(), []( const ranged::aim_type & at ) {
         return at.action == std::string( "AIMED_SHOT" );
     } );
     if( regular == aim_types.end() ) {

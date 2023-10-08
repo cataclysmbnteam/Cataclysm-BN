@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <map>
 #include <memory>
@@ -1313,6 +1314,7 @@ std::vector<effect *> Creature::get_all_effects_of_type( const efftype_id &eff_i
         return {};
     }
     std::unordered_map<bodypart_str_id, effect> &effect_map = got_outer->second;
+    ret.reserve( effect_map.size() );
     for( auto&[ _, effect ] : effect_map ) {
         ret.push_back( &effect );
     }
@@ -1594,7 +1596,7 @@ int Creature::get_armor_bullet_bonus() const
 
 int Creature::get_speed() const
 {
-    int speed = round( ( get_speed_base() + get_speed_bonus() ) * ( 1 + get_speed_mult() ) );
+    int speed = std::round( ( get_speed_base() + get_speed_bonus() ) * ( 1 + get_speed_mult() ) );
     return std::max( static_cast<int>( round( 0.25 * get_speed_base() ) ), speed );
 }
 float Creature::get_dodge() const

@@ -1565,7 +1565,8 @@ int salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
 }
 
 // Helper to visit instances of all the sub-materials of an item.
-static void visit_salvage_products( const item &it, std::function<void( const item & )> func )
+static void visit_salvage_products( const item &it,
+                                    const std::function<void( const item & )> &func )
 {
     for( const material_id &material : it.made_of() ) {
         if( const std::optional<itype_id> id = material->salvaged_into() ) {

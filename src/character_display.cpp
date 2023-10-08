@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <memory>
@@ -830,7 +831,8 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         }
     }
 
-    int quick_bonus = static_cast<int>( round( ( you.mutation_value( "speed_modifier" ) - 1 ) * 100 ) );
+    int quick_bonus = static_cast<int>( std::round( ( you.mutation_value( "speed_modifier" ) - 1 ) *
+                                        100 ) );
     int bio_speed_bonus = 10;
     if( quick_bonus != 0 ) {
         std::string pen_sign = quick_bonus >= 0 ? "+" : "-";

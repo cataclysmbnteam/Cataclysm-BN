@@ -76,14 +76,14 @@ window_panel::window_panel( std::function<void( avatar &, const catacurses::wind
                             draw_func, const std::string &nm, int ht, int wd, bool default_toggle_,
                             std::function<bool()> render_func,  bool force_draw )
 {
-    draw = draw_func;
+    draw = std::move( draw_func );
     name = nm;
     height = ht;
     width = wd;
     toggle = default_toggle_;
     default_toggle = default_toggle_;
     always_draw = force_draw;
-    render = render_func;
+    render = std::move( render_func );
 }
 
 // ====================================

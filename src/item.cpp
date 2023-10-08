@@ -762,7 +762,7 @@ bool item::attempt_detach( std::function < detached_ptr<item>( detached_ptr<item
 }
 
 bool item::attempt_split( int qty,
-                          std::function < detached_ptr<item>( detached_ptr<item> && ) > cb )
+                          const std::function < detached_ptr<item>( detached_ptr<item> && ) > & cb )
 {
     detached_ptr<item> det = unsafe_split( qty );
     if( !det ) {
@@ -2552,6 +2552,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( !mod.usable_category.empty() ) {
             used_on_str += _( "\n  Category: " );
             std::vector<std::string> combination;
+            combination.reserve( mod.usable_category.size() );
             for( const std::unordered_set<weapon_category_id> &catgroup : mod.usable_category ) {
                 combination.emplace_back( ( "[" ) + enumerate_as_string( catgroup.begin(),
                 catgroup.end(), []( const weapon_category_id & wcid ) {
@@ -2819,7 +2820,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     }
                     if( piece.second.active ) {
                         bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
-                        []( armor_portion_data data ) {
+                        []( const armor_portion_data & data ) {
                             return data.encumber != data.max_encumber;
                         } );
                         info.push_back( iteminfo( "ARMOR",
@@ -3815,7 +3816,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query &parts_
                                       " volume and encumbrance increase with contents." ) );
             } else {
                 bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
-                []( armor_portion_data data ) {
+                []( const armor_portion_data & data ) {
                     return data.encumber != data.max_encumber;
                 } );
                 if( any_encumb_increase ) {
@@ -6055,7 +6056,7 @@ int item::get_encumber_when_containing(
                 encumber = entry.encumber;
                 // Non-rigid items add additional encumbrance proportional to their volume
                 bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
-                []( armor_portion_data data ) {
+                []( const armor_portion_data & data ) {
                     return data.encumber != data.max_encumber;
                 } );
                 if( !type->rigid || any_encumb_increase ) {
@@ -8361,7 +8362,7 @@ int item::casings_count() const
         return std::move( it );
     } );
 
-    return std::move( res );
+    return res ;
 }
 
 void item::casings_handle( const std::function < detached_ptr<item>( detached_ptr<item> && ) >
@@ -9180,7 +9181,7 @@ uint64_t item::make_component_hash() const
     }
 
     std::string concatenated_ids;
-    for( std::string id : id_set ) {
+    for( const std::string &id : id_set ) {
         concatenated_ids += id;
     }
 
@@ -10199,7 +10200,7 @@ std::string item::type_name( unsigned int quantity ) const
     for( const conditional_name &cname : type->conditional_names ) {
         // Lambda for recursively searching for a item ID among all components.
         std::function<bool ( std::vector<item *> )> component_id_contains =
-        [&]( std::vector<item *> components ) {
+        [&]( const std::vector<item *> &components ) {
             for( const item *component : components ) {
                 if( component->typeId().str().find( cname.condition ) != std::string::npos ||
                     component_id_contains( component->components.as_vector() ) ) {

@@ -954,10 +954,10 @@ vehicle_prototype::vehicle_prototype( const std::string &name,
 {
 }
 
-vehicle_prototype::vehicle_prototype( vehicle_prototype && ) = default;
+vehicle_prototype::vehicle_prototype( vehicle_prototype && )  noexcept = default;
 vehicle_prototype::~vehicle_prototype() = default;
 
-vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && ) = default;
+vehicle_prototype &vehicle_prototype::operator=( vehicle_prototype && )  noexcept = default;
 
 /**
  *Caches a vehicle definition from a JsonObject to be loaded after itypes is initialized.

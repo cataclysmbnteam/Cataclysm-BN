@@ -300,7 +300,7 @@ class ExplosionEvent
         ExplosionEvent( Kind kind, const tripoint position ) :
             kind( kind ), position( position ) {};
         ExplosionEvent( Kind kind, const tripoint position, target_types target ) :
-            kind( kind ), target( target ), position( position ) {};
+            kind( kind ), target( std::move( target ) ), position( position ) {};
 };
 
 class ExplosionProcess
@@ -355,7 +355,7 @@ class ExplosionProcess
             const tripoint blast_center,
             const int blast_power,
             const int blast_radius,
-            const std::optional<projectile> proj = std::nullopt,
+            const std::optional<projectile> &proj = std::nullopt,
             const bool is_fiery = false,
             const std::optional<Creature *> responsible = std::nullopt
         ) : center( blast_center ),
@@ -375,7 +375,7 @@ class ExplosionProcess
         static bool dist_comparator( dist_point_pair a, dist_point_pair b ) {
             return a.first < b.first;
         };
-        static bool time_comparator( time_event_pair a, time_event_pair b ) {
+        static bool time_comparator( const time_event_pair &a, const time_event_pair &b ) {
             return a.first < b.first;
         };
 
@@ -401,7 +401,7 @@ class ExplosionProcess
         void init_event_queue();
         inline float generate_fling_angle( const tripoint from, const tripoint to );
         inline bool is_occluded( const tripoint from, const tripoint to );
-        inline void add_event( const float delay, const ExplosionEvent event ) {
+        inline void add_event( const float delay, const ExplosionEvent &event ) {
             assert( delay >= 0 );
             event_queue.push( { cur_relative_time + delay + std::numeric_limits<float>::epsilon(), event } );
         }
@@ -1474,7 +1474,7 @@ void explosion_funcs::regular( const queued_explosion &qe )
     }
 
     const auto print_damage = [&]( const std::pair<const Creature *, int> &pr,
-    std::function<bool( const Creature & )> predicate ) {
+    const std::function<bool( const Creature & )> &predicate ) {
         if( predicate( *pr.first ) && g->u.sees( *pr.first ) ) {
             const Creature *critter = pr.first;
             bool blasted = damaged_by_blast.find( critter ) != damaged_by_blast.end();

@@ -247,7 +247,7 @@ void game_menus::inv::common( avatar &you )
     } while( !started_action );
 }
 
-item *game_menus::inv::titled_filter_menu( item_filter filter, avatar &you,
+item *game_menus::inv::titled_filter_menu( const item_filter &filter, avatar &you,
         const std::string &title, const std::string &none_message )
 {
     return inv_internal( you, inventory_filter_preset( filter ),
@@ -375,7 +375,7 @@ item *game_menus::inv::take_off( avatar &you )
                          _( "You don't wear anything." ) );
 }
 
-item *game::inv_map_splice( item_filter filter, const std::string &title, int radius,
+item *game::inv_map_splice( const item_filter &filter, const std::string &title, int radius,
                             const std::string &none_message )
 {
     return inv_internal( u, inventory_filter_preset( filter ),

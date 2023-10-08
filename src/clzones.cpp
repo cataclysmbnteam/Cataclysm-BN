@@ -6,6 +6,7 @@
 #include <iterator>
 #include <string>
 #include <tuple>
+#include <utility>
 
 #include "avatar.h"
 #include "cata_utility.h"
@@ -973,7 +974,8 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
                         const bool invert, const bool enabled, const tripoint &start,
                         const tripoint &end, shared_ptr_fast<zone_options> options )
 {
-    zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end, options );
+    zone_data new_zone = zone_data( name, type, fac, invert, enabled, start, end,
+                                    std::move( options ) );
     //the start is a vehicle tile with cargo space
     map &here = get_map();
     if( const std::optional<vpart_reference> vp = here.veh_at( here.getlocal(

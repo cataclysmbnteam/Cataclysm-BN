@@ -218,7 +218,7 @@ class game
          * Otherwise the callback may not take effect until the main ui is invalidated
          * due to resizing or other menus closing. The callback is disabled once all
          * shared pointers to the callback are deconstructed, and is removed afterwards. */
-        void add_draw_callback( shared_ptr_fast<draw_callback_t> cb );
+        void add_draw_callback( const shared_ptr_fast<draw_callback_t> &cb );
     private:
         bool is_looking = false;
         std::vector<weak_ptr_fast<draw_callback_t>> draw_callbacks;
@@ -580,7 +580,7 @@ class game
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
-        item *inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
+        item *inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
                               const std::string &none_message = "" );
 
         bool has_gametype() const;
@@ -588,7 +588,7 @@ class game
 
         void toggle_fullscreen();
         void toggle_pixel_minimap();
-        void reload_tileset( std::function<void( std::string )> out );
+        void reload_tileset( const std::function<void( std::string )> &out );
         void temp_exit_fullscreen();
         void reenter_fullscreen();
         void zoom_in();

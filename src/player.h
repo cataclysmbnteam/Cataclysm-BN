@@ -84,10 +84,10 @@ class player : public Character
     public:
         player();
         player( const player & ) = delete;
-        player( player && );
+        player( player && ) noexcept ;
         ~player() override;
         player &operator=( const player & ) = delete;
-        player &operator=( player && );
+        player &operator=( player && ) noexcept ;
 
         bool is_player() const override {
             return true;
@@ -140,7 +140,7 @@ class player : public Character
 
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
         recipe_subset get_recipes_from_books( const inventory &crafting_inv,
-                                              recipe_filter filter = nullptr ) const;
+                                              const recipe_filter &filter = nullptr ) const;
         /**
           * Returns all available recipes (from books and npc companions)
           * @param crafting_inv Current available items to craft

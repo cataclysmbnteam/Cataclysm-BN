@@ -8,6 +8,7 @@ detached_ptr<T>::detached_ptr() : ptr( nullptr ) {}
 
 template<typename T>
 detached_ptr<T>::detached_ptr( detached_ptr &&source )
+noexcept
 {
     ptr = source.ptr;
     source.ptr = nullptr;
@@ -15,6 +16,7 @@ detached_ptr<T>::detached_ptr( detached_ptr &&source )
 
 template<typename T>
 detached_ptr<T> &detached_ptr<T>::operator=( detached_ptr &&source )
+noexcept
 {
     if( ptr ) {
         ptr->destroy();

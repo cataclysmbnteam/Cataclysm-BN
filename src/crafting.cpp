@@ -1023,6 +1023,7 @@ void complete_craft( player &p, item &craft, const bench_location & )
     const int batch_size = craft.charges;
     std::vector<detached_ptr<item>> used = craft.remove_components();
     std::vector<item *> used_items;
+    used_items.reserve( used.size() );
     for( detached_ptr<item> &it : used ) {
         used_items.push_back( &*it );
     }
@@ -1558,6 +1559,7 @@ std::vector<detached_ptr<item>> player::consume_items( map &m, const comp_select
             std::vector<detached_ptr<item>> tmp = g->m.use_amount( loc, radius, selected_comp.type, real_count,
                                                   filter );
             std::vector<item *> as_p;
+            as_p.reserve( tmp.size() );
             for( detached_ptr<item> &i : tmp ) {
                 as_p.push_back( &*i );
             }
@@ -1574,6 +1576,7 @@ std::vector<detached_ptr<item>> player::consume_items( map &m, const comp_select
         } else {
             std::vector<detached_ptr<item>> tmp = use_amount( selected_comp.type, real_count, filter );
             std::vector<item *> as_p;
+            as_p.reserve( tmp.size() );
             for( detached_ptr<item> &i : tmp ) {
                 as_p.push_back( &*i );
             }
@@ -2132,7 +2135,7 @@ bool crafting::disassemble_all( avatar &you, bool recursively )
     }
 }
 
-void crafting::complete_disassemble( Character &who, iuse_location target,
+void crafting::complete_disassemble( Character &who, const iuse_location &target,
                                      const tripoint &/*pos*/ )
 {
 

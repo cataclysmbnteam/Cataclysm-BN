@@ -392,7 +392,7 @@ class map
         virtual ~map();
 
         map &operator=( const map & ) = delete;
-        map &operator=( map && );
+        map &operator=( map && ) noexcept ;
 
         /**
          * Sets a dirty flag on the a given cache.
@@ -801,7 +801,7 @@ class map
         * @param new_active Override default active tile of new furniture
         */
         void furn_set( const tripoint &p, const furn_id &new_furniture,
-                       cata::poly_serialized<active_tile_data> new_active = nullptr );
+                       const cata::poly_serialized<active_tile_data> &new_active = nullptr );
         void furn_set( point p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
@@ -1909,8 +1909,8 @@ class map
                               units::angle wideangle = 30_degrees );
         void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
-        void add_light_from_items( const tripoint &p, item_stack::iterator begin,
-                                   item_stack::iterator end );
+        void add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
+                                   const item_stack::iterator &end );
         std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
