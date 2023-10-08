@@ -338,7 +338,7 @@ static int debug_menu_uilist( bool display_all_entries = true )
         menu.insert( menu.begin() + 1, debug_menu.begin(), debug_menu.end() );
 
         if( cata::has_lua() ) {
-            menu.push_back( uilist_entry( 7, true, 'l', _( "Lua console" ) ) );
+            menu.emplace_back( 7, true, 'l', _( "Lua console" ) );
         }
     }
 
@@ -1441,7 +1441,8 @@ void debug()
             std::vector<std::pair<m_flag, int>> sorted;
             sorted.reserve( m_flag::MF_MAX );
             for( int f = 0; f < m_flag::MF_MAX; f++ ) {
-                sorted.push_back( {static_cast<m_flag>( f ), MonsterGenerator::generator().m_flag_usage_stats[f]} );
+                sorted.emplace_back( static_cast<m_flag>( f ),
+                                     MonsterGenerator::generator().m_flag_usage_stats[f] );
             }
             std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
                 return a.second != b.second ? a.second > b.second : a.first < b.first;

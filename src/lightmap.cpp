@@ -530,7 +530,7 @@ void map::generate_lightmap( const int zlev )
                         }
                         const float light_override = cur->local_light_override();
                         if( light_override >= 0.0 ) {
-                            lm_override.push_back( std::pair<tripoint, float>( p, light_override ) );
+                            lm_override.emplace_back( p, light_override );
                         }
                     }
                 }

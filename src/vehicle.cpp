@@ -384,7 +384,7 @@ void vehicle::add_steerable_wheels()
                     axle = vp.mount().x;
                 }
 
-                wheels.push_back( std::make_pair( static_cast<int>( vp.part_index() ), steerable_id ) );
+                wheels.emplace_back( static_cast<int>( vp.part_index() ), steerable_id );
             }
         }
     }

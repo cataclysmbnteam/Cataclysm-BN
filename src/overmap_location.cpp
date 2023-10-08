@@ -58,7 +58,7 @@ std::vector<oter_type_id> overmap_location::get_all_terrains() const
     std::vector<oter_type_id> ret;
     ret.reserve( terrains.size() );
     for( oter_type_str_id elem : terrains ) {
-        ret.push_back( elem );
+        ret.emplace_back( elem );
     }
     return ret;
 }

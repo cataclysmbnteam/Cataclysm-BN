@@ -46,12 +46,12 @@ void active_item_cache::add( item &it )
         return;
     }
     if( it.can_revive() ) {
-        special_items[ special_item_type::corpse ].push_back( it );
+        special_items[ special_item_type::corpse ].emplace_back( it );
     }
     if( it.get_use( "explosion" ) ) {
-        special_items[ special_item_type::explosive ].push_back( it );
+        special_items[ special_item_type::explosive ].emplace_back( it );
     }
-    target_list.push_back( it );
+    target_list.emplace_back( it );
 }
 
 bool active_item_cache::empty() const

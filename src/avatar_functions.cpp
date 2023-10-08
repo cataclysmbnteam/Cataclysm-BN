@@ -324,7 +324,7 @@ void mend_item( avatar &you, item &obj, bool interactive )
         you.assign_activity( activity_id( "ACT_MEND_ITEM" ), to_moves<int>( method.time ) );
         you.activity->name = opt.fault.str();
         you.activity->str_values.emplace_back( method.id );
-        you.activity->targets.push_back( &obj );
+        you.activity->targets.emplace_back( &obj );
     }
 }
 
@@ -449,8 +449,8 @@ void gunmod_add( avatar &you, item &gun, item &mod )
     const int moves = !you.has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 
     you.assign_activity( activity_id( "ACT_GUNMOD_ADD" ), moves, -1, 0, tool );
-    you.activity->targets.push_back( &gun );
-    you.activity->targets.push_back( &mod );
+    you.activity->targets.emplace_back( &gun );
+    you.activity->targets.emplace_back( &mod );
     you.activity->values.push_back( 0 ); // dummy value
     you.activity->values.push_back( roll ); // chance of success (%)
     you.activity->values.push_back( risk ); // chance of damage (%)
