@@ -12,7 +12,7 @@ namespace rot
 
 auto temperature_flag_for_location( const map &m, const item &loc ) -> temperature_flag
 {
-    if( !loc.is_loaded() ) {
+    if( !loc.has_position() ) {
         return temperature_flag::TEMP_NORMAL;
     }
 
