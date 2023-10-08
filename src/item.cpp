@@ -88,6 +88,7 @@
 #include "relic.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "rot.h"
 #include "rng.h"
 #include "skill.h"
 #include "stomach.h"
@@ -4894,11 +4895,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (fresh)" );
         }
         if( is_loaded() ) {
-            const units::temperature temp = units::from_fahrenheit(
-                                                get_weather().get_temperature( position() ) );
-            if( temp <= temperatures::freezing ) {
+            const auto temp = rot::temperature_flag_for_location( get_map(), *this );
+            if( temp == temperature_flag::TEMP_FREEZER ) {
                 tagtext += _( " (very cold)" );
-            } else if( temp <= temperatures::root_cellar ) {
+            } else if( temp == temperature_flag::TEMP_FRIDGE || temp == temperature_flag::TEMP_ROOT_CELLAR ) {
                 tagtext += _( " (cold)" );
             }
         }

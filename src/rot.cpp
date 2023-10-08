@@ -1,5 +1,6 @@
 #include "rot.h"
 
+#include "item.h"
 #include "map.h"
 #include "vehicle.h"
 #include "vehicle_part.h"
@@ -9,9 +10,10 @@
 
 namespace rot
 {
-temperature_flag temperature_flag_for_location( const map &m, const item &loc )
+auto temperature_flag_for_location( const map &m, const item &loc ) -> temperature_flag
 {
-    switch( loc.where() ) {
+    const item_location_type where = loc.where();
+    switch( where ) {
         case item_location_type::invalid:
             return temperature_flag::TEMP_NORMAL;
         case item_location_type::character:
@@ -53,7 +55,7 @@ temperature_flag temperature_flag_for_location( const map &m, const item &loc )
     }
 }
 
-temperature_flag temperature_flag_for_part( const vehicle &veh, size_t part_index )
+auto temperature_flag_for_part( const vehicle &veh, size_t part_index ) -> temperature_flag
 {
     const vehicle_part &part = veh.cpart( part_index );
     const vpart_info &info = part.info();
