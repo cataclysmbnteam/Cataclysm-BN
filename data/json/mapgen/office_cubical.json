@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "ssssssssssssssssssssssss",
+        "sssssssssssssssssssssss'",
         "s|-wwww-|  ss  |-wwww-|s",
         "s|......|$$ss$$|...h.o|s",
         "s|.htth.|--++--|..xd.o|s",
@@ -37,6 +37,7 @@
         "$": "t_shrub",
         "+": "t_door_c",
         "-": "t_wall_w",
+        "'": "t_sidewalk",
         "D": "t_door_locked",
         "s": "t_sidewalk",
         "w": "t_window",
@@ -45,6 +46,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "#": "f_bench",
         "S": "f_sink",
         "^": "f_indoor_plant",
@@ -137,7 +139,7 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        " $$$$$$##$ssss$##$$$$$$ ",
+        " $$$$$$##$ssss$##$$$$$$'",
         " ##WWWW##$ssss$##WWWW## ",
         " #^....^#$ssss$#Y????^##",
         " #.KttK.###++###..ttK.o#",
@@ -164,6 +166,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_dirt" ],
+        "'": "t_dirt",
         "$": "t_shrub",
         "+": "t_door_c",
         "-": "t_wall_w",
@@ -179,6 +182,7 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "'": "f_street_light",
         "?": "f_sofa",
         "K": "f_armchair",
         "Y": "f_rack_coat",
