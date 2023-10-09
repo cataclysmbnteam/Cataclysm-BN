@@ -454,9 +454,13 @@ class cache_reference
             p = source.p;
             add_to_map();
         }
+
         cache_reference( cache_reference<T> &&source )  noexcept {
             p = source.p;
             source.p = nullptr;
+            if(!p){
+				return;
+			}
             ref_map_it search = reference_map.find( p );
             if( search == reference_map.end() ) {
                 debugmsg( "Couldn't find cached reference in reference map." );
