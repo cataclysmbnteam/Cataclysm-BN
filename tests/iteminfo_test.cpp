@@ -157,13 +157,13 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
             item( "test_briefcase" ), q,
             "--\n"
             "<color_c_white>Encumbrance</color>:\n"
-            "L. Hand:  <color_c_yellow>30</color>  "
-            "Coverage:  <color_c_yellow>10</color>\n"
-            "R. Hand:  <color_c_yellow>30</color>  "
-            "Coverage:  <color_c_yellow>10</color>\n"
             "L. Arm:  <color_c_yellow>30</color>  "
             "Coverage:  <color_c_yellow>10</color>\n"
             "R. Arm:  <color_c_yellow>30</color>  "
+            "Coverage:  <color_c_yellow>10</color>\n"
+            "L. Hand:  <color_c_yellow>30</color>  "
+            "Coverage:  <color_c_yellow>10</color>\n"
+            "R. Hand:  <color_c_yellow>30</color>  "
             "Coverage:  <color_c_yellow>10</color>\n"
         );
 
@@ -175,6 +175,7 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
 
 TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
 {
+    clear_avatar();
     // new DPS calculations depend on the avatar's stats, so make sure they're consistent
     REQUIRE( g->u.get_str() == 8 );
     REQUIRE( g->u.get_dex() == 8 );
@@ -330,10 +331,11 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         test_info_equals( longshirt, q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
                           "--\n"
                           "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
+                          "Arms:  <color_c_yellow>3</color>  "
+                          "Coverage:  <color_c_yellow>90</color>\n"
                           "Torso:  <color_c_yellow>3</color>  "
                           "Coverage:  <color_c_yellow>90</color>\n"
-                          "Arms:  <color_c_yellow>3</color>  "
-                          "Coverage:  <color_c_yellow>90</color>\n" );
+                        );
 
         item swat_armor( "test_swat_armor" );
         REQUIRE( swat_armor.get_covered_body_parts().any() );
@@ -408,13 +410,13 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         test_info_equals( swat_armor, q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
                           "--\n"
                           "<color_c_white>Encumbrance</color>:\n"
-                          "Torso:  <color_c_yellow>12</color>  "
+                          "Arms:  <color_c_yellow>12</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>95</color>\n"
                           "Legs:  <color_c_yellow>12</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>95</color>\n"
-                          "Arms:  <color_c_yellow>12</color>  "
+                          "Torso:  <color_c_yellow>12</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>95</color>\n"
                         );
@@ -584,22 +586,25 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         test_info_equals( faux_fur_suit, q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
                           "--\n"
                           "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
-                          "Torso:  <color_c_yellow>10</color>  "
+                          "L. Arm:  <color_c_yellow>5</color>  "
+                          "When Full:  <color_c_yellow>5</color>  "
+                          "Coverage:  <color_c_yellow>50</color>\n"
+                          "R. Arm:  <color_c_yellow>10</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>100</color>\n"
+
+                          "Head:  <color_c_yellow>5</color>  "
+                          "When Full:  <color_c_yellow>5</color>  "
+                          "Coverage:  <color_c_yellow>50</color>\n"
+
                           "L. Leg:  <color_c_yellow>5</color>  "
                           "When Full:  <color_c_yellow>5</color>  "
                           "Coverage:  <color_c_yellow>50</color>\n"
                           "R. Leg:  <color_c_yellow>10</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>100</color>\n"
-                          "Head:  <color_c_yellow>5</color>  "
-                          "When Full:  <color_c_yellow>5</color>  "
-                          "Coverage:  <color_c_yellow>50</color>\n"
-                          "L. Arm:  <color_c_yellow>5</color>  "
-                          "When Full:  <color_c_yellow>5</color>  "
-                          "Coverage:  <color_c_yellow>50</color>\n"
-                          "R. Arm:  <color_c_yellow>10</color>  "
+
+                          "Torso:  <color_c_yellow>10</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>100</color>\n"
                         );
@@ -621,8 +626,8 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
             "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n"
             "--\n"
             "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
-            "Torso:  <color_c_yellow>3</color>  Coverage:  <color_c_yellow>90</color>\n"
             "Arms:  <color_c_yellow>3</color>  Coverage:  <color_c_yellow>90</color>\n"
+            "Torso:  <color_c_yellow>3</color>  Coverage:  <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>: Bash: <color_c_yellow>1</color>  Cut: <color_c_yellow>1</color>  Ballistic: <color_c_yellow>1</color>\n"
             "  Acid: <color_c_yellow>0</color>  Fire: <color_c_yellow>0</color>  Environmental: <color_c_yellow>0</color>\n" );
     }

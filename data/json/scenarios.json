@@ -37,7 +37,7 @@
     "name": "Large Building",
     "points": -2,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
-    "allowed_locs": [ "sloc_mall_loading_area", "sloc_mall_food_court", "sloc_apartments_rooftop", "sloc_hospital" ],
+    "allowed_locs": [ "sloc_mall_loading_area", "sloc_mall_food_court", "sloc_apartments_rooftop", "sloc_hospital", "sloc_bastion_fort" ],
     "start_name": "In Large Building",
     "flags": [ "SUR_START", "CITY_START", "LONE_START" ]
   },
@@ -327,7 +327,8 @@
       "sloc_hermit_shack",
       "sloc_farm_survivalist",
       "sloc_campsite",
-      "sloc_campground"
+      "sloc_campground",
+      "sloc_bastion_fort"
     ],
     "start_name": "Outside Town",
     "flags": [ "SUR_START", "WIN_START", "LONE_START" ],
@@ -358,7 +359,8 @@
       "sloc_campsite",
       "sloc_campground",
       "sloc_cabin_lake",
-      "sloc_lighthouse_ground"
+      "sloc_lighthouse_ground",
+      "sloc_bastion_fort"
     ],
     "start_name": "Outside Town",
     "flags": [ "SUM_ADV_START", "LONE_START" ],
