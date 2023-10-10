@@ -1505,8 +1505,8 @@ void map::player_in_field( player &u )
                     bodypart_id bp = u.get_random_body_part();
                     int sum_cover = 0;
                     for( const item &i : u.worn ) {
-                        if( i.covers( bp->token ) ) {
-                            sum_cover += i.get_coverage();
+                        if( i.covers( bp ) ) {
+                            sum_cover += i.get_coverage( bp );
                         }
                     }
                     // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]

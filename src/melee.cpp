@@ -1613,14 +1613,16 @@ item &Character::best_shield()
     for( item &shield : worn ) {
         if( shield.has_flag( flag_BLOCK_WHILE_WORN ) && blocking_ability( shield ) >= best_value ) {
             // in case a mod adds a shield that protects only one arm, the corresponding arm needs to be working
-            if( shield.covers( bp_arm_l ) || shield.covers( bp_arm_r ) ) {
-                if( shield.covers( bp_arm_l ) && !is_limb_disabled( bodypart_id( "arm_l" ) ) ) {
+            if( shield.covers( bodypart_str_id( "arm_l" ) ) || shield.covers( bodypart_str_id( "arm_r" ) ) ) {
+                if( shield.covers( bodypart_str_id( "arm_l" ) ) && !is_limb_disabled( bodypart_id( "arm_l" ) ) ) {
                     best = &shield;
-                } else if( shield.covers( bp_arm_r ) && !is_limb_disabled( bodypart_id( "arm_r" ) ) ) {
+                } else if( shield.covers( bodypart_str_id( "arm_r" ) ) &&
+                           !is_limb_disabled( bodypart_id( "arm_r" ) ) ) {
                     best = &shield;
                 }
                 // leg guards
-            } else if( ( shield.covers( bp_leg_l ) || shield.covers( bp_leg_r ) ) &&
+            } else if( ( shield.covers( bodypart_str_id( "leg_l" ) ) ||
+                         shield.covers( bodypart_str_id( "leg_r" ) ) ) &&
                        get_working_leg_count() >= 1 ) {
                 best = &shield;
                 // in case a mod adds an unusual worn blocking item, like a magic bracelet/crown, it's handled here
@@ -1735,7 +1737,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     if( has_shield ) {
         // Does our shield cover the limb we blocked with? If so, add the block bonus.
-        block_score += shield.covers( bp_hit->token ) ? block_bonus : 0;
+        block_score += shield.covers( bp_hit ) ? block_bonus : 0;
     }
 
     // Map block_score to the logistic curve for a number between 1 and 0.
@@ -2033,7 +2035,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
         const mutation_branch &branch = pr.obj();
         for( const mut_attack &mut_atk : branch.attacks_granted ) {
             // Covered body part
-            if( mut_atk.bp != num_bp && !usable_body_parts.test( mut_atk.bp ) ) {
+            if( mut_atk.bp != num_bp && !usable_body_parts.test( convert_bp( mut_atk.bp ) ) ) {
                 continue;
             }
 
