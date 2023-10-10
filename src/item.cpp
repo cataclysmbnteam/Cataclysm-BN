@@ -2636,7 +2636,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
                 info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>:" ), format,
                                           iteminfo::lower_is_better ) );
-                for( auto &piece : to_display_data ) {
+                for( auto &piece : sorted_lex( to_display_data ) ) {
                     if( t->sided ) {
                         const bodypart_str_id &covering_id = piece.first;
                         if( !covers( covering_id.id() ) ) {
