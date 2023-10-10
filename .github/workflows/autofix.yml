@@ -41,13 +41,13 @@ jobs:
         with:
           commit-message: "style(autofix.ci): automated formatting"
           commment: |
-            The app has automatically formatted this PR.
+            The Autofix app has automatically formatted this Pull Request.
 
             If you edit your PR on web UI, you can ignore this message.
             If you edit your PR locally, YOU MUST DO EITHER OF THE FOLLOWING:
 
-            - Run `git pull` to merge the automated commit into your PR branch.
-            - [Format your code locally](https://docs.cataclysmbn.org/en/mod/json/explanation/json_style/), and force push to your PR branch.
+            - Run `git pull` to merge the automated commit into your local copy of the PR branch.
+            - [Format your code locally](https://docs.cataclysmbn.org/en/contribute/contributing/#code-style), and force push to your PR branch.
 
             If you don't do this, your following work will be based on the old commit, and cause MERGE CONFLICT.
 
