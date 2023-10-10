@@ -9858,11 +9858,13 @@ bool Character::has_fire( const int quantity ) const
                 return true;
             }
         }
-    } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
+    } else if( has_active_bionic( bio_tools ) && get_power_level() >= quantity * 5_kJ ) {
         return true;
-    } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
+    } else if( has_bionic( bio_lighter ) &&
+               get_power_level() >= quantity * bio_lighter->power_activate ) {
         return true;
-    } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
+    } else if( has_bionic( bio_laser ) &&
+               get_power_level() >= quantity * bio_laser->power_activate ) {
         return true;
     } else if( is_npc() ) {
         // HACK: A hack to make NPCs use their Molotovs
@@ -9918,14 +9920,16 @@ void Character::use_fire( const int quantity )
                 return;
             }
         }
-    } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
+    } else if( has_active_bionic( bio_tools ) && get_power_level() >= quantity * 5_kJ ) {
         mod_power_level( -quantity * 5_kJ );
         return;
-    } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
-        mod_power_level( -quantity * 5_kJ );
+    } else if( has_bionic( bio_lighter ) &&
+               get_power_level() >= quantity * bio_lighter->power_activate ) {
+        mod_power_level( -quantity * bio_lighter->power_activate );
         return;
-    } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
-        mod_power_level( -quantity * 5_kJ );
+    } else if( has_bionic( bio_laser ) &&
+               get_power_level() >= quantity * bio_laser->power_activate ) {
+        mod_power_level( -quantity * bio_laser->power_activate );
         return;
     }
 }
