@@ -108,6 +108,9 @@ std::vector<item *> active_item_cache::get_for_processing()
             } else {
                 // The item has been destroyed, so remove the reference from the cache
                 it = kv.second.second.erase( it );
+                if( kv.second.second.empty() ) {
+                    break;
+                }
             }
             if( it == kv.second.second.end() ) {
                 it = kv.second.second.begin();

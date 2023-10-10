@@ -386,7 +386,6 @@ class cache_reference
     private:
         T *p;
     protected:
-
         using ref_list = std::vector<cache_reference<T>*>;
         using ref_map = std::unordered_map<const T *, ref_list>;
 
