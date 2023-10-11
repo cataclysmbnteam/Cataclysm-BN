@@ -389,7 +389,8 @@ void sounds::process_sound_markers( player *p )
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
     const int weather_vol = get_weather().weather_id->sound_attn;
-    for( const auto &sound_event_pair : sounds_since_last_turn ) {
+    auto sounds_copy = sounds_since_last_turn;
+    for( const auto &sound_event_pair : sounds_copy ) {
         const tripoint &pos = sound_event_pair.first;
         const sound_event &sound = sound_event_pair.second;
         const int distance_to_sound = sound_distance( p->pos(), pos );
