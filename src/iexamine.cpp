@@ -200,6 +200,7 @@ static const trait_id trait_WEB_BRIDGE( "WEB_BRIDGE" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
@@ -212,6 +213,7 @@ static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_power_storage( "bio_power_storage" );
 static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
@@ -1387,16 +1389,12 @@ static safe_reference<item> find_best_lock_picking_tool( player &p )
 {
     std::vector<item *> picklocks = p.items_with( []( const item & it ) {
         // we want to get worn items (eg hairpin), so no check on item position
-        return it.type->get_use( "picklock" ) != nullptr;
+        return it.type->get_use( "PICK_LOCK" ) != nullptr;
     } );
 
     // Sort by their picklock level.
     std::sort( picklocks.begin(), picklocks.end(), [&]( const item * a, const item * b ) {
-        const auto actor_a = dynamic_cast<const pick_lock_actor *>
-                             ( a->type->get_use( "picklock" )->get_actor_ptr() );
-        const auto actor_b = dynamic_cast<const pick_lock_actor *>
-                             ( b->type->get_use( "picklock" )->get_actor_ptr() );
-        return actor_a->pick_quality > actor_b->pick_quality;
+        return a->get_quality( qual_LOCKPICK ) > b->get_quality( qual_LOCKPICK );
     } );
 
     if( picklocks.empty() ) {
@@ -1422,13 +1420,12 @@ static void apply_lock_picking_tool( player &p, item *it, const tripoint &examp 
 {
     map &here = get_map();
 
-    const auto actor = dynamic_cast<const pick_lock_actor *>
-                       ( it->type->get_use( "picklock" )->get_actor_ptr() );
+    const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
     p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
                          here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
-    const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
+    const ret_val<bool> can_use = iuse_fn->can_call( p, *it, false, examp );
     if( can_use.success() ) {
-        actor->use( p, *it, false, examp );
+        p.invoke_item( it, "PICK_LOCK", examp );
         return;
     } else {
         p.add_msg_if_player( m_bad, can_use.str() );
@@ -1449,14 +1446,8 @@ void iexamine::locked_object( player &p, const tripoint &examp )
     }
 
     // if the furniture/terrain is also lockpickable
-    if( here.has_flag_ter_or_furn( "LOCKED", examp ) ) {
-        safe_reference<item> lock_picking_tool = find_best_lock_picking_tool( p );
-        if( lock_picking_tool ) {
-            apply_lock_picking_tool( p, lock_picking_tool.get(), examp );
-        } else {
-            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
-                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
-        }
+    if( lockpick_activity_actor::is_pickable( examp ) ) {
+        locked_object_pickable( p, examp );
         return;
     }
 
@@ -1465,11 +1456,24 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 }
 
 /**
-* Checks whether PC has picklocks then calls pick_lock_actor.
+* Checks whether PC has picklocks then calls pick_lock iuse function OR assigns ACT_LOCKPICK
 */
 void iexamine::locked_object_pickable( player &p, const tripoint &examp )
 {
     map &here = get_map();
+
+    if( p.has_bionic( bio_lockpick ) ) {
+        if( p.get_power_level() >= bio_lockpick->power_activate ) {
+            p.mod_power_level( -bio_lockpick->power_activate );
+            p.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
+            p.assign_activity( lockpick_activity_actor::use_bionic(
+                                   item( bio_lockpick->fake_item ), here.getabs( examp ) ) );
+            return;
+        } else {
+            p.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
+                                 bio_lockpick->name );
+        }
+    }
 
     safe_reference<item> lock_picking_tool = find_best_lock_picking_tool( p );
     if( lock_picking_tool ) {

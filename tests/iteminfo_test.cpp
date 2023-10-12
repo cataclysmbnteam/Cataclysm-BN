@@ -878,6 +878,7 @@ TEST_CASE( "list of item qualities", "[item][iteminfo][quality]" )
         test_info_equals(
             item( "test_sonic_screwdriver" ), q,
             "--\n"
+            "Has level <color_c_cyan>30 lockpicking</color> quality.\n"
             "Has level <color_c_cyan>2 prying</color> quality.\n"
             "Has level <color_c_cyan>2 screw driving</color> quality.\n"
             "Has level <color_c_cyan>1 fine screw driving</color> quality.\n"

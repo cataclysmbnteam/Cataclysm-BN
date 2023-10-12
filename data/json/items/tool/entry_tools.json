@@ -35,7 +35,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "LOCKPICK", 3 ] ],
-    "use_action": { "type": "picklock", "pick_quality": 3 }
+    "use_action": "PICK_LOCK"
   },
   {
     "id": "iceaxe",
@@ -94,7 +94,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "LOCKPICK", 5 ] ],
-    "use_action": { "type": "picklock", "pick_quality": 5 }
+    "use_action": "PICK_LOCK"
   },
   {
     "id": "pseudo_bio_picklock",
@@ -107,10 +107,8 @@
     "price_postapoc": 0,
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "charges_per_use": 1,
     "qualities": [ [ "LOCKPICK", 40 ] ],
-    "use_action": { "type": "picklock", "pick_quality": 40 }
+    "use_action": "PICK_LOCK",
+    "flags": [ "PSEUDO", "PERFECT_LOCKPICK" ]
   }
 ]

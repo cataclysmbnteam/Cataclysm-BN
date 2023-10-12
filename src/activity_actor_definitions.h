@@ -324,6 +324,55 @@ class hacking_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class lockpick_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        std::optional<item_location> lockpick;
+        std::optional<item> fake_lockpick;
+        tripoint target;
+
+        lockpick_activity_actor(
+            int moves_total,
+            const std::optional<item_location> &lockpick,
+            const std::optional<item> &fake_lockpick,
+            const tripoint &target
+        ) : moves_total( moves_total ), lockpick( lockpick ), fake_lockpick( fake_lockpick ),
+            target( target ) {};
+
+    public:
+        /** Use regular lockpick. 'target' is in global coords */
+        static lockpick_activity_actor use_item(
+            int moves_total,
+            const item_location &lockpick,
+            const tripoint &target
+        );
+
+        /** Use bionic lockpick. 'target' is in global coords */
+        static lockpick_activity_actor use_bionic(
+            const item &fake_lockpick,
+            const tripoint &target
+        );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_LOCKPICK" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        static bool is_pickable( const tripoint &p );
+        static std::optional<tripoint> select_location( avatar &you );
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<lockpick_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 class migration_cancel_activity_actor : public activity_actor
 {
     public:

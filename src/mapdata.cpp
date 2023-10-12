@@ -1060,41 +1060,6 @@ void reset_furn_ter()
     furniture_data.reset();
 }
 
-lockpicking_open_result get_lockpicking_open_result( ter_id ter_type, furn_id furn_type )
-{
-    lockpicking_open_result result;
-
-    ter_id new_ter_type = t_null;
-    furn_id new_furn_type = f_null;
-    std::string open_message;
-    if( ter_type == t_chaingate_l ) {
-        new_ter_type = t_chaingate_c;
-        open_message = _( "With a satisfying click, the chain-link gate opens." );
-    } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
-               ter_type == t_door_locked_interior ) {
-        new_ter_type = t_door_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_locked_peep ) {
-        new_ter_type = t_door_c_peep;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_metal_pickable ) {
-        new_ter_type = t_door_metal_c;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    } else if( ter_type == t_door_bar_locked ) {
-        new_ter_type = t_door_bar_o;
-        //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open…" );
-    } else if( furn_type == f_gunsafe_ml ) {
-        new_furn_type = f_safe_o;
-        open_message = _( "With a satisfying click, the lock on the door opens." );
-    }
-
-    result.new_ter_type = new_ter_type;
-    result.new_furn_type = new_furn_type;
-    result.open_message = open_message;
-    return result;
-}
-
 furn_id f_null,
         f_hay,
         f_rubble, f_rubble_rock, f_wreckage, f_ash,
@@ -1361,6 +1326,9 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "transforms_into", transforms_into, is_json_check_strict( src ) );
     assign( jo, "roof", roof, is_json_check_strict( src ) );
 
+    optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+
     // Not assign, because we want to overwrite individual fields
     optional( jo, was_loaded, "bash", bash );
     deconstruct.load( jo, "deconstruct", false );
@@ -1546,6 +1514,11 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
+
+    optional( jo, was_loaded, "lockpick_result", lockpick_result, string_id_reader<furn_t> {},
+              furn_str_id::NULL_ID() );
+    optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+
     optional( jo, was_loaded, "transforms_into", transforms_into, string_id_reader<furn_t> {},
               furn_str_id::NULL_ID() );
 

@@ -482,6 +482,8 @@
     "type": "activity_type",
     "verb": "picking lock",
     "rooted": true,
+    "suspendable": false,
+    "no_resume": true,
     "based_on": "speed"
   },
   {
