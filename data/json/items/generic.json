@@ -1685,8 +1685,8 @@
     "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
     "material": "cotton",
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "weight": "80 g",
-    "volume": "250 ml"
+    "weight": "15 g",
+    "volume": "10 ml"
   },
   {
     "id": "pipe_cleaner",
