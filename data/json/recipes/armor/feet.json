@@ -335,7 +335,7 @@
     "time": "20 m",
     "book_learn": [ [ "tailor_japanese", 2 ] ],
     "using": [ [ "sewing_standard", 6 ] ],
-    "components": [ [ [ "rag", 3 ] ] ]
+    "components": [ [ [ "rag", 2 ] ] ]
   },
   {
     "result": "footrags",
@@ -346,7 +346,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "rag", 6 ] ] ],
+    "components": [ [ [ "rag", 4 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -382,7 +382,7 @@
     "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "felt_patch", 6 ] ] ],
+    "components": [ [ [ "felt_patch", 4 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
@@ -467,7 +467,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "tailoring_wool_knitting", 80 ] ]
+    "using": [ [ "tailoring_wool_knitting", 120 ] ]
   },
   {
     "result": "socks_ankle",
