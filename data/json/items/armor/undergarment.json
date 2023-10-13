@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of arm warmers", "str_pl": "pairs of arm warmers" },
     "description": "Snug, soft cloth sleeves to keep your arms warm.",
-    "weight": "32 g",
+    "weight": "300 g",
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 50,

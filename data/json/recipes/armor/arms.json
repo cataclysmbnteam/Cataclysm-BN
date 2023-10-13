@@ -176,8 +176,8 @@
     "difficulty": 1,
     "time": "60 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 32 ] ],
-    "components": [ [ [ "rag", 40 ] ] ]
+    "using": [ [ "sewing_standard", 30 ] ],
+    "components": [ [ [ "rag", 16 ] ] ]
   },
   {
     "result": "stockings_tent_arms",
@@ -189,8 +189,8 @@
     "difficulty": 1,
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 8 ] ],
-    "components": [ [ [ "stockings", 4 ] ], [ [ "rag", 8 ] ] ]
+    "using": [ [ "sewing_standard", 6 ] ],
+    "components": [ [ [ "stockings", 4 ] ] ]
   },
   {
     "result": "vambrace_larmor",

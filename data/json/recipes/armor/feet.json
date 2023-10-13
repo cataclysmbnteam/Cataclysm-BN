@@ -490,7 +490,7 @@
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 6 ] ],
-    "components": [ [ [ "rag", 8 ] ] ]
+    "components": [ [ [ "rag", 4 ] ] ]
   },
   {
     "result": "stockings_wool",

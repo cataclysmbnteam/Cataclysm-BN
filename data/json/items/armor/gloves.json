@@ -953,7 +953,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of tentacle sleeves", "str_pl": "pairs of tentacle sleeves" },
     "description": "Long cotton tubes sized to fit over tentacles and help protect them from the cold.",
-    "weight": "360 g",
+    "weight": "1200 g",
     "volume": "1500 ml",
     "price": 400,
     "price_postapoc": 250,
