@@ -11,8 +11,6 @@ on:
       - "gfx/**"
       - "lang/**"
       - "lgtm/**"
-      - "msvc-object_creator/**"
-      - "object_creator/**"
       - "tools/**"
       - "!tools/format/**"
       - "utilities/**"
