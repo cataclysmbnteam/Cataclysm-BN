@@ -225,7 +225,7 @@ jobs:
           restore-keys: ccache-upload-${{ matrix.ccache_key }}--
 
       - name: ccache info
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: ${{ env.SKIP == 'false' && steps.cache.outputs.cache-hit != 'true' }}
         run: |
           echo CCache failed to restore from cache, emmiting stats
           ccache --show-stats --verbose
