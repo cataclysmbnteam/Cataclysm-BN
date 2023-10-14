@@ -415,9 +415,10 @@
   {
     "id": "arachnid_tainted",
     "type": "harvest",
+    "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
     ]
   },
   {
@@ -426,7 +427,7 @@
     "message": "You laboriously dissect the colossal insect.",
     "entries": [
       { "drop": "mutant_meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80, "type": "flesh" },
-      { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "bone" },
+      { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "skin" },
       { "drop": "sweetbread", "base_num": [ 3, 4 ], "scale_num": [ 0.4, 0.6 ], "max": 8, "type": "offal" },
       { "drop": "mutant_fat", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 18, "type": "flesh" }
     ]
@@ -434,41 +435,45 @@
   {
     "id": "arachnid",
     "type": "harvest",
+    "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
     ]
   },
   {
     "id": "arachnid_acid",
     "type": "harvest",
+    "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "acidchitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "acidchitin_piece", "type": "skin", "mass_ratio": 0.1 }
     ]
   },
   {
     "id": "arachnid_bee",
     "//": "todo: add stinger here and remove drops from death",
     "type": "harvest",
+    "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
     ]
   },
   {
     "id": "arachnid_wasp",
     "//": "todo: add stinger here and remove drops from death",
     "type": "harvest",
+    "message": "You carefully crack open its exoskeleton to get at the flesh beneath",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "chitin_piece", "type": "skin", "mass_ratio": 0.1 }
     ]
   },
   {
