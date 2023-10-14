@@ -367,11 +367,14 @@
     "color": "brown",
     "spoils_in": "1 day 22 hours",
     "container": "wrapper",
+    "looks_like": "sandwich_deluxe",
     "quench": 1,
     "description": "A simple sandwich, little more than meat and veggies on bread.  Rather dry.",
     "price": 200,
     "price_postapoc": 200,
-    "fun": 1
+    "fun": 6,
+    "material": [ "flesh", "veggy", "wheat" ],
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -382,10 +385,13 @@
     "color": "brown",
     "spoils_in": "1 day 22 hours",
     "container": "wrapper",
+    "looks_like": "sandwich_deluxe",
     "quench": 1,
     "description": "A deluxe sandwich with meat, veggies, and sauce, but no cheese.",
     "price": 200,
     "price_postapoc": 200,
-    "fun": 2
+    "fun": 9,
+    "material": [ "flesh", "veggy", "wheat" ],
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 26 ], [ "calcium", 8 ], [ "iron", 49 ], [ "vitB", 389 ] ]
   }
 ]
