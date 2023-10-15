@@ -263,11 +263,11 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 auto enabled = std::vector<BodyPartInfoPair>();
                 std::copy_if( sorted.begin(), sorted.end(), std::back_inserter( enabled ),
                 [&t, this]( const auto & piece ) {
-                    if( !t->sided ) {
-                        return true;
-                    }
                     if( !piece.second.active ) {
                         return false;
+                    }
+                    if( !t->sided ) {
+                        return true;
                     }
                     const bodypart_str_id &covering_id = piece.first;
                     return this->covers( covering_id.id() );
