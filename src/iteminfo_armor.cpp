@@ -74,6 +74,27 @@ auto sizing_info( const item::sizing sizing_level ) -> std::optional<std::string
 }
 using BodyPartInfoPair = std::pair<bodypart_str_id, body_part_display_info>;
 
+auto parts_to_display( const item &it,
+                       const islot_armor *t,
+                       const std::vector<BodyPartInfoPair> &xs ) -> std::vector<BodyPartInfoPair>
+{
+    auto result = std::vector<BodyPartInfoPair>();
+
+    std::copy_if( xs.begin(), xs.end(), std::back_inserter( result ),
+    [&it, t]( const auto & piece ) {
+        if( !piece.second.active ) {
+            return false;
+        }
+        if( !t->sided ) {
+            return true;
+        }
+        const bodypart_str_id &covering_id = piece.first;
+        return it.covers( covering_id.id() );
+    } );
+
+    return result;
+}
+
 auto max_bodypart_width( const std::vector<BodyPartInfoPair> &enabled ) -> int
 {
     return std::transform_reduce(
@@ -88,15 +109,15 @@ auto item_encumbrances( const islot_armor *t,
                       ) -> std::vector<iteminfo>
 {
     static const auto space = std::string{"  "};
+    const bool any_encumb_increase = !it.type->rigid || std::any_of( t->data.begin(), t->data.end(),
+    []( armor_portion_data data ) {
+        return data.encumber != data.max_encumber;
+    } );
 
     const int max_width = max_bodypart_width( enabled );
     auto info = std::vector<iteminfo>();
     info.reserve( enabled.size() * 2 );
     for( auto &piece : enabled ) {
-        const bool any_encumb_increase = !it.type->rigid || std::any_of( t->data.begin(), t->data.end(),
-        []( armor_portion_data data ) {
-            return data.encumber != data.max_encumber;
-        } );
         info.emplace_back( iteminfo( "ARMOR",
                                      string_format( _( "%s:" ),
                                              utf8_justify( piece.second.to_display.translated(), -max_width, true ) ) + space,
@@ -260,18 +281,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
 
                 const auto &sorted = sorted_lex( to_display_data );
-                auto enabled = std::vector<BodyPartInfoPair>();
-                std::copy_if( sorted.begin(), sorted.end(), std::back_inserter( enabled ),
-                [&t, this]( const auto & piece ) {
-                    if( !piece.second.active ) {
-                        return false;
-                    }
-                    if( !t->sided ) {
-                        return true;
-                    }
-                    const bodypart_str_id &covering_id = piece.first;
-                    return this->covers( covering_id.id() );
-                } );
+                const auto &enabled = parts_to_display( *this, t, sorted );
 
                 info.emplace_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>:" ), format,
                                              iteminfo::lower_is_better ) );
