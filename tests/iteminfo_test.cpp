@@ -157,9 +157,9 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
             item( "test_briefcase" ), q,
             "--\n"
             "<color_c_white>Encumbrance</color>:\n"
-            "L. Arm:  <color_c_yellow>30</color>  "
+            "L. Arm :  <color_c_yellow>30</color>  "
             "Coverage:  <color_c_yellow>10</color>\n"
-            "R. Arm:  <color_c_yellow>30</color>  "
+            "R. Arm :  <color_c_yellow>30</color>  "
             "Coverage:  <color_c_yellow>10</color>\n"
             "L. Hand:  <color_c_yellow>30</color>  "
             "Coverage:  <color_c_yellow>10</color>\n"
@@ -331,7 +331,7 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         test_info_equals( longshirt, q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
                           "--\n"
                           "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
-                          "Arms:  <color_c_yellow>3</color>  "
+                          "Arms :  <color_c_yellow>3</color>  "
                           "Coverage:  <color_c_yellow>90</color>\n"
                           "Torso:  <color_c_yellow>3</color>  "
                           "Coverage:  <color_c_yellow>90</color>\n"
@@ -345,11 +345,11 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                           "<color_c_white>Covers</color>:"
                           " The <color_c_cyan>torso</color>."
                           " The <color_c_cyan>arms</color>."
-                          " The <color_c_cyan>legs</color>. \n" );
+                          " The <color_c_cyan>legs</color>. \n" ); // NOLINT(cata-text-style)
 
         test_info_equals( swat_armor, q_vec( { iteminfo_parts::ARMOR_LAYER } ),
                           "--\n"
-                          "Layer: <color_c_light_blue>Normal</color>. \n" );
+                          "Layer: <color_c_light_blue>Normal</color>. \n" ); // NOLINT(cata-text-style)
 
         REQUIRE( swat_armor.get_avg_coverage() == 95 );
         REQUIRE( swat_armor.get_warmth() == 35 );
@@ -410,10 +410,10 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         test_info_equals( swat_armor, q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
                           "--\n"
                           "<color_c_white>Encumbrance</color>:\n"
-                          "Arms:  <color_c_yellow>12</color>  "
+                          "Arms :  <color_c_yellow>12</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>95</color>\n"
-                          "Legs:  <color_c_yellow>12</color>  "
+                          "Legs :  <color_c_yellow>12</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>95</color>\n"
                           "Torso:  <color_c_yellow>12</color>  "
@@ -428,11 +428,11 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         test_info_equals( faux_fur_pants, q_vec( { iteminfo_parts::ARMOR_BODYPARTS } ),
                           "--\n"
                           "<color_c_white>Covers</color>:"
-                          " The <color_c_cyan>legs</color>. \n" );
+                          " The <color_c_cyan>legs</color>. \n" ); // NOLINT(cata-text-style)
 
         test_info_equals( faux_fur_pants, q_vec( { iteminfo_parts::ARMOR_LAYER } ),
                           "--\n"
-                          "Layer: <color_c_light_blue>Normal</color>. \n" );
+                          "Layer: <color_c_light_blue>Normal</color>. \n" ); // NOLINT(cata-text-style)
 
         REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
         REQUIRE( faux_fur_pants.get_warmth() == 70 );
@@ -509,11 +509,11 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                           " The <color_c_cyan>head</color>."
                           " The <color_c_cyan>torso</color>."
                           " The <color_c_cyan>arms</color>."
-                          " The <color_c_cyan>legs</color>. \n" );
+                          " The <color_c_cyan>legs</color>. \n" ); // NOLINT(cata-text-style)
 
         test_info_equals( faux_fur_suit, q_vec( { iteminfo_parts::ARMOR_LAYER } ),
                           "--\n"
-                          "Layer: <color_c_light_blue>Normal</color>. \n" );
+                          "Layer: <color_c_light_blue>Normal</color>. \n" ); // NOLINT(cata-text-style)
 
         REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
         REQUIRE( faux_fur_suit.get_warmth() == 5 );
@@ -593,7 +593,7 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>100</color>\n"
 
-                          "Head:  <color_c_yellow>5</color>  "
+                          "Head  :  <color_c_yellow>5</color>  "
                           "When Full:  <color_c_yellow>5</color>  "
                           "Coverage:  <color_c_yellow>50</color>\n"
 
@@ -604,7 +604,7 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>100</color>\n"
 
-                          "Torso:  <color_c_yellow>10</color>  "
+                          "Torso :  <color_c_yellow>10</color>  "
                           "When Full:  <color_c_yellow>25</color>  "
                           "Coverage:  <color_c_yellow>100</color>\n"
                         );
@@ -626,7 +626,7 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
             "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n"
             "--\n"
             "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
-            "Arms:  <color_c_yellow>3</color>  Coverage:  <color_c_yellow>90</color>\n"
+            "Arms :  <color_c_yellow>3</color>  Coverage:  <color_c_yellow>90</color>\n"
             "Torso:  <color_c_yellow>3</color>  Coverage:  <color_c_yellow>90</color>\n"
             "<color_c_white>Protection</color>: Bash: <color_c_yellow>1</color>  Cut: <color_c_yellow>1</color>  Ballistic: <color_c_yellow>1</color>\n"
             "  Acid: <color_c_yellow>0</color>  Fire: <color_c_yellow>0</color>  Environmental: <color_c_yellow>0</color>\n" );
