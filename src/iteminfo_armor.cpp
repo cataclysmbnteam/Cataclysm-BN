@@ -3,6 +3,7 @@
 #include <string>
 #include "avatar.h"
 #include "catacharset.h"
+#include "cata_algo.h"
 #include "item.h"
 #include "flag.h"
 #include "iteminfo_query.h"
@@ -72,8 +73,10 @@ auto sizing_info( const item::sizing sizing_level ) -> std::optional<std::string
             return {};
     }
 }
+
 using BodyPartInfoPair = std::pair<bodypart_str_id, body_part_display_info>;
 
+/// filter info when it's not active or it's one-sided and the item doesn't cover it
 auto parts_to_display( const item &it,
                        const islot_armor *t,
                        const std::vector<BodyPartInfoPair> &xs ) -> std::vector<BodyPartInfoPair>
@@ -95,45 +98,101 @@ auto parts_to_display( const item &it,
     return result;
 }
 
-auto max_bodypart_width( const std::vector<BodyPartInfoPair> &enabled ) -> int
+
+auto translate_pair( const BodyPartInfoPair &piece ) -> std::string
+{
+    return piece.second.to_display.translated();
+};
+
+using InfoGroup = std::map<int, std::vector<BodyPartInfoPair>>;
+using FormattedGroup = std::map<std::string, int>;
+
+template<typename C>
+auto max_utf8_width( const C &c ) -> int
 {
     return std::transform_reduce(
-               enabled.begin(), enabled.end(), 0,
+               c.begin(), c.end(), 0,
                []( const int left, const int right ) -> int { return std::max( left, right ); },
-               []( const auto & piece ) -> int { return utf8_width( piece.second.to_display.translated() ); } );
+               []( const auto & entry ) -> int { return utf8_width( entry.translated ); } );
 }
 
-auto item_encumbrances( const islot_armor *t,
-                        const item &it,
-                        const std::vector<BodyPartInfoPair> &enabled
-                      ) -> std::vector<iteminfo>
+const auto space = std::string {"  "};
+
+auto item_coverages( const std::vector<BodyPartInfoPair> &xs )-> std::vector<iteminfo>
 {
-    static const auto space = std::string{"  "};
-    const bool any_encumb_increase = !it.type->rigid || std::any_of( t->data.begin(), t->data.end(),
-    []( armor_portion_data data ) {
-        return data.encumber != data.max_encumber;
+    const auto &grouped = cata::group_by( xs, []( const auto & info ) -> int {return info.second.portion.coverage;} );
+
+    struct Entry {
+        std::string translated;
+        int coverage;
+    };
+
+    auto localized = std::vector<Entry>();
+    for( const auto &[coverage, parts] : grouped ) {
+        const auto parts_str = enumerate_as_string( parts, translate_pair, enumeration_conjunction::none );
+        localized.emplace_back( Entry{ parts_str, coverage } );
+    }
+
+    const int width = max_utf8_width( localized );
+
+    auto result = std::vector<iteminfo>();
+    for( const auto &[parts_str, coverage] : localized ) {
+        result.emplace_back( "ARMOR",
+                             string_format( "%s%s:%s", space, utf8_justify( parts_str, -width, true ), space ),
+                             "", iteminfo::lower_is_better, coverage );
+    }
+
+    return result;
+}
+
+auto item_encumbrances( const std::vector<BodyPartInfoPair> &xs ) -> std::vector<iteminfo>
+{
+    struct Encumber {
+        int min;
+        int max;
+
+        auto operator<( const Encumber &other ) const -> bool {
+            return min < other.min || ( min == other.min && max < other.max );
+        }
+    };
+
+    const auto &grouped = cata::group_by( xs, []( const auto & info ) -> Encumber {
+        const auto portion = info.second.portion;
+        return {portion.encumber, portion.max_encumber};
     } );
 
-    const int max_width = max_bodypart_width( enabled );
-    auto info = std::vector<iteminfo>();
-    info.reserve( enabled.size() * 2 );
-    for( auto &piece : enabled ) {
-        info.emplace_back( iteminfo( "ARMOR",
-                                     string_format( _( "%s:" ),
-                                             utf8_justify( piece.second.to_display.translated(), -max_width, true ) ) + space,
-                                     "",
-                                     iteminfo::no_newline | iteminfo::lower_is_better,
-                                     piece.second.portion.encumber ) );
-        if( any_encumb_increase ) {
-            info.emplace_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
-                                         iteminfo::no_newline | iteminfo::lower_is_better,
-                                         piece.second.portion.max_encumber ) );
-        }
-        info.emplace_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
-                                     iteminfo::lower_is_better,
-                                     piece.second.portion.coverage ) );
+    struct Entry {
+        std::string translated;
+        Encumber encumber;
+    };
+
+    auto localized = std::vector<Entry>();
+    for( const auto &[encumber, parts] : grouped ) {
+        const auto parts_str = enumerate_as_string( parts, translate_pair, enumeration_conjunction::none );
+
+        localized.emplace_back( Entry{ parts_str, encumber } );
     }
-    return info;
+
+    const int width = max_utf8_width( localized );
+
+    auto result = std::vector<iteminfo>();
+    result.reserve( xs.size() );
+
+    for( auto &[parts_str, encumber] : localized ) {
+        const auto justified_parts_info = utf8_justify( parts_str, -width, true );
+        if( encumber.min == encumber.max ) {
+            result.emplace_back( "ARMOR",
+                                 string_format( "%s%s:%s", space, justified_parts_info, space ),
+                                 "", iteminfo::lower_is_better, encumber.min );
+        } else {
+            result.emplace_back( "ARMOR",
+                                 string_format( "%s%s:%s<neutral>%d-%d</neutral> (%s)",
+                                                space, justified_parts_info, space,
+                                                encumber.min, encumber.max, _( "When Full" ) ),
+                                 "", iteminfo::lower_is_better ) ;
+        }
+    }
+    return result;
 }
 
 } // namespace
@@ -147,7 +206,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     avatar &you = get_avatar();
-    const std::string space = "  ";
     body_part_set covered_parts = get_covered_body_parts();
     const bool covers_anything = covered_parts.any();
 
@@ -283,11 +341,16 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 const auto &sorted = sorted_lex( to_display_data );
                 const auto &enabled = parts_to_display( *this, t, sorted );
 
+                const auto &encumbrances = item_encumbrances( enabled );
+                const auto &coverages = item_coverages( enabled );
+
+                info.emplace_back( iteminfo( "ARMOR", _( "<bold>Coverage</bold>:" ), "",
+                                             iteminfo::lower_is_better ) );
+                info.insert( info.end(), coverages.begin(), coverages.end() );
+
                 info.emplace_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>:" ), format,
                                              iteminfo::lower_is_better ) );
-                const auto &tmp_info = item_encumbrances( t, *this, enabled );
-                // efficiently append tmp_info to info
-                info.insert( info.end(), tmp_info.begin(), tmp_info.end() );
+                info.insert( info.end(), encumbrances.begin(), encumbrances.end() );
             }
         }
     }
