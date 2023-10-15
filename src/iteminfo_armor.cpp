@@ -118,9 +118,21 @@ auto max_utf8_width( const C &c ) -> int
 
 const auto space = std::string {"  "};
 
+auto total()
+{
+    return  _( "<info>(total)</info>" );
+}
+
 auto item_coverages( const std::vector<BodyPartInfoPair> &xs )-> std::vector<iteminfo>
 {
     const auto &grouped = cata::group_by( xs, []( const auto & info ) -> int {return info.second.portion.coverage;} );
+    const auto heading = string_format( "%s:", _( "<bold>Coverage</bold>" ) );
+    const auto coverage_text = []( const int n ) -> std::string { return string_format( "<neutral>%s</neutral>%%", n ); };
+
+    if( grouped.size() == 1 ) {
+        return std::vector{ iteminfo( "ARMOR",
+                                      string_format( "%s %s %s", heading, total(), coverage_text( grouped.begin()->first ) ) ) };
+    }
 
     struct Entry {
         std::string translated;
@@ -136,16 +148,17 @@ auto item_coverages( const std::vector<BodyPartInfoPair> &xs )-> std::vector<ite
     const int width = max_utf8_width( localized );
 
     auto result = std::vector<iteminfo>();
+    result.emplace_back( iteminfo( "ARMOR", heading, "", iteminfo::lower_is_better ) );
     for( const auto &[parts_str, coverage] : localized ) {
-        result.emplace_back( "ARMOR",
-                             string_format( "%s%s:%s", space, utf8_justify( parts_str, -width, true ), space ),
-                             "", iteminfo::lower_is_better, coverage );
+        result.emplace_back( "ARMOR", string_format( "%s%s: %s", space,
+                             utf8_justify( parts_str, -width, true ), coverage_text( coverage ) ) );
     }
 
     return result;
 }
 
-auto item_encumbrances( const std::vector<BodyPartInfoPair> &xs ) -> std::vector<iteminfo>
+auto item_encumbrances( const std::string &format,
+                        const std::vector<BodyPartInfoPair> &xs ) -> std::vector<iteminfo>
 {
     struct Encumber {
         int min;
@@ -156,10 +169,22 @@ auto item_encumbrances( const std::vector<BodyPartInfoPair> &xs ) -> std::vector
         }
     };
 
+    const auto heading = string_format( "%s:", _( "<bold>Encumbrance</bold>" ) );
+    const auto encumber_range = []( const Encumber e ) -> std::string {
+        return ( e.min == e.max )
+        ? string_format( "<neutral>%d</neutral>", e.min )
+        : string_format( "<neutral>%d-%d</neutral> (%s)", e.min, e.max,  _( "When Full" ) );
+    };
+
     const auto &grouped = cata::group_by( xs, []( const auto & info ) -> Encumber {
         const auto portion = info.second.portion;
         return {portion.encumber, portion.max_encumber};
     } );
+
+    if( grouped.size() == 1 ) {
+        return std::vector{ iteminfo( "ARMOR",
+                                      string_format( "%s %s %s", heading, total(), encumber_range( grouped.begin()->first ) ) ) };
+    }
 
     struct Entry {
         std::string translated;
@@ -177,6 +202,8 @@ auto item_encumbrances( const std::vector<BodyPartInfoPair> &xs ) -> std::vector
 
     auto result = std::vector<iteminfo>();
     result.reserve( xs.size() );
+    result.emplace_back( iteminfo( "ARMOR", heading, format,
+                                   iteminfo::lower_is_better ) );
 
     for( auto &[parts_str, encumber] : localized ) {
         const auto justified_parts_info = utf8_justify( parts_str, -width, true );
@@ -350,15 +377,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 const auto &sorted = sorted_lex( to_display_data );
                 const auto &enabled = parts_to_display( *this, t, sorted );
 
-                const auto &encumbrances = item_encumbrances( enabled );
+                const auto &encumbrances = item_encumbrances( format, enabled );
                 const auto &coverages = item_coverages( enabled );
 
-                info.emplace_back( iteminfo( "ARMOR", _( "<bold>Coverage</bold>:" ), "",
-                                             iteminfo::lower_is_better ) );
                 info.insert( info.end(), coverages.begin(), coverages.end() );
-
-                info.emplace_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>:" ), format,
-                                             iteminfo::lower_is_better ) );
                 info.insert( info.end(), encumbrances.begin(), encumbrances.end() );
             }
         }
