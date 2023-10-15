@@ -122,6 +122,7 @@
       [ "wristwatch", 10 ],
       { "group": "tobacco_products", "prob": 32 },
       [ "ref_lighter", 1 ],
+      [ "electric_lighter", 1 ],
       [ "flask_hip", 1 ],
       [ "textbook_fireman", 10 ],
       [ "knee_pads", 5 ],

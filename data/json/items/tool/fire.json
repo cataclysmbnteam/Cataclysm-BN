@@ -261,5 +261,39 @@
       }
     ],
     "flags": [ "FIRESTARTER" ]
+  },
+  {
+    "id": "electric_lighter",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "electric lighter" },
+    "description": "A battery-powered lighter.  More efficient than anything you can make yourself, its batteries last for quite a while.",
+    "weight": "14 g",
+    "volume": "250 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "lighter",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": { "type": "firestarter" },
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "flags": [ "FIRESTARTER" ],
+    "magazine_well": "250 ml"
   }
 ]
