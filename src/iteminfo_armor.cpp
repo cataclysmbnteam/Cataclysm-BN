@@ -209,6 +209,15 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     body_part_set covered_parts = get_covered_body_parts();
     const bool covers_anything = covered_parts.any();
 
+    int converted_storage_scale = 0;
+    const double converted_storage = round_up( convert_volume( get_storage().value(),
+                                     &converted_storage_scale ), 2 );
+    if( parts->test( iteminfo_parts::ARMOR_STORAGE ) && converted_storage > 0 ) {
+        const iteminfo::flags f = converted_storage_scale == 0 ? iteminfo::no_flags : iteminfo::is_decimal;
+        info.emplace_back( iteminfo( "ARMOR", _( "<bold>Storage</bold>: " ),
+                                     string_format( "<num> %s", volume_units_abbr() ),
+                                     f, converted_storage ) );
+    }
 
     if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
         insert_separation_line( info );
@@ -355,15 +364,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    int converted_storage_scale = 0;
-    const double converted_storage = round_up( convert_volume( get_storage().value(),
-                                     &converted_storage_scale ), 2 );
-    if( parts->test( iteminfo_parts::ARMOR_STORAGE ) && converted_storage > 0 ) {
-        const iteminfo::flags f = converted_storage_scale == 0 ? iteminfo::no_flags : iteminfo::is_decimal;
-        info.emplace_back( iteminfo( "ARMOR", space + _( "Storage: " ),
-                                     string_format( "<num> %s", volume_units_abbr() ),
-                                     f, converted_storage ) );
-    }
 
     // Whatever the last entry was, we want a newline at this point
     info.back().bNewLine = true;
