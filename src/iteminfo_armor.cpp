@@ -1,4 +1,8 @@
+#include <algorithm>
+#include <numeric>
+#include <string>
 #include "avatar.h"
+#include "catacharset.h"
 #include "item.h"
 #include "flag.h"
 #include "iteminfo_query.h"
@@ -68,6 +72,48 @@ auto sizing_info( const item::sizing sizing_level ) -> std::optional<std::string
             return {};
     }
 }
+using BodyPartInfoPair = std::pair<bodypart_str_id, body_part_display_info>;
+
+auto max_bodypart_width( const std::vector<BodyPartInfoPair> &enabled ) -> int
+{
+    return std::transform_reduce(
+               enabled.begin(), enabled.end(), 0,
+               []( const int left, const int right ) -> int { return std::max( left, right ); },
+               []( const auto & piece ) -> int { return utf8_width( piece.second.to_display.translated() ); } );
+}
+
+auto item_encumbrances( const islot_armor *t,
+                        const item &it,
+                        const std::vector<BodyPartInfoPair> &enabled
+                      ) -> std::vector<iteminfo>
+{
+    static const auto space = std::string{"  "};
+
+    const int max_width = max_bodypart_width( enabled );
+    auto info = std::vector<iteminfo>();
+    info.reserve( enabled.size() * 2 );
+    for( auto &piece : enabled ) {
+        const bool any_encumb_increase = !it.type->rigid || std::any_of( t->data.begin(), t->data.end(),
+        []( armor_portion_data data ) {
+            return data.encumber != data.max_encumber;
+        } );
+        info.emplace_back( iteminfo( "ARMOR",
+                                     string_format( _( "%s:" ),
+                                             utf8_justify( piece.second.to_display.translated(), -max_width, true ) ) + space,
+                                     "",
+                                     iteminfo::no_newline | iteminfo::lower_is_better,
+                                     piece.second.portion.encumber ) );
+        if( any_encumb_increase ) {
+            info.emplace_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
+                                         iteminfo::no_newline | iteminfo::lower_is_better,
+                                         piece.second.portion.max_encumber ) );
+        }
+        info.emplace_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
+                                     iteminfo::lower_is_better,
+                                     piece.second.portion.coverage ) );
+    }
+    return info;
+}
 
 } // namespace
 
@@ -82,12 +128,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     avatar &you = get_avatar();
     const std::string space = "  ";
     body_part_set covered_parts = get_covered_body_parts();
-    bool covers_anything = covered_parts.any();
+    const bool covers_anything = covered_parts.any();
 
-    const auto names = enumerate_as_string( covered_parts,
-    []( const bodypart_str_id & bp ) -> std::string {
-        return bp.obj().name.translated();
-    } );
 
     if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
         insert_separation_line( info );
@@ -218,7 +260,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
 
                 const auto &sorted = sorted_lex( to_display_data );
-                auto enabled = std::vector<std::pair<bodypart_str_id, body_part_display_info>>();
+                auto enabled = std::vector<BodyPartInfoPair>();
                 std::copy_if( sorted.begin(), sorted.end(), std::back_inserter( enabled ),
                 [&t, this]( const auto & piece ) {
                     if( !t->sided ) {
@@ -230,36 +272,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     const bodypart_str_id &covering_id = piece.first;
                     return this->covers( covering_id.id() );
                 } );
-                const auto item_encumbrances = [&t]( const item & it,
-                                                     const std::vector<std::pair<bodypart_str_id, body_part_display_info>> &enabled ) ->
-                std::vector<iteminfo> {
-                    static const auto space = std::string{"  "};
-                    auto info = std::vector<iteminfo>();
-                    info.reserve( enabled.size() * 2 );
-                    for( auto &piece : enabled )
-                    {
-                        const bool any_encumb_increase = !it.type->rigid || std::any_of( t->data.begin(), t->data.end(),
-                        []( armor_portion_data data ) {
-                            return data.encumber != data.max_encumber;
-                        } );
-                        info.emplace_back( iteminfo( "ARMOR",
-                                                     string_format( _( "%-6s:" ), piece.second.to_display.translated() ) + space, "",
-                                                     iteminfo::no_newline | iteminfo::lower_is_better,
-                                                     piece.second.portion.encumber ) );
-                        if( any_encumb_increase ) {
-                            info.emplace_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
-                                                         iteminfo::no_newline | iteminfo::lower_is_better,
-                                                         piece.second.portion.max_encumber ) );
-                        }
-                        info.emplace_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
-                                                     iteminfo::lower_is_better,
-                                                     piece.second.portion.coverage ) );
-                    }
-                    return info;
-                };
+
                 info.emplace_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>:" ), format,
                                              iteminfo::lower_is_better ) );
-                const auto &tmp_info = item_encumbrances( *this, enabled );
+                const auto &tmp_info = item_encumbrances( t, *this, enabled );
                 // efficiently append tmp_info to info
                 info.insert( info.end(), tmp_info.begin(), tmp_info.end() );
             }
