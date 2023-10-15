@@ -222,6 +222,7 @@
       [ "textbook_traps", 8 ],
       [ "lighter", 60 ],
       [ "ref_lighter", 10 ],
+      [ "electric_lighter", 10 ],
       [ "matches", 60 ],
       [ "sewing_kit", 47 ],
       [ "tailors_kit", 3 ],
