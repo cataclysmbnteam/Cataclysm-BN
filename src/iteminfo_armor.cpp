@@ -148,7 +148,7 @@ auto item_coverages( const std::vector<BodyPartInfoPair> &xs )-> std::vector<ite
     const int width = max_utf8_width( localized );
 
     auto result = std::vector<iteminfo>();
-    result.emplace_back( iteminfo( "ARMOR", heading, "", iteminfo::lower_is_better ) );
+    result.emplace_back( "ARMOR", heading );
     for( const auto &[parts_str, coverage] : localized ) {
         result.emplace_back( "ARMOR", string_format( "%s%s: %s", space,
                              utf8_justify( parts_str, -width, true ), coverage_text( coverage ) ) );
@@ -157,8 +157,8 @@ auto item_coverages( const std::vector<BodyPartInfoPair> &xs )-> std::vector<ite
     return result;
 }
 
-auto item_encumbrances( const std::string &format,
-                        const std::vector<BodyPartInfoPair> &xs ) -> std::vector<iteminfo>
+auto item_encumbrances( const std::vector<BodyPartInfoPair> &xs,
+                        const std::string &format ) -> std::vector<iteminfo>
 {
     struct Encumber {
         int min;
@@ -313,12 +313,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         info.emplace_back( iteminfo( "ARMOR", _( "Layer: " ) + which_layer( *this ) ) );
     }
 
-    if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && covers_anything ) {
-        info.emplace_back( iteminfo( "ARMOR", _( "Average Coverage: " ), "<num>%",
-                                     iteminfo::no_newline, get_avg_coverage() ) );
-    }
     if( parts->test( iteminfo_parts::ARMOR_WARMTH ) && covers_anything ) {
-        info.emplace_back( iteminfo( "ARMOR", space + _( "Warmth: " ), get_warmth() ) );
+        info.emplace_back( iteminfo( "ARMOR", _( "Warmth: " ), get_warmth() ) );
     }
 
     insert_separation_line( info );
@@ -375,10 +371,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
 
                 const auto &sorted = sorted_lex( to_display_data );
-                const auto &enabled = parts_to_display( *this, t, sorted );
+                const auto &to_display = parts_to_display( *this, t, sorted );
 
-                const auto &encumbrances = item_encumbrances( format, enabled );
-                const auto &coverages = item_coverages( enabled );
+                const auto &encumbrances = item_encumbrances( to_display, format );
+                const auto &coverages = item_coverages( to_display );
 
                 info.insert( info.end(), coverages.begin(), coverages.end() );
                 info.insert( info.end(), encumbrances.begin(), encumbrances.end() );
