@@ -3,6 +3,7 @@
 #define CATA_SRC_CATA_ALGO_H
 
 #include <algorithm>
+#include <map>
 #include <cassert>
 #include <optional>
 #include <unordered_map>
@@ -131,6 +132,18 @@ auto and_then( std::optional<T> const &opt, Fn &&f ) -> std::optional<std::invok
     return std::nullopt;
 }
 
+/// poor person's https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/group-by.html
+template<typename C, typename F>
+auto group_by( const C &c, F &&selector )
+{
+    using K = std::invoke_result_t<F, std::decay_t<decltype( *c.begin() )>>;
+
+    auto result = std::map<K, C> {};
+    for( const auto &elem : c ) {
+        result[selector( elem )].emplace_back( elem );
+    }
+    return result;
+}
 
 } // namespace cata
 
