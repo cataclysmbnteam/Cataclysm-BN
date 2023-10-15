@@ -2649,7 +2649,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                             return data.encumber != data.max_encumber;
                         } );
                         info.push_back( iteminfo( "ARMOR",
-                                                  string_format( _( "%s:" ), piece.second.to_display.translated() ) + space, "",
+                                                  string_format( _( "%-6s:" ), piece.second.to_display.translated() ) + space, "",
                                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                                   piece.second.portion.encumber ) );
                         if( !type->rigid || any_encumb_increase ) {
