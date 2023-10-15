@@ -6068,7 +6068,7 @@ int item::get_encumber_when_containing(
                     if( entry.max_encumber == 0 ) {
                         encumber += contents_volume / 500_ml;
                     } else {
-                        if( capacity < 0 ) {
+                        if( capacity <= 0 ) {
                             debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
                         } else {
                             // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.

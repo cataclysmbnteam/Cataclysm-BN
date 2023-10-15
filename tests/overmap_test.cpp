@@ -112,8 +112,10 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     INFO( "Failed to place optional special on origin " );
     CHECK( found_optional == true );
 }
+namespace
+{
 
-static void do_lab_finale_test()
+void do_lab_finale_test()
 {
     const oter_id labt_endgame( "central_lab_endgame" );
     const point_abs_om origin;
@@ -133,6 +135,8 @@ static void do_lab_finale_test()
     }
     CHECK( endgame_count == 1 );
 }
+
+} //namespace
 
 TEST_CASE( "Exactly one endgame lab finale is generated in 0,0 overmap", "[overmap][slow]" )
 {

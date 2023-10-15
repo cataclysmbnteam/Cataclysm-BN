@@ -357,5 +357,29 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
     "vitamins": [ [ "vitA", 8 ], [ "vitC", 10 ], [ "calcium", 7 ], [ "iron", 18 ], [ "vitB", 20 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sandwich_okay",
+    "name": { "str": "okay sandwich", "str_pl": "okay sandwiches" },
+    "copy-from": "sandwich_deluxe",
+    "looks_like": "sandwich_deluxe",
+    "description": "A simple sandwich, little more than meat and veggies on bread.  Rather dry.",
+    "price": 200,
+    "price_postapoc": 200,
+    "fun": 6,
+    "material": [ "flesh", "veggy", "wheat" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sandwich_deluxe_nocheese",
+    "name": { "str": "dairy-free deluxe sandwich", "str_pl": "dairy-free deluxe sandwiches" },
+    "copy-from": "sandwich_deluxe",
+    "looks_like": "sandwich_deluxe",
+    "description": "A deluxe sandwich with meat, veggies, and sauce, but no cheese.",
+    "price": 200,
+    "price_postapoc": 200,
+    "fun": 9,
+    "material": [ "flesh", "veggy", "wheat" ]
   }
 ]

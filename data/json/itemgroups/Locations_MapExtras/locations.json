@@ -1031,7 +1031,9 @@
       [ "dao", 3 ],
       [ "sword_xiphos", 4 ],
       [ "khopesh", 4 ],
-      [ "spear_dory", 3 ]
+      [ "ax_bronze", 2 ],
+      [ "spear_dory", 3 ],
+      [ "dagger_bronze", 5 ]
     ]
   },
   {

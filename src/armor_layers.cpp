@@ -566,7 +566,7 @@ void show_armor_layers_ui( Character &who )
 
         // top bar
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
-        std::string temp = bp != bodypart_id( "num_bp" ) ? body_part_name_as_heading( bp, 1 ) : _( "All" );
+        const auto temp = tabindex != body_part::num_bp ? body_part_name_as_heading( bp, 1 ) : _( "All" );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", temp );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
                          _( "Press [<color_yellow>%s</color>] for help.  "

@@ -33,7 +33,9 @@ enum class outcome_type {
     Kill, Casualty
 };
 
-static void set_off_explosion( item &explosive, const tripoint &origin )
+namespace
+{
+void set_off_explosion( item &explosive, const tripoint &origin )
 {
     explosion_handler::get_explosion_queue().clear();
     explosive.charges = 0;
@@ -41,8 +43,8 @@ static void set_off_explosion( item &explosive, const tripoint &origin )
     explosion_handler::get_explosion_queue().execute();
 }
 
-static void check_lethality( const std::string &explosive_id, const int range, float lethality,
-                             float margin, outcome_type expected_outcome )
+void check_lethality( const std::string &explosive_id, const int range, float lethality,
+                      float margin, outcome_type expected_outcome )
 {
     const epsilon_threshold target_lethality{ lethality, margin };
     int num_survivors = 0;
@@ -103,7 +105,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
     CHECK( victims.avg() == Approx( lethality ).margin( margin ) );
 }
 
-static std::vector<int> get_part_hp( vehicle *veh )
+auto get_part_hp( vehicle *veh ) -> std::vector<int>
 {
     std::vector<int> part_hp;
     part_hp.reserve( veh->part_count() );
@@ -113,8 +115,9 @@ static std::vector<int> get_part_hp( vehicle *veh )
     return part_hp;
 }
 
-static void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
-                                  const int range )
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
+void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
+                           const int range )
 {
     put_player_underground();
     tripoint origin( 30, 30, 0 );
@@ -148,20 +151,23 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     }
 }
 
-TEST_CASE( "grenade_lethality", "[.],[grenade],[explosion],[balance],[slow]" )
+} // namespace
+
+
+TEST_CASE( "grenade_lethality", "[.][grenade][explosion][balance][slow]" )
 {
     clear_all_state();
-    check_lethality( "grenade_act", 5, 0.95, 0.06, outcome_type::Kill );
-    check_lethality( "grenade_act", 15, 0.40, 0.06, outcome_type::Casualty );
+    check_lethality( "grenade_act", 3, 0.95, 0.06, outcome_type::Kill );
+    check_lethality( "grenade_act", 6, 0.95, 0.06, outcome_type::Casualty );
 }
 
-TEST_CASE( "grenade_vs_vehicle", "[grenade],[explosion],[balance]" )
+TEST_CASE( "grenade_vs_vehicle", "[grenade][explosion][balance]" )
 {
     clear_all_state();
     check_vehicle_damage( "grenade_act", "car", 5 );
 }
 
-TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
+TEST_CASE( "shrapnel behind wall", "[grenade][explosion][balance]" )
 {
     clear_all_state();
     put_player_underground();
@@ -192,7 +198,7 @@ TEST_CASE( "shrapnel behind wall", "[grenade],[explosion],[balance]" )
     CHECK( m_behind_wall.hp_percentage() == 100 );
 }
 
-TEST_CASE( "shrapnel at huge range", "[grenade],[explosion]" )
+TEST_CASE( "shrapnel at huge range", "[grenade][explosion]" )
 {
     clear_all_state();
     put_player_underground();
@@ -214,7 +220,7 @@ TEST_CASE( "shrapnel at huge range", "[grenade],[explosion]" )
     CHECK( m.is_dead_state() );
 }
 
-TEST_CASE( "shrapnel at max grenade range", "[grenade],[explosion]" )
+TEST_CASE( "shrapnel at max grenade range", "[grenade][explosion]" )
 {
     clear_all_state();
     put_player_underground();
