@@ -18,6 +18,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "character_martial_arts.h"
 #include "character.h"
 #include "color.h"
 #include "creature.h"
@@ -743,7 +744,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     if( you.can_wear( *granted ).success() ) {
         granted->set_flag( flag_id( "FIT" ) );
         you.wear_item( std::move( granted ), false );
-    } else if( !you.is_armed() ) {
+    } else if( !you.is_armed() && !you.martial_arts_data->keep_hands_free ) {
         you.set_primary_weapon( std::move( granted ) );
     } else {
         you.i_add( std::move( granted ) );

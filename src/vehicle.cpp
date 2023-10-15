@@ -4658,11 +4658,11 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             if( g->u.has_active_bionic( bid ) ) { // active power gen
                 // more pedaling = more power
                 g->u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency *
-                                      ( load / 1000 ) );
+                                      ( load / 1000.0f ) );
                 mod += eff_load / 5;
             } else { // passive power gen
                 g->u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency *
-                                      ( load / 1000 ) );
+                                      ( load / 1000.0f ) );
                 mod += eff_load / 10;
             }
         }
