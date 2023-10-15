@@ -1656,5 +1656,17 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 20 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE", "NONCONDUCTIVE", "DURABLE_MELEE" ]
+  },
+  {
+    "id": "dagger_bronze",
+    "copy-from": "dagger_medieval",
+    "type": "GENERIC",
+    "name": { "str": "bronze dagger" },
+    "description": "An archaic-looking bronze dagger, with a serviceable sharp edge.",
+    "weight": "600 g",
+    "bashing": 4,
+    "cutting": 16,
+    "material": [ "bronze" ],
+    "color": "yellow"
   }
 ]

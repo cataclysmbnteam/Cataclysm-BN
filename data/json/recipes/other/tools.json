@@ -932,7 +932,19 @@
     "using": [ [ "forging_standard", 12 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "hammer_bronze",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 9 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "wood_structural_small", 1, "LIST" ] ], [ [ "scrap_bronze", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -1148,7 +1160,20 @@
     "using": [ [ "blacksmithing_intermediate", 12 ], [ "steel_standard", 3 ] ],
     "book_learn": [ [ "textbook_fabrication", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
+    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "ax_bronze",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "90 m",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 15 ], [ "bronzesmithing_tools", 1 ] ],
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "textbook_weapwest", 4 ] ],
+    "components": [ [ [ "wood_structural_small", 3, "LIST" ] ], [ [ "scrap_bronze", 5 ] ] ]
   },
   {
     "type": "recipe",
