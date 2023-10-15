@@ -5,6 +5,7 @@
 #include "iteminfo_format_utils.h"
 #include "itype.h"
 #include "output.h"
+#include "string_id.h"
 #include "string_id_utils.h"
 #include "units_utility.h"
 
@@ -46,6 +47,25 @@ auto which_layer( const item &it ) -> std::string
         return  _( "<stat>Outer aura</stat>. " );
     } else {
         return  _( "<stat>Normal</stat>. " );
+    }
+}
+
+auto sizing_info( const item::sizing sizing_level ) -> std::optional<std::string>
+{
+    using sizing = item::sizing;
+
+    switch( sizing_level ) {
+        case sizing::human_sized_small_char:
+            return _( " <bad>(too big)</bad>" );
+        case sizing::big_sized_small_char:
+            return _( " <bad>(huge!)</bad>" );
+        case sizing::small_sized_human_char:
+        case sizing::human_sized_big_char:
+            return _( " <bad>(too small)</bad>" );
+        case sizing::small_sized_big_char:
+            return _( " <bad>(tiny!)</bad>" );
+        default:
+            return {};
     }
 }
 
@@ -154,25 +174,16 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( has_flag( flag_VARSIZE ) && sizing_matters ) {
             format = _( " <bad>(poor fit)</bad>" );
         }
-
         if( sizing_matters ) {
-            const sizing sizing_level = get_sizing( you );
-            //If we have the wrong size, we do not fit so alert the player
-            if( sizing_level == sizing::human_sized_small_char ) {
-                format = _( " <bad>(too big)</bad>" );
-            } else if( sizing_level == sizing::big_sized_small_char ) {
-                format = _( " <bad>(huge!)</bad>" );
-            } else if( sizing_level == sizing::small_sized_human_char ||
-                       sizing_level == sizing::human_sized_big_char ) {
-                format = _( " <bad>(too small)</bad>" );
-            } else if( sizing_level == sizing::small_sized_big_char ) {
-                format = _( " <bad>(tiny!)</bad>" );
+            const auto sizing_level = get_sizing( you );
+            const auto sizing_info_str = sizing_info( sizing_level );
+            if( sizing_info_str ) {
+                format = sizing_info_str.value();
             }
         }
 
         if( const islot_armor *t = find_armor_data() ) {
             if( !t->data.empty() ) {
-
 
                 std::map<bodypart_str_id, body_part_display_info> to_display_data;
                 const auto &avatar = get_avatar();
