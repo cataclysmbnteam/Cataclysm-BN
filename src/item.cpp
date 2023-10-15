@@ -5071,12 +5071,14 @@ bool item::has_flag( const flag_id &f ) const
     // `json_flag::get` is pretty expensive so it's faster to do it
     // last as frequently there are no gun/toolmods with the flag f
     auto mods = is_gun() ? gunmods() : toolmods();
-    if(
-        std::any_of( mods.begin(), mods.end(),
-    [&f]( const item * e ) {
-    return ( !e->is_gun() && e->has_flag( f ) );
-    }
-                   ) && f->inherit() ) {
+
+    const auto flag_in_mods = [&f]( const auto & mods ) -> bool {
+        return std::any_of( mods.begin(), mods.end(), [&f]( const item * e )-> bool {
+            return ( !e->is_gun() && e->has_flag( f ) );
+        } );
+    };
+
+    if( f->inherit() && flag_in_mods( mods ) ) {
         return true;
     }
 
