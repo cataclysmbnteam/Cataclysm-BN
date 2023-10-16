@@ -266,7 +266,7 @@
     "id": "electric_lighter",
     "type": "TOOL",
     "name": { "str": "electric lighter" },
-    "description": "A battery-powered lighter.  More efficient than anything you can make yourself, its batteries last for quite a while.",
+    "description": "A battery-powered lighter.  More efficient than a crude electric firestarter, its batteries last for quite a while.",
     "copy-from": "lighter",
     "volume": "25 ml",
     "magazine_well": "25 ml",
