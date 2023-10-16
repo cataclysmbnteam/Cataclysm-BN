@@ -1132,7 +1132,7 @@ static activity_reason_info find_base_construction(
             return !con->requirements->get_components().empty();
         };
         auto check_disassembly = []( const auto & con ) -> bool {
-            return con->byproduct_item_group ? true : false;
+            return !!con->byproduct_item_group;
         };
         bool dis = check_disassembly( con );
         bool ass = check_assembly( con );
