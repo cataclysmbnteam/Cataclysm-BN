@@ -381,6 +381,9 @@
     "method": "json",
     "om_terrain": "horse_farm_isherwood_13_2ndfloor",
     "object": {
+      "faction_owner": [
+        { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] }
+      ],
       "fill_ter": "t_floor",
       "rows": [
         "                        ",
