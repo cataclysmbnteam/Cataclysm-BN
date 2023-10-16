@@ -1432,6 +1432,33 @@ static void apply_lock_picking_tool( player &p, item *it, const tripoint &examp 
     }
 }
 
+static bool pick_lock( player &p, const tripoint &examp )
+{
+    map &here = get_map();
+
+    if( p.has_bionic( bio_lockpick ) ) {
+        if( p.get_power_level() >= bio_lockpick->power_activate ) {
+            p.mod_power_level( -bio_lockpick->power_activate );
+            p.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
+            p.assign_activity( lockpick_activity_actor::use_bionic(
+                                   item( bio_lockpick->fake_item ), here.getabs( examp ) ) );
+            return true;
+        } else {
+            p.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
+                                 bio_lockpick->name );
+            return false;
+        }
+    }
+
+    safe_reference<item> lock_picking_tool = find_best_lock_picking_tool( p );
+    if( lock_picking_tool ) {
+        apply_lock_picking_tool( p, lock_picking_tool.get(), examp );
+        return true;
+    }
+
+    return false;
+}
+
 /**
  * Checks whether PC has a crowbar then calls iuse.crowbar.
  */
@@ -1447,7 +1474,10 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 
     // if the furniture/terrain is also lockpickable
     if( lockpick_activity_actor::is_pickable( examp ) ) {
-        locked_object_pickable( p, examp );
+        if( !pick_lock( p, examp ) ) {
+            add_msg( m_info, _( "The %s is locked.  If only you had something to pry it or pick its lock…" ),
+                     here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
+        }
         return;
     }
 
@@ -1462,27 +1492,10 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
 {
     map &here = get_map();
 
-    if( p.has_bionic( bio_lockpick ) ) {
-        if( p.get_power_level() >= bio_lockpick->power_activate ) {
-            p.mod_power_level( -bio_lockpick->power_activate );
-            p.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
-            p.assign_activity( lockpick_activity_actor::use_bionic(
-                                   item( bio_lockpick->fake_item ), here.getabs( examp ) ) );
-            return;
-        } else {
-            p.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
-                                 bio_lockpick->name );
-        }
+    if( !pick_lock( p, examp ) ) {
+        add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock…" ),
+                 here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
     }
-
-    safe_reference<item> lock_picking_tool = find_best_lock_picking_tool( p );
-    if( lock_picking_tool ) {
-        apply_lock_picking_tool( p, lock_picking_tool.get(), examp );
-        return;
-    }
-
-    add_msg( m_info, _( "The %s is locked.  If only you had something to pick its lock…" ),
-             here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
 }
 
 void iexamine::bulletin_board( player &p, const tripoint &examp )

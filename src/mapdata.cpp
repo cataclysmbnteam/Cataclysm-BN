@@ -1512,15 +1512,13 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
 
-    optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
-    optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
+    optional( jo, was_loaded, "open", open, furn_str_id::NULL_ID() );
+    optional( jo, was_loaded, "close", close, furn_str_id::NULL_ID() );
 
-    optional( jo, was_loaded, "lockpick_result", lockpick_result, string_id_reader<furn_t> {},
-              furn_str_id::NULL_ID() );
+    optional( jo, was_loaded, "lockpick_result", lockpick_result, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
 
-    optional( jo, was_loaded, "transforms_into", transforms_into, string_id_reader<furn_t> {},
-              furn_str_id::NULL_ID() );
+    optional( jo, was_loaded, "transforms_into", transforms_into, furn_str_id::NULL_ID() );
 
     optional( jo, was_loaded, "bash", bash );
     deconstruct.load( jo, "deconstruct", true );

@@ -1097,7 +1097,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     item *it;
     if( lockpick.has_value() ) {
-        it = ( *lockpick ).get_item();
+        it = lockpick->get_item();
     } else {
         it = &*fake_lockpick;
     }
@@ -1169,15 +1169,13 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         who.add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
     }
 
-    if( avatar *you = dynamic_cast<avatar *>( &who ) ) {
-        if( !perfect ) {
-            // You don't gain much skill since the item does all the hard work for you
-            xp_gain += std::pow( 2, you->get_skill_level( skill_mechanics ) ) + 1;
-        }
-        you->practice( skill_mechanics, xp_gain );
+    if( !perfect ) {
+        // You don't gain much skill since the item does all the hard work for you
+        xp_gain += std::pow( 2, who.get_skill_level( skill_mechanics ) ) + 1;
     }
+    who.practice( skill_mechanics, xp_gain );
 
-    if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
+    if( !perfect && g->m.has_flag( "ALARMED", target ) && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ),
                        true, "environment", "alarm" );
         if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
@@ -1187,7 +1185,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( destroy && lockpick.has_value() ) {
-        ( *lockpick ).remove_item();
+        lockpick->remove_item();
     }
 }
 
@@ -1219,8 +1217,8 @@ std::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
         you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
     } else if( g->critter_at<npc>( *target ) ) {
         you.add_msg_if_player( m_info,
-                               _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose." ) );
-    } else if( terr_type == t_door_c ) {
+                               _( "You can pick your friends, and you can pick your nose, but you can't pick your friend's nose." ) );
+    } else if( !terr_type->open.is_null() ) {
         you.add_msg_if_player( m_info, _( "That door isn't locked." ) );
     } else {
         you.add_msg_if_player( m_info, _( "That cannot be picked." ) );

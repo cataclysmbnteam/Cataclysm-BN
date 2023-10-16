@@ -191,7 +191,6 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "SCREW", 2 ], [ "SCREW_FINE", 1 ], [ "WRENCH", 1 ], [ "PRY", 2 ], [ "LOCKPICK", 30 ] ],
-    "use_action": "PICK_LOCK",
     "flags": [ "SPEAR", "BELT_CLIP" ]
   },
   {
