@@ -114,7 +114,7 @@
     "color": "brown",
     "location": "mechanism",
     "mod_target_category": [ [ "S_XBOWS" ], [ "M_XBOWS" ] ],
-    "damage_modifier": { "damage_type": "stab", "amount": 15 },
+    "damage_modifier": [ { "damage_type": "stab", "amount": 15 }, { "damage_type": "bash", "amount": 15 } ],
     "range_modifier": 5
-  }
+    }
 ]
