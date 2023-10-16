@@ -339,7 +339,7 @@
     "dispersion": 375,
     "durability": 6,
     "reload": 800,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ], [ "mechanism", 1 ] ]
   },
   {
     "id": "compositecrossbow",
@@ -414,7 +414,6 @@
     "price": 324000,
     "material": [ "steel", "wood" ],
     "extend": { "flags": [ "FIRE_TWOHAND", "TRADER_AVOID" ] },
-    "skill": "smg",
     "weight": "3628 g",
     "volume": "2500 ml",
     "price_postapoc": 6000,
@@ -427,6 +426,6 @@
     "durability": 6,
     "clip_size": 10,
     "reload": 800,
-    "valid_mod_locations": [ [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "accessories", 2 ], [ "grip", 1 ], [ "mechanism", 1 ] ]
   }
 ]
