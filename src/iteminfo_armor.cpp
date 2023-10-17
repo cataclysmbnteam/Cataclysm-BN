@@ -128,7 +128,7 @@ auto item_coverages( const std::vector<BodyPartInfoPair> &xs ) -> std::vector<it
 
     if( grouped.size() == 1 ) {
         return std::vector{ iteminfo( "ARMOR",
-                                      string_format( "%s %s %s", heading, same_for_all_parts(), coverage_text( grouped.begin()->first ) ) ) };
+                                      string_format( "%s %s %s", heading, coverage_text( grouped.begin()->first ), same_for_all_parts() ) ) };
     }
 
     struct Entry {
@@ -180,7 +180,7 @@ auto item_encumbrances( const std::vector<BodyPartInfoPair> &xs,
 
     if( grouped.size() == 1 ) {
         return std::vector{ iteminfo( "ARMOR",
-                                      string_format( "%s %s %s", heading, same_for_all_parts(), encumber_range( grouped.begin()->first ) ) ) };
+                                      string_format( "%s %s %s", heading, encumber_range( grouped.begin()->first ), same_for_all_parts() ) ) };
     }
 
     struct Entry {
