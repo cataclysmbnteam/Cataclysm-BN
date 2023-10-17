@@ -1825,8 +1825,9 @@ bool overmap::generate_sub( const int z )
             const tripoint_om_omt p( i, z );
             lab *l = find_lab_for( p );
             if( l == nullptr ) {
-                debugmsg( "Couldn't find lab for point %s on overmap %s", p.to_string(),
-                          pos().to_string() );
+                // FIXME: figure out why this happens
+                // debugmsg( "Couldn't find lab for point %s on overmap %s", p.to_string(),
+                //           pos().to_string() );
                 continue;
             }
             int size = l->type == lab_type::central ? rng( std::max( 1, 7 + z ), 9 + z ) : rng( 1, 5 + z );
