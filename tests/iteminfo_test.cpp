@@ -15,7 +15,12 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-static std::string escape_newlines( const std::string &input )
+namespace
+{
+
+/// also replaces spaces with ` to prevent catch2's mandatory line-wraps
+/// from rendering the diff unusable
+auto escape_newlines( const std::string &input ) -> std::string
 {
     std::string output;
     std::size_t pos = 0;
@@ -29,12 +34,13 @@ static std::string escape_newlines( const std::string &input )
             pos = newlinePos;
         }
     }
+    std::replace( output.begin(), output.end(), ' ', '`' );
     return output;
 }
 
-static void test_info_equals( const item &i, const iteminfo_query &q,
-                              const std::string &reference,
-                              temperature_flag temperature = temperature_flag::TEMP_NORMAL )
+void test_info_equals( const item &i, const iteminfo_query &q,
+                       const std::string &reference,
+                       temperature_flag temperature = temperature_flag::TEMP_NORMAL )
 {
     g->u.clear_mutations();
     std::string info = i.info_string( q, 1, temperature );
@@ -43,8 +49,8 @@ static void test_info_equals( const item &i, const iteminfo_query &q,
     CHECK( info == reference );
 }
 
-static void test_info_contains( const item &i, const iteminfo_query &q,
-                                const std::string &reference )
+void test_info_contains( const item &i, const iteminfo_query &q,
+                         const std::string &reference )
 {
     g->u.clear_mutations();
     std::string info = i.info_string( q, 1 );
@@ -65,10 +71,12 @@ static void test_info_contains( const item &i, const iteminfo_query &q,
  *
  * Using this wrapper should force it to use the vector constructor.
  */
-static iteminfo_query q_vec( const std::vector<iteminfo_parts> &part_flags )
+auto q_vec( const std::vector<iteminfo_parts> &part_flags ) -> iteminfo_query
 {
     return iteminfo_query( part_flags );
 }
+
+} // namespace
 
 TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary]" )
 {
