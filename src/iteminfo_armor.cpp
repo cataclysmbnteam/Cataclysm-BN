@@ -332,49 +332,47 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
         }
 
-        if( const islot_armor *t = find_armor_data() ) {
-            if( !t->data.empty() ) {
-
-                std::map<bodypart_str_id, body_part_display_info> to_display_data;
-                for( const armor_portion_data &piece : t->data ) {
-                    if( piece.covers.has_value() ) {
-                        for( const bodypart_str_id &covering_id : piece.covers.value() ) {
-                            if( covering_id != bodypart_str_id( "num_bp" ) ) {
-                                const int encumbrance_when_full =
-                                    get_encumber_when_containing( you, get_total_capacity(), covering_id.id() );
-                                to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
-                                        get_encumber( you, covering_id ),
-                                        encumbrance_when_full,
-                                        piece.coverage
-                                    }, true
-                                };
-                            }
+        const islot_armor *t = find_armor_data();
+        if( t && !t->data.empty() ) {
+            std::map<bodypart_str_id, body_part_display_info> to_display_data;
+            for( const armor_portion_data &piece : t->data ) {
+                if( piece.covers.has_value() ) {
+                    for( const bodypart_str_id &covering_id : piece.covers.value() ) {
+                        if( covering_id != bodypart_str_id( "num_bp" ) ) {
+                            const int encumbrance_when_full =
+                                get_encumber_when_containing( you, get_total_capacity(), covering_id.id() );
+                            to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
+                                    get_encumber( you, covering_id ),
+                                    encumbrance_when_full,
+                                    piece.coverage
+                                }, true
+                            };
                         }
                     }
                 }
-                // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
-                if( !t->sided ) {
-                    for( const body_part &legacy_part : all_body_parts ) {
-                        bodypart_str_id bp( convert_bp( legacy_part ) );
-                        bodypart_str_id opposite = bp->opposite_part;
-                        if( opposite != bp && covers( bp ) && covers( opposite )
-                            && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
-                            && to_display_data.at( opposite ).active ) {
-                            to_display_data.at( opposite ).to_display = bp->name_as_heading_multiple;
-                            to_display_data.at( bp ).active = false;
-                        }
-                    }
-                }
-
-                const auto &sorted = sorted_lex( to_display_data );
-                const auto &to_display = parts_to_display( *this, t, sorted );
-
-                const auto &encumbrances = item_encumbrances( to_display, format );
-                const auto &coverages = item_coverages( to_display );
-
-                info.insert( info.end(), coverages.begin(), coverages.end() );
-                info.insert( info.end(), encumbrances.begin(), encumbrances.end() );
             }
+            // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
+            if( !t->sided ) {
+                for( const body_part &legacy_part : all_body_parts ) {
+                    bodypart_str_id bp( convert_bp( legacy_part ) );
+                    bodypart_str_id opposite = bp->opposite_part;
+                    if( opposite != bp && covers( bp ) && covers( opposite )
+                        && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
+                        && to_display_data.at( opposite ).active ) {
+                        to_display_data.at( opposite ).to_display = bp->name_as_heading_multiple;
+                        to_display_data.at( bp ).active = false;
+                    }
+                }
+            }
+
+            const auto &sorted = sorted_lex( to_display_data );
+            const auto &to_display = parts_to_display( *this, t, sorted );
+
+            const auto &encumbrances = item_encumbrances( to_display, format );
+            const auto &coverages = item_coverages( to_display );
+
+            info.insert( info.end(), coverages.begin(), coverages.end() );
+            info.insert( info.end(), encumbrances.begin(), encumbrances.end() );
         }
     }
 
