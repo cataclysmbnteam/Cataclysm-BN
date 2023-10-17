@@ -125,7 +125,7 @@ auto same_for_all_parts()
 
 auto item_coverages( const std::vector<BodyPartInfoPair> &xs )-> std::vector<iteminfo>
 {
-    const auto &grouped = cata::group_by( xs, []( const auto & info ) -> int {return info.second.portion.coverage;} );
+    const auto grouped = cata::group_by( xs, []( const auto & info ) -> int {return info.second.portion.coverage;} );
     const auto heading = string_format( "%s:", _( "<bold>Coverage</bold>" ) );
     const auto coverage_text = []( const int n ) -> std::string { return string_format( "<neutral>%s</neutral>%%", n ); };
 
@@ -176,7 +176,7 @@ auto item_encumbrances( const std::vector<BodyPartInfoPair> &xs,
         : string_format( "<neutral>%d-%d</neutral> (%s)", e.min, e.max,  _( "When Full" ) );
     };
 
-    const auto &grouped = cata::group_by( xs, []( const auto & info ) -> Encumber {
+    const auto grouped = cata::group_by( xs, []( const auto & info ) -> Encumber {
         const auto portion = info.second.portion;
         return {portion.encumber, portion.max_encumber};
     } );
