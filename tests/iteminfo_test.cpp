@@ -575,8 +575,10 @@ R"(--
             item( "test_longshirt" ), q,
               R"(--
 <color_c_white>Covers</color>: The <color_c_cyan>torso</color>. The <color_c_cyan>arms</color>. )"
+            // NOLINTNEXTLINE(cata-text-style)
             R"(
 Layer: <color_c_light_blue>Normal</color>. )"
+            // NOLINTNEXTLINE(cata-text-style)
             R"(
 Warmth: <color_c_yellow>5</color>
 --
