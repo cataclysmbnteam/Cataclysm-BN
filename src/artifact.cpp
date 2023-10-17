@@ -1158,9 +1158,10 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
         jo.throw_error( "\"ammo\" node is neither array, not string" );
     }
 
-    tool->revert_to.emplace( jo.get_string( "revert_to", "null" ) );
-    if( tool->revert_to->is_null() ) {
-        tool->revert_to.reset();
+    auto &revert_to = tool->revert_to;
+    revert_to.emplace( jo.get_string( "revert_to", "null" ) );
+    if( revert_to && revert_to->is_null() ) {
+        revert_to.reset();
     }
 
     artifact->charge_type = static_cast<art_charge>( jo.get_int( "charge_type" ) );
@@ -1337,8 +1338,9 @@ void it_artifact_tool::serialize( JsonOut &json ) const
     json.member( "def_charges", tool->def_charges );
     json.member( "charges_per_use", tool->charges_per_use );
     json.member( "turns_per_charge", tool->turns_per_charge );
-    if( tool->revert_to ) {
-        json.member( "revert_to", *tool->revert_to );
+    const auto &revert_to = tool->revert_to;
+    if( revert_to ) {
+        json.member( "revert_to", *revert_to );
     }
 
     // artifact data

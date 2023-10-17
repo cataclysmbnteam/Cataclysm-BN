@@ -15,7 +15,12 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-static std::string escape_newlines( const std::string &input )
+namespace
+{
+
+/// also replaces spaces with ` to prevent catch2's mandatory line-wraps
+/// from rendering the diff unusable
+auto escape_newlines( const std::string &input ) -> std::string
 {
     std::string output;
     std::size_t pos = 0;
@@ -29,12 +34,13 @@ static std::string escape_newlines( const std::string &input )
             pos = newlinePos;
         }
     }
+    std::replace( output.begin(), output.end(), ' ', '`' );
     return output;
 }
 
-static void test_info_equals( const item &i, const iteminfo_query &q,
-                              const std::string &reference,
-                              temperature_flag temperature = temperature_flag::TEMP_NORMAL )
+void test_info_equals( const item &i, const iteminfo_query &q,
+                       const std::string &reference,
+                       temperature_flag temperature = temperature_flag::TEMP_NORMAL )
 {
     g->u.clear_mutations();
     std::string info = i.info_string( q, 1, temperature );
@@ -43,8 +49,8 @@ static void test_info_equals( const item &i, const iteminfo_query &q,
     CHECK( info == reference );
 }
 
-static void test_info_contains( const item &i, const iteminfo_query &q,
-                                const std::string &reference )
+void test_info_contains( const item &i, const iteminfo_query &q,
+                         const std::string &reference )
 {
     g->u.clear_mutations();
     std::string info = i.info_string( q, 1 );
@@ -65,10 +71,12 @@ static void test_info_contains( const item &i, const iteminfo_query &q,
  *
  * Using this wrapper should force it to use the vector constructor.
  */
-static iteminfo_query q_vec( const std::vector<iteminfo_parts> &part_flags )
+auto q_vec( const std::vector<iteminfo_parts> &part_flags ) -> iteminfo_query
 {
     return iteminfo_query( part_flags );
 }
+
+} // namespace
 
 TEST_CASE( "item description and physical attributes", "[item][iteminfo][primary]" )
 {
@@ -128,44 +136,30 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
     SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
         test_info_equals(
             item( "test_waterskin" ), q,
-            "--\n"
-            "<color_c_white>Encumbrance</color>:\n"
-            "L. Leg:  <color_c_yellow>0</color>  "
-            "When Full:  <color_c_yellow>3</color>  "
-            "Coverage:  <color_c_yellow>5</color>\n"
-            "R. Leg:  <color_c_yellow>0</color>  "
-            "When Full:  <color_c_yellow>3</color>  "
-            "Coverage:  <color_c_yellow>5</color>\n"
-            "--\n"
-            "* This item is <color_c_cyan>not rigid</color>."
-            "  Its volume and encumbrance increase with contents.\n" );
+            R"(--
+<color_c_white>Coverage</color>: <color_c_yellow>5</color>% <color_c_cyan>(for all parts)</color>
+<color_c_white>Encumbrance</color>: <color_c_yellow>0-3</color> (When Full) <color_c_cyan>(for all parts)</color>
+--
+* This item is <color_c_cyan>not rigid</color>.  Its volume and encumbrance increase with contents.
+)" );
 
         test_info_equals(
             item( "test_backpack" ), q,
-            "--\n"
-            "<color_c_white>Encumbrance</color>:\n"
-            "Torso:  <color_c_yellow>2</color>  "
-            "When Full:  <color_c_yellow>15</color>  "
-            "Coverage:  <color_c_yellow>30</color>\n"
-            "--\n"
-            "* This item is <color_c_cyan>not rigid</color>."
-            "  Its volume and encumbrance increase with contents.\n" );
+            R"(--
+<color_c_white>Coverage</color>: <color_c_yellow>30</color>% <color_c_cyan>(for all parts)</color>
+<color_c_white>Encumbrance</color>: <color_c_yellow>2-15</color> (When Full) <color_c_cyan>(for all parts)</color>
+--
+* This item is <color_c_cyan>not rigid</color>.  Its volume and encumbrance increase with contents.
+)" );
     }
 
     SECTION( "rigid items do not indicate they are rigid, since almost all items are" ) {
         test_info_equals(
             item( "test_briefcase" ), q,
-            "--\n"
-            "<color_c_white>Encumbrance</color>:\n"
-            "L. Arm:  <color_c_yellow>30</color>  "
-            "Coverage:  <color_c_yellow>10</color>\n"
-            "R. Arm:  <color_c_yellow>30</color>  "
-            "Coverage:  <color_c_yellow>10</color>\n"
-            "L. Hand:  <color_c_yellow>30</color>  "
-            "Coverage:  <color_c_yellow>10</color>\n"
-            "R. Hand:  <color_c_yellow>30</color>  "
-            "Coverage:  <color_c_yellow>10</color>\n"
-        );
+            R"(--
+<color_c_white>Coverage</color>: <color_c_yellow>10</color>% <color_c_cyan>(for all parts)</color>
+<color_c_white>Encumbrance</color>: <color_c_yellow>30</color> <color_c_cyan>(for all parts)</color>
+)" );
 
         test_info_equals( item( "test_jug_plastic" ), q, "" );
         test_info_equals( item( "test_pipe" ), q, "" );
@@ -284,12 +278,10 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                           "--\n"
                           "Layer: <color_c_light_blue>Normal</color>. \n" ); // NOLINT(cata-text-style)
 
-        // Coverage and warmth are displayed together on a single line
-        REQUIRE( longshirt.get_avg_coverage() == 90 );
+        // Warmth display
         REQUIRE( longshirt.get_warmth() == 5 );
         test_info_equals( longshirt, q_vec( { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH } ),
-                          "--\n"
-                          "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n" );
+                          "--\nWarmth: <color_c_yellow>5</color>\n" );
 
         REQUIRE( longshirt.get_avg_encumber( get_player_character() ) == 3 );
         REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "torso" ) ) == 3 );
@@ -329,13 +321,11 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
 
 
         test_info_equals( longshirt, q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
-                          "--\n"
-                          "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
-                          "Arms:  <color_c_yellow>3</color>  "
-                          "Coverage:  <color_c_yellow>90</color>\n"
-                          "Torso:  <color_c_yellow>3</color>  "
-                          "Coverage:  <color_c_yellow>90</color>\n"
-                        );
+                            ""
+R"(--
+<color_c_white>Coverage</color>: <color_c_yellow>90</color>% <color_c_cyan>(for all parts)</color>
+<color_c_white>Encumbrance</color>: <color_c_yellow>3</color> <color_c_cyan>(for all parts)</color>
+)");
 
         item swat_armor( "test_swat_armor" );
         REQUIRE( swat_armor.get_covered_body_parts().any() );
@@ -345,17 +335,16 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                           "<color_c_white>Covers</color>:"
                           " The <color_c_cyan>torso</color>."
                           " The <color_c_cyan>arms</color>."
-                          " The <color_c_cyan>legs</color>. \n" );
+                          " The <color_c_cyan>legs</color>. \n" ); // NOLINT(cata-text-style)
 
         test_info_equals( swat_armor, q_vec( { iteminfo_parts::ARMOR_LAYER } ),
                           "--\n"
-                          "Layer: <color_c_light_blue>Normal</color>. \n" );
+                          "Layer: <color_c_light_blue>Normal</color>. \n" ); // NOLINT(cata-text-style)
 
         REQUIRE( swat_armor.get_avg_coverage() == 95 );
         REQUIRE( swat_armor.get_warmth() == 35 );
         test_info_equals( swat_armor, q_vec( { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH } ),
-                          "--\n"
-                          "Average Coverage: <color_c_yellow>95</color>%  Warmth: <color_c_yellow>35</color>\n" );
+                          "--\nWarmth: <color_c_yellow>35</color>\n" );
 
         REQUIRE( swat_armor.get_coverage( bodypart_id( "torso" ) ) == 95 );
         REQUIRE( swat_armor.get_coverage( bodypart_id( "leg_l" ) ) == 95 );
@@ -408,18 +397,10 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                  bodypart_id( "foot_r" ) ) == 0 );
 
         test_info_equals( swat_armor, q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
-                          "--\n"
-                          "<color_c_white>Encumbrance</color>:\n"
-                          "Arms:  <color_c_yellow>12</color>  "
-                          "When Full:  <color_c_yellow>25</color>  "
-                          "Coverage:  <color_c_yellow>95</color>\n"
-                          "Legs:  <color_c_yellow>12</color>  "
-                          "When Full:  <color_c_yellow>25</color>  "
-                          "Coverage:  <color_c_yellow>95</color>\n"
-                          "Torso:  <color_c_yellow>12</color>  "
-                          "When Full:  <color_c_yellow>25</color>  "
-                          "Coverage:  <color_c_yellow>95</color>\n"
-                        );
+                          R"(--
+<color_c_white>Coverage</color>: <color_c_yellow>95</color>% <color_c_cyan>(for all parts)</color>
+<color_c_white>Encumbrance</color>: <color_c_yellow>12-25</color> (When Full) <color_c_cyan>(for all parts)</color>
+)");
 
         // Test copy-from
         item faux_fur_pants( "test_pants_faux_fur" );
@@ -428,17 +409,16 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         test_info_equals( faux_fur_pants, q_vec( { iteminfo_parts::ARMOR_BODYPARTS } ),
                           "--\n"
                           "<color_c_white>Covers</color>:"
-                          " The <color_c_cyan>legs</color>. \n" );
+                          " The <color_c_cyan>legs</color>. \n" ); // NOLINT(cata-text-style)
 
         test_info_equals( faux_fur_pants, q_vec( { iteminfo_parts::ARMOR_LAYER } ),
                           "--\n"
-                          "Layer: <color_c_light_blue>Normal</color>. \n" );
+                          "Layer: <color_c_light_blue>Normal</color>. \n" ); // NOLINT(cata-text-style)
 
         REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
         REQUIRE( faux_fur_pants.get_warmth() == 70 );
         test_info_equals( faux_fur_pants, q_vec( { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH } ),
-                          "--\n"
-                          "Average Coverage: <color_c_yellow>95</color>%  Warmth: <color_c_yellow>70</color>\n" );
+                          "--\nWarmth: <color_c_yellow>70</color>\n" );
 
         REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
         REQUIRE( faux_fur_pants.get_coverage( bodypart_id( "leg_l" ) ) == 95 );
@@ -509,17 +489,16 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                           " The <color_c_cyan>head</color>."
                           " The <color_c_cyan>torso</color>."
                           " The <color_c_cyan>arms</color>."
-                          " The <color_c_cyan>legs</color>. \n" );
+                          " The <color_c_cyan>legs</color>. \n" ); // NOLINT(cata-text-style)
 
         test_info_equals( faux_fur_suit, q_vec( { iteminfo_parts::ARMOR_LAYER } ),
                           "--\n"
-                          "Layer: <color_c_light_blue>Normal</color>. \n" );
+                          "Layer: <color_c_light_blue>Normal</color>. \n" ); // NOLINT(cata-text-style)
 
         REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
         REQUIRE( faux_fur_suit.get_warmth() == 5 );
         test_info_equals( faux_fur_suit, q_vec( { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH } ),
-                          "--\n"
-                          "Average Coverage: <color_c_yellow>75</color>%  Warmth: <color_c_yellow>5</color>\n" );
+                          "--\nWarmth: <color_c_yellow>5</color>\n" );
 
         REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
         REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "torso" ) ) == 100 );
@@ -584,30 +563,14 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
                  bodypart_id( "foot_r" ) ) == 0 );
 
         test_info_equals( faux_fur_suit, q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
-                          "--\n"
-                          "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
-                          "L. Arm:  <color_c_yellow>5</color>  "
-                          "When Full:  <color_c_yellow>5</color>  "
-                          "Coverage:  <color_c_yellow>50</color>\n"
-                          "R. Arm:  <color_c_yellow>10</color>  "
-                          "When Full:  <color_c_yellow>25</color>  "
-                          "Coverage:  <color_c_yellow>100</color>\n"
-
-                          "Head:  <color_c_yellow>5</color>  "
-                          "When Full:  <color_c_yellow>5</color>  "
-                          "Coverage:  <color_c_yellow>50</color>\n"
-
-                          "L. Leg:  <color_c_yellow>5</color>  "
-                          "When Full:  <color_c_yellow>5</color>  "
-                          "Coverage:  <color_c_yellow>50</color>\n"
-                          "R. Leg:  <color_c_yellow>10</color>  "
-                          "When Full:  <color_c_yellow>25</color>  "
-                          "Coverage:  <color_c_yellow>100</color>\n"
-
-                          "Torso:  <color_c_yellow>10</color>  "
-                          "When Full:  <color_c_yellow>25</color>  "
-                          "Coverage:  <color_c_yellow>100</color>\n"
-                        );
+                          R"(--
+<color_c_white>Coverage</color>:
+  L. Arm, Head, L. Leg : <color_c_yellow>50</color>%
+  R. Arm, R. Leg, Torso: <color_c_yellow>100</color>%
+<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>
+  L. Arm, Head, L. Leg : <color_c_yellow>5</color>
+  R. Arm, R. Leg, Torso: <color_c_yellow>10-25</color> (When Full)
+)" );
     }
 
     iteminfo_query q = q_vec( { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,
@@ -618,18 +581,20 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
     SECTION( "shows coverage, encumbrance, and protection for armor with coverage" ) {
         test_info_equals(
             item( "test_longshirt" ), q,
-            "--\n"
+              R"(--
+<color_c_white>Covers</color>: The <color_c_cyan>torso</color>. The <color_c_cyan>arms</color>. )"
             // NOLINTNEXTLINE(cata-text-style)
-            "<color_c_white>Covers</color>: The <color_c_cyan>torso</color>. The <color_c_cyan>arms</color>. \n"
+            R"(
+Layer: <color_c_light_blue>Normal</color>. )"
             // NOLINTNEXTLINE(cata-text-style)
-            "Layer: <color_c_light_blue>Normal</color>. \n"
-            "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n"
-            "--\n"
-            "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
-            "Arms:  <color_c_yellow>3</color>  Coverage:  <color_c_yellow>90</color>\n"
-            "Torso:  <color_c_yellow>3</color>  Coverage:  <color_c_yellow>90</color>\n"
-            "<color_c_white>Protection</color>: Bash: <color_c_yellow>1</color>  Cut: <color_c_yellow>1</color>  Ballistic: <color_c_yellow>1</color>\n"
-            "  Acid: <color_c_yellow>0</color>  Fire: <color_c_yellow>0</color>  Environmental: <color_c_yellow>0</color>\n" );
+            R"(
+Warmth: <color_c_yellow>5</color>
+--
+<color_c_white>Coverage</color>: <color_c_yellow>90</color>% <color_c_cyan>(for all parts)</color>
+<color_c_white>Encumbrance</color>: <color_c_yellow>3</color> <color_c_cyan>(for all parts)</color>
+<color_c_white>Protection</color>: Bash: <color_c_yellow>1</color>  Cut: <color_c_yellow>1</color>  Ballistic: <color_c_yellow>1</color>
+  Acid: <color_c_yellow>0</color>  Fire: <color_c_yellow>0</color>  Environmental: <color_c_yellow>0</color>
+)" );
     }
 
     SECTION( "omits irrelevant info if it covers nothing" ) {

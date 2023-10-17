@@ -247,7 +247,7 @@ struct armor_portion_data {
     int coverage = 0;
 
     // Where does this cover if any
-    std::optional<body_part_set> covers;
+    body_part_set covers;
 
     // What layer does it cover if any
     // TODO: Not currently supported, we still use flags for this
