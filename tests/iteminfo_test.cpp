@@ -560,8 +560,8 @@ R"(--
   L. Arm, Head, L. Leg : <color_c_yellow>50</color>%
   R. Arm, R. Leg, Torso: <color_c_yellow>100</color>%
 <color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>
-  L. Arm, Head, L. Leg :  <color_c_yellow>5</color>
-  R. Arm, R. Leg, Torso:  <color_c_yellow>10-25</color> (When Full)
+  L. Arm, Head, L. Leg : <color_c_yellow>5</color>
+  R. Arm, R. Leg, Torso: <color_c_yellow>10-25</color> (When Full)
 )" );
     }
 

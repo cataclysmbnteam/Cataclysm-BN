@@ -206,12 +206,12 @@ auto item_encumbrances( const std::vector<BodyPartInfoPair> &xs,
         const auto justified_parts_info = utf8_justify( parts_str, -width, true );
         if( encumber.min == encumber.max ) {
             result.emplace_back( "ARMOR",
-                                 string_format( "%s%s:%s", space, justified_parts_info, space ),
+                                 string_format( "%s%s: ", space, justified_parts_info ),
                                  "", iteminfo::lower_is_better, encumber.min );
         } else {
             result.emplace_back( "ARMOR",
-                                 string_format( "%s%s:%s<neutral>%d-%d</neutral> (%s)",
-                                                space, justified_parts_info, space,
+                                 string_format( "%s%s: <neutral>%d-%d</neutral> (%s)",
+                                                space, justified_parts_info,
                                                 encumber.min, encumber.max, _( "When Full" ) ),
                                  "", iteminfo::lower_is_better ) ;
         }
