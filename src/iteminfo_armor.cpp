@@ -78,17 +78,17 @@ using BodyPartInfoPair = std::pair<bodypart_str_id, body_part_display_info>;
 
 /// filter info when it's not active or it's one-sided and the item doesn't cover it
 auto parts_to_display( const item &it,
-                       const islot_armor *t,
+                       const islot_armor *armor,
                        const std::vector<BodyPartInfoPair> &xs ) -> std::vector<BodyPartInfoPair>
 {
     auto result = std::vector<BodyPartInfoPair>();
 
     std::copy_if( xs.begin(), xs.end(), std::back_inserter( result ),
-    [&it, t]( const auto & piece ) {
+    [&it, armor]( const auto & piece ) {
         if( !piece.second.active ) {
             return false;
         }
-        if( !t->sided ) {
+        if( !armor->sided ) {
             return true;
         }
         const bodypart_str_id &covering_id = piece.first;
@@ -332,10 +332,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
         }
 
-        const islot_armor *t = find_armor_data();
-        if( t && !t->data.empty() ) {
+        const islot_armor *armor = find_armor_data();
+        if( armor && !armor->data.empty() ) {
             std::map<bodypart_str_id, body_part_display_info> to_display_data;
-            for( const armor_portion_data &piece : t->data ) {
+            for( const armor_portion_data &piece : armor->data ) {
                 if( piece.covers.has_value() ) {
                     for( const bodypart_str_id &covering_id : piece.covers.value() ) {
                         if( covering_id != bodypart_str_id( "num_bp" ) ) {
@@ -352,7 +352,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
             }
             // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
-            if( !t->sided ) {
+            if( !armor->sided ) {
                 for( const body_part &legacy_part : all_body_parts ) {
                     bodypart_str_id bp( convert_bp( legacy_part ) );
                     bodypart_str_id opposite = bp->opposite_part;
@@ -366,7 +366,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
 
             const auto &sorted = sorted_lex( to_display_data );
-            const auto &to_display = parts_to_display( *this, t, sorted );
+            const auto &to_display = parts_to_display( *this, armor, sorted );
 
             const auto &encumbrances = item_encumbrances( to_display, format );
             const auto &coverages = item_coverages( to_display );
