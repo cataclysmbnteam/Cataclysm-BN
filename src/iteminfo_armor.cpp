@@ -117,7 +117,7 @@ const auto space = std::string {"  "};
 
 auto same_for_all_parts()
 {
-    return  _( "<info>(same for all bodyparts)</info>" );
+    return  _( "<info>(for all parts)</info>" );
 }
 
 auto item_coverages( const std::vector<BodyPartInfoPair> &xs ) -> std::vector<iteminfo>
