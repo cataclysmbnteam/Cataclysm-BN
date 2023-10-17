@@ -32,6 +32,7 @@
 namespace
 {
 const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
+const bodypart_str_id body_part_appendix( "num_bp" );
 
 std::string clothing_layer( const item &worn_item );
 std::vector<std::string> clothing_properties(
@@ -74,7 +75,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
     std::vector<std::set<std::string>> lists_of_bad_items_within;
 
     for( const bodypart_id &bp : c.get_all_body_parts() ) {
-        if( _bp->token && _bp != bodypart_id( "num_bp" ) ) {
+        if( _bp->token && _bp != body_part_appendix ) {
             continue;
         }
         if( !worn_item_it->covers( bp ) ) {
@@ -283,9 +284,9 @@ std::vector<std::string> clothing_properties(
     props.reserve( 5 );
 
     const std::string space = "  ";
-    const int coverage = bp == bodypart_id( "num_bp" ) ? worn_item.get_avg_coverage() :
+    const int coverage = bp == body_part_appendix ? worn_item.get_avg_coverage() :
                          worn_item.get_coverage( bp );
-    const int encumbrance = bp == bodypart_id( "num_bp" ) ? worn_item.get_avg_encumber(
+    const int encumbrance = bp == body_part_appendix ? worn_item.get_avg_encumber(
                                 c ) : worn_item.get_encumber( c, bp );
     props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
     props.push_back( name_and_value( space + _( "Coverage:" ),
@@ -436,15 +437,17 @@ void show_armor_layers_ui( Character &who )
     * because some items can have multiple entries (i.e. cover a few parts of body).
     */
 
+    const auto all_parts = who.get_all_body_parts();
+    const int num_of_parts = all_parts.size();
+
     // FIXME: get_all_body_parts() doesn't return a sorted list
     //        and bodypart_id is not compatible with std::sort()
     //        so let's use a dirty hack
     cata::flat_set<bodypart_id> armor_cat;
-    for( const bodypart_id &it : who.get_all_body_parts() ) {
+    for( const bodypart_id &it : all_parts ) {
         armor_cat.insert( it );
     }
-    armor_cat.insert( bodypart_id( "num_bp" ) );
-    const int num_of_parts = who.get_all_body_parts().size();
+    armor_cat.insert( body_part_appendix );
 
     int req_right_h = 3 + 1 + 2 + num_of_parts + 1;
     for( const bodypart_id &cover : armor_cat ) {
@@ -558,7 +561,7 @@ void show_armor_layers_ui( Character &who )
 
         // top bar
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
-        const auto name = bp != bodypart_id( "num_bp" ) ? body_part_name_as_heading( bp, 1 ) : _( "All" );
+        const auto name = bp != body_part_appendix ? body_part_name_as_heading( bp, 1 ) : _( "All" );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", name );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
                          _( "Press [<color_yellow>%s</color>] for help.  "
@@ -654,7 +657,7 @@ void show_armor_layers_ui( Character &who )
         }
         int pos = 1, curr = 0;
         for( const bodypart_id cover : rl ) {
-            if( cover == bodypart_id( "num_bp" ) ) {
+            if( cover == body_part_appendix ) {
                 continue;
             }
             if( curr >= rightListOffset && pos <= rightListLines ) {
@@ -716,7 +719,7 @@ void show_armor_layers_ui( Character &who )
         // Create ptr list of items to display
         tmp_worn.clear();
         const bodypart_id &bp = armor_cat[ tabindex ];
-        if( bp == bodypart_id( "num_bp" ) ) {
+        if( bp == body_part_appendix ) {
             // All
             for( auto it = who.worn.begin(); it != who.worn.end(); ++it ) {
                 tmp_worn.push_back( it );
