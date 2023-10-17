@@ -5563,8 +5563,7 @@ int item::get_avg_encumber( const Character &p ) const
     if( avg_encumber == 0 ) {
         return 0;
     } else {
-        avg_encumber /= avg_ctr;
-        return avg_encumber;
+        return avg_encumber / avg_ctr;
     }
 }
 
