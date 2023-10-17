@@ -120,9 +120,9 @@ auto same_for_all_parts()
     return  _( "<info>(same for all bodyparts)</info>" );
 }
 
-auto item_coverages( const std::vector<BodyPartInfoPair> &xs )-> std::vector<iteminfo>
+auto item_coverages( const std::vector<BodyPartInfoPair> &xs ) -> std::vector<iteminfo>
 {
-    const auto grouped = cata::group_by( xs, []( const auto & info ) -> int {return info.second.portion.coverage;} );
+    const auto grouped = cata::group_by( xs, []( const auto & info ) -> int { return info.second.portion.coverage; } );
     const auto heading = string_format( "%s:", _( "<bold>Coverage</bold>" ) );
     const auto coverage_text = []( const int n ) -> std::string { return string_format( "<neutral>%s</neutral>%%", n ); };
 
