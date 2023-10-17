@@ -98,5 +98,23 @@
     ],
     "install_time": "10 m",
     "flags": [ "WATERPROOF_GUN" ]
+  },
+  {
+    "id": "xbow_string",
+    "type": "GUNMOD",
+    "name": { "str": "steel bowstring" },
+    "description": "A forged steel bowstring designed for crossbows.  It allows bolts to hit harder and fly faster, but it's too high-tension to use in a regular bow.",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "integral_volume": "0 ml",
+    "price": 500,
+    "price_postapoc": 250,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "mechanism",
+    "mod_target_category": [ [ "S_XBOWS" ], [ "M_XBOWS" ] ],
+    "damage_modifier": [ { "damage_type": "stab", "amount": 15 }, { "damage_type": "bash", "amount": 15 } ],
+    "range_modifier": 5
   }
 ]

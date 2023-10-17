@@ -53,7 +53,7 @@
     "weapon_category": [ "S_XBOWS", "ELASTIC" ],
     "name": { "str": "base hand crossbow" },
     "skill": "pistol",
-    "range": 6,
+    "range": 12,
     "dispersion": 400,
     "durability": 6,
     "reload": 1200,

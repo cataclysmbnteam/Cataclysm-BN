@@ -196,7 +196,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
             case search_type::description_result: {
                 //TODO!: push this up, it's a potentially infinite one I think
                 detached_ptr<item> result = r->create_result();
-                return lcmatch( remove_color_tags( result->info_string( iteminfo_query::no_text ) ), txt );
+                return lcmatch( remove_color_tags( result->info_string( iteminfo_query::no_conditions ) ), txt );
             }
 
             default:

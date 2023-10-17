@@ -1715,11 +1715,13 @@ bool overmap::generate_sub( const int z )
         points.push_back( p.xy() );
         lab *l = find_lab_for( p + tripoint_above );
         if( l == nullptr ) {
-            debugmsg( "Couldn't find lab for point %s", p.to_string() );
+            // FIXME: figure out why this happens
+            // debugmsg( "Couldn't find lab for point %s", p.to_string() );
             return;
         }
         if( l->type != type ) {
-            debugmsg( "Lab type mismatch for lab at %s", p.to_string() );
+            // FIXME: figure out why this happens
+            // debugmsg( "Lab type mismatch for lab at %s", p.to_string() );
             return;
         }
         l->tiles.insert( p );

@@ -243,11 +243,14 @@ class body_part_set
                 set( bp );
             }
         }
-        body_part_set unify_set( const body_part_set &rhs );
-        body_part_set intersect_set( const body_part_set &rhs );
-
-        body_part_set make_intersection( const body_part_set &rhs );
-        body_part_set substract_set( const body_part_set &rhs );
+        /** Adds all elements from provided set to this set. */
+        body_part_set &unify_set( const body_part_set &rhs );
+        /** Removes all elements that are absent from the provided set. */
+        body_part_set &intersect_set( const body_part_set &rhs );
+        /** Removes all elements that are present in the provided set. */
+        body_part_set &substract_set( const body_part_set &rhs );
+        /** Creates new set that is the intersection of this set and provided set. */
+        body_part_set make_intersection( const body_part_set &rhs ) const;
 
         void fill( const std::vector<bodypart_id> &bps );
 

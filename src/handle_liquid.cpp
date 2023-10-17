@@ -169,11 +169,28 @@ static bool get_liquid_target( item &liquid, const int radius, liquid_dest_opt &
         }
     }
     for( auto veh : opts ) {
-        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name );
-        actions.emplace_back( [ &, veh]() {
-            target.veh = veh;
-            target.dest_opt = LD_VEH;
-        } );
+        vehicle *source_veh = nullptr;
+        if( liquid.has_position() && liquid.where() == item_location_type::vehicle ) {
+            source_veh = veh_pointer_or_null( here.veh_at( liquid.position() ) );
+        }
+        if( veh == source_veh && veh->has_part( "FLUIDTANK", false ) ) {
+            for( const vpart_reference &vp : veh->get_avail_parts( "FLUIDTANK" ) ) {
+                if( vp.part().get_base().is_reloadable_with( liquid.typeId() ) ) {
+                    menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill avaliable tank" ) );
+                    actions.emplace_back( [ &, veh]() {
+                        target.veh = veh;
+                        target.dest_opt = LD_VEH;
+                    } );
+                    break;
+                }
+            }
+        } else {
+            menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name );
+            actions.emplace_back( [ &, veh]() {
+                target.veh = veh;
+                target.dest_opt = LD_VEH;
+            } );
+        }
     }
 
     for( auto &target_pos : here.points_in_radius( g->u.pos(), 1 ) ) {

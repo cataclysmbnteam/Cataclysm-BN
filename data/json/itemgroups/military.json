@@ -228,6 +228,7 @@
       { "item": "brass_catcher", "prob": 15 },
       { "item": "lighter", "prob": 60 },
       { "item": "ref_lighter", "prob": 5 },
+      { "item": "electric_lighter", "prob": 5 },
       { "item": "flashlight", "prob": 40 },
       { "item": "heavy_flashlight", "prob": 40 },
       { "item": "landmine", "prob": 3 },

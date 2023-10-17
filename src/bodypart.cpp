@@ -499,7 +499,7 @@ void bodypart::mod_damage_disinfected( int mod )
     damage_disinfected += mod;
 }
 
-body_part_set body_part_set::unify_set( const body_part_set &rhs )
+body_part_set &body_part_set::unify_set( const body_part_set &rhs )
 {
     for( auto i = rhs.parts.begin(); i != rhs.parts.end(); i++ ) {
         if( parts.count( *i ) == 0 ) {
@@ -509,17 +509,19 @@ body_part_set body_part_set::unify_set( const body_part_set &rhs )
     return *this;
 }
 
-body_part_set body_part_set::intersect_set( const body_part_set &rhs )
+body_part_set &body_part_set::intersect_set( const body_part_set &rhs )
 {
-    for( auto j = parts.begin(); j != parts.end(); j++ ) {
-        if( rhs.parts.count( *j ) == 0 ) {
-            parts.erase( *j );
+    for( auto it = parts.begin(); it < parts.end(); ) {
+        if( rhs.parts.count( *it ) == 0 ) {
+            it = parts.erase( it );
+        } else {
+            it++;
         }
     }
     return *this;
 }
 
-body_part_set body_part_set::substract_set( const body_part_set &rhs )
+body_part_set &body_part_set::substract_set( const body_part_set &rhs )
 {
     for( auto j = rhs.parts.begin(); j != rhs.parts.end(); j++ ) {
         if( parts.count( *j ) > 0 ) {
@@ -529,11 +531,12 @@ body_part_set body_part_set::substract_set( const body_part_set &rhs )
     return *this;
 }
 
-body_part_set body_part_set::make_intersection( const body_part_set &rhs )
+body_part_set body_part_set::make_intersection( const body_part_set &rhs ) const
 {
     body_part_set new_intersection;
     new_intersection.parts = parts;
-    return new_intersection.intersect_set( rhs );
+    new_intersection.intersect_set( rhs );
+    return new_intersection;
 }
 
 void body_part_set::fill( const std::vector<bodypart_id> &bps )
