@@ -104,9 +104,6 @@ auto translate_pair( const BodyPartInfoPair &piece ) -> std::string
     return piece.second.to_display.translated();
 };
 
-using InfoGroup = std::map<int, std::vector<BodyPartInfoPair>>;
-using FormattedGroup = std::map<std::string, int>;
-
 template<typename C>
 auto max_utf8_width( const C &c ) -> int
 {
