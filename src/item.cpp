@@ -437,15 +437,16 @@ item &item::convert( const itype_id &new_type )
 
 item &item::deactivate( const Character *ch, bool alert )
 {
-    if( !active ) {
+    if( !( active && is_tool() ) ) {
         return *this; // no-op
     }
 
-    if( is_tool() && type->tool->revert_to ) {
+    const auto &revert_to = type->tool->revert_to;
+    if( revert_to ) {
         if( ch && alert && !type->tool->revert_msg.empty() ) {
             ch->add_msg_if_player( m_info, _( type->tool->revert_msg ), tname() );
         }
-        convert( *type->tool->revert_to );
+        convert( *revert_to );
         active = false;
 
     }
@@ -4786,10 +4787,13 @@ units::mass item::weight( bool include_contents, bool integral ) const
     }
 
     // if this is an ammo belt add the weight of any implicitly contained linkages
-    if( is_magazine() && type->magazine->linkage ) {
-        item links( *type->magazine->linkage );
-        links.charges = ammo_remaining();
-        ret += links.weight();
+    if( is_magazine() ) {
+        const auto &linkage = type->magazine->linkage;
+        if( linkage ) {
+            item links( *linkage );
+            links.charges = ammo_remaining();
+            ret += links.weight();
+        }
     }
 
     // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
@@ -6244,7 +6248,7 @@ bool item::is_two_handed( const Character &guy ) const
         return true;
     }
     ///\EFFECT_STR determines which weapons can be wielded with one hand
-    return ( ( weight() / 113_gram ) > guy.str_cur * 4 );
+    return ( ( weight() / 113_gram ) > guy.str_cur * 4.0f );
 }
 
 const std::vector<material_id> &item::made_of() const
@@ -7173,8 +7177,9 @@ int item::gun_range( bool with_ammo ) const
         ret += mod->type->gunmod->range;
     }
     if( with_ammo && ammo_data() ) {
-        if( ammo_data()->ammo->shape ) {
-            ret = ammo_data()->ammo->shape->get_range();
+        const auto &ammo_shape = ammo_data()->ammo->shape;
+        if( ammo_shape ) {
+            ret = ammo_shape->get_range();
         } else {
             ret += ammo_data()->ammo->range;
         }
@@ -7856,8 +7861,11 @@ item_reload_option::item_reload_option( const player *who, const item *target, c
                                         const item_location &ammo ) :
     who( who ), target( target ), ammo( ammo ), parent( parent )
 {
-    if( this->target->is_ammo_belt() && this->target->type->magazine->linkage ) {
-        max_qty = this->who->charges_of( * this->target->type->magazine->linkage );
+    if( this->target->is_ammo_belt() ) {
+        const auto &linkage = this->target->type->magazine->linkage ;
+        if( linkage ) {
+            max_qty = this->who->charges_of( *linkage );
+        }
     }
     qty( max_qty );
 }
@@ -7975,8 +7983,9 @@ bool item::reload( player &u, item_location loc, int qty )
     if( is_magazine() ) {
         qty = std::min( qty, ammo->charges );
 
-        if( is_ammo_belt() && type->magazine->linkage ) {
-            if( !u.use_charges_if_avail( *type->magazine->linkage, qty ) ) {
+        if( is_ammo_belt() ) {
+            const auto &linkage = type->magazine->linkage;
+            if( linkage && !u.use_charges_if_avail( *linkage, qty ) ) {
                 debugmsg( "insufficient linkages available when reloading ammo belt" );
             }
         }
@@ -9160,8 +9169,9 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             convert( itype_joint_roach );
         }
     } else { // transform (lit) items
-        if( type->tool->revert_to ) {
-            convert( *type->tool->revert_to );
+        const auto &revert_to = type->tool->revert_to;
+        if( revert_to ) {
+            convert( *revert_to );
         } else {
             type->invoke( carrier != nullptr ? *carrier : get_avatar(), *this, pos, "transform" );
         }
