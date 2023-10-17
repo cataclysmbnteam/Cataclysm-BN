@@ -129,8 +129,8 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
         test_info_equals(
             item( "test_waterskin" ), q,
             R"(--
-<color_c_white>Coverage</color>: <color_c_cyan>(total)</color> <color_c_yellow>5</color>%
-<color_c_white>Encumbrance</color>: <color_c_cyan>(total)</color> <color_c_yellow>0-3</color> (When Full)
+<color_c_white>Coverage</color>: <color_c_cyan>(for all parts)</color> <color_c_yellow>5</color>%
+<color_c_white>Encumbrance</color>: <color_c_cyan>(for all parts)</color> <color_c_yellow>0-3</color> (When Full)
 --
 * This item is <color_c_cyan>not rigid</color>.  Its volume and encumbrance increase with contents.
 )" );
@@ -138,8 +138,8 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
         test_info_equals(
             item( "test_backpack" ), q,
             R"(--
-<color_c_white>Coverage</color>: <color_c_cyan>(total)</color> <color_c_yellow>30</color>%
-<color_c_white>Encumbrance</color>: <color_c_cyan>(total)</color> <color_c_yellow>2-15</color> (When Full)
+<color_c_white>Coverage</color>: <color_c_cyan>(for all parts)</color> <color_c_yellow>30</color>%
+<color_c_white>Encumbrance</color>: <color_c_cyan>(for all parts)</color> <color_c_yellow>2-15</color> (When Full)
 --
 * This item is <color_c_cyan>not rigid</color>.  Its volume and encumbrance increase with contents.
 )" );
@@ -149,8 +149,8 @@ TEST_CASE( "item rigidity", "[item][iteminfo][rigidity]" )
         test_info_equals(
             item( "test_briefcase" ), q,
             R"(--
-<color_c_white>Coverage</color>: <color_c_cyan>(total)</color> <color_c_yellow>10</color>%
-<color_c_white>Encumbrance</color>: <color_c_cyan>(total)</color> <color_c_yellow>30</color>
+<color_c_white>Coverage</color>: <color_c_cyan>(for all parts)</color> <color_c_yellow>10</color>%
+<color_c_white>Encumbrance</color>: <color_c_cyan>(for all parts)</color> <color_c_yellow>30</color>
 )" );
 
         test_info_equals( item( "test_jug_plastic" ), q, "" );
@@ -315,8 +315,8 @@ TEST_CASE( "armor coverage and protection values", "[item][iteminfo][armor]" )
         test_info_equals( longshirt, q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
                             ""
 R"(--
-<color_c_white>Coverage</color>: <color_c_cyan>(total)</color> <color_c_yellow>90</color>%
-<color_c_white>Encumbrance</color>: <color_c_cyan>(total)</color> <color_c_yellow>3</color>
+<color_c_white>Coverage</color>: <color_c_cyan>(for all parts)</color> <color_c_yellow>90</color>%
+<color_c_white>Encumbrance</color>: <color_c_cyan>(for all parts)</color> <color_c_yellow>3</color>
 )");
 
         item swat_armor( "test_swat_armor" );
@@ -390,8 +390,8 @@ R"(--
 
         test_info_equals( swat_armor, q_vec( { iteminfo_parts::ARMOR_ENCUMBRANCE } ),
                           R"(--
-<color_c_white>Coverage</color>: <color_c_cyan>(total)</color> <color_c_yellow>95</color>%
-<color_c_white>Encumbrance</color>: <color_c_cyan>(total)</color> <color_c_yellow>12-25</color> (When Full)
+<color_c_white>Coverage</color>: <color_c_cyan>(for all parts)</color> <color_c_yellow>95</color>%
+<color_c_white>Encumbrance</color>: <color_c_cyan>(for all parts)</color> <color_c_yellow>12-25</color> (When Full)
 )");
 
         // Test copy-from
@@ -582,8 +582,8 @@ Layer: <color_c_light_blue>Normal</color>. )"
             R"(
 Warmth: <color_c_yellow>5</color>
 --
-<color_c_white>Coverage</color>: <color_c_cyan>(total)</color> <color_c_yellow>90</color>%
-<color_c_white>Encumbrance</color>: <color_c_cyan>(total)</color> <color_c_yellow>3</color>
+<color_c_white>Coverage</color>: <color_c_cyan>(for all parts)</color> <color_c_yellow>90</color>%
+<color_c_white>Encumbrance</color>: <color_c_cyan>(for all parts)</color> <color_c_yellow>3</color>
 <color_c_white>Protection</color>: Bash: <color_c_yellow>1</color>  Cut: <color_c_yellow>1</color>  Ballistic: <color_c_yellow>1</color>
   Acid: <color_c_yellow>0</color>  Fire: <color_c_yellow>0</color>  Environmental: <color_c_yellow>0</color>
 )" );
