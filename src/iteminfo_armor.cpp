@@ -118,9 +118,9 @@ auto max_utf8_width( const C &c ) -> int
 
 const auto space = std::string {"  "};
 
-auto total()
+auto same_for_all_parts()
 {
-    return  _( "<info>(total)</info>" );
+    return  _( "<info>(same for all bodyparts)</info>" );
 }
 
 auto item_coverages( const std::vector<BodyPartInfoPair> &xs )-> std::vector<iteminfo>
@@ -131,7 +131,7 @@ auto item_coverages( const std::vector<BodyPartInfoPair> &xs )-> std::vector<ite
 
     if( grouped.size() == 1 ) {
         return std::vector{ iteminfo( "ARMOR",
-                                      string_format( "%s %s %s", heading, total(), coverage_text( grouped.begin()->first ) ) ) };
+                                      string_format( "%s %s %s", heading, same_for_all_parts(), coverage_text( grouped.begin()->first ) ) ) };
     }
 
     struct Entry {
@@ -183,7 +183,7 @@ auto item_encumbrances( const std::vector<BodyPartInfoPair> &xs,
 
     if( grouped.size() == 1 ) {
         return std::vector{ iteminfo( "ARMOR",
-                                      string_format( "%s %s %s", heading, total(), encumber_range( grouped.begin()->first ) ) ) };
+                                      string_format( "%s %s %s", heading, same_for_all_parts(), encumber_range( grouped.begin()->first ) ) ) };
     }
 
     struct Entry {
