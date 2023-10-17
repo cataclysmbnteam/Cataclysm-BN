@@ -28,10 +28,11 @@
 #include "ui_manager.h"
 #include "units_utility.h"
 
-static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 
 namespace
 {
+const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
+
 std::string clothing_layer( const item &worn_item );
 std::vector<std::string> clothing_properties(
     const item &worn_item, int width, const Character &, const bodypart_id &bp );
@@ -443,8 +444,9 @@ void show_armor_layers_ui( Character &who )
         armor_cat.insert( it );
     }
     armor_cat.insert( bodypart_id( "num_bp" ) );
+    const int num_of_parts = who.get_all_body_parts().size();
 
-    int req_right_h = 3 + 1 + 2 + body_part::num_bp + 1;
+    int req_right_h = 3 + 1 + 2 + num_of_parts + 1;
     for( const bodypart_id &cover : armor_cat ) {
         for( const item &elem : who.worn ) {
             if( elem.covers( cover ) ) {
@@ -471,8 +473,8 @@ void show_armor_layers_ui( Character &who )
     int right_w  = 0;
     int middle_w = 0;
 
-    int tabindex = body_part::num_bp;
-    const int tabcount = body_part::num_bp + 1;
+    int tabindex = 0;
+    const int tabcount = num_of_parts + 1;
 
     int leftListIndex  = 0;
     int leftListOffset = 0;
@@ -508,12 +510,12 @@ void show_armor_layers_ui( Character &who )
         w_sort_armor = catacurses::newwin( win_h, win_w, win );
         w_sort_cat = catacurses::newwin( 1, win_w - 4, win + point( 2, 1 ) );
         w_sort_left = catacurses::newwin( cont_h, left_w, win + point( 1, 3 ) );
-        w_sort_middle = catacurses::newwin( cont_h - body_part::num_bp - 1, middle_w,
+        w_sort_middle = catacurses::newwin( cont_h - num_of_parts - 1, middle_w,
                                             win + point( 2 + left_w, 3 ) );
         w_sort_right = catacurses::newwin( cont_h, right_w,
                                            win + point( 3 + left_w + middle_w, 3 ) );
-        w_encumb = catacurses::newwin( body_part::num_bp + 1, middle_w,
-                                       win + point( 2 + left_w, -1 + 3 + cont_h - body_part::num_bp ) );
+        w_encumb = catacurses::newwin( num_of_parts + 1, middle_w,
+                                       win + point( 2 + left_w, -1 + 3 + cont_h - num_of_parts ) );
         ui.position_from_window( w_sort_armor );
     } );
     ui.mark_resize();
@@ -556,8 +558,8 @@ void show_armor_layers_ui( Character &who )
 
         // top bar
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
-        const auto temp = tabindex != body_part::num_bp ? body_part_name_as_heading( bp, 1 ) : _( "All" );
-        wprintz( w_sort_cat, c_yellow, "  << %s >>", temp );
+        const auto name = bp != bodypart_id( "num_bp" ) ? body_part_name_as_heading( bp, 1 ) : _( "All" );
+        wprintz( w_sort_cat, c_yellow, "  << %s >>", name );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
                          _( "Press [<color_yellow>%s</color>] for help.  "
                             "Press [<color_yellow>%s</color>] to change keybindings." ),
