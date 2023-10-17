@@ -665,9 +665,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
     }
 
     for( const armor_portion_data &data : armor->data ) {
-        if( data.covers.has_value() ) {
-            res.unify_set( data.covers.value() );
-        }
+        res.unify_set( data.covers );
     }
 
     if( !armor->sided ) {
@@ -5554,13 +5552,11 @@ int item::get_avg_encumber( const Character &p ) const
     int avg_ctr = 0;
 
     for( const armor_portion_data &entry : t->data ) {
-        if( entry.covers.has_value() ) {
-            for( const bodypart_str_id &limb : entry.covers.value() ) {
-                int encumber = get_encumber( p, limb.id() );
-                if( encumber ) {
-                    avg_encumber += encumber;
-                    ++avg_ctr;
-                }
+        for( const bodypart_str_id &limb : entry.covers ) {
+            int encumber = get_encumber( p, limb.id() );
+            if( encumber ) {
+                avg_encumber += encumber;
+                ++avg_ctr;
             }
         }
     }
@@ -5580,24 +5576,22 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart ) const
     contents_volume += contents.item_size_modifier();
 
     if( p.is_worn( *this ) ) {
-        const islot_armor *t = find_armor_data();
+        const islot_armor *armor = find_armor_data();
 
-        if( t != nullptr ) {
-            for( const armor_portion_data &entry : t->data ) {
-                if( entry.covers.has_value() ) {
-                    if( entry.covers.value().test( bodypart.id() ) ) {
-                        if( entry.max_encumber != 0 ) {
-                            units::volume char_storage( 0_ml );
+        if( armor != nullptr ) {
+            for( const armor_portion_data &entry : armor->data ) {
+                if( entry.covers.test( bodypart.id() ) ) {
+                    if( entry.max_encumber != 0 ) {
+                        units::volume char_storage( 0_ml );
 
-                            for( const item &e : p.worn ) {
-                                char_storage += e.get_storage();
-                            }
+                        for( const item &e : p.worn ) {
+                            char_storage += e.get_storage();
+                        }
 
-                            if( char_storage != 0_ml ) {
-                                // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
-                                contents_volume += units::from_milliliter( static_cast<int64_t>( t->storage.value() ) *
-                                                   p.inv.volume().value() / char_storage.value() );
-                            }
+                        if( char_storage != 0_ml ) {
+                            // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
+                            contents_volume += units::from_milliliter( static_cast<int64_t>( armor->storage.value() ) *
+                                               p.inv.volume().value() / char_storage.value() );
                         }
                     }
                 }
@@ -5620,26 +5614,24 @@ int item::get_encumber_when_containing(
     int encumber = 0;
 
     for( const armor_portion_data &entry : t->data ) {
-        if( entry.covers.has_value() ) {
-            if( entry.covers.value().test( bodypart.id() ) ) {
-                encumber = entry.encumber;
-                // Non-rigid items add additional encumbrance proportional to their volume
-                bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
-                []( armor_portion_data data ) {
-                    return data.encumber != data.max_encumber;
-                } );
-                if( !type->rigid || any_encumb_increase ) {
-                    const int capacity = get_total_capacity().value();
-                    if( entry.max_encumber == 0 ) {
-                        encumber += contents_volume / 500_ml;
+        if( entry.covers.test( bodypart.id() ) ) {
+            encumber = entry.encumber;
+            // Non-rigid items add additional encumbrance proportional to their volume
+            bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
+            []( armor_portion_data data ) {
+                return data.encumber != data.max_encumber;
+            } );
+            if( !type->rigid || any_encumb_increase ) {
+                const int capacity = get_total_capacity().value();
+                if( entry.max_encumber == 0 ) {
+                    encumber += contents_volume / 500_ml;
+                } else {
+                    if( capacity <= 0 ) {
+                        debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
                     } else {
-                        if( capacity <= 0 ) {
-                            debugmsg( "Non-rigid item (%s) without storage capacity.", tname() );
-                        } else {
-                            // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
-                            encumber += static_cast<int64_t>( entry.max_encumber - entry.encumber ) * contents_volume.value() /
-                                        capacity;
-                        }
+                        // Cast up to 64 to prevent overflow. Dividing before would prevent this but lose data.
+                        encumber += static_cast<int64_t>( entry.max_encumber - entry.encumber ) * contents_volume.value() /
+                                    capacity;
                     }
                 }
             }
@@ -5700,20 +5692,18 @@ layer_level item::get_layer() const
 
 int item::get_avg_coverage() const
 {
-    const islot_armor *t = find_armor_data();
-    if( !t ) {
+    const islot_armor *armor = find_armor_data();
+    if( !armor ) {
         return 0;
     }
     int avg_coverage = 0;
     int avg_ctr = 0;
-    for( const armor_portion_data &entry : t->data ) {
-        if( entry.covers.has_value() ) {
-            for( const bodypart_str_id &limb : entry.covers.value() ) {
-                int coverage = get_coverage( limb );
-                if( coverage ) {
-                    avg_coverage += coverage;
-                    ++avg_ctr;
-                }
+    for( const armor_portion_data &entry : armor->data ) {
+        for( const bodypart_str_id &limb : entry.covers ) {
+            int coverage = get_coverage( limb );
+            if( coverage ) {
+                avg_coverage += coverage;
+                ++avg_ctr;
             }
         }
     }
@@ -5735,12 +5725,12 @@ int item::get_coverage( const bodypart_id &bodypart ) const
 
 std::optional<armor_portion_data> item::portion_for_bodypart( const bodypart_id &bodypart ) const
 {
-    const islot_armor *t = find_armor_data();
-    if( !t ) {
+    const islot_armor *armor = find_armor_data();
+    if( !armor ) {
         return std::optional<armor_portion_data>();
     }
-    for( const armor_portion_data &entry : t->data ) {
-        if( entry.covers.has_value() && entry.covers->test( bodypart.id() ) ) {
+    for( const armor_portion_data &entry : armor->data ) {
+        if( entry.covers.test( bodypart.id() ) ) {
             return entry;
         }
     }

@@ -336,18 +336,19 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( armor && !armor->data.empty() ) {
             std::map<bodypart_str_id, body_part_display_info> to_display_data;
             for( const armor_portion_data &piece : armor->data ) {
-                if( piece.covers.has_value() ) {
-                    for( const bodypart_str_id &covering_id : piece.covers.value() ) {
-                        if( covering_id != bodypart_str_id( "num_bp" ) ) {
-                            const int encumbrance_when_full =
-                                get_encumber_when_containing( you, get_total_capacity(), covering_id.id() );
-                            to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
-                                    get_encumber( you, covering_id ),
-                                    encumbrance_when_full,
-                                    piece.coverage
-                                }, true
-                            };
-                        }
+                if( piece.covers.none() ) {
+                    continue;
+                }
+                for( const bodypart_str_id &covering_id : piece.covers ) {
+                    if( covering_id != bodypart_str_id( "num_bp" ) ) {
+                        const int encumbrance_when_full =
+                            get_encumber_when_containing( you, get_total_capacity(), covering_id.id() );
+                        to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
+                                get_encumber( you, covering_id ),
+                                encumbrance_when_full,
+                                piece.coverage
+                            }, true
+                        };
                     }
                 }
             }
