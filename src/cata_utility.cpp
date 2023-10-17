@@ -218,6 +218,7 @@ static std::wstring cata_ios_mode_to_c( bool out, cata_ios_mode m )
 }
 
 cata_ofstream &cata_ofstream::operator=( cata_ofstream &&x )
+noexcept
 {
     _stream = std::move( x._stream );
     _buffer = std::move( x._buffer );
@@ -341,6 +342,7 @@ std::ostream *cata_ofstream::operator->()
 #if defined (_WIN32) && !defined (_MSC_VER)
 
 cata_ifstream &cata_ifstream::operator=( cata_ifstream &&x )
+noexcept
 {
     _stream = std::move( x._stream );
     _buffer = std::move( x._buffer );
