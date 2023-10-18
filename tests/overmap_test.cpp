@@ -125,7 +125,8 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 
         // Does not match if base type does not match
         CHECK_FALSE( is_ot_match( "lab", oter_id( "central_lab" ), ot_match_type::type ) );
-        CHECK_FALSE( is_ot_match( "sub_station", oter_id( "sewer_sub_station" ), ot_match_type::type ) );
+        CHECK_FALSE( is_ot_match( "sub_station", oter_id( "sewer_sub_station_north" ),
+                                  ot_match_type::type ) );
     }
 
     SECTION( "prefix match" ) {

@@ -986,11 +986,10 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
 
     mandatory( jo, was_loaded, "overmaps", terrains );
     optional( jo, was_loaded, "locations", default_locations );
+    optional( jo, was_loaded, "connections", connections );
 
     if( is_special ) {
         mandatory( jo, was_loaded, "occurrences", occurrences );
-
-        optional( jo, was_loaded, "connections", connections );
 
         assign( jo, "city_sizes", city_size, strict );
         assign( jo, "city_distance", city_distance, strict );
@@ -1682,6 +1681,21 @@ bool overmap::generate_sub( const int z )
     std::vector<point_om_omt> lab_train_points;
     std::vector<point_om_omt> central_lab_train_points;
     std::vector<city> mine_points;
+
+    // Connect subways of cities
+    const overmap_connection_id subway_tunnel( "subway_tunnel" );
+    for( const auto &elem : cities ) {
+        if( subway_tunnel->has( ter( tripoint_om_omt( elem.pos, z ) ) ) ) {
+            subway_points.emplace_back( elem.pos );
+        }
+    }
+    // Connect outer subways
+    for( const auto &p : connections_out[subway_tunnel] ) {
+        if( p.z() == z ) {
+            subway_points.emplace_back( p.xy() );
+        }
+    }
+
     // These are so common that it's worth checking first as int.
     const oter_id skip_above[5] = {
         oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
@@ -1740,15 +1754,7 @@ bool overmap::generate_sub( const int z )
                 continue;
             }
 
-            if( is_ot_match( "sub_station", oter_ground, ot_match_type::type ) && z == -1 ) {
-                ter_set( p, oter_id( "sewer_sub_station" ) );
-                requires_sub = true;
-            } else if( is_ot_match( "sub_station", oter_ground, ot_match_type::type ) && z == -2 ) {
-                ter_set( p, oter_id( "subway_isolated" ) );
-                subway_points.emplace_back( i, j - 1 );
-                subway_points.emplace_back( i, j );
-                subway_points.emplace_back( i, j + 1 );
-            } else if( oter_above == "road_nesw_manhole" ) {
+            if( oter_above == "road_nesw_manhole" ) {
                 ter_set( p, oter_id( "sewer_isolated" ) );
                 sewer_points.emplace_back( i, j );
             } else if( oter_above == "sewage_treatment" ) {
@@ -1865,17 +1871,9 @@ bool overmap::generate_sub( const int z )
     create_real_train_lab_points( lab_train_points, subway_lab_train_points );
     create_real_train_lab_points( central_lab_train_points, subway_lab_train_points );
 
-    const overmap_connection_id subway_tunnel( "subway_tunnel" );
-
     subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
                           subway_lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
-
-    for( auto &i : subway_points ) {
-        if( is_ot_match( "sub_station", ter( tripoint_om_omt( i, z + 2 ) ), ot_match_type::type ) ) {
-            ter_set( tripoint_om_omt( i, z ), oter_id( "underground_sub_station" ) );
-        }
-    }
 
     // The first lab point is adjacent to a lab, set it a depot (as long as track was actually laid).
     const auto create_train_depots = [this, z, &subway_tunnel]( const oter_id & train_type,
