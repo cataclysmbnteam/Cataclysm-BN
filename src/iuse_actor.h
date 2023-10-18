@@ -449,25 +449,6 @@ class place_npc_iuse : public iuse_actor
 };
 
 /**
- * This implements lock picking.
- */
-class pick_lock_actor : public iuse_actor
-{
-    public:
-        /**
-         * How good the used tool is at picking a lock.
-         */
-        int pick_quality = 0;
-
-        pick_lock_actor() : iuse_actor( "picklock" ) {}
-
-        ~pick_lock_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        int use( player &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
  * Implements deployable furniture from items
  */
 class deploy_furn_actor : public iuse_actor

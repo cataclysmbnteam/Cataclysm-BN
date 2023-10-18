@@ -883,9 +883,10 @@ void show_bionics_ui( Character &who )
                     if( tmp->powered ) {
                         who.deactivate_bionic( *tmp );
                     } else {
-                        who.activate_bionic( *tmp );
+                        bool close_ui = false;
+                        who.activate_bionic( *tmp, false, &close_ui );
                         // Clear the menu if we are firing a bionic gun
-                        if( tmp->info().has_flag( STATIC( flag_id( "BIONIC_GUN" ) ) ) || tmp->ammo_count > 0 ) {
+                        if( close_ui || tmp->ammo_count > 0 ) {
                             break;
                         }
                     }

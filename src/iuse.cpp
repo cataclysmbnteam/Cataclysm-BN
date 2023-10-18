@@ -332,6 +332,7 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
+static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const requirement_id requirement_add_grid_connection =
     requirement_id( "add_grid_connection" );
@@ -3234,6 +3235,42 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
     p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
 
+    return it->type->charges_to_use();
+}
+
+int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
+{
+    if( p->is_npc() ) {
+        return 0;
+    }
+    avatar &you = dynamic_cast<avatar &>( *p );
+
+    std::optional<tripoint> target;
+    // Prompt for a target lock to pick, or use the given tripoint
+    if( pos == you.pos() ) {
+        target = lockpick_activity_actor::select_location( you );
+    } else {
+        target = pos;
+    }
+    if( !target.has_value() ) {
+        return 0;
+    }
+
+    int qual = it->get_quality( qual_LOCKPICK );
+
+    /** @EFFECT_DEX speeds up door lock picking */
+    /** @EFFECT_MECHANICS speeds up door lock picking */
+    int duration;
+    if( it->has_flag( flag_PERFECT_LOCKPICK ) ) {
+        duration = to_moves<int>( 5_seconds );
+    } else {
+        duration = std::max( to_moves<int>( 10_seconds ),
+                             to_moves<int>( 10_minutes - time_duration::from_minutes( qual ) ) -
+                             ( you.dex_cur + you.get_skill_level( skill_mechanics ) ) * 2300 );
+    }
+
+    you.assign_activity( lockpick_activity_actor::use_item( duration, item_location( *p, it ),
+                         g->m.getabs( *target ) ) );
     return it->type->charges_to_use();
 }
 
